@@ -34,6 +34,7 @@ jobs:
       - run: npm run reference:verify
       - run: npm run reference:lifecycle
       - run: npm run reference:inventory
+      - run: npm run reference:items
       - run: npm run check
         working-directory: .reference
       - run: npm run sim -- run --suite smoke

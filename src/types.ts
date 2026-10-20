@@ -108,6 +108,8 @@ export interface CharacterBuild {
   passivePoints: number;
   allocated?: string[];
   equipped?: Record<string, string>;
+  /** Compiled definitions of currently equipped runtime instances. Inventory owns their full saved rolls. */
+  itemInstances?: Record<string, ItemDefinition>;
   conditions?: string[];
   gauges?: [string, number][];
 }

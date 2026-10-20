@@ -16,7 +16,8 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | Armor, capped resistances, penetration, damage taken and crit avoidance | `Target` | Plain defender implemented; other defensive layers rejected |
 | Random stream and continuation state | Each `Engine` | Serializable Mulberry32 state; no ambient RNG |
 | Inventory grids and synchronous ownership transfer | `Inventory`, per board | Indexed grids, masks, atomic moves/swaps/transfers and versioned snapshots; see inventory contract |
-| Affix rolls, equipment eligibility, stash/container progression | Future item/policy modules | Raw definitions exported; full behavior pending |
+| Item rolls, forging, local/global values, sockets and epitaphs | `ItemRules` plus immutable `ItemContent` | Extracted; full source comparisons; optional runtime/data entry |
+| Equipment eligibility, stash/container progression, trade authority | Future policy modules | Numeric equipment binding exists; full policy pending |
 | Complete passive/skill graph economies, vocations, unlocks, account progression | Future character-policy modules | Source captured; not migrated |
 | Ordinary casting commitment, mana/life payment, cooldowns, cancellation | `CastRuntime`, per actor | Extracted; advanced modes remain native |
 | Projectile travel, contact collection, spatial queries and 2D/3D conventions | Host adapter plus future delivery module | Host supplies a resolved contact today |
@@ -39,8 +40,10 @@ scratch storage and caches.
 The class start is owned without spending a supplied passive point. Hosts supply
 authorized point budgets; account earning rules are not extracted yet.
 The sample's item id identifies one specimen, so it cannot occupy two slots.
-General inventory item-instance identity is explicit in `Inventory`; its equipment
-and contribution adapter to this selected `Character` path remains pending.
+General inventory item-instance identity is explicit in `Inventory`.
+`Character.equipInstance` now binds a host-authorized identity, compiled modifiers
+and eligible slots to the selected character path. It still rejects mechanics
+outside the character's declared capability; full equipment policy remains pending.
 
 `engine.skill(selection)` validates level, sockets, attribute-independent tag
 compatibility, selected node prerequisites/exclusions and supplied point budget.

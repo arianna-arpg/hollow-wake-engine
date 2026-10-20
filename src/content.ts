@@ -1,4 +1,4 @@
-import type { ContentPack, Modifier, SkillDefinition, SkillSelection } from './types.js';
+import type { ContentPack, Modifier, SkillDefinition, SkillSelection, ItemDefinition } from './types.js';
 import { StatRules, validateModifier } from './stat-rules.js';
 import { copy, finite, freeze, integer, known, readonlySet } from './validation.js';
 
@@ -21,6 +21,21 @@ export function supportsResolvedHitStat(stat: string, pack: ContentPack): boolea
     for (const to of pack.damageTypes) if (stat === `convert_${type}_${to}`) return true;
   }
   return pack.trades.some(t => [t.from, t.to, t.rateStat, t.forgoStat].includes(stat));
+}
+
+export function validateContentItem(def: ItemDefinition, pack: ContentPack): void {
+  fields(def, ['id','name','category','slots','mods'], 'Item');
+  for (const value of [def.id, def.name, def.category]) if (typeof value !== 'string' || !value.length) throw new Error('Invalid compiled item identity');
+  if (['__proto__','constructor','prototype'].includes(def.id)) throw new Error('Reserved item identity');
+  if (!Array.isArray(def.slots) || !def.slots.length || def.slots.some(s => typeof s !== 'string' || !s.length || ['__proto__','constructor','prototype'].includes(s))) throw new Error('Invalid item slots');
+  if (!Array.isArray(def.mods)) throw new Error('Invalid item modifiers');
+  for (const m of def.mods) {
+    validateModifier(m);
+    if (m.tags !== undefined && (!Array.isArray(m.tags) || m.tags.some(t => typeof t !== 'string'))) throw new Error('Invalid item modifier tags');
+    if (!supportsResolvedHitStat(m.stat, pack)) throw new Error(`Mechanic not in resolved-spell-hit/v1: ${m.stat}`);
+    if (!Object.hasOwn(pack.attributes, m.stat)) known(pack.stats, m.stat, 'modifier stat');
+    if (m.fromStat) known(pack.stats, m.fromStat, 'link source');
+  }
 }
 
 export class Content {
@@ -66,8 +81,7 @@ export class Content {
       }
     }
     for (const def of Object.values(pack.items)) {
-      fields(def, ['id', 'name', 'category', 'slots', 'mods'], 'Item');
-      checkMods(def.mods);
+      validateContentItem(def, pack);
     }
     for (const def of Object.values(pack.supports)) {
       checkMods(def.mods); checkMods(def.perLevel);

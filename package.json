@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -30,13 +30,17 @@
       "import": "./dist/hollow-wake.js"
     },
     "./content/burning.json": "./content/burning.json",
-    "./content/firebolt.json": "./content/firebolt.json"
+    "./content/firebolt.json": "./content/firebolt.json",
+    "./items": {
+      "types": "./dist/item-rules.d.ts",
+      "import": "./dist/item-rules.js"
+    }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs",
     "example": "npm run build && node examples/first-path.mjs",
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
@@ -50,7 +54,10 @@
     "reference:inventory": "node scripts/run-inventory-reference.mjs",
     "catalogue:build": "node scripts/catalogue-tools.mjs",
     "benchmark:catalogue": "node --expose-gc scripts/benchmark-catalogue.mjs",
-    "benchmark:inventory": "npm run build && node scripts/benchmark-inventory.mjs"
+    "benchmark:inventory": "npm run build && node scripts/benchmark-inventory.mjs",
+    "reference:items": "node scripts/run-item-reference.mjs",
+    "items:build": "npm run build && node scripts/compile-item-content.mjs",
+    "benchmark:items": "npm run build && node scripts/benchmark-items.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

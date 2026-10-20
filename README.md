@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.4 adds [item rolling, forging and modifier compilation](docs/item-contract.md)
+through the optional `@hollow-wake/engine/items` entry, separately packaged item
+content, and runtime item equipment with build save/restore. See
+[milestone four](docs/milestone-four.md) for coverage and performance evidence.
+
 Version 0.3 adds an independent indexed inventory with atomic transfers and
 masked boards, plus separately packaged authored registries and optional SQLite
 tooling. See [milestone three](docs/milestone-three.md) and the

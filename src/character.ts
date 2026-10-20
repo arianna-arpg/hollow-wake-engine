@@ -1,6 +1,6 @@
-import { Content, type ConfiguredSkill } from './content.js';
+import { Content, validateContentItem, type ConfiguredSkill } from './content.js';
 import { StatSheet } from './stats.js';
-import type { CharacterBuild, Modifier } from './types.js';
+import type { CharacterBuild, Modifier, ItemDefinition } from './types.js';
 import { copy, finite, freeze, integer, known } from './validation.js';
 
 export class Character {
@@ -26,12 +26,21 @@ export class Character {
   }
   get pointsRemaining(): number { return this.build.passivePoints - (this.build.allocated?.length ?? 0); }
   equip(itemId: string, slot: string): void {
-    const item = known(this.content.pack.items, itemId, 'item');
+    const item = this.item(itemId);
     if (!item.slots.includes(slot)) throw new Error(`Item ${itemId} does not fit ${slot}`);
     const equipped = { ...this.build.equipped };
     if (Object.entries(equipped).some(([other, id]) => id === itemId && other !== slot)) throw new Error('Item instance is already equipped');
     equipped[slot] = itemId;
     this.replace({ ...this.build, equipped });
+  }
+  /** Hosts supply the stable inventory identity, compiled values and authorized slot eligibility. */
+  equipInstance(item: ItemDefinition, slot: string): void {
+    validateContentItem(item, this.content.pack);
+    if (Object.hasOwn(this.content.pack.items, item.id)) throw new Error('Runtime item cannot replace authored content');
+    if (!item.slots.includes(slot)) throw new Error('Runtime item does not fit this slot');
+    if (Object.entries(this.build.equipped ?? {}).some(([other, id]) => other !== slot && id === item.id)) throw new Error('Item instance is already equipped');
+    this.replace({ ...this.build, equipped: { ...this.build.equipped, [slot]: item.id },
+      itemInstances: { ...this.build.itemInstances, [item.id]: item } });
   }
   unequip(slot: string): void {
     const equipped = { ...this.build.equipped };
@@ -57,7 +66,16 @@ export class Character {
   private replace(next: CharacterBuild): void {
     const before = this.build;
     this.build = copy(next);
+    if (this.build.itemInstances) {
+      const worn = new Set(Object.values(this.build.equipped ?? {}));
+      for (const id of Object.keys(this.build.itemInstances)) if (!worn.has(id)) delete this.build.itemInstances[id];
+      if (!Object.keys(this.build.itemInstances).length) delete this.build.itemInstances;
+    }
     try { this.rebuild(); } catch (error) { this.build = before; throw error; }
+  }
+  private item(id: string): ItemDefinition {
+    const instances = this.build.itemInstances;
+    return instances && Object.hasOwn(instances, id) ? instances[id] : known(this.content.pack.items, id, 'item');
   }
   private rebuild(): void {
     const pack = this.content.pack;
@@ -91,8 +109,13 @@ export class Character {
     }
     const gear: { slot: string; mods: Modifier[] }[] = [];
     const seenItems = new Set<string>();
+    const wornIds = new Set(Object.values(this.build.equipped ?? {}));
+    for (const [id, item] of Object.entries(this.build.itemInstances ?? {})) {
+      if (id !== item.id || Object.hasOwn(pack.items, id) || !wornIds.has(id)) throw new Error('Invalid runtime item ownership');
+      validateContentItem(item, pack);
+    }
     for (const [slot, id] of Object.entries(this.build.equipped ?? {})) {
-      const item = known(pack.items, id, 'item');
+      const item = this.item(id);
       if (!item.slots.includes(slot) || seenItems.has(id)) throw new Error('Invalid equipped item');
       seenItems.add(id);
       const mods: Modifier[] = [];

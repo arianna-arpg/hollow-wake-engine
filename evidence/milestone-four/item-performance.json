@@ -1,0 +1,84 @@
+{
+  "node": "v24.9.0",
+  "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+  "platform": "win32",
+  "workload": "1000 warmup items, 5000 measured rare items across droppable bases, level 21; roll plus modifier compilation; batches of 20",
+  "caveats": [
+    "Desktop only, no target-device claim",
+    "Original content is booted before timing; only SDK JSON parse, copy and validation load is timed",
+    "Fresh process per run; item and modifier outputs are discarded after checksumming; no renderer or frame latency",
+    "Validation and ownership copies are included in the SDK path; memory/allocation volume not measured"
+  ],
+  "runs": [
+    {
+      "mode": "original",
+      "contentLoadMs": 0.0005999999998493877,
+      "batch20P50Ms": 6.567500000000109,
+      "batch20P95Ms": 18.13879999999972,
+      "checksum": 1372695.0865113116
+    },
+    {
+      "mode": "sdk",
+      "contentLoadMs": 168.74039999999968,
+      "batch20P50Ms": 1.9286000000001877,
+      "batch20P95Ms": 3.573699999999917,
+      "checksum": 1372695.0865113116
+    },
+    {
+      "mode": "original",
+      "contentLoadMs": 0.0008000000002539309,
+      "batch20P50Ms": 6.154199999999946,
+      "batch20P95Ms": 12.468700000000354,
+      "checksum": 1372695.0865113116
+    },
+    {
+      "mode": "sdk",
+      "contentLoadMs": 178.7255,
+      "batch20P50Ms": 1.8993999999997868,
+      "batch20P95Ms": 3.2744999999995343,
+      "checksum": 1372695.0865113116
+    },
+    {
+      "mode": "original",
+      "contentLoadMs": 0.0007999999997991836,
+      "batch20P50Ms": 5.533199999999852,
+      "batch20P95Ms": 11.56460000000061,
+      "checksum": 1372695.0865113116
+    },
+    {
+      "mode": "sdk",
+      "contentLoadMs": 183.2871,
+      "batch20P50Ms": 1.9558999999999287,
+      "batch20P95Ms": 3.338600000000042,
+      "checksum": 1372695.0865113116
+    },
+    {
+      "mode": "original",
+      "contentLoadMs": 0.0007999999997991836,
+      "batch20P50Ms": 6.972000000000662,
+      "batch20P95Ms": 18.136199999999917,
+      "checksum": 1372695.0865113116
+    },
+    {
+      "mode": "sdk",
+      "contentLoadMs": 197.97230000000036,
+      "batch20P50Ms": 1.9308000000000902,
+      "batch20P95Ms": 3.2309000000004744,
+      "checksum": 1372695.0865113116
+    },
+    {
+      "mode": "original",
+      "contentLoadMs": 0.0007000000000516593,
+      "batch20P50Ms": 4.018000000000029,
+      "batch20P95Ms": 7.976999999999862,
+      "checksum": 1372695.0865113116
+    },
+    {
+      "mode": "sdk",
+      "contentLoadMs": 185.23919999999998,
+      "batch20P50Ms": 1.9208000000003267,
+      "batch20P95Ms": 3.324700000000121,
+      "checksum": 1372695.0865113116
+    }
+  ]
+}

@@ -17,7 +17,9 @@ consumer. The consumer disables browser globals, network calls and `Math.random`
 The package archive includes runtime output, selected content, license and
 documentation. It excludes baseline evidence, the original game and development
 dependencies. Current gates cap unminified runtime JS at 96 KiB and selected
-content JSON at 64 KiB. These are first-slice bounds, not promises about a full engine.
+content JSON at 64 KiB. Version 0.4 keeps the 96 KiB core gate and adds a separate
+64 KiB optional item-module gate (160 KiB combined). The item catalogue is a separate
+data package. These are scoped bounds, not promises about a full engine.
 
 ## Reconstructing the original
 
@@ -93,6 +95,11 @@ with `node:sqlite`. It is not imported by the SDK runtime.
 `benchmark:inventory` compares actual original queries to the cell index;
 `benchmark:catalogue` compares retained JSON records to SQLite point reads.
 See [content-storage.md](content-storage.md) for workload/residency limitations.
+
+Milestone four adds `reference:items`, `items:build`, `benchmark:items` and the
+offline item-to-inventory-to-equipment-to-hit consumer. Item fixtures are compressed
+losslessly and independently re-exported. Two more deliberate faults test local
+item math and affix source order. The optional import graph is checked explicitly.
 
 ## Cross-runtime numerical policy
 

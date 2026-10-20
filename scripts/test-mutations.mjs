@@ -16,9 +16,13 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
     fs.cpSync(path.join(root, 'baseline/milestone-two'), path.join(temp, 'baseline/milestone-two'), { recursive: true });
     fs.mkdirSync(path.join(temp, 'baseline/milestone-three'));
     fs.copyFileSync(path.join(root, 'baseline/milestone-three/inventory.json'), path.join(temp, 'baseline/milestone-three/inventory.json'));
+    fs.copyFileSync(path.join(root, 'baseline/milestone-three/catalogue.json.gz'), path.join(temp, 'baseline/milestone-three/catalogue.json.gz'));
+    fs.cpSync(path.join(root, 'baseline/milestone-four'), path.join(temp, 'baseline/milestone-four'), { recursive: true });
   } else fs.cpSync(path.join(root, folder), path.join(temp, folder), { recursive: true });
 }
 fs.writeFileSync(path.join(temp, 'package.json'), '{"type":"module"}\n');
+fs.mkdirSync(path.join(temp, 'scripts'));
+for (const file of ['compile-item-content.mjs', 'reference-utils.mjs']) fs.copyFileSync(path.join(root, 'scripts', file), path.join(temp, 'scripts', file));
 const file = path.join(temp, 'dist/stats.js');
 const original = fs.readFileSync(file, 'utf8');
 const mutants = [
@@ -44,6 +48,8 @@ for (const [module, name, before, after, tests] of [
   ['timed-effect', 'changed-expiry-damage', 'state.dps * state.stacks * dt', 'state.dps * state.stacks * Math.min(dt, state.remaining)', 'test/timed-effect.test.mjs'],
   ['inventory', 'closed-cell-open', "if (board.rows[y][x] === '.')", "if (false)", 'test/inventory.test.mjs'],
   ['inventory', 'overlapping-swap', 'if (item.x < x + item.w', 'if (false && item.x < x + item.w', 'test/inventory.test.mjs'],
+  ['item-core', 'wrong-local-item-increase', '(1 + (inc.get(stat) ?? 0))', '(1 + 2 * (inc.get(stat) ?? 0))', 'test/item-rules.test.mjs'],
+  ['item-core', 'reversed-item-affix-order', 'Object.values(ITEM_AFFIXES)', 'Object.values(ITEM_AFFIXES).reverse()', 'test/item-rules.test.mjs'],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
   assert.ok(source.includes(before));
