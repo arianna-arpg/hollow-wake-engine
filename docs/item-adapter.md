@@ -57,25 +57,27 @@ manifest and distribution/update pipeline have not yet been migrated. The SDK
 itself is also verified in a clean package consumer, including its explicit host
 entry point with ambient RNG/browser/network access disabled.
 
-## Renderer checks and baseline failure
+## Renderer checks and captured baseline failure
 
-The original hidden Inventory courses can run against a full game checkout:
+The source-checked Inventory courses can run against a full game checkout:
 
 ```sh
 node scripts/build-game-item-ui.mjs --game GAME --output NEW_BUILD
-node scripts/test-game-item-ui.mjs --game GAME --dist NEW_BUILD --electron ELECTRON
+node scripts/test-game-item-ui.mjs --game GAME --dist NEW_BUILD --electron ELECTRON --services
 ```
 
 The build command refuses existing output and verifies that source did not change.
 The UI command retains each course's result, uses separate saves/profiles, and
-returns failure if any course fails. Only build/report locations are redirected;
-the game assertions are unchanged. For a control, build into another new directory
+returns failure if any course fails. Build/report locations are redirected; the
+explicit Inventory assertion revision is documented in [the repair contract](inventory-ui-adapter.md).
+Other courses are unchanged. For a control, build into another new directory
 with `--original-items`: only the item generator is replaced by its hash-verified
 original source. All other game source stays identical. Build manifests record
 source and output hashes.
 
-The older `inventory-ui` course fails at `Escape disarms before step closes panels`
+The captured older `inventory-ui` course failed at `Escape disarms before step closes panels`
 with both the extracted and original item implementation. This is a retained
 baseline UI test failure, not a passing check or a reason to weaken an assertion. The
-newer `inventory-pages-ui` course passes 81 checks on both builds. Full interactive Inventory
-acceptance remains open until the existing Escape-path failure is resolved.
+newer `inventory-pages-ui` course passed 81 checks on both builds. The separate
+[Inventory repair](inventory-ui-adapter.md) resolves this path in the isolated adapter,
+retains the failing control and preserves the newer NPC/player panel contract.

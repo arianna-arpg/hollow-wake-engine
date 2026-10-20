@@ -2,6 +2,12 @@
 
 ## Normal package checks
 
+CI uses explicit Ubuntu 24.04/Windows 2025 labels and immutable revisions of the
+official checkout, Node, .NET and artifact actions. They use the supported Node 24
+action runtime; the SDK remains tested on Node 22 and 24. Checkout credentials are
+not retained for test commands. Hosted image patches and toolchain patch releases
+still vary: receipts record the actual versions. This is not a bit-reproducible OS image.
+
 ```sh
 npm ci
 npm run verify
@@ -105,8 +111,9 @@ Version 0.5 adds host-owned item ports and actual-game item delegation. The extr
 `reference:item-bridge` and `adapter:items` commands cover shared RNG/uid interleaving,
 legacy save migration, explicit content refresh and a compiler wiring fault in the
 installed package. CI reconstructs the game and runs its item/relic regression
-probes. Renderer checks and a known baseline Escape-path failure are recorded in
-[item-adapter.md](item-adapter.md); they are not folded into a false green UI claim.
+probes. The captured Escape-path failure remains recorded in [item-adapter.md](item-adapter.md).
+Its explicit repair, revised NPC/player-close assertion and failing original-order
+control are documented in [inventory-ui-adapter.md](inventory-ui-adapter.md).
 
 ## Cross-runtime numerical policy
 

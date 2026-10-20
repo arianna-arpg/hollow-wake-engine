@@ -13,6 +13,9 @@ including preserved shared RNG/identity order, original save migration and expli
 content refresh. Clean reconstruction and installed-package fault checks verify
 the bridge; native engine packages remain future work.
 
+The isolated game includes the [Inventory cancellation acceptance repair](docs/inventory-ui-adapter.md),
+with original failure evidence, a failing control and independent NPC/player close checks.
+
 Version 0.4 adds [item rolling, forging and modifier compilation](docs/item-contract.md)
 through the optional `@hollow-wake/engine/items` entry, separately packaged item
 content, and runtime item equipment with build save/restore. See
