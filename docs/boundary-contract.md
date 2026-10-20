@@ -18,7 +18,8 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | Inventory grids and synchronous ownership transfer | `Inventory`, per board | Indexed grids, masks, atomic moves/swaps/transfers and versioned snapshots; see inventory contract |
 | Item rolls, forging, local/global values, sockets and epitaphs | `ItemRules` plus immutable `ItemContent` | Extracted; full source comparisons; optional runtime/data entry |
 | Equipment eligibility, stash/container progression, trade authority | Future policy modules | Numeric equipment binding exists; full policy pending |
-| Complete passive/skill graph economies, vocations, unlocks, account progression | Future character-policy modules | Source captured; not migrated |
+| Passive allocation/refund, choice deals, realm pools and vocation spending gates | Optional `PassivePolicy` / `PassiveBuild` | Original policy transitions extracted; full grants, earning and game integration pending; see passive policy contract |
+| Skill graph economy, vocation quests, unlock earning and account progression | Future character-policy modules | Source captured; not migrated |
 | Ordinary casting commitment, mana/life payment, cooldowns, cancellation | `CastRuntime`, per actor | Extracted; advanced modes remain native |
 | Projectile travel, contact collection, spatial queries and 2D/3D conventions | Host adapter plus future delivery module | Host supplies a resolved contact today |
 | Strongest-wins Burning and raw typed ticks | `TimedDamage`, per bearer/effect | Extracted; host supplies resolved application and damage routing |
@@ -112,6 +113,13 @@ context structure without delimiter collisions. Stat value caches are bounded to
 256 entries by default and can be configured per sheet, including disabled.
 Attack plans are rebuilt on sheet revision changes and held through weak references.
 The engine runs synchronously without callbacks while using its scratch arrays.
+
+`PassiveBuild` uses a separate `passive-policy/v1` capability. Its refund graph
+stays within each realm or vocation. Original free-root grants can survive a
+refused purchase, reported explicitly by `rootsAdded`; this is an exception to
+the older selected `Character` API's atomic refusal rule. See
+[passive-policy.md](passive-policy.md) for strict restore, host authorization,
+point pools and the distinction between allocation policy and grant execution.
 
 ## Portability decision
 

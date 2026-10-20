@@ -26,6 +26,9 @@ dependencies. Current gates cap unminified runtime JS at 96 KiB and selected
 content JSON at 64 KiB. Version 0.4 keeps the 96 KiB core gate and adds a separate
 64 KiB optional item-module gate (160 KiB combined). The item catalogue is a separate
 data package. These are scoped bounds, not promises about a full engine.
+Version 0.6 adds a separate 32 KiB optional passive-policy JS gate (192 KiB combined)
+and a 1 MiB unpacked bound for its separate content package. It preserves the
+existing core, item and selected-content bounds.
 
 ## Reconstructing the original
 
@@ -114,6 +117,12 @@ installed package. CI reconstructs the game and runs its item/relic regression
 probes. The captured Escape-path failure remains recorded in [item-adapter.md](item-adapter.md).
 Its explicit repair, revised NPC/player-close assertion and failing original-order
 control are documented in [inventory-ui-adapter.md](inventory-ui-adapter.md).
+
+Version 0.6 adds `reference:passives`, `passives:build` and `benchmark:passives`.
+The original World policy observations, independent graph/economy checks, two
+additional behavioral mutants and packed engine/content consumer are described in
+[passive-policy.md](passive-policy.md). Grant execution and game delegation remain
+explicitly outside this milestone's proof.
 
 ## Cross-runtime numerical policy
 

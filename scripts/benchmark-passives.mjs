@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { root, verifyReference } from './reference-utils.mjs';
+const reference = path.join(root, '.reference'), lock = JSON.parse(fs.readFileSync(path.join(root, 'baseline/source-lock.json')));
+verifyReference(reference, lock);
+const target = path.join(reference, 'balance/benchmark-engine-passives.ts');
+fs.copyFileSync(path.join(root, 'reference/benchmark-passives.ts'), target);
+execFileSync(process.execPath, ['--import','tsx',target,root,path.join(root,'.artifacts/passive-benchmark.json')], { cwd: reference, stdio: 'inherit' });
+verifyReference(reference, lock);

@@ -73,6 +73,11 @@ jobs:
       - run: npm run reference:inventory
       - run: npm run reference:items
       - run: npm run reference:item-bridge
+      - run: npm run reference:passives
+      - run: node --import tsx balance/probe_passiverefund.ts
+        working-directory: .reference
+      - run: node --import tsx balance/probe_choices.ts
+        working-directory: .reference
       - run: npm run check
         working-directory: .reference
       - run: npm run sim -- run --suite smoke
