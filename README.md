@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+An optional [native lifecycle experiment](docs/native-lifecycle.md) now provides
+seven C ABI operations and a C# binding, with batched timers and standalone C++/C#
+package consumers. It is a measured interoperability proof, not a full native SDK
+or a Unity/Godot/Unreal plugin. Run `npm run native:verify` with a C toolchain and .NET 8.
+
 Version 0.5 adds [host-owned item ports and actual-game item delegation](docs/item-adapter.md),
 including preserved shared RNG/identity order, original save migration and explicit
 content refresh. Clean reconstruction and installed-package fault checks verify
@@ -46,7 +51,7 @@ The primary game checkout remains unchanged. The first adapter is implemented
 and tested in isolation. Spatial delivery, other casting/status families,
 advanced defenses, full skill trees, vocations, equipment/storage policy,
 progression and UI integration remain explicit migration work.
-Unity, Godot and Unreal wrappers are still future work; this release needs a JavaScript host.
+Unity, Godot and Unreal wrappers are still future work; the broader SDK needs a JavaScript host.
 
 [Completion criteria](docs/completion.json) track each system and its evidence.
 The authored catalogue preserves definitions; it does not imply all those mechanics execute.

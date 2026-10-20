@@ -1,0 +1,40 @@
+{
+  "comparisons": 6089,
+  "numeric": 43366,
+  "bitExact": 43366,
+  "warmedManagedAllocationBytes": 0,
+  "scope": "Seven native lifecycle leaves; caller orchestrates casting, expiry, routing and attribution",
+  "vectors": 6020,
+  "platform": "win32",
+  "arch": "x64",
+  "node": "v24.9.0",
+  "compiler": "Microsoft (R) C/C++ Optimizing Compiler Version 19.38.33133 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.\r\n\r\nusage: cl [ option... ] filename... [ /link linkoption... ]",
+  "dotnetSdk": "8.0.421",
+  "libraryBytes": 113664,
+  "librarySha256": "4872b7becfecf44204aa063e41ad80466038a7d01607d35e990c2aba299a8508",
+  "originalFixtureSha256": "7a8f633668cdbbb61205adb8a3a5b57555599b80aa6ad83f2d7a37f1fe5cf345",
+  "vectorSha256": "bb91283a852005cf98354610e7898345d1bb50365addad1313ede0b25c300507",
+  "mutants": [
+    {
+      "name": "minimum-cast-bar",
+      "detectedBy": "Numeric mismatch: minimum-bar-and-snapshotted-speed"
+    },
+    {
+      "name": "expiry-frame-clipping",
+      "detectedBy": "Numeric mismatch: Original Burning/"
+    }
+  ],
+  "sources": {
+    "native/include/hwe_lifecycle.h": "f5273226ee29aafbbc68ffab282e472806e95c71c92293424e529c7561ad7ad5",
+    "native/src/hwe_lifecycle.c": "27e6f8f67a8656576a4eafd20f7097ee6683e62c1c6ee8833d04c8eeb98df654",
+    "native/bindings/dotnet/Lifecycle.cs": "8b047de40f255d21c7d803d353678e146ae107733b0c881ea95a04ede5ae3950",
+    "native/test/contracts.c": "c9ec2c24bcc8e470e99a5607ffe44aa3daa5ffe666ec2f07bacb7b6766056cfd",
+    "native/test/header.cpp": "cf900f4f6b7506135dab976bc005ba55b44046e458f59521827e231a817e840a",
+    "native/test/interop/Program.cs": "a0813726fe7ff6c23d947113e957536eb8e994b92fdd8d5a1a89aaebf5a60e7c"
+  },
+  "limitations": [
+    "x64 leaf ABI experiment, not a native full SDK",
+    "No Unity/Godot/Unreal engine import or device benchmark",
+    "Managed allocations exclude startup, test orchestration, errors and native/OS allocation"
+  ]
+}

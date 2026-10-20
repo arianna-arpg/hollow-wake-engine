@@ -63,7 +63,9 @@
     "items:build": "npm run build && node scripts/compile-item-content.mjs",
     "benchmark:items": "npm run build && node scripts/benchmark-items.mjs",
     "reference:item-bridge": "node scripts/run-item-bridge-reference.mjs",
-    "adapter:items": "node scripts/test-game-items.mjs"
+    "adapter:items": "node scripts/test-game-items.mjs",
+    "native:verify": "npm run build && node scripts/test-native.mjs",
+    "native:pack": "node scripts/pack-native.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

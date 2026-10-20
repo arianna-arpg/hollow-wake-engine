@@ -70,8 +70,9 @@ authored skill directly as this compiled skill schema fails on unsupported field
 
 ## Numerical and ordering semantics
 
-- Numbers use JavaScript binary64. Cross-runtime numerical equivalence has not
-  been established. Fixture comparisons allow relative/absolute error of `1e-12`;
+- Numbers use JavaScript binary64. Cross-runtime verification currently covers
+  only the seven [native lifecycle leaves](native-lifecycle.md), not the full SDK.
+  Fixture comparisons allow relative/absolute error of `1e-12`;
   discrete results, modifier lists and random draw counts must match.
 - Named source insertion order is significant. Flat additions precede additive
   increases, then multiplicative `more` terms; the last applicable override wins.
@@ -118,9 +119,10 @@ Keep the first kernel in TypeScript/ES modules to compare against the original
 implementation with minimal language-induced uncertainty. Production compilation
 uses the ECMAScript library only: no DOM or Node type libraries.
 
-The data and snapshot contracts are portable specifications; this JavaScript
-implementation still needs a JavaScript host. Unity, Godot, native mobile and
-WebAssembly compatibility are unproven. A later native-host experiment must compare
-embedding versus a native kernel by build complexity, call overhead, memory,
-debuggability, deterministic behavior and available distribution targets.
-No cross-language ABI or engine integration is claimed by the Node consumer test.
+The data and snapshot contracts are portable specifications; the broad implementation
+still needs a JavaScript host. The experimental C ABI proves seven leaf transitions
+from an independent C# caller and a C++ linkage consumer. Unity, Godot, Unreal, mobile
+and WebAssembly compatibility remain unproven. The full-runtime language decision
+still requires comparing embedding versus a native kernel on representative content,
+call overhead, memory, debugging and distribution targets. Node consumer checks alone
+never establish a native-engine integration.

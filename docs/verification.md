@@ -110,6 +110,13 @@ probes. Renderer checks and a known baseline Escape-path failure are recorded in
 
 ## Cross-runtime numerical policy
 
+`npm run native:verify` builds the experimental C ABI with the local C toolchain
+and runs C, C++ and .NET 8 consumers. It requires tools beyond the JavaScript-only
+`verify` command and has separate Windows/Linux CI jobs. `npm run native:pack`
+then validates a standalone extracted archive in clean C++ and C# consumers.
+See [native-lifecycle.md](native-lifecycle.md) for scope, allocation measurement,
+original traces, strict arithmetic, invalid-buffer obligations and negative controls.
+
 The current contract uses binary64 arithmetic, relative/absolute comparison
 tolerance `1e-12`, and exact discrete results and random consumption. This is not a
 claim of cross-platform lockstep determinism. Native bridges must run the same
