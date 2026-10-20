@@ -13,9 +13,9 @@ malformed saves, external mutation and callback/accessor hazards.
 
 The authored catalogue captures 14,434 rows across 20 registries and two explicit
 executable-rule markers. It is independently packaged as optional data. Gzip
-reduces the lossless accepted reference to 1,004,487 bytes; the installable catalogue
-archive is 863,177 bytes. The package contains table hashes and preserves ordered
-payloads. SQLite tooling supports indexed inspection and child-row queries and is
+reduces the lossless accepted reference to 1,065,873 bytes; the installable catalogue
+archive is 923,999 bytes. The package contains table hashes, ordered nested payloads
+and a separate record of original registry insertion order. SQLite tooling supports indexed inspection and child-row queries and is
 checked by a complete row/metadata roundtrip. No SQL dependency enters the runtime.
 
 The SDK runtime is 74,246 bytes of unminified JavaScript, below the existing 96 KiB

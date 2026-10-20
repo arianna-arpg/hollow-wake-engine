@@ -18,11 +18,13 @@ fs.writeFileSync(path.join(consumer, 'read.mjs'), `
 import fs from 'node:fs'; import assert from 'node:assert/strict'; import crypto from 'node:crypto';
 const read = name => fs.readFileSync(new URL(import.meta.resolve('@hollow-wake/catalogue/' + name)));
 const manifest = JSON.parse(read('manifest.json')); let count = 0;
+const order = JSON.parse(read('registry-order.json'));
 assert.equal(manifest.executable, false);
-for (const table of Object.values(manifest.tables)) {
+for (const [name, table] of Object.entries(manifest.tables)) {
   const bytes = read(table.file);
   assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'), table.sha256);
-  assert.equal(JSON.parse(bytes).length, table.rows); count += table.rows;
+  const rows = JSON.parse(bytes); assert.equal(rows.length, table.rows); count += table.rows;
+  assert.deepEqual([...order[name]].sort(), rows.map(row => row.id).sort());
 }
 assert.equal(count, 14434); console.log(JSON.stringify({ definitions: count, executable: false }));
 `);

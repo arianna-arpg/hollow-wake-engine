@@ -26,6 +26,8 @@ test('all registry shards preserve source data and identify every executable sou
   assert.equal(count, 14434);
   assert.deepEqual(marked.sort(), manifest.sourceRules.sort());
   assert.equal(manifest.executable, false);
+  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(dir, 'registry-order.json'))), source.registryOrder);
+  assert.deepEqual(source.registryOrder.defenseKinds, ['armor', 'evasion', 'energyShield', 'poise', 'endurance', 'insight']);
 });
 test('SQLite catalogue roundtrips all rows, order, child records and migration evidence', async () => {
   const { DatabaseSync } = await import('node:sqlite');

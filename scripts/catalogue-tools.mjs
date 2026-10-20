@@ -14,6 +14,10 @@ export function readCatalogue() {
       if (typeof id !== 'string' || !id.length || ids.has(id)) throw new Error(`Duplicate/invalid identity: ${name}/${id}`);
       ids.add(id);
     }
+    const order = data.registryOrder?.[name];
+    if (!Array.isArray(order) || order.length !== rows.length || new Set(order).size !== ids.size || order.some(id => !ids.has(id))) {
+      throw new Error(`Invalid source registry order: ${name}`);
+    }
   }
   return data;
 }
@@ -35,12 +39,13 @@ export function buildCatalogue(directory) {
   }
   writeJSON(path.join(directory, 'manifest.json'), manifest);
   writeJSON(path.join(directory, 'source-rules.json'), catalogue.sourceRules);
+  writeJSON(path.join(directory, 'registry-order.json'), catalogue.registryOrder);
   writeJSON(path.join(directory, 'omissions.json'), catalogue.omissions);
   writeJSON(path.join(directory, 'package.json'), { name: '@hollow-wake/catalogue', version: '0.1.0', type: 'module',
-    license: 'PolyForm-Noncommercial-1.0.0', files: ['tables', 'manifest.json', 'source-rules.json', 'omissions.json', 'LICENSE.md', 'README.md'],
-    exports: { './manifest.json': './manifest.json', './tables/*.json': './tables/*.json', './source-rules.json': './source-rules.json' } });
+    license: 'PolyForm-Noncommercial-1.0.0', files: ['tables', 'manifest.json', 'source-rules.json', 'registry-order.json', 'omissions.json', 'LICENSE.md', 'README.md'],
+    exports: { './manifest.json': './manifest.json', './tables/*.json': './tables/*.json', './source-rules.json': './source-rules.json', './registry-order.json': './registry-order.json' } });
   fs.copyFileSync(path.join(root, 'LICENSE.md'), path.join(directory, 'LICENSE.md'));
-  fs.writeFileSync(path.join(directory, 'README.md'), '# Hollow Wake authored catalogue\n\nFrozen source definitions for authoring, inspection and future compilation. These are not executable SDK capability packs. Load only the tables you need. Stable table/id pairs identify rows; array order is preserved. `$sourceRule` marks explicitly unported executable source rules, recorded as text for review only. No eval is provided.\n');
+  fs.writeFileSync(path.join(directory, 'README.md'), '# Hollow Wake authored catalogue\n\nFrozen source definitions for authoring, inspection and future compilation. These are not executable SDK capability packs. Load only the tables you need. Stable table/id pairs identify rows; nested array order is preserved. Lookup rows are sorted; registry-order.json preserves the original registry insertion order for weighted rolls and modifier folds. `$sourceRule` marks explicitly unported executable source rules, recorded as text for review only. No eval is provided.\n');
   return manifest;
 }
 export async function buildDatabase(destination, catalogue = readCatalogue()) {

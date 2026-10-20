@@ -31,6 +31,9 @@ const registries: Record<string, object> = {
 };
 const omissions: { path: string; reason: string }[] = [];
 const sourceRules: { path: string; source: string }[] = [];
+// Lookup rows may be sorted for tooling; weighted selection and modifier folds
+// can depend on the original insertion order. Preserve that independent contract.
+const registryOrder = Object.fromEntries(Object.entries(registries).map(([name, rows]) => [name, Object.keys(rows)]));
 function data(value: any, at: string, parents = new Set<object>()): any {
   if (value === undefined) { omissions.push({ path: at, reason: 'undefined-property' }); return undefined; }
   if (value === null || typeof value === 'string' || typeof value === 'boolean') return value;
@@ -60,5 +63,5 @@ const out = process.argv[2];
 if (!out) throw new Error('Output directory required');
 fs.mkdirSync(out, { recursive: true });
 fs.writeFileSync(path.join(out, 'catalogue.json'), JSON.stringify({ schemaVersion: 1,
-  kind: 'authored-catalogue', source: 'hollow-wake-frozen-baseline', tables, omissions, sourceRules }, null, 2) + '\n');
+  kind: 'authored-catalogue', source: 'hollow-wake-frozen-baseline', tables, registryOrder, omissions, sourceRules }, null, 2) + '\n');
 console.log(JSON.stringify(Object.fromEntries(Object.entries(tables).map(([name, rows]) => [name, rows.length]))));

@@ -44,6 +44,10 @@ Normal verification independently re-exports and compares decoded values. All
 lost. Two progression functions are represented by `$sourceRule` markers and
 their exact observed source text; neither is evaluated or declared portable.
 Other nonportable values and cycles fail export. Array order is preserved.
+Lookup table rows are sorted for reproducible inspection. `registry-order.json`
+separately preserves the original registry insertion order: weighted loot rolls
+and modifier output can depend on it. Compilers must use that source order where
+behavior requires it, rather than assuming sorted rows are interchangeable.
 
 `npm run catalogue:build` builds `.artifacts/catalogue-package`, a separate
 `@hollow-wake/catalogue` package with individually loadable table files and hashes.
