@@ -7,3 +7,4 @@ export { StatSheet } from './stats.js';
 export type * from './types.js';
 export * from './casting.js';
 export * from './timed-effect.js';
+export * from './inventory.js';

@@ -22,7 +22,7 @@ import assert from 'node:assert/strict';
 Math.random = () => { throw new Error('ambient RNG called'); };
 globalThis.fetch = () => { throw new Error('network called'); };
 for (const key of ['window', 'document', 'localStorage']) Object.defineProperty(globalThis, key, { get() { throw new Error(key + ' accessed'); } });
-const { Engine, CastRuntime, TimedDamage } = await import('@hollow-wake/engine');
+const { Engine, CastRuntime, TimedDamage, Inventory } = await import('@hollow-wake/engine');
 const bridge = await import('@hollow-wake/engine/hollow-wake');
 assert.equal(bridge.HOLLOW_WAKE_ADAPTER_VERSION, 1);
 assert.equal(bridge.castDuration(.1), .2);
@@ -43,6 +43,10 @@ const burning = new TimedDamage({ id: 'burn', damageType: 'fire', duration: 4, r
 burning.apply(10);
 assert.equal(burning.advance(.5), 5);
 assert.equal(TimedDamage.restore(burning.snapshot()).remaining, 3.5);
+const bag = new Inventory({ w: 3, h: 3, rows: ['###', '#.#', '###'] });
+assert.equal(bag.insert({ id: 'ring', w: 1, h: 1, data: { affixes: ['retained'] } }), true);
+assert.equal(bag.move('ring', 1, 1), 'blocked');
+assert.equal(Inventory.restore(JSON.parse(JSON.stringify(bag.snapshot()))).at(0, 0), 'ring');
 console.log(JSON.stringify({ installedConsumer: true, damage: result.damage, randomDraws: result.randomDraws }));
 `);
 const result = execFileSync(process.execPath, ['run.mjs'], {

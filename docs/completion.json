@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Acceptance inventory; importing content is never proof of executable mechanics. No aggregate completion percentage is claimed.",
+  "source": "baseline/source-lock.json",
+  "families": [
+    { "id": "stats", "state": "extracted", "evidence": ["test/reference.test.mjs", "test/contracts.test.mjs"], "remaining": ["Host sampling of conditions and gauges remains outside the numeric sheet"] },
+    { "id": "character-attributes", "state": "partial", "evidence": ["test/reference.test.mjs"], "remaining": ["Complete level progression", "All class and attribute choice paths"] },
+    { "id": "passives-vocations", "state": "partial", "evidence": ["test/contracts.test.mjs"], "remaining": ["Choice deals", "Grafts", "Multiple realms", "Vocation gates and currency", "Progression rewards and refund policy"] },
+    { "id": "skills-supports-mutators", "state": "partial", "evidence": ["test/reference.test.mjs"], "remaining": ["All executable effect families", "Full tree rank and empowerment economy", "Non-numeric mutations", "Support mechanism compatibility"] },
+    { "id": "inventory-grid", "state": "extracted", "evidence": ["test/inventory.test.mjs", "baseline/milestone-three/inventory.json"], "remaining": ["Game inventory adapter and device validation are tracked separately"] },
+    { "id": "items", "state": "partial", "evidence": ["baseline/first-path.json"], "remaining": ["Affix roll and local stat fold", "Sockets and epitaphs", "Unique procs", "Equipment slot policy", "Identity allocation and trade authority"] },
+    { "id": "containers-storage", "state": "pending", "evidence": [], "remaining": ["Stash pages and recovery", "Container eligibility", "Relic ownership and active contributions", "Account progression"] },
+    { "id": "casting", "state": "partial", "evidence": ["test/lifecycle.test.mjs"], "remaining": ["Channel", "Guard", "Debt", "Charge", "Reload", "Advanced timing and interruption semantics"] },
+    { "id": "combat-effects", "state": "partial", "evidence": ["test/timed-effect.test.mjs", "test/reference.test.mjs"], "remaining": ["Attacks and accuracy", "Defense pools", "Other statuses", "Procs", "Summons", "Death lifecycle", "Host delivery ports"] },
+    { "id": "authored-content", "state": "partial", "evidence": ["test/catalogue.test.mjs", "scripts/test-catalogue-package.mjs"], "remaining": ["Typed executable content compilers per capability", "Foreign-reference semantics", "Remaining rules outside the 20 exported registries", "Two executable progression functions identified in sourceRules"] },
+    { "id": "game-adapter", "state": "partial", "evidence": ["scripts/test-game-adapter.mjs"], "remaining": ["Inventory and later-system delegation", "Clean installation in game dependency manifest", "Interactive Inventory regression course"] },
+    { "id": "native-packages", "state": "pending", "evidence": [], "remaining": ["Native ABI feasibility", "Unity sample", "Godot sample", "Unreal sample", "Cross-runtime numerical verification", "Engine import/install tests"] },
+    { "id": "performance", "state": "partial", "evidence": ["scripts/benchmark.mjs", "scripts/benchmark-lifecycle.mjs", "scripts/benchmark-inventory.mjs", "scripts/benchmark-catalogue.mjs"], "remaining": ["Steam Deck measurements", "Named older mobile device measurements", "Allocation and whole-frame profiling", "Load/save and migration stress tests"] }
+  ]
+}

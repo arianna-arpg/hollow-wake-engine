@@ -3,7 +3,12 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
-Version 0.2 adds ordinary casting, resource payment, cooldown clocks, cancellation,
+Version 0.3 adds an independent indexed inventory with atomic transfers and
+masked boards, plus separately packaged authored registries and optional SQLite
+tooling. See [milestone three](docs/milestone-three.md) and the
+[inventory contract](docs/inventory-contract.md).
+
+Version 0.2 added ordinary casting, resource payment, cooldown clocks, cancellation,
 save/restore, and strongest-wins Burning with explicit original-game timing.
 An isolated Hollow Wake adapter consumes the packed SDK and is checked against
 the unmodified game's traces. The package also implements:
@@ -29,8 +34,11 @@ See the [boundary contract](docs/boundary-contract.md), [milestone two](docs/mil
 This is an early SDK, not a complete extraction or a finished game-engine plugin.
 The primary game checkout remains unchanged. The first adapter is implemented
 and tested in isolation. Spatial delivery, other casting/status families,
-advanced defenses, full skill trees, vocations, inventory grids,
+advanced defenses, full skill trees, vocations, equipment/storage policy,
 progression and UI integration remain explicit migration work.
 Unity, Godot and Unreal wrappers are still future work; this release needs a JavaScript host.
+
+[Completion criteria](docs/completion.json) track each system and its evidence.
+The authored catalogue preserves definitions; it does not imply all those mechanics execute.
 
 The source and content retain Hollow Wake's existing [license](LICENSE.md).

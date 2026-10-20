@@ -15,7 +15,8 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | Outgoing damage ranges, conversion, extra damage, lucky/unlucky and critical rolls | `Engine` | Implemented for pre-resolved spell contacts |
 | Armor, capped resistances, penetration, damage taken and crit avoidance | `Target` | Plain defender implemented; other defensive layers rejected |
 | Random stream and continuation state | Each `Engine` | Serializable Mulberry32 state; no ambient RNG |
-| Inventory grids, affix rolls, item ownership transfer, containers | Future inventory/content modules | Current item is a pinned specimen with compiled source modifiers |
+| Inventory grids and synchronous ownership transfer | `Inventory`, per board | Indexed grids, masks, atomic moves/swaps/transfers and versioned snapshots; see inventory contract |
+| Affix rolls, equipment eligibility, stash/container progression | Future item/policy modules | Raw definitions exported; full behavior pending |
 | Complete passive/skill graph economies, vocations, unlocks, account progression | Future character-policy modules | Source captured; not migrated |
 | Ordinary casting commitment, mana/life payment, cooldowns, cancellation | `CastRuntime`, per actor | Extracted; advanced modes remain native |
 | Projectile travel, contact collection, spatial queries and 2D/3D conventions | Host adapter plus future delivery module | Host supplies a resolved contact today |
@@ -38,7 +39,8 @@ scratch storage and caches.
 The class start is owned without spending a supplied passive point. Hosts supply
 authorized point budgets; account earning rules are not extracted yet.
 The sample's item id identifies one specimen, so it cannot occupy two slots.
-General inventory item-instance identity is a subsequent contract.
+General inventory item-instance identity is explicit in `Inventory`; its equipment
+and contribution adapter to this selected `Character` path remains pending.
 
 `engine.skill(selection)` validates level, sockets, attribute-independent tag
 compatibility, selected node prerequisites/exclusions and supplied point budget.

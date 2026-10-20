@@ -1,0 +1,106 @@
+{
+  "node": "v24.9.0",
+  "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+  "platform": "win32",
+  "workload": "954 full skill records, 500 warmup reads + 20,000 deterministic point reads; parsed records returned in both modes",
+  "caveats": [
+    "Fresh processes, warm OS file cache; not cold storage latency",
+    "SQLite native memory excluded from JS heap; RSS also reported",
+    "JSON retains all selected skill definitions; SQLite prepares point reads and parses each returned record",
+    "Desktop only, not target hardware"
+  ],
+  "skillJsonBytes": 1180207,
+  "sqliteWholeCatalogueBytes": 13115392,
+  "runs": [
+    {
+      "mode": "json",
+      "loadMs": 14.378900000000002,
+      "lookupBatch200P50Ms": 0.0239000000000118,
+      "lookupBatch200P95Ms": 0.13090000000001112,
+      "retainedHeapDelta": 3405920,
+      "rssDelta": 8011776,
+      "checksum": 491983.0399999839
+    },
+    {
+      "mode": "json",
+      "loadMs": 13.598300000000002,
+      "lookupBatch200P50Ms": 0.024299999999996658,
+      "lookupBatch200P95Ms": 0.11959999999999127,
+      "retainedHeapDelta": 3181872,
+      "rssDelta": 8597504,
+      "checksum": 491983.0399999839
+    },
+    {
+      "mode": "json",
+      "loadMs": 13.633400000000002,
+      "lookupBatch200P50Ms": 0.024199999999993338,
+      "lookupBatch200P95Ms": 0.11459999999999582,
+      "retainedHeapDelta": 3530144,
+      "rssDelta": 8167424,
+      "checksum": 491983.0399999839
+    },
+    {
+      "mode": "json",
+      "loadMs": 13.7089,
+      "lookupBatch200P50Ms": 0.03889999999999816,
+      "lookupBatch200P95Ms": 0.17090000000000316,
+      "retainedHeapDelta": 3181848,
+      "rssDelta": 8384512,
+      "checksum": 491983.0399999839
+    },
+    {
+      "mode": "json",
+      "loadMs": 12.884999999999998,
+      "lookupBatch200P50Ms": 0.024600000000006617,
+      "lookupBatch200P95Ms": 0.10299999999999443,
+      "retainedHeapDelta": 3542136,
+      "rssDelta": 8024064,
+      "checksum": 491983.0399999839
+    },
+    {
+      "mode": "sqlite",
+      "loadMs": 1.1385000000000005,
+      "lookupBatch200P50Ms": 27.551600000000008,
+      "lookupBatch200P95Ms": 32.7180000000003,
+      "retainedHeapDelta": 73632,
+      "rssDelta": 6049792,
+      "checksum": 491983.0399999839
+    },
+    {
+      "mode": "sqlite",
+      "loadMs": 1.1193999999999988,
+      "lookupBatch200P50Ms": 29.277399999999943,
+      "lookupBatch200P95Ms": 33.93159999999989,
+      "retainedHeapDelta": 76400,
+      "rssDelta": 6127616,
+      "checksum": 491983.0399999839
+    },
+    {
+      "mode": "sqlite",
+      "loadMs": 1.1715000000000018,
+      "lookupBatch200P50Ms": 28.26800000000003,
+      "lookupBatch200P95Ms": 33.64980000000014,
+      "retainedHeapDelta": 76400,
+      "rssDelta": 6160384,
+      "checksum": 491983.0399999839
+    },
+    {
+      "mode": "sqlite",
+      "loadMs": 1.1514999999999986,
+      "lookupBatch200P50Ms": 27.35039999999981,
+      "lookupBatch200P95Ms": 32.52339999999981,
+      "retainedHeapDelta": 76376,
+      "rssDelta": 5996544,
+      "checksum": 491983.0399999839
+    },
+    {
+      "mode": "sqlite",
+      "loadMs": 1.1174999999999997,
+      "lookupBatch200P50Ms": 27.200400000000172,
+      "lookupBatch200P95Ms": 32.6737999999998,
+      "retainedHeapDelta": 76376,
+      "rssDelta": 6103040,
+      "checksum": 491983.0399999839
+    }
+  ]
+}

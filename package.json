@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -36,7 +36,7 @@
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs",
     "example": "npm run build && node examples/first-path.mjs",
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
@@ -46,7 +46,11 @@
     "adapter:prepare": "npm run build && node scripts/prepare-game-adapter.mjs",
     "adapter:verify": "node scripts/test-game-adapter.mjs",
     "benchmark:lifecycle": "npm run build && node --expose-gc scripts/benchmark-lifecycle.mjs",
-    "example:lifecycle": "npm run build && node examples/casting-and-burning.mjs"
+    "example:lifecycle": "npm run build && node examples/casting-and-burning.mjs",
+    "reference:inventory": "node scripts/run-inventory-reference.mjs",
+    "catalogue:build": "node scripts/catalogue-tools.mjs",
+    "benchmark:catalogue": "node --expose-gc scripts/benchmark-catalogue.mjs",
+    "benchmark:inventory": "npm run build && node scripts/benchmark-inventory.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

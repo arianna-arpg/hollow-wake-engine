@@ -84,6 +84,16 @@ two more behavioral mutants and one actual-game wiring mutant. See
 The adapter check also compares every installed runtime/declaration file with
 the current build, so testing a stale packed version cannot pass unnoticed.
 
+Milestone three adds `reference:inventory`: 3000 original inventory transitions
+and a full export of 20 authored registries. The accepted catalogue uses lossless
+gzip storage. `verify` now checks inventory contracts, both packed packages,
+SQLite roundtrips, two inventory fault injections and completion-evidence paths.
+SQLite is development tooling only; use a current Node 22 or Node 24 toolchain
+with `node:sqlite`. It is not imported by the SDK runtime.
+`benchmark:inventory` compares actual original queries to the cell index;
+`benchmark:catalogue` compares retained JSON records to SQLite point reads.
+See [content-storage.md](content-storage.md) for workload/residency limitations.
+
 ## Cross-runtime numerical policy
 
 The current contract uses binary64 arithmetic, relative/absolute comparison

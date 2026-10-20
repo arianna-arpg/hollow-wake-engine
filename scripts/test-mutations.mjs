@@ -14,6 +14,8 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
       fs.copyFileSync(path.join(root, folder, file), path.join(temp, folder, file));
     }
     fs.cpSync(path.join(root, 'baseline/milestone-two'), path.join(temp, 'baseline/milestone-two'), { recursive: true });
+    fs.mkdirSync(path.join(temp, 'baseline/milestone-three'));
+    fs.copyFileSync(path.join(root, 'baseline/milestone-three/inventory.json'), path.join(temp, 'baseline/milestone-three/inventory.json'));
   } else fs.cpSync(path.join(root, folder), path.join(temp, folder), { recursive: true });
 }
 fs.writeFileSync(path.join(temp, 'package.json'), '{"type":"module"}\n');
@@ -40,6 +42,8 @@ fs.writeFileSync(file, original);
 for (const [module, name, before, after, tests] of [
   ['casting', 'missing-cast-completion', 'return elapsed >= cast.total;', 'return false;', 'test/lifecycle.test.mjs'],
   ['timed-effect', 'changed-expiry-damage', 'state.dps * state.stacks * dt', 'state.dps * state.stacks * Math.min(dt, state.remaining)', 'test/timed-effect.test.mjs'],
+  ['inventory', 'closed-cell-open', "if (board.rows[y][x] === '.')", "if (false)", 'test/inventory.test.mjs'],
+  ['inventory', 'overlapping-swap', 'if (item.x < x + item.w', 'if (false && item.x < x + item.w', 'test/inventory.test.mjs'],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
   assert.ok(source.includes(before));

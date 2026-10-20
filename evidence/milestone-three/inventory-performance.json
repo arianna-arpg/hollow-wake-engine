@@ -1,0 +1,93 @@
+{
+  "node": "v24.9.0",
+  "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+  "platform": "win32",
+  "workload": "12x12 grid, 108 one-cell items, 512000 item-at and 512000 can-place reads per run; 200 warmup and 500 measured batches",
+  "caveats": [
+    "Query benchmark only; excludes UI, transactions, payload copying and game frames",
+    "Fresh process for each run; both implementations loaded; no memory comparison",
+    "Desktop only, not target hardware"
+  ],
+  "runs": [
+    {
+      "mode": "original",
+      "items": 108,
+      "queries": 1024000,
+      "batch1024P50Ms": 0.5225999999993292,
+      "batch1024P95Ms": 0.7377999999998792,
+      "checksum": 28164083
+    },
+    {
+      "mode": "indexed",
+      "items": 108,
+      "queries": 1024000,
+      "batch1024P50Ms": 0.03449999999975262,
+      "batch1024P95Ms": 0.05609999999978754,
+      "checksum": 28164083
+    },
+    {
+      "mode": "original",
+      "items": 108,
+      "queries": 1024000,
+      "batch1024P50Ms": 0.5180000000000291,
+      "batch1024P95Ms": 0.6305999999999585,
+      "checksum": 28164083
+    },
+    {
+      "mode": "indexed",
+      "items": 108,
+      "queries": 1024000,
+      "batch1024P50Ms": 0.03470000000015716,
+      "batch1024P95Ms": 0.05120000000033542,
+      "checksum": 28164083
+    },
+    {
+      "mode": "original",
+      "items": 108,
+      "queries": 1024000,
+      "batch1024P50Ms": 0.7140999999996893,
+      "batch1024P95Ms": 0.8960000000001855,
+      "checksum": 28164083
+    },
+    {
+      "mode": "indexed",
+      "items": 108,
+      "queries": 1024000,
+      "batch1024P50Ms": 0.03419999999960055,
+      "batch1024P95Ms": 0.035499999999956344,
+      "checksum": 28164083
+    },
+    {
+      "mode": "original",
+      "items": 108,
+      "queries": 1024000,
+      "batch1024P50Ms": 0.5859000000000378,
+      "batch1024P95Ms": 0.9670000000000982,
+      "checksum": 28164083
+    },
+    {
+      "mode": "indexed",
+      "items": 108,
+      "queries": 1024000,
+      "batch1024P50Ms": 0.03519999999980428,
+      "batch1024P95Ms": 0.04109999999991487,
+      "checksum": 28164083
+    },
+    {
+      "mode": "original",
+      "items": 108,
+      "queries": 1024000,
+      "batch1024P50Ms": 0.5381999999999607,
+      "batch1024P95Ms": 0.9911999999999352,
+      "checksum": 28164083
+    },
+    {
+      "mode": "indexed",
+      "items": 108,
+      "queries": 1024000,
+      "batch1024P50Ms": 0.034799999999904685,
+      "batch1024P95Ms": 0.08259999999972933,
+      "checksum": 28164083
+    }
+  ]
+}
