@@ -1,0 +1,52 @@
+[content] tileset 'meadow': span void region 'mere_bed' is walkable — a gone span must be a hole
+[content] monster toll_bailiff: 2 signature defense pools authored — textures are identities; stack them only on boss showpieces
+[content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fumes:exposure(195), fire_walker:moveTrail(5), aftershocks:aoeScatter(114), buried_charge:pulse(76), accelerando:cadence(118), ritardando:cadence(118), square_sigil:aoeShape(41), triangle_sigil:aoeShape(41), spell_cascade:cascade(95), scattered_cascade:cascade(95), seismic_march:cascade(95), mirrored_bounds:projFrameBounce(1), sundering_flight:fissureTrail(1), afterspray:departSplash(10) — the whys live on the rows in data/graftReadSites.ts
+PASS  A: the wrapper is a 1×1 skill_gem named for its skill
+PASS  A: the keeper's mark rides the WRAPPER, never the payload
+PASS  A: unpack rebuilds the live instance whole
+PASS  A: pack(unpack(x)) is byte-identical (lossless round trip)
+PASS  A: the support wrapper round-trips level + identity
+PASS  B: the grant lands in the bag with a real cell
+PASS  B: learnSkill(uid) consumes the item and TAKES A SEAT (learn = seat)
+PASS  B: the learned instance wears the wrapper's cargo (level, rarity)
+PASS  B: a known skill's copy SWAPS in place — the newcomer takes the known seat, one copy on the bar
+PASS  B: the known copy left for the bag as its wrapper, cargo intact (level 2, magic)
+PASS  B: swapping the upgrade back lands it in the same seat (one copy, ever)
+PASS  B: the attribute gate refuses a build below it — summon_skeleton_mage
+PASS  B: the rack fills to exactly eight (the cap is structural)
+PASS  B: a ninth learn refuses — no free seat (item stays bagged)
+PASS  C: learning onto an OCCUPIED seat replaces — the sitter lands in the bag
+PASS  C: the displaced sitter kept its cargo (level 2, magic — rig B's)
+PASS  C: unlearn mints the wrapper back (cargo rides: level 9)
+PASS  C: a full bag REFUSES the unlearn — still learned, still seated
+PASS  D: multistrike finds a seated host in the warrior kit — cleave
+PASS  D: socketing consumed the wrapper into the skill
+PASS  D: a full bag REFUSES the unsocket — the socket keeps its gem
+PASS  D: with room, the unsocket mints the wrapper back (level intact)
+PASS  E: a grant against a full bag returns null and mints NOTHING
+PASS  E: a ground gem stays lying when no cell will hold it
+PASS  E: the same gem vacuums the moment room opens — re-wrapped, cargo intact
+PASS  F: a discarded wrapper UNWRAPS — the ground speaks bare gems
+PASS  G: the bench answers
+PASS  G: the GEAR sweep runs but spares every gem wrapper (their own categories sweep them)
+PASS  H: the save writes NO legacy side arrays
+PASS  H: gem wrappers ride items through the save verbatim
+PASS  H: legacy skillInv rows fold into wrapped bag items (cargo + lock intact)
+PASS  H: legacy inventory rows fold too
+PASS  I: applySavedCharacter stands
+PASS  I: a known-but-unbarred skill HEALS into a free seat on resume (learned = seated) — cleave
+PASS  J: the warrior wakes with Cleave seated
+PASS  J1: the rare copy dropped onto the seated Cleave SWAPS in place (no refusal, one copy on the bar)
+PASS  J1: the known copy left for the bag as its wrapper, cargo intact (the starter cut)
+PASS  J2: an empty seat stands beside it
+PASS  J2: slotless, a known copy lands in the seat the skill holds (never the first free seat)
+PASS  J3: dropped onto an empty seat, the skill MOVES there — the old seat empties, still one copy
+PASS  J4: a second skill seats in the vacated seat — hive_poison_spit
+PASS  J4: dropped onto another skill's seat, BOTH depart — sitter replaced, known copy retired, one copy on the bar
+PASS  J5: the other skill re-seats beside Cleave
+PASS  J5: with room for ONE wrapper, a TWO-body swap refuses whole — tile in its cell, every seat standing
+PASS  J5: the same tile onto the copy's OWN seat (one body) lands with that one cell
+PASS  J6: the rack stands full
+PASS  J6: a full rack still swaps a known copy in place, slotless — eight seats, eight skills, one Cleave
+
+ALL PASS

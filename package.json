@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -34,6 +34,10 @@
     "./items": {
       "types": "./dist/item-rules.d.ts",
       "import": "./dist/item-rules.js"
+    },
+    "./items/host": {
+      "types": "./dist/item-host.d.ts",
+      "import": "./dist/item-host.js"
     }
   },
   "scripts": {
@@ -57,7 +61,9 @@
     "benchmark:inventory": "npm run build && node scripts/benchmark-inventory.mjs",
     "reference:items": "node scripts/run-item-reference.mjs",
     "items:build": "npm run build && node scripts/compile-item-content.mjs",
-    "benchmark:items": "npm run build && node scripts/benchmark-items.mjs"
+    "benchmark:items": "npm run build && node scripts/benchmark-items.mjs",
+    "reference:item-bridge": "node scripts/run-item-bridge-reference.mjs",
+    "adapter:items": "node scripts/test-game-items.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

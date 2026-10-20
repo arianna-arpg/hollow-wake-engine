@@ -101,6 +101,13 @@ offline item-to-inventory-to-equipment-to-hit consumer. Item fixtures are compre
 losslessly and independently re-exported. Two more deliberate faults test local
 item math and affix source order. The optional import graph is checked explicitly.
 
+Version 0.5 adds host-owned item ports and actual-game item delegation. The extra
+`reference:item-bridge` and `adapter:items` commands cover shared RNG/uid interleaving,
+legacy save migration, explicit content refresh and a compiler wiring fault in the
+installed package. CI reconstructs the game and runs its item/relic regression
+probes. Renderer checks and a known baseline Escape-path failure are recorded in
+[item-adapter.md](item-adapter.md); they are not folded into a false green UI claim.
+
 ## Cross-runtime numerical policy
 
 The current contract uses binary64 arithmetic, relative/absolute comparison

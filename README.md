@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.5 adds [host-owned item ports and actual-game item delegation](docs/item-adapter.md),
+including preserved shared RNG/identity order, original save migration and explicit
+content refresh. Clean reconstruction and installed-package fault checks verify
+the bridge; native engine packages remain future work.
+
 Version 0.4 adds [item rolling, forging and modifier compilation](docs/item-contract.md)
 through the optional `@hollow-wake/engine/items` entry, separately packaged item
 content, and runtime item equipment with build save/restore. See

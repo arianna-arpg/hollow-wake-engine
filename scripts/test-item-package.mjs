@@ -23,6 +23,7 @@ for (const key of ['window','document','localStorage']) Object.defineProperty(gl
 const core = await import('@hollow-wake/engine');
 assert.equal('ItemRules' in core, false, 'Items are a separate runtime entry point');
 const { ItemContent, ItemRules } = await import('@hollow-wake/engine/items');
+const { createItemHost } = await import('@hollow-wake/engine/items/host');
 const read = spec => fs.readFileSync(new URL(import.meta.resolve(spec)));
 const bytes = read('@hollow-wake/items/items.json'), manifest = JSON.parse(read('@hollow-wake/items/manifest.json'));
 assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'), manifest.sha256);
@@ -40,7 +41,11 @@ assert.deepEqual(engine.character(JSON.parse(JSON.stringify(hero.snapshot()))).a
 const skill = engine.skill({id:'ruin',level:5,sockets:0,treePoints:0});
 assert.ok(engine.resolveHit(hero,skill,engine.target({life:1000})).damage>0);
 assert.deepEqual(ItemRules.restore(rules.content,JSON.parse(JSON.stringify(rules.snapshot()))).roll({ilvl:21}),rules.roll({ilvl:21}));
-console.log(JSON.stringify({itemToInventoryToEquipmentToHit:true,contentId:manifest.contentId}));
+let nextUid=300,draws=0;
+const host=createItemHost(rules.content,()=>nextUid++);
+assert.equal(host.forge({baseId:'ring_lapis',ilvl:21},()=>{draws++;return .5;}).uid,300);
+assert.ok(draws>0);assert.equal(nextUid,301);
+console.log(JSON.stringify({itemToInventoryToEquipmentToHit:true,explicitHostPorts:true,contentId:manifest.contentId}));
 `);
 const result = JSON.parse(execFileSync(process.execPath,['run.mjs'],{cwd:consumer,encoding:'utf8',env:{...process.env,NODE_PATH:''}}));
 writeJSON(path.join(artifacts,'item-package-verification.json'),{...result,engineIntegrity:engine.integrity,itemIntegrity:content.integrity,
