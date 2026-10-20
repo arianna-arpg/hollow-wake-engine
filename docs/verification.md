@@ -22,9 +22,7 @@ content JSON at 64 KiB. These are first-slice bounds, not promises about a full 
 
 ```sh
 npm run reference:prepare -- /path/to/arpg-game-world
-cd .reference
-npm ci --ignore-scripts
-cd ..
+npm run reference:install
 npm run reference:verify
 ```
 
@@ -35,6 +33,15 @@ available from upstream when checked. Reconstruction requires no network or
 original checkout. Development dependency installation still requires an npm
 cache or network. Existing `.reference` files are verified before reuse.
 The original source checkout is only read.
+
+The original lockfile cannot pass a clean `npm ci`: optional Windows-signing
+dependencies are absent. Its exact bytes remain preserved. `reference:install`
+instead installs a separate locked development-tool environment containing the
+original exact TypeScript, tsx, Node types, Electron types and Vite versions.
+The installer checks those versions against the original lock and links only
+the new reference's `node_modules`. Electron's binary/install scripts and release
+packaging tools are unnecessary for these type checks and headless simulations.
+This is not a reproduction of the game's release build.
 
 Reference verification copies the independent exporter into the reference's
 `balance` directory, runs it using the reference's `tsx` development tool,

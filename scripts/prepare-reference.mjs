@@ -11,5 +11,5 @@ if (fs.existsSync(destination)) {
   const source = process.argv[2];
   materialize(source, lock, destination);
   verifyReference(destination, lock);
-  console.log('Reference reconstructed and all hashes verified. Run npm ci --ignore-scripts in .reference before reference:verify.');
+  console.log('Reference reconstructed and all hashes verified. Run npm run reference:install before reference:verify.');
 }

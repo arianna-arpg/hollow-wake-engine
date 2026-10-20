@@ -25,6 +25,9 @@ the smoke suite (five scenarios across five seeds). Its existing content warning
 include a walkable missing span and a monster with two signature defense pools.
 The known broad-support no-op audit also prints its adjudicated cases. These are
 recorded baseline observations, not changes made by this extraction.
+Clean CI also exposed an incomplete original dependency lockfile. A separate
+locked reference-tool environment now supplies the original tool versions without
+editing that lock or relying on the developer machine's installed dependencies.
 
 The first build path is produced through the original `World.recalcPlayer`,
 skill compiler, preview and cost methods. Contact traces call the original

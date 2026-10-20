@@ -2,6 +2,8 @@
 
 These records describe one verified extraction candidate and its frozen game
 reference. They are not generated during ordinary verification.
+The initial candidate is commit `a078b76`. Subsequent reproducibility-tool repairs
+are recorded in Git history and CI; these initial source hashes are historical.
 
 - `verification.json`: checks, coverage and source hashes for this candidate.
 - `package-verification.json`: independent installed-consumer and package-size receipt.

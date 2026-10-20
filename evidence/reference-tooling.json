@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-10-20T19:17:51.100Z",
+  "reason": "Clean GitHub CI exposed missing optional signing dependencies in the original lock. Preserve it and install a separately locked, reference-only tool environment.",
+  "initialCandidate": "a078b76936b4c8d257fc562ee1cee8c1118d088d",
+  "initialCI": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/39481380045",
+  "initialCIResult": "All four package jobs passed; reference installation exposed the original lock issue.",
+  "tools": {
+    "@types/node": "26.1.0",
+    "electron": "43.0.0",
+    "tsx": "4.23.0",
+    "typescript": "5.9.3",
+    "vite": "6.4.3"
+  },
+  "cleanCheckoutVerification": [
+    {
+      "command": "npm run reference:install",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run reference:verify",
+      "exitCode": 0
+    },
+    {
+      "command": ".reference: npm run check",
+      "exitCode": 0
+    },
+    {
+      "command": ".reference: npm run sim -- run --suite smoke",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/test-package.mjs",
+      "exitCode": 0
+    }
+  ],
+  "sourceFilesUnchanged": 1510,
+  "package": {
+    "runtimeJsBytes": 48955,
+    "contentBytes": 21925,
+    "packageBytes": 40119,
+    "unpackedBytes": 169408,
+    "isolatedConsumer": {
+      "installedConsumer": true,
+      "damage": 44.96973610836269,
+      "randomDraws": 5
+    },
+    "node": "v24.9.0"
+  },
+  "sourceHashPolicy": "SHA-256 UTF-8 text after CRLF-to-LF normalization",
+  "sourceHashes": {
+    "reference/tooling/package.json": "37b2b609ed9e82fafc9cebcaab541f1af2a4deab2da96843dc4f836b797f0f31",
+    "reference/tooling/package-lock.json": "322e1f4d28dfcc2aafeb1da63f373bf34cab916b3d992e6da618a8623a9dd365",
+    "scripts/install-reference-tools.mjs": "d1b116ad59041ce6dce70f134ccf6751f13a01a3eaa7b74fa7faa44d84b6d51b",
+    "scripts/prepare-reference.mjs": "0e375a248cdf55511e5626529decd1bf52e5ad824209cf661cb5ecca09cb3f12",
+    ".github/workflows/verify.yml": "39d6e001986afd337100e22cfbc27e826e7cfe7746b4c8b4e65e042efce270b3"
+  }
+}
