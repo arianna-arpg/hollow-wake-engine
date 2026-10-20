@@ -133,6 +133,15 @@ content revisions, two additional behavioral faults, an installed-game wiring
 fault and an offline policy-to-grants-to-statistics consumer. See
 [passive-grants.md](passive-grants.md) for renderer checks and retained host duties.
 
+Version 0.8 adds `reference:policy-host`, `adapter:policy-source`, `adapter:policy`
+and `benchmark:policy-host`. The actual game policy path matches 9,699 commands
+and 42 complete host transitions, including intermediate callbacks and live
+summon stats. Two further runtime faults and an installed point-debit fault must
+be rejected. The packed consumer checks both state-ownership modes. The renderer
+runner accepts `--policy` for mounted-editor link/deletion coverage. See
+[passive-policy-host.md](passive-policy-host.md). Installed-package fault checks
+must run sequentially with other consumers of that installation.
+
 ## Cross-runtime numerical policy
 
 `npm run native:verify` builds the experimental C ABI with the local C toolchain

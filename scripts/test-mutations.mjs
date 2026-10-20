@@ -57,6 +57,8 @@ for (const [module, name, before, after, tests] of [
   ['passive-policy', 'refund-loses-choice-points', 'picks * p.pack.pickCost', '1', 'test/passive-policy.test.mjs'],
   ['passive-grants', 'doubled-passive-attribute-percent', 'this.#values[i] * (1 + this.#pct[i])', 'this.#values[i] * (1 + 2 * this.#pct[i])', 'test/passive-grants.test.mjs'],
   ['passive-grants', 'reversed-passive-grant-order', 'this.#mods.push(...g.mods);', 'this.#mods.unshift(...g.mods);', 'test/passive-grants.test.mjs'],
+  ['passive-policy', 'host-allocation-disconnected', 'return this.#state.allocated;', 'return new Set(this.#state.allocated);', 'test/passive-policy-host.test.mjs'],
+  ['passive-policy', 'retired-node-refusal-lost', "if (!other)\n                return no('An allocated node is no longer available.');", 'if (!other) continue;', 'test/passive-policy-host.test.mjs'],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
   assert.ok(source.includes(before));

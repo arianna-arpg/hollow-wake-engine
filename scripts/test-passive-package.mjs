@@ -26,6 +26,7 @@ const { PassivePolicy } = await import('@hollow-wake/engine/passives');
 const pack = JSON.parse(fs.readFileSync(new URL(import.meta.resolve('@hollow-wake/passives/passives.json'))));
 const policy = new PassivePolicy(pack);
 let checked = 0;
+let attached = 0;
 for (const c of pack.classes) {
   const build = policy.create({ classId: c.id, allocated: [c.startNode], choices: {}, grafts: {}, vocations: [], passivePoints: 10, vocationPoints: 0, realmPoints: {} });
   for (const id of pack.adjacency[c.startNode]) {
@@ -37,9 +38,23 @@ for (const c of pack.classes) {
     assert.deepEqual(policy.restore(JSON.parse(JSON.stringify(build.snapshot()))).snapshot(), build.snapshot());
     checked++;
   }
+  const state = { classId: c.id, allocated: new Set([c.startNode]), choices: {}, grafts: {}, vocations: [], passivePoints: 10, vocationPoints: 0, realmPoints: {} };
+  const host = policy.attach(state);
+  for (const id of pack.adjacency[c.startNode]) {
+    const node = policy.node(id), group = policy.group(node);
+    if (!host.allocate(id, { ledger: {} }, group?.options[0].id).accepted) continue;
+    assert.ok(state.allocated.has(id));
+    state.allocated = new Set(state.allocated);
+    state.choices = structuredClone(state.choices);
+    assert.equal(host.refund(id).refusal, null);
+    assert.ok(!state.allocated.has(id));
+    assert.equal(state.passivePoints, 10);
+    attached++;
+  }
 }
 assert.ok(checked > 100);
-console.log(JSON.stringify({ installedConsumer: true, nodes: pack.nodes.length, classes: pack.classes.length, checked, contentId: pack.contentId }));
+assert.equal(attached, checked);
+console.log(JSON.stringify({ installedConsumer: true, nodes: pack.nodes.length, classes: pack.classes.length, checked, attached, contentId: pack.contentId }));
 `);
 const result = JSON.parse(execFileSync(process.execPath, ['run.mjs'], { cwd: consumer, encoding: 'utf8', env: { ...process.env, NODE_PATH: '' } }));
 assert.equal(result.contentId, pack.contentId);

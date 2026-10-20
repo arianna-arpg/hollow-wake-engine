@@ -13,6 +13,8 @@ import { passiveRefund } from '../src/engine/passiveRefund';
 import { DEV } from '../src/config';
 import { mulberry32 } from '../src/sim/rng';
 bootSimEngine();
+const refreshHost:()=>void=process.argv.includes('--sdk')
+  ? (await import(new URL('../src/engine/passivePolicyAdapter.ts',import.meta.url).href)).refreshSdkPassivePolicy : ()=>{};
 const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value));
 const projection = () => clone({ schemaVersion: 1, capability: 'passive-policy/v1', contentId: 'hollow-wake-passive-reference/v1',
   ...PASSIVE_CHOICE_CFG, requireVocationGate: VOCATION_CFG.requireGateNode,
@@ -26,6 +28,7 @@ const projection = () => clone({ schemaVersion: 1, capability: 'passive-policy/v
 const authored = projection();
 type Command = { type: string; [key: string]: any };
 function rig(classId: string, overrides: Record<string, any> = {}) {
+  refreshHost(); // Explicit authoring boundary; no-op in the original observer.
   const w: any = Object.create(World.prototype);
   const m: any = { classDef: CLASSES.find(c => c.id === classId), allocated: new Set([classStartNode(classId)]), choices: {}, grafts: {},
     vocations: [], passivePoints: 500, vocationPoints: 500, realmPoints: {}, knownSkills: new Map(), ...overrides };
@@ -132,7 +135,7 @@ for (const v of Object.values(VOCATIONS)) {
   if (!leaf) throw new Error(`Vocation has no testable leaf: ${v.id}`);
   const r = rig(CLASSES[0].id, { vocations: [v.id], allocated: new Set([start, root]) });
   r.step({ type: 'allocate', id: leaf });
-  if (gate !== start) { PASSIVE_ADJACENCY[start].push(gate); PASSIVE_ADJACENCY[gate].push(start); r.step({ type: 'allocate', id: gate }); }
+  if (gate !== start) { PASSIVE_ADJACENCY[start].push(gate); PASSIVE_ADJACENCY[gate].push(start); refreshHost(); r.step({ type: 'allocate', id: gate }); }
   const g = PASSIVE_NODES[leaf].choice && CHOICE_GROUPS[PASSIVE_NODES[leaf].choice!.group];
   r.step({ type: 'allocate', id: leaf, option: g?.options[0].id }); r.step({ type: 'refund', id: gate });
   r.step({ type: 'refund', id: root }); r.step({ type: 'refund', id: leaf }); r.step({ type: 'refund', id: gate });

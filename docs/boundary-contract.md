@@ -18,7 +18,7 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | Inventory grids and synchronous ownership transfer | `Inventory`, per board | Indexed grids, masks, atomic moves/swaps/transfers and versioned snapshots; see inventory contract |
 | Item rolls, forging, local/global values, sockets and epitaphs | `ItemRules` plus immutable `ItemContent` | Extracted; full source comparisons; optional runtime/data entry |
 | Equipment eligibility, stash/container progression, trade authority | Future policy modules | Numeric equipment binding exists; full policy pending |
-| Passive allocation/refund, choice deals, realm pools and vocation spending gates | Optional `PassivePolicy` / `PassiveBuild` | Original policy transitions extracted; earning and game policy delegation pending; see passive policy contract |
+| Passive allocation/refund, choice deals, realm pools and vocation spending gates | Optional `PassivePolicy` / `PassiveBuild` / `PassiveHost` | Extracted and delegated in the isolated game; earning remains host-owned; see passive policy and host contracts |
 | Passive and choice attribute/stat contributions, conduit/graft specification assembly | Optional `PassiveGrants` | Extracted and delegated in the isolated game; effect execution remains host-owned; see passive grants contract |
 | Skill graph economy, vocation quests, unlock earning and account progression | Future character-policy modules | Source captured; not migrated |
 | Ordinary casting commitment, mana/life payment, cooldowns, cancellation | `CastRuntime`, per actor | Extracted; advanced modes remain native |
@@ -121,6 +121,12 @@ refused purchase, reported explicitly by `rootsAdded`; this is an exception to
 the older selected `Character` API's atomic refusal rule. See
 [passive-policy.md](passive-policy.md) for strict restore, host authorization,
 point pools and the distinction between allocation policy and grant execution.
+
+`PassiveHost` explicitly attaches host-owned mutable state without copying it on
+each query. It retains retired selections and shares the same rules as strict
+SDK-owned builds. Live authoring reference tolerance is separately opt-in.
+See [passive-policy-host.md](passive-policy-host.md) for shape/authorization
+obligations, callback ordering, content revisions and reentrancy limits.
 
 ## Portability decision
 

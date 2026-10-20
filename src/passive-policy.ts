@@ -26,12 +26,15 @@ export interface PassiveBuildState {
   classId: string; allocated: string[]; choices: Record<string, string[]>; grafts: Record<string, string | null>;
   vocations: string[]; passivePoints: number; vocationPoints: number; realmPoints: Record<string, number>;
 }
+/** Explicit host ownership. Containers may be replaced; accessor properties may forward to host records. */
+export interface PassiveLiveState extends Omit<PassiveBuildState, 'allocated'> { allocated: Set<string> }
 export interface PassiveSnapshot extends PassiveBuildState {
   schemaVersion: 1; capability: 'passive-policy/v1'; contentId: string;
 }
 export interface PassiveRefund { points: number; currency: string; refusal: string | null }
 export interface PassiveAllocation { accepted: boolean; rootsAdded: string[] }
 export interface PassiveAccess { ledger: Readonly<Record<string, number>>; openAllRealms?: boolean }
+export interface PassivePolicyOptions { references?: 'strict' | 'live' }
 
 const reserved = new Set(['__proto__', 'prototype', 'constructor']);
 function id(value: string): void {
@@ -62,8 +65,12 @@ export class PassivePolicy {
   #offsets: Uint32Array;
   #edges: Uint32Array;
   #domains: Uint32Array;
+  #missingEdges = new Map<number, string[]>();
 
-  constructor(input: PassivePolicyPack) {
+  constructor(input: PassivePolicyPack, options: PassivePolicyOptions = {}) {
+    plainFields(options, ['references']);
+    if (!['strict','live'].includes(options.references ?? 'strict')) throw new Error('Invalid passive reference policy');
+    const live = options.references === 'live';
     const p = copy(input);
     plainFields(p, ['schemaVersion','capability','contentId','defaultPick','pickCost','requireVocationGate','nodes','adjacency','groups','realms','classes','vocations']);
     if (p.schemaVersion !== 1 || p.capability !== 'passive-policy/v1') throw new Error('Unsupported passive policy');
@@ -90,15 +97,16 @@ export class PassivePolicy {
       if (!['tree','free'].includes(r.adjacency ?? 'tree')) throw new Error('Invalid realm adjacency');
       if (r.currency !== undefined) id(r.currency); if (r.unlockLedger !== undefined) id(r.unlockLedger);
       for (const root of r.roots ?? []) {
-        const n = required(this.#nodes, root);
-        if ((n.realm ?? 'tree') !== r.id) throw new Error('Realm root belongs to another realm');
+        id(root); const n = live ? this.#nodes.get(root) : required(this.#nodes, root);
+        if (n && (n.realm ?? 'tree') !== r.id) throw new Error('Realm root belongs to another realm');
       }
     }
-    for (const c of p.classes) { plainFields(c, ['id','startNode']); required(this.#nodes, c.startNode); }
+    for (const c of p.classes) { plainFields(c, ['id','startNode']); id(c.startNode); if (!live) required(this.#nodes, c.startNode); }
     for (const v of p.vocations) {
       plainFields(v, ['id','root','gate']);
-      if (required(this.#nodes, v.root).vocation !== v.id) throw new Error('Vocation root belongs to another domain');
-      if (v.gate !== null) required(this.#nodes, v.gate);
+      id(v.root); const root = live ? this.#nodes.get(v.root) : required(this.#nodes, v.root);
+      if (root && root.vocation !== v.id) throw new Error('Vocation root belongs to another domain');
+      if (v.gate !== null) { id(v.gate); if (!live) required(this.#nodes, v.gate); }
     }
     this.#offsets = new Uint32Array(p.nodes.length + 1); this.#domains = new Uint32Array(p.nodes.length);
     const domains = new Map<string, number>(), edges: number[] = [];
@@ -106,37 +114,45 @@ export class PassivePolicy {
       const n = p.nodes[i];
       plainFields(n, ['id','name','realm','vocation','choice','graft']);
       if (typeof n.name !== 'string') throw new Error('Invalid passive node name');
-      required(this.#realms, n.realm ?? 'tree');
+      id(n.realm ?? 'tree'); if (!live) required(this.#realms, n.realm ?? 'tree');
       if (n.vocation !== undefined) required(this.#vocations, n.vocation);
       if (n.choice) {
-        plainFields(n.choice, ['group','pick','allocatedDefault']); const g = required(this.#groups, n.choice.group);
+        plainFields(n.choice, ['group','pick','allocatedDefault']); id(n.choice.group);
+        const g = live ? this.#groups.get(n.choice.group) : required(this.#groups, n.choice.group);
         if (n.choice.pick !== undefined) integer(n.choice.pick, 1, 'node pick limit');
-        if (this.pickLimit(n) > g.options.length) throw new Error('Choice limit exceeds available options');
-        integer(this.pickLimit(n) * p.pickCost, 1, 'maximum choice refund');
-        if (n.choice.allocatedDefault !== undefined && !g.options.some(o => o.id === n.choice!.allocatedDefault)) throw new Error('Unknown allocated default');
+        if (!live && g && this.pickLimit(n) > g.options.length) throw new Error('Choice limit exceeds available options');
+        if (g) integer(this.pickLimit(n) * p.pickCost, 1, 'maximum choice refund');
+        if (!live && n.choice.allocatedDefault !== undefined && !g?.options.some(o => o.id === n.choice!.allocatedDefault)) throw new Error('Unknown allocated default');
       }
       checkGraft(n.graft);
       const domain = n.vocation !== undefined ? `vocation:${n.vocation}` : `realm:${n.realm ?? 'tree'}`;
       if (!domains.has(domain)) domains.set(domain, domains.size);
       this.#domains[i] = domains.get(domain)!;
-      if (!Object.hasOwn(p.adjacency, n.id) || !Array.isArray(p.adjacency[n.id])) throw new Error('Missing passive adjacency row');
+      if ((!live && !Object.hasOwn(p.adjacency, n.id)) || (Object.hasOwn(p.adjacency, n.id) && !Array.isArray(p.adjacency[n.id]))) throw new Error('Missing passive adjacency row');
       this.#offsets[i] = edges.length;
-      for (const next of p.adjacency[n.id]) edges.push(required(this.#indices, next));
+      for (const next of p.adjacency[n.id] ?? []) {
+        id(next); const index = live ? this.#indices.get(next) : required(this.#indices, next);
+        if (index !== undefined) edges.push(index);
+        else { const missing = this.#missingEdges.get(i) ?? []; missing.push(next); this.#missingEdges.set(i, missing); }
+      }
     }
-    for (const key of Object.keys(p.adjacency)) required(this.#nodes, key);
+    for (const key of Object.keys(p.adjacency)) { id(key); if (!live) required(this.#nodes, key); }
     this.#offsets[p.nodes.length] = edges.length; this.#edges = Uint32Array.from(edges);
     this.pack = freeze(p);
   }
   node(key: string): PassivePolicyNode | undefined { return this.#nodes.get(key); }
   index(key: string): number | undefined { return this.#indices.get(key); }
   group(n: PassivePolicyNode): PassivePolicyGroup | undefined { return n.choice && this.#groups.get(n.choice.group); }
-  realm(n: PassivePolicyNode): PassivePolicyRealm { return this.#realms.get(n.realm ?? 'tree')!; }
+  realm(n: PassivePolicyNode): PassivePolicyRealm | undefined { return this.#realms.get(n.realm ?? 'tree'); }
   start(classId: string): string { return required(this.#classes, classId).startNode; }
   vocation(key: string): { id: string; root: string; gate: string | null } { return required(this.#vocations, key); }
+  hasVocation(key: string): boolean { return this.#vocations.has(key); }
   pickLimit(n: PassivePolicyNode): number { const g = this.group(n); return g ? Math.max(1, n.choice?.pick ?? g.pick ?? this.pack.defaultPick) : 0; }
   open(r: PassivePolicyRealm, access: PassiveAccess): boolean { return !r.unlockLedger || access.openAllRealms === true || (access.ledger[r.unlockLedger] ?? 0) >= 1; }
   adjacent(index: number, allocated: ReadonlySet<string>): boolean {
     for (let at = this.#offsets[index]; at < this.#offsets[index + 1]; at++) if (allocated.has(this.pack.nodes[this.#edges[at]].id)) return true;
+    const missing = this.#missingEdges.get(index);
+    if (missing) for (const key of missing) if (allocated.has(key)) return true;
     return false;
   }
   /** Internal graph walk uses caller-owned bounded scratch, with no temporary Set or queue. */
@@ -152,27 +168,30 @@ export class PassivePolicy {
     }
   }
   create(state: PassiveBuildState): PassiveBuild { return new PassiveBuild(this, state); }
+  attach(state: PassiveLiveState): PassiveHost { return new PassiveHost(this, state); }
   restore(snapshot: PassiveSnapshot): PassiveBuild {
     if (snapshot.schemaVersion !== 1 || snapshot.capability !== this.pack.capability || snapshot.contentId !== this.pack.contentId) throw new Error('Passive snapshot content mismatch');
     return this.create(snapshot);
   }
 }
 
-/** An owned build. Hosts authorize grants, vocation awards, ledger access and Font availability. */
-export class PassiveBuild {
-  #state: PassiveBuildState;
-  #allocated: Set<string>;
+/** Shared rules for SDK-owned builds and explicit host-owned live state. Scratch is always per session. */
+class PassiveSession {
+  #state: PassiveLiveState;
+  get #allocated(): Set<string> { return this.#state.allocated; }
   #queue: Uint32Array;
   #seen: Uint8Array;
-  constructor(readonly policy: PassivePolicy, input: PassiveBuildState) {
-    const s = copy(input); policy.start(s.classId);
+  constructor(readonly policy: PassivePolicy, state: PassiveLiveState) {
+    this.#state = state;
+    this.#queue = new Uint32Array(policy.pack.nodes.length); this.#seen = new Uint8Array(policy.pack.nodes.length);
+  }
+  protected validateOwnedState(): void {
+    const s = this.#state, policy = this.policy; policy.start(s.classId);
     for (const key of s.allocated) if (!policy.node(key)) throw new Error(`Unknown allocated node: ${key}`);
-    if (new Set(s.allocated).size !== s.allocated.length) throw new Error('Duplicate allocated node');
     if (new Set(s.vocations).size !== s.vocations.length) throw new Error('Duplicate earned vocation');
     for (const key of s.vocations) policy.vocation(key);
     for (const value of [s.passivePoints, s.vocationPoints, ...Object.values(s.realmPoints)]) integer(value, 0, 'passive wallet');
     for (const key of Object.keys(s.realmPoints)) id(key);
-    this.#state = s; this.#allocated = new Set(s.allocated);
     // Strict loading is deliberate: legacy repair is a separate, explicit migration boundary.
     const accepted: Record<string, string[]> = {};
     for (const [key, picks] of Object.entries(s.choices)) {
@@ -188,10 +207,9 @@ export class PassiveBuild {
       id(key); if (value !== null) id(value);
       if (!this.#graftLive(key)) throw new Error('Invalid saved graft source');
     }
-    this.#queue = new Uint32Array(policy.pack.nodes.length); this.#seen = new Uint8Array(policy.pack.nodes.length);
   }
   snapshot(): PassiveSnapshot {
-    return { ...copy(this.#state), allocated: [...this.#allocated], schemaVersion: 1, capability: 'passive-policy/v1', contentId: this.policy.pack.contentId };
+    return { ...copy({ ...this.#state, allocated: [...this.#allocated] }), schemaVersion: 1, capability: 'passive-policy/v1', contentId: this.policy.pack.contentId };
   }
   #claimant(n: PassivePolicyNode, choices = this.#state.choices): string | null {
     const g = this.policy.group(n);
@@ -215,12 +233,17 @@ export class PassiveBuild {
   }
   choiceLock(nodeId: string, option: string): string | null { const n = this.policy.node(nodeId); return n ? this.#choiceLock(n, option) : 'not a choice node'; }
   #seed(r: PassivePolicyRealm, added: string[]): void {
-    for (const key of r.roots ?? []) if (!this.#allocated.has(key)) { this.#allocated.add(key); added.push(key); }
+    for (const key of r.roots ?? []) if (this.policy.node(key) && !this.#allocated.has(key)) { this.#allocated.add(key); added.push(key); }
   }
   ensureOpenRoots(access: PassiveAccess): string[] {
     const added: string[] = [];
     for (const r of this.policy.pack.realms) if (this.policy.open(r, access)) this.#seed(r, added);
     return added;
+  }
+  /** Host has authorized this realm; useful when it must rebuild before a subsequent purchase/refusal. */
+  ensureRealmRoots(realmId: string): string[] {
+    const added: string[] = [], realm = this.policy.pack.realms.find(r => r.id === realmId);
+    if (realm) this.#seed(realm, added); return added;
   }
   #gate(vocation: string, removed?: string): boolean {
     const gate = this.policy.vocation(vocation).gate;
@@ -230,7 +253,7 @@ export class PassiveBuild {
     const result: PassiveAllocation = { accepted: false, rootsAdded: [] }, n = this.policy.node(nodeId);
     if (!n) return result;
     const r = this.policy.realm(n);
-    if (!this.policy.open(r, access)) return result;
+    if (!r || !this.policy.open(r, access)) return result;
     this.#seed(r, result.rootsAdded); // Original order: root grants survive a refused purchase.
     const already = this.#allocated.has(nodeId), g = this.policy.group(n);
     let cost = 1;
@@ -242,12 +265,13 @@ export class PassiveBuild {
     const s = this.#state;
     if (n.vocation !== undefined) {
       if (!s.vocations.includes(n.vocation) || !this.#gate(n.vocation) || s.vocationPoints < cost) return result;
+      integer(s.vocationPoints, 0, 'vocation wallet');
       s.vocationPoints -= cost;
     } else if ((r.currency ?? 'passive') === 'passive') {
-      if (s.passivePoints < cost) return result; s.passivePoints -= cost;
+      if (s.passivePoints < cost) return result; integer(s.passivePoints, 0, 'passive wallet'); s.passivePoints -= cost;
     } else {
       const have = s.realmPoints[r.currency!] ?? 0;
-      if (have < cost) return result; s.realmPoints[r.currency!] = have - cost;
+      if (have < cost) return result; integer(have, 0, 'realm wallet'); s.realmPoints[r.currency!] = have - cost;
     }
     if (n.choice && option !== undefined) (s.choices[nodeId] ??= []).push(option);
     this.#allocated.add(nodeId); result.accepted = true; return result;
@@ -260,26 +284,27 @@ export class PassiveBuild {
     seen.fill(0); let count = 0, rootRemoved = false;
     const seed = (key: string): void => {
       if (key === nodeId) { rootRemoved = true; return; }
-      const index = p.index(key)!;
+      const index = p.index(key); if (index === undefined) return;
       if (this.#allocated.has(key) && !seen[index]) { seen[index] = 1; queue[count++] = index; }
     };
     seed(p.start(s.classId));
-    for (const key of s.vocations) seed(p.vocation(key).root);
+    for (const key of s.vocations) if (p.hasVocation(key)) seed(p.vocation(key).root);
     for (const r of p.pack.realms) for (const key of r.roots ?? []) seed(key);
     if (rootRemoved) return no('This starting node was granted freely.');
     const picks = s.choices[nodeId]?.length ?? 0;
     if (picks && p.group(n)?.deal === 'first') for (const key of this.#allocated) {
-      if (key !== nodeId && p.node(key)!.choice?.group === n.choice?.group) return no(`Refund ${p.node(key)!.name}'s shared path first.`);
+      if (key !== nodeId && p.node(key)?.choice?.group === n.choice?.group) return no(`Refund ${p.node(key)!.name}'s shared path first.`);
     }
     for (const key of this.#allocated) {
       if (key === nodeId) continue;
-      const other = p.node(key)!;
+      const other = p.node(key);
+      if (!other) return no('An allocated node is no longer available.');
       if (other.vocation && key !== p.vocation(other.vocation).root && !this.#gate(other.vocation, nodeId)) return no('Refund the dependent Vocation nodes before removing their gate.');
-      if (!other.vocation && p.realm(other).adjacency === 'free') seed(key);
+      if (!other.vocation && p.realm(other)?.adjacency === 'free') seed(key);
     }
     p.reach(queue, seen, count, this.#allocated, removed);
     for (const key of this.#allocated) if (key !== nodeId && !seen[p.index(key)!]) return no('Keep a connected path to every allocated node. Refund the outer nodes first.');
-    return { points: picks ? picks * p.pack.pickCost : 1, currency: n.vocation ? 'vocation' : p.realm(n).currency ?? 'passive', refusal: null };
+    return { points: picks ? picks * p.pack.pickCost : 1, currency: n.vocation ? 'vocation' : p.realm(n)?.currency ?? 'passive', refusal: null };
   }
   refund(nodeId: string, serviceRefusal: string | null = null): PassiveRefund {
     const result = this.quoteRefund(nodeId);
@@ -302,7 +327,7 @@ export class PassiveBuild {
   }
   #graftLive(key: string): boolean {
     for (const nodeId of this.#allocated) {
-      const n = this.policy.node(nodeId)!;
+      const n = this.policy.node(nodeId); if (!n) continue;
       if (key === nodeId && n.graft) return true;
       if (n.choice) for (const option of this.#state.choices[nodeId] ?? []) {
         if (key === `${nodeId}:${option}` && this.policy.group(n)?.options.some(o => o.id === option && o.graft)) return true;
@@ -314,5 +339,28 @@ export class PassiveBuild {
     if (!this.#graftLive(key) || (skillId !== null && !knownSkills.has(skillId))) return false;
     if ((this.#state.grafts[key] ?? null) !== skillId) this.#state.grafts[key] = skillId;
     return true;
+  }
+}
+
+/** SDK-owned state with strict ingress validation and detached snapshots. */
+export class PassiveBuild extends PassiveSession {
+  constructor(policy: PassivePolicy, input: PassiveBuildState) {
+    const state = copy(input);
+    if (!Array.isArray(state.allocated) || new Set(state.allocated).size !== state.allocated.length) throw new Error('Duplicate or invalid allocated nodes');
+    super(policy, { ...state, allocated: new Set(state.allocated) });
+    this.validateOwnedState();
+  }
+}
+
+/** Live host state is authoritative and is never copied, repaired or silently migrated.
+ * The host owns schema/identity authorization and serialization; commands validate their transitions.
+ * Retired selections remain intact. Refund queries explicitly refuse unavailable allocated nodes.
+ * Do not share a session across simultaneous callers or throw/reenter from state accessors.
+ */
+export class PassiveHost extends PassiveSession {
+  constructor(policy: PassivePolicy, state: PassiveLiveState) {
+    super(policy, state);
+    policy.start(state.classId);
+    if (!(state.allocated instanceof Set)) throw new Error('Live allocations must be a Set');
   }
 }

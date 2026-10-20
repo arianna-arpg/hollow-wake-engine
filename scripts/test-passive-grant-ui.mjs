@@ -9,8 +9,8 @@ const game=argument('--game'),electron=argument('--electron'),dist=argument('--d
 assert.ok(fs.existsSync(path.join(dist,'index.html')));
 const reports=fs.mkdtempSync(path.join(root,'.artifacts/passive-grant-ui-'));
 const lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json'))),results=[];
-for(const name of ['passive-attributes-ui','font-passives-ui','passive-grant-editor-ui']) {
-  const own=name==='passive-grant-editor-ui',relative=`balance/${name}.cjs`;
+for(const name of ['passive-attributes-ui','font-passives-ui','passive-grant-editor-ui',...(process.argv.includes('--policy')?['passive-policy-editor-ui']:[])]) {
+  const own=name.endsWith('editor-ui'),relative=`balance/${name}.cjs`;
   const input=fs.readFileSync(path.join(own?path.join(root,'adapters/hollow-wake'):path.join(game,'balance'),`${name}.cjs`),'utf8');
   let source=input;
   if(!own) {

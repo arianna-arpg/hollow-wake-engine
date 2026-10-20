@@ -3,6 +3,13 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.8 adds [live host policy integration](docs/passive-policy-host.md):
+the game now delegates full-tree allocation/refund, realm points and graft binding,
+with shared compiled graphs, per-character scratch and explicit editor refresh.
+Original callback order, co-op, save restoration and live summon updates are
+checked through the installed package. The public API supports both strict
+SDK-owned builds and explicitly attached host-owned state.
+
 Version 0.7 adds [passive attribute/stat grants and game delegation](docs/passive-grants.md)
 through `@hollow-wake/engine/passives/grants`. The separate full-tree
 [allocation/refund policy](docs/passive-policy.md) and grant data packages connect

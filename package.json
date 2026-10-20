@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -82,7 +82,11 @@
     "passives:grants": "npm run build && node scripts/compile-passive-grants.mjs",
     "adapter:passive-grants": "node scripts/test-game-passive-grants.mjs",
     "adapter:grant-source": "node scripts/test-passive-grant-overlay.mjs",
-    "benchmark:passive-grants": "npm run build && node scripts/benchmark-passive-grants.mjs"
+    "benchmark:passive-grants": "npm run build && node scripts/benchmark-passive-grants.mjs",
+    "reference:policy-host": "node scripts/run-passive-policy-host-reference.mjs",
+    "adapter:policy": "node scripts/test-game-passive-policy.mjs",
+    "adapter:policy-source": "node scripts/test-passive-policy-overlay.mjs",
+    "benchmark:policy-host": "node scripts/benchmark-passive-policy-host.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

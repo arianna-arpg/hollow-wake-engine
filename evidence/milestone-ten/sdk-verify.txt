@@ -1,0 +1,140 @@
+
+> @hollow-wake/engine@0.8.0 verify
+> npm run test && node scripts/check-boundaries.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs
+
+
+> @hollow-wake/engine@0.8.0 test
+> npm run build && node --test test/*.test.mjs
+
+
+> @hollow-wake/engine@0.8.0 build
+> tsc -p tsconfig.json
+
+(node:25580) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ all registry shards preserve source data and identify every executable source rule (993.8167ms)
+✔ SQLite catalogue roundtrips all rows, order, child records and migration evidence (2956.4307ms)
+✔ independent arithmetic: additive increases, multiplicative more, ordered override and clamps (2.8681ms)
+✔ independent arithmetic: links are single-hop, and trade reads the pre-forgo source (0.5341ms)
+✔ source ownership and collision-free context keys prevent stale and aliased results (0.9323ms)
+✔ two sessions remain independent when their operations are interleaved (13.5675ms)
+✔ preview is random-free; changed sources invalidate the compiled attack exactly once (7.1821ms)
+✔ equip, unequip and passive refunds restore values; rejected commands are atomic (3.4343ms)
+✔ state restoration continues the exact random and target sequence (4.3611ms)
+✔ range bounds and target resistance caps hold across a broad seed sweep (519.7899ms)
+✔ unsupported mechanics fail explicitly and content is detached from caller mutation (5.2732ms)
+✔ a second content pack changes the same engine through data (3.3063ms)
+✔ content rejects cycles, host objects and silently ignored skill-node behavior (7.6952ms)
+✔ stat caches stay bounded when a host supplies many distinct contexts (17.0354ms)
+✔ original grid/World moves: board 0 (737.4152ms)
+✔ original grid/World moves: board 1 (57.4287ms)
+✔ original grid/World moves: board 2 (108.9168ms)
+✔ original grid/World moves: board 3 (40.6191ms)
+✔ single blocker swaps are atomic and prospective footprints may not overlap (0.5713ms)
+✔ transfers reject full/duplicate destinations without losing ownership or payload (0.839ms)
+✔ masks, independent boards, resize and snapshot validation preserve legal state (1.1741ms)
+✔ malformed inputs are rejected before mutation and item slots are reusable (171.9418ms)
+✔ payload accessors/array extras cannot disappear in saves or run during ownership transfer (0.9565ms)
+✔ host-owned RNG and identity reproduce the uninterrupted original item stream (799.1664ms)
+✔ host content refresh changes values without replacing identity or random ownership (646.9089ms)
+✔ invalid commands do not call host ports and invalid ports fail explicitly (10.1016ms)
+✔ custom choice identities and overflowing weights cannot corrupt state (671.9208ms)
+✔ generated-item equipment changes match original World character, preview and costs (13.9494ms)
+✔ wild drops, ceilings, forced families, quality, forge and unsatisfiable requests match source (18108.0456ms)
+✔ one long original stream crosses cache levels/rarities/bases with unchanged results and replay (6048.9222ms)
+✔ all captured item modifiers, local folds and unique migrations match the original (786.0416ms)
+✔ all reference drops retain complete item data and exact random consumption (4439.4322ms)
+✔ mint continuation, independent owners, transfer/save and re-derived values agree (29.1208ms)
+✔ invalid commands and snapshots cannot consume randomness or identity (3.8156ms)
+✔ content and returned modifiers do not alias; unknown saved definitions fail explicitly (2.2075ms)
+✔ generated item values equip, survive a build save and affect actual spell damage (8.2895ms)
+✔ custom zero-sided affix caps cannot be bypassed by magic or guaranteed families (581.0515ms)
+✔ original World trace: ordinary-completion-and-recast (5.3333ms)
+✔ original World trace: instant (0.6346ms)
+✔ original World trace: minimum-bar-and-snapshotted-speed (0.4267ms)
+✔ original World trace: stun-keeps-payment (0.4918ms)
+✔ original World trace: host-cancel-keeps-press-clock (0.4399ms)
+✔ original World trace: completion-reprices-cooldown (0.7104ms)
+✔ original World trace: insufficient-resources-are-atomic (0.9559ms)
+✔ compiled Firebolt cost, duration and cooldown quotes match original Actor reads (36.5146ms)
+✔ invalid frames and exhausted capacity cannot partially pay or tick (3.5226ms)
+✔ cancel, death and interleaved runtimes produce at most one completion (0.53ms)
+✔ completion cooldown and token restore validation reject corrupt snapshots (1.4349ms)
+✔ build changes invalidate casting quotes while active bars retain their quote (6.6262ms)
+✔ every original node and choice grant reproduces attributes, modifier order, conduits, graft sources and sheet reads (838.9563ms)
+✔ flat source order and one final percentage/rounding phase remain authoritative (0.6028ms)
+✔ grant output and accumulators own their state; invalid item rows are atomic (0.7083ms)
+✔ unknown selections require an explicit compatibility choice; malformed content never becomes executable (1.0793ms)
+✔ host-owned sessions reproduce every original command and observe replaced save containers (780.2447ms)
+✔ host ownership is explicit; read-only queries preserve containers and snapshots stay detached (1.5726ms)
+✔ retired live selections are retained and refunds report the original refusal priority (1.4696ms)
+✔ live reference mode is explicit and does not fabricate deleted roots or missing choice power (0.8034ms)
+✔ passive policy matches original allocation, choice, refund, realm and graft transitions (962.049ms)
+✔ point conservation, multi-pick costs, leaves and denied services are independent invariants (1.2032ms)
+✔ root seeding on failed purchase is explicit, idempotent and retained through save/restore (0.5324ms)
+✔ cross-domain edges cannot rescue a detached branch, and an unrooted cycle is not an anchor (0.4369ms)
+✔ owned state, immutable content, scratch and snapshots never leak across characters (1.9169ms)
+✔ vocation membership, gate toggle and currency are independent requirements (0.8129ms)
+✔ malformed content and state fail before becoming executable policy (2.3023ms)
+✔ each build transition matches the original World, skill compiler, preview and cost rules (17.8326ms)
+✔ reference contact trace and random draw order, seed 0 (4.8025ms)
+✔ reference contact trace and random draw order, seed 1 (5.3825ms)
+✔ reference contact trace and random draw order, seed 2 (3.3186ms)
+✔ reference contact trace and random draw order, seed 17 (3.5462ms)
+✔ reference contact trace and random draw order, seed 42 (3.5697ms)
+✔ reference contact trace and random draw order, seed 99 (3.7685ms)
+✔ reference contact trace and random draw order, seed 255 (3.8469ms)
+✔ reference contact trace and random draw order, seed 1024 (3.0699ms)
+✔ reference contact trace and random draw order, seed 12345 (4.0848ms)
+✔ reference contact trace and random draw order, seed 659918 (3.5687ms)
+✔ reference contact trace and random draw order, seed 2147483647 (5.7949ms)
+✔ reference contact trace and random draw order, seed 4294967295 (2.5236ms)
+✔ generated source, condition, gauge and removal sequences match original StatSheet (25.8659ms)
+✔ mixed conversions, range changes, lucky rolls, crit avoidance, penetration and cost conversion match the original (75.4054ms)
+✔ differential comparator rejects a deliberately altered result (3.9881ms)
+✔ original Burning and applyDot trace: damageTaken=1 (11.3801ms)
+✔ original Burning and applyDot trace: damageTaken=0.7 (5.9768ms)
+✔ full expiry frame is an explicit compatibility rule (1.1052ms)
+✔ invalid tick and application are atomic; attribution is first-applier owned (0.9743ms)
+ℹ tests 84
+ℹ suites 0
+ℹ pass 84
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 31858.2685
+Boundary check passed: 20 production modules; no external runtime dependencies, host APIs, or ambient randomness.
+Rejected deliberate fault: incorrect-increase
+Rejected deliberate fault: stale-stat-cache
+Rejected deliberate fault: missing-cast-completion
+Rejected deliberate fault: changed-expiry-damage
+Rejected deliberate fault: closed-cell-open
+Rejected deliberate fault: overlapping-swap
+Rejected deliberate fault: wrong-local-item-increase
+Rejected deliberate fault: reversed-item-affix-order
+Rejected deliberate fault: refund-borrows-other-realm
+Rejected deliberate fault: refund-loses-choice-points
+Rejected deliberate fault: doubled-passive-attribute-percent
+Rejected deliberate fault: reversed-passive-grant-order
+Rejected deliberate fault: host-allocation-disconnected
+Rejected deliberate fault: retired-node-refusal-lost
+{"installedConsumer":true,"damage":44.96973610836269,"randomDraws":5}
+Packaged runtime 161739 bytes JS; selected content 22539 bytes; archive 126964 bytes.
+{"definitions":14434,"executable":false,"archiveBytes":923999,"unpackedBytes":10024126}
+13 scoped families tracked; 11 still have extraction/integration work. This gate validates evidence references, not feature correctness.
+{"itemToInventoryToEquipmentToHit":true,"explicitHostPorts":true,"contentId":"hollow-wake-items:sha256:06c5f9f83f40b880360f0bba0e46b5fa9d02f22ed93e8ea52324e6c5aeb2231d","itemArchiveBytes":236239}
+{
+  installedConsumer: true,
+  nodes: 2489,
+  classes: 39,
+  checked: 277,
+  attached: 277,
+  contentId: 'hollow-wake-passives:sha256:c4987d84998be2f8074ac9a254b41391fa9be76167b810487a3dd2ab88bdede1'
+}
+{
+  installedConsumer: true,
+  policyToGrantsToStats: true,
+  checked: 277,
+  contentId: 'hollow-wake-grants:sha256:0cdbe52dfe9c9c04f7c8cf3510a8b3843cc52d081e34b5c6ad140f5372affc6f'
+}
