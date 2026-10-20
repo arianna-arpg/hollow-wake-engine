@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -42,13 +42,17 @@
     "./passives": {
       "types": "./dist/passive-policy.d.ts",
       "import": "./dist/passive-policy.js"
+    },
+    "./passives/grants": {
+      "types": "./dist/passive-grants.d.ts",
+      "import": "./dist/passive-grants.js"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs",
     "example": "npm run build && node examples/first-path.mjs",
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
@@ -73,7 +77,12 @@
     "adapter:ui-source": "node scripts/test-inventory-ui-overlay.mjs",
     "reference:passives": "node scripts/run-passive-reference.mjs",
     "passives:build": "npm run build && node scripts/compile-passive-content.mjs",
-    "benchmark:passives": "npm run build && node scripts/benchmark-passives.mjs"
+    "benchmark:passives": "npm run build && node scripts/benchmark-passives.mjs",
+    "reference:passive-grants": "node scripts/run-passive-grant-reference.mjs",
+    "passives:grants": "npm run build && node scripts/compile-passive-grants.mjs",
+    "adapter:passive-grants": "node scripts/test-game-passive-grants.mjs",
+    "adapter:grant-source": "node scripts/test-passive-grant-overlay.mjs",
+    "benchmark:passive-grants": "npm run build && node scripts/benchmark-passive-grants.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

@@ -26,9 +26,11 @@ dependencies. Current gates cap unminified runtime JS at 96 KiB and selected
 content JSON at 64 KiB. Version 0.4 keeps the 96 KiB core gate and adds a separate
 64 KiB optional item-module gate (160 KiB combined). The item catalogue is a separate
 data package. These are scoped bounds, not promises about a full engine.
-Version 0.6 adds a separate 32 KiB optional passive-policy JS gate (192 KiB combined)
+Version 0.6 adds a separate 32 KiB optional passive JS gate (192 KiB combined)
 and a 1 MiB unpacked bound for its separate content package. It preserves the
 existing core, item and selected-content bounds.
+Version 0.7 includes grant execution within that same 32 KiB bound and adds a
+separate 1 MiB grant-data package bound. These bound package size, not live memory.
 
 ## Reconstructing the original
 
@@ -123,6 +125,13 @@ The original World policy observations, independent graph/economy checks, two
 additional behavioral mutants and packed engine/content consumer are described in
 [passive-policy.md](passive-policy.md). Grant execution and game delegation remain
 explicitly outside this milestone's proof.
+
+Version 0.7 adds `reference:passive-grants`, `passives:grants`,
+`adapter:grant-source`, `adapter:passive-grants` and `benchmark:passive-grants`.
+It checks 4,103 original character rebuilds, 162,246 numeric queries, eight live
+content revisions, two additional behavioral faults, an installed-game wiring
+fault and an offline policy-to-grants-to-statistics consumer. See
+[passive-grants.md](passive-grants.md) for renderer checks and retained host duties.
 
 ## Cross-runtime numerical policy
 

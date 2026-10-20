@@ -67,6 +67,7 @@ jobs:
       - run: npm ci
       - run: npm run reference:prepare
       - run: npm run adapter:ui-source
+      - run: npm run adapter:grant-source
       - run: npm run reference:install
       - run: npm run reference:verify
       - run: npm run reference:lifecycle
@@ -74,6 +75,7 @@ jobs:
       - run: npm run reference:items
       - run: npm run reference:item-bridge
       - run: npm run reference:passives
+      - run: npm run reference:passive-grants
       - run: node --import tsx balance/probe_passiverefund.ts
         working-directory: .reference
       - run: node --import tsx balance/probe_choices.ts
@@ -85,6 +87,7 @@ jobs:
       - run: npm run adapter:prepare
       - run: npm run adapter:verify
       - run: npm run adapter:items
+      - run: npm run adapter:passive-grants
       - run: npm run check
         working-directory: .artifacts/game-adapter
       - run: npm run sim -- run --suite smoke
@@ -111,6 +114,8 @@ jobs:
         working-directory: .artifacts/game-adapter
       - run: node --import tsx balance/probe_skillitems.ts
         working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_passiveattributes.ts
+        working-directory: .artifacts/game-adapter
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
@@ -121,3 +126,5 @@ jobs:
             .artifacts/inventory-ui-overlay-verification.json
             .artifacts/adapter-verification.json
             .artifacts/game-item-verification.json
+            .artifacts/game-passive-grant-verification.json
+            .artifacts/passive-grant-overlay-verification.json

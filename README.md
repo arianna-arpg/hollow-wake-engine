@@ -3,6 +3,12 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.7 adds [passive attribute/stat grants and game delegation](docs/passive-grants.md)
+through `@hollow-wake/engine/passives/grants`. The separate full-tree
+[allocation/refund policy](docs/passive-policy.md) and grant data packages connect
+in an offline consumer. Conduit and graft specifications are preserved; their
+effect execution and progression remain host-owned.
+
 An optional [native lifecycle experiment](docs/native-lifecycle.md) now provides
 seven C ABI operations and a C# binding, with batched timers and standalone C++/C#
 package consumers. It is a measured interoperability proof, not a full native SDK

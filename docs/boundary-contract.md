@@ -18,7 +18,8 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | Inventory grids and synchronous ownership transfer | `Inventory`, per board | Indexed grids, masks, atomic moves/swaps/transfers and versioned snapshots; see inventory contract |
 | Item rolls, forging, local/global values, sockets and epitaphs | `ItemRules` plus immutable `ItemContent` | Extracted; full source comparisons; optional runtime/data entry |
 | Equipment eligibility, stash/container progression, trade authority | Future policy modules | Numeric equipment binding exists; full policy pending |
-| Passive allocation/refund, choice deals, realm pools and vocation spending gates | Optional `PassivePolicy` / `PassiveBuild` | Original policy transitions extracted; full grants, earning and game integration pending; see passive policy contract |
+| Passive allocation/refund, choice deals, realm pools and vocation spending gates | Optional `PassivePolicy` / `PassiveBuild` | Original policy transitions extracted; earning and game policy delegation pending; see passive policy contract |
+| Passive and choice attribute/stat contributions, conduit/graft specification assembly | Optional `PassiveGrants` | Extracted and delegated in the isolated game; effect execution remains host-owned; see passive grants contract |
 | Skill graph economy, vocation quests, unlock earning and account progression | Future character-policy modules | Source captured; not migrated |
 | Ordinary casting commitment, mana/life payment, cooldowns, cancellation | `CastRuntime`, per actor | Extracted; advanced modes remain native |
 | Projectile travel, contact collection, spatial queries and 2D/3D conventions | Host adapter plus future delivery module | Host supplies a resolved contact today |
