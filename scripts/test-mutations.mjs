@@ -13,6 +13,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
     for (const file of ['first-path.json', 'stat-transitions.json', 'arithmetic-contacts.json']) {
       fs.copyFileSync(path.join(root, folder, file), path.join(temp, folder, file));
     }
+    fs.cpSync(path.join(root, 'baseline/milestone-two'), path.join(temp, 'baseline/milestone-two'), { recursive: true });
   } else fs.cpSync(path.join(root, folder), path.join(temp, folder), { recursive: true });
 }
 fs.writeFileSync(path.join(temp, 'package.json'), '{"type":"module"}\n');
@@ -31,6 +32,22 @@ for (const [name, before, after] of mutants) {
   const output = result.stdout + result.stderr;
   assert.ok(result.status !== 0 && /AssertionError/.test(output), `Tests failed to reject ${name}, or failed for an unrelated reason`);
   assert.ok(!/ERR_MODULE_NOT_FOUND|SyntaxError/.test(output), 'Mutation did not reach the behavior checks');
+  fs.writeFileSync(path.join(artifacts, `${name}.txt`), output);
+  console.log(`Rejected deliberate fault: ${name}`);
+}
+
+fs.writeFileSync(file, original);
+for (const [module, name, before, after, tests] of [
+  ['casting', 'missing-cast-completion', 'return elapsed >= cast.total;', 'return false;', 'test/lifecycle.test.mjs'],
+  ['timed-effect', 'changed-expiry-damage', 'state.dps * state.stacks * dt', 'state.dps * state.stacks * Math.min(dt, state.remaining)', 'test/timed-effect.test.mjs'],
+]) {
+  const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
+  assert.ok(source.includes(before));
+  fs.writeFileSync(target, source.replace(before, after));
+  const result = spawnSync(process.execPath, ['--test', tests], { cwd: temp, encoding: 'utf8' });
+  const output = result.stdout + result.stderr;
+  assert.ok(result.status !== 0 && /AssertionError/.test(output) && !/ERR_MODULE_NOT_FOUND|SyntaxError/.test(output), `Negative control did not detect ${name}`);
+  fs.writeFileSync(target, source);
   fs.writeFileSync(path.join(artifacts, `${name}.txt`), output);
   console.log(`Rejected deliberate fault: ${name}`);
 }

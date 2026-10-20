@@ -1,0 +1,100 @@
+[content] tileset 'meadow': span void region 'mere_bed' is walkable — a gone span must be a hole
+[content] monster toll_bailiff: 2 signature defense pools authored — textures are identities; stack them only on boss showpieces
+[content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fumes:exposure(195), fire_walker:moveTrail(5), aftershocks:aoeScatter(114), buried_charge:pulse(76), accelerando:cadence(118), ritardando:cadence(118), square_sigil:aoeShape(41), triangle_sigil:aoeShape(41), spell_cascade:cascade(95), scattered_cascade:cascade(95), seismic_march:cascade(95), mirrored_bounds:projFrameBounce(1), sundering_flight:fissureTrail(1), afterspray:departSplash(10) — the whys live on the rows in data/graftReadSites.ts
+PASS  poise ships empty (STAT_DEFS base 0)
+PASS  insight ships empty (STAT_DEFS base 0)
+PASS  energy shield still ships empty
+PASS  fortitude scales poise (increased, no flat)
+PASS  charisma scales insight (increased, no flat)
+PASS  willpower scales energy shield (increased, no flat)
+PASS  every worn material has a MATERIAL_NATURE row
+PASS  breakables author no signature pools
+PASS  the insight pole is populated (>= 15 carriers) — 35
+PASS  wellspring stance carries its own footing (+flat poise selfMod)
+PASS  crate has zero poise/insight pools
+PASS  wolf has zero poise/insight pools (ambient base gone)
+PASS  fresh hero pools are empty until invested
+PASS  crate poise drain is a no-op (no break, no sundered)
+PASS  killed crate leaves NO corpse (wood)
+PASS  killed door leaves NO corpse (wood)
+PASS  killed haunt leaves NO corpse (ethereal dissipates)
+PASS  killed wax pool leaves NO corpse (def.remains override on organic dress)
+PASS  killed wolf leaves a corpse (organic control)
+PASS  killed wight leaves a corpse (bone leaves bones)
+PASS  defLeavesRemains honors override precedence
+PASS  unrusted roster is authored in full (8 ranks) — awakened_custodian,brass_sentinel,gnomon_lancer,astrolabe_warden,verdigris_wright,coil_warden,scaffold_colossus,the_custodian
+PASS  awakened_custodian: leaves NO remains (the anti-necromancy pin)
+PASS  awakened_custodian: never breathes (tireless metal)
+PASS  awakened_custodian: shrugs the bleed family (ailmentResist, physical-tagged)
+PASS  awakened_custodian: shrugs venom (ailmentResist, chaos-tagged)
+PASS  brass_sentinel: leaves NO remains (the anti-necromancy pin)
+PASS  brass_sentinel: never breathes (tireless metal)
+PASS  brass_sentinel: shrugs the bleed family (ailmentResist, physical-tagged)
+PASS  brass_sentinel: shrugs venom (ailmentResist, chaos-tagged)
+PASS  gnomon_lancer: leaves NO remains (the anti-necromancy pin)
+PASS  gnomon_lancer: never breathes (tireless metal)
+PASS  gnomon_lancer: shrugs the bleed family (ailmentResist, physical-tagged)
+PASS  gnomon_lancer: shrugs venom (ailmentResist, chaos-tagged)
+PASS  astrolabe_warden: leaves NO remains (the anti-necromancy pin)
+PASS  astrolabe_warden: never breathes (tireless metal)
+PASS  astrolabe_warden: shrugs the bleed family (ailmentResist, physical-tagged)
+PASS  astrolabe_warden: shrugs venom (ailmentResist, chaos-tagged)
+PASS  verdigris_wright: leaves NO remains (the anti-necromancy pin)
+PASS  verdigris_wright: never breathes (tireless metal)
+PASS  verdigris_wright: shrugs the bleed family (ailmentResist, physical-tagged)
+PASS  verdigris_wright: shrugs venom (ailmentResist, chaos-tagged)
+PASS  coil_warden: leaves NO remains (the anti-necromancy pin)
+PASS  coil_warden: never breathes (tireless metal)
+PASS  coil_warden: shrugs the bleed family (ailmentResist, physical-tagged)
+PASS  coil_warden: shrugs venom (ailmentResist, chaos-tagged)
+PASS  scaffold_colossus: leaves NO remains (the anti-necromancy pin)
+PASS  scaffold_colossus: never breathes (tireless metal)
+PASS  scaffold_colossus: shrugs the bleed family (ailmentResist, physical-tagged)
+PASS  scaffold_colossus: shrugs venom (ailmentResist, chaos-tagged)
+PASS  the_custodian: leaves NO remains (the anti-necromancy pin)
+PASS  the_custodian: never breathes (tireless metal)
+PASS  the_custodian: shrugs the bleed family (ailmentResist, physical-tagged)
+PASS  the_custodian: shrugs venom (ailmentResist, chaos-tagged)
+PASS  killed custodian mints NO corpse at the kill path
+PASS  the graves still pay beside it (skeleton control mints)
+PASS  killed vault golem mints NO corpse (stone, cross-faction)
+PASS  killed hired blade mints one (the Compact bleeds — organic)
+PASS  compact roster is authored in full (8 seats) — hired_blade,compact_outrider,compact_tallykeeper,ledger_arbiter,toll_bailiff,caravan_master,vault_golem,the_factor
+PASS  poise-less body NEVER shrugs a stun (20/20 land) — 20/20
+PASS  bone colossus wears the authored wall (poise 90, poiseDR 0.45)
+PASS  the bar broke (sundered, inert recovery)
+PASS  armed wall takes visibly less than the broken one (the burst window) — armed 55.0 vs broken 115.0
+PASS  broken wall takes at least the full hit (DR gone + sunder amp) — 115.00
+PASS  moving momentum reads full
+PASS  chill saps momentum to 0.6 — 0.600
+PASS  frozen kills momentum outright
+PASS  mitigation degrades with the sap (full < chilled < frozen) — 60.0 / 70.0 / 110.0
+PASS  the frozen pool spent NOTHING (no slip, no spend)
+PASS  refill stalls while frozen, flows while moving — moving 2.28 frozen 0.00
+PASS  stun saps momentum to zero
+PASS  breath derives from material nature (fur yes, bone no)
+PASS  breathing body wears the default kite budget — 3.2
+PASS  breathless body wears none
+PASS  authored kite wins over the default (caster preset 2.8) — 2.8
+PASS  mergeTuning preserves tempo:null (the never-winds pledge)
+PASS  authored ES pole spawns charged — 150
+PASS  the shield soaks the hit (pool down, no life mitigated away) — es 150 -> 90.0
+PASS  recharge flows after the quiet delay — es 145.7
+PASS  a wound interrupts the flowing stream — delay 2.48
+PASS  the level floor is the guard (base + perLevel × 8, no investment) — 36.0
+PASS  small wound sits under the guard — 15.8 vs 36.0
+PASS  cold block: zero total, life and poise untouched — total 0
+PASS  hit at the guard line blocks cold — total 0.0000
+PASS  one step past the line seeps the excess (and only the excess) — total 5.04 vs 5.04
+PASS  heavy blocked hit seeps (wound − guard) × the pools half — total 101.01 vs 101.01
+PASS  the seep is the life cut, and poise chipped on it
+PASS  +30 block value eats 30 more of the wound — 101.01 -> 75.51
+PASS  guard strength scales the whole guard (one vocabulary) — total 47.46 vs 47.46
+PASS  the grub spawns count-durable (4 plies) — 4
+PASS  the heavy seep clears the ply floor — seep 173.0 floor 1.0
+PASS  blocked seep on a plied body: one ply tears, no life moves — plies 3
+PASS  shield up raises (guard cast accepted)
+PASS  the stance pool is shieldLife × guardStrength, untouched by the guard law — 60
+PASS  the raised guard eats the whole blow — no life, pool pays — life 154.0 -> 154.0, pool 60.0 -> 44.6
+
+ALL PASS

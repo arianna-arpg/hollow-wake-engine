@@ -1,7 +1,8 @@
-# Boundary contract — milestone one
+# Boundary contract
 
-Status: implemented alpha contract `resolved-spell-hit/v1`. Broader boundaries below
-are an extraction plan, not claims of existing functionality.
+Implemented alpha contracts: `resolved-spell-hit/v1`, `ordinary-cast/v1` and
+strongest-wins timed damage using `hollow-wake-frame/v1`.
+See [casting-contract.md](casting-contract.md) for time, resource and adapter ownership.
 
 ## Authority and ownership
 
@@ -16,13 +17,15 @@ are an extraction plan, not claims of existing functionality.
 | Random stream and continuation state | Each `Engine` | Serializable Mulberry32 state; no ambient RNG |
 | Inventory grids, affix rolls, item ownership transfer, containers | Future inventory/content modules | Current item is a pinned specimen with compiled source modifiers |
 | Complete passive/skill graph economies, vocations, unlocks, account progression | Future character-policy modules | Source captured; not migrated |
-| Casting commitment, resource payment, cooldown ticking, cancellation, delayed actions | Future simulation module | Read-only cost/cooldown queries exist; lifecycle pending |
+| Ordinary casting commitment, mana/life payment, cooldowns, cancellation | `CastRuntime`, per actor | Extracted; advanced modes remain native |
 | Projectile travel, contact collection, spatial queries and 2D/3D conventions | Host adapter plus future delivery module | Host supplies a resolved contact today |
-| Status application/ticking, procs, summons, guard/pool defenses and death lifecycle | Future combat modules | Pending; never silently emulated by this slice |
+| Strongest-wins Burning and raw typed ticks | `TimedDamage`, per bearer/effect | Extracted; host supplies resolved application and damage routing |
+| Other statuses, procs, summons, guard/pool defenses and death lifecycle | Future combat modules | Pending; never silently emulated by this slice |
 | Rendering, sound, input, storage, UI, world streaming, networking | Host and optional adapters | Outside the core runtime |
 
-Hollow Wake retains authority in the live game until a corresponding adapter is
-integrated and verified. It is not patched to consume this package yet.
+The primary Hollow Wake checkout retains authority. The isolated game adapter
+delegates the extracted transitions to the actual installed package while keeping
+its existing actor/status records and advanced host behavior.
 
 ## Public operations
 
@@ -87,7 +90,8 @@ authored skill directly as this compiled skill schema fails on unsupported field
 Character build snapshots include selected equipment/passives and supplied
 conditions/gauges. Skill selections, target state and random continuation state
 are separately serializable. Together they reproduce the implemented contact path.
-They are not a complete game save or an in-flight cast snapshot.
+They are not a complete game save. `CastRuntime` and `TimedDamage` now provide
+separate versioned snapshots for their in-flight state.
 Ad hoc low-level `StatSheet.setSource` calls are not character-build persistence;
 future buffs and other runtime sources need their own explicit state contracts.
 

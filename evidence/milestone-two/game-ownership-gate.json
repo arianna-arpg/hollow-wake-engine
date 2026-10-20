@@ -1,0 +1,437 @@
+{
+  "protocol": "ownership-gate/v1",
+  "provenance": null,
+  "strict": true,
+  "minLen": 3,
+  "declared": {
+    "files": [
+      "src/engine/actor.ts",
+      "src/engine/world.ts",
+      "src/engine/engineAdapter.ts",
+      "balance/export-engine-lifecycle.ts",
+      "docs/engine/extracted-engine-adapter.md"
+    ],
+    "tokens": [],
+    "ignore": []
+  },
+  "files": [
+    {
+      "path": "balance/export-engine-lifecycle.ts",
+      "fileOwned": true,
+      "entries": [
+        {
+          "header": "@@ -0,0 +1,112 @@",
+          "context": "",
+          "verdict": "OWNED-FILE",
+          "note": "",
+          "owned": [],
+          "foreign": [],
+          "sample": [
+            {
+              "side": "+",
+              "line": 1,
+              "text": "// Runs in the frozen original game. Never imports the extracted implementation."
+            },
+            {
+              "side": "+",
+              "line": 2,
+              "text": "import fs from 'node:fs';"
+            },
+            {
+              "side": "+",
+              "line": 3,
+              "text": "import path from 'node:path';"
+            },
+            {
+              "side": "+",
+              "line": 4,
+              "text": "import { makeSimWorld } from '../src/sim/arena';"
+            },
+            {
+              "side": "+",
+              "line": 5,
+              "text": "import { seedGlobalRandom } from '../src/sim/rng';"
+            },
+            {
+              "side": "+",
+              "line": 6,
+              "text": "import { Actor } from '../src/engine/actor';"
+            }
+          ],
+          "gated": false
+        }
+      ]
+    },
+    {
+      "path": "docs/engine/extracted-engine-adapter.md",
+      "fileOwned": true,
+      "entries": [
+        {
+          "header": "@@ -0,0 +1,32 @@",
+          "context": "",
+          "verdict": "OWNED-FILE",
+          "note": "",
+          "owned": [],
+          "foreign": [],
+          "sample": [
+            {
+              "side": "+",
+              "line": 1,
+              "text": "# Isolated extracted-engine adapter"
+            },
+            {
+              "side": "+",
+              "line": 2,
+              "text": ""
+            },
+            {
+              "side": "+",
+              "line": 3,
+              "text": "This branch is the first integration experiment for @hollow-wake/engine 0.2.0."
+            },
+            {
+              "side": "+",
+              "line": 4,
+              "text": "It delegates ordinary payment, bar duration/progress, cooldown ticks and Burning"
+            },
+            {
+              "side": "+",
+              "line": 5,
+              "text": "refresh/ticks through src/engine/engineAdapter.ts. Existing World/Actor storage,"
+            },
+            {
+              "side": "+",
+              "line": 6,
+              "text": "advanced skills, targeting, visuals and status side effects remain native."
+            }
+          ],
+          "gated": false
+        }
+      ]
+    },
+    {
+      "path": "src/engine/actor.ts",
+      "fileOwned": true,
+      "entries": [
+        {
+          "header": "@@ -0,0 +1 @@",
+          "context": "",
+          "verdict": "OWNED-FILE",
+          "note": "",
+          "owned": [],
+          "foreign": [],
+          "sample": [
+            {
+              "side": "+",
+              "line": 1,
+              "text": "import { canPayCast, payCast, advanceCooldown, replaceStrongerDot, advanceDotFrame } from './engineAdapter';"
+            }
+          ],
+          "gated": false
+        },
+        {
+          "header": "@@ -2834 +2835,2 @@",
+          "context": "export class Actor {",
+          "verdict": "OWNED-FILE",
+          "note": "",
+          "owned": [],
+          "foreign": [],
+          "sample": [
+            {
+              "side": "-",
+              "line": 2834,
+              "text": "      if (dps > existing.dps) {"
+            },
+            {
+              "side": "+",
+              "line": 2835,
+              "text": "      if (id === 'burn') replaceStrongerDot(existing, dps, duration);"
+            },
+            {
+              "side": "+",
+              "line": 2836,
+              "text": "      else if (dps > existing.dps) {"
+            }
+          ],
+          "gated": false
+        },
+        {
+          "header": "@@ -3216 +3218 @@",
+          "context": "export class Actor {",
+          "verdict": "OWNED-FILE",
+          "note": "",
+          "owned": [],
+          "foreign": [],
+          "sample": [
+            {
+              "side": "-",
+              "line": 3216,
+              "text": "      const left = t - dt * rate;"
+            },
+            {
+              "side": "+",
+              "line": 3218,
+              "text": "      const left = advanceCooldown(t, dt, rate);"
+            }
+          ],
+          "gated": false
+        },
+        {
+          "header": "@@ -3281 +3283,2 @@",
+          "context": "export class Actor {",
+          "verdict": "OWNED-FILE",
+          "note": "",
+          "owned": [],
+          "foreign": [],
+          "sample": [
+            {
+              "side": "-",
+              "line": 3281,
+              "text": "      s.remaining -= STATUS_DEFS[s.id]?.timeScale !== undefined ? chronoDt : dt;"
+            },
+            {
+              "side": "+",
+              "line": 3283,
+              "text": "      const burnTick = s.id === 'burn' ? advanceDotFrame(s, dt) : undefined;"
+            },
+            {
+              "side": "+",
+              "line": 3284,
+              "text": "      if (burnTick === undefined) s.remaining -= STATUS_DEFS[s.id]?.timeScale !== undefined ? chronoDt : dt;"
+            }
+          ],
+          "gated": false
+        },
+        {
+          "header": "@@ -3292 +3295 @@",
+          "context": "export class Actor {",
+          "verdict": "OWNED-FILE",
+          "note": "",
+          "owned": [],
+          "foreign": [],
+          "sample": [
+            {
+              "side": "-",
+              "line": 3292,
+              "text": "        const tick = s.dps * s.stacks * curve * dt;"
+            },
+            {
+              "side": "+",
+              "line": 3295,
+              "text": "        const tick = burnTick ?? s.dps * s.stacks * curve * dt;"
+            }
+          ],
+          "gated": false
+        },
+        {
+          "header": "@@ -3836,0 +3840 @@",
+          "context": "export class Actor {",
+          "verdict": "OWNED-FILE",
+          "note": "",
+          "owned": [],
+          "foreign": [],
+          "sample": [
+            {
+              "side": "+",
+              "line": 3840,
+              "text": "    if (this.mana >= cost.mana && this.life > cost.life) return canPayCast(this, cost);"
+            }
+          ],
+          "gated": false
+        },
+        {
+          "header": "@@ -3848,0 +3853,6 @@",
+          "context": "export class Actor {",
+          "verdict": "OWNED-FILE",
+          "note": "",
+          "owned": [],
+          "foreign": [],
+          "sample": [
+            {
+              "side": "+",
+              "line": 3853,
+              "text": "    // Ordinary payments delegate to the package; shield/debt routes remain native."
+            },
+            {
+              "side": "+",
+              "line": 3854,
+              "text": "    if (this.mana >= cost.mana && this.life > cost.life) {"
+            },
+            {
+              "side": "+",
+              "line": 3855,
+              "text": "      payCast(this, cost);"
+            },
+            {
+              "side": "+",
+              "line": 3856,
+              "text": "      if (cost.life > 0) this.onLifeSpent?.(cost.life);"
+            },
+            {
+              "side": "+",
+              "line": 3857,
+              "text": "      return;"
+            },
+            {
+              "side": "+",
+              "line": 3858,
+              "text": "    }"
+            }
+          ],
+          "gated": false
+        }
+      ]
+    },
+    {
+      "path": "src/engine/engineAdapter.ts",
+      "fileOwned": true,
+      "entries": [
+        {
+          "header": "@@ -0,0 +1,5 @@",
+          "context": "",
+          "verdict": "OWNED-FILE",
+          "note": "",
+          "owned": [],
+          "foreign": [],
+          "sample": [
+            {
+              "side": "+",
+              "line": 1,
+              "text": "/** First-party bridge to the independent package. No renderer, scene, save or global clock crosses it. */"
+            },
+            {
+              "side": "+",
+              "line": 2,
+              "text": "export {"
+            },
+            {
+              "side": "+",
+              "line": 3,
+              "text": "  canPayCast, payCast, castDuration, advanceCastProgress, advanceCooldown,"
+            },
+            {
+              "side": "+",
+              "line": 4,
+              "text": "  replaceStrongerDot, advanceDotFrame, HOLLOW_WAKE_ADAPTER_VERSION,"
+            },
+            {
+              "side": "+",
+              "line": 5,
+              "text": "} from '@hollow-wake/engine/hollow-wake';"
+            }
+          ],
+          "gated": false
+        }
+      ]
+    },
+    {
+      "path": "src/engine/world.ts",
+      "fileOwned": true,
+      "entries": [
+        {
+          "header": "@@ -0,0 +1 @@",
+          "context": "",
+          "verdict": "OWNED-FILE",
+          "note": "",
+          "owned": [],
+          "foreign": [],
+          "sample": [
+            {
+              "side": "+",
+              "line": 1,
+              "text": "import { castDuration, advanceCastProgress } from './engineAdapter';"
+            }
+          ],
+          "gated": false
+        },
+        {
+          "header": "@@ -35019,0 +35021 @@",
+          "context": "export class World {",
+          "verdict": "OWNED-FILE",
+          "note": "",
+          "owned": [],
+          "foreign": [],
+          "sample": [
+            {
+              "side": "+",
+              "line": 35021,
+              "text": "    const ordinaryDuration = effMode === 'cast' ? castDuration(castTime) : undefined;"
+            }
+          ],
+          "gated": false
+        },
+        {
+          "header": "@@ -35021 +35023 @@",
+          "context": "export class World {",
+          "verdict": "OWNED-FILE",
+          "note": "",
+          "owned": [],
+          "foreign": [],
+          "sample": [
+            {
+              "side": "-",
+              "line": 35021,
+              "text": "    if (effMode === 'cast' && castTime <= 0.001) {"
+            },
+            {
+              "side": "+",
+              "line": 35023,
+              "text": "    if (ordinaryDuration === 0) {"
+            }
+          ],
+          "gated": false
+        },
+        {
+          "header": "@@ -35049 +35051 @@",
+          "context": "export class World {",
+          "verdict": "OWNED-FILE",
+          "note": "",
+          "owned": [],
+          "foreign": [],
+          "sample": [
+            {
+              "side": "-",
+              "line": 35049,
+              "text": "      elapsed: 0, total: Math.max(0.2, castTime),"
+            },
+            {
+              "side": "+",
+              "line": 35051,
+              "text": "      elapsed: 0, total: ordinaryDuration ?? Math.max(0.2, castTime),"
+            }
+          ],
+          "gated": false
+        },
+        {
+          "header": "@@ -57175,2 +57177 @@",
+          "context": "export class World {",
+          "verdict": "OWNED-FILE",
+          "note": "",
+          "owned": [],
+          "foreign": [],
+          "sample": [
+            {
+              "side": "-",
+              "line": 57175,
+              "text": "        cs.elapsed += dt;"
+            },
+            {
+              "side": "-",
+              "line": 57176,
+              "text": "        if (cs.elapsed >= cs.total) {"
+            },
+            {
+              "side": "+",
+              "line": 57177,
+              "text": "        if (advanceCastProgress(cs, dt)) {"
+            }
+          ],
+          "gated": false
+        }
+      ]
+    }
+  ],
+  "gatedHunks": 0,
+  "foreignTokens": 0,
+  "ok": true
+}

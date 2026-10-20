@@ -1,0 +1,71 @@
+
+> @hollow-wake/engine@0.2.0 verify
+> npm run test && node scripts/check-boundaries.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs
+
+
+> @hollow-wake/engine@0.2.0 test
+> npm run build && node --test test/*.test.mjs
+
+
+> @hollow-wake/engine@0.2.0 build
+> tsc -p tsconfig.json
+
+✔ independent arithmetic: additive increases, multiplicative more, ordered override and clamps (1.8495ms)
+✔ independent arithmetic: links are single-hop, and trade reads the pre-forgo source (0.2791ms)
+✔ source ownership and collision-free context keys prevent stale and aliased results (0.5591ms)
+✔ two sessions remain independent when their operations are interleaved (7.7391ms)
+✔ preview is random-free; changed sources invalidate the compiled attack exactly once (3.8484ms)
+✔ equip, unequip and passive refunds restore values; rejected commands are atomic (2.9809ms)
+✔ state restoration continues the exact random and target sequence (3.029ms)
+✔ range bounds and target resistance caps hold across a broad seed sweep (267.7881ms)
+✔ unsupported mechanics fail explicitly and content is detached from caller mutation (3.5755ms)
+✔ a second content pack changes the same engine through data (1.575ms)
+✔ content rejects cycles, host objects and silently ignored skill-node behavior (2.619ms)
+✔ stat caches stay bounded when a host supplies many distinct contexts (8.5431ms)
+✔ original World trace: ordinary-completion-and-recast (4.0237ms)
+✔ original World trace: instant (0.5661ms)
+✔ original World trace: minimum-bar-and-snapshotted-speed (0.4034ms)
+✔ original World trace: stun-keeps-payment (0.3286ms)
+✔ original World trace: host-cancel-keeps-press-clock (0.2893ms)
+✔ original World trace: completion-reprices-cooldown (0.3512ms)
+✔ original World trace: insufficient-resources-are-atomic (0.394ms)
+✔ compiled Firebolt cost, duration and cooldown quotes match original Actor reads (20.6205ms)
+✔ invalid frames and exhausted capacity cannot partially pay or tick (0.7895ms)
+✔ cancel, death and interleaved runtimes produce at most one completion (0.2465ms)
+✔ completion cooldown and token restore validation reject corrupt snapshots (0.6715ms)
+✔ build changes invalidate casting quotes while active bars retain their quote (2.6548ms)
+✔ each build transition matches the original World, skill compiler, preview and cost rules (9.4905ms)
+✔ reference contact trace and random draw order, seed 0 (3.5263ms)
+✔ reference contact trace and random draw order, seed 1 (2.5708ms)
+✔ reference contact trace and random draw order, seed 2 (1.5428ms)
+✔ reference contact trace and random draw order, seed 17 (1.8616ms)
+✔ reference contact trace and random draw order, seed 42 (1.5364ms)
+✔ reference contact trace and random draw order, seed 99 (1.449ms)
+✔ reference contact trace and random draw order, seed 255 (1.8926ms)
+✔ reference contact trace and random draw order, seed 1024 (1.7558ms)
+✔ reference contact trace and random draw order, seed 12345 (2.3913ms)
+✔ reference contact trace and random draw order, seed 659918 (1.1293ms)
+✔ reference contact trace and random draw order, seed 2147483647 (1.3169ms)
+✔ reference contact trace and random draw order, seed 4294967295 (1.2904ms)
+✔ generated source, condition, gauge and removal sequences match original StatSheet (13.352ms)
+✔ mixed conversions, range changes, lucky rolls, crit avoidance, penetration and cost conversion match the original (40.0698ms)
+✔ differential comparator rejects a deliberately altered result (1.1066ms)
+✔ original Burning and applyDot trace: damageTaken=1 (8.2131ms)
+✔ original Burning and applyDot trace: damageTaken=0.7 (2.9655ms)
+✔ full expiry frame is an explicit compatibility rule (0.3783ms)
+✔ invalid tick and application are atomic; attribution is first-applier owned (0.4217ms)
+ℹ tests 44
+ℹ suites 0
+ℹ pass 44
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 406.1399
+Boundary check passed: 12 production modules; no external runtime dependencies, host APIs, or ambient randomness.
+Rejected deliberate fault: incorrect-increase
+Rejected deliberate fault: stale-stat-cache
+Rejected deliberate fault: missing-cast-completion
+Rejected deliberate fault: changed-expiry-damage
+{"installedConsumer":true,"damage":44.96973610836269,"randomDraws":5}
+Packaged runtime 63981 bytes JS; selected content 22539 bytes; archive 53200 bytes.

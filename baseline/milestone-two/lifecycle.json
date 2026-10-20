@@ -1,0 +1,1517 @@
+{
+  "casting": [
+    {
+      "name": "ordinary-completion-and-recast",
+      "variant": {
+        "cooldown": 2
+      },
+      "initial": {
+        "mana": 100,
+        "life": 100,
+        "recovery": 0,
+        "active": null,
+        "cooldowns": [],
+        "executed": 0,
+        "projectiles": 0
+      },
+      "steps": [
+        {
+          "command": {
+            "type": "press"
+          },
+          "profile": {
+            "skillId": "firebolt",
+            "useTime": 0.75,
+            "cost": {
+              "mana": 6,
+              "life": 0
+            },
+            "cooldown": 2,
+            "cooldownAt": "completion"
+          },
+          "accepted": true,
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": {
+              "elapsed": 0,
+              "total": 0.75
+            },
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "press"
+          },
+          "profile": {
+            "skillId": "firebolt",
+            "useTime": 0.75,
+            "cost": {
+              "mana": 6,
+              "life": 0
+            },
+            "cooldown": 2,
+            "cooldownAt": "completion"
+          },
+          "accepted": false,
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": {
+              "elapsed": 0,
+              "total": 0.75
+            },
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.25
+          },
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": {
+              "elapsed": 0.25,
+              "total": 0.75
+            },
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "release"
+          },
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": {
+              "elapsed": 0.25,
+              "total": 0.75
+            },
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.5
+          },
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0.1,
+            "active": null,
+            "cooldowns": [
+              [
+                "firebolt",
+                2
+              ]
+            ],
+            "executed": 1,
+            "projectiles": 1
+          }
+        },
+        {
+          "command": {
+            "type": "press"
+          },
+          "profile": {
+            "skillId": "firebolt",
+            "useTime": 0.75,
+            "cost": {
+              "mana": 6,
+              "life": 0
+            },
+            "cooldown": 2,
+            "cooldownAt": "completion"
+          },
+          "accepted": false,
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0.1,
+            "active": null,
+            "cooldowns": [
+              [
+                "firebolt",
+                2
+              ]
+            ],
+            "executed": 1,
+            "projectiles": 1
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.2
+          },
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": -0.1,
+            "active": null,
+            "cooldowns": [
+              [
+                "firebolt",
+                1.8
+              ]
+            ],
+            "executed": 1,
+            "projectiles": 1
+          }
+        },
+        {
+          "command": {
+            "type": "press"
+          },
+          "profile": {
+            "skillId": "firebolt",
+            "useTime": 0.75,
+            "cost": {
+              "mana": 6,
+              "life": 0
+            },
+            "cooldown": 2,
+            "cooldownAt": "completion"
+          },
+          "accepted": false,
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": -0.1,
+            "active": null,
+            "cooldowns": [
+              [
+                "firebolt",
+                1.8
+              ]
+            ],
+            "executed": 1,
+            "projectiles": 1
+          }
+        },
+        {
+          "command": {
+            "type": "rate",
+            "value": 2
+          },
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": -0.1,
+            "active": null,
+            "cooldowns": [
+              [
+                "firebolt",
+                1.8
+              ]
+            ],
+            "executed": 1,
+            "projectiles": 1
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 1
+          },
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": -0.1,
+            "active": null,
+            "cooldowns": [],
+            "executed": 1,
+            "projectiles": 1
+          }
+        },
+        {
+          "command": {
+            "type": "press"
+          },
+          "profile": {
+            "skillId": "firebolt",
+            "useTime": 0.75,
+            "cost": {
+              "mana": 6,
+              "life": 0
+            },
+            "cooldown": 2,
+            "cooldownAt": "completion"
+          },
+          "accepted": true,
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 88,
+            "life": 100,
+            "recovery": -0.1,
+            "active": {
+              "elapsed": 0,
+              "total": 0.75
+            },
+            "cooldowns": [],
+            "executed": 1,
+            "projectiles": 1
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.75
+          },
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 88,
+            "life": 100,
+            "recovery": 0.1,
+            "active": null,
+            "cooldowns": [
+              [
+                "firebolt",
+                2
+              ]
+            ],
+            "executed": 2,
+            "projectiles": 2
+          }
+        }
+      ]
+    },
+    {
+      "name": "instant",
+      "variant": {
+        "useTime": 0,
+        "cooldown": 1
+      },
+      "initial": {
+        "mana": 100,
+        "life": 100,
+        "recovery": 0,
+        "active": null,
+        "cooldowns": [],
+        "executed": 0,
+        "projectiles": 0
+      },
+      "steps": [
+        {
+          "command": {
+            "type": "press"
+          },
+          "profile": {
+            "skillId": "firebolt",
+            "useTime": 0,
+            "cost": {
+              "mana": 6,
+              "life": 0
+            },
+            "cooldown": 1,
+            "cooldownAt": "completion"
+          },
+          "accepted": true,
+          "completionCooldown": 1,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0.12,
+            "active": null,
+            "cooldowns": [
+              [
+                "firebolt",
+                1
+              ]
+            ],
+            "executed": 1,
+            "projectiles": 1
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.2
+          },
+          "completionCooldown": 1,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": -0.08000000000000002,
+            "active": null,
+            "cooldowns": [
+              [
+                "firebolt",
+                0.8
+              ]
+            ],
+            "executed": 1,
+            "projectiles": 1
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 1
+          },
+          "completionCooldown": 1,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": -0.08000000000000002,
+            "active": null,
+            "cooldowns": [],
+            "executed": 1,
+            "projectiles": 1
+          }
+        },
+        {
+          "command": {
+            "type": "press"
+          },
+          "profile": {
+            "skillId": "firebolt",
+            "useTime": 0,
+            "cost": {
+              "mana": 6,
+              "life": 0
+            },
+            "cooldown": 1,
+            "cooldownAt": "completion"
+          },
+          "accepted": true,
+          "completionCooldown": 1,
+          "stunned": false,
+          "expected": {
+            "mana": 88,
+            "life": 100,
+            "recovery": 0.12,
+            "active": null,
+            "cooldowns": [
+              [
+                "firebolt",
+                1
+              ]
+            ],
+            "executed": 2,
+            "projectiles": 2
+          }
+        }
+      ]
+    },
+    {
+      "name": "minimum-bar-and-snapshotted-speed",
+      "variant": {
+        "useTime": 0.1
+      },
+      "initial": {
+        "mana": 100,
+        "life": 100,
+        "recovery": 0,
+        "active": null,
+        "cooldowns": [],
+        "executed": 0,
+        "projectiles": 0
+      },
+      "steps": [
+        {
+          "command": {
+            "type": "press"
+          },
+          "profile": {
+            "skillId": "firebolt",
+            "useTime": 0.1,
+            "cost": {
+              "mana": 6,
+              "life": 0
+            },
+            "cooldown": 0,
+            "cooldownAt": "completion"
+          },
+          "accepted": true,
+          "completionCooldown": 0,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": {
+              "elapsed": 0,
+              "total": 0.2
+            },
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "speed",
+            "value": 10
+          },
+          "completionCooldown": 0,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": {
+              "elapsed": 0,
+              "total": 0.2
+            },
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.1
+          },
+          "completionCooldown": 0,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": {
+              "elapsed": 0.1,
+              "total": 0.2
+            },
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.1
+          },
+          "completionCooldown": 0,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0.1,
+            "active": null,
+            "cooldowns": [],
+            "executed": 1,
+            "projectiles": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "stun-keeps-payment",
+      "variant": {
+        "cooldown": 2
+      },
+      "initial": {
+        "mana": 100,
+        "life": 100,
+        "recovery": 0,
+        "active": null,
+        "cooldowns": [],
+        "executed": 0,
+        "projectiles": 0
+      },
+      "steps": [
+        {
+          "command": {
+            "type": "press"
+          },
+          "profile": {
+            "skillId": "firebolt",
+            "useTime": 0.75,
+            "cost": {
+              "mana": 6,
+              "life": 0
+            },
+            "cooldown": 2,
+            "cooldownAt": "completion"
+          },
+          "accepted": true,
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": {
+              "elapsed": 0,
+              "total": 0.75
+            },
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.1
+          },
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": {
+              "elapsed": 0.1,
+              "total": 0.75
+            },
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "stun"
+          },
+          "completionCooldown": 2,
+          "stunned": true,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": {
+              "elapsed": 0.1,
+              "total": 0.75
+            },
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.01
+          },
+          "completionCooldown": 2,
+          "stunned": true,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": null,
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 2
+          },
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": null,
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "host-cancel-keeps-press-clock",
+      "variant": {
+        "cooldown": 2,
+        "cooldownAt": "press"
+      },
+      "initial": {
+        "mana": 100,
+        "life": 100,
+        "recovery": 0,
+        "active": null,
+        "cooldowns": [],
+        "executed": 0,
+        "projectiles": 0
+      },
+      "steps": [
+        {
+          "command": {
+            "type": "press"
+          },
+          "profile": {
+            "skillId": "firebolt",
+            "useTime": 0.75,
+            "cost": {
+              "mana": 6,
+              "life": 0
+            },
+            "cooldown": 2,
+            "cooldownAt": "press"
+          },
+          "accepted": true,
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": {
+              "elapsed": 0,
+              "total": 0.75
+            },
+            "cooldowns": [
+              [
+                "firebolt",
+                2
+              ]
+            ],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.1
+          },
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": {
+              "elapsed": 0.1,
+              "total": 0.75
+            },
+            "cooldowns": [
+              [
+                "firebolt",
+                1.9
+              ]
+            ],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "cancel"
+          },
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": null,
+            "cooldowns": [
+              [
+                "firebolt",
+                1.9
+              ]
+            ],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.3
+          },
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": null,
+            "cooldowns": [
+              [
+                "firebolt",
+                1.5999999999999999
+              ]
+            ],
+            "executed": 0,
+            "projectiles": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "completion-reprices-cooldown",
+      "variant": {
+        "cooldown": 2
+      },
+      "initial": {
+        "mana": 100,
+        "life": 100,
+        "recovery": 0,
+        "active": null,
+        "cooldowns": [],
+        "executed": 0,
+        "projectiles": 0
+      },
+      "steps": [
+        {
+          "command": {
+            "type": "press"
+          },
+          "profile": {
+            "skillId": "firebolt",
+            "useTime": 0.75,
+            "cost": {
+              "mana": 6,
+              "life": 0
+            },
+            "cooldown": 2,
+            "cooldownAt": "completion"
+          },
+          "accepted": true,
+          "completionCooldown": 2,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": {
+              "elapsed": 0,
+              "total": 0.75
+            },
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "addedCooldown",
+            "value": 3
+          },
+          "completionCooldown": 5,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0,
+            "active": {
+              "elapsed": 0,
+              "total": 0.75
+            },
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.75
+          },
+          "completionCooldown": 5,
+          "stunned": false,
+          "expected": {
+            "mana": 94,
+            "life": 100,
+            "recovery": 0.1,
+            "active": null,
+            "cooldowns": [
+              [
+                "firebolt",
+                5
+              ]
+            ],
+            "executed": 1,
+            "projectiles": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "insufficient-resources-are-atomic",
+      "variant": {
+        "manaCost": 6,
+        "lifeCost": 5
+      },
+      "initial": {
+        "mana": 100,
+        "life": 100,
+        "recovery": 0,
+        "active": null,
+        "cooldowns": [],
+        "executed": 0,
+        "projectiles": 0
+      },
+      "steps": [
+        {
+          "command": {
+            "type": "resources",
+            "mana": 5,
+            "life": 100
+          },
+          "completionCooldown": 0,
+          "stunned": false,
+          "expected": {
+            "mana": 5,
+            "life": 100,
+            "recovery": 0,
+            "active": null,
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "press"
+          },
+          "profile": {
+            "skillId": "firebolt",
+            "useTime": 0.75,
+            "cost": {
+              "mana": 6,
+              "life": 5
+            },
+            "cooldown": 0,
+            "cooldownAt": "completion"
+          },
+          "accepted": false,
+          "completionCooldown": 0,
+          "stunned": false,
+          "expected": {
+            "mana": 5,
+            "life": 100,
+            "recovery": 0,
+            "active": null,
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "resources",
+            "mana": 6,
+            "life": 5
+          },
+          "completionCooldown": 0,
+          "stunned": false,
+          "expected": {
+            "mana": 6,
+            "life": 5,
+            "recovery": 0,
+            "active": null,
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "press"
+          },
+          "profile": {
+            "skillId": "firebolt",
+            "useTime": 0.75,
+            "cost": {
+              "mana": 6,
+              "life": 5
+            },
+            "cooldown": 0,
+            "cooldownAt": "completion"
+          },
+          "accepted": false,
+          "completionCooldown": 0,
+          "stunned": false,
+          "expected": {
+            "mana": 6,
+            "life": 5,
+            "recovery": 0,
+            "active": null,
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "resources",
+            "mana": 6,
+            "life": 6
+          },
+          "completionCooldown": 0,
+          "stunned": false,
+          "expected": {
+            "mana": 6,
+            "life": 6,
+            "recovery": 0,
+            "active": null,
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "press"
+          },
+          "profile": {
+            "skillId": "firebolt",
+            "useTime": 0.75,
+            "cost": {
+              "mana": 6,
+              "life": 5
+            },
+            "cooldown": 0,
+            "cooldownAt": "completion"
+          },
+          "accepted": true,
+          "completionCooldown": 0,
+          "stunned": false,
+          "expected": {
+            "mana": 0,
+            "life": 1,
+            "recovery": 0,
+            "active": {
+              "elapsed": 0,
+              "total": 0.75
+            },
+            "cooldowns": [],
+            "executed": 0,
+            "projectiles": 0
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.75
+          },
+          "completionCooldown": 0,
+          "stunned": false,
+          "expected": {
+            "mana": 0,
+            "life": 1,
+            "recovery": 0.1,
+            "active": null,
+            "cooldowns": [],
+            "executed": 1,
+            "projectiles": 1
+          }
+        }
+      ]
+    }
+  ],
+  "dots": [
+    {
+      "taken": 1,
+      "steps": [
+        {
+          "command": {
+            "type": "apply",
+            "dps": 10,
+            "sourceId": "first"
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 1000,
+            "active": {
+              "remaining": 4,
+              "dps": 10,
+              "sourceId": "first"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.75
+          },
+          "expected": {
+            "raw": 7.5,
+            "damage": 7.5,
+            "life": 992.5,
+            "active": {
+              "remaining": 3.25,
+              "dps": 10,
+              "sourceId": "first"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "apply",
+            "dps": 5,
+            "scale": 2,
+            "sourceId": "weaker"
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 992.5,
+            "active": {
+              "remaining": 3.25,
+              "dps": 10,
+              "sourceId": "first"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.5
+          },
+          "expected": {
+            "raw": 5,
+            "damage": 5,
+            "life": 987.5,
+            "active": {
+              "remaining": 2.75,
+              "dps": 10,
+              "sourceId": "first"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "apply",
+            "dps": 10,
+            "scale": 2,
+            "sourceId": "equal"
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 987.5,
+            "active": {
+              "remaining": 2.75,
+              "dps": 10,
+              "sourceId": "first"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "apply",
+            "dps": 15,
+            "scale": 0.5,
+            "sourceId": "stronger"
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 987.5,
+            "active": {
+              "remaining": 2,
+              "dps": 15,
+              "sourceId": "first"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 987.5,
+            "active": {
+              "remaining": 2,
+              "dps": 15,
+              "sourceId": "first"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 1.9
+          },
+          "expected": {
+            "raw": 28.5,
+            "damage": 28.5,
+            "life": 959,
+            "active": {
+              "remaining": 0.10000000000000009,
+              "dps": 15,
+              "sourceId": "first"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.25
+          },
+          "expected": {
+            "raw": 3.75,
+            "damage": 3.75,
+            "life": 955.25,
+            "active": null
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 1
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 955.25,
+            "active": null
+          }
+        },
+        {
+          "command": {
+            "type": "expiry",
+            "value": 2
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 955.25,
+            "active": null
+          }
+        },
+        {
+          "command": {
+            "type": "apply",
+            "dps": 20,
+            "sourceId": "second"
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 955.25,
+            "active": {
+              "remaining": 2,
+              "dps": 20,
+              "sourceId": "second"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 3
+          },
+          "expected": {
+            "raw": 60,
+            "damage": 60,
+            "life": 895.25,
+            "active": null
+          }
+        },
+        {
+          "command": {
+            "type": "apply",
+            "dps": 0,
+            "scale": 0
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 895.25,
+            "active": {
+              "remaining": 0,
+              "dps": 0,
+              "sourceId": null
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 895.25,
+            "active": null
+          }
+        }
+      ]
+    },
+    {
+      "taken": 0.7,
+      "steps": [
+        {
+          "command": {
+            "type": "apply",
+            "dps": 10,
+            "sourceId": "first"
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 1000,
+            "active": {
+              "remaining": 4,
+              "dps": 10,
+              "sourceId": "first"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.75
+          },
+          "expected": {
+            "raw": 7.5,
+            "damage": 5.25,
+            "life": 994.75,
+            "active": {
+              "remaining": 3.25,
+              "dps": 10,
+              "sourceId": "first"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "apply",
+            "dps": 5,
+            "scale": 2,
+            "sourceId": "weaker"
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 994.75,
+            "active": {
+              "remaining": 3.25,
+              "dps": 10,
+              "sourceId": "first"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.5
+          },
+          "expected": {
+            "raw": 5,
+            "damage": 3.5,
+            "life": 991.25,
+            "active": {
+              "remaining": 2.75,
+              "dps": 10,
+              "sourceId": "first"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "apply",
+            "dps": 10,
+            "scale": 2,
+            "sourceId": "equal"
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 991.25,
+            "active": {
+              "remaining": 2.75,
+              "dps": 10,
+              "sourceId": "first"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "apply",
+            "dps": 15,
+            "scale": 0.5,
+            "sourceId": "stronger"
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 991.25,
+            "active": {
+              "remaining": 2,
+              "dps": 15,
+              "sourceId": "first"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 991.25,
+            "active": {
+              "remaining": 2,
+              "dps": 15,
+              "sourceId": "first"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 1.9
+          },
+          "expected": {
+            "raw": 28.5,
+            "damage": 19.95,
+            "life": 971.3,
+            "active": {
+              "remaining": 0.10000000000000009,
+              "dps": 15,
+              "sourceId": "first"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0.25
+          },
+          "expected": {
+            "raw": 3.75,
+            "damage": 2.625,
+            "life": 968.675,
+            "active": null
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 1
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 968.675,
+            "active": null
+          }
+        },
+        {
+          "command": {
+            "type": "expiry",
+            "value": 2
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 968.675,
+            "active": null
+          }
+        },
+        {
+          "command": {
+            "type": "apply",
+            "dps": 20,
+            "sourceId": "second"
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 968.675,
+            "active": {
+              "remaining": 2,
+              "dps": 20,
+              "sourceId": "second"
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 3
+          },
+          "expected": {
+            "raw": 60,
+            "damage": 42,
+            "life": 926.675,
+            "active": null
+          }
+        },
+        {
+          "command": {
+            "type": "apply",
+            "dps": 0,
+            "scale": 0
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 926.675,
+            "active": {
+              "remaining": 0,
+              "dps": 0,
+              "sourceId": null
+            }
+          }
+        },
+        {
+          "command": {
+            "type": "tick",
+            "dt": 0
+          },
+          "expected": {
+            "raw": 0,
+            "damage": 0,
+            "life": 926.675,
+            "active": null
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -22,7 +22,10 @@ import assert from 'node:assert/strict';
 Math.random = () => { throw new Error('ambient RNG called'); };
 globalThis.fetch = () => { throw new Error('network called'); };
 for (const key of ['window', 'document', 'localStorage']) Object.defineProperty(globalThis, key, { get() { throw new Error(key + ' accessed'); } });
-const { Engine } = await import('@hollow-wake/engine');
+const { Engine, CastRuntime, TimedDamage } = await import('@hollow-wake/engine');
+const bridge = await import('@hollow-wake/engine/hollow-wake');
+assert.equal(bridge.HOLLOW_WAKE_ADAPTER_VERSION, 1);
+assert.equal(bridge.castDuration(.1), .2);
 const content = JSON.parse(fs.readFileSync(new URL(import.meta.resolve('@hollow-wake/engine/content/milestone-one.json')), 'utf8'));
 const engine = new Engine(content, 42);
 const hero = engine.character({ classId: 'magician', passivePoints: 1 });
@@ -33,13 +36,20 @@ const skill = engine.skill({ id: 'ruin', level: 5, sockets: 2, treePoints: 1,
 const result = engine.resolveHit(hero, skill, engine.target({ life: 500 }));
 assert.ok(result.damage > 0 && result.life < 500);
 assert.equal(engine.planBuilds, 1);
+const casting = new CastRuntime({ mana: 100, life: 100 });
+assert.equal(casting.press(engine.castProfile(hero, skill)).kind, 'started');
+assert.equal(casting.advance(10).kind, 'completed');
+const burning = new TimedDamage({ id: 'burn', damageType: 'fire', duration: 4, reapply: 'strongest', clock: 'hollow-wake-frame/v1' });
+burning.apply(10);
+assert.equal(burning.advance(.5), 5);
+assert.equal(TimedDamage.restore(burning.snapshot()).remaining, 3.5);
 console.log(JSON.stringify({ installedConsumer: true, damage: result.damage, randomDraws: result.randomDraws }));
 `);
 const result = execFileSync(process.execPath, ['run.mjs'], {
   cwd: consumer, encoding: 'utf8', env: { ...process.env, NODE_PATH: '' },
 });
 const jsBytes = packed.files.filter(file => file.path.endsWith('.js')).reduce((sum, file) => sum + file.size, 0);
-const contentBytes = fs.statSync(path.join(root, 'content/milestone-one.json')).size;
+const contentBytes = packed.files.filter(file => file.path.startsWith('content/') && file.path.endsWith('.json')).reduce((sum, file) => sum + file.size, 0);
 assert.ok(jsBytes <= 96 * 1024, 'First-slice runtime exceeded the 96 KiB unminified JS budget');
 assert.ok(contentBytes <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({

@@ -1,0 +1,33 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
+import { root, materialize, verifyReference } from './reference-utils.mjs';
+import { integrate } from '../adapters/hollow-wake/integrate.mjs';
+const artifacts = path.join(root, '.artifacts');
+fs.mkdirSync(artifacts, { recursive: true });
+const requested = process.argv.indexOf('--game');
+const game = requested < 0 ? path.join(artifacts, 'game-adapter') : path.resolve(process.argv[requested + 1]);
+if (requested < 0) {
+  const lock = JSON.parse(fs.readFileSync(path.join(root, 'baseline/source-lock.json'), 'utf8'));
+  materialize(null, lock, game); verifyReference(game, lock);
+}
+assert.ok(!fs.existsSync(path.join(game, 'node_modules')), 'Refusing to replace existing dependencies');
+// A distinct tool environment: never install into the frozen reference or another checkout's junction.
+const tooling = fs.mkdtempSync(path.join(artifacts, 'adapter-tools-'));
+for (const file of ['package.json', 'package-lock.json']) fs.copyFileSync(path.join(root, 'reference/tooling', file), path.join(tooling, file));
+const npmCli = process.env.npm_execpath ?? path.join(path.dirname(process.execPath), 'node_modules/npm/bin/npm-cli.js');
+const npm = (args, cwd) => execFileSync(process.execPath, [npmCli, ...args, '--cache', path.join(artifacts, 'npm-cache')], { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+npm(['ci', '--ignore-scripts', '--no-audit', '--no-fund'], tooling);
+const [packed] = JSON.parse(npm(['pack', '--json', '--pack-destination', artifacts], root));
+const consumer = path.join(tooling, 'engine-consumer');
+fs.mkdirSync(consumer);
+fs.writeFileSync(path.join(consumer, 'package.json'), '{"private":true,"type":"module"}');
+npm(['install', path.join(artifacts, packed.filename), '--ignore-scripts', '--no-audit', '--no-fund', '--offline'], consumer);
+fs.mkdirSync(path.join(tooling, 'node_modules/@hollow-wake'));
+fs.symlinkSync(path.join(consumer, 'node_modules/@hollow-wake/engine'), path.join(tooling, 'node_modules/@hollow-wake/engine'), process.platform === 'win32' ? 'junction' : 'dir');
+const changes = integrate(game);
+fs.symlinkSync(path.join(tooling, 'node_modules'), path.join(game, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
+fs.copyFileSync(path.join(root, 'reference/export-lifecycle.ts'), path.join(game, 'balance/export-engine-lifecycle.ts'));
+fs.writeFileSync(path.join(artifacts, 'adapter-location.json'), JSON.stringify({ game, tooling, package: packed.filename, integrity: packed.integrity, ...changes }, null, 2));
+console.log(`Prepared isolated game adapter: ${game}`);

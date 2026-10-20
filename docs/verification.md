@@ -6,6 +6,7 @@
 npm ci
 npm run verify
 npm run example
+npm run example:lifecycle
 ```
 
 Verification builds the strict, host-independent TypeScript package, runs behavior
@@ -76,6 +77,12 @@ runtime callbacks, mutations and initialization order require behavioral tracing
 Negative controls alter the damage multiplier formula and omit cache invalidation
 in temporary built copies. The same behavioral tests must reject both with
 assertion failures. Syntax/import failures do not count as successful detection.
+
+Milestone two adds `reference:lifecycle`, a real installed-package game adapter,
+two more behavioral mutants and one actual-game wiring mutant. See
+[milestone-two.md](milestone-two.md) for the clean reconstruction sequence.
+The adapter check also compares every installed runtime/declaration file with
+the current build, so testing a stale packed version cannot pass unnoticed.
 
 ## Cross-runtime numerical policy
 

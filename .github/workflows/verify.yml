@@ -32,7 +32,24 @@ jobs:
       - run: npm run reference:prepare
       - run: npm run reference:install
       - run: npm run reference:verify
+      - run: npm run reference:lifecycle
       - run: npm run check
         working-directory: .reference
       - run: npm run sim -- run --suite smoke
         working-directory: .reference
+      - run: npm run adapter:prepare
+      - run: npm run adapter:verify
+      - run: npm run check
+        working-directory: .artifacts/game-adapter
+      - run: npm run sim -- run --suite smoke
+        working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_castingcues.ts
+        working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_costlevers.ts
+        working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_overdrive.ts
+        working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_defenses.ts
+        working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_statusvoice.ts
+        working-directory: .artifacts/game-adapter

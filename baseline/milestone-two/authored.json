@@ -1,0 +1,411 @@
+{
+  "firebolt": {
+    "tree": {
+      "level": 5,
+      "nodes": [
+        {
+          "id": "flame_studies",
+          "name": "Flame Studies",
+          "description": "15% increased fire damage. Bonuses apply per rank.",
+          "mods": [
+            {
+              "stat": "damage",
+              "kind": "increased",
+              "value": 0.15,
+              "tags": [
+                "fire"
+              ]
+            }
+          ],
+          "empowermentPassive": true,
+          "ranks": 4,
+          "x": 0,
+          "y": 150
+        },
+        {
+          "id": "ember_satellites",
+          "name": "Ember Satellites",
+          "description": "Flame orbs circle their caster instead of flying forward. Cast one additional orb; 20% less damage.",
+          "mods": [
+            {
+              "stat": "orbitPower",
+              "kind": "flat",
+              "value": 1
+            },
+            {
+              "stat": "projectileCount",
+              "kind": "flat",
+              "value": 1
+            },
+            {
+              "stat": "damage",
+              "kind": "more",
+              "value": -0.2
+            }
+          ],
+          "kind": "keystone",
+          "excludes": [
+            "cinder_lance"
+          ],
+          "x": -170,
+          "y": -50
+        },
+        {
+          "id": "dense_constellation",
+          "name": "Dense Constellation",
+          "description": "Cast one additional orb; 10% less damage.",
+          "mods": [
+            {
+              "stat": "projectileCount",
+              "kind": "flat",
+              "value": 1
+            },
+            {
+              "stat": "damage",
+              "kind": "more",
+              "value": -0.1
+            }
+          ],
+          "links": [
+            "ember_satellites"
+          ],
+          "kind": "major",
+          "x": -370,
+          "y": -230
+        },
+        {
+          "id": "passing_embers",
+          "name": "Passing Embers",
+          "description": "Orbs pierce two additional enemies.",
+          "mods": [
+            {
+              "stat": "pierceCount",
+              "kind": "flat",
+              "value": 2
+            }
+          ],
+          "links": [
+            "dense_constellation"
+          ],
+          "x": -570,
+          "y": -315
+        },
+        {
+          "id": "broad_embers",
+          "name": "Broad Embers",
+          "description": "50% increased projectile size and 20% increased damage.",
+          "mods": [
+            {
+              "stat": "projectileSize",
+              "kind": "increased",
+              "value": 0.5
+            },
+            {
+              "stat": "damage",
+              "kind": "increased",
+              "value": 0.2
+            }
+          ],
+          "links": [
+            "dense_constellation"
+          ],
+          "x": -570,
+          "y": -145
+        },
+        {
+          "id": "searing_orbit",
+          "name": "Searing Orbit",
+          "description": "Hits gain 35% additional chance to burn.",
+          "mods": [
+            {
+              "stat": "apply_burn",
+              "kind": "flat",
+              "value": 0.35
+            }
+          ],
+          "links": [
+            "ember_satellites"
+          ],
+          "kind": "major",
+          "x": -370,
+          "y": 170
+        },
+        {
+          "id": "clinging_cinders",
+          "name": "Clinging Cinders",
+          "description": "40% increased fire ailment magnitude and 25% increased duration.",
+          "mods": [
+            {
+              "stat": "statusMagnitude",
+              "kind": "increased",
+              "value": 0.4,
+              "tags": [
+                "fire"
+              ]
+            },
+            {
+              "stat": "effectDuration",
+              "kind": "increased",
+              "value": 0.25
+            }
+          ],
+          "links": [
+            "searing_orbit"
+          ],
+          "x": -570,
+          "y": 85
+        },
+        {
+          "id": "wildfire_sparks",
+          "name": "Wildfire Sparks",
+          "description": "Burns spread when their victim dies.",
+          "mods": [
+            {
+              "stat": "dotPropagates",
+              "kind": "flat",
+              "value": 1
+            }
+          ],
+          "links": [
+            "searing_orbit"
+          ],
+          "x": -570,
+          "y": 255
+        },
+        {
+          "id": "cinder_lance",
+          "name": "Cinder Lance",
+          "description": "Flame bolts pierce three additional enemies and fly 30% faster; cast 15% more slowly.",
+          "mods": [
+            {
+              "stat": "pierceCount",
+              "kind": "flat",
+              "value": 3
+            },
+            {
+              "stat": "projectileSpeed",
+              "kind": "increased",
+              "value": 0.3
+            },
+            {
+              "stat": "castSpeed",
+              "kind": "more",
+              "value": -0.15
+            }
+          ],
+          "kind": "keystone",
+          "excludes": [
+            "ember_satellites"
+          ],
+          "x": 170,
+          "y": -50
+        },
+        {
+          "id": "white_heat",
+          "name": "White Heat",
+          "description": "Penetrate 10% fire resistance.",
+          "mods": [
+            {
+              "stat": "firePen",
+              "kind": "flat",
+              "value": 0.1
+            }
+          ],
+          "links": [
+            "cinder_lance"
+          ],
+          "kind": "major",
+          "x": 370,
+          "y": -230
+        },
+        {
+          "id": "focused_flame",
+          "name": "Focused Flame",
+          "description": "30% more damage at 15% more mana cost.",
+          "mods": [
+            {
+              "stat": "damage",
+              "kind": "more",
+              "value": 0.3
+            },
+            {
+              "stat": "manaCost",
+              "kind": "more",
+              "value": 0.15
+            }
+          ],
+          "links": [
+            "white_heat"
+          ],
+          "x": 570,
+          "y": -315
+        },
+        {
+          "id": "incandescent_point",
+          "name": "Incandescent Point",
+          "description": "10% additional critical chance and 30% critical multiplier.",
+          "mods": [
+            {
+              "stat": "critChance",
+              "kind": "flat",
+              "value": 0.1
+            },
+            {
+              "stat": "critMulti",
+              "kind": "flat",
+              "value": 0.3
+            }
+          ],
+          "links": [
+            "white_heat"
+          ],
+          "x": 570,
+          "y": -145
+        },
+        {
+          "id": "slow_combustion",
+          "name": "Slow Combustion",
+          "description": "Hits gain 30% additional burn chance and 35% increased fire ailment magnitude.",
+          "mods": [
+            {
+              "stat": "apply_burn",
+              "kind": "flat",
+              "value": 0.3
+            },
+            {
+              "stat": "statusMagnitude",
+              "kind": "increased",
+              "value": 0.35,
+              "tags": [
+                "fire"
+              ]
+            }
+          ],
+          "links": [
+            "cinder_lance"
+          ],
+          "kind": "major",
+          "x": 370,
+          "y": 170
+        },
+        {
+          "id": "lasting_cinders",
+          "name": "Lasting Cinders",
+          "description": "40% increased effect duration.",
+          "mods": [
+            {
+              "stat": "effectDuration",
+              "kind": "increased",
+              "value": 0.4
+            }
+          ],
+          "links": [
+            "slow_combustion"
+          ],
+          "x": 570,
+          "y": 85
+        },
+        {
+          "id": "far_flight",
+          "name": "Far Flight",
+          "description": "40% increased projectile speed and 20% increased damage.",
+          "mods": [
+            {
+              "stat": "projectileSpeed",
+              "kind": "increased",
+              "value": 0.4
+            },
+            {
+              "stat": "damage",
+              "kind": "increased",
+              "value": 0.2
+            }
+          ],
+          "links": [
+            "slow_combustion"
+          ],
+          "x": 570,
+          "y": 255
+        }
+      ]
+    },
+    "id": "firebolt",
+    "name": "Firebolt",
+    "icon": "ember",
+    "description": "Loose an orb of flame: a projectile dealing fire damage, with a 12% chance to set the victim burning.",
+    "tags": [
+      "spell",
+      "projectile",
+      "fire"
+    ],
+    "color": "#ff7a2a",
+    "manaCost": 6,
+    "cooldown": 0,
+    "useTime": 0.75,
+    "baseDamage": {
+      "fire": [
+        10,
+        16
+      ]
+    },
+    "delivery": {
+      "type": "projectile",
+      "speed": 380,
+      "radius": 9,
+      "range": 520
+    },
+    "effects": [
+      {
+        "type": "damage"
+      },
+      {
+        "type": "status",
+        "status": "burn",
+        "chance": 0.35,
+        "magnitude": 0.3
+      }
+    ],
+    "requirements": {
+      "intelligence": 12
+    },
+    "ai": {
+      "range": 480,
+      "weight": 2,
+      "keepDistance": 260
+    },
+    "leveling": {
+      "perLevel": [
+        {
+          "stat": "damage",
+          "kind": "increased",
+          "value": 0.1
+        },
+        {
+          "stat": "addedFire",
+          "kind": "flat",
+          "value": 1.5
+        }
+      ]
+    }
+  },
+  "burn": {
+    "label": "Burning",
+    "color": "#ff7a2a",
+    "duration": 4,
+    "element": "fire",
+    "dotType": "fire",
+    "stackPolicy": "strongest",
+    "hitMagnitude": 0.35,
+    "baseline": {
+      "dps": 3,
+      "perLevel": 1.2
+    }
+  },
+  "timedDamage": {
+    "id": "burn",
+    "damageType": "fire",
+    "duration": 4,
+    "reapply": "strongest",
+    "clock": "hollow-wake-frame/v1"
+  }
+}

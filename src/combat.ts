@@ -4,6 +4,7 @@ import { Random } from './random.js';
 import { StatSheet } from './stats.js';
 import type { CharacterBuild, ContentPack, HitReceipt, RandomState, SkillSelection, TargetSpec } from './types.js';
 import { copy, finite } from './validation.js';
+import type { CastProfile } from './casting.js';
 
 interface AttackPlan {
   revision: number;
@@ -26,6 +27,7 @@ interface AttackPlan {
   manaCost: number;
   lifeCost: number;
   cooldown: number;
+  useTime: number;
 }
 export interface DamagePreview {
   bands: Record<string, { lo: number; hi: number }>;
@@ -61,6 +63,16 @@ export class Target {
   }
   get life(): number { return this.currentLife; }
   get critAvoid(): number { this.refresh(); return this.avoid; }
+  /** Plain-defender DoT law: bypass armor/resistance, retain damageTaken. Host owns expiry/death. */
+  receiveDot(raw: number, damageType: string): number {
+    if (!this.content.pack.damageTypes.includes(damageType)) throw new Error('Unknown damage type');
+    if (finite(raw, 'dot damage') < 0 || this.life <= 0) throw new Error('Invalid damage or dead target');
+    this.refresh();
+    const damage = finite(raw * this.taken, 'dot damage');
+    const nextLife = finite(this.currentLife - damage, 'target life');
+    this.currentLife = nextLife;
+    return damage;
+  }
   snapshot(): { life: number; spec: TargetSpec } {
     return { life: this.life, spec: { life: this.sheet.get('life'), mods: copy(this.sheet.getSourceMods('defense') ?? []) } };
   }
@@ -133,6 +145,11 @@ export class Engine {
   costs(character: Character, skill: ConfiguredSkill): { mana: number; life: number; cooldown: number } {
     const plan = this.plan(character, skill);
     return { mana: plan.manaCost, life: plan.lifeCost, cooldown: plan.cooldown };
+  }
+  castProfile(character: Character, skill: ConfiguredSkill, cooldownAt: CastProfile['cooldownAt'] = 'completion'): CastProfile {
+    if (skill.tags.has('reload')) throw new Error('Reload casting is not extracted');
+    const plan = this.plan(character, skill);
+    return { skillId: skill.definition.id, useTime: plan.useTime, cost: { mana: plan.manaCost, life: plan.lifeCost }, cooldown: plan.cooldown, cooldownAt };
   }
   preview(character: Character, skill: ConfiguredSkill): DamagePreview {
     const plan = this.plan(character, skill);
@@ -250,7 +267,7 @@ export class Engine {
       thorns: 0, dominion: get('maxManaDamage') * sheet.get('mana'),
       lucky: get('luckyChance'), unlucky: get('unluckyChance'),
       critChance: get('critChance'), critMulti: get('critMulti'),
-      manaCost: 0, lifeCost: 0, cooldown: 0,
+      manaCost: 0, lifeCost: 0, cooldown: 0, useTime: def.useTime / get('castSpeed'),
     };
     for (let i = 0; i < n; i++) {
       const type = types[i], ctx = skill.typeTags[type];

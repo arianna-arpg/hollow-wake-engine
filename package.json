@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -8,11 +8,29 @@
     "type": "git",
     "url": "https://github.com/arianna-arpg/hollow-wake-engine.git"
   },
-  "engines": { "node": ">=22" },
-  "files": ["dist", "content", "docs", "LICENSE.md", "NOTICE.md", "README.md"],
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "dist",
+    "content",
+    "docs",
+    "LICENSE.md",
+    "NOTICE.md",
+    "README.md"
+  ],
   "exports": {
-    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
-    "./content/milestone-one.json": "./content/milestone-one.json"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./content/milestone-one.json": "./content/milestone-one.json",
+    "./hollow-wake": {
+      "types": "./dist/hollow-wake.d.ts",
+      "import": "./dist/hollow-wake.js"
+    },
+    "./content/burning.json": "./content/burning.json",
+    "./content/firebolt.json": "./content/firebolt.json"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -23,7 +41,12 @@
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
     "reference:install": "node scripts/install-reference-tools.mjs",
-    "reference:verify": "node scripts/run-reference.mjs"
+    "reference:verify": "node scripts/run-reference.mjs",
+    "reference:lifecycle": "node scripts/run-lifecycle-reference.mjs",
+    "adapter:prepare": "npm run build && node scripts/prepare-game-adapter.mjs",
+    "adapter:verify": "node scripts/test-game-adapter.mjs",
+    "benchmark:lifecycle": "npm run build && node --expose-gc scripts/benchmark-lifecycle.mjs",
+    "example:lifecycle": "npm run build && node examples/casting-and-burning.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"
