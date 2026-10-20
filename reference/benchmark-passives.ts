@@ -13,7 +13,7 @@ bootSimEngine();
 const sdk = process.argv[2], out = process.argv[3];
 const { PassivePolicy } = await import(pathToFileURL(path.join(sdk, 'dist/passive-policy.js')).href);
 const bytes = fs.readFileSync(path.join(sdk, 'baseline/milestone-eight/passives.json.gz'));
-const fixture = JSON.parse(gunzipSync(bytes)), policy = new PassivePolicy(fixture.authored);
+const fixture = JSON.parse(gunzipSync(bytes).toString('utf8')), policy = new PassivePolicy(fixture.authored);
 const cases = fixture.scenarios.filter((s: any) => s.name.startsWith('authored-')).map((s: any) => {
   const state = s.steps.at(-1).expected;
   const meta = { ...state, classDef: CLASSES.find(c => c.id === state.classId)!, allocated: new Set<string>(state.allocated) };

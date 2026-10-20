@@ -96,6 +96,8 @@ test('vocation membership, gate toggle and currency are independent requirements
   const input = tiny(); input.nodes.push({ id: 'crest', name: 'Crest', vocation: 'v' }, { id: 'voc', name: 'Vocation leaf', vocation: 'v' });
   input.adjacency.crest = ['voc']; input.adjacency.voc = ['crest']; input.vocations = [{ id: 'v', root: 'crest', gate: 'a' }];
   const p = new PassivePolicy(input);
+  const badRoot = structuredClone(input); badRoot.vocations[0].root = 'root';
+  assert.throws(() => new PassivePolicy(badRoot), /another domain/);
   const unearned = p.create(state({ allocated: ['root','a','crest'], vocationPoints: 4 }));
   assert.equal(unearned.allocate('voc', access).accepted, false);
   const gated = p.create(state({ allocated: ['root','crest'], vocations: ['v'], vocationPoints: 4 }));
@@ -112,7 +114,7 @@ test('vocation membership, gate toggle and currency are independent requirements
 test('malformed content and state fail before becoming executable policy', () => {
   for (const change of [
     p => p.nodes.push({ ...p.nodes[0] }), p => p.nodes[0].id = '__proto__', p => p.adjacency.a.push('missing'),
-    p => p.nodes[1].mods = [], p => p.pickCost = 0, p => p.defaultPick = NaN,
+    p => p.nodes[1].mods = [], p => p.pickCost = 0, p => p.defaultPick = NaN, p => p.pickCost = Number.MAX_SAFE_INTEGER,
     p => p.nodes[3].choice.group = 'missing', p => p.groups[0].options.push({ id: 'x' }),
     p => p.realms[1].roots = ['root'], p => p.nodes[1].vocation = 'missing',
   ]) { const input = tiny(); change(input); assert.throws(() => new PassivePolicy(input)); }

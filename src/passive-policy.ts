@@ -96,7 +96,8 @@ export class PassivePolicy {
     }
     for (const c of p.classes) { plainFields(c, ['id','startNode']); required(this.#nodes, c.startNode); }
     for (const v of p.vocations) {
-      plainFields(v, ['id','root','gate']); required(this.#nodes, v.root);
+      plainFields(v, ['id','root','gate']);
+      if (required(this.#nodes, v.root).vocation !== v.id) throw new Error('Vocation root belongs to another domain');
       if (v.gate !== null) required(this.#nodes, v.gate);
     }
     this.#offsets = new Uint32Array(p.nodes.length + 1); this.#domains = new Uint32Array(p.nodes.length);
@@ -111,6 +112,7 @@ export class PassivePolicy {
         plainFields(n.choice, ['group','pick','allocatedDefault']); const g = required(this.#groups, n.choice.group);
         if (n.choice.pick !== undefined) integer(n.choice.pick, 1, 'node pick limit');
         if (this.pickLimit(n) > g.options.length) throw new Error('Choice limit exceeds available options');
+        integer(this.pickLimit(n) * p.pickCost, 1, 'maximum choice refund');
         if (n.choice.allocatedDefault !== undefined && !g.options.some(o => o.id === n.choice!.allocatedDefault)) throw new Error('Unknown allocated default');
       }
       checkGraft(n.graft);

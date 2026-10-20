@@ -1,0 +1,10 @@
+{
+  "scope": "Frozen source with independently copied extraction and benchmark helpers",
+  "gameTypes": "passed",
+  "launcherTypes": "passed",
+  "simAndBalanceTypes": "passed after explicit UTF-8 decoding in the benchmark helper",
+  "initialFailure": "TypeScript rejected Buffer as the JSON.parse argument; runtime comparison had passed",
+  "correction": "gunzipSync(bytes).toString(utf8)",
+  "finalCommand": "node node_modules/typescript/bin/tsc -p tsconfig.sim.json",
+  "finalExitCode": 0
+}

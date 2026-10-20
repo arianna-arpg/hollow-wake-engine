@@ -44,6 +44,8 @@ discipline. Unknown allocated ids, invalid choices, stale graft sources and unsa
 wallet numbers are errors. This is strict loading, not the game's tolerant legacy
 save migration; callers must perform an explicit migration first. Construction
 does not establish that every supplied allocation was earned or is connected.
+Content compilation also checks vocation root domains and bounds every possible
+multi-pick refund to an exact safe integer.
 
 ## Observed semantics
 
