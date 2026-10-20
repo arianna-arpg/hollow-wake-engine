@@ -1,0 +1,559 @@
+{
+  "class": {
+    "id": "magician",
+    "name": "Magician",
+    "look": "class_magician",
+    "description": "A mystic mage that flings forth the destructive elemental powers of fire, frost and storm.",
+    "color": "#7a9aff",
+    "attributes": {
+      "strength": 0,
+      "prowess": 0,
+      "fortitude": 0,
+      "dexterity": 2,
+      "finesse": 4,
+      "charisma": 2,
+      "intelligence": 22,
+      "wisdom": 10,
+      "willpower": 12,
+      "vitality": 8
+    },
+    "bar": [
+      "firebolt",
+      "frost_nova",
+      "chain_lightning",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "startNode": "int_start",
+    "kit": [
+      {
+        "tier": "novice",
+        "replaces": "firebolt",
+        "skill": "frostbolt"
+      },
+      {
+        "tier": "adept",
+        "replaces": "frost_nova",
+        "skill": "shock_nova"
+      },
+      {
+        "tier": "expert",
+        "replaces": "chain_lightning",
+        "skill": "fireball"
+      },
+      {
+        "tier": "master",
+        "skill": "long_cold"
+      }
+    ]
+  },
+  "skill": {
+    "tree": {
+      "level": 5,
+      "nodes": [
+        {
+          "id": "ruin_studies",
+          "name": "Ruin Studies",
+          "description": "15% increased chaos damage. Bonuses apply per rank.",
+          "mods": [
+            {
+              "stat": "damage",
+              "kind": "increased",
+              "value": 0.15,
+              "tags": [
+                "chaos"
+              ]
+            }
+          ],
+          "empowermentPassive": true,
+          "ranks": 4,
+          "x": 0,
+          "y": 150
+        },
+        {
+          "id": "pact_signal",
+          "name": "Pact Signal",
+          "description": "Casting prepares each owned minion for 3 base seconds: its next landed spell hit deals 35% more damage. Ruin deals 15% less damage.",
+          "mods": [
+            {
+              "stat": "damage",
+              "kind": "more",
+              "value": -0.15
+            }
+          ],
+          "over": {
+            "tags": {
+              "add": [
+                "buff",
+                "duration"
+              ]
+            }
+          },
+          "buffs": [
+            {
+              "id": "pact_signal",
+              "duration": 3,
+              "affects": "minions",
+              "consumeOn": {
+                "on": "hit",
+                "tags": [
+                  "spell"
+                ]
+              },
+              "mods": [
+                {
+                  "stat": "damage",
+                  "kind": "more",
+                  "value": 0.35,
+                  "tags": [
+                    "spell"
+                  ]
+                }
+              ]
+            }
+          ],
+          "kind": "keystone",
+          "excludes": [
+            "venom_seeker"
+          ],
+          "x": -170,
+          "y": -50
+        },
+        {
+          "id": "clear_signal",
+          "name": "Clear Signal",
+          "description": "Prepared minions gain 12% spell critical chance.",
+          "buffs": [
+            {
+              "id": "pact_signal",
+              "mods": [
+                {
+                  "stat": "critChance",
+                  "kind": "flat",
+                  "value": 0.12,
+                  "tags": [
+                    "spell"
+                  ]
+                }
+              ]
+            }
+          ],
+          "links": [
+            "pact_signal"
+          ],
+          "kind": "major",
+          "x": -370,
+          "y": -230
+        },
+        {
+          "id": "hungry_signal",
+          "name": "Hungry Signal",
+          "description": "Prepared spells leech 8% of hit damage to the minion.",
+          "buffs": [
+            {
+              "id": "pact_signal",
+              "mods": [
+                {
+                  "stat": "lifeLeech",
+                  "kind": "flat",
+                  "value": 0.08,
+                  "tags": [
+                    "spell"
+                  ]
+                }
+              ]
+            }
+          ],
+          "links": [
+            "clear_signal"
+          ],
+          "x": -570,
+          "y": -315
+        },
+        {
+          "id": "piercing_signal",
+          "name": "Piercing Signal",
+          "description": "Prepared spells penetrate 15% chaos resistance.",
+          "buffs": [
+            {
+              "id": "pact_signal",
+              "mods": [
+                {
+                  "stat": "chaosPen",
+                  "kind": "flat",
+                  "value": 0.15,
+                  "tags": [
+                    "spell"
+                  ]
+                }
+              ]
+            }
+          ],
+          "links": [
+            "clear_signal"
+          ],
+          "x": -570,
+          "y": -145
+        },
+        {
+          "id": "patient_signal",
+          "name": "Patient Signal",
+          "description": "60% increased preparation duration.",
+          "mods": [
+            {
+              "stat": "effectDuration",
+              "kind": "increased",
+              "value": 0.6
+            }
+          ],
+          "links": [
+            "pact_signal"
+          ],
+          "kind": "major",
+          "x": -370,
+          "y": 170
+        },
+        {
+          "id": "cheap_signal",
+          "name": "Cheap Signal",
+          "description": "30% reduced mana cost.",
+          "mods": [
+            {
+              "stat": "manaCost",
+              "kind": "increased",
+              "value": -0.3
+            }
+          ],
+          "links": [
+            "patient_signal"
+          ],
+          "x": -570,
+          "y": 85
+        },
+        {
+          "id": "swift_signal",
+          "name": "Swift Signal",
+          "description": "25% increased cast speed and 40% increased projectile speed.",
+          "mods": [
+            {
+              "stat": "castSpeed",
+              "kind": "increased",
+              "value": 0.25
+            },
+            {
+              "stat": "projectileSpeed",
+              "kind": "increased",
+              "value": 0.4
+            }
+          ],
+          "links": [
+            "patient_signal"
+          ],
+          "x": -570,
+          "y": 255
+        },
+        {
+          "id": "venom_seeker",
+          "name": "Venom Seeker",
+          "description": "Bolts home toward enemies and gain 60% chance to poison. 15% less hit damage.",
+          "mods": [
+            {
+              "stat": "homingPower",
+              "kind": "flat",
+              "value": 2
+            },
+            {
+              "stat": "apply_poison",
+              "kind": "flat",
+              "value": 0.6
+            },
+            {
+              "stat": "damage",
+              "kind": "more",
+              "value": -0.15
+            }
+          ],
+          "kind": "keystone",
+          "excludes": [
+            "pact_signal"
+          ],
+          "x": 170,
+          "y": -50
+        },
+        {
+          "id": "deep_venom",
+          "name": "Deep Venom",
+          "description": "40% increased chaos ailment magnitude.",
+          "mods": [
+            {
+              "stat": "statusMagnitude",
+              "kind": "increased",
+              "value": 0.4,
+              "tags": [
+                "chaos"
+              ]
+            }
+          ],
+          "links": [
+            "venom_seeker"
+          ],
+          "kind": "major",
+          "x": 370,
+          "y": -230
+        },
+        {
+          "id": "spreading_venom",
+          "name": "Spreading Venom",
+          "description": "Poisons spread when their victim dies.",
+          "mods": [
+            {
+              "stat": "dotPropagates",
+              "kind": "flat",
+              "value": 1
+            }
+          ],
+          "links": [
+            "deep_venom"
+          ],
+          "x": 570,
+          "y": -315
+        },
+        {
+          "id": "venom_sustenance",
+          "name": "Venom Sustenance",
+          "description": "Recover life equal to 5% of this skill's poison damage.",
+          "mods": [
+            {
+              "stat": "dotLeech_poison",
+              "kind": "flat",
+              "value": 0.05
+            }
+          ],
+          "links": [
+            "deep_venom"
+          ],
+          "x": 570,
+          "y": -145
+        },
+        {
+          "id": "seeking_pair",
+          "name": "Seeking Pair",
+          "description": "Fire one additional bolt; 20% less damage per bolt.",
+          "mods": [
+            {
+              "stat": "projectileCount",
+              "kind": "flat",
+              "value": 1
+            },
+            {
+              "stat": "damage",
+              "kind": "more",
+              "value": -0.2
+            }
+          ],
+          "links": [
+            "venom_seeker"
+          ],
+          "kind": "major",
+          "x": 370,
+          "y": 170
+        },
+        {
+          "id": "through_the_pack",
+          "name": "Through the Pack",
+          "description": "Pierce two additional enemies.",
+          "mods": [
+            {
+              "stat": "pierceCount",
+              "kind": "flat",
+              "value": 2
+            }
+          ],
+          "links": [
+            "seeking_pair"
+          ],
+          "x": 570,
+          "y": 85
+        },
+        {
+          "id": "venom_opening",
+          "name": "Venom Opening",
+          "description": "Deal 30% more damage against poisoned enemies.",
+          "mods": [
+            {
+              "stat": "damage",
+              "kind": "more",
+              "value": 0.3,
+              "tags": [
+                "vs:poison"
+              ]
+            }
+          ],
+          "links": [
+            "seeking_pair"
+          ],
+          "x": 570,
+          "y": 255
+        }
+      ]
+    },
+    "id": "ruin",
+    "name": "Ruin",
+    "description": "A bolt of consuming twilight: a chaos projectile that feeds your Guardian Bond at triple the usual share. Ruin for them, renewal for yours.",
+    "tags": [
+      "spell",
+      "projectile",
+      "chaos"
+    ],
+    "color": "#9a78c8",
+    "manaCost": 8,
+    "cooldown": 0,
+    "useTime": 0.65,
+    "baseDamage": {
+      "chaos": [
+        9,
+        15
+      ]
+    },
+    "delivery": {
+      "type": "projectile",
+      "speed": 360,
+      "radius": 8,
+      "range": 480
+    },
+    "bondFeed": 3,
+    "effects": [
+      {
+        "type": "damage"
+      }
+    ],
+    "requirements": {
+      "willpower": 12,
+      "intelligence": 8
+    },
+    "ai": {
+      "range": 440,
+      "weight": 2,
+      "keepDistance": 240
+    },
+    "leveling": {
+      "perLevel": [
+        {
+          "stat": "damage",
+          "kind": "increased",
+          "value": 0.12,
+          "tags": [
+            "chaos"
+          ]
+        }
+      ]
+    }
+  },
+  "supports": [
+    {
+      "id": "corrosion",
+      "name": "Corrosion",
+      "description": "40% increased chaos damage.",
+      "color": "#7ec850",
+      "requiresTags": [
+        "chaos"
+      ],
+      "mods": [
+        {
+          "stat": "damage",
+          "kind": "increased",
+          "value": 0.4,
+          "tags": [
+            "chaos"
+          ]
+        }
+      ],
+      "perLevel": [
+        {
+          "stat": "damage",
+          "kind": "increased",
+          "value": 0.1,
+          "tags": [
+            "chaos"
+          ]
+        }
+      ],
+      "weight": 8
+    },
+    {
+      "id": "measured_blows",
+      "name": "Measured Blows",
+      "description": "The clock trade: 35% more damage, but the skill gains a 1.2 second cooldown (still reducible; charges and founts pace around it).",
+      "color": "#b8b8c8",
+      "mods": [
+        {
+          "stat": "damage",
+          "kind": "more",
+          "value": 0.35
+        },
+        {
+          "stat": "addedCooldown",
+          "kind": "flat",
+          "value": 1.2
+        }
+      ],
+      "weight": 6
+    }
+  ],
+  "passives": [
+    {
+      "id": "int_start",
+      "name": "Way of Intelligence",
+      "description": "A starting point of the nine-pointed star. Any class may path through it.",
+      "kind": "start",
+      "x": 2644,
+      "y": 3070,
+      "attributes": {
+        "intelligence": 3
+      },
+      "links": [
+        "node_130",
+        "node_131",
+        "node_85"
+      ]
+    },
+    {
+      "id": "cross_int_pursuit",
+      "name": "Arcane Practice",
+      "description": "8% increased spell damage.",
+      "kind": "small",
+      "x": 2548,
+      "y": 3086,
+      "links": [
+        "int_start"
+      ],
+      "mods": [
+        {
+          "stat": "damage",
+          "kind": "increased",
+          "value": 0.08,
+          "tags": [
+            "spell"
+          ]
+        }
+      ]
+    }
+  ],
+  "item": {
+    "uid": 4,
+    "baseId": "ring_lapis",
+    "ilvl": 1,
+    "tier": 1,
+    "rarity": "common",
+    "name": "Lapis Ring",
+    "baseRoll": 0.1785435655619949,
+    "implicitRolls": [
+      0.49531551403924823
+    ],
+    "affixes": []
+  },
+  "note": "Raw authored definitions are retained here. The runtime pack explicitly exposes only the resolved hit capability; Ruin bond feeding, travel and other tree branches are not implemented."
+}

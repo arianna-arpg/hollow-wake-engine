@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { root, verifyReference } from './reference-utils.mjs';
+const reference = path.join(root, '.reference');
+const lock = JSON.parse(fs.readFileSync(path.join(root, 'baseline/source-lock.json'), 'utf8'));
+verifyReference(reference, lock);
+const script = path.join(reference, 'balance', 'benchmark-engine-extraction.ts');
+fs.copyFileSync(path.join(root, 'reference/benchmark.ts'), script);
+execFileSync(process.execPath, ['--import', 'tsx', script, root], { cwd: reference, stdio: 'inherit' });
+verifyReference(reference, lock);

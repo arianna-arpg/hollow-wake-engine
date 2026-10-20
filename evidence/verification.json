@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-10-20T19:10:18.568Z",
+  "node": "v24.9.0",
+  "platform": "win32",
+  "sourceCommit": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "referenceFiles": 1510,
+  "workingOverlayFiles": 31,
+  "sourceArchive": {
+    "path": "baseline/source.tar.gz",
+    "sha256": "d92740bf2a287fcf86de21ce759b96b549e0ee5d397912f3983f86e740e4f70e",
+    "bytes": 9832737,
+    "reason": "Portable committed-source capsule; the pinned local revision need not be reachable from upstream."
+  },
+  "checks": [
+    {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "tests": 28,
+      "deliberateFaultsDetected": [
+        "incorrect-increase",
+        "stale-stat-cache"
+      ],
+      "productionModules": 9,
+      "runtimeDependencies": 0
+    },
+    {
+      "command": "npm run reference:verify",
+      "exitCode": 0,
+      "buildStages": 5,
+      "contacts": 168,
+      "statTransitions": 240
+    },
+    {
+      "cwd": ".reference",
+      "command": "npm run check",
+      "exitCode": 0,
+      "projects": [
+        "game",
+        "launcher",
+        "simulation"
+      ]
+    },
+    {
+      "cwd": ".reference",
+      "command": "npm run sim -- run --suite smoke",
+      "exitCode": 0,
+      "scenarios": 5,
+      "seedsPerScenario": 5,
+      "report": "game-smoke-report.json"
+    },
+    {
+      "command": "offline source-archive reconstruction",
+      "exactSourceHashesVerified": 1510
+    },
+    {
+      "command": "node scripts/test-package.mjs",
+      "exitCode": 0,
+      "receipt": "package-verification.json"
+    },
+    {
+      "command": "npm run benchmark",
+      "exitCode": 0,
+      "receipt": "contact-benchmark.json"
+    }
+  ],
+  "sourceHashPolicy": "SHA-256 UTF-8 text after CRLF-to-LF normalization; baseline/source-lock.json uses exact original bytes instead",
+  "sourceHashes": {
+    "content/milestone-one.json": "a8f93eac8e94b460811de0b1c3fd20d7f3980c8da1fa07c6cab636afef2eab80",
+    "package-lock.json": "667013b0d29c24eb093e300e3b02e8265038e7703dc7954b3df9d93476f42e39",
+    "package.json": "beaef40306e795b16ddf2df19eacc4a6674d27a2e5b5ec9caab79a7b9543ca86",
+    "reference/benchmark.ts": "e681786041302e81062b09f508d7afddc800d5c4948d3c351d63c81a72ca3c36",
+    "reference/export-fixtures.ts": "4eb3c742a660101845a2332ba15813d63660d93ee83e191f2aa72c2c97ef73ed",
+    "scripts/analyze-reference.mjs": "b9a6db42cb7cbed88214349ac9573d8fd5cc48c485380ae8ab8e183943c3a96f",
+    "scripts/benchmark.mjs": "12a888ee9ca135e389cb19ce8e1a1d194d13826bd3c9be7f44a01868461ceb9e",
+    "scripts/capture-reference.mjs": "2c21f6f75835c049baeca6f83c33692b032bddce4a97ebfcfa8ffb2d337f289d",
+    "scripts/check-boundaries.mjs": "64ef007b1dcf65e96a359e14bb22e59630b48f6781dac6c4a3b03a1c7b5dadd6",
+    "scripts/extract-stat-sheet.mjs": "f02cc775fda8bf71afee6fdb7d1f814ada0ba2f35fe79216258b965450a3669c",
+    "scripts/prepare-reference.mjs": "5dc7cec1d8908af51e3974f0aa84ae89effb0af6006c2bc62d76c231f10a1fd1",
+    "scripts/reference-utils.mjs": "e36edca23dfd5ac73f203599495a1bc348e2fc90689c5c922154f7da0a40feeb",
+    "scripts/run-reference.mjs": "ecf5893cec40bc6c0d4983a6d8d9f939a5f41f94d69bdae551681d21376d9fc3",
+    "scripts/test-mutations.mjs": "c373a7de9585252b4e3810307679445399e562f02b7c7762cacdfe537edeb735",
+    "scripts/test-package.mjs": "63bf2eb3167e49222731d1609f0e6164e85cb8c355dff8d6627dfdbc9ff481f1",
+    "src/character.ts": "e258b4e08595806e6fedc4a49fa70fca50c2720307547385c35e81a071d98d92",
+    "src/combat.ts": "3b924f3a2c4c132dc3bd18e4c4082876981fad64f5ac4428517d693c8ed8ae0e",
+    "src/content.ts": "02eb42adecaf0c022c12a3e3def1ef3dc810412547eb6d4d2fa2bb997232ff65",
+    "src/index.ts": "d31b29c7b446c5474c15c2aa8af78f3093739de859f339a71c43fbe83bf4c211",
+    "src/random.ts": "c368b57b22cec48220585c2f465acf1396bc48450e865ed34a3f7cab67267749",
+    "src/stat-rules.ts": "fcc477a19e1ad5c6bba0ecced39727faa906cb5aa16516257b3914f41151e912",
+    "src/stats.ts": "0df8896443b1ccf83f426cb7c6691a60aa47cc4cd5771ff26d2a9dbbc80a9985",
+    "src/types.ts": "a0f0df68bb91b47b8bbc08e0d46c4ae36fcc832cef5f2bc9a60be8b7996a04f8",
+    "src/validation.ts": "3f9cd8320a065e26d3515157a32513c4b3140cb263cd3615f139ac6a3dc4b651",
+    "test/contracts.test.mjs": "d52670718da3e80380fc0c3f4e07b27b8c1f458e0128ddc3b46ca9ad98a9a714",
+    "test/helpers.mjs": "bcff0417eaf7f522fe06329768a2c84f6414a47fe1cc937a862ae17c2ae10537",
+    "test/reference.test.mjs": "6b310ca5b417229a14a4babd53e5fe94400e2585136e47f86f537201aee5ac2e",
+    "tsconfig.json": "98691a01b56f8bd025c728aba3fa8ea3e682da943c6eab103289045c5e1ac6e1"
+  },
+  "limitations": [
+    "No live game adapter",
+    "No cast lifecycle, status ticking, inventory grid or vocation execution",
+    "Node consumer only; native host support unproven",
+    "Steam Deck and mobile not measured",
+    "Timing does not measure allocations"
+  ]
+}

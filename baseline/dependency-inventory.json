@@ -1,0 +1,1925 @@
+{
+  "sourceCommit": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceFiles": 969,
+  "method": "TypeScript AST of static imports/exports. Type-only declarations are reported separately and excluded from runtime reachability. Side-effect imports count. Runtime callbacks, dynamic imports and module side effects require further behavioral tracing; these counts are not a minimal extraction set.",
+  "roots": [
+    {
+      "file": "src/engine/stats.ts",
+      "lines": 2290,
+      "direct": [
+        {
+          "target": "src/engine/defense.ts",
+          "typeOnly": false
+        }
+      ],
+      "staticRuntimeClosure": 2,
+      "groups": {
+        "engine": 2
+      },
+      "exampleBoundaryPaths": []
+    },
+    {
+      "file": "src/engine/skills.ts",
+      "lines": 6942,
+      "direct": [
+        {
+          "target": "src/engine/skillScopes.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/skillEmpowerment.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/guardArtsSpec.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/companionSpec.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/challengeSpec.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/attackSequenceSpec.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/brain.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/data/invocations.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/stats.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/stats.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/status.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/curves.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/flux.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/timeflow.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/ultimates.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/throng.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/grab.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/possess.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/gauge.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/clutch.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/supportbase.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/skilltree.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/render/vis/parts.ts",
+          "typeOnly": true
+        }
+      ],
+      "staticRuntimeClosure": 15,
+      "groups": {
+        "data": 2,
+        "engine": 13
+      },
+      "exampleBoundaryPaths": []
+    },
+    {
+      "file": "src/engine/inventory.ts",
+      "lines": 178,
+      "direct": [
+        {
+          "target": "src/engine/itemgen.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/items.ts",
+          "typeOnly": false
+        }
+      ],
+      "staticRuntimeClosure": 59,
+      "groups": {
+        "core": 2,
+        "data": 23,
+        "engine": 34
+      },
+      "exampleBoundaryPaths": []
+    },
+    {
+      "file": "src/engine/skillPreview.ts",
+      "lines": 329,
+      "direct": [
+        {
+          "target": "src/engine/absorb.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/guardArtsSpec.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/attackSequenceSpec.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/guardSurge.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/invocation.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/invocations.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/skills.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/costward.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/skills.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/actor.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/data/monsters.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/skills.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/replenishment.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/damage.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/skills.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/status.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/stats.ts",
+          "typeOnly": false
+        }
+      ],
+      "staticRuntimeClosure": 118,
+      "groups": {
+        "core": 1,
+        "data": 68,
+        "engine": 43,
+        "world": 6
+      },
+      "exampleBoundaryPaths": [
+        [
+          "src/engine/skillPreview.ts",
+          "src/data/monsters.ts",
+          "src/engine/flux.ts",
+          "src/world/gridWalk.ts"
+        ]
+      ]
+    },
+    {
+      "file": "src/data/passives.ts",
+      "lines": 2357,
+      "direct": [
+        {
+          "target": "src/engine/stats.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/classes.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/vocations.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/passiveChoices.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/skills.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/data/passiveCrossroads.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/passiveAttributes.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/passiveWeave.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/passiveSpecializations.ts",
+          "typeOnly": false
+        }
+      ],
+      "staticRuntimeClosure": 190,
+      "groups": {
+        "core": 2,
+        "data": 107,
+        "engine": 65,
+        "meta": 9,
+        "packages": 1,
+        "world": 6
+      },
+      "exampleBoundaryPaths": [
+        [
+          "src/data/passives.ts",
+          "src/data/vocations.ts",
+          "src/meta/account.ts"
+        ],
+        [
+          "src/data/passives.ts",
+          "src/data/vocations.ts",
+          "src/meta/account.ts",
+          "src/meta/death.ts",
+          "src/engine/gemitems.ts",
+          "src/data/monsters.ts",
+          "src/engine/flux.ts",
+          "src/world/gridWalk.ts"
+        ]
+      ]
+    },
+    {
+      "file": "src/data/vocations.ts",
+      "lines": 2119,
+      "direct": [
+        {
+          "target": "src/engine/stats.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/meta/account.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/quests/types.ts",
+          "typeOnly": true
+        }
+      ],
+      "staticRuntimeClosure": 161,
+      "groups": {
+        "core": 2,
+        "data": 94,
+        "engine": 49,
+        "meta": 9,
+        "packages": 1,
+        "world": 6
+      },
+      "exampleBoundaryPaths": [
+        [
+          "src/data/vocations.ts",
+          "src/meta/account.ts"
+        ],
+        [
+          "src/data/vocations.ts",
+          "src/meta/account.ts",
+          "src/meta/death.ts",
+          "src/engine/gemitems.ts",
+          "src/data/monsters.ts",
+          "src/engine/flux.ts",
+          "src/world/gridWalk.ts"
+        ]
+      ]
+    },
+    {
+      "file": "src/engine/world.ts",
+      "lines": 64615,
+      "direct": [
+        {
+          "target": "src/engine/skillInputOrder.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/bodyAction.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/bodyWalk.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/gemitems.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/skillEmpowerment.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/skillMerge.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/castAim.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/skillVisuals.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/skillFlightVisuals.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/skillStrikeVisuals.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/skillMovementVisuals.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/skillMovementVisual.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/lightningVisuals.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/lightningVisual.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/skillTargetVisuals.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/skillSelfVisuals.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/skillPresenceVisuals.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/skillTetherVisual.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/skillFieldVisual.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/perception.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/anatomyCues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/weakpoints.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/feedingCues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/companionCues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/companionCues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/companionGrants.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/summonContracts.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/itemLimits.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/titans.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/minionInheritance.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/throngEvolution.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/meta/cosmetics.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/cosmetics.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/deeds.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/movementTether.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/companionBonds.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/assault.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/challenges.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/attackSequences.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/guardArts.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/guardArtsSpec.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/skills.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/challengeSpec.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/companionSpec.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/companionStances.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/companionStances.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/odyssey.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/npcDialogues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/exitSiting.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/flaskState.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/odyssey.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/skills.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/handling.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/classdeeds.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/containerloot.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/essences.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/loot.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/fontPlacement.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/refugeDeparture.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/absorb.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/skills.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/costward.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/skills.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/escarpments.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/worldgen.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/locales.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/core/math.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/spatial.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/replenishment.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/actorGrid.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/flight.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/fourthwall.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/stats.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/status.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/armedCues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/combatReadability.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/actor.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/eventbus.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/party.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/net/intent.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/zonecontents.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/townportals.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/townportal.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/damage.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/parry.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/hivecall.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/segments.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/defense.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/mass.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/ai.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/brain.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/aiActions.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/skills.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/clutch.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/supportbase.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/bombard.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/curves.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/inventory.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/bagsort.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/containers.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/containers.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/seatlaw.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/gemitems.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/memories.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/accountReliquary.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/stash.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/stashes.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/relicPower.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/meta/reliquary.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/reliquary.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/trainingYard.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/itemgen.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/essences.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/items.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/loot.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/vestiges.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/infrequents.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/vendors.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/itembases.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/skilltree.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/meta/memoryUnlocks.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/memoryUnlocks.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/powerProgression.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/skills.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/monsters.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/presence.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/killHandlers.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/scenes.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/classes.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/coop.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/couch.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/data/supports.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/passives.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/passiveChoices.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/passiveRealms.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/vocations.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/attunements.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/procs.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/victim.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/gauges.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/invocations.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/invocation.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/guardSurge.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/sequence.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/mimic.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/combos.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/stats.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/zones.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/suites.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/beacons.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/leyline.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/rifts.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/pyres.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/digsites.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/harvest.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/harvest.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/objectives.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/data/processions.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/bounties.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/objectives.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/looks.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/levelgen.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/dissolve.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/emerge.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/bodyVoices.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/deathPresentation.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/deathPresentation.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/rampage.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/squish.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/pitfall.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/tiers.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/lightwells.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/layoutRecipes.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/genkit.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/timeflow.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/ultimates.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/gauge.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/sympathy.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/charges.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/shapes.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/projForms.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/structures.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/sidezones.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/underspans.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/hollows.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/annexes.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/levelgen.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/data/transit.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/transit.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/data/arenas.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/data/arenas.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/sympathies.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/lightwells.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/tracks.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/innfolk.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/trapworks.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/waves.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/worldgen.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/voyage.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/voyageIslands.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/ships.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/townBuild.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/bountyRewards.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/bountyboard.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/attention.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/trace.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/traceShapes.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/bountyboard.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/data/bestiary.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/essences.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/crafting.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/itemaffixes.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/caravan.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/tilesets.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/quests/defs.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/quests/reliquary.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/quests/types.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/questImbue.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/questRescues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/questRewardChoices.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/passiveRefund.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/quests/types.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/core/rng.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/shrines.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/sim.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/biomes.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/boundaryGates.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/fieldRegion.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/soulriver.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/zoneKinds.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/config.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/levelField.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/openingProgression.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/bountyRoutes.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/travelRoutes.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/world/zonePolicy.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/walk.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/world/gridWalk.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/regions.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/continents.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/atlas.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/climate.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/veil.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/doodadFamilies.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/fog.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/creep.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/tracks.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/geysers.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/ventDweller.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/scald.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/trapworks.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/occurrences.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/tuning.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/puzzles.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/minionCombat.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/throng.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/cling.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/castseal.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/bequests.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/reception.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/fieldgrants.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/lite.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/grab.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/possess.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/mounts.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/tells.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/reserveCues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/payloadCues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/procCues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/procCues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/skills.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/reserveCues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/defenseCues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/combatCues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/castingCues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/warningCues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/defenseCues.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/speech.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/dwellFocus.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/speechAttention.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/speechGrammar.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/speechGrammar.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/pack.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/reserves.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/rooted.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/watch.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/packages/overlays/wisplight.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/packages/overlays/drove.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/packages/overlays/quickening.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/plies.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/puzzles.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/collapse.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/spans.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/flux.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/conjury.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/traversal.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/los.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/coords.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/forechart.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/omens.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/ports.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/seas.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/seas.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/harborholds.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/harborholds.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/dimensions.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/radiance.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/strata.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/courses.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/regions.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/genPins.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/authoredMaps.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/worldgen.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/packages/manifest.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/packages/types.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/packages/ledger.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/packages/contagionStrains.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/packages/overlays/demonInvasion.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/packages/overlays/crusade.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/packages/overlays/deadwake.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/packages/overlays/migration.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/packages/overlays/swarming.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/packages/overlays/brigands.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/packages/overlays/fractures.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/packages/overlays/incursion.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/packages/holdfast.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/pocketForms.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/packages/lords.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/packages/registry.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/packages/encounters.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/packages/encounters.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/packages/weighting.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/packages/courts.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/encounter.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/data/boroughs.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/rarity.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/magicPacks.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/magicPacks.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/encounterGroups.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/encounterGroups.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/encounterCombat.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/magicPackMechanics.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/satellites.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/carriedEffects.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/engine/auroras.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/guardians.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/creepers.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/satelliteSpec.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/monsterNames.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/overlay.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/world/overlay.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/bulletins.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/edgeBlocks.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/packages/overlays/worldboss.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/world/zonePolicy.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/invasion.ts",
+          "typeOnly": true
+        },
+        {
+          "target": "src/world/weather.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/eventWeather.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/weatherDress.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/daynight.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/shape.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/world/traits.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/extraction.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/remnants.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/orbGeneration.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/orbs.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/theater.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/meta/account.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/meta/gates.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/meta/skillSlotMemory.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/meta/unlocks.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/classTiers.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/meta/modes.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/meta/mercs.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/mercenaries.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/mercbrain.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/meta/nemesis.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/data/nemesis.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/meta/character.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/meta/persistence.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/tap.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/meta/death.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/meta/worldstate.ts",
+          "typeOnly": false
+        },
+        {
+          "target": "src/engine/levelgen.ts",
+          "typeOnly": true
+        }
+      ],
+      "staticRuntimeClosure": 623,
+      "groups": {
+        "config.ts": 1,
+        "core": 7,
+        "data": 228,
+        "engine": 211,
+        "meta": 16,
+        "net": 1,
+        "packages": 85,
+        "quests": 7,
+        "render": 5,
+        "ui": 5,
+        "world": 57
+      },
+      "exampleBoundaryPaths": [
+        [
+          "src/engine/world.ts",
+          "src/meta/cosmetics.ts"
+        ],
+        [
+          "src/engine/world.ts",
+          "src/world/escarpments.ts"
+        ],
+        [
+          "src/engine/world.ts",
+          "src/meta/persistence.ts",
+          "src/meta/settings.ts",
+          "src/ui/mapConfig.ts"
+        ],
+        [
+          "src/engine/world.ts",
+          "src/meta/persistence.ts",
+          "src/meta/settings.ts",
+          "src/render/vis/aimtick.ts"
+        ]
+      ]
+    }
+  ],
+  "unresolved": []
+}

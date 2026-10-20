@@ -1,0 +1,53 @@
+
+> @hollow-wake/engine@0.1.0 verify
+> npm run test && node scripts/check-boundaries.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs
+
+
+> @hollow-wake/engine@0.1.0 test
+> npm run build && node --test test/*.test.mjs
+
+
+> @hollow-wake/engine@0.1.0 build
+> tsc -p tsconfig.json
+
+✔ independent arithmetic: additive increases, multiplicative more, ordered override and clamps (1.7788ms)
+✔ independent arithmetic: links are single-hop, and trade reads the pre-forgo source (0.2908ms)
+✔ source ownership and collision-free context keys prevent stale and aliased results (0.6144ms)
+✔ two sessions remain independent when their operations are interleaved (7.2129ms)
+✔ preview is random-free; changed sources invalidate the compiled attack exactly once (2.5284ms)
+✔ equip, unequip and passive refunds restore values; rejected commands are atomic (1.918ms)
+✔ state restoration continues the exact random and target sequence (2.2804ms)
+✔ range bounds and target resistance caps hold across a broad seed sweep (236.1415ms)
+✔ unsupported mechanics fail explicitly and content is detached from caller mutation (3.4563ms)
+✔ a second content pack changes the same engine through data (1.4765ms)
+✔ content rejects cycles, host objects and silently ignored skill-node behavior (2.5218ms)
+✔ stat caches stay bounded when a host supplies many distinct contexts (8.4582ms)
+✔ each build transition matches the original World, skill compiler, preview and cost rules (8.0965ms)
+✔ reference contact trace and random draw order, seed 0 (2.1215ms)
+✔ reference contact trace and random draw order, seed 1 (1.7529ms)
+✔ reference contact trace and random draw order, seed 2 (1.6367ms)
+✔ reference contact trace and random draw order, seed 17 (1.976ms)
+✔ reference contact trace and random draw order, seed 42 (1.3331ms)
+✔ reference contact trace and random draw order, seed 99 (1.557ms)
+✔ reference contact trace and random draw order, seed 255 (1.4055ms)
+✔ reference contact trace and random draw order, seed 1024 (2.1606ms)
+✔ reference contact trace and random draw order, seed 12345 (1.9983ms)
+✔ reference contact trace and random draw order, seed 659918 (1.2754ms)
+✔ reference contact trace and random draw order, seed 2147483647 (0.9567ms)
+✔ reference contact trace and random draw order, seed 4294967295 (1.3156ms)
+✔ generated source, condition, gauge and removal sequences match original StatSheet (11.6527ms)
+✔ mixed conversions, range changes, lucky rolls, crit avoidance, penetration and cost conversion match the original (37.7297ms)
+✔ differential comparator rejects a deliberately altered result (1.059ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 364.2112
+Boundary check passed: 9 production modules; no external runtime dependencies, host APIs, or ambient randomness.
+Rejected deliberate fault: incorrect-increase
+Rejected deliberate fault: stale-stat-cache
+{"installedConsumer":true,"damage":44.96973610836269,"randomDraws":5}
+Packaged runtime 48955 bytes JS; selected content 21925 bytes; archive 39581 bytes.

@@ -1,0 +1,30 @@
+{
+  "name": "@hollow-wake/engine",
+  "version": "0.1.0",
+  "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
+  "type": "module",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arianna-arpg/hollow-wake-engine.git"
+  },
+  "engines": { "node": ">=22" },
+  "files": ["dist", "content", "docs", "LICENSE.md", "NOTICE.md", "README.md"],
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./content/milestone-one.json": "./content/milestone-one.json"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs",
+    "example": "npm run build && node examples/first-path.mjs",
+    "benchmark": "npm run build && node scripts/benchmark.mjs",
+    "reference:prepare": "node scripts/prepare-reference.mjs",
+    "reference:verify": "node scripts/run-reference.mjs"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}

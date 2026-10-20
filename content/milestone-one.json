@@ -1,0 +1,1059 @@
+{
+  "schemaVersion": 1,
+  "id": "hollow-wake-milestone-one",
+  "capability": "resolved-spell-hit/v1",
+  "stats": {
+    "life": {
+      "label": "Maximum Life",
+      "base": 20,
+      "min": 1
+    },
+    "lifeRegen": {
+      "label": "Life Regeneration /s",
+      "base": 0.6
+    },
+    "mana": {
+      "label": "Maximum Mana",
+      "base": 30,
+      "min": 0
+    },
+    "manaRegen": {
+      "label": "Mana Regeneration /s",
+      "base": 2
+    },
+    "attackSpeed": {
+      "label": "Attack Speed",
+      "base": 1,
+      "min": 0.1
+    },
+    "castSpeed": {
+      "label": "Cast Speed",
+      "base": 1,
+      "min": 0.1
+    },
+    "cooldownRecovery": {
+      "label": "Cooldown Recovery",
+      "base": 1,
+      "min": 0.1
+    },
+    "accuracy": {
+      "label": "Accuracy Rating",
+      "base": 80,
+      "min": 1
+    },
+    "critChance": {
+      "label": "Critical Strike Chance",
+      "base": 0.03,
+      "min": 0,
+      "max": 0.95,
+      "percent": true
+    },
+    "critMulti": {
+      "label": "Critical Strike Multiplier",
+      "base": 1.3,
+      "min": 1
+    },
+    "damage": {
+      "label": "Damage",
+      "base": 1,
+      "min": 0
+    },
+    "addedPhysical": {
+      "label": "Added Physical Damage",
+      "base": 0
+    },
+    "addedFire": {
+      "label": "Added Fire Damage",
+      "base": 0
+    },
+    "addedCold": {
+      "label": "Added Cold Damage",
+      "base": 0
+    },
+    "addedLightning": {
+      "label": "Added Lightning Damage",
+      "base": 0
+    },
+    "addedChaos": {
+      "label": "Added Chaos Damage",
+      "base": 0
+    },
+    "armor": {
+      "label": "Armor",
+      "base": 0,
+      "min": 0
+    },
+    "evasion": {
+      "label": "Evasion Rating",
+      "base": 40,
+      "min": 0
+    },
+    "fireRes": {
+      "label": "Fire Resistance",
+      "base": 0,
+      "percent": true
+    },
+    "coldRes": {
+      "label": "Cold Resistance",
+      "base": 0,
+      "percent": true
+    },
+    "lightningRes": {
+      "label": "Lightning Resistance",
+      "base": 0,
+      "percent": true
+    },
+    "chaosRes": {
+      "label": "Chaos Resistance",
+      "base": 0,
+      "percent": true
+    },
+    "fireResMax": {
+      "label": "Maximum Fire Resistance",
+      "base": 0.75,
+      "min": 0,
+      "max": 0.9,
+      "percent": true
+    },
+    "coldResMax": {
+      "label": "Maximum Cold Resistance",
+      "base": 0.75,
+      "min": 0,
+      "max": 0.9,
+      "percent": true
+    },
+    "lightningResMax": {
+      "label": "Maximum Lightning Resistance",
+      "base": 0.75,
+      "min": 0,
+      "max": 0.9,
+      "percent": true
+    },
+    "chaosResMax": {
+      "label": "Maximum Chaos Resistance",
+      "base": 0.75,
+      "min": 0,
+      "max": 0.9,
+      "percent": true
+    },
+    "poise": {
+      "label": "Maximum Poise",
+      "base": 0,
+      "min": 0
+    },
+    "poiseDamage": {
+      "label": "Poise Damage Dealt",
+      "base": 1,
+      "min": 0
+    },
+    "insight": {
+      "label": "Maximum Insight",
+      "base": 0,
+      "min": 0
+    },
+    "reservedDamage": {
+      "label": "Damage per Reserved Mana",
+      "base": 0,
+      "min": 0
+    },
+    "maxManaDamage": {
+      "label": "Damage per Maximum Mana",
+      "base": 0,
+      "min": 0
+    },
+    "weight": {
+      "label": "Weight",
+      "base": 1,
+      "min": 0.05
+    },
+    "firePen": {
+      "label": "Fire Penetration",
+      "base": 0,
+      "min": 0,
+      "percent": true
+    },
+    "coldPen": {
+      "label": "Cold Penetration",
+      "base": 0,
+      "min": 0,
+      "percent": true
+    },
+    "lightningPen": {
+      "label": "Lightning Penetration",
+      "base": 0,
+      "min": 0,
+      "percent": true
+    },
+    "chaosPen": {
+      "label": "Chaos Penetration",
+      "base": 0,
+      "min": 0,
+      "percent": true
+    },
+    "armorDamageFloor": {
+      "label": "Physical Damage Retained Against Armor",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "armorPen": {
+      "label": "Armor Penetration",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "luckyChance": {
+      "label": "Lucky Hit Chance",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "unluckyChance": {
+      "label": "Unlucky Hit Chance",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "damageSpread": {
+      "label": "Damage Roll Spread",
+      "base": 0,
+      "min": -1,
+      "percent": true
+    },
+    "critAvoid": {
+      "label": "Critical Strike Avoidance",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "damageTaken": {
+      "label": "Damage Taken",
+      "base": 1,
+      "min": 0.1
+    },
+    "evasionToArmor": {
+      "label": "Evasion Read as Armor",
+      "base": 0,
+      "min": 0
+    },
+    "evasionForgone": {
+      "label": "Evasion Forgone",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "esToPoise": {
+      "label": "Energy Shield Read as Poise",
+      "base": 0,
+      "min": 0
+    },
+    "esForgone": {
+      "label": "Energy Shield Forgone",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "evasionToInsight": {
+      "label": "Evasion Read as Insight",
+      "base": 0,
+      "min": 0
+    },
+    "evasionToInsightForgo": {
+      "label": "Evasion Forgone (Insight Read)",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "thorns": {
+      "label": "Thorns",
+      "base": 0,
+      "min": 0
+    },
+    "thornsToHit": {
+      "label": "Thorns to On-Hit",
+      "base": 0,
+      "min": 0
+    },
+    "energyShield": {
+      "label": "Maximum Energy Shield",
+      "base": 0,
+      "min": 0
+    },
+    "statusMagnitude": {
+      "label": "Ailment Magnitude",
+      "base": 1,
+      "min": 0
+    },
+    "effectDuration": {
+      "label": "Skill Effect Duration",
+      "base": 1,
+      "min": 0.1
+    },
+    "statusChance": {
+      "label": "Ailment Chance",
+      "base": 0,
+      "percent": true
+    },
+    "manaCost": {
+      "label": "Mana Cost Multiplier",
+      "base": 1,
+      "min": 0
+    },
+    "manaUseCost": {
+      "label": "Mana Use Cost Multiplier",
+      "base": 1,
+      "min": 0
+    },
+    "addedManaCost": {
+      "label": "Added Mana Cost",
+      "base": 0,
+      "min": 0
+    },
+    "addedLifeCost": {
+      "label": "Added Life Cost",
+      "base": 0,
+      "min": 0
+    },
+    "addedCooldown": {
+      "label": "Added Cooldown",
+      "base": 0,
+      "min": 0
+    },
+    "minionDamage": {
+      "label": "Minion Damage",
+      "base": 1,
+      "min": 0
+    },
+    "costToLife": {
+      "label": "Mana Cost Paid as Life",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "costToMana": {
+      "label": "Life Cost Paid as Mana",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_physical_fire": {
+      "label": "Physical Converted to Fire",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_physical_cold": {
+      "label": "Physical Converted to Cold",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_physical_lightning": {
+      "label": "Physical Converted to Lightning",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_physical_chaos": {
+      "label": "Physical Converted to Chaos",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_fire_physical": {
+      "label": "Fire Converted to Physical",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_fire_cold": {
+      "label": "Fire Converted to Cold",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_fire_lightning": {
+      "label": "Fire Converted to Lightning",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_fire_chaos": {
+      "label": "Fire Converted to Chaos",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_cold_physical": {
+      "label": "Cold Converted to Physical",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_cold_fire": {
+      "label": "Cold Converted to Fire",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_cold_lightning": {
+      "label": "Cold Converted to Lightning",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_cold_chaos": {
+      "label": "Cold Converted to Chaos",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_lightning_physical": {
+      "label": "Lightning Converted to Physical",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_lightning_fire": {
+      "label": "Lightning Converted to Fire",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_lightning_cold": {
+      "label": "Lightning Converted to Cold",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_lightning_chaos": {
+      "label": "Lightning Converted to Chaos",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_chaos_physical": {
+      "label": "Chaos Converted to Physical",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_chaos_fire": {
+      "label": "Chaos Converted to Fire",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_chaos_cold": {
+      "label": "Chaos Converted to Cold",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "convert_chaos_lightning": {
+      "label": "Chaos Converted to Lightning",
+      "base": 0,
+      "min": 0,
+      "max": 1,
+      "percent": true
+    },
+    "extraAs_physical": {
+      "label": "Damage Gained as Extra Physical",
+      "base": 0,
+      "min": 0,
+      "percent": true
+    },
+    "extraAs_fire": {
+      "label": "Damage Gained as Extra Fire",
+      "base": 0,
+      "min": 0,
+      "percent": true
+    },
+    "extraAs_cold": {
+      "label": "Damage Gained as Extra Cold",
+      "base": 0,
+      "min": 0,
+      "percent": true
+    },
+    "extraAs_lightning": {
+      "label": "Damage Gained as Extra Lightning",
+      "base": 0,
+      "min": 0,
+      "percent": true
+    },
+    "extraAs_chaos": {
+      "label": "Damage Gained as Extra Chaos",
+      "base": 0,
+      "min": 0,
+      "percent": true
+    },
+    "addedMin_physical": {
+      "label": "Minimum Physical Damage",
+      "base": 0,
+      "min": 0
+    },
+    "addedMax_physical": {
+      "label": "Maximum Physical Damage",
+      "base": 0,
+      "min": 0
+    },
+    "addedMin_fire": {
+      "label": "Minimum Fire Damage",
+      "base": 0,
+      "min": 0
+    },
+    "addedMax_fire": {
+      "label": "Maximum Fire Damage",
+      "base": 0,
+      "min": 0
+    },
+    "addedMin_cold": {
+      "label": "Minimum Cold Damage",
+      "base": 0,
+      "min": 0
+    },
+    "addedMax_cold": {
+      "label": "Maximum Cold Damage",
+      "base": 0,
+      "min": 0
+    },
+    "addedMin_lightning": {
+      "label": "Minimum Lightning Damage",
+      "base": 0,
+      "min": 0
+    },
+    "addedMax_lightning": {
+      "label": "Maximum Lightning Damage",
+      "base": 0,
+      "min": 0
+    },
+    "addedMin_chaos": {
+      "label": "Minimum Chaos Damage",
+      "base": 0,
+      "min": 0
+    },
+    "addedMax_chaos": {
+      "label": "Maximum Chaos Damage",
+      "base": 0,
+      "min": 0
+    }
+  },
+  "trades": [
+    {
+      "from": "evasion",
+      "to": "armor",
+      "rateStat": "evasionToArmor",
+      "forgoStat": "evasionForgone"
+    },
+    {
+      "from": "energyShield",
+      "to": "poise",
+      "rateStat": "esToPoise",
+      "forgoStat": "esForgone"
+    },
+    {
+      "from": "evasion",
+      "to": "insight",
+      "rateStat": "evasionToInsight",
+      "forgoStat": "evasionToInsightForgo"
+    }
+  ],
+  "attributes": {
+    "strength": {
+      "label": "Strength",
+      "short": "STR",
+      "group": "force",
+      "description": "+2 life, +1 melee damage per 4 pts, 0.5% increased melee damage",
+      "perPoint": [
+        {
+          "stat": "life",
+          "kind": "flat",
+          "value": 2
+        },
+        {
+          "stat": "addedPhysical",
+          "kind": "flat",
+          "value": 0.25,
+          "tags": [
+            "melee"
+          ]
+        },
+        {
+          "stat": "damage",
+          "kind": "increased",
+          "value": 0.005,
+          "tags": [
+            "melee"
+          ]
+        }
+      ]
+    },
+    "prowess": {
+      "label": "Prowess",
+      "short": "PRW",
+      "group": "execution",
+      "description": "0.4% increased attack speed, 0.6% increased poise damage, +0.2% crit multiplier",
+      "perPoint": [
+        {
+          "stat": "attackSpeed",
+          "kind": "increased",
+          "value": 0.004,
+          "tags": [
+            "attack"
+          ]
+        },
+        {
+          "stat": "poiseDamage",
+          "kind": "increased",
+          "value": 0.006
+        },
+        {
+          "stat": "critMulti",
+          "kind": "flat",
+          "value": 0.002
+        }
+      ]
+    },
+    "fortitude": {
+      "label": "Fortitude",
+      "short": "FOR",
+      "group": "resilience",
+      "description": "+4 armor, 1% increased poise, 0.2% increased weight",
+      "perPoint": [
+        {
+          "stat": "armor",
+          "kind": "flat",
+          "value": 4
+        },
+        {
+          "stat": "poise",
+          "kind": "increased",
+          "value": 0.01
+        },
+        {
+          "stat": "weight",
+          "kind": "increased",
+          "value": 0.002
+        }
+      ]
+    },
+    "dexterity": {
+      "label": "Dexterity",
+      "short": "DEX",
+      "group": "force",
+      "description": "+4 accuracy, +2 evasion, 0.4% increased attack & projectile damage",
+      "perPoint": [
+        {
+          "stat": "accuracy",
+          "kind": "flat",
+          "value": 4
+        },
+        {
+          "stat": "evasion",
+          "kind": "flat",
+          "value": 2
+        },
+        {
+          "stat": "damage",
+          "kind": "increased",
+          "value": 0.004,
+          "tags": [
+            "projectile",
+            "attack"
+          ]
+        }
+      ]
+    },
+    "finesse": {
+      "label": "Finesse",
+      "short": "FIN",
+      "group": "execution",
+      "description": "+0.05% crit chance, +0.3% ailment chance, 0.4% increased ailment magnitude",
+      "perPoint": [
+        {
+          "stat": "critChance",
+          "kind": "flat",
+          "value": 0.0005
+        },
+        {
+          "stat": "statusChance",
+          "kind": "flat",
+          "value": 0.003
+        },
+        {
+          "stat": "statusMagnitude",
+          "kind": "increased",
+          "value": 0.004
+        }
+      ]
+    },
+    "charisma": {
+      "label": "Charisma",
+      "short": "CHA",
+      "group": "resilience",
+      "description": "+3 evasion, 1% increased insight",
+      "perPoint": [
+        {
+          "stat": "evasion",
+          "kind": "flat",
+          "value": 3
+        },
+        {
+          "stat": "insight",
+          "kind": "increased",
+          "value": 0.01
+        }
+      ]
+    },
+    "intelligence": {
+      "label": "Intelligence",
+      "short": "INT",
+      "group": "force",
+      "description": "+3 mana, 0.6% increased spell damage, +0.08% spell crit chance",
+      "perPoint": [
+        {
+          "stat": "mana",
+          "kind": "flat",
+          "value": 3
+        },
+        {
+          "stat": "damage",
+          "kind": "increased",
+          "value": 0.006,
+          "tags": [
+            "spell"
+          ]
+        },
+        {
+          "stat": "critChance",
+          "kind": "flat",
+          "value": 0.0008,
+          "tags": [
+            "spell"
+          ]
+        }
+      ]
+    },
+    "wisdom": {
+      "label": "Wisdom",
+      "short": "WIS",
+      "group": "execution",
+      "description": "+0.12 mana regen, 0.8% minion damage, 0.5% effect duration, 0.3% cast speed",
+      "perPoint": [
+        {
+          "stat": "manaRegen",
+          "kind": "flat",
+          "value": 0.12
+        },
+        {
+          "stat": "minionDamage",
+          "kind": "increased",
+          "value": 0.008
+        },
+        {
+          "stat": "effectDuration",
+          "kind": "increased",
+          "value": 0.005
+        },
+        {
+          "stat": "castSpeed",
+          "kind": "increased",
+          "value": 0.003
+        }
+      ]
+    },
+    "willpower": {
+      "label": "Willpower",
+      "short": "WIL",
+      "group": "resilience",
+      "description": "1% increased energy shield, +1 mana, +0.15% all resistances",
+      "perPoint": [
+        {
+          "stat": "energyShield",
+          "kind": "increased",
+          "value": 0.01
+        },
+        {
+          "stat": "mana",
+          "kind": "flat",
+          "value": 1
+        },
+        {
+          "stat": "fireRes",
+          "kind": "flat",
+          "value": 0.0015
+        },
+        {
+          "stat": "coldRes",
+          "kind": "flat",
+          "value": 0.0015
+        },
+        {
+          "stat": "lightningRes",
+          "kind": "flat",
+          "value": 0.0015
+        },
+        {
+          "stat": "chaosRes",
+          "kind": "flat",
+          "value": 0.0015
+        }
+      ]
+    },
+    "vitality": {
+      "label": "Vitality",
+      "short": "VIT",
+      "group": "life",
+      "description": "+6 life, +0.15 life regen/s",
+      "perPoint": [
+        {
+          "stat": "life",
+          "kind": "flat",
+          "value": 6
+        },
+        {
+          "stat": "lifeRegen",
+          "kind": "flat",
+          "value": 0.15
+        }
+      ]
+    }
+  },
+  "damageTypes": [
+    "physical",
+    "fire",
+    "cold",
+    "lightning",
+    "chaos"
+  ],
+  "defense": {
+    "armorK": 6,
+    "resistanceHardCap": 0.9,
+    "resistanceFloor": -0.75
+  },
+  "classes": {
+    "magician": {
+      "id": "magician",
+      "name": "Magician",
+      "attributes": {
+        "strength": 0,
+        "prowess": 0,
+        "fortitude": 0,
+        "dexterity": 2,
+        "finesse": 4,
+        "charisma": 2,
+        "intelligence": 22,
+        "wisdom": 10,
+        "willpower": 12,
+        "vitality": 8
+      },
+      "startNode": "int_start",
+      "mods": [],
+      "levelMods": [
+        {
+          "stat": "life",
+          "kind": "flat",
+          "value": 0
+        },
+        {
+          "stat": "mana",
+          "kind": "flat",
+          "value": 0
+        },
+        {
+          "stat": "accuracy",
+          "kind": "flat",
+          "value": 0
+        }
+      ]
+    }
+  },
+  "passives": {
+    "int_start": {
+      "id": "int_start",
+      "name": "Way of Intelligence",
+      "description": "A starting point of the nine-pointed star. Any class may path through it.",
+      "kind": "start",
+      "x": 2644,
+      "y": 3070,
+      "attributes": {
+        "intelligence": 3
+      },
+      "links": [
+        "node_130",
+        "node_131",
+        "node_85"
+      ]
+    },
+    "cross_int_pursuit": {
+      "id": "cross_int_pursuit",
+      "name": "Arcane Practice",
+      "description": "8% increased spell damage.",
+      "kind": "small",
+      "x": 2548,
+      "y": 3086,
+      "links": [
+        "int_start"
+      ],
+      "mods": [
+        {
+          "stat": "damage",
+          "kind": "increased",
+          "value": 0.08,
+          "tags": [
+            "spell"
+          ]
+        }
+      ]
+    }
+  },
+  "items": {
+    "lapis-reference": {
+      "id": "lapis-reference",
+      "name": "Lapis Ring",
+      "category": "ring",
+      "slots": [
+        "ring1",
+        "ring2"
+      ],
+      "mods": [
+        {
+          "stat": "mana",
+          "kind": "flat",
+          "value": 14
+        }
+      ]
+    }
+  },
+  "skills": {
+    "ruin": {
+      "id": "ruin",
+      "name": "Ruin",
+      "tags": [
+        "spell",
+        "projectile",
+        "chaos"
+      ],
+      "castTag": "cast:timed",
+      "manaCost": 8,
+      "cooldown": 0,
+      "useTime": 0.65,
+      "baseDamage": {
+        "chaos": [
+          9,
+          15
+        ]
+      },
+      "requirements": {
+        "willpower": 12,
+        "intelligence": 8
+      },
+      "perLevel": [
+        {
+          "stat": "damage",
+          "kind": "increased",
+          "value": 0.12,
+          "tags": [
+            "chaos"
+          ]
+        }
+      ],
+      "treeLevel": 5,
+      "nodes": {
+        "ruin_studies": {
+          "id": "ruin_studies",
+          "name": "Ruin Studies",
+          "description": "15% increased chaos damage. Bonuses apply per rank.",
+          "mods": [
+            {
+              "stat": "damage",
+              "kind": "increased",
+              "value": 0.15,
+              "tags": [
+                "chaos"
+              ]
+            }
+          ],
+          "empowermentPassive": true,
+          "ranks": 4,
+          "x": 0,
+          "y": 150
+        }
+      }
+    }
+  },
+  "supports": {
+    "corrosion": {
+      "id": "corrosion",
+      "name": "Corrosion",
+      "requiresTags": [
+        "chaos"
+      ],
+      "mods": [
+        {
+          "stat": "damage",
+          "kind": "increased",
+          "value": 0.4,
+          "tags": [
+            "chaos"
+          ]
+        }
+      ],
+      "perLevel": [
+        {
+          "stat": "damage",
+          "kind": "increased",
+          "value": 0.1,
+          "tags": [
+            "chaos"
+          ]
+        }
+      ]
+    },
+    "measured_blows": {
+      "id": "measured_blows",
+      "name": "Measured Blows",
+      "mods": [
+        {
+          "stat": "damage",
+          "kind": "more",
+          "value": 0.35
+        },
+        {
+          "stat": "addedCooldown",
+          "kind": "flat",
+          "value": 1.2
+        }
+      ]
+    }
+  }
+}

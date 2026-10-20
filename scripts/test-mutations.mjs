@@ -1,0 +1,36 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { root } from './reference-utils.mjs';
+
+const artifacts = path.join(root, '.artifacts');
+fs.mkdirSync(artifacts, { recursive: true });
+const temp = fs.mkdtempSync(path.join(artifacts, 'mutation-'));
+for (const folder of ['dist', 'test', 'baseline', 'content']) {
+  if (folder === 'baseline') {
+    fs.mkdirSync(path.join(temp, folder));
+    for (const file of ['first-path.json', 'stat-transitions.json', 'arithmetic-contacts.json']) {
+      fs.copyFileSync(path.join(root, folder, file), path.join(temp, folder, file));
+    }
+  } else fs.cpSync(path.join(root, folder), path.join(temp, folder), { recursive: true });
+}
+fs.writeFileSync(path.join(temp, 'package.json'), '{"type":"module"}\n');
+const file = path.join(temp, 'dist/stats.js');
+const original = fs.readFileSync(file, 'utf8');
+const mutants = [
+  ['incorrect-increase', '(1 + increased)', '(1 + increased * 1.1)'],
+  ['stale-stat-cache', 'this.cache.clear();', '/* deliberately omit cache invalidation */'],
+];
+for (const [name, before, after] of mutants) {
+  assert.ok(original.includes(before), `Mutation target moved: ${name}`);
+  fs.writeFileSync(file, original.replace(before, after));
+  const result = spawnSync(process.execPath, ['--test', 'test/reference.test.mjs', 'test/contracts.test.mjs'], {
+    cwd: temp, encoding: 'utf8',
+  });
+  const output = result.stdout + result.stderr;
+  assert.ok(result.status !== 0 && /AssertionError/.test(output), `Tests failed to reject ${name}, or failed for an unrelated reason`);
+  assert.ok(!/ERR_MODULE_NOT_FOUND|SyntaxError/.test(output), 'Mutation did not reach the behavior checks');
+  fs.writeFileSync(path.join(artifacts, `${name}.txt`), output);
+  console.log(`Rejected deliberate fault: ${name}`);
+}
