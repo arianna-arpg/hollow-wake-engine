@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "sdkBase": "8a8db50ca21dc63f0e317ae85d37e4865b1c09e5",
+  "version": "0.14.1",
+  "runtimeSourceSha256": "fd6cdf7c727fb144cbb76cbed4461cc069a5fb55347e099ffb689a882f458334",
+  "checks": {
+    "sdkTests": 140,
+    "behavioralMutantsRejected": 28,
+    "packedConsumers": 6,
+    "installedAdapterCourses": 10,
+    "originalReexports": true,
+    "originalTypes": true,
+    "freshGameTypes": true,
+    "freshGameSmoke": "5 scenarios x 5 seeds",
+    "managedGameTypes": true,
+    "managedGameSmoke": "5 scenarios x 5 seeds",
+    "managedOriginalRebuilds": 4103,
+    "managedContentRefreshPhases": 8,
+    "managedEquipmentTransitions": 824,
+    "inventoryRendererChecks": 187,
+    "storageCompletedAcceptanceGroups": 5,
+    "passiveEditorCourses": 4,
+    "bootSmoke": true
+  },
+  "boundary": {
+    "publicApiUnchanged": true,
+    "contentSchemaUnchanged": true,
+    "acceptedOriginalFixturesUnchanged": true,
+    "runtimeDependenciesAdded": 0,
+    "gameSourceChangeRequired": false,
+    "sizeBudgetRaised": false
+  },
+  "limits": [
+    "Both measured rebuild workloads remain slower than the original game; the larger loadout improves about 19% over v0.14.0 on this desktop.",
+    "No allocation volume, retained heap, sustained frame pacing, Steam Deck/mobile or complete native-engine claim.",
+    "Initial Oracle failure was intermittent. Controlled delayed save loading proves a pre-existing test readiness defect; the exact state of the initial failure was not captured."
+  ],
+  "consoleLogEncoding": "Console evidence normalizes CRLF and redundant terminal blank lines; raw local logs retained."
+}

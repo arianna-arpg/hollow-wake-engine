@@ -44,7 +44,7 @@ for(const name of courses) {
     if(name==='oracle-rescue-ui')assert.equal(checks.length,5,'Complete Oracle/storage/reload course required');
     assert.ok(Array.isArray(checks)&&checks.length>0);
     const countUnit=name==='oracle-rescue-ui'?'completed acceptance groups':'checks';
-    results.push({name,passed:true,checks:checks.length,countUnit,harnessSourceSha256Lf:sha256(input.replaceAll('\r\n','\n')),harnessRepair:name==='oracle-rescue-ui'&&!process.argv.includes('--baseline-storage-ui')?'oracle-navigation/v1':undefined});
+    results.push({name,passed:true,checks:checks.length,countUnit,harnessSourceSha256Lf:sha256(input.replaceAll('\r\n','\n')),harnessRepair:name==='oracle-rescue-ui'&&!process.argv.includes('--baseline-storage-ui')?'oracle-navigation-and-readiness/v2':undefined});
     console.log(`${name}: ${checks.length} ${countUnit} passed`);
   } catch(error) {
     fs.writeFileSync(path.join(reports,`${name}.txt`),String(error.stdout??'')+'\n'+String(error.stderr??error));

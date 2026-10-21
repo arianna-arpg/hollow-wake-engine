@@ -1,9 +1,13 @@
 import assert from 'node:assert/strict';
 
-/** Test-only navigation revision for the frozen course. Source hash verification
+/** Test-only navigation and readiness revision for the frozen course. Source hash verification
  * remains in the runner. The original course's gameplay assertions are retained. */
 export function reviseOracleCourse(source) {
  const replace=(before,after,count)=>{assert.equal(source.split(before).length,count+1,'Oracle course navigation anchor changed: '+before);source=source.replaceAll(before,after);};
+ // loadURL finishes before the game's asynchronous disk reconcile. Wait for
+ // its public readiness promise before mutating fixtures or checking reloads.
+ replace('await win.loadURL(server.url);',
+  "await win.loadURL(server.url); await js('__game.hydrated()');",3);
  replace("document.querySelector('.dialogue-close').click();",
   "const close = document.querySelector('#npc-dialogue [data-panel-x]'); if (!close) throw Error('Dialogue close control missing'); close.click();\n      if (!document.getElementById('npc-dialogue').hidden || !__game.ui.oracleOpen) throw Error('Closing conversation must preserve Oracle storage');",2);
  // Inventory remembers the selected page across close/reopen. A navigation

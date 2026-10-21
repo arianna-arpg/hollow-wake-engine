@@ -82,3 +82,59 @@ test('unknown selections require an explicit compatibility choice; malformed con
     p => p.nodes[0].attributes.strength = Infinity, p => p.nodes[0].conduit.floor = 2, p => p.nodes[0].aura = {},
   ]) { const input = sample(); change(input); assert.throws(() => new PassiveGrants(input)); }
 });
+
+test('item snapshots retain own field order, explicit undefined and independent tag arrays', () => {
+  const build = new PassiveGrants(sample()).begin({ strength: 2 }, new Set(), {});
+  const row = Object.assign(Object.create(null), { tags: ['spell'], value: 7, kind: 'flat', stat: 'life', when: undefined });
+  row[Symbol('ignored by serializable snapshot')] = () => { throw new Error('Do not read'); };
+  const output = build.addItemModifiers([row, row]);
+  assert.deepEqual(Object.keys(output[0]), ['tags', 'value', 'kind', 'stat', 'when']);
+  assert.equal(Object.getPrototypeOf(output[0]), Object.prototype);
+  assert.equal(Object.getOwnPropertySymbols(output[0]).length, 0);
+  assert.notEqual(output[0], output[1]); assert.notEqual(output[0].tags, output[1].tags);
+  row.tags.push('source'); output[0].tags.push('output');
+  assert.deepEqual(output[1].tags, ['spell']); assert.equal(output[0].value, 7);
+  const sparse = Array(2); sparse[1] = 'spell';
+  const held = build.addItemModifiers([{ stat: 'life', kind: 'flat', value: 1, tags: sparse }])[0].tags;
+  assert.equal(0 in held, false); assert.equal(held[1], 'spell');
+});
+
+test('snapshot reads each field and tag once before capturing the build accumulator', () => {
+  const build = new PassiveGrants(sample()).begin({ strength: 2 }, new Set(), {});
+  let fields = 0, tags = 0;
+  const input = { stat: 'strength', kind: 'flat', get value() {
+    fields++; build.addItemModifiers([{ stat: 'strength', kind: 'flat', value: 3 }]); return 5;
+  }};
+  const list = []; Object.defineProperty(list, 0, { enumerable: true, get() { tags++; return 'spell'; }});
+  build.addItemModifiers([input, { stat: 'life', kind: 'flat', value: 1, tags: list }]);
+  assert.equal(fields, 1); assert.equal(tags, 1); assert.equal(build.attributes().strength, 10);
+});
+
+test('nonplain and executable modifier payloads fail atomically without invoking nested values', () => {
+  const build = new PassiveGrants(sample()).begin({ strength: 2 }, new Set(), {}), before = build.attributes();
+  let executed = 0; const executable = { toString() { executed++; return 'life'; } }, cycle = {}; cycle.self = cycle;
+  for (const row of [null, [], new Date(), Object.assign(Object.create({}), { stat: 'life', kind: 'flat', value: 1 }),
+    { stat: 'life', kind: 'flat', value: 1, fromStat: executable },
+    { stat: 'life', kind: 'flat', value: 1, when: () => 1 },
+    { stat: 'life', kind: 'flat', value: 1, gauge: Symbol('bad') },
+    { stat: 'life', kind: 'flat', value: 1n },
+    { stat: 'life', kind: 'flat', value: Infinity },
+    { stat: 'life', kind: 'flat', value: 1, extra: cycle },
+    { stat: 'life', kind: 'flat', value: 1, tags: [executable] }]) {
+    assert.throws(() => build.addItemModifiers([{ stat: 'strength', kind: 'flat', value: 5 }, row]));
+    assert.deepEqual(build.attributes(), before);
+  }
+  assert.throws(() => build.addItemModifiers(new Set())); assert.equal(executed, 0);
+});
+
+test('modifier snapshots define own fields without invoking inherited setters', () => {
+  const build = new PassiveGrants(sample()).begin({ strength: 2 }, new Set(), {});
+  const previous = Object.getOwnPropertyDescriptor(Object.prototype, 'when'); let calls = 0, output;
+  try {
+    Object.defineProperty(Object.prototype, 'when', { configurable: true, set() { calls++; } });
+    output = build.addItemModifiers([{ stat: 'life', kind: 'flat', value: 1, when: 'ready' }]);
+  } finally {
+    if (previous) Object.defineProperty(Object.prototype, 'when', previous); else delete Object.prototype.when;
+  }
+  assert.equal(calls, 0); assert.equal(output[0].when, 'ready'); assert(Object.hasOwn(output[0], 'when'));
+});

@@ -29,6 +29,10 @@ graft objects are still independent. General content/input validation remains at
 the boundary. No database, ambient randomness, global game registry or host API
 is imported by the runtime.
 
+Version 0.14.1 optimizes the shared recursive copier's object construction while
+retaining these boundaries. See [rebuild-optimization.md](rebuild-optimization.md)
+for full-game measurements, independent ownership checks and remaining overhead.
+
 Unknown allocations/options fail by default. The explicit `skip` mode supports
 the original rebuild's tolerance of retired saved ids; it does not authorize a
 purchase or replace strict policy/save validation. Builds are short-lived derived

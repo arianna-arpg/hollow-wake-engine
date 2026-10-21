@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.14.1 [reduces copying costs during character rebuilds](docs/rebuild-optimization.md)
+while preserving validation and independent state ownership. Complete game workloads
+retain matching results; the larger equipped-loadout batch improves about 19% over
+v0.14.0 on the measured desktop. Device performance remains unverified.
+
 Version 0.14 adds [equipment and generic-container actions](docs/equipment-actions.md):
 slot eligibility, equip/unequip, bag/board moves and complete placement/exchange
 commits. Ordered slot content ships separately, and the offline item-to-character

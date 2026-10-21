@@ -1,0 +1,12 @@
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
+import {root,listFiles,verifyReference,sha256,writeJSON} from './reference-utils.mjs';
+const position=process.argv.indexOf('--previous-adapter');assert(position>=0&&process.argv[position+1],'Pass retained v0.14.0 game as --previous-adapter');
+const previous=path.resolve(process.argv[position+1]),location=JSON.parse(fs.readFileSync(path.join(root,'.artifacts/adapter-location.json'))),reference=path.join(root,'.reference'),lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json')));
+const oldEngine=path.join(previous,'node_modules/@hollow-wake/engine'),newEngine=path.join(location.tooling,'node_modules/@hollow-wake/engine');
+assert.equal(JSON.parse(fs.readFileSync(path.join(oldEngine,'package.json'))).version,'0.14.0');assert.equal(JSON.parse(fs.readFileSync(path.join(newEngine,'package.json'))).version,'0.14.1');
+const files=listFiles(path.join(root,'dist'));assert.deepEqual(listFiles(path.join(newEngine,'dist')),files);assert.deepEqual(listFiles(path.join(oldEngine,'dist')),files);
+for(const file of files){const built=fs.readFileSync(path.join(root,'dist',file));assert(built.equals(fs.readFileSync(path.join(newEngine,'dist',file))),`Stale installed ${file}`);if(!['validation.js','validation.js.map'].includes(file))assert(built.equals(fs.readFileSync(path.join(oldEngine,'dist',file))),`Control differs beyond the copying refactor: ${file}`);}
+for(const file of new Set([...Object.keys(lock.files),...location.files]))assert(fs.readFileSync(path.join(previous,file)).equals(fs.readFileSync(path.join(location.game,file))),`Game control source differs: ${file}`);
+verifyReference(reference,lock);const helper=path.join(reference,'balance/benchmark-engine-grant-rebuilds.ts');fs.copyFileSync(path.join(root,'reference/benchmark-grant-rebuilds.ts'),helper);
+const output=path.join(root,'.artifacts/grant-rebuild-benchmark.json');execFileSync(process.execPath,['--import','tsx',helper,root,previous,location.game,output],{cwd:reference,stdio:'inherit'});verifyReference(reference,lock);
+const report=JSON.parse(fs.readFileSync(output));report.validationModules={previousSha256:sha256(fs.readFileSync(path.join(oldEngine,'dist/validation.js'))),currentSha256:sha256(fs.readFileSync(path.join(newEngine,'dist/validation.js')))};writeJSON(output,report);

@@ -77,6 +77,8 @@ for (const [module, name, before, after, tests] of [
   ['relic-actions', 'withdrawal-loses-bag-owner', 'carry.items.push(item);', '/* deliberately omit destination owner */', 'test/relic-actions.test.mjs'],
   ['equipment-actions', 'equipment-level-bypassed', "if (finite(ctx.level, 'Character level') < required)", 'if (false)', 'test/equipment-actions.test.mjs'],
   ['equipment-actions', 'displaced-equipment-lost', 'drop(previous);', 'void previous; /* deliberately omit ground ownership */', 'test/equipment-actions.test.mjs'],
+  ['validation', 'nested-copy-omitted', 'entry[1] = copy(entry[1], ancestors);', 'entry[1] = entry[1];', 'test/validation.test.mjs'],
+  ['validation', 'copied-properties-use-setters', 'Object.fromEntries(entries)', 'Object.assign({}, Object.fromEntries(entries))', 'test/validation.test.mjs'],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
   assert.ok(source.includes(before));

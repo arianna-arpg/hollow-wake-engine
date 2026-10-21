@@ -23,10 +23,12 @@ export function copy<T>(value: T, ancestors = new Set<object>()): T {
       ancestors.delete(value);
       return out;
     }
-    const out: Record<string, unknown> = {};
-    for (const [key, child] of Object.entries(value)) {
-      Object.defineProperty(out, key, { value: copy(child, ancestors), enumerable: true, writable: true, configurable: true });
-    }
+    // Reuse the detached entry tuples while validating children. fromEntries
+    // defines own writable properties (including __proto__) without invoking
+    // inherited setters or allocating one descriptor object per property.
+    const entries = Object.entries(value);
+    for (const entry of entries) entry[1] = copy(entry[1], ancestors);
+    const out = Object.fromEntries(entries);
     ancestors.delete(value);
     return out as T;
   }

@@ -205,6 +205,11 @@ item consumer now applies the separately packaged slot policy before character
 modifiers. See [equipment-actions.md](equipment-actions.md) for trusted-state
 requirements, refusal ordering, the strict recovery boundary and measured regressions.
 
+Version 0.14.1 adds `benchmark:rebuild` and independent shared-copy contracts. The
+full verifier now has 140 tests and 28 behavioral fault controls. No accepted
+original fixture changes. See [rebuild-optimization.md](rebuild-optimization.md)
+for the rotating three-implementation workload and preserved construction semantics.
+
 ## Cross-runtime numerical policy
 
 `npm run native:verify` builds the experimental C ABI with the local C toolchain
