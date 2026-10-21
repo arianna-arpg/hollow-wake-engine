@@ -33,6 +33,8 @@ Version 0.7 includes grant execution within that same 32 KiB bound and adds a
 separate 1 MiB grant-data package bound. These bound package size, not live memory.
 Version 0.9 adds a 16 KiB optional live-inventory module bound while retaining the
 192 KiB combined runtime bound. It does not increase the total package budget.
+Version 0.10 adds a 16 KiB optional storage-policy bound within that same combined
+192 KiB runtime bound.
 
 ## Reconstructing the original
 
@@ -152,6 +154,16 @@ must be rejected. The game renderer runner accepts `--host --tabs` to include
 mounted inventory/container previews and the original tab course. See
 [inventory-host.md](inventory-host.md) for the capture correction, ownership
 contract, measured small-workload regressions and verification limits.
+
+Version 0.10 adds `reference:stash`, `adapter:stash-source`, `adapter:stash` and
+`benchmark:stash`. It checks 400 original repairs, 3000 storage commands, 18
+legacy-shape/repeated-UID cases, complete game transfers, two additional mutants
+and an installed planner fault. `test-game-item-ui.mjs --storage-only` runs the
+Oracle course with its documented navigation revision, including page purchase,
+drag, reload and death persistence. The revised course passes on both M11 and
+M12; `--baseline-storage-ui` retains the original failing course for comparison.
+See [stash-policy.md](stash-policy.md) for host responsibilities, strict boundaries,
+address ownership and the measured gains and regressions.
 
 ## Cross-runtime numerical policy
 

@@ -70,6 +70,7 @@ jobs:
       - run: npm run adapter:grant-source
       - run: npm run adapter:policy-source
       - run: npm run adapter:inventory-source
+      - run: npm run adapter:stash-source
       - run: npm run reference:install
       - run: npm run reference:verify
       - run: npm run reference:lifecycle
@@ -80,6 +81,7 @@ jobs:
       - run: npm run reference:passive-grants
       - run: npm run reference:policy-host
       - run: npm run reference:inventory-host
+      - run: npm run reference:stash
       - run: node --import tsx balance/probe_passiverefund.ts
         working-directory: .reference
       - run: node --import tsx balance/probe_choices.ts
@@ -94,6 +96,7 @@ jobs:
       - run: npm run adapter:passive-grants
       - run: npm run adapter:policy
       - run: npm run adapter:inventory-host
+      - run: npm run adapter:stash
       - run: npm run check
         working-directory: .artifacts/game-adapter
       - run: npm run sim -- run --suite smoke
@@ -142,3 +145,5 @@ jobs:
             .artifacts/passive-policy-overlay-verification.json
             .artifacts/game-inventory-host-verification.json
             .artifacts/inventory-host-overlay-verification.json
+            .artifacts/game-stash-verification.json
+            .artifacts/stash-overlay-verification.json

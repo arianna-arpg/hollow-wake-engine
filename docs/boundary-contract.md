@@ -17,6 +17,7 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | Random stream and continuation state | Each `Engine` | Serializable Mulberry32 state; no ambient RNG |
 | Inventory grids and synchronous ownership transfer | `Inventory`, per board | Indexed grids, masks, atomic moves/swaps/transfers and versioned snapshots; see inventory contract |
 | Live host-owned inventory geometry | Optional `InventoryHost` | Bag/container/storage helper delegation with original identities, fresh per-operation occupancy and explicit board/footprint ports; see inventory host contract |
+| Storage addresses, repair, recovery limits and exchange plans | Optional `StashPolicy` | Extracted and delegated in the isolated game; body ownership, account authorization, investment and persistence remain host-owned; see storage contract |
 | Item rolls, forging, local/global values, sockets and epitaphs | `ItemRules` plus immutable `ItemContent` | Extracted; full source comparisons; optional runtime/data entry |
 | Equipment eligibility, stash/container progression, trade authority | Future policy modules | Numeric equipment binding exists; full policy pending |
 | Passive allocation/refund, choice deals, realm pools and vocation spending gates | Optional `PassivePolicy` / `PassiveBuild` / `PassiveHost` | Extracted and delegated in the isolated game; earning remains host-owned; see passive policy and host contracts |

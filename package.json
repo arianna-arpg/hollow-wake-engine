@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -50,6 +50,10 @@
     "./inventory/host": {
       "types": "./dist/inventory-host.d.ts",
       "import": "./dist/inventory-host.js"
+    },
+    "./inventory/stash": {
+      "types": "./dist/stash-policy.d.ts",
+      "import": "./dist/stash-policy.js"
     }
   },
   "scripts": {
@@ -94,7 +98,11 @@
     "reference:inventory-host": "node scripts/run-inventory-host-reference.mjs",
     "adapter:inventory-host": "node scripts/test-game-inventory-host.mjs",
     "adapter:inventory-source": "node scripts/test-inventory-host-overlay.mjs",
-    "benchmark:inventory-host": "node scripts/benchmark-inventory-host.mjs"
+    "benchmark:inventory-host": "node scripts/benchmark-inventory-host.mjs",
+    "reference:stash": "node scripts/run-stash-reference.mjs",
+    "adapter:stash": "node scripts/test-game-stash.mjs",
+    "adapter:stash-source": "node scripts/test-stash-overlay.mjs",
+    "benchmark:stash": "node scripts/benchmark-stash.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

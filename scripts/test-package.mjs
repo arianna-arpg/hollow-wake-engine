@@ -25,6 +25,7 @@ for (const key of ['window', 'document', 'localStorage']) Object.defineProperty(
 const { Engine, CastRuntime, TimedDamage, Inventory } = await import('@hollow-wake/engine');
 const bridge = await import('@hollow-wake/engine/hollow-wake');
 const { InventoryHost } = await import('@hollow-wake/engine/inventory/host');
+const { StashPolicy } = await import('@hollow-wake/engine/inventory/stash');
 assert.equal(bridge.HOLLOW_WAKE_ADAPTER_VERSION, 1);
 assert.equal(bridge.castDuration(.1), .2);
 const content = JSON.parse(fs.readFileSync(new URL(import.meta.resolve('@hollow-wake/engine/content/milestone-one.json')), 'utf8'));
@@ -53,6 +54,11 @@ assert(live.autoPlace(liveBag, item, { w: 2, h: 2 }));assert.equal(liveBag[0], i
 item.x = 1; item.y = 1;
 assert.deepEqual(live.firstFit([...liveBag], { uid: 'next', w: 1, h: 1 }, { w: 2, h: 2 }), { x: 0, y: 0 });
 assert.equal(live.remove(liveBag, 'live'), item);assert.equal(item.payload.retained, true);
+const storage = new StashPolicy(item => item), storageDef = { id: 'locker', board: { w: 2, h: 1 }, initialPages: 1, maxPages: 2, pageCostBase: 40, accepts: () => true };
+const stored = [{ key: 'body', item }], layout = storage.restore(storageDef, stored);
+assert.deepEqual(layout.cells.body, { page: 0, x: 0, y: 0 });
+const plan = storage.plan(storageDef, stored, layout, stored[0], { page: 0, x: 1, y: 0 });
+assert.equal(plan.cells.body.x, 1);assert.equal(layout.cells.body.x, 0);assert.equal(item.x, undefined);
 console.log(JSON.stringify({ installedConsumer: true, damage: result.damage, randomDraws: result.randomDraws }));
 `);
 const result = execFileSync(process.execPath, ['run.mjs'], {
@@ -62,16 +68,18 @@ const jsBytes = packed.files.filter(file => file.path.endsWith('.js')).reduce((s
 const itemJsBytes = packed.files.filter(file => /^dist\/item-.*\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
 const passiveJsBytes = packed.files.filter(file => /^dist\/passive-.*\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
 const inventoryHostJsBytes = packed.files.filter(file => file.path === 'dist/inventory-host.js').reduce((sum, file) => sum + file.size, 0);
-const coreJsBytes = jsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes;
+const stashJsBytes = packed.files.filter(file => file.path === 'dist/stash-policy.js').reduce((sum, file) => sum + file.size, 0);
+const coreJsBytes = jsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes - stashJsBytes;
 const contentBytes = packed.files.filter(file => file.path.startsWith('content/') && file.path.endsWith('.json')).reduce((sum, file) => sum + file.size, 0);
 assert.ok(coreJsBytes <= 96 * 1024, 'Core runtime exceeded the retained 96 KiB unminified JS budget');
 assert.ok(itemJsBytes <= 64 * 1024, 'Optional item entry exceeded its 64 KiB unminified JS budget');
 assert.ok(passiveJsBytes <= 32 * 1024, 'Optional passive entry exceeded its 32 KiB unminified JS budget');
 assert.ok(inventoryHostJsBytes <= 16 * 1024, 'Optional inventory host exceeded its 16 KiB unminified JS budget');
+assert.ok(stashJsBytes <= 16 * 1024, 'Optional storage policy exceeded its 16 KiB unminified JS budget');
 assert.ok(jsBytes <= 192 * 1024, 'Combined runtime exceeded the 192 KiB unminified JS budget');
 assert.ok(contentBytes <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
-  runtimeJsBytes: jsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
+  runtimeJsBytes: jsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
   isolatedConsumer: JSON.parse(result), node: process.version,
 }, null, 2) + '\n');
 console.log(result.trim());

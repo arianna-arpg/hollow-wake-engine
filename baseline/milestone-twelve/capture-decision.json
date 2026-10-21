@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "source": "baseline/source-lock.json",
+  "primary": {
+    "file": "stash.json.gz",
+    "sha256": "0e6f86e7e9d18b8e91bdc3b05560c55a87edc4d92f1d2af47348047a9bde2050",
+    "uncompressedSha256": "b90ffa9ee69a1bc04a31ba985ddbb1440685446091f7eaa34a789692e86308b0",
+    "independentOriginalCaptures": 2,
+    "repairs": 400,
+    "statefulCommands": 3000
+  },
+  "additive": {
+    "file": "stash-edges.json.gz",
+    "sha256": "49ce68f54e5cb786c34929e83f5ef53d7251f69236c169283034f91b923943dc",
+    "uncompressedSha256": "664daf1a9baa8ab83cf2743ed1cffb334ddd32887df61ff3fe5b0c157b37561c",
+    "cases": 18
+  },
+  "decision": "Accept two agreeing original captures. Add a separate legacy-shape/repeated-UID fixture without replacing the accepted main trace. Inputs use fixed plain item records and a seeded command stream; no ambient forge randomness. Normal verification never regenerates expected results.",
+  "boundaryDecisions": [
+    "Successful plans own coordinate objects, including unchanged addresses; arbitrary extension fields remain shallow.",
+    "Opaque storage keys are own properties; duplicate or empty keys fail explicitly.",
+    "Definitions bound pages to 256 and boards to 4096 cells; costs must remain finite and within the safe numeric range."
+  ]
+}

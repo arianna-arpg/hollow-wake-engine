@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.10 adds [paged storage policy](docs/stash-policy.md): lossless layout
+repair, recovery limits and exact cross-page exchange plans, delegated through
+the game's account relic storage and personal lockers. Plans use compact placement
+records and keep item ownership, authorization and saving with the host.
+
 Version 0.9 adds [live inventory delegation](docs/inventory-host.md) across the
 game's bag, masked-container and storage geometry. It preserves host-owned item
 identity and observes direct edits while rebuilding bounded occupancy once per

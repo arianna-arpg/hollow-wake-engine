@@ -1,0 +1,90 @@
+[content] tileset 'meadow': span void region 'mere_bed' is walkable — a gone span must be a hole
+[content] monster toll_bailiff: 2 signature defense pools authored — textures are identities; stack them only on boss showpieces
+[content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fumes:exposure(195), fire_walker:moveTrail(5), aftershocks:aoeScatter(114), buried_charge:pulse(76), accelerando:cadence(118), ritardando:cadence(118), square_sigil:aoeShape(41), triangle_sigil:aoeShape(41), spell_cascade:cascade(95), scattered_cascade:cascade(95), seismic_march:cascade(95), mirrored_bounds:projFrameBounce(1), sundering_flight:fissureTrail(1), afterspray:departSplash(10) — the whys live on the rows in data/graftReadSites.ts
+PASS  A1 eighteen relic legends, each on a relic base, all on the live roster — hermits_bead@relic_charm sunderstone@relic_charm lodestone@relic_talisman unquarried_idol@relic_idol tally_idol@relic_idol reliquary_crown@relic_effigy idol_of_many_names@relic_idol architects_keystone@relic_effigy thorn_testament@relic_talisman pilgrim_spindle@relic_talisman venom_ledger@relic_charm cracked_censer@relic_idol wayfarers_knot@relic_charm widows_wick@relic_charm wellspring_seal@relic_talisman last_drop@relic_charm needle_eye@relic_talisman hollow_choir@relic_effigy
+PASS  A1b the four footprints each carry a legend
+PASS  A2 every legend line names a known stat
+PASS  A2b the grant names a real skill and the gauge a registered derived gauge on the Reliquary
+PASS  A3 THE DEFINING LAW: every relic legend wears a signature line
+PASS  A4 the three amplifier stats stand registered, family-seated on the sheet, blurbed
+PASS  A5 the describer speaks every signature — Relics touching this effigy have 22% stronger lines | 1.8% increased Maximum Life | +1.8% Fire Resistance | +1.8% Cold Resistance | +1.8% Lightning Resistance | +1.8% Chaos Resistance | Limited to 1 equipped copy.
+PASS  A6 rarity unique + category relic rolls only relic legends, and every registered identity — sunderstone widows_wick hermits_bead thorn_testament hollow_choir architects_keystone venom_ledger last_drop wellspring_seal lodestone needle_eye idol_of_many_names unquarried_idol reliquary_crown cracked_censer pilgrim_spindle wayfarers_knot tally_idol
+PASS  A6b below every minIlvl the ask degrades to a rare relic
+PASS  A7 the relic cache pours a legend now and then, and never a foreign item — 60 legends in 1500 pours
+PASS  A8 the relic legends hold a chase share of the world unique pool (2%–20%) — 483/3393
+PASS  B1 on the ring a corner charm touches one open seat beside its neighbour; the sealed centre is never a seat
+PASS  B2 the shelves open two more seats against the corner
+PASS  B3 the heart opens one more seat against the ring edge (three with the shelves, four with the heart)
+PASS  B4 a 2×2 at the heart of the full case touches eight seats
+PASS  B4b ringed, it touches eight pieces and no empty seat; each charm touches the crown and its one paired charm
+PASS  B5 solitude: 1 + 0.3 × four empty seats
+PASS  B6 communion: 1 + 0.08 × three touching pieces
+PASS  B7 outward scales the touching pieces (1.2), never the crown itself (1.0)
+PASS  B7b the hermit beside the crown wears both factors and no chain: 1 + 0.2 + 0.3 × its one empty seat — empty 1
+PASS  B8 amplifySeatMods drops the amplifier line and scales the rest
+PASS  B8b a factor of one on a plain piece returns the same array
+PASS  B9 a cursed outward power floors the neighbour at zero, never inverts
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+PASS  C1 alone in the ring corner the bead speaks at 1 + solitude × two empty seats — 6.120 vs 6.120
+PASS  C2 the amplifier never reaches the sheet
+PASS  C3 a neighbour arriving takes a seat from the solitude
+PASS  C4 and leaving gives it back
+PASS  C5 unseated, the bead is silent
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+PASS  D1 the crown seats at the heart of the full case
+PASS  D2 its own lines are never scaled by its own outward power
+PASS  D3 the eight charms touching it speak at 1 + outward — 48.800 vs 48.800
+PASS  D4 a charm not touching it speaks plain
+PASS  D5 a hermit beside the crown wears both factors and no chain: 1 + outward + solitude × three empty seats — 8.319 vs 8.319
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+PASS  E1 two relics touching the talisman: its lines at 1 + 2 × communion — 1.1800 vs 1.1800
+PASS  E2 a far relic is not touching
+PASS  E3 the talisman stands where it was asked, a 2×1
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+PASS  F1 the idol seated alone publishes a tally of one — 1
+PASS  F2 two more relics tally three
+PASS  F3 the damage climbs by the line per relic seated — 0.0100 vs 0.0100
+PASS  F4 unseating drops the tally
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+PASS  G0 follower tooltip floors its actual skill level
+PASS  G1 idol maintains an attributed follower at its rolled skill level
+PASS  G2 follower uses no skill slot, learned entry or reservation
+PASS  G3 ordinary ticking and recalculation preserve the same follower
+PASS  G4 a manual golem coexists with the free follower
+PASS  G5 the manual contract also reserves no mana
+PASS  G6 a slain follower waits to reform
+PASS  G7 the follower reforms without evicting the manual golem
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+PASS  G8 save adopts
+PASS  G9 reload reconstructs one follower from the item
+PASS  G10 removing the idol retires only its follower
+PASS  G11 the manual reservation returns to its ordinary live price
+PASS  G12 reseating restores one follower and removes manual reservation again
+PASS  G13 a body missing after travel is reconstructed once
+PASS  G14 duplicate idols are refused without changing the follower, its life or the manual pool
+PASS  G15 owner death retires the follower
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+PASS  H1 the stone rolls one element — cold
+PASS  H2 it carries the rolled element as an extra lane and penetration, and pays in its own resistance
+PASS  H3 seated, the sheet wears both
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+PASS  H4 the element survives a save
+PASS  H5 the describer names the element
+PASS expanded relic discovery, readable limits, persisted rolls and fixed structural bonuses
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+PASS unique identity limits, unchanged refusals, moves, bag/stash swaps, overrides, safe repair and save/wire
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+PASS all rolled summon families scope correctly, retain identity, pay for real bodies and never scale capacity with empowerment
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+PASS relic procs restore real resources, share cooldowns, attribute power and stop on removal
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+PASS paid primed flasks, capped overmend shields, conditional pierces and isolated construct families
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+PASS melee Thorns, real channel movement, isolated Chaos stacks and timed aura slot replacement
+
+PASS — THE RELIC LEGENDS

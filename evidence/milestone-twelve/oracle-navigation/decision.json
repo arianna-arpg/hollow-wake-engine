@@ -1,0 +1,14 @@
+{
+  "revision": "oracle-navigation/v1",
+  "source": ".reference/balance/oracle-rescue-ui.cjs",
+  "sourceSha256Lf": "0d37a55375eefccb7f78725dac6c527597c8bb9c242eeb723fd25a2f3a1c133b",
+  "implementation": "adapters/hollow-wake/oracle-ui-course.mjs",
+  "implementationSha256Lf": "0deb2bf607ddfb536500adf82e5a8cb8b23bf08b4b4730cfaf73d74877df7466",
+  "reason": "Frozen navigation predates separate player/NPC books, the current close control and remembered container pages. The unmodified course fails on both M11 and M12. Intermediate revisions expose absent sole-service tabs, toggle-to-close behavior and the Oracle surface occluding the intended exchange cell.",
+  "change": "Use the actual close control, explicitly show the Reliquary, close Oracle before the player exchange, reopen it afterward and assert surface visibility plus independent player Inventory. All original gameplay, pointer-drag and persistence assertions remain.",
+  "result": {
+    "m11CompletedAcceptanceGroups": 5,
+    "m12CompletedAcceptanceGroups": 5
+  },
+  "limits": "Test-only navigation correction. No source UI or frozen course changed. Group counts are not raw assertion counts; storage/data assertions remain the original course."
+}

@@ -9,6 +9,7 @@ import { integrateInventoryUi } from '../adapters/hollow-wake/integrate-inventor
 import { integratePassiveGrants } from '../adapters/hollow-wake/integrate-passive-grants.mjs';
 import { integratePassivePolicy } from '../adapters/hollow-wake/integrate-passive-policy.mjs';
 import { integrateInventoryHost } from '../adapters/hollow-wake/integrate-inventory-host.mjs';
+import { integrateStash } from '../adapters/hollow-wake/integrate-stash.mjs';
 const artifacts = path.join(root, '.artifacts');
 fs.mkdirSync(artifacts, { recursive: true });
 const requested = process.argv.indexOf('--game');
@@ -23,6 +24,7 @@ integrateInventoryUi(game, false);
 integratePassiveGrants(game, false);
 integratePassivePolicy(game, false, true);
 integrateInventoryHost(game, false);
+integrateStash(game, false);
 // A distinct tool environment: never install into the frozen reference or another checkout's junction.
 const tooling = fs.mkdtempSync(path.join(artifacts, 'adapter-tools-'));
 for (const file of ['package.json', 'package-lock.json']) fs.copyFileSync(path.join(root, 'reference/tooling', file), path.join(tooling, file));
@@ -48,6 +50,8 @@ const passivePolicy = integratePassivePolicy(game);
 changes.files.push(...passivePolicy.files);
 const inventoryHost = integrateInventoryHost(game);
 changes.files.push(...inventoryHost.files);
+const stash = integrateStash(game);
+changes.files.push(...stash.files);
 fs.symlinkSync(path.join(tooling, 'node_modules'), path.join(game, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
 fs.copyFileSync(path.join(root, 'reference/export-lifecycle.ts'), path.join(game, 'balance/export-engine-lifecycle.ts'));
 fs.writeFileSync(path.join(artifacts, 'adapter-location.json'), JSON.stringify({ game, tooling, package: packed.filename, integrity: packed.integrity, ...changes }, null, 2));
