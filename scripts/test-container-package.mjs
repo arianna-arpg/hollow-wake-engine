@@ -1,0 +1,34 @@
+import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
+import {root,writeJSON} from './reference-utils.mjs';import {buildContainerContent} from './compile-container-content.mjs';import {buildItemContent} from './compile-item-content.mjs';import {buildCatalogue} from './catalogue-tools.mjs';
+const a=path.join(root,'.artifacts'),content=path.join(a,'container-package'),items=path.join(a,'item-package'),catalogue=path.join(a,'catalogue-package'),pack=buildContainerContent(content);buildItemContent(items);buildCatalogue(catalogue);
+const npm=process.env.npm_execpath??path.join(path.dirname(process.execPath),'node_modules/npm/bin/npm-cli.js');
+const archives=[root,content,items,catalogue].map(cwd=>JSON.parse(execFileSync(process.execPath,[npm,'pack','--json','--pack-destination',a,'--cache',path.join(a,'npm-cache')],{cwd,encoding:'utf8'}))[0]);
+assert(archives[1].unpackedSize<=64*1024,'Container content exceeded its 64 KiB bound');assert.deepEqual(archives[1].files.map(f=>f.path).sort(),['LICENSE.md','README.md','containers.json','manifest.json','package.json']);
+const consumer=fs.mkdtempSync(path.join(os.tmpdir(),'hollow-containers-'));writeJSON(path.join(consumer,'package.json'),{private:true,type:'module'});
+execFileSync(process.execPath,[npm,'install',...archives.map(p=>path.join(a,p.filename)),'--offline','--ignore-scripts','--no-audit','--no-fund','--cache',path.join(consumer,'cache')],{cwd:consumer,stdio:'pipe'});
+fs.writeFileSync(path.join(consumer,'run.mjs'),`
+import fs from 'node:fs';import assert from 'node:assert/strict';
+Math.random=()=>{throw new Error('Ambient randomness');};globalThis.fetch=()=>{throw new Error('Network');};
+for(const key of ['window','document','localStorage'])Object.defineProperty(globalThis,key,{get(){throw new Error(key);}});
+const {ItemContent,ItemRules}=await import('@hollow-wake/engine/items');
+const {ContainerLayout,ContainerPolicy,SeatRules,SeatGeometry}=await import('@hollow-wake/engine/inventory/containers');
+const {StatRules,StatSheet}=await import('@hollow-wake/engine');
+const read=id=>JSON.parse(fs.readFileSync(new URL(import.meta.resolve(id))));
+const itemContent=new ItemContent(read('@hollow-wake/items/items.json')),items=new ItemRules(itemContent,21761),pack=read('@hollow-wake/containers/containers.json');
+const stats=Object.fromEntries(read('@hollow-wake/catalogue/tables/stats.json').map(r=>[r.id,r.value])),trades=read('@hollow-wake/catalogue/tables/rules.json').find(r=>r.id==='statTrades').value;
+const sheet=new StatSheet(new StatRules(stats,trades)),initialLife=sheet.get('life');
+const def=pack.containers.find(d=>d.id==='reliquary'),layout=new ContainerLayout(def.ladder),board=layout.board(new Set(def.ladder.map(r=>r.feature))),rules=new SeatRules(pack.rules);
+const footprint=i=>itemContent.pack.bases[i.baseId],policy=new ContainerPolicy({footprint,base:footprint,level:i=>{assert.equal(footprint(i).category,'relic');return 1;},unique:i=>itemContent.pack.uniques[i.uniqueId]});
+const crown=items.forge({uniqueId:'reliquary_crown',ilvl:20,quality:1}),charm=items.forge({baseId:'relic_charm',ilvl:1,rarity:'magic',affixes:[{id:'relic_life'}],quality:1});assert(crown&&charm);
+const held=[];
+for(const [item,x,y] of [[crown,1,1],[charm,0,1]]){assert.equal(policy.landing(def,board,held,item,'bag',x,y,1).verdict,'place');item.x=x;item.y=y;held.push(item);}
+const raw=new Map(held.map(i=>[i,items.compile(i)])),geometry=new SeatGeometry(footprint,(mods,mode)=>rules.power(mods,mode)),factors=geometry.amplification(board,held,i=>raw.get(i));
+assert.equal(factors.get(charm),1+rules.power(raw.get(crown),'outward'));assert.equal(factors.get(crown),1);
+assert.deepEqual(policy.misfits(board,held),[]);assert.equal(held[0],crown);
+const empowered=held.flatMap(i=>rules.empower(raw.get(i),.5,factors.get(i)));assert(empowered.every(m=>!m.stat.startsWith('seatPower_')));
+sheet.setSource('container:reliquary',empowered);const activeLife=sheet.get('life');assert(activeLife>initialLife);sheet.removeSource('container:reliquary');assert.equal(sheet.get('life'),initialLife);
+assert.equal(layout.board(new Set()),null);
+console.log(JSON.stringify({installedConsumer:true,itemToContainerToNeighbourPowerToStatistics:true,containers:pack.containers.length,activeLife,initialLife,contentId:pack.contentId}));
+`);
+const result=JSON.parse(execFileSync(process.execPath,['run.mjs'],{cwd:consumer,encoding:'utf8',env:{...process.env,NODE_PATH:''}}));assert.equal(result.contentId,pack.contentId);
+writeJSON(path.join(a,'container-package-verification.json'),{...result,node:process.version,archiveBytes:archives[1].size,unpackedBytes:archives[1].unpackedSize});console.log(result);

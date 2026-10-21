@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -54,13 +54,17 @@
     "./inventory/stash": {
       "types": "./dist/stash-policy.d.ts",
       "import": "./dist/stash-policy.js"
+    },
+    "./inventory/containers": {
+      "types": "./dist/container-policy.d.ts",
+      "import": "./dist/container-policy.js"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs",
     "example": "npm run build && node examples/first-path.mjs",
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
@@ -102,7 +106,12 @@
     "reference:stash": "node scripts/run-stash-reference.mjs",
     "adapter:stash": "node scripts/test-game-stash.mjs",
     "adapter:stash-source": "node scripts/test-stash-overlay.mjs",
-    "benchmark:stash": "node scripts/benchmark-stash.mjs"
+    "benchmark:stash": "node scripts/benchmark-stash.mjs",
+    "reference:containers": "node scripts/run-container-reference.mjs",
+    "adapter:container-source": "node scripts/test-container-overlay.mjs",
+    "adapter:containers": "node scripts/test-game-containers.mjs",
+    "containers:build": "node scripts/compile-container-content.mjs",
+    "benchmark:containers": "node scripts/benchmark-containers.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

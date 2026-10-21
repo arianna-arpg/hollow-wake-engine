@@ -35,6 +35,10 @@ Version 0.9 adds a 16 KiB optional live-inventory module bound while retaining t
 192 KiB combined runtime bound. It does not increase the total package budget.
 Version 0.10 adds a 16 KiB optional storage-policy bound within that same combined
 192 KiB runtime bound.
+Version 0.11 adds a 32 KiB optional container/seat-rule allowance and raises the
+combined bound to 224 KiB for that new capability; earlier core/module limits
+stay unchanged. Its separate container content package has a 64 KiB unpacked
+bound. Both immutable content and live rule ports use the same tested arithmetic.
 
 ## Reconstructing the original
 
@@ -164,6 +168,15 @@ drag, reload and death persistence. The revised course passes on both M11 and
 M12; `--baseline-storage-ui` retains the original failing course for comparison.
 See [stash-policy.md](stash-policy.md) for host responsibilities, strict boundaries,
 address ownership and the measured gains and regressions.
+
+Version 0.11 adds `reference:containers`, `containers:build`,
+`adapter:container-source`, `adapter:containers` and `benchmark:containers`.
+It checks 81 ladders, 1006 unlock combinations, 2000 landings, 600 neighborhoods,
+2816 power cases, 12 World transitions and 16 live content revisions. Two further
+behavioral mutants and an installed first-unlock fault must be rejected. A sixth
+packed consumer connects item generation, container seating and stat contributions.
+See [container-policy.md](container-policy.md) for state ownership, explicit
+boundary decisions, measurements and the remaining host responsibilities.
 
 ## Cross-runtime numerical policy
 

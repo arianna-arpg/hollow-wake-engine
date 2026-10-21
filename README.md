@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.11 adds [container and relic seat rules](docs/container-policy.md):
+compiled unlock shapes, eligibility, unique limits, landing decisions and numeric
+neighboring power. The game delegates four helper modules, and a separate content
+package connects forged relics to placement and statistics without the game.
+
 Version 0.10 adds [paged storage policy](docs/stash-policy.md): lossless layout
 repair, recovery limits and exact cross-page exchange plans, delegated through
 the game's account relic storage and personal lockers. Plans use compact placement

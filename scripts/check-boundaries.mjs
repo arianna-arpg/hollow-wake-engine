@@ -42,4 +42,5 @@ assert.ok([...reachable].every(file => !path.basename(file).startsWith('item-'))
 assert.ok([...reachable].every(file => !path.basename(file).startsWith('passive-')), 'Optional passive policy became an eager core import');
 assert.ok([...reachable].every(file => path.basename(file)!=='inventory-host.ts'), 'Optional live inventory host became an eager core import');
 assert.ok([...reachable].every(file => path.basename(file)!=='stash-policy.ts'), 'Optional storage policy became an eager core import');
+assert.ok([...reachable].every(file => !['container-layout.ts','container-policy.ts','seat-rules.ts'].includes(path.basename(file))), 'Optional container/seat rules became an eager core import');
 console.log(`Boundary check passed: ${files} production modules; no external runtime dependencies, host APIs, or ambient randomness.`);

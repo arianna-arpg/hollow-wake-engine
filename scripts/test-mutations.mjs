@@ -20,6 +20,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
     fs.cpSync(path.join(root, 'baseline/milestone-four'), path.join(temp, 'baseline/milestone-four'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-eight'), path.join(temp, 'baseline/milestone-eight'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-nine'), path.join(temp, 'baseline/milestone-nine'), { recursive: true });
+    fs.cpSync(path.join(root, 'baseline/milestone-thirteen'), path.join(temp, 'baseline/milestone-thirteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-eleven'), path.join(temp, 'baseline/milestone-eleven'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twelve'), path.join(temp, 'baseline/milestone-twelve'), { recursive: true });
     fs.copyFileSync(path.join(root,'baseline/stat-catalogue.json'),path.join(temp,'baseline/stat-catalogue.json'));
@@ -65,6 +66,8 @@ for (const [module, name, before, after, tests] of [
   ['inventory-host', 'live-swap-overlap', 'return overlap(x, y, s.w, s.h, item.x, item.y, bs.w, bs.h) ? null : blocker;', 'return blocker;', 'test/inventory-host.test.mjs'],
   ['stash-policy', 'storage-overflow-deposit', 'if (!existing && entries.some(e => !cellAt(next, e.key)))', 'if (false)', 'test/stash-policy.test.mjs'],
   ['stash-policy', 'storage-swap-overlap', 'if (!this.#grid.canPlace(this.#page([...rest, entry], next, from.page), this.#body(other.item), from.x, from.y, def.board))', 'if (false)', 'test/stash-policy.test.mjs'],
+  ['container-layout', 'container-first-unlock-bypassed', 'if (!features?.has(this.#rungs[0].feature))', 'if (false)', 'test/container-layout.test.mjs'],
+  ['seat-rules', 'neighbour-power-doubled', 'factor += powers.get(other)[0];', 'factor += 2 * powers.get(other)[0];', 'test/seat-rules.test.mjs'],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
   assert.ok(source.includes(before));

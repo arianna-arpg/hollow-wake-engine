@@ -26,6 +26,7 @@ const { Engine, CastRuntime, TimedDamage, Inventory } = await import('@hollow-wa
 const bridge = await import('@hollow-wake/engine/hollow-wake');
 const { InventoryHost } = await import('@hollow-wake/engine/inventory/host');
 const { StashPolicy } = await import('@hollow-wake/engine/inventory/stash');
+const { ContainerLayout, ContainerPolicy, SeatRules, SeatGeometry } = await import('@hollow-wake/engine/inventory/containers');
 assert.equal(bridge.HOLLOW_WAKE_ADAPTER_VERSION, 1);
 assert.equal(bridge.castDuration(.1), .2);
 const content = JSON.parse(fs.readFileSync(new URL(import.meta.resolve('@hollow-wake/engine/content/milestone-one.json')), 'utf8'));
@@ -59,6 +60,13 @@ const stored = [{ key: 'body', item }], layout = storage.restore(storageDef, sto
 assert.deepEqual(layout.cells.body, { page: 0, x: 0, y: 0 });
 const plan = storage.plan(storageDef, stored, layout, stored[0], { page: 0, x: 1, y: 0 });
 assert.equal(plan.cells.body.x, 1);assert.equal(layout.cells.body.x, 0);assert.equal(item.x, undefined);
+const caseLayout = new ContainerLayout([{ feature: 'case', cells: ['##'] }]), caseBoard = caseLayout.board(new Set(['case']));
+const casePolicy = new ContainerPolicy({ footprint: i => i, base: () => ({ category: 'relic', tags: [] }), level: () => 1, unique: () => undefined });
+assert.equal(casePolicy.landing({ label: 'Case', accepts: { categories: ['relic'] } }, caseBoard, [], item, 'bag', 0, 0, 1).verdict, 'place');
+const seatRules = new SeatRules({ amplifiers: [{ stat: 'seatPower_outward', mode: 'outward' }], relicCaps: [{ stat: 'damage', cap: null }], relicBaseline: .2 });
+const seats = new SeatGeometry(i => i, (mods, mode) => seatRules.power(mods, mode));
+const left = { uid: 1, x: 0, y: 0, w: 1, h: 1 }, right = { uid: 2, x: 1, y: 0, w: 1, h: 1 };
+assert.equal(seats.amplification(caseBoard, [left, right], () => [{ stat: 'seatPower_outward', kind: 'flat', value: .5 }]).get(right), 1.5);
 console.log(JSON.stringify({ installedConsumer: true, damage: result.damage, randomDraws: result.randomDraws }));
 `);
 const result = execFileSync(process.execPath, ['run.mjs'], {
@@ -69,17 +77,19 @@ const itemJsBytes = packed.files.filter(file => /^dist\/item-.*\.js$/.test(file.
 const passiveJsBytes = packed.files.filter(file => /^dist\/passive-.*\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
 const inventoryHostJsBytes = packed.files.filter(file => file.path === 'dist/inventory-host.js').reduce((sum, file) => sum + file.size, 0);
 const stashJsBytes = packed.files.filter(file => file.path === 'dist/stash-policy.js').reduce((sum, file) => sum + file.size, 0);
-const coreJsBytes = jsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes - stashJsBytes;
+const containerJsBytes = packed.files.filter(file => /^dist\/(container-layout|container-policy|seat-rules)\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
+const coreJsBytes = jsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes - stashJsBytes - containerJsBytes;
 const contentBytes = packed.files.filter(file => file.path.startsWith('content/') && file.path.endsWith('.json')).reduce((sum, file) => sum + file.size, 0);
 assert.ok(coreJsBytes <= 96 * 1024, 'Core runtime exceeded the retained 96 KiB unminified JS budget');
 assert.ok(itemJsBytes <= 64 * 1024, 'Optional item entry exceeded its 64 KiB unminified JS budget');
 assert.ok(passiveJsBytes <= 32 * 1024, 'Optional passive entry exceeded its 32 KiB unminified JS budget');
 assert.ok(inventoryHostJsBytes <= 16 * 1024, 'Optional inventory host exceeded its 16 KiB unminified JS budget');
 assert.ok(stashJsBytes <= 16 * 1024, 'Optional storage policy exceeded its 16 KiB unminified JS budget');
-assert.ok(jsBytes <= 192 * 1024, 'Combined runtime exceeded the 192 KiB unminified JS budget');
+assert.ok(containerJsBytes <= 32 * 1024, 'Optional container and seat rules exceeded their 32 KiB unminified JS budget');
+assert.ok(jsBytes <= 224 * 1024, 'Combined runtime exceeded the 224 KiB unminified JS budget');
 assert.ok(contentBytes <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
-  runtimeJsBytes: jsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
+  runtimeJsBytes: jsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
   isolatedConsumer: JSON.parse(result), node: process.version,
 }, null, 2) + '\n');
 console.log(result.trim());
