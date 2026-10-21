@@ -1,0 +1,60 @@
+[content] tileset 'meadow': span void region 'mere_bed' is walkable — a gone span must be a hole
+[content] monster toll_bailiff: 2 signature defense pools authored — textures are identities; stack them only on boss showpieces
+[content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fumes:exposure(195), fire_walker:moveTrail(5), aftershocks:aoeScatter(114), buried_charge:pulse(76), accelerando:cadence(118), ritardando:cadence(118), square_sigil:aoeShape(41), triangle_sigil:aoeShape(41), spell_cascade:cascade(95), scattered_cascade:cascade(95), seismic_march:cascade(95), mirrored_bounds:projFrameBounce(1), sundering_flight:fissureTrail(1), afterspray:departSplash(10) — the whys live on the rows in data/graftReadSites.ts
+PASS  A: the bands ascend — 5,10,15,20
+PASS  A: the soft cap IS the last entry
+PASS  A: one essence tier per band (the registry zips the array)
+PASS  A: the drop floors table matches the band count
+PASS  A: the vendor tables match the band count
+PASS  A: essenceTierForLevel walks the half-open edges — 2→1(want 1) 5→1(want 1) 6→2(want 2) 10→2(want 2) 11→3(want 3) 15→3(want 3) 16→4(want 4) 20→4(want 4)
+PASS  A: a point per COMPLETED band, derived, capped by the array
+PASS  A: the cost curve's tier IS the band's, counts ≥ 1 across the ladder
+PASS  A: supports price inside band I at the supportMul (cap 5)
+PASS  A: the font's convert stays LOSSY (down < up — no free exchange)
+PASS  B: the wallet boots zeroed across every tier
+PASS  B: an empty wallet refuses the level
+PASS  B: the wrong tier refuses — the half-open band law is the wallet gate
+PASS  B: the right tier lands and debits exactly
+PASS  B: stepping into band II refuses tier I however fat the purse
+PASS  B: tier II feeds the step into 6
+PASS  B: the soft cap refuses spending (effective growth is investment's road)
+PASS  B: a support with an empty wallet refuses
+PASS  B: the support levels from tier I at the supportMul
+PASS  B: the support cap (5) still refuses
+PASS  C: 3 alike fuse into ONE at +1 rarity (sockets = the new rung's)
+PASS  C: the merged gem keeps the HIGHEST input level
+PASS  C: socketed supports pried back to the bag before the burn
+PASS  C: the keeper's mark refused as input — the locked copy stands
+PASS  C: the granted spark refused as input
+PASS  C: a short group refuses WHOLE (nothing eaten)
+PASS  C: legendary empowerment consumes two copies and advances the survivor
+PASS  C: the rarity ladder reads from the registry
+PASS  C: the recipe is deterministic (two fresh worlds agree byte-for-byte) — fireball:common:L1:s1|fireball:magic:L4:s2
+PASS  C: the highest-N inputs burn — the L1 straggler survives the fuse
+PASS  D: up consumes convertUp of tier N for ONE of N+1
+PASS  D: down pays convertDown of N−1 for ONE of N
+PASS  D: the round trip LOSES (the PoE map-vendor valve)
+PASS  D: the top tier refuses up
+PASS  D: the bottom tier refuses down
+PASS  D: a short wallet refuses up whole
+PASS  D: garbage tiers no-op
+PASS  E: the pick stands (sanctuary ground)
+PASS  E: a short wallet leaves the choice standing
+PASS  E: the ritual unmakes the pick at band III's price (level 14 → tier III)
+PASS  E: nothing picked → nothing charged
+PASS  F: DROP-AT-1 — 300 deep-bracket gem rolls, every one level 1 (preLevel retired) — 0 pre-leveled
+PASS  F: ground below every floor mints nothing
+PASS  F: level-3 ground mints tier I only (the floors hold)
+PASS  F: deep ground spans the ladder and leans DEEP (the tier gradient) — IV×110 vs I×13 over 200
+PASS  F: the mint FLOATS the tier's name — the drop is an EVENT
+PASS  F: the packet minted
+PASS  F: the vacuum banks it — wallet +3 of tier II, ground clear
+PASS  G: sealed ground refuses the mint primitive
+PASS  G: open ground mints again
+PASS  H: the save carries the wallet
+PASS  H: the wallet survives the round trip
+PASS  H: a points-era save loads — wallet zeroed, retired fields ignored
+PASS  H: the seat-meta wire carries the wallet both ways
+PASS  H: malformed font/vendor intents no-op through the validator
+
+ALL CHECKS PASSED

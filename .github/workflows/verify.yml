@@ -76,6 +76,7 @@ jobs:
       - run: npm run adapter:relic-actions-source
       - run: npm run adapter:equipment-source
       - run: npm run adapter:progression-source
+      - run: npm run adapter:skills-source
       - run: npm run reference:install
       - run: npm run reference:verify
       - run: npm run reference:lifecycle
@@ -92,6 +93,7 @@ jobs:
       - run: npm run reference:relic-actions
       - run: npm run reference:equipment-actions
       - run: npm run reference:progression
+      - run: npm run reference:skills
       - run: node --import tsx balance/probe_passiverefund.ts
         working-directory: .reference
       - run: node --import tsx balance/probe_choices.ts
@@ -112,6 +114,7 @@ jobs:
       - run: npm run adapter:relic-actions
       - run: npm run adapter:equipment-actions
       - run: npm run adapter:progression
+      - run: npm run adapter:skills
       - run: npm run check
         working-directory: .artifacts/game-adapter
       - run: npm run sim -- run --suite smoke
@@ -160,6 +163,16 @@ jobs:
         working-directory: .artifacts/game-adapter
       - run: node --import tsx balance/probe_unlocks.ts
         working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_abilityecon.ts
+        working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_skillmodes.ts
+        working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_skillempowerment.ts
+        working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_flasktrees.ts
+        working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_devotedstartertrees.ts
+        working-directory: .artifacts/game-adapter
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
@@ -168,6 +181,8 @@ jobs:
           if-no-files-found: error
           path: |
             .artifacts/inventory-ui-overlay-verification.json
+            .artifacts/skill-overlay-verification.json
+            .artifacts/game-skill-verification.json
             .artifacts/adapter-verification.json
             .artifacts/game-item-verification.json
             .artifacts/game-passive-grant-verification.json

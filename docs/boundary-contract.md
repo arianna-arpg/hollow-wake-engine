@@ -27,7 +27,8 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | Passive allocation/refund, choice deals, realm pools and vocation spending gates | Optional `PassivePolicy` / `PassiveBuild` / `PassiveHost` | Extracted and delegated in the isolated game; ordinary level earning is below, realm/vocation earning remains host-owned; see passive policy and host contracts |
 | Passive and choice attribute/stat contributions, conduit/graft specification assembly | Optional `PassiveGrants` | Extracted and delegated in the isolated game; effect execution remains host-owned; see passive grants contract |
 | XP awards, level thresholds/growth, passive-point earning and level milestones | Optional `CharacterProgression` / `ProgressionHost` | Extracted for all 39 classes and delegated through explicit hero/party/completion ports; class creation/unlocks and durable saving remain host-owned; see character progression contract |
-| Skill graph economy, vocation quests, unlock earning and account progression | Future character-policy modules | Source captured; not migrated |
+| Skill graph economy, payload folding, ability currency and Font actions | Optional `SkillProgression` / `SkillActions` | All 132 trees and nine World actions delegated; native execution, account permission, cleanup and saves remain host-owned; see skill progression contract |
+| Vocation quests, unlock earning and account progression | Future character-policy modules | Source captured; not migrated |
 | Ordinary casting commitment, mana/life payment, cooldowns, cancellation | `CastRuntime`, per actor | Extracted; advanced modes remain native |
 | Projectile travel, contact collection, spatial queries and 2D/3D conventions | Host adapter plus future delivery module | Host supplies a resolved contact today |
 | Strongest-wins Burning and raw typed ticks | `TimedDamage`, per bearer/effect | Extracted; host supplies resolved application and damage routing |
@@ -141,6 +142,13 @@ See [passive-policy-host.md](passive-policy-host.md) for shape/authorization
 obligations, callback ordering, content revisions and reentrancy limits.
 
 ## Portability decision
+
+Optional skill graph/progression/grant/action entries have separate owned-content
+and borrowed-host contracts. Ordered ranks, original restore-versus-purchase gates,
+legendary keeper/donor investment and host callback order are explicit. Strict
+numeric inputs, bounded graph traversal and synchronous nonthrowing commit ports
+are documented in [skill-progression.md](skill-progression.md). Resolving a tree's
+payload does not implement its combat delivery or support mechanism.
 
 Keep the first kernel in TypeScript/ES modules to compare against the original
 implementation with minimal language-induced uncertainty. Production compilation

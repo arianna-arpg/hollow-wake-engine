@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -74,13 +74,29 @@
     "./character/progression": {
       "types": "./dist/character-progression.d.ts",
       "import": "./dist/character-progression.js"
+    },
+    "./skills/tree": {
+      "types": "./dist/skill-tree.d.ts",
+      "import": "./dist/skill-tree.js"
+    },
+    "./skills/progression": {
+      "types": "./dist/skill-progression.d.ts",
+      "import": "./dist/skill-progression.js"
+    },
+    "./skills/grants": {
+      "types": "./dist/skill-tree-grants.d.ts",
+      "import": "./dist/skill-tree-grants.js"
+    },
+    "./skills/actions": {
+      "types": "./dist/skill-actions.d.ts",
+      "import": "./dist/skill-actions.js"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs",
     "example": "npm run build && node examples/first-path.mjs",
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
@@ -145,7 +161,12 @@
     "progression:build": "npm run build && node scripts/compile-progression-content.mjs",
     "adapter:progression-source": "node scripts/test-progression-overlay.mjs",
     "adapter:progression": "node scripts/test-game-progression.mjs",
-    "benchmark:progression": "node scripts/benchmark-progression.mjs"
+    "benchmark:progression": "node scripts/benchmark-progression.mjs",
+    "reference:skills": "node scripts/run-skill-progression-reference.mjs",
+    "skills:build": "npm run build && node scripts/compile-skill-progression.mjs",
+    "adapter:skills-source": "node scripts/test-skill-progression-overlay.mjs",
+    "adapter:skills": "node scripts/test-game-skill-progression.mjs",
+    "benchmark:skills": "node scripts/benchmark-skill-progression.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

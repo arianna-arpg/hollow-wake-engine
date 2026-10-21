@@ -3,6 +3,12 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.16 adds [skill progression and tree actions](docs/skill-progression.md):
+all 132 tree graphs, ranked/legendary point budgets, skill/support levels, resolved
+tree payloads, Font resets and merges. Four optional modules connect the same
+rules to standalone content and the game adapter. Desktop tree previews improve
+about 59–60% versus v0.15.0; a measured action/rebuild regression remains a target.
+
 Version 0.15 adds [character progression](docs/character-progression.md): XP awards,
 level growth, earned passive points and ordered class/account milestones. All 39
 classes connect XP to passive spending and stat rebuilding in a separate consumer.

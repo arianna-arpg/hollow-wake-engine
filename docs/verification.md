@@ -227,6 +227,15 @@ The new optional module has a 12 KiB allowance and raises the combined bound fro
 is 128 KiB. See [character-progression.md](character-progression.md) for host
 obligations, operation limits and measured gains/regressions.
 
+Version 0.16 adds `reference:skills`, `skills:build`, `adapter:skills-source`,
+`adapter:skills` and `benchmark:skills`. The original fixture contains 2,376 purchase
+sequences, 6,336 restorations, 5,148 resolver states and 4,461 World transitions.
+Four new faults cover budgets, aura ranks, paid levels and donor ranks, both at
+runtime-test and installed-game boundaries. A standalone content consumer and
+mounted Inventory/Font course cover complete use paths. See
+[skill-progression.md](skill-progression.md) for reproduction, strict input decisions,
+borrowed references, complete workload timings and remaining execution scope.
+
 ## Cross-runtime numerical policy
 
 `npm run native:verify` builds the experimental C ABI with the local C toolchain

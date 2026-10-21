@@ -47,4 +47,5 @@ assert.ok([...reachable].every(file => path.basename(file)!=='relic-custody.ts')
 assert.ok([...reachable].every(file => path.basename(file)!=='relic-actions.ts'), 'Optional account actions became an eager core import');
 assert.ok([...reachable].every(file => path.basename(file)!=='equipment-actions.ts'), 'Optional equipment actions became an eager core import');
 assert.ok([...reachable].every(file => path.basename(file)!=='character-progression.ts'), 'Optional progression became an eager core import');
+assert.ok([...reachable].every(file => !path.basename(file).startsWith('skill-')), 'Optional skill progression became an eager core import');
 console.log(`Boundary check passed: ${files} production modules; no external runtime dependencies, host APIs, or ambient randomness.`);

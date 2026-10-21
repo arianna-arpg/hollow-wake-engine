@@ -25,6 +25,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
     fs.cpSync(path.join(root, 'baseline/milestone-fifteen'), path.join(temp, 'baseline/milestone-fifteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-sixteen'), path.join(temp, 'baseline/milestone-sixteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-eighteen'), path.join(temp, 'baseline/milestone-eighteen'), { recursive: true });
+    fs.cpSync(path.join(root, 'baseline/milestone-nineteen'), path.join(temp, 'baseline/milestone-nineteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-eleven'), path.join(temp, 'baseline/milestone-eleven'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twelve'), path.join(temp, 'baseline/milestone-twelve'), { recursive: true });
     fs.copyFileSync(path.join(root,'baseline/stat-catalogue.json'),path.join(temp,'baseline/stat-catalogue.json'));
@@ -32,7 +33,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
 }
 fs.writeFileSync(path.join(temp, 'package.json'), '{"type":"module"}\n');
 fs.mkdirSync(path.join(temp, 'scripts'));
-for (const file of ['compile-item-content.mjs', 'compile-progression-content.mjs', 'catalogue-tools.mjs', 'reference-utils.mjs']) fs.copyFileSync(path.join(root, 'scripts', file), path.join(temp, 'scripts', file));
+for (const file of ['compile-item-content.mjs', 'compile-progression-content.mjs', 'compile-skill-progression.mjs', 'catalogue-tools.mjs', 'reference-utils.mjs']) fs.copyFileSync(path.join(root, 'scripts', file), path.join(temp, 'scripts', file));
 const file = path.join(temp, 'dist/stats.js');
 const original = fs.readFileSync(file, 'utf8');
 const mutants = [
@@ -82,6 +83,10 @@ for (const [module, name, before, after, tests] of [
   ['validation', 'copied-properties-use-setters', 'Object.fromEntries(entries)', 'Object.assign({}, Object.fromEntries(entries))', 'test/validation.test.mjs'],
   ['character-progression', 'level-point-credit-omitted', 'state.passivePoints += rules.pack.tuning.passivePointsPerLevel;', 'state.passivePoints += 0;', 'test/character-progression.test.mjs'],
   ['character-progression', 'downed-level-auto-heals', 'if (!hero.downed)', 'if (true)', 'test/character-progression.test.mjs'],
+  ['skill-progression', 'empowerment-budget-omitted', 'const points = empowermentRank(state) * pointsPerRank;', 'const points = 0;', 'test/skill-progression.test.mjs'],
+  ['skill-tree-grants', 'aura-ranks-ignored', 'for (let rank = 0; rank < ranks; rank++)', 'for (let rank = 0; rank < 1; rank++)', 'test/skill-progression.test.mjs'],
+  ['skill-actions', 'paid-skill-level-omitted', 'inst.level++;', 'inst.level += 0;', 'test/skill-actions.test.mjs'],
+  ['skill-actions', 'legendary-donor-ranks-lost', 'const rank = empowermentRank(keeper) + e.ranksPerMerge + donorRanks;', 'const rank = empowermentRank(keeper) + e.ranksPerMerge;', 'test/skill-actions.test.mjs'],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
   assert.ok(source.includes(before));
