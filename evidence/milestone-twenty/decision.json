@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "decision": "Keep every v0.16 runtime file unchanged. Publish reproducible experiments and regression guards; none of the four optimization candidates is selected.",
+  "base": "e5de329d46739f92fa4d1d5f1736dcf4709ffbd3",
+  "candidateSourceSha256": {
+    "a": "a73854c97d30cb9e600d408adfd072f6aea79ffce9aa6a29d036b8a2b6973414",
+    "b": "05f138a9ca0e32ad6759cc217d11601a47260942ba4cb16278988adc51776966",
+    "c": "658a1e06ecf51ba0b994dbc4466a19df4e994330d34672c0ce8d017aebe5aedb",
+    "d": "329e6251b911121fd63d732dca6e1830f56793e228d929b93ad521a00932a76e"
+  },
+  "reasons": {
+    "a": "Final complete skill-action medians improve 3.5–5.4%, but full-equipment rebuild medians regress 1.6–2.5%. The one-ring result also does not consistently improve.",
+    "b": "Derived typed-array storage introduced a larger full-equipment cost in its first measured comparison.",
+    "c": "An inherited array-index setter is invoked during attributes(), unlike the retained implementation; rejected on semantics regardless of timing.",
+    "d": "Safe array construction preserves the setter contract, but a confirmation run does not reproduce initial performance gains."
+  },
+  "measurementLimits": [
+    "Small timing changes include environmental/JIT/GC variation; unchanged tree-preview code also varies between controls.",
+    "A current release run compares identical runtime code and cannot establish an optimization.",
+    "Development-runner CPU sampling is a diagnostic target, not attribution of the regression or a release-renderer result.",
+    "No allocation-volume, Steam Deck, older-mobile, full-native or whole-frame claim."
+  ]
+}

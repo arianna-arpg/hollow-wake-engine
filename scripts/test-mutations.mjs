@@ -65,6 +65,7 @@ for (const [module, name, before, after, tests] of [
   ['passive-policy', 'refund-loses-choice-points', 'picks * p.pack.pickCost', '1', 'test/passive-policy.test.mjs'],
   ['passive-grants', 'doubled-passive-attribute-percent', 'this.#values[i] * (1 + this.#pct[i])', 'this.#values[i] * (1 + 2 * this.#pct[i])', 'test/passive-grants.test.mjs'],
   ['passive-grants', 'reversed-passive-grant-order', 'this.#mods.push(...g.mods);', 'this.#mods.unshift(...g.mods);', 'test/passive-grants.test.mjs'],
+  ['passive-grants', 'duplicate-base-attribute-read', "finite(base[a.id] ?? 0, 'base attribute')", "finite((base[a.id], base[a.id]) ?? 0, 'base attribute')", 'test/passive-grant-vectors.test.mjs'],
   ['passive-policy', 'host-allocation-disconnected', 'return this.#state.allocated;', 'return new Set(this.#state.allocated);', 'test/passive-policy-host.test.mjs'],
   ['passive-policy', 'retired-node-refusal-lost', "if (!other)\n                return no('An allocated node is no longer available.');", 'if (!other) continue;', 'test/passive-policy-host.test.mjs'],
   ['inventory-host', 'stale-live-occupancy', 'occupied.fill(0, 0, cells);', '/* deliberately retain stale occupancy */', 'test/inventory-host.test.mjs'],

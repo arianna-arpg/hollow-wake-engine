@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -166,7 +166,8 @@
     "skills:build": "npm run build && node scripts/compile-skill-progression.mjs",
     "adapter:skills-source": "node scripts/test-skill-progression-overlay.mjs",
     "adapter:skills": "node scripts/test-game-skill-progression.mjs",
-    "benchmark:skills": "node scripts/benchmark-skill-progression.mjs"
+    "benchmark:skills": "node scripts/benchmark-skill-progression.mjs",
+    "benchmark:rebuild-vectors": "node scripts/benchmark-grant-vectors.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

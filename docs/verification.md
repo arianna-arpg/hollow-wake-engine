@@ -236,6 +236,13 @@ mounted Inventory/Font course cover complete use paths. See
 [skill-progression.md](skill-progression.md) for reproduction, strict input decisions,
 borrowed references, complete workload timings and remaining execution scope.
 
+Version 0.16.1 adds seven attribute-rebuild contracts and a duplicate-base-read
+fault. All 99 compiled runtime files remain unchanged from v0.16.0. The rejected
+optimization candidates and complete comparisons are documented in
+[rebuild-vectors.md](rebuild-vectors.md). `benchmark:rebuild-vectors` compares the
+original game, retained v0.16 and an isolated candidate with guarded source controls.
+The full verifier contains 168 tests, 35 behavioral faults and eight packed consumers.
+
 ## Cross-runtime numerical policy
 
 `npm run native:verify` builds the experimental C ABI with the local C toolchain

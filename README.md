@@ -3,6 +3,10 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.16.1 adds [rebuild regression guards and measured experiments](docs/rebuild-vectors.md).
+The runtime remains byte-identical to v0.16.0: the tested optimizations did not
+establish a consistent improvement across complete rebuild workloads.
+
 Version 0.16 adds [skill progression and tree actions](docs/skill-progression.md):
 all 132 tree graphs, ranked/legendary point budgets, skill/support levels, resolved
 tree payloads, Font resets and merges. Four optional modules connect the same
