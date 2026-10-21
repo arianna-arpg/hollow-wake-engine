@@ -31,6 +31,8 @@ and a 1 MiB unpacked bound for its separate content package. It preserves the
 existing core, item and selected-content bounds.
 Version 0.7 includes grant execution within that same 32 KiB bound and adds a
 separate 1 MiB grant-data package bound. These bound package size, not live memory.
+Version 0.9 adds a 16 KiB optional live-inventory module bound while retaining the
+192 KiB combined runtime bound. It does not increase the total package budget.
 
 ## Reconstructing the original
 
@@ -141,6 +143,15 @@ be rejected. The packed consumer checks both state-ownership modes. The renderer
 runner accepts `--policy` for mounted-editor link/deletion coverage. See
 [passive-policy-host.md](passive-policy-host.md). Installed-package fault checks
 must run sequentially with other consumers of that installation.
+
+Version 0.9 adds `reference:inventory-host`, `adapter:inventory-source`,
+`adapter:inventory-host` and `benchmark:inventory-host`: 1400 original cases,
+three live footprint revisions, 19 complete World states and the existing 3000
+inventory transitions. Two more runtime mutants and an installed occupancy fault
+must be rejected. The game renderer runner accepts `--host --tabs` to include
+mounted inventory/container previews and the original tab course. See
+[inventory-host.md](inventory-host.md) for the capture correction, ownership
+contract, measured small-workload regressions and verification limits.
 
 ## Cross-runtime numerical policy
 

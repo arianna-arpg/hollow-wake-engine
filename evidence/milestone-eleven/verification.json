@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "sdkBase": "d19a4890d81dbe87ebc410137e8ae807af5eb9b1",
+  "version": "0.9.0",
+  "fixtureSha256": "f8f73c1c592ba473b719c4e30e960bee7bfa201e028d4e939a966d2e0f405c38",
+  "originalTransitions": 3000,
+  "liveQueries": 1400,
+  "liveFootprintRevisions": 3,
+  "fullHostTransitions": 19,
+  "checks": {
+    "sdkTests": 88,
+    "behavioralMutantsRejected": 16,
+    "packedConsumers": 5,
+    "independentReferenceReexports": true,
+    "originalTypes": true,
+    "freshGameTypes": true,
+    "freshGameSmoke": "5 scenarios x 5 seeds",
+    "gameProbes": [
+      "bagsort",
+      "stash",
+      "relicflow",
+      "relicuniques",
+      "relicdeath",
+      "containerloot"
+    ],
+    "installedCastingItemsGrantsPolicyInventory": true,
+    "passiveRendererCourses": 4,
+    "inventoryRendererChecks": 187,
+    "bootSmoke": true
+  },
+  "limits": [
+    "Live host records and pure nonreentrant ports are trusted; strict owned Inventory is the separate validation/copy API.",
+    "Container eligibility, stash policy, account identity, equipment and relic contributions remain host-owned.",
+    "Warm desktop helper timings include small-workload regressions; no device, total-allocation or whole-frame claim.",
+    "No full Unity/Godot/Unreal integration is claimed."
+  ],
+  "captureDecision": "baseline/milestone-eleven/capture-decision.json"
+}

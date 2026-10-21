@@ -43,8 +43,8 @@ Original undefined fields are observed through JSON; source functions are never
 used to manufacture SDK expected results. Strict invalid-input rejection is an
 intentional boundary improvement over unvalidated original helper calls.
 
-The game adapter currently delegates casting/timed-effect arithmetic. Its bag
-arrays still remain native. An inventory adapter must route every write through
-one owner before retaining this index; caching a directly mutable game bag would
-be unsafe. Stash paging, overflow recovery, equipment and container policy are
-separate pending contracts.
+The game adapter now delegates geometry through the separate
+[live inventory host](inventory-host.md). Its bag arrays remain host-owned;
+that API rebuilds occupancy per first-fit operation and observes direct edits.
+It does not retain this strict API's index over mutable host records. Stash paging,
+overflow recovery, equipment and container policy remain separate pending contracts.

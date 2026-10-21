@@ -11,17 +11,19 @@ const game=argument('--game'),electron=argument('--electron'),dist=argument('--d
 assert.ok(fs.existsSync(path.join(dist,'index.html')),'Build the isolated game first');
 const reports=fs.mkdtempSync(path.join(root,'.artifacts/item-ui-'));
 const lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json'))),results=[];
-const courses=process.argv.includes('--inventory-only')?['inventory-ui']:['inventory-ui','inventory-pages-ui',...(process.argv.includes('--services')?['dialogue-services-ui']:[])];
+const courses=process.argv.includes('--host-only')?['inventory-host-ui']:process.argv.includes('--inventory-only')?['inventory-ui']:['inventory-ui','inventory-pages-ui',...(process.argv.includes('--tabs')?['inventory-tabs-ui']:[]),...(process.argv.includes('--host')?['inventory-host-ui']:[]),...(process.argv.includes('--services')?['dialogue-services-ui']:[])];
 for(const name of courses) {
-  const relative=`balance/${name}.cjs`,input=fs.readFileSync(path.join(game,relative),'utf8');
-  const reference=fs.readFileSync(path.join(root,'.reference',relative),'utf8');
-  assert.equal(sha256(reference),lock.files[relative],'Reference UI harness changed');
-  const accepted=name==='inventory-ui'&&!process.argv.includes('--baseline-ui')?inventoryUiReference(relative):reference.replaceAll('\r\n','\n');
-  assert.equal(input.replaceAll('\r\n','\n'),accepted,'Game UI harness changed outside the explicit repair');
+  const own=name==='inventory-host-ui',relative=`balance/${name}.cjs`,input=fs.readFileSync(own?path.join(root,`adapters/hollow-wake/${name}.cjs`):path.join(game,relative),'utf8');
+  if(!own){
+    const reference=fs.readFileSync(path.join(root,'.reference',relative),'utf8');
+    assert.equal(sha256(reference),lock.files[relative],'Reference UI harness changed');
+    const accepted=name==='inventory-ui'&&!process.argv.includes('--baseline-ui')?inventoryUiReference(relative):reference.replaceAll('\r\n','\n');
+    assert.equal(input.replaceAll('\r\n','\n'),accepted,'Game UI harness changed outside the explicit repair');
+  }
   const anchor="const dir = path.join(__dirname, 'reports');";
   assert.equal(input.split(anchor).length,2);
   let source=input.replace(anchor,'const dir = process.env.HOLLOW_WAKE_QA_REPORTS;');
-  if(name==='inventory-ui') {
+  if(name==='inventory-ui'||name==='inventory-tabs-ui'||own) {
     const output="path.resolve(__dirname, '../dist')";assert.equal(source.split(output).length,2);
     source=source.replace(output,'process.env.HOLLOW_WAKE_QA_DIST');
   }

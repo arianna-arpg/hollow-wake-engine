@@ -20,6 +20,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
     fs.cpSync(path.join(root, 'baseline/milestone-four'), path.join(temp, 'baseline/milestone-four'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-eight'), path.join(temp, 'baseline/milestone-eight'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-nine'), path.join(temp, 'baseline/milestone-nine'), { recursive: true });
+    fs.cpSync(path.join(root, 'baseline/milestone-eleven'), path.join(temp, 'baseline/milestone-eleven'), { recursive: true });
     fs.copyFileSync(path.join(root,'baseline/stat-catalogue.json'),path.join(temp,'baseline/stat-catalogue.json'));
   } else fs.cpSync(path.join(root, folder), path.join(temp, folder), { recursive: true });
 }
@@ -59,6 +60,8 @@ for (const [module, name, before, after, tests] of [
   ['passive-grants', 'reversed-passive-grant-order', 'this.#mods.push(...g.mods);', 'this.#mods.unshift(...g.mods);', 'test/passive-grants.test.mjs'],
   ['passive-policy', 'host-allocation-disconnected', 'return this.#state.allocated;', 'return new Set(this.#state.allocated);', 'test/passive-policy-host.test.mjs'],
   ['passive-policy', 'retired-node-refusal-lost', "if (!other)\n                return no('An allocated node is no longer available.');", 'if (!other) continue;', 'test/passive-policy-host.test.mjs'],
+  ['inventory-host', 'stale-live-occupancy', 'occupied.fill(0, 0, cells);', '/* deliberately retain stale occupancy */', 'test/inventory-host.test.mjs'],
+  ['inventory-host', 'live-swap-overlap', 'return overlap(x, y, s.w, s.h, item.x, item.y, bs.w, bs.h) ? null : blocker;', 'return blocker;', 'test/inventory-host.test.mjs'],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
   assert.ok(source.includes(before));

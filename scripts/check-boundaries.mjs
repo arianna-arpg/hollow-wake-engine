@@ -40,4 +40,5 @@ function entryGraph(file) {
 entryGraph(path.join(root,'src/index.ts'));
 assert.ok([...reachable].every(file => !path.basename(file).startsWith('item-')), 'Optional item implementation became an eager core import');
 assert.ok([...reachable].every(file => !path.basename(file).startsWith('passive-')), 'Optional passive policy became an eager core import');
+assert.ok([...reachable].every(file => path.basename(file)!=='inventory-host.ts'), 'Optional live inventory host became an eager core import');
 console.log(`Boundary check passed: ${files} production modules; no external runtime dependencies, host APIs, or ambient randomness.`);

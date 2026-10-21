@@ -3,6 +3,12 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.9 adds [live inventory delegation](docs/inventory-host.md) across the
+game's bag, masked-container and storage geometry. It preserves host-owned item
+identity and observes direct edits while rebuilding bounded occupancy once per
+first-fit operation. Original traces, complete game transitions and installed
+fault checks establish behavior; container/account policy remains a separate step.
+
 Version 0.8 adds [live host policy integration](docs/passive-policy-host.md):
 the game now delegates full-tree allocation/refund, realm points and graft binding,
 with shared compiled graphs, per-character scratch and explicit editor refresh.
