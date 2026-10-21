@@ -1,0 +1,148 @@
+[content] tileset 'meadow': span void region 'mere_bed' is walkable — a gone span must be a hole
+[content] monster toll_bailiff: 2 signature defense pools authored — textures are identities; stack them only on boss showpieces
+[content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fumes:exposure(195), fire_walker:moveTrail(5), aftershocks:aoeScatter(114), buried_charge:pulse(76), accelerando:cadence(118), ritardando:cadence(118), square_sigil:aoeShape(41), triangle_sigil:aoeShape(41), spell_cascade:cascade(95), scattered_cascade:cascade(95), seismic_march:cascade(95), mirrored_bounds:projFrameBounce(1), sundering_flight:fissureTrail(1), afterspray:departSplash(10) — the whys live on the rows in data/graftReadSites.ts
+PASS  A1 no rung 0 → no board
+PASS  A1b a later rung alone (rung 0 unowned) → no board
+PASS  A2 the first expansion opens the hollow ring: 8 seats, centre sealed
+PASS  A2b the quest starts with exactly one usable charm cell
+PASS  A3 the ladder grows monotonically — 8 → 20 → 21 → 25
+PASS  A4 the full case is the union of every rung (5×5 = 25)
+PASS  A5 the centre opens with THE HEART
+PASS  A6 a corner opens with THE FULL CASE
+PASS  A7 the canvas is the union extent (5×5)
+PASS  A8 pack/unpack round-trips the board
+PASS  A9 out-of-bounds reads closed
+PASS  B1 a charm seats on an open ring cell
+PASS  B2 a charm refuses the sealed centre
+PASS  B3 a talisman lies along the wall
+PASS  B3b a talisman refuses a wall it would cross the centre on
+PASS  B4 no effigy seats anywhere on the ring
+PASS  B5 the effigy seats once THE HEART opens
+PASS  B6 first-fit fills exactly the 8 open cells, all open
+PASS  B7 footprintOpen without a mask is the plain bounds test
+PASS  C1 relic is a container-carried category (slotless carry)
+PASS  C2 four relic families, magic-floored, explicit-pool, footprint-capped
+PASS  C3 every relic family rolls the register and nothing else
+PASS  C4 the register names the relic tag and only known stats
+PASS  C5 no armour or jewel ever rolls a relic word
+PASS  C5b the wardrobe still rolls its catch-all families on open bases
+PASS  C6 a relic never drops common (THE RARITY FLOOR) — 1200 rolls
+PASS  C7 the footprint caps hold on every roll
+PASS  C8 a rare charm carries at most one line each way (the forge honors the cap)
+PASS  C8b a rare effigy fills the rarity's full six
+PASS  C9 relics enter the open world pool at a find's share (0.3%–10%) — 42/4000
+PASS  C10 the relic cache pays a relic
+PASS  C11 describeItem speaks the register's line
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+PASS  D1 the board exists once rung 0 is owned
+PASS  D1b a relic in the bag is inert
+PASS  D2 containerPlace seats the charm (first open fit)
+PASS  D3 the seated charm's life folds into the sheet — +7 → 7
+PASS  D4 containerTake returns account property to the bag and the line leaves
+PASS  D5 an aimed seat on the sealed centre is refused
+PASS  D6 an aimed seat on an open cell lands there
+PASS  D7 containerMove re-places on an open cell
+PASS  D8 containerMove refuses the sealed centre
+PASS  D9 a ring is refused by the reliquary
+PASS  D10 deep relics remain usable in a new life
+PASS  D11 the ring holds eight; the ninth is refused
+PASS  D11b every seated piece stands on an open cell, none overlapping
+PASS  D12 the landing law reads the swap
+PASS  D12b the swap seats the mover and returns the blocker to the vacated bag cell
+PASS  D13 account property refuses a drop without changing stats
+PASS  D14 the lock holds: a locked seated piece never leaves
+PASS  D15 a misfit returns to account reserve
+PASS  D16 an unowned board folds nothing (the existence law)
+PASS  D17 an unowned board refuses a seat
+PASS  D18 re-owning the board re-folds the seated pieces
+PASS  E1 the account owns the pieces; character saves carry no duplicate
+PASS  E2 character rebuild waits for the account board
+PASS  E3 the wire ships the boards
+PASS  E4 a client adopts the seated pieces and the fold stands
+PASS  E5 account Relics never enter corpse loot
+PASS  F1 one derived Vault row per rung
+PASS  F2 the case itself has no Vault purchase
+PASS  F2b finding a relic cannot bypass the quest
+PASS  F3 rung 1 hides until rung 0 is owned
+PASS  F4 no board before the buy
+PASS  F4a the quest grant opens one cell and exposes the ring upgrade
+PASS  F4b the buy raises the ring
+PASS  F5 rung 1 still waits on its level road
+PASS  F5b the level road opens rung 1
+PASS  F5c the second buy widens the shelves
+PASS  F6 every rung's level road registers its milestone
+PASS  G1 a discard never stamps the discovery ledger
+PASS  G1b ambient relics wait for the Oracle rescue
+PASS  G2 a genuine world mint stamps it once
+PASS  G3 a ring stamps nothing
+PASS  H1 relics sort after the doll's kinds and before gems
+PASS  H2 containerOriginOf speaks bag / board
+PASS  H3 containerFor / containerAccepts
+PASS  H4 the refusals speak
+PASS  H5 a bag→board landing over one blocker swaps when the blocker fits the vacated bag cell
+PASS  H6 a landing over the sealed centre is blocked
+PASS  H7 placeAt honors the mask
+PASS  I1.1 seeded site repeats and references real content
+PASS  I1.2 seeded site repeats and references real content
+PASS  I1.3 seeded site repeats and references real content
+PASS  I1.4 seeded site repeats and references real content
+PASS  I1.5 seeded site repeats and references real content
+PASS  I1.6 seeded site repeats and references real content
+PASS  I1.7 seeded site repeats and references real content
+PASS  I1.8 seeded site repeats and references real content
+PASS  I1.9 seeded site repeats and references real content
+PASS  I1.10 seeded site repeats and references real content
+PASS  I1.11 seeded site repeats and references real content
+PASS  I1.12 seeded site repeats and references real content
+PASS  I1.13 seeded site repeats and references real content
+PASS  I1.14 seeded site repeats and references real content
+PASS  I1.15 seeded site repeats and references real content
+PASS  I1.16 seeded site repeats and references real content
+PASS  I1.17 seeded site repeats and references real content
+PASS  I1.18 seeded site repeats and references real content
+PASS  I1.19 seeded site repeats and references real content
+PASS  I1.20 seeded site repeats and references real content
+PASS  I1.21 seeded site repeats and references real content
+PASS  I1.22 seeded site repeats and references real content
+PASS  I1.23 seeded site repeats and references real content
+PASS  I1.24 seeded site repeats and references real content
+PASS  I1.25 seeded site repeats and references real content
+PASS  I1.26 seeded site repeats and references real content
+PASS  I1.27 seeded site repeats and references real content
+PASS  I1.28 seeded site repeats and references real content
+PASS  I1.29 seeded site repeats and references real content
+PASS  I1.30 seeded site repeats and references real content
+PASS  I1.31 seeded site repeats and references real content
+PASS  I1.32 seeded site repeats and references real content
+PASS  I1.33 seeded site repeats and references real content
+PASS  I1.34 seeded site repeats and references real content
+PASS  I1.35 seeded site repeats and references real content
+PASS  I1.36 seeded site repeats and references real content
+PASS  I1.37 seeded site repeats and references real content
+PASS  I1.38 seeded site repeats and references real content
+PASS  I1.39 seeded site repeats and references real content
+PASS  I1.40 seeded site repeats and references real content
+PASS  I2 seeds span all authored burial sites
+PASS  I3 the introduction mints a named, locally connected level-8 destination with directions
+PASS  I4 the generated site and active quest ride the world save
+PASS  I5 no claim before completing the field objective
+PASS  I6 optional field completion preserves the rescued case without paying a relic
+PASS  I7 no remote claim away from the giver
+PASS  I8 turn-in requests a choice; no automatic payout
+PASS  I8b reward previews show stable exact stats and footprint
+PASS  I9 unknown choice refuses without completing
+PASS  I10 full pack defers the reward without relocking the rescued case
+PASS  I11 ready-to-choose state persists across world adoption
+PASS  I12 chosen reward pays once and grants one open seat
+PASS  I12b the awarded item matches its preview exactly
+PASS  I13 duplicate and guest claims cannot award another item
+PASS  I14 chosen relic is immediately usable but inert in the pack
+PASS  I15 the rescue enables ambient relics before seating
+PASS  I16 a refused seating does not complete the lesson
+PASS  I17 actual seating completes the lesson and adds the relic stats
+PASS  I18 ambient relics continue to land after seating
+[levelgen] navigability: cleared 1 sealing solid(s) so every required point stays walkable
+PASS  I19 unseating removes power without relocking discovery
+PASS  I20 claim completion survives reload and cannot pay twice
+
+PASS — THE RELIQUARY

@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -58,6 +58,10 @@
     "./inventory/containers": {
       "types": "./dist/container-policy.d.ts",
       "import": "./dist/container-policy.js"
+    },
+    "./inventory/relics": {
+      "types": "./dist/relic-custody.d.ts",
+      "import": "./dist/relic-custody.js"
     }
   },
   "scripts": {
@@ -111,7 +115,11 @@
     "adapter:container-source": "node scripts/test-container-overlay.mjs",
     "adapter:containers": "node scripts/test-game-containers.mjs",
     "containers:build": "node scripts/compile-container-content.mjs",
-    "benchmark:containers": "node scripts/benchmark-containers.mjs"
+    "benchmark:containers": "node scripts/benchmark-containers.mjs",
+    "reference:relics": "node scripts/run-relic-custody-reference.mjs",
+    "adapter:relic-source": "node scripts/test-relic-custody-overlay.mjs",
+    "adapter:relics": "node scripts/test-game-relic-custody.mjs",
+    "benchmark:relics": "node scripts/benchmark-relic-custody.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.12 adds [account relic custody](docs/relic-custody.md): canonical item
+identity, stale-save migration, death tombstones, restoration and bounded power/
+storage investments. The game delegates its ownership helpers through explicit
+host ports; durable transactions and player-action authorization remain host duties.
+
 Version 0.11 adds [container and relic seat rules](docs/container-policy.md):
 compiled unlock shapes, eligibility, unique limits, landing decisions and numeric
 neighboring power. The game delegates four helper modules, and a separate content

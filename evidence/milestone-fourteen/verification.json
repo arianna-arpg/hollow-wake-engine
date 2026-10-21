@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "sdkBase": "271892d50276319536575b9b52032e5dab50e829",
+  "version": "0.12.0",
+  "fixtureSha256": "158358690ea6dcf1f4adc20900e23dc7ed1186ee1ea6e8bab43786388918bc18",
+  "checks": {
+    "sdkTests": 110,
+    "behavioralMutantsRejected": 22,
+    "packedConsumers": 6,
+    "independentOriginalReexports": true,
+    "originalTypes": true,
+    "freshGameTypes": true,
+    "freshGameSmoke": "5 scenarios x 5 seeds",
+    "gameProbes": [
+      "reliquary",
+      "relicuniques",
+      "relicflow",
+      "relicdeath"
+    ],
+    "installedTombstoneFaultRejected": true,
+    "restores": 240,
+    "investments": 600,
+    "custodySequences": 120,
+    "custodyTransitions": 2520,
+    "experienceFolds": 160,
+    "inventoryRendererChecks": 187,
+    "storageCompletedAcceptanceGroups": 5,
+    "bootSmoke": true
+  },
+  "limits": [
+    "World retains player-action authorization, final transfer commits, actor effects and durable saves. Custody ports must not throw after mutation starts; no cross-process/crash transaction is claimed.",
+    "Larger restore improvements versus original largely come from prior storage extraction. Some small operations and the 96-item migration regress versus M13; raw samples retained.",
+    "No Steam Deck/mobile, full-frame, allocation/GC or complete native-engine integration claim."
+  ],
+  "captureDecision": "baseline/milestone-fourteen/capture-decision.json",
+  "consoleLogEncoding": "Console evidence normalizes CRLF and redundant terminal blank lines; raw local logs retained."
+}

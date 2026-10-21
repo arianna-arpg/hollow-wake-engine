@@ -39,6 +39,9 @@ Version 0.11 adds a 32 KiB optional container/seat-rule allowance and raises the
 combined bound to 224 KiB for that new capability; earlier core/module limits
 stay unchanged. Its separate container content package has a 64 KiB unpacked
 bound. Both immutable content and live rule ports use the same tested arithmetic.
+Version 0.12 adds a 16 KiB optional relic-custody bound within the same 224 KiB
+combined allowance. Container content 0.2 retains its 64 KiB bound and adds
+explicit progression/storage tuning consumed by the same offline consumer.
 
 ## Reconstructing the original
 
@@ -177,6 +180,13 @@ behavioral mutants and an installed first-unlock fault must be rejected. A sixth
 packed consumer connects item generation, container seating and stat contributions.
 See [container-policy.md](container-policy.md) for state ownership, explicit
 boundary decisions, measurements and the remaining host responsibilities.
+
+Version 0.12 adds `reference:relics`, `adapter:relic-source`, `adapter:relics` and
+`benchmark:relics`. It checks 240 restores, 600 investments, 2520 custody
+transitions and 160 experience folds, two further runtime faults, and an installed
+tombstone fault. The container consumer now includes canonical ownership, bounded
+investment, save restoration, death and stale-save replay. See
+[relic-custody.md](relic-custody.md) for host obligations and measured regressions.
 
 ## Cross-runtime numerical policy
 
