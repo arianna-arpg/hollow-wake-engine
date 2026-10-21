@@ -74,6 +74,7 @@ jobs:
       - run: npm run adapter:container-source
       - run: npm run adapter:relic-source
       - run: npm run adapter:relic-actions-source
+      - run: npm run adapter:equipment-source
       - run: npm run reference:install
       - run: npm run reference:verify
       - run: npm run reference:lifecycle
@@ -88,6 +89,7 @@ jobs:
       - run: npm run reference:containers
       - run: npm run reference:relics
       - run: npm run reference:relic-actions
+      - run: npm run reference:equipment-actions
       - run: node --import tsx balance/probe_passiverefund.ts
         working-directory: .reference
       - run: node --import tsx balance/probe_choices.ts
@@ -106,6 +108,7 @@ jobs:
       - run: npm run adapter:containers
       - run: npm run adapter:relics
       - run: npm run adapter:relic-actions
+      - run: npm run adapter:equipment-actions
       - run: npm run check
         working-directory: .artifacts/game-adapter
       - run: npm run sim -- run --suite smoke
@@ -136,6 +139,10 @@ jobs:
         working-directory: .artifacts/game-adapter
       - run: node --import tsx balance/probe_bagsort.ts
         working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_containerloot.ts
+        working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_accountreliquary.ts
+        working-directory: .artifacts/game-adapter
       - run: node --import tsx balance/probe_stash.ts
         working-directory: .artifacts/game-adapter
       - run: node --import tsx balance/probe_reliquary.ts
@@ -164,3 +171,5 @@ jobs:
             .artifacts/relic-custody-overlay-verification.json
             .artifacts/game-relic-actions-verification.json
             .artifacts/relic-actions-overlay-verification.json
+            .artifacts/game-equipment-actions-verification.json
+            .artifacts/equipment-actions-overlay-verification.json

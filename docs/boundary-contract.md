@@ -22,7 +22,8 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | Canonical relic custody, legacy migration, death tombstones and power/storage investments | Optional `RelicCustody` | Extracted and delegated through explicit item identity/content/clone ports; complete durable transactions and actor effects remain host-owned; action policy is below; see relic custody contract |
 | Relic action authorization policy, synchronous ownership commits and personal lockers | Optional `RelicActions` | Extracted from eleven World methods; host supplies authoritative observations and completes actor effects, selection synchronization and durable saves in original order; see relic actions contract |
 | Item rolls, forging, local/global values, sockets and epitaphs | `ItemRules` plus immutable `ItemContent` | Extracted; full source comparisons; optional runtime/data entry |
-| Equipment eligibility, stash/container progression, trade authority | Future policy modules | Numeric equipment binding exists; full policy pending |
+| Equipment eligibility, equip/unequip and generic container/bag commits | Optional `EquipmentSlots` / `EquipmentActions` | Ordered content and six World action methods extracted; host supplies level, authority, ground delivery and actor/save completion; see equipment actions contract |
+| Trade authority, crafting and salvage transactions | Future policy modules | Source captured; not migrated |
 | Passive allocation/refund, choice deals, realm pools and vocation spending gates | Optional `PassivePolicy` / `PassiveBuild` / `PassiveHost` | Extracted and delegated in the isolated game; earning remains host-owned; see passive policy and host contracts |
 | Passive and choice attribute/stat contributions, conduit/graft specification assembly | Optional `PassiveGrants` | Extracted and delegated in the isolated game; effect execution remains host-owned; see passive grants contract |
 | Skill graph economy, vocation quests, unlock earning and account progression | Future character-policy modules | Source captured; not migrated |
@@ -50,7 +51,9 @@ The sample's item id identifies one specimen, so it cannot occupy two slots.
 General inventory item-instance identity is explicit in `Inventory`.
 `Character.equipInstance` now binds a host-authorized identity, compiled modifiers
 and eligible slots to the selected character path. It still rejects mechanics
-outside the character's declared capability; full equipment policy remains pending.
+outside the character's declared capability. The separate optional `EquipmentActions`
+API now supplies live slot eligibility and equipment/container commits; see
+[equipment-actions.md](equipment-actions.md) for host completion and sink obligations.
 
 `engine.skill(selection)` validates level, sockets, attribute-independent tag
 compatibility, selected node prerequisites/exclusions and supplied point budget.
@@ -118,7 +121,9 @@ Stat modifiers are copied on ingress and getters return copies. Cache keys encod
 context structure without delimiter collisions. Stat value caches are bounded to
 256 entries by default and can be configured per sheet, including disabled.
 Attack plans are rebuilt on sheet revision changes and held through weak references.
-The engine runs synchronously without callbacks while using its scratch arrays.
+Core numeric operations run synchronously without callbacks while using scratch
+arrays. Optional live-host policies have the explicit read/sink port contracts
+described in their respective documents.
 
 `PassiveBuild` uses a separate `passive-policy/v1` capability. Its refund graph
 stays within each realm or vocation. Original free-root grants can survive a

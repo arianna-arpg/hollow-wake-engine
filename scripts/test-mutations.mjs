@@ -23,6 +23,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
     fs.cpSync(path.join(root, 'baseline/milestone-thirteen'), path.join(temp, 'baseline/milestone-thirteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-fourteen'), path.join(temp, 'baseline/milestone-fourteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-fifteen'), path.join(temp, 'baseline/milestone-fifteen'), { recursive: true });
+    fs.cpSync(path.join(root, 'baseline/milestone-sixteen'), path.join(temp, 'baseline/milestone-sixteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-eleven'), path.join(temp, 'baseline/milestone-eleven'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twelve'), path.join(temp, 'baseline/milestone-twelve'), { recursive: true });
     fs.copyFileSync(path.join(root,'baseline/stat-catalogue.json'),path.join(temp,'baseline/stat-catalogue.json'));
@@ -30,7 +31,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
 }
 fs.writeFileSync(path.join(temp, 'package.json'), '{"type":"module"}\n');
 fs.mkdirSync(path.join(temp, 'scripts'));
-for (const file of ['compile-item-content.mjs', 'reference-utils.mjs']) fs.copyFileSync(path.join(root, 'scripts', file), path.join(temp, 'scripts', file));
+for (const file of ['compile-item-content.mjs', 'catalogue-tools.mjs', 'reference-utils.mjs']) fs.copyFileSync(path.join(root, 'scripts', file), path.join(temp, 'scripts', file));
 const file = path.join(temp, 'dist/stats.js');
 const original = fs.readFileSync(file, 'utf8');
 const mutants = [
@@ -74,6 +75,8 @@ for (const [module, name, before, after, tests] of [
   ['relic-custody', 'relic-pour-debit-omitted', 'purse.credits -= spent;', '/* deliberately omit debit */', 'test/relic-custody.test.mjs'],
   ['relic-actions', 'foreign-account-actions-enabled', 'return access.ownHosted && !access.fallen && access.oracleReach();', 'return !access.fallen && access.oracleReach();', 'test/relic-actions.test.mjs'],
   ['relic-actions', 'withdrawal-loses-bag-owner', 'carry.items.push(item);', '/* deliberately omit destination owner */', 'test/relic-actions.test.mjs'],
+  ['equipment-actions', 'equipment-level-bypassed', "if (finite(ctx.level, 'Character level') < required)", 'if (false)', 'test/equipment-actions.test.mjs'],
+  ['equipment-actions', 'displaced-equipment-lost', 'drop(previous);', 'void previous; /* deliberately omit ground ownership */', 'test/equipment-actions.test.mjs'],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
   assert.ok(source.includes(before));

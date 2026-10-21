@@ -197,6 +197,14 @@ further runtime faults and an installed authority fault. The offline container
 consumer now completes authorized custody transfers. See [relic-actions.md](relic-actions.md)
 for host completion ordering, the reusable binding measurement and remaining scope.
 
+Version 0.14 adds `reference:equipment-actions`, `adapter:equipment-source`,
+`adapter:equipment-actions` and `benchmark:equipment-actions`: 824 complete original
+World transitions, live authored slot edits, callback and ground-delivery ordering,
+two further runtime faults and an installed equipment-level fault. The offline
+item consumer now applies the separately packaged slot policy before character
+modifiers. See [equipment-actions.md](equipment-actions.md) for trusted-state
+requirements, refusal ordering, the strict recovery boundary and measured regressions.
+
 ## Cross-runtime numerical policy
 
 `npm run native:verify` builds the experimental C ABI with the local C toolchain

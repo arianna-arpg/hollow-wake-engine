@@ -1,0 +1,4 @@
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {gunzipSync} from 'node:zlib';import {root,verifyReference} from './reference-utils.mjs';
+const game=path.join(root,'.reference'),lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json'))),out=path.join(root,'.artifacts/equipment-actions-reference');verifyReference(game,lock);
+const target=path.join(game,'balance/export-engine-equipment-actions.ts');fs.copyFileSync(path.join(root,'reference/export-equipment-actions.ts'),target);execFileSync(process.execPath,['--import','tsx',target,out],{cwd:game,stdio:'inherit'});
+if(!process.argv.includes('--export-only'))assert(fs.readFileSync(path.join(out,'equipment-actions.json')).equals(gunzipSync(fs.readFileSync(path.join(root,'baseline/milestone-sixteen/equipment-actions.json.gz')))),'Original equipment observations changed');verifyReference(game,lock);

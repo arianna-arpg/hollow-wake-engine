@@ -1,0 +1,99 @@
+[content] tileset 'meadow': span void region 'mere_bed' is walkable — a gone span must be a hole
+[content] monster toll_bailiff: 2 signature defense pools authored — textures are identities; stack them only on boss showpieces
+[content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fumes:exposure(195), fire_walker:moveTrail(5), aftershocks:aoeScatter(114), buried_charge:pulse(76), accelerando:cadence(118), ritardando:cadence(118), square_sigil:aoeShape(41), triangle_sigil:aoeShape(41), spell_cascade:cascade(95), scattered_cascade:cascade(95), seismic_march:cascade(95), mirrored_bounds:projFrameBounce(1), sundering_flight:fissureTrail(1), afterspray:departSplash(10) — the whys live on the rows in data/graftReadSites.ts
+PASS  swap: one 1×1 blocker that fits the vacated spot swaps
+PASS  swap: a 2×2 blocker that cannot retreat into the 1×1 hole refuses
+PASS  swap: a 2-wide mover over two blockers refuses
+PASS  swap: an off-board origin refuses
+PASS  swap: a clean spot is not a swap (and places)
+PASS  swap: an unplaced mover (off the doll) never swaps
+PASS  sort space: lands (10 pieces), every piece placed, no overlap, none lost — overlaps=0 placed=true
+PASS  sort space: deterministic (sorting twice is byte-identical)
+PASS  sort space: the first piece row-major carries the largest footprint
+PASS  sort size: lands (10 pieces), every piece placed, no overlap, none lost — overlaps=0 placed=true
+PASS  sort size: deterministic (sorting twice is byte-identical)
+PASS  sort type: lands (10 pieces), every piece placed, no overlap, none lost — overlaps=0 placed=true
+PASS  sort type: deterministic (sorting twice is byte-identical)
+PASS  sort type: the first piece row-major wears the doll's first kind
+PASS  sort rarity: lands (10 pieces), every piece placed, no overlap, none lost — overlaps=0 placed=true
+PASS  sort rarity: deterministic (sorting twice is byte-identical)
+PASS  sort rarity: the first piece row-major is the rarest
+PASS  sort: a pack that cannot fit refuses and reverts every position
+PASS  sort: an unknown mode is inert
+PASS  sort: an empty bag is inert
+PASS  sort space asc: lands whole and leads with the smallest footprint
+PASS  sort space asc: deterministic
+PASS  sort rarity asc: leads with the commonest
+PASS  veto: the strict ascending order really cannot seat the 2×2 on a 4×2 board
+PASS  veto: the sort still lands whole (the vetoed 2×2 fronted, the rest ascending)
+PASS  lock: space desc keeps the locked piece at 4,0 and packs whole around it
+PASS  lock: space asc keeps the locked piece at 4,0 and packs whole around it
+PASS  lock: size desc keeps the locked piece at 4,0 and packs whole around it
+PASS  lock: size asc keeps the locked piece at 4,0 and packs whole around it
+PASS  lock: type desc keeps the locked piece at 4,0 and packs whole around it
+PASS  lock: type asc keeps the locked piece at 4,0 and packs whole around it
+PASS  lock: rarity desc keeps the locked piece at 4,0 and packs whole around it
+PASS  lock: rarity asc keeps the locked piece at 4,0 and packs whole around it
+PASS  lock: a locked bag piece refuses the drop (still in the bag)
+PASS  lock: unlocked, the same piece drops
+SKIP  lock worn: the piece did not equip (level gate) — the bag pin stands
+PASS  board: no expansions owned = the base
+PASS  board: an owned rung adds its rows
+PASS  board: the rails hold
+PASS  board: before the rung, the row past the base is off the board
+PASS  board: with the rung owned, the bag is two rows taller and the new row takes a piece
+PASS  board: the rung revoked, the board is the base again
+PASS  duplicates space asc: sort fits
+PASS  duplicates space asc: identical gear, skills and rolled supports are adjacent
+PASS  duplicates space asc: repeat is stable and every item survives
+PASS  duplicates space desc: sort fits
+PASS  duplicates space desc: identical gear, skills and rolled supports are adjacent
+PASS  duplicates space desc: repeat is stable and every item survives
+PASS  duplicates size asc: sort fits
+PASS  duplicates size asc: identical gear, skills and rolled supports are adjacent
+PASS  duplicates size asc: repeat is stable and every item survives
+PASS  duplicates size desc: sort fits
+PASS  duplicates size desc: identical gear, skills and rolled supports are adjacent
+PASS  duplicates size desc: repeat is stable and every item survives
+PASS  duplicates type asc: sort fits
+PASS  duplicates type asc: identical gear, skills and rolled supports are adjacent
+PASS  duplicates type asc: repeat is stable and every item survives
+PASS  duplicates type desc: sort fits
+PASS  duplicates type desc: identical gear, skills and rolled supports are adjacent
+PASS  duplicates type desc: repeat is stable and every item survives
+PASS  duplicates rarity asc: sort fits
+PASS  duplicates rarity asc: identical gear, skills and rolled supports are adjacent
+PASS  duplicates rarity asc: repeat is stable and every item survives
+PASS  duplicates rarity desc: sort fits
+PASS  duplicates rarity desc: identical gear, skills and rolled supports are adjacent
+PASS  duplicates rarity desc: repeat is stable and every item survives
+PASS  content identity ignores uid, position, lock and object insertion order
+PASS  content identity preserves differing gameplay rolls
+PASS  blocks space asc: mixed bag fits
+PASS  blocks space asc: five Cleaves sit side by side despite equipment holes
+PASS  blocks space asc: pin stays and items never overlap
+PASS  blocks space desc: mixed bag fits
+PASS  blocks space desc: five Cleaves sit side by side despite equipment holes
+PASS  blocks space desc: pin stays and items never overlap
+PASS  blocks size asc: mixed bag fits
+PASS  blocks size asc: five Cleaves sit side by side despite equipment holes
+PASS  blocks size asc: pin stays and items never overlap
+PASS  blocks size desc: mixed bag fits
+PASS  blocks size desc: five Cleaves sit side by side despite equipment holes
+PASS  blocks size desc: pin stays and items never overlap
+PASS  blocks type asc: mixed bag fits
+PASS  blocks type asc: five Cleaves sit side by side despite equipment holes
+PASS  blocks type asc: pin stays and items never overlap
+PASS  blocks type desc: mixed bag fits
+PASS  blocks type desc: five Cleaves sit side by side despite equipment holes
+PASS  blocks type desc: pin stays and items never overlap
+PASS  blocks rarity asc: mixed bag fits
+PASS  blocks rarity asc: five Cleaves sit side by side despite equipment holes
+PASS  blocks rarity asc: pin stays and items never overlap
+PASS  blocks rarity desc: mixed bag fits
+PASS  blocks rarity desc: five Cleaves sit side by side despite equipment holes
+PASS  blocks rarity desc: pin stays and items never overlap
+PASS  intent: applyAction sortBag re-packs the seat's bag by rarity
+PASS  intent: an unknown mode leaves the bag exactly as it was
+
+ALL PASS

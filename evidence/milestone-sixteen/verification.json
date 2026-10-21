@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "sdkBase": "41e0a8573838931b9fe0eccac9459ba4e939817b",
+  "version": "0.14.0",
+  "fixtureSha256": "5b306e71052fea420b32aff9775e4ffd0a2b6681a3b10017906060a89d1f6460",
+  "checks": {
+    "sdkTests": 132,
+    "behavioralMutantsRejected": 26,
+    "packedConsumers": 6,
+    "independentOriginalReexports": true,
+    "originalTypes": true,
+    "freshGameTypes": true,
+    "freshGameSmoke": "5 scenarios x 5 seeds",
+    "gameProbes": [
+      "bagsort",
+      "containerloot",
+      "accountreliquary",
+      "reliquary",
+      "relicflow",
+      "relicdeath",
+      "relicuniques",
+      "stash"
+    ],
+    "actionTransitions": 824,
+    "callbackOrderMatches": true,
+    "inventoryRendererChecks": 187,
+    "storageCompletedAcceptanceGroups": 5,
+    "bootSmoke": true
+  },
+  "limits": [
+    "Trusted in-memory state; host supplies command authority, nonthrowing ground ownership transfer, actor effects and persistence. No durable transaction is claimed.",
+    "Bag moves improve; most character-recalculating actions remain slower than original and several regress slightly from M15. Raw rotating samples retained.",
+    "No Steam Deck/mobile, full-frame, allocation/GC or complete native-engine integration claim."
+  ],
+  "captureDecision": "baseline/milestone-sixteen/capture-decision.json",
+  "recoveryDecision": "docs/equipment-actions.md",
+  "consoleLogEncoding": "Console evidence normalizes CRLF and redundant terminal blank lines; raw local logs retained."
+}

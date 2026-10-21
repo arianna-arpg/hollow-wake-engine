@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -66,6 +66,10 @@
     "./inventory/actions": {
       "types": "./dist/relic-actions.d.ts",
       "import": "./dist/relic-actions.js"
+    },
+    "./inventory/equipment": {
+      "types": "./dist/equipment-actions.d.ts",
+      "import": "./dist/equipment-actions.js"
     }
   },
   "scripts": {
@@ -127,7 +131,11 @@
     "reference:relic-actions": "node scripts/run-relic-actions-reference.mjs",
     "adapter:relic-actions": "node scripts/test-game-relic-actions.mjs",
     "adapter:relic-actions-source": "node scripts/test-relic-actions-overlay.mjs",
-    "benchmark:relic-actions": "node scripts/benchmark-relic-actions.mjs"
+    "benchmark:relic-actions": "node scripts/benchmark-relic-actions.mjs",
+    "reference:equipment-actions": "node scripts/run-equipment-actions-reference.mjs",
+    "adapter:equipment-actions": "node scripts/test-game-equipment-actions.mjs",
+    "adapter:equipment-source": "node scripts/test-equipment-actions-overlay.mjs",
+    "benchmark:equipment-actions": "node scripts/benchmark-equipment-actions.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

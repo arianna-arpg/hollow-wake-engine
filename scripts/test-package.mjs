@@ -28,6 +28,8 @@ const { InventoryHost } = await import('@hollow-wake/engine/inventory/host');
 const { StashPolicy } = await import('@hollow-wake/engine/inventory/stash');
 const { ContainerLayout, ContainerPolicy, SeatRules, SeatGeometry } = await import('@hollow-wake/engine/inventory/containers');
 const { relicCanManage } = await import('@hollow-wake/engine/inventory/actions');
+const { equipmentTierLevel } = await import('@hollow-wake/engine/inventory/equipment');
+assert.equal(equipmentTierLevel(4,[1,6]),6);
 assert.equal(relicCanManage({ownHosted:false,oracleReach:()=>{throw new Error('Unauthorized host read');}}),false);
 assert.equal(bridge.HOLLOW_WAKE_ADAPTER_VERSION, 1);
 assert.equal(bridge.castDuration(.1), .2);
@@ -82,7 +84,8 @@ const stashJsBytes = packed.files.filter(file => file.path === 'dist/stash-polic
 const containerJsBytes = packed.files.filter(file => /^dist\/(container-layout|container-policy|seat-rules)\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
 const relicJsBytes = packed.files.filter(file => file.path === 'dist/relic-custody.js').reduce((sum, file) => sum + file.size, 0);
 const actionJsBytes = packed.files.filter(file => file.path === 'dist/relic-actions.js').reduce((sum, file) => sum + file.size, 0);
-const coreJsBytes = jsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes - stashJsBytes - containerJsBytes - relicJsBytes - actionJsBytes;
+const equipmentJsBytes = packed.files.filter(file => file.path === 'dist/equipment-actions.js').reduce((sum, file) => sum + file.size, 0);
+const coreJsBytes = jsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes - stashJsBytes - containerJsBytes - relicJsBytes - actionJsBytes - equipmentJsBytes;
 const contentBytes = packed.files.filter(file => file.path.startsWith('content/') && file.path.endsWith('.json')).reduce((sum, file) => sum + file.size, 0);
 assert.ok(coreJsBytes <= 96 * 1024, 'Core runtime exceeded the retained 96 KiB unminified JS budget');
 assert.ok(itemJsBytes <= 64 * 1024, 'Optional item entry exceeded its 64 KiB unminified JS budget');
@@ -92,10 +95,11 @@ assert.ok(stashJsBytes <= 16 * 1024, 'Optional storage policy exceeded its 16 Ki
 assert.ok(containerJsBytes <= 32 * 1024, 'Optional container and seat rules exceeded their 32 KiB unminified JS budget');
 assert.ok(relicJsBytes <= 16 * 1024, 'Optional relic custody exceeded its 16 KiB unminified JS budget');
 assert.ok(actionJsBytes <= 16 * 1024, 'Optional relic actions exceeded their 16 KiB unminified JS budget');
-assert.ok(jsBytes <= 224 * 1024, 'Combined runtime exceeded the 224 KiB unminified JS budget');
+assert.ok(equipmentJsBytes <= 16 * 1024, 'Optional equipment actions exceeded their 16 KiB unminified JS budget');
+assert.ok(jsBytes <= 240 * 1024, 'Combined runtime exceeded the 240 KiB unminified JS budget');
 assert.ok(contentBytes <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
-  runtimeJsBytes: jsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
+  runtimeJsBytes: jsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, equipmentJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
   isolatedConsumer: JSON.parse(result), node: process.version,
 }, null, 2) + '\n');
 console.log(result.trim());

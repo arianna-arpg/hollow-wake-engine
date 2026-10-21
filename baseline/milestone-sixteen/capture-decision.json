@@ -1,0 +1,39 @@
+{
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sha256": "b10ecab16b1a653a4500b63aff5e353d86ddb5bf4bb61759e9da949d2eab8b2b",
+  "independentCapturesAgree": true,
+  "capturedBeforeImplementation": true,
+  "worlds": 8,
+  "transitions": 824,
+  "methods": {
+    "equipItem": 192,
+    "unequipItem": 120,
+    "moveBagItem": 112,
+    "containerPlace": 144,
+    "containerMove": 152,
+    "containerTake": 104
+  },
+  "originalFiles": {
+    "src/engine/world.ts": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+    "src/engine/items.ts": "795ebbf951a6ff23ef41e4f4fc4532a3b4f6faea15eaa896d6dff5ef80bb27ec",
+    "src/engine/containers.ts": "b8268a13cebb37ea4b226f7e67bc6c1fc5ea997fd8be6602722b2bc211f8b10c",
+    "src/engine/inventory.ts": "f813317cd2ebee2ef87a53c457e62123799b470ffd0487840273b73c1f25ad57"
+  },
+  "scope": "Actual original World methods and callbacks. Authored equipment slots, warrior/magician, local/guest seats, and a separately identified synthetic masked container registered through the original extension API. Foreign Reliquary views deliberately populated to test authority before mutation.",
+  "coverageRevision": {
+    "beforeAcceptance": true,
+    "prior768Sha256": "43f1d784030ca6c84588fca478cf2a5e8175b46d2e1572bec61915774073787b",
+    "reason": "Added explicit full-container ordering and Reliquary move authority/callback cases before acceptance. Earlier draft retained locally; no accepted fixture replaced."
+  },
+  "observedLaws": [
+    "Invalid/disabled/incompatible requested equipment slots fall back to the first enabled compatible slot, preferring an empty one.",
+    "Displaced worn gear returns through a compatible source slot, then the bag, then host ground delivery.",
+    "Failed generic-container first-fit placement and failed take can reorder their source arrays. Preserve order effects because downstream folds may observe them.",
+    "Same-cell bag/container moves still invoke their original dirty/recalculation callbacks."
+  ],
+  "limits": [
+    "Trusted host state and synchronous read ports; not a network or durable-transaction proof.",
+    "A synthetic container exercises the existing extension contract; it is not new shipped game content.",
+    "No native-engine or hardware performance claim."
+  ]
+}

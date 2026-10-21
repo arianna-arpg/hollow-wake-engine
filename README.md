@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.14 adds [equipment and generic-container actions](docs/equipment-actions.md):
+slot eligibility, equip/unequip, bag/board moves and complete placement/exchange
+commits. Ordered slot content ships separately, and the offline item-to-character
+consumer now uses the same equipment policy as the isolated game adapter.
+
 Version 0.13 adds [relic and personal-storage actions](docs/relic-actions.md):
 authorization policy, complete placement/exchange/withdrawal commits and restoration
 reconciliation. Eleven game methods delegate to the installed package while the
@@ -92,8 +97,8 @@ See the [boundary contract](docs/boundary-contract.md), [milestone two](docs/mil
 This is an early SDK, not a complete extraction or a finished game-engine plugin.
 The primary game checkout remains unchanged. The first adapter is implemented
 and tested in isolation. Spatial delivery, other casting/status families,
-advanced defenses, full skill trees, vocations, equipment/storage policy,
-progression and UI integration remain explicit migration work.
+advanced defenses, full skill trees, vocation progression, crafting/trading,
+durable account services and remaining UI integration remain explicit migration work.
 Unity, Godot and Unreal wrappers are still future work; the broader SDK needs a JavaScript host.
 
 [Completion criteria](docs/completion.json) track each system and its evidence.
