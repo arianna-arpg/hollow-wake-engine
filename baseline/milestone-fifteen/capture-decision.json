@@ -1,0 +1,33 @@
+{
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sha256": "e66e611418b60ff90281936e3765db08f09aca9cb824a16e4c4549557c888bc9",
+  "independentCapturesAgree": true,
+  "capturedBeforeActionImplementation": true,
+  "worlds": 8,
+  "accessQueries": 2048,
+  "distinctAccessCombinations": 512,
+  "actionTransitions": 264,
+  "callbackOrderObserved": [
+    "recalcSeat",
+    "persistAccountRelics",
+    "markMetaDirty",
+    "failNote"
+  ],
+  "files": {
+    "src/engine/world.ts": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+    "src/engine/accountReliquary.ts": "3bab9f3ec5bffc93948939a87b9cfdc54137efb1638e855667c89ed65e254c89",
+    "src/meta/reliquary.ts": "96764894022198a4529e2d33b2e360803ebbde8d98683485f485cdd13cebaf9b",
+    "src/data/reliquary.ts": "6c31ecc9a7f151313e32856961996343843311de36da05f487db5f7ad4994b09",
+    "src/quests/reliquary.ts": "41f3e586e6f28268142b01bbc0b4ae254bb13ed08a2ed003c08e69813ac639a4"
+  },
+  "coverageRevision": {
+    "beforeAcceptance": true,
+    "priorUncompressedSha256": "7b96509a0652d10bacf2f20d42944f6ea86e5313e0e95e9787555237e8dd342e",
+    "reason": "Expanded near/far access and recovery coverage before accepting a fixture. Store the withdrawal target before filling the bag, so the full-destination case reaches placement rather than an already-carried early return. Earlier agreeing observation retained locally; no accepted result replaced."
+  },
+  "limits": [
+    "World original methods remain the authority; observer wraps instance callbacks only to record order.",
+    "Access includes 512 distinct flag combinations repeated across eight seeded Worlds, not 2048 unique combinations.",
+    "This fixture is not a network, concurrent-writer, durable transaction, complete summon lifecycle or device proof."
+  ]
+}

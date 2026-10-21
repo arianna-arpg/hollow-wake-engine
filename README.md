@@ -3,6 +3,12 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.13 adds [relic and personal-storage actions](docs/relic-actions.md):
+authorization policy, complete placement/exchange/withdrawal commits and restoration
+reconciliation. Eleven game methods delegate to the installed package while the
+host preserves actor effects, callback order and durable saving. The offline
+consumer now exercises authorized transfers through the same public API.
+
 Version 0.12 adds [account relic custody](docs/relic-custody.md): canonical item
 identity, stale-save migration, death tombstones, restoration and bounded power/
 storage investments. The game delegates its ownership helpers through explicit

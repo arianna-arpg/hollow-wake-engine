@@ -1,0 +1,12 @@
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
+import {root,verifyReference,listFiles} from './reference-utils.mjs';import {relicActionWorld,relicActionBridge,renderRelicActions} from '../adapters/hollow-wake/integrate-relic-actions.mjs';
+const game=path.join(root,'.reference'),lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json'))),location=JSON.parse(fs.readFileSync(path.join(root,'.artifacts/adapter-location.json'))),lf=s=>s.replaceAll('\r\n','\n');
+const index=process.argv.indexOf('--previous-adapter');assert(index>=0&&process.argv[index+1],'Pass retained M14 game as --previous-adapter');const previous=path.resolve(process.argv[index+1]);
+assert.equal(JSON.parse(fs.readFileSync(path.join(previous,'node_modules/@hollow-wake/engine/package.json'))).version,'0.12.0');
+const original=fs.readFileSync(path.join(game,relicActionWorld),'utf8'),prior=fs.readFileSync(path.join(previous,relicActionWorld),'utf8');
+assert.equal(lf(fs.readFileSync(path.join(location.game,relicActionWorld),'utf8')),renderRelicActions(prior,original));assert.equal(lf(fs.readFileSync(path.join(location.game,relicActionBridge),'utf8')),lf(fs.readFileSync(path.join(root,'adapters/hollow-wake/relicActionAdapter.ts'),'utf8')));
+for(const file of listFiles(path.join(previous,'node_modules/@hollow-wake/engine/dist')))assert.deepEqual(fs.readFileSync(path.join(previous,'node_modules/@hollow-wake/engine/dist',file)),fs.readFileSync(path.join(root,'dist',file)),`M14 control runtime changed: ${file}`);
+const installed=path.join(location.tooling,'node_modules/@hollow-wake/engine/dist');assert.deepEqual(listFiles(installed),listFiles(path.join(root,'dist')));for(const file of listFiles(installed))assert.deepEqual(fs.readFileSync(path.join(installed,file)),fs.readFileSync(path.join(root,'dist',file)),`Stale actions runtime: ${file}`);
+verifyReference(game,lock);const target=path.join(game,'balance/benchmark-engine-relic-actions.ts');fs.copyFileSync(path.join(root,'reference/benchmark-relic-actions.ts'),target);
+if(process.argv.includes('--check-only')){console.log('Original/M14/M15 action sources and installed packages verified.');process.exit(0);}
+execFileSync(process.execPath,['--import','tsx',target,root,previous,location.game,path.join(root,'.artifacts/relic-actions-benchmark.json')],{cwd:game,stdio:'inherit'});verifyReference(game,lock);

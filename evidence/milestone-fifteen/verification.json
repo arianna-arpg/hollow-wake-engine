@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "sdkBase": "853983c24dbc2635a733ab3f5b1572b02e40cbd2",
+  "version": "0.13.0",
+  "fixtureSha256": "6dcd21c3d4ae869b2a829aa9cd7ab9a51255417f056ecdc93ac2b64ec12d3a70",
+  "checks": {
+    "sdkTests": 120,
+    "behavioralMutantsRejected": 24,
+    "packedConsumers": 6,
+    "independentOriginalReexports": true,
+    "originalTypes": true,
+    "freshGameTypes": true,
+    "freshGameSmoke": "5 scenarios x 5 seeds",
+    "gameProbes": [
+      "reliquary",
+      "relicuniques",
+      "relicflow",
+      "relicdeath",
+      "accountreliquary",
+      "stash"
+    ],
+    "accessQueries": 2048,
+    "distinctAccessCombinations": 512,
+    "actionTransitions": 264,
+    "callbackOrderMatches": true,
+    "inventoryRendererChecks": 187,
+    "storageCompletedAcceptanceGroups": 5,
+    "bootSmoke": true
+  },
+  "limits": [
+    "Host supplies authoritative observations and must complete actor updates, selection synchronization and saves in the original order. No durable or cross-process transaction is claimed.",
+    "Most large gains over the original precede this slice. Small action regressions and pre-optimization samples are retained.",
+    "No Steam Deck/mobile, full-frame, allocation/GC or complete native-engine integration claim."
+  ],
+  "captureDecision": "baseline/milestone-fifteen/capture-decision.json",
+  "consoleLogEncoding": "Console evidence normalizes CRLF and redundant terminal blank lines; raw local logs retained."
+}

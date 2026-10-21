@@ -1,0 +1,8 @@
+{
+  "reason": "Initial per-call host observation objects regressed repeated access checks. Reusable weak seat bindings read current values lazily and preserve original query/transition observations.",
+  "beforeSourceSha256": "f67d526595d01bdc332fc2a754f6cfe782751f38c797871bc3e9f7771d136039",
+  "afterSourceSha256": "be87c5b03c591e3c41d69d9971f7f19efab25eaea91a26e1ead05d74c94a1302",
+  "before": "action-benchmark-before-bindings.json",
+  "after": "action-benchmark.json",
+  "limitations": "Separate local runs retain noise; neither gives a device, allocation or whole-frame result."
+}

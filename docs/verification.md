@@ -42,6 +42,8 @@ bound. Both immutable content and live rule ports use the same tested arithmetic
 Version 0.12 adds a 16 KiB optional relic-custody bound within the same 224 KiB
 combined allowance. Container content 0.2 retains its 64 KiB bound and adds
 explicit progression/storage tuning consumed by the same offline consumer.
+Version 0.13 adds a 16 KiB optional action-module bound within that same 224 KiB
+combined allowance. No earlier module allowance increases.
 
 ## Reconstructing the original
 
@@ -187,6 +189,13 @@ transitions and 160 experience folds, two further runtime faults, and an install
 tombstone fault. The container consumer now includes canonical ownership, bounded
 investment, save restoration, death and stale-save replay. See
 [relic-custody.md](relic-custody.md) for host obligations and measured regressions.
+
+Version 0.13 adds `reference:relic-actions`, `adapter:relic-actions-source`,
+`adapter:relic-actions` and `benchmark:relic-actions`. It checks 2,048 original
+access queries and 264 full World action transitions with callback order, two
+further runtime faults and an installed authority fault. The offline container
+consumer now completes authorized custody transfers. See [relic-actions.md](relic-actions.md)
+for host completion ordering, the reusable binding measurement and remaining scope.
 
 ## Cross-runtime numerical policy
 

@@ -22,6 +22,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
     fs.cpSync(path.join(root, 'baseline/milestone-nine'), path.join(temp, 'baseline/milestone-nine'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-thirteen'), path.join(temp, 'baseline/milestone-thirteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-fourteen'), path.join(temp, 'baseline/milestone-fourteen'), { recursive: true });
+    fs.cpSync(path.join(root, 'baseline/milestone-fifteen'), path.join(temp, 'baseline/milestone-fifteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-eleven'), path.join(temp, 'baseline/milestone-eleven'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twelve'), path.join(temp, 'baseline/milestone-twelve'), { recursive: true });
     fs.copyFileSync(path.join(root,'baseline/stat-catalogue.json'),path.join(temp,'baseline/stat-catalogue.json'));
@@ -71,6 +72,8 @@ for (const [module, name, before, after, tests] of [
   ['seat-rules', 'neighbour-power-doubled', 'factor += powers.get(other)[0];', 'factor += 2 * powers.get(other)[0];', 'test/seat-rules.test.mjs'],
   ['relic-custody', 'released-relic-resurrected', 'if (state.released.includes(key))', 'if (false)', 'test/relic-custody.test.mjs'],
   ['relic-custody', 'relic-pour-debit-omitted', 'purse.credits -= spent;', '/* deliberately omit debit */', 'test/relic-custody.test.mjs'],
+  ['relic-actions', 'foreign-account-actions-enabled', 'return access.ownHosted && !access.fallen && access.oracleReach();', 'return !access.fallen && access.oracleReach();', 'test/relic-actions.test.mjs'],
+  ['relic-actions', 'withdrawal-loses-bag-owner', 'carry.items.push(item);', '/* deliberately omit destination owner */', 'test/relic-actions.test.mjs'],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
   assert.ok(source.includes(before));

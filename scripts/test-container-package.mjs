@@ -13,6 +13,7 @@ for(const key of ['window','document','localStorage'])Object.defineProperty(glob
 const {ItemContent,ItemRules}=await import('@hollow-wake/engine/items');
 const {ContainerLayout,ContainerPolicy,SeatRules,SeatGeometry}=await import('@hollow-wake/engine/inventory/containers');
 const {RelicCustody}=await import('@hollow-wake/engine/inventory/relics');
+const {RelicActions}=await import('@hollow-wake/engine/inventory/actions');
 const {StatRules,StatSheet}=await import('@hollow-wake/engine');
 const read=id=>JSON.parse(fs.readFileSync(new URL(import.meta.resolve(id))));
 const itemContent=new ItemContent(read('@hollow-wake/items/items.json')),items=new ItemRules(itemContent,21761),pack=read('@hollow-wake/containers/containers.json');
@@ -38,7 +39,15 @@ const carry={items:[],equipped:{},containers:{}};custody.migrateCarry(account,ca
 const saved=structuredClone(account),restored=custody.restore(saved);assert.deepEqual(restored,account);assert.notEqual(restored.items[0],crown);
 const stale=structuredClone(charm);assert.equal(custody.loseCarried(account,carry.items,'consumer'),1);assert.equal(custody.bank(account,stale,'consumer'),undefined);assert.deepEqual(account.items,[crown]);
 const replay={items:[stale],equipped:{},containers:{reliquary:[stale]}};custody.migrateCarry(account,replay,'consumer');assert.deepEqual(replay.items,[]);assert.deepEqual(replay.containers.reliquary,[crown]);
-console.log(JSON.stringify({installedConsumer:true,itemToContainerToNeighbourPowerToStatistics:true,canonicalCustodySaveAndDeathReplay:true,boundedInvestment:true,containers:pack.containers.length,activeLife,initialLife,contentId:pack.contentId}));
+const actions=new RelicActions(custody,{footprint,base:footprint,level:()=>1,unique:i=>itemContent.pack.uniques[i.uniqueId],isRelic:i=>footprint(i)?.category==='relic'});
+const access={ownHosted:true,featureOwned:true,fallen:false,casting:()=>false,oracleReach:()=>true,foeNear:()=>false,elapsedSinceCombat:10,calmSeconds:5};
+const ctx={state:account,carry:replay,scope:'consumer',access,definition:def,board,bagBoard:{w:4,h:3},level:1,lesson:false};
+assert(actions.withdraw(ctx,crown.uid,0,0).changed);actions.sync(ctx);assert.equal(replay.items[0],crown);assert.deepEqual(account.carried,[crown.relicKey]);
+assert(actions.store(ctx,crown.uid).changed);actions.sync(ctx);assert.equal(custody.reserve(account)[0].item,crown);assert.deepEqual(replay.items,[]);
+assert(actions.place(ctx,crown.uid,1,1).changed);actions.sync(ctx);assert.equal(replay.containers.reliquary[0],crown);assert.deepEqual(account.seated,[crown.relicKey]);
+assert(!actions.release(ctx,crown.uid).changed);assert(actions.toggle(account,access,false).changed);assert.equal(account.enabled,false);
+access.ownHosted=false;assert(!actions.withdraw(ctx,crown.uid).changed);assert.equal(replay.containers.reliquary[0],crown);
+console.log(JSON.stringify({installedConsumer:true,itemToContainerToNeighbourPowerToStatistics:true,canonicalCustodySaveAndDeathReplay:true,boundedInvestment:true,authorizedActionTransfers:true,containers:pack.containers.length,activeLife,initialLife,contentId:pack.contentId}));
 `);
 const result=JSON.parse(execFileSync(process.execPath,['run.mjs'],{cwd:consumer,encoding:'utf8',env:{...process.env,NODE_PATH:''}}));assert.equal(result.contentId,pack.contentId);
 writeJSON(path.join(a,'container-package-verification.json'),{...result,node:process.version,archiveBytes:archives[1].size,unpackedBytes:archives[1].unpackedSize});console.log(result);
