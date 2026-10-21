@@ -1,0 +1,103 @@
+PASS  runes: every letter a–z has a rune, plus the two Futhark digraphs — 28 rows
+PASS  runes: every rune is unique (a cipher with homophones is not a cipher)
+PASS  runes: every rune lives in the Unicode Runic block (U+16A0–U+16FF)
+PASS  runes: the reverse read agrees with the forward table
+PASS  runes: the round trip is lossless on every class name and a pangram (digraphs first)
+PASS  runes: a shrouded name carries no plain letter — only runes, spaces and marks
+PASS  runes: "th" is one rune, never two (the script reads consistently both ways)
+PASS  runes: digits and punctuation pass through untouched (word shapes survive)
+PASS  runes: enciphering runes is a fixed point (a shrouded line never double-shrouds)
+PASS  rosetta: every vestige teaches a letter of the script
+PASS  rosetta: every vestige's glyph IS the rune of its letter (derived, never drifting)
+PASS  rosetta: the taught letter lives in the vestige's short name (the item can teach it)
+PASS  rosetta: no two vestiges teach the same letter (distinguishable underfoot) — k o d th m s a n g i t u v e
+PASS  rosetta: every vestige glyph is unique
+PASS  ladder: rungs ascend in level and every rung is priced
+PASS  ladder: rung ids unique
+PASS  ladder: exactly the classes authoring kit rows sell rungs (nothing moot surfaces) — 32 rows over 8 classes
+PASS  ladder: her four wear the whole ladder, and the Summoner mirrors it
+PASS  ladder: rungs chain strictly to the previous EXISTING rung
+PASS  ladder: non-starters' rungs stand behind the earned class; starters' stand free
+PASS  ladder: each rung is unveiled by exactly its class level (a classLevel avenue)
+PASS  ladder: each rung sells exactly its kit row's skills at the ladder's price
+PASS  kit: every rung names a real ladder rung and a real, droppable skill
+PASS  kit: no rung skill opens another class (kit uniqueness, extended)
+PASS  kit: rung skills are unique across every rung
+PASS  kit: a `replaces` names one of its own class's starters and is bindable by the class's spread
+PASS  kit: every class authors at most one grant, and it is the Master's
+PASS  kit: classOpeningSkills = the bar + every rung skill, no repeats
+PASS  kit: kitRungOf names a rung skill's rung and nothing for a base starter
+PASS  derivation: every kitted class's catalog milestones include each rung level
+PASS  derivation: Necromancer retains its Novice mastery milestone
+PASS  vault: a fresh account sees no rung at all
+PASS  vault: the Novice rung waits behind the EARNED class even at level 10
+PASS  earned: the pour refuses a class outright (cost 0, claimed never bought)
+PASS  earned: the settle claims the Necromancer at twenty corpses
+PASS  vault: the Novice rung surfaces once the class is earned and level 10 stands
+PASS  vault: the Adept rung stays hidden (Novice unowned, level 30 unmet)
+PASS  vault: level 30 alone does not surface the Adept rung (sequence first)
+PASS  buy: the Novice rung
+PASS  buy: the rung's skill joins the drop pool
+PASS  vault: Novice owned + level 30 surfaces the Adept rung alone
+PASS  vault: level 60 and 100 stamped, Expert and Master still wait on the sequence
+PASS  buy: Adept, then Expert, then Master — one rung at a time
+PASS  vault: the ladder climbed, nothing more to sell for the class
+PASS  vault: a starter's Novice rung waits only on its level
+PASS  shroud: the Necromancer, once earned, leaves the shrouded wall
+PASS  opening: with no rung owned the kit is the base bar, and the card has no choice to offer
+PASS  opening: an unowned alternate is refused — the base stands
+PASS  opening: Novice owned — the first slot offers base OR the alternate, base picked by default
+PASS  opening: a valid pick stands in for its base; the other slots keep theirs
+PASS  opening: a stranger pick and an unowned rung's pick both fall back
+PASS  memory: only valid, non-base picks are remembered
+PASS  memory: the remembered pick is the chooser's default and the resolver's answer
+PASS  memory: rungs and picks survive the account round trip
+PASS  memory: choosing the base again forgets the record
+PASS  opening: the Master's grant seats itself in the first empty slot (THE CAPSTONE LAW: bar-bound, cast-gated)
+PASS  opening: a full bar takes no gift (never overwrites a seat)
+[content] tileset 'meadow': span void region 'mere_bed' is walkable — a gone span must be a hole
+[content] monster toll_bailiff: 2 signature defense pools authored — textures are identities; stack them only on boss showpieces
+[content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fumes:exposure(195), fire_walker:moveTrail(5), aftershocks:aoeScatter(114), buried_charge:pulse(76), accelerando:cadence(118), ritardando:cadence(118), square_sigil:aoeShape(41), triangle_sigil:aoeShape(41), spell_cascade:cascade(95), scattered_cascade:cascade(95), seismic_march:cascade(95), mirrored_bounds:projFrameBounce(1), sundering_flight:fissureTrail(1), afterspray:departSplash(10) — the whys live on the rows in data/graftReadSites.ts
+PASS  live: the reclaim stamps corpses_reclaimed ACCOUNT-DIRECT (never the run ledger)
+PASS  live: the reclaim booked the account save
+PASS  live: a credited undead boss stamps boss_slain and boss_slain:undead on the account
+PASS  live: a trash kill stamps no boss deed
+PASS  live: a rewardless (noBounty) boss teaches nothing — the scene stays rewardless
+PASS  live: an uncredited boss death (a monster's blow) stamps nothing
+PASS  live: before the sweep the Necromancer is unclaimed
+PASS  live: the sweep claims the Necromancer within its cadence and its gems join the pool
+PASS  live: the claim speaks on the notice feed
+PASS  live: the sweep booked the account save
+PASS  live: a run-ledger deed claims the chained Summoner through the merged view (account ledger untouched)
+PASS  live: the shrouded card's progress read agrees with the view
+PASS  live: the run ledger carries the rungs' class milestones (60 and 100 are not on the standing list) — level 339
+PASS  live: the hero wakes with the alternate in the first seat and the grant in the fourth — shambler_horde,raise_dead,despair,grave_tide,,,,
+PASS  live: the displaced base is not known; the seated arts are
+PASS  live: "+2 to Necromancer skills" reaches the alternate opening exactly as a base starter
+PASS  content: the grave shambler is bomber-brained ordnance (fuse + death blast, never recalled)
+PASS  content: the Summoner wakes as the arcanist — Ruin, one bonded familiar, the drain
+PASS  content: the bone golem stands (look registered, golem contract, shared slot)
+PASS  live: the Horde casts from the wake bar
+PASS  live: the shambler is raised, lurches to its mark and bursts within seconds; the mark is wounded — enemy -110/36, shambler spent
+PASS  hatch: the wake STAMPS the resolved opening on the seat (never the class bar) — carve,shield_up,war_cry,red_hour,,,,
+PASS  hatch: Carve unlearns into the bag
+PASS  hatch: …and leaves it as a bag gem
+PASS  hatch: a carried starter is refused (Shield Up is still learned)
+PASS  hatch: the DISPLACED base is a stranger — Cleave cannot be re-kindled
+PASS  hatch: a foreign skill is refused
+PASS  hatch: the chosen alternate re-kindles — Carve returns as a GRANTED spark at the kit tier
+PASS  hatch: a second press is refused while the spark is carried
+PASS  hatch: Red Hour unlearns into the bag
+PASS  hatch: the Master's gift re-kindles (the fourth seat of the opening)
+PASS  capstone: the spark refuses to LEARN below its gates (the pack holds the promise)
+PASS  capstone: …and learns once the build carries it, still a granted spark
+PASS  capstone: a respec below the gates BINDS the re-kindled gift (worthless is not a license)
+PASS  save: the character save carries the stamped opening
+PASS  save: the save adopts and the opening stands
+PASS  save: a pre-stamp save reads the class's base bar
+PASS  wire: the seat meta ships the opening
+PASS  wire: the client seat wears the host's stamp
+PASS  wire: an older host leaves the base bar standing
+PASS  hatch: a base-kit seat stamps the class bar as its opening
+
+ALL CHECKS PASSED

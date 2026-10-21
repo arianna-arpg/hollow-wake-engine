@@ -75,6 +75,7 @@ jobs:
       - run: npm run adapter:relic-source
       - run: npm run adapter:relic-actions-source
       - run: npm run adapter:equipment-source
+      - run: npm run adapter:progression-source
       - run: npm run reference:install
       - run: npm run reference:verify
       - run: npm run reference:lifecycle
@@ -90,6 +91,7 @@ jobs:
       - run: npm run reference:relics
       - run: npm run reference:relic-actions
       - run: npm run reference:equipment-actions
+      - run: npm run reference:progression
       - run: node --import tsx balance/probe_passiverefund.ts
         working-directory: .reference
       - run: node --import tsx balance/probe_choices.ts
@@ -109,6 +111,7 @@ jobs:
       - run: npm run adapter:relics
       - run: npm run adapter:relic-actions
       - run: npm run adapter:equipment-actions
+      - run: npm run adapter:progression
       - run: npm run check
         working-directory: .artifacts/game-adapter
       - run: npm run sim -- run --suite smoke
@@ -147,6 +150,16 @@ jobs:
         working-directory: .artifacts/game-adapter
       - run: node --import tsx balance/probe_reliquary.ts
         working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_classmastery.ts
+        working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_couch.ts
+        working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_possession.ts
+        working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_resurrection.ts
+        working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_unlocks.ts
+        working-directory: .artifacts/game-adapter
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
@@ -173,3 +186,5 @@ jobs:
             .artifacts/relic-actions-overlay-verification.json
             .artifacts/game-equipment-actions-verification.json
             .artifacts/equipment-actions-overlay-verification.json
+            .artifacts/game-progression-verification.json
+            .artifacts/progression-overlay-verification.json

@@ -14,6 +14,7 @@ import { integrateContainers } from '../adapters/hollow-wake/integrate-container
 import { integrateRelicCustody } from '../adapters/hollow-wake/integrate-relic-custody.mjs';
 import { integrateRelicActions } from '../adapters/hollow-wake/integrate-relic-actions.mjs';
 import { integrateEquipmentActions } from '../adapters/hollow-wake/integrate-equipment-actions.mjs';
+import { integrateProgression } from '../adapters/hollow-wake/integrate-progression.mjs';
 const artifacts = path.join(root, '.artifacts');
 fs.mkdirSync(artifacts, { recursive: true });
 const requested = process.argv.indexOf('--game');
@@ -33,6 +34,7 @@ integrateContainers(game, false);
 integrateRelicCustody(game, false);
 integrateRelicActions(game, false);
 integrateEquipmentActions(game, false);
+integrateProgression(game, false);
 // A distinct tool environment: never install into the frozen reference or another checkout's junction.
 const tooling = fs.mkdtempSync(path.join(artifacts, 'adapter-tools-'));
 for (const file of ['package.json', 'package-lock.json']) fs.copyFileSync(path.join(root, 'reference/tooling', file), path.join(tooling, file));
@@ -68,6 +70,8 @@ const relicActions = integrateRelicActions(game);
 changes.files.push(...relicActions.files);
 const equipmentActions = integrateEquipmentActions(game);
 changes.files.push(...equipmentActions.files);
+const progression = integrateProgression(game);
+changes.files.push(...progression.files);
 fs.symlinkSync(path.join(tooling, 'node_modules'), path.join(game, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
 fs.copyFileSync(path.join(root, 'reference/export-lifecycle.ts'), path.join(game, 'balance/export-engine-lifecycle.ts'));
 fs.writeFileSync(path.join(artifacts, 'adapter-location.json'), JSON.stringify({ game, tooling, package: packed.filename, integrity: packed.integrity, ...changes }, null, 2));

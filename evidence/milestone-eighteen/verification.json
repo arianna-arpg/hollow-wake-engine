@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "version": "0.15.0",
+  "sdkBase": "2e372e84a40b73c2368558733704c3601d259107",
+  "runtimeSourceSha256": "da11601b742612c8f25819bb8ed3750e017f4d34328fa6abb6b051419a7d94d0",
+  "checks": {
+    "sdkTests": 145,
+    "behavioralMutantsRejected": 30,
+    "packedConsumers": 7,
+    "installedAdapterCourses": 11,
+    "originalCurveLevels": 4096,
+    "originalXpTransitions": 744,
+    "classes": 39,
+    "worlds": 46,
+    "liveContentRevisions": 7,
+    "originalTypes": true,
+    "originalReexports": true,
+    "freshGameTypes": true,
+    "freshGameSmoke": "5 scenarios x 5 seeds",
+    "managedTypes": true,
+    "managedSmoke": "5 scenarios x 5 seeds",
+    "managedProgressionAndWiringFault": true,
+    "inventoryRendererChecks": 187,
+    "oracleAcceptanceGroups": 5,
+    "passiveEditorCourses": 4,
+    "earnedPointUi": true,
+    "bootSmoke": true
+  },
+  "boundary": {
+    "newOptionalCapability": "character-progression/v1",
+    "existingFixturesUnchanged": true,
+    "newModuleBudgetKiB": 12,
+    "combinedBudgetKiB": 252,
+    "priorCombinedBudgetKiB": 240,
+    "productionDependencies": 0
+  },
+  "limits": [
+    "XP work is bounded per seat, not a durable party-wide transaction; completion ports must be nonthrowing and preserve protected progression fields.",
+    "Desktop small-award batches improve about 56% versus v0.14.1; level-up batches are about 1.2% slower and remain about 22% above original.",
+    "No Steam Deck/mobile, allocation, whole-frame, full native runtime or complete extraction claim."
+  ],
+  "consoleLogEncoding": "Console evidence normalizes CRLF and redundant terminal blank lines; raw local logs retained."
+}

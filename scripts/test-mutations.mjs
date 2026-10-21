@@ -24,6 +24,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
     fs.cpSync(path.join(root, 'baseline/milestone-fourteen'), path.join(temp, 'baseline/milestone-fourteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-fifteen'), path.join(temp, 'baseline/milestone-fifteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-sixteen'), path.join(temp, 'baseline/milestone-sixteen'), { recursive: true });
+    fs.cpSync(path.join(root, 'baseline/milestone-eighteen'), path.join(temp, 'baseline/milestone-eighteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-eleven'), path.join(temp, 'baseline/milestone-eleven'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twelve'), path.join(temp, 'baseline/milestone-twelve'), { recursive: true });
     fs.copyFileSync(path.join(root,'baseline/stat-catalogue.json'),path.join(temp,'baseline/stat-catalogue.json'));
@@ -31,7 +32,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
 }
 fs.writeFileSync(path.join(temp, 'package.json'), '{"type":"module"}\n');
 fs.mkdirSync(path.join(temp, 'scripts'));
-for (const file of ['compile-item-content.mjs', 'catalogue-tools.mjs', 'reference-utils.mjs']) fs.copyFileSync(path.join(root, 'scripts', file), path.join(temp, 'scripts', file));
+for (const file of ['compile-item-content.mjs', 'compile-progression-content.mjs', 'catalogue-tools.mjs', 'reference-utils.mjs']) fs.copyFileSync(path.join(root, 'scripts', file), path.join(temp, 'scripts', file));
 const file = path.join(temp, 'dist/stats.js');
 const original = fs.readFileSync(file, 'utf8');
 const mutants = [
@@ -79,6 +80,8 @@ for (const [module, name, before, after, tests] of [
   ['equipment-actions', 'displaced-equipment-lost', 'drop(previous);', 'void previous; /* deliberately omit ground ownership */', 'test/equipment-actions.test.mjs'],
   ['validation', 'nested-copy-omitted', 'entry[1] = copy(entry[1], ancestors);', 'entry[1] = entry[1];', 'test/validation.test.mjs'],
   ['validation', 'copied-properties-use-setters', 'Object.fromEntries(entries)', 'Object.assign({}, Object.fromEntries(entries))', 'test/validation.test.mjs'],
+  ['character-progression', 'level-point-credit-omitted', 'state.passivePoints += rules.pack.tuning.passivePointsPerLevel;', 'state.passivePoints += 0;', 'test/character-progression.test.mjs'],
+  ['character-progression', 'downed-level-auto-heals', 'if (!hero.downed)', 'if (true)', 'test/character-progression.test.mjs'],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
   assert.ok(source.includes(before));

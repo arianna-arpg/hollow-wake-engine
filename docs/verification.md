@@ -210,6 +210,23 @@ full verifier now has 140 tests and 28 behavioral fault controls. No accepted
 original fixture changes. See [rebuild-optimization.md](rebuild-optimization.md)
 for the rotating three-implementation workload and preserved construction semantics.
 
+Version 0.15 adds `reference:progression`, `progression:build`,
+`adapter:progression-source`, `adapter:progression` and `benchmark:progression`.
+It checks 4,096 original curve levels, 744 XP transitions, all 39 classes,
+ordered callbacks, party/possession/downed behavior and seven live content revisions.
+The full verifier now contains 145 tests, 30 behavioral fault controls and seven
+isolated packed consumers. The new consumer earns and spends points for every class.
+The installed adapter must reject an omitted point-credit fault. A guarded overlay
+preflights both source files before changing either and preserves unrelated work.
+
+Run `node scripts/test-progression-ui.mjs --game <isolated-game> --dist <built-game>
+--electron <electron-executable>` for XP-earned points through real tree choice,
+stat rebuild, Font refund and reselection controls, with isolated profiles/saves.
+The new optional module has a 12 KiB allowance and raises the combined bound from
+240 to 252 KiB; no earlier individual limit increases. Its separate content bound
+is 128 KiB. See [character-progression.md](character-progression.md) for host
+obligations, operation limits and measured gains/regressions.
+
 ## Cross-runtime numerical policy
 
 `npm run native:verify` builds the experimental C ABI with the local C toolchain

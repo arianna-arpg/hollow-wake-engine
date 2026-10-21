@@ -42,7 +42,10 @@ The gzip baseline is a lossless storage encoding of the original JSON observatio
 Normal verification independently re-exports and compares decoded values. All
 14,827 undefined object properties are explicitly listed as omissions, not silently
 lost. Two progression functions are represented by `$sourceRule` markers and
-their exact observed source text; neither is evaluated or declared portable.
+their exact observed source text; neither source string is evaluated. Version 0.15's
+explicit [progression compiler](character-progression.md) checks those source shapes
+and compiles verified numeric tuning into a separate executable capability pack.
+The markers themselves remain provenance, not runtime code.
 Other nonportable values and cycles fail export. Array order is preserved.
 Lookup table rows are sorted for reproducible inspection. `registry-order.json`
 separately preserves the original registry insertion order: weighted loot rolls

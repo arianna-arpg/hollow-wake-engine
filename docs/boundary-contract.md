@@ -24,8 +24,9 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | Item rolls, forging, local/global values, sockets and epitaphs | `ItemRules` plus immutable `ItemContent` | Extracted; full source comparisons; optional runtime/data entry |
 | Equipment eligibility, equip/unequip and generic container/bag commits | Optional `EquipmentSlots` / `EquipmentActions` | Ordered content and six World action methods extracted; host supplies level, authority, ground delivery and actor/save completion; see equipment actions contract |
 | Trade authority, crafting and salvage transactions | Future policy modules | Source captured; not migrated |
-| Passive allocation/refund, choice deals, realm pools and vocation spending gates | Optional `PassivePolicy` / `PassiveBuild` / `PassiveHost` | Extracted and delegated in the isolated game; earning remains host-owned; see passive policy and host contracts |
+| Passive allocation/refund, choice deals, realm pools and vocation spending gates | Optional `PassivePolicy` / `PassiveBuild` / `PassiveHost` | Extracted and delegated in the isolated game; ordinary level earning is below, realm/vocation earning remains host-owned; see passive policy and host contracts |
 | Passive and choice attribute/stat contributions, conduit/graft specification assembly | Optional `PassiveGrants` | Extracted and delegated in the isolated game; effect execution remains host-owned; see passive grants contract |
+| XP awards, level thresholds/growth, passive-point earning and level milestones | Optional `CharacterProgression` / `ProgressionHost` | Extracted for all 39 classes and delegated through explicit hero/party/completion ports; class creation/unlocks and durable saving remain host-owned; see character progression contract |
 | Skill graph economy, vocation quests, unlock earning and account progression | Future character-policy modules | Source captured; not migrated |
 | Ordinary casting commitment, mana/life payment, cooldowns, cancellation | `CastRuntime`, per actor | Extracted; advanced modes remain native |
 | Projectile travel, contact collection, spatial queries and 2D/3D conventions | Host adapter plus future delivery module | Host supplies a resolved contact today |
@@ -46,7 +47,8 @@ scratch storage and caches.
 `engine.character(build)` constructs a build from a registered class.
 `equip`, `unequip`, `allocate` and `refund` validate before replacing derived state.
 The class start is owned without spending a supplied passive point. Hosts supply
-authorized point budgets; account earning rules are not extracted yet.
+authorized point budgets; the optional `ProgressionHost` now supplies ordinary
+level earning. Other account/realm/vocation earning remains outside that module.
 The sample's item id identifies one specimen, so it cannot occupy two slots.
 General inventory item-instance identity is explicit in `Inventory`.
 `Character.equipInstance` now binds a host-authorized identity, compiled modifiers

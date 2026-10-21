@@ -3,6 +3,12 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.15 adds [character progression](docs/character-progression.md): XP awards,
+level growth, earned passive points and ordered class/account milestones. All 39
+classes connect XP to passive spending and stat rebuilding in a separate consumer.
+The game adapter preserves party, possession and downed behavior. Small XP awards
+improve in the desktop measurement; level-up rebuilds remain a measured cost.
+
 Version 0.14.1 [reduces copying costs during character rebuilds](docs/rebuild-optimization.md)
 while preserving validation and independent state ownership. Complete game workloads
 retain matching results; the larger equipped-loadout batch improves about 19% over

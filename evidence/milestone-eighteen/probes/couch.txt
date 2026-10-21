@@ -1,0 +1,79 @@
+[content] tileset 'meadow': span void region 'mere_bed' is walkable — a gone span must be a hole
+[content] monster toll_bailiff: 2 signature defense pools authored — textures are identities; stack them only on boss showpieces
+[content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fumes:exposure(195), fire_walker:moveTrail(5), aftershocks:aoeScatter(114), buried_charge:pulse(76), accelerando:cadence(118), ritardando:cadence(118), square_sigil:aoeShape(41), triangle_sigil:aoeShape(41), spell_cascade:cascade(95), scattered_cascade:cascade(95), seismic_march:cascade(95), mirrored_bounds:projFrameBounce(1), sundering_flight:fissureTrail(1), afterspray:departSplash(10) — the whys live on the rows in data/graftReadSites.ts
+PASS  fit: one hero degenerates to the solo frame (stretch exactly 1, focus = hero)
+PASS  fit: focus is the heroes' center
+PASS  fit: near-adjacent heroes keep the solo zoom (stretch 1)
+PASS  fit: stretch falls monotonically with spread
+PASS  fit: a vast spread floors at the cap exactly
+PASS  fit: while governing, the width need fills the screen exactly — zoom×need 1920.0000
+PASS  confine rect: the drawn frame inset by the margin
+PASS  confine margin leaves fit-margin slack (the wall only bites at the cap)
+PASS  solo: couchActive false, no couch seats, no confine rect
+PASS  solo: couchHeroes is exactly [the hero]
+PASS  solo: localHumanSeats is exactly [the local seat]
+PASS  solo: the update sweep moves no one (confine null = no-op)
+PASS  lifecycle: couchActive with a tagged guest
+PASS  lifecycle: couchSeats sees exactly the tagged guest
+PASS  lifecycle: couchHeroes = [hero, guest] (the plain ally is not framed)
+PASS  lifecycle: localHumanSeats = [local, guest], local first
+PASS  lifecycle: accountSeat — local yes, guest yes, plain ally no
+PASS  lifecycle: guest removal restores the solo invariant (ally still up)
+PASS  graft: rebuildSavedMeta stands the save back up
+PASS  graft: the guest wears the donor build (level + class + skills) — level 8 skills 3
+PASS  graft: the guest bar rebound from the save
+PASS  graft: the HERO is untouched (separation)
+PASS  edge law: both local heroes clamp into the published rect — hero (400,400) guest (600,600)
+PASS  edge law: enemies are never confined
+PASS  edge law: a grabbed hero is exempt (the hold wins the frame)
+PASS  edge law: a null rect confines no one (zone seam / solo)
+PASS  latch: a stamped guest id routes the bind to the GUEST bar
+PASS  latch: the hero bar is untouched by the guest routing
+PASS  latch: unstamped routing stays the local hero's (solo path intact)
+PASS  covenant probe setup: an item rolled onto the vessel doll
+PASS  covenant: the vessel banked its own corpse (Seat.couchDeaths)
+PASS  covenant: the account ring is untouched (own-ring stage)
+PASS  covenant: the carry stripped whole (doll + essences)
+PASS  covenant: the stage advanced (SWORN → sealed)
+PASS  covenant: the vessel flagged for prompt persistence
+PASS  covenant: a disposable guest banks nothing
+PASS  persist: a guest save carries NO world half
+PASS  persist: identity + mode ride whole
+PASS  persist: the dormant menagerie passes through verbatim
+PASS  persist: the own ring rides the save
+PASS  persist: rebuildSavedMeta round-trips the guest save
+PASS  xp law: a guest crossing level 5 stamps the run ledger — guest level 8
+PASS  caravan: the prompt answers for a NON-LOCAL seat (the guest at the escort)
+PASS  caravan: it stays silent for the seat standing a zone away (seat-scoped)
+PASS  caravan: the guest's linger fires the dwell and STAMPS its seat — seat c1
+PASS  caravan: the consumed latch holds while the hand keeps standing there
+PASS  caravan: stepping away re-arms it — the hero's own linger stamps p0 — seat p0
+PASS  caravan: startCaravan REFUSES on a client shell (host-authoritative) — zone sim_arena
+PASS  caravan: the client still gets the prompt (it can act via the intent)
+PASS  caravan: the client's band pick SHIPS as an intent, loading nothing locally — sent caravanTo
+PASS  caravan solo: the prompt answers with no seat argument at all
+PASS  caravan solo: the hero's linger fires and stamps p0 (byte-identical)
+PASS  claim pin: the roam adopts the freshest pad (hardware semantics now IN the rig)
+PASS  claim pin: arming freezes the hero read at its live slot
+PASS  claim pin: the pinned hero read never adopts the joining press
+PASS  claim pin: THE CLAIM LANDS on the freshest-timestamp joiner (the Deck deadlock) — hit 1
+PASS  claim pin: the claim lifts the pin (the claimed pad must drive the pick pointer)
+PASS  claim pin: post-claim the roam adopts the claimed pad for the pick phase
+PASS  claim pin: the claiming press is swallowed on adoption (held, never an edge)
+PASS  claim pin: the NEXT deliberate press edges normally (the pick click flows)
+PASS  claim pin: a keyboard hero pins to none
+PASS  claim pin: the none-pinned read reads no pad at all
+PASS  claim pin: with none pinned EVERY pad is a claimer
+PASS  claim pin: timestamp-less fakes keep the classic first-slot roam
+PASS  dead-claim guard: the sole-pad household arms to none (never a dead claim)
+PASS  dead-claim guard: the sole pad itself claims (the hero falls to keys)
+PASS  dead-claim guard: a free second pad keeps the classic pin
+PASS  dead-claim guard: a claimed second pad does not avert it
+PASS  re-bind: nothing to adopt while only fenced strangers stand
+PASS  re-bind: a STANDING identical twin is never stolen (the newcomer rule)
+PASS  re-bind: the returning identity re-binds at its newcomer slot
+PASS  re-bind: a slot claimed by another seat is fenced
+PASS  re-bind: identity is the key — a stranger newcomer never matches
+PASS  re-bind: an unknown identity re-binds nowhere (parked, never a hijack)
+
+ALL PASS
