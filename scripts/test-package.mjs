@@ -88,7 +88,8 @@ const equipmentJsBytes = packed.files.filter(file => file.path === 'dist/equipme
 const progressionJsBytes = packed.files.filter(file => file.path === 'dist/character-progression.js').reduce((sum, file) => sum + file.size, 0);
 const skillJsBytes = packed.files.filter(file => /^dist\/skill-.*\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
 const supportJsBytes = packed.files.filter(file => /^dist\/support-.*\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
-const coreJsBytes = jsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes - stashJsBytes - containerJsBytes - relicJsBytes - actionJsBytes - equipmentJsBytes - progressionJsBytes - skillJsBytes - supportJsBytes;
+const resourceJsBytes = packed.files.filter(file => /^dist\/(charge-runtime|resource-gauges|resource-content)\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
+const coreJsBytes = jsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes - stashJsBytes - containerJsBytes - relicJsBytes - actionJsBytes - equipmentJsBytes - progressionJsBytes - skillJsBytes - supportJsBytes - resourceJsBytes;
 const contentBytes = packed.files.filter(file => file.path.startsWith('content/') && file.path.endsWith('.json')).reduce((sum, file) => sum + file.size, 0);
 assert.ok(coreJsBytes <= 96 * 1024, 'Core runtime exceeded the retained 96 KiB unminified JS budget');
 assert.ok(itemJsBytes <= 64 * 1024, 'Optional item entry exceeded its 64 KiB unminified JS budget');
@@ -102,10 +103,11 @@ assert.ok(equipmentJsBytes <= 16 * 1024, 'Optional equipment actions exceeded th
 assert.ok(progressionJsBytes <= 12 * 1024, 'Optional progression exceeded its 12 KiB unminified JS budget');
 assert.ok(skillJsBytes <= 48 * 1024, 'Optional skill graph, economy, grants and actions exceeded their 48 KiB unminified JS budget');
 assert.ok(supportJsBytes <= 32 * 1024, 'Optional support rules, actions and validation exceeded their 32 KiB unminified JS budget');
-assert.ok(jsBytes <= 332 * 1024, 'Combined runtime exceeded the 332 KiB unminified JS budget');
+assert.ok(resourceJsBytes <= 40 * 1024, 'Optional resources exceeded their 40 KiB unminified JS budget');
+assert.ok(jsBytes <= 372 * 1024, 'Combined runtime exceeded the 372 KiB unminified JS budget');
 assert.ok(contentBytes <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
-  runtimeJsBytes: jsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, equipmentJsBytes, progressionJsBytes, skillJsBytes, supportJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
+  runtimeJsBytes: jsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, equipmentJsBytes, progressionJsBytes, skillJsBytes, supportJsBytes, resourceJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
   isolatedConsumer: JSON.parse(result), node: process.version,
 }, null, 2) + '\n');
 console.log(result.trim());

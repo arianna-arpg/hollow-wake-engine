@@ -251,6 +251,15 @@ tag closure, levels, scaling, custody and crew updates. See
 [support-rules.md](support-rules.md) for the separate content consumer, mounted
 Inventory course, callback/ownership contract and unextracted effect execution.
 
+Version 0.18 adds `reference:resources`, `resources:build`,
+`adapter:resource-source`, `adapter:resources` and `benchmark:resources`. Five
+original-only fixtures cover charge banks, all authored timed taps, skill gauges,
+real World resource courses and every authored payment row. Six new SDK faults
+and five installed-game faults must be detected by behavioral assertions or
+trace differences. The separate resource pack is exercised by a clean offline
+consumer and a strict TypeScript consumer. See [resource-runtime.md](resource-runtime.md)
+for state ownership, phase ordering, bounded meter work and explicit host duties.
+
 ## Cross-runtime numerical policy
 
 `npm run native:verify` builds the experimental C ABI with the local C toolchain

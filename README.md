@@ -3,6 +3,12 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.18 adds [charges and skill gauges](docs/resource-runtime.md): banks,
+decay/drain, regeneration, timed taps, admission/payment and gauge arithmetic.
+The separate content package includes all 23 charge definitions, resource fields
+and tree resource payloads. The standalone consumer connects these to statistics
+and a complete resource cycle; event eligibility and delivery remain host-owned.
+
 Version 0.17 adds [support rules and socket custody](docs/support-rules.md):
 compatibility, tag composition, effective levels, rolled cuts, modifier routing
 and complete socket/unsocket paths. All 457 support definitions ship in a separate

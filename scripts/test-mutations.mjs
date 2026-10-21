@@ -26,6 +26,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
     fs.cpSync(path.join(root, 'baseline/milestone-sixteen'), path.join(temp, 'baseline/milestone-sixteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-eighteen'), path.join(temp, 'baseline/milestone-eighteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-nineteen'), path.join(temp, 'baseline/milestone-nineteen'), { recursive: true });
+    fs.cpSync(path.join(root, 'baseline/milestone-twenty-two'), path.join(temp, 'baseline/milestone-twenty-two'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-eleven'), path.join(temp, 'baseline/milestone-eleven'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twelve'), path.join(temp, 'baseline/milestone-twelve'), { recursive: true });
     fs.copyFileSync(path.join(root,'baseline/stat-catalogue.json'),path.join(temp,'baseline/stat-catalogue.json'));
@@ -33,7 +34,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
 }
 fs.writeFileSync(path.join(temp, 'package.json'), '{"type":"module"}\n');
 fs.mkdirSync(path.join(temp, 'scripts'));
-for (const file of ['compile-item-content.mjs', 'compile-progression-content.mjs', 'compile-skill-progression.mjs', 'catalogue-tools.mjs', 'reference-utils.mjs']) fs.copyFileSync(path.join(root, 'scripts', file), path.join(temp, 'scripts', file));
+for (const file of ['compile-item-content.mjs', 'compile-progression-content.mjs', 'compile-skill-progression.mjs', 'compile-resource-content.mjs', 'catalogue-tools.mjs', 'reference-utils.mjs']) fs.copyFileSync(path.join(root, 'scripts', file), path.join(temp, 'scripts', file));
 const file = path.join(temp, 'dist/stats.js');
 const original = fs.readFileSync(file, 'utf8');
 const mutants = [
@@ -93,6 +94,12 @@ for (const [module, name, before, after, tests] of [
   ['support-rules', 'support-override-scaled', "scale === 1 || mod.kind === 'override' ? mod", 'scale === 1 ? mod', 'test/support-rules.test.mjs'],
   ['support-actions', 'support-cleared-before-room', 'if (!p.give(seat, gem))', 'inst.sockets[index] = null; if (!p.give(seat, gem))', 'test/support-actions.test.mjs'],
   ['support-content', 'support-chance-threshold-ignored', 'authored >= tuning.identityThreshold', 'false', 'test/support-content.test.mjs'],
+  ['charge-runtime', 'capped-gain-refreshes-idle', 'if (next > cur)', 'if (next >= cur)', 'test/charge-runtime.test.mjs'],
+  ['charge-runtime', 'regeneration-debt-drained-in-one-frame', 'if (rst.tick >= 1)', 'while (rst.tick >= 1)', 'test/charge-runtime.test.mjs'],
+  ['charge-runtime', 'retired-tree-clock-retained', "if (key.startsWith('treeTap:') && !treeKeys.has(key))", 'if (false)', 'test/charge-runtime.test.mjs'],
+  ['charge-runtime', 'charge-payment-overdraws-bank', 'Math.min(have, cost.amount)', 'Math.max(have, cost.amount)', 'test/charge-runtime.test.mjs'],
+  ['resource-gauges', 'gauge-regenerates-during-lockout', 'dt = -left;', 'dt = dt;', 'test/resource-gauges.test.mjs'],
+  ['resource-content', 'resource-zero-interval-accepted', 'if (finite(v, label) <= 0)', 'if (finite(v, label) < 0)', 'test/resource-content.test.mjs'],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
   assert.ok(source.includes(before));

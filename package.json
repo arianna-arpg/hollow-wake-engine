@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -15,6 +15,7 @@
     "dist",
     "content",
     "docs",
+    "examples/resource-cycle.mjs",
     "LICENSE.md",
     "NOTICE.md",
     "README.md"
@@ -102,13 +103,25 @@
     "./skills/support-content": {
       "types": "./dist/support-content.d.ts",
       "import": "./dist/support-content.js"
+    },
+    "./resources/charges": {
+      "types": "./dist/charge-runtime.d.ts",
+      "import": "./dist/charge-runtime.js"
+    },
+    "./resources/gauges": {
+      "types": "./dist/resource-gauges.d.ts",
+      "import": "./dist/resource-gauges.js"
+    },
+    "./resources/content": {
+      "types": "./dist/resource-content.d.ts",
+      "import": "./dist/resource-content.js"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs",
     "example": "npm run build && node examples/first-path.mjs",
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
@@ -184,7 +197,12 @@
     "supports:build": "npm run build && node scripts/compile-support-content.mjs",
     "adapter:supports": "node scripts/test-game-supports.mjs",
     "adapter:support-source": "node scripts/test-support-overlay.mjs",
-    "benchmark:supports": "node scripts/benchmark-supports.mjs"
+    "benchmark:supports": "node scripts/benchmark-supports.mjs",
+    "resources:build": "npm run build && node scripts/compile-resource-content.mjs",
+    "reference:resources": "node scripts/run-resource-reference.mjs",
+    "adapter:resources": "node scripts/test-game-resources.mjs",
+    "adapter:resource-source": "node scripts/test-resource-overlay.mjs",
+    "benchmark:resources": "node scripts/benchmark-resources.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

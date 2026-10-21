@@ -1,0 +1,45 @@
+# Ownership gate — staged diff
+
+- Declared: 4 owned file pattern(s), 0 owned token(s)
+- Declaration: `.claude/ownership.resource-runtime.txt`
+- Staged: 4 file(s), 30 hunk(s)
+
+## src/engine/actor.ts   [declared owned whole]
+  OWNED-FILE      @@ -27,8 +27 @@ import { SIM_TAP } from './tap';
+  OWNED-FILE      @@ -36,2 +29,2 @@ import { evalCurve, type CurveKind } from './curves';
+  OWNED-FILE      @@ -455,0 +449,2 @@ import type { EmergeSpec } from './emerge'; // THE EMERGENCE GRAMMAR — AmbushS
+  OWNED-FILE      @@ -2008,3 +2003 @@ export class Actor {
+  OWNED-FILE      @@ -2461,34 +2454 @@ export class Actor {
+  OWNED-FILE      @@ -2501,13 +2461 @@ export class Actor {
+  OWNED-FILE      @@ -2516,5 +2464 @@ export class Actor {
+  OWNED-FILE      @@ -2524,5 +2468 @@ export class Actor {
+  OWNED-FILE      @@ -2531,3 +2471 @@ export class Actor {
+  OWNED-FILE      @@ -2535,15 +2473,4 @@ export class Actor {
+  OWNED-FILE      @@ -2554,105 +2481 @@ export class Actor {
+  OWNED-FILE      @@ -3993,6 +3816 @@ export class Actor {
+  OWNED-FILE      @@ -4186,7 +4004 @@ export class Actor {
+
+## src/engine/gauge.ts   [declared owned whole]
+  OWNED-FILE      @@ -44,0 +45 @@ import { STAT_DEFS } from './stats';
+  OWNED-FILE      @@ -124,9 +125 @@ export interface GaugeEff {
+  OWNED-FILE      @@ -135,3 +128 @@ export function gaugeEffOf(spec: GaugeSpec, needMul: number, gainMul: number, lo
+  OWNED-FILE      @@ -140,3 +131 @@ export function gaugeFill(inst: SkillInstance): number {
+  OWNED-FILE      @@ -145,3 +134 @@ export function gaugeLocked(inst: SkillInstance): boolean {
+  OWNED-FILE      @@ -151,4 +138 @@ export function gaugeLockLeft(inst: SkillInstance): number {
+  OWNED-FILE      @@ -156,3 +140 @@ export function gaugeFloor(spec: GaugeSpec, eff: GaugeEff): number {
+  OWNED-FILE      @@ -164,9 +146 @@ export function gaugeReady(inst: SkillInstance, eff: GaugeEff, spec?: GaugeSpec)
+  OWNED-FILE      @@ -175,3 +149 @@ export function gaugePowerOf(spec: GaugeSpec, eff: GaugeEff, fill: number): numb
+  OWNED-FILE      @@ -181,8 +153 @@ export function gaugeFrac(inst: SkillInstance, eff: GaugeEff): number {
+  OWNED-FILE      @@ -194,10 +159 @@ export function gaugeAdd(inst: SkillInstance, amount: number, eff: GaugeEff): nu
+  OWNED-FILE      @@ -207,11 +163 @@ export function gaugeSpend(inst: SkillInstance, spec: GaugeSpec, eff: GaugeEff):
+  OWNED-FILE      @@ -220,4 +166 @@ export function gaugeTick(inst: SkillInstance, spec: GaugeSpec, eff: GaugeEff, d
+  OWNED-FILE      @@ -227,3 +170 @@ export function gaugeNote(inst: SkillInstance, spec: GaugeSpec, eff: GaugeEff):
+
+## src/engine/resourceAdapter.ts   [declared owned whole]
+  OWNED-FILE      @@ -0,0 +1,28 @@
+
+## src/engine/world.ts   [declared owned whole]
+  OWNED-FILE      @@ -543,0 +544 @@ import {createSupportActions} from './supportActionsAdapter';
+  OWNED-FILE      @@ -33842,11 +33843 @@ export class World {
+
+PASS — all 30 staged hunk(s) attributed to this session.

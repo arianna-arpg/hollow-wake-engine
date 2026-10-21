@@ -1,0 +1,13 @@
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {gunzipSync} from 'node:zlib';import {execFileSync} from 'node:child_process';import {randomUUID} from 'node:crypto';
+import {root,verifyReference,sha256,writeJSON} from './reference-utils.mjs';
+const game=path.join(root,'.reference'),lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json')));verifyReference(game,lock);
+const output=fs.mkdtempSync(path.join(root,'.artifacts/resource-reference-')),reports=[];
+for(const name of ['charge-banks','charge-clocks','resource-gauges','resource-world','resource-costs']){
+ const bytes=fs.readFileSync(path.join(root,'reference/export-'+name+'.ts')),helper=path.join(game,'balance','sdk-resource-'+randomUUID()+'.ts'),file=path.join(output,name+'.json');
+ try{fs.writeFileSync(helper,bytes,{flag:'wx'});execFileSync(process.execPath,['--import','tsx',helper,file],{cwd:game,stdio:'inherit'});
+  const actual=fs.readFileSync(file);if(!process.argv.includes('--export-only'))assert(actual.equals(gunzipSync(fs.readFileSync(path.join(root,'baseline/milestone-twenty-two',name+'.json.gz')))),name+' original resource observations changed');
+  reports.push({name,sha256:sha256(actual),helperSha256:sha256(bytes),bytes:actual.length});
+ }finally{if(fs.existsSync(helper)&&fs.readFileSync(helper).equals(bytes))fs.unlinkSync(helper);}
+}
+verifyReference(game,lock);writeJSON(path.join(root,'.artifacts/resource-reference-location.json'),{output,source:lock.commit,reports});
+console.log('Original resource traces independently reproduced.');

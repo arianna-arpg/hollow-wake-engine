@@ -155,7 +155,16 @@ effective levels, numeric routing and synchronous socket custody. Owned support
 content is validated and frozen; live game bindings borrow records and observe
 current host inputs. Original exclusion ordering, rolled crew asymmetry, callback
 order and modifier identity are explicit in [support-rules.md](support-rules.md).
-Trigger, charge, summon, construct and other effect execution remain host-owned.
+Trigger, summon, construct and other effect execution remain host-owned.
+
+Optional resource entries now execute charge banks, decay/drain, regeneration,
+timed taps, charge payment and gauge arithmetic. They attach actor-owned maps and
+borrow coherent host observations; ordered updates are not atomic transactions.
+Immutable resource content validates rates/references once and shares ordered
+registry entries. Event eligibility, spatial filters, proc delivery, persistent
+saves and held charge-casting remain host-owned. See
+[resource-runtime.md](resource-runtime.md) for preserved frame semantics,
+fractional overdraw, operation limits and the complete standalone resource cycle.
 
 Keep the first kernel in TypeScript/ES modules to compare against the original
 implementation with minimal language-induced uncertainty. Production compilation

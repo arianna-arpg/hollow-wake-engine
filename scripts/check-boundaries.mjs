@@ -49,4 +49,5 @@ assert.ok([...reachable].every(file => path.basename(file)!=='equipment-actions.
 assert.ok([...reachable].every(file => path.basename(file)!=='character-progression.ts'), 'Optional progression became an eager core import');
 assert.ok([...reachable].every(file => !path.basename(file).startsWith('skill-')), 'Optional skill progression became an eager core import');
 assert.ok([...reachable].every(file => !path.basename(file).startsWith('support-')), 'Optional support policy became an eager core import');
+assert.ok([...reachable].every(file => !['charge-runtime.ts','resource-gauges.ts','resource-content.ts'].includes(path.basename(file))), 'Optional resource capabilities became an eager core import');
 console.log(`Boundary check passed: ${files} production modules; no external runtime dependencies, host APIs, or ambient randomness.`);

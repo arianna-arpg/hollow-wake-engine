@@ -1,0 +1,50 @@
+[content] tileset 'meadow': span void region 'mere_bed' is walkable — a gone span must be a hole
+[content] monster toll_bailiff: 2 signature defense pools authored — textures are identities; stack them only on boss showpieces
+[content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fumes:exposure(195), fire_walker:moveTrail(5), aftershocks:aoeScatter(114), buried_charge:pulse(76), accelerando:cadence(118), ritardando:cadence(118), square_sigil:aoeShape(41), triangle_sigil:aoeShape(41), spell_cascade:cascade(95), scattered_cascade:cascade(95), seismic_march:cascade(95), mirrored_bounds:projFrameBounce(1), sundering_flight:fissureTrail(1), afterspray:departSplash(10) — the whys live on the rows in data/graftReadSites.ts
+PASS 30Hz: real stun cancels the cast and emits one fracture
+PASS 30Hz: fracture is anchored to prepared aim and skill color
+PASS 30Hz: interrupted preparation never damages or announces
+PASS 30Hz: fracture expires without repeating
+PASS 60Hz: real stun cancels the cast and emits one fracture
+PASS 60Hz: fracture is anchored to prepared aim and skill color
+PASS 60Hz: interrupted preparation never damages or announces
+PASS 60Hz: fracture expires without repeating
+PASS 120Hz: real stun cancels the cast and emits one fracture
+PASS 120Hz: fracture is anchored to prepared aim and skill color
+PASS 120Hz: interrupted preparation never damages or announces
+PASS 120Hz: fracture expires without repeating
+PASS concentration actually builds while on quarry
+PASS lost focus persists as a broken/draining frame
+PASS lost focus reaches the co-op bar
+PASS reacquisition closes local and remote frame
+PASS abandoned concentration emits one fizzle and pays its cooldown
+PASS fizzle is distinct from interruption and does not fire damage
+PASS fizzle effect replicates and cast frame clears
+PASS successful concentration does not emit a fizzle
+PASS lightning_blast: preparation follows actual partial completion
+PASS lightning_blast: remote body geometry and completion gauge agree
+PASS lightning_blast: clearing the cast clears local and remote readiness
+PASS surgewind: preparation follows actual partial completion
+PASS surgewind: remote body geometry and completion gauge agree
+PASS surgewind: clearing the cast clears local and remote readiness
+PASS kindled_ruin: preparation follows actual partial completion
+PASS kindled_ruin: remote body geometry and completion gauge agree
+PASS kindled_ruin: clearing the cast clears local and remote readiness
+PASS brim completion emits one lock cue at the real cap
+PASS BRIMMING caption is retired
+PASS full hold retains a stable ready silhouette without repeating burst
+PASS real release clears held read and spends the brim into the buff
+PASS support-converted gathers use the same completion resolver
+PASS stun immediately suppresses ready geometry before next sim tick
+PASS interrupt preserves persistent bank rather than inventing a spend
+PASS invested duration changes completion cue with the actual cap
+PASS authored opt-out keeps completion bars but omits body/event embellishment
+PASS co-op respects opt-out without losing completion gauge
+PASS dead casters have no live readiness
+PASS unknown profiles use the universal casting fallback
+PASS surgewind: underfilled release uses the same fizzle family
+PASS surgewind: underfilled release never fires its payload or instruction text
+PASS kindled_ruin: underfilled release uses the same fizzle family
+PASS kindled_ruin: underfilled release never fires its payload or instruction text
+PASS automatic brim payoff has one ready cue and no stale hold
+PASS 46 casting cue checks
