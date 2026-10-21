@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.20.0",
+  "version": "0.21.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -20,7 +20,8 @@
     "NOTICE.md",
     "README.md",
     "examples/resource-events.mjs",
-    "examples/charged-casting.mjs"
+    "examples/charged-casting.mjs",
+    "examples/interactive-casting.mjs"
   ],
   "exports": {
     ".": {
@@ -125,13 +126,17 @@
     "./casting/charged": {
       "types": "./dist/charged-casting.d.ts",
       "import": "./dist/charged-casting.js"
+    },
+    "./casting/interactive": {
+      "types": "./dist/interactive-casting.d.ts",
+      "import": "./dist/interactive-casting.js"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs",
     "example": "npm run build && node examples/first-path.mjs",
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
@@ -220,7 +225,11 @@
     "reference:charged-casting": "node scripts/run-charged-casting-reference.mjs",
     "adapter:charged-source": "node scripts/test-charged-casting-overlay.mjs",
     "adapter:charged-casting": "node scripts/test-game-charged-casting.mjs",
-    "benchmark:charged-casting": "node scripts/benchmark-charged-casting.mjs"
+    "benchmark:charged-casting": "node scripts/benchmark-charged-casting.mjs",
+    "reference:interactive-casting": "node scripts/run-interactive-casting-reference.mjs",
+    "adapter:interactive-source": "node scripts/test-interactive-casting-overlay.mjs",
+    "adapter:interactive-casting": "node scripts/test-game-interactive-casting.mjs",
+    "benchmark:interactive-casting": "node scripts/benchmark-interactive-casting.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

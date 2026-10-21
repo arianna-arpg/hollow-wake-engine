@@ -3,6 +3,10 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.21 adds optional [focus and timing casts](docs/interactive-casting.md):
+concentration progress/break decisions, fizzle-clock quotes and one-shot timing
+attempts over caller-owned cast records, with explicit host completion.
+
 Version 0.20 adds optional [charge-up and overcharge phases](docs/charged-casting.md),
 including staged payment and timing-dependent release through explicit host ports.
 

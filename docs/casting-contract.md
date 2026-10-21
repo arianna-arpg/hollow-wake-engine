@@ -17,6 +17,11 @@ The optional [charged casting entry](charged-casting.md) now supplies the admitt
 charge-up and overcharge phases over host-owned state. Its staged payments and
 release rules do not expand the ordinary `CastRuntime`'s accepted profiles.
 
+The optional [interactive casting entry](interactive-casting.md) adds focus
+progress/break decisions and repeated-input timing over borrowed records. Its
+terminal outcomes require explicit host cleanup and delivery; it retains no
+cast registry or callback queue.
+
 `press(profile, gates)` returns a rejection or a token-bearing started/completed
 event. It checks host blocking/stun/death, actor life, an existing cast, recovery,
 the skill clock and resources. A successful press pays once. A life payment must

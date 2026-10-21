@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "version": "0.21.0",
+  "sdkBase": "b18277f58fd035b2fff06d2b8c330e10d2e3b978",
+  "sourceSha256": "8f3572fa6f7375d22218855cb6ec8b5340ab8194aa61ee75243c4ca89c7d1a70",
+  "checks": {
+    "tests": 227,
+    "behavioralFaults": 67,
+    "packedConsumers": 13,
+    "originalCourses": 47,
+    "originalTransitions": 204,
+    "standaloneFocusPhases": 56,
+    "standaloneTimingPressCommands": 22,
+    "authoredFocusSkills": 2,
+    "authoredTimingSkills": 7,
+    "timingSupports": 2,
+    "localInstalledCastingCourses": 3,
+    "newInstalledFaults": 4,
+    "localInstalledFaults": 8,
+    "managedInstalledFaults": 8,
+    "managedTypes": true,
+    "managedRuntimeAndFaults": true,
+    "managedSmoke": "5 scenarios x 5 seeds",
+    "gameSmoke": "5 scenarios x 5 seeds",
+    "renderedEarnedFocus": true,
+    "renderedDrainAndRefocus": true,
+    "renderedActualDamageAndStatus": true,
+    "renderedFizzleClockAndPaidCost": true,
+    "renderedEarnedTimingAndSpentMisses": true,
+    "renderedStunInterruption": true,
+    "priorChargedControls": true,
+    "bootSmoke": true
+  },
+  "boundary": {
+    "productionModules": 42,
+    "productionDependencies": 0,
+    "newInteractiveRuntimeBytes": 4258,
+    "unchangedPreviousRuntimeFiles": 123,
+    "installedRuntimeFiles": 126,
+    "interactiveBudgetKiB": 8,
+    "coreBudgetKiB": 96,
+    "combinedBudgetKiB": 372
+  },
+  "regressionScope": "Local checks exercise the changed focus/timing phase and neighboring ordinary/charged casting, plus complete SDK verification and game smoke. All 123 previous runtime files are byte-identical. The exact-commit CI separately runs every prior installed adapter course; this local receipt does not claim that future CI result.",
+  "performance": "Two installed desktop runs improve the interactive cast phase by about 23–26% against v0.20 and the combined actor-timer workload by about 4%. The combined workload remains about 6–7% slower than the original. No allocation/GC, whole-frame or target-device claim.",
+  "limits": [
+    "Input/target authority, shared admission, interruption cleanup and delivery remain host-owned.",
+    "Original post-death focus delivery and paid refusal without targeting are explicitly preserved.",
+    "Native engine wrappers and Steam Deck/older-mobile acceptance remain incomplete."
+  ]
+}

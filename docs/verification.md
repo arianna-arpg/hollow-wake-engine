@@ -1,5 +1,11 @@
 # Verification and reproduction
 
+Version 0.21 adds `reference:interactive-casting`, `adapter:interactive-source`,
+`adapter:interactive-casting` and `benchmark:interactive-casting`. The optional
+entry retains the combined 372 KiB bound and has its own 8 KiB JS allowance.
+See [interactive-casting.md](interactive-casting.md) for focus/timing ownership
+and the distinction between standalone phases and continuous game courses.
+
 ## Normal package checks
 
 CI uses explicit Ubuntu 24.04/Windows 2025 labels and immutable revisions of the
