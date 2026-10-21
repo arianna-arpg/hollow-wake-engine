@@ -1,0 +1,12 @@
+import fs from 'node:fs';import {bootSimEngine} from '../src/sim/arena';
+import {SUPPORTS} from '../src/data/supports';import {STAT_DEFS} from '../src/engine/stats';
+import {STATUS_DEFS,AILMENT_TUNING,tuneAilmentChance} from '../src/engine/status';
+import {MINION_SEAT_BOUND_SUPPORT_FIELDS,GLOBAL_SUPPORT_STATS,HOST_COST_STATS,STRIKE_GRANTING_GRAFTS,SURFACE_GRANTING_STATS,CHILD_GRANTING_FLIGHT_STATS,DEFAULT_LEVELING,SUPPORT_MECHANISMS} from '../src/engine/skills';
+import {rollVein,canonicalVein,resolveVein,veinMechanisms,veinMods} from '../src/engine/supportbase';
+bootSimEngine();
+const policy={seatBoundFields:[...MINION_SEAT_BOUND_SUPPORT_FIELDS],globalStats:[...GLOBAL_SUPPORT_STATS],costStats:[...HOST_COST_STATS],strikeFields:STRIKE_GRANTING_GRAFTS,surfaceStats:SURFACE_GRANTING_STATS,childFlightStats:CHILD_GRANTING_FLIGHT_STATS,defaultLeveling:DEFAULT_LEVELING};
+const statuses=Object.entries(STATUS_DEFS).map(([id,s])=>({id,dotType:s.dotType,mods:s.mods,powerInert:s.powerInert,buildup:s.buildup,interruptChance:s.interruptChance,scrambleChance:s.scrambleChance,stacking:s.stacking}));
+const cuts=Object.values(SUPPORTS).filter(s=>s.rollBase).map(s=>({id:s.id,canonical:canonicalVein(s.rollBase!),rows:resolveVein(s.rollBase!),mechanisms:veinMechanisms(s.rollBase!),mods:veinMods(s.rollBase!),rolls:[0,.1,.25,.5,.75,.999999,1].map(unit=>{let draws=0;return {unit,result:rollVein(s.rollBase!,()=>{draws++;return unit;}),draws};})}));
+const chances=statuses.map(s=>({id:s.id,rows:[0,.1,.5,.6,.7,1,2].map(authored=>({authored,tuned:tuneAilmentChance(s.id,authored)}))}));
+fs.writeFileSync(process.argv[2],JSON.stringify({supports:Object.values(SUPPORTS),statIds:Object.keys(STAT_DEFS),statuses,ailmentTuning:AILMENT_TUNING,policy,mechanisms:Object.keys(SUPPORT_MECHANISMS),cuts,chances})+'\n',{flag:'wx'});
+console.log(JSON.stringify({supports:Object.keys(SUPPORTS).length,statuses:statuses.length,cuts:cuts.length,chanceCases:chances.length*7}));

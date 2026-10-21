@@ -150,6 +150,13 @@ numeric inputs, bounded graph traversal and synchronous nonthrowing commit ports
 are documented in [skill-progression.md](skill-progression.md). Resolving a tree's
 payload does not implement its combat delivery or support mechanism.
 
+Optional support entries now provide admission/mechanism predicates, tag closure,
+effective levels, numeric routing and synchronous socket custody. Owned support
+content is validated and frozen; live game bindings borrow records and observe
+current host inputs. Original exclusion ordering, rolled crew asymmetry, callback
+order and modifier identity are explicit in [support-rules.md](support-rules.md).
+Trigger, charge, summon, construct and other effect execution remain host-owned.
+
 Keep the first kernel in TypeScript/ES modules to compare against the original
 implementation with minimal language-induced uncertainty. Production compilation
 uses the ECMAScript library only: no DOM or Node type libraries.

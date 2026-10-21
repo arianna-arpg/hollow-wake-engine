@@ -77,6 +77,7 @@ jobs:
       - run: npm run adapter:equipment-source
       - run: npm run adapter:progression-source
       - run: npm run adapter:skills-source
+      - run: npm run adapter:support-source
       - run: npm run reference:install
       - run: npm run reference:verify
       - run: npm run reference:lifecycle
@@ -94,6 +95,7 @@ jobs:
       - run: npm run reference:equipment-actions
       - run: npm run reference:progression
       - run: npm run reference:skills
+      - run: npm run reference:supports
       - run: node --import tsx balance/probe_passiverefund.ts
         working-directory: .reference
       - run: node --import tsx balance/probe_choices.ts
@@ -115,6 +117,7 @@ jobs:
       - run: npm run adapter:equipment-actions
       - run: npm run adapter:progression
       - run: npm run adapter:skills
+      - run: npm run adapter:supports
       - run: npm run check
         working-directory: .artifacts/game-adapter
       - run: npm run sim -- run --suite smoke
@@ -140,6 +143,10 @@ jobs:
       - run: node --import tsx balance/probe_emergentuniques.ts
         working-directory: .artifacts/game-adapter
       - run: node --import tsx balance/probe_skillitems.ts
+        working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_supportfabric.ts
+        working-directory: .artifacts/game-adapter
+      - run: node --import tsx balance/probe_supportbase.ts
         working-directory: .artifacts/game-adapter
       - run: node --import tsx balance/probe_passiveattributes.ts
         working-directory: .artifacts/game-adapter
@@ -183,6 +190,8 @@ jobs:
             .artifacts/inventory-ui-overlay-verification.json
             .artifacts/skill-overlay-verification.json
             .artifacts/game-skill-verification.json
+            .artifacts/support-overlay-verification.json
+            .artifacts/game-support-verification.json
             .artifacts/adapter-verification.json
             .artifacts/game-item-verification.json
             .artifacts/game-passive-grant-verification.json

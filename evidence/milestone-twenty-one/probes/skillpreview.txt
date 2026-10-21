@@ -1,0 +1,34 @@
+[content] tileset 'meadow': span void region 'mere_bed' is walkable — a gone span must be a hole
+[content] monster toll_bailiff: 2 signature defense pools authored — textures are identities; stack them only on boss showpieces
+[content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fumes:exposure(195), fire_walker:moveTrail(5), aftershocks:aoeScatter(114), buried_charge:pulse(76), accelerando:cadence(118), ritardando:cadence(118), square_sigil:aoeShape(41), triangle_sigil:aoeShape(41), spell_cascade:cascade(95), scattered_cascade:cascade(95), seismic_march:cascade(95), mirrored_bounds:projFrameBounce(1), sundering_flight:fissureTrail(1), afterspray:departSplash(10) — the whys live on the rows in data/graftReadSites.ts
+PASS  A: cleave — every roll inside the previewed band — 0/400 outside [12.87, 17.25], saw [12.88, 17.24]
+PASS  A: cleave — the band is the real spread, not a loose bound — observed 100% of the band
+PASS  A: heavy_strike — every roll inside the previewed band — 0/400 outside [22.72, 31.48], saw [22.76, 31.48]
+PASS  A: heavy_strike — the band is the real spread, not a loose bound — observed 100% of the band
+PASS  A: ground_slam — every roll inside the previewed band — 0/400 outside [18.34, 24.91], saw [18.35, 24.90]
+PASS  A: ground_slam — the band is the real spread, not a loose bound — observed 100% of the band
+PASS  A: frostbolt — every roll inside the previewed band — 0/400 outside [8.00, 12.00], saw [8.00, 12.00]
+PASS  A: frostbolt — the band is the real spread, not a loose bound — observed 100% of the band
+PASS  A: firebolt — every roll inside the previewed band — 0/400 outside [10.00, 16.00], saw [10.01, 15.99]
+PASS  A: firebolt — the band is the real spread, not a loose bound — observed 100% of the band
+PASS  B: +100% increased damage lifts the previewed band — 17.2 → 33.0
+PASS  B: rolls stay inside the lifted band — 0/300 outside
+PASS  B: a spell-tagged bonus leaves the melee band alone — 17.246 vs 17.246
+PASS  C: socketing a damage gem moves the previewed band — 17.25 → 22.76
+PASS  C: rolls stay inside the socketed band — 0/300 outside
+PASS  D: melee-scoped recovery shortens the previewed cooldown — base 2.5s → 1.250s
+PASS  D: the stamped clock IS the previewed one — stamped 1.2500 vs shown 1.2500
+PASS  D: and the row reports it, not the authored base — 1.25s
+PASS  E: the cost row quotes the payer's own resolver — row "9 mana" vs skillCost 9
+PASS  F: firebolt shows the TUNED burn chance, not the authored one — authored 35%, tuned 12%, shown "12%"
+PASS  F: the census found a tuned-down authored ailment to pin
+PASS  G: +25% statusChance raises the shown stun odds — 35% → 60%
+PASS  H: a durationOverride status ignores effectDuration — 1.15s → 1.15s
+PASS  H: an ordinary buff duration DOES scale with the same investment — 12s (base 6s)
+PASS  I: the projectile row equals what the cast puts in the air — row "3" vs 3 fired
+PASS  I: multiTarget stays hidden at zero
+PASS  I: and surfaces once granted
+PASS  J: previewing 25 times consumes no randomness — 0.5445726229809225,0.8161922292783856,0.06448804796673357 vs 0.5445726229809225,0.8161922292783856,0.06448804796673357
+PASS  J: two consecutive previews agree exactly
+
+ALL PASS

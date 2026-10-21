@@ -1,0 +1,143 @@
+[content] tileset 'meadow': span void region 'mere_bed' is walkable — a gone span must be a hole
+[content] monster toll_bailiff: 2 signature defense pools authored — textures are identities; stack them only on boss showpieces
+[content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fumes:exposure(195), fire_walker:moveTrail(5), aftershocks:aoeScatter(114), buried_charge:pulse(76), accelerando:cadence(118), ritardando:cadence(118), square_sigil:aoeShape(41), triangle_sigil:aoeShape(41), spell_cascade:cascade(95), scattered_cascade:cascade(95), seismic_march:cascade(95), mirrored_bounds:projFrameBounce(1), sundering_flight:fissureTrail(1), afterspray:departSplash(10) — the whys live on the rows in data/graftReadSites.ts
+PASS  A1 alacrity REFUSES a cooldown-less host (the structural gate) — host firebolt cd=0
+PASS  A2 the SAME host fits alacrity the moment Austerity's levy stands beside it (the self-lifting refusal)
+PASS  A3 the refusal returns when the levy leaves (live re-evaluation, no residue)
+PASS  A4 an innate cooldown host always fits — hive_poison_spit
+PASS  A5 cleave refuses shatterrite bare (no totem mechanism anywhere)
+PASS  A6 Spirit Totem beside it grants 'totem' and shatterrite fits — the composition law, tag form
+PASS  A7 answering_wall REFUSES the charge bank (guard TAG without a guard MECHANISM)
+PASS  A8 every payout lane passes the 'guard' mechanism (stance, charge, wall, dome, shell)
+PASS  A9 the refusal self-lifts when the def grows a real stance (no gem edit)
+PASS  B1 Warding Flesh armors the WEARER while socketed (the equip-global fold) — 40 -> 80
+PASS  B2 the armor leaves with the gem (fingerprinted source, no residue) — 40
+PASS  B3 supportGlobalMods filters to the global lane only
+PASS  B4 warding_flesh refuses a plain strike (the engagement gate)
+PASS  B5 warding_flesh fits a standing working (aura/summon) — sentinel_banner
+PASS  C1 a cast STARTED before the plant never commits the stance (the clock freezes under the bar) — plantFor 0.40 after 1s casting
+PASS  C2 planted a FULL SECOND first, the stance holds through the cast — planted 1.50, mid-cast 2.00
+PASS  D1 a press straight after completion banks ZERO seals (the bar cannot self-seal) — {"count":0,"max":2}
+PASS  D2 true rest banks seals (3s idle at 1.4s/seal = 2, capped by the stat) — count 2/2
+PASS  E1 the graft rides the socket (orbShedGraft reachable from the host) — {"chance":0.04,"orbs":["life","mana"]}
+PASS  E2 the floor reads GLOBAL rate only (bare hero = 1.0 — the gem's own +30% never compounds its floor) — global 1
+PASS  E3 no innate shed on the bare hero (the floor is the only lane standing)
+PASS  F1 a cooldown-less host with Deep Reserves wears an EMPOWER bank (fuel, not ammunition) — {"max":2,"recharge":4,"empower":0.2}
+PASS  F2 a DRY empower bank never refuses the press (canUse stands open)
+PASS  F3 a charged press CASTS and DRINKS the round (the beat rewarded) — cast true, bank 0
+PASS  F4 the NEXT press casts plain off the empty pot (cadence untouched — no gate, no conversion) — cast true
+PASS  F5 a cooldown host wears the DRIP magazine (one round per clock — empower is the free skill's lane) — {"max":2,"magazine":{"refill":1,"drip":true}}
+PASS  G1 apotheosis beside Deep Reserves on a free skill keeps the EMPOWER bank (the levy composes independently) — host court_vigil_bolt: {"max":2,"recharge":4,"empower":0.2}
+PASS  G2 the levy arms the cooldown MECHANISM (alacrity fits beside apotheosis)
+PASS  G3 apotheosis RIDES minions whole (mods-only — the court gets the 90% AND the clock)
+PASS  G4 buried_charge on a NOVA mints the armed second detonation (the aftermath pulse zone) — host beast_defiant_roar: 1 armed
+PASS  G5 seismic_march on a MELEE swing mints marching ripples (the quake walks out of the slam) — host hive_venom_mandibles: 3 ripples
+PASS  G6 a critical affliction carries the crit crank for its whole life (double-crank at critChance 1: hit-crit carry × dotCrit, ≈critMulti²) — host hellfire_lash: 5.4 -> 9.2 (×1.71, critMulti 1.316, cm² 1.73)
+PASS  H1 the affliction MECHANISM refuses a dot-less host — beast_horn_art
+PASS  H2 an apply_ gem beside it opens the door (the composition law, mechanism form) — serrated_edge
+PASS  H3 the bargained hit BITES nothing (full conversion carves the packet) — mean hit dmg 145.7 -> 0.0 over 12/12 landed ignites
+PASS  H4 the affliction festers HARDER than the plain twin (the forgone bite returns at yield) — mean burn dps 5.64 -> 8.52 (×1.51) over 12/12 of 12 samples
+PASS  I0 bare Sunder mints its native march unchanged (1 primary + 3 ripples — the refactor regression pin) — 4 zones
+PASS  I1 Seismic March ELONGATES the march it matches (6 shocks, one walk — the kindred rule) — 7 zones (want 1 primary + 6 march)
+PASS  I2 Spell Cascade RE-CASTS Sunder from its axis points (each point a full marching Sunder) — 12 zones (want 1+3 primary cast + 2 points × (1+3))
+PASS  I3 stacked: the re-cast points play the ELONGATED native march, never each other (graft → native → terminal) — 21 zones (want 1+6 + 2 × (1+6))
+PASS  I4 two re-cast gems each open their own lane and neither recurses the other — 20 zones (want 1+3 + 2×(1+3) + 2×(1+3))
+PASS  I5 Earthquake keeps its native 2.4× quake with Buried Charge socketed (the kindred append, not the old replace) — native 2.4× left 1, queue [{"delay":1,"dmgMult":1,"radiusMult":1}]
+PASS  I6 every Shock Nova sequel carries the nova's edge band (the inheritance law's geometry hand-off) — 2 sequels, edgeFrac 0.6,0.6 (want 0.6)
+PASS  I7 a telegraphing sequel stands off the origin (the axis point)
+PASS  I8 the sequel's ring bites the rim and SPARES the eye (drawn == tested at the detonation) — eye trough 46400->46400, rim trough 46400->46381.6
+PASS  J1 poison_chance REFUSES an aura that never hits (the strikes floor) — host berserk (aura)
+PASS  J2 poison_chance fits a striking host (the floor opens on real hits)
+PASS  J3 the hit-less mark and the trigger utility refuse (no packet anywhere) — hosts mark (mark), detonation (self)
+PASS  J4 a damage-less construct refuses the hit-riders bare — host temporal_pad
+PASS  J5 a strike-granting graft beside it LIFTS the floor (the cage that cooks can poison) — graft pulsing_ramparts
+PASS  J6 the refusal returns when the graft leaves (live re-evaluation)
+PASS  J7 the summon host itself never strikes (the keeper cast is not the hit)
+PASS  J8 the gem fits VIA THE STRIKING CREW (the mechanism hop aboard the court) — crew cleave/claw
+PASS  K1 sanguine_feast refuses a host that cannot bleed (affliction:bleed, no tag gate)
+PASS  K2 a bleed-chance gem beside it opens the door (the live-instance read — conversions will ride the same seam)
+PASS  K3 a POISON chance does NOT open the bleed gate (the param names the wound)
+PASS  K4 potency refuses a pure taunter (powerInert — the binary exemption) — host beast_defiant_roar
+PASS  K5 potency fits a chilling host (folded mods scale — the power lane) — host beast_amphibian_art
+PASS  K6 suppuration fits a stacking-ailment host and refuses a stack-less one — chill stacks, taunt does not
+PASS  K7 a tuned-zero flavor bleed admits NO affliction gem (the gate reads the tuning, not the author) — talon_rake bleed 0.5 < identity 0.7, incidental ×0
+PASS  K8 an identity bleeder still admits (the tuning passes what it never touched)
+PASS  K9 the refusal self-lifts: an apply_bleed gem beside it re-opens the door AND makes the wound real
+PASS  L1 worn knockback shoves off a NOVA hit (the delivery-authority lever — was melee-only) — host beast_rally_pulse vs hive_royal_guard: moved 30.8px
+PASS  L2 a BLINK with Fire Walker drops departure AND arrival patches — host mirage_step: 2 patches
+PASS  L3 a LEAP with Fire Walker scorches launch then landing — host beast_pursuit: launch 1, after flight 2
+PASS  L4 the sprinting buff drops trail patches behind the runner (the walking trail) — host stealth: 4 patches over 240px
+PASS  L5 the walking trail is a STAMPED working (state stands while the buff holds)
+PASS  L6 the construct's FIRED payload boards the host's trail gem (the sub-cast board) — construct Ballista Sentry, boarded true
+PASS  L7 the guard-tagged charge ANSWERS at arrival (the poolless bash) — hive_royal_guard at the stop: 28 -> trough -76.0
+PASS  L8 the rampart mints its pillar (rig sanity)
+PASS  L9 the broken wall ANSWERS HARDEST (construct death bash pays maxLife, full circle) — breaker: 28 -> trough -139.1
+PASS  L10 Aegis of Dawn holds its stance again (the restored castMode — the guard that never raised)
+PASS  M1 the inverted triangle bites the FLANK AT THE FEET (widest at the caster — the melee-ish figure) — host beast_bird_art vs hive_royal_guard: 28 -> trough 14.1
+PASS  M2 Seismic March quakes forward out of a CONE (the minter reached the wave) — host beast_bird_art: 3 marching sequels
+PASS  M3 every storm strike carries the BURIED CHARGE (armed pulse per strike, tick-free afterlife) — host skeletal_arrowfall: 6 armed, tick-free true
+PASS  M4 the drip returns ONE round per clock cycle, then banks the burst (never a full-mag override) — host hive_poison_spit cd 2: half 0, one-cycle 1, banked 2
+PASS  M5 a texture-IMPOSED fissure linger carries no ordinary ticks (the imposed-surface law — re-lights are the crack's whole life) — host fissure: 18 segments (9 lingering, all tick-free)
+PASS  M6 THE REST LAW: a press resets the bank clock — the old drip's tail mints nothing, a full held clock still pays — host hive_poison_spit cd 2: timer 1.53→0, after-tail 1, after-full-rest 2
+PASS  N1 THE WRING: the gem's hold crushes the held body (same-seed A/B — the bare hold is the exact control, the wring alone wounds through it) — bare [held] Δ-0.8, wrung [held] Δ2.8 over 1.4s held
+PASS  N2a the gutterglow proc row is a kill-trigger KINDLE of a registered lightwell
+PASS  N2b a kill through the socketed gem plants a POWERED mote at the corpse (the kindle ProcEffect, end to end) — mote at 840,600, pool 9, kills 1
+PASS  O1a a corpse-raisable body whose OWN kit shoots exists (the lane needs a shooter to be worth boarding) — skeletal_pyromancer → skeletal_fire_bolt
+PASS  O1b parting_gift RIDES minions (its payload is the sequel field, not the player's seat) — seat-bound: []
+PASS  O1c parting_gift does NOT fit the summon host itself — the crew door is the only road in
+PASS  O1d parting_gift boards the corpse crew (raise_spectre + revive alike — 'unknowable', resolved per body at raise)
+PASS  O1b parting_judgement RIDES minions (its payload is the sequel field, not the player's seat) — seat-bound: []
+PASS  O1c parting_judgement does NOT fit the summon host itself — the crew door is the only road in
+PASS  O1d parting_judgement boards the corpse crew (raise_spectre + revive alike — 'unknowable', resolved per body at raise)
+PASS  O3a THE CONTROL: the same raise WITHOUT the gem reads no sequel, mints nothing, and the bystander lives — [fired] sequel=null casts=0 bystander dead=false
+PASS  O2 parting_gift lands FORWARDED on the raised body's own flight, and instanceSequel reads its payload there — [fired] forwarded=true sequel=frost_nova (want frost_nova)
+PASS  O3b parting_gift MINTS at the raised body's flight-end and its bloom fells the bystander — credited to the KEEPER's seat — casts=1 bystander dead=true by 'skeletal_pyromancer' keeper xp +10
+PASS  O2 parting_judgement lands FORWARDED on the raised body's own flight, and instanceSequel reads its payload there — [fired] forwarded=true sequel=judgement_pillar (want judgement_pillar)
+PASS  O3b parting_judgement MINTS at the raised body's flight-end and its bloom fells the bystander — credited to the KEEPER's seat — casts=1 bystander dead=true by 'skeletal_pyromancer' keeper xp +10
+PASS  P1 the sweep still launches its crescent wave (the conversion itself, undisturbed) — 1 zones minted
+PASS  P2 sweep reverb rings out AT CAST — the behind-the-caster body, where the wave never looks, is struck — behind=1
+PASS  P3 no double-dip: the reverb-rung front body reads as already crossed — ONE hit for the whole cast — front=1
+PASS  P4 the wave still strikes un-rung bodies down the corridor (the shared ledger never over-suppresses) — control=1
+PASS  P5 seismic_march on a SWEEPING cast mints the marching ripples (mintAftermath is reached) — 3 ripples
+PASS  P6 the ripples wear the SWEEP's drawn geometry — crescent, the wave's facing and arc, never the swing's sector — shape=3 arc=2.27, shape=3 arc=2.27, shape=3 arc=2.27
+PASS  Q1 every inertOk entry names a live payload-carrying support and carries its why
+PASS  Q2 the trio is rowed ground-scoped, and a ground delivery READS all three
+PASS  Q3 the lingerField escape opens zoneGrow/zoneSizeOver on a field-standing def and stays shut on a plain flight
+PASS  Q4 the boot census is CLEAN — zero individual INERT lines, zero stale adjudications — inert=0 stale=0
+PASS  Q5 the adjudicated wall collapses into exactly ONE counted summary line — [content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fu
+PASS  Q6 socket-gate honesty: no surface-gated carrier (overgrowth, the envelope trio) needs adjudication — the socket/forward gate already refuses their off-surface pairs
+PASS  Q7 de-adjudicating a pair brings its individual INERT line straight back (negative control) — inert=1
+PASS  Q8 a ledger entry naming an unknown support warns STALE (the adjudication audits itself) — stale=1
+PASS  Q9 restoration is clean — the registry is exactly as authored
+PASS  Q10 unreadPayloadRows resolves the new rows for the matrix — creeping_fumes × war_cry names exposure
+PASS  R1 tectonic_echoes refuses the bare crew (no fissure anywhere aboard) — crew cleave/claw
+PASS  R2 a SOCKETED Faultfinder admits it aboard the crew (the doc example, socket form)
+PASS  R3 a GRAFTED Faultfinder admits it identically (the riders pool walks the full slot lane)
+PASS  R4 socket and graft serve the SAME crew set (parity, not merely presence)
+PASS  R5 the refusal returns when the graft leaves (live re-evaluation, no residue)
+PASS  R6a septic refuses the bare crew (no affliction anywhere aboard)
+PASS  R6b a GRAFTED poison gem opens it aboard the crew (the mechanism hop reads grafted riders) — cleave/claw
+PASS  R7 the socketed rider bills the host (reaper's mana freight — the standing law) — ["manaCost:more:0.15"]
+PASS  R8 the GRAFTED rider bills the identical freight (the tax walks the full slot lane) — graft ["manaCost:more:0.15"] vs socket ["manaCost:more:0.15"]
+PASS  R9 no bill without the boarding key (a dormant graft costs nothing, like a dormant stone)
+PASS  R10 a HOST-SERVING graft is billed ONCE (folds via hostSockets, the tax skips it — no double-dip)
+PASS  R11 septic refuses the bat crew (talon_rake's authored bleed is tuned to zero — the honest refusal) — crew talon_rake
+PASS  R12 an apply_bleed rider re-opens the crew door (self-lift — and bonusChance makes the wound real)
+PASS  S0 the tutor stands: wraith_piper wears the innate Phantasm grant and its kit opens with a flight — kit phantasm_bolt
+PASS  S1a the piper's blow conscripts a body OWNED by its non-seat keeper (the credit chain, mint form) — presses=1
+PASS  S1b the conscript wears the keeper's LIFELINE (the proc minter stamps the law) — lifeline=18 want 18
+PASS  S1c the keeper's death UNMAKES the conscript on the meta beat — borrowed unlife dies with the lender
+PASS  S2a the seat's court conscripts for the SEAT, wearing NO lifeline (first-hand play untouched) — presses=1
+PASS  S2b the striking minion's death leaves the seat's conscript STANDING (it was never the keeper)
+PASS  S3a the wild piper's conscript is its own (no lifeline — enemy conjurers never stamp) — presses=1
+PASS  S3b the dead piper's phantasms serve out their tune (enemy risen outlive the caller)
+PASS  T1a a minion-applied brood HATCHES a body owned by that minion (casterId is the keeper — no owner hop)
+PASS  T1b the hatch wears the applier's LIFELINE (the brood mint stamps the law) — lifeline=20 want 20
+PASS  T1c the applier's death UNMAKES its broodlings on the meta beat — borrowed unlife dies with the lender
+PASS  T1d a seat-applied brood hatches for the SEAT, wearing NO lifeline (first-hand play untouched)
+PASS  T2a the nested bearer's miasma RISES a body for the bearer's own keeper (the one-hop deployer credit)
+PASS  T2b the risen wears that keeper's LIFELINE (the deathSpawn mint stamps the law) — lifeline=22 want 22
+PASS  T2c the keeper's death UNMAKES the risen on the meta beat (and the lifelined bearer with it — the cascade whole)
+PASS  T2d THE SEAT CONTROL: the real toggle's risen serve the seat with NO lifeline (seats conjure freely) — kills=2
+
+ALL PASS

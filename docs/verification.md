@@ -243,6 +243,14 @@ optimization candidates and complete comparisons are documented in
 original game, retained v0.16 and an isolated candidate with guarded source controls.
 The full verifier contains 168 tests, 35 behavioral faults and eight packed consumers.
 
+Version 0.17 adds `reference:supports`, `supports:build`, `adapter:support-source`,
+`adapter:supports` and `benchmark:supports`. Four original-only captures preserve
+435,978 compatibility pairs, 954 numeric resolver states, 301 changed compositions
+and 35 World transitions. Five runtime faults and five installed-game faults cover
+tag closure, levels, scaling, custody and crew updates. See
+[support-rules.md](support-rules.md) for the separate content consumer, mounted
+Inventory course, callback/ownership contract and unextracted effect execution.
+
 ## Cross-runtime numerical policy
 
 `npm run native:verify` builds the experimental C ABI with the local C toolchain

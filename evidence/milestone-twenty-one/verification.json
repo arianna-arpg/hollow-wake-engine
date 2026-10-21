@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "version": "0.17.0",
+  "sdkBase": "ac35bcca8801a09a60c3fdcb0cdbe2ef3c68669a",
+  "runtimeSourceSha256": {
+    "support-rules": "ddae2db35c3f852fe25a60457490052b4ce789f859a4c5201466d74175dd1a0b",
+    "support-actions": "e01a0d092fc40060e1d9780cd08af7fc0846a60bc8c1be5514eefc4078c66c86",
+    "support-content": "727f19be8710605bf4ec6bea2750a2b53de7abf476ad750efa8ebe359e5a8fd1"
+  },
+  "checks": {
+    "tests": 191,
+    "behavioralFaults": 40,
+    "packedConsumers": 9,
+    "installedAdapterCourses": 13,
+    "skills": 954,
+    "supports": 457,
+    "compatibilityPairs": 435978,
+    "resolverStates": 954,
+    "changedCompositions": 301,
+    "worldCourses": 8,
+    "worldTransitions": 35,
+    "statusObservations": 152,
+    "chanceSamples": 1064,
+    "newInstalledFaults": 5,
+    "originalReexports": true,
+    "captureHarnessTypes": true,
+    "gameTypes": true,
+    "gameSmoke": "5 scenarios x 5 seeds",
+    "managedTypes": true,
+    "managedSmoke": "5 scenarios x 5 seeds",
+    "managedSupportCaptureAndFaults": true,
+    "mountedSupportControls": true,
+    "previousSkillControls": true,
+    "bootSmoke": true
+  },
+  "boundary": {
+    "capability": "support-rules/v1",
+    "priorRuntimeFilesByteIdentical": 99,
+    "installedRuntimeFiles": 108,
+    "optionalRuntimeBytes": 30697,
+    "optionalBudgetKiB": 32,
+    "coreBudgetKiB": 96,
+    "combinedBudgetKiB": 332,
+    "contentPackageBudgetKiB": 512,
+    "productionDependencies": 0
+  },
+  "limits": [
+    "Full support effect execution, actor lifecycle and durable transactions remain host-owned.",
+    "All 457 authored definitions are retained; that is not proof that every payload executes outside the original game.",
+    "Four desktop runs improve previews about 3–9% and socket/rebuild cycles about 2–16% versus v0.16.1; socket cycles remain about 10–31% above original. Timing variation is substantial.",
+    "No allocation, whole-frame, Steam Deck, mobile, full-native or complete-extraction claim."
+  ],
+  "consoleLogEncoding": "Console evidence normalizes CRLF, trailing whitespace and redundant terminal blank lines; raw local failures and logs retained."
+}

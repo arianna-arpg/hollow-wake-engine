@@ -88,6 +88,11 @@ for (const [module, name, before, after, tests] of [
   ['skill-tree-grants', 'aura-ranks-ignored', 'for (let rank = 0; rank < ranks; rank++)', 'for (let rank = 0; rank < 1; rank++)', 'test/skill-progression.test.mjs'],
   ['skill-actions', 'paid-skill-level-omitted', 'inst.level++;', 'inst.level += 0;', 'test/skill-actions.test.mjs'],
   ['skill-actions', 'legendary-donor-ranks-lost', 'const rank = empowermentRank(keeper) + e.ranksPerMerge + donorRanks;', 'const rank = empowermentRank(keeper) + e.ranksPerMerge;', 'test/skill-actions.test.mjs'],
+  ['support-rules', 'support-tag-closure-skipped', 'while (grew) {', 'while (grew && false) {', 'test/support-rules.test.mjs'],
+  ['support-rules', 'support-effective-level-capped', 'return level;', 'return Math.min(20, level);', 'test/support-rules.test.mjs'],
+  ['support-rules', 'support-override-scaled', "scale === 1 || mod.kind === 'override' ? mod", 'scale === 1 ? mod', 'test/support-rules.test.mjs'],
+  ['support-actions', 'support-cleared-before-room', 'if (!p.give(seat, gem))', 'inst.sockets[index] = null; if (!p.give(seat, gem))', 'test/support-actions.test.mjs'],
+  ['support-content', 'support-chance-threshold-ignored', 'authored >= tuning.identityThreshold', 'false', 'test/support-content.test.mjs'],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
   assert.ok(source.includes(before));

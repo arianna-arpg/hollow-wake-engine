@@ -3,6 +3,12 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.17 adds [support rules and socket custody](docs/support-rules.md):
+compatibility, tag composition, effective levels, rolled cuts, modifier routing
+and complete socket/unsocket paths. All 457 support definitions ship in a separate
+validated content package. The game adapter preserves saved gems, equipment-granted
+skills and live crew updates; support effect execution remains a separate boundary.
+
 Version 0.16.1 adds [rebuild regression guards and measured experiments](docs/rebuild-vectors.md).
 The runtime remains byte-identical to v0.16.0: the tested optimizations did not
 establish a consistent improvement across complete rebuild workloads.
