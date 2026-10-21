@@ -161,10 +161,17 @@ Optional resource entries now execute charge banks, decay/drain, regeneration,
 timed taps, charge payment and gauge arithmetic. They attach actor-owned maps and
 borrow coherent host observations; ordered updates are not atomic transactions.
 Immutable resource content validates rates/references once and shares ordered
-registry entries. Event eligibility, spatial filters, proc delivery, persistent
-saves and held charge-casting remain host-owned. See
+registry entries. Event occurrence, geometry, proc delivery, persistent saves
+and held charge-casting remain host-owned. See
 [resource-runtime.md](resource-runtime.md) for preserved frame semantics,
 fractional overdraw, operation limits and the complete standalone resource cycle.
+
+The optional `resources/events` entry owns the equipped feed predicate and ordered
+charge/gauge dispatch. One binding can serve multiple actors through explicit host
+ports. Random consumption, radius edges, cooldown shaving and partial commits are
+documented in [resource-events.md](resource-events.md). Positions/victims are opaque
+host handles; underlying event authority and special use/minion-carry lanes remain
+outside this entry. Calling the chance-bearing predicate is not a pure UI preview.
 
 Keep the first kernel in TypeScript/ES modules to compare against the original
 implementation with minimal language-induced uncertainty. Production compilation

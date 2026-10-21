@@ -88,7 +88,7 @@ const equipmentJsBytes = packed.files.filter(file => file.path === 'dist/equipme
 const progressionJsBytes = packed.files.filter(file => file.path === 'dist/character-progression.js').reduce((sum, file) => sum + file.size, 0);
 const skillJsBytes = packed.files.filter(file => /^dist\/skill-.*\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
 const supportJsBytes = packed.files.filter(file => /^dist\/support-.*\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
-const resourceJsBytes = packed.files.filter(file => /^dist\/(charge-runtime|resource-gauges|resource-content)\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
+const resourceJsBytes = packed.files.filter(file => /^dist\/(charge-runtime|resource-gauges|resource-content|resource-events)\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
 const coreJsBytes = jsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes - stashJsBytes - containerJsBytes - relicJsBytes - actionJsBytes - equipmentJsBytes - progressionJsBytes - skillJsBytes - supportJsBytes - resourceJsBytes;
 const contentBytes = packed.files.filter(file => file.path.startsWith('content/') && file.path.endsWith('.json')).reduce((sum, file) => sum + file.size, 0);
 assert.ok(coreJsBytes <= 96 * 1024, 'Core runtime exceeded the retained 96 KiB unminified JS budget');

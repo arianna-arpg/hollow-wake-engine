@@ -260,6 +260,13 @@ trace differences. The separate resource pack is exercised by a clean offline
 consumer and a strict TypeScript consumer. See [resource-runtime.md](resource-runtime.md)
 for state ownership, phase ordering, bounded meter work and explicit host duties.
 
+Version 0.19 adds `reference:resource-events`, `adapter:resource-events-source`,
+`adapter:resource-events` and the shipped event example's package check. Original
+filter observations include explicit random draw sequences, and installed faults
+must alter behavior. The renderer course uses ordinary player-intent polling to
+kill controlled monsters with actual projectiles, fund a partial gauge press and
+check lockout. See [resource-events.md](resource-events.md) for scope and timing.
+
 ## Cross-runtime numerical policy
 
 `npm run native:verify` builds the experimental C ABI with the local C toolchain

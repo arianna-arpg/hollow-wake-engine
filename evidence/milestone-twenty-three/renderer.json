@@ -1,0 +1,29 @@
+{
+  "eventCourse": {
+    "passed": true,
+    "harnessSha256": "1ea1a5081e5b325f9785e253203c58b4337ddbd619db9f7e7ef8d57dd6244f8c",
+    "scope": "Mounted renderer with ordinary player-intent polling, actual projectile kills against controlled one-life monsters, event-fed charge/gauge banks, partial payment and lockout. No seeded gauge totals, physical-pointer or target-device claim. Isolated profiles/saves."
+  },
+  "resourceRegression": {
+    "passed": true,
+    "harnessSha256": "428fbce2c57853886e9677594915b2d8f64ef7a66c41e5a31c9eb8341907b60d"
+  },
+  "supportRegression": {
+    "passed": true,
+    "harnessSha256": "33cf31e62595416e1c7d82ea17691f4b0402cd5a3e24a220208e710765266d54"
+  },
+  "boot": true,
+  "supplement": {
+    "destination": "game-adapter-m23",
+    "source": "game-adapter-m22",
+    "sha256": {
+      "public/favicon.ico": "B52C8C62F8B6BAFE92496143463103E00D427A9523CCE9D0D1401B667B376F1B",
+      "showcase.html": "15BBF4C1EECB63B6FA0E83785760789DF34E0AB12F19670C8BF133DCEBD17CB7",
+      "launcher.config.json": "A63822D95D3B3AE1A737DBB8106CB9B6974C629C7E31D1F328771643C3ADA4BC",
+      "index.html": "1CE246CC3C46992B673E91FB9BC92A28E2BC800B59049C8329B800707C328767",
+      "vite.config.ts": "DE97788537549CF8326D3CD26D162B12E75EB8C70A0159120BBF14979EA1EC8E"
+    }
+  },
+  "captureDecision": "The first passing course captured the paint immediately after a death committed, showing the preceding bank. The accepted course renders two more simulation frames before screenshots. Gauge/charge values are earned by actual projectile kills; no production change or seeded gauge total.",
+  "sandboxLaunch": "The initial sandboxed Electron child processes could not load. Hidden host execution with isolated profiles/saves passed."
+}

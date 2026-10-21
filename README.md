@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.19 adds [equipped resource event awards](docs/resource-events.md):
+ordered filtering, explicit randomness, charge awards and gauge/cooldown feeds.
+One simulation binding serves independent actors, with geometry and event
+occurrence supplied by the host. A shipped example exercises the installed API.
+
 Version 0.18 adds [charges and skill gauges](docs/resource-runtime.md): banks,
 decay/drain, regeneration, timed taps, admission/payment and gauge arithmetic.
 The separate content package includes all 23 charge definitions, resource fields

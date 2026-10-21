@@ -142,7 +142,9 @@ low-end hardware budget. The immutable standalone content avoids per-call regist
 entry construction, but its target-device performance still needs measurement.
 
 The original game's resource state is transient. This capability does not claim
-a durable save/migration protocol. Event eligibility, spatial filtering, random
-chance, resource proc delivery and broader combat execution still need their own
-extraction contracts. Native engine wrappers must run the same behavior fixtures
-before claiming equivalent support.
+a durable save/migration protocol. Version 0.19's optional
+[resource event entry](resource-events.md) supplies equipped feed filtering,
+explicit chance consumption and ordered charge/gauge awards. The host still
+owns event occurrence, geometry and elite classification. Resource proc execution
+and broader combat need further extraction. Native engine wrappers must run the
+same behavior fixtures before claiming equivalent support.

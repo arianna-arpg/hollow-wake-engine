@@ -27,6 +27,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
     fs.cpSync(path.join(root, 'baseline/milestone-eighteen'), path.join(temp, 'baseline/milestone-eighteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-nineteen'), path.join(temp, 'baseline/milestone-nineteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twenty-two'), path.join(temp, 'baseline/milestone-twenty-two'), { recursive: true });
+    fs.cpSync(path.join(root, 'baseline/milestone-twenty-three'), path.join(temp, 'baseline/milestone-twenty-three'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-eleven'), path.join(temp, 'baseline/milestone-eleven'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twelve'), path.join(temp, 'baseline/milestone-twelve'), { recursive: true });
     fs.copyFileSync(path.join(root,'baseline/stat-catalogue.json'),path.join(temp,'baseline/stat-catalogue.json'));
@@ -100,6 +101,12 @@ for (const [module, name, before, after, tests] of [
   ['charge-runtime', 'charge-payment-overdraws-bank', 'Math.min(have, cost.amount)', 'Math.max(have, cost.amount)', 'test/charge-runtime.test.mjs'],
   ['resource-gauges', 'gauge-regenerates-during-lockout', 'dt = -left;', 'dt = dt;', 'test/resource-gauges.test.mjs'],
   ['resource-content', 'resource-zero-interval-accepted', 'if (finite(v, label) <= 0)', 'if (finite(v, label) < 0)', 'test/resource-content.test.mjs'],
+  ["resource-events","inclusive-event-chance","return roll < probability;","return roll <= probability;","test/resource-events.test.mjs"],
+  ["resource-events","event-zero-chance-skips-draw","if (probability === undefined)","if (probability === 0) return false; if (probability === undefined)","test/resource-events.test.mjs"],
+  ["resource-events","event-strict-radius-edge","if (distance > nonnegative","if (distance >= nonnegative","test/resource-events.test.mjs"],
+  ["resource-events","event-toggle-filter-ignored","if (spec.whileToggled && !p.toggled(actor, inst))","if (false && spec.whileToggled && !p.toggled(actor, inst))","test/resource-events.test.mjs"],
+  ["resource-events","event-banks-after-shave","continue;\n                    }\n                    gaugeAdd","/* lost continue */\n                    }\n                    gaugeAdd","test/resource-events.test.mjs"],
+  ["resource-events","event-reversed-slot-order","for (const inst of p.skills(actor))","for (const inst of [...p.skills(actor)].reverse())","test/resource-events.test.mjs"],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
   assert.ok(source.includes(before));
