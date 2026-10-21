@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "version": "0.20.0",
+  "sdkBase": "bfdacf0c603bb3993b1a8e142dbccb570338f5dc",
+  "sourceSha256": "45c639bfac9de6f34a68769832e736aa68126d910ac6b27ba4b335670182ab56",
+  "checks": {
+    "tests": 221,
+    "behavioralFaults": 59,
+    "packedConsumers": 12,
+    "originalCourses": 29,
+    "originalTransitions": 144,
+    "standaloneEligibleUpdateStates": 69,
+    "authoredChargeSkills": 6,
+    "authoredOverchargeSupports": 1,
+    "installedAdapterCourses": 16,
+    "newInstalledFaults": 3,
+    "managedInstalledFaults": 12,
+    "managedTypes": true,
+    "managedRuntimeAndFaults": true,
+    "managedSmoke": "5 scenarios x 5 seeds",
+    "gameSmoke": "5 scenarios x 5 seeds",
+    "renderedHeldCharge": true,
+    "renderedEarnedOverchargeStages": true,
+    "renderedResourceStarvationAndRetry": true,
+    "renderedStunInterruption": true,
+    "priorResourceEventResourceAndSupportControls": true,
+    "bootSmoke": true,
+    "hostGlobalNegativeControls": {
+      "interfaceDataKeyAccepted": true,
+      "bareHostGlobalRejected": true,
+      "globalPropertyRejected": true,
+      "productionSourcesUntouched": true
+    }
+  },
+  "boundary": {
+    "productionModules": 41,
+    "productionDependencies": 0,
+    "newChargedRuntimeBytes": 6819,
+    "unchangedPreviousRuntimeFiles": 120,
+    "installedRuntimeFiles": 123,
+    "chargedBudgetKiB": 12,
+    "coreBudgetKiB": 96,
+    "combinedBudgetKiB": 372
+  },
+  "performance": "Two desktop cast-phase runs have about 1–3% overhead against v0.19; the combined actor-timer and cast path varies from about 1% faster to 3% slower. No speedup, allocation/GC, whole-frame or target-device claim.",
+  "limits": [
+    "Shared casting admission, initial payment, aiming, interrupts and resource-debt policy remain host-owned.",
+    "Original charge delivery on death-ended holds differs from overcharge and is explicitly preserved.",
+    "Native engine wrappers and Steam Deck/older-mobile validation remain incomplete."
+  ]
+}

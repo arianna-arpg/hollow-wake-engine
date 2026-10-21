@@ -29,7 +29,8 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | XP awards, level thresholds/growth, passive-point earning and level milestones | Optional `CharacterProgression` / `ProgressionHost` | Extracted for all 39 classes and delegated through explicit hero/party/completion ports; class creation/unlocks and durable saving remain host-owned; see character progression contract |
 | Skill graph economy, payload folding, ability currency and Font actions | Optional `SkillProgression` / `SkillActions` | All 132 trees and nine World actions delegated; native execution, account permission, cleanup and saves remain host-owned; see skill progression contract |
 | Vocation quests, unlock earning and account progression | Future character-policy modules | Source captured; not migrated |
-| Ordinary casting commitment, mana/life payment, cooldowns, cancellation | `CastRuntime`, per actor | Extracted; advanced modes remain native |
+| Ordinary casting commitment, mana/life payment, cooldowns, cancellation | `CastRuntime`, per actor | Extracted; other modes use separate capabilities |
+| Charge-up and overcharge progress, stage payment and release | Optional `ChargedCasting`, per simulation | Explicit active-state, pricing, payment and delivery ports; shared admission, interrupts, aim and resource debt remain host-owned |
 | Projectile travel, contact collection, spatial queries and 2D/3D conventions | Host adapter plus future delivery module | Host supplies a resolved contact today |
 | Strongest-wins Burning and raw typed ticks | `TimedDamage`, per bearer/effect | Extracted; host supplies resolved application and damage routing |
 | Other statuses, procs, summons, guard/pool defenses and death lifecycle | Future combat modules | Pending; never silently emulated by this slice |
@@ -161,8 +162,8 @@ Optional resource entries now execute charge banks, decay/drain, regeneration,
 timed taps, charge payment and gauge arithmetic. They attach actor-owned maps and
 borrow coherent host observations; ordered updates are not atomic transactions.
 Immutable resource content validates rates/references once and shares ordered
-registry entries. Event occurrence, geometry, proc delivery, persistent saves
-and held charge-casting remain host-owned. See
+registry entries. Event occurrence, geometry, proc delivery and persistent saves
+remain host-owned; held charge progress uses the separate charged-casting entry. See
 [resource-runtime.md](resource-runtime.md) for preserved frame semantics,
 fractional overdraw, operation limits and the complete standalone resource cycle.
 

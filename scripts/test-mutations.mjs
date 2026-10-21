@@ -28,6 +28,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
     fs.cpSync(path.join(root, 'baseline/milestone-nineteen'), path.join(temp, 'baseline/milestone-nineteen'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twenty-two'), path.join(temp, 'baseline/milestone-twenty-two'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twenty-three'), path.join(temp, 'baseline/milestone-twenty-three'), { recursive: true });
+    fs.cpSync(path.join(root, 'baseline/milestone-twenty-four'), path.join(temp, 'baseline/milestone-twenty-four'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-eleven'), path.join(temp, 'baseline/milestone-eleven'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twelve'), path.join(temp, 'baseline/milestone-twelve'), { recursive: true });
     fs.copyFileSync(path.join(root,'baseline/stat-catalogue.json'),path.join(temp,'baseline/stat-catalogue.json'));
@@ -101,6 +102,13 @@ for (const [module, name, before, after, tests] of [
   ['charge-runtime', 'charge-payment-overdraws-bank', 'Math.min(have, cost.amount)', 'Math.max(have, cost.amount)', 'test/charge-runtime.test.mjs'],
   ['resource-gauges', 'gauge-regenerates-during-lockout', 'dt = -left;', 'dt = dt;', 'test/resource-gauges.test.mjs'],
   ['resource-content', 'resource-zero-interval-accepted', 'if (finite(v, label) <= 0)', 'if (finite(v, label) < 0)', 'test/resource-content.test.mjs'],
+  ['charged-casting', 'charge-progress-exceeds-cap', "Math.min(state.total, finite(state.elapsed + dt, 'Charge progress'))", "finite(state.elapsed + dt, 'Charge progress')", 'test/charged-casting.test.mjs'],
+  ['charged-casting', 'charge-death-silently-suppressed', 'p.execute(actor, state, release);', 'if (!p.dead(actor)) p.execute(actor, state, release);', 'test/charged-casting.test.mjs'],
+  ['charged-casting', 'stage-carries-frame-overshoot', 'state.elapsed = 0;', 'state.elapsed -= state.total;', 'test/charged-casting.test.mjs'],
+  ['charged-casting', 'stage-payment-skipped', 'p.pay(actor, state, cost);', 'void cost;', 'test/charged-casting.test.mjs'],
+  ['charged-casting', 'stage-marker-draw-skipped', 'overchargeMarker(p.random())', 'overchargeMarker(0)', 'test/charged-casting.test.mjs'],
+  ['charged-casting', 'spark-excludes-window-edge', '(state.sinceStage ?? 999) <= sparkWindow', '(state.sinceStage ?? 999) < sparkWindow', 'test/charged-casting.test.mjs'],
+  ['charged-casting', 'perfect-excludes-window-edge', 'fraction >= .72', 'fraction > .72', 'test/charged-casting.test.mjs'],
   ["resource-events","inclusive-event-chance","return roll < probability;","return roll <= probability;","test/resource-events.test.mjs"],
   ["resource-events","event-zero-chance-skips-draw","if (probability === undefined)","if (probability === 0) return false; if (probability === undefined)","test/resource-events.test.mjs"],
   ["resource-events","event-strict-radius-edge","if (distance > nonnegative","if (distance >= nonnegative","test/resource-events.test.mjs"],

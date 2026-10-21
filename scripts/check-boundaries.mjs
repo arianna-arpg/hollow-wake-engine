@@ -16,7 +16,10 @@ for (const relative of listFiles(path.join(root, 'src')).filter(file => file.end
       const resolved = path.resolve(path.dirname(file), specifier);
       assert.ok(resolved.startsWith(path.join(root, 'src') + path.sep), `${relative}: import escapes production source`);
     }
-    if (ts.isIdentifier(node) && forbidden.has(node.text)) throw new Error(`${relative}: host API ${node.text}`);
+    // An interface field (for example authored timing data named "window")
+    // declares a data key; it cannot access a host API. Runtime uses still fail.
+    const typeField = node.parent && ts.isPropertySignature(node.parent) && node.parent.name === node;
+    if (ts.isIdentifier(node) && forbidden.has(node.text) && !typeField) throw new Error(`${relative}: host API ${node.text}`);
     if (ts.isPropertyAccessExpression(node) && node.expression.getText(source) === 'Math' && node.name.text === 'random') {
       throw new Error(`${relative}: process-wide random source`);
     }
@@ -50,4 +53,5 @@ assert.ok([...reachable].every(file => path.basename(file)!=='character-progress
 assert.ok([...reachable].every(file => !path.basename(file).startsWith('skill-')), 'Optional skill progression became an eager core import');
 assert.ok([...reachable].every(file => !path.basename(file).startsWith('support-')), 'Optional support policy became an eager core import');
 assert.ok([...reachable].every(file => !['charge-runtime.ts','resource-gauges.ts','resource-content.ts','resource-events.ts'].includes(path.basename(file))), 'Optional resource capabilities became an eager core import');
+assert.ok([...reachable].every(file => path.basename(file)!=='charged-casting.ts'), 'Optional charged casting became an eager core import');
 console.log(`Boundary check passed: ${files} production modules; no external runtime dependencies, host APIs, or ambient randomness.`);

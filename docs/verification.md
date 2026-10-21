@@ -267,6 +267,11 @@ must alter behavior. The renderer course uses ordinary player-intent polling to
 kill controlled monsters with actual projectiles, fund a partial gauge press and
 check lockout. See [resource-events.md](resource-events.md) for scope and timing.
 
+Version 0.20's charged casting checks compare original press/update/payment and
+payload traces, then verify the installed game's delegation. A packed consumer
+executes the shipped two-actor example through `casting/charged`. Its authority
+and timing limits are documented in [charged-casting.md](charged-casting.md).
+
 ## Cross-runtime numerical policy
 
 `npm run native:verify` builds the experimental C ABI with the local C toolchain

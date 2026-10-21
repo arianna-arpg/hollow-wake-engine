@@ -13,6 +13,10 @@ also accepts host-resolved values. It supports ordinary casts only. Reload,
 concentration, channels, guard casts, charges and advanced payment schemes are
 separate capabilities, not extra fields to silently ignore.
 
+The optional [charged casting entry](charged-casting.md) now supplies the admitted
+charge-up and overcharge phases over host-owned state. Its staged payments and
+release rules do not expand the ordinary `CastRuntime`'s accepted profiles.
+
 `press(profile, gates)` returns a rejection or a token-bearing started/completed
 event. It checks host blocking/stun/death, actor life, an existing cast, recovery,
 the skill clock and resources. A successful press pays once. A life payment must
