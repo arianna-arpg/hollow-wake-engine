@@ -278,6 +278,14 @@ payload traces, then verify the installed game's delegation. A packed consumer
 executes the shipped two-actor example through `casting/charged`. Its authority
 and timing limits are documented in [charged-casting.md](charged-casting.md).
 
+Version 0.22 adds `reference:ammunition`, `adapter:ammunition-source`,
+`adapter:ammunition` and `benchmark:ammunition`. Its original fixture contains
+46 courses, 223 transitions and all nine native banks plus three support grafts.
+The complete verifier has 236 tests, 75 behavioral faults and 14 packed consumers.
+The installed game must detect five ammunition faults; renderer acceptance earns
+round spending and reloads through ordinary input. See [ammunition.md](ammunition.md)
+for ownership, lazy admission, fractional legacy banks and bounded work.
+
 ## Cross-runtime numerical policy
 
 `npm run native:verify` builds the experimental C ABI with the local C toolchain

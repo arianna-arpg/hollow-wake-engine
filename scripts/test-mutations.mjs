@@ -30,6 +30,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
     fs.cpSync(path.join(root, 'baseline/milestone-twenty-three'), path.join(temp, 'baseline/milestone-twenty-three'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twenty-four'), path.join(temp, 'baseline/milestone-twenty-four'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twenty-five'), path.join(temp, 'baseline/milestone-twenty-five'), { recursive: true });
+    fs.cpSync(path.join(root, 'baseline/milestone-twenty-six'), path.join(temp, 'baseline/milestone-twenty-six'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-eleven'), path.join(temp, 'baseline/milestone-eleven'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twelve'), path.join(temp, 'baseline/milestone-twelve'), { recursive: true });
     fs.copyFileSync(path.join(root,'baseline/stat-catalogue.json'),path.join(temp,'baseline/stat-catalogue.json'));
@@ -111,6 +112,14 @@ for (const [module, name, before, after, tests] of [
   ["interactive-casting","focus-release-excludes-minimum","fraction >= nonnegative","fraction > nonnegative","test/interactive-casting.test.mjs"],
   ["interactive-casting","focus-fizzle-ignores-recovery","base / Math.max(.1, nonnegative(skillRecovery, 'Skill cooldown recovery') / globalRecovery)","base","test/interactive-casting.test.mjs"],
   ["interactive-casting","focus-completion-late","state.elapsed >= state.total","state.elapsed > state.total","test/interactive-casting.test.mjs"],
+  ["ammunition","ammunition-rest-clock-retained","p.bank(actor, inst).timer = 0;","/* clock retained */","test/ammunition.test.mjs"],
+  ["ammunition","ammunition-reload-wipes-rest","bank.count = finite(bank.count + add, 'Restored ammunition');","bank.count = finite(bank.count + add, 'Restored ammunition'); bank.timer = 0;","test/ammunition.test.mjs"],
+  ["ammunition","ammunition-optional-fuel-gated","return spec.empower === undefined && !spec.ventAll;","return true;","test/ammunition.test.mjs"],
+  ["ammunition","ammunition-negative-fraction-clamped","bank.count = count;","bank.count = Math.max(0, count);","test/ammunition.test.mjs"],
+  ["ammunition","ammunition-drip-catches-up","if (bank.timer >= cooldown)","while (bank.timer >= cooldown)","test/ammunition.test.mjs"],
+  ["ammunition","ammunition-capacity-bonus-ignored","finite(this.#ports.capacityBonus(inst), 'Ammunition capacity bonus')","0","test/ammunition.test.mjs"],
+  ["ammunition","ammunition-final-round-bonus-ignored","finite(p.finalRoundDamage(actor, inst), 'Last-round multiplier')","1","test/ammunition.test.mjs"],
+  ["ammunition","ammunition-bleed-limit-expanded","const MAX_BLEED_STEPS = 65_536;","const MAX_BLEED_STEPS = 200_000;","test/ammunition.test.mjs"],
   ['charged-casting', 'charge-progress-exceeds-cap', "Math.min(state.total, finite(state.elapsed + dt, 'Charge progress'))", "finite(state.elapsed + dt, 'Charge progress')", 'test/charged-casting.test.mjs'],
   ['charged-casting', 'charge-death-silently-suppressed', 'p.execute(actor, state, release);', 'if (!p.dead(actor)) p.execute(actor, state, release);', 'test/charged-casting.test.mjs'],
   ['charged-casting', 'stage-carries-frame-overshoot', 'state.elapsed = 0;', 'state.elapsed -= state.total;', 'test/charged-casting.test.mjs'],

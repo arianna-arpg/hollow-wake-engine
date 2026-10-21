@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "version": "0.22.0",
+  "sdkBase": "fd9bd1c813f22883a905c566b6661ea2ee77f9b6",
+  "sourceSha256": "36e1623d79dc48648550d56de8edc9f6bce134b83189daf2a54f8d871efd48a5",
+  "checks": {
+    "tests": 236,
+    "behavioralFaults": 75,
+    "packedConsumers": 14,
+    "originalCourses": 46,
+    "originalTransitions": 223,
+    "standaloneTimerPhases": 108,
+    "authoredBanks": 9,
+    "supportGrafts": 3,
+    "localInstalledCourses": 5,
+    "newInstalledFaults": 5,
+    "localInstalledFaults": 18,
+    "managedInstalledFaults": 13,
+    "managedTypes": true,
+    "managedRuntimeAndFaults": true,
+    "managedSmoke": "5 scenarios x 5 seeds",
+    "gameSmoke": "5 scenarios x 5 seeds",
+    "renderedMagazineSpendingAndRecovery": true,
+    "renderedNativeShellReload": true,
+    "renderedOptionalFuelAndDryCast": true,
+    "renderedActualDamageAndPayments": true,
+    "priorInteractiveAndChargedControls": true,
+    "bootSmoke": true
+  },
+  "boundary": {
+    "productionModules": 43,
+    "productionDependencies": 0,
+    "newAmmunitionRuntimeBytes": 10684,
+    "unchangedPreviousRuntimeFiles": 126,
+    "installedRuntimeFiles": 129,
+    "ammunitionBudgetKiB": 12,
+    "coreBudgetKiB": 96,
+    "combinedBudgetKiB": 372
+  },
+  "regressionScope": "Local checks cover ammunition and neighboring ordinary/charged/interactive casting and resources, full SDK verification, game smoke and rendered controls. All 126 previous runtime files are byte-identical. Exact-commit CI separately runs every prior installed adapter course; this receipt does not claim that future CI result.",
+  "performance": "Two installed desktop runs keep timer medians within 1.2% of v0.21 and add about 0.7–1.6% to firing/reload cost. Complete adapter versus original remains about 4.8–6.6% slower for timers and 2.8–6.0% slower for actions. No optimization, allocation/GC, whole-frame or device gain is claimed.",
+  "limits": [
+    "Shared admission, reload target selection, cooldown/cue completion, channel release and persistence remain host-owned.",
+    "One passive refill per update, fractional negative banks and partial rest clocks intentionally retain original behavior.",
+    "Native engine wrappers and Steam Deck/older-mobile acceptance remain incomplete."
+  ]
+}

@@ -82,6 +82,7 @@ jobs:
       - run: npm run adapter:resource-events-source
       - run: npm run adapter:charged-source
       - run: npm run adapter:interactive-source
+      - run: npm run adapter:ammunition-source
       - run: npm run reference:install
       - run: npm run reference:verify
       - run: npm run reference:lifecycle
@@ -104,6 +105,7 @@ jobs:
       - run: npm run reference:resource-events
       - run: npm run reference:charged-casting
       - run: npm run reference:interactive-casting
+      - run: npm run reference:ammunition
       - run: node --import tsx balance/probe_passiverefund.ts
         working-directory: .reference
       - run: node --import tsx balance/probe_choices.ts
@@ -130,6 +132,7 @@ jobs:
       - run: npm run adapter:resource-events
       - run: npm run adapter:charged-casting
       - run: npm run adapter:interactive-casting
+      - run: npm run adapter:ammunition
       - run: npm run check
         working-directory: .artifacts/game-adapter
       - run: npm run sim -- run --suite smoke
@@ -212,6 +215,8 @@ jobs:
             .artifacts/resource-event-overlay-verification.json
             .artifacts/game-charged-casting-verification.json
             .artifacts/game-interactive-casting-verification.json
+            .artifacts/game-ammunition-verification.json
+            .artifacts/ammunition-overlay-verification.json
             .artifacts/interactive-casting-overlay-verification.json
             .artifacts/charged-casting-overlay-verification.json
             .artifacts/adapter-verification.json

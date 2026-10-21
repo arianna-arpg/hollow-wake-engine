@@ -32,6 +32,7 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | Ordinary casting commitment, mana/life payment, cooldowns, cancellation | `CastRuntime`, per actor | Extracted; other modes use separate capabilities |
 | Charge-up and overcharge progress, stage payment and release | Optional `ChargedCasting`, per simulation | Explicit active-state, pricing, payment and delivery ports; shared admission, interrupts, aim and resource debt remain host-owned |
 | Concentration progress/break decisions and repeated-input timing | Optional `casting/interactive` functions | Borrowed cast state, explicit focus observations and immutable terminal outcomes; host clears active state before delivery/fizzle and owns target/input authority |
+| Use-charge ammunition, rest clocks, magazine recovery and active round restoration | Optional `Ammunition` / `resources/ammunition` | Actor-owned maps with live coherent read ports; host owns shared admission, reload target selection, cooldown/cue completion and channel release |
 | Projectile travel, contact collection, spatial queries and 2D/3D conventions | Host adapter plus future delivery module | Host supplies a resolved contact today |
 | Strongest-wins Burning and raw typed ticks | `TimedDamage`, per bearer/effect | Extracted; host supplies resolved application and damage routing |
 | Other statuses, procs, summons, guard/pool defenses and death lifecycle | Future combat modules | Pending; never silently emulated by this slice |

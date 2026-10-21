@@ -3,6 +3,71 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The JavaScript/TypeScript package works outside the game and has no production
+dependencies. The Hollow Wake adapter consumes the installed package and compares
+its behavior with the preserved original. This is an alpha extraction: the broader
+runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
+and Steam Deck/older-mobile measurements remain incomplete.
+
+Version 0.22 adds [ammunition banks](docs/ammunition.md): magazine and trickle
+recovery, movement loss, optional fuel, final-round spending and active restoration.
+
+## Start here
+
+From this repository, with Node 22 or newer:
+
+```sh
+npm ci
+npm run verify
+npm run example
+npm run example:lifecycle
+```
+
+Verification includes isolated installed consumers. The first example uses the
+game's Magician, Lapis Ring, Arcane Practice, Ruin, Corrosion, Measured Blows and
+Ruin Studies. The lifecycle example demonstrates casting and timed damage.
+
+To install a local build into another JavaScript project, run `npm run build`
+and `npm pack` here, then install the resulting `.tgz` by its filesystem path
+in that project. This repository does not depend on a public registry release.
+Import only the capabilities you need; optional entries are not eager core imports.
+
+| Capability | Entry / starting contract |
+| --- | --- |
+| Statistics, selected character builds and resolved spell contacts | `@hollow-wake/engine` — [boundary contract](docs/boundary-contract.md) |
+| Inventory, equipment and storage | [Inventory](docs/inventory-contract.md), [equipment](docs/equipment-actions.md), [storage](docs/stash-policy.md) |
+| Passives, skills and supports | [Passive policy](docs/passive-policy.md), [skill progression](docs/skill-progression.md), [support rules](docs/support-rules.md) |
+| Resources and ammunition | [Resource runtime](docs/resource-runtime.md), `@hollow-wake/engine/resources/ammunition` — [ammunition](docs/ammunition.md) |
+| Casting | [Ordinary lifecycle](docs/casting-contract.md), [charged](docs/charged-casting.md), [focus and timing](docs/interactive-casting.md) |
+| Engine adapters and native experiments | [Host contract](docs/casting-contract.md), [seven-operation C ABI experiment](docs/native-lifecycle.md) |
+
+The shipped `examples/` include small hosts for resources, charged casting,
+interactive casting and ammunition. Each capability's contract distinguishes SDK
+state and operations from host obligations such as input, spatial queries,
+delivery, presentation and durable saves.
+
+## Scope and evidence
+
+[Completion criteria](docs/completion.json) track each system and its evidence.
+Importing an authored definition does not establish that its mechanics execute.
+Remaining work includes channel/guard/debt casting, advanced defenses, other
+statuses and procs, summons, downstream execution of tree payloads, vocation
+progression, crafting/trading, durable account services and later UI integration.
+The primary game checkout and its unfinished work remain preserved.
+
+See [verification and reproduction](docs/verification.md), the
+[hardware/performance plan](docs/performance.md), and the
+[content/storage decision](docs/content-storage.md). Validated content packs
+serve the runtime; SQLite is optional tooling rather than a combat dependency.
+The source and content retain Hollow Wake's existing [license](LICENSE.md).
+
+<details>
+<summary>Extraction history and evidence</summary>
+
+Version 0.22 adds optional [ammunition banks](docs/ammunition.md): magazine and
+trickle recovery, movement loss, optional fuel, final-round spending and active
+restoration over actor-owned state, with a standalone packaged example.
+
 Version 0.21 adds optional [focus and timing casts](docs/interactive-casting.md):
 concentration progress/break decisions, fizzle-clock quotes and one-shot timing
 attempts over caller-owned cast records, with explicit host completion.
@@ -124,29 +189,4 @@ character attributes, equipped item modifiers, connected passive allocation,
 numeric skill supports and a skill-tree node, damage previews and costs,
 and spell damage at a contact already resolved by the host.
 
-```sh
-npm ci
-npm run verify
-npm run example
-npm run example:lifecycle
-```
-
-The example uses the game's Magician, Lapis Ring, Arcane Practice, Ruin,
-Corrosion, Measured Blows, and Ruin Studies.
-
-See the [boundary contract](docs/boundary-contract.md), [milestone two](docs/milestone-two.md),
-[adapter and host contract](docs/casting-contract.md),
-[verification and reproduction](docs/verification.md), and
-[hardware/performance plan](docs/performance.md).
-
-This is an early SDK, not a complete extraction or a finished game-engine plugin.
-The primary game checkout remains unchanged. The first adapter is implemented
-and tested in isolation. Spatial delivery, other casting/status families,
-advanced defenses, full skill trees, vocation progression, crafting/trading,
-durable account services and remaining UI integration remain explicit migration work.
-Unity, Godot and Unreal wrappers are still future work; the broader SDK needs a JavaScript host.
-
-[Completion criteria](docs/completion.json) track each system and its evidence.
-The authored catalogue preserves definitions; it does not imply all those mechanics execute.
-
-The source and content retain Hollow Wake's existing [license](LICENSE.md).
+</details>

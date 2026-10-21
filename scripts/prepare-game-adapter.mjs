@@ -21,6 +21,7 @@ import { integrateResources } from '../adapters/hollow-wake/integrate-resources.
 import { integrateResourceEvents } from '../adapters/hollow-wake/integrate-resource-events.mjs';
 import { integrateChargedCasting } from '../adapters/hollow-wake/integrate-charged-casting.mjs';
 import { integrateInteractiveCasting } from '../adapters/hollow-wake/integrate-interactive-casting.mjs';
+import { integrateAmmunition } from '../adapters/hollow-wake/integrate-ammunition.mjs';
 const artifacts = path.join(root, '.artifacts');
 fs.mkdirSync(artifacts, { recursive: true });
 const requested = process.argv.indexOf('--game');
@@ -47,6 +48,7 @@ integrateResources(game, false);
 integrateResourceEvents(game, false);
 integrateChargedCasting(game, false);
 integrateInteractiveCasting(game, false);
+integrateAmmunition(game, false);
 // A distinct tool environment: never install into the frozen reference or another checkout's junction.
 const tooling = fs.mkdtempSync(path.join(artifacts, 'adapter-tools-'));
 for (const file of ['package.json', 'package-lock.json']) fs.copyFileSync(path.join(root, 'reference/tooling', file), path.join(tooling, file));
@@ -96,6 +98,8 @@ const chargedCasting = integrateChargedCasting(game);
 changes.files.push(...chargedCasting.files);
 const interactiveCasting = integrateInteractiveCasting(game);
 changes.files.push(...interactiveCasting.files);
+const ammunition = integrateAmmunition(game);
+changes.files.push(...ammunition.files);
 fs.symlinkSync(path.join(tooling, 'node_modules'), path.join(game, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
 fs.copyFileSync(path.join(root, 'reference/export-lifecycle.ts'), path.join(game, 'balance/export-engine-lifecycle.ts'));
 fs.writeFileSync(path.join(artifacts, 'adapter-location.json'), JSON.stringify({ game, tooling, package: packed.filename, integrity: packed.integrity, ...changes }, null, 2));

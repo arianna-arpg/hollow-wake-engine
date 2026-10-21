@@ -1,0 +1,19 @@
+{
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "helperSha256": "21423670be035189de5198b92f26157996fe5df757ec928eb29fcadbce30ba89",
+  "fixtureSha256": "93dcc69962ead25d46a4063a1d32a453c0c727f9a837ccc22956fb2660a43605",
+  "courses": 46,
+  "transitions": 223,
+  "standaloneTimerPhases": 108,
+  "authoredBanks": 9,
+  "supportGrafts": 3,
+  "decision": "Two original exports and the preceding v0.21 game adapter agree byte for byte. Pre-acceptance corrections fixed an invalid test cast mode and incorrectly nested reload options; explicit refusal, scoped refill and fractional-bank assertions now guard those setups. Original data and code were never changed. Added native shotgun/arquebus reloads, optional-fuel affordability refusals and fractional movement bleed before accepting this fixture.",
+  "observations": [
+    "Each update grants at most one passive round and carries remaining time.",
+    "A real press resets the rest timer after empty-magazine cooldown stamping.",
+    "Optional-fuel affordability refusal does not create a lazy bank.",
+    "Active restoration clears the reload flag only when it adds rounds; it retains partial rest time.",
+    "Movement bleed can make a fractional bank slightly negative, retained by the original implementation.",
+    "Reload target selection, host cooldown/cue completion, channel release and shared admission remain host responsibilities."
+  ]
+}

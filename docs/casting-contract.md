@@ -22,6 +22,10 @@ progress/break decisions and repeated-input timing over borrowed records. Its
 terminal outcomes require explicit host cleanup and delivery; it retains no
 cast registry or callback queue.
 
+The optional [ammunition entry](ammunition.md) supplies skill use banks, press
+spending, rest-clock recovery and active restoration. Shared admission, reload
+target selection and channel completion remain with the host.
+
 `press(profile, gates)` returns a rejection or a token-bearing started/completed
 event. It checks host blocking/stun/death, actor life, an existing cast, recovery,
 the skill clock and resources. A successful press pays once. A life payment must
