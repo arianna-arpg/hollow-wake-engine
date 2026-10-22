@@ -33,7 +33,9 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | Charge-up and overcharge progress, stage payment and release | Optional `ChargedCasting`, per simulation | Explicit active-state, pricing, payment and delivery ports; optional continuation handles shared interruption, hold and aim orchestration. Input occurrence, spatial observations and World payment effects remain host-owned; shared resource policy handles pool/debt arithmetic |
 | Concentration progress/break decisions and repeated-input timing | Optional `casting/interactive` functions | Borrowed cast state, explicit focus observations and immutable terminal outcomes. Optional continuation clears active state before delivery/fizzle and orchestrates timing clicks; the host supplies target observations and input occurrence |
 | Use-charge ammunition, rest clocks, magazine recovery and active round restoration | Optional `Ammunition` / `resources/ammunition` | Actor-owned maps with live coherent read ports; host owns World input authority, reload target selection, cooldown/cue completion and channel release |
-| Channel hold, brim/completion, ordered pulse payment, release and persistence timing | Optional `ChannelCasting` / `casting/channel` | Borrowed cast/bank records and phase-specific observations; optional continuation supplies shared interruption and hold/aim orchestration. Input occurrence, spatial queries, actual effects, brim decay and gauge publication remain host-owned; see channel casting contract |
+| Channel hold, brim/completion, ordered pulse payment, release and persistence timing | Optional `ChannelCasting` / `casting/channel` | Borrowed cast/bank records and phase-specific observations; optional continuation supplies shared interruption and hold/aim orchestration. Input occurrence, spatial queries and actual effects remain host-owned; bank decay and gauge publication are below; see channel casting contract |
+| Persistent brim binding, release lookup and ordered decay | Optional `ChannelBanks` / `casting/banks` | Stateless policy over actor-owned maps and records; the host supplies live contextual decay and the original frame phase. Record identity, held exclusion, plateau gates and negative detached fill are preserved; see channel banks contract |
+| Ordered positive status, charge, brim, reserve and derived gauge publication | Optional `ActorGaugePublisher` / `stats/gauges` | Exact per-sink namespaced cache, five-pip brim rounding and detached changed publications. Source occurrence/derivation, condition masks and sampling cadence remain host-owned. The explicit namespace correction replaces the original raw-id fingerprint omission; see actor gauges contract |
 | Guard hold, live bash readiness, AI warning commitment, pulse clocks and release decisions | Optional `GuardCasting` / `casting/guard` | Borrowed cast records and ordered host sinks; optional continuation supplies shared cast interruption. Input occurrence, interception/parry/break dispatch, native arts, spatial turning and actual bash hits remain host-owned; see guard casting contract |
 | Shared mana/shield/life payment, loan headroom and timed repayment | Optional `ResourcePayment` / `resources/payment` | Stateless policy over actor-owned balances and loans; aura authority, World input authority, regeneration, debt locks, cost wards and saves remain host-owned; see resource payment contract |
 | Actor eligibility, reflex/held combinations and ordered prerequisites | Optional `SkillAdmission` / `casting/admission` | Stateless policy over borrowed actors and live host ports; preserves lazy ammunition creation and existing charge validation. World input authority, redirects, targeting and effects remain host-owned; see skill admission contract |
@@ -112,8 +114,9 @@ authored skill directly as this compiled skill schema fails on unsupported field
   death lifecycle is not implemented.
 - Costs round upward after scaling and conversion. Attribute percentage grants
   round through the original attribute fold.
-- Conditions and gauges are supplied explicitly. Their full gameplay sampling
-  belongs to later extraction; the engine does not pretend to infer world state.
+- Conditions and gauge inputs are supplied explicitly. The optional gauge
+  publisher samples the five actor sources above; condition policy and the
+  production of world-dependent inputs remain host-owned.
 
 ## Persistence, errors and compatibility
 

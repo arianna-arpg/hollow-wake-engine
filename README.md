@@ -9,7 +9,19 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
-Version 0.30 adds optional [casting continuation](docs/casting-continuation.md):
+Version 0.31 adds [persistent channel banks](docs/channel-banks.md) and
+[actor gauge publication](docs/actor-gauges.md). Banks retain their native
+identity and decay phase; gauge publication uses exact namespaced comparisons
+and a compact cache. A separately recorded correction prevents a spent charge
+from leaving stale stats when it becomes a brim gauge. The original baseline
+contains 57 courses and 292 transitions. The shipped `channel-banks` example
+demonstrates binding, publication, decay and stat updates through the installed
+package. These entries remain optional and outside the core import graph.
+The [implementation evidence](evidence/milestone-thirty-six/runtime-verification.json)
+includes exact game comparisons and a [measured cache decision](docs/actor-gauges.md#measured-cost).
+Broader game and device acceptance remain separate requirements.
+
+Version 0.30 added optional [casting continuation](docs/casting-continuation.md):
 ordered interruption, aim and hold handling, AI timing clicks, nine-mode updates,
 completion and repeated input. It composes the existing casting capabilities
 over actor-owned state. The shipped 3D example now connects request, updates and
@@ -81,6 +93,7 @@ Import only the capabilities you need; optional entries are not eager core impor
 | Inventory, equipment and storage | [Inventory](docs/inventory-contract.md), [equipment](docs/equipment-actions.md), [storage](docs/stash-policy.md) |
 | Passives, skills and supports | [Passive policy](docs/passive-policy.md), [skill progression](docs/skill-progression.md), [support rules](docs/support-rules.md) |
 | Resources, payment and ammunition | [Resource runtime](docs/resource-runtime.md), [payment](docs/resource-payment.md), [ammunition](docs/ammunition.md) |
+| Persistent casting banks and stat gauges | [Channel banks](docs/channel-banks.md), [actor gauge publication](docs/actor-gauges.md) |
 | Casting | [Complete dispatch](docs/skill-dispatch.md), [request preflight](docs/skill-request.md), [intent and seals](docs/skill-intent.md), [admission](docs/skill-admission.md), [ordinary lifecycle](docs/casting-contract.md), [charged](docs/charged-casting.md), [focus and timing](docs/interactive-casting.md), [channels](docs/channel-casting.md), [guards](docs/guard-casting.md) |
 | Engine adapters and native experiments | [Host contract](docs/casting-contract.md), [seven-operation C ABI experiment](docs/native-lifecycle.md) |
 

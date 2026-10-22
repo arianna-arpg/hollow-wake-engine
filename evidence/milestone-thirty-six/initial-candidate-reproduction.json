@@ -1,0 +1,21 @@
+{
+  "purpose": "Independent pre-compaction implementation retained before optimization; not a replacement oracle for original behavior.",
+  "initialArchiveIntegrity": "sha512-liabcBgv1wBn/4gTN/X9U/vtIr20yYUHDg+fy4SYcBoxLcCQLvISZoAce4XmcAZMDzrVMizv+701fqj44ALCnA==",
+  "initialArchiveSha256": "1742c7b9c4c7d9f354c6853b84926891ded222188891bbf9e4c1eea955f13604",
+  "source": "initial-actor-gauges.ts.gz",
+  "sourceSha256": "10410d626694f2b66da769ba0463d8590173e3811adf870f1a71bc995feb030f",
+  "compressedSha256": "6ebc86b677b5c7bdc5aa6def2242507330f6af1d5837494c5362e1b15014c6f4",
+  "initialGaugeRuntime": {
+    "actor-gauges.d.ts": "53bf73209ce1e10f54dbe8f38d0152ed011e17a71ebd778efd24f474adb61c97",
+    "actor-gauges.js": "4ed0893acc70a1029bfeb9aaccdef0ca33f966446a0abcbfc305de2bc82d84a8",
+    "actor-gauges.js.map": "ae47fd516b995986a56b206bdcdf3498c83146a8528148a0da21927b3dcb8985"
+  },
+  "otherRuntimeFilesUnchanged": 162,
+  "instructions": [
+    "Use a separate SDK checkout with this milestone, leaving the optimized checkout and its installations intact.",
+    "Decompress initial-actor-gauges.ts.gz to src/actor-gauges.ts in that separate checkout and verify sourceSha256. Run npm ci and npm run build.",
+    "Verify the three generated actor-gauges runtime hashes here; all other runtime files match the optimized milestone.",
+    "Run node scripts/prepare-game-adapter.mjs in that separate checkout to create a fresh pinned-source game and independent installed package. This reproduces executable runtime and host bindings; changed documentation means the archive integrity need not match the historical archive.",
+    "From the optimized checkout, pass that game as --comparison-adapter to benchmark:banks alongside the retained v0.30 --previous-adapter. Preserve both controls. The installed fault-test needles target the final implementation, not this historical cache."
+  ]
+}

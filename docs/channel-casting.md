@@ -23,8 +23,10 @@ share a binding; simultaneous or callback reentry is rejected.
 The host retains shared admission, input, AI, interruption and movement. It
 handles spatial aiming and target selection, real skill delivery, resource
 side effects, cues, projectile detonation, minion bodies, durable identity and
-save/load integration. Brim decay and integer gauge publication also remain in
-the host; the fixture covers their interaction with the extracted lifecycle.
+save/load integration. Optional [channel banks](channel-banks.md) now provide
+binding, release lookup and decay; [actor gauge publication](actor-gauges.md)
+samples their rounded pips at the host's original phase. The earlier channel
+fixture covers their interaction with the extracted lifecycle.
 The extracted initial timing helpers do not implement Gathered Casting's
 admission through a running cooldown or its conversion-spec assembly.
 

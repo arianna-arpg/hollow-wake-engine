@@ -1,5 +1,30 @@
 # Verification and reproduction
 
+Version 0.31 adds `reference:banks`, `adapter:banks-source`, `adapter:banks`
+and `benchmark:banks -- --previous-adapter <retained-v0.30-game>`.
+The immutable original baseline was committed before implementation: 57 courses
+and 292 transitions, reproduced twice from the frozen original and byte-equal
+to retained v0.30. The separate `gauge-namespace-refresh/v1` decision specifies
+six diagnostic corrections without replacing those original fixtures.
+The installed comparison checks exact bytes for banks and applies only that
+independent decision to gauge expectations; sixteen deliberate faults exercise
+the installed runtime and host bindings. Thirty-three focused tests cover the
+new host boundaries, including failures, isolation, detached identity and cache
+refill after emptying. The source overlay guards all inputs before writing and
+preserves unrelated members and condition policy in both newline styles.
+The packed bank/gauge consumer demonstrates the separate sampling and decay
+phases with stat values `[2, 5, 5, 1]`. Separate 3 KiB/5 KiB allowances increase
+the combined package bound from 448 to 456 KiB; prior module/core bounds remain
+fixed. See [banks](channel-banks.md) and [gauges](actor-gauges.md) for contracts.
+The compact implementation passes the full verifier's 416 tests, 138 deliberate
+faults and 23 packed consumers. Its installed comparison detects all sixteen
+new faults; all 159 predecessor runtime files are unchanged. The new entries
+are 2,575 and 4,262 bytes of unminified JavaScript. The
+[implementation evidence](../evidence/milestone-thirty-six/runtime-verification.json)
+records those checks and the separate repeated CPU/retained-heap decision.
+Broader game, renderer, managed and hosted acceptance is recorded separately;
+these checks alone do not complete any additional system family.
+
 Version 0.30 adds `reference:continuation`, `adapter:continuation-source`,
 `adapter:continuation` and `benchmark:continuation -- --previous-adapter <retained-v0.29-game>`.
 The original baseline was committed before implementation: 60 courses and 269

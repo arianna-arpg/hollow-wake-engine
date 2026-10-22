@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.30.0",
+  "version": "0.31.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -30,7 +30,8 @@
     "examples/skill-intent.mjs",
     "examples/skill-request.mjs",
     "examples/skill-dispatch.mjs",
-    "examples/casting-continuation.mjs"
+    "examples/casting-continuation.mjs",
+    "examples/channel-banks.mjs"
   ],
   "exports": {
     ".": {
@@ -183,13 +184,21 @@
     "./casting/continuation": {
       "types": "./dist/casting-continuation.d.ts",
       "import": "./dist/casting-continuation.js"
+    },
+    "./casting/banks": {
+      "types": "./dist/channel-banks.d.ts",
+      "import": "./dist/channel-banks.js"
+    },
+    "./stats/gauges": {
+      "types": "./dist/actor-gauges.d.ts",
+      "import": "./dist/actor-gauges.js"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs && node scripts/test-skill-admission-package.mjs && node scripts/test-skill-intent-package.mjs && node scripts/test-skill-request-package.mjs && node scripts/test-skill-dispatch-package.mjs && node scripts/test-casting-continuation-package.mjs",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs && node scripts/test-skill-admission-package.mjs && node scripts/test-skill-intent-package.mjs && node scripts/test-skill-request-package.mjs && node scripts/test-skill-dispatch-package.mjs && node scripts/test-casting-continuation-package.mjs && node scripts/test-channel-bank-package.mjs",
     "example": "npm run build && node examples/first-path.mjs",
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
@@ -320,7 +329,10 @@
     "adapter:continuation-source": "node scripts/test-casting-continuation-overlay.mjs",
     "adapter:continuation": "node scripts/test-game-casting-continuation.mjs",
     "benchmark:continuation": "node scripts/benchmark-casting-continuation.mjs",
-    "reference:banks": "node scripts/run-channel-bank-reference.mjs"
+    "reference:banks": "node scripts/run-channel-bank-reference.mjs",
+    "adapter:banks-source": "node scripts/test-channel-bank-overlay.mjs",
+    "adapter:banks": "node scripts/test-game-channel-banks.mjs",
+    "benchmark:banks": "node scripts/benchmark-channel-banks.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

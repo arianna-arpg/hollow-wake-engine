@@ -1,0 +1,245 @@
+{
+  "game": "<local>/game-adapter-m36-optimized",
+  "output": "<local>/game-channel-banks-1yZShQ",
+  "version": "0.31.0",
+  "packageIntegrity": "sha512-n+en6X4sG8lYD7OYXv2Zv6Q3TQwi0d/lWoqW6NWqXYHn/xBG4+oMdjTv56v4UKvc1CmmNt/Rj/AyDYajVbpHNw==",
+  "installedRuntimeFilesMatchBuild": 165,
+  "gameLauncherAndCaptureTypeChecks": true,
+  "fixtures": [
+    {
+      "name": "channel-banks",
+      "helperSha256": "8546bd4c9cf565291618edb799ce108d8f8e89b6ced86e0c1e1c104ebd22b940",
+      "fixtureSha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+      "compressedSha256": "9b7c78a5a1b7c0bf8f6879512e2f3f37b9af80f26379526377b7811b389458fe",
+      "courses": 35,
+      "transitions": 146,
+      "originalRuns": 2,
+      "retainedControlByteEqual": true,
+      "typeCheckedInOriginalAndControl": true
+    },
+    {
+      "name": "actor-gauges",
+      "helperSha256": "14f6aa96ea896f49266f6e09bbfac28abcd4863da58a0c746204feb6dfa0833d",
+      "fixtureSha256": "56b0618ad03e333469632b15d8249f25b79db624a00e6fc89ecd7098805c1920",
+      "compressedSha256": "1c0c1b84bd48270c41815b64583fd366b8181f8a762a752c2363818fb9550d98",
+      "courses": 22,
+      "transitions": 146,
+      "originalRuns": 2,
+      "retainedControlByteEqual": true,
+      "typeCheckedInOriginalAndControl": true
+    }
+  ],
+  "observations": [
+    {
+      "name": "channel-banks",
+      "label": "candidate",
+      "sha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+      "exactExpectedMatch": true,
+      "originalByteEqual": true
+    },
+    {
+      "name": "actor-gauges",
+      "label": "candidate",
+      "sha256": "2dc6a288d49d25754501726fa7f37a8460d97e01a146c80e5605e9b44c7e1cd6",
+      "exactExpectedMatch": true,
+      "originalByteEqual": false
+    }
+  ],
+  "oracle": [
+    {
+      "name": "channel-banks",
+      "originalSha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+      "expectedSha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+      "intentional": []
+    },
+    {
+      "name": "actor-gauges",
+      "originalSha256": "56b0618ad03e333469632b15d8249f25b79db624a00e6fc89ecd7098805c1920",
+      "expectedSha256": "2dc6a288d49d25754501726fa7f37a8460d97e01a146c80e5605e9b44c7e1cd6",
+      "intentional": [
+        {
+          "course": "namespace-exchange:status-to-charge",
+          "step": 4,
+          "fields": [
+            "after.gauges",
+            "after.damage",
+            "after.publicationCount",
+            "publications"
+          ]
+        },
+        {
+          "course": "namespace-exchange:status-to-charge",
+          "step": 5,
+          "fields": [
+            "after.gauges",
+            "after.damage",
+            "after.publicationCount"
+          ]
+        },
+        {
+          "course": "namespace-exchange:charge-to-brim",
+          "step": 4,
+          "fields": [
+            "after.gauges",
+            "after.damage",
+            "after.publicationCount",
+            "publications"
+          ]
+        },
+        {
+          "course": "namespace-exchange:charge-to-brim",
+          "step": 5,
+          "fields": [
+            "after.gauges",
+            "after.damage",
+            "after.publicationCount"
+          ]
+        },
+        {
+          "course": "namespace-exchange:brim-to-reserve",
+          "step": 4,
+          "fields": [
+            "after.gauges",
+            "after.damage",
+            "after.publicationCount",
+            "publications"
+          ]
+        },
+        {
+          "course": "namespace-exchange:brim-to-reserve",
+          "step": 5,
+          "fields": [
+            "after.gauges",
+            "after.damage",
+            "after.publicationCount"
+          ]
+        },
+        {
+          "course": "namespace-exchange:reserve-to-derived",
+          "step": 4,
+          "fields": [
+            "after.gauges",
+            "after.damage",
+            "after.publicationCount",
+            "publications"
+          ]
+        },
+        {
+          "course": "namespace-exchange:reserve-to-derived",
+          "step": 5,
+          "fields": [
+            "after.gauges",
+            "after.damage",
+            "after.publicationCount"
+          ]
+        },
+        {
+          "course": "namespace-exchange:derived-to-status",
+          "step": 4,
+          "fields": [
+            "after.gauges",
+            "after.damage",
+            "after.publicationCount",
+            "publications"
+          ]
+        },
+        {
+          "course": "namespace-exchange:derived-to-status",
+          "step": 5,
+          "fields": [
+            "after.gauges",
+            "after.damage",
+            "after.publicationCount"
+          ]
+        },
+        {
+          "course": "native-communion-earned-bank-namespace-exchange",
+          "step": 5,
+          "fields": [
+            "after.gauges",
+            "after.damage",
+            "after.publicationCount",
+            "publications"
+          ]
+        },
+        {
+          "course": "native-communion-earned-bank-namespace-exchange",
+          "step": 6,
+          "fields": [
+            "after.gauges",
+            "after.damage",
+            "after.publicationCount",
+            "publications"
+          ]
+        }
+      ]
+    }
+  ],
+  "installedFaults": [
+    {
+      "name": "bank-retained-fill-reset",
+      "detected": true
+    },
+    {
+      "name": "bank-spec-rebinding-lost",
+      "detected": true
+    },
+    {
+      "name": "bank-release-lookup-lost",
+      "detected": true
+    },
+    {
+      "name": "bank-held-exclusion-lost",
+      "detected": true
+    },
+    {
+      "name": "bank-empty-removal-lost",
+      "detected": true
+    },
+    {
+      "name": "bank-plateau-boundary-lost",
+      "detected": true
+    },
+    {
+      "name": "bank-live-context-lost",
+      "detected": true
+    },
+    {
+      "name": "bank-detached-fill-clamped",
+      "detected": true
+    },
+    {
+      "name": "gauge-namespace-omitted",
+      "detected": true
+    },
+    {
+      "name": "gauge-sheet-replacement-ignored",
+      "detected": true
+    },
+    {
+      "name": "gauge-pips-rounded-down",
+      "detected": true
+    },
+    {
+      "name": "gauge-derived-key-prefixed",
+      "detected": true
+    },
+    {
+      "name": "gauge-zero-records-published",
+      "detected": true
+    },
+    {
+      "name": "host-bank-decay-disconnected",
+      "detected": true
+    },
+    {
+      "name": "host-gauge-publication-disconnected",
+      "detected": true
+    },
+    {
+      "name": "host-bank-creation-detached",
+      "detected": true
+    }
+  ],
+  "allInstalledFilesAndHostRestored": true
+}
