@@ -58,8 +58,10 @@ export class CastSeals<C extends CastSealContext> {
 
   issues(spec: CastSealSpec, skillKnown: (id: string) => boolean): string[] {
     const out: string[] = [];
-    for (const row of ['open', 'shut'] as const) {
-      const match = spec[row];
+    // Match the original callback boundary: capture both row references before
+    // the first lookup, while preserving live contents within each row.
+    const rows = [['open', spec.open], ['shut', spec.shut]] as const;
+    for (const [row, match] of rows) {
       if (!match) continue;
       for (const id of match.ids ?? []) if (!skillKnown(id)) out.push(`${row}.ids names no skill '${id}'`);
       for (const id of match.laws ?? []) if (!this.#laws.has(id)) out.push(`${row}.laws names no registered law '${id}'`);

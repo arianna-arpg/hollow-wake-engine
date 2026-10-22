@@ -19,8 +19,10 @@ isolated between Worlds.
 ## State and ports
 
 Ports are shallow snapshots of callback references. Each operation reads live
-host observations. Content/effective-level reads must be coherent during a call;
-the factory must return a fresh skill instance. Rules and sink callbacks may throw;
+host observations. Content/effective-level read ports must be synchronous and
+must not change authored definitions or gameplay state themselves. Live rules
+may change host state or definitions; subsequent reads observe those changes.
+The factory must return a fresh skill instance. Rules and sink callbacks may throw;
 operations do not roll back earlier lazy allocations or mutations. No elapsed
 clock, random source, engine object, database or browser dependency is implicit.
 These borrowed-state APIs expect valid authored definitions and live actor
@@ -40,6 +42,8 @@ constructs and ordinary actors retain instance-state cursors. Relocation links
 also use weak keys. These maps do not own actor lifetimes, but actor `metaInsts`
 still owns its cached payloads until the host clears it. No unmeasured claim of
 zero allocations or bounded actor-cache residency is made.
+An absent instance state is initialized to an empty combo cursor. Hosts whose
+state requires additional fields must initialize that state in their factory.
 
 Readiness queries can create cursors, ammunition banks or payload instances,
 and mimic selection can repair itself. HUD readiness is supplementary and can
@@ -78,11 +82,18 @@ entries inside `hud` and `press-query` operations. Its actual `press` and
 expected observations only; candidate calls and all state/results remain intact.
 
 Independent tests cover ordering, live rule replacement, exceptions, ownership,
-level rules, identity and endpoints. Nine runtime mutations and six installed
+level rules, identity and endpoints. Eleven runtime mutations and six installed
 faults exercise behavior, including native World delegation. Syntax, import and
 type failures are not accepted as fault detection. The installed runner restores
 all altered bytes and checks the installed build after every run. Guarded source
 integration preflights both World and seal files and refuses drift before writes.
+
+Final callback review added two original-proven contracts: validation captures
+both row references before the first knowledge callback, and face selection
+rereads its definition after a conversion rule runs. Both independent regressions
+reject the earlier candidate. The original and both game adapters agree after
+correction; [the callback record](../evidence/milestone-thirty-one/validation-order.json)
+includes the reproducing probes. Accepted baseline fixtures were not changed.
 
 Reproduce with `npm run verify`, `npm run reference:intent`,
 `npm run adapter:intent-source`, then `npm run adapter:prepare` and
@@ -91,7 +102,7 @@ that temporarily mutate that same installation.
 
 ## Limits and performance
 
-The three modules add 9,138 JavaScript bytes under a separate 12 KiB allowance;
+The three modules add 9,354 JavaScript bytes under a separate 12 KiB allowance;
 the combined runtime bound is 424 KiB. Earlier individual module limits stay
 unchanged. These are package-size bounds, not live-memory measurements.
 

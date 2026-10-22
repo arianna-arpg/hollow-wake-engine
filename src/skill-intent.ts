@@ -90,7 +90,7 @@ export class SkillIntent<A extends IntentActor<I>, I extends IntentInstance, S, 
     if (step) return step.def;
     const conversion = p.conversion(inst);
     const definition = conversion && instances.definition(conversion.skillId);
-    return conversion && definition && p.conversionHolds(conversion.when, actor, inst) ? definition : inst.def;
+    return conversion && definition && p.conversionHolds(conversion.when, actor, inst) ? instances.definition(conversion.skillId)! : inst.def;
   }
 
   pressUsable(actor: A, inst: I): boolean {

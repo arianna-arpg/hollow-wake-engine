@@ -1,0 +1,116 @@
+{
+  "decision": "Preserve original callback observation order. Corrected during final review before public publication.",
+  "validation": {
+    "helperSource": "import assert from 'node:assert/strict';import {castSealIssues} from '../src/engine/castseal';\nconst spec:any={open:{ids:['open']},shut:{ids:['before']}},calls:string[]=[];\nconst issues=castSealIssues(spec,id=>{calls.push(id);if(id==='open')spec.shut={ids:['after']};return false;});\nassert.deepEqual(calls,['open','before']);assert.deepEqual(issues,[\"open.ids names no skill 'open'\",\"shut.ids names no skill 'before'\"]);\nconsole.log(JSON.stringify({calls,issues,finalShut:spec.shut}));\n",
+    "helperSha256": "6981a86bc7d9e8fa38a2c4dad4fcf35b146f5de7a2029b4cd849a07cf3ad4203",
+    "observations": [
+      {
+        "name": "original",
+        "observed": {
+          "calls": [
+            "open",
+            "before"
+          ],
+          "issues": [
+            "open.ids names no skill 'open'",
+            "shut.ids names no skill 'before'"
+          ],
+          "finalShut": {
+            "ids": [
+              "after"
+            ]
+          }
+        }
+      },
+      {
+        "name": "candidate",
+        "observed": {
+          "calls": [
+            "open",
+            "before"
+          ],
+          "issues": [
+            "open.ids names no skill 'open'",
+            "shut.ids names no skill 'before'"
+          ],
+          "finalShut": {
+            "ids": [
+              "after"
+            ]
+          }
+        }
+      },
+      {
+        "name": "managed",
+        "observed": {
+          "calls": [
+            "open",
+            "before"
+          ],
+          "issues": [
+            "open.ids names no skill 'open'",
+            "shut.ids names no skill 'before'"
+          ],
+          "finalShut": {
+            "ids": [
+              "after"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "conversion": {
+    "helperSource": "import assert from 'node:assert/strict';import {bootSimEngine,makeSimWorld} from '../src/sim/arena';import {makeSkillInstance,registerConvertRule} from '../src/engine/skills';import {SKILLS} from '../src/data/skills';\nbootSimEngine();const w=makeSimWorld('warrior',315001),before=SKILLS.firebolt,replacement={...before,name:'Replacement face'};\nregisterConvertRule('sdk-live-face',()=>{SKILLS.firebolt=replacement;return true;});\nconst host=makeSkillInstance({...SKILLS.ruin,convert:{when:'sdk-live-face',skillId:'firebolt'}},1,0);\ntry{const face=w.slotFaceOf(w.player,host);assert.equal(face,replacement);console.log(JSON.stringify({skill:face.id,name:face.name,sameIdentity:face===replacement}));}finally{SKILLS.firebolt=before;}\n",
+    "helperSha256": "1d7974df63d507b19b79ad67da27a7577cdefbbdef3bd4ea42175b38a3b14741",
+    "observations": [
+      {
+        "name": "original",
+        "observed": {
+          "skill": "firebolt",
+          "name": "Replacement face",
+          "sameIdentity": true
+        }
+      },
+      {
+        "name": "candidate",
+        "observed": {
+          "skill": "firebolt",
+          "name": "Replacement face",
+          "sameIdentity": true
+        }
+      },
+      {
+        "name": "managed",
+        "observed": {
+          "skill": "firebolt",
+          "name": "Replacement face",
+          "sameIdentity": true
+        }
+      }
+    ]
+  },
+  "earlierCandidate": "098ff62273016da5cc4eda64ada196592f4ae481",
+  "preFixRegressionFailures": [
+    {
+      "file": "m31-validation-before-fix.txt",
+      "sha256": "87318f7c645d2d155307972854b8c65182d585b2169591761b9878037bc2f837"
+    },
+    {
+      "file": "m31-conversion-before-fix.txt",
+      "sha256": "d0ecf540bd5797929c5e36c8b00f83eac3247b208aa757493f68b3454e71b07d"
+    }
+  ],
+  "correctedIndependentPolicyTests": 16,
+  "sourceModules": {
+    "cast-seals": {
+      "sourceSha256": "ee74a1dadf6ee941b21986d69e34776b9afe920c20bccbdb49d11fa1d46aac60",
+      "runtimeSha256": "a3ec56a2509aa89f063f8ff0189cfafc1b93276a40f615c3acc21a8c9bc184b3"
+    },
+    "skill-intent": {
+      "sourceSha256": "54d1c5cbce43c8d093f948114cc3fe1de98c3ae3841b9acb1f69aaa932fa0221",
+      "runtimeSha256": "bfb3474a633c36950acc96d486f9119ca00824c4a6eac12de41056e69e405d86"
+    }
+  },
+  "scope": "Validation captures both row references before knowledge callbacks; conversion face selection rereads the definition after its live predicate. No accepted original fixture was regenerated."
+}

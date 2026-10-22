@@ -165,6 +165,8 @@ for (const [module, name, before, after, tests] of [
   ["resource-events","event-banks-after-shave","continue;\n                    }\n                    gaugeAdd","/* lost continue */\n                    }\n                    gaugeAdd","test/resource-events.test.mjs"],
   ["resource-events","event-reversed-slot-order","for (const inst of p.skills(actor))","for (const inst of [...p.skills(actor)].reverse())","test/resource-events.test.mjs"],
   ["cast-seals","intent-hard-seal-ignored","this.matches(spec.shut, context)","false","test/skill-intent.test.mjs"],
+  ["cast-seals","intent-validation-reads-replaced-row","for (const [row, match] of rows) {","for (const [row, captured] of rows) { const match = spec[row];","test/skill-intent.test.mjs"],
+  ["skill-intent","intent-conversion-face-cached-before-rule","? instances.definition(conversion.skillId) : inst.def","? definition : inst.def","test/skill-intent.test.mjs"],
   ["skill-intent","intent-trigger-hud-enabled","if (p.trigger(inst))","if (false)","test/skill-intent.test.mjs"],
   ["skill-intent","intent-corpse-query-side-effects","targeting.target !== 'corpse'","true","test/skill-intent.test.mjs"],
   ["skill-intent","intent-combo-endpoint-excluded","> chain['window']",">= chain['window']","test/skill-intent.test.mjs"],

@@ -17,7 +17,18 @@ Math.random=()=>{throw new Error('Ambient RNG');};globalThis.fetch=()=>{throw ne
 for(const key of ['window','document','localStorage'])Object.defineProperty(globalThis,key,{get(){throw new Error(key);}});
 const {intentCycle}=await import('./skill-intent.mjs');const result=intentCycle();
 assert.deepEqual(result,{firstFace:'opener',nextFace:'finisher',hudReady:true,finisherReady:false,fundedReady:true,sealedPress:false,expiredFace:'opener',sharedSockets:true});
-console.log(JSON.stringify({installedConsumer:true,shippedExample:true,result}));
+const {CastSeals}=await import('@hollow-wake/engine/casting/seals');
+const spec={open:{ids:['open']},shut:{ids:['before']}},calls=[];
+const issues=new CastSeals(()=>new Set()).issues(spec,id=>{calls.push(id);if(id==='open')spec.shut={ids:['after']};return false;});
+assert.deepEqual(calls,['open','before']);
+assert.deepEqual(issues,["open.ids names no skill 'open'","shut.ids names no skill 'before'"]);
+const {SkillInstances}=await import('@hollow-wake/engine/casting/instances');
+const {SkillIntent}=await import('@hollow-wake/engine/casting/intent');
+const definitions={host:{id:'host',effects:[]},art:{id:'art',effects:[]}},replacement={...definitions.art,revision:2};
+const owner=new SkillInstances({skill:id=>definitions[id]});
+const policy=new SkillIntent(owner,{conversion:()=>({when:'live',skillId:'art'}),conversionHolds:()=>{definitions.art=replacement;return true;}});
+assert.equal(policy.slotFace({}, {def:definitions.host}),replacement);
+console.log(JSON.stringify({installedConsumer:true,shippedExample:true,validationRowSnapshot:true,liveConversionDefinition:true,result}));
 `);
 fs.writeFileSync(path.join(consumer, 'consumer.ts'), `
 import {CastSeals,type CastSealSpec,type CastSealContext} from '@hollow-wake/engine/casting/seals';

@@ -4,6 +4,17 @@ import { CastSeals } from '../dist/cast-seals.js';
 import { SkillInstances } from '../dist/skill-instances.js';
 import { SkillIntent } from '../dist/skill-intent.js';
 
+test('validation captures both authored rows before callbacks can replace them', () => {
+  const seals = new CastSeals(() => new Set()), calls = [];
+  const spec = {open: {ids: ['open']}, shut: {ids: ['before']}};
+  const issues = seals.issues(spec, id => {
+    calls.push(id); if (id === 'open') spec.shut = {ids: ['after']}; return false;
+  });
+  assert.deepEqual(calls, ['open', 'before']);
+  assert.deepEqual(issues, ["open.ids names no skill 'open'", "shut.ids names no skill 'before'"]);
+  assert.deepEqual(spec.shut.ids, ['after']);
+});
+
 function fixture() {
   const definitions = Object.fromEntries(['host', 'art', 'step', 'other', 'device'].map(id => [id, { id, effects: [] }]));
   definitions.device.effects = [{ type: 'relocateConstruct' }];
@@ -33,6 +44,19 @@ function fixture() {
   const intent = new SkillIntent(instances, ports);
   return { definitions, create, host, actor, state, instances, ports, intent };
 }
+
+test('conversion callbacks can replace the displayed definition or its selected id', () => {
+  const f = fixture(), replacement = {...f.definitions.art, revision: 2};
+  f.state.conversion = {when: 'live', skillId: 'art'};
+  const replace = new SkillIntent(f.instances, {...f.ports, conversionHolds: () => {
+    f.definitions.art = replacement; return true;
+  }});
+  assert.equal(replace.slotFace(f.actor, f.host), replacement);
+  const redirect = new SkillIntent(f.instances, {...f.ports, conversionHolds: () => {
+    f.state.conversion.skillId = 'other'; return true;
+  }});
+  assert.equal(redirect.slotFace(f.actor, f.host), f.definitions.other);
+});
 
 test('cast seals preserve hard locks, seat scope and id/tag/law short-circuit order', () => {
   const events = [], seals = new CastSeals(() => { events.push('tags'); return new Set(['spell']); });
