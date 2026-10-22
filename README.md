@@ -16,6 +16,11 @@ over actor-owned state. The shipped 3D example now connects request, updates and
 delivery. The original baseline contains 60 courses and 269 transitions; physical
 input, geometry, actual effects and presentation remain host responsibilities.
 
+The [v0.30 acceptance evidence](evidence/milestone-thirty-five/verification.json)
+records original comparisons, installed-game faults, renderer checks and the
+preserved managed-game integration. [Measured update fast paths](docs/casting-continuation.md#cost-and-compatibility-limits)
+reduce the ongoing-cast workload; complete-cycle tradeoffs remain explicit.
+
 Version 0.29 added optional [complete request dispatch](docs/skill-dispatch.md):
 reserve spending, combo and status redirects, targeting orchestration, payment,
 and preparation of all nine casting modes or immediate host delivery. A shipped

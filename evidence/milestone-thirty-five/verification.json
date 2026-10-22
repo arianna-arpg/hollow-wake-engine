@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "version": "0.30.0",
+  "sdkBase": "13bf2a7084b3558abfde25741be0deaaba3b4128",
+  "baselineCommit": "c3238d06b8b0332c23e3699e652360af85009645",
+  "implementationCommit": "3515ccc11f7076f39cc91aa7ed480df4292160fd",
+  "checks": {
+    "tests": 383,
+    "behavioralFaults": 138,
+    "packedConsumers": 22,
+    "independentContinuationTests": 32,
+    "originalContinuationCourses": 60,
+    "originalContinuationTransitions": 269,
+    "installedSuites": 15,
+    "installedFaults": 83,
+    "candidateNativeProbes": 19,
+    "rendererChecks": 11,
+    "retainedRequestInputStages": 6,
+    "managedInstalledSuites": 2,
+    "managedInstalledFaults": 0,
+    "managedGameLauncherSimTypes": true,
+    "managedAndCandidateSmoke": "5 scenarios x 5 seeds each",
+    "referenceCorePassed": true
+  },
+  "runtimeControls": {
+    "runtimeFilesMatch": 159,
+    "unchangedPreviousRuntimeFiles": 156,
+    "newFiles": [
+      "casting-continuation.js",
+      "casting-continuation.js.map",
+      "casting-continuation.d.ts"
+    ],
+    "hostChange": "Accepted updateCasting and castPress delegated to SDK continuation; idle update fast path retained. Every unrelated World member preserved."
+  },
+  "originalPreservation": {
+    "head": "6b204db91b678150ee5e7f44576ebfc38a8b26d0",
+    "indexEmpty": true,
+    "filesByteIdentical": 4099,
+    "trackedFiles": 1880,
+    "untrackedFiles": 2219,
+    "pinnedSourceCapsuleVerified": true,
+    "externalUpdateRecorded": true,
+    "preExistingRosterChangesPreserved": true,
+    "preExistingWorldChangesPreserved": true,
+    "note": "Read-only review of external collision/shadow merge #12 across 16 committed paths, plus two new external presence-badge edits in previously clean visual source/documentation. Pre-existing World and roster edits verified by reversing unique committed hunks in memory and recovering both prior whole-file hashes. Other unfinished and untracked work preserved. No original-game writes or SDK baseline refresh."
+  },
+  "logs": [
+    {
+      "file": "managed-types.txt",
+      "rawSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d",
+      "publishedSha256": "191c4684202ada301b8ac19abc7d6afdcdb521d37f6e6619434e6073db22de60"
+    },
+    {
+      "file": "managed-smoke.txt",
+      "rawSha256": "3c87fd89f77249ae1782512366aed3361b8d5ec31bbc351ed164c8b7bbbd6e13",
+      "publishedSha256": "9030b74478ce628287379af3c382402b9954f57bcf122babc9d74f56f55db6bd"
+    }
+  ],
+  "boundary": {
+    "moduleBytes": 7857,
+    "coreBytes": 77407,
+    "totalJavaScriptBytes": 452900,
+    "moduleBoundBytes": 10240,
+    "totalBoundBytes": 458752,
+    "runtimeDependencies": 0
+  },
+  "performanceDecision": "Keep the measured idle/ongoing fast paths. Ongoing ordinary updates are 39.0–45.3% lower than v0.29 in two controlled desktop runs. Complete cycles are 1.4–1.5% higher than the first candidate and reverse direction against v0.29; no overall speedup is established.",
+  "verifierScope": "Full optimized SDK verifier and installed faults use the same final runtime bytes. Final documentation archive and exact-commit hosted checks follow separately.",
+  "developmentCorrections": [
+    "Preserve native primary-player hold versus seated-actor finesse and aim predicates.",
+    "Preserve lazy mode-service binding and active-state clearing before delivery.",
+    "Limit overlay negative controls to the parsed method; omitted-call mutation uses a valid statement and must reach behavior before receiving credit.",
+    "Retain initial candidate as an independent benchmark control; original accepted fixtures remain unchanged."
+  ],
+  "limits": "Eleven of thirteen families remain partial. Actual spatial/effect mechanics, broader World scheduling, native full-runtime engine packages and Steam Deck/older-mobile acceptance remain incomplete. No allocation-volume or whole-game performance claim."
+}

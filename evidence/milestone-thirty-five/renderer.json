@@ -1,0 +1,115 @@
+{
+  "checks": [
+    {
+      "name": "test-skill-request-ui",
+      "passed": true,
+      "log": "<local>/request.txt"
+    },
+    {
+      "name": "test-support-ui",
+      "passed": true,
+      "log": "<local>/supports.txt"
+    },
+    {
+      "name": "test-skill-intent-ui",
+      "passed": true,
+      "log": "<local>/intent.txt"
+    },
+    {
+      "name": "test-skill-admission-ui",
+      "passed": true,
+      "log": "<local>/admission.txt"
+    },
+    {
+      "name": "test-channel-casting-ui",
+      "passed": true,
+      "log": "<local>/channel.txt"
+    },
+    {
+      "name": "test-ammunition-ui",
+      "passed": true,
+      "log": "<local>/ammunition.txt"
+    },
+    {
+      "name": "test-interactive-casting-ui",
+      "passed": true,
+      "log": "<local>/interactive.txt"
+    },
+    {
+      "name": "test-charged-casting-ui",
+      "passed": true,
+      "log": "<local>/charged.txt"
+    },
+    {
+      "name": "test-guard-casting-ui",
+      "passed": true,
+      "log": "<local>/guard.txt"
+    },
+    {
+      "name": "test-resource-payment-ui",
+      "passed": true,
+      "log": "<local>/payment.txt"
+    },
+    {
+      "name": "test-game-boot",
+      "passed": true,
+      "log": "<local>/boot.txt"
+    }
+  ],
+  "requestComparison": {
+    "control": {
+      "controlVersion": "0.29.0",
+      "controlGame": "<local>/game-adapter-m34",
+      "reports": "<local>/skill-request-ui-CDPohy",
+      "harnessSha256": "29f912999d3947870a76ea0872487c8dedcc4f6f2b81f15c5049e2ab1824e0c1",
+      "receiptSha256": "a7bbf4cbd579a2fea329978d54552701f3ddf709a8588f65e2035ec8ca2a5a69",
+      "stages": 6,
+      "decision": "Retain accepted M34 renderer outcomes without regenerating expected results."
+    },
+    "candidate": {
+      "game": "<local>/game-adapter-m35-optimized",
+      "dist": "<local>/ui-request-m35",
+      "reports": "<local>/skill-request-ui-KqhY1V",
+      "passed": true,
+      "harnessSha256": "29f912999d3947870a76ea0872487c8dedcc4f6f2b81f15c5049e2ab1824e0c1",
+      "scope": "Mounted renderer with native gem learning, authored tree purchase and player-intent polling. Six real request stages test trigger/replenishment toggles and prior seal authority, activity and payment. Trigger support, skill level and account awakening eligibility explicitly seeded; no claim of earning account progression, physical-device or all-gates rendering acceptance. Isolated saves."
+    },
+    "receiptSha256": "a7bbf4cbd579a2fea329978d54552701f3ddf709a8588f65e2035ec8ca2a5a69",
+    "rawByteEqual": true,
+    "stages": 6
+  },
+  "images": [
+    {
+      "file": "request-toggles.png",
+      "sha256": "ab011bbd729ea8ebf517a2a1dc523940f0c961a10456500d2b1e5511bf5f5509"
+    }
+  ],
+  "visualInspection": {
+    "inspected": true,
+    "images": [
+      {
+        "file": "skill-request-ui-KqhY1V/request-toggles.png",
+        "sha256": "ab011bbd729ea8ebf517a2a1dc523940f0c961a10456500d2b1e5511bf5f5509"
+      },
+      {
+        "file": "skill-request-ui-CDPohy/request-toggles.png",
+        "sha256": "8e19a9bcb9b6de7143037fdc0191812bf7dbb1bb03b2a6d0499bf93b90525735"
+      },
+      {
+        "file": "channel-casting-ui-bqN5kj/channel-brim.png",
+        "sha256": "f45483201c448621594b721acea0ab13ba2fdcff96443ea27c223feae4f8f8e1"
+      },
+      {
+        "file": "channel-casting-ui-bqN5kj/channel-pulses.png",
+        "sha256": "3116b5d0964fc10c3b6bd6705ea1dc230f8915d6d3f79c1ee7f268b34edb91e6"
+      }
+    ],
+    "observations": [
+      "Candidate and retained request images show replenishment enabled, the matching hotbar toggle state and life 420 / mana 230.",
+      "The candidate channel images show the ongoing cast indicator, distinct wind-channel and missile activity, and the expected mounted HUD without an obvious missing element or layout break.",
+      "Transient scene and cue positions differ. Six raw request-stage records establish equal observations; screenshots do not establish pixel identity or general rendering correctness."
+    ],
+    "scope": "Manual inspection of two request and two candidate channel snapshots. Other renderer courses use their own behavioral assertions. No physical-input, exhaustive visual, frame-time or target-device acceptance."
+  },
+  "scope": "Hidden desktop renderer with isolated saves and retained shell/static assets. Six request observations byte-equal to v0.29. Other casting courses use behavioral assertions. No physical-input, pixel-identity, whole-frame or target-device acceptance."
+}

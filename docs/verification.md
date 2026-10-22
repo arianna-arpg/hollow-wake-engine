@@ -14,7 +14,15 @@ See [the continuation contract](casting-continuation.md) for host obligations.
 The [implementation evidence](../evidence/milestone-thirty-five/runtime-verification.json)
 includes the direct four-way benchmark, its initial-control reproduction patch,
 the measured ongoing-update improvement and the small complete-cycle tradeoff.
-Broader game, renderer, managed-adapter and device acceptance is recorded separately.
+The [M35 acceptance](../evidence/milestone-thirty-five/verification.json) records
+15 installed comparisons with 83 detected faults, 19 candidate native probes and
+11 renderer checks. Six request-stage outcomes match retained v0.29 byte-for-byte.
+Managed continuation and dispatch comparisons, game/launcher/sim types and smoke
+passed while preserving all unrelated files and four pre-existing bounty methods.
+All final runtime files match the optimized verifier and benchmark candidate.
+The final documentation archive has separate clean-consumer evidence. Eleven of
+thirteen families remain partial; native-engine and target-device acceptance
+remain outstanding.
 
 Version 0.29 adds `reference:dispatch`, `adapter:dispatch-source`,
 `adapter:dispatch` and `benchmark:dispatch -- --previous-adapter <retained-v0.28-game>`.
