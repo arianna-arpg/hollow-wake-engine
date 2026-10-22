@@ -9,8 +9,8 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
-Version 0.23 adds [channel casting](docs/channel-casting.md): ordered pulse
-payments, brim and capped completion, release payloads and persistent pulse timing.
+Version 0.24 adds [guard casting](docs/guard-casting.md): live bash readiness,
+held and timed stances, AI warning commitments, component pulses and ordered release.
 
 ## Start here
 
@@ -38,11 +38,11 @@ Import only the capabilities you need; optional entries are not eager core impor
 | Inventory, equipment and storage | [Inventory](docs/inventory-contract.md), [equipment](docs/equipment-actions.md), [storage](docs/stash-policy.md) |
 | Passives, skills and supports | [Passive policy](docs/passive-policy.md), [skill progression](docs/skill-progression.md), [support rules](docs/support-rules.md) |
 | Resources and ammunition | [Resource runtime](docs/resource-runtime.md), `@hollow-wake/engine/resources/ammunition` — [ammunition](docs/ammunition.md) |
-| Casting | [Ordinary lifecycle](docs/casting-contract.md), [charged](docs/charged-casting.md), [focus and timing](docs/interactive-casting.md), [channels](docs/channel-casting.md) |
+| Casting | [Ordinary lifecycle](docs/casting-contract.md), [charged](docs/charged-casting.md), [focus and timing](docs/interactive-casting.md), [channels](docs/channel-casting.md), [guards](docs/guard-casting.md) |
 | Engine adapters and native experiments | [Host contract](docs/casting-contract.md), [seven-operation C ABI experiment](docs/native-lifecycle.md) |
 
 The shipped `examples/` include small hosts for resources, charged casting,
-interactive casting, channels and ammunition. Each capability's contract distinguishes SDK
+interactive casting, channels, guards and ammunition. Each capability's contract distinguishes SDK
 state and operations from host obligations such as input, spatial queries,
 delivery, presentation and durable saves.
 
@@ -50,7 +50,8 @@ delivery, presentation and durable saves.
 
 [Completion criteria](docs/completion.json) track each system and its evidence.
 Importing an authored definition does not establish that its mechanics execute.
-Remaining work includes shared channel admission and delivery, guard/debt casting, advanced defenses, other
+Remaining work includes shared casting admission and delivery, guard interception,
+resource debt and repayment, advanced defenses, other
 statuses and procs, summons, downstream execution of tree payloads, vocation
 progression, crafting/trading, durable account services and later UI integration.
 The primary game checkout and its unfinished work remain preserved.
@@ -63,6 +64,11 @@ The source and content retain Hollow Wake's existing [license](LICENSE.md).
 
 <details>
 <summary>Extraction history and evidence</summary>
+
+Version 0.24 adds optional [guard casting](docs/guard-casting.md), including the
+shared readiness read and AI hold fold, bounded component pulse clocks and
+phase-ordered release over caller-owned state. Native defense and guard arts
+remain explicit host responsibilities.
 
 Version 0.23 adds optional [channel casting](docs/channel-casting.md), with
 phase-specific live observations, bounded pulse scheduling, brim/release arithmetic

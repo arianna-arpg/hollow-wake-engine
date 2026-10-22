@@ -1,9 +1,9 @@
 # Verification and reproduction
 
-Version 0.23 adds `reference:channel-casting`, `adapter:channel-source`,
-`adapter:channel-casting` and `benchmark:channel-casting`. Its optional entry has
-a 16 KiB JavaScript allowance; the combined bound is 388 KiB, retaining all earlier
-module/core limits. See [channel-casting.md](channel-casting.md) for phase ordering,
+Version 0.24 adds `reference:guard-casting`, `adapter:guard-source`,
+`adapter:guard-casting` and `benchmark:guard-casting`. Its optional entry has
+a 12 KiB JavaScript allowance; the combined bound is 400 KiB, retaining all earlier
+module/core limits. See [guard-casting.md](guard-casting.md) for phase ordering,
 borrowed state and the distinction between isolated and complete game courses.
 
 ## Normal package checks

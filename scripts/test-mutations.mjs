@@ -32,6 +32,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
     fs.cpSync(path.join(root, 'baseline/milestone-twenty-five'), path.join(temp, 'baseline/milestone-twenty-five'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twenty-six'), path.join(temp, 'baseline/milestone-twenty-six'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twenty-seven'), path.join(temp, 'baseline/milestone-twenty-seven'), { recursive: true });
+    fs.cpSync(path.join(root, 'baseline/milestone-twenty-eight'), path.join(temp, 'baseline/milestone-twenty-eight'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-eleven'), path.join(temp, 'baseline/milestone-eleven'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twelve'), path.join(temp, 'baseline/milestone-twelve'), { recursive: true });
     fs.copyFileSync(path.join(root,'baseline/stat-catalogue.json'),path.join(temp,'baseline/stat-catalogue.json'));
@@ -61,6 +62,14 @@ for (const [name, before, after] of mutants) {
 
 fs.writeFileSync(file, original);
 for (const [module, name, before, after, tests] of [
+  ['guard-casting', 'guard-unearned-bash', 'if (bashArmed(state) && bashLine(state))', 'if (bashLine(state))', 'test/guard-casting.test.mjs'],
+  ['guard-casting', 'guard-pulse-carry-lost', 'state.guardPulseT += interval;', 'state.guardPulseT = interval;', 'test/guard-casting.test.mjs'],
+  ['guard-casting', 'guard-native-lower-omitted', 'p.lower(actor, state);', '/* lower omitted */', 'test/guard-casting.test.mjs'],
+  ['guard-casting', 'guard-dead-bash', 'if (bash && !p.dead(actor) && state.bashAt !== undefined)', 'if (bash && state.bashAt !== undefined)', 'test/guard-casting.test.mjs'],
+  ['guard-casting', 'guard-inclusive-line-lost', "fraction >= finite(state.bashAt, 'Guard bash line')", "fraction > finite(state.bashAt, 'Guard bash line')", 'test/guard-casting.test.mjs'],
+  ['guard-casting', 'guard-inversion-omitted', 'inverted ? 1 - floor : floor', 'floor', 'test/guard-casting.test.mjs'],
+  ['guard-casting', 'guard-minimum-duration-omitted', 'Math.max(.05,', 'Math.max(0,', 'test/guard-casting.test.mjs'],
+  ['guard-casting', 'guard-release-recovery-changed', 'p.end(actor, state, .2);', 'p.end(actor, state, .3);', 'test/guard-casting.test.mjs'],
   ['channel-casting', 'channel-finish-repeated', 'if (state.finishRolled)\n            return;', '/* completion guard omitted */', 'test/channel-casting.test.mjs'],
   ['channel-casting', 'channel-missing-target-spends', 'if (target === null)', 'if (false)', 'test/channel-casting.test.mjs'],
   ['channel-casting', 'channel-pay-omitted', 'p.pay(actor, state, cost);', '/* payment omitted */', 'test/channel-casting.test.mjs'],

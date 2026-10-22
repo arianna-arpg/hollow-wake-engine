@@ -32,6 +32,12 @@ timing. It preserves callback changes to later phase observations. Shared channe
 admission, input, interruption, spatial delivery and ordinary brim decay/gauge
 publication remain host-owned; the ammunition module does not own that lifecycle.
 
+The optional [guard entry](guard-casting.md) supplies held/timed guard clocks,
+live bash readiness, AI warning commitments, component pulse timing and ordered
+release. Guard interception, parry, break dispatch, native arts and actual bash
+delivery remain host responsibilities. Lowering native arts precedes clearing
+the active cast and rereading the release payload, as specified in that contract.
+
 `press(profile, gates)` returns a rejection or a token-bearing started/completed
 event. It checks host blocking/stun/death, actor life, an existing cast, recovery,
 the skill clock and resources. A successful press pays once. A life payment must

@@ -1,0 +1,48 @@
+{
+  "decision": "Publish a behavior-preserving optional extraction, with measured overhead explicitly retained as optimization work. No speedup claim.",
+  "comparisons": [
+    {
+      "run": 1,
+      "rows": [
+        {
+          "name": "admitted-guard-lifecycle",
+          "originalMedianMs": 88.23860000000059,
+          "previousMedianMs": 92.6284999999989,
+          "currentMedianMs": 95.12880000000223,
+          "percentSlowerThanOriginal": 7.808600771092911,
+          "percentSlowerThanPrevious": 2.6992772202976134
+        },
+        {
+          "name": "actor-timers-and-guard-lifecycle",
+          "originalMedianMs": 176.2167000000045,
+          "previousMedianMs": 189.2992000000013,
+          "currentMedianMs": 190.75830000000133,
+          "percentSlowerThanOriginal": 8.252112313984128,
+          "percentSlowerThanPrevious": 0.7707903678409789
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "rows": [
+        {
+          "name": "admitted-guard-lifecycle",
+          "originalMedianMs": 88.67190000000119,
+          "previousMedianMs": 91.53499999999622,
+          "currentMedianMs": 92.15209999999934,
+          "percentSlowerThanOriginal": 3.924805941902787,
+          "percentSlowerThanPrevious": 0.6741683509074559
+        },
+        {
+          "name": "actor-timers-and-guard-lifecycle",
+          "originalMedianMs": 179.7390000000014,
+          "previousMedianMs": 187.95679999999993,
+          "currentMedianMs": 192.39680000000226,
+          "percentSlowerThanOriginal": 7.042322478705665,
+          "percentSlowerThanPrevious": 2.3622449413920332
+        }
+      ]
+    }
+  ],
+  "limits": "Two desktop Node runs over 64 actors and 128 updates. No allocation/GC, whole-frame, native-engine or Steam Deck/mobile improvement demonstrated. The current path remains slower than the original; ports and live validation are hypotheses for profiling, not established causes."
+}

@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.23.0",
+  "version": "0.24.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -23,7 +23,8 @@
     "examples/charged-casting.mjs",
     "examples/interactive-casting.mjs",
     "examples/ammunition.mjs",
-    "examples/channel-casting.mjs"
+    "examples/channel-casting.mjs",
+    "examples/guard-casting.mjs"
   ],
   "exports": {
     ".": {
@@ -140,13 +141,17 @@
     "./casting/channel": {
       "types": "./dist/channel-casting.d.ts",
       "import": "./dist/channel-casting.js"
+    },
+    "./casting/guard": {
+      "types": "./dist/guard-casting.d.ts",
+      "import": "./dist/guard-casting.js"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs",
     "example": "npm run build && node examples/first-path.mjs",
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
@@ -247,7 +252,11 @@
     "reference:channel-casting": "node scripts/run-channel-casting-reference.mjs",
     "adapter:channel-source": "node scripts/test-channel-casting-overlay.mjs",
     "adapter:channel-casting": "node scripts/test-game-channel-casting.mjs",
-    "benchmark:channel-casting": "node scripts/benchmark-channel-casting.mjs"
+    "benchmark:channel-casting": "node scripts/benchmark-channel-casting.mjs",
+    "reference:guard-casting": "node scripts/run-guard-casting-reference.mjs",
+    "adapter:guard-source": "node scripts/test-guard-casting-overlay.mjs",
+    "adapter:guard-casting": "node scripts/test-game-guard-casting.mjs",
+    "benchmark:guard-casting": "node scripts/benchmark-guard-casting.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

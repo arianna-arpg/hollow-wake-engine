@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "version": "0.24.0",
+  "sdkBase": "42ed621b4680cd80f1ef60b591556aa5f8d681ee",
+  "sourceSha256": "3a816c6472302f1fcfcf64fd50e94282d09398deef38ef843c455e08ce874dcf",
+  "checks": {
+    "tests": 252,
+    "behavioralFaults": 91,
+    "packedConsumers": 16,
+    "originalCourses": 53,
+    "originalTransitions": 256,
+    "originalReadinessCases": 284,
+    "standaloneGuardPhases": 70,
+    "nativeGuardSpecs": 9,
+    "newInstalledFaults": 5,
+    "managedInstalledCourses": 6,
+    "managedInstalledFaults": 23,
+    "managedTypes": true,
+    "managedSmoke": "5 scenarios x 5 seeds",
+    "renderedEarnedArmAndEarlyRelease": true,
+    "renderedNativeAndTaughtDamage": true,
+    "renderedNativeBreakBurst": true,
+    "renderedTauntAndStun": true,
+    "previousChannelAmmunitionInteractiveChargedRendererControls": true,
+    "bootSmoke": true
+  },
+  "boundary": {
+    "productionModules": 45,
+    "productionDependencies": 0,
+    "newGuardRuntimeBytes": 8121,
+    "unchangedPreviousRuntimeFiles": 132,
+    "installedRuntimeFiles": 135,
+    "guardBudgetKiB": 12,
+    "coreBudgetKiB": 96,
+    "combinedBudgetKiB": 400
+  },
+  "regressionScope": "New installed guard differential plus six managed installed casting courses, full SDK verification, managed game checks/smoke and five renderer/boot regressions. All 132 previous runtime files are byte-identical. Exact-commit CI separately runs every installed adapter course; this receipt does not claim that future result.",
+  "performance": "Both desktop runs match derived outputs. Guard-only medians are 0.7–2.7% slower than v0.23; actor-timer-inclusive medians are 0.8–2.4% slower. The complete timer-inclusive adapter remains 7.0–8.3% slower than the original. See benchmark-decision.json for unrounded comparisons. No allocation/GC, whole-frame, native-engine or target-device improvement claimed.",
+  "limits": [
+    "Host owns shared admission, payment, input/AI policy, interruption, spatial turning/hits, interception/parry/break dispatch, native arts, supports/conduits, durable identity and presentation.",
+    "Borrowed live state is advanced only while active. Effect sinks may change observations at later documented phases; no rollback is promised if a sink throws.",
+    "One guardBeat and component pulse per update retain excess carry; release/death updates can offer a final pulse before cleanup.",
+    "Native engine packages and Steam Deck/older-mobile acceptance remain incomplete."
+  ]
+}
