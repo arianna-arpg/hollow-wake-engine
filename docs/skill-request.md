@@ -84,7 +84,34 @@ allocated. This is a code-structure fact, not a zero-allocation claim: callbacks
 iteration and original lazy state creation can allocate. No per-frame database
 lookup, cache invalidation system or new shared mutable registry is introduced.
 
-The first installed comparison is an acceptance step, not a performance result.
-Complete request workloads, original native probes, rendered input, prior-suite
-regressions and physical Steam Deck/mobile measurements remain separate gates.
-This JavaScript policy alone does not implement Unity, Godot or Unreal bindings.
+The [M33 evidence](../evidence/milestone-thirty-three/verification.json) records
+13 installed-package suites detecting 61 behavioral faults, 19 candidate native
+game probes, and 11 renderer checks. Ten expanded native probes also passed in
+the frozen original and retained v0.27.1 adapter. Six new player-input stages
+match the retained renderer byte-for-byte. The managed adapter passes request
+and intent comparisons, all three game type checks, and simulation smoke while
+preserving its unrelated bounty changes. These are desktop development checks;
+physical Steam Deck/mobile acceptance remains outstanding.
+
+`npm run benchmark:request -- --previous-adapter <retained-v0.27.1-game>` compares
+the original, retained adapter and current adapter. It verifies installed runtime
+bytes and host-source controls, then uses five warmups and 25 rotating samples.
+Two runs produced the following medians (milliseconds per stated operation count):
+
+| Workload | Operations | Original, runs 1 / 2 | v0.27.1, runs 1 / 2 | v0.28.0, runs 1 / 2 |
+| --- | ---: | ---: | ---: | ---: |
+| Intent queries | 9,216 | 33.9152 / 33.7089 | 21.8529 / 21.4665 | 21.2805 / 21.7900 |
+| Native query and cast start | 1,024 | 46.0042 / 44.7519 | 30.5023 / 29.3026 | 29.1031 / 28.6293 |
+| Early refusal and toggle | 1,024 | 5.1368 / 5.1365 | 2.6967 / 2.5663 | 2.8211 / 2.7343 |
+
+All gameplay receipts match. Cast starts took 2.3–4.6% less time than v0.27.1 in
+these samples, while early refusals/toggles took 4.6–6.5% more (0.1244–0.1680 ms
+per 1,024 requests). The unchanged query workload moved in opposite directions
+between runs. We accept the modular boundary with this measured cost; this is
+not a general speedup claim. See the [decision and raw runs](../evidence/milestone-thirty-three/benchmark-decision.json).
+
+Measurements used Node 24.9 on a desktop Intel i9-10900K, with other agent CPU-heavy
+jobs stopped. They do not measure allocation volume, retained memory, whole-frame
+cost, energy or target devices. This JavaScript policy alone does not implement
+Unity, Godot or Unreal bindings. Remaining request/delivery logic is tracked in
+[the completion inventory](completion.json).

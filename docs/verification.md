@@ -8,6 +8,16 @@ The SDK verifier passes 314 tests, 126 faults and 20 packed consumers. Request
 preflight has an 8 KiB JavaScript allowance inside the retained 424 KiB combined
 bound; its runtime is 5,191 bytes. See [the request contract](skill-request.md).
 
+The [M33 acceptance](../evidence/milestone-thirty-three/verification.json) also
+records 13 installed suites with 61 detected faults, 19 candidate native game
+probes, 11 renderer checks, and managed-game types and smoke. All 153 runtime
+files match the tested installation; the 150 predecessor files are unchanged.
+The final archive is checked separately after documentation, with clean general
+and request consumers. Two controlled request benchmarks retain exact gameplay
+receipts and report the early-refusal/toggle overhead as well as cast-start gains.
+Eleven of thirteen tracked families remain partial; these checks do not establish
+full-runtime native engine packages or hardware acceptance.
+
 `scripts/test-skill-request-ui.mjs --game <game> --dist <build> --electron <exe>`
 runs six mounted player-intent stages for trigger/replenishment toggles and seal
 priority. The harness explicitly seeds skill level, support and account awakening

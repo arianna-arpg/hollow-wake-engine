@@ -1,0 +1,90 @@
+{
+  "checks": [
+    {
+      "name": "test-skill-request-ui",
+      "passed": true,
+      "log": "<local>/request.txt"
+    },
+    {
+      "name": "test-support-ui",
+      "passed": true,
+      "log": "<local>/supports.txt"
+    },
+    {
+      "name": "test-skill-intent-ui",
+      "passed": true,
+      "log": "<local>/intent.txt"
+    },
+    {
+      "name": "test-skill-admission-ui",
+      "passed": true,
+      "log": "<local>/admission.txt"
+    },
+    {
+      "name": "test-channel-casting-ui",
+      "passed": true,
+      "log": "<local>/channel.txt"
+    },
+    {
+      "name": "test-ammunition-ui",
+      "passed": true,
+      "log": "<local>/ammunition.txt"
+    },
+    {
+      "name": "test-interactive-casting-ui",
+      "passed": true,
+      "log": "<local>/interactive.txt"
+    },
+    {
+      "name": "test-charged-casting-ui",
+      "passed": true,
+      "log": "<local>/charged.txt"
+    },
+    {
+      "name": "test-guard-casting-ui",
+      "passed": true,
+      "log": "<local>/guard.txt"
+    },
+    {
+      "name": "test-resource-payment-ui",
+      "passed": true,
+      "log": "<local>/payment.txt"
+    },
+    {
+      "name": "test-game-boot",
+      "passed": true,
+      "log": "<local>/boot.txt"
+    }
+  ],
+  "requestComparison": {
+    "control": {
+      "controlVersion": "0.27.1",
+      "controlGame": "<local>/game-adapter-m32",
+      "reports": "<local>/skill-request-ui-uWmJIk",
+      "harnessSha256": "29f912999d3947870a76ea0872487c8dedcc4f6f2b81f15c5049e2ab1824e0c1",
+      "receiptSha256": "a7bbf4cbd579a2fea329978d54552701f3ddf709a8588f65e2035ec8ca2a5a69",
+      "stages": 6,
+      "decision": "Retained installed release passed before candidate renderer validation. Preserve byte-exact stage outcomes; setup explicitly grants account eligibility, support and skill level.",
+      "initialHarnessCorrection": "Initial fixture lacked the original account awakening prerequisite; no runtime or expected outcome was changed."
+    },
+    "candidate": {
+      "game": "<local>/game-adapter-m33",
+      "dist": "<local>/ui-request-m33",
+      "reports": "<local>/skill-request-ui-cw4boZ",
+      "passed": true,
+      "harnessSha256": "29f912999d3947870a76ea0872487c8dedcc4f6f2b81f15c5049e2ab1824e0c1",
+      "scope": "Mounted renderer with native gem learning, authored tree purchase and player-intent polling. Six real request stages test trigger/replenishment toggles and prior seal authority, activity and payment. Trigger support, skill level and account awakening eligibility explicitly seeded; no claim of earning account progression, physical-device or all-gates rendering acceptance. Isolated saves."
+    },
+    "receiptSha256": "a7bbf4cbd579a2fea329978d54552701f3ddf709a8588f65e2035ec8ca2a5a69",
+    "rawByteEqual": true,
+    "stages": 6
+  },
+  "images": [
+    {
+      "file": "request-toggles.png",
+      "sha256": "286165901b4da44e9eaa59578c020ba052c4d6fed741fcc511534e395b892d00"
+    }
+  ],
+  "visualInspection": "Retained and candidate request captures inspected; assertions and byte-equal six-stage records establish request effects. Screenshots alone do not establish the semantics.",
+  "scope": "Hidden desktop renderer with isolated saves. Browser shell/static assets match the retained control. Account eligibility, support and skill level are explicitly seeded; no physical-input, full-frame or target-device acceptance."
+}

@@ -13,6 +13,10 @@ Version 0.28 adds optional [request preflight](docs/skill-request.md): ordered
 authority, replenishment and trigger toggles, held-body struggle, redirects and
 actor admission. Its explicit continuation result leaves reserve pricing,
 remaining cast preparation and delivery with the host.
+The [acceptance evidence](evidence/milestone-thirty-three/verification.json)
+includes original comparisons, installed-game checks and rendered input. Its
+[measured request costs](docs/skill-request.md#validation-and-performance-scope)
+include a small early-refusal/toggle regression.
 
 Version 0.27.1 optimizes [empty support admission](docs/support-admission-cost.md),
 with complete-workload measurements and explicit preview-performance tradeoffs.

@@ -1,0 +1,72 @@
+{
+  "decision": "Accept the modular request boundary with an explicit early-request cost. This is not a general speedup claim. The unchanged query workload varies in opposite directions across runs; native cast starts are faster in these samples, while refusal/toggle requests are slower in both.",
+  "comparisons": [
+    {
+      "run": 1,
+      "workload": "mixed-hud-press-face",
+      "operations": 9216,
+      "originalMedianMs": 33.91520000000128,
+      "previousMedianMs": 21.852899999999863,
+      "currentMedianMs": 21.280499999998938,
+      "percentChangeFromPrevious": -2.6193319879783905,
+      "deltaMs": -0.5724000000009255,
+      "derivedSha256": "79d7db97e50507422a6ae6901ef89dd71b425c725da0f0937fbc61006a4a0db3"
+    },
+    {
+      "run": 1,
+      "workload": "native-hud-press-and-cast-start",
+      "operations": 1024,
+      "originalMedianMs": 46.0041999999994,
+      "previousMedianMs": 30.502300000000105,
+      "currentMedianMs": 29.103100000000268,
+      "percentChangeFromPrevious": -4.587195063978234,
+      "deltaMs": -1.399199999999837,
+      "derivedSha256": "6559f6c201ffc5337a26f01e5eca903d47dbd3a9663da004cf0eb6f48dd2b199"
+    },
+    {
+      "run": 1,
+      "workload": "native-refusals-and-toggles",
+      "operations": 1024,
+      "originalMedianMs": 5.136800000000221,
+      "previousMedianMs": 2.696700000000419,
+      "currentMedianMs": 2.8211000000010245,
+      "percentChangeFromPrevious": 4.6130455742420695,
+      "deltaMs": 0.12440000000060536,
+      "derivedSha256": "287e68df338e83c32a931b2ae09f802edaf9b54b37e7fed013bdcff25a0d986c"
+    },
+    {
+      "run": 2,
+      "workload": "mixed-hud-press-face",
+      "operations": 9216,
+      "originalMedianMs": 33.70889999999963,
+      "previousMedianMs": 21.46650000000045,
+      "currentMedianMs": 21.789999999999054,
+      "percentChangeFromPrevious": 1.5069992779381591,
+      "deltaMs": 0.323499999998603,
+      "derivedSha256": "79d7db97e50507422a6ae6901ef89dd71b425c725da0f0937fbc61006a4a0db3"
+    },
+    {
+      "run": 2,
+      "workload": "native-hud-press-and-cast-start",
+      "operations": 1024,
+      "originalMedianMs": 44.751899999999296,
+      "previousMedianMs": 29.302599999999074,
+      "currentMedianMs": 28.629300000000512,
+      "percentChangeFromPrevious": -2.2977483226696016,
+      "deltaMs": -0.6732999999985623,
+      "derivedSha256": "6559f6c201ffc5337a26f01e5eca903d47dbd3a9663da004cf0eb6f48dd2b199"
+    },
+    {
+      "run": 2,
+      "workload": "native-refusals-and-toggles",
+      "operations": 1024,
+      "originalMedianMs": 5.136500000000524,
+      "previousMedianMs": 2.5662999999985914,
+      "currentMedianMs": 2.7343000000000757,
+      "percentChangeFromPrevious": 6.54638974405084,
+      "deltaMs": 0.1680000000014843,
+      "derivedSha256": "287e68df338e83c32a931b2ae09f802edaf9b54b37e7fed013bdcff25a0d986c"
+    }
+  ],
+  "limits": "Desktop Node development-runtime measurements with other agent CPU-heavy jobs stopped. Five warmups and 25 rotating samples per workload. All gameplay receipts equal. No allocation-volume, retained-memory, whole-frame, energy, Steam Deck or mobile claim. No SQL or new shared cache in the request loop."
+}

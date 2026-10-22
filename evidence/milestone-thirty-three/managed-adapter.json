@@ -1,0 +1,202 @@
+{
+  "base": "2890e88f36d8252b8dc2e6101081f850cbcc7376",
+  "branch": "codex/engine-skill-request",
+  "results": [
+    {
+      "name": "request",
+      "passed": true
+    },
+    {
+      "name": "intent",
+      "passed": true
+    },
+    {
+      "name": "check",
+      "passed": true
+    },
+    {
+      "name": "sim-smoke",
+      "passed": true
+    }
+  ],
+  "trackedFiles": 1862,
+  "unchangedTrackedFiles": 1861,
+  "changedFiles": [
+    "src/engine/world.ts"
+  ],
+  "expectedWorldSha256": "6917ffc1cb1fbbe80368b99a25d62d4864c31adaa62b8a8183c8790cfa45ccb6",
+  "installedRuntimeFiles": 153,
+  "installedFaults": 13,
+  "readyForOwnershipCommit": true,
+  "pushed": false,
+  "commit": {
+    "commit": "589002d039f033d1974df5e927525c78bfeb8e5c",
+    "branch": "codex/engine-skill-request",
+    "clean": true,
+    "pushed": false
+  },
+  "request": {
+    "game": "<local>/ARPG Game - World",
+    "output": "<local>/game-skill-request-OYz8Y6",
+    "version": "0.28.0",
+    "packageIntegrity": "sha512-/Kx6twPQqv+MaLhyhBoD2aGtFYrxa7fuzQuMaUEZ1IaCAKuv1BEq05Ur2v76gDMjxAnmis/Xdjki2wi7091eRQ==",
+    "installedRuntimeFilesMatchBuild": 153,
+    "gameLauncherAndCaptureTypeChecks": true,
+    "fixtures": [
+      {
+        "name": "skill-request",
+        "helperSha256": "c3a034a1e94f2cff16673700f2c7f67cf3d14fab44908d9b27fde5d78baee9af",
+        "fixtureSha256": "419d1c013d58ec050009a34a9d8d08850f427a5bc52a15ffa7ed3be7f7e87f89",
+        "compressedSha256": "ee84e7b775bbb87935319e943d38fbac4407198d13934ee343dc4e19d471983a",
+        "courses": 68,
+        "transitions": 71,
+        "originalRuns": 2,
+        "retainedControlByteEqual": true
+      }
+    ],
+    "observations": [
+      {
+        "name": "skill-request",
+        "sha256": "419d1c013d58ec050009a34a9d8d08850f427a5bc52a15ffa7ed3be7f7e87f89",
+        "rawByteEqual": true
+      }
+    ],
+    "installedFaults": [
+      {
+        "name": "request-seal-ignored",
+        "detected": true
+      },
+      {
+        "name": "request-held-struggle-lost",
+        "detected": true
+      },
+      {
+        "name": "request-replenish-forget-lost",
+        "detected": true
+      },
+      {
+        "name": "request-life-endpoint-closed",
+        "detected": true
+      },
+      {
+        "name": "request-depth-retained",
+        "detected": true
+      },
+      {
+        "name": "request-admission-ignored",
+        "detected": true
+      },
+      {
+        "name": "request-native-disconnected",
+        "detected": true
+      }
+    ],
+    "allInstalledFilesAndHostRestored": true
+  },
+  "intent": {
+    "game": "<local>/ARPG Game - World",
+    "output": "<local>/game-skill-intent-99o7NE",
+    "version": "0.28.0",
+    "packageIntegrity": "sha512-/Kx6twPQqv+MaLhyhBoD2aGtFYrxa7fuzQuMaUEZ1IaCAKuv1BEq05Ur2v76gDMjxAnmis/Xdjki2wi7091eRQ==",
+    "installedRuntimeFilesMatchBuild": 153,
+    "gameLauncherAndCaptureTypeChecks": true,
+    "fixtures": [
+      {
+        "name": "skill-intent",
+        "helperSha256": "77fd9e49221b20cd86577b85f51b72df0f52b2479cd50590b34e63d06557c47c",
+        "fixtureSha256": "1e1f3529c86337bf0ac6359f238cff03639b1e371f15752ae35515bc1fbe1cae",
+        "courses": 29,
+        "transitions": 195,
+        "sealRows": 32
+      },
+      {
+        "name": "skill-instance-identity",
+        "helperSha256": "b741ee2c9b939a03c752dc3e9a93afe7ae25eaee30b985ec95cab319936d006c",
+        "fixtureSha256": "677f03fee656cc667509244904a19364b9c7facf2c7ebd2dd6c49269550713cb",
+        "transitions": 29
+      },
+      {
+        "name": "cast-request",
+        "helperSha256": "fd68d753ba44d8e2413177addc0ac8070c73e1afaf677b587b25ae812d6cf044",
+        "fixtureSha256": "c964c81efe14641583bc465bfd9f6be8817d4a4d0b3010d7af5eb89855ddffb8",
+        "courses": 20,
+        "transitions": 22
+      }
+    ],
+    "observations": [
+      {
+        "name": "skill-intent",
+        "sha256": "83350fddd4e2bf1c56fb8bb6e11230b55c07d6424a9893d2b0c218f022b89b63",
+        "rawByteEqual": false
+      },
+      {
+        "name": "skill-instance-identity",
+        "sha256": "677f03fee656cc667509244904a19364b9c7facf2c7ebd2dd6c49269550713cb",
+        "rawByteEqual": true
+      },
+      {
+        "name": "cast-request",
+        "sha256": "c964c81efe14641583bc465bfd9f6be8817d4a4d0b3010d7af5eb89855ddffb8",
+        "rawByteEqual": true
+      }
+    ],
+    "originalForwardingCallsProjected": 118,
+    "projection": "Original query diagnostic forwarders only; candidate unfiltered. Identity and actual request fixtures byte-exact.",
+    "installedFaults": [
+      {
+        "name": "hard-seal-ignored",
+        "detected": true
+      },
+      {
+        "name": "combo-endpoint-excluded",
+        "detected": true
+      },
+      {
+        "name": "relocation-host-identity-lost",
+        "detected": true
+      },
+      {
+        "name": "meta-host-scope-lost",
+        "detected": true
+      },
+      {
+        "name": "press-admission-bypassed",
+        "detected": true
+      },
+      {
+        "name": "native-intent-disconnected",
+        "detected": true
+      }
+    ],
+    "allInstalledFilesRestored": true
+  },
+  "boundaryReview": {
+    "base": "2890e88f36d8252b8dc2e6101081f850cbcc7376",
+    "preservedDifferences": [
+      {
+        "name": "bountyBoardsHere",
+        "managedSha256": "a2db5e02ea00832f010ccab82115cf4e1355b592839765a2c6349e08b8451f7b",
+        "controlSha256": "1f09af0ee63526fcb57d8fc61f3eeb9968e4991d889b13ccff7a2db2af7f7771"
+      },
+      {
+        "name": "bountyBoardRoster",
+        "managedSha256": "cbb5c8e5f70e5efe85f5c4d3404941ed8b1d90126c00fcbcb54a8eb738804884",
+        "controlSha256": "b3a765faf349b9f4843b8ffdaf4ae1e08212ee6f45d9a56665be5db6bd98798b"
+      },
+      {
+        "name": "armBountyBoard",
+        "managedSha256": "099b52ebc0c11244e5ddac6201858d548e51658c9a2ececbf8d97950a5698cbb",
+        "controlSha256": "a2ad2298f047dc2630d68195fab60091ff8a962a69430126d19d4174e16f63b5"
+      },
+      {
+        "name": "turnInBounty",
+        "managedSha256": "dac4e52c13e41ae4e76483c725fcc578ec00f8d27bbaf33b4382403c018b2d6a",
+        "controlSha256": "3c57a02bb7c2dd952ecfbc764c3214bab83741dda8838638558e9525fb2d6740"
+      }
+    ],
+    "requestAndPortsMatchCandidate": true,
+    "otherManagedMembersUnchanged": true,
+    "decision": "Preserve pre-existing managed bounty methods. The guarded prefix, request continuation and new ports match the accepted candidate; all other managed World members retain their exact previous text."
+  },
+  "scope": "Only the managed World request prefix/import/field changed; four pre-existing bounty methods and all other tracked files preserved. No game push."
+}
