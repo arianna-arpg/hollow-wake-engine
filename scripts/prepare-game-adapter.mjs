@@ -29,6 +29,7 @@ import { integrateSkillAdmission } from '../adapters/hollow-wake/integrate-skill
 import { integrateSkillIntent } from '../adapters/hollow-wake/integrate-skill-intent.mjs';
 import { integrateSkillRequest } from '../adapters/hollow-wake/integrate-skill-request.mjs';
 import { integrateSkillDispatch } from '../adapters/hollow-wake/integrate-skill-dispatch.mjs';
+import { integrateCastingContinuation } from '../adapters/hollow-wake/integrate-casting-continuation.mjs';
 const artifacts = path.join(root, '.artifacts');
 fs.mkdirSync(artifacts, { recursive: true });
 const requested = process.argv.indexOf('--game');
@@ -128,6 +129,8 @@ changes.files.push(...skillRequest.files);
 // Complete dispatch is guarded against the accepted result of the prior overlays.
 const skillDispatch = integrateSkillDispatch(game);
 changes.files.push(...skillDispatch.files);
+const castingContinuation = integrateCastingContinuation(game);
+changes.files.push(...castingContinuation.files);
 fs.symlinkSync(path.join(tooling, 'node_modules'), path.join(game, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
 fs.copyFileSync(path.join(root, 'reference/export-lifecycle.ts'), path.join(game, 'balance/export-engine-lifecycle.ts'));
 fs.writeFileSync(path.join(artifacts, 'adapter-location.json'), JSON.stringify({ game, tooling, package: packed.filename, integrity: packed.integrity, ...changes }, null, 2));

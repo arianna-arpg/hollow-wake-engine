@@ -1,0 +1,100 @@
+{
+  "runs": [
+    {
+      "run": 1,
+      "output": "continuation-benchmark-run1.json",
+      "helperSha256": "b92620c0bb82b2512696d5c9d7394ecc5f4fbca48aacd155bc70ba35020d7bbd",
+      "workloads": [
+        {
+          "name": "idle-updates",
+          "operations": 65536,
+          "receipt": "66362efd4603a8f680e624e93ab9b6cefc37084fa2b9a32558df50f06bbb34bf",
+          "originalMs": 1.209100000000035,
+          "previousMs": 0.8791999999994005,
+          "initialMs": 1.2488000000012107,
+          "optimizedMs": 0.8751999999985856,
+          "versusPreviousPercent": -0.45495905377817003,
+          "versusInitialPercent": -29.916720051430413
+        },
+        {
+          "name": "ongoing-ordinary-updates",
+          "operations": 32768,
+          "receipt": "8a55b9968a6d40ab8063efea6826c3bb7f3a68f6aff2e416c2c089bce1753dab",
+          "originalMs": 2.378600000000006,
+          "previousMs": 2.4504999999990105,
+          "initialMs": 2.7665000000015425,
+          "optimizedMs": 1.341099999997823,
+          "versusPreviousPercent": -45.27239338917101,
+          "versusInitialPercent": -51.52358575828393
+        },
+        {
+          "name": "native-nine-mode-cycles",
+          "operations": 576,
+          "receipt": "d229e161e43660de2d6c112470540a20a61e9dd77eb049026c0f265b62fab4a6",
+          "originalMs": 114.53229999999894,
+          "previousMs": 91.32530000000042,
+          "initialMs": 89.12419999999838,
+          "optimizedMs": 90.36579999999958,
+          "versusPreviousPercent": -1.0506398555502616,
+          "versusInitialPercent": 1.3931120840369182
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "output": "continuation-benchmark-run2.json",
+      "helperSha256": "b92620c0bb82b2512696d5c9d7394ecc5f4fbca48aacd155bc70ba35020d7bbd",
+      "workloads": [
+        {
+          "name": "idle-updates",
+          "operations": 65536,
+          "receipt": "66362efd4603a8f680e624e93ab9b6cefc37084fa2b9a32558df50f06bbb34bf",
+          "originalMs": 1.1503000000011525,
+          "previousMs": 0.9056000000018685,
+          "initialMs": 1.2188999999998487,
+          "optimizedMs": 0.8706999999994878,
+          "versusPreviousPercent": -3.8537985868273728,
+          "versusInitialPercent": -28.56674050376603
+        },
+        {
+          "name": "ongoing-ordinary-updates",
+          "operations": 32768,
+          "receipt": "8a55b9968a6d40ab8063efea6826c3bb7f3a68f6aff2e416c2c089bce1753dab",
+          "originalMs": 2.3810000000012224,
+          "previousMs": 2.292700000001787,
+          "initialMs": 2.9386000000013155,
+          "optimizedMs": 1.3990000000012515,
+          "versusPreviousPercent": -38.98024163649143,
+          "versusInitialPercent": -52.39229565096899
+        },
+        {
+          "name": "native-nine-mode-cycles",
+          "operations": 576,
+          "receipt": "d229e161e43660de2d6c112470540a20a61e9dd77eb049026c0f265b62fab4a6",
+          "originalMs": 111.9400999999998,
+          "previousMs": 90.00019999999859,
+          "initialMs": 91.93539999999848,
+          "optimizedMs": 93.34870000000228,
+          "versusPreviousPercent": 3.7205472876768564,
+          "versusInitialPercent": 1.5372750866410767
+        }
+      ]
+    }
+  ],
+  "decision": "Retain the idle and mode-authority fast paths. Both direct four-way runs preserve equal receipts and substantially reduce ongoing ordinary-update time versus the initial candidate and retained v0.29. Idle cost returns near the retained release. Complete nine-mode cycles are about 1.4–1.5% slower than the initial candidate; their direction versus v0.29 changes between runs. Do not claim a general full-cycle or whole-game speedup. Track the tradeoff and measure actual device/frame workloads separately.",
+  "changes": [
+    "The Hollow Wake adapter returns before the SDK call for idle actors.",
+    "The controller reads ports only after finding an active cast.",
+    "Mode predicates skip pure primary-player and seat observations that cannot affect that mode."
+  ],
+  "coreBenchmark": "core-benchmark.json",
+  "initialCandidate": "initial-candidate-reproduction.json",
+  "reproductionPatch": "initial-candidate-reproduction.patch.gz",
+  "limits": [
+    "Desktop Node on the recorded CPU only; not Steam Deck or mobile acceptance.",
+    "Ongoing workload uses a real admitted ordinary cast with an explicitly lengthened total.",
+    "Full-cycle workload includes real requests, effects, resets and assertions for 576 cycles across nine modes.",
+    "No allocation or renderer-frame performance measurement.",
+    "Measurements ran sequentially after local verifier/mutation work stopped; rotating controls reduce but do not eliminate machine noise."
+  ]
+}

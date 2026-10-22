@@ -9,12 +9,19 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
-Version 0.29 adds optional [complete request dispatch](docs/skill-dispatch.md):
+Version 0.30 adds optional [casting continuation](docs/casting-continuation.md):
+ordered interruption, aim and hold handling, AI timing clicks, nine-mode updates,
+completion and repeated input. It composes the existing casting capabilities
+over actor-owned state. The shipped 3D example now connects request, updates and
+delivery. The original baseline contains 60 courses and 269 transitions; physical
+input, geometry, actual effects and presentation remain host responsibilities.
+
+Version 0.29 added optional [complete request dispatch](docs/skill-dispatch.md):
 reserve spending, combo and status redirects, targeting orchestration, payment,
 and preparation of all nine casting modes or immediate host delivery. A shipped
 3D example connects preflight, dispatch, ordinary advancement and delivery through
-the installed package. Actual spatial queries, effects and ongoing cast updates
-remain explicit host services. Two desktop comparisons found no repeatable speed
+the installed package. Actual spatial queries and effects remain explicit host
+services; ongoing cast orchestration is now above. Two v0.29 desktop comparisons found no repeatable speed
 change; Steam Deck and older-mobile acceptance remain outstanding.
 
 The [v0.29 acceptance evidence](evidence/milestone-thirty-four/verification.json)

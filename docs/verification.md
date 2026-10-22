@@ -1,5 +1,21 @@
 # Verification and reproduction
 
+Version 0.30 adds `reference:continuation`, `adapter:continuation-source`,
+`adapter:continuation` and `benchmark:continuation -- --previous-adapter <retained-v0.29-game>`.
+The original baseline was committed before implementation: 60 courses and 269
+transitions, reproduced twice from the frozen original and byte-equal to retained
+v0.29. The new installed comparison matches all observations and detects twelve
+behavioral faults. Thirty-two independent tests cover ordering, authority, aim
+identity, failures and isolation; a packed 3D consumer runs request through delivery.
+The full verifier passes 383 tests, 138 runtime faults and 22 packed consumers.
+The new module is 7,857 bytes within a separate 10 KiB allowance. The combined
+448 KiB bound is unchanged; all 156 predecessor runtime files remain unchanged.
+See [the continuation contract](casting-continuation.md) for host obligations.
+The [implementation evidence](../evidence/milestone-thirty-five/runtime-verification.json)
+includes the direct four-way benchmark, its initial-control reproduction patch,
+the measured ongoing-update improvement and the small complete-cycle tradeoff.
+Broader game, renderer, managed-adapter and device acceptance is recorded separately.
+
 Version 0.29 adds `reference:dispatch`, `adapter:dispatch-source`,
 `adapter:dispatch` and `benchmark:dispatch -- --previous-adapter <retained-v0.28-game>`.
 The unchanged original baseline contains 88 courses and 104 transitions accepted
