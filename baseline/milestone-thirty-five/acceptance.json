@@ -1,0 +1,68 @@
+{
+  "schema": "hollow-wake-reference-acceptance/v1",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sdkControl": "13bf2a7084b3558abfde25741be0deaaba3b4128",
+  "decision": "Accept byte-identical observations from two fresh frozen-original processes and the retained v0.29 installed adapter before implementing casting continuation. Forwarding observers preserve native decisions; no projection or expected-result regeneration is used.",
+  "scope": "60 courses and 269 transitions through native requests, updateCasting and castPress. Explicit seeded state exercises all nine casting modes, interruptions, aim, hold, AI finesse, line-of-fire grace, focus, construction and real secondary seats.",
+  "sourceBoundary": {
+    "file": "src/engine/world.ts",
+    "methods": [
+      {
+        "kind": "original",
+        "name": "updateCasting",
+        "fileSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+        "sha256": "8887f0912bbe2c7a1ead4520cfe7009869e996dffaf4fe9d1779316bd55279eb",
+        "statements": 10,
+        "lines": 695
+      },
+      {
+        "kind": "original",
+        "name": "castPress",
+        "fileSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+        "sha256": "0427e0ee92715333349dcfbff973245580e3847f10664ca483696979420a8e14",
+        "statements": 6,
+        "lines": 27
+      },
+      {
+        "kind": "retained",
+        "name": "updateCasting",
+        "fileSha256": "5cf51e64bb02a35140c85b70f9cc104207d345edc11dfb24d88b21320e834711",
+        "sha256": "713680e622bee796d2c0699e0ebb5ca71087e7cf8e6aeb24bb37cb9e67252757",
+        "statements": 10,
+        "lines": 186
+      },
+      {
+        "kind": "retained",
+        "name": "castPress",
+        "fileSha256": "5cf51e64bb02a35140c85b70f9cc104207d345edc11dfb24d88b21320e834711",
+        "sha256": "79805e5730e78632a3d447a2982f540af235b49ca0b7e79ee500bf10e6b09b92",
+        "statements": 5,
+        "lines": 11
+      }
+    ]
+  },
+  "retainedPackageIntegrity": "sha512-Ot2RM5bf1/neA9UqKKM3i9VY844hsX66S8wKXhO55Tv8QDRpoiNnPvRwkQ6Aj0bTee0QaJh1mb4+mlDpbJwLJg==",
+  "fixtures": [
+    {
+      "name": "casting-continuation",
+      "helperSha256": "cb1a37fd89c1ba49c288276bafd2bcdfa800384e4a6f474bcda262e2af1da902",
+      "fixtureSha256": "ca83627aa32ea477e198add3c9ab9343338fc208cccd026d306c113c00ef5be6",
+      "compressedSha256": "c796437d02b32329e5bc36cabb2a17c44dbf956471330df522293aab1c22080c",
+      "courses": 60,
+      "transitions": 269,
+      "originalRuns": 2,
+      "retainedControlByteEqual": true,
+      "typeCheckedInOriginalAndControl": true
+    }
+  ],
+  "correctionsBeforeAcceptance": [
+    "An AI timed-success course initially assumed a successful roll guaranteed a timing hit after a large frame. Original execution showed a miss. The renamed course preserves that miss and a separate exact-rolled-click course confirms success.",
+    "Native secondary-seat courses make the original primary-player hold predicate and unseated finesse/aim predicates explicit. No runtime behavior changed.",
+    "The final observer header and scope replace private investigation wording. All final captures were regenerated from the original before this first acceptance; no accepted fixture was revised."
+  ],
+  "limitations": [
+    "Actor/cast states, attributes, resources and synthetic definitions are explicit setup; not every authored combination is exercised.",
+    "Spatial queries, effects, construction, rendering and input occurrence remain host services. The continuation service orchestrates those ports.",
+    "These observations do not prove exception recovery, renderer input, performance, allocations, physical hardware or engine-package compatibility."
+  ]
+}
