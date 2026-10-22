@@ -1,0 +1,74 @@
+{
+  "checks": [
+    {
+      "name": "test-support-ui",
+      "passed": true
+    },
+    {
+      "name": "test-skill-intent-ui",
+      "passed": true
+    },
+    {
+      "name": "test-skill-admission-ui",
+      "passed": true
+    },
+    {
+      "name": "test-channel-casting-ui",
+      "passed": true
+    },
+    {
+      "name": "test-ammunition-ui",
+      "passed": true
+    },
+    {
+      "name": "test-interactive-casting-ui",
+      "passed": true
+    },
+    {
+      "name": "test-charged-casting-ui",
+      "passed": true
+    },
+    {
+      "name": "test-guard-casting-ui",
+      "passed": true
+    },
+    {
+      "name": "test-resource-payment-ui",
+      "passed": true
+    },
+    {
+      "name": "test-game-boot",
+      "passed": true
+    }
+  ],
+  "selectedCourses": [
+    {
+      "kind": "support",
+      "passed": true,
+      "harnessSha256": "33cf31e62595416e1c7d82ea17691f4b0402cd5a3e24a220208e710765266d54",
+      "scope": "Mounted Inventory support click-lift/drop, unsocket, full-bag refusal and stored cargo controls through real intents. Isolated profiles/saves and hidden desktop renderer; no native-pointer or target-device claim.",
+      "images": [
+        {
+          "file": "support-ui.png",
+          "sha256": "45c8ffd9ef3d055cad5d5485279a48e897acc69dcfb2b0ee5cf679f033359c74"
+        }
+      ],
+      "observations": "support-ui-observations.json"
+    },
+    {
+      "kind": "skill-intent",
+      "passed": true,
+      "harnessSha256": "6fa9e4019150a7d9340eeccb13fdc08d303dd32fda52b0759e45984362f9706a",
+      "scope": "Mounted renderer with native gem learning and player-intent polling. Actual input earns all three combo cuts, expiry, selected mimic casting, reload and seal refusal. Explicit mimic-bank and empty-ammunition seeding; no claim of earning mimic capture or physical-pointer/device acceptance. Isolated saves.",
+      "images": [
+        {
+          "file": "intent-combo.png",
+          "sha256": "acda667b8b84624b79eb716094ef6183743b7d25949b93d5d1a0a571516c0b97"
+        }
+      ],
+      "observations": "intent-ui-observations.json"
+    }
+  ],
+  "visualInspection": "Support Inventory and skill-input combo captures inspected. Assertions establish custody, modifiers and actual input transitions; screenshots alone do not establish those semantics.",
+  "scope": "Hidden desktop renderer with isolated saves; no physical-pointer, full frame-performance or target-device claim."
+}

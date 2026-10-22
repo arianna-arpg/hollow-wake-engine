@@ -1,0 +1,98 @@
+{
+  "base": "ee03e994567329582263564b77ced38fc3abe416",
+  "variants": [
+    {
+      "name": "scan",
+      "sourceSha256": "30e62fcae0d62c38ab3025514d1d9de497ba1ed266e96b11a8e65b0f206e91e3",
+      "baseSourceSha256": "ddae2db35c3f852fe25a60457490052b4ce789f859a4c5201466d74175dd1a0b",
+      "hostSourcesByteIdentical": 989,
+      "runtimeFilesChanged": [
+        "support-rules.js",
+        "support-rules.js.map"
+      ],
+      "originalEquivalence": {
+        "simTypesPassed": true,
+        "results": [
+          {
+            "name": "support-content",
+            "rawByteEqual": true,
+            "sha256": "1e89a4945641b1c0234633f7967f798b4c562455e767a2a5d560c6889b6f6381",
+            "helperSha256": "69d983d98a2576bf4c613dd098f50fde5921d78e948675d1730216b1bf9d0b72"
+          },
+          {
+            "name": "support-rules",
+            "rawByteEqual": true,
+            "sha256": "afac8edead1667af3ccd5e220b4e7cb051c6e3d2749d41b75098e3d4ad4cfaf3",
+            "helperSha256": "22f3d5fd3698cdbe4e5e3a3d759c15aace1743cc3c331a44aa67bae9605434cc"
+          },
+          {
+            "name": "support-composition",
+            "rawByteEqual": true,
+            "sha256": "98e7e6d8cbea9ad79b38d16f963efe5dacf6eca822427a97cf3e9ef467cc3fcb",
+            "helperSha256": "14aed3831786d5c6424f3fe26b0560584cd0fae01549d45518c3ba50920a0897"
+          },
+          {
+            "name": "support-actions",
+            "rawByteEqual": true,
+            "sha256": "f8ae56803623bc2b5fd841b8f2f65392a3c547f91fe2445d68a234bc92e57e60",
+            "helperSha256": "ed4fd1c0411c6f6c30d217995700c4dc4320361a998705fba08968656d89d1cd"
+          }
+        ]
+      },
+      "independentTests": 11,
+      "scope": "Isolated headless game source copy. Same host source and dependencies; only support-rules.js and its map differ. Experimental package label remains 0.27.0; behavior is not a released version."
+    },
+    {
+      "name": "lazy",
+      "sourceSha256": "8eef8075993c92b6ebd855eead54a2aa99e92cc6c45f435775ca479311bb4257",
+      "baseSourceSha256": "ddae2db35c3f852fe25a60457490052b4ce789f859a4c5201466d74175dd1a0b",
+      "hostSourcesByteIdentical": 989,
+      "runtimeFilesChanged": [
+        "support-rules.js",
+        "support-rules.js.map"
+      ],
+      "originalEquivalence": {
+        "simTypesPassed": true,
+        "results": [
+          {
+            "name": "support-content",
+            "rawByteEqual": true,
+            "sha256": "1e89a4945641b1c0234633f7967f798b4c562455e767a2a5d560c6889b6f6381",
+            "helperSha256": "69d983d98a2576bf4c613dd098f50fde5921d78e948675d1730216b1bf9d0b72"
+          },
+          {
+            "name": "support-rules",
+            "rawByteEqual": true,
+            "sha256": "afac8edead1667af3ccd5e220b4e7cb051c6e3d2749d41b75098e3d4ad4cfaf3",
+            "helperSha256": "22f3d5fd3698cdbe4e5e3a3d759c15aace1743cc3c331a44aa67bae9605434cc"
+          },
+          {
+            "name": "support-composition",
+            "rawByteEqual": true,
+            "sha256": "98e7e6d8cbea9ad79b38d16f963efe5dacf6eca822427a97cf3e9ef467cc3fcb",
+            "helperSha256": "14aed3831786d5c6424f3fe26b0560584cd0fae01549d45518c3ba50920a0897"
+          },
+          {
+            "name": "support-actions",
+            "rawByteEqual": true,
+            "sha256": "f8ae56803623bc2b5fd841b8f2f65392a3c547f91fe2445d68a234bc92e57e60",
+            "helperSha256": "ed4fd1c0411c6f6c30d217995700c4dc4320361a998705fba08968656d89d1cd"
+          }
+        ]
+      },
+      "independentTests": 11,
+      "scope": "Isolated headless game source copy. Same host source and dependencies; only support-rules.js and its map differ. Experimental package label remains 0.27.0; behavior is not a released version."
+    }
+  ],
+  "fourway": {
+    "helperSha256": "6ddad615461734eccfcbb7f144f0f41f145bda613517544ea062ee0f23c802ea",
+    "warmups": 50,
+    "samples": 101,
+    "runs": 2,
+    "allReceiptsEqual": true
+  },
+  "decision": "Advance the pre-scan variant to complete acceptance. It has the larger repeated combat gain and a measurable populated-preview regression. The lazy variant has a smaller combat gain with inconsistent preview/action direction. Neither justifies a universal speedup claim.",
+  "semantics": "Skip unused base-tag observations when the live socket/graft sequence contains no support. The existing port contract requires coherent side-effect-free observations; fresh result arrays and live nonempty admission semantics remain.",
+  "firstExtendedHarnessFailure": "Increasing warmup count exposed a negative rotating-index calculation in the experimental harness, before measurements. The published helper uses nonnegative modulo and was checked for all warmup/sample indices before the successful two runs.",
+  "limits": "Development-runner desktop CPU observations. Sampling includes profiler overhead; no allocation volume, renderer-frame or physical-device claim."
+}

@@ -18,6 +18,8 @@ tools; this capability compiles their ordered content into a separate JSON pack.
 resolved delivery/cast mode, tree modifiers, self stacks, summon/component
 observations, status metadata, ailment tuning and crew-instance construction.
 These observations must be coherent and side-effect free during each query.
+Since v0.27.1, empty socket/graft admission skips the unused base-tag observation;
+see [the cost and observation contract](support-admission-cost.md).
 The optional mechanism port supports a live host registry; `builtinMechanism`
 provides separate dispatch so that the bridge does not recurse into that registry.
 No cross-query cache assumes that mutable game instances stayed unchanged.

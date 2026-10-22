@@ -1,0 +1,171 @@
+{
+  "base": "2890e88f36d8252b8dc2e6101081f850cbcc7376",
+  "branch": "codex/engine-skill-intent",
+  "results": [
+    {
+      "name": "supports",
+      "passed": true
+    },
+    {
+      "name": "intent",
+      "passed": true
+    },
+    {
+      "name": "types-tsconfig.json",
+      "passed": true
+    },
+    {
+      "name": "types-tsconfig.launcher.json",
+      "passed": true
+    },
+    {
+      "name": "types-tsconfig.sim.json",
+      "passed": true
+    },
+    {
+      "name": "sim-smoke",
+      "passed": true
+    }
+  ],
+  "trackedFilesByteIdentical": 1862,
+  "installedRuntimeFiles": 150,
+  "unchangedPreviousRuntimeFiles": 148,
+  "clean": true,
+  "pushed": false,
+  "installedSuites": 2,
+  "installedFaults": 11,
+  "dependencyOnly": true,
+  "sourceChanged": false,
+  "supports": {
+    "packageIntegrity": "sha512-BfaV6fMnO5hU3ovG+YVLuu2gh3P326CAORu4uWUrzxMBztLm4S6Pl65gDWtzd1u5BT9820hs0Xg2BtDeq1854Q==",
+    "reports": [
+      {
+        "name": "support-content",
+        "sha256": "1e89a4945641b1c0234633f7967f798b4c562455e767a2a5d560c6889b6f6381",
+        "bytes": 412512
+      },
+      {
+        "name": "support-rules",
+        "sha256": "afac8edead1667af3ccd5e220b4e7cb051c6e3d2749d41b75098e3d4ad4cfaf3",
+        "bytes": 1630267
+      },
+      {
+        "name": "support-composition",
+        "sha256": "98e7e6d8cbea9ad79b38d16f963efe5dacf6eca822427a97cf3e9ef467cc3fcb",
+        "bytes": 315001
+      },
+      {
+        "name": "support-actions",
+        "sha256": "f8ae56803623bc2b5fd841b8f2f65392a3c547f91fe2445d68a234bc92e57e60",
+        "bytes": 459949
+      }
+    ],
+    "skills": 954,
+    "supports": 457,
+    "pairs": 435978,
+    "resolverStates": 954,
+    "changedCompositions": 301,
+    "courses": 8,
+    "transitions": 35,
+    "installedFaults": [
+      {
+        "name": "tag-closure",
+        "detected": true
+      },
+      {
+        "name": "effective-level",
+        "detected": true
+      },
+      {
+        "name": "forwarded-override",
+        "detected": true
+      },
+      {
+        "name": "clear-before-bag-room",
+        "detected": true
+      },
+      {
+        "name": "live-crew-resync",
+        "detected": true
+      }
+    ],
+    "allInstalledFilesRestored": true
+  },
+  "intent": {
+    "game": "<local>/ARPG Game - World",
+    "output": "<local>/game-skill-intent-yfTNls",
+    "version": "0.27.1",
+    "packageIntegrity": "sha512-BfaV6fMnO5hU3ovG+YVLuu2gh3P326CAORu4uWUrzxMBztLm4S6Pl65gDWtzd1u5BT9820hs0Xg2BtDeq1854Q==",
+    "installedRuntimeFilesMatchBuild": 150,
+    "gameLauncherAndCaptureTypeChecks": true,
+    "fixtures": [
+      {
+        "name": "skill-intent",
+        "helperSha256": "77fd9e49221b20cd86577b85f51b72df0f52b2479cd50590b34e63d06557c47c",
+        "fixtureSha256": "1e1f3529c86337bf0ac6359f238cff03639b1e371f15752ae35515bc1fbe1cae",
+        "courses": 29,
+        "transitions": 195,
+        "sealRows": 32
+      },
+      {
+        "name": "skill-instance-identity",
+        "helperSha256": "b741ee2c9b939a03c752dc3e9a93afe7ae25eaee30b985ec95cab319936d006c",
+        "fixtureSha256": "677f03fee656cc667509244904a19364b9c7facf2c7ebd2dd6c49269550713cb",
+        "transitions": 29
+      },
+      {
+        "name": "cast-request",
+        "helperSha256": "fd68d753ba44d8e2413177addc0ac8070c73e1afaf677b587b25ae812d6cf044",
+        "fixtureSha256": "c964c81efe14641583bc465bfd9f6be8817d4a4d0b3010d7af5eb89855ddffb8",
+        "courses": 20,
+        "transitions": 22
+      }
+    ],
+    "observations": [
+      {
+        "name": "skill-intent",
+        "sha256": "83350fddd4e2bf1c56fb8bb6e11230b55c07d6424a9893d2b0c218f022b89b63",
+        "rawByteEqual": false
+      },
+      {
+        "name": "skill-instance-identity",
+        "sha256": "677f03fee656cc667509244904a19364b9c7facf2c7ebd2dd6c49269550713cb",
+        "rawByteEqual": true
+      },
+      {
+        "name": "cast-request",
+        "sha256": "c964c81efe14641583bc465bfd9f6be8817d4a4d0b3010d7af5eb89855ddffb8",
+        "rawByteEqual": true
+      }
+    ],
+    "originalForwardingCallsProjected": 118,
+    "projection": "Original query diagnostic forwarders only; candidate unfiltered. Identity and actual request fixtures byte-exact.",
+    "installedFaults": [
+      {
+        "name": "hard-seal-ignored",
+        "detected": true
+      },
+      {
+        "name": "combo-endpoint-excluded",
+        "detected": true
+      },
+      {
+        "name": "relocation-host-identity-lost",
+        "detected": true
+      },
+      {
+        "name": "meta-host-scope-lost",
+        "detected": true
+      },
+      {
+        "name": "press-admission-bypassed",
+        "detected": true
+      },
+      {
+        "name": "native-intent-disconnected",
+        "detected": true
+      }
+    ],
+    "allInstalledFilesRestored": true
+  }
+}

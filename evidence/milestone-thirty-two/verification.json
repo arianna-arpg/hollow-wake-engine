@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "version": "0.27.1",
+  "sdkBase": "ee03e994567329582263564b77ced38fc3abe416",
+  "checks": {
+    "tests": 294,
+    "behavioralFaults": 115,
+    "packedConsumers": 19,
+    "emptyAdmissionPackedConsumer": true,
+    "installedSuites": 12,
+    "installedFaults": 54,
+    "nativeProbes": 9,
+    "rendererChecks": 10,
+    "managedInstalledSuites": 2,
+    "managedInstalledFaults": 11,
+    "managedGameLauncherSimTypes": true,
+    "managedAndCandidateSmoke": "5 scenarios x 5 seeds each",
+    "referenceCorePassed": true,
+    "finalArchiveGeneralAndSupportConsumers": true
+  },
+  "runtimeControls": {
+    "runtimeFilesMatch": 150,
+    "unchangedPreviousRuntimeFiles": 148,
+    "changedRuntimeFiles": [
+      "support-rules.js",
+      "support-rules.js.map"
+    ],
+    "hostSourceFilesByteIdentical": 989,
+    "sourceHash": "fe4893ee5530fe6f4b3604b40b022cd293e88390eb2c7969535967ac8ef80d65"
+  },
+  "originalPreservation": {
+    "head": "1075d260e941af0a4817e21ca32a9a55db4adeea",
+    "indexEmpty": true,
+    "filesByteIdentical": 4068,
+    "trackedFiles": 1849,
+    "untrackedFiles": 2219,
+    "pinnedSourceCapsuleVerified": true,
+    "externalUpdateRecorded": true,
+    "note": "Original game externally advanced during M31. Its refreshed checkout/unfinished work remain byte-identical to the recorded post-update snapshot; accepted SDK source/fixtures remain pinned to the original capture."
+  },
+  "logs": [
+    {
+      "file": "verification.txt",
+      "rawSha256": "0fb6c50ea47d0dca23422cc12375419b807aa97ab79f1546ccc23126c1ab052a",
+      "publishedSha256": "a8e6897103c57a18978dd7d91453dec7df897c4646fb78f5b8ae92237c95710e"
+    },
+    {
+      "file": "core-benchmark.txt",
+      "rawSha256": "e5f630d738ba348383e6b87b30e3d6201ebfce8fb5e310c3d6e91318017a8c82",
+      "publishedSha256": "6355f66a7dc9edfe70840445b890e1b560610eae7a32ffa9cb31ec98c66a391a"
+    },
+    {
+      "file": "managed-types.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publishedSha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "file": "managed-smoke.txt",
+      "rawSha256": "a3c2ef1df031994a472108a4e7b5034547fce638e4dcf8e1f870426bc89c5ca1",
+      "publishedSha256": "b466afeb224d23bc310eb5f8af4f0db2e4f65df824ec399598d8d07b54f4b5b6"
+    }
+  ],
+  "verifierScope": "Full verifier passed before the added packed-support instrumentation; that strengthened consumer passed separately. The final archive passed fresh general and strengthened support consumers after documentation. The initial local fault anchor mismatch was corrected to match emitted JavaScript before the successful full run.",
+  "limits": "Eleven of thirteen families remain partial. Native engine packages, remaining World request/delivery rules and physical target-device validation remain incomplete. Exact-commit CI is recorded separately.",
+  "finalArchiveIntegrity": "sha512-ljt4Rbikirrxz10vq5bqDbW33yCaGRFmIa+XjBz1zrRYjywLj2NcCStWn3fkJRqyzPFRbqjvh4R8iNsq8/OL6g==",
+  "boundary": {
+    "runtimeJavaScriptBytes": 421233,
+    "supportJavaScriptBytes": 30874,
+    "combinedLimitKiB": 424,
+    "supportLimitKiB": 32,
+    "runtimeDependencies": 0
+  }
+}

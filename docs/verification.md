@@ -6,6 +6,11 @@ JavaScript allowance; the combined bound is 412 KiB, retaining all earlier
 module/core limits. See [skill-admission.md](skill-admission.md) for live state,
 lazy bank mutation and the distinction between actor queries and host authority.
 
+Version 0.27.1 adds `benchmark:support-admission` and an empty-observation fault.
+The complete verifier passes 294 tests, 115 faults and 19 packed consumers.
+The support consumer additionally checks empty admission and live graft changes.
+See [support admission cost](support-admission-cost.md) for measured tradeoffs.
+
 ## Normal package checks
 
 CI uses explicit Ubuntu 24.04/Windows 2025 labels and immutable revisions of the

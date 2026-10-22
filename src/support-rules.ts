@@ -104,7 +104,11 @@ export class SupportRules<M extends SupportModifier, D extends SupportSkillDefin
   }
   rawSockets(inst: I): readonly (S | null)[] {return inst.grafts?.length ? [...inst.sockets, ...inst.grafts] : inst.sockets;}
   hostSockets(inst: I): S[] {
-    const sockets = this.rawSockets(inst), admitted = new Array<boolean>(sockets.length).fill(false), pool = [...this.#p.baseTags(inst)];
+    const sockets = this.rawSockets(inst);
+    let first = 0;
+    while (first < sockets.length && !sockets[first]) first++;
+    if (first === sockets.length) return [];
+    const admitted = new Array<boolean>(sockets.length).fill(false), pool = [...this.#p.baseTags(inst)];
     let grew = true;
     while (grew) {
       grew = false;

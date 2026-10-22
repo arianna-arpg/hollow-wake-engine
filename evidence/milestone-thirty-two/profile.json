@@ -1,0 +1,318 @@
+{
+  "scope": "Inspector CPU sampling of complete native query/cast-start workload after 20 warmups; 128 receipt-checked iterations per implementation. Profiling overhead precludes timing comparisons. Local diagnostic profiles include paths and are not publication artifacts.",
+  "receiptObservations": [
+    {
+      "key": "original",
+      "iterations": 128,
+      "requests": 131072,
+      "receiptSha256": "33b56b2cdc5420a7d3df29c6121e21007ad28c6f904e2ae98bc29bbc22309470",
+      "samples": 11666
+    },
+    {
+      "key": "previous",
+      "iterations": 128,
+      "requests": 131072,
+      "receiptSha256": "33b56b2cdc5420a7d3df29c6121e21007ad28c6f904e2ae98bc29bbc22309470",
+      "samples": 11940
+    },
+    {
+      "key": "current",
+      "iterations": 128,
+      "requests": 131072,
+      "receiptSha256": "33b56b2cdc5420a7d3df29c6121e21007ad28c6f904e2ae98bc29bbc22309470",
+      "samples": 11830
+    }
+  ],
+  "helperSha256": "b672640984e6b09b71e9e10bcb4394e95838a1206a1154081b2bd1dbc984e5e2",
+  "sourceBenchmarkSha256": "513dac1082d405f748e22d4b4b089b83d6e855a457e8c862ecc633590d38070a",
+  "results": [
+    {
+      "key": "original",
+      "samples": 11666,
+      "categories": [
+        {
+          "name": "host stats",
+          "sampledPercent": 38.16721238811179
+        },
+        {
+          "name": "host skill composition",
+          "sampledPercent": 36.86291463568995
+        },
+        {
+          "name": "runtime/harness/other",
+          "sampledPercent": 8.875903592890165
+        },
+        {
+          "name": "other host modules",
+          "sampledPercent": 8.570585791007248
+        },
+        {
+          "name": "host World",
+          "sampledPercent": 6.152249550451101
+        },
+        {
+          "name": "garbage collection",
+          "sampledPercent": 1.3711340418497509
+        }
+      ],
+      "topSelf": [
+        {
+          "name": "compute @ src/engine/stats.ts:1",
+          "sampledPercent": 37.426769589377415
+        },
+        {
+          "name": "instanceBaseTags @ src/engine/skills.ts:1",
+          "sampledPercent": 19.98161091140841
+        },
+        {
+          "name": "post @ node:inspector:115",
+          "sampledPercent": 5.7281820861952095
+        },
+        {
+          "name": "hostSockets @ src/engine/skills.ts:1",
+          "sampledPercent": 4.391171146366721
+        },
+        {
+          "name": "instanceDelivery @ src/engine/skills.ts:1",
+          "sampledPercent": 3.3429867599512644
+        },
+        {
+          "name": "useSkill @ src/engine/world.ts:1",
+          "sampledPercent": 3.2418847928669092
+        },
+        {
+          "name": "skillContextTags @ src/engine/skills.ts:1",
+          "sampledPercent": 3.112711267388089
+        },
+        {
+          "name": "attackSequenceOf @ src/engine/attackSequenceSpec.ts:1",
+          "sampledPercent": 2.202841088840621
+        },
+        {
+          "name": "instanceMods @ src/engine/skills.ts:1",
+          "sampledPercent": 1.769236898764487
+        },
+        {
+          "name": "skillCost @ src/engine/actor.ts:1",
+          "sampledPercent": 1.5185730903696653
+        },
+        {
+          "name": "run @ sdk-native-profile-2d5d2803-52d8-47bf-baba-441152b5c275.ts:1",
+          "sampledPercent": 1.5153413759721084
+        },
+        {
+          "name": "(garbage collector) @ :0",
+          "sampledPercent": 1.3711340418497509
+        },
+        {
+          "name": "canUse @ src/engine/actor.ts:1",
+          "sampledPercent": 1.3699142280820455
+        },
+        {
+          "name": "instanceTreeOver @ src/engine/skills.ts:1",
+          "sampledPercent": 1.2242969793450678
+        },
+        {
+          "name": "reqShortfall @ src/engine/world.ts:1",
+          "sampledPercent": 1.0298554964253912
+        }
+      ]
+    },
+    {
+      "key": "previous",
+      "samples": 11940,
+      "categories": [
+        {
+          "name": "host stats",
+          "sampledPercent": 35.0193551328457
+        },
+        {
+          "name": "host skill composition",
+          "sampledPercent": 31.886982199648042
+        },
+        {
+          "name": "earlier SDK modules",
+          "sampledPercent": 9.62914931564191
+        },
+        {
+          "name": "other host modules",
+          "sampledPercent": 8.179321601539854
+        },
+        {
+          "name": "runtime/harness/other",
+          "sampledPercent": 7.868334197013753
+        },
+        {
+          "name": "host World",
+          "sampledPercent": 6.1348112755495485
+        },
+        {
+          "name": "garbage collection",
+          "sampledPercent": 1.2820462777611843
+        }
+      ],
+      "topSelf": [
+        {
+          "name": "compute @ src/engine/stats.ts:1",
+          "sampledPercent": 34.42679594133177
+        },
+        {
+          "name": "instanceBaseTags @ src/engine/skills.ts:1",
+          "sampledPercent": 20.61087056956536
+        },
+        {
+          "name": "hostSockets @ dist/support-rules.js:73",
+          "sampledPercent": 6.096339894650245
+        },
+        {
+          "name": "post @ node:inspector:115",
+          "sampledPercent": 4.941386571645687
+        },
+        {
+          "name": "instanceDelivery @ src/engine/skills.ts:1",
+          "sampledPercent": 3.384404195566392
+        },
+        {
+          "name": "skillContextTags @ src/engine/skills.ts:1",
+          "sampledPercent": 3.0717617722191353
+        },
+        {
+          "name": "useSkill @ src/engine/world.ts:1",
+          "sampledPercent": 2.98629410215307
+        },
+        {
+          "name": "attackSequenceOf @ src/engine/attackSequenceSpec.ts:1",
+          "sampledPercent": 2.4798895696498278
+        },
+        {
+          "name": "skillCost @ src/engine/actor.ts:1",
+          "sampledPercent": 1.5395578383018507
+        },
+        {
+          "name": "modifiers @ dist/support-rules.js:157",
+          "sampledPercent": 1.3106968394292933
+        },
+        {
+          "name": "(garbage collector) @ :0",
+          "sampledPercent": 1.2820462777611843
+        },
+        {
+          "name": "run @ sdk-native-profile-2d5d2803-52d8-47bf-baba-441152b5c275.ts:1",
+          "sampledPercent": 1.2374388365155233
+        },
+        {
+          "name": "reqShortfall @ src/engine/world.ts:1",
+          "sampledPercent": 1.0536536804417838
+        },
+        {
+          "name": "__name @ src/engine/costward.ts:1",
+          "sampledPercent": 1.0530135316524691
+        },
+        {
+          "name": "canUse @ dist/skill-admission.js:52",
+          "sampledPercent": 0.9622841508059395
+        }
+      ]
+    },
+    {
+      "key": "current",
+      "samples": 11830,
+      "categories": [
+        {
+          "name": "host stats",
+          "sampledPercent": 35.94763070531403
+        },
+        {
+          "name": "host skill composition",
+          "sampledPercent": 30.814236107566323
+        },
+        {
+          "name": "earlier SDK modules",
+          "sampledPercent": 10.088273215205366
+        },
+        {
+          "name": "other host modules",
+          "sampledPercent": 8.255209687169828
+        },
+        {
+          "name": "runtime/harness/other",
+          "sampledPercent": 8.184202230994275
+        },
+        {
+          "name": "host World",
+          "sampledPercent": 4.682141506975803
+        },
+        {
+          "name": "garbage collection",
+          "sampledPercent": 1.3655702891358905
+        },
+        {
+          "name": "new intent SDK modules",
+          "sampledPercent": 0.6627362576384845
+        }
+      ],
+      "topSelf": [
+        {
+          "name": "compute @ src/engine/stats.ts:1",
+          "sampledPercent": 35.203960711406445
+        },
+        {
+          "name": "instanceBaseTags @ src/engine/skills.ts:1",
+          "sampledPercent": 19.912416284313792
+        },
+        {
+          "name": "hostSockets @ dist/support-rules.js:73",
+          "sampledPercent": 6.075810079477777
+        },
+        {
+          "name": "post @ node:inspector:115",
+          "sampledPercent": 5.143493645374534
+        },
+        {
+          "name": "instanceDelivery @ src/engine/skills.ts:1",
+          "sampledPercent": 3.164755674510365
+        },
+        {
+          "name": "useSkill @ src/engine/world.ts:1",
+          "sampledPercent": 2.881212740129202
+        },
+        {
+          "name": "skillContextTags @ src/engine/skills.ts:1",
+          "sampledPercent": 2.6364796761771006
+        },
+        {
+          "name": "attackSequenceOf @ src/engine/attackSequenceSpec.ts:1",
+          "sampledPercent": 2.3800455383805432
+        },
+        {
+          "name": "modifiers @ dist/support-rules.js:157",
+          "sampledPercent": 1.6941741374227512
+        },
+        {
+          "name": "skillCost @ src/engine/actor.ts:1",
+          "sampledPercent": 1.5079621488323192
+        },
+        {
+          "name": "(garbage collector) @ :0",
+          "sampledPercent": 1.3655702891358905
+        },
+        {
+          "name": "run @ sdk-native-profile-2d5d2803-52d8-47bf-baba-441152b5c275.ts:1",
+          "sampledPercent": 1.2512610066661567
+        },
+        {
+          "name": "canUse @ dist/skill-admission.js:52",
+          "sampledPercent": 1.2001689352352631
+        },
+        {
+          "name": "__name @ src/engine/costward.ts:1",
+          "sampledPercent": 0.9880889350719192
+        },
+        {
+          "name": "instanceTreeOver @ src/engine/skills.ts:1",
+          "sampledPercent": 0.863963315484353
+        }
+      ]
+    }
+  ]
+}

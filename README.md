@@ -9,6 +9,9 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
+Version 0.27.1 optimizes [empty support admission](docs/support-admission-cost.md),
+with complete-workload measurements and explicit preview-performance tradeoffs.
+
 Version 0.27 adds optional [skill intent](docs/skill-intent.md): cast seals,
 HUD/button readiness, displayed skill faces and temporary-instance ownership.
 Actual request dispatch and delivery remain explicit host responsibilities.

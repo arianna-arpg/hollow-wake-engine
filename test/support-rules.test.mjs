@@ -82,3 +82,12 @@ test('cut resolution preserves row identities, canonical fallback, authored orde
  assert.throws(()=>rollSupportCut(base,()=>NaN));assert.throws(()=>rollSupportCut(base,()=>-1));assert.throws(()=>rollSupportCut(base));
  const special={axes:[{id:'__proto__',rows:[a]}]};assert.equal(Object.getPrototypeOf(canonicalSupportCut(special)),Object.prototype);assert.equal(Object.hasOwn(resolveSupportCut(special),'__proto__'),true);
 });
+
+test('empty socket admission skips unused tags without caching later socket or graft changes',()=>{
+ let reads=0;const {rules}=setup({baseTags:()=>{reads++;return ['spell'];}}),i=inst();
+ const empty=rules.hostSockets(i);assert.deepEqual(empty,[]);assert.equal(reads,0);assert.notEqual(rules.hostSockets(i),empty);
+ i.sockets=[];assert.deepEqual(rules.hostSockets(i),[]);assert.equal(reads,0);
+ const gem={def:support('live',{requiresTags:['spell']}),level:1};i.grafts=[gem];assert.deepEqual(rules.hostSockets(i),[gem]);assert.equal(reads,1);
+ i.grafts=[];i.sockets=[null,gem,null];assert.deepEqual(rules.hostSockets(i),[gem]);assert.equal(reads,2);
+ i.sockets[1]=null;assert.deepEqual(rules.hostSockets(i),[]);assert.equal(reads,2);
+});

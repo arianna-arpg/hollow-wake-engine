@@ -12,9 +12,12 @@ Math.random=()=>{throw new Error('Ambient RNG');};globalThis.fetch=()=>{throw ne
 const {SupportContent}=await import('@hollow-wake/engine/skills/support-content'),{SupportRules,canonicalSupportCut,resolveSupportCut,supportCutMechanisms,supportCutModifiers,rollSupportCut,supportTagsFit}=await import('@hollow-wake/engine/skills/supports'),{SupportActions}=await import('@hollow-wake/engine/skills/support-actions');
 const pack=JSON.parse(fs.readFileSync(new URL(import.meta.resolve('@hollow-wake/support-content/supports.json')))),content=new SupportContent(pack),expected=JSON.parse(fs.readFileSync('observed.json'));
 const make=(def,sockets=4)=>({def,level:1,sockets:new Array(sockets).fill(null)});
-const rules=new SupportRules({policy:()=>content.policy,boarding:()=>'gated',baseTags:i=>i.def.tags,delivery:i=>i.def.delivery,castMode:i=>i.def.castMode??'cast',treeModifiers:()=>undefined,selfStack:()=>undefined,summon:()=>undefined,componentInstances:()=>[],componentStatuses:()=>[],hasChildFlights:()=>false,status:id=>content.status(id),tuneChance:(id,n)=>content.tuneChance(id,n),createCrew:make});
+let baseTagReads=0;const rules=new SupportRules({policy:()=>content.policy,boarding:()=>'gated',baseTags:i=>{baseTagReads++;return i.def.tags;},delivery:i=>i.def.delivery,castMode:i=>i.def.castMode??'cast',treeModifiers:()=>undefined,selfStack:()=>undefined,summon:()=>undefined,componentInstances:()=>[],componentStatuses:()=>[],hasChildFlights:()=>false,status:id=>content.status(id),tuneChance:(id,n)=>content.tuneChance(id,n),createCrew:make});
 assert.equal(content.pack.supports.length,457);let tagChecks=0,chanceChecks=0,draws=0;
 const bare=make(expected.fireball);
+const empty=rules.hostSockets(bare);assert.deepEqual(empty,[]);assert.equal(baseTagReads,0);assert.notEqual(rules.hostSockets(bare),empty);
+const graft={def:content.support('splitting'),level:1};bare.grafts=[graft];assert.deepEqual(rules.hostSockets(bare),[graft]);assert.equal(baseTagReads,1);delete bare.grafts;
+assert.deepEqual(rules.hostSockets(bare),[]);assert.equal(baseTagReads,1);
 for(const [index,s] of content.pack.supports.entries()){
  assert.equal(supportTagsFit(s,bare.def.tags),!!(Number(expected.matrix[index])&1));assert.equal(rules.fits(s,bare),!!(Number(expected.matrix[index])&2));tagChecks++;
  assert.deepEqual(rules.seatBoundFields(s),expected.seatBound[index].fields);assert.equal(rules.ridesMinions(s),expected.seatBound[index].rides);
@@ -27,7 +30,7 @@ const actions=new SupportActions({bagItem:(s,id)=>s.items.find(i=>i.uid===id),su
 const before=rules.modifiers(inst);assert(actions.socket(seat,1,'fireball'));assert.equal(inst.sockets[0],gem);assert(rules.modifiers(inst).some(m=>m.stat==='projectileCount'&&m.value===1));
 const saved=JSON.parse(JSON.stringify({skillId:inst.def.id,sockets:inst.sockets.map(s=>s?{supportId:s.def.id,level:s.level,locked:s.locked}:null)})),restored=make(expected.fireball);restored.sockets=saved.sockets.map(s=>s?{def:content.support(s.supportId),level:s.level,locked:s.locked}:null);assert.deepEqual(rules.modifiers(restored),rules.modifiers(inst));
 seat.full=true;assert(!actions.unsocket(seat,'fireball',0));assert.equal(inst.sockets[0],gem);seat.full=false;assert(actions.unsocket(seat,'fireball',0));assert.equal(seat.items[0].gem,gem);assert.deepEqual(rules.modifiers(inst),before);
-console.log(JSON.stringify({installedConsumer:true,supports:457,bareFireballAdmissions:tagChecks,chanceChecks,cutDraws:draws,resolverCases:expected.cases.length,rebuilds,socketPreviewSaveUnsocket:true,contentId:content.pack.contentId}));
+console.log(JSON.stringify({installedConsumer:true,emptyAdmissionNoTagReads:true,supports:457,bareFireballAdmissions:tagChecks,chanceChecks,cutDraws:draws,resolverCases:expected.cases.length,rebuilds,socketPreviewSaveUnsocket:true,contentId:content.pack.contentId}));
 `);
 fs.writeFileSync(path.join(consumer,'consumer.ts'),`
 import {SupportContent,type SupportContentPack} from '@hollow-wake/engine/skills/support-content';
