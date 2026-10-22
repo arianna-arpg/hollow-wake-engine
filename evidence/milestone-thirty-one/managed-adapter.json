@@ -1,0 +1,64 @@
+{
+  "game": "local managed game checkout",
+  "base": "8c484600cf444a09498a4a10dcd78a966a8070ca",
+  "branch": "codex/engine-skill-intent",
+  "checkAndSimSmokePassed": true,
+  "installedMutationsRejected": 13,
+  "installedRuntimeFilesMatchBuild": 150,
+  "unrelatedTrackedFilesByteIdentical": 1859,
+  "preExistingBountyDifferencesPreserved": true,
+  "scope": "Admission, ordinary and smoke checks preceded the optional-module callback correction; final intent and all types were rechecked afterward.",
+  "localCommit": {
+    "commit": "2890e88f36d8252b8dc2e6101081f850cbcc7376",
+    "branch": "codex/engine-skill-intent",
+    "clean": true,
+    "pushed": false
+  },
+  "finalCallbackVerification": {
+    "gameLauncherAndCaptureTypeChecks": true,
+    "observations": [
+      {
+        "name": "skill-intent",
+        "sha256": "83350fddd4e2bf1c56fb8bb6e11230b55c07d6424a9893d2b0c218f022b89b63",
+        "rawByteEqual": false
+      },
+      {
+        "name": "skill-instance-identity",
+        "sha256": "677f03fee656cc667509244904a19364b9c7facf2c7ebd2dd6c49269550713cb",
+        "rawByteEqual": true
+      },
+      {
+        "name": "cast-request",
+        "sha256": "c964c81efe14641583bc465bfd9f6be8817d4a4d0b3010d7af5eb89855ddffb8",
+        "rawByteEqual": true
+      }
+    ],
+    "installedFaults": [
+      {
+        "name": "hard-seal-ignored",
+        "detected": true
+      },
+      {
+        "name": "combo-endpoint-excluded",
+        "detected": true
+      },
+      {
+        "name": "relocation-host-identity-lost",
+        "detected": true
+      },
+      {
+        "name": "meta-host-scope-lost",
+        "detected": true
+      },
+      {
+        "name": "press-admission-bypassed",
+        "detected": true
+      },
+      {
+        "name": "native-intent-disconnected",
+        "detected": true
+      }
+    ],
+    "allInstalledFilesRestored": true
+  }
+}

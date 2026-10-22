@@ -112,14 +112,16 @@ Median milliseconds for each complete workload:
 
 | Workload | Run | Original | v0.26 | v0.27 |
 | --- | --- | ---: | ---: | ---: |
-| 9,216 HUD/press/face queries | 1 | 33.847 | 34.774 | 34.352 |
-| 9,216 HUD/press/face queries | 2 | 34.799 | 34.238 | 33.432 |
-| 1,024 native query/cast starts | 1 | 45.195 | 46.541 | 47.123 |
-| 1,024 native query/cast starts | 2 | 46.084 | 46.098 | 45.084 |
+| 9,216 HUD/press/face queries | 1 | 35.064 | 36.695 | 35.378 |
+| 9,216 HUD/press/face queries | 2 | 33.901 | 36.032 | 34.530 |
+| 1,024 native query/cast starts | 1 | 48.500 | 48.439 | 49.714 |
+| 1,024 native query/cast starts | 2 | 44.912 | 47.706 | 48.361 |
 
-Mixed queries were 1.21–2.35% faster than v0.26 in these runs. Native starts
-ranged from 1.25% slower to 2.20% faster; there is no consistent overall speedup.
-Against the original, both workloads changed direction between runs. See the
+Final callback-corrected queries were 3.59–4.17% faster than v0.26. Native starts
+were 1.37–2.63% slower; this extraction is not an overall performance improvement.
+Against the original, queries were 0.89–1.85% slower and native starts 2.50–7.68%
+slower. The measured native-start regression remains optimization work. These
+measurements supersede the pre-correction candidate runs. See the
 [measurement decision](../evidence/milestone-thirty-one/benchmark-decision.json)
 and raw samples. `benchmark:intent -- --previous-adapter <retained-v0.26-game>`
 checks source/runtime controls before measuring. It includes ordinary, trigger,

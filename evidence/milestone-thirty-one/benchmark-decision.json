@@ -1,24 +1,26 @@
 {
-  "decision": "Accept the behavior-preserving optional boundary. Mixed queries improve slightly versus v0.26 in both runs; native cast-start direction varies between runs. No consistent overall speedup or allocation claim.",
+  "decision": "Accept the verified optional SDK boundary with the measured native-start regression explicitly retained as optimization work. Do not claim overall speedup.",
+  "conclusion": "Final callback-corrected mixed queries are 3.59–4.17% faster than v0.26 in two desktop runs. Native query/cast-start work is 1.37–2.63% slower. Against the original, mixed queries are 0.89–1.85% slower and native starts 2.50–7.68% slower. This extraction is not an overall performance improvement. No allocation, whole-frame or device claim.",
+  "callbackCorrectionCommit": "8409282a9d869cfe49a142e9f8643beff43aad0a",
   "comparisons": [
     {
       "run": 1,
       "courses": [
         {
           "name": "mixed-hud-press-face",
-          "originalMedianMs": 33.84689999999864,
-          "previousMedianMs": 34.77390000000014,
-          "currentMedianMs": 34.35229999999865,
-          "percentSlowerThanPrevious": -1.2124035555444945,
-          "percentSlowerThanOriginal": 1.493194354579086
+          "originalMedianMs": 35.0643,
+          "previousMedianMs": 36.69460000000072,
+          "currentMedianMs": 35.37800000000061,
+          "percentSlowerThanPrevious": -3.5879938737582107,
+          "percentSlowerThanOriginal": 0.8946421288906548
         },
         {
           "name": "native-hud-press-and-cast-start",
-          "originalMedianMs": 45.19470000000001,
-          "previousMedianMs": 46.54100000000108,
-          "currentMedianMs": 47.1234000000004,
-          "percentSlowerThanPrevious": 1.2513697599950913,
-          "percentSlowerThanOriginal": 4.267535795127286
+          "originalMedianMs": 48.499900000002526,
+          "previousMedianMs": 48.43930000000182,
+          "currentMedianMs": 49.71399999999994,
+          "percentSlowerThanPrevious": 2.631540918217379,
+          "percentSlowerThanOriginal": 2.5033041305185133
         }
       ]
     },
@@ -27,22 +29,24 @@
       "courses": [
         {
           "name": "mixed-hud-press-face",
-          "originalMedianMs": 34.798799999998664,
-          "previousMedianMs": 34.23830000000089,
-          "currentMedianMs": 33.43239999999969,
-          "percentSlowerThanPrevious": -2.3537967714553076,
-          "percentSlowerThanOriginal": -3.9265721806471143
+          "originalMedianMs": 33.90129999999954,
+          "previousMedianMs": 36.03160000000025,
+          "currentMedianMs": 34.53009999999995,
+          "percentSlowerThanPrevious": -4.167175479302321,
+          "percentSlowerThanOriginal": 1.8547961287632697
         },
         {
           "name": "native-hud-press-and-cast-start",
-          "originalMedianMs": 46.08429999999862,
-          "previousMedianMs": 46.097900000000664,
-          "currentMedianMs": 45.084499999997206,
-          "percentSlowerThanPrevious": -2.1983647845204346,
-          "percentSlowerThanOriginal": -2.1695024118874473
+          "originalMedianMs": 44.911800000001676,
+          "previousMedianMs": 47.706200000000536,
+          "currentMedianMs": 48.36070000000109,
+          "percentSlowerThanPrevious": 1.3719390771022244,
+          "percentSlowerThanOriginal": 7.679273598473646
         }
       ]
     }
   ],
-  "limits": "Two rotating desktop Node runs. Current/original/previous gameplay receipts match exactly. No whole-frame, physical Steam Deck, mobile, allocation/GC or energy claim."
+  "limits": "Two rotating desktop Node runs. Current/original/previous gameplay receipts match exactly. No whole-frame, physical Steam Deck, mobile, allocation/GC or energy claim.",
+  "supersedes": "Earlier candidate measurements at commit 098ff62273016da5cc4eda64ada196592f4ae481 precede two callback-order corrections. The two published sample files now contain final corrected-runtime measurements.",
+  "followup": "Profile complete native request dispatch and its host/SDK transitions before changing caches or callback semantics; retain receipt checks and measure allocation/frame/device costs separately."
 }

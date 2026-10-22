@@ -304,8 +304,9 @@ separately. See [skill-admission.md](skill-admission.md) and the
 Version 0.27 adds `reference:intent`, `adapter:intent-source`, `adapter:intent`
 and `benchmark:intent`. Three original-only fixtures contain 278 observations
 of queries, seals, temporary-instance ownership and actual request dispatch.
-Fourteen independent policy tests, four comparison tests, nine runtime faults,
+Sixteen independent policy tests, four comparison tests, eleven runtime faults,
 six installed faults and a nineteenth packed consumer cover the new boundary.
+The complete verifier passes 293 tests, 114 runtime faults and 19 packed consumers.
 Identity and request observations compare byte-for-byte; only explicitly named
 original diagnostic query forwarders are projected. Earlier admission queries
 receive the same narrowly scoped treatment while their actual request checks

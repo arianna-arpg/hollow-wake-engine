@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "version": "0.27.0",
+  "sdkBase": "3393b06dcb413284893bd031a60cd8d3a375d1bc",
+  "baselineCommit": "ff9f35cfd4128ffa8d0fd1146252cb0648ee6873",
+  "runtimeCandidateCommit": "8409282a9d869cfe49a142e9f8643beff43aad0a",
+  "earlierCandidateCommit": "098ff62273016da5cc4eda64ada196592f4ae481",
+  "checks": {
+    "tests": 293,
+    "behavioralFaults": 114,
+    "packedConsumers": 19,
+    "newPolicyTests": 16,
+    "diagnosticProjectionTests": 4,
+    "originalObservations": 278,
+    "newInstalledFaults": 6,
+    "priorInstalledSuites": 8,
+    "priorInstalledFaults": 35,
+    "nativeProbes": 9,
+    "simulationSmoke": "5 scenarios x 5 seeds",
+    "candidateRenderedInput": true,
+    "retainedV26RenderedControl": true,
+    "rendererRegressions": 8,
+    "managedInstalledSuites": 3,
+    "managedInstalledFaults": 13,
+    "managedTypesAndSmoke": true,
+    "boundaryControls": {
+      "interfaceDataKeyAccepted": true,
+      "bareHostGlobalRejected": true,
+      "globalPropertyRejected": true,
+      "eagerCastSealsRejected": true,
+      "productionSourcesUntouched": true
+    },
+    "finalVerifierExitCode": 0,
+    "finalCallbackProbes": [
+      "validation row capture",
+      "conversion face reread"
+    ]
+  },
+  "boundary": {
+    "modules": 50,
+    "runtimeDependencies": 0,
+    "newJavaScriptBytes": 9354,
+    "retainedCoreJavaScriptBytes": 77407,
+    "optionalBudgetKiB": 12,
+    "combinedBudgetKiB": 424,
+    "installedRuntimeFiles": 150,
+    "unchangedPreviousRuntimeFiles": 141
+  },
+  "originalPreservation": {
+    "externalMainUpdateRecorded": true,
+    "currentHead": "1075d260e941af0a4817e21ca32a9a55db4adeea",
+    "trackedAndUntrackedFilesPreserved": 4068,
+    "pinnedSDKSourceVerified": true
+  },
+  "performance": "Final callback-corrected mixed queries are 3.59–4.17% faster than v0.26 in two desktop runs. Native query/cast-start work is 1.37–2.63% slower. Against the original, mixed queries are 0.89–1.85% slower and native starts 2.50–7.68% slower. This extraction is not an overall performance improvement. No allocation, whole-frame or device claim.",
+  "logs": [
+    {
+      "file": "verification.txt",
+      "rawSha256": "c65768632116b370ef24bdb5f7833a2cc6e9d877eb7d374bed3a76677cbaeb76",
+      "publishedSha256": "4d22ae55aa89a755fb70170bf946fc99016e2334e3148689e9483b04e94dfced"
+    },
+    {
+      "file": "managed-types.txt",
+      "rawSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d",
+      "publishedSha256": "191c4684202ada301b8ac19abc7d6afdcdb521d37f6e6619434e6073db22de60"
+    },
+    {
+      "file": "managed-smoke.txt",
+      "rawSha256": "b5eb421dd3e0593cfc47d162698b153df3a27c59790193e52948679c1e2f546a",
+      "publishedSha256": "9f4f78026d24caf1619939514c629399b617d14d9e0e4b66145da70c5897c07e"
+    },
+    {
+      "file": "core-benchmark.txt",
+      "rawSha256": "f79d78acda45ae0fbddd078562bfbf8f5bc8a8f810b1e7db3a3355fad0156705",
+      "publishedSha256": "430dad83066396eccd64f18af2c86ed085e1942147405d4587fc40d771f136c4"
+    }
+  ],
+  "limits": "Actual World request dispatch and delivery remain host-owned. Eleven of thirteen SDK families retain work. Native engine packages and physical Steam Deck/mobile acceptance remain incomplete. Remote exact-commit CI is recorded separately.",
+  "coreBenchmarkScope": "Measured before the two optional-module callback corrections; the 77407-byte core runtime was unchanged. Ratio applies only to the receipt-checked numeric hit workload in core-benchmark.txt.",
+  "logNormalization": "Published logs use LF line endings and one final newline; raw hashes identify retained local captures."
+}
