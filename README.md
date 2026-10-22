@@ -13,6 +13,11 @@ Version 0.25 adds [resource payment](docs/resource-payment.md): shared mana,
 shield and life spending, loan headroom and time-dependent debt repayment.
 It builds on v0.24's [guard casting](docs/guard-casting.md).
 
+The v0.26 candidate adds optional [skill admission](docs/skill-admission.md):
+actor eligibility, reflex/held combinations and ordered prerequisites. It preserves
+lazy ammunition creation and existing resource validation. Release acceptance is
+still in progress; the published milestone remains v0.25.
+
 ## Start here
 
 From this repository, with Node 22 or newer:
@@ -39,7 +44,7 @@ Import only the capabilities you need; optional entries are not eager core impor
 | Inventory, equipment and storage | [Inventory](docs/inventory-contract.md), [equipment](docs/equipment-actions.md), [storage](docs/stash-policy.md) |
 | Passives, skills and supports | [Passive policy](docs/passive-policy.md), [skill progression](docs/skill-progression.md), [support rules](docs/support-rules.md) |
 | Resources, payment and ammunition | [Resource runtime](docs/resource-runtime.md), [payment](docs/resource-payment.md), [ammunition](docs/ammunition.md) |
-| Casting | [Ordinary lifecycle](docs/casting-contract.md), [charged](docs/charged-casting.md), [focus and timing](docs/interactive-casting.md), [channels](docs/channel-casting.md), [guards](docs/guard-casting.md) |
+| Casting | [Admission](docs/skill-admission.md), [ordinary lifecycle](docs/casting-contract.md), [charged](docs/charged-casting.md), [focus and timing](docs/interactive-casting.md), [channels](docs/channel-casting.md), [guards](docs/guard-casting.md) |
 | Engine adapters and native experiments | [Host contract](docs/casting-contract.md), [seven-operation C ABI experiment](docs/native-lifecycle.md) |
 
 The shipped `examples/` include small hosts for resources, charged casting,
@@ -51,8 +56,8 @@ delivery, presentation and durable saves.
 
 [Completion criteria](docs/completion.json) track each system and its evidence.
 Importing an authored definition does not establish that its mechanics execute.
-Remaining work includes shared casting admission and delivery, guard interception,
-resource debt and repayment, advanced defenses, other
+Remaining work includes World input authority and delivery, guard interception,
+loan aura installation/teardown, advanced defenses, other
 statuses and procs, summons, downstream execution of tree payloads, vocation
 progression, crafting/trading, durable account services and later UI integration.
 The primary game checkout and its unfinished work remain preserved.

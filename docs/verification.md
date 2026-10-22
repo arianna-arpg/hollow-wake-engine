@@ -1,10 +1,10 @@
 # Verification and reproduction
 
-Version 0.24 adds `reference:guard-casting`, `adapter:guard-source`,
-`adapter:guard-casting` and `benchmark:guard-casting`. Its optional entry has
-a 12 KiB JavaScript allowance; the combined bound is 400 KiB, retaining all earlier
-module/core limits. See [guard-casting.md](guard-casting.md) for phase ordering,
-borrowed state and the distinction between isolated and complete game courses.
+The v0.26 candidate adds `reference:admission`, `adapter:admission-source`,
+`adapter:admission` and `benchmark:admission`. Its optional entry has a 12 KiB
+JavaScript allowance; the combined bound is 412 KiB, retaining all earlier
+module/core limits. See [skill-admission.md](skill-admission.md) for live state,
+lazy bank mutation and the distinction between actor queries and host authority.
 
 ## Normal package checks
 
@@ -286,12 +286,18 @@ The installed game must detect five ammunition faults; renderer acceptance earns
 round spending and reloads through ordinary input. See [ammunition.md](ammunition.md)
 for ownership, lazy admission, fractional legacy banks and bounded work.
 
-The next skill-admission baseline adds `reference:admission`: 126 actor courses
+The skill-admission baseline adds `reference:admission`: 126 actor courses
 and 11 native World courses, 243 observations in total. Accepted outputs match
 two original runs and the retained v0.25 installation byte-for-byte. The runner
-reproduces them without replacing fixtures. This is baseline evidence only;
-no admission runtime or new package version is claimed. See
-[skill-admission-boundary.md](skill-admission-boundary.md).
+reproduces them without replacing fixtures. The v0.26 candidate adds
+`adapter:admission-source`, `adapter:admission` and `benchmark:admission`.
+Its installed comparison retains state/results and meaningful host call ordering,
+with explicitly instrumented forwarding-trace projection. Thirteen independent
+policy tests, two comparison tests, six runtime faults, six installed faults and
+a clean packed consumer cover this extraction. The complete SDK verifier passes
+273 tests, 103 runtime faults and 18 packed consumers. Release acceptance remains
+in progress. See [skill-admission.md](skill-admission.md) and the
+[original boundary](skill-admission-boundary.md).
 
 ## Cross-runtime numerical policy
 

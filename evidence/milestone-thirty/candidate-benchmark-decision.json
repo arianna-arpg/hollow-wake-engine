@@ -1,0 +1,48 @@
+{
+  "decision": "Retain the scoped actor-query improvement and the small native-path regression as separate results. This is a candidate checkpoint, not release acceptance.",
+  "comparisons": [
+    {
+      "run": 1,
+      "courses": [
+        {
+          "name": "mixed-actor-admission",
+          "originalMedianMs": 55.003099999998085,
+          "previousMedianMs": 58.58140000000094,
+          "currentMedianMs": 54.58589999999822,
+          "percentSlowerThanPrevious": -6.820424230220956,
+          "percentSlowerThanOriginal": -0.758502702574726
+        },
+        {
+          "name": "native-hud-press-query-and-cast-start",
+          "originalMedianMs": 27.694500000001426,
+          "previousMedianMs": 29.201399999998102,
+          "currentMedianMs": 29.247800000001007,
+          "percentSlowerThanPrevious": 0.15889649127407424,
+          "percentSlowerThanOriginal": 5.608694867210096
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "courses": [
+        {
+          "name": "mixed-actor-admission",
+          "originalMedianMs": 60.53470000000016,
+          "previousMedianMs": 61.774600000000646,
+          "currentMedianMs": 56.64090000000033,
+          "percentSlowerThanPrevious": -8.31037351921382,
+          "percentSlowerThanOriginal": -6.432343763163639
+        },
+        {
+          "name": "native-hud-press-query-and-cast-start",
+          "originalMedianMs": 29.49279999999999,
+          "previousMedianMs": 31.64900000000125,
+          "currentMedianMs": 32.03020000000106,
+          "percentSlowerThanPrevious": 1.2044614363796446,
+          "percentSlowerThanOriginal": 8.603455758697276
+        }
+      ]
+    }
+  ],
+  "limits": "Desktop Node workloads only; 8192 actor queries and 1024 native HUD/query/cast starts. No completed delivery, rendered frame, allocation/GC or device claim."
+}

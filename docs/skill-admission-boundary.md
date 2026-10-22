@@ -1,8 +1,8 @@
 # Skill admission: original baseline and extraction boundary
 
-Status: original observations accepted; no admission runtime is released by this
-change. Public v0.25 remains the resource-payment milestone. The next implementation
-must carry these rules into a reusable host-independent policy and the game adapter.
+Status: original observations accepted. The admission candidate and its live-host
+contract are described in [skill-admission.md](skill-admission.md). Public v0.25
+remains the resource-payment milestone until the admission release gates pass.
 
 ## Evidence authority
 
@@ -94,14 +94,16 @@ Reflex-stat evaluation uses the original raw-definition context. Do not merge
 these into one eagerly computed tag set. Read current definitions, sockets,
 reflex policy, reservations and stat sources at their original decision points.
 
-## Runtime boundary to implement
+## Runtime boundary
 
 Use an instance-owned or immutable stateless policy with explicit host ports and
 borrowed actor records. Share immutable authored definitions; keep mutable actors,
 banks, cooldowns and casts separate. Never retain host engine objects globally or
 copy a whole actor/build into a new eligibility packet for every query.
 
-The SDK owns the decision ordering and numeric comparisons. The host supplies
+The SDK owns the decision ordering and numeric comparisons. Existing resource
+policies supply charge-cost and ammunition validation at their original points.
+The host supplies
 skill resolution, coherent live stat/context reads, status metadata, ammunition
 bank access, payment affordability, gauge terms and summon capacity/reservation
 observations. Existing extracted policies should provide those observations when
@@ -122,7 +124,9 @@ drop trace fields merely to hide a discrepancy.
 
 ## Completion gates for this extraction
 
-The baseline is complete; the extraction is not. The next steps remain:
+These gates define full extraction acceptance. Completed and pending checks for
+the current implementation are recorded in the
+[candidate checkpoint](../evidence/milestone-thirty/candidate-verification.json):
 
 - Implement the reusable policy and independent arithmetic/order/error tests.
 - Guard overlays against both pinned original code and inherited ammunition

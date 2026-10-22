@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.25.0",
+  "version": "0.26.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -25,7 +25,8 @@
     "examples/ammunition.mjs",
     "examples/channel-casting.mjs",
     "examples/guard-casting.mjs",
-    "examples/resource-payment.mjs"
+    "examples/resource-payment.mjs",
+    "examples/skill-admission.mjs"
   ],
   "exports": {
     ".": {
@@ -150,13 +151,17 @@
     "./resources/payment": {
       "types": "./dist/resource-payment.d.ts",
       "import": "./dist/resource-payment.js"
+    },
+    "./casting/admission": {
+      "types": "./dist/skill-admission.d.ts",
+      "import": "./dist/skill-admission.js"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs && node scripts/test-skill-admission-package.mjs",
     "example": "npm run build && node examples/first-path.mjs",
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
@@ -266,7 +271,10 @@
     "reference:admission": "node scripts/run-admission-reference.mjs",
     "adapter:payment-source": "node scripts/test-resource-payment-overlay.mjs",
     "adapter:resource-payment": "node scripts/test-game-resource-payment.mjs",
-    "benchmark:resource-payment": "node scripts/benchmark-resource-payment.mjs"
+    "benchmark:resource-payment": "node scripts/benchmark-resource-payment.mjs",
+    "adapter:admission": "node scripts/test-game-skill-admission.mjs",
+    "adapter:admission-source": "node scripts/test-skill-admission-overlay.mjs",
+    "benchmark:admission": "node scripts/benchmark-skill-admission.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"
