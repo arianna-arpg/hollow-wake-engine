@@ -1,5 +1,20 @@
 # Verification and reproduction
 
+Version 0.28 adds `reference:request`, `adapter:request-source`, `adapter:request`
+and `benchmark:request -- --previous-adapter <retained-v0.27.1-game>`. The original
+baseline contains 68 courses and 71 transitions accepted before implementation.
+The installed request comparison is byte-exact, with seven deliberate faults.
+The SDK verifier passes 314 tests, 126 faults and 20 packed consumers. Request
+preflight has an 8 KiB JavaScript allowance inside the retained 424 KiB combined
+bound; its runtime is 5,191 bytes. See [the request contract](skill-request.md).
+
+`scripts/test-skill-request-ui.mjs --game <game> --dist <build> --electron <exe>`
+runs six mounted player-intent stages for trigger/replenishment toggles and seal
+priority. The harness explicitly seeds skill level, support and account awakening
+eligibility, then uses native learning, tree purchasing and request dispatch.
+It does not establish physical input or device acceptance. Use the existing
+isolated UI builder before running it against a new installation.
+
 Version 0.26 adds `reference:admission`, `adapter:admission-source`,
 `adapter:admission` and `benchmark:admission`. Its optional entry has a 12 KiB
 JavaScript allowance; the combined bound is 412 KiB, retaining all earlier

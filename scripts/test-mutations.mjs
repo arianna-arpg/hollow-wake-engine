@@ -176,6 +176,17 @@ for (const [module, name, before, after, tests] of [
   ["skill-instances","intent-relocation-host-identity-lost","relocation && this.#relocations.get(inst) !== host","false","test/skill-intent.test.mjs"],
   ["skill-instances","intent-combo-double-counts-socket-levels","inst.level + Math.floor(inst.bonusLevels ?? 0)","this.#ports.effectiveLevel(inst)","test/skill-intent.test.mjs"],
   ["skill-instances","intent-combo-copies-sockets","step.sockets = inst.sockets;","step.sockets = [...inst.sockets];","test/skill-intent.test.mjs"],
+  ['skill-request', 'request-seal-bypassed', 'if (seal) {', 'if (false) {', 'test/skill-request.test.mjs'],
+  ['skill-request', 'request-forget-omitted', 'p.forgetReplenishment(actor, inst);', '/* omitted */', 'test/skill-request.test.mjs'],
+  ['skill-request', 'request-struggle-omitted', 'hold.struggle += p.mashPress();', 'hold.struggle += 0;', 'test/skill-request.test.mjs'],
+  ['skill-request', 'request-life-lock-endpoint', 'actor.life > delivery.lockAboveLife', 'actor.life >= delivery.lockAboveLife', 'test/skill-request.test.mjs'],
+  ['skill-request', 'request-trigger-possession-seat', 'p.triggerSeat(actor)', 'p.seatOf(actor)', 'test/skill-request.test.mjs'],
+  ['skill-request', 'request-stale-depth-retained', 'inst.state.trigDepth = 0;', 'inst.state.trigDepth = 1;', 'test/skill-request.test.mjs'],
+  ['skill-request', 'request-conversion-socket-copy', 'minted.sockets = inst.sockets;', 'minted.sockets = [...inst.sockets];', 'test/skill-request.test.mjs'],
+  ['skill-request', 'request-prerequisite-empty-note', "unmet.note ?? 'not ready'", "unmet.note || 'not ready'", 'test/skill-request.test.mjs'],
+  ['skill-request', 'request-relocation-bypassed', '!p.relocationTarget(actor, inst, effect.radius)', 'false', 'test/skill-request.test.mjs'],
+  ['skill-request', 'request-admission-bypassed', '!p.canUse(actor, inst)', 'false', 'test/skill-request.test.mjs'],
+  ['skill-request', 'request-continuation-treated-as-handled', "return 'continue';", 'return true;', 'test/skill-request.test.mjs'],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
   assert.ok(source.includes(before));

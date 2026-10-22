@@ -27,6 +27,7 @@ import { integrateGuardCasting } from '../adapters/hollow-wake/integrate-guard-c
 import { integrateResourcePayment } from '../adapters/hollow-wake/integrate-resource-payment.mjs';
 import { integrateSkillAdmission } from '../adapters/hollow-wake/integrate-skill-admission.mjs';
 import { integrateSkillIntent } from '../adapters/hollow-wake/integrate-skill-intent.mjs';
+import { integrateSkillRequest } from '../adapters/hollow-wake/integrate-skill-request.mjs';
 const artifacts = path.join(root, '.artifacts');
 fs.mkdirSync(artifacts, { recursive: true });
 const requested = process.argv.indexOf('--game');
@@ -59,6 +60,7 @@ integrateGuardCasting(game, false);
 integrateResourcePayment(game, false);
 integrateSkillAdmission(game, false);
 integrateSkillIntent(game, false);
+integrateSkillRequest(game, false);
 // A distinct tool environment: never install into the frozen reference or another checkout's junction.
 const tooling = fs.mkdtempSync(path.join(artifacts, 'adapter-tools-'));
 for (const file of ['package.json', 'package-lock.json']) fs.copyFileSync(path.join(root, 'reference/tooling', file), path.join(tooling, file));
@@ -120,6 +122,8 @@ const skillAdmission = integrateSkillAdmission(game);
 changes.files.push(...skillAdmission.files);
 const skillIntent = integrateSkillIntent(game);
 changes.files.push(...skillIntent.files);
+const skillRequest = integrateSkillRequest(game);
+changes.files.push(...skillRequest.files);
 fs.symlinkSync(path.join(tooling, 'node_modules'), path.join(game, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
 fs.copyFileSync(path.join(root, 'reference/export-lifecycle.ts'), path.join(game, 'balance/export-engine-lifecycle.ts'));
 fs.writeFileSync(path.join(artifacts, 'adapter-location.json'), JSON.stringify({ game, tooling, package: packed.filename, integrity: packed.integrity, ...changes }, null, 2));
