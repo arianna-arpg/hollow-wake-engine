@@ -9,6 +9,10 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
+Version 0.27 adds optional [skill intent](docs/skill-intent.md): cast seals,
+HUD/button readiness, displayed skill faces and temporary-instance ownership.
+Actual request dispatch and delivery remain explicit host responsibilities.
+
 Version 0.26 adds optional [skill admission](docs/skill-admission.md): actor
 eligibility, reflex/held combinations and ordered prerequisites. It preserves
 lazy ammunition creation and existing resource validation. It builds on v0.25's
@@ -41,7 +45,7 @@ Import only the capabilities you need; optional entries are not eager core impor
 | Inventory, equipment and storage | [Inventory](docs/inventory-contract.md), [equipment](docs/equipment-actions.md), [storage](docs/stash-policy.md) |
 | Passives, skills and supports | [Passive policy](docs/passive-policy.md), [skill progression](docs/skill-progression.md), [support rules](docs/support-rules.md) |
 | Resources, payment and ammunition | [Resource runtime](docs/resource-runtime.md), [payment](docs/resource-payment.md), [ammunition](docs/ammunition.md) |
-| Casting | [Admission](docs/skill-admission.md), [ordinary lifecycle](docs/casting-contract.md), [charged](docs/charged-casting.md), [focus and timing](docs/interactive-casting.md), [channels](docs/channel-casting.md), [guards](docs/guard-casting.md) |
+| Casting | [Intent and seals](docs/skill-intent.md), [admission](docs/skill-admission.md), [ordinary lifecycle](docs/casting-contract.md), [charged](docs/charged-casting.md), [focus and timing](docs/interactive-casting.md), [channels](docs/channel-casting.md), [guards](docs/guard-casting.md) |
 | Engine adapters and native experiments | [Host contract](docs/casting-contract.md), [seven-operation C ABI experiment](docs/native-lifecycle.md) |
 
 The shipped `examples/` include small hosts for resources, charged casting,

@@ -1,0 +1,76 @@
+{
+  "game": "isolated-game-adapter",
+  "output": "local raw observation directory retained",
+  "version": "0.27.0",
+  "installedRuntimeFilesMatchBuild": 150,
+  "gameLauncherAndCaptureTypeChecks": true,
+  "fixtures": [
+    {
+      "name": "skill-intent",
+      "helperSha256": "77fd9e49221b20cd86577b85f51b72df0f52b2479cd50590b34e63d06557c47c",
+      "fixtureSha256": "1e1f3529c86337bf0ac6359f238cff03639b1e371f15752ae35515bc1fbe1cae",
+      "courses": 29,
+      "transitions": 195,
+      "sealRows": 32
+    },
+    {
+      "name": "skill-instance-identity",
+      "helperSha256": "b741ee2c9b939a03c752dc3e9a93afe7ae25eaee30b985ec95cab319936d006c",
+      "fixtureSha256": "677f03fee656cc667509244904a19364b9c7facf2c7ebd2dd6c49269550713cb",
+      "transitions": 29
+    },
+    {
+      "name": "cast-request",
+      "helperSha256": "fd68d753ba44d8e2413177addc0ac8070c73e1afaf677b587b25ae812d6cf044",
+      "fixtureSha256": "c964c81efe14641583bc465bfd9f6be8817d4a4d0b3010d7af5eb89855ddffb8",
+      "courses": 20,
+      "transitions": 22
+    }
+  ],
+  "observations": [
+    {
+      "name": "skill-intent",
+      "sha256": "83350fddd4e2bf1c56fb8bb6e11230b55c07d6424a9893d2b0c218f022b89b63",
+      "rawByteEqual": false
+    },
+    {
+      "name": "skill-instance-identity",
+      "sha256": "677f03fee656cc667509244904a19364b9c7facf2c7ebd2dd6c49269550713cb",
+      "rawByteEqual": true
+    },
+    {
+      "name": "cast-request",
+      "sha256": "c964c81efe14641583bc465bfd9f6be8817d4a4d0b3010d7af5eb89855ddffb8",
+      "rawByteEqual": true
+    }
+  ],
+  "originalForwardingCallsProjected": 118,
+  "projection": "Original query diagnostic forwarders only; candidate unfiltered. Identity and actual request fixtures byte-exact.",
+  "installedFaults": [
+    {
+      "name": "hard-seal-ignored",
+      "detected": true
+    },
+    {
+      "name": "combo-endpoint-excluded",
+      "detected": true
+    },
+    {
+      "name": "relocation-host-identity-lost",
+      "detected": true
+    },
+    {
+      "name": "meta-host-scope-lost",
+      "detected": true
+    },
+    {
+      "name": "press-admission-bypassed",
+      "detected": true
+    },
+    {
+      "name": "native-intent-disconnected",
+      "detected": true
+    }
+  ],
+  "allInstalledFilesRestored": true
+}

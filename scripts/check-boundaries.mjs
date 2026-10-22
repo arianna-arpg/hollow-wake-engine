@@ -58,4 +58,5 @@ assert.ok([...reachable].every(file => path.basename(file)!=='interactive-castin
 assert.ok([...reachable].every(file => path.basename(file)!=='ammunition.ts'), 'Optional ammunition became an eager core import');
 assert.ok([...reachable].every(file => path.basename(file)!=='channel-casting.ts'), 'Optional channel casting became an eager core import');
 assert.ok([...reachable].every(file => path.basename(file)!=='guard-casting.ts'), 'Optional guard casting became an eager core import');
+assert.ok([...reachable].every(file => path.basename(file)!=='cast-seals.ts'), 'Optional cast seals became an eager core import');
 console.log(`Boundary check passed: ${files} production modules; no external runtime dependencies, host APIs, or ambient randomness.`);

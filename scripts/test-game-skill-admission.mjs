@@ -1,6 +1,7 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {gunzipSync} from 'node:zlib';import {execFileSync} from 'node:child_process';import {randomUUID} from 'node:crypto';
 import {root,listFiles,sha256,writeJSON,verifyReference} from './reference-utils.mjs';
 import {actorCaptureSource,worldCaptureSource,withoutParents,projectAdmission} from './admission-comparison.mjs';
+import {expectedAdmissionAfterIntent} from './skill-intent-comparison.mjs';
 const artifacts=path.join(root,'.artifacts'),location=JSON.parse(fs.readFileSync(path.join(artifacts,'adapter-location.json'))),game=location.game;
 const reference=path.join(root,'.reference'),lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json')));
 verifyReference(reference,lock);
@@ -32,6 +33,7 @@ try{
   const observed=capture(row,reference,'original');
   assert.deepEqual(row.name==='admission-world'?withoutParents(observed):observed,row.expected,'Instrumented original changed accepted observations');
   row.projected=projectAdmission(row.name,observed);
+  if(row.name==='admission-world')row.projected=expectedAdmissionAfterIntent(row.projected);
   assert.deepEqual(projectAdmission(row.name,capture(row,game,'candidate')),row.projected,'Installed admission changed '+row.name);
  }
  if(!process.argv.includes('--skip-faults')){
@@ -56,5 +58,5 @@ try{
 for(const file of files)assert(fs.readFileSync(path.join(installed,file)).equals(fs.readFileSync(path.join(built,file))),'Admission fault not restored '+file);
 verifyReference(reference,lock);
 writeJSON(path.join(artifacts,'game-skill-admission-verification.json'),{game,output,version:JSON.parse(fs.readFileSync(path.join(location.tooling,'node_modules/@hollow-wake/engine/package.json'))).version,
- packageIntegrity:location.integrity,installedRuntimeFilesMatchBuild:files.length,gameLauncherAndCaptureTypeChecks:true,fixtures:acceptance.fixtures,projection:'Only retired forwarding trace entries and instrumented gatesMet -> unmetGate / canUse -> gatesMet -> unmetGate calls; all unfiltered captures retained.',installedFaults:reports,allInstalledFilesRestored:true});
+ packageIntegrity:location.integrity,installedRuntimeFilesMatchBuild:files.length,gameLauncherAndCaptureTypeChecks:true,fixtures:acceptance.fixtures,projection:'Retired actor forwarding entries and instrumented gatesMet -> unmetGate / canUse -> gatesMet -> unmetGate calls. Original expected HUD/press-query castSealed forwarding entries removed after M31; actual requests and candidate seal calls retained. All raw captures retained.',installedFaults:reports,allInstalledFilesRestored:true});
 console.log('Installed skill admission matches 137 original courses / 243 observations with explicit diagnostic projection.');

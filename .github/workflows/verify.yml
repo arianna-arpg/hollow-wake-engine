@@ -86,6 +86,7 @@ jobs:
       - run: npm run adapter:guard-source
       - run: npm run adapter:payment-source
       - run: npm run adapter:admission-source
+      - run: npm run adapter:intent-source
       - run: npm run adapter:ammunition-source
       - run: npm run reference:install
       - run: npm run reference:verify
@@ -113,6 +114,7 @@ jobs:
       - run: npm run reference:guard-casting
       - run: npm run reference:resource-payment
       - run: npm run reference:admission
+      - run: npm run reference:intent
       - run: npm run reference:ammunition
       - run: node --import tsx balance/probe_passiverefund.ts
         working-directory: .reference
@@ -144,6 +146,7 @@ jobs:
       - run: npm run adapter:guard-casting
       - run: npm run adapter:resource-payment
       - run: npm run adapter:admission
+      - run: npm run adapter:intent
       - run: npm run adapter:ammunition
       - run: npm run check
         working-directory: .artifacts/game-adapter
@@ -234,6 +237,10 @@ jobs:
             .artifacts/game-resource-payment-verification.json
             .artifacts/resource-payment-overlay-verification.json
             .artifacts/game-ammunition-verification.json
+            .artifacts/skill-intent-overlay-verification.json
+            .artifacts/game-skill-intent-verification.json
+            .artifacts/game-skill-admission-verification.json
+            .artifacts/skill-admission-overlay-verification.json
             .artifacts/ammunition-overlay-verification.json
             .artifacts/interactive-casting-overlay-verification.json
             .artifacts/charged-casting-overlay-verification.json

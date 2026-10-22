@@ -164,6 +164,15 @@ for (const [module, name, before, after, tests] of [
   ["resource-events","event-toggle-filter-ignored","if (spec.whileToggled && !p.toggled(actor, inst))","if (false && spec.whileToggled && !p.toggled(actor, inst))","test/resource-events.test.mjs"],
   ["resource-events","event-banks-after-shave","continue;\n                    }\n                    gaugeAdd","/* lost continue */\n                    }\n                    gaugeAdd","test/resource-events.test.mjs"],
   ["resource-events","event-reversed-slot-order","for (const inst of p.skills(actor))","for (const inst of [...p.skills(actor)].reverse())","test/resource-events.test.mjs"],
+  ["cast-seals","intent-hard-seal-ignored","this.matches(spec.shut, context)","false","test/skill-intent.test.mjs"],
+  ["skill-intent","intent-trigger-hud-enabled","if (p.trigger(inst))","if (false)","test/skill-intent.test.mjs"],
+  ["skill-intent","intent-corpse-query-side-effects","targeting.target !== 'corpse'","true","test/skill-intent.test.mjs"],
+  ["skill-intent","intent-combo-endpoint-excluded","> chain['window']",">= chain['window']","test/skill-intent.test.mjs"],
+  ["skill-intent","intent-gift-attribute-exemption-removed","inst.devGift ||","false ||","test/skill-intent.test.mjs"],
+  ["skill-instances","intent-nonconstruct-cursor-detached","!actor.construct ||","false ||","test/skill-intent.test.mjs"],
+  ["skill-instances","intent-relocation-host-identity-lost","relocation && this.#relocations.get(inst) !== host","false","test/skill-intent.test.mjs"],
+  ["skill-instances","intent-combo-double-counts-socket-levels","inst.level + Math.floor(inst.bonusLevels ?? 0)","this.#ports.effectiveLevel(inst)","test/skill-intent.test.mjs"],
+  ["skill-instances","intent-combo-copies-sockets","step.sockets = inst.sockets;","step.sockets = [...inst.sockets];","test/skill-intent.test.mjs"],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
   assert.ok(source.includes(before));

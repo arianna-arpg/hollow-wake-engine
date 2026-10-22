@@ -1,0 +1,48 @@
+{
+  "decision": "Accept the behavior-preserving optional boundary. Mixed queries improve slightly versus v0.26 in both runs; native cast-start direction varies between runs. No consistent overall speedup or allocation claim.",
+  "comparisons": [
+    {
+      "run": 1,
+      "courses": [
+        {
+          "name": "mixed-hud-press-face",
+          "originalMedianMs": 33.84689999999864,
+          "previousMedianMs": 34.77390000000014,
+          "currentMedianMs": 34.35229999999865,
+          "percentSlowerThanPrevious": -1.2124035555444945,
+          "percentSlowerThanOriginal": 1.493194354579086
+        },
+        {
+          "name": "native-hud-press-and-cast-start",
+          "originalMedianMs": 45.19470000000001,
+          "previousMedianMs": 46.54100000000108,
+          "currentMedianMs": 47.1234000000004,
+          "percentSlowerThanPrevious": 1.2513697599950913,
+          "percentSlowerThanOriginal": 4.267535795127286
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "courses": [
+        {
+          "name": "mixed-hud-press-face",
+          "originalMedianMs": 34.798799999998664,
+          "previousMedianMs": 34.23830000000089,
+          "currentMedianMs": 33.43239999999969,
+          "percentSlowerThanPrevious": -2.3537967714553076,
+          "percentSlowerThanOriginal": -3.9265721806471143
+        },
+        {
+          "name": "native-hud-press-and-cast-start",
+          "originalMedianMs": 46.08429999999862,
+          "previousMedianMs": 46.097900000000664,
+          "currentMedianMs": 45.084499999997206,
+          "percentSlowerThanPrevious": -2.1983647845204346,
+          "percentSlowerThanOriginal": -2.1695024118874473
+        }
+      ]
+    }
+  ],
+  "limits": "Two rotating desktop Node runs. Current/original/previous gameplay receipts match exactly. No whole-frame, physical Steam Deck, mobile, allocation/GC or energy claim."
+}

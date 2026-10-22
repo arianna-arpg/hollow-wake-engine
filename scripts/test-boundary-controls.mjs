@@ -18,5 +18,8 @@ for(const source of ['export const value = window;','export const value = global
   fs.writeFileSync(probe,source+'\n');
   const result=run();assert.notEqual(result.status,0);assert.match(result.stderr,/host-api-probe.ts: host API window/);
 }
-writeJSON(path.join(root,'.artifacts/boundary-controls-verification.json'),{interfaceDataKeyAccepted:true,bareHostGlobalRejected:true,globalPropertyRejected:true,productionSourcesUntouched:true});
+fs.unlinkSync(probe);
+fs.appendFileSync(path.join(copy,'src/index.ts'),"\nexport {CastSeals} from './cast-seals.js';\n");
+const eager=run();assert.notEqual(eager.status,0);assert.match(eager.stderr,/Optional cast seals became an eager core import/);
+writeJSON(path.join(root,'.artifacts/boundary-controls-verification.json'),{interfaceDataKeyAccepted:true,bareHostGlobalRejected:true,globalPropertyRejected:true,eagerCastSealsRejected:true,productionSourcesUntouched:true});
 console.log('Boundary controls accept typed data keys while rejecting bare and property-based host globals.');

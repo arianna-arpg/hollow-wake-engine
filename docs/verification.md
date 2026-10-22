@@ -301,6 +301,23 @@ simulation smoke and seven renderer/boot regressions. Exact-commit CI is recorde
 separately. See [skill-admission.md](skill-admission.md) and the
 [original boundary](skill-admission-boundary.md).
 
+Version 0.27 adds `reference:intent`, `adapter:intent-source`, `adapter:intent`
+and `benchmark:intent`. Three original-only fixtures contain 278 observations
+of queries, seals, temporary-instance ownership and actual request dispatch.
+Fourteen independent policy tests, four comparison tests, nine runtime faults,
+six installed faults and a nineteenth packed consumer cover the new boundary.
+Identity and request observations compare byte-for-byte; only explicitly named
+original diagnostic query forwarders are projected. Earlier admission queries
+receive the same narrowly scoped treatment while their actual request checks
+remain intact. See [skill-intent.md](skill-intent.md) for ownership, lazy query
+behavior, reproduction commands and retained host responsibilities.
+
+The renderer course is `scripts/test-skill-intent-ui.mjs --game <game> --dist
+<build> --electron <executable>`. Its normal player-input polling must earn combo
+steps, selected mimic casting, reload and seal refusal. Explicit bank seeding
+does not claim to reproduce earning a mimic capture. Target-device validation
+remains separate.
+
 ## Cross-runtime numerical policy
 
 Version 0.25 adds `reference:resource-payment`,
