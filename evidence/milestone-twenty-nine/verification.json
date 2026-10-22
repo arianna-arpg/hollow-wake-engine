@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "version": "0.25.0",
+  "sdkBase": "97089e6b8978afcec207ea12386802cb0a746dcc",
+  "sourceSha256": "794e794bd07181a3e65ea1b25882e6eb83537cb560485cc6c9d6efb9987a5da2",
+  "checks": {
+    "tests": 258,
+    "behavioralFaults": 97,
+    "packedConsumers": 17,
+    "originalCourses": 47,
+    "originalTransitions": 216,
+    "newInstalledFaults": 6,
+    "existingInstalledCastingCourses": 6,
+    "existingInstalledFaults": 23,
+    "managedInstalledCourses": 2,
+    "managedInstalledFaults": 7,
+    "managedTypes": true,
+    "managedSmoke": "5 scenarios x 5 seeds",
+    "renderedPaymentAndDebtLocks": true,
+    "earnedRepayment": true,
+    "renderedCastingAndBootRegressions": 6
+  },
+  "boundary": {
+    "productionModules": 46,
+    "productionDependencies": 0,
+    "newPaymentRuntimeBytes": 5085,
+    "unchangedPreviousRuntimeFiles": 135,
+    "installedRuntimeFiles": 138,
+    "paymentBudgetKiB": 8,
+    "coreBudgetKiB": 96,
+    "combinedBudgetKiB": 400
+  },
+  "performance": "Corrected runs retain identical derived results. Pool/payment medians differ little; timer-inclusive candidate is 2.46–2.56% slower than v0.24 and 6.38–7.54% slower than the original. This is retained optimization work, not a speedup claim.",
+  "limits": [
+    "Host owns cast admission, pricing, aura authority/installation/teardown, duplicate-lane and unlearning locks, cost wards, regeneration, effect execution, saves and UI.",
+    "Borrowed state/read ports are trusted; finite nonnegative cost and dt arguments are validated. Unchecked underfunded pay preserves partial spending and is not atomic.",
+    "Crossing the idle deadline uses the whole frame; raw regeneration is sampled before healing/diversion. No new phase or post-healing death check is introduced.",
+    "Native engine packages and Steam Deck/older-mobile acceptance remain incomplete. Exact-commit CI is recorded separately after publication."
+  ],
+  "finalVerifierLogSha256": "f8457d134a05d9de98351fc1f53eb731460819c672d08fe7f7fd3a5123f408dd",
+  "rawVerifierLogSha256": "49b0427cd81df79eefc68a73f5860c81b8ef0b28a0b8b8a6dceea3666625e596"
+}

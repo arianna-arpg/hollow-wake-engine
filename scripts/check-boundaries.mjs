@@ -52,7 +52,7 @@ assert.ok([...reachable].every(file => path.basename(file)!=='equipment-actions.
 assert.ok([...reachable].every(file => path.basename(file)!=='character-progression.ts'), 'Optional progression became an eager core import');
 assert.ok([...reachable].every(file => !path.basename(file).startsWith('skill-')), 'Optional skill progression became an eager core import');
 assert.ok([...reachable].every(file => !path.basename(file).startsWith('support-')), 'Optional support policy became an eager core import');
-assert.ok([...reachable].every(file => !['charge-runtime.ts','resource-gauges.ts','resource-content.ts','resource-events.ts'].includes(path.basename(file))), 'Optional resource capabilities became an eager core import');
+assert.ok([...reachable].every(file => !['charge-runtime.ts','resource-gauges.ts','resource-content.ts','resource-events.ts','resource-payment.ts'].includes(path.basename(file))), 'Optional resource capabilities became an eager core import');
 assert.ok([...reachable].every(file => path.basename(file)!=='charged-casting.ts'), 'Optional charged casting became an eager core import');
 assert.ok([...reachable].every(file => path.basename(file)!=='interactive-casting.ts'), 'Optional interactive casting became an eager core import');
 assert.ok([...reachable].every(file => path.basename(file)!=='ammunition.ts'), 'Optional ammunition became an eager core import');

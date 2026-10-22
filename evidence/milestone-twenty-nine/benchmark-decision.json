@@ -1,0 +1,49 @@
+{
+  "decision": "Accept the behavior-preserving optional extraction with measured timer overhead retained as optimization work; no general speedup claim.",
+  "comparisons": [
+    {
+      "run": 1,
+      "courses": [
+        {
+          "name": "priced-pool-and-shield-payments",
+          "originalMedianMs": 36.76809999999932,
+          "previousMedianMs": 37.75600000000122,
+          "currentMedianMs": 37.38379999999961,
+          "percentSlowerThanPrevious": -0.9858035808920418,
+          "percentSlowerThanOriginal": 1.674549405599679
+        },
+        {
+          "name": "priced-payments-wards-and-actor-timers",
+          "originalMedianMs": 59.41939999999886,
+          "previousMedianMs": 62.36869999999908,
+          "currentMedianMs": 63.90230000000156,
+          "percentSlowerThanPrevious": 2.4589257111379714,
+          "percentSlowerThanOriginal": 7.544505666504175
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "courses": [
+        {
+          "name": "priced-pool-and-shield-payments",
+          "originalMedianMs": 37.066499999998996,
+          "previousMedianMs": 37.10009999999966,
+          "currentMedianMs": 36.59100000000035,
+          "percentSlowerThanPrevious": -1.3722334980210582,
+          "percentSlowerThanOriginal": -1.2828295091218744
+        },
+        {
+          "name": "priced-payments-wards-and-actor-timers",
+          "originalMedianMs": 58.14099999999962,
+          "previousMedianMs": 60.305499999998574,
+          "currentMedianMs": 61.851400000003196,
+          "percentSlowerThanPrevious": 2.5634477784027387,
+          "percentSlowerThanOriginal": 6.381727180481245
+        }
+      ]
+    }
+  ],
+  "excluded": "The first investigation workload did not exercise its intended shield subgroup. Corrected runs assert shield spend, actual blood spend, both loan balances and refusals. Only corrected runs are included here.",
+  "limits": "Desktop Node path timings, 32 real actors with 96 operations. Full Actor timers are included in the second workload, not full renderer frames. No allocation/GC, native-engine or Steam Deck/mobile improvement established."
+}

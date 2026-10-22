@@ -9,8 +9,9 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
-Version 0.24 adds [guard casting](docs/guard-casting.md): live bash readiness,
-held and timed stances, AI warning commitments, component pulses and ordered release.
+Version 0.25 adds [resource payment](docs/resource-payment.md): shared mana,
+shield and life spending, loan headroom and time-dependent debt repayment.
+It builds on v0.24's [guard casting](docs/guard-casting.md).
 
 ## Start here
 
@@ -37,7 +38,7 @@ Import only the capabilities you need; optional entries are not eager core impor
 | Statistics, selected character builds and resolved spell contacts | `@hollow-wake/engine` — [boundary contract](docs/boundary-contract.md) |
 | Inventory, equipment and storage | [Inventory](docs/inventory-contract.md), [equipment](docs/equipment-actions.md), [storage](docs/stash-policy.md) |
 | Passives, skills and supports | [Passive policy](docs/passive-policy.md), [skill progression](docs/skill-progression.md), [support rules](docs/support-rules.md) |
-| Resources and ammunition | [Resource runtime](docs/resource-runtime.md), `@hollow-wake/engine/resources/ammunition` — [ammunition](docs/ammunition.md) |
+| Resources, payment and ammunition | [Resource runtime](docs/resource-runtime.md), [payment](docs/resource-payment.md), [ammunition](docs/ammunition.md) |
 | Casting | [Ordinary lifecycle](docs/casting-contract.md), [charged](docs/charged-casting.md), [focus and timing](docs/interactive-casting.md), [channels](docs/channel-casting.md), [guards](docs/guard-casting.md) |
 | Engine adapters and native experiments | [Host contract](docs/casting-contract.md), [seven-operation C ABI experiment](docs/native-lifecycle.md) |
 

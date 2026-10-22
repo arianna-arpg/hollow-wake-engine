@@ -288,6 +288,18 @@ for ownership, lazy admission, fractional legacy banks and bounded work.
 
 ## Cross-runtime numerical policy
 
+Version 0.25 adds `reference:resource-payment`,
+`adapter:payment-source`, `adapter:resource-payment` and
+`benchmark:resource-payment`. The accepted original fixtures contain 47 courses
+and 216 transitions across Actor arithmetic/timers and native World loan use.
+Six SDK tests include independent arithmetic, invalid arguments and nested blood
+observers. Six runtime faults and six installed-game faults cover reservations,
+whole-price borrowing, shield spending, deadline inclusion and blood observers.
+The source overlay guards the full regeneration phase and retires the exact
+earlier ordinary-payment shortcut. A clean packed consumer uses the shipped
+two-actor payment example. See [resource-payment.md](resource-payment.md) for
+phase placement, unchecked-payment behavior and remaining host responsibilities.
+
 `npm run native:verify` builds the experimental C ABI with the local C toolchain
 and runs C, C++ and .NET 8 consumers. It requires tools beyond the JavaScript-only
 `verify` command and has separate Windows/Linux CI jobs. `npm run native:pack`

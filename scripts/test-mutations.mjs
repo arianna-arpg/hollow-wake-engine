@@ -32,6 +32,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
     fs.cpSync(path.join(root, 'baseline/milestone-twenty-five'), path.join(temp, 'baseline/milestone-twenty-five'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twenty-six'), path.join(temp, 'baseline/milestone-twenty-six'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twenty-seven'), path.join(temp, 'baseline/milestone-twenty-seven'), { recursive: true });
+    fs.cpSync(path.join(root, 'baseline/milestone-twenty-nine'), path.join(temp, 'baseline/milestone-twenty-nine'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twenty-eight'), path.join(temp, 'baseline/milestone-twenty-eight'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-eleven'), path.join(temp, 'baseline/milestone-eleven'), { recursive: true });
     fs.cpSync(path.join(root, 'baseline/milestone-twelve'), path.join(temp, 'baseline/milestone-twelve'), { recursive: true });
@@ -62,6 +63,12 @@ for (const [name, before, after] of mutants) {
 
 fs.writeFileSync(file, original);
 for (const [module, name, before, after, tests] of [
+  ['resource-payment', 'payment-mana-reservation-omitted', 'actor.reservedMana += booked;', 'actor.reservedMana += 0;', 'test/resource-payment.test.mjs'],
+  ['resource-payment', 'payment-life-only-shortfall', "Math.min(cost.life, this.headroom(actor, 'life'))", "Math.min(cost.life - actor.life, this.headroom(actor, 'life'))", 'test/resource-payment.test.mjs'],
+  ['resource-payment', 'payment-shield-fraction-spend', 'actor.es -= fromEs;', 'actor.es -= fromEs / p.esToMana(actor);', 'test/resource-payment.test.mjs'],
+  ['resource-payment', 'payment-idle-boundary', 'loan.idle <= 0 ? 1', 'loan.idle < 0 ? 1', 'test/resource-payment.test.mjs'],
+  ['resource-payment', 'payment-blood-observer-omitted', 'p.lifeSpent(actor, spent);', 'void spent;', 'test/resource-payment.test.mjs'],
+  ['resource-payment', 'payment-reservation-not-freed', 'actor.reservedMana - repaid', 'actor.reservedMana', 'test/resource-payment.test.mjs'],
   ['guard-casting', 'guard-unearned-bash', 'if (bashArmed(state) && bashLine(state))', 'if (bashLine(state))', 'test/guard-casting.test.mjs'],
   ['guard-casting', 'guard-pulse-carry-lost', 'state.guardPulseT += interval;', 'state.guardPulseT = interval;', 'test/guard-casting.test.mjs'],
   ['guard-casting', 'guard-native-lower-omitted', 'p.lower(actor, state);', '/* lower omitted */', 'test/guard-casting.test.mjs'],
