@@ -1,10 +1,10 @@
 # Verification and reproduction
 
-Version 0.21 adds `reference:interactive-casting`, `adapter:interactive-source`,
-`adapter:interactive-casting` and `benchmark:interactive-casting`. The optional
-entry retains the combined 372 KiB bound and has its own 8 KiB JS allowance.
-See [interactive-casting.md](interactive-casting.md) for focus/timing ownership
-and the distinction between standalone phases and continuous game courses.
+Version 0.23 adds `reference:channel-casting`, `adapter:channel-source`,
+`adapter:channel-casting` and `benchmark:channel-casting`. Its optional entry has
+a 16 KiB JavaScript allowance; the combined bound is 388 KiB, retaining all earlier
+module/core limits. See [channel-casting.md](channel-casting.md) for phase ordering,
+borrowed state and the distinction between isolated and complete game courses.
 
 ## Normal package checks
 

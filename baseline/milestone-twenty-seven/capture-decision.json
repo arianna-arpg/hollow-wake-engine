@@ -1,0 +1,25 @@
+{
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "helperSha256": "2f7e46a2287b22d279ef143e94a3d22aa7f489b0f3ae0471ca0cb3065690e337",
+  "fixtureSha256": "d3928f007ceec72a25d3452c8f642e011ca0ed0e451797589ae480bc3deda5c0",
+  "courses": 85,
+  "transitions": 461,
+  "authoredChannelSpecs": 39,
+  "nativeActiveModes": 37,
+  "dormantSpecs": [
+    "sparklattice",
+    "choir_of_light"
+  ],
+  "decision": "Two original runs and the prior installed v0.22 game adapter agree byte for byte, including actual triggered buffs, charge taps, shell reload, minion consumption, orb detonation, healing, damage, persistent effects and held/resting brim updates. Independent assertions guard the intended setup and outcomes. Original data and code were never changed.",
+  "preAcceptanceCorrections": [
+    "Used exact binary .25 + .25 for the intended inclusive pulse-boundary test.",
+    "Extended the test stun so Actor.updateTimers cannot expire it before the interruption phase.",
+    "Used updatePendingPersists rather than the unrelated repeat scheduler.",
+    "Preserved two authored channel specs that actually enter instant mode because castMode is absent.",
+    "Set the actual ammunition bank count field and assert its 0/1/2/3 progression.",
+    "Added an extra earned Surgewind half-second to cross the binary64 full-bar threshold.",
+    "Explicitly test that World.update(0) skips its actor sweep; entry cleanup occurs on the following positive frame."
+  ],
+  "temporalContract": "Entry observations are sufficient only for isolated phase replay. Trigger, tap, support and payment sinks may change later observations. Complete native/triggered courses are compared in the actual installed game; no single coherent whole-update stat snapshot is assumed.",
+  "ownership": "Shared admission, AI, interruption, spatial aim/targeting, actual effect delivery, brim decay/gauge publication and durable identity remain host responsibilities. Channel clocks, payment order, ramp/brim/release arithmetic and persistent pulse timing are the extraction under test."
+}

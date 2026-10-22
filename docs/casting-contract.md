@@ -26,6 +26,12 @@ The optional [ammunition entry](ammunition.md) supplies skill use banks, press
 spending, rest-clock recovery and active restoration. Shared admission, reload
 target selection and channel completion remain with the host.
 
+The optional [channel entry](channel-casting.md) now supplies held-channel clocks,
+brim/completion arithmetic, ordered pulse payment, release and persistent pulse
+timing. It preserves callback changes to later phase observations. Shared channel
+admission, input, interruption, spatial delivery and ordinary brim decay/gauge
+publication remain host-owned; the ammunition module does not own that lifecycle.
+
 `press(profile, gates)` returns a rejection or a token-bearing started/completed
 event. It checks host blocking/stun/death, actor life, an existing cast, recovery,
 the skill clock and resources. A successful press pays once. A life payment must

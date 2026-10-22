@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "version": "0.23.0",
+  "sdkBase": "4ebe2ea85516e460fecc78caacadc984167e885b",
+  "sourceSha256": "2d190c3e7411401baf9efb06cfcafe4adc35e3b9d9cd3a1d878947898d326f2c",
+  "checks": {
+    "tests": 244,
+    "behavioralFaults": 83,
+    "packedConsumers": 15,
+    "originalCourses": 85,
+    "originalTransitions": 461,
+    "standaloneChannelPhases": 79,
+    "authoredChannelSpecs": 39,
+    "nativeActiveChannelModes": 37,
+    "newInstalledFaults": 5,
+    "managedInstalledCourses": 5,
+    "managedInstalledFaults": 18,
+    "managedTypes": true,
+    "managedSmoke": "5 scenarios x 5 seeds",
+    "renderedNativePulsesAndPayments": true,
+    "renderedBrimCapAndGather": true,
+    "renderedDryHoldAndStun": true,
+    "previousAmmunitionInteractiveChargedRendererControls": true,
+    "bootSmoke": true
+  },
+  "boundary": {
+    "productionModules": 44,
+    "productionDependencies": 0,
+    "newChannelRuntimeBytes": 13044,
+    "unchangedPreviousRuntimeFiles": 129,
+    "installedRuntimeFiles": 132,
+    "channelBudgetKiB": 16,
+    "coreBudgetKiB": 96,
+    "combinedBudgetKiB": 388
+  },
+  "regressionScope": "New installed channel differential plus five managed installed casting courses, full SDK verification, managed game checks/smoke and four renderer/boot regressions. All 129 previous runtime files are byte-identical. Exact-commit CI separately runs every installed adapter course; this receipt does not claim that future result.",
+  "performance": "Two desktop runs match derived outputs. Channel-only medians improve 0.4–2.2% against v0.22; actor-timer-inclusive medians improve 0.0–0.7%. These small differences do not establish a substantial optimization. Complete timer-inclusive adapter remains 6.7–7.4% slower than the original. No allocation/GC, whole-frame, native-engine or target-device improvement claimed.",
+  "limits": [
+    "Host owns shared admission, input/AI, interruption, aim/targeting, actual effects, brim decay and integer gauge publication.",
+    "World input may reassert held after a refused pulse; a subsequent lifecycle update releases only if held remains false.",
+    "Two authored channel specs are instant in the pinned source and are intentionally not repaired.",
+    "Native engine packages and Steam Deck/older-mobile acceptance remain incomplete."
+  ]
+}
