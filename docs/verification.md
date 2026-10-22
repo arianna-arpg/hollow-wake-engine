@@ -286,6 +286,13 @@ The installed game must detect five ammunition faults; renderer acceptance earns
 round spending and reloads through ordinary input. See [ammunition.md](ammunition.md)
 for ownership, lazy admission, fractional legacy banks and bounded work.
 
+The next skill-admission baseline adds `reference:admission`: 126 actor courses
+and 11 native World courses, 243 observations in total. Accepted outputs match
+two original runs and the retained v0.25 installation byte-for-byte. The runner
+reproduces them without replacing fixtures. This is baseline evidence only;
+no admission runtime or new package version is claimed. See
+[skill-admission-boundary.md](skill-admission-boundary.md).
+
 ## Cross-runtime numerical policy
 
 Version 0.25 adds `reference:resource-payment`,
