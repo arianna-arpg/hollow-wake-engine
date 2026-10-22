@@ -99,6 +99,11 @@ Callbacks are synchronous. Original partial mutations are not a transactional
 rollback guarantee. Error and re-entry behavior require independent policy tests;
 ordinary successful captures do not prove recovery from every host exception.
 
+The implementation's explicit `dispatch-scramble-cleanup/v1` decision clears the
+temporary recursion latch after a thrown redirect while preserving earlier
+payments. See [the failure-recovery contract](skill-dispatch.md#ordering-and-failure-recovery).
+This does not revise any accepted original observation.
+
 ## Evidence scope and remaining acceptance
 
 Courses execute original methods with forwarding observers. They record request

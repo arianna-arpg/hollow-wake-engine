@@ -187,6 +187,18 @@ for (const [module, name, before, after, tests] of [
   ['skill-request', 'request-relocation-bypassed', '!p.relocationTarget(actor, inst, effect.radius)', 'false', 'test/skill-request.test.mjs'],
   ['skill-request', 'request-admission-bypassed', '!p.canUse(actor, inst)', 'false', 'test/skill-request.test.mjs'],
   ['skill-request', 'request-continuation-treated-as-handled', "return 'continue';", 'return true;', 'test/skill-request.test.mjs'],
+  ['skill-dispatch','dispatch-reserve-check-ignored','if (short) {','if (false) {','test/skill-dispatch.test.mjs'],
+  ['skill-dispatch','dispatch-reserve-not-spent','st.cur = Math.max(0, st.cur - cost);','st.cur = st.cur;','test/skill-dispatch.test.mjs'],
+  ['skill-dispatch','dispatch-vent-end-closed','st.ventUntil > p.time()','st.ventUntil >= p.time()','test/skill-dispatch.test.mjs'],
+  ['skill-dispatch','dispatch-combo-seat-leaked','p.dispatch(caster, step, aim)','p.dispatch(caster, step, aim, seatPress)','test/skill-dispatch.test.mjs'],
+  ['skill-dispatch','dispatch-pierced-aim-restamped','if (!caster.construct && !pierced)','if (!caster.construct)','test/skill-dispatch.test.mjs'],
+  ['skill-dispatch','dispatch-scramble-deduplicated','pool.push(k);','if (!pool.includes(k)) pool.push(k);','test/skill-dispatch.test.mjs'],
+  ['skill-dispatch','dispatch-scramble-cleanup-lost','p.setScrambleLatch(false);','/* lost temporary latch cleanup */','test/skill-dispatch.test.mjs'],
+  ['skill-dispatch','dispatch-channel-payment-added','const chSpec = gather ?? chan;','p.pay(caster, inst, p.cost(caster, inst)); const chSpec = gather ?? chan;','test/skill-dispatch.test.mjs'],
+  ['skill-dispatch','dispatch-context-recaptured',"p.stat(caster, 'sparkWindow', tags, extra,", "p.stat(caster, 'sparkWindow', p.tags(def), p.modifiers(inst),",'test/skill-dispatch.test.mjs'],
+  ['skill-dispatch','dispatch-guard-not-refreshed','p.refreshGuard(caster, caster.casting);','/* lost guard refresh */','test/skill-dispatch.test.mjs'],
+  ['skill-dispatch','dispatch-prime-lost','const primed = p.primedPourOpen(caster, inst);','const primed = false;','test/skill-dispatch.test.mjs'],
+  ['skill-dispatch','dispatch-timed-draw-lost','(0.3 + p.random() * (0.85 - 0.3))','0.3','test/skill-dispatch.test.mjs'],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
   assert.ok(source.includes(before));

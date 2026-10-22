@@ -9,10 +9,18 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
-Version 0.28 adds optional [request preflight](docs/skill-request.md): ordered
+Version 0.29 adds optional [complete request dispatch](docs/skill-dispatch.md):
+reserve spending, combo and status redirects, targeting orchestration, payment,
+and preparation of all nine casting modes or immediate host delivery. A shipped
+3D example connects preflight, dispatch, ordinary advancement and delivery through
+the installed package. Actual spatial queries, effects and ongoing cast updates
+remain explicit host services. Two desktop comparisons found no repeatable speed
+change; Steam Deck and older-mobile acceptance remain outstanding.
+
+Version 0.28 added optional [request preflight](docs/skill-request.md): ordered
 authority, replenishment and trigger toggles, held-body struggle, redirects and
-actor admission. Its explicit continuation result leaves reserve pricing,
-remaining cast preparation and delivery with the host.
+actor admission. Its explicit continuation result now feeds the optional dispatcher;
+hosts can also use preflight independently.
 The [acceptance evidence](evidence/milestone-thirty-three/verification.json)
 includes original comparisons, installed-game checks and rendered input. Its
 [measured request costs](docs/skill-request.md#validation-and-performance-scope)
@@ -23,7 +31,7 @@ with complete-workload measurements and explicit preview-performance tradeoffs.
 
 Version 0.27 adds optional [skill intent](docs/skill-intent.md): cast seals,
 HUD/button readiness, displayed skill faces and temporary-instance ownership.
-Request preflight is added in v0.28; remaining dispatch and delivery stay host-owned.
+Request preflight followed in v0.28 and complete request dispatch in v0.29.
 
 Version 0.26 adds optional [skill admission](docs/skill-admission.md): actor
 eligibility, reflex/held combinations and ordered prerequisites. It preserves
@@ -57,10 +65,10 @@ Import only the capabilities you need; optional entries are not eager core impor
 | Inventory, equipment and storage | [Inventory](docs/inventory-contract.md), [equipment](docs/equipment-actions.md), [storage](docs/stash-policy.md) |
 | Passives, skills and supports | [Passive policy](docs/passive-policy.md), [skill progression](docs/skill-progression.md), [support rules](docs/support-rules.md) |
 | Resources, payment and ammunition | [Resource runtime](docs/resource-runtime.md), [payment](docs/resource-payment.md), [ammunition](docs/ammunition.md) |
-| Casting | [Request preflight](docs/skill-request.md), [intent and seals](docs/skill-intent.md), [admission](docs/skill-admission.md), [ordinary lifecycle](docs/casting-contract.md), [charged](docs/charged-casting.md), [focus and timing](docs/interactive-casting.md), [channels](docs/channel-casting.md), [guards](docs/guard-casting.md) |
+| Casting | [Complete dispatch](docs/skill-dispatch.md), [request preflight](docs/skill-request.md), [intent and seals](docs/skill-intent.md), [admission](docs/skill-admission.md), [ordinary lifecycle](docs/casting-contract.md), [charged](docs/charged-casting.md), [focus and timing](docs/interactive-casting.md), [channels](docs/channel-casting.md), [guards](docs/guard-casting.md) |
 | Engine adapters and native experiments | [Host contract](docs/casting-contract.md), [seven-operation C ABI experiment](docs/native-lifecycle.md) |
 
-The shipped `examples/` include small hosts for resources, charged casting,
+The shipped `examples/` include small hosts for complete requests, resources, charged casting,
 interactive casting, channels, guards and ammunition. Each capability's contract distinguishes SDK
 state and operations from host obligations such as input, spatial queries,
 delivery, presentation and durable saves.

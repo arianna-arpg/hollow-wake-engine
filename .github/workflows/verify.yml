@@ -88,6 +88,7 @@ jobs:
       - run: npm run adapter:admission-source
       - run: npm run adapter:intent-source
       - run: npm run adapter:request-source
+      - run: npm run adapter:dispatch-source
       - run: npm run adapter:ammunition-source
       - run: npm run reference:install
       - run: npm run reference:verify
@@ -117,6 +118,7 @@ jobs:
       - run: npm run reference:admission
       - run: npm run reference:intent
       - run: npm run reference:request
+      - run: npm run reference:dispatch
       - run: npm run reference:ammunition
       - run: node --import tsx balance/probe_passiverefund.ts
         working-directory: .reference
@@ -150,6 +152,7 @@ jobs:
       - run: npm run adapter:admission
       - run: npm run adapter:intent
       - run: npm run adapter:request
+      - run: npm run adapter:dispatch
       - run: npm run adapter:ammunition
       - run: npm run check
         working-directory: .artifacts/game-adapter
@@ -245,6 +248,9 @@ jobs:
             .artifacts/skill-request-overlay-verification.json
             .artifacts/skill-request-reference-verification.json
             .artifacts/game-skill-request-verification.json
+            .artifacts/skill-dispatch-overlay-verification.json
+            .artifacts/skill-dispatch-reference-verification.json
+            .artifacts/game-skill-dispatch-verification.json
             .artifacts/game-skill-admission-verification.json
             .artifacts/skill-admission-overlay-verification.json
             .artifacts/ammunition-overlay-verification.json

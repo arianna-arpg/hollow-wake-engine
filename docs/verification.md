@@ -1,5 +1,17 @@
 # Verification and reproduction
 
+Version 0.29 adds `reference:dispatch`, `adapter:dispatch-source`,
+`adapter:dispatch` and `benchmark:dispatch -- --previous-adapter <retained-v0.28-game>`.
+The unchanged original baseline contains 88 courses and 104 transitions accepted
+before implementation. The installed dispatch comparison is byte-exact and detects
+ten deliberate faults. The SDK verifier passes 351 tests, 138 faults and 21 packed
+consumers. Dispatch has a separate 24 KiB JavaScript allowance within the 448 KiB
+combined bound; its implementation is 18,619 bytes. The 153 predecessor runtime
+files remain unchanged. See [the dispatch contract](skill-dispatch.md) for ordering,
+host obligations and the separately documented scramble failure-recovery change.
+Two controlled desktop runs retain equal gameplay receipts but reverse all four
+timing directions; no repeatable speed change or device acceptance is claimed.
+
 Version 0.28 adds `reference:request`, `adapter:request-source`, `adapter:request`
 and `benchmark:request -- --previous-adapter <retained-v0.27.1-game>`. The original
 baseline contains 68 courses and 71 transitions accepted before implementation.

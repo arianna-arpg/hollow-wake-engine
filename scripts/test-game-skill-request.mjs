@@ -46,6 +46,9 @@ function capture(row, label) {
   assert(actual.equals(row.expected), 'Raw request observations changed: ' + row.name);
   return { name: row.name, sha256: sha256(actual), rawByteEqual: true };
 }
+const nativeRequestCall = worldBytes.includes('this.sdkSkillDispatch.request')
+  ? ['return this.sdkSkillDispatch.request(caster, inst, aim, seatPress);', 'return false;']
+  : ['const sdkRequestResult = this.sdkSkillRequest.preflight(caster, inst, aim, seatPress);', 'const sdkRequestResult = false;'];
 const faults = [
   ['request-seal-ignored', 'if (seal) {', 'if (false) {'],
   ['request-held-struggle-lost', 'hold.struggle += p.mashPress();', 'hold.struggle += 0;'],
@@ -53,7 +56,7 @@ const faults = [
   ['request-life-endpoint-closed', 'actor.life > delivery.lockAboveLife', 'actor.life >= delivery.lockAboveLife'],
   ['request-depth-retained', 'inst.state.trigDepth = 0;', 'inst.state.trigDepth = 1;'],
   ['request-admission-ignored', '!p.canUse(actor, inst)', 'false'],
-  ['request-native-disconnected', 'const sdkRequestResult = this.sdkSkillRequest.preflight(caster, inst, aim, seatPress);', 'const sdkRequestResult = false;', true],
+  ['request-native-disconnected', ...nativeRequestCall, true],
 ];
 const reports = [], observations = [];
 try {
