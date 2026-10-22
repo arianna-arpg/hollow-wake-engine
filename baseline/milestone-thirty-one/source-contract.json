@@ -1,0 +1,90 @@
+{
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "world": {
+    "file": "src/engine/world.ts",
+    "sha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+    "members": [
+      {
+        "name": "castSealed",
+        "kind": "MethodDeclaration",
+        "line": 22776,
+        "sha256": "9073a4c9774138c08a0ebdf924c48c2726458d3fde3653e1386a4844fdaa4143",
+        "source": "castSealed(caster: Actor, inst: SkillInstance): CastSealSpec | null {\n    const seal = this.zone.castSeal;\n    if (!seal) return null;\n    return castSealShuts(seal, { world: this, caster, inst, seated: this.seatOf(caster) !== undefined })\n      ? seal : null;\n  }"
+      },
+      {
+        "name": "castReqRefusal",
+        "kind": "MethodDeclaration",
+        "line": 22814,
+        "sha256": "6f409605302d58f61ab78003fefef6485025f59892c2038b5811eea6fa8921b2",
+        "source": "castReqRefusal(caster: Actor, inst: SkillInstance): string | undefined {\n    const seat = this.seatOf(caster);\n    if (!seat || inst.devGift || !seat.meta.knownSkills.has(inst.def.id)) return undefined;\n    if (caster.activeAuras.has(inst.def.id) || caster.strobes.has(inst.def.id)) return undefined;\n    return this.reqShortfall(inst.def.id, seat);\n  }"
+      },
+      {
+        "name": "skillUsable",
+        "kind": "MethodDeclaration",
+        "line": 58620,
+        "sha256": "c1d7f639f5a0ea6d64e3749952f7327922341e9e8b84632ea0c10f9fdcc7d0f7",
+        "source": "skillUsable(a: Actor, inst: SkillInstance): boolean {\n    const def = inst.def;\n    // Trigger-socketed skills are never hand-castable: the slot greys and\n    // the key becomes the arm/disarm latch (the border glow shows state).\n    if (instanceTrigger(inst)) return false;\n    // THE CAST SEAL greys the slot: the press would refuse, so the bar says so first.\n    if (this.castSealed(a, inst)) return false;\n    if (def.pool && !a.venting.has(def.pool.id)\n      && (a.pools.get(def.pool.id) ?? 0) < (def.pool.min ?? 1)) return false;\n    // Unmet PREREQUISITE gates grey the slot (\"not ready\").\n    if (!a.gatesMet(inst)) return false;\n    // Any hard charge economy greys until the bank can pay — an innate\n    // cost (an empty flask fount, a chargeless Galvanic Reserve) exactly\n    // as a socketed SPENDER graft (Embargo). Mirrors canUse: the press\n    // would refuse, so the bar must say so first.\n    {\n      const cc = instanceChargeCost(inst);\n      if (cc && !cc.optional) {\n        const have = a.charges.get(cc.charge) ?? 0;\n        const need = cc.amount === 'all' ? (cc.minimum ?? 1) : Math.max(cc.amount, cc.minimum ?? 0);\n        if (have < need) return false;\n      }\n    }\n    // Corpse targeting is excluded: its resolution has side effects\n    // (Sacrificial Rites) — never run it from a render poll.\n    const tspec = instanceTargeting(inst);\n    if (tspec?.requiresStatus && tspec.target !== 'corpse') {\n      return this.resolveTargeting(a, inst, a.aimPos ?? a.pos) !== null;\n    }\n    return true;\n  }"
+      },
+      {
+        "name": "pressUsable",
+        "kind": "MethodDeclaration",
+        "line": 30766,
+        "sha256": "0503cd6719851515c44203825ddc5d54ef7f006969bd7447cd1cbb5fb915928f",
+        "source": "pressUsable(caster: Actor, inst: SkillInstance): boolean {\n    if (this.castSealed(caster, inst)) return false; // THE CAST SEAL — the brain never presses a sealed cast\n    // A mimic slot presses as its selection — empty bank, dead button.\n    if (inst.def.mimic) {\n      const sel = mimicSelected(caster, this.time);\n      if (!sel || !SKILLS[sel.sid]) return false;\n      const minted = this.mintMetaInstance(caster, inst, sel.sid);\n      minted.sockets = inst.sockets;\n      minted.extraMods = mimicPowerMods(inst.def.mimic);\n      return caster.canUse(minted);\n    }\n    // A queued chain step is judged as the step it would cast (the face\n    // the bar shows) — an unaffordable finisher greys the slot honestly.\n    const step = this.comboQueuedStep(caster, inst);\n    if (step) return caster.canUse(step);\n    const conv = instanceConvert(inst);\n    if (conv && SKILLS[conv.skillId]\n      && convertRuleHolds(conv.when, caster, inst, this)) {\n      const minted = this.mintMetaInstance(caster, inst, conv.skillId);\n      minted.sockets = inst.sockets; // same sharing rule as the press itself\n      return caster.canUse(minted);\n    }\n    return caster.canUse(inst);\n  }"
+      },
+      {
+        "name": "slotFaceOf",
+        "kind": "MethodDeclaration",
+        "line": 30742,
+        "sha256": "a3cd017e430213211342409ea04afa297098c727c7f405e3416fa947334e1f9d",
+        "source": "slotFaceOf(caster: Actor, inst: SkillInstance): SkillDef {\n    // A mimic slot wears the SELECTED captured art's face (the source\n    // monster's chip rides the build flap — engine/mimic.ts).\n    if (inst.def.mimic) {\n      const sel = mimicSelected(caster, this.time);\n      if (sel && SKILLS[sel.sid]) return SKILLS[sel.sid];\n    }\n    // THE HONEST CHAIN FACE (2026-09-11): while a combo chain's window\n    // holds, the slot IS the step the next press will cast — Trisect\n    // shows Bisect, One-Two shows the Cross Jab — the convert face's own\n    // law. A lapsed window or a repeated step reads as the host itself.\n    const step = this.comboQueuedStep(caster, inst);\n    if (step) return step.def;\n    const conv = instanceConvert(inst); // innate OR a munition graft's reload\n    return conv && SKILLS[conv.skillId] && convertRuleHolds(conv.when, caster, inst, this)\n      ? SKILLS[conv.skillId]\n      : inst.def;\n  }"
+      },
+      {
+        "name": "comboQueuedStep",
+        "kind": "MethodDeclaration",
+        "line": 30729,
+        "sha256": "9f3fef5336ed4ccc48bc8596e4c4d23117029474999471fc1e8187ffaadf1708",
+        "source": "comboQueuedStep(caster: Actor, inst: SkillInstance): SkillInstance | null {\n    const chain = inst.def.comboChain;\n    if (!chain?.skills.length) return null;\n    const st = this.comboCursorOf(caster, inst);\n    if (st.comboAt === undefined) return null;\n    if (this.time - st.comboAt > chain.window) return null;\n    return this.comboStepOf(caster, inst, st.comboIdx ?? 0);\n  }"
+      },
+      {
+        "name": "comboCursorOf",
+        "kind": "MethodDeclaration",
+        "line": 30687,
+        "sha256": "309401b87d7421f244e18c15cc19e5482e9d04829e7982616f0332c37da84e78",
+        "source": "comboCursorOf(caster: Actor, inst: SkillInstance): ComboCursor {\n    if (!caster.construct || caster.skills.includes(inst)) return (inst.state ??= {});\n    let m = this.comboCursors.get(caster);\n    if (!m) { m = new Map(); this.comboCursors.set(caster, m); }\n    let c = m.get(inst.def.id);\n    if (!c) { c = {}; m.set(inst.def.id, c); }\n    return c;\n  }"
+      },
+      {
+        "name": "comboStepOf",
+        "kind": "MethodDeclaration",
+        "line": 30706,
+        "sha256": "bc6a1e78b42215116f98dc385288c1aa63186c29647d37d01ea2aed9fc9337e2",
+        "source": "comboStepOf(caster: Actor, inst: SkillInstance, idx: number): SkillInstance | null {\n    const chain = inst.def.comboChain;\n    if (!chain || idx <= 0 || idx > chain.skills.length) return null;\n    const sid = chain.skills[idx - 1];\n    if (sid === inst.def.id || !SKILLS[sid]) return null;\n    const key = inst.def.id + ':combo' + idx;\n    const level = inst.level + Math.floor(inst.bonusLevels ?? 0);\n    let step = caster.metaInsts.get(key);\n    if (!step || step.def.id !== sid || step.level !== level) {\n      step = makeSkillInstance(SKILLS[sid], level);\n      step.hostSkillId = inst.def.id;\n      step.chainOf = inst.def.id; // THE BEAT MARK — the ring records the host's beat\n      caster.metaInsts.set(key, step);\n    }\n    step.sockets = inst.sockets; // live references — re-socketing propagates\n    step.grafts = inst.grafts;\n    step.comboTreeMods = instanceTreeMods(inst);\n    return step;\n  }"
+      },
+      {
+        "name": "mintMetaInstance",
+        "kind": "MethodDeclaration",
+        "line": 34206,
+        "sha256": "d79ca69a3539bd93e9cf1b6dcc4fa0ef568f88a2fede453e798ca060360942d2",
+        "source": "private mintMetaInstance(caster: Actor, host: SkillInstance, skillId: string): SkillInstance {\n    const key = host.def.id + ':' + skillId;\n    let inst = caster.metaInsts.get(key);\n    const relocateConstruct = SKILLS[skillId].effects.some(fx => fx.type === 'relocateConstruct');\n    if (!inst || inst.level !== effectiveSkillLevel(host)\n      || (relocateConstruct && this.relocationHosts.get(inst) !== host)) {\n      inst = makeSkillInstance(SKILLS[skillId], effectiveSkillLevel(host));\n      // minionCombat: a command's meta inherits its whole-court scope.\n      // Summon-hosted meta payloads still name their own roster anchor.\n      inst.hostSkillId = host.def.effects.some(e => e.type === 'commandMinions')\n        ? undefined : host.def.id;\n      caster.metaInsts.set(key, inst);\n      if (relocateConstruct) this.relocationHosts.set(inst, host);\n    }\n    return inst;\n  }"
+      },
+      {
+        "name": "comboCursors",
+        "kind": "PropertyDeclaration",
+        "line": 30686,
+        "sha256": "d9cbd33d967599e398e3f43fc90c1ab533a241d43aaf7180809ac899256c5cdf",
+        "source": "private comboCursors = new WeakMap<Actor, Map<string, ComboCursor>>();"
+      },
+      {
+        "name": "relocationHosts",
+        "kind": "PropertyDeclaration",
+        "line": 34223,
+        "sha256": "2445c7894ab37f5b2cee2c540bb446ade4e32f51fdfeebdd63e14a50ff2d1a63",
+        "source": "private relocationHosts = new WeakMap<SkillInstance, SkillInstance>();"
+      }
+    ]
+  },
+  "castSeals": {
+    "file": "src/engine/castseal.ts",
+    "sha256": "c519767179f72d877ea856aea99a224c39720ec919288389aaa9b1aa20c9bcf5"
+  }
+}

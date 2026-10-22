@@ -1,0 +1,39 @@
+{
+  "schema": "hollow-wake-reference-acceptance/v1",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sdkControl": "3393b06dcb413284893bd031a60cd8d3a375d1bc",
+  "decision": "Accept unchanged observations reproduced in two fresh pinned-original processes and the installed v0.26 control, before implementing a skill-intent runtime. Historical investigation labels remain provenance and are superseded by this record.",
+  "scope": "29 native query courses (195 transitions), 32 seal rows, 29 temporary-instance/cursor transitions and 20 native request courses (22 transitions). Total: 278 observations.",
+  "correctionsBeforeAcceptance": [
+    "The actual-request helper initially failed TypeScript narrowing after resetting casting. The assertion now reads the post-operation snapshot; no game behavior or observed expected result was changed."
+  ],
+  "limitations": [
+    "Explicit seeded state and synthetic combinations establish original rule precedence. No complete delivery, rendered input, allocation/performance or device claim.",
+    "Readiness and actual request dispatch deliberately have different precedence. Full useSkill authority remains outside this extraction unit.",
+    "The query helper omits only a gatesMet trace nested inside canUse, an internal forwarder already moved in M30. Future internal-forwarding projections require a separately documented decision and tests; state, results and meaningful host effects must remain intact.",
+    "This baseline adds no runtime capability, version bump or public-main promotion."
+  ],
+  "fixtures": [
+    {
+      "name": "skill-intent",
+      "helperSha256": "77fd9e49221b20cd86577b85f51b72df0f52b2479cd50590b34e63d06557c47c",
+      "fixtureSha256": "1e1f3529c86337bf0ac6359f238cff03639b1e371f15752ae35515bc1fbe1cae",
+      "courses": 29,
+      "transitions": 195,
+      "sealRows": 32
+    },
+    {
+      "name": "skill-instance-identity",
+      "helperSha256": "b741ee2c9b939a03c752dc3e9a93afe7ae25eaee30b985ec95cab319936d006c",
+      "fixtureSha256": "677f03fee656cc667509244904a19364b9c7facf2c7ebd2dd6c49269550713cb",
+      "transitions": 29
+    },
+    {
+      "name": "cast-request",
+      "helperSha256": "fd68d753ba44d8e2413177addc0ac8070c73e1afaf677b587b25ae812d6cf044",
+      "fixtureSha256": "c964c81efe14641583bc465bfd9f6be8817d4a4d0b3010d7af5eb89855ddffb8",
+      "courses": 20,
+      "transitions": 22
+    }
+  ]
+}
