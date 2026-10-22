@@ -12,6 +12,16 @@ host obligations and the separately documented scramble failure-recovery change.
 Two controlled desktop runs retain equal gameplay receipts but reverse all four
 timing directions; no repeatable speed change or device acceptance is claimed.
 
+The [M34 acceptance](../evidence/milestone-thirty-four/verification.json) records
+14 installed comparisons with 71 detected faults, 19 candidate native probes and
+11 renderer checks. Six request-stage outcomes match retained v0.28 byte-for-byte.
+Managed dispatch and preflight comparisons, all game types and smoke passed while
+preserving unrelated files and four pre-existing bounty methods. Only declaration
+parameter names changed after the broad installed/benchmark checks; all executable
+and source-map bytes stayed identical. Final types and consumers were rechecked.
+The final documentation archive has separate clean-consumer evidence. Eleven of
+thirteen tracked families remain partial.
+
 Version 0.28 adds `reference:request`, `adapter:request-source`, `adapter:request`
 and `benchmark:request -- --previous-adapter <retained-v0.27.1-game>`. The original
 baseline contains 68 courses and 71 transitions accepted before implementation.

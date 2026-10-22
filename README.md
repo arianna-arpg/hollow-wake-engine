@@ -17,6 +17,10 @@ the installed package. Actual spatial queries, effects and ongoing cast updates
 remain explicit host services. Two desktop comparisons found no repeatable speed
 change; Steam Deck and older-mobile acceptance remain outstanding.
 
+The [v0.29 acceptance evidence](evidence/milestone-thirty-four/verification.json)
+records original comparisons, installed-game faults, renderer checks and the
+preserved managed-game integration.
+
 Version 0.28 added optional [request preflight](docs/skill-request.md): ordered
 authority, replenishment and trigger toggles, held-body struggle, redirects and
 actor admission. Its explicit continuation result now feeds the optional dispatcher;

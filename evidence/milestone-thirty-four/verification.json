@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "version": "0.29.0",
+  "sdkBase": "7e8fdc0b6151b4626bf7f6698be690e372be66e5",
+  "baselineCommit": "5d26433978236f6f8bde4f4260a548eaf47a251b",
+  "implementationCommit": "922e1173da2029e6fd7ec2aad7ca21efc2ba818d",
+  "checks": {
+    "tests": 351,
+    "behavioralFaults": 138,
+    "packedConsumers": 21,
+    "originalDispatchCourses": 88,
+    "originalDispatchTransitions": 104,
+    "installedSuites": 14,
+    "installedFaults": 71,
+    "candidateNativeProbes": 19,
+    "rendererChecks": 11,
+    "retainedRequestInputStages": 6,
+    "managedInstalledSuites": 2,
+    "managedInstalledFaults": 0,
+    "managedGameLauncherSimTypes": true,
+    "managedAndCandidateSmoke": "5 scenarios x 5 seeds each",
+    "referenceCorePassed": true
+  },
+  "runtimeControls": {
+    "runtimeFilesMatch": 156,
+    "unchangedPreviousRuntimeFiles": 153,
+    "newFiles": [
+      "skill-dispatch.js",
+      "skill-dispatch.js.map",
+      "skill-dispatch.d.ts"
+    ],
+    "hostChange": "Complete accepted World.useSkill replaced with dispatcher field/call and guarded import cleanup. Every unrelated World member retained."
+  },
+  "originalPreservation": {
+    "head": "4ba2e3ffef3318293e3724d31c938931208c386e",
+    "indexEmpty": true,
+    "filesByteIdentical": 4092,
+    "trackedFiles": 1873,
+    "untrackedFiles": 2219,
+    "pinnedSourceCapsuleVerified": true,
+    "externalUpdateRecorded": true,
+    "preExistingRosterChangesPreserved": true,
+    "note": "Read-only review of external descendant lighting merge #11. Only committed paths changed; pre-existing roster edits verified by removing the single merged lighting entry in memory and matching the prior whole-file hash. All other unfinished work preserved. No SDK source/baseline refresh or game write."
+  },
+  "logs": [
+    {
+      "file": "verification.txt",
+      "rawSha256": "68c7deabd43af062d05eb6fa99e3ee86a2e5fe0b5d38f1d95634d6bad2d891a2",
+      "publishedSha256": "68c7deabd43af062d05eb6fa99e3ee86a2e5fe0b5d38f1d95634d6bad2d891a2"
+    },
+    {
+      "file": "core-benchmark.txt",
+      "rawSha256": "46336c75ae1eae51cd3cdb74169d1cc2064c155889234c542c776aa7f176276a",
+      "publishedSha256": "064cf9c2b0d7d61acc11035488be3797f61281bdbdb36545d1eece614b2b75a0"
+    },
+    {
+      "file": "managed-types.txt",
+      "rawSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d",
+      "publishedSha256": "191c4684202ada301b8ac19abc7d6afdcdb521d37f6e6619434e6073db22de60"
+    },
+    {
+      "file": "managed-smoke.txt",
+      "rawSha256": "426780e15330b767ca7810579ba6580a11f6706bca632350956487ed9086a38d",
+      "publishedSha256": "8d8eea5941c9cd2038fe7a3b5b606954b4eeced2256559852ee432fcad63b461"
+    }
+  ],
+  "boundary": {
+    "runtimeJavaScriptBytes": 445043,
+    "dispatchJavaScriptBytes": 18619,
+    "combinedLimitKiB": 448,
+    "dispatchLimitKiB": 24,
+    "runtimeDependencies": 0
+  },
+  "verifierScope": "Full verifier repeated after declaration parameter-name correction. Earlier original, mutation and benchmark evidence has identical executable/map bytes; final declarations and installed type consumers checked separately. Final archive checks follow completed documentation.",
+  "intentionalDecision": "dispatch-scramble-cleanup/v1: clear the temporary recursion latch after a thrown redirect, preserve prior payment and propagate the error. Unchanged original fixture remains authoritative for normal observations.",
+  "developmentCorrections": [
+    "Resolve ammunition binding lazily because World initializes its service after the dispatcher field.",
+    "Preserve nullable aim and opaque host record shapes required by original game types.",
+    "Describe applyStatus durationScale as a multiplier, not seconds; declaration names corrected without executable changes.",
+    "Benchmark output pointer names corrected after validating distinct raw runs and helper identities; no measurements or original fixtures regenerated."
+  ],
+  "limits": "Eleven of thirteen families remain partial. Ongoing World orchestration, actual target/effect mechanics, native engine packages and target-device acceptance remain incomplete. Exact-commit CI is recorded separately."
+}
