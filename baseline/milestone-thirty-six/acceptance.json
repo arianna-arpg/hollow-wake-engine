@@ -1,0 +1,113 @@
+{
+  "schema": "hollow-wake-reference-acceptance/v1",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sdkControl": "55aac1893e48ce291724dcc619a6c4b35b4d9428",
+  "retainedPackageIntegrity": "sha512-fagUBLkJ9V2bU3FdZ0au4c7iC05hwajYESfcXQLD59ZCBjqLPcLCk0zgCNtaOfeM98+7EKj0sLyaFb16ced7Jw==",
+  "decision": "Accept two byte-identical frozen-original runs and the retained v0.30 installed adapter before production implementation. Preserve all original defect observations; intentional namespace correction is separately specified.",
+  "scope": "57 courses / 292 transitions covering persistent bank identity/rebinding/decay, contextual support modifiers, native clock and publication ordering, five gauge sources, sheet replacement and six namespace diagnostics.",
+  "sourceBoundary": [
+    {
+      "kind": "original",
+      "file": "src/engine/world.ts",
+      "name": "update",
+      "fileSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+      "sha256": "bf7c90b765db4f7294d4f8caab5f143cd552383d9146946f41a37c31b1c0dc65",
+      "statements": 230,
+      "lines": 2001,
+      "decay": {
+        "sha256": "86f911992738104f4eb5b1ec075e5757bf2bdd9532034ca97e274edf81dab450"
+      }
+    },
+    {
+      "kind": "original",
+      "file": "src/engine/world.ts",
+      "name": "updateCasting",
+      "fileSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+      "sha256": "8887f0912bbe2c7a1ead4520cfe7009869e996dffaf4fe9d1779316bd55279eb",
+      "statements": 10,
+      "lines": 695
+    },
+    {
+      "kind": "original",
+      "file": "src/engine/actor.ts",
+      "name": "refreshConditions",
+      "fileSha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30",
+      "sha256": "0652a92299c8dbed1e293ff1fa5a27b05abf96ffff9f7d1ecde58b95d98d12e4",
+      "statements": 30,
+      "lines": 151,
+      "publication": {
+        "sha256": "eb5790e8fbeb1388e0e15da8e8b21e25f7374fee253ee0690c1ed22423da96ab",
+        "startStatement": 21,
+        "statements": 8
+      }
+    },
+    {
+      "kind": "retained",
+      "file": "src/engine/world.ts",
+      "name": "update",
+      "fileSha256": "3ef55ac581543b6fee9fb151b73c5d6b471690661ca12879c60fab270e56b315",
+      "sha256": "bf7c90b765db4f7294d4f8caab5f143cd552383d9146946f41a37c31b1c0dc65",
+      "statements": 230,
+      "lines": 2001,
+      "decay": {
+        "sha256": "86f911992738104f4eb5b1ec075e5757bf2bdd9532034ca97e274edf81dab450"
+      }
+    },
+    {
+      "kind": "retained",
+      "file": "src/engine/actor.ts",
+      "name": "refreshConditions",
+      "fileSha256": "1f8362939be226ffffee3777222662f8e57bdc4d9a3e69d5bbd617dbf88a8d7c",
+      "sha256": "0652a92299c8dbed1e293ff1fa5a27b05abf96ffff9f7d1ecde58b95d98d12e4",
+      "statements": 30,
+      "lines": 151,
+      "publication": {
+        "sha256": "eb5790e8fbeb1388e0e15da8e8b21e25f7374fee253ee0690c1ed22423da96ab",
+        "startStatement": 21,
+        "statements": 8
+      }
+    },
+    {
+      "kind": "retained",
+      "file": "src/engine/channelCastingAdapter.ts",
+      "fileSha256": "3b718f739c85c0220c2cae5569ecebf7c50716add182dbc560523a07adcd1ad2"
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "channel-banks",
+      "helperSha256": "8546bd4c9cf565291618edb799ce108d8f8e89b6ced86e0c1e1c104ebd22b940",
+      "fixtureSha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+      "compressedSha256": "9b7c78a5a1b7c0bf8f6879512e2f3f37b9af80f26379526377b7811b389458fe",
+      "courses": 35,
+      "transitions": 146,
+      "originalRuns": 2,
+      "retainedControlByteEqual": true,
+      "typeCheckedInOriginalAndControl": true
+    },
+    {
+      "name": "actor-gauges",
+      "helperSha256": "14f6aa96ea896f49266f6e09bbfac28abcd4863da58a0c746204feb6dfa0833d",
+      "fixtureSha256": "56b0618ad03e333469632b15d8249f25b79db624a00e6fc89ecd7098805c1920",
+      "compressedSha256": "1c0c1b84bd48270c41815b64583fd366b8181f8a762a752c2363818fb9550d98",
+      "courses": 22,
+      "transitions": 146,
+      "originalRuns": 2,
+      "retainedControlByteEqual": true,
+      "typeCheckedInOriginalAndControl": true
+    }
+  ],
+  "correctionsBeforeAcceptance": [
+    "The first draft called a nonexistent addStatus method; the final native interruption course uses Actor.applyStatus. No original source changed.",
+    "Simulation types required the explicit channel move policy and a concrete retained-bank record type. The final authored variant specifies move: normal.",
+    "The private gatherReleasable method had already been extracted from the retained adapter. The common public canUse query replaces it, with below/exact/above cooldown-release threshold courses.",
+    "A synthetic skill lacked the channel tag required by Stillwater. The inactive course is retained and explicitly named; a separate tagged course verifies native zero-decay and restoration after unsocketing.",
+    "The native brimFill stat clamps above zero. The course now records its minimum-rate behavior without claiming an empty held bank at the later decay phase.",
+    "All draft observations remain private evidence. These are the first accepted fixtures, not revisions of a prior expected result."
+  ],
+  "limitations": [
+    "Seeded records and synthetic authored variants are explicit setup; only named native courses claim native admission and earned fill.",
+    "The six diagnostic courses retain the original stale namespace behavior. A separately specified oracle must verify the intentional correction.",
+    "No production implementation, sink failure/reentry policy, performance, renderer, hardware or native-package acceptance is established by this baseline."
+  ]
+}

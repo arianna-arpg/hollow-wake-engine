@@ -1,0 +1,103 @@
+{
+  "schema": "hollow-wake-intentional-change/v1",
+  "decision": "gauge-namespace-refresh/v1",
+  "status": "Specified before implementation; not yet implemented or verified",
+  "reason": "Raw-id fingerprints omit the published namespace and can retain stale modifiers after a source-kind exchange.",
+  "historicalFixture": "actor-gauges.json.gz",
+  "preserveSamplingPhase": true,
+  "expected": [
+    {
+      "course": "namespace-exchange:status-to-charge",
+      "steps": [
+        4,
+        5
+      ],
+      "publicationCount": 2,
+      "onlyPositiveGauge": [
+        "charge:communion",
+        1
+      ],
+      "damage": 2
+    },
+    {
+      "course": "namespace-exchange:charge-to-brim",
+      "steps": [
+        4,
+        5
+      ],
+      "publicationCount": 2,
+      "onlyPositiveGauge": [
+        "brim:communion",
+        1
+      ],
+      "damage": 5
+    },
+    {
+      "course": "namespace-exchange:brim-to-reserve",
+      "steps": [
+        4,
+        5
+      ],
+      "publicationCount": 2,
+      "onlyPositiveGauge": [
+        "reserve:communion",
+        1
+      ],
+      "damage": 1
+    },
+    {
+      "course": "namespace-exchange:reserve-to-derived",
+      "steps": [
+        4,
+        5
+      ],
+      "publicationCount": 2,
+      "onlyPositiveGauge": [
+        "communion",
+        1
+      ],
+      "damage": 1
+    },
+    {
+      "course": "namespace-exchange:derived-to-status",
+      "steps": [
+        4,
+        5
+      ],
+      "publicationCount": 2,
+      "onlyPositiveGauge": [
+        "status:communion",
+        1
+      ],
+      "damage": 1
+    },
+    {
+      "course": "native-communion-earned-bank-namespace-exchange",
+      "step": 5,
+      "publicationCount": 3,
+      "onlyPositiveGauge": [
+        "brim:communion",
+        1
+      ],
+      "damage": 5,
+      "unchangedNativeOperations": true
+    },
+    {
+      "course": "native-communion-earned-bank-namespace-exchange",
+      "step": 6,
+      "publicationCount": 4,
+      "onlyPositiveGauge": [
+        "brim:communion",
+        1
+      ],
+      "damage": 5,
+      "note": "Explicit native sink call remains visible to the observer even when its values are unchanged."
+    }
+  ],
+  "constraints": [
+    "Derive assertions from these named requirements, never from candidate output.",
+    "Compare all ordinary courses exactly and review diagnostic differences field by field.",
+    "Keep actor sources, native operation results and sampling times unchanged.",
+    "Exact equality includes namespace, identifier, integer value and ordered entries; probabilistic hashing alone is insufficient."
+  ]
+}
