@@ -1,0 +1,96 @@
+[content] tileset 'meadow': span void region 'mere_bed' is walkable — a gone span must be a hole
+[content] monster toll_bailiff: 2 signature defense pools authored — textures are identities; stack them only on boss showpieces
+[content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fumes:exposure(195), fire_walker:moveTrail(5), aftershocks:aoeScatter(114), buried_charge:pulse(76), accelerando:cadence(118), ritardando:cadence(118), square_sigil:aoeShape(41), triangle_sigil:aoeShape(41), spell_cascade:cascade(95), scattered_cascade:cascade(95), seismic_march:cascade(95), mirrored_bounds:projFrameBounce(1), sundering_flight:fissureTrail(1), afterspray:departSplash(10) — the whys live on the rows in data/graftReadSites.ts
+PASS  weave: every shipped reserve row validates (pools, costs, stages, vents, THE HONESTY LAW)
+PASS  weave: every shipped rooted claim validates (live kinds, real mods, a visible tell)
+PASS  weave: both new gauge-limbs are registered painters
+PASS  weave: fumelung stands (def + look, every part painted, bellowsLung seat bare)
+PASS  weave: taperwight stands (def + look, every part painted, wickTaper seat bare)
+PASS  weave: sapbleeder stands (def + look, every part painted, fillSac seat bare)
+PASS  weave: bloom_matron stands (def + look, every part painted, roots seat bare)
+PASS  weave: nightbloom stands (def + look, every part painted)
+PASS  weave: the sporebed creep kind is registered and taxes only intruders
+PASS  weave: no body spends or draws power invisibly (census)
+PASS  weave: every phase-worn body wears the unfurl (census)
+PASS  weave: NOCTURNE_UNFURL is colorless (one row serves every body's own tone)
+PASS  weave: WIND_PUFF reads the kite budget and its winded beat
+PASS  weave: the matron wilts off her claim, the court merely stops gaining
+PASS  weave: the court's tell shows the GAIN only (never implies an unpaid penalty)
+PASS  weave: the whole Bloom court claims the matron's kind (the recede loop reaches all of them)
+PASS  weave: the gout is priced and LEADS the rotation (the pool is the pacing)
+PASS  weave: AICondition.reserve keeps a live tenant (the wick's guttered pace-down)
+PASS  weave: the wick's damage curve rides its OWN fuel gauge (one number, two readers)
+PASS  weave: the leaker's trail and its drain are both keyed to TRAVEL
+PASS  pure: a fresh row mints FULL at its pool
+PASS  pure: start scales the mint
+PASS  pure: a named cost wins over perCast; unnamed skills pay perCast
+PASS  pure: an unpriced row is free
+PASS  pure: stages resolve first-match-in-order over the band
+PASS  pure: a full row is not spent
+PASS  pure: an empty row is spent
+PASS  pure: a VENTING row reads spent even at full (the window is the depletion)
+PASS  pure: spentAt lifts the floor
+PASS  pure: drainWhile gates the burn
+PASS  pure: regen waits out regenDelay, refuses while engaged under 'calm', and never runs mid-vent
+PASS  pure: a row with no regen never recovers
+PASS  pure: gauge pips are INTEGER (the quanta law — the sheet cache never churns on a float)
+PASS  pure: standsRooted answers creep OR ground, and false on neither
+PASS  pure: a claim with no matching kind is not satisfied by another kind
+PASS  drawn: reserve: reads the live pool as a fraction, bounded, and unknown ids read 0
+PASS  drawn: reserve: needs NO band (bounded by construction, unlike charge:)
+PASS  drawn: an inverted band turns the fill into a DRAIN read
+PASS  drawn: spent reads the one boolean the slayer axis arms off
+PASS  drawn: wind reads the kite accumulator against its own cap
+PASS  drawn: winded reads the live window against the world clock
+PASS  drawn: rooted reads the exact held flag the stat sheet keys on
+PASS  drawn: nocturne reads the exact held flag the stat sheet keys on
+PASS  drawn: bonded reads the exact held flag the stat sheet keys on
+PASS  drawn: creep reads live cover under the body — bare (any kind) or one named kind
+PASS  drawn: the sources are pure reads (state byte-identical after a full sweep)
+PASS  bellows: the body arrives with its pool minted full
+PASS  bellows: THREE casts land and the FOURTH is refused — costs refuse, they never debt — [true,true,true,false]
+PASS  bellows: each landed cast drained exactly its price
+PASS  bellows: the refusal lives in canUse (an AI rotation falls through to its next art)
+PASS  bellows: EMPTY opens the vent window (status worn, spent stamped)
+PASS  bellows: the vent cast fired its own pall (the telegraph is real ground) — zones=fume_vent
+PASS  bellows: nothing knits back while the window stands
+PASS  bellows: the window closes and the pool comes back at the authored share
+PASS  bellows: regen waits out regenDelay (denying the pause denies the recovery) — 2 -> 2
+PASS  bellows: past the delay it knits back
+PASS  wick: it arrives at full taper
+PASS  wick: an unengaged wight does not burn
+PASS  wick: the fight burns it down with nothing else happening — 6 -> 4.799999999999991
+PASS  wick: the damage curve FALLS with the fuel (the gauge and the taper are one number) — 2.310 -> 2.175
+PASS  wick: the sheet reads INTEGER pips of what is left
+PASS  wick: burned past its last quarter it wears the gutter stage — frac=0.067
+PASS  wick: the clock runs ONE way — it bottoms out and reads spent, never refilling
+PASS  wick: a guttered wight is still alive (a burned-out clock is not a corpse)
+PASS  leaking: a body standing still pays nothing (the trail IS the travel) — 5 -> 5
+PASS  leaking: travel drains the reserve — 5 -> 2.36
+PASS  leaking: the drain is exactly drainPerUnit × distance (the odometer banks every frame) — 2.360 vs 2.360
+PASS  leaking: losing the chase lets it knit back (regenWhile calm) — 2.36 -> 3.61
+PASS  leaking: run dry it VENTS — the chase, not the burst, is the kill — cur=0.00
+PASS  claimer: the heart plants its own membrane
+PASS  claimer: she stands on the floor she laid
+PASS  claimer: standing on her claim she WEARS it (rootedHeld + the sheet source) — held=true dt=0.800
+PASS  claimer: her court gains on her floor
+PASS  claimer: carried clear of the mat the gain drops (and the court pays no wilt) — on=0.800 off=1.000
+PASS  claimer: THE GRACE holds the claim across a brief step off (no sheet flicker)
+PASS  claimer: stepping back on is instant (the reward half never waits)
+PASS  claimer: killing the heart RECEDES the floor — 1.000 -> 0.000
+PASS  slayer: spentbane is INERT against a full body (exact — same rungs, no fold)
+PASS  slayer: spentbane arms against a SPENT body at exactly (1 + v) — ratio 2.0000
+PASS  slayer: uprooter is INERT while the body stands on its claim
+PASS  slayer: uprooter arms at exactly (1 + v) once it is OFF its ground
+PASS  slayer: a body with NO claim can never read as uprooted (presence IS the gate)
+PASS  validate: names a pool that cannot pay its own cast
+PASS  validate: names unknown skills and statuses
+PASS  validate: names THE HIDDEN TIMER (a row that gates with no tell)
+PASS  validate: an INERT row (no gate, no burn, no vent) is exempt from the honesty law
+PASS  validate: names a duplicate reserve id on one def
+PASS  validate: names a claim with no ground named
+PASS  validate: names a heart that plants a kind it does not claim
+PASS  validate: names ground-worn power with no tell
+PASS  determinism: the same seed burns byte-identically — 3.0000:3:0|6.0000:6:0|0.0500:0:1
+
+ALL PASS

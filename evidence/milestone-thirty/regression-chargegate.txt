@@ -1,0 +1,18 @@
+[content] tileset 'meadow': span void region 'mere_bed' is walkable — a gone span must be a hole
+[content] monster toll_bailiff: 2 signature defense pools authored — textures are identities; stack them only on boss showpieces
+[content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fumes:exposure(195), fire_walker:moveTrail(5), aftershocks:aoeScatter(114), buried_charge:pulse(76), accelerando:cadence(118), ritardando:cadence(118), square_sigil:aoeShape(41), triangle_sigil:aoeShape(41), spell_cascade:cascade(95), scattered_cascade:cascade(95), seismic_march:cascade(95), mirrored_bounds:projFrameBounce(1), sundering_flight:fissureTrail(1), afterspray:departSplash(10) — the whys live on the rows in data/graftReadSites.ts
+PASS  census: every hinted KNOCKBACK dash wears a minRange floor (the propel law) — 4 shovers
+PASS  census: the three authored floors stand (charge 140 / shield_charge 120 / dune_surge 120) — charge:140 shield_charge:120 dune_surge:120
+PASS  census: no floor swallows its own envelope (minRange < range)
+PASS  census: authored nearWeight stays a DISCOUNT in (0, 1]
+PASS  census: the kernel dials are sane (floor > 0, chance in (0,1), rollSec > 0) — floor 130 chance 0.15 roll 1.4 discount 0.15
+PASS  pick: point-blank charge COLLAPSES below standard (< 22% of picks; was 40% at full weight) — 17/200 charges, 0 no-pick
+PASS  pick: the residual still fires (soft gate, never a ban) — 17/200
+PASS  pick: an un-authored dash hint keeps FULL point-blank weight (absent == identical) — 48/120 dashes, 0 no-pick
+PASS  pick: charge as the ONLY usable skill still fires point-blank (10/10) — 10/10
+PASS  press: useSkill ignores hints entirely — a point-blank charge CAST is never refused
+PASS  kernel: point-blank commits are RARE, not instant (first commit ≥ 1.2s, was tick one) — first at 9.78s
+PASS  kernel: the gorer keeps its MOMENTS over a 90s stand (≥ 1 commit, ≤ 20) — 4 commits
+PASS  kernel: from 300px (past the floor) the commit fires within a second — at 0.00s
+PASS  kernel: chargeFloor 0 = the old point-blank instant commit (the restore lever) — at 0.00s
+PROBE OK

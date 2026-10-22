@@ -81,3 +81,16 @@ starts, rotates sample order, and requires equal derived results. Setup details,
 raw timing samples and limitations accompany the report. It does not measure
 completed deliveries, entire rendered frames, GC or target devices. Performance
 and native-engine support require their own evidence before acceptance.
+
+Two desktop runs retained identical derived results across the original game,
+v0.25 and the candidate. Both used five warmups and 25 rotating samples per path.
+
+| Workload | Change in median time from v0.25 | Change from original |
+| --- | ---: | ---: |
+| 8,192 mixed actor eligibility queries | 6.82–8.31% lower | 0.76–6.43% lower |
+| 1,024 native HUD/query/cast starts | 0.16–1.20% higher | 5.61–8.60% higher |
+
+The broader native path still carries overhead; the actor-query improvement is
+not a general SDK speedup. Raw results are retained in
+[run one](../evidence/milestone-thirty/candidate-admission-benchmark-run1.json) and
+[run two](../evidence/milestone-thirty/candidate-admission-benchmark-run2.json).

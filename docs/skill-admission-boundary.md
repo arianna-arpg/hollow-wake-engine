@@ -1,8 +1,9 @@
 # Skill admission: original baseline and extraction boundary
 
-Status: original observations accepted. The admission candidate and its live-host
-contract are described in [skill-admission.md](skill-admission.md). Public v0.25
-remains the resource-payment milestone until the admission release gates pass.
+Status: original observations accepted and implemented by the v0.26 optional
+admission policy. Its live-host contract is described in
+[skill-admission.md](skill-admission.md). This is actor eligibility, not complete
+World input authority.
 
 ## Evidence authority
 
@@ -126,7 +127,7 @@ drop trace fields merely to hide a discrepancy.
 
 These gates define full extraction acceptance. Completed and pending checks for
 the current implementation are recorded in the
-[candidate checkpoint](../evidence/milestone-thirty/candidate-verification.json):
+[acceptance record](../evidence/milestone-thirty/verification.json):
 
 - Implement the reusable policy and independent arithmetic/order/error tests.
 - Guard overlays against both pinned original code and inherited ammunition

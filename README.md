@@ -9,14 +9,11 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
-Version 0.25 adds [resource payment](docs/resource-payment.md): shared mana,
-shield and life spending, loan headroom and time-dependent debt repayment.
-It builds on v0.24's [guard casting](docs/guard-casting.md).
-
-The v0.26 candidate adds optional [skill admission](docs/skill-admission.md):
-actor eligibility, reflex/held combinations and ordered prerequisites. It preserves
-lazy ammunition creation and existing resource validation. Release acceptance is
-still in progress; the published milestone remains v0.25.
+Version 0.26 adds optional [skill admission](docs/skill-admission.md): actor
+eligibility, reflex/held combinations and ordered prerequisites. It preserves
+lazy ammunition creation and existing resource validation. It builds on v0.25's
+[resource payment](docs/resource-payment.md) and v0.24's
+[guard casting](docs/guard-casting.md).
 
 ## Start here
 

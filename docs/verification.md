@@ -1,6 +1,6 @@
 # Verification and reproduction
 
-The v0.26 candidate adds `reference:admission`, `adapter:admission-source`,
+Version 0.26 adds `reference:admission`, `adapter:admission-source`,
 `adapter:admission` and `benchmark:admission`. Its optional entry has a 12 KiB
 JavaScript allowance; the combined bound is 412 KiB, retaining all earlier
 module/core limits. See [skill-admission.md](skill-admission.md) for live state,
@@ -289,14 +289,16 @@ for ownership, lazy admission, fractional legacy banks and bounded work.
 The skill-admission baseline adds `reference:admission`: 126 actor courses
 and 11 native World courses, 243 observations in total. Accepted outputs match
 two original runs and the retained v0.25 installation byte-for-byte. The runner
-reproduces them without replacing fixtures. The v0.26 candidate adds
+reproduces them without replacing fixtures. Version 0.26 adds
 `adapter:admission-source`, `adapter:admission` and `benchmark:admission`.
 Its installed comparison retains state/results and meaningful host call ordering,
 with explicitly instrumented forwarding-trace projection. Thirteen independent
 policy tests, two comparison tests, six runtime faults, six installed faults and
 a clean packed consumer cover this extraction. The complete SDK verifier passes
-273 tests, 103 runtime faults and 18 packed consumers. Release acceptance remains
-in progress. See [skill-admission.md](skill-admission.md) and the
+273 tests, 103 runtime faults and 18 packed consumers. Local acceptance also covers
+the managed game, seven prior casting/payment comparisons, seven native probes,
+simulation smoke and seven renderer/boot regressions. Exact-commit CI is recorded
+separately. See [skill-admission.md](skill-admission.md) and the
 [original boundary](skill-admission-boundary.md).
 
 ## Cross-runtime numerical policy

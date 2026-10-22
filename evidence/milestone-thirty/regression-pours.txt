@@ -1,0 +1,45 @@
+[content] tileset 'meadow': span void region 'mere_bed' is walkable — a gone span must be a hole
+[content] monster toll_bailiff: 2 signature defense pools authored — textures are identities; stack them only on boss showpieces
+[content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fumes:exposure(195), fire_walker:moveTrail(5), aftershocks:aoeScatter(114), buried_charge:pulse(76), accelerando:cadence(118), ritardando:cadence(118), square_sigil:aoeShape(41), triangle_sigil:aoeShape(41), spell_cascade:cascade(95), scattered_cascade:cascade(95), seismic_march:cascade(95), mirrored_bounds:projFrameBounce(1), sundering_flight:fissureTrail(1), afterspray:departSplash(10) — the whys live on the rows in data/graftReadSites.ts
+PASS  A1 warrior: a dented-pool press pours TWO streams — pressed true, streams 2
+PASS  A2 warrior: the surge pours 15% of max (pool 154) — surge 23.10 want 23.10
+PASS  A3 warrior: the settle pours flat 18 at level 1 — settle 18.00
+PASS  A4 warrior: settle runs 4.5/0.4 as long as the surge — ratio 11.25
+PASS  A1 rogue: a dented-pool press pours TWO streams — pressed true, streams 2
+PASS  A2 rogue: the surge pours 15% of max (pool 108) — surge 16.20 want 16.20
+PASS  A3 rogue: the settle pours flat 18 at level 1 — settle 18.00
+PASS  A4 rogue: settle runs 4.5/0.4 as long as the surge — ratio 11.25
+PASS  A5 level 5: the surge is a FIXED FLOOR (still 15% of max) — surge 23.10
+PASS  A6 level 5: the settle alone carries the growth (18 + 4×4) — settle 34.00
+PASS  B1 three rapid sips hold exactly 3× one sip (stacking concentrates, never mints/loses) — streams 6, total 123.3000 want 123.3000
+PASS  C1 +3% restorePctMax is +3% per SIP, not +6% (folds once, into the settle) — delta 4.62 want 4.62
+PASS  C2 the surge never wears the drinker's percent lever — surge 23.10 vs 23.10
+PASS  D1 pourPower_settle −50% halves the settle alone — surge 23.10, settle 9.00
+PASS  D2 pourPct_surge +10pp deepens the surge alone (15% → 25%) — surge 38.50 want 38.50, settle 18.00
+PASS  D3 adrenal_decant trades on the socket: surge 25% of max, settle halved — surge 38.50, settle 9.00
+PASS  D4 the gem FITS the two-stream life flask
+PASS  D5 the gem REFUSES the settle-only mana flask (no surge lane)
+PASS  D6 the gem REFUSES the catalyst gulp (settle lanes only)
+PASS  D7 the gem REFUSES a pour-less stance flask
+PASS  D8 the pour mechanisms read the lanes (bare pour / pour:surge / pour:settle)
+PASS  E1 a true-full press is refused (no prime) and eats nothing — pressed false, charges 3
+PASS  E2 any real dent admits the ordinary pour — pressed true, streams 2
+PASS  F1 a full-pool press with pourPrime BANKS: charges spent, clock stamped, zero heal, no quaffing — pressed true, bank 1, charges 2, streams 0
+PASS  F2 the cap holds: a second full press past the bank is refused, nothing eaten — pressed false, bank 1
+PASS  F3 the first DoT tick RELEASES: bank drained, both streams live, quaffing starts now — bank 0, streams 2, quaffing true
+PASS  F4 the released sip poured fresh (15% of max + flat 18, banked charges honored) — total 41.10 want 41.10
+PASS  F5 released streams are ORDINARY streams: they ran past re-full to the last drop — streams 0, life 154.0/154.0
+PASS  F6a the bank stands before the blow
+PASS  F6b a landed hit RELEASES the banked sip — bank 0, streams 2
+PASS  F7 pourPrime 2 banks two and refuses the third — bank 2, charges 1
+PASS  F8 unslotted entries DISSOLVE at release (the unslot-disbands precedent) — bank 0, streams 0
+PASS  G1 untagged baseline: both clocks tick together (today's single read) — flask 1.500, other 1.500
+PASS  G2 flask-scoped CDR speeds the flask clock alone — flask 1.000 want 1.0, other 1.500 want 1.5
+PASS  H1 without overheal, full-pool spill evaporates — absorb 0.00
+PASS  H2 with overheal 50%, a 10-point spill hardens 5 into absorb (timer 6s) — absorb 5.00, timer 6.0
+PASS  H3 the trickle ACCRUES (a stream's summed ticks are one pour) — absorb 10.00
+PASS  H4 the accrual honors Overmend's ceiling (maxLife/2)
+PASS  I1 the sip crits WHOLE or not at all — never half-and-half (one roll per press) — plain 24, crit 16, mixed 0 (×1.32)
+PASS  I2 both outcomes observed at 50% (the roll is real) — plain 24, crit 16
+
+ALL PASS
