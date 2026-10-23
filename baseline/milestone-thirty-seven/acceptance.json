@@ -1,0 +1,312 @@
+{
+  "schemaVersion": 1,
+  "milestone": 37,
+  "stage": "Original behavior baseline captured and compared before condition implementation. Intentional recovery behavior requires a separate decision.",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLock": "baseline/source-lock.json",
+  "predecessor": {
+    "version": "0.31.0",
+    "commit": "a36b37732d51e88e4cc246704c79a3918cd5767b",
+    "publicRepository": "https://github.com/arianna-arpg/hollow-wake-engine",
+    "hostedChecks": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/39883785925",
+    "retainedHostFiles": 990,
+    "retainedRuntimeFiles": 165,
+    "archiveSha256": "7c7c41a190f7753cd0ef25671c92129e017e53fc70dd6e572646ca8310112629"
+  },
+  "helpers": [
+    {
+      "file": "reference/export-actor-condition-native.ts",
+      "sha256": "77b2b712b10c0f8de0ae5005550cde2b1a33d6c03359cb2a31da42db0ae17dcd",
+      "source": "Original-only diagnostic helper retained verbatim, including its discovery-stage comments. Baseline acceptance is governed by this manifest."
+    },
+    {
+      "file": "reference/export-actor-condition-boundary.ts",
+      "sha256": "21634cda32e60ce9166c6a8c9694778486a7fdfb1495fd830a8974a957a73d7b",
+      "source": "Original-only diagnostic helper retained verbatim, including its discovery-stage comments. Baseline acceptance is governed by this manifest."
+    },
+    {
+      "file": "reference/export-actor-condition-feedback.ts",
+      "sha256": "566eabc640b9c66dd7ca49c859c1ad9ce48d126e6e3d3de4e27030e5d68c57f6",
+      "source": "Original-only diagnostic helper retained verbatim, including its discovery-stage comments. Baseline acceptance is governed by this manifest."
+    },
+    {
+      "file": "reference/export-actor-condition-reentry.ts",
+      "sha256": "cd9eeaac043a60ceb5ad81eae8ea2d26d63668236106693a9318f7281338fc06",
+      "source": "Original-only diagnostic helper retained verbatim, including its discovery-stage comments. Baseline acceptance is governed by this manifest."
+    },
+    {
+      "file": "reference/export-actor-condition-config.ts",
+      "sha256": "8d547a12746d78a557d66115d7f901d27b072a3f3d7c8bdd908c526397642605",
+      "source": "Original-only diagnostic helper retained verbatim, including its discovery-stage comments. Baseline acceptance is governed by this manifest."
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "actor-condition-native",
+      "file": "baseline/milestone-thirty-seven/actor-condition-native.json.gz",
+      "helper": "reference/export-actor-condition-native.ts",
+      "helperSha256": "77b2b712b10c0f8de0ae5005550cde2b1a33d6c03359cb2a31da42db0ae17dcd",
+      "args": [],
+      "courses": 2,
+      "folds": 110,
+      "checkpoints": 14,
+      "conditionDispatches": 8,
+      "fixtureSha256": "07cd0787a5d1460c1cb42ac0ac40da78f4b7a23eb93c13ff8909b3ab3d4a7fb6",
+      "compressedSha256": "0cf4f5216d4453ea60d0030e5f0b514ca5c2405b2565a3f993111675d22ca593",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "a36b37732d51e88e4cc246704c79a3918cd5767b",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "07cd0787a5d1460c1cb42ac0ac40da78f4b7a23eb93c13ff8909b3ab3d4a7fb6"
+      }
+    },
+    {
+      "name": "actor-condition-boundary",
+      "file": "baseline/milestone-thirty-seven/actor-condition-boundary.json.gz",
+      "helper": "reference/export-actor-condition-boundary.ts",
+      "helperSha256": "21634cda32e60ce9166c6a8c9694778486a7fdfb1495fd830a8974a957a73d7b",
+      "args": [],
+      "courses": 31,
+      "observations": 154,
+      "fixtureSha256": "f76356aff85cf0d040f36f4ca48d84a2e75430a5898bdfb3425cb0d28324b1ca",
+      "compressedSha256": "702889ac8b4b9bd025a912552c2c3f81211becaf54af47cd62eadc67e683945f",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "a36b37732d51e88e4cc246704c79a3918cd5767b",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "f76356aff85cf0d040f36f4ca48d84a2e75430a5898bdfb3425cb0d28324b1ca"
+      }
+    },
+    {
+      "name": "actor-condition-feedback",
+      "file": "baseline/milestone-thirty-seven/actor-condition-feedback.json.gz",
+      "helper": "reference/export-actor-condition-feedback.ts",
+      "helperSha256": "566eabc640b9c66dd7ca49c859c1ad9ce48d126e6e3d3de4e27030e5d68c57f6",
+      "args": [],
+      "courses": 7,
+      "fixtureSha256": "21d6d3a877f43a3b888d5a1f9dcc8f8d7d916db3b6717cc5bfc82b068b0d464a",
+      "compressedSha256": "db7f254e7d1c8d845cb732c1b3564b6b9727887c779d031f0c5b76be82b28d4a",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "a36b37732d51e88e4cc246704c79a3918cd5767b",
+        "typesPassed": true,
+        "scope": "Six original condition courses equal; one gauge-failure course matches the independently specified M36 retry correction",
+        "sha256": "cb2fb3a2e83b8cd2a5a2f6c23f0b850c1b6755f574d5f4b27860a46fd66cdb4c"
+      }
+    },
+    {
+      "name": "actor-condition-reentry",
+      "file": "baseline/milestone-thirty-seven/actor-condition-reentry.json.gz",
+      "helper": "reference/export-actor-condition-reentry.ts",
+      "helperSha256": "cd9eeaac043a60ceb5ad81eae8ea2d26d63668236106693a9318f7281338fc06",
+      "args": [],
+      "courses": 7,
+      "fixtureSha256": "fdb3ec3b00083a572ce6c58421695c7d7fdaaf54f9bace14d98bec7b3b128e6a",
+      "compressedSha256": "226d814e7b117fdac2148c4ee70e72bee22e9723583dab357dca66c83b564ce6",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "a36b37732d51e88e4cc246704c79a3918cd5767b",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "fdb3ec3b00083a572ce6c58421695c7d7fdaaf54f9bace14d98bec7b3b128e6a"
+      }
+    },
+    {
+      "name": "actor-condition-config-after-import",
+      "file": "baseline/milestone-thirty-seven/actor-condition-config-after-import.json.gz",
+      "helper": "reference/export-actor-condition-config.ts",
+      "helperSha256": "8d547a12746d78a557d66115d7f901d27b072a3f3d7c8bdd908c526397642605",
+      "args": [],
+      "courses": 1,
+      "observations": 3,
+      "fixtureSha256": "6b6ca98a15b4b0acba66321e8d42e28409955d438b7176692abfc83308111130",
+      "compressedSha256": "eb6906e2e73adbbee5a116ba9c01dbf3cfd67445483000cf5459b1d069f8cebf",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "a36b37732d51e88e4cc246704c79a3918cd5767b",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "6b6ca98a15b4b0acba66321e8d42e28409955d438b7176692abfc83308111130"
+      }
+    },
+    {
+      "name": "actor-condition-config-before-import",
+      "file": "baseline/milestone-thirty-seven/actor-condition-config-before-import.json.gz",
+      "helper": "reference/export-actor-condition-config.ts",
+      "helperSha256": "8d547a12746d78a557d66115d7f901d27b072a3f3d7c8bdd908c526397642605",
+      "args": [
+        "--before-import"
+      ],
+      "courses": 1,
+      "observations": 3,
+      "fixtureSha256": "90c63288c25c8a636a13508822721a775e663ede02275d52e56b3fc31eda71fa",
+      "compressedSha256": "cf6f2a98ea5ddacf9f7b1d544fb64d74d3d75ec241048b0473a11925df88e4ec",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "a36b37732d51e88e4cc246704c79a3918cd5767b",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "90c63288c25c8a636a13508822721a775e663ede02275d52e56b3fc31eda71fa"
+      }
+    }
+  ],
+  "courses": 49,
+  "sourceBoundary": [
+    {
+      "kind": "original",
+      "file": "src/engine/actor.ts",
+      "name": "refreshConditions",
+      "fileSha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30",
+      "sha256": "0652a92299c8dbed1e293ff1fa5a27b05abf96ffff9f7d1ecde58b95d98d12e4",
+      "conditionStatements": 21,
+      "conditionSha256": "8db1cc28e84e8764a4f7a694fb4e1dcc8eff962b8b7a8e27e8943662cb19ddfe"
+    },
+    {
+      "kind": "original",
+      "file": "src/engine/actor.ts",
+      "name": "conditionHolds",
+      "fileSha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30",
+      "sha256": "7a2b668a67aba5c1509e58a7163510a8e455f14b24e90f598171a7be1b6aba55"
+    },
+    {
+      "kind": "original",
+      "file": "src/engine/actor.ts",
+      "name": "updateTimers",
+      "fileSha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30",
+      "sha256": "2b35c6929247cd481445f2d8e01f750094979d62c4ae4e3c6f2582ad33351b87",
+      "phaseStatements": 9,
+      "phaseSha256": "259e94b9f853b83328fcb4a95e6b76f30afb660672c66b9a56fd8599bf44038d"
+    },
+    {
+      "kind": "original",
+      "file": "src/engine/actor.ts",
+      "name": "condMask",
+      "declaration": "private condMask = -1;",
+      "sha256": "937b618a5fa1e74d14d2594e68f6b1e8f58fdf8adf8124da658ad24fc2513dac"
+    },
+    {
+      "kind": "original",
+      "file": "src/engine/actor.ts",
+      "name": "condSheet",
+      "declaration": "private condSheet: StatSheet | null = null;",
+      "sha256": "c28610daaa72888d7aba25862b8332662493775815c21abbcfb8bce0ce292b2f"
+    },
+    {
+      "kind": "original",
+      "file": "src/engine/actor.ts",
+      "name": "COND_BIT",
+      "sha256": "603513fb0778a29b6330edbea048bb1a9a032081c1577ba9d05ddd481447f24b"
+    },
+    {
+      "kind": "original",
+      "file": "src/engine/actor.ts",
+      "name": "RECENT_ROWS",
+      "sha256": "e3e94a1a60d10a5e98888c2891825edb1b00a89c19f2dc0c6b42032c5a86760b"
+    },
+    {
+      "kind": "retained",
+      "file": "src/engine/actor.ts",
+      "name": "refreshConditions",
+      "fileSha256": "3fb335648c9d3c50423b147b292cad52e8cd4d7e1402c105ad87372173a0e44e",
+      "sha256": "4ed0414e88f69656ea62f9f6d7ea82832a076dee0db2d6b036131fff8f330577",
+      "conditionStatements": 21,
+      "conditionSha256": "8db1cc28e84e8764a4f7a694fb4e1dcc8eff962b8b7a8e27e8943662cb19ddfe"
+    },
+    {
+      "kind": "retained",
+      "file": "src/engine/actor.ts",
+      "name": "conditionHolds",
+      "fileSha256": "3fb335648c9d3c50423b147b292cad52e8cd4d7e1402c105ad87372173a0e44e",
+      "sha256": "7a2b668a67aba5c1509e58a7163510a8e455f14b24e90f598171a7be1b6aba55"
+    },
+    {
+      "kind": "retained",
+      "file": "src/engine/actor.ts",
+      "name": "updateTimers",
+      "fileSha256": "3fb335648c9d3c50423b147b292cad52e8cd4d7e1402c105ad87372173a0e44e",
+      "sha256": "f592659de063583892cfad4112f99b11571be640137172bce37125532c23f7c2",
+      "phaseStatements": 9,
+      "phaseSha256": "259e94b9f853b83328fcb4a95e6b76f30afb660672c66b9a56fd8599bf44038d"
+    },
+    {
+      "kind": "retained",
+      "file": "src/engine/actor.ts",
+      "name": "condMask",
+      "declaration": "private condMask = -1;",
+      "sha256": "937b618a5fa1e74d14d2594e68f6b1e8f58fdf8adf8124da658ad24fc2513dac"
+    },
+    {
+      "kind": "retained",
+      "file": "src/engine/actor.ts",
+      "name": "condSheet",
+      "declaration": "private condSheet: StatSheet | null = null;",
+      "sha256": "c28610daaa72888d7aba25862b8332662493775815c21abbcfb8bce0ce292b2f"
+    },
+    {
+      "kind": "retained",
+      "file": "src/engine/actor.ts",
+      "name": "COND_BIT",
+      "sha256": "603513fb0778a29b6330edbea048bb1a9a032081c1577ba9d05ddd481447f24b"
+    },
+    {
+      "kind": "retained",
+      "file": "src/engine/actor.ts",
+      "name": "RECENT_ROWS",
+      "sha256": "e3e94a1a60d10a5e98888c2891825edb1b00a89c19f2dc0c6b42032c5a86760b"
+    }
+  ],
+  "observedRules": [
+    "Read maxLife, maxMana and maxEs first; lowLifeLine is a live actor-specific stat query. Mana/ES low/full gates require positive maxima, while full life has its original separate arithmetic.",
+    "Strict hasEs/poised threshold is 0.5. Guard mode, poiseBroken and esRecharging are separate bits. Stationary wins over moving; plantFor must exceed 1.0 and otherwise idleFor must be below 0.15.",
+    "Stride reach is queried only for positive stride distance; a positive reach is required and equality is sufficient. Combo bits require comboWatch and strictly positive freshness.",
+    "Nine recency conditions use strict less-than windows, including the hurt inverse. The 25 native conditions have a fixed original bit and publication order.",
+    "Birth (condMask -1) publishes without rising-edge events. Later rises append in condition order, capped at 16 including previously queued entries. A sheet replacement republishes without inventing edges.",
+    "The native method updates condMask and appends edges before calling setConditions. The condSheet marker is committed only after gauge publication succeeds. Failure semantics need an explicit boundary decision and tests, not assumed transactional behavior.",
+    "updateTimers spends a pending stride before sampling, then samples before recency counters and combo freshness decay. Preserve this phase relationship.",
+    "World sweepTalentEvents detaches the rising-edge array before condition procs and clears it for dead actors. Proc execution itself remains a separate boundary unless explicitly included."
+  ],
+  "independentAssertions": [
+    "Independent strict/inclusive threshold expectations and the live actor low-life threshold",
+    "All nine native recency conditions, including the hurt inverse and ignored critHurt counter",
+    "Stationary/moving precedence, combo watch/freshness gates and stride reach laziness",
+    "Original stat-read order and mask/edge commitment before the condition sink",
+    "Birth without edges, stable suppression, sheet replacement, last-fold query and queue identity/cap/order",
+    "Native timer sampling before recency/combo decay and stride consumption before sampling",
+    "Real hit/kill/hurt, native ward dispatch with detached queue, and authored-boots stride spend"
+  ],
+  "diagnostics": {
+    "configuration": "The native condition fold captures recency windows at module initialization. Changing RECENT_CFG afterward changes recentWindow() but neither an existing nor a fresh actor condition fold. A pre-import override does change the captured rule. Documentation asserting mask-time tuning is not the executed behavior.",
+    "reentry": [
+      "Original same-actor re-entry is not guarded. An unchanged nested fold skips publication on an existing sheet but republishes on a replacement sheet.",
+      "When a synchronous sink mutates life and re-enters before applying the outer values, the actor finishes full-life while the sheet retains low-life and its damage grant. An unchanged retry does not repair it.",
+      "Applying the outer values before the mutation/re-entry leaves the final nested state consistent.",
+      "The native dead-actor sweep clears pending condition/heal/gasp events without proc dispatch, preserving the existing queue array identity."
+    ],
+    "feedback": [
+      "Native condition evaluation is one ordered sample using the previously published condition set. A synthetic conditional maximum can alternate low-life state and damage across samples; silently iterating to a fixed point would change behavior and may not terminate.",
+      "Original condition failure behavior depends on sink identity. On an existing sheet, a throwing sink can leave the actor mask and rising-edge queue committed while the sheet remains stale on unchanged retries. Replacing the sheet naturally forces retry. Independent host failure recovery needs its own recorded decision.",
+      "The native World sweep detaches the condition-edge queue before executing procs. Directly arming the authored Desperate Ward definition demonstrates condition-to-modifier-to-effect behavior without inventing proc execution; the seeded first roll fails and the second gains ward."
+    ]
+  },
+  "retainedGaugeCorrection": {
+    "source": "evidence/milestone-thirty-six/compatibility-repair/runtime-verification.json",
+    "course": "gauge-sink-failure-after-condition-fold",
+    "rule": "Raw original trace remains unchanged. Accepted M36 retries gauge publication after a sink failure: the unchanged retry publishes charge:communion=1 and calls the gauge sink twice. Its six other feedback courses equal original observations.",
+    "notANewConditionChange": true
+  },
+  "limits": [
+    "These are original/retained observations, not proof of an extracted condition module.",
+    "Scalar state, proc grants, selected enemy vitals and equipment placement are explicitly seeded; native request/hit/timer/proc paths execute where labelled.",
+    "World event production and proc execution remain host-owned.",
+    "M36 gauge recovery is already accepted separately; condition failure/re-entry recovery is not implemented by this baseline.",
+    "Full native-engine packages, newer original-source reconciliation and target-device performance remain incomplete."
+  ]
+}
