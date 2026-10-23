@@ -329,7 +329,7 @@
     "adapter:continuation-source": "node scripts/test-casting-continuation-overlay.mjs",
     "adapter:continuation": "node scripts/test-game-casting-continuation.mjs",
     "benchmark:continuation": "node scripts/benchmark-casting-continuation.mjs",
-    "reference:banks": "node scripts/run-channel-bank-reference.mjs",
+    "reference:banks": "node scripts/run-channel-bank-reference.mjs && node scripts/run-absent-gauge-reference.mjs",
     "adapter:banks-source": "node scripts/test-channel-bank-overlay.mjs",
     "adapter:banks": "node scripts/test-game-channel-banks.mjs",
     "benchmark:banks": "node scripts/benchmark-channel-banks.mjs"

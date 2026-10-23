@@ -1,0 +1,23 @@
+{
+  "schema": "hollow-wake-reference-acceptance/v1",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "acceptedBeforeRepair": true,
+  "discovery": "Existing M30 admission course qualified-enemy-hud-refuses-without-status seeds a status without stacks; reserve-refusal-does-not-spend-mana seeds a reserve without pips. Both initial M36 implementations throw, whereas v0.30 succeeds.",
+  "decision": "Preserve omission of absent status stacks and reserve pips. Present nonfinite numeric counts remain outside the supported SDK boundary and must still be rejected. Existing accepted M30/M36 fixtures and namespace decision are unchanged.",
+  "fixture": {
+    "name": "absent-counts",
+    "helper": "reference/export-absent-gauge-counts.ts",
+    "helperSha256": "2c94ee17a97a6705ff6b68bdf85add691d4027e67918932655b19186709b51d0",
+    "fixtureSha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+    "compressedSha256": "49493c6a2d5e615377e7c034dabb096c55810c4114bc3f2761686fdf79c17502",
+    "courses": 2,
+    "transitions": 10,
+    "originalRuns": 2,
+    "retainedControlByteEqual": true,
+    "originalHelperTypesPassed": true
+  },
+  "limitations": [
+    "These records explicitly exercise only the gauge-publication boundary; the unchanged broad admission suite remains a separate release requirement.",
+    "Stable positive entries suppress publication even if omitted record identifiers change; exact positive-entry caching does not reproduce incidental original fingerprint writes."
+  ]
+}
