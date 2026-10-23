@@ -20,7 +20,9 @@ package. These entries remain optional and outside the core import graph.
 A separately captured two-course addendum preserves sparse status/reserve counts.
 The [corrected implementation evidence](evidence/milestone-thirty-six/compatibility-repair/runtime-verification.json)
 includes exact game comparisons and a [measured cache decision](docs/actor-gauges.md#measured-cost).
-Broader game and device acceptance remain separate requirements.
+The [v0.31 acceptance evidence](evidence/milestone-thirty-six/verification.json)
+records installed-game faults, renderer checks and the preserved managed-game
+integration. Device and full native-engine acceptance remain outstanding.
 
 Version 0.30 added optional [casting continuation](docs/casting-continuation.md):
 ordered interruption, aim and hold handling, AI timing clicks, nine-mode updates,

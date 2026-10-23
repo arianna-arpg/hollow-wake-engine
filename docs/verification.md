@@ -26,8 +26,14 @@ new faults; all 159 predecessor runtime files are unchanged. The new entries
 are 2,575 and 4,479 bytes of unminified JavaScript. The
 [implementation evidence](../evidence/milestone-thirty-six/compatibility-repair/runtime-verification.json)
 records those checks and the separate repeated CPU/retained-heap decision.
-Broader game, renderer, managed and hosted acceptance is recorded separately;
-these checks alone do not complete any additional system family.
+The [M36 acceptance](../evidence/milestone-thirty-six/verification.json) records
+16 installed comparisons with 101 detected faults, 19 native probes and 11 renderer
+checks. Six request-stage observations match retained v0.30 byte-for-byte. Managed
+bank/gauge and continuation comparisons, game/launcher/sim types and smoke passed
+while preserving unrelated source and four existing bounty methods. All final
+runtime files match the measured and verified compact implementation. The final
+documentation archive has separate clean-consumer evidence. Eleven of thirteen
+families remain partial; native-engine and device acceptance remain outstanding.
 
 Version 0.30 adds `reference:continuation`, `adapter:continuation-source`,
 `adapter:continuation` and `benchmark:continuation -- --previous-adapter <retained-v0.29-game>`.

@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "version": "0.31.0",
+  "sdkBase": "55aac1893e48ce291724dcc619a6c4b35b4d9428",
+  "baselineCommit": "1d5223a9b703006b88e76e7f13664a80a4b43817",
+  "implementationCommit": "41cd19b399a9a3f2a92ab9f40bbdec7cee1714b4",
+  "checks": {
+    "tests": 421,
+    "behavioralFaults": 138,
+    "packedConsumers": 23,
+    "independentBankGaugeTests": 38,
+    "originalCourses": 57,
+    "originalTransitions": 292,
+    "sparseCountCourses": 2,
+    "sparseCountTransitions": 10,
+    "installedSuites": 16,
+    "installedFaults": 101,
+    "candidateNativeProbes": 19,
+    "rendererChecks": 11,
+    "retainedRequestInputStages": 6,
+    "managedInstalledSuites": 2,
+    "managedInstalledFaults": 0,
+    "managedGameLauncherSimTypes": true,
+    "managedAndCandidateSmoke": "5 scenarios x 5 seeds each",
+    "referenceCorePassed": true
+  },
+  "runtimeControls": {
+    "runtimeFilesMatch": 165,
+    "unchangedPreviousRuntimeFiles": 159,
+    "newModules": [
+      "channel-banks",
+      "actor-gauges"
+    ],
+    "hostChange": "Bank binding/lookup/decay and gauge publication delegated through guarded overlays. Condition policy and original frame phase preserved; six namespace diagnostics intentionally corrected."
+  },
+  "originalPreservation": {
+    "head": "f44a4cf8df080abbe151514e101600cef147563d",
+    "indexEmpty": true,
+    "filesByteIdentical": 4113,
+    "trackedFiles": 1894,
+    "untrackedFiles": 2219,
+    "pinnedSourceCapsuleVerified": true,
+    "externalUpdateRecorded": true,
+    "preExistingRosterChangesPreserved": true,
+    "preExistingWorldChangesPreserved": true,
+    "preExistingClaudeChangesPreserved": true,
+    "preExistingMainChangesPreserved": true,
+    "snapshot": "m36-original-external-update.json",
+    "upstreamMigrationReview": "m36-original-upstream-review.json",
+    "note": "Read-only review of external merges #14 (Skeleton Archer/content and reusable combat contracts) and #15 (visibility/resolution pacing), spanning 42 committed paths. Prior unfinished CLAUDE, roster, World and main content recovered byte-for-byte by reversing committed hunks in memory. All other tracked/untracked work preserved. No original-game writes and no SDK baseline refresh. New upstream gameplay features require a separate migration review."
+  },
+  "upstreamSourceReview": {
+    "head": "f44a4cf8df080abbe151514e101600cef147563d",
+    "previousHead": "de3cdead1ab6489bed5e1b8d86234ed9b0835b20",
+    "committedPaths": 42,
+    "newFiles": 12,
+    "originalTrackedFiles": 1894,
+    "originalUntrackedFiles": 2219,
+    "preExistingSharedFilesPreserved": [
+      {
+        "file": "CLAUDE.md",
+        "hunks": 1,
+        "priorWorkingSha256": "21cca0af2389595e6eb6c89ab805a91d7f7c2a15017f4373e21f625f19aec95f",
+        "method": "Reverse only the newly committed hunks in memory and recover the exact previous whole-file hash. No original source write."
+      },
+      {
+        "file": "balance/proberoster.ts",
+        "hunks": 1,
+        "priorWorkingSha256": "82fecab61e4580ddbea824676fb2793957f8bc1a0bc3e44a04de780cd426c993",
+        "method": "Reverse only the newly committed hunks in memory and recover the exact previous whole-file hash. No original source write."
+      },
+      {
+        "file": "src/engine/world.ts",
+        "hunks": 13,
+        "priorWorkingSha256": "d16b9954bcba847dc6b42ac3616d903646f8de81dcd6bbc8c0e7ff79a0c4fa6a",
+        "method": "Reverse only the newly committed hunks in memory and recover the exact previous whole-file hash. No original source write."
+      },
+      {
+        "file": "src/main.ts",
+        "hunks": 3,
+        "priorWorkingSha256": "a55497e3f76f2da004a4ed369dbf3b1af58a65080680e008057255d4222a9a00",
+        "method": "Reverse only the newly committed hunks in memory and recover the exact previous whole-file hash. No original source write."
+      }
+    ],
+    "scope": "Preservation audit only; current SDK and managed game continue to use the pinned baseline and accepted integrations.",
+    "pendingGameplayReconciliation": [
+      {
+        "area": "Skeleton Archer content",
+        "paths": [
+          "src/data/skeletonArcherSkills.ts",
+          "src/data/skeletonArcherTree.ts",
+          "src/data/necromancerTrees.ts"
+        ],
+        "work": "New channel squads, mortars and elemental mage arts must be reviewed when upgrading the captured catalogue and executable effect coverage."
+      },
+      {
+        "area": "Reusable combat rules",
+        "paths": [
+          "src/engine/channelFormation.ts",
+          "src/engine/castSequence.ts",
+          "src/engine/actor.ts",
+          "src/engine/status.ts",
+          "src/engine/skills.ts",
+          "src/engine/world.ts"
+        ],
+        "work": "Review independent stack lifetimes/cleanse alignment, periodic cast counters, authored channel AI hold, formation release and skill-mode/support routing against extracted capabilities before adopting this newer source."
+      }
+    ],
+    "hostOnlyChanges": "Visibility resolution/pacing and renderer query changes remain in the host; preservation does not import them into the SDK.",
+    "pinnedBaselineChanged": false,
+    "originalGameWritten": false
+  },
+  "logs": [
+    {
+      "file": "managed-types.txt",
+      "rawSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d",
+      "publishedSha256": "191c4684202ada301b8ac19abc7d6afdcdb521d37f6e6619434e6073db22de60"
+    },
+    {
+      "file": "managed-smoke.txt",
+      "rawSha256": "23456309d26af5485d3b8e7b5708711b637b7f190b81ab54fa24b8d6bc7dd359",
+      "publishedSha256": "aff7a81d54ae6d71645088095697f77faddc7ec86b7459d12fcbf158203b0de8"
+    }
+  ],
+  "boundary": {
+    "bankBytes": 2575,
+    "gaugeBytes": 4479,
+    "coreBytes": 77407,
+    "totalJavaScriptBytes": 459954,
+    "bankBoundBytes": 3072,
+    "gaugeBoundBytes": 5120,
+    "totalBoundBytes": 466944,
+    "runtimeDependencies": 0
+  },
+  "performanceDecision": "Retain the compact exact cache with sparse-count compatibility restored. Both measured runs preserve equal gameplay receipts, save 208.1 retained bytes per populated actor against the initial row cache, and reduce gauge-sampling time against v0.30. Accept the separately measured 2.1–3.1% quiet-world update cost against the initial row cache in exchange for lower retained heap; this is not a whole-game speedup or device acceptance.",
+  "verifierScope": "All final runtime bytes match complete optimized SDK verification, installed fault checks and controlled measurements. Final publication archive and exact-commit hosted checks remain separate.",
+  "developmentCorrections": [
+    "The broader admission suite exposed missing status stacks and reserve pips. Two original-only courses were accepted before the compatibility repair; all corrected runtime verification and measurements were repeated.",
+    "Original fixtures and namespace decision were committed before implementation and remain unchanged.",
+    "Replace row objects with a lazy compact cache after preserving the initial implementation and measuring retained-heap cost.",
+    "Preserve bank record identity, held-before-empty exclusion, compound-assignment observation order and detached negative fill.",
+    "Protect retained controls from deliberate faults; allow read-only managed comparisons to share the candidate installation.",
+    "Keep the exact measured archive using verified content-addressed cache bytes after documentation packaging replaced the top-level archive."
+  ],
+  "limits": "Eleven of thirteen families remain partial. Source event production, condition policy, spatial/effect mechanics, broader World scheduling, full native engine packages and Steam Deck/older-mobile acceptance remain incomplete. No allocation-volume or general frame-rate claim."
+}

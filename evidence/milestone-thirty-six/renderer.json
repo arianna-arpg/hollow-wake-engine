@@ -1,0 +1,99 @@
+{
+  "checks": [
+    {
+      "name": "test-skill-request-ui",
+      "passed": true,
+      "log": "<local>/request.txt"
+    },
+    {
+      "name": "test-support-ui",
+      "passed": true,
+      "log": "<local>/supports.txt"
+    },
+    {
+      "name": "test-skill-intent-ui",
+      "passed": true,
+      "log": "<local>/intent.txt"
+    },
+    {
+      "name": "test-skill-admission-ui",
+      "passed": true,
+      "log": "<local>/admission.txt"
+    },
+    {
+      "name": "test-channel-casting-ui",
+      "passed": true,
+      "log": "<local>/channel.txt"
+    },
+    {
+      "name": "test-ammunition-ui",
+      "passed": true,
+      "log": "<local>/ammunition.txt"
+    },
+    {
+      "name": "test-interactive-casting-ui",
+      "passed": true,
+      "log": "<local>/interactive.txt"
+    },
+    {
+      "name": "test-charged-casting-ui",
+      "passed": true,
+      "log": "<local>/charged.txt"
+    },
+    {
+      "name": "test-guard-casting-ui",
+      "passed": true,
+      "log": "<local>/guard.txt"
+    },
+    {
+      "name": "test-resource-payment-ui",
+      "passed": true,
+      "log": "<local>/payment.txt"
+    },
+    {
+      "name": "test-game-boot",
+      "passed": true,
+      "log": "<local>/boot.txt"
+    }
+  ],
+  "requestComparison": {
+    "control": {
+      "controlVersion": "0.30.0",
+      "controlGame": "<local>/game-adapter-m35-optimized",
+      "reports": "<local>/skill-request-ui-KqhY1V",
+      "harnessSha256": "29f912999d3947870a76ea0872487c8dedcc4f6f2b81f15c5049e2ab1824e0c1",
+      "receiptSha256": "a7bbf4cbd579a2fea329978d54552701f3ddf709a8588f65e2035ec8ca2a5a69",
+      "stages": 6,
+      "decision": "Retain accepted M35 renderer outcomes without regenerating expected results."
+    },
+    "candidate": {
+      "game": "<local>/game-adapter-m36-compatible",
+      "dist": "<local>/ui-request-m36",
+      "reports": "<local>/skill-request-ui-Ha1mPq",
+      "passed": true,
+      "harnessSha256": "29f912999d3947870a76ea0872487c8dedcc4f6f2b81f15c5049e2ab1824e0c1",
+      "scope": "Mounted renderer with native gem learning, authored tree purchase and player-intent polling. Six real request stages test trigger/replenishment toggles and prior seal authority, activity and payment. Trigger support, skill level and account awakening eligibility explicitly seeded; no claim of earning account progression, physical-device or all-gates rendering acceptance. Isolated saves."
+    },
+    "receiptSha256": "a7bbf4cbd579a2fea329978d54552701f3ddf709a8588f65e2035ec8ca2a5a69",
+    "rawByteEqual": true,
+    "stages": 6
+  },
+  "images": [
+    {
+      "file": "request-toggles.png",
+      "sha256": "8c390a42b2497e3f4190bf0de5d11d24c617e2fa48592bf9974ba1dca2b66438"
+    }
+  ],
+  "visualInspection": {
+    "inspected": true,
+    "image": "skill-request-ui-Ha1mPq/request-toggles.png",
+    "method": "Opened the actual candidate PNG with view_image after the request renderer course completed.",
+    "observations": [
+      "The player, room geometry, class and location labels render in the scene.",
+      "Life and mana values are visible, with six populated skill slots and readable controller hints.",
+      "The replenishment-enabled cue is visible above the player; no error overlay or missing HUD is apparent."
+    ],
+    "scope": "Single captured desktop frame. Behavioral equivalence comes from the six independently recorded request stages, not this visual inspection. No physical-device, pixel-identity, animation or whole-frame performance acceptance."
+  },
+  "scope": "Hidden desktop renderer with isolated saves and retained shell/static assets. Six request observations byte-equal to v0.30; other casting courses use behavioral assertions. No physical-input, pixel-identity, whole-frame or target-device acceptance."
+}
