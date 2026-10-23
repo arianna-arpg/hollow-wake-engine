@@ -25,6 +25,8 @@ const bank:ChannelBank<Skill,Spec>=banks.bind(actor,skill,spec);
 const label:string=bank.spec.hostLabel;
 const prior:ChannelBank<Skill,Spec>|undefined=banks.lookup(actor,skill);banks.decay(actor,.016);
 const gauges=new ActorGaugePublisher();const published:boolean=gauges.refresh(actor,sink);gauges.invalidate();gauges.reset();
+const sparse:ActorGaugeSources={statuses:[{id:'poison'}],charges:new Map(),reserves:new Map([['investigation',{}]])};
+gauges.refresh(sparse,sink);
 // @ts-expect-error Host skill payload is retained, not erased by the generic API.
 banks.bind(actor,{id:'missing-payload'},spec);
 // @ts-expect-error Host authored spec fields remain required.

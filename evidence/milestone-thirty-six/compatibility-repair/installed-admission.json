@@ -1,0 +1,52 @@
+{
+  "game": "<local>/game-adapter-m36-compatible",
+  "output": "<local>/game-skill-admission-5a8JMw",
+  "version": "0.31.0",
+  "packageIntegrity": "sha512-faD4w9mBhUt/7qydBHZU9zeotRTQWZkyl4L6FBmtp2cMFBKeeGRODODR5DvyWV/MnumyH48iFUdkIiNBhWCSrw==",
+  "installedRuntimeFilesMatchBuild": 165,
+  "gameLauncherAndCaptureTypeChecks": true,
+  "fixtures": [
+    {
+      "name": "admission-actor",
+      "helperSha256": "d40e601ffd77e4e839d1d49ffe12b5d64fc7d08e0f5a6db0101fef0c051e27f2",
+      "fixtureSha256": "cf999116802c75f5454f5f10d8f570d6018e95dd89790e1d3106d73c147b4c6c",
+      "courses": 126,
+      "transitions": 129
+    },
+    {
+      "name": "admission-world",
+      "helperSha256": "29b640454f68f4fecea8a91916af9f9bc66b27e25ebceced01133a6e7025f85a",
+      "fixtureSha256": "b8cef320f47dc283bf8ac11fd783ea0b9531e504b34a56282e5f5609ecd532fe",
+      "courses": 11,
+      "transitions": 114
+    }
+  ],
+  "projection": "Retired actor forwarding entries and instrumented gatesMet -> unmetGate / canUse -> gatesMet -> unmetGate calls. Original expected HUD/press-query castSealed forwarding entries removed after M31; actual requests and candidate seal calls retained. All raw captures retained.",
+  "installedFaults": [
+    {
+      "name": "ammunition-bank-created-before-body-refusal",
+      "detected": true
+    },
+    {
+      "name": "recovery-lock-ignored",
+      "detected": true
+    },
+    {
+      "name": "authored-gate-identity-lost",
+      "detected": true
+    },
+    {
+      "name": "prime-admits-one-point-dent",
+      "detected": true
+    },
+    {
+      "name": "aura-debt-lock-ignored",
+      "detected": true
+    },
+    {
+      "name": "disconnected-native-admission",
+      "detected": true
+    }
+  ],
+  "allInstalledFilesRestored": true
+}

@@ -47,6 +47,30 @@ test('replacement sheet republishes unchanged values while replacing maps does n
  const p=new ActorGaugePublisher(),a=sources(),first=sink(),second=sink();a.charges.set('x',1);p.refresh(a,first);a.charges=new Map(a.charges);assert.equal(p.refresh(a,first),false);
  assert.equal(p.refresh(a,second),true);assert.deepEqual(second.calls,[first.calls[0]]);
 });
+
+for(const kind of ['status','reserve'])test(`absent ${kind} count is omitted and removing a positive count clears its gauge`,()=>{
+ const p=new ActorGaugePublisher(),a=sources(),out=sink(),record={id:'sparse'},field=kind==='status'?'stacks':'pips';
+ if(kind==='status')a.statuses=[record];else a.reserves=new Map([['sparse',record]]);
+ assert.equal(p.refresh(a,out),true);assert.deepEqual(out.calls,[[]]);assert.equal(p.refresh(a,out),false);
+ record[field]=2;assert.equal(p.refresh(a,out),true);assert.deepEqual(out.calls.at(-1),[[kind+':sparse',2]]);
+ delete record[field];assert.equal(p.refresh(a,out),true);assert.deepEqual(out.calls.at(-1),[]);assert.equal(p.refresh(a,out),false);
+ record[field]=undefined;assert.equal(p.refresh(a,out),false);assert.equal(out.calls.length,3);
+});
+
+for(const kind of ['status','reserve'])test(`present invalid ${kind} count still rejects without publishing and retries`,()=>{
+ const p=new ActorGaugePublisher(),a=sources(),out=sink();set(a,kind,'sparse',1);p.refresh(a,out);
+ for(const value of [NaN,Infinity,-Infinity,null]){
+  set(a,kind,'sparse',value);const before=out.calls.length;assert.throws(()=>p.refresh(a,out),/finite/);assert.equal(out.calls.length,before);
+  set(a,kind,'sparse',1);assert.equal(p.refresh(a,out),true);assert.deepEqual(out.calls.at(-1),[[kind+':sparse',1]]);assert.equal(p.refresh(a,out),false);
+ }
+});
+
+test('sparse record accessors are sampled once in source order',()=>{
+ const p=new ActorGaugePublisher(),a=sources(),out=sink(),reads=[];
+ a.statuses=[{get id(){reads.push('id');return 's';},get stacks(){reads.push('stacks');return undefined;}}];
+ a.reserves=new Map([['r',{get pips(){reads.push('pips');return undefined;}}]]);
+ p.refresh(a,out);assert.deepEqual(reads,['id','stacks','pips']);assert.deepEqual(out.calls,[[]]);
+});
 test('entry ordering and duplicate status values remain observable',()=>{
  const p=new ActorGaugePublisher(),a=sources(),out=sink();a.statuses=[{id:'poison',stacks:1},{id:'poison',stacks:2}];p.refresh(a,out);a.statuses.reverse();p.refresh(a,out);
  assert.deepEqual(out.calls[0],[['status:poison',1],['status:poison',2]]);assert.deepEqual(out.calls[1],[['status:poison',2],['status:poison',1]]);

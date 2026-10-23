@@ -1,10 +1,10 @@
 import {finite} from './validation.js';
 
 export interface ActorGaugeSources {
-  statuses:readonly {id:string;stacks:number}[];
+  statuses:readonly {id:string;stacks?:number}[];
   charges:ReadonlyMap<string,number>;
   brims?:ReadonlyMap<string,{fill:number}>;
-  reserves?:ReadonlyMap<string,{pips:number}>;
+  reserves?:ReadonlyMap<string,{pips?:number}>;
   derivedGauges?:ReadonlyMap<string,number>|null;
 }
 export interface ActorGaugeSink {setGauges(entries:[string,number][]):void}
@@ -52,10 +52,16 @@ export class ActorGaugePublisher {
     const force=this.invalid||this.sink!==sink;
     this.invalid=true;this.requestedInvalidation=false;this.cursor=0;this.changed=false;
     try{
-      for(const status of source.statuses)this.observe('status',status.id,status.stacks);
+      for(const status of source.statuses){
+        const id=status.id,stacks=status.stacks;
+        if(stacks!==undefined)this.observe('status',id,stacks);
+      }
       for(const [id,value]of source.charges)this.observe('charge',id,value);
       if(source.brims)for(const [id,bank]of source.brims)this.observe('brim',id,Math.round(finite(bank.fill,'Brim fill')*5));
-      if(source.reserves)for(const [id,reserve]of source.reserves)this.observe('reserve',id,reserve.pips);
+      if(source.reserves)for(const [id,reserve]of source.reserves){
+        const pips=reserve.pips;
+        if(pips!==undefined)this.observe('reserve',id,pips);
+      }
       if(source.derivedGauges)for(const [id,value]of source.derivedGauges)this.observe('derived',id,value);
       if(this.cursor!==(this.cells?.length??0)){
         if(this.cursor===0)this.cells=undefined;else this.cells!.length=this.cursor;

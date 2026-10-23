@@ -1,0 +1,74 @@
+{
+  "sourceTemplateSha256": "20d320fcdbb497c3613fe46b478c5265166830ed64160c058bfec7ca5df0481f",
+  "controlsUnchanged": true,
+  "results": [
+    {
+      "label": "previous",
+      "passed": true,
+      "diagnostic": null
+    },
+    {
+      "label": "initial",
+      "passed": false,
+      "diagnostic": {
+        "course": "qualified-enemy-hud-refuses-without-status",
+        "command": {
+          "op": "frames",
+          "count": 60
+        },
+        "actors": [
+          {
+            "id": 1,
+            "statuses": [],
+            "charges": [],
+            "reserves": []
+          },
+          {
+            "id": 20,
+            "statuses": [
+              {
+                "id": "poison",
+                "stacks": "undefined",
+                "type": "undefined"
+              }
+            ],
+            "charges": [],
+            "reserves": []
+          }
+        ]
+      }
+    },
+    {
+      "label": "compact",
+      "passed": false,
+      "diagnostic": {
+        "course": "qualified-enemy-hud-refuses-without-status",
+        "command": {
+          "op": "frames",
+          "count": 60
+        },
+        "actors": [
+          {
+            "id": 1,
+            "statuses": [],
+            "charges": [],
+            "reserves": []
+          },
+          {
+            "id": 20,
+            "statuses": [
+              {
+                "id": "poison",
+                "stacks": "undefined",
+                "type": "undefined"
+              }
+            ],
+            "charges": [],
+            "reserves": []
+          }
+        ]
+      }
+    }
+  ],
+  "scope": "Unmodified historical admission course succeeds with v0.30 and fails with both pre-repair M36 candidates. Corrected acceptance is recorded separately."
+}

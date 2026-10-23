@@ -1,0 +1,52 @@
+{
+  "stage": "Corrected runtime verification and measured evidence; full milestone acceptance remains separate",
+  "version": "0.31.0",
+  "historicalImplementation": "../runtime-verification.json",
+  "sparseCountBaseline": "../../../baseline/milestone-thirty-six/absent-counts-acceptance.json",
+  "baselineCommit": "cfaaa2ffaae97e81ee8499d71d4eb0370295749c",
+  "compatibility": "Absent status stacks and reserve pips are omitted. Removing a positive count clears the gauge. Present nonfinite values still reject, without publishing, and force retry. Existing original fixtures and namespace decision are unchanged.",
+  "sdk": {
+    "passed": true,
+    "tests": 421,
+    "deliberateFaults": 138,
+    "packedConsumers": 23,
+    "log": "verification.txt",
+    "logSha256": "2e2a19d59c71447a1859594e502deaa61c65725fbcddd397a33a27b94d08c0f5",
+    "sourceLogSha256": "2e2a19d59c71447a1859594e502deaa61c65725fbcddd397a33a27b94d08c0f5"
+  },
+  "banksAndGauges": {
+    "independentTests": 38,
+    "originalCourses": 57,
+    "originalTransitions": 292,
+    "sparseCountCourses": 2,
+    "sparseCountTransitions": 10,
+    "installedFaults": 18,
+    "installedRuntimeFiles": 165,
+    "predecessorRuntimeFilesUnchanged": 159,
+    "installedComparison": "installed-banks.json",
+    "coreReferenceVerified": true
+  },
+  "admission": {
+    "originalCourses": 137,
+    "originalObservations": 243,
+    "receipt": "installed-admission.json",
+    "installedFaults": 6,
+    "oldFixturesUnchanged": true
+  },
+  "size": {
+    "bankBytes": 2575,
+    "gaugeBytes": 4479,
+    "coreBytes": 77407,
+    "totalJavaScriptBytes": 459954,
+    "bankBoundBytes": 3072,
+    "gaugeBoundBytes": 5120,
+    "totalBoundBytes": 466944,
+    "runtimeDependencies": 0
+  },
+  "benchmarks": "benchmark-decision.json",
+  "limits": [
+    "Broad game, renderer, managed and hosted acceptance remain separate.",
+    "Eleven of thirteen system families remain partial.",
+    "Full native packages, Steam Deck/older mobile, allocation-volume and whole-combat measurements remain outstanding."
+  ]
+}

@@ -11,7 +11,9 @@ reserve pips, then derived gauges. Status/charge/brim/reserve keys receive
 their respective prefixes; derived keys are already authored gauge names.
 Only brim fill is quantized, with `Math.round(fill * 5)`. Hosts supply coherent
 finite counts and remain responsible for integer-valued gauge semantics.
-Zero/negative values are omitted. Duplicate entries retain their order; the
+Status stacks and reserve pips may be absent (`undefined`); those records are
+omitted, matching sparse records in the original admission scenarios. Present
+nonfinite counts still throw. Zero/negative values are omitted. Duplicate entries retain their order; the
 sink retains its own duplicate-resolution policy.
 
 Exact comparison includes source kind, identifier, value and order. Stable
@@ -58,22 +60,30 @@ and hardware acceptance remain distinct release requirements.
 
 ## Measured cost
 
-Two controlled desktop Node runs compare the frozen original, retained v0.30,
-the first exact-cache implementation and the compact cache directly. The compact
-cache saves 205–209 retained heap bytes per populated actor and about 30 bytes
-per empty actor versus the first implementation. It still costs 722–724 extra
-bytes per populated actor and 80 per empty actor versus v0.30. This is an
-explicit cost of exact cached observations, not a claim of lower memory than
-the original fingerprint approach.
+Two controlled desktop Node runs compare the corrected compact cache with the
+frozen original, retained v0.30 and the initial row cache. The corrected cache
+saves 208.1 retained heap bytes per populated actor and 30.6 per empty actor
+against that initial implementation. It still costs about 717–721 additional
+bytes per populated actor and 80 per empty actor against v0.30.
 
-Median empty, stable-populated and changing sampling times are respectively
-60–64%, 55–57% and 34–37% lower than v0.30 in those workloads. The quiet full
-world-update case changes direction against the first exact-cache version;
-no general frame-rate improvement follows. Each sample checks equal gameplay
-receipts, with the namespace correction exercised separately by its diagnostic
-courses. See the [measurements and decision](../evidence/milestone-thirty-six/benchmark-decision.json),
-including the retained initial source needed to reproduce the comparison.
+Median empty, stable-populated and changing gauge-sampling times are respectively
+62–65%, 55–56% and 35–37% lower than v0.30 in these workloads. The quiet native
+world-update case is about 2% faster than v0.30, but 2–3% slower than the initial
+row cache and 4–14% slower than the frozen original. These are explicit costs
+and do not establish a general frame-rate improvement.
 
-Memory samples retain 1,024 real actors after forced collection. They do not
-measure allocation volume, collection cost, peak process memory or a device's
-memory budget. These desktop observations are not Steam Deck or mobile acceptance.
+Each run checks equal gameplay receipts. The original bank/gauge fixtures,
+separate namespace correction and sparse-count addendum are verified outside
+the timing loop. The initial implementation remains a reproducible comparison
+control; the repaired runtime has its own complete verification and measurements.
+
+See the [corrected measurements and decision](../evidence/milestone-thirty-six/compatibility-repair/benchmark-decision.json).
+The [earlier compact measurements](../evidence/milestone-thirty-six/benchmark-decision.json)
+remain historical evidence; the sparse-count repair was measured separately.
+
+The [original-only sparse-count addendum](../baseline/milestone-thirty-six/absent-counts-acceptance.json)
+records two courses and ten transitions before the repair. Existing fixtures
+and the six-case namespace decision remain unchanged. Memory samples retain
+1,024 real actors after forced collection; they do not measure allocation volume,
+collection cost, peak process memory or a device memory budget. These desktop
+observations are not Steam Deck or mobile acceptance.

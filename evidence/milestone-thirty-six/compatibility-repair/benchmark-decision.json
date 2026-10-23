@@ -1,0 +1,136 @@
+{
+  "reviewed": true,
+  "decision": "Retain the compact exact cache with sparse-count compatibility restored. Both measured runs preserve equal gameplay receipts, save 208.1 retained bytes per populated actor against the initial row cache, and reduce gauge-sampling time against v0.30. Accept the separately measured 2.1–3.1% quiet-world update cost against the initial row cache in exchange for lower retained heap; this is not a whole-game speedup or device acceptance.",
+  "summary": [
+    {
+      "run": 1,
+      "workloads": [
+        {
+          "name": "empty-gauge-samples",
+          "original": 38.829899999997,
+          "previous": 37.65230000000156,
+          "current": 14.299200000001292,
+          "initial": 14.436799999995856,
+          "vsPreviousPercent": -62.023037105301135,
+          "vsInitialPercent": -0.9531198049055445
+        },
+        {
+          "name": "stable-populated-gauge-samples",
+          "original": 89.81639999999607,
+          "previous": 87.9881000000023,
+          "current": 39.51720000000205,
+          "initial": 38.99090000000433,
+          "vsPreviousPercent": -55.088017584194894,
+          "vsInitialPercent": 1.3498021333122834
+        },
+        {
+          "name": "changing-gauge-samples",
+          "original": 183.41629999999714,
+          "previous": 178.05969999999797,
+          "current": 112.40159999999742,
+          "initial": 113.37800000001153,
+          "vsPreviousPercent": -36.874205673715785,
+          "vsInitialPercent": -0.8611900015999652
+        },
+        {
+          "name": "native-world-bank-frames",
+          "original": 92.01420000000508,
+          "previous": 106.88140000001295,
+          "current": 104.75,
+          "initial": 101.62319999997271,
+          "vsPreviousPercent": -1.994172980530462,
+          "vsInitialPercent": 3.076856465874056
+        }
+      ],
+      "memory": [
+        {
+          "name": "empty-actors",
+          "saved": 30.5859375,
+          "extra": 80
+        },
+        {
+          "name": "populated-actors",
+          "saved": 208.1484375,
+          "extra": 721.0546875
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "workloads": [
+        {
+          "name": "empty-gauge-samples",
+          "original": 36.23569999999745,
+          "previous": 37.55939999999828,
+          "current": 13.0112999999983,
+          "initial": 13.254099999998289,
+          "vsPreviousPercent": -65.35807281266767,
+          "vsInitialPercent": -1.8318859824508649
+        },
+        {
+          "name": "stable-populated-gauge-samples",
+          "original": 81.39880000000267,
+          "previous": 81.35620000000199,
+          "current": 35.73210000000108,
+          "initial": 36.25880000000325,
+          "vsPreviousPercent": -56.079438321848606,
+          "vsInitialPercent": -1.4526128829473572
+        },
+        {
+          "name": "changing-gauge-samples",
+          "original": 195.7505999999994,
+          "previous": 197.11529999999038,
+          "current": 128.2213999999949,
+          "initial": 133.23639999999432,
+          "vsPreviousPercent": -34.95106671070122,
+          "vsInitialPercent": -3.7639864181256977
+        },
+        {
+          "name": "native-world-bank-frames",
+          "original": 129.49909999998636,
+          "previous": 137.57750000001397,
+          "current": 134.79720000000088,
+          "initial": 132.07170000000042,
+          "vsPreviousPercent": -2.020897312433212,
+          "vsInitialPercent": 2.0636517891421624
+        }
+      ],
+      "memory": [
+        {
+          "name": "empty-actors",
+          "saved": 30.5859375,
+          "extra": 80
+        },
+        {
+          "name": "populated-actors",
+          "saved": 208.1484375,
+          "extra": 716.6640625
+        }
+      ]
+    }
+  ],
+  "documentation": "Two controlled desktop Node runs compare the corrected compact cache with the\nfrozen original, retained v0.30 and the initial row cache. The corrected cache\nsaves 208.1 retained heap bytes per populated actor and 30.6 per empty actor\nagainst that initial implementation. It still costs about 717–721 additional\nbytes per populated actor and 80 per empty actor against v0.30.\n\nMedian empty, stable-populated and changing gauge-sampling times are respectively\n62–65%, 55–56% and 35–37% lower than v0.30 in these workloads. The quiet native\nworld-update case is about 2% faster than v0.30, but 2–3% slower than the initial\nrow cache and 4–14% slower than the frozen original. These are explicit costs\nand do not establish a general frame-rate improvement.\n\nEach run checks equal gameplay receipts. The original bank/gauge fixtures,\nseparate namespace correction and sparse-count addendum are verified outside\nthe timing loop. The initial implementation remains a reproducible comparison\ncontrol; the repaired runtime has its own complete verification and measurements.",
+  "limits": [
+    "Desktop Windows x64 Node on the recorded i9 CPU; no Steam Deck or older-mobile measurements.",
+    "Quiet native world workload uses 16 actors and 128 updates, idle decaying banks, no rendering/input/full combat.",
+    "Retained heap uses 1,024 actors and three rotating forced-GC samples; not allocation count, GC cost, peak RSS or device budget.",
+    "No other SDK verification/mutation work ran during the sequential measurements. Unrelated machine activity can still influence results.",
+    "The required core hit benchmark is the unchanged predecessor capability; its speed ratio is not attributed to this repair.",
+    "The repair is compared directly with the original, v0.30 and the initial row cache. Historical compact-cache measurements are separate; no isolated before/after timing claim is made for the undefined-count guards."
+  ],
+  "runs": [
+    {
+      "run": 1,
+      "file": "bank-benchmark-run1.json",
+      "sha256": "644939f71f00d49af6957b18628fd9c15ce7a0ca7f943ebf1a7252313b673e30"
+    },
+    {
+      "run": 2,
+      "file": "bank-benchmark-run2.json",
+      "sha256": "5e1afd616203d183e3a2ad8576065175fa3bd5feab5e829e9d6587136f0e7d37"
+    }
+  ],
+  "coreBenchmark": "core-benchmark.json",
+  "historicalMeasurements": "../benchmark-decision.json",
+  "initialReproduction": "../initial-candidate-reproduction.json"
+}

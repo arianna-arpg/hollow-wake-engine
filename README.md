@@ -17,7 +17,8 @@ from leaving stale stats when it becomes a brim gauge. The original baseline
 contains 57 courses and 292 transitions. The shipped `channel-banks` example
 demonstrates binding, publication, decay and stat updates through the installed
 package. These entries remain optional and outside the core import graph.
-The [implementation evidence](evidence/milestone-thirty-six/runtime-verification.json)
+A separately captured two-course addendum preserves sparse status/reserve counts.
+The [corrected implementation evidence](evidence/milestone-thirty-six/compatibility-repair/runtime-verification.json)
 includes exact game comparisons and a [measured cache decision](docs/actor-gauges.md#measured-cost).
 Broader game and device acceptance remain separate requirements.
 

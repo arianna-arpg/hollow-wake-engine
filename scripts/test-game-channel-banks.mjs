@@ -2,10 +2,10 @@ import fs from 'node:fs';import path from 'node:path';import assert from 'node:a
 import {root,listFiles,sha256,writeJSON} from './reference-utils.mjs';
 const artifacts=path.join(root,'.artifacts'),location=JSON.parse(fs.readFileSync(path.join(artifacts,'adapter-location.json'))),installed=path.join(location.tooling,'node_modules/@hollow-wake/engine');
 assert.equal(fs.realpathSync(path.join(location.game,'node_modules/@hollow-wake/engine')),fs.realpathSync(installed));
-const initialControl=path.join(artifacts,'m36-initial-candidate/retained.json');
-if(fs.existsSync(initialControl)){
- const initial=JSON.parse(fs.readFileSync(initialControl));
- assert.notEqual(fs.realpathSync(path.join(initial.tooling,'node_modules/@hollow-wake/engine')),fs.realpathSync(installed),'Refusing to mutate retained initial M36 installation');
+for(const name of ['m36-initial-candidate','m36-compact-candidate']){
+ const control=path.join(artifacts,name,'retained.json');if(!fs.existsSync(control))continue;
+ const initial=JSON.parse(fs.readFileSync(control));
+ assert.notEqual(fs.realpathSync(path.join(initial.tooling,'node_modules/@hollow-wake/engine')),fs.realpathSync(installed),'Refusing to mutate retained M36 installation: '+name);
 }
 // A managed host may share the verified candidate package for read-only
 // comparisons. Deliberate faults always require an independent installation.
@@ -26,8 +26,11 @@ verifyInstalled();
 const baseline=path.join(root,'baseline/milestone-thirty-six'),acceptance=JSON.parse(fs.readFileSync(path.join(baseline,'acceptance.json'))),decision=JSON.parse(fs.readFileSync(path.join(baseline,'gauge-namespace-refresh.json')));
 assert.equal(decision.decision,'gauge-namespace-refresh/v1');
 const output=fs.mkdtempSync(path.join(artifacts,'game-channel-banks-')),sources=[];
-for(const row of acceptance.fixtures){
- const source=fs.readFileSync(path.join(root,'reference/export-'+row.name+'.ts')),compressed=fs.readFileSync(path.join(baseline,row.name+'.json.gz')),raw=gunzipSync(compressed);
+const sparseAcceptance=JSON.parse(fs.readFileSync(path.join(baseline,'absent-counts-acceptance.json')));
+assert.equal(sparseAcceptance.source,acceptance.source);
+const fixtures=[...acceptance.fixtures,sparseAcceptance.fixture];
+for(const row of fixtures){
+ const source=fs.readFileSync(path.join(root,row.helper??'reference/export-'+row.name+'.ts')),compressed=fs.readFileSync(path.join(baseline,row.name+'.json.gz')),raw=gunzipSync(compressed);
  assert.equal(sha256(source),row.helperSha256);assert.equal(sha256(compressed),row.compressedSha256);assert.equal(sha256(raw),row.fixtureSha256);
  let expected=raw;const intentional=[];
  if(row.name==='actor-gauges'){
@@ -75,6 +78,8 @@ const faults=[
  ['gauge-pips-rounded-down','actor-gauges',"Math.round(finite(bank.fill, 'Brim fill') * 5)","Math.floor(finite(bank.fill, 'Brim fill') * 5)",'actor-gauges'],
  ['gauge-derived-key-prefixed','actor-gauges',"cells.push(kind, id, value, kind === 'derived' ? id : kind + ':' + id)","cells.push(kind, id, value, kind + ':' + id)",'actor-gauges'],
  ['gauge-zero-records-published','actor-gauges','if (value <= 0)','if (value < 0)','actor-gauges'],
+ ['gauge-absent-stacks-invented','actor-gauges',"if (stacks !== undefined)\n                    this.observe('status', id, stacks);","this.observe('status', id, stacks ?? 1);",'absent-counts'],
+ ['gauge-absent-reserve-pips-invented','actor-gauges',"if (pips !== undefined)\n                        this.observe('reserve', id, pips);","this.observe('reserve', id, pips ?? 1);",'absent-counts'],
  ['host-bank-decay-disconnected',hostFiles[0],'channelBanks.decay(a, dt);','void 0;','channel-banks',true],
  ['host-gauge-publication-disconnected',hostFiles[1],'this.sdkActorGauges.refresh(this, this.sheet);','void 0;','actor-gauges',true],
  ['host-bank-creation-detached',hostFiles[2],'channelBanks.bind(actor, state.inst, spec)','({fill: 0, inst: state.inst, spec})','channel-banks',true],
@@ -102,5 +107,5 @@ try{
  for(const source of sources)if(fs.existsSync(source.helper)&&fs.readFileSync(source.helper).equals(source.source))fs.unlinkSync(source.helper);
  verifyInstalled();
 }
-writeJSON(path.join(artifacts,'game-channel-bank-verification.json'),{game:location.game,output,version:JSON.parse(fs.readFileSync(path.join(installed,'package.json'))).version,packageIntegrity:location.integrity,installedRuntimeFilesMatchBuild:files.length,gameLauncherAndCaptureTypeChecks:true,fixtures:acceptance.fixtures,observations,oracle:sources.map(({name,originalSha256,expectedSha256,intentional})=>({name,originalSha256,expectedSha256,intentional})),installedFaults:reports,allInstalledFilesAndHostRestored:true});
+writeJSON(path.join(artifacts,'game-channel-bank-verification.json'),{game:location.game,output,version:JSON.parse(fs.readFileSync(path.join(installed,'package.json'))).version,packageIntegrity:location.integrity,installedRuntimeFilesMatchBuild:files.length,gameLauncherAndCaptureTypeChecks:true,fixtures,observations,oracle:sources.map(({name,originalSha256,expectedSha256,intentional})=>({name,originalSha256,expectedSha256,intentional})),installedFaults:reports,allInstalledFilesAndHostRestored:true});
 console.log('Installed bank/gauge comparison passed; original bank traces unchanged, namespace correction confined to the pre-specified diagnostics.');
