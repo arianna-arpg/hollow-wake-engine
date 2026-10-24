@@ -126,3 +126,21 @@ not measured CPU, heap or device performance. Repeated performance comparisons,
 broader integration/renderer acceptance, managed-game adoption and public v0.32
 publication remain pending. The example's ward callback illustrates a host
 effect; the native game comparison separately exercises the actual authored proc.
+
+## Initial performance finding
+
+[Two controlled runs](../evidence/milestone-thirty-seven/initial-performance-decision.json)
+found a repeatable sampling regression against v0.31: roughly 81–94% more time
+for stable samples and 20–21% more for changing samples. Whole-world timings
+varied between runs; small retained-heap differences do not establish a memory
+improvement. The initial implementation remains an immutable control while a
+focused recency-metadata refactor is evaluated. These are desktop Node results.
+
+`npm run benchmark:conditions -- --previous-adapter <retained-v0.31-game>` compares
+real native methods and verifies that only the condition binding/runtime differ
+between the predecessor and candidate. Add `--comparison-adapter` to include the
+retained initial v0.32 candidate. Each workload rotates controls through five
+warmups and 25 timed samples with identical gameplay receipts. Actor/world setup,
+forced GC and receipt construction are excluded from the timed loop. Separate
+three-sample heap courses retain 1,024 actors. `--validate-only` checks receipts
+without claiming performance or collecting retained-memory samples.

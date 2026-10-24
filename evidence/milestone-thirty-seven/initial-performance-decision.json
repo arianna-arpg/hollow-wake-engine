@@ -1,0 +1,224 @@
+{
+  "schemaVersion": 1,
+  "initialRuntimeCommit": "10815b916a585b5c005f694abe6df07ad4338143",
+  "previousCommit": "a36b37732d51e88e4cc246704c79a3918cd5767b",
+  "helperSha256": "18d2e9fb45cfd7bb6e218d0142f3e42c061bc376637f3ebeb28659d7e524343b",
+  "runs": [
+    "initial-benchmark-1.json",
+    "initial-benchmark-2.json"
+  ],
+  "summary": [
+    {
+      "cpu": [
+        {
+          "name": "unmodified-stable-samples",
+          "originalMs": 32.72860000000219,
+          "previousMs": 12.990799999999581,
+          "initialMs": 24.8038000000015,
+          "changePercentFromPrevious": 90.93358376699128
+        },
+        {
+          "name": "configured-stable-samples",
+          "originalMs": 35.04789999999775,
+          "previousMs": 13.621500000001106,
+          "initialMs": 25.066999999999098,
+          "changePercentFromPrevious": 84.02525419371626
+        },
+        {
+          "name": "changing-condition-samples",
+          "originalMs": 67.48999999999796,
+          "previousMs": 47.88709999999992,
+          "initialMs": 57.24300000000221,
+          "changePercentFromPrevious": 19.537411954372487
+        },
+        {
+          "name": "quiet-world-condition-frames",
+          "originalMs": 58.22239999999874,
+          "previousMs": 63.927899999995134,
+          "initialMs": 62.25920000000042,
+          "changePercentFromPrevious": -2.6102843985096325
+        },
+        {
+          "name": "native-combat-and-proc",
+          "originalMs": 23.543299999990268,
+          "previousMs": 25.675699999992503,
+          "initialMs": 24.354000000006636,
+          "changePercentFromPrevious": -5.147668807418116
+        }
+      ],
+      "heap": [
+        {
+          "name": "unmodified-actors",
+          "originalBytesPerActor": 11148.6953125,
+          "previousBytesPerActor": 11228.7734375,
+          "initialBytesPerActor": 11244.078125,
+          "changeBytesFromPrevious": 15.3046875
+        },
+        {
+          "name": "configured-actors",
+          "originalBytesPerActor": 12963.1328125,
+          "previousBytesPerActor": 13046.7578125,
+          "initialBytesPerActor": 13052.3046875,
+          "changeBytesFromPrevious": 5.546875
+        }
+      ]
+    },
+    {
+      "cpu": [
+        {
+          "name": "unmodified-stable-samples",
+          "originalMs": 32.47389999999723,
+          "previousMs": 12.327399999998306,
+          "initialMs": 23.85779999999795,
+          "changePercentFromPrevious": 93.53472751757248
+        },
+        {
+          "name": "configured-stable-samples",
+          "originalMs": 35.77320000000327,
+          "previousMs": 13.100900000001275,
+          "initialMs": 23.71190000000206,
+          "changePercentFromPrevious": 80.99443549679606
+        },
+        {
+          "name": "changing-condition-samples",
+          "originalMs": 67.50760000000446,
+          "previousMs": 47.8269999999975,
+          "initialMs": 57.752800000002026,
+          "changePercentFromPrevious": 20.753549250433956
+        },
+        {
+          "name": "quiet-world-condition-frames",
+          "originalMs": 55.711899999994785,
+          "previousMs": 62.22409999999945,
+          "initialMs": 66.81080000000657,
+          "changePercentFromPrevious": 7.371259688781606
+        },
+        {
+          "name": "native-combat-and-proc",
+          "originalMs": 22.548500000004424,
+          "previousMs": 23.327999999994063,
+          "initialMs": 23.184299999993527,
+          "changePercentFromPrevious": -0.6159979423892792
+        }
+      ],
+      "heap": [
+        {
+          "name": "unmodified-actors",
+          "originalBytesPerActor": 11148.6953125,
+          "previousBytesPerActor": 11228.7734375,
+          "initialBytesPerActor": 11227.9375,
+          "changeBytesFromPrevious": -0.8359375
+        },
+        {
+          "name": "configured-actors",
+          "originalBytesPerActor": 12962.953125,
+          "previousBytesPerActor": 13045.203125,
+          "initialBytesPerActor": 13047.6171875,
+          "changeBytesFromPrevious": 2.4140625
+        }
+      ]
+    }
+  ],
+  "conclusion": "Initial condition extraction consistently slows the isolated stable and changing sampling cases versus accepted M36. Whole-world results vary across runs and do not establish an improvement. Small retained-heap differences do not establish a memory optimization. Do not accept this implementation as the final optimized milestone.",
+  "diagnosticProfiles": [
+    {
+      "control": "current",
+      "iterations": 2097152,
+      "profileSha256": "a8b5c272292f3257a1eef943f48bb4a4a7a4916728ef246bcaecfb28170b9747",
+      "scope": "Diagnostic V8 sampling with profiler overhead; not a comparative timing benchmark or allocation measurement",
+      "top": [
+        {
+          "function": "refresh",
+          "url": "dist/actor-conditions.js",
+          "line": 69,
+          "selfMicros": 804499
+        },
+        {
+          "function": "run",
+          "url": "file:///D:/Games/Claude/ARPG%20Game%20-%20World/.claude/ownership.engine-m2/.artifacts/profile-m37-conditions.mjs",
+          "line": 7,
+          "selfMicros": 139234
+        },
+        {
+          "function": "post",
+          "url": "node:inspector",
+          "line": 115,
+          "selfMicros": 107939
+        },
+        {
+          "function": "compute",
+          "url": "src/engine/stats.ts",
+          "line": 1,
+          "selfMicros": 100638
+        },
+        {
+          "function": "refresh",
+          "url": "dist/actor-gauges.js",
+          "line": 36,
+          "selfMicros": 66974
+        },
+        {
+          "function": "refreshConditions",
+          "url": "src/engine/actor.ts",
+          "line": 1,
+          "selfMicros": 33018
+        }
+      ]
+    },
+    {
+      "control": "previous",
+      "iterations": 2097152,
+      "profileSha256": "bceab95b3a4abad85fcbc3f0f6fc5dfa3cedb22a6dfa1e2dc369a9248c337e50",
+      "scope": "Diagnostic V8 sampling with profiler overhead; not a comparative timing benchmark or allocation measurement",
+      "top": [
+        {
+          "function": "refreshConditions",
+          "url": "src/engine/actor.ts",
+          "line": 1,
+          "selfMicros": 118131
+        },
+        {
+          "function": "post",
+          "url": "node:inspector",
+          "line": 115,
+          "selfMicros": 107093
+        },
+        {
+          "function": "run",
+          "url": "file:///D:/Games/Claude/ARPG%20Game%20-%20World/.claude/ownership.engine-m2/.artifacts/profile-m37-conditions.mjs",
+          "line": 7,
+          "selfMicros": 92944
+        },
+        {
+          "function": "compute",
+          "url": "src/engine/stats.ts",
+          "line": 1,
+          "selfMicros": 62725
+        },
+        {
+          "function": "refresh",
+          "url": "dist/actor-gauges.js",
+          "line": 36,
+          "selfMicros": 37160
+        },
+        {
+          "function": "compute",
+          "url": "src/engine/stats.ts",
+          "line": 1,
+          "selfMicros": 15971
+        }
+      ]
+    }
+  ],
+  "nextExperiment": {
+    "hypothesis": "The hot evaluator repeatedly unpacks frozen recency tuples and resolves each window. Compile those tuples into immutable rows with captured windows once per policy, then read scalar row fields in the sample loop.",
+    "scope": "Change only recency metadata representation; retain existing state layout, read order, thresholds, re-entry/failure handling and event semantics.",
+    "required": "Distinct candidate installation; unchanged original/M36/initial controls; focused and full verification; original installed comparisons and faults; repeat four-way performance measurements before accepting."
+  },
+  "limits": [
+    "Desktop Node measurements only; no Steam Deck/mobile/FPS claim",
+    "Profiler self-time includes diagnostic overhead and inlining attribution; it localizes cost but does not prove the tuple hypothesis",
+    "Forced-GC retained heap is not allocation volume, peak RSS or total GC cost",
+    "Core hit benchmark exercises an earlier narrow capability; its speed ratio is not attributable to actor conditions"
+  ]
+}

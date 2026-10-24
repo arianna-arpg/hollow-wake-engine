@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-10-24T22:41:09.019Z",
+  "scope": "Same build and 20,000 resolved spell contacts. Original path includes dormant full-game hooks and presentation bookkeeping; SDK implements the declared smaller capability. This is not a whole-game FPS benchmark.",
+  "environment": {
+    "node": "v24.9.0",
+    "platform": "win32",
+    "arch": "x64",
+    "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+    "logicalCpus": 20,
+    "memoryGiB": 63.91801834106445
+  },
+  "iterations": 20000,
+  "warmup": 3000,
+  "rounds": 7,
+  "seed": 659918,
+  "compileContentMs": 1.9823999999998705,
+  "samples": [
+    {
+      "round": 0,
+      "first": "original",
+      "original": {
+        "ms": 683.4349000000002,
+        "checksum": 582801.4367201545
+      },
+      "extracted": {
+        "ms": 9.14890000000014,
+        "checksum": 582801.4367201545,
+        "planBuilds": 1,
+        "buildSetupMs": 0.6311999999998079
+      }
+    },
+    {
+      "round": 1,
+      "first": "extracted",
+      "original": {
+        "ms": 658.9901,
+        "checksum": 582801.4367201545
+      },
+      "extracted": {
+        "ms": 6.484199999999873,
+        "checksum": 582801.4367201545,
+        "planBuilds": 1,
+        "buildSetupMs": 0.5783999999994194
+      }
+    },
+    {
+      "round": 2,
+      "first": "original",
+      "original": {
+        "ms": 682.0388000000003,
+        "checksum": 582801.4367201545
+      },
+      "extracted": {
+        "ms": 7.1865999999999985,
+        "checksum": 582801.4367201545,
+        "planBuilds": 1,
+        "buildSetupMs": 0.6856999999999971
+      }
+    },
+    {
+      "round": 3,
+      "first": "extracted",
+      "original": {
+        "ms": 672.0662000000002,
+        "checksum": 582801.4367201545
+      },
+      "extracted": {
+        "ms": 5.715199999999641,
+        "checksum": 582801.4367201545,
+        "planBuilds": 1,
+        "buildSetupMs": 0.40860000000066066
+      }
+    },
+    {
+      "round": 4,
+      "first": "original",
+      "original": {
+        "ms": 679.9694,
+        "checksum": 582801.4367201545
+      },
+      "extracted": {
+        "ms": 5.681800000000294,
+        "checksum": 582801.4367201545,
+        "planBuilds": 1,
+        "buildSetupMs": 0.37290000000029977
+      }
+    },
+    {
+      "round": 5,
+      "first": "extracted",
+      "original": {
+        "ms": 671.3573999999999,
+        "checksum": 582801.4367201545
+      },
+      "extracted": {
+        "ms": 5.769800000000032,
+        "checksum": 582801.4367201545,
+        "planBuilds": 1,
+        "buildSetupMs": 0.31310000000030414
+      }
+    },
+    {
+      "round": 6,
+      "first": "original",
+      "original": {
+        "ms": 666.2522000000008,
+        "checksum": 582801.4367201545
+      },
+      "extracted": {
+        "ms": 5.790399999999863,
+        "checksum": 582801.4367201545,
+        "planBuilds": 1,
+        "buildSetupMs": 0.408899999998539
+      }
+    }
+  ],
+  "summary": {
+    "originalMedianMs": 672.0662000000002,
+    "extractedMedianMs": 5.790399999999863,
+    "ratio": 116.06559132357282,
+    "originalMicrosecondsPerHit": 33.60331000000001,
+    "extractedMicrosecondsPerHit": 0.28951999999999317
+  },
+  "limits": [
+    "Steam Deck not measured",
+    "Older phones/tablets not measured",
+    "No renderer, projectile movement, statuses, actors ticking or UI",
+    "Heap deltas are not allocation measurements; no allocation claim is made from timing alone"
+  ]
+}
