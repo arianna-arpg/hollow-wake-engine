@@ -48,12 +48,16 @@ export const DEFAULT_ACTOR_CONDITIONS:ActorConditionConfig=Object.freeze({
   fullLifeFraction:.95,lowManaFraction:.25,fullManaFraction:.95,fullEsFraction:.99,lowEsFraction:.35,
   plantSeconds:1,movingSeconds:.15,recentWindows:Object.freeze([4,4,4,4,4,4,4,4,4]),
 });
-const recentRows=Object.freeze([
-  [bits.recentlyHit,0,true],[bits.recentlyCrit,1,true],[bits.recentlyKilled,2,true],
-  [bits.recentlyHurt,3,true],[bits.notHurtRecently,3,false],
-  [bits.recentlyBlocked,5,true],[bits.recentlyEvaded,6,true],
-  [bits.recentlyMoved,7,true],[bits.recentlyHealed,8,true],
-].map(row=>Object.freeze(row as [number,number,boolean])));
+interface RecencyRule {readonly bit:number;readonly index:number;readonly within:boolean;readonly seconds:number}
+function recencyRules(windows:readonly number[]):readonly RecencyRule[] {
+  const row=(bit:number,index:number,within:boolean):RecencyRule=>Object.freeze({bit,index,within,seconds:windows[index]});
+  return Object.freeze([
+    row(bits.recentlyHit,0,true),row(bits.recentlyCrit,1,true),row(bits.recentlyKilled,2,true),
+    row(bits.recentlyHurt,3,true),row(bits.notHurtRecently,3,false),
+    row(bits.recentlyBlocked,5,true),row(bits.recentlyEvaded,6,true),
+    row(bits.recentlyMoved,7,true),row(bits.recentlyHealed,8,true),
+  ]);
+}
 
 function configuration(input:ActorConditionConfig):ActorConditionConfig {
   const fraction=(value:number,name:string)=>{
@@ -83,8 +87,10 @@ function configuration(input:ActorConditionConfig):ActorConditionConfig {
  * See docs/actor-conditions.md for phase, queue and callback ownership. */
 export class ActorConditions<A extends ActorConditionOwner> {
   private readonly config:ActorConditionConfig;
+  private readonly recentRows:readonly RecencyRule[];
   constructor(private readonly ports:ActorConditionPorts<A>,config:ActorConditionConfig=DEFAULT_ACTOR_CONDITIONS) {
     this.config=configuration(config);
+    this.recentRows=recencyRules(this.config.recentWindows);
   }
 
   /** Last sampled state, including during publication; never a fresh query. */
@@ -129,7 +135,7 @@ export class ActorConditions<A extends ActorConditionOwner> {
         if(actor.comboCondBits&1)mask|=bits.comboVaried;
         if(actor.comboCondBits&2)mask|=bits.comboRepeated;
       }
-      for(const [bit,index,within]of recentRows)if((actor.since[index]<cfg.recentWindows[index])===within)mask|=bit;
+      for(const row of this.recentRows)if((actor.since[row.index]<row.seconds)===row.within)mask|=row.bit;
       const sink=actor.sheet;
       if(mask===actor.condMask&&previous===sink){actor.condSheet=sink;return false;}
       const rose=actor.condMask===-1?0:mask&~actor.condMask;

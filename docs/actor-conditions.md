@@ -144,3 +144,42 @@ warmups and 25 timed samples with identical gameplay receipts. Actor/world setup
 forced GC and receipt construction are excluded from the timed loop. Separate
 three-sample heap courses retain 1,024 actors. `--validate-only` checks receipts
 without claiming performance or collecting retained-memory samples.
+
+## Recency metadata optimization
+
+The working candidate now prepares immutable scalar recency rows once per shared
+policy. Sampling reads each row's counter, threshold and bit directly. This
+removes repeated frozen-tuple unpacking and window-array lookups without adding
+actor fields or changing thresholds, read order, events or failure recovery.
+The additional shared metadata is created at policy construction; the retained
+actor measurements below do not measure that initialization cost.
+
+[Two four-way comparisons](../evidence/milestone-thirty-seven/optimization-verification.json)
+keep the original game, published v0.31 and first v0.32 installation unchanged.
+All gameplay receipts also match the earlier three-way measurements. Median
+times across the two runs, in milliseconds:
+
+| Workload | Published v0.31 | Initial extraction | Refactor |
+| --- | ---: | ---: | ---: |
+| 32,768 stable samples, unmodified actors | 13.69–13.95 | 24.54–24.88 | 15.68–15.80 |
+| 32,768 stable samples, configured actors | 14.16–14.43 | 31.65–32.44 | 16.17–16.41 |
+| 16,384 changing samples | 49.48–50.15 | 58.83–60.57 | 52.85–53.26 |
+| 128 quiet World updates, 16 actors | 61.40–63.66 | 64.17–64.80 | 64.12–65.56 |
+| Native attack, kill expiry and ward proc | 23.43–23.51 | 23.17–23.68 | 23.73–24.16 |
+
+Keep this refactor as the working candidate: stable sampling takes 36–49% less
+time than the initial extraction and changing samples take 10–12% less. It still
+costs 13–15% more for stable samples and 6–7% more for changing samples than v0.31.
+The World cases establish no speedup. These observations do not isolate the cause
+of the remaining overhead. Retained-heap differences are small and establish no
+memory improvement; allocation volume, policy initialization, rendering, full
+encounters and target-device performance remain unmeasured.
+
+The refactor passes 444 SDK tests, 148 deliberate faults and 24 packed consumers.
+The installed game retains 42 original courses, nineteen recovery/dead-sweep
+checks and eight detected faults; game/launcher/simulation types, simulation
+smoke and the core original comparison pass. All 165 predecessor runtime files
+and the initial candidate's host source remain unchanged. The new test uses
+distinct recency windows to pin counter indexing, strict expiry and the hurt
+inverse. Broader integration/renderer acceptance, managed-game adoption and
+public milestone publication remain pending.

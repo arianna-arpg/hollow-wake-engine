@@ -54,7 +54,7 @@ const module=fs.readFileSync(runtimeFile,'utf8'),binding=fs.readFileSync(binding
 const boundaryRow=selected.find(row=>row.name==='actor-condition-boundary'),boundaryExpected=gunzipSync(fs.readFileSync(path.join(root,boundaryRow.file)));
 for(const [name,file,before,after,kind]of readOnly?[]:[
   ['threshold-inclusive',runtimeFile,'actor.life < maxLife','actor.life <= maxLife','boundary'],
-  ['recency-inclusive',runtimeFile,'actor.since[index] < cfg.recentWindows[index]','actor.since[index] <= cfg.recentWindows[index]','boundary'],
+  ['recency-inclusive',runtimeFile,'actor.since[row.index] < row.seconds','actor.since[row.index] <= row.seconds','boundary'],
   ['queue-expanded',runtimeFile,'actor.condRose.length < 16','actor.condRose.length < 17','boundary'],
   ['birth-events',runtimeFile,'actor.condMask === -1 ? 0 : mask & ~actor.condMask','actor.condMask === -1 ? mask : mask & ~actor.condMask','boundary'],
   ['failed-confirmation',runtimeFile,'actor.condSheet = null;\n        }','actor.condSheet = actor.sheet;\n        }','recovery'],

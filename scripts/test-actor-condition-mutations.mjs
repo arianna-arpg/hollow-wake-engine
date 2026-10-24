@@ -9,7 +9,7 @@ for(const [name,before,after]of [
   ['low-life-inclusive','actor.life < maxLife','actor.life <= maxLife'],
   ['full-life-exclusive','actor.life >= maxLife','actor.life > maxLife'],
   ['stride-exclusive','actor.strideDist >= reach','actor.strideDist > reach'],
-  ['recency-inclusive','actor.since[index] < cfg.recentWindows[index]','actor.since[index] <= cfg.recentWindows[index]'],
+  ['recency-inclusive','actor.since[row.index] < row.seconds','actor.since[row.index] <= row.seconds'],
   ['birth-events','actor.condMask === -1 ? 0 : mask & ~actor.condMask','actor.condMask === -1 ? mask : mask & ~actor.condMask'],
   ['queue-cap-expanded','actor.condRose.length < 16','actor.condRose.length < 17'],
   ['sink-replacement-ignored','mask === actor.condMask && previous === sink','mask === actor.condMask'],

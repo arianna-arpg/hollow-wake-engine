@@ -141,6 +141,18 @@ test('configuration capture is immutable and separate policies stay independent'
   r.prime();other.prime();assert(r.service.holds(r.actor,'recentlyHit'));assert(!other.service.holds(other.actor,'recentlyHit'));assert(!r.service.holds(r.actor,'fullLife'));
   assert(Object.isFrozen(DEFAULT_ACTOR_CONDITIONS));assert(Object.isFrozen(DEFAULT_ACTOR_CONDITIONS.recentWindows));assert(Object.isFrozen(ACTOR_CONDITION_IDS));
 });
+test('distinct recency windows retain counter indexing, strict expiry and the hurt inverse',()=>{
+  const windows=[1,2,3,4,5,6,7,8,9],r=rig({...DEFAULT_ACTOR_CONDITIONS,recentWindows:windows});
+  const recent=()=>conditions(r.service,r.actor).filter(id=>id.startsWith('recently')||id==='notHurtRecently');
+  r.actor.since.fill(5.5);r.service.refresh(r.actor);
+  assert.deepEqual(recent(),['notHurtRecently','recentlyBlocked','recentlyEvaded','recentlyMoved','recentlyHealed']);
+  // critHurt is a native counter without an actor condition of its own.
+  r.actor.since[4]=0;assert.equal(r.service.refresh(r.actor),false);
+  r.actor.since.set(windows);r.service.refresh(r.actor);assert.deepEqual(recent(),['notHurtRecently']);
+  r.actor.since.set(windows.map(value=>value-.25));r.service.refresh(r.actor);
+  assert.deepEqual(recent(),['recentlyHit','recentlyCrit','recentlyKilled','recentlyHurt','recentlyBlocked','recentlyEvaded','recentlyMoved','recentlyHealed']);
+});
+
 test('invalid configuration and sparse recency windows fail before any host read',()=>{
   for(const field of ['fullLifeFraction','lowManaFraction','fullManaFraction','fullEsFraction','lowEsFraction'])for(const value of [-1,1.1,NaN,Infinity,undefined,null])assert.throws(()=>rig({...DEFAULT_ACTOR_CONDITIONS,[field]:value}));
   for(const field of ['plantSeconds','movingSeconds'])for(const value of [-1,NaN,Infinity,undefined,null])assert.throws(()=>rig({...DEFAULT_ACTOR_CONDITIONS,[field]:value}));
