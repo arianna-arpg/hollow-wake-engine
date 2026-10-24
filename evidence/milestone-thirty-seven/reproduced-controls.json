@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "method": "Fresh source trees from git archive at each recorded commit. Run npm ci --ignore-scripts --no-audit --no-fund, npm run reference:prepare without an original-game argument, then npm run adapter:prepare. No retained game/runtime files copied into the fresh installations.",
+  "controls": [
+    {
+      "name": "published-v031",
+      "commit": "a36b37732d51e88e4cc246704c79a3918cd5767b",
+      "hostFiles": 990,
+      "runtimeFiles": 165,
+      "hostMatchesRetained": true,
+      "runtimeMatchesRetained": true,
+      "archiveMatchesRetained": false,
+      "archiveSha256": "ca5aa9eea1eea62e04963fa97dfe6c80ead617556148a15715571d9a35eba203",
+      "archiveIntegrity": "sha512-aWnsfBTzjKn5BqUsg86xdA/MdSd5oasYcslfDrHgBxxcMzfWlbAgD4D6/4lQdoxZ59ietAxOCb+p46+gWKwvSQ==",
+      "retainedArchiveIntegrity": "sha512-QIXBzYLN+8wWTjTLhzjmgYIrNy8ceX+jpiRl6k5xG4UV7AtIdZBi31NTzl74Js03NDHvw7ymc0cZ/OTSMnLtJg==",
+      "logs": [
+        {
+          "name": "install",
+          "sha256": "a941066d38162d18c88ea4b096d8cf11d19b0d46b973f6d916e2f9b8794e1f36"
+        },
+        {
+          "name": "reference",
+          "sha256": "40f3b369399eadcd400fd4dd40f0cd4d4291852559aff463dae6d17985a7edce"
+        },
+        {
+          "name": "adapter",
+          "sha256": "2ede9a68c19c48969c857b92ab2bb8c5f38cda91e0694bd38e7156bf358804fe"
+        }
+      ],
+      "payloadComparison": {
+        "identicalFiles": 236,
+        "newlineOnlyFiles": [
+          "docs/support-admission-cost.md"
+        ],
+        "changedDocumentationOrMetadata": [],
+        "changedManifestKeys": [],
+        "runtimeContentAndLicensePreserved": true
+      }
+    },
+    {
+      "name": "initial-v032",
+      "commit": "10815b916a585b5c005f694abe6df07ad4338143",
+      "hostFiles": 991,
+      "runtimeFiles": 168,
+      "hostMatchesRetained": true,
+      "runtimeMatchesRetained": true,
+      "archiveMatchesRetained": false,
+      "archiveSha256": "0036e051b4310dc2df67dff37e0022284a9eeed05813790cdba3fa60f6075e26",
+      "archiveIntegrity": "sha512-AhXHUrU0lU3OJRNtfZPDEBGyP98cf1yHJ6zjoDtBW2II8gJaplrJAaEJpQJXzdOWapMdF4tZlYahur6aMHvGlQ==",
+      "retainedArchiveIntegrity": "sha512-zFOpau7pg08pxRYmsOZEFiQXFd0OduqQBIAHjcFdXor4ZOsMv4LJRUbZYwsXlU6T9b13gsDEzIvKUiPzPUMcGg==",
+      "logs": [
+        {
+          "name": "install",
+          "sha256": "a941066d38162d18c88ea4b096d8cf11d19b0d46b973f6d916e2f9b8794e1f36"
+        },
+        {
+          "name": "reference",
+          "sha256": "0ded19014da5b1f054c83cab6fe4805dbcddffe9cfc72e35200e14162227680d"
+        },
+        {
+          "name": "adapter",
+          "sha256": "796474bc76a93939592b57e67afcafa4d5973aa866b937a4147f61a21a18305e"
+        }
+      ],
+      "payloadComparison": {
+        "identicalFiles": 238,
+        "newlineOnlyFiles": [
+          "docs/support-admission-cost.md"
+        ],
+        "changedDocumentationOrMetadata": [
+          "docs/actor-conditions.md",
+          "docs/boundary-contract.md",
+          "package.json"
+        ],
+        "changedManifestKeys": [
+          "scripts"
+        ],
+        "runtimeContentAndLicensePreserved": true
+      }
+    }
+  ],
+  "retainedControlsUnchanged": true,
+  "scope": "Reproduces the complete host source and compiled runtime inputs used by the benchmark. It does not repeat timing measurements or assert device performance. Locked development tooling requires cache or registry access; the original source capsule reconstructs offline.",
+  "archiveIdentityNote": "Whole archive identity is separate from benchmark-input identity. Payload differences are recorded; executable files, runtime content and license are preserved, allowing only newline normalization outside byte-identical compiled runtime."
+}

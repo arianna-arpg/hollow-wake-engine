@@ -1,0 +1,333 @@
+{
+  "base": "bfe5875bae7c910ddf5edd1a264ecfa9943e59f3",
+  "branch": "codex/engine-actor-conditions",
+  "results": [
+    {
+      "name": "conditions",
+      "passed": true,
+      "log": "<local>/m37-managed-conditions.txt",
+      "sha256": "b49f7d4941f36e49f2e45e3814726840183b8e2507d0eec5d0b2b7488054bc00"
+    },
+    {
+      "name": "banks",
+      "passed": true,
+      "log": "<local>/m37-managed-banks.txt",
+      "sha256": "095f71e67b842f431ca8131a339256999b56d6fbb00b111c23b83519c971dce5"
+    },
+    {
+      "name": "check",
+      "passed": true,
+      "log": "<local>/m37-managed-check.txt",
+      "sha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+    },
+    {
+      "name": "sim-smoke",
+      "passed": true,
+      "log": "<local>/m37-managed-sim-smoke.txt",
+      "sha256": "ed4c7e23152287f18a9fccfd2d376723e6eaa72e32362abe27cab391124c564d"
+    }
+  ],
+  "trackedFiles": 1863,
+  "unchangedTrackedFiles": 1862,
+  "changedFiles": [
+    "src/engine/actor.ts",
+    "src/engine/actorConditionAdapter.ts"
+  ],
+  "expected": {
+    "src/engine/actor.ts": "5254db6557d71f6849885be45a8d4e5d5218590582bcf0877e86ab7e74cd5af9",
+    "src/engine/actorConditionAdapter.ts": "8432c34c84d0d86248a43bea64e8c60712cb4fb48332673427ad9ffdbde0bd42"
+  },
+  "installedRuntimeFiles": 168,
+  "installedFaults": 0,
+  "scope": "Only the condition sampling/query delegation and borrowed fields changed in Actor, with one new binding. All other tracked source, including four pre-existing bounty methods, remains unchanged. Managed conditions/banks comparisons, all types and smoke repeated. No game push.",
+  "readyForOwnershipCommit": true,
+  "pushed": false,
+  "commit": {
+    "commit": "ba68b0674e4f14d0a2dc91052c3231257a5e3838",
+    "base": "bfe5875bae7c910ddf5edd1a264ecfa9943e59f3",
+    "branch": "codex/engine-actor-conditions",
+    "files": 2,
+    "reviewedDiffSha256": "4d9631b03964e10171ba29b7f02dc017a67aa5ecd624585a099dde014aa67418",
+    "unchangedTrackedFiles": 1862,
+    "clean": true,
+    "pushed": false
+  },
+  "conditions": {
+    "output": "<local>/game-conditions-0GCX3q",
+    "packageIntegrity": "sha512-wRK1pYWO0nCSIEB/GUPzISHcIhflimiOsUKUReVAxsD/V7yJ36dgRbGkz/t0VO0+PiOsjopa9TaKGncrvctQ+A==",
+    "game": "<local>/ARPG Game - World",
+    "typesPassed": true,
+    "results": [
+      {
+        "name": "actor-condition-native",
+        "courses": 2,
+        "mode": "byte-equal-original",
+        "sha256": "07cd0787a5d1460c1cb42ac0ac40da78f4b7a23eb93c13ff8909b3ab3d4a7fb6"
+      },
+      {
+        "name": "actor-condition-boundary",
+        "courses": 31,
+        "mode": "byte-equal-original",
+        "sha256": "f76356aff85cf0d040f36f4ca48d84a2e75430a5898bdfb3425cb0d28324b1ca"
+      },
+      {
+        "name": "actor-condition-feedback",
+        "courses": 7,
+        "mode": "explicit-recovery-decision",
+        "sha256": "ec4a1fc9e1c1f74c5c767e830248e6053d8ddc566063d1152e44bfbe87f2635a"
+      },
+      {
+        "name": "actor-condition-config-after-import",
+        "courses": 1,
+        "mode": "byte-equal-original",
+        "sha256": "6b6ca98a15b4b0acba66321e8d42e28409955d438b7176692abfc83308111130"
+      },
+      {
+        "name": "actor-condition-config-before-import",
+        "courses": 1,
+        "mode": "byte-equal-original",
+        "sha256": "90c63288c25c8a636a13508822721a775e663ede02275d52e56b3fc31eda71fa"
+      }
+    ],
+    "originalCoursesCompared": 42,
+    "recovery": [
+      "existing-throw-before",
+      "existing-throw-after",
+      "replacement-throw-before",
+      "replacement-throw-after",
+      "changed-before-retry",
+      "sink-reentry-propagated",
+      "sink-reentry-caught",
+      "read-reentry-propagated",
+      "read-reentry-caught",
+      "different-actor-nested",
+      "retained-array-and-replacement",
+      "read-failure-forces-replacement",
+      "condition-success-then-gauge-failure",
+      "invalidation",
+      "mutating-reentry-false-false",
+      "mutating-reentry-false-true",
+      "mutating-reentry-true-false",
+      "mutating-reentry-true-true",
+      "native-dead-sweep"
+    ],
+    "installedFaults": [],
+    "readOnly": true,
+    "allInstalledFilesRestored": true
+  },
+  "banks": {
+    "game": "<local>/ARPG Game - World",
+    "output": "<local>/game-channel-banks-IStZsy",
+    "version": "0.32.0",
+    "packageIntegrity": "sha512-wRK1pYWO0nCSIEB/GUPzISHcIhflimiOsUKUReVAxsD/V7yJ36dgRbGkz/t0VO0+PiOsjopa9TaKGncrvctQ+A==",
+    "installedRuntimeFilesMatchBuild": 168,
+    "gameLauncherAndCaptureTypeChecks": true,
+    "fixtures": [
+      {
+        "name": "channel-banks",
+        "helperSha256": "8546bd4c9cf565291618edb799ce108d8f8e89b6ced86e0c1e1c104ebd22b940",
+        "fixtureSha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+        "compressedSha256": "9b7c78a5a1b7c0bf8f6879512e2f3f37b9af80f26379526377b7811b389458fe",
+        "courses": 35,
+        "transitions": 146,
+        "originalRuns": 2,
+        "retainedControlByteEqual": true,
+        "typeCheckedInOriginalAndControl": true
+      },
+      {
+        "name": "actor-gauges",
+        "helperSha256": "14f6aa96ea896f49266f6e09bbfac28abcd4863da58a0c746204feb6dfa0833d",
+        "fixtureSha256": "56b0618ad03e333469632b15d8249f25b79db624a00e6fc89ecd7098805c1920",
+        "compressedSha256": "1c0c1b84bd48270c41815b64583fd366b8181f8a762a752c2363818fb9550d98",
+        "courses": 22,
+        "transitions": 146,
+        "originalRuns": 2,
+        "retainedControlByteEqual": true,
+        "typeCheckedInOriginalAndControl": true
+      },
+      {
+        "name": "absent-counts",
+        "helper": "reference/export-absent-gauge-counts.ts",
+        "helperSha256": "2c94ee17a97a6705ff6b68bdf85add691d4027e67918932655b19186709b51d0",
+        "fixtureSha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+        "compressedSha256": "49493c6a2d5e615377e7c034dabb096c55810c4114bc3f2761686fdf79c17502",
+        "courses": 2,
+        "transitions": 10,
+        "originalRuns": 2,
+        "retainedControlByteEqual": true,
+        "originalHelperTypesPassed": true
+      }
+    ],
+    "observations": [
+      {
+        "name": "channel-banks",
+        "label": "candidate",
+        "sha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+        "exactExpectedMatch": true,
+        "originalByteEqual": true
+      },
+      {
+        "name": "actor-gauges",
+        "label": "candidate",
+        "sha256": "2dc6a288d49d25754501726fa7f37a8460d97e01a146c80e5605e9b44c7e1cd6",
+        "exactExpectedMatch": true,
+        "originalByteEqual": false
+      },
+      {
+        "name": "absent-counts",
+        "label": "candidate",
+        "sha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+        "exactExpectedMatch": true,
+        "originalByteEqual": true
+      }
+    ],
+    "oracle": [
+      {
+        "name": "channel-banks",
+        "originalSha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+        "expectedSha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+        "intentional": []
+      },
+      {
+        "name": "actor-gauges",
+        "originalSha256": "56b0618ad03e333469632b15d8249f25b79db624a00e6fc89ecd7098805c1920",
+        "expectedSha256": "2dc6a288d49d25754501726fa7f37a8460d97e01a146c80e5605e9b44c7e1cd6",
+        "intentional": [
+          {
+            "course": "namespace-exchange:status-to-charge",
+            "step": 4,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount",
+              "publications"
+            ]
+          },
+          {
+            "course": "namespace-exchange:status-to-charge",
+            "step": 5,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount"
+            ]
+          },
+          {
+            "course": "namespace-exchange:charge-to-brim",
+            "step": 4,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount",
+              "publications"
+            ]
+          },
+          {
+            "course": "namespace-exchange:charge-to-brim",
+            "step": 5,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount"
+            ]
+          },
+          {
+            "course": "namespace-exchange:brim-to-reserve",
+            "step": 4,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount",
+              "publications"
+            ]
+          },
+          {
+            "course": "namespace-exchange:brim-to-reserve",
+            "step": 5,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount"
+            ]
+          },
+          {
+            "course": "namespace-exchange:reserve-to-derived",
+            "step": 4,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount",
+              "publications"
+            ]
+          },
+          {
+            "course": "namespace-exchange:reserve-to-derived",
+            "step": 5,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount"
+            ]
+          },
+          {
+            "course": "namespace-exchange:derived-to-status",
+            "step": 4,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount",
+              "publications"
+            ]
+          },
+          {
+            "course": "namespace-exchange:derived-to-status",
+            "step": 5,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount"
+            ]
+          },
+          {
+            "course": "native-communion-earned-bank-namespace-exchange",
+            "step": 5,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount",
+              "publications"
+            ]
+          },
+          {
+            "course": "native-communion-earned-bank-namespace-exchange",
+            "step": 6,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount",
+              "publications"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "absent-counts",
+        "originalSha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+        "expectedSha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+        "intentional": []
+      }
+    ],
+    "installedFaults": [],
+    "allInstalledFilesAndHostRestored": true
+  },
+  "boundaryReview": {
+    "base": "bfe5875bae7c910ddf5edd1a264ecfa9943e59f3",
+    "actorMatchesCandidate": true,
+    "otherActorMembersUnchanged": true,
+    "allOtherTrackedFilesToPreserve": 1862,
+    "expected": {
+      "src/engine/actor.ts": "5254db6557d71f6849885be45a8d4e5d5218590582bcf0877e86ab7e74cd5af9",
+      "src/engine/actorConditionAdapter.ts": "8432c34c84d0d86248a43bea64e8c60712cb4fb48332673427ad9ffdbde0bd42"
+    }
+  }
+}

@@ -1,5 +1,32 @@
 # Verification and reproduction
 
+Version 0.32 adds `reference:conditions`, `adapter:conditions-source`,
+`adapter:conditions` and `benchmark:conditions -- --previous-adapter
+<retained-v0.31-game>`. The original baseline contains 49 courses, including seven
+re-entry diagnostics retained unchanged. The installed comparison checks 42
+courses and nineteen recovery/dead-sweep cases; only the separately specified
+condition recovery and existing gauge recovery decisions may change observations.
+The fourteen-case recovery contract was committed before implementation.
+
+The recency refactor passes 444 SDK tests, 148 deliberate faults and 24 packed
+consumers. Twenty-three focused tests cover the 154 unchanged original sampling
+observations, recovery, distinct recency windows and one-pass feedback. Two
+four-way comparisons retain identical gameplay receipts; gains over the initial
+extraction and remaining overhead against v0.31 are both recorded in
+[the condition contract](actor-conditions.md). The 7,331-byte module remains
+within its 8 KiB allowance; the combined bound is 464 KiB, with all prior module
+and core limits unchanged.
+
+The [M37 acceptance](../evidence/milestone-thirty-seven/verification.json) records
+17 installed comparisons with 109 detected faults, 21 native probes and eleven
+renderer checks. Six request-stage outcomes match retained v0.31 byte-for-byte.
+Managed condition and bank/gauge comparisons, all game types and smoke passed
+while preserving all 1,862 other tracked files. All 168 runtime files match the
+measured and verified implementation; all 165 predecessor files are unchanged.
+The final documentation archive has separate clean-consumer evidence. Eleven of
+thirteen families remain partial; native-engine and device acceptance remain
+outstanding.
+
 Version 0.31 adds `reference:banks`, `adapter:banks-source`, `adapter:banks`
 and `benchmark:banks -- --previous-adapter <retained-v0.30-game>`.
 The immutable original baseline was committed before implementation: 57 courses

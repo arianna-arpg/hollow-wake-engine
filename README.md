@@ -9,6 +9,20 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
+Version 0.32 adds optional [actor conditions](docs/actor-conditions.md): the 25
+native conditions, ordered rising edges, last-sample queries and replacement
+publication over host-owned actor state. An explicit recovery contract retries
+failed publication without duplicating events and rejects same-actor re-entry.
+Event stamps, timers, proc execution and effects remain host responsibilities.
+The shipped `actor-conditions` example demonstrates low-life damage, a host ward,
+expiry and recovery through the installed package.
+
+The [v0.32 acceptance evidence](evidence/milestone-thirty-seven/verification.json)
+records original comparisons, installed faults, renderer checks and preserved
+managed-game integration. [Measured recency compilation](docs/actor-conditions.md#recency-metadata-optimization)
+reduces sampling time versus the initial extraction; its remaining overhead
+against v0.31 and the absence of a whole-world speedup are explicit.
+
 Version 0.31 adds [persistent channel banks](docs/channel-banks.md) and
 [actor gauge publication](docs/actor-gauges.md). Banks retain their native
 identity and decay phase; gauge publication uses exact namespaced comparisons

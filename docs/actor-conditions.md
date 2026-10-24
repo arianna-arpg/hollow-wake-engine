@@ -122,9 +122,8 @@ initial isolated candidate. All 165 predecessor runtime files remain unchanged.
 The separate condition entry adds 7,114 bytes of unminified JavaScript under an
 8 KiB allowance. The combined bound increases from 456 to 464 KiB; every previous
 entry and the core retain their existing limits. This is package-size accounting,
-not measured CPU, heap or device performance. Repeated performance comparisons,
-broader integration/renderer acceptance, managed-game adoption and public v0.32
-publication remain pending. The example's ward callback illustrates a host
+not measured CPU, heap or device performance. At this initial checkpoint, repeated
+measurements and broader acceptance were pending; the later results are below. The example's ward callback illustrates a host
 effect; the native game comparison separately exercises the actual authored proc.
 
 ## Initial performance finding
@@ -133,8 +132,8 @@ effect; the native game comparison separately exercises the actual authored proc
 found a repeatable sampling regression against v0.31: roughly 81–94% more time
 for stable samples and 20–21% more for changing samples. Whole-world timings
 varied between runs; small retained-heap differences do not establish a memory
-improvement. The initial implementation remains an immutable control while a
-focused recency-metadata refactor is evaluated. These are desktop Node results.
+improvement. The initial implementation remains an immutable control for the
+recency-metadata refactor below. These are desktop Node results.
 
 `npm run benchmark:conditions -- --previous-adapter <retained-v0.31-game>` compares
 real native methods and verifies that only the condition binding/runtime differ
@@ -181,5 +180,59 @@ checks and eight detected faults; game/launcher/simulation types, simulation
 smoke and the core original comparison pass. All 165 predecessor runtime files
 and the initial candidate's host source remain unchanged. The new test uses
 distinct recency windows to pin counter indexing, strict expiry and the hurt
-inverse. Broader integration/renderer acceptance, managed-game adoption and
-public milestone publication remain pending.
+inverse.
+
+## Integrated acceptance
+
+The [M37 acceptance record](../evidence/milestone-thirty-seven/verification.json)
+contains seventeen installed comparisons with 109 detected faults, 21 native
+game probes and eleven renderer checks. Six rendered request outcomes match
+the retained v0.31 control byte-for-byte. The managed game passes condition and
+bank/gauge comparisons, all types and smoke with only the Actor delegation and
+one new binding changed; its other 1,862 tracked files are preserved. The original
+checkout is unchanged by this extraction.
+
+The optimized condition module is 7,331 bytes of unminified JavaScript, inside
+the existing 8 KiB allowance. All final runtime bytes match the verified and
+measured candidate. Final archive consumers and hosted checks are distinct
+publication gates. Eleven of thirteen system families remain partial; this
+acceptance does not establish full native-engine or target-device support.
+
+
+## Rebuilding benchmark controls
+
+[Fresh source-archive reconstructions](../evidence/milestone-thirty-seven/reproduced-controls.json)
+reproduce every host-source and compiled-runtime byte of both controls. The
+original game checkout and retained local test folders are unnecessary.
+
+| Control | SDK commit | Host-source / runtime files |
+| --- | --- | ---: |
+| Published v0.31 | `a36b37732d51e88e4cc246704c79a3918cd5767b` | 990 / 165 |
+| Initial v0.32 | `10815b916a585b5c005f694abe6df07ad4338143` | 991 / 168 |
+
+Export each commit with `git archive --format=tar --output <archive.tar> <commit>`
+and extract it into a separate empty directory. In each extracted SDK tree, run:
+
+```sh
+npm ci --ignore-scripts --no-audit --no-fund
+npm run reference:prepare
+npm run adapter:prepare
+```
+
+The resulting control game is `<that-tree>/.artifacts/game-adapter`. The source
+capsule reconstructs offline; locked development dependencies require a cache or
+registry access. Preparation refuses to replace an existing adapter installation.
+
+Prepare a fresh current v0.32 SDK tree similarly, additionally running
+`npm run reference:install` before benchmarking. Then run:
+
+```sh
+npm run benchmark:conditions -- --previous-adapter <v031-tree>/.artifacts/game-adapter --comparison-adapter <initial-v032-tree>/.artifacts/game-adapter
+```
+
+Add `--validate-only` to check outcomes without measuring performance. The
+reconstructed package archives have different hashes: one older document differs
+only in line endings, and the initial v0.32 archive also predates documentation
+and development-command updates. The evidence records these differences; runtime
+code, runtime content and license remain preserved. Whole-archive identity is
+not being claimed.

@@ -91,6 +91,7 @@ jobs:
       - run: npm run adapter:dispatch-source
       - run: npm run adapter:continuation-source
       - run: npm run adapter:banks-source
+      - run: npm run adapter:conditions-source
       - run: npm run adapter:ammunition-source
       - run: npm run reference:install
       - run: npm run reference:verify
@@ -123,6 +124,7 @@ jobs:
       - run: npm run reference:dispatch
       - run: npm run reference:continuation
       - run: npm run reference:banks
+      - run: npm run reference:conditions
       - run: npm run reference:ammunition
       - run: node --import tsx balance/probe_passiverefund.ts
         working-directory: .reference
@@ -159,6 +161,7 @@ jobs:
       - run: npm run adapter:dispatch
       - run: npm run adapter:continuation
       - run: npm run adapter:banks
+      - run: npm run adapter:conditions
       - run: npm run adapter:ammunition
       - run: npm run check
         working-directory: .artifacts/game-adapter
@@ -264,6 +267,10 @@ jobs:
             .artifacts/channel-bank-reference-verification.json
             .artifacts/game-channel-bank-verification.json
             .artifacts/channel-bank-package-verification.json
+            .artifacts/actor-condition-overlay-verification.json
+            .artifacts/actor-condition-reference-verification.json
+            .artifacts/game-actor-condition-verification.json
+            .artifacts/actor-condition-package-verification.json
             .artifacts/game-skill-admission-verification.json
             .artifacts/skill-admission-overlay-verification.json
             .artifacts/ammunition-overlay-verification.json

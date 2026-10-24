@@ -1,0 +1,96 @@
+{
+  "output": "<local>/game-conditions-HbFAxf",
+  "packageIntegrity": "sha512-wRK1pYWO0nCSIEB/GUPzISHcIhflimiOsUKUReVAxsD/V7yJ36dgRbGkz/t0VO0+PiOsjopa9TaKGncrvctQ+A==",
+  "game": "<local>/game-adapter-m37-optimized",
+  "typesPassed": true,
+  "results": [
+    {
+      "name": "actor-condition-native",
+      "courses": 2,
+      "mode": "byte-equal-original",
+      "sha256": "07cd0787a5d1460c1cb42ac0ac40da78f4b7a23eb93c13ff8909b3ab3d4a7fb6"
+    },
+    {
+      "name": "actor-condition-boundary",
+      "courses": 31,
+      "mode": "byte-equal-original",
+      "sha256": "f76356aff85cf0d040f36f4ca48d84a2e75430a5898bdfb3425cb0d28324b1ca"
+    },
+    {
+      "name": "actor-condition-feedback",
+      "courses": 7,
+      "mode": "explicit-recovery-decision",
+      "sha256": "ec4a1fc9e1c1f74c5c767e830248e6053d8ddc566063d1152e44bfbe87f2635a"
+    },
+    {
+      "name": "actor-condition-config-after-import",
+      "courses": 1,
+      "mode": "byte-equal-original",
+      "sha256": "6b6ca98a15b4b0acba66321e8d42e28409955d438b7176692abfc83308111130"
+    },
+    {
+      "name": "actor-condition-config-before-import",
+      "courses": 1,
+      "mode": "byte-equal-original",
+      "sha256": "90c63288c25c8a636a13508822721a775e663ede02275d52e56b3fc31eda71fa"
+    }
+  ],
+  "originalCoursesCompared": 42,
+  "recovery": [
+    "existing-throw-before",
+    "existing-throw-after",
+    "replacement-throw-before",
+    "replacement-throw-after",
+    "changed-before-retry",
+    "sink-reentry-propagated",
+    "sink-reentry-caught",
+    "read-reentry-propagated",
+    "read-reentry-caught",
+    "different-actor-nested",
+    "retained-array-and-replacement",
+    "read-failure-forces-replacement",
+    "condition-success-then-gauge-failure",
+    "invalidation",
+    "mutating-reentry-false-false",
+    "mutating-reentry-false-true",
+    "mutating-reentry-true-false",
+    "mutating-reentry-true-true",
+    "native-dead-sweep"
+  ],
+  "installedFaults": [
+    {
+      "name": "threshold-inclusive",
+      "detected": true
+    },
+    {
+      "name": "recency-inclusive",
+      "detected": true
+    },
+    {
+      "name": "queue-expanded",
+      "detected": true
+    },
+    {
+      "name": "birth-events",
+      "detected": true
+    },
+    {
+      "name": "failed-confirmation",
+      "detected": true
+    },
+    {
+      "name": "recursion-allowed",
+      "detected": true
+    },
+    {
+      "name": "host-low-line-ignored",
+      "detected": true
+    },
+    {
+      "name": "host-stride-never-ready",
+      "detected": true
+    }
+  ],
+  "readOnly": false,
+  "allInstalledFilesRestored": true
+}

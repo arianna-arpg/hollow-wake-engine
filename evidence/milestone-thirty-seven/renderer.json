@@ -1,0 +1,120 @@
+{
+  "checks": [
+    {
+      "name": "test-skill-request-ui",
+      "passed": true,
+      "log": "<local>/request.txt",
+      "sha256": "a2f7ddcc315b93d915712b44001675ace34b94d2cc86c04761ded838de99aa4d"
+    },
+    {
+      "name": "test-support-ui",
+      "passed": true,
+      "log": "<local>/supports.txt",
+      "sha256": "e57396c7e1d8df4cd55c22fb69e7fe7c6a9fe420661162e8a6fa2bb91992aaff"
+    },
+    {
+      "name": "test-skill-intent-ui",
+      "passed": true,
+      "log": "<local>/intent.txt",
+      "sha256": "f6c24ac0f2e9ded5e326c888232bff9c0ae55a1e3b1e65bb069dabad9a9bc5b1"
+    },
+    {
+      "name": "test-skill-admission-ui",
+      "passed": true,
+      "log": "<local>/admission.txt",
+      "sha256": "8d8711d69d6b8003c27628ea6adcfdc99ddf2a19c2b6c95c6d5b65c449814725"
+    },
+    {
+      "name": "test-channel-casting-ui",
+      "passed": true,
+      "log": "<local>/channel.txt",
+      "sha256": "e4e057500533c41e27483bfbdcf08db75a588b83fc4778e2bb2a4dda83f774f0"
+    },
+    {
+      "name": "test-ammunition-ui",
+      "passed": true,
+      "log": "<local>/ammunition.txt",
+      "sha256": "6c2b53bf609982870ac82f3d925379a567a5e57e6dcd8a0e4f4f0f94dcf8b561"
+    },
+    {
+      "name": "test-interactive-casting-ui",
+      "passed": true,
+      "log": "<local>/interactive.txt",
+      "sha256": "04db48e0e2d8f612fdc76a69e22707634b9379a8b58fcf5211bc3409ace2994d"
+    },
+    {
+      "name": "test-charged-casting-ui",
+      "passed": true,
+      "log": "<local>/charged.txt",
+      "sha256": "4a357fd0843f75b93d175fdd7683d011551d30f63d656cb3b74278ffb4a55e7b"
+    },
+    {
+      "name": "test-guard-casting-ui",
+      "passed": true,
+      "log": "<local>/guard.txt",
+      "sha256": "843619820dbaa4c812671426229b2518f34701a6f4a67445663c6def0c0df0d8"
+    },
+    {
+      "name": "test-resource-payment-ui",
+      "passed": true,
+      "log": "<local>/payment.txt",
+      "sha256": "8e2a5e41b3190988426d02f36105fda44d6dd26cc1cdfae8774e24fe0f93b8f2"
+    },
+    {
+      "name": "test-game-boot",
+      "passed": true,
+      "log": "<local>/boot.txt",
+      "sha256": "17a7916b91dfd4d1274f3165ac0b7904bacda3b967562593055f1675ec488a9e"
+    }
+  ],
+  "requestComparison": {
+    "control": {
+      "controlVersion": "0.31.0",
+      "controlGame": "<local>/game-adapter-m36-compatible",
+      "reports": "<local>/skill-request-ui-Ha1mPq",
+      "harnessSha256": "29f912999d3947870a76ea0872487c8dedcc4f6f2b81f15c5049e2ab1824e0c1",
+      "receiptSha256": "a7bbf4cbd579a2fea329978d54552701f3ddf709a8588f65e2035ec8ca2a5a69",
+      "stages": 6,
+      "decision": "Retain accepted M36 renderer outcomes without regenerating expected results."
+    },
+    "candidate": {
+      "game": "<local>/game-adapter-m37-optimized",
+      "dist": "<local>/ui-request-m37",
+      "reports": "<local>/skill-request-ui-pNGCeH",
+      "passed": true,
+      "harnessSha256": "29f912999d3947870a76ea0872487c8dedcc4f6f2b81f15c5049e2ab1824e0c1",
+      "scope": "Mounted renderer with native gem learning, authored tree purchase and player-intent polling. Six real request stages test trigger/replenishment toggles and prior seal authority, activity and payment. Trigger support, skill level and account awakening eligibility explicitly seeded; no claim of earning account progression, physical-device or all-gates rendering acceptance. Isolated saves."
+    },
+    "receiptSha256": "a7bbf4cbd579a2fea329978d54552701f3ddf709a8588f65e2035ec8ca2a5a69",
+    "rawByteEqual": true,
+    "stages": 6
+  },
+  "images": [
+    {
+      "file": "request-toggles.png",
+      "sha256": "036ca8a9d518424c99c7a6808419f207cb1ba33640f13300ec294b3aaae5f717"
+    }
+  ],
+  "visualInspection": {
+    "inspected": true,
+    "images": [
+      {
+        "file": "<local>/request-toggles.png",
+        "sha256": "036ca8a9d518424c99c7a6808419f207cb1ba33640f13300ec294b3aaae5f717",
+        "observed": "Native room and actor visible; replenishment message, hotbar, life and mana are legible."
+      },
+      {
+        "file": "<local>/support-ui.png",
+        "sha256": "45c8ffd9ef3d055cad5d5485279a48e897acc69dcfb2b0ee5cf679f033359c74",
+        "observed": "Inventory and skill panes visible with Fireball selection, support seats, equipment slots and bag items; primary controls fit the viewport."
+      },
+      {
+        "file": "<local>/channel-brim.png",
+        "sha256": "11ee475dcc47604d26a58f803db0d931eee707c02c56a2c40f1075a04d10b1fd",
+        "observed": "Native channel scene, cast bar/time, hotbar and resource pools visible; no error overlay."
+      }
+    ],
+    "scope": "Three actual candidate screenshots viewed directly. Representative visual checks supplement automated renderer behavior assertions; no pixel-identity, physical-device input, FPS or all-screen visual coverage claim."
+  },
+  "scope": "Hidden desktop renderer with isolated saves and retained shell/static assets. Six request outcomes byte-equal to v0.31; other courses use behavioral assertions. No physical-input, pixel-identity, whole-frame or target-device claim."
+}

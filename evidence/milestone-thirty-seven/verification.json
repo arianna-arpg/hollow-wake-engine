@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "version": "0.32.0",
+  "sdkBase": "a36b37732d51e88e4cc246704c79a3918cd5767b",
+  "baselineCommit": "7ffadee43b6dde6203bd0ef6722445569b3f553c",
+  "contractCommit": "573ac3784fa175367bd8ce25e0dcc2654c66a0de",
+  "initialRuntimeCommit": "10815b916a585b5c005f694abe6df07ad4338143",
+  "implementationCommit": "affda18d8a7ae4f5f44e9824b374ff991da0d46a",
+  "checks": {
+    "tests": 444,
+    "behavioralFaults": 148,
+    "packedConsumers": 24,
+    "conditionTests": 23,
+    "originalCourses": 49,
+    "originalSamplingObservations": 154,
+    "installedConditionCourses": 42,
+    "nativeRecoveryChecks": 19,
+    "installedSuites": 17,
+    "installedFaults": 109,
+    "candidateNativeProbes": 21,
+    "rendererChecks": 11,
+    "retainedRequestInputStages": 6,
+    "managedInstalledSuites": 2,
+    "managedInstalledFaults": 0,
+    "managedGameLauncherSimTypes": true,
+    "managedAndCandidateSmoke": "5 scenarios x 5 seeds each",
+    "referenceCorePassed": true
+  },
+  "runtimeControls": {
+    "runtimeFilesMatch": 168,
+    "unchangedPreviousRuntimeFiles": 165,
+    "newModules": [
+      "actor-conditions"
+    ],
+    "conditionJavaScriptBytes": 7331,
+    "hostChange": "Condition evaluation, replacement publication, rising-edge queue and last-sample queries delegated through a guarded Actor overlay. Event stamps, timers, proc dispatch and effects remain host-owned."
+  },
+  "originalPreservation": {
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "indexEmpty": true,
+    "filesByteIdentical": 4120,
+    "trackedFiles": 1896,
+    "untrackedFiles": 2224,
+    "pinnedSourceCapsuleVerified": true,
+    "snapshot": "m37-original-external-update.json",
+    "upstreamMigrationReview": "m37-original-upstream-review.json",
+    "note": "Exact identity with the newly reviewed external state, not with the earlier f44 snapshot. No original-game writes."
+  },
+  "upstreamSourceReview": {
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "committedPaths": [
+      "balance/loading-cosmetics-ui.cjs",
+      "balance/loading-isolation-ui.cjs",
+      "balance/loadingCosmeticsReference.ts",
+      "docs/ui/loading-screen.md",
+      "src/render/vis/body.ts"
+    ],
+    "scope": "The new committed change registers body glyphs in the renderer dependency graph and adds loading-screen parity/isolation checks; it remains a host concern. Additional uncommitted glyph, presence/shape, data and generation work is preserved as observed and is not imported into the SDK.",
+    "priorMigrationReview": "m36-original-upstream-review.json",
+    "originalGameWritten": false,
+    "baselineChanged": false,
+    "priorWorkingStateByteIdentityClaimed": false,
+    "changedCapturedPaths": [
+      "CLAUDE.md",
+      "balance/loading-isolation-ui.cjs",
+      "balance/probe_cosmetics.ts",
+      "balance/probe_presencevisuals.ts",
+      "docs/ui/loading-screen.md",
+      "src/data/glyphParts.ts",
+      "src/data/looks.ts",
+      "src/data/skills.ts",
+      "src/data/validate.ts",
+      "src/render/vis/body.ts",
+      "src/render/vis/parts.ts"
+    ],
+    "newlyObservedPaths": [
+      "balance/loading-cosmetics-ui.cjs",
+      "balance/loadingCosmeticsReference.ts",
+      "balance/construct-bodies-ui.cjs",
+      "balance/constructVisualChecks.ts",
+      "docs/render/constructs.md",
+      "src/data/constructGlyphs.ts",
+      "src/data/constructLooks.ts"
+    ]
+  },
+  "logs": [
+    {
+      "file": "managed-types.txt",
+      "rawSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d",
+      "publishedSha256": "191c4684202ada301b8ac19abc7d6afdcdb521d37f6e6619434e6073db22de60"
+    },
+    {
+      "file": "managed-smoke.txt",
+      "rawSha256": "ed4c7e23152287f18a9fccfd2d376723e6eaa72e32362abe27cab391124c564d",
+      "publishedSha256": "b54b846b5390032fd7b07f4bfa96b0abb35175c6dfddf301f165760b00ed72e3"
+    },
+    {
+      "file": "sdk-verification.txt",
+      "rawSha256": "59550a1a018314514c4738048a5a6a4dc3b21e9173f416755776849e4cb8cdea",
+      "publishedSha256": "9c0190dd4dfe4fec929461a0785ab8fa25d29cd9a594e541d2310eba0f012c9b"
+    }
+  ],
+  "performance": {
+    "evidence": "optimization-verification.json",
+    "decision": "Keep compiled shared recency rows. Two desktop runs show stable sampling 36–49% faster than the initial extraction but 13–15% slower than published v0.31; changing samples improve 10–12% over initial while remaining 6–7% slower than v0.31. No whole-world speedup or retained-memory improvement established."
+  },
+  "developmentCorrections": [
+    "Original fixtures and the fourteen-case publication-recovery decision were committed before implementation; the original seven re-entry diagnostic courses remain unchanged rather than being relabeled byte-equal.",
+    "Failed publication retries replacement without duplicating already committed edges; same-actor refresh/invalidation re-entry is rejected before reads or mutation. Conditions and gauges confirm independently.",
+    "Initial measurements rejected frozen tuple unpacking as the final optimized implementation. Retained initial/source controls stay immutable while the shared scalar-row refactor is measured and verified.",
+    "The unchanged portability guard rejected a metadata field named window; it was renamed seconds before the accepted full verification and measurements.",
+    "Distinct recency-window tests pin counter indexing, strict expiry and the hurt inverse."
+  ],
+  "verifierScope": "Final runtime bytes match full SDK, installed faults, original comparisons and controlled measurements. The final documentation archive and exact-commit hosted checks are separate gates.",
+  "limits": "Eleven of thirteen families remain partial. Host event production and timing, native effect/spatial mechanics, full engine packages, later source/content reconciliation and Steam Deck/older-mobile acceptance remain incomplete. No allocation-volume or frame-rate claim."
+}
