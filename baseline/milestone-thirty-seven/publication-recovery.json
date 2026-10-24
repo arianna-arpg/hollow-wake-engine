@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "decision": "condition-publication-recovery/v1",
+  "specifiedBeforeImplementation": true,
+  "originalBaselineCommit": "7ffadee43b6dde6203bd0ef6722445569b3f553c",
+  "scope": "Independent expectations for deliberate callback recovery corrections. Original fixtures are unchanged.",
+  "conditions": {
+    "initial": ["notHurtRecently"],
+    "low": ["lowLife", "notHurtRecently"],
+    "full": ["fullLife", "notHurtRecently"]
+  },
+  "cases": [
+    {"id":"existing-throw-before","sink":"existing","failure":"before","afterFailure":{"actor":"low","sheet":"initial","queue":["lowLife"],"confirmed":false},"afterRetry":{"actor":"low","sheet":"low","queue":["lowLife"],"calls":2,"confirmed":true}},
+    {"id":"existing-throw-after","sink":"existing","failure":"after","afterFailure":{"actor":"low","sheet":"low","queue":["lowLife"],"confirmed":false},"afterRetry":{"actor":"low","sheet":"low","queue":["lowLife"],"calls":2,"confirmed":true}},
+    {"id":"replacement-throw-before","sink":"replacement","failure":"before","afterFailure":{"actor":"low","sheet":[],"queue":["lowLife"],"confirmed":false},"afterRetry":{"actor":"low","sheet":"low","queue":["lowLife"],"calls":2,"confirmed":true}},
+    {"id":"replacement-throw-after","sink":"replacement","failure":"after","afterFailure":{"actor":"low","sheet":"low","queue":["lowLife"],"confirmed":false},"afterRetry":{"actor":"low","sheet":"low","queue":["lowLife"],"calls":2,"confirmed":true}},
+    {"id":"changed-before-retry","sink":"existing","failure":"before","retryLife":100,"afterFailure":{"actor":"low","sheet":"initial","queue":["lowLife"],"confirmed":false},"afterRetry":{"actor":"full","sheet":"full","queue":["lowLife","fullLife"],"calls":2,"confirmed":true}},
+    {"id":"sink-reentry-caught","reentry":"sink","caught":true,"expected":{"actor":"low","sheet":"low","queue":["lowLife"],"calls":1,"reads":4,"confirmed":true,"rejected":1}},
+    {"id":"sink-reentry-propagated","reentry":"sink","caught":false,"afterFailure":{"actor":"low","sheet":"initial","queue":["lowLife"],"confirmed":false},"afterRetry":{"actor":"low","sheet":"low","queue":["lowLife"],"calls":2,"confirmed":true}},
+    {"id":"read-reentry-caught","reentry":"read","caught":true,"expected":{"actor":"low","sheet":"low","queue":["lowLife"],"calls":1,"reads":4,"confirmed":true,"rejected":1}},
+    {"id":"read-reentry-propagated","reentry":"read","caught":false,"afterFailure":{"actor":"initial","sheet":"initial","queue":[],"confirmed":false},"afterRetry":{"actor":"low","sheet":"low","queue":["lowLife"],"calls":1,"confirmed":true}},
+    {"id":"different-actor-nested","expected":{"outerActor":"low","innerActor":"full","outerQueue":["lowLife"],"innerQueue":["fullLife"],"outerCalls":1,"innerCalls":1,"bothConfirmed":true}},
+    {"id":"retained-array-and-replacement","expected":{"retainedFirst":"low","latest":"full","queue":["lowLife","fullLife"],"existingCalls":2,"replacementCalls":1,"distinctArrays":true}},
+    {"id":"read-failure-forces-replacement","expected":{"actor":"initial","sheet":"initial","queue":[],"afterFailureConfirmed":false,"afterRetryConfirmed":true,"calls":1}},
+    {"id":"condition-success-then-gauge-failure","expected":{"conditionCalls":1,"gaugeCalls":2,"queue":["lowLife"],"conditionConfirmedAfterGaugeFailure":true}},
+    {"id":"invalidation","expected":{"actor":"low","sheet":"low","queue":["lowLife"],"calls":2,"confirmed":true,"nestedInvalidationRejected":true}}
+  ]
+}
