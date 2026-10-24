@@ -31,6 +31,7 @@ import { integrateSkillRequest } from '../adapters/hollow-wake/integrate-skill-r
 import { integrateSkillDispatch } from '../adapters/hollow-wake/integrate-skill-dispatch.mjs';
 import { integrateCastingContinuation } from '../adapters/hollow-wake/integrate-casting-continuation.mjs';
 import { integrateChannelBanks } from '../adapters/hollow-wake/integrate-channel-banks.mjs';
+import { integrateActorConditions } from '../adapters/hollow-wake/integrate-actor-conditions.mjs';
 const artifacts = path.join(root, '.artifacts');
 fs.mkdirSync(artifacts, { recursive: true });
 const requested = process.argv.indexOf('--game');
@@ -135,6 +136,9 @@ changes.files.push(...castingContinuation.files);
 const channelBanks = integrateChannelBanks(game);
 changes.files.push(...channelBanks.files);
 changes.intentionalGaugeRepair = channelBanks.intentionalGaugeRepair;
+const actorConditions = integrateActorConditions(game);
+changes.files.push(...actorConditions.files);
+changes.intentionalConditionRepair = actorConditions.decision;
 fs.symlinkSync(path.join(tooling, 'node_modules'), path.join(game, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
 fs.copyFileSync(path.join(root, 'reference/export-lifecycle.ts'), path.join(game, 'balance/export-engine-lifecycle.ts'));
 fs.writeFileSync(path.join(artifacts, 'adapter-location.json'), JSON.stringify({ game, tooling, package: packed.filename, integrity: packed.integrity, ...changes }, null, 2));

@@ -99,3 +99,30 @@ packed consumer, full SDK verification, source guards, native game checks and
 measured empty/stable/changing workloads. This contract and its baseline alone
 do not establish implemented support, native-engine compatibility or performance
 on Steam Deck or older mobile hardware.
+
+## Initial implementation evidence
+
+The first implementation and isolated game binding are recorded in
+[initial-runtime.json](../evidence/milestone-thirty-seven/initial-runtime.json).
+The SDK verifier passes 443 tests, 148 deliberate faults and 24 packed consumers.
+Twenty-two focused tests include the 154 unchanged original sampling observations
+and all fourteen predeclared recovery cases. The installed game compares 42
+original courses (with only the explicit recovery decisions), passes nineteen
+native callback/dead-sweep checks and detects eight installed faults. The original
+seven re-entry courses remain preserved as diagnostic evidence; they are not
+claimed byte-equal under the deliberate re-entry correction.
+
+`npm run reference:conditions` reproduces the immutable original fixtures.
+`npm run adapter:conditions-source` checks the guarded source transformation;
+`npm run adapter:conditions` checks a freshly prepared installed candidate.
+Use `-- --read-only` for comparison without injecting installed faults into a
+retained control. Game, launcher and simulation types and smoke pass on the
+initial isolated candidate. All 165 predecessor runtime files remain unchanged.
+
+The separate condition entry adds 7,114 bytes of unminified JavaScript under an
+8 KiB allowance. The combined bound increases from 456 to 464 KiB; every previous
+entry and the core retain their existing limits. This is package-size accounting,
+not measured CPU, heap or device performance. Repeated performance comparisons,
+broader integration/renderer acceptance, managed-game adoption and public v0.32
+publication remain pending. The example's ward callback illustrates a host
+effect; the native game comparison separately exercises the actual authored proc.
