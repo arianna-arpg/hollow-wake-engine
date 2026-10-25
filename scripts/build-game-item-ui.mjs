@@ -12,6 +12,9 @@ const originalEscape=process.argv.includes('--original-escape');
 assert.ok(!fs.existsSync(output),'Refusing to replace an existing UI build');
 const inputs=()=>Object.fromEntries(listFiles(path.join(game,'src')).map(f=>[f,sha256(fs.readFileSync(path.join(game,'src',f)))]));
 const before=inputs();
+const runtimeDirectory=path.join(game,'node_modules/@hollow-wake/engine/dist');
+const runtimeInputs=()=>fs.existsSync(runtimeDirectory)?Object.fromEntries(listFiles(runtimeDirectory).map(f=>[f,sha256(fs.readFileSync(path.join(runtimeDirectory,f)))])):null;
+const runtimeBefore=runtimeInputs();
 const reference=path.join(root,'.reference/src/engine/itemgen.ts'),lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json')));
 assert.equal(sha256(fs.readFileSync(reference)),lock.files['src/engine/itemgen.ts']);
 const originalMain=originalEscape?inventoryUiControlMain(fs.readFileSync(path.join(game,'src/main.ts'),'utf8')):null;
@@ -26,6 +29,7 @@ fs.writeFileSync(file,config,{flag:'wx'});
 try {
   execFileSync(process.execPath,[path.join(game,'node_modules/vite/bin/vite.js'),'build','--config',file,'--outDir',output],{cwd:game,stdio:'inherit'});
   assert.deepEqual(inputs(),before,'Game source changed during the UI build');
-  writeJSON(path.join(output,'sdk-build.json'),{originalItems,originalEscape,sourceSha256:before,originalItemSha256:lock.files['src/engine/itemgen.ts'],originalMainSha256:originalMain===null?null:sha256(originalMain),
+  assert.deepEqual(runtimeInputs(),runtimeBefore,'Installed SDK changed during the UI build');
+  writeJSON(path.join(output,'sdk-build.json'),{originalItems,originalEscape,sourceSha256:before,runtimeSha256:runtimeBefore,originalItemSha256:lock.files['src/engine/itemgen.ts'],originalMainSha256:originalMain===null?null:sha256(originalMain),
     outputs:Object.fromEntries(listFiles(output).map(f=>[f,sha256(fs.readFileSync(path.join(output,f)))]))});
 } finally { if(fs.readFileSync(file,'utf8')===config)fs.unlinkSync(file); }

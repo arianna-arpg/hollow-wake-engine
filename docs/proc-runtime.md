@@ -66,11 +66,44 @@ The comparison retains all 143 original courses and adds seven independently
 captured host-phase courses. All 150 courses match, and eighteen installed faults
 were detected. The full SDK verifier passes 468 tests, including 24 focused proc
 tests and nineteen proc fault checks. The three proc modules total 21,462 bytes of
-unminified JavaScript; this is a size observation, not a speed measurement. Broader
-regression, renderer, target-device performance and publication acceptance remain
-pending; this is not a completed v0.33 release. The corrected adapter also passes
+unminified JavaScript; this is a size observation, not a speed measurement. Game,
+launcher and simulation types, smoke, 21 native probes and 17 earlier-system
+comparisons pass. All twelve renderer checks pass, including the new proc course
+and unchanged six-stage request trace. Target-device performance and publication
+acceptance remain pending; this is not a completed v0.33 release. The corrected adapter also passes
 the unchanged native condition trace and its recovery/fault checks, restoring all
 eight previously missing own-event observations.
+
+### Rendered proc acceptance
+
+After building the isolated adapted game, run:
+
+```sh
+node scripts/test-proc-ui.mjs --game <game> --dist <built-game> --electron <electron>
+```
+
+The checker copies its launcher and harness into a disposable directory, with
+separate profiles and saves. It checks the game source, installed SDK and built
+bundle before and after execution. New UI builds also record the installed SDK
+hashes; older retained controls report that this field was not recorded at build.
+
+The ten-stage expectation comes from two independent executions of the retained
+published v0.32 renderer. Its catalogue separately matches a fresh run of the
+pinned original proc probe. Normal checks read the accepted
+[observations](../baseline/milestone-thirty-eight/proc-ui-expected.json) and
+[provenance](../baseline/milestone-thirty-eight/proc-ui-acceptance.json).
+
+The added ward course explicitly grants Desperate Ward, seeds low life and uses a
+temporary zero RNG. `World.update` earns the condition edge, selects the authored
+proc and raises 300 ward. The check observes one low-life callback, one random draw,
+the 20-second cooldown and the visible `300` HUD label. It also checks the changed
+HUD image. The eight original cue stages cover stored materials, spending, popping,
+invocation, expiry, snapshot mirroring and compact rendering; some of those stages
+call the native executor directly and do not prove selection. The ward course does
+not call the executor directly. This covers a mounted renderer, not physical input,
+frame rate or device performance. The corrected v0.33 candidate matches all ten
+stages and the ward receipt. Its build records all 177 installed runtime files.
+Disposable stale source, SDK and bundle inputs are rejected before renderer launch.
 
 ### Desktop observation experiment
 
@@ -132,31 +165,33 @@ separate from the immutable SDK content API. Installed assertions cover stable
 registry identity, appended and removed definitions, old-view preservation and
 actual delivery of a newly granted proc. A deliberately stale view must fail.
 
-Two runs before the own-hook correction use the same seven workloads, four warmups, fifteen rotating
-samples and receipt checks above, comparing the preserved shared-accessor candidate
-with the private native view. Ranges are the two run medians in milliseconds.
+Two complete runs after restoring the own-event hook use the same seven workloads,
+four warmups, fifteen rotating samples and receipt checks above. The comparison is
+the preserved shared-accessor candidate before the native view and hook correction.
+Ranges are the two run medians in milliseconds; all observations match.
 
-| Workload | v0.32 | Shared-accessor control | Private native view |
-| --- | ---: | ---: | ---: |
-| Ungranted own events | 3.49–3.59 | 8.86–9.09 | 8.80–8.89 |
-| Active own events | 46.34–46.94 | 54.52–56.18 | 54.84–55.12 |
-| Changing grants/events | 562.64–565.45 | 699.92–718.77 | 557.94–591.32 |
-| Talent/pulse sweeps | 7.96–8.21 | 14.27–14.71 | 13.95–14.32 |
-| Resolved hits | 213.07–215.98 | 215.69–216.00 | 213.89–216.55 |
-| Minion-carried hits | 226.65–228.81 | 225.39–227.87 | 222.46–225.60 |
-| Native ward frames | 62.78–63.72 | 65.59–66.59 | 64.89–65.25 |
+| Workload | Original | v0.32 | Shared-accessor control | Corrected v0.33 |
+| --- | ---: | ---: | ---: | ---: |
+| Ungranted own events | 3.51–3.60 | 3.57–3.59 | 9.69–9.84 | 8.90–9.04 |
+| Active own events | 47.89–49.84 | 47.44–49.35 | 56.72–60.24 | 56.45–58.97 |
+| Changing grants/events | 567.60–583.22 | 581.03–581.07 | 723.89–736.32 | 585.25–599.63 |
+| Talent/pulse sweeps | 8.17–9.41 | 8.24–8.56 | 14.58–15.06 | 14.43–14.54 |
+| Resolved hits | 250.48–252.36 | 220.18–222.98 | 217.39–224.93 | 219.19–221.95 |
+| Minion-carried hits | 263.16–264.95 | 233.33–239.38 | 231.72–238.04 | 233.66–234.90 |
+| Native ward frames | 50.09–51.20 | 62.95–63.03 | 66.53–67.20 | 65.76–66.35 |
 
-The targeted changing-grant workload improves by approximately 18–20% versus the
-preserved shared-accessor candidate, with identical observations. The native-frame
-medians also decrease in these two runs. Active and ungranted dispatch still carry
-overhead versus v0.32; hit medians are close enough to avoid claiming a general
-speedup. The native view adds one shallow ID array per active binding/revision.
-The retained-hit-observation experiment remains approximately 823.2 bytes/event;
-it does not measure the extra registry view or normal game memory. The core
-benchmark, original core reference and full 468-test SDK verifier also pass.
-These are desktop observations from the retained pre-hook candidate. The corrected
-candidate requires another measurement pass; target-device and renderer acceptance
-remain pending.
+The targeted changing-grant workload improves by approximately 17–21% versus the
+preserved shared-accessor candidate, but remains 0.7–3.2% above v0.32. Small own-event
+and pulse dispatch still carry overhead. The ward workload executes 128 headless
+frames with 16 actors; it remains 4.5–5.3% above v0.32 and 28–32% above the original
+game. This is not a general CPU or frame-rate improvement.
+
+The native view adds one shallow ID array per active binding/revision. The retained
+hit-observation experiment remains approximately 823.2 bytes/event; it does not
+measure that registry view or normal game memory. The core benchmark, original
+core reference and full 468-test SDK verifier also pass. Earlier pre-correction
+measurements remain in the retained experiment history. Steam Deck and mobile
+performance remain unmeasured.
 
 The source is the pinned original game and its retained working overlay, identified
 by [the source lock](../baseline/source-lock.json). The capture calls original
