@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "decision": "proc-ward-game-adapter/v1",
+  "stage": "Adapter contract accepted before implementation. Installed behavior, renderer and performance acceptance remain separate.",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "runtimeContractSha256": "0718c682020366cca659269d21dce0b4a9f418bef8c7bbcc48610bf017f64708",
+  "predecessor": "51cf115189e31668aa599a5c22e7838e46749c1f",
+  "sourceBoundaries": [
+    {
+      "file": "src/data/procs.ts",
+      "owner": null,
+      "name": "scaleProcEffect",
+      "sourceFileSha256": "d5627f3f27f0c747f3202ed4ac80908fc9c1596433322171ff5ebba62500b77a",
+      "methodSha256": "93d1bde69fc6ef8751c764b8ef2006953a800471e1cb7f09b3c1930cd03bd725",
+      "methodBodySha256": "40fb1b160a389a8d0e62a93326edea4f73e44258255f1625f21be7f70fcc1747",
+      "originalAndControlMethodEqual": true
+    },
+    {
+      "file": "src/engine/actor.ts",
+      "owner": "Actor",
+      "name": "gainWard",
+      "sourceFileSha256": "5254db6557d71f6849885be45a8d4e5d5218590582bcf0877e86ab7e74cd5af9",
+      "methodSha256": "bbdf2007acddf953dff7c7caf39578c7da1692c4f14d5d509755790ca1febb2e",
+      "methodBodySha256": "6810ff7779afac0149a4f567bdf628a887ac3313e09aaa489a39011cc3df1f89",
+      "originalAndControlMethodEqual": true
+    },
+    {
+      "file": "src/engine/world.ts",
+      "owner": "World",
+      "name": "executeProc",
+      "sourceFileSha256": "22d999c3a97803d2c7b9a26afba7a2d46b87f19b773f72d2fc441b255d2c6fdf",
+      "methodSha256": "ac4a4715e9e75d39121ee1337a158ed3e6d7bf31e032da98691513cd4b8fd8bb",
+      "methodBodySha256": "2f1cc15b7ba8733f5cce386a266da9f93dbb47992475e75b08e827174e17308d",
+      "originalAndControlMethodEqual": true,
+      "wardCaseSha256": "31f614961b84fd834e4f59d10e875ff0c292c091770048fff4dc2e4f72804ee1",
+      "wardCase": "case 'ward': {\n        const amount = (fx.flat ?? 0) + (fx.pctMaxLife ?? 0) * caster.maxLife();\n        const procCueBefore = caster.ward;\n        if (amount > 0) caster.gainWard(amount);\n        if (caster.ward > procCueBefore) noteProcCue(caster, procCue, 'gain', proc.id);\n        break;\n      }",
+      "untouchedCaseHashes": {
+        "gainCharge": "c5df65d74817305cddaae70b8d895b68b79d5fa08d9ae17f36ce9e9008a2ec23",
+        "buff": "b2c1c1d86bfe109dfcf9883cb7c6fda3c2b13dba459d95029fe2c48c2ebd69ae",
+        "status": "aa311ce1c8b10a67edd423f9815f14a92ab62deef7cbb7ed59606fb857372909",
+        "heal": "e26df276b716addffac11493c745d006cd905a28fc81c0154ae86a7c5259480e",
+        "restore": "78648003d4b4a6586114edb5e6ab43c74b1b10def754fdde895566dc51402341",
+        "burst": "2957b345cfa51c5cf481591a1bc0abf7723f019be9d7da21b5c23d79dd9b130c",
+        "delayedBurst": "73358ac6ecb15d6c148bf607c60c830d070ad511ddec9194bf955e0c6bd9ef19",
+        "fortify": "ae9dc67904ced4377737a81907d586dcc3f0a692e16c756ae14a54327c652456",
+        "cooldown": "be91dfd5b9e9524e165ca4f7a7afb9f34e78ccad1d9cdd0c044a0f20052a6d2f",
+        "removeBuff": "e7b262e13017124facfb0d0e0209578ec73c32179068404bc997b7f25fc86697",
+        "cleanse": "b9147ecd3fa73003a957543c5553e53df2a3786deb0a28702edbbbc742822fc8",
+        "kindle": "87fd461244099d56db0bd4f9ce84e5280524550b9672b58f432b1221c3e17b22",
+        "vent": "e366a077c36d826db2e4c371e99b7d3d76f1aa41dca820541d37a9f5b3687e14",
+        "cast": "3ff865c06731ea0e0126ea30fc5a761ae93ec7daf9fe64810711cfe437014265",
+        "extraHit": "f8221a96f137a7a4b7bc19cd78cb0e28e05ed9dcfbaa020d5325157fc83f8383",
+        "explosion": "dd5f809277d46ded7d62df716edb7464c6b69a7508ee18bfb7c8ec5f68c16a29",
+        "arc": "1aad5813702cb2037efa98d99e7474c2caa3d913bfd4b1108ae628f603e7bd84",
+        "displace": "30891dfb95782c7892eb23fb6fd7cd128c13714258558bda656dc96bd24bbac2",
+        "collisionDamage": "9b64afafb6f96c5a8d2eb1bfe7c37d419cfae165a05605f2fb17ae241d35f778",
+        "summon": "bd10bf55ac7535ca09c34eca4ac537a1a9cd8a7f1f34b79b0c153b652211105d",
+        "birth": "084a8b8ff72440c4454fb50a53cf34147abb47c832a1ae0eb0187fb53219e2f3"
+      }
+    }
+  ],
+  "files": [
+    "src/data/procs.ts",
+    "src/engine/actor.ts",
+    "src/engine/world.ts",
+    "src/engine/procEffectAdapter.ts"
+  ],
+  "imports": {
+    "magnitude": "import {scaleProcEffect as engineScaleProcEffect} from '@hollow-wake/engine/combat/effects';",
+    "resource": "import {gainWard as engineGainWard} from '@hollow-wake/engine/combat/effects';\nimport {wardResourcePorts} from './procEffectAdapter';",
+    "effect": "import {applyWardEffect as engineApplyWardEffect} from '@hollow-wake/engine/combat/effects';\nimport {wardEffectPorts} from './procEffectAdapter';"
+  },
+  "reservedNames": [
+    "engineScaleProcEffect",
+    "engineGainWard",
+    "engineApplyWardEffect",
+    "wardResourcePorts",
+    "wardEffectPorts"
+  ],
+  "ownership": {
+    "magnitude": "Return SDK scaleProcEffect through the existing data function, with the native full effect type asserted only at this schema boundary.",
+    "resource": "Actor.gainWard delegates to SDK gainWard using one shared resource port object.",
+    "effect": "Only the native ward switch case delegates arithmetic to applyWardEffect; original noteProcCue and rider tail remain in place.",
+    "binding": "One stateless shared resource/effect port pair. Actor is a type-only import, so importing the binding cannot instantiate or import Actor at runtime."
+  },
+  "ports": {
+    "resource": "rate(actor) calls the current actor.sheet.get(wardGain).",
+    "effect": "maximumLife(actor) calls actor.maxLife(); gain(actor,amount) calls the current actor.gainWard method."
+  },
+  "checksBeforeWrites": [
+    "Require one parseable owner and target method/function, and the exact accepted method hash.",
+    "Require the accepted ward case and all 21 sibling case hashes.",
+    "Reject reserved binding names, an existing binding file, and repeated integration.",
+    "Render and validate all three source edits before writing any of the four files. Filesystem write errors are not promised to be atomic."
+  ],
+  "preservation": [
+    "Keep all method signatures and unrelated declarations/members unchanged.",
+    "Keep the native proc power/context query, cue construction, non-ward cases and rider tail unchanged.",
+    "Keep Actor.gainWard observable; the effect gain port calls its current method.",
+    "Keep each existing source file newline style and unrelated appended source.",
+    "Use a fresh candidate with independent installed dependencies. Never modify retained controls or the original game."
+  ],
+  "acceptance": {
+    "originalCourses": 1096,
+    "helpers": 5,
+    "requirements": [
+      "Source guard faults rejected before writes in LF and CRLF.",
+      "All unchanged original fixtures compared through the installed SDK; no expected-output regeneration.",
+      "Meaningful installed faults detected, including bypassed observation hooks.",
+      "Game, launcher and simulation type checks; smoke and affected native probes.",
+      "Existing integration comparisons retained; actual frame-to-ward-to-HUD acceptance.",
+      "Measured workload receipts with competing heavy jobs stopped.",
+      "Managed-game preservation, final package consumers and exact-commit hosted checks before publication."
+    ]
+  },
+  "scope": "Magnitude folding applies to all native proc payloads. Only ward application and the gainWard resource method move in this adapter; the other 21 executor branches, delayed resolution and full effect schemas remain in scope for subsequent work."
+}
