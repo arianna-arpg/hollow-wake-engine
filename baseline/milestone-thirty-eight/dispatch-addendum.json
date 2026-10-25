@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "milestone": 38,
+  "stage": "Original dispatch addendum accepted before SDK proc implementation; no earlier fixture or recovery guarantee replaced.",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "baselineCommit": "98ffa4e2972fd7da0fa0891014210be14da3230d",
+  "baselineAcceptanceSha256": "4df408c38613464402fd74c3e1e3d062dda021027fd6326519257e8837fc9d33",
+  "courses": 86,
+  "totalCoursesWithInitialBaseline": 143,
+  "helpers": [
+    {
+      "file": "reference/export-proc-dispatch.ts",
+      "sha256": "b03b1210e66a6225c28831337a8f2ef7a940e71be7b44a605216a0b6688dc457"
+    },
+    {
+      "file": "reference/export-proc-hits.ts",
+      "sha256": "d1f1d3c75de113321f4a0f38c3e55e9159f0b9d4150b093d1c0d91efb88b3956"
+    },
+    {
+      "file": "reference/export-proc-frames.ts",
+      "sha256": "75f1863550643608eaf6be36b0fd01e598763b28d47a84c5b1107a555227d3e6"
+    },
+    {
+      "file": "reference/export-proc-registry.ts",
+      "sha256": "a932530706874cce81834844beeea6ae54c8753d68983779913be8e3fc0b4638"
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "proc-dispatch",
+      "file": "baseline/milestone-thirty-eight/proc-dispatch.json.gz",
+      "helper": "reference/export-proc-dispatch.ts",
+      "helperSha256": "b03b1210e66a6225c28831337a8f2ef7a940e71be7b44a605216a0b6688dc457",
+      "args": [],
+      "courses": 51,
+      "fixtureSha256": "8968fb007fb8faefc8d4d2daac7ad9668ae36956af8ec962047ccb2c2b64ea4b",
+      "compressedSha256": "3b463abaf13c17ff3741ced8992ddbc4cf39e312cd3c5bad700a918debdf785d",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "d4486a19eb3b56441cf373b45463c4850327e7df",
+        "version": "0.32.0",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "8968fb007fb8faefc8d4d2daac7ad9668ae36956af8ec962047ccb2c2b64ea4b"
+      }
+    },
+    {
+      "name": "proc-hits",
+      "file": "baseline/milestone-thirty-eight/proc-hits.json.gz",
+      "helper": "reference/export-proc-hits.ts",
+      "helperSha256": "d1f1d3c75de113321f4a0f38c3e55e9159f0b9d4150b093d1c0d91efb88b3956",
+      "args": [],
+      "courses": 30,
+      "fixtureSha256": "8c67352eae617b074278b37ddbc8b0f61f45febea763e560cfbf2c36ed5c0755",
+      "compressedSha256": "1cf3e92408a912fd16ab085630a2f858b55c0879ac79ff480e1a72bc6a69aaf2",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "d4486a19eb3b56441cf373b45463c4850327e7df",
+        "version": "0.32.0",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "8c67352eae617b074278b37ddbc8b0f61f45febea763e560cfbf2c36ed5c0755"
+      }
+    },
+    {
+      "name": "proc-frames",
+      "file": "baseline/milestone-thirty-eight/proc-frames.json.gz",
+      "helper": "reference/export-proc-frames.ts",
+      "helperSha256": "75f1863550643608eaf6be36b0fd01e598763b28d47a84c5b1107a555227d3e6",
+      "args": [],
+      "courses": 2,
+      "fixtureSha256": "83e48a37053514b49efca6ef931b98dcaa72a8d311661f22efa4f5e07977fad5",
+      "compressedSha256": "e46ee865c0f83960d81c227730d99b872ae5d9c9aa298e1c4eb42d5b6ce920b6",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "d4486a19eb3b56441cf373b45463c4850327e7df",
+        "version": "0.32.0",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "83e48a37053514b49efca6ef931b98dcaa72a8d311661f22efa4f5e07977fad5"
+      }
+    },
+    {
+      "name": "proc-registry",
+      "file": "baseline/milestone-thirty-eight/proc-registry.json.gz",
+      "helper": "reference/export-proc-registry.ts",
+      "helperSha256": "a932530706874cce81834844beeea6ae54c8753d68983779913be8e3fc0b4638",
+      "args": [],
+      "courses": 3,
+      "fixtureSha256": "011bba3e85d2e62afcbcad971770d2d34677ee4f0537337e96a6fffa162de359",
+      "compressedSha256": "bb1381e4894dc27bf59aa11d8bde05e2b41027017b2025373946dd33d9428716",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "d4486a19eb3b56441cf373b45463c4850327e7df",
+        "version": "0.32.0",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "011bba3e85d2e62afcbcad971770d2d34677ee4f0537337e96a6fffa162de359"
+      }
+    }
+  ],
+  "retainedFilesUnchanged": true,
+  "independentAssertions": "Concrete event filters, random thresholds, selected delivery identity, owner/minion context and clocks, real target damage, native frame progression, proc-depth gating, live registry iteration and pulse snapshot behavior. Hit selection observes the executeProc port; native frame courses execute real charge, buff and ward payloads.",
+  "correctionsDuringDiscovery": [
+    "The rider delivery port returns a boolean; the observation stub explicitly reports successful delivery.",
+    "Other original hit-family rows can stamp once-per-time clocks without a grant. Ownership assertions therefore address the selected proc id; all observed owner and caster clocks remain in the fixture. No original implementation was changed."
+  ],
+  "limitations": [
+    "These 86 additional courses do not execute every authored payload or every combination of filters.",
+    "Frame courses begin with an explicit condition edge; they establish native World.update ordering and real payload propagation, not a complete Inventory UI workflow.",
+    "Registry mutation and same-length index staleness are preserved diagnostics, not an SDK hot-reload promise. A content-ownership decision must precede runtime implementation.",
+    "No renderer, performance, target-device or native-engine acceptance."
+  ]
+}
