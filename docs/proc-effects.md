@@ -1,8 +1,46 @@
 # Effect extraction baseline
 
-This is the next extraction boundary after published v0.33. Effect execution
-remains in the game. The [accepted original fixtures](../baseline/milestone-thirty-nine/acceptance.json)
-establish a comparison point before its implementation changes.
+The v0.34 development branch implements the magnitude fold, ward resource gain
+and ward effect arithmetic as an optional module. The published v0.33 game adapter
+still executes effects in the game; acceptance of a new installed game path is
+pending. The [accepted original fixtures](../baseline/milestone-thirty-nine/acceptance.json)
+establish the comparison point before implementation changes.
+
+## Portable ward functions
+
+Import `scaleProcEffect`, `gainWard` and `applyWardEffect` from
+`@hollow-wake/engine/combat/effects`. These functions have no runtime dependencies
+and hold no simulation state. Reuse one resource/effect port object across actors;
+each call borrows the supplied actor and keeps independent local variables.
+
+```ts
+import {gainWard, applyWardEffect, scaleProcEffect,
+  type WardState, type WardResourcePorts, type WardEffectPorts}
+  from '@hollow-wake/engine/combat/effects';
+
+interface Body extends WardState {maxLife: number; wardRate: number}
+const resource: WardResourcePorts<Body> = {rate: a => a.wardRate};
+const effect: WardEffectPorts<Body> = {
+  maximumLife: a => a.maxLife,
+  gain: (a, n) => gainWard(a, n, resource),
+};
+const actor = {dead: false, ward: 6, maxLife: 1000, wardRate: .5};
+const payload = scaleProcEffect({type: 'ward', flat: 10, pctMaxLife: .1}, 2);
+const grew = applyWardEffect(actor, payload, effect); // true; ward is 116
+```
+
+The [standalone example](../examples/proc-effects.mjs) composes these functions
+with existing proc gates, cooldowns and rider selection. Three input events
+produce two grants, ward 226, three probability draws and a cooldown ready at
+time 4. Application-owned cue records follow actual gains. Each example call
+creates an independent simulation.
+
+These are low-level compatibility functions over trusted typed fields. The
+existing `ProcContent` validates dispatch data, not complete effect schemas;
+untrusted serialized effects need their owning validator/compiler. Minimum
+magnitude types describe arithmetic fields and keep the discriminator while
+widening numeric results. They do not promise arbitrary application metadata.
+No new runtime validation is inserted into the original arithmetic path.
 
 ## Source and scope
 
@@ -80,7 +118,7 @@ the pool or trigger a nested grant before the outer addition. Death during that
 query does not introduce a second guard. `applyWardEffect` computes its amount
 before capturing the pool and reports actual growth, not the gain callback's
 return value. The host then delivers cues and the existing rider hook in order.
-The proposed module has a 4 KiB JavaScript allowance; prior module and core
+The optional module has a 4 KiB JavaScript allowance; prior module and core
 allowances remain unchanged. This is a size limit, not a performance result.
 
 Begin with the pure magnitude fold and a complete ward path, retaining the
