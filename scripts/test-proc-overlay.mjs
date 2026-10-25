@@ -22,6 +22,7 @@ for(const ending of ['\n','\r\n']){
  const game=fs.mkdtempSync(path.join(root,'.artifacts/proc-overlay-'));fs.mkdirSync(path.join(game,'src/engine'),{recursive:true});
  const file=path.join(game,procPaths.world),binding=path.join(game,procPaths.binding),source=(base+'\n// retained unrelated marker\n').replaceAll('\n',ending);
  fs.writeFileSync(file,source);integrateProcs(game,false);assert.equal(fs.readFileSync(file,'utf8'),source);assert(!fs.existsSync(binding));
+ const collision=source+'\nclass WorldProcHitEvent {}\n';fs.writeFileSync(file,collision);assert.throws(()=>integrateProcs(game),/binding collision/);assert.equal(fs.readFileSync(file,'utf8'),collision);assert(!fs.existsSync(binding));
  for(const [name,value]of faults){const changed=value.replaceAll('\n',ending);fs.writeFileSync(file,changed);assert.throws(()=>integrateProcs(game),/Unreviewed/,'Source fault escaped: '+name);assert.equal(fs.readFileSync(file,'utf8'),changed);assert(!fs.existsSync(binding));}
  fs.writeFileSync(file,source);fs.writeFileSync(binding,'existing host binding');assert.throws(()=>integrateProcs(game),/already exists/);assert.equal(fs.readFileSync(file,'utf8'),source);assert.equal(fs.readFileSync(binding,'utf8'),'existing host binding');fs.unlinkSync(binding);
  integrateProcs(game);const output=fs.readFileSync(file,'utf8');assert.equal(output.includes('\r\n'),ending==='\r\n');assert(output.endsWith(ending+'// retained unrelated marker'+ending));

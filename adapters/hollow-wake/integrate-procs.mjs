@@ -28,11 +28,9 @@ const delegates={
   rollOwnProcs:'this.sdkProcs.own(owner, trigger, opts)',fireProcRiders:'this.sdkProcs.riders(proc, caster, inst, target, depth)',
   rollSurfaceProcs:'this.sdkProcs.surface(striker)',
 };
-const packetEvent=`{dealt, depth, crit: wasCrit, lethal, elite,
-      get dominantType() { return dominantTypeOf(packet.amounts); },
-      get rollT() { return packet.rollT; }, tags, extra}`;
+const packetEvent='new WorldProcHitEvent(packet, dealt, depth, wasCrit, lethal, elite, tags, extra)';
 export function renderProcWorld(source){
-  const input=lf(source);assert(!/\b(?:WorldProcs|sdkProcs|_sdkProcs)\b/.test(input),'Procs already integrated or binding collision');
+  const input=lf(source);assert(!/\b(?:WorldProcs|WorldProcHitEvent|sdkProcs|_sdkProcs)\b/.test(input),'Procs already integrated or binding collision');
   const tree=procWorldTree(input),boundary=procBoundary(tree),{ast,world}=tree;
   for(const kind of ['methods','globals','phases'])for(const row of contract.sourceBoundary[kind]){
     const value=boundary[kind][row.name],nodes=Array.isArray(value)?value:[value];assert.equal(nodes.length,row.nodes,'Unreviewed proc node count: '+row.name);
@@ -56,7 +54,7 @@ export function renderProcWorld(source){
   const ports=lf(fs.readFileSync(path.join(root,'adapters/hollow-wake/proc-ports.txt'),'utf8')).trimEnd();
   edits.push({start:world.members[0].getStart(ast),end:world.members[0].getStart(ast),text:ports+'\n\n  '});
   const lastImport=ast.statements.filter(ts.isImportDeclaration).at(-1);assert(lastImport);
-  edits.push({start:lastImport.end,end:lastImport.end,text:"\nimport {WorldProcs} from './procAdapter';"});
+  edits.push({start:lastImport.end,end:lastImport.end,text:"\nimport {WorldProcs,WorldProcHitEvent} from './procAdapter';"});
   let output=input;const ordered=edits.sort((a,b)=>b.start-a.start);
   for(let i=1;i<ordered.length;i++)assert(ordered[i].end<=ordered[i-1].start,'Overlapping proc edits');
   for(const edit of ordered)output=output.slice(0,edit.start)+edit.text+output.slice(edit.end);

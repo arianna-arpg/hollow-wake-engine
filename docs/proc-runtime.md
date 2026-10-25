@@ -44,6 +44,11 @@ entered alive. These results let the host run its following phase without queryi
 depth twice or accidentally skipping work because a proc killed the actor. A
 throwing callback still stops the caller. The native binding retains the original
 `World.procChance` observation point and reads packet type/roll observations lazily.
+`WorldProcHitEvent` keeps those reads on shared prototype accessors, avoiding two
+new accessor functions per event. Each hit owns its observation; nested hits never
+reuse mutable scratch state. Tags/modifiers retain their native identities, and
+resolved scalar fields remain snapshots. The installed check exercises changed
+packet values and independent nested observations; stale type/roll faults must fail.
 Three former private rule queries remain internal diagnostic delegates so original
 probes can call them without unused-private errors after production selection moves.
 
@@ -52,12 +57,55 @@ After preparing a fresh isolated game, run `npm run adapter:procs-source` and
 `node scripts/test-game-procs.mjs --location <manifest>`. Use `--read-only` for a
 retained control; fault injection refuses the recorded predecessor environments.
 The comparison retains all 143 original courses and adds seven independently
-captured host-phase courses. All 150 courses match, and fourteen installed faults
+captured host-phase courses. All 150 courses match, and sixteen installed faults
 were detected. The full SDK verifier passes 468 tests, including 24 focused proc
 tests and nineteen proc fault checks. The three proc modules total 21,462 bytes of
 unminified JavaScript; this is a size observation, not a speed measurement. Broader
-regression, renderer, performance and publication acceptance remain
+regression, renderer, target-device performance and publication acceptance remain
 pending; this is not a completed v0.33 release.
+
+### Desktop observation experiment
+
+`npm run benchmark:procs -- --location <candidate-manifest> --previous-adapter
+<retained-v0.32-game> --comparison-adapter <retained-initial-v0.33-game>` compares
+separate original, predecessor, initial and revised module graphs. `--validate-only`
+checks outcomes without accepting timing evidence. Each graph's complete receipt
+must match: RNG draws, deliveries, clocks, actor vitals, queued events and native
+frame outcomes. Input source and installed runtime hashes are checked before/after.
+
+Two fresh-process runs on desktop i9-10900K / Node 24.9.0 used four warmups and
+fifteen rotating samples per graph. Setup, forced GC and receipt construction stay
+outside timing. Values below are ranges of the two run medians in milliseconds,
+not confidence intervals. The original/predecessor controls remain unchanged.
+
+| Workload | Original | v0.32 | Initial v0.33 | Shared-accessor v0.33 |
+| --- | ---: | ---: | ---: | ---: |
+| 16,384 ungranted own events, 64 actors | 3.44–3.60 | 3.54–3.60 | 9.22–9.35 | 9.46–9.56 |
+| 16,384 active own events, 64 actors | 46.68–51.41 | 47.14–49.99 | 54.27–56.45 | 54.59–58.80 |
+| 16,384 changing grants/events, 64 actors | 556.68–585.07 | 561.63–571.61 | 713.20–716.40 | 710.10–723.08 |
+| 16,384 talent/pulse sweeps, 64 actors | 8.26–8.33 | 8.08–8.19 | 14.43–14.76 | 14.58–14.79 |
+| 2,048 resolved hits | 243.20–249.27 | 215.38–223.22 | 223.08–224.15 | 219.26–223.61 |
+| 2,048 minion-carried hits | 260.57–263.15 | 228.55–235.28 | 240.26–241.91 | 231.37–236.51 |
+| 128 native ward frames, 16 actors | 51.80–53.50 | 63.99–64.22 | 65.99–66.28 | 68.04–69.25 |
+
+These synthetic dispatch workloads add three explicit proc definitions and count
+payload deliveries; the frame workload executes the authored desperate ward. Hits
+run native damage resolution with supplied vitals, grants and skill instances.
+Changing-grant costs include native stat-cache invalidation. The revised hit
+medians are lower, but other paths retain overhead and the revised frame median
+is higher than the initial candidate in both runs. A general CPU speedup is not
+established; those costs require further profiling before performance acceptance.
+
+A separate five-sample experiment per run holds 2,048 actual installed hit-event
+observations, then releases those references while keeping the World alive. Forced
+GC heap differences include the retained observation graph and array storage.
+Both runs report approximately 1,468.9 bytes per initial observation versus 823.2
+bytes with shared accessors, about 44% less. The runtime normally does not retain
+these observations; this experiment measures neither steady-state game memory nor
+total allocation traffic. The change preserves lazy packet reads and per-hit
+ownership while removing per-event accessor functions. Raw samples and receipts
+are emitted under `.artifacts/proc-benchmark-*`; broader evidence packaging follows
+integration acceptance. Renderer, FPS, Steam Deck and mobile outcomes remain unmeasured.
 
 The source is the pinned original game and its retained working overlay, identified
 by [the source lock](../baseline/source-lock.json). The capture calls original

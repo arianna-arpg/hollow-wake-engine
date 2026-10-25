@@ -1,9 +1,21 @@
-import {BorrowedProcRegistry,ProcRuntime,type ProcConfiguration} from '@hollow-wake/engine/combat/procs';
+import {BorrowedProcRegistry,ProcRuntime,type ProcConfiguration,type ProcHitEvent} from '@hollow-wake/engine/combat/procs';
 import {PROC_LIST,PROCS,PROC_RIDER_LIST,type ProcDef,type ProcRiderDef} from '../data/procs';
 import {skillContextTags,instanceMods,type SkillInstance} from './skills';
 import type {Actor} from './actor';
 import type {Modifier,SkillTag} from './stats';
 import type {Vec2} from '../core/math';
+import type {DamagePacket} from './damage';
+import {dominantTypeOf} from './bodyVoices';
+
+/** One observation per dispatch, with shared accessors and live packet reads.
+ * A nested hit owns a different observation; no shared scratch state is reused. */
+export class WorldProcHitEvent implements ProcHitEvent<Set<SkillTag>,Modifier> {
+  constructor(private readonly packet:DamagePacket,readonly dealt:number,readonly depth:number,
+    readonly crit:boolean,readonly lethal:boolean,readonly elite:boolean,
+    readonly tags:Set<SkillTag>,readonly extra:readonly Modifier[]){}
+  get dominantType(){return dominantTypeOf(this.packet.amounts);}
+  get rollT(){return this.packet.rollT;}
+}
 
 export interface WorldProcCallbacks {
   time():number;

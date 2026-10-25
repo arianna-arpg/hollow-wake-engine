@@ -1,0 +1,68 @@
+// Actual native dispatch/hit/frame calls. Synthetic grants and callback counters
+// isolate dispatch costs; frame courses also execute authored ward effects.
+import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import assert from 'node:assert/strict';import {pathToFileURL} from 'node:url';import {createHash} from 'node:crypto';
+import * as arena from '../src/sim/arena';import {Actor} from '../src/engine/actor';import {StatSheet} from '../src/engine/stats';
+import * as skills from '../src/engine/skills';import {SKILLS} from '../src/data/skills';import * as procs from '../src/data/procs';import {seedGlobalRandom} from '../src/sim/rng';
+const [previous,current,output]=process.argv.slice(2),validationOnly=process.argv.includes('--validate-only');
+const load=async(game:string)=>{const get=(file:string)=>import(pathToFileURL(path.join(game,file)).href);return {arena:await get('src/sim/arena.ts'),Actor:(await get('src/engine/actor.ts')).Actor,StatSheet:(await get('src/engine/stats.ts')).StatSheet,skills:await get('src/engine/skills.ts'),...(await get('src/data/skills.ts')),procs:await get('src/data/procs.ts'),...(await get('src/sim/rng.ts'))};};
+const apis:any={original:{arena,Actor,StatSheet,skills,SKILLS,procs,seedGlobalRandom},previous:await load(previous),current:await load(current)};
+const comparisonAt=process.argv.indexOf('--comparison-adapter');if(comparisonAt>=0)apis.comparison=await load(process.argv[comparisonAt+1]);
+const keys=Object.keys(apis),ids={condition:'__m38_bench_condition',pulse:'__m38_bench_pulse',hit:'__m38_bench_hit'};
+for(const key of keys){const api=apis[key];api.arena.bootSimEngine();for(const [name,id]of Object.entries(ids))api.procs.registerProc({id,name:'Benchmark '+name,color:'#ffffff',trigger:name,...(name==='condition'?{condition:'lowLife'}:name==='pulse'?{every:.25}:{minionCarry:true,hitType:'physical',rollTop:1}),effect:{type:'ward',flat:1}});}
+const gc=(globalThis as typeof globalThis&{gc?:()=>void}).gc;assert(gc,'Run with --expose-gc');
+const collect=()=>{gc!();gc!();return process.memoryUsage().heapUsed;},digest=(value:unknown)=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
+const median=(values:number[])=>values.slice().sort((a,b)=>a-b)[Math.floor(values.length/2)];
+function clean(api:any,a:any){a.sheet=new api.StatSheet();a.sheet.setBase('life',1e9);a.life=1e9;a.sheet.setBase('mana',100);a.mana=100;a.dead=false;a.skills=[];a.statuses=[];a.buffs.clear();a.charges.clear();a.procReadyAt.clear();a.procAttemptAt.clear();a.procFiredAt.clear();a.condRose=[];a.healedSince=0;a.gasped=false;}
+function setup(key:string,name:string,retained?:unknown[]){
+ const api=apis[key],restore=api.seedGlobalRandom(0xbc38),w=api.arena.makeSimWorld('warrior',0xbc38),p=w.player;w.walk=null;w.time=0;clean(api,p);p.pos={x:700,y:700};
+ let executions=0,draws=0,carriedExecutions=0;const random=Math.random;Math.random=()=>{draws++;return random();};
+ const originalExecute=w.executeProc;w.executeProc=(proc:any,actor:any,...args:any[])=>{executions++;if(actor===p)carriedExecutions++;if(name==='native-ward-frames')originalExecute.call(w,proc,actor,...args);};
+ const observe=(actors:any[])=>({executions,draws,carriedExecutions,time:w.time,actors:actors.map(a=>({life:a.life,ward:a.ward,dead:a.dead,ready:[...a.procReadyAt],attempt:[...a.procAttemptAt],fired:[...a.procFiredAt],edges:[...a.condRose],gains:a.gainEvents.map((e:any)=>({kind:e.kind,id:e.id,depth:e.depth,n:e.n??null}))}))});
+ if(name==='native-ward-frames'){
+  const actors=[p];for(let i=1;i<16;i++){const a=new api.Actor('frame-'+i,'player',{x:700+i*30,y:700});clean(api,a);actors.push(a);}
+  for(const a of actors){a.sheet.setBase('life',100);a.life=10;a.sheet.setBase('lifeRegen',0);a.sheet.setBase('manaRegen',0);a.sheet.setBase('proc_desperate_ward',1);a.gaugeSampleIn=100;a.refreshConditions();a.condRose=['lowLife'];}
+  w.actors=actors;return {restore,run:()=>{for(let i=0;i<128;i++)w.update(1/60);},receipt:()=>{assert(executions>0);assert(actors.some(a=>a.ward>0));return {frames:128,...observe(actors)};}};
+ }
+ if(name==='hits' || name==='carried-hits'){
+  const carried=name==='carried-hits',strike=api.skills.makeSkillInstance({...api.SKILLS.cleave,id:'__m38_bench_strike',tags:['spell','physical'],baseDamage:{physical:[10,20]},requirements:undefined});
+  const summon=api.skills.makeSkillInstance({...api.SKILLS.cleave,id:'__m38_bench_summon',tags:['spell','minion'],requirements:undefined});
+  const target=new api.Actor('victim','enemy',{x:730,y:700});clean(api,target);
+  const body=carried?new api.Actor('minion','player',{x:700,y:700}):p;if(carried){clean(api,body);body.owner=p;body.summonInst=summon;body.sourceSkillId=summon.def.id;p.skills=[summon];}
+  p.sheet.setBase('proc_'+ids.hit,.5);body.sheet.setBase('critChance',0);w.actors=carried?[p,body,target]:[p,target];
+  let unwind=restore;
+  if(retained){
+   const prototype=Object.getPrototypeOf(w.sdkProcs),descriptor=Object.getOwnPropertyDescriptor(prototype,'hit'),native=prototype.hit;
+   Object.defineProperty(prototype,'hit',{configurable:true,writable:true,value:function(this:any,...args:any[]){retained.push(args[3]);return native.apply(this,args);}});
+   unwind=()=>{if(descriptor)Object.defineProperty(prototype,'hit',descriptor);else delete prototype.hit;restore();};
+  }
+  return {restore:unwind,run:()=>{for(let i=0;i<2048;i++){w.time=i/60;w.resolveHit(body,strike,target,1,0);}},receipt:()=>{assert(target.life<1e9&&!target.dead);assert(executions>0);return {hits:2048,carried,...observe(carried?[p,body,target]:[p,target])};}};
+ }
+ const actors=[p];for(let i=1;i<64;i++){const a=new api.Actor('proc-'+i,'player',{x:700,y:700});clean(api,a);actors.push(a);}
+ const pulse=name==='pulse',changing=name==='changing-grants',active=name!=='ungranted',id=pulse?ids.pulse:ids.condition,samples=16384;
+ for(const a of actors)if(active)a.sheet.setBase('proc_'+id,.5);
+ return {restore,run:()=>{for(let i=0;i<samples;i++){const a=actors[i%64];w.time=Math.floor(i/64)/60;if(changing)a.sheet.setBase('proc_'+id,Math.floor(i/64)%2?.5:0);if(pulse)w.sweepTalentEvents(a);else w.rollOwnProcs(a,'condition',{condition:'lowLife'});}},receipt:()=>{assert.equal(executions>0,active);return {samples,...observe(actors)};}};
+}
+const results:any[]=[];
+for(const name of ['ungranted','active','changing-grants','pulse','hits','carried-hits','native-ward-frames']){
+ const samples:Record<string,number[]>=Object.fromEntries(keys.map(key=>[key,[]]));let expected='';
+ for(let trial=validationOnly?0:-4;trial<(validationOnly?1:15);trial++)for(let offset=0;offset<keys.length;offset++){
+  const key=keys[((trial+keys.length*2)%keys.length+offset)%keys.length],prepared=setup(key,name);
+  try{collect();const start=performance.now();prepared.run();const elapsed=performance.now()-start,actual=JSON.stringify(prepared.receipt());if(!expected)expected=actual;else assert.equal(actual,expected,name+'/'+key);if(trial>=0)samples[key].push(elapsed);}finally{prepared.restore();}
+ }
+ const timing=Object.fromEntries(keys.map(key=>{const sorted=[...samples[key]].sort((a,b)=>a-b);return[key,{samplesMs:samples[key],medianMs:median(sorted),p95Ms:sorted[Math.floor(sorted.length*.95)]}];}));
+ results.push({name,receipt:JSON.parse(expected),receiptSha256:digest(JSON.parse(expected)),...timing});console.log((validationOnly?'Validated ':'Measured ')+name+': '+keys.map(key=>key+'='+timing[key].medianMs.toFixed(4)+'ms').join(', '));
+}
+const retainedObservations:any={};
+if(!validationOnly&&comparisonAt>=0){
+ const memoryKeys=['comparison','current'],samples:Record<string,any[]>=Object.fromEntries(memoryKeys.map(key=>[key,[]]));let expected='';
+ for(let trial=0;trial<5;trial++)for(let offset=0;offset<2;offset++){
+  const key=memoryKeys[(trial+offset)%2],observations:unknown[]=[],prepared=setup(key,'hits',observations);
+  try{const before=collect();prepared.run();assert.equal(observations.length,2048);const receipt=prepared.receipt(),actual=digest(receipt);if(!expected)expected=actual;else assert.equal(actual,expected);
+   const retainedHeap=collect();observations.length=0;const releasedHeap=collect();samples[key].push({before,retainedHeap,releasedHeap,retainedObservationBytes:retainedHeap-releasedHeap,receiptSha256:actual});
+  }finally{prepared.restore();}
+ }
+ for(const key of memoryKeys)retainedObservations[key]={samples:samples[key],eventsPerSample:2048,medianBytesPerRetainedObservation:median(samples[key].map(s=>s.retainedObservationBytes))/2048};
+ console.log('Retained native hit observations: '+memoryKeys.map(key=>key+'='+retainedObservations[key].medianBytesPerRetainedObservation.toFixed(1)+' bytes/event').join(', '));
+}
+fs.writeFileSync(output,JSON.stringify({validationOnly,comparisonIncluded:comparisonAt>=0,node:process.version,platform:process.platform,arch:process.arch,cpu:os.cpus()[0]?.model,
+ scope:validationOnly?'Receipt validation only; timing is not performance evidence.':'Desktop Node comparison of actual World own/talent/hit/update paths. Four warmups and 15 rotating samples per graph. Setup, forced GC and full receipts excluded; synthetic grants, changing grant writes, clock advancement, RNG/delivery instrumentation, native damage and frame work included. Three synthetic proc definitions supplement the authored catalogue. Own/pulse sweeps use 64 actors and 16384 calls; hits use 2048 actual resolved contacts with synthetic vitals and direct grants; 16-actor frame course executes the native authored desperate ward. Hit/own payload callbacks count deliveries instead of executing effects. Separate five-sample retained-observation experiment captures actual DTOs at the installed SDK hit method, then compares forced-GC heap with/without those 2048 references while keeping the World alive. It estimates the retained observation graph plus array storage, not normal steady-state SDK retention or total allocation traffic. No renderer, device, FPS, allocation-volume or peak-memory claim.',results,retainedObservations},null,2)+'\n',{flag:'wx'});
