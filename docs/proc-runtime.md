@@ -1,8 +1,34 @@
 # Proc rules and execution boundary
 
-Status: original behavior baseline and execution contract recorded before implementing a standalone proc
-runtime. The public SDK remains v0.32. These observations guide the next extraction;
-they do not make its remaining combat effects executable in another engine.
+Status: initial standalone dispatch implementation in the unpublished v0.33 candidate.
+The baseline and execution contract were committed before implementation. The public
+SDK remains v0.32; game-adapter acceptance for this candidate is still pending.
+
+## Candidate package
+
+Import `ProcContent`, `BorrowedProcRegistry` and `ProcRuntime` from
+`@hollow-wake/engine/combat/procs`. This optional entry stays outside the core import
+graph. It selects and delivers procs through explicit synchronous host callbacks;
+the host still executes effect payloads, supplies actor state, time and randomness,
+resolves minion ownership and runs the remaining frame phases.
+
+[`examples/procs.mjs`](../examples/procs.mjs) is a runnable ward/cooldown example.
+After installing a locally packed SDK archive, import its `procCycle` function and
+call it. The result is `{ward:20, draws:3, nextReady:4}`: a blocked cooldown still
+consumes the original probability draw. No package-registry publication is implied.
+
+`npm run content:procs` builds a separate local `@hollow-wake/proc-content` package
+under `.artifacts/proc-content-package`. It contains the 147 original ordered proc
+records, one rider and 298 existing dispatch/chance/power stat definitions. Load
+`procs.json` into `ProcContent` and `stats.json` into `StatRules`. The manifest records
+content hashes and the rider stat that lacks an original display definition; its
+zero base is preserved. All 21 effect shapes remain portable data, not complete
+standalone implementations of those effects.
+
+The candidate adds a 24 KiB unminified JavaScript allowance for its three optional
+proc modules. Earlier per-module allowances and the 96 KiB core allowance remain
+unchanged; the combined allowance increases from 464 to 488 KiB. These are package
+size limits, not CPU, memory, allocation or device-performance measurements.
 
 ## Raw material and reproduction
 
@@ -176,7 +202,9 @@ preserve registry order while allowing live actor grants to change during dispat
 The captures now cover the principal selection paths and their distinct ordering,
 including native frame progression. Hit and rider courses observe selected payload
 ports; they do not execute every authored effect. The content and callback contract
-above now specifies how those diagnostics will be handled. Complete installed-package fault, renderer and device
+above specifies how those diagnostics are handled. The standalone checks include
+the 47 original rule courses, content ownership, callbacks, fault detection and a
+packed JavaScript/TypeScript consumer. Installed-game equivalence, renderer and device
 acceptance still follow. Importing all 21 payload shapes is not evidence that all
 their effects execute in the standalone SDK.
 
