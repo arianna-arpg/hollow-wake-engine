@@ -5,7 +5,7 @@ const readOnly=process.argv.includes('--read-only'),game=location.game,installed
 if(!readOnly){
  assert.equal(location.procAdapterDecision,'proc-game-adapter/v1','Requires the complete proc adapter');
  const canonical=p=>fs.realpathSync(p).toLowerCase();
- for(const file of ['m36-condition-control/retained.json','m37-initial-candidate/retained.json','m37-proc-control/retained.json','m38-prepared-adapter-location.json','m38-proc-initial/retained.json']){
+ for(const file of ['m36-condition-control/retained.json','m37-initial-candidate/retained.json','m37-proc-control/retained.json','m38-prepared-adapter-location.json','m38-proc-initial/retained.json','m38-observation-control/retained.json','m38-native-array-initial-control/retained.json']){
   const controlPath=path.join(artifacts,file);if(!fs.existsSync(controlPath))continue;const control=JSON.parse(fs.readFileSync(controlPath));
   assert.notEqual(canonical(game),canonical(control.game),'Retained game control: use --read-only');
   assert.notEqual(canonical(location.tooling),canonical(control.tooling),'Retained runtime control: use --read-only');
@@ -23,7 +23,7 @@ for(const row of [...acceptance.helpers,...addendum.helpers,...phases.helpers]){
  fs.writeFileSync(runtime,source.replace(imports,(_all,_q,p)=>JSON.stringify(pathToFileURL(path.join(game,'src',p+'.ts')).href)));
  fs.writeFileSync(type,source.replace(imports,(_all,_q,p)=>JSON.stringify(path.relative(output,path.join(game,'src',p)).replaceAll('\\','/'))));typed.push(type);helpers.set(row.file,runtime);
 }
-let observationHelper;
+let observationHelper,registryHelper;
 if(!readOnly){
  const body=`import fs from 'node:fs';import assert from 'node:assert/strict';
 import {WorldProcHitEvent} from '../src/engine/procAdapter';import type {DamagePacket} from '../src/engine/damage';import type {Modifier} from '../src/engine/stats';
@@ -40,12 +40,38 @@ fs.writeFileSync(process.argv[2],JSON.stringify({lazyPacketReads:true,separateNe
  observationHelper=path.join(output,'hit-observation.ts');const type=path.join(output,'hit-observation.typed.ts'),imports=/(['"])\.\.\/src\/([^'"]+)\1/g;
  fs.writeFileSync(observationHelper,body.replace(imports,(_all,_q,p)=>JSON.stringify(pathToFileURL(path.join(game,'src',p+'.ts')).href)));
  fs.writeFileSync(type,body.replace(imports,(_all,_q,p)=>JSON.stringify(path.relative(output,path.join(game,'src',p)).replaceAll('\\','/'))));typed.push(type);
+ const registryBody=`import fs from 'node:fs';import assert from 'node:assert/strict';
+import {bootSimEngine,makeSimWorld} from '../src/sim/arena';import {StatSheet,STAT_DEFS} from '../src/engine/stats';
+import {PROC_LIST,PROCS,registerProc,procStat,procPowerStat} from '../src/data/procs';
+bootSimEngine();const w=makeSimWorld('warrior',0xabc38),p=w.player;p.sheet=new StatSheet();
+const views:(readonly string[])[]=[],armed=p.sheet.armedFamily;
+p.sheet.armedFamily=function(prefix,ids,extra){views.push(ids);return armed.call(this,prefix,ids,extra);};
+w.rollOwnProcs(p,'condition');w.rollOwnProcs(p,'condition');assert.equal(views.length,2);assert.equal(views[0],views[1]);assert.deepEqual(views[0],PROC_LIST.map(row=>row.id));
+const originalView=views[0],length=PROC_LIST.length,id='__m38_native_view';assert(!PROCS[id]);let executions=0;
+w['procChance']=(_owner,proc)=>proc.id===id?1:0;w['executeProc']=(proc)=>{assert.equal(proc.id,id);executions++;};
+try{
+ registerProc({id,name:'Native view revision',color:'#ffffff',trigger:'condition',condition:'lowLife',effect:{type:'ward',flat:1}});p.sheet.setBase(procStat(id),1);
+ w.rollOwnProcs(p,'condition',{condition:'lowLife'});assert.equal(executions,1);assert.equal(views.length,3);assert.notEqual(views[2],originalView);assert.deepEqual(views[2],PROC_LIST.map(row=>row.id));assert.equal(originalView.length,length);
+ const newView=views[2];w.rollOwnProcs(p,'condition',{condition:'lowLife'});assert.equal(executions,2);assert.equal(views[3],newView);
+ PROC_LIST.splice(length);delete PROCS[id];delete STAT_DEFS[procStat(id)];delete STAT_DEFS[procPowerStat(id)];
+ w.rollOwnProcs(p,'condition',{condition:'lowLife'});assert.equal(executions,2);assert.notEqual(views[4],newView);assert.deepEqual(views[4],PROC_LIST.map(row=>row.id));
+ const own=w.rollOwnProcs.bind(w),ownEvents:string[]=[];
+ w.rollOwnProcs=(owner,trigger,event)=>{assert.equal(owner,p);assert.equal(owner.condRose.length,0);ownEvents.push(trigger+(event?.condition?':'+event.condition:''));own(owner,trigger,event);};
+ p.condRose=['lowLife'];p.healedSince=1;p.gasped=true;w['sweepTalentEvents'](p);
+ assert.deepEqual(ownEvents,['condition:lowLife','heal','lastGasp']);assert.equal(p.healedSince,0);assert.equal(p.gasped,false);
+ fs.writeFileSync(process.argv[2],JSON.stringify({stableRegistryIdentity:true,appendObserved:true,removeObserved:true,oldViewPreserved:true,executions,ownEvents}));
+}finally{PROC_LIST.splice(length);delete PROCS[id];delete STAT_DEFS[procStat(id)];delete STAT_DEFS[procPowerStat(id)];}
+`;
+ registryHelper=path.join(output,'registry-view.ts');const registryType=path.join(output,'registry-view.typed.ts');
+ fs.writeFileSync(registryHelper,registryBody.replace(imports,(_all,_q,p)=>JSON.stringify(pathToFileURL(path.join(game,'src',p+'.ts')).href)));
+ fs.writeFileSync(registryType,registryBody.replace(imports,(_all,_q,p)=>JSON.stringify(path.relative(output,path.join(game,'src',p)).replaceAll('\\','/'))));typed.push(registryType);
 }
 const config=path.join(output,'tsconfig.json');writeJSON(config,{extends:path.join(game,'tsconfig.sim.json'),compilerOptions:{typeRoots:[path.join(game,'node_modules/@types')]},include:[path.join(game,'src'),...typed],exclude:[]});
 const run=(name,args)=>{const log=path.join(output,name+'.txt'),fd=fs.openSync(log,'wx');try{execFileSync(process.execPath,args,{cwd:game,stdio:['ignore',fd,fd]});}finally{fs.closeSync(fd);}return log;};
 const args=(helper,destination)=>['--import',pathToFileURL(path.join(game,'node_modules/tsx/dist/loader.mjs')).href,helper,destination];
 run('types',[path.join(game,'node_modules/typescript/bin/tsc'),'-p',config]);unchanged();
 if(observationHelper){run('hit-observation',args(observationHelper,path.join(output,'hit-observation.json')));unchanged();}
+if(registryHelper){run('registry-view',args(registryHelper,path.join(output,'registry-view.json')));unchanged();}
 const results=[],expected=new Map();
 for(const row of fixtures){
  const compressed=fs.readFileSync(path.join(root,row.file));assert.equal(sha256(compressed),row.compressedSha256);const bytes=gunzipSync(compressed);assert.equal(sha256(bytes),row.fixtureSha256);expected.set(row.name,bytes);
@@ -69,18 +95,20 @@ for(const [name,relative,before,after,fixture]of readOnly?[]:[
  ['carry-context-omitted','binding','carryTags:inst=>skillContextTags(inst.def)','carryTags:()=>new Set()','proc-hits'],
  ['hit-observation-stale-type','binding','get dominantType(){return dominantTypeOf(this.packet.amounts);}',"get dominantType(){return 'physical';}",'hit-observation'],
  ['hit-observation-stale-roll','binding','get rollT(){return this.packet.rollT;}','get rollT(){return .2;}','hit-observation'],
+ ['native-registry-view-stale','binding','nativeView.source!==ids','false','registry-view'],
+ ['native-own-observer-bypassed','binding','return this.#nativeOwn(owner,trigger,event);','return super.own(owner,trigger,event);','registry-view'],
  ['later-death-skips-gauges','runtime','this.pulses(actor);\n        return true;','this.pulses(actor);\n        return !actor.dead;','proc-host-phases'],
  ['later-death-skips-kill-rewards','runtime','this.#hitRows(owner, inst, target, event, tags, extra, eliteFactor, court);\n        return true;','this.#hitRows(owner, inst, target, event, tags, extra, eliteFactor, court);\n        return !owner.dead;','proc-host-phases'],
 ]){
  const file=relative==='runtime'?path.join(installed,'proc-runtime.js'):path.join(game,'src/engine/procAdapter.ts'),source=fs.readFileSync(file,'utf8');assert(source.includes(before),'Fault anchor changed: '+name);
- const row=fixtures.find(r=>r.name===fixture),helper=fixture==='hit-observation'?observationHelper:helpers.get(row.helper),destination=path.join(output,'fault-'+name+'.json');let detected=false;
+ const row=fixtures.find(r=>r.name===fixture),helper=fixture==='hit-observation'?observationHelper:fixture==='registry-view'?registryHelper:helpers.get(row.helper),destination=path.join(output,'fault-'+name+'.json');let detected=false;
  try{
   fs.writeFileSync(file,source.replace(before,after));
   try{run('fault-'+name,args(helper,destination));}
   catch(error){const log=fs.readFileSync(path.join(output,'fault-'+name+'.txt'),'utf8');assert(/AssertionError/.test(log)&&!/SyntaxError|ERR_MODULE_NOT_FOUND/.test(log),'Fault failed for an unrelated reason: '+name);detected=true;}
-  if(!detected)detected=!fs.readFileSync(destination).equals(fixture==='hit-observation'?fs.readFileSync(path.join(output,'hit-observation.json')):expected.get(fixture));assert(detected,'Installed proc fault escaped: '+name);
+  if(!detected)detected=!fs.readFileSync(destination).equals(row?expected.get(fixture):fs.readFileSync(path.join(output,fixture+'.json')));assert(detected,'Installed proc fault escaped: '+name);
  }finally{fs.writeFileSync(file,source);unchanged();}
  faults.push({name,detected});console.log('Rejected installed proc fault: '+name);
 }
 assert.equal(results.reduce((n,r)=>n+(r.courses??0),0),150);
-writeJSON(path.join(artifacts,'game-proc-verification.json'),{output,game,tooling:location.tooling,packageIntegrity:location.integrity,typesPassed:true,results,originalCoursesCompared:150,installedFaults:faults,hitObservationContractVerified:!!observationHelper,readOnly,allInstalledFilesRestored:true});
+writeJSON(path.join(artifacts,'game-proc-verification.json'),{output,game,tooling:location.tooling,packageIntegrity:location.integrity,typesPassed:true,results,originalCoursesCompared:150,installedFaults:faults,hitObservationContractVerified:!!observationHelper,nativeRegistryViewVerified:!!registryHelper,nativeOwnHookVerified:!!registryHelper,readOnly,allInstalledFilesRestored:true});

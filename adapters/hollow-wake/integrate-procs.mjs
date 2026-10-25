@@ -25,7 +25,7 @@ const delegates={
   procReady:'this.sdkProcs.ready(owner, proc)',procGates:'this.sdkProcs.gates(owner, proc, inst)',
   procDepthAllowed:'this.sdkProcs.depthAllowed(owner)',rollTopMet:'this.sdkProcs.rollTop(owner, frac, rollT, tags, extra)',
   procChance:'this.sdkProcs.baseChance(owner, proc, depth, tags, extra)',rollGainProcs:'this.sdkProcs.gain(owner, ev)',
-  rollOwnProcs:'this.sdkProcs.own(owner, trigger, opts)',fireProcRiders:'this.sdkProcs.riders(proc, caster, inst, target, depth)',
+  rollOwnProcs:'this.sdkProcs.baseOwn(owner, trigger, opts)',fireProcRiders:'this.sdkProcs.riders(proc, caster, inst, target, depth)',
   rollSurfaceProcs:'this.sdkProcs.surface(striker)',
 };
 const packetEvent='new WorldProcHitEvent(packet, dealt, depth, wasCrit, lethal, elite, tags, extra)';

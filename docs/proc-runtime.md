@@ -44,6 +44,12 @@ entered alive. These results let the host run its following phase without queryi
 depth twice or accidentally skipping work because a proc killed the actor. A
 throwing callback still stops the caller. The native binding retains the original
 `World.procChance` observation point and reads packet type/roll observations lazily.
+Frame-driven condition, healing and last-gasp events pass through the current
+`World.rollOwnProcs` method, whose delegate calls `baseOwn` to avoid recursion.
+An earlier candidate bypassed that observer: the unchanged M37 condition fixture
+found eight missing callback observations while every other captured state matched.
+That candidate is retained for diagnosis. A separate installed fault deliberately
+bypasses the restored hook; the original condition fixture is not regenerated.
 `WorldProcHitEvent` keeps those reads on shared prototype accessors, avoiding two
 new accessor functions per event. Each hit owns its observation; nested hits never
 reuse mutable scratch state. Tags/modifiers retain their native identities, and
@@ -57,12 +63,14 @@ After preparing a fresh isolated game, run `npm run adapter:procs-source` and
 `node scripts/test-game-procs.mjs --location <manifest>`. Use `--read-only` for a
 retained control; fault injection refuses the recorded predecessor environments.
 The comparison retains all 143 original courses and adds seven independently
-captured host-phase courses. All 150 courses match, and sixteen installed faults
+captured host-phase courses. All 150 courses match, and eighteen installed faults
 were detected. The full SDK verifier passes 468 tests, including 24 focused proc
 tests and nineteen proc fault checks. The three proc modules total 21,462 bytes of
 unminified JavaScript; this is a size observation, not a speed measurement. Broader
 regression, renderer, target-device performance and publication acceptance remain
-pending; this is not a completed v0.33 release.
+pending; this is not a completed v0.33 release. The corrected adapter also passes
+the unchanged native condition trace and its recovery/fault checks, restoring all
+eight previously missing own-event observations.
 
 ### Desktop observation experiment
 
@@ -106,6 +114,49 @@ total allocation traffic. The change preserves lazy packet reads and per-hit
 ownership while removing per-event accessor functions. Raw samples and receipts
 are emitted under `.artifacts/proc-benchmark-*`; broader evidence packaging follows
 integration acceptance. Renderer, FPS, Steam Deck and mobile outcomes remain unmeasured.
+
+### Native registry view
+
+The game binding now retains one private ordinary ID array for each active SDK
+registry revision. `BorrowedProcRegistry` still exposes its frozen ID array. The
+native stat helper receives a shallow copy with the same ordered strings and
+treats that view as immutable, matching its existing cache contract. The binding
+reuses the view across actors and replaces it when the SDK array identity changes.
+An actor's grant change still invalidates its own native stat cache; it does not
+copy the registry again. No actor is retained by this additional cache.
+
+This choice follows a read-only experiment on the original `StatSheet.armedFamily`:
+the same 147 IDs in a frozen array made repeated grant-cache rebuilding slower in
+both fresh-process repetitions. The adapter keeps that host representation detail
+separate from the immutable SDK content API. Installed assertions cover stable
+registry identity, appended and removed definitions, old-view preservation and
+actual delivery of a newly granted proc. A deliberately stale view must fail.
+
+Two runs before the own-hook correction use the same seven workloads, four warmups, fifteen rotating
+samples and receipt checks above, comparing the preserved shared-accessor candidate
+with the private native view. Ranges are the two run medians in milliseconds.
+
+| Workload | v0.32 | Shared-accessor control | Private native view |
+| --- | ---: | ---: | ---: |
+| Ungranted own events | 3.49–3.59 | 8.86–9.09 | 8.80–8.89 |
+| Active own events | 46.34–46.94 | 54.52–56.18 | 54.84–55.12 |
+| Changing grants/events | 562.64–565.45 | 699.92–718.77 | 557.94–591.32 |
+| Talent/pulse sweeps | 7.96–8.21 | 14.27–14.71 | 13.95–14.32 |
+| Resolved hits | 213.07–215.98 | 215.69–216.00 | 213.89–216.55 |
+| Minion-carried hits | 226.65–228.81 | 225.39–227.87 | 222.46–225.60 |
+| Native ward frames | 62.78–63.72 | 65.59–66.59 | 64.89–65.25 |
+
+The targeted changing-grant workload improves by approximately 18–20% versus the
+preserved shared-accessor candidate, with identical observations. The native-frame
+medians also decrease in these two runs. Active and ungranted dispatch still carry
+overhead versus v0.32; hit medians are close enough to avoid claiming a general
+speedup. The native view adds one shallow ID array per active binding/revision.
+The retained-hit-observation experiment remains approximately 823.2 bytes/event;
+it does not measure the extra registry view or normal game memory. The core
+benchmark, original core reference and full 468-test SDK verifier also pass.
+These are desktop observations from the retained pre-hook candidate. The corrected
+candidate requires another measurement pass; target-device and renderer acceptance
+remain pending.
 
 The source is the pinned original game and its retained working overlay, identified
 by [the source lock](../baseline/source-lock.json). The capture calls original

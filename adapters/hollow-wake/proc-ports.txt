@@ -2,6 +2,9 @@ private _sdkProcs?: WorldProcs;
   private get sdkProcs(): WorldProcs {
     return this._sdkProcs ??= new WorldProcs({
       time: () => this.time,
+      // Native frame events contain ConditionId values. Keep their identity while
+      // bridging the SDK's readonly options to the legacy method's annotations.
+      own: (owner, trigger, event) => this.rollOwnProcs(owner, trigger, event as Parameters<World['rollOwnProcs']>[2]),
       chance: (...args) => this.procChance(...args),
       execute: (...args) => this.executeProc(...args),
       rider: (...args) => this.castProcPayload(...args),
