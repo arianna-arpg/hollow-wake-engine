@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "decision": "proc-content-ownership/v1",
+  "recordedBeforeImplementation": true,
+  "originalBaselineCommits": ["98ffa4e2972fd7da0fa0891014210be14da3230d", "f20c7d46cdd8988a6d6c058e1a7ea18c007e28ba"],
+  "scope": "Content ownership, explicit host bindings and callback semantics for proc selection. The original 143 courses remain unchanged. This is not acceptance of every proc payload or a new recovery policy.",
+  "cases": [
+    {"id":"owned-input-detached","setup":"Construct owned content with A then B, and one rider on A. Change the caller's arrays, row fields and nested payload afterward.","expected":{"ownedOrder":["A","B"],"originalFieldsRetained":true,"nestedPayloadDetached":true}},
+    {"id":"owned-output-immutable","setup":"Attempt to mutate a returned definition, nested payload, ordered candidates or trigger membership.","expected":{"contentUnchanged":true,"mutableSetNotExposed":true}},
+    {"id":"owned-invalid-content","setup":"Supply duplicate proc/rider identities, a dangling rider host, unsupported trigger, malformed filter, nonfinite number or nonportable payload.","expected":{"constructionRejected":true,"hostCalls":0}},
+    {"id":"owned-instance-isolation","setup":"Create two different content objects using the same proc id with different trigger/effect data.","expected":{"independentDefinitions":true,"independentIndexes":true}},
+    {"id":"owned-live-grants","setup":"An A effect grants a later B of the same trigger during dispatch. Only A was armed at entry.","expected":{"delivered":["A","B"],"laterGrantVisibleImmediately":true}},
+    {"id":"owned-pulse-snapshot","setup":"Pulse A grants pulse B during a sweep. Only A was armed at entry; both are otherwise due.","expected":{"firstSweep":["A"],"secondSweep":["B"]}},
+    {"id":"borrowed-live-append","setup":"A matching proc appends and grants B during own-event dispatch through the compatibility source.","expected":{"delivered":["A","B"],"nativeDefinitionIdentity":true}},
+    {"id":"borrowed-length-index-compatibility","setup":"Warm a compatibility index with A on condition. Change A to heal without changing list identity or length. Then append an unrelated row.","expected":{"healBeforeAppend":false,"healAfterAppend":true,"diagnosticPreserved":true}},
+    {"id":"borrowed-source-isolation","setup":"Two compatibility sources have equal-length lists and identical ids but different definitions.","expected":{"indexesNotShared":true,"sourceIdentityRetained":true}},
+    {"id":"ports-and-configuration-captured","setup":"After constructing a binding, replace callback properties and change its supplied configuration object.","expected":{"originalCallbacksUsed":true,"originalConfigurationUsed":true,"callbackReceiverPreserved":true}},
+    {"id":"same-actor-nesting","setup":"An execution callback dispatches another event at depth+1, with two extra levels purchased and configured. Each random draw is zero.","expected":{"depths":[0,1,2],"draws":3,"globalBusyGuardAbsent":true}},
+    {"id":"throwing-execution","setup":"At time 0, a proc with PPM 6 and ICD 2 passes its roll, then execution throws. Retry immediately, then at time 1.","expected":{"exceptionPropagated":true,"readyAt":2,"attemptAfterLaterRetry":1,"executionCalls":1,"totalDraws":2,"automaticRetryAbsent":true}},
+    {"id":"read-failure-before-gates","setup":"A required condition read throws before the once-per-time gate.","expected":{"exceptionPropagated":true,"firedClockUnchanged":true,"randomDraws":0}},
+    {"id":"invalid-random-draw","setup":"An eligible attempt receives a nonfinite or out-of-range random sample from the host.","expected":{"rejected":true,"effectCalls":0,"previousGateAndAttemptStampsRetained":true}},
+    {"id":"borrowed-actor-state","setup":"Dispatch two independent actors sharing immutable content and one runtime binding.","expected":{"clockMapIdentityPreserved":true,"actorClocksIndependent":true,"runtimeDoesNotRetainActors":true}},
+    {"id":"partial-talent-sweep-failure","setup":"Two condition edges are queued. The first selected effect throws after the queue was detached.","expected":{"exceptionPropagated":true,"detachedEdgesNotRequeued":true,"laterSweepPhasesNotRun":true,"automaticRollbackAbsent":true}}
+  ]
+}

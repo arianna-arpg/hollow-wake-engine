@@ -1,6 +1,6 @@
 # Proc rules and execution boundary
 
-Status: original behavior baseline accepted before implementing a standalone proc
+Status: original behavior baseline and execution contract recorded before implementing a standalone proc
 runtime. The public SDK remains v0.32. These observations guide the next extraction;
 they do not make its remaining combat effects executable in another engine.
 
@@ -94,6 +94,78 @@ the rider's proc and skill references. It does not invent a new base or label.
 
 ## Intended SDK boundary and remaining work
 
+### Decision: proc-content-ownership/v1
+
+The selection runtime will have two explicit content sources sharing one rule
+implementation. `ProcContent` owns a validated, deeply copied and frozen content
+revision. It indexes ordered candidates per trigger once, including currently
+ungranted rows, and exposes no mutable membership sets. Different content objects
+have independent indexes. A content revision changes by constructing a new object
+and binding; mutating an active owned catalogue is unsupported. This avoids
+combat-time database queries and keeps the authoring source separate from actors.
+
+`BorrowedProcRegistry` is an opt-in compatibility boundary for an existing host's
+ordered proc list, id lookup and rider list. It borrows native identities. Its
+index is private to that binding and rebuilds when list identity or length changes.
+For an unchanged list identity, same-length edits retain the original stale-index
+behavior. Own-event iteration uses the live list and can observe appended rows.
+Pulse iteration keeps the initially armed id list and resolves each id through the
+live lookup. This preserves the recorded registry diagnostics without imposing
+mutable registries on standalone applications. The SDK contains no process-global
+proc registry. Hosts must return stable list identities and keep id/list views
+coherent; replacing a list is an explicit revision boundary, not a per-query copy.
+
+Owned-content validation covers dispatch fields, finite serializable payload data,
+unique identities and rider-to-proc references. Payload execution and external
+skill/status references require the applicable effect/host capability. A validated
+dispatch catalogue alone must never advertise support for every effect it stores.
+
+### Live state, events and callbacks
+
+One binding can serve multiple actors. Each actor owns its three clock maps,
+buff/status observations and, for the talent sweep, condition-edge queue, coalesced
+healing amount and last-gasp flag. The runtime neither replaces these maps nor
+retains actors. Host observations are coherent, finite and synchronously readable;
+read callbacks must not mutate the actor. Plain writable fields and native Map
+semantics are required on this borrowed fast path. Only content/configuration is
+validated once; the entire actor is not copied or revalidated per attempt.
+
+Time and randomness are explicit callbacks. Random values must be finite and in
+`[0, 1)`; an invalid draw throws after any already-committed gates/attempt stamps,
+before cooldown stamping or delivery. No ambient random replacement, engine
+object, rendering or filesystem access belongs in production code. Configuration
+and callback functions are captured at construction, preserving callback receivers.
+Actor grants and world observations remain live through those captured functions.
+
+Own-event, hit/carry, gain, status, collision, surface, pulse and rider selection
+retain their separate native gate order. Hit geometry, landed damage, lethal/elite
+observations, minion owner/summoning-instance selection and court census are host
+inputs. The SDK owns the resulting eligibility, rate, depth, cooldown and ordered
+delivery decisions. Status-trigger banking precedes proc-depth rejection. The
+talent sweep detaches condition edges before processing, then coalesced healing,
+last-gasp feedback and procs, and finally pulses. Host gauge sampling and the
+detached gain/sympathy phase remain afterward in the native frame.
+
+Delivery callbacks may change actor grants and synchronously dispatch deeper
+events, including for the same actor. There is no global or same-actor busy guard.
+The host must advance causal depth for proc consequences and respect the configured
+depth limit. Rider selection itself retains its original downstream depth gate;
+the cast-delivery capability must enforce that limit before producing consequences.
+
+Exceptions propagate. Earlier clock stamps, random draws, actor mutations and
+completed effects remain committed. The runtime never rolls back or retries a
+payload automatically. A failed talent sweep does not requeue its detached edges;
+later phases do not run. Retrying is a new host decision, not a transaction resume.
+Chance and once-per-time gate helpers are simulation operations, not pure UI
+previews. These rules preserve the original observations and deliberately do not
+inherit the condition publisher's different recovery contract.
+
+[Independent contract cases](../baseline/milestone-thirty-eight/runtime-contract.json)
+record content ownership, isolation, callback capture, valid nesting and failures
+before implementation. They supplement the unchanged original observations.
+
+### Integration and outstanding acceptance
+
 The complete path to extract is an Inventory-visible grant, an actual event,
 ordered eligibility/rate/cooldown decisions, and delivery of the selected payload
 through explicit host ports. Authored rules and shared policy belong in the SDK;
@@ -103,9 +175,8 @@ preserve registry order while allowing live actor grants to change during dispat
 
 The captures now cover the principal selection paths and their distinct ordering,
 including native frame progression. Hit and rider courses observe selected payload
-ports; they do not execute every authored effect. An explicit content-ownership
-decision and callback contract must precede implementation, particularly for the
-registry diagnostics above. Complete installed-package fault, renderer and device
+ports; they do not execute every authored effect. The content and callback contract
+above now specifies how those diagnostics will be handled. Complete installed-package fault, renderer and device
 acceptance still follow. Importing all 21 payload shapes is not evidence that all
 their effects execute in the standalone SDK.
 
