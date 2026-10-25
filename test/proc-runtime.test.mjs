@@ -23,6 +23,19 @@ function rig(rows=[definition()],options={}){
 const skill={def:{id:'cleave'},tags:new Set(['attack','melee','physical','aoe'])};
 const original=JSON.parse(gunzipSync(fs.readFileSync(new URL('../baseline/milestone-thirty-eight/proc-rules.json.gz',import.meta.url))));
 
+test('carry and talent results preserve entry eligibility for following host phases',()=>{
+  const r=rig([definition('A',{trigger:'hit',minionCarry:true})]);r.actor.sheet.setBase('proc_A',1);
+  const event={dealt:1,depth:0,crit:false,lethal:true,elite:false};
+  assert.equal(r.runtime.carry(r.actor,skill,actor(),{...event,dealt:0}),false);
+  assert.equal(r.runtime.carry(r.actor,skill,actor(),{...event,depth:1}),false);
+  r.hooks.execute=()=>{r.actor.dead=true;};
+  assert.equal(r.runtime.carry(r.actor,skill,actor(),event),true);assert.equal(r.actor.dead,true);
+  assert.equal(r.runtime.carry(r.actor,skill,actor(),event),false);assert.equal(r.runtime.talents(r.actor),false);
+  const t=rig();t.actor.sheet.setBase('proc_A',1);t.actor.condRose=['lowLife'];t.hooks.execute=()=>{t.actor.dead=true;};
+  assert.equal(t.runtime.talents(t.actor),true);assert.equal(t.actor.dead,true);
+  const empty=rig([]);assert.equal(empty.runtime.carry(empty.actor,skill,actor(),event),true);assert.equal(empty.runtime.talents(empty.actor),true);
+});
+
 test('ordinary and rider rolls reject equality at the original 95 percent cap',()=>{
   const r=rig([definition()],{riders:[{id:'R',proc:'A',cast:{skillId:'spark'}}]});
   r.actor.sheet.setBase('proc_A',1);r.actor.sheet.setBase('procRider_R',1);r.state.roll=.95;

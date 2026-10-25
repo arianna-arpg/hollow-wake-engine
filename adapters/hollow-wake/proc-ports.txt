@@ -1,0 +1,14 @@
+private _sdkProcs?: WorldProcs;
+  private get sdkProcs(): WorldProcs {
+    return this._sdkProcs ??= new WorldProcs({
+      time: () => this.time,
+      chance: (...args) => this.procChance(...args),
+      execute: (...args) => this.executeProc(...args),
+      rider: (...args) => this.castProcPayload(...args),
+      bankStatus: (owner, inst, target, status) => this.bankStatusTriggers(owner, status,
+        vec(target.pos.x, target.pos.y), inst.state?.trigDepth ?? 0, inst),
+      lastGasp: owner => this.showCombatOutcome(owner, 'last_gasp'),
+      victim: (...args) => this.victimGate(...args),
+      carryCourt: (owner, inst) => this.minionsOfSkill(owner, inst.def.id).length,
+    }, DEFENSE_CFG.procs);
+  }

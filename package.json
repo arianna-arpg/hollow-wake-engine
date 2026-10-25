@@ -348,7 +348,9 @@
     "adapter:conditions": "node scripts/test-game-actor-conditions.mjs",
     "benchmark:conditions": "node scripts/benchmark-actor-conditions.mjs",
     "reference:procs": "node scripts/run-proc-reference.mjs",
-    "content:procs": "npm run build && node scripts/compile-proc-content.mjs"
+    "content:procs": "npm run build && node scripts/compile-proc-content.mjs",
+    "adapter:procs-source": "node scripts/test-proc-overlay.mjs",
+    "adapter:procs": "node scripts/test-game-procs.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

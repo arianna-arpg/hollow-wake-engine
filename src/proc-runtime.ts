@@ -125,12 +125,13 @@ export class ProcRuntime<A extends ProcActor,I extends ProcSkill,D extends ProcD
     const eliteFactor=event.elite?this.#ports.stat(actor,'killProcOnHit',event.tags,event.extra):0;
     this.#hitRows(actor,inst,target,event,event.tags,event.extra,eliteFactor,undefined);
   }
-  /** Host supplies the resolved minion owner and summoning instance. */
-  carry(owner:A,inst:I,target:A,event:ProcHitEvent<T,E>):void {
-    if(!(event.dealt>0)||owner.dead||event.depth>=this.depthAllowed(owner))return;
+  /** Host supplies the resolved minion owner and summoning instance. Returns
+   * entry eligibility so host kill rewards can follow without another depth read. */
+  carry(owner:A,inst:I,target:A,event:ProcHitEvent<T,E>):boolean {
+    if(!(event.dealt>0)||owner.dead||event.depth>=this.depthAllowed(owner))return false;
     const p=this.#ports,tags=p.carryTags(inst),extra=p.extra(inst);
     const eliteFactor=event.elite?p.stat(owner,'killProcOnHit',tags,extra):0;
-    const court=Math.max(1,p.carryCourt(owner,inst));this.#hitRows(owner,inst,target,event,tags,extra,eliteFactor,court);
+    const court=Math.max(1,p.carryCourt(owner,inst));this.#hitRows(owner,inst,target,event,tags,extra,eliteFactor,court);return true;
   }
   pulses(actor:A):void {
     const s=this.#source,p=this.#ports,want=s.triggerIds('pulse');if(!want?.size)return;
@@ -141,12 +142,14 @@ export class ProcRuntime<A extends ProcActor,I extends ProcSkill,D extends ProcD
       const chance=this.chance(actor,proc,0);if(chance<=0||!this.#roll(chance))continue;p.execute(proc,actor,null,null,0);
     }
   }
-  talents(actor:A&ProcTalentState):void {
-    if(actor.dead){if(actor.condRose.length)actor.condRose.length=0;actor.healedSince=0;actor.gasped=false;return;}
+  /** Returns whether the actor entered alive; later death does not cancel the
+   * host's following gauge phase. Exceptions still stop the caller. */
+  talents(actor:A&ProcTalentState):boolean {
+    if(actor.dead){if(actor.condRose.length)actor.condRose.length=0;actor.healedSince=0;actor.gasped=false;return false;}
     if(actor.condRose.length){const rose=actor.condRose;actor.condRose=[];for(const condition of rose)this.own(actor,'condition',{condition});}
     if(actor.healedSince>0){actor.healedSince=0;this.own(actor,'heal');}
     if(actor.gasped){actor.gasped=false;this.#ports.lastGasp(actor);this.own(actor,'lastGasp');}
-    this.pulses(actor);
+    this.pulses(actor);return true;
   }
   riders(proc:D,actor:A,inst:I|null,target:A|null,depth:number):void {
     const riders=this.#source.riders();if(!riders.length||actor.dead)return;const p=this.#ports,tags=inst?p.tags(inst):undefined,extra=inst?p.extra(inst):undefined;

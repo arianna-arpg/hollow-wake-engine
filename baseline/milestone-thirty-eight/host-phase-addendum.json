@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "stage": "Additional original host-phase observations captured while integrating M38. Earlier accepted fixtures remain unchanged.",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "baselineAcceptanceSha256": "4df408c38613464402fd74c3e1e3d062dda021027fd6326519257e8837fc9d33",
+  "dispatchAddendumSha256": "37b8d0873eb404e186b0515efca9c3d53a4ac4d779680dff276f5b3ecbc8552d",
+  "courses": 7,
+  "helpers": [
+    {
+      "file": "reference/export-proc-host-phases.ts",
+      "sha256": "110d2a1bbb55b8285e9d63bed602b341c6f1dd894e93e26f86f04055fbb18dcb"
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "proc-host-phases",
+      "file": "baseline/milestone-thirty-eight/proc-host-phases.json.gz",
+      "helper": "reference/export-proc-host-phases.ts",
+      "helperSha256": "110d2a1bbb55b8285e9d63bed602b341c6f1dd894e93e26f86f04055fbb18dcb",
+      "args": [],
+      "courses": 7,
+      "fixtureSha256": "9e2097582bb5a330cf810a2058d027de28dc5987db21c626858f66996b3961f8",
+      "compressedSha256": "a877799520e8aba3805d1918167ab8c732f956a7811f9f489e797ed517e0c2eb"
+    }
+  ],
+  "provenance": {
+    "originalProcesses": 2,
+    "publishedPredecessor": "d4486a19eb3b56441cf373b45463c4850327e7df",
+    "byteEqualOriginalPredecessorCandidate": true
+  },
+  "scope": [
+    "Actual World talent sweep: alive/dead entry, death during a proc, callback failure and gauge cadence",
+    "Actual killing minion hits: owner kill-charge/orb/remnant callbacks when no proc fires, owner death during a proc and depth rejection"
+  ],
+  "limitations": "Death and reward callbacks are explicitly instrumented. These cases prove phase ordering and admission, not complete standalone effect or death execution."
+}

@@ -32,6 +32,33 @@ size limits, not CPU, memory, allocation or device-performance measurements.
 
 ## Raw material and reproduction
 
+The candidate game adapter now delegates eleven World methods, the inline hit and
+minion-carry selection phases, and the proc portion of the talent sweep. Its
+[source contract](../baseline/milestone-thirty-eight/adapter-contract.json) was
+recorded against both the original and retained v0.32 implementation. Guards reject
+changes inside those boundaries before writing either game file; unrelated World
+members, hit phases, kill rewards and the final gauge sampler are retained.
+
+`carry` returns whether entry was eligible, and `talents` returns whether the actor
+entered alive. These results let the host run its following phase without querying
+depth twice or accidentally skipping work because a proc killed the actor. A
+throwing callback still stops the caller. The native binding retains the original
+`World.procChance` observation point and reads packet type/roll observations lazily.
+Three former private rule queries remain internal diagnostic delegates so original
+probes can call them without unused-private errors after production selection moves.
+
+After preparing a fresh isolated game, run `npm run adapter:procs-source` and
+`npm run adapter:procs`. An explicit location manifest can be supplied with
+`node scripts/test-game-procs.mjs --location <manifest>`. Use `--read-only` for a
+retained control; fault injection refuses the recorded predecessor environments.
+The comparison retains all 143 original courses and adds seven independently
+captured host-phase courses. All 150 courses match, and fourteen installed faults
+were detected. The full SDK verifier passes 468 tests, including 24 focused proc
+tests and nineteen proc fault checks. The three proc modules total 21,462 bytes of
+unminified JavaScript; this is a size observation, not a speed measurement. Broader
+regression, renderer, performance and publication acceptance remain
+pending; this is not a completed v0.33 release.
+
 The source is the pinned original game and its retained working overlay, identified
 by [the source lock](../baseline/source-lock.json). The capture calls original
 `World` and `Actor` methods and boots the real content registrations. No SDK proc
@@ -46,15 +73,23 @@ implementation produces the expected results.
 | Actual hit resolution | 30 courses: hit/kill selection, critical/type/high-roll gates, owner clocks, elite-hit kill procs and minion carry |
 | Actual frame progression | Two courses: condition-to-charge-to-buff-to-ward propagation with and without depth investment |
 | Registry and pulse diagnostics | Three courses: append during dispatch, same-length trigger mutation and a new pulse grant waiting for another sweep |
+| Host phases after dispatch | Seven courses: gauge cadence after live/dead entry, death or failure during a proc, and minion kill rewards after no proc, owner death or depth rejection |
 | Authored data | 147 procs across 27 trigger types and 21 effect kinds, plus one proc rider; original insertion order and undefined-property omissions retained |
 
-All 143 behavior courses passed their independent assertions and type checks,
+The initial 143 behavior courses passed their independent assertions and type checks,
 then reproduced byte for byte in a second process. All eight captures also match the preserved published
 v0.32 game adapter without changing its 991 source files, 168 runtime files or
 package archive. [The acceptance manifest](../baseline/milestone-thirty-eight/acceptance.json)
 pins the first helpers, compressed observations and predecessor provenance.
 The separate [dispatch addendum](../baseline/milestone-thirty-eight/dispatch-addendum.json)
 adds 86 courses without changing any earlier fixture.
+
+The [host-phase addendum](../baseline/milestone-thirty-eight/host-phase-addendum.json)
+adds seven cases discovered while connecting the adapter. The original ran twice;
+the retained predecessor and candidate match its bytes. Actual World sweeps and
+killing hits run with explicitly instrumented death/reward callbacks. No earlier
+expected output changes. The combined reproduction now checks 150 courses in nine
+helpers, plus the authored catalogue.
 
 After preparing the reference tool environment, run:
 
@@ -204,8 +239,9 @@ including native frame progression. Hit and rider courses observe selected paylo
 ports; they do not execute every authored effect. The content and callback contract
 above specifies how those diagnostics are handled. The standalone checks include
 the 47 original rule courses, content ownership, callbacks, fault detection and a
-packed JavaScript/TypeScript consumer. Installed-game equivalence, renderer and device
-acceptance still follow. Importing all 21 payload shapes is not evidence that all
+packed JavaScript/TypeScript consumer. The first complete installed proc comparison
+matches the courses above; broader renderer and device acceptance still follow.
+Importing all 21 payload shapes is not evidence that all
 their effects execute in the standalone SDK.
 
 No runtime optimization or full Unity, Godot, Unreal, Steam Deck or mobile support

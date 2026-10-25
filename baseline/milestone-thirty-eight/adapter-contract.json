@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "decision": "proc-game-adapter/v1",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "predecessor": "d4486a19eb3b56441cf373b45463c4850327e7df",
+  "sourceBoundary": {
+    "methods": [
+      {
+        "name": "rollCollisionProcs",
+        "sha256": "1ed121311e6fc2d2db6b03bdddb5287db22e9c9c6915301469817c95fcf4fc8c",
+        "nodes": 1
+      },
+      {
+        "name": "rollStatusProcs",
+        "sha256": "9b04d339a5f8ba1c0f40f238d83345a3f7bd713e72e3170e10f0a222856e7416",
+        "nodes": 1
+      },
+      {
+        "name": "procReady",
+        "sha256": "8fd4d72cb69cc96d958d6641c46757bc0643bdcd313804636ba0f655fe328b3a",
+        "nodes": 1
+      },
+      {
+        "name": "procGates",
+        "sha256": "99f0ddc6eaa351746c794bdc2742f9cb00091eec66e53442a0a4e29ca18a4941",
+        "nodes": 1
+      },
+      {
+        "name": "procDepthAllowed",
+        "sha256": "366955afa34ab3d37926d98db45c85140bd51edd109c43edf9a5a7fcf1492703",
+        "nodes": 1
+      },
+      {
+        "name": "rollTopMet",
+        "sha256": "010e9a5a0a4a832ea161f9a98181db84ea403eb05e9f67dc07ac3b7bcae6329b",
+        "nodes": 1
+      },
+      {
+        "name": "procChance",
+        "sha256": "162acccdd4929d43008940fde8017a0ea83a90fab2ba2e533bd23f4994d2089d",
+        "nodes": 1
+      },
+      {
+        "name": "rollGainProcs",
+        "sha256": "f41aeb135dcb762f29670fe40ec04da24310bbdd14e17ca16858f0c49ed3e39f",
+        "nodes": 1
+      },
+      {
+        "name": "rollOwnProcs",
+        "sha256": "927502fd7c573bb64754643700175ef714ee29fed4c2ce6d16ae4d82d4fb8203",
+        "nodes": 1
+      },
+      {
+        "name": "fireProcRiders",
+        "sha256": "9a4d932b13f35817320efc81619da331125332046428cb53a199fe0aee330c0b",
+        "nodes": 1
+      },
+      {
+        "name": "rollSurfaceProcs",
+        "sha256": "2d07dea8f3496dcc6212aadbb25118ea629513f495f158fc61defc4e177f0a42",
+        "nodes": 1
+      }
+    ],
+    "globals": [
+      {
+        "name": "PROC_INDEX",
+        "sha256": "bc3af21c595b79b27c1fbdf16fc0b88feeac8712402b36b0b05fd46b110313cf",
+        "nodes": 1
+      },
+      {
+        "name": "procIndex",
+        "sha256": "36a00ba2d1859941426dbe5435d9a5047991e7a757616ac31ddcc546ef94da70",
+        "nodes": 1
+      }
+    ],
+    "phases": [
+      {
+        "name": "talent",
+        "sha256": "981cba68297d8a50b8a511d663edd43c07b4c9380e612f7b6561a40a1ec900fa",
+        "nodes": 6
+      },
+      {
+        "name": "hit",
+        "sha256": "1090aae444ebe2a7c953cc0f47b5dd58cf0d4e8047d583283a0c0f552f7284c2",
+        "nodes": 1
+      },
+      {
+        "name": "carryOuter",
+        "sha256": "874e4a23d9c1953e6ec24f7aad3f11b45932686353f55119af64ccf38991b8fb",
+        "nodes": 1
+      },
+      {
+        "name": "carryResolution",
+        "sha256": "88a46936cdf30337819f9d57cb333848671531aaceffeb0f33a037a83777a89f",
+        "nodes": 2
+      },
+      {
+        "name": "carryAdmission",
+        "sha256": "0fcaca3d649f8926c9be07c257024609dd8b65bc80e79c22c0829e0642020094",
+        "nodes": 1
+      },
+      {
+        "name": "carry",
+        "sha256": "481fff52399361807a4e1bf329d633c0440c66d97609686c743462d48e801401",
+        "nodes": 5
+      }
+    ]
+  },
+  "hostPhases": [
+    "Minion owner and summoning-instance resolution",
+    "Kill charge taps, kill orbs and kill remnants after eligible carried proc dispatch",
+    "Derived gauge sampling after a talent sweep that entered alive",
+    "Effect payload execution, geometry, death handling and visual cues"
+  ],
+  "phaseResults": {
+    "carry": "True when eligible at entry, including when no proc fires or an effect later kills the owner; exceptions propagate.",
+    "talents": "True when alive at entry, including when an earlier event later kills the actor; initially dead cleanup returns false."
+  },
+  "packetObservations": "The adapter borrows packet amounts and rollT through lazy getters, preserving per-row observation points.",
+  "chanceObservation": "WorldProcs forwards chance through the current World.procChance method. That method calls baseChance, preserving the native instrumentation seam without duplicate calculation."
+}

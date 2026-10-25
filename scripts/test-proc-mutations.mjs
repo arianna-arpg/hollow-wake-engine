@@ -24,6 +24,8 @@ for(const [name,file,before,after]of [
   ['callback-receiver','proc-runtime.js','fn.bind(ports)','fn'],
   ['mutable-owned-content','proc-content.js','this.pack = freeze(pack);','this.pack = pack;'],
   ['borrowed-trigger-refresh','proc-content.js','rows === this.#rows && rows.length === this.#length','false'],
+  ['late-death-cancels-gauge-phase','proc-runtime.js','this.pulses(actor);\n        return true;','this.pulses(actor);\n        return !actor.dead;'],
+  ['late-death-cancels-kill-phase','proc-runtime.js','this.#hitRows(owner, inst, target, event, tags, extra, eliteFactor, court);\n        return true;','this.#hitRows(owner, inst, target, event, tags, extra, eliteFactor, court);\n        return !owner.dead;'],
 ]){
   const source=sources.get(file),target=path.join(temp,'dist',file);assert(source.includes(before),'Fault anchor changed: '+name);
   fs.writeFileSync(target,source.replace(before,after));
