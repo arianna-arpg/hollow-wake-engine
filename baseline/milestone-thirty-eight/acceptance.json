@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "milestone": 38,
+  "stage": "Original proc rules, authored effects and content observations accepted before an SDK proc implementation. Exception and reentry diagnostics remain original observations, not new recovery guarantees.",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLock": "baseline/source-lock.json",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "predecessor": {
+    "version": "0.32.0",
+    "commit": "d4486a19eb3b56441cf373b45463c4850327e7df",
+    "publicRepository": "https://github.com/arianna-arpg/hollow-wake-engine",
+    "hostedChecks": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40143724505",
+    "retainedHostFiles": 991,
+    "retainedRuntimeFiles": 168,
+    "archiveSha256": "019e6fc602fa7215fa0d4f2c53fddc1f31cb74c6329e8e0050e7dce91af3f0e2"
+  },
+  "helpers": [
+    {
+      "file": "reference/export-proc-rules.ts",
+      "sha256": "0a071ae7d27d0e2afd1c8c7ea231f944d53b478d981b888a2eef34f84d7d3a47",
+      "source": "Original-only capture helper preserved verbatim, including discovery comments. This manifest governs acceptance of its observations."
+    },
+    {
+      "file": "reference/export-proc-native.ts",
+      "sha256": "bacd67dc7ac59a66ea93a440b8420460ba6a4ed29beda1ac6ba6eba59d89195a",
+      "source": "Original-only capture helper preserved verbatim, including discovery comments. This manifest governs acceptance of its observations."
+    },
+    {
+      "file": "reference/export-proc-ordering.ts",
+      "sha256": "5d8566ef8bbb32406fa34a2b150f2a97f9012b52bca11d8bdea3809ae3c295cb",
+      "source": "Original-only capture helper preserved verbatim, including discovery comments. This manifest governs acceptance of its observations."
+    },
+    {
+      "file": "reference/export-proc-catalogue.ts",
+      "sha256": "20c3a9f3be85bc07c1ac150c88fab2f062cd38e5a2e8687fc8efb9472387ec27",
+      "source": "Original-only capture helper preserved verbatim, including discovery comments. This manifest governs acceptance of its observations."
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "proc-rules",
+      "file": "baseline/milestone-thirty-eight/proc-rules.json.gz",
+      "helper": "reference/export-proc-rules.ts",
+      "helperSha256": "0a071ae7d27d0e2afd1c8c7ea231f944d53b478d981b888a2eef34f84d7d3a47",
+      "args": [],
+      "courses": 47,
+      "fixtureSha256": "d88bd7d7f6ba42cecff65c8ea08c5a71ffce2eec14777ef317671bfdc2fae32a",
+      "compressedSha256": "cbe00c7a8e9f1e3eecc7604e493b4ba119bd171124df4e5429510eadf53b1221",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "d4486a19eb3b56441cf373b45463c4850327e7df",
+        "version": "0.32.0",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "d88bd7d7f6ba42cecff65c8ea08c5a71ffce2eec14777ef317671bfdc2fae32a"
+      }
+    },
+    {
+      "name": "proc-native",
+      "file": "baseline/milestone-thirty-eight/proc-native.json.gz",
+      "helper": "reference/export-proc-native.ts",
+      "helperSha256": "bacd67dc7ac59a66ea93a440b8420460ba6a4ed29beda1ac6ba6eba59d89195a",
+      "args": [],
+      "courses": 4,
+      "fixtureSha256": "9f4fcb1967b45fbfbaa8e9ad610b7b517a678caaf6deece5b7e049330d1a17eb",
+      "compressedSha256": "583e80c8818a0e7bb3263274ba686c54a1e923635e3bb61852d103520bb7a4b5",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "d4486a19eb3b56441cf373b45463c4850327e7df",
+        "version": "0.32.0",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "9f4fcb1967b45fbfbaa8e9ad610b7b517a678caaf6deece5b7e049330d1a17eb"
+      }
+    },
+    {
+      "name": "proc-ordering",
+      "file": "baseline/milestone-thirty-eight/proc-ordering.json.gz",
+      "helper": "reference/export-proc-ordering.ts",
+      "helperSha256": "5d8566ef8bbb32406fa34a2b150f2a97f9012b52bca11d8bdea3809ae3c295cb",
+      "args": [],
+      "courses": 6,
+      "fixtureSha256": "144b341e09e22e47514ed4712689bf34a7d5d91932c030dea480c9cbb57e72ac",
+      "compressedSha256": "d52492896ea4a5396e9194695be5f6cf46e38208be90f0fec50a6e64ffa35232",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "d4486a19eb3b56441cf373b45463c4850327e7df",
+        "version": "0.32.0",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "144b341e09e22e47514ed4712689bf34a7d5d91932c030dea480c9cbb57e72ac"
+      }
+    },
+    {
+      "name": "proc-catalogue",
+      "file": "baseline/milestone-thirty-eight/proc-catalogue.json.gz",
+      "helper": "reference/export-proc-catalogue.ts",
+      "helperSha256": "20c3a9f3be85bc07c1ac150c88fab2f062cd38e5a2e8687fc8efb9472387ec27",
+      "args": [],
+      "procRows": 147,
+      "riderRows": 1,
+      "fixtureSha256": "f3c7d5b1243aacc276587c54154e90381a4dd90ad740abd0c8409f8ea79d7df6",
+      "compressedSha256": "421ec6bfb59456fd953a8ff5d00b79465d4c0eb4059e308a90c5dcf4a872994c",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "d4486a19eb3b56441cf373b45463c4850327e7df",
+        "version": "0.32.0",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "f3c7d5b1243aacc276587c54154e90381a4dd90ad740abd0c8409f8ea79d7df6"
+      }
+    }
+  ],
+  "courses": 57,
+  "procRows": 147,
+  "riderRows": 1,
+  "originalRunsPerFixture": 2,
+  "retainedComparisonTypesPassed": true,
+  "retainedFilesUnchanged": true,
+  "independentAssertions": "Helpers assert concrete probabilities, strict/equal boundaries, clock stamps, draw counts, actual authored ward/charge effects, queue identity, live grant ordering, depth-bounded reentry, and failed-execution observations. No SDK runtime is used to generate expectations.",
+  "riderStatFinding": "Static Shrapnel has no original display-stat definition. Original StatSheet supplies zero for an unregistered name; the authored cl_gam_shrapnel spell-scoped passive supplies 0.75. The baseline preserves this rather than adding a definition.",
+  "limitations": [
+    "These are 57 original courses and 148 authored rows, not a complete proc runtime or all gameplay effects.",
+    "The native courses invoke original World/Actor methods with explicit setup; this is not a complete frame, renderer or target-device acceptance.",
+    "Hit/minion-carry filtering, gain/rider dispatch, runtime registry mutation and additional event-filter coverage still require explicit acceptance before their extraction.",
+    "Callback exception and same-actor reentry observations must inform the contract; existing condition-publication recovery rules cannot be copied indiscriminately.",
+    "No runtime performance or native-engine compatibility claim."
+  ]
+}

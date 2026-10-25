@@ -125,6 +125,7 @@ jobs:
       - run: npm run reference:continuation
       - run: npm run reference:banks
       - run: npm run reference:conditions
+      - run: npm run reference:procs
       - run: npm run reference:ammunition
       - run: node --import tsx balance/probe_passiverefund.ts
         working-directory: .reference
@@ -271,6 +272,7 @@ jobs:
             .artifacts/actor-condition-reference-verification.json
             .artifacts/game-actor-condition-verification.json
             .artifacts/actor-condition-package-verification.json
+            .artifacts/proc-reference-verification.json
             .artifacts/game-skill-admission-verification.json
             .artifacts/skill-admission-overlay-verification.json
             .artifacts/ammunition-overlay-verification.json
