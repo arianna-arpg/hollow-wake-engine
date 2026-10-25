@@ -1,5 +1,12 @@
 # Verification and reproduction
 
+The next effect extraction begins with [bounded original observations](proc-effects.md).
+`npm run reference:proc-effects` type-checks three capture helpers and compares
+1,073 observations with immutable original fixtures: 22 native branch examples,
+1,036 magnitude-fold observations and 15 ward/delayed-resolution edges. The native
+executor includes `birth` beyond the 21 catalogue shapes. These are baseline
+observations; they add no standalone effect capability or performance claim.
+
 Version 0.33 adds `reference:procs`, `adapter:procs-source`, `adapter:procs`,
 `content:procs` and `benchmark:procs`. The [proc contract](proc-runtime.md)
 documents the event paths, exception behavior, content ownership and reproduction
@@ -21,7 +28,7 @@ of device performance, allocation volume or a whole-game speedup.
 The managed adapter has independent dependencies and preserves its four existing
 bounty methods and every other tracked file. Final package consumers and hosted
 checks are distinct gates. Eleven of thirteen families remain partial, including
-execution of all 21 proc effect mechanisms and full native-engine packages.
+execution of all 22 native proc effect branches and full native-engine packages.
 
 Version 0.32 adds `reference:conditions`, `adapter:conditions-source`,
 `adapter:conditions` and `benchmark:conditions -- --previous-adapter

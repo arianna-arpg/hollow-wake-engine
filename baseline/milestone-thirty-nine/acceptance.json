@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "milestone": 39,
+  "stage": "First bounded original effect observations accepted before SDK effect implementation. All 22 native branches are represented; edge coverage is concentrated on ward and delayed resolution. This is not exhaustive branch coverage.",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLock": "baseline/source-lock.json",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "predecessor": {
+    "version": "0.33.0",
+    "commit": "51cf115189e31668aa599a5c22e7838e46749c1f",
+    "publicRepository": "https://github.com/arianna-arpg/hollow-wake-engine",
+    "hostedChecks": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40239931024",
+    "retainedHostFiles": 992,
+    "retainedRuntimeFiles": 177,
+    "archiveSha256": "e10434da066491302701c585b6c5ba8abbadbc60a3babc1ac0f261aab3c4d6e4"
+  },
+  "helpers": [
+    {
+      "file": "reference/export-proc-effects-native.ts",
+      "sha256": "861f69b12d78e84f7bc0ab58e89baa11ac471b5f15e005d1fc5403ccde23d19b",
+      "source": "Original-only capture helper retained verbatim, including discovery scope text. This manifest accepts the bounded observations; it does not claim a complete effect implementation."
+    },
+    {
+      "file": "reference/export-proc-effects-scaling.ts",
+      "sha256": "73cf7add5613b0bbc10f8b2e87a08c1abfba8256b9c5f2036037368624ed001c",
+      "source": "Original-only capture helper retained verbatim, including discovery scope text. This manifest accepts the bounded observations; it does not claim a complete effect implementation."
+    },
+    {
+      "file": "reference/export-proc-effects-edges.ts",
+      "sha256": "e3dc062fbf09a9178dcf9fe07a65b9372e6d1d5776c5f76b7156ca96ff83d809",
+      "source": "Original-only capture helper retained verbatim, including discovery scope text. This manifest accepts the bounded observations; it does not claim a complete effect implementation."
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "proc-effects-native",
+      "file": "baseline/milestone-thirty-nine/proc-effects-native.json.gz",
+      "helper": "reference/export-proc-effects-native.ts",
+      "helperSha256": "861f69b12d78e84f7bc0ab58e89baa11ac471b5f15e005d1fc5403ccde23d19b",
+      "args": [],
+      "courses": 22,
+      "fixtureSha256": "99f2cbf5a21ecdf20d92cbc87186e1f0ebfc4cbe25da9d961ba3a08cafb185be",
+      "compressedSha256": "cc3e52b6479adce6a30a62c892c9cd907fa4f477d60240f5c3f05b58e362471b",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "51cf115189e31668aa599a5c22e7838e46749c1f",
+        "version": "0.33.0",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "99f2cbf5a21ecdf20d92cbc87186e1f0ebfc4cbe25da9d961ba3a08cafb185be"
+      }
+    },
+    {
+      "name": "proc-effects-scaling",
+      "file": "baseline/milestone-thirty-nine/proc-effects-scaling.json.gz",
+      "helper": "reference/export-proc-effects-scaling.ts",
+      "helperSha256": "73cf7add5613b0bbc10f8b2e87a08c1abfba8256b9c5f2036037368624ed001c",
+      "args": [],
+      "courses": 1036,
+      "fixtureSha256": "1b91382617e4297925a3a51330e70ca8f21b3ef9788392e317ab08609b52129f",
+      "compressedSha256": "3ef7f25b545415191f83460f14aa8d8575b0c2441830950a77006692b8262d27",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "51cf115189e31668aa599a5c22e7838e46749c1f",
+        "version": "0.33.0",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "1b91382617e4297925a3a51330e70ca8f21b3ef9788392e317ab08609b52129f"
+      }
+    },
+    {
+      "name": "proc-effects-edges",
+      "file": "baseline/milestone-thirty-nine/proc-effects-edges.json.gz",
+      "helper": "reference/export-proc-effects-edges.ts",
+      "helperSha256": "e3dc062fbf09a9178dcf9fe07a65b9372e6d1d5776c5f76b7156ca96ff83d809",
+      "args": [],
+      "courses": 15,
+      "fixtureSha256": "df73d15721e5f2718d63c4af7c75e78a28a53f877339b06efb4240105115eff7",
+      "compressedSha256": "84b71818c499dffb127531ddc31f9e7241b7b86de41eee4a6f96c041b26a9a1d",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "51cf115189e31668aa599a5c22e7838e46749c1f",
+        "version": "0.33.0",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "df73d15721e5f2718d63c4af7c75e78a28a53f877339b06efb4240105115eff7"
+      }
+    }
+  ],
+  "courses": 1073,
+  "coverage": {
+    "nativeBranches": 22,
+    "authoredShapes": 21,
+    "authoredRows": 147,
+    "additionalExecutorBranch": "birth",
+    "scalingInputs": 148,
+    "scalingPowers": 7,
+    "wardEdges": 7,
+    "delayedEdges": 8
+  },
+  "sourceBoundaries": {
+    "file": "baseline/milestone-thirty-nine/source-boundaries.json",
+    "sha256": "9823b312c5a6669d12c2bb060e0dfd83eab38775f5db753a71fb6031412efb1d"
+  },
+  "decisions": [
+    "Preserve original identity at power one and at nonpositive or NaN power. Nonfinite cases are observations of the compatibility fold, not a new serialized content validation policy.",
+    "Retain structural effects and their nested references; clone only the original scaled shapes and nested fields. Preserve own keys, including explicit undefined.",
+    "Resource gains may commit before a host callback throws; do not retry the effect or run the remaining rider tail automatically.",
+    "Delayed bursts capture position, tier and causal depth at scheduling, while owner level and team are observed at resolution.",
+    "Remove a due burst before applying it. Owner death does not cancel it. A new due burst enqueued during resolution waits until the next pass.",
+    "Keep programmatic combo effects and the additional birth branch in the scope inventory."
+  ],
+  "limitations": [
+    "One original native representative per branch does not cover every conditional path or authored row.",
+    "Native traces capture the documented actor/world fields and real method calls, not every internal field or renderer pixel.",
+    "Additional cooldown, cleanse, spatial tie, summon-cap, null-target, cast continuation and resource-variant observations are required before extracting those paths.",
+    "No standalone effect capability, cross-engine package, performance improvement or device compatibility is established by baseline acceptance."
+  ]
+}

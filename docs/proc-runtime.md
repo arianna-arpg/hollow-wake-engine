@@ -27,6 +27,11 @@ content hashes and the rider stat that lacks an original display definition; its
 zero base is preserved. All 21 effect shapes remain portable data, not complete
 standalone implementations of those effects.
 
+The native executor has **22 branches**: the 21 catalogue shapes plus `birth`,
+which can enter through programmatic effects such as combo payoffs. The
+[effect extraction baseline](proc-effects.md) includes this additional branch.
+Catalogue shape counts alone do not establish execution coverage.
+
 The candidate adds a 24 KiB unminified JavaScript allowance for its three optional
 proc modules. Earlier per-module allowances and the 96 KiB core allowance remain
 unchanged; the combined allowance increases from 464 to 488 KiB. These are package
