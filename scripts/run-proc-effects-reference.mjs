@@ -10,6 +10,12 @@ const game=path.join(root,'.reference'),artifacts=path.join(root,'.artifacts');
 const lockBytes=fs.readFileSync(path.join(root,'baseline/source-lock.json')),lock=JSON.parse(lockBytes);
 const acceptanceBytes=fs.readFileSync(path.join(root,'baseline/milestone-thirty-nine/acceptance.json'));
 const acceptance=JSON.parse(acceptanceBytes);
+const addendumBytes=fs.readFileSync(path.join(root,'baseline/milestone-thirty-nine/ward-addendum.json')),addendum=JSON.parse(addendumBytes);
+const contractBytes=fs.readFileSync(path.join(root,'baseline/milestone-thirty-nine/runtime-contract.json')),contract=JSON.parse(contractBytes);
+assert.equal(addendum.source,lock.commit);assert.equal(addendum.sourceLockSha256,sha256(lockBytes));
+assert.equal(addendum.baselineAcceptanceSha256,sha256(acceptanceBytes));assert.equal(addendum.courses,23);assert.equal(addendum.helpers.length,2);
+assert.deepEqual(addendum.fixtures.map(r=>[r.name,r.courses]),[['proc-ward-resource',15],['proc-magnitude-metadata',8]]);
+assert.equal(contract.source,lock.commit);assert.equal(contract.baselineAcceptanceSha256,sha256(acceptanceBytes));assert.equal(contract.wardAddendumSha256,sha256(addendumBytes));
 assert.equal(acceptance.schemaVersion,1);assert.equal(acceptance.milestone,39);
 assert.equal(acceptance.source,lock.commit);assert.equal(acceptance.sourceLockSha256,sha256(lockBytes));
 assert.equal(acceptance.courses,1073);assert.equal(acceptance.helpers.length,3);
@@ -24,7 +30,7 @@ assert.deepEqual(boundary.catalogue.executorOnly,['birth']);
 assert.equal(boundary.catalogue.sourceSha256,lock.files['src/engine/world.ts']);
 verifyReference(game,lock);fs.mkdirSync(artifacts,{recursive:true});
 const output=fs.mkdtempSync(path.join(artifacts,'reference-proc-effects-')),helpers=new Map(),typed=[];
-for(const row of acceptance.helpers){
+for(const row of [...acceptance.helpers,...addendum.helpers]){
   const source=fs.readFileSync(path.join(root,row.file),'utf8');
   assert.equal(sha256(source),row.sha256,'Changed original capture helper: '+row.file);
   const name=path.basename(row.file,'.ts'),runtimeFile=path.join(output,name+'.ts'),typedFile=path.join(output,name+'.typed.ts');
@@ -42,7 +48,7 @@ function run(name,args){
 }
 run('types',[path.join(game,'node_modules/typescript/bin/tsc'),'-p',config]);
 const results=[];
-for(const row of acceptance.fixtures){
+for(const row of [...acceptance.fixtures,...addendum.fixtures]){
   const helper=helpers.get(row.helper);assert(helper);assert.equal(helper.sha256,row.helperSha256);assert.deepEqual(row.args,[]);
   const compressed=fs.readFileSync(path.join(root,row.file));assert.equal(sha256(compressed),row.compressedSha256,'Changed fixture: '+row.file);
   const expected=gunzipSync(compressed);assert.equal(sha256(expected),row.fixtureSha256);
@@ -54,9 +60,9 @@ for(const row of acceptance.fixtures){
   if(row.name==='proc-effects-scaling')assert.equal(value.inputs.length,148);
   results.push({name:row.name,courses:row.courses,sha256:sha256(actual),byteEqual:true});console.log('PASS original '+row.name);
 }
-assert.equal(results.reduce((sum,r)=>sum+r.courses,0),acceptance.courses);
+assert.equal(results.reduce((sum,r)=>sum+r.courses,0),acceptance.courses+addendum.courses);
 writeJSON(path.join(artifacts,'proc-effects-reference-verification.json'),{
-  source:lock.commit,acceptanceSha256:sha256(acceptanceBytes),boundarySha256:sha256(boundaryBytes),output,
-  helpers:3,courses:1073,fixtures:results,typesPassed:true,sourceUnchanged:true,
+  source:lock.commit,acceptanceSha256:sha256(acceptanceBytes),addendumSha256:sha256(addendumBytes),contractSha256:sha256(contractBytes),boundarySha256:sha256(boundaryBytes),output,
+  helpers:5,courses:1096,fixtures:results,typesPassed:true,sourceUnchanged:true,
   scope:'Bounded pinned-original observations. Normal verification never rewrites accepted fixtures. No SDK effect implementation, exhaustive branch coverage or device-performance claim.',
 });

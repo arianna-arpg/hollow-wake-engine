@@ -26,6 +26,12 @@ archive identity.
 | Magnitude folding | 1,036 | All 147 authored inputs plus synthetic `birth`, seven powers, arithmetic, input preservation, object identity, nested identity and own keys |
 | Ward edges | 7 | Positive, suppressed, dead, negative, zero-power, nested and committed-failure behavior |
 | Delayed edges | 8 | Due-time equality, dead owners, live level/team, captured geometry/tier, removal before failure and deferred insertion during resolution |
+| Ward resource boundary | 15 | Lazy rate lookup, uncapped gain, suppressed/dead requests, callback failures, nested grants and live pool/death changes |
+| Magnitude metadata | 8 | Frozen input preservation, nested copy rules, explicit undefined keys and unknown-tag passthrough diagnostics |
+
+The last two rows are accepted by a separate
+[ward addendum](../baseline/milestone-thirty-nine/ward-addendum.json); the original
+1,073-case acceptance remains unchanged. The combined command checks 1,096 cases.
 
 The observation wrappers call through to real effects. The native examples
 include actual damage, resource changes, spawning and delayed resolution.
@@ -60,6 +66,23 @@ replacing the full scheduler.
 
 ## First implementation path and acceptance
 
+The [runtime contract](../baseline/milestone-thirty-nine/runtime-contract.json)
+specifies three optional functions before implementation: `scaleProcEffect`,
+`gainWard` and `applyWardEffect`, under `combat/effects`. The first describes
+minimum magnitude fields, with numeric result types widened after scaling.
+Application metadata follows the original copy behavior: damage/cast copies
+retain extra fields, while a scaled `healAllies` copies only `base` and
+`perLevel`. These minimum types do not claim a complete effect schema.
+
+Ward functions borrow plain state and shared synchronous ports. `gainWard`
+queries the rate only after the original admission guard; a callback may change
+the pool or trigger a nested grant before the outer addition. Death during that
+query does not introduce a second guard. `applyWardEffect` computes its amount
+before capturing the pool and reports actual growth, not the gain callback's
+return value. The host then delivers cues and the existing rider hook in order.
+The proposed module has a 4 KiB JavaScript allowance; prior module and core
+allowances remain unchanged. This is a size limit, not a performance result.
+
 Begin with the pure magnitude fold and a complete ward path, retaining the
 native resource/cue/rider observation boundaries. Extend the time-dependent
 path only after its queue and target-selection requirements are captured.
@@ -88,7 +111,7 @@ After preparing the pinned reference and its dependencies, run:
 npm run reference:proc-effects
 ```
 
-This type-checks all three original capture helpers, verifies their hashes,
+This type-checks all five original capture helpers, verifies their hashes,
 executes them against the preserved source and compares the results with the
 accepted compressed fixtures. It writes fresh diagnostic outputs under
 `.artifacts` and never regenerates expected results. The source lock, helper

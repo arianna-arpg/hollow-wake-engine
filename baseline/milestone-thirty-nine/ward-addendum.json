@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "baselineAcceptanceSha256": "46813a041a6e1c832e33787e6e55b4db7863b463f25c3c91c77c3b23e6464491",
+  "courses": 23,
+  "helpers": [
+    {
+      "file": "reference/export-proc-ward-resource.ts",
+      "sha256": "1d35e9bac68b26fde74162dfc4bbf11eb2fadbe97a5d4f4e7cc53b7b7ec425e9",
+      "source": "Original discovery helper retained verbatim; this addendum accepts its bounded observations."
+    },
+    {
+      "file": "reference/export-proc-magnitude-metadata.ts",
+      "sha256": "2c5614dad11b015b3099299564cdcb2a29982420efe7f2bf49109a9c52a7178e",
+      "source": "Original discovery helper retained verbatim; this addendum accepts its bounded observations."
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "proc-ward-resource",
+      "file": "baseline/milestone-thirty-nine/proc-ward-resource.json.gz",
+      "helper": "reference/export-proc-ward-resource.ts",
+      "helperSha256": "1d35e9bac68b26fde74162dfc4bbf11eb2fadbe97a5d4f4e7cc53b7b7ec425e9",
+      "args": [],
+      "courses": 15,
+      "fixtureSha256": "6fced77025d91b514f77d278185f3c22225e83fc8f6e7f15b4ae529d08f368bd",
+      "compressedSha256": "cd5c1eeac710fae21028c414070a41b6bd8f20ddcb81a0b3f4c4a338934c70a4",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "51cf115189e31668aa599a5c22e7838e46749c1f",
+        "version": "0.33.0",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "6fced77025d91b514f77d278185f3c22225e83fc8f6e7f15b4ae529d08f368bd"
+      }
+    },
+    {
+      "name": "proc-magnitude-metadata",
+      "file": "baseline/milestone-thirty-nine/proc-magnitude-metadata.json.gz",
+      "helper": "reference/export-proc-magnitude-metadata.ts",
+      "helperSha256": "2c5614dad11b015b3099299564cdcb2a29982420efe7f2bf49109a9c52a7178e",
+      "args": [],
+      "courses": 8,
+      "fixtureSha256": "733f600d4015c23b3d798ccd1586dde3724674f804d6b99e576893a64ee1be27",
+      "compressedSha256": "11d95b50bd4eb87b0b6f032910b891715912dab2bae61cbd5cdd4426b5efb23f",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "commit": "51cf115189e31668aa599a5c22e7838e46749c1f",
+        "version": "0.33.0",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "733f600d4015c23b3d798ccd1586dde3724674f804d6b99e576893a64ee1be27"
+      }
+    }
+  ],
+  "sourceBoundaries": [
+    {
+      "file": "src/data/procs.ts",
+      "owner": null,
+      "name": "scaleProcEffect",
+      "sha256": "93d1bde69fc6ef8751c764b8ef2006953a800471e1cb7f09b3c1930cd03bd725",
+      "line": 313,
+      "retainedByteEqual": true
+    },
+    {
+      "file": "src/engine/actor.ts",
+      "owner": "Actor",
+      "name": "gainWard",
+      "sha256": "bbdf2007acddf953dff7c7caf39578c7da1692c4f14d5d509755790ca1febb2e",
+      "line": 2212,
+      "retainedByteEqual": true
+    }
+  ],
+  "scope": "Original resource-port and magnitude-copy observations accepted before implementation. Nonfinite and future-tag samples are compatibility diagnostics, not permission for invalid serialized content or unknown executor support."
+}

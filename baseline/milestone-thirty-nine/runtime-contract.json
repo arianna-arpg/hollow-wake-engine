@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "capability": "proc-magnitude-ward/v1",
+  "stage": "Contract committed before runtime implementation. Acceptance of an installed game path remains required.",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "baselineAcceptanceSha256": "46813a041a6e1c832e33787e6e55b4db7863b463f25c3c91c77c3b23e6464491",
+  "wardAddendumSha256": "34ad8efbf4663aac0536070f9bc0c1626b3fe8bc87c6192d91fa33bf6730bc7c",
+  "entry": "@hollow-wake/engine/combat/effects",
+  "api": [
+    {
+      "name": "scaleProcEffect",
+      "role": "Pure original magnitude fold over the 22 known minimum shapes. Preserve input and nested identities/copy rules; result type retains the effect discriminator and widens numeric values, without promising arbitrary application metadata."
+    },
+    {
+      "name": "gainWard",
+      "role": "Borrow {dead,ward}; skip nonpositive/dead requests before querying the rate port; query once, then add to the current pool and return the gain. No clamp, retry, second dead check or hidden state."
+    },
+    {
+      "name": "applyWardEffect",
+      "role": "Read maximum life first, compute flat plus percent, then observe the pool; call the gain port only for a positive amount; return whether the pool actually grew. Gain return values do not substitute for reading the resulting pool."
+    }
+  ],
+  "ownership": {
+    "state": "Caller-owned plain actor state; one shared port object can serve many actors. No per-actor wrapper or per-call closure is required.",
+    "content": "Trusted typed magnitude fields. Existing ProcContent validates dispatch, not full effect schemas. Serialized content needs its owning validation/compiler boundary.",
+    "host": "Actor lookup, native visual cues, event occurrence and durable saves remain explicit host work. Existing ProcRuntime owns rider selection; the game keeps its observable Actor.gainWard and World.fireProcRiders hooks."
+  },
+  "ordering": [
+    "Keep original arithmetic, undefined own keys and the unscaled identity path, including zero/negative/NaN power.",
+    "Positive scaling preserves damage/cast metadata via shallow copies; healAllies copies only base and perLevel. Unknown runtime tags pass through unchanged without implying executable support.",
+    "Maximum-life callbacks occur before the ward effect captures its before-value. Resource-rate callbacks occur after admission but before the pool read/addition.",
+    "Synchronous nested calls have independent locals; callbacks may alter the current pool. Exceptions propagate with already committed state preserved and no automatic retry.",
+    "Cues run only after observed growth, then riders in original order. A thrown gain/cue skips the remaining tail."
+  ],
+  "acceptance": [
+    "Original magnitude, metadata and resource fixtures unchanged through the SDK and installed game.",
+    "Typed and JavaScript packed consumers; no ambient host APIs or randomness.",
+    "Independent arithmetic, guard/read-order, identity, nested and exception assertions.",
+    "Deliberate behavioral faults detected.",
+    "Fresh game candidate; earlier controls and all predecessor runtime files preserved.",
+    "Real frame-to-ward-to-HUD path and prior integration regressions.",
+    "Measured receipts and bounded module costs; device claims require target-device runs."
+  ],
+  "packageBudget": {
+    "optionalModuleBytes": 4096,
+    "combinedJavaScriptBytes": 503808,
+    "unchangedCoreJavaScriptBytes": 98304,
+    "priorModuleLimitsUnchanged": true
+  },
+  "remaining": [
+    "The other 21 executor branches, delayed queue semantics and broader resource effects.",
+    "Effect-schema/content validation beyond the existing dispatch content compiler.",
+    "Complete native-engine packages and target-device performance."
+  ]
+}

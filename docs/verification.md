@@ -1,9 +1,10 @@
 # Verification and reproduction
 
 The next effect extraction begins with [bounded original observations](proc-effects.md).
-`npm run reference:proc-effects` type-checks three capture helpers and compares
-1,073 observations with immutable original fixtures: 22 native branch examples,
-1,036 magnitude-fold observations and 15 ward/delayed-resolution edges. The native
+`npm run reference:proc-effects` type-checks five capture helpers and compares
+1,096 observations with immutable original fixtures: 22 native branch examples,
+1,036 magnitude-fold observations, 15 ward/delayed-resolution edges and 23
+resource-callback/metadata-copy observations. The native
 executor includes `birth` beyond the 21 catalogue shapes. These are baseline
 observations; they add no standalone effect capability or performance claim.
 
