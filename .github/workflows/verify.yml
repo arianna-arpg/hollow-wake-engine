@@ -92,6 +92,7 @@ jobs:
       - run: npm run adapter:continuation-source
       - run: npm run adapter:banks-source
       - run: npm run adapter:conditions-source
+      - run: npm run adapter:procs-source
       - run: npm run adapter:ammunition-source
       - run: npm run reference:install
       - run: npm run reference:verify
@@ -163,6 +164,7 @@ jobs:
       - run: npm run adapter:continuation
       - run: npm run adapter:banks
       - run: npm run adapter:conditions
+      - run: npm run adapter:procs
       - run: npm run adapter:ammunition
       - run: npm run check
         working-directory: .artifacts/game-adapter
@@ -273,6 +275,8 @@ jobs:
             .artifacts/game-actor-condition-verification.json
             .artifacts/actor-condition-package-verification.json
             .artifacts/proc-reference-verification.json
+            .artifacts/proc-overlay-verification.json
+            .artifacts/game-proc-verification.json
             .artifacts/game-skill-admission-verification.json
             .artifacts/skill-admission-overlay-verification.json
             .artifacts/ammunition-overlay-verification.json

@@ -1,0 +1,169 @@
+{
+  "decision": "Keep one private native ID view per registry revision and shared per-hit accessors; preserve live packet reads and both public native observation hooks.",
+  "measurements": [
+    {
+      "run": 1,
+      "rows": [
+        {
+          "name": "ungranted",
+          "original": 3.5063999999983935,
+          "previous": 3.58889999999883,
+          "current": 8.900999999998021,
+          "comparison": 9.685900000000402,
+          "versusPreviousPct": 148.01471202878105,
+          "versusComparisonPct": -8.103531938202424
+        },
+        {
+          "name": "active",
+          "original": 49.844300000004296,
+          "previous": 49.345399999998335,
+          "current": 58.96600000000035,
+          "comparison": 60.24289999999746,
+          "versusPreviousPct": 19.49644749055097,
+          "versusComparisonPct": -2.1195858765052256
+        },
+        {
+          "name": "changing-grants",
+          "original": 567.6025999999983,
+          "previous": 581.0697999999975,
+          "current": 585.2479000000021,
+          "comparison": 736.315499999997,
+          "versusPreviousPct": 0.7190358197938895,
+          "versusComparisonPct": -20.51669427032237
+        },
+        {
+          "name": "pulse",
+          "original": 8.165699999997742,
+          "previous": 8.236199999999371,
+          "current": 14.42949999999837,
+          "comparison": 15.064700000002631,
+          "versusPreviousPct": 75.19608557343764,
+          "versusComparisonPct": -4.216479584752097
+        },
+        {
+          "name": "hits",
+          "original": 252.35970000000088,
+          "previous": 222.98069999998552,
+          "current": 221.9505000000063,
+          "comparison": 217.3937000000151,
+          "versusPreviousPct": -0.4620130800465194,
+          "versusComparisonPct": 2.096104900919804
+        },
+        {
+          "name": "carried-hits",
+          "original": 264.9502999999968,
+          "previous": 239.37570000000414,
+          "current": 234.89710000000196,
+          "comparison": 231.72359999999753,
+          "versusPreviousPct": -1.8709501423921138,
+          "versusComparisonPct": 1.3695195482913425
+        },
+        {
+          "name": "native-ward-frames",
+          "original": 50.09450000000652,
+          "previous": 63.03059999999823,
+          "current": 66.34660000001895,
+          "comparison": 66.53150000001187,
+          "versusPreviousPct": 5.260936751388723,
+          "versusComparisonPct": -0.27791346954884055
+        }
+      ],
+      "retainedBytesPerEvent": 823.2109375
+    },
+    {
+      "run": 2,
+      "rows": [
+        {
+          "name": "ungranted",
+          "original": 3.5957000000016706,
+          "previous": 3.5652999999983876,
+          "current": 9.044600000001083,
+          "comparison": 9.841199999998935,
+          "versusPreviousPct": 153.6841219534169,
+          "versusComparisonPct": -8.094541316078718
+        },
+        {
+          "name": "active",
+          "original": 47.89340000000084,
+          "previous": 47.44430000000284,
+          "current": 56.44510000000446,
+          "comparison": 56.72200000000157,
+          "versusPreviousPct": 18.97129897585397,
+          "versusComparisonPct": -0.4881703748053745
+        },
+        {
+          "name": "changing-grants",
+          "original": 583.2228999999934,
+          "previous": 581.0276000000013,
+          "current": 599.6339999999909,
+          "comparison": 723.8940999999904,
+          "versusPreviousPct": 3.202326361086749,
+          "versusComparisonPct": -17.165508048760326
+        },
+        {
+          "name": "pulse",
+          "original": 9.408300000010058,
+          "previous": 8.55789999999979,
+          "current": 14.54189999999653,
+          "comparison": 14.583700000002864,
+          "versusPreviousPct": 69.92369623385277,
+          "versusComparisonPct": -0.2866213649919125
+        },
+        {
+          "name": "hits",
+          "original": 250.48070000000007,
+          "previous": 220.1774999999907,
+          "current": 219.19469999999274,
+          "comparison": 224.92800000001444,
+          "versusPreviousPct": -0.4463671356055854,
+          "versusComparisonPct": -2.5489489970218604
+        },
+        {
+          "name": "carried-hits",
+          "original": 263.16010000000824,
+          "previous": 233.33090000000084,
+          "current": 233.65639999997802,
+          "comparison": 238.0437999999849,
+          "versusPreviousPct": 0.1395014547911133,
+          "versusComparisonPct": -1.8431061846631458
+        },
+        {
+          "name": "native-ward-frames",
+          "original": 51.1988999999885,
+          "previous": 62.94959999999264,
+          "current": 65.76350000000093,
+          "comparison": 67.20279999999912,
+          "versusPreviousPct": 4.470084003724595,
+          "versusComparisonPct": -2.1417262375945656
+        }
+      ],
+      "retainedBytesPerEvent": 823.2109375
+    }
+  ],
+  "rawRuns": [
+    "benchmark-run1.json",
+    "benchmark-run2.json"
+  ],
+  "controls": {
+    "original": "Pinned original source capsule and 31 accepted overlays",
+    "previous": {
+      "commit": "d4486a19eb3b56441cf373b45463c4850327e7df",
+      "version": "0.32.0",
+      "integrity": "sha512-FtNKT+fLpRmaBj3gdNTn+fJptB3X+HBdPwgeVq6siP9Hlxrlp0+vu2kjPKgCrhEVFYLNQXNohe5IeoCaQyyNmQ=="
+    },
+    "comparison": {
+      "commit": "9334f632e8737a7a689a9795c67dd3278c7fe2a8",
+      "description": "Retained shared-accessor v0.33 candidate before native ID view and observer correction",
+      "integrity": "sha512-vch2nb/DHsBbmorJVI4qNdOChZDGik/XDbId3pfDmTzcK99ARsw3RkpimxQVCyF3luRyJY8cnvFGYWhhx6UgJw=="
+    },
+    "current": {
+      "commit": "d5e2894f5e7652c7fabb245f1a223ad325463d70",
+      "integrity": "sha512-krmD2PTUFlZpv8+Roa8EtVse2ioBw9kWVhcyCk/EjEFcSfTNklZim2blaNLM2QiGtpwDX77h9JRSvsqwc4fnOg=="
+    }
+  },
+  "result": "Changing grants improves 20.52% and 17.17% versus the retained comparison, remaining 0.72% and 3.20% above v0.32. Native ward frames remain 5.26% and 4.47% above v0.32; active, ungranted and pulse overhead remains. No overall CPU, FPS, allocation-volume or device win.",
+  "measurementScope": "Corrected observer candidate; task verification/control-renderer jobs finished first. Desktop measurements; no device or FPS claim.",
+  "retainedObservationBytesPerEvent": 823.2109375,
+  "retainedObservationLimit": "Synthetic retained hit-observation experiment; excludes the native registry view and normal game memory.",
+  "excluded": "Pre-observer native-array benchmark runs are retained diagnostic history, not these accepted results."
+}

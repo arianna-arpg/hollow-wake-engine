@@ -1,5 +1,28 @@
 # Verification and reproduction
 
+Version 0.33 adds `reference:procs`, `adapter:procs-source`, `adapter:procs`,
+`content:procs` and `benchmark:procs`. The [proc contract](proc-runtime.md)
+documents the event paths, exception behavior, content ownership and reproduction
+commands. The [M38 acceptance](../evidence/milestone-thirty-eight/verification.json)
+records 468 SDK tests, all 150 unchanged original proc courses, 42 source-guard
+faults, 18 installed proc faults, 21 native probes and 12 renderer checks. The
+renderer compares ten proc observations against two retained v0.32 executions;
+its new ward course earns the effect through an actual frame update. The earlier
+eight cue courses partly invoke the native executor directly.
+
+Two controlled seven-workload comparisons retain matching receipts. The native
+ID-view cache improves changing grants by 17–21% against the retained earlier
+candidate, while that workload remains 0.7–3.2% above v0.32. The headless ward-frame
+workload remains 4.5–5.3% above v0.32; active, ungranted and pulse paths also retain
+overhead. Three optional proc modules total 21,462 bytes inside their 24 KiB
+allowance; all 168 predecessor runtime files are unchanged. This is not evidence
+of device performance, allocation volume or a whole-game speedup.
+
+The managed adapter has independent dependencies and preserves its four existing
+bounty methods and every other tracked file. Final package consumers and hosted
+checks are distinct gates. Eleven of thirteen families remain partial, including
+execution of all 21 proc effect mechanisms and full native-engine packages.
+
 Version 0.32 adds `reference:conditions`, `adapter:conditions-source`,
 `adapter:conditions` and `benchmark:conditions -- --previous-adapter
 <retained-v0.31-game>`. The original baseline contains 49 courses, including seven

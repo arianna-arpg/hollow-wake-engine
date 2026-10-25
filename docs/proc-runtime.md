@@ -1,10 +1,12 @@
 # Proc rules and execution boundary
 
-Status: initial standalone dispatch implementation in the unpublished v0.33 candidate.
-The baseline and execution contract were committed before implementation. The public
-SDK remains v0.32; game-adapter acceptance for this candidate is still pending.
+Version 0.33 extracts proc selection and ordered dispatch through explicit host
+ports. The baseline and execution contract were committed before implementation.
+[Integrated acceptance](../evidence/milestone-thirty-eight/verification.json) covers
+the SDK, original comparisons, installed game, renderer and managed adapter.
+Effect execution and target-device acceptance remain separate work.
 
-## Candidate package
+## Package
 
 Import `ProcContent`, `BorrowedProcRegistry` and `ProcRuntime` from
 `@hollow-wake/engine/combat/procs`. This optional entry stays outside the core import
@@ -69,8 +71,8 @@ tests and nineteen proc fault checks. The three proc modules total 21,462 bytes 
 unminified JavaScript; this is a size observation, not a speed measurement. Game,
 launcher and simulation types, smoke, 21 native probes and 17 earlier-system
 comparisons pass. All twelve renderer checks pass, including the new proc course
-and unchanged six-stage request trace. Target-device performance and publication
-acceptance remain pending; this is not a completed v0.33 release. The corrected adapter also passes
+and unchanged six-stage request trace. Final package consumers and hosted checks
+are distinct gates; target-device performance remains unmeasured. The corrected adapter also passes
 the unchanged native condition trace and its recovery/fault checks, restoring all
 eight previously missing own-event observations.
 
@@ -374,11 +376,27 @@ ports; they do not execute every authored effect. The content and callback contr
 above specifies how those diagnostics are handled. The standalone checks include
 the 47 original rule courses, content ownership, callbacks, fault detection and a
 packed JavaScript/TypeScript consumer. The first complete installed proc comparison
-matches the courses above; broader renderer and device acceptance still follow.
+matches the courses above. The renderer and managed-game acceptance are now
+recorded; physical-device acceptance remains outstanding.
 Importing all 21 payload shapes is not evidence that all
 their effects execute in the standalone SDK.
 
-No runtime optimization or full Unity, Godot, Unreal, Steam Deck or mobile support
-is established by this baseline. See [content storage](content-storage.md) for the
+The later measurements establish the bounded cache improvement above, with
+remaining overhead explicit. Full Unity, Godot, Unreal, Steam Deck or mobile support
+is not established. See [content storage](content-storage.md) for the
 separate authoring/database decision and [the completion inventory](completion.json)
 for the full outstanding scope.
+
+## Acceptance records
+
+[Integration](../evidence/milestone-thirty-eight/integration-results.json),
+[renderer observations](../evidence/milestone-thirty-eight/renderer.json) and
+[managed-game preservation](../evidence/milestone-thirty-eight/managed-adapter.json)
+record the completed checks. The managed game uses independent dependencies; its
+four existing bounty methods and all other tracked files are preserved.
+
+The [performance decision](../evidence/milestone-thirty-eight/performance-decision.json)
+links both corrected raw benchmark runs and names their retained controls. Earlier
+pre-observer results remain diagnostic history and are not the accepted timings.
+The [final archive](../evidence/milestone-thirty-eight/final-installation.json) has
+separate clean-consumer checks; its runtime bytes must match these observations.

@@ -9,6 +9,19 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
+Version 0.33 adds optional [proc selection and dispatch](docs/proc-runtime.md):
+ordered gates, probability draws, cooldowns, causal depth and rider selection over
+explicit host ports. A validated content pack preserves 147 procs, one rider and
+298 stat definitions. The game adapter delegates native events and demonstrates
+an earned low-life ward reaching the HUD. All 21 effect mechanisms still execute
+in the host; this does not make them standalone SDK capabilities.
+
+The [v0.33 acceptance evidence](evidence/milestone-thirty-eight/verification.json)
+records 150 original courses, 18 installed faults, 12 renderer checks and a
+preserved managed-game integration. The targeted changing-grants workload is
+17–21% faster than the earlier v0.33 candidate; remaining overhead versus v0.32
+is explicit, and Steam Deck/mobile performance remains unmeasured.
+
 Version 0.32 adds optional [actor conditions](docs/actor-conditions.md): the 25
 native conditions, ordered rising edges, last-sample queries and replacement
 publication over host-owned actor state. An explicit recovery contract retries

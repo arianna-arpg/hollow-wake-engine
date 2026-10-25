@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "version": "0.33.0",
+  "sdkBase": "d4486a19eb3b56441cf373b45463c4850327e7df",
+  "baselineCommit": "98ffa4e2972fd7da0fa0891014210be14da3230d",
+  "contractCommit": "4afa76da5e63e762e89dad0029392f7b30a1e094",
+  "implementationCommit": "d5e2894f5e7652c7fabb245f1a223ad325463d70",
+  "rendererCommit": "4778e4588d5c20da2ed14db6cf6d0efd96fe77ce",
+  "checks": {
+    "tests": 468,
+    "focusedProcTests": 24,
+    "procBehavioralFaults": 19,
+    "sourceGuardFaults": 42,
+    "originalProcCourses": 150,
+    "installedSuites": 18,
+    "installedFaults": 127,
+    "installedProcFaults": 18,
+    "nativeProbes": 21,
+    "rendererChecks": 12,
+    "procRendererStages": 10,
+    "requestStagesByteEqual": 6,
+    "managedInstalledSuites": 3,
+    "managedGameLauncherSimTypes": true,
+    "managedAndCandidateSmoke": "5 scenarios x 5 seeds each",
+    "referenceCorePassed": true
+  },
+  "runtimeFiles": 177,
+  "unchangedPreviousRuntimeFiles": 168,
+  "originalPreservation": {
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "indexEmpty": true,
+    "filesByteIdentical": 4120,
+    "trackedFiles": 1896,
+    "untrackedFiles": 2224,
+    "pinnedSourceCapsuleVerified": true,
+    "snapshot": "m37-original-external-update.json",
+    "upstreamMigrationReview": "m37-original-upstream-review.json",
+    "note": "Exact identity with the newly reviewed external state, not with the earlier f44 snapshot. No original-game writes."
+  },
+  "sourceMigrationReview": "../milestone-thirty-seven/verification.json",
+  "logs": [
+    {
+      "file": "sdk-verification.txt",
+      "rawSha256": "c501ee23c5b5bd8e7af7cdc5eb23293fc17a2e009cee01aee4526039595385bf",
+      "publishedSha256": "5df9cc823f12848f4ff603f0445d6dc2847efb445fe6b456749dca264ceb8b1c"
+    },
+    {
+      "file": "managed-types.txt",
+      "rawSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d",
+      "publishedSha256": "191c4684202ada301b8ac19abc7d6afdcdb521d37f6e6619434e6073db22de60"
+    },
+    {
+      "file": "managed-smoke.txt",
+      "rawSha256": "3b0d53f46259fbf3a44c25ed7ade2d7ab9cc8a99b5b310e42f0675043e63090b",
+      "publishedSha256": "4ceaced41168c399606a675c2166ba00530b63d9a8cdb9596e237249a61fc274"
+    }
+  ],
+  "evidence": [
+    "integration-results.json",
+    "installed-procs.json",
+    "managed-adapter.json",
+    "renderer.json",
+    "runtime-verification.json",
+    "performance-decision.json",
+    "final-installation.json"
+  ],
+  "developmentCorrections": [
+    "Shared per-hit getters retain live packet observations without per-event getter closures.",
+    "Native stat filtering uses one private ordinary ID view per registry revision; SDK-owned IDs stay frozen.",
+    "The unchanged condition fixture rejected eight missing public World.rollOwnProcs observations; the restored bridge passes the original trace and an explicit bypass fault. Expected observations were not regenerated."
+  ],
+  "limits": "11 of 13 families remain partial. All 21 proc effect mechanisms still execute in the host. Full Unity/Godot/Unreal packages, newer original source/content reconciliation, Steam Deck and older-mobile measurements remain incomplete. Package consumers and exact-commit hosted checks are separate publication gates."
+}

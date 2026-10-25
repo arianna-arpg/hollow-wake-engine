@@ -1,0 +1,776 @@
+{
+  "checks": [
+    {
+      "name": "test-skill-request-ui",
+      "passed": true,
+      "log": "<local>/request.txt",
+      "sha256": "a2f7ddcc315b93d915712b44001675ace34b94d2cc86c04761ded838de99aa4d"
+    },
+    {
+      "name": "test-support-ui",
+      "passed": true,
+      "log": "<local>/supports.txt",
+      "sha256": "e57396c7e1d8df4cd55c22fb69e7fe7c6a9fe420661162e8a6fa2bb91992aaff"
+    },
+    {
+      "name": "test-skill-intent-ui",
+      "passed": true,
+      "log": "<local>/intent.txt",
+      "sha256": "f6c24ac0f2e9ded5e326c888232bff9c0ae55a1e3b1e65bb069dabad9a9bc5b1"
+    },
+    {
+      "name": "test-skill-admission-ui",
+      "passed": true,
+      "log": "<local>/admission.txt",
+      "sha256": "8d8711d69d6b8003c27628ea6adcfdc99ddf2a19c2b6c95c6d5b65c449814725"
+    },
+    {
+      "name": "test-channel-casting-ui",
+      "passed": true,
+      "log": "<local>/channel.txt",
+      "sha256": "e4e057500533c41e27483bfbdcf08db75a588b83fc4778e2bb2a4dda83f774f0"
+    },
+    {
+      "name": "test-ammunition-ui",
+      "passed": true,
+      "log": "<local>/ammunition.txt",
+      "sha256": "6c2b53bf609982870ac82f3d925379a567a5e57e6dcd8a0e4f4f0f94dcf8b561"
+    },
+    {
+      "name": "test-interactive-casting-ui",
+      "passed": true,
+      "log": "<local>/interactive.txt",
+      "sha256": "04db48e0e2d8f612fdc76a69e22707634b9379a8b58fcf5211bc3409ace2994d"
+    },
+    {
+      "name": "test-charged-casting-ui",
+      "passed": true,
+      "log": "<local>/charged.txt",
+      "sha256": "4a357fd0843f75b93d175fdd7683d011551d30f63d656cb3b74278ffb4a55e7b"
+    },
+    {
+      "name": "test-guard-casting-ui",
+      "passed": true,
+      "log": "<local>/guard.txt",
+      "sha256": "843619820dbaa4c812671426229b2518f34701a6f4a67445663c6def0c0df0d8"
+    },
+    {
+      "name": "test-resource-payment-ui",
+      "passed": true,
+      "log": "<local>/payment.txt",
+      "sha256": "8e2a5e41b3190988426d02f36105fda44d6dd26cc1cdfae8774e24fe0f93b8f2"
+    },
+    {
+      "name": "test-proc-ui",
+      "passed": true,
+      "log": "<local>/procs.txt",
+      "sha256": "3a7737b2cb034dd39094aa408be13708252f9b59864e2bfd8d51b1d0cdf6ba8d"
+    },
+    {
+      "name": "test-game-boot",
+      "passed": true,
+      "log": "<local>/boot.txt",
+      "sha256": "8763734713f8643402071e9b4bf485e53067b37acf81527cf050a98b40161b0b"
+    }
+  ],
+  "procUi": {
+    "game": "<local>/game-adapter-m38-observer",
+    "dist": "<local>/ui-request-m38",
+    "reports": "<local>/reports",
+    "trial": "<local>/proc-ui-P4km3a",
+    "passed": true,
+    "harnessSha256": "5ce03908bd97d95e3a55fdb12215e0f79d01f60a8d8b81b8e0a081d01177c917",
+    "expectedSha256": "8caa6e62a0f73f67cbf503db74770089446b18782685de8c1d467c2db4eae89b",
+    "stages": 10,
+    "sourceUnchanged": true,
+    "runtimeUnchanged": true,
+    "bundleUnchanged": true,
+    "runtimeRecordedAtBuild": true,
+    "scope": "Retained native cue harness plus one earned low-life ward course. Proc grant, low-life setup and a temporary zero RNG are explicit. Original eight cue stages remain; those stages partly call native executeProc directly. New ward course calls World.update, observes the public own-event hook and checks the visible ward count. No device or physical-input claim. Expected observations come from two retained published-v0.32 renderer executions; the catalogue separately matches a fresh pinned-original probe. No candidate output produces these expected results."
+  },
+  "originalProcAcceptance": {
+    "first": {
+      "mode": "control",
+      "game": "<local>/game-adapter-m37-optimized",
+      "dist": "<local>/ui-request-m37",
+      "trial": "<local>/m38-proc-ui-control-rruoem",
+      "reports": "<local>/reports",
+      "passed": true,
+      "sourceUnchanged": true,
+      "runtimeUnchanged": true,
+      "harnessSha256": "5ce03908bd97d95e3a55fdb12215e0f79d01f60a8d8b81b8e0a081d01177c917",
+      "catalogueSha256": "cb44cf179b7a0ba1d8164190aa24e69edfb27374321ae0c376c27ba90a7607e6"
+    },
+    "second": {
+      "mode": "control",
+      "game": "<local>/game-adapter-m37-optimized",
+      "dist": "<local>/ui-request-m37",
+      "trial": "<local>/m38-proc-ui-control-WLptxY",
+      "reports": "<local>/reports",
+      "passed": true,
+      "sourceUnchanged": true,
+      "runtimeUnchanged": true,
+      "harnessSha256": "5ce03908bd97d95e3a55fdb12215e0f79d01f60a8d8b81b8e0a081d01177c917",
+      "catalogueSha256": "cb44cf179b7a0ba1d8164190aa24e69edfb27374321ae0c376c27ba90a7607e6"
+    },
+    "wardReceiptSha256": "e1753e627752043a12b8f63dc657edc37937485e1e8f57e51bbf29340d1c9e00",
+    "observations": [
+      {
+        "name": "idle",
+        "labels": [
+          "1000",
+          "Life",
+          "10000",
+          "Mana",
+          "1",
+          "LMB",
+          "1",
+          "RMB",
+          "1",
+          "1",
+          "Warrior  —  Level 1",
+          "Proving Ground — Monster Lv 12",
+          "Day",
+          "Sanctuary"
+        ],
+        "fatal": null,
+        "rows": [],
+        "pulses": 0,
+        "runes": 0,
+        "fields": 0,
+        "buffs": 0,
+        "ward": 0
+      },
+      {
+        "name": "ward-before",
+        "labels": [
+          "100",
+          "Life",
+          "10000",
+          "Mana",
+          "1",
+          "LMB",
+          "1",
+          "RMB",
+          "1",
+          "1",
+          "Warrior  —  Level 1",
+          "Proving Ground — Monster Lv 12",
+          "Day",
+          "Sanctuary"
+        ],
+        "fatal": null,
+        "rows": [],
+        "pulses": 0,
+        "runes": 0,
+        "fields": 0,
+        "buffs": 0,
+        "ward": 0
+      },
+      {
+        "name": "ward-earned",
+        "labels": [
+          "101",
+          "Life",
+          "300",
+          "10000",
+          "Mana",
+          "1",
+          "LMB",
+          "1",
+          "RMB",
+          "1",
+          "1",
+          "Warrior  —  Level 1",
+          "Proving Ground — Monster Lv 12",
+          "Day",
+          "Sanctuary"
+        ],
+        "fatal": null,
+        "rows": [
+          {
+            "id": "desperate_ward",
+            "profile": "mend",
+            "color": "#8ae0b8",
+            "count": 1,
+            "cap": 1,
+            "phase": "gain",
+            "remaining": 1
+          }
+        ],
+        "pulses": 1,
+        "runes": 0,
+        "fields": 0,
+        "buffs": 0,
+        "ward": 300
+      },
+      {
+        "name": "prepared",
+        "labels": [
+          "1000",
+          "Life",
+          "10000",
+          "Mana",
+          "1",
+          "LMB",
+          "1",
+          "RMB",
+          "1",
+          "1",
+          "3",
+          "Warrior  —  Level 1",
+          "Proving Ground — Monster Lv 12",
+          "Day",
+          "Sanctuary"
+        ],
+        "fatal": null,
+        "rows": [
+          {
+            "id": "hot_streak",
+            "profile": "fire",
+            "color": "#ff9955",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          },
+          {
+            "id": "reprisal",
+            "profile": "physical",
+            "color": "#d8a060",
+            "count": 1,
+            "cap": 3,
+            "phase": "stored"
+          },
+          {
+            "id": "cold_payload",
+            "profile": "cold",
+            "color": "#7ad4ff",
+            "count": 3,
+            "cap": 3,
+            "phase": "stored"
+          },
+          {
+            "id": "rune:0",
+            "profile": "rune",
+            "color": "#9ad8f8",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          },
+          {
+            "id": "rune:1",
+            "profile": "rune",
+            "color": "#ffe14a",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          },
+          {
+            "id": "rune:2",
+            "profile": "rune",
+            "color": "#ff8a4a",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          }
+        ],
+        "pulses": 0,
+        "runes": 3,
+        "fields": 0,
+        "buffs": 3,
+        "ward": 0
+      },
+      {
+        "name": "spent",
+        "labels": [
+          "1000",
+          "Life",
+          "10000",
+          "Mana",
+          "1",
+          "LMB",
+          "1",
+          "RMB",
+          "1",
+          "1",
+          "2",
+          "Warrior  —  Level 1",
+          "Proving Ground — Monster Lv 12",
+          "Day",
+          "Sanctuary"
+        ],
+        "fatal": null,
+        "rows": [
+          {
+            "id": "hot_streak",
+            "profile": "fire",
+            "color": "#ff9955",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          },
+          {
+            "id": "cold_payload",
+            "profile": "cold",
+            "color": "#7ad4ff",
+            "count": 2,
+            "cap": 3,
+            "phase": "stored"
+          },
+          {
+            "id": "rune:0",
+            "profile": "rune",
+            "color": "#9ad8f8",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          },
+          {
+            "id": "rune:1",
+            "profile": "rune",
+            "color": "#ffe14a",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          },
+          {
+            "id": "rune:2",
+            "profile": "rune",
+            "color": "#ff8a4a",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          },
+          {
+            "id": "cold_payload",
+            "profile": "cold",
+            "color": "#7ad4ff",
+            "count": 1,
+            "cap": 1,
+            "phase": "release",
+            "remaining": 1
+          },
+          {
+            "id": "reprisal",
+            "profile": "physical",
+            "color": "#d8a060",
+            "count": 1,
+            "cap": 1,
+            "phase": "release",
+            "remaining": 1
+          }
+        ],
+        "pulses": 2,
+        "runes": 3,
+        "fields": 0,
+        "buffs": 2,
+        "ward": 0
+      },
+      {
+        "name": "pop",
+        "labels": [
+          "944",
+          "Life",
+          "10000",
+          "Mana",
+          "1",
+          "LMB",
+          "1",
+          "RMB",
+          "1",
+          "1",
+          "HE",
+          "2",
+          "Warrior  —  Level 1",
+          "Proving Ground — Monster Lv 12",
+          "Day",
+          "Sanctuary"
+        ],
+        "fatal": null,
+        "rows": [
+          {
+            "id": "hot_streak",
+            "profile": "fire",
+            "color": "#ff9955",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          },
+          {
+            "id": "cold_payload",
+            "profile": "cold",
+            "color": "#7ad4ff",
+            "count": 2,
+            "cap": 3,
+            "phase": "stored"
+          },
+          {
+            "id": "rune:0",
+            "profile": "rune",
+            "color": "#9ad8f8",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          },
+          {
+            "id": "rune:1",
+            "profile": "rune",
+            "color": "#ffe14a",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          },
+          {
+            "id": "rune:2",
+            "profile": "rune",
+            "color": "#ff8a4a",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          },
+          {
+            "id": "cold_payload",
+            "profile": "cold",
+            "color": "#7ad4ff",
+            "count": 1,
+            "cap": 1,
+            "phase": "release",
+            "remaining": 0.98
+          },
+          {
+            "id": "reprisal",
+            "profile": "physical",
+            "color": "#d8a060",
+            "count": 1,
+            "cap": 1,
+            "phase": "release",
+            "remaining": 0.9777777777777777
+          },
+          {
+            "id": "hemorrhage",
+            "profile": "blood",
+            "color": "#e04858",
+            "count": 1,
+            "cap": 1,
+            "phase": "pop",
+            "remaining": 1
+          }
+        ],
+        "pulses": 3,
+        "runes": 3,
+        "fields": 0,
+        "buffs": 2,
+        "ward": 0
+      },
+      {
+        "name": "bright-small",
+        "labels": [
+          "944",
+          "Life",
+          "10000",
+          "Mana",
+          "1",
+          "LMB",
+          "1",
+          "RMB",
+          "1",
+          "1",
+          "HE",
+          "2",
+          "Warrior  —  Level 1",
+          "Proving Ground — Monster Lv 12",
+          "Day",
+          "Sanctuary"
+        ],
+        "fatal": null,
+        "rows": [
+          {
+            "id": "hot_streak",
+            "profile": "fire",
+            "color": "#ff9955",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          },
+          {
+            "id": "cold_payload",
+            "profile": "cold",
+            "color": "#7ad4ff",
+            "count": 2,
+            "cap": 3,
+            "phase": "stored"
+          },
+          {
+            "id": "rune:0",
+            "profile": "rune",
+            "color": "#9ad8f8",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          },
+          {
+            "id": "rune:1",
+            "profile": "rune",
+            "color": "#ffe14a",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          },
+          {
+            "id": "rune:2",
+            "profile": "rune",
+            "color": "#ff8a4a",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          },
+          {
+            "id": "cold_payload",
+            "profile": "cold",
+            "color": "#7ad4ff",
+            "count": 1,
+            "cap": 1,
+            "phase": "release",
+            "remaining": 0.98
+          },
+          {
+            "id": "reprisal",
+            "profile": "physical",
+            "color": "#d8a060",
+            "count": 1,
+            "cap": 1,
+            "phase": "release",
+            "remaining": 0.9777777777777777
+          },
+          {
+            "id": "hemorrhage",
+            "profile": "blood",
+            "color": "#e04858",
+            "count": 1,
+            "cap": 1,
+            "phase": "pop",
+            "remaining": 1
+          }
+        ],
+        "pulses": 3,
+        "runes": 3,
+        "fields": 0,
+        "buffs": 2,
+        "ward": 0
+      },
+      {
+        "name": "invoked",
+        "labels": [
+          "944",
+          "Life",
+          "9994",
+          "Mana",
+          "1",
+          "LMB",
+          "1",
+          "RMB",
+          "1",
+          "1",
+          "HE",
+          "2",
+          "Warrior  —  Level 1",
+          "Proving Ground — Monster Lv 12",
+          "Day",
+          "Sanctuary"
+        ],
+        "fatal": null,
+        "rows": [
+          {
+            "id": "hot_streak",
+            "profile": "fire",
+            "color": "#ff9955",
+            "count": 1,
+            "cap": 1,
+            "phase": "stored"
+          },
+          {
+            "id": "cold_payload",
+            "profile": "cold",
+            "color": "#7ad4ff",
+            "count": 2,
+            "cap": 3,
+            "phase": "stored"
+          },
+          {
+            "id": "cold_payload",
+            "profile": "cold",
+            "color": "#7ad4ff",
+            "count": 1,
+            "cap": 1,
+            "phase": "release",
+            "remaining": 0.98
+          },
+          {
+            "id": "reprisal",
+            "profile": "physical",
+            "color": "#d8a060",
+            "count": 1,
+            "cap": 1,
+            "phase": "release",
+            "remaining": 0.9777777777777777
+          },
+          {
+            "id": "hemorrhage",
+            "profile": "blood",
+            "color": "#e04858",
+            "count": 1,
+            "cap": 1,
+            "phase": "pop",
+            "remaining": 1
+          },
+          {
+            "id": "conflagration",
+            "profile": "rune",
+            "color": "#ff8a4a",
+            "count": 3,
+            "cap": 3,
+            "phase": "invoke",
+            "remaining": 1
+          }
+        ],
+        "pulses": 4,
+        "runes": 0,
+        "fields": 1,
+        "buffs": 2,
+        "ward": 0
+      },
+      {
+        "name": "expired",
+        "labels": [
+          "947",
+          "Life",
+          "9996",
+          "Mana",
+          "1",
+          "LMB",
+          "1",
+          "RMB",
+          "1",
+          "1",
+          "HE",
+          "Warrior  —  Level 1",
+          "Proving Ground — Monster Lv 12",
+          "Day",
+          "Sanctuary"
+        ],
+        "fatal": null,
+        "rows": [],
+        "pulses": 0,
+        "runes": 0,
+        "fields": 1,
+        "buffs": 0,
+        "ward": 0
+      },
+      {
+        "name": "mirrored",
+        "labels": [
+          "947",
+          "Life",
+          "9996",
+          "Mana",
+          "1",
+          "LMB",
+          "RMB",
+          "1",
+          "HE",
+          "3",
+          "Warrior  —  Level 1",
+          "Proving Ground — Monster Lv 12",
+          "Day",
+          "Sanctuary"
+        ],
+        "fatal": null,
+        "rows": [
+          {
+            "id": "mirror_payload",
+            "profile": "cold",
+            "color": "#7ad4ff",
+            "count": 3,
+            "cap": 3,
+            "phase": "stored"
+          }
+        ],
+        "pulses": 0,
+        "runes": 0,
+        "fields": 1,
+        "buffs": 0,
+        "ward": 0
+      }
+    ],
+    "observationSha256": "442c3547db6a7d54ad0004b1a3812d3e66afc1b7662efceb5d79116c3173a7b0",
+    "harnessSha256": "5ce03908bd97d95e3a55fdb12215e0f79d01f60a8d8b81b8e0a081d01177c917",
+    "originalCatalogue": "<local>/m38-proc-ui-original-catalog-ayoOiK",
+    "originalProbeSha256": "961481fa242dff66134c9747430f99559162e4f434283e4c8db22858fb8f2cd5",
+    "catalogueSha256": "cb44cf179b7a0ba1d8164190aa24e69edfb27374321ae0c376c27ba90a7607e6",
+    "sourceCapsuleUnchanged": true,
+    "stages": 10,
+    "scope": "Two independent published-v0.32 renderer executions agree on all ten observed stages, including earned ward selection and its visible count. Catalogue also matches a fresh execution of the pinned original probe, which writes only in a disposable output directory. No pixel-byte, FPS or device claim."
+  },
+  "staleInputRejection": {
+    "output": "<local>/m38-proc-ui-inputs-vxqvQ6",
+    "results": [
+      {
+        "name": "source",
+        "rejected": true,
+        "message": "Stale renderer source"
+      },
+      {
+        "name": "runtime",
+        "rejected": true,
+        "message": "Stale renderer SDK"
+      },
+      {
+        "name": "bundle",
+        "rejected": true,
+        "message": "Renderer output changed since build"
+      }
+    ],
+    "controlUnchanged": true,
+    "scope": "Disposable corrupted build receipts/bundles rejected before an Electron launch. No source, installed-runtime or retained-bundle mutations."
+  },
+  "requestComparison": {
+    "control": {
+      "controlVersion": "0.32.0",
+      "controlGame": "<local>/game-adapter-m37-optimized",
+      "reports": "<local>/skill-request-ui-pNGCeH",
+      "harnessSha256": "29f912999d3947870a76ea0872487c8dedcc4f6f2b81f15c5049e2ab1824e0c1",
+      "receiptSha256": "a7bbf4cbd579a2fea329978d54552701f3ddf709a8588f65e2035ec8ca2a5a69",
+      "stages": 6,
+      "decision": "Retain accepted M37 renderer outcomes without regenerating expected results."
+    },
+    "candidate": {
+      "game": "<local>/game-adapter-m38-observer",
+      "dist": "<local>/ui-request-m38",
+      "reports": "<local>/skill-request-ui-dG6AhH",
+      "passed": true,
+      "harnessSha256": "29f912999d3947870a76ea0872487c8dedcc4f6f2b81f15c5049e2ab1824e0c1",
+      "scope": "Mounted renderer with native gem learning, authored tree purchase and player-intent polling. Six real request stages test trigger/replenishment toggles and prior seal authority, activity and payment. Trigger support, skill level and account awakening eligibility explicitly seeded; no claim of earning account progression, physical-device or all-gates rendering acceptance. Isolated saves."
+    },
+    "receiptSha256": "a7bbf4cbd579a2fea329978d54552701f3ddf709a8588f65e2035ec8ca2a5a69",
+    "rawByteEqual": true,
+    "stages": 6
+  },
+  "images": [
+    {
+      "file": "proc-ward-earned.png",
+      "sha256": "febcc57baf014a950c267ecaf5f1cf4bac9d7f900301ba9e46c80f059adf1e39",
+      "finding": "Ward count 300 is visible above life 101, with a blue film on the life orb and the game scene rendered."
+    },
+    {
+      "file": "proc-bright-small.png",
+      "sha256": "c793b259ec7ded768387e8d61ca2b2f7c36f99452e27becba819d9e36fa0f7c3",
+      "finding": "Compact bright scene renders all five enemy material profiles, player proc cues, rune markers and HUD counters inside the viewport."
+    },
+    {
+      "file": "request-toggles.png",
+      "sha256": "17501baa1b2d18841830e49f647f40594466e2f41b8ae0c142a8aa3721270f6d",
+      "finding": "Replenishment feedback and the expected skill toggles render with readable life/mana values."
+    }
+  ],
+  "scope": "Direct visual inspection of these three candidate captures, alongside structured checks for all twelve renderer scenarios. Existing host visuals are preserved. No pixel-perfect, frame-rate or target-device claim."
+}
