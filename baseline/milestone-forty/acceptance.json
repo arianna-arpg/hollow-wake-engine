@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "milestone": 40,
+  "stage": "Bounded original delayed-effect baseline accepted before scheduler implementation or intentional repair. Native failures are retained unchanged.",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLock": "baseline/source-lock.json",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "predecessor": {
+    "version": "0.34.0",
+    "commit": "aa1ff29402840b26284864b003a3e89638daeea3",
+    "publicRepository": "https://github.com/arianna-arpg/hollow-wake-engine",
+    "archive": "sha512-/1SuqEYUhK6nG1UUfaNyblajdxnWIl/8cQxj8b7Pu8jmbkx0faBfDDOO2xsDoP8WN55YB6wpIgvGyc6vCGdLQw=="
+  },
+  "courses": 48,
+  "helpers": [
+    {
+      "file": "reference/export-delayed-ordering.ts",
+      "sha256": "9c6e69801662bbc28a76b24d5eb656664ee8d5bc4894035db5883daeecbdc02e"
+    },
+    {
+      "file": "reference/export-delayed-defense.ts",
+      "sha256": "29e76f35a45c3a37fdefdf9ba4a29d95ce65f746524ed50a31dbe18eb8c9d17a"
+    },
+    {
+      "file": "reference/export-delayed-descent.ts",
+      "sha256": "c7f13daba634183a637d39629242cb27ea8af78e814f9486a5125f4f5a0b2773"
+    },
+    {
+      "file": "reference/export-delayed-frames.ts",
+      "sha256": "17eff9f88913cff0fade6d5089d929168afe8bffb7be5a43968b741eeed99050"
+    },
+    {
+      "file": "reference/export-delayed-load.ts",
+      "sha256": "a69748910e09f32c6d45d722977b195511ee12b2f148a7c16f606f1448d7a071"
+    },
+    {
+      "file": "reference/export-delayed-stale.ts",
+      "sha256": "f8420d5f609b8513fc2a6d6ba0db78fdde7dbd320cb657610e6220dd6bcbd837"
+    },
+    {
+      "file": "reference/export-delayed-passives.ts",
+      "sha256": "074c10b34c5981acf2fbab5dbd9e8db5ae81bbb03d439d7d4d990aeb4e7777ce"
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "delayed-ordering",
+      "file": "baseline/milestone-forty/delayed-ordering.json.gz",
+      "helper": "reference/export-delayed-ordering.ts",
+      "helperSha256": "9c6e69801662bbc28a76b24d5eb656664ee8d5bc4894035db5883daeecbdc02e",
+      "args": [],
+      "courses": 15,
+      "fixtureSha256": "537d981769f0b9893f42b4175f065db3516718f15d17820650b5baa22937fefb",
+      "compressedSha256": "8ae63f51c8c890b419e0790c6cf88af47850917067c1949f338f0a88052f3b47",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "version": "0.34.0",
+        "commit": "aa1ff29402840b26284864b003a3e89638daeea3",
+        "archive": "sha512-/1SuqEYUhK6nG1UUfaNyblajdxnWIl/8cQxj8b7Pu8jmbkx0faBfDDOO2xsDoP8WN55YB6wpIgvGyc6vCGdLQw==",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "537d981769f0b9893f42b4175f065db3516718f15d17820650b5baa22937fefb"
+      }
+    },
+    {
+      "name": "delayed-defense",
+      "file": "baseline/milestone-forty/delayed-defense.json.gz",
+      "helper": "reference/export-delayed-defense.ts",
+      "helperSha256": "29e76f35a45c3a37fdefdf9ba4a29d95ce65f746524ed50a31dbe18eb8c9d17a",
+      "args": [],
+      "courses": 14,
+      "fixtureSha256": "a7b06897fe801e38f2dff56a8d4b52a3a0e4e9885beaea648b7c58778cb485b3",
+      "compressedSha256": "f113911d2da56dcac2c264b457216b33807f865979e02b74f756d1abce7dcd5d",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "version": "0.34.0",
+        "commit": "aa1ff29402840b26284864b003a3e89638daeea3",
+        "archive": "sha512-/1SuqEYUhK6nG1UUfaNyblajdxnWIl/8cQxj8b7Pu8jmbkx0faBfDDOO2xsDoP8WN55YB6wpIgvGyc6vCGdLQw==",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "a7b06897fe801e38f2dff56a8d4b52a3a0e4e9885beaea648b7c58778cb485b3"
+      }
+    },
+    {
+      "name": "delayed-descent",
+      "file": "baseline/milestone-forty/delayed-descent.json.gz",
+      "helper": "reference/export-delayed-descent.ts",
+      "helperSha256": "c7f13daba634183a637d39629242cb27ea8af78e814f9486a5125f4f5a0b2773",
+      "args": [],
+      "courses": 2,
+      "fixtureSha256": "61e589291759f72e4cb56d2659213a71b15e004ed0bb243ac1c48bc60a8fe9c2",
+      "compressedSha256": "a8aa5eea60930c1b926aeb7b821a11a1618d637f02225f4f8df86e653b3b74cc",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "version": "0.34.0",
+        "commit": "aa1ff29402840b26284864b003a3e89638daeea3",
+        "archive": "sha512-/1SuqEYUhK6nG1UUfaNyblajdxnWIl/8cQxj8b7Pu8jmbkx0faBfDDOO2xsDoP8WN55YB6wpIgvGyc6vCGdLQw==",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "61e589291759f72e4cb56d2659213a71b15e004ed0bb243ac1c48bc60a8fe9c2"
+      }
+    },
+    {
+      "name": "delayed-frames",
+      "file": "baseline/milestone-forty/delayed-frames.json.gz",
+      "helper": "reference/export-delayed-frames.ts",
+      "helperSha256": "17eff9f88913cff0fade6d5089d929168afe8bffb7be5a43968b741eeed99050",
+      "args": [],
+      "courses": 7,
+      "fixtureSha256": "e6ed1a9a40ffe328100b07c32f81c0c7bdbcda2edeb80aae6ed3eb803514ce8f",
+      "compressedSha256": "2de64e0b9af9be3932cadced062c07c9ec2151ee5207f22ee92fb46a502870e7",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "version": "0.34.0",
+        "commit": "aa1ff29402840b26284864b003a3e89638daeea3",
+        "archive": "sha512-/1SuqEYUhK6nG1UUfaNyblajdxnWIl/8cQxj8b7Pu8jmbkx0faBfDDOO2xsDoP8WN55YB6wpIgvGyc6vCGdLQw==",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "e6ed1a9a40ffe328100b07c32f81c0c7bdbcda2edeb80aae6ed3eb803514ce8f"
+      }
+    },
+    {
+      "name": "delayed-load",
+      "file": "baseline/milestone-forty/delayed-load.json.gz",
+      "helper": "reference/export-delayed-load.ts",
+      "helperSha256": "a69748910e09f32c6d45d722977b195511ee12b2f148a7c16f606f1448d7a071",
+      "args": [],
+      "courses": 6,
+      "fixtureSha256": "575ad566e66868ff5f90f22309fde2268d34653572c45ba0514a2c62675cdb8e",
+      "compressedSha256": "29dd95640ac3f796792a85356c6a4bdfcfb4b6dc7a1973357b67f51c35fdcffd",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "version": "0.34.0",
+        "commit": "aa1ff29402840b26284864b003a3e89638daeea3",
+        "archive": "sha512-/1SuqEYUhK6nG1UUfaNyblajdxnWIl/8cQxj8b7Pu8jmbkx0faBfDDOO2xsDoP8WN55YB6wpIgvGyc6vCGdLQw==",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "575ad566e66868ff5f90f22309fde2268d34653572c45ba0514a2c62675cdb8e"
+      }
+    },
+    {
+      "name": "delayed-stale",
+      "file": "baseline/milestone-forty/delayed-stale.json.gz",
+      "helper": "reference/export-delayed-stale.ts",
+      "helperSha256": "f8420d5f609b8513fc2a6d6ba0db78fdde7dbd320cb657610e6220dd6bcbd837",
+      "args": [],
+      "courses": 2,
+      "fixtureSha256": "d102588a56abfe2f05368ab5723a93e8240a2f5be0be758049199241935ea563",
+      "compressedSha256": "1ae2852716932816904c9e9a1ec23789215f4168b76ddbfc625beff38ccea255",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "version": "0.34.0",
+        "commit": "aa1ff29402840b26284864b003a3e89638daeea3",
+        "archive": "sha512-/1SuqEYUhK6nG1UUfaNyblajdxnWIl/8cQxj8b7Pu8jmbkx0faBfDDOO2xsDoP8WN55YB6wpIgvGyc6vCGdLQw==",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "d102588a56abfe2f05368ab5723a93e8240a2f5be0be758049199241935ea563"
+      }
+    },
+    {
+      "name": "delayed-passives",
+      "file": "baseline/milestone-forty/delayed-passives.json.gz",
+      "helper": "reference/export-delayed-passives.ts",
+      "helperSha256": "074c10b34c5981acf2fbab5dbd9e8db5ae81bbb03d439d7d4d990aeb4e7777ce",
+      "args": [],
+      "courses": 2,
+      "fixtureSha256": "440e035b845eea68985399e4f3a5bb07c5bd66b4e4863f32011a6e0f361d527d",
+      "compressedSha256": "6ad14fe0039c279f8a44ab85f1ec1796fa5914ca7db73ee7d788975db9206218",
+      "originalRuns": 2,
+      "helperTypesPassed": true,
+      "retainedComparison": {
+        "version": "0.34.0",
+        "commit": "aa1ff29402840b26284864b003a3e89638daeea3",
+        "archive": "sha512-/1SuqEYUhK6nG1UUfaNyblajdxnWIl/8cQxj8b7Pu8jmbkx0faBfDDOO2xsDoP8WN55YB6wpIgvGyc6vCGdLQw==",
+        "typesPassed": true,
+        "scope": "raw-byte-equal",
+        "sha256": "440e035b845eea68985399e4f3a5bb07c5bd66b4e4863f32011a6e0f361d527d"
+      }
+    }
+  ],
+  "sourceBoundaries": {
+    "file": "baseline/milestone-forty/source-boundaries.json",
+    "sha256": "69e2517b106ff83195bd0fb27756fe4e63a0160f9249adf4d83685c4e05fa812"
+  },
+  "decisions": [
+    {
+      "id": "delayed-original-observations/v1",
+      "rule": "Original helper and fixture bytes remain verbatim, including historical discovery-scope wording. This manifest accepts the observations, not the defective behavior as a future SDK promise."
+    }
+  ],
+  "findings": [
+    "Reverse insertion order, live per-entry clock and removal before delivery; appended entries wait for the next drain in observed cases.",
+    "Captured geometry/time/tier/depth/color, borrowed effect payload and owner; level sampled per burst, team sampled per target.",
+    "Native target-array iterator semantics, mitigation/healing/notification/death order and partial commits on failure.",
+    "Burst heals resolve after actor updates; their heal-triggered responses wait until the following frame. World pause/slow motion govern the scheduler clock.",
+    "Schedule warning failures leave the queued entry committed and skip the rider tail.",
+    "A native descent wipe can replace the queue during delivery: an earlier pending entry then causes TypeError, and the old actor iterator can damage an actor already removed by loadZone.",
+    "All five loaded delayed definitions are represented, including native summon-death and completed-song event paths."
+  ],
+  "limits": [
+    "Private queue mutation/re-entry cases are diagnostics, not claims of ordinary player flows.",
+    "Authored contact-batch occupancy is a controlled workload, not production-player telemetry, a capacity bound, a whole-frame benchmark or hardware acceptance.",
+    "No SDK scheduler, game repair, serialized-content validator or native-engine integration is delivered by this baseline.",
+    "Acceptance preserves all existing original fixtures; intended corrections need their own explicit contract before implementation."
+  ]
+}

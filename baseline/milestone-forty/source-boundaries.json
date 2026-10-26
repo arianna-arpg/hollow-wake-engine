@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "world": {
+    "file": "src/engine/world.ts",
+    "sha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+  },
+  "drain": {
+    "sha256": "85b0d2854317cbe46e6d003de7feb34b7c2f9fec13e665dfe8d418788d891fd0",
+    "text": "private updatePendingBursts(): void {\n    for (let i = this.pendingBursts.length - 1; i >= 0; i--) {\n      const b = this.pendingBursts[i];\n      if (this.time < b.when) continue;\n      this.pendingBursts.splice(i, 1);\n      const lvl = Math.max(0, b.owner.level - 1);\n      this.flashes.push({ pos: vec(b.at.x, b.at.y), radius: b.fx.radius, color: b.color, life: 0.3, maxLife: 0.3 });\n      for (const a of this.actors) {\n        if (a.dead || a.untargetable) continue;\n        if (a.tier !== b.tier) continue; // the bloom keeps to its story (the sovereignty gate)\n        if (dist(b.at, a.pos) - a.radius > b.fx.radius) continue;\n        if (a.team === b.owner.team) {\n          if (b.fx.healAllies) {\n            const healed = a.healBy(b.fx.healAllies.base + b.fx.healAllies.perLevel * lvl);\n            if (healed > 0.5) this.text(a.pos, '+' + Math.round(healed), '#8ae0a8', 11);\n          }\n        } else if (b.fx.damage) {\n          const landed = mitigateTyped(a, {\n            [b.fx.damage.type]: b.fx.damage.base + b.fx.damage.perLevel * lvl,\n          });\n          if (landed <= 0 || a.invulnerable) continue;\n          a.life -= landed;\n          a.hitFlash = 0.15;\n          a.hitFlashType = b.fx.damage.type;\n          this.text(a.pos, Math.round(landed).toString(), b.color, 12);\n          if (a.esBroke) {\n            a.esBroke = false;\n            this.rollOwnProcs(a, 'esBreak', { depth: b.depth });\n          }\n          this.sweepDefenseEvents(a, b.depth);\n          if (a.life <= 0 && !a.dead) this.kill(a);\n        }\n      }\n    }\n  }"
+  },
+  "schedule": {
+    "sha256": "73358ac6ecb15d6c148bf607c60c830d070ad511ddec9194bf955e0c6bd9ef19",
+    "text": "case 'delayedBurst': {\n        const spot = fx.at === 'self' || !target ? caster.pos : target.pos;\n        this.pendingBursts.push({\n          at: vec(spot.x, spot.y), when: this.time + fx.delay,\n          owner: caster, fx, color: proc.color, depth: depth + 1, tier: caster.tier,\n        });\n        this.flashes.push({\n          pos: vec(spot.x, spot.y), radius: fx.radius,\n          color: proc.color, life: fx.delay, maxLife: fx.delay, edgeFrac: 0.94,\n        });\n        break;\n      }"
+  },
+  "queueDeclaration": {
+    "sha256": "f304b7ae5f7105204b7aaa4edba74f3a7cd3c80b79cf996655101744675633cc",
+    "text": "private pendingBursts: {\n    at: Vec2; when: number; owner: Actor; color: string; depth: number;\n    /** The bloom's story (the sovereignty gate) — its owner's at the ask. */\n    tier: number;\n    fx: Extract<ProcDef['effect'], { type: 'delayedBurst' }>;\n  }[] = [];"
+  },
+  "reset": {
+    "method": "loadZone",
+    "methodSha256": "95e0b1eec2b03218553cfa7d3cd2cc74885589ca5f931f585ef18005240d6fa5",
+    "sha256": "92b8d19841d6d6e67f42c8b6d410da2ff8408df89e8707bae8129ce9f47eebc3",
+    "text": "this.pendingBursts = []"
+  },
+  "frame": {
+    "method": "update",
+    "methodSha256": "bf7c90b765db4f7294d4f8caab5f143cd552383d9146946f41a37c31b1c0dc65",
+    "statementIndex": 141,
+    "orderedMethods": [
+      "updateTempGrounds",
+      "updateEvaporation",
+      "updatePendingBursts",
+      "updatePendingContagions",
+      "updateTerrainEffects"
+    ],
+    "text": "this.updateTempGrounds(dt);\nthis.updateEvaporation(dt);\nthis.updatePendingBursts();\nthis.updatePendingContagions();\nthis.updateTerrainEffects(dt);",
+    "sha256": "cf5bb10f5d36b1e91fe0d95acb0734846dac856c2fa63cea344d19a206f6c1b5"
+  },
+  "deathResetPath": [
+    {
+      "method": "kill",
+      "sha256": "33259fb4c8d765a6b6ef8dbc86ce2f2792bb40d829a719b187e5c3b736e7f1fd"
+    },
+    {
+      "method": "onPlayerDown",
+      "sha256": "d3b6a8b1ba912cf6bd68461647b8bd0435f992fa66d4294de1175f3173142115"
+    },
+    {
+      "method": "concludeWipe",
+      "sha256": "30bb6196f4f50d58b5ac955f27748446b6715c48c961aa814e9be29dcf2aaaf4"
+    },
+    {
+      "method": "resurfaceFromDescent",
+      "sha256": "e391464ec3990658439be8c928b249b84ae5aa3f5b4eb5e04f9ca59e07832ccb"
+    },
+    {
+      "method": "loadZone",
+      "sha256": "95e0b1eec2b03218553cfa7d3cd2cc74885589ca5f931f585ef18005240d6fa5"
+    }
+  ],
+  "catalogue": {
+    "definitions": [
+      {
+        "id": "radiant_reprisal",
+        "name": "Radiant Reprisal",
+        "color": "#ffe8b0",
+        "trigger": "hit",
+        "skills": [
+          "sanctified_strike"
+        ],
+        "oncePerCast": true,
+        "effect": {
+          "type": "delayedBurst",
+          "delay": 0.5,
+          "radius": 120,
+          "at": "target",
+          "damage": {
+            "type": "fire",
+            "base": 12,
+            "perLevel": 2.5
+          },
+          "healAllies": {
+            "base": 8,
+            "perLevel": 1.5
+          }
+        }
+      },
+      {
+        "id": "radiant_cascade",
+        "name": "Radiant Cascade",
+        "color": "#ffd890",
+        "trigger": "hit",
+        "skills": [
+          "sanctified_strike"
+        ],
+        "effect": {
+          "type": "delayedBurst",
+          "delay": 0.5,
+          "radius": 70,
+          "at": "target",
+          "damage": {
+            "type": "fire",
+            "base": 6,
+            "perLevel": 1.2
+          },
+          "healAllies": {
+            "base": 4,
+            "perLevel": 0.8
+          }
+        }
+      },
+      {
+        "id": "sainted_ash",
+        "name": "Sainted Ash",
+        "color": "#ffe8b0",
+        "trigger": "kill",
+        "minionCarry": true,
+        "effect": {
+          "type": "delayedBurst",
+          "delay": 0.35,
+          "radius": 110,
+          "at": "target",
+          "damage": {
+            "type": "fire",
+            "base": 10,
+            "perLevel": 2
+          },
+          "healAllies": {
+            "base": 6,
+            "perLevel": 1.2
+          }
+        }
+      },
+      {
+        "id": "native_parting_blessing",
+        "name": "Parting Blessing",
+        "color": "#d5c08c",
+        "trigger": "minionDeath",
+        "icd": 4,
+        "effect": {
+          "type": "delayedBurst",
+          "at": "target",
+          "delay": 0.4,
+          "radius": 110,
+          "healAllies": {
+            "base": 4,
+            "perLevel": 1
+          }
+        }
+      },
+      {
+        "id": "native_song_of_return",
+        "name": "Song of Return",
+        "color": "#d5c08c",
+        "trigger": "cast",
+        "tags": [
+          "song"
+        ],
+        "icd": 5,
+        "effect": {
+          "type": "delayedBurst",
+          "at": "self",
+          "delay": 0.5,
+          "radius": 110,
+          "healAllies": {
+            "base": 3,
+            "perLevel": 1
+          }
+        }
+      }
+    ],
+    "sourceFiles": [
+      {
+        "file": "src/data/procs.ts",
+        "sha256": "d5627f3f27f0c747f3202ed4ac80908fc9c1596433322171ff5ebba62500b77a"
+      },
+      {
+        "file": "src/data/passiveNotables.ts",
+        "sha256": "4e5cef6aa4fa1c7989ae5119a825dcc35f874b13d84e5bb256a1b09fbcc4bf8a"
+      }
+    ],
+    "note": "The loaded original catalogue contains three directly authored and two native passive-registered delayed effects. Static inspection of data/procs.ts alone is incomplete."
+  }
+}
