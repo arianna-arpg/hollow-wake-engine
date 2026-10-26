@@ -19,8 +19,11 @@ const faults=[
  ['runtime','detached-record-cleared','if (!write) {','if (!write) { buff.stacks = 0; buff.remaining = 0;'],
  ['runtime','modifiers-not-stacked','value: mod.value * buff.stacks','value: mod.value'],
  ['runtime','source-removal-skipped','this.ports.removeSource(owner, source);','void 0;'],
- ['runtime','advance-guard-not-cleared','this.advancing.delete(owner);','void owner;'],
- ['runtime','same-owner-reentry-admitted','if (this.advancing.has(owner))','if (false)'],
+ ['runtime','advance-guard-not-cleared','active.owner = previous;','void owner;'],
+ ['runtime','same-owner-reentry-admitted','if (active.owner !== undefined && (active.owner === owner || active.parents?.includes(owner)))','if (false)'],
+ ['runtime','ancestor-reentry-admitted','active.owner === owner || active.parents?.includes(owner)','active.owner === owner'],
+ ['runtime','outer-guard-not-restored','active.owner = previous;','active.owner = undefined;'],
+ ['runtime','unwound-ancestor-not-released','active.parents.pop();','void previous;'],
  ['runtime','nesting-budget-off-by-one','this.nesting >= BUFF_LIMITS.nesting','this.nesting > BUFF_LIMITS.nesting'],
  ['runtime','visit-budget-off-by-one','++visits > BUFF_LIMITS.visits','++visits > BUFF_LIMITS.visits + 1'],
  ['runtime','host-consume-dispatch-bypassed','this.ports.consume(owner, id, 1);','this.consume(owner, id, 1);'],
@@ -35,7 +38,7 @@ for(const [kind,name,before,after] of faults){
  let changed=source.replace(before,after);
  if(kind==='content')changed=changed.replace(/from '(\.\/[^']+)'/g,(_all,relative)=>'from '+JSON.stringify(pathToFileURL(path.join(root,'dist',relative)).href));
  const file=path.join(output,name+'.mjs');fs.writeFileSync(file,changed,{flag:'wx'});
- const files=kind==='runtime'?['test/buffs.test.mjs','test/buff-native.test.mjs']:['test/buff-content.test.mjs'];
+ const files=kind==='runtime'?['test/buffs.test.mjs','test/buff-native.test.mjs','test/buff-reentry.test.mjs']:['test/buff-content.test.mjs'];
  const variable=kind==='runtime'?'HOLLOW_WAKE_BUFF_MODULE':'HOLLOW_WAKE_BUFF_CONTENT_MODULE';
  const run=spawnSync(process.execPath,['--test',...files],{cwd:root,encoding:'utf8',timeout:30_000,env:{...process.env,[variable]:pathToFileURL(file).href}}),log=run.stdout+run.stderr;
  fs.writeFileSync(path.join(output,name+'.txt'),log,{flag:'wx'});

@@ -145,7 +145,7 @@ if (inject) for (const [name, target, before, after, fixture] of [
   ['spend-uses-live-map', 'runtime', 'for (const [id, buff] of [...owner.buffs])', 'for (const [id, buff] of owner.buffs)', 'buff-edges'],
   ['expiry-uses-snapshot', 'runtime', 'for (const [id, buff] of owner.buffs)', 'for (const [id, buff] of [...owner.buffs])', 'buff-edges'],
   ['release-port-omitted', 'runtime', 'this.ports.release(owner, buff.def, id, Math.min(count, buff.stacks));', 'void id;', 'buff-callbacks'],
-  ['same-actor-reentry-admitted', 'runtime', 'if (this.advancing.has(owner))', 'if (false)', 'host'],
+  ['same-actor-reentry-admitted', 'runtime', 'if (active.owner !== undefined && (active.owner === owner || active.parents?.includes(owner)))', 'if (false)', 'host'],
   ['native-publication-zeroed', 'binding', 'actor.sheet.setSource(source, mods)', 'actor.sheet.setSource(source, mods.map(m => ({...m, value: 0})))', 'buff-lifecycle'],
   ['release-phase-changed', 'binding', "'release', id, count", "'gain', id, count", 'buff-callbacks'],
   ['release-count-ignored', 'binding', "'release', id, count", "'release', id, 1", 'host'],

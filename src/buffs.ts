@@ -57,7 +57,9 @@ export class BuffRuntime<
   O extends BuffOwner<D, T> = BuffOwner<D, T>,
 > {
   private readonly ports: BuffPorts<M, D, O>;
-  private readonly advancing = new WeakSet<O>();
+  private readonly advancing: { owner: O | undefined; parents: O[] | undefined } = {
+    owner: undefined, parents: undefined,
+  };
   private nesting = 0;
 
   constructor(ports: BuffPorts<M, D, O>) {
@@ -176,10 +178,15 @@ export class BuffRuntime<
    * Live map iteration preserves callback insertions/deletions. */
   advance(owner: O, delta: number): void {
     nonnegative(delta, 'Buff delta');
-    if (this.advancing.has(owner)) throw new Error('Buff advance is already active for this owner');
+    const active = this.advancing;
+    if (active.owner !== undefined && (active.owner === owner || active.parents?.includes(owner))) throw new Error('Buff advance is already active for this owner');
     if (!owner.buffs.size) return;
     this.enter();
-    this.advancing.add(owner);
+    const previous = active.owner;
+    // Ordinary ticks need no collection. Allocate only for cross-owner nesting,
+    // whose depth is bounded by enter(), and retain no owners after unwinding.
+    if (previous !== undefined) (active.parents ??= []).push(previous);
+    active.owner = owner;
     try {
       let visits = 0;
       for (const [id, buff] of owner.buffs) {
@@ -212,6 +219,11 @@ export class BuffRuntime<
           this.publish(owner, id);
         }
       }
-    } finally { this.advancing.delete(owner); this.nesting--; }
+    } finally {
+      active.owner = previous;
+      if (previous !== undefined) active.parents!.pop();
+      else active.parents = undefined;
+      this.nesting--;
+    }
   }
 }

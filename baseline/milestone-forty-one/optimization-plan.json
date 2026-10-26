@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "decision": "buff-reentry-storage/v1",
+  "status": "candidate-before-measurement",
+  "motivation": "The two initial native comparisons measured approximately 240 additional retained bytes per used/active Actor. Shared refresh and capped-grant costs also increased; those observations remain retained rather than replaced.",
+  "initialEvidence": "evidence/milestone-forty-one/buffs-initial-performance.json",
+  "candidate": "Replace the eagerly allocated per-runtime WeakSet with a current-owner record and a lazily allocated ancestor array. Ordinary nonnested ticks create no guard collection. Release ancestor storage after the outer call, including failures.",
+  "behaviorChanges": [],
+  "preserved": [
+    "Reject same-owner advance before the empty-map return.",
+    "Allow another owner and reject every still-active ancestor.",
+    "Restore the enclosing owner after nested success or failure.",
+    "Permit an unwound owner while an outer call remains active.",
+    "Keep the exact 64-operation nesting bound and partial-commit semantics.",
+    "Keep supplied-port snapshots, validation and native publication/cue behavior.",
+    "Retain no owner references after the outer operation returns or throws."
+  ],
+  "additionalVerification": {
+    "test": "test/buff-reentry.test.mjs",
+    "cases": 5,
+    "passedOnInitialRuntimeBeforeChange": true,
+    "releasedOwnerWitnesses": 12,
+    "newFaults": [
+      "ancestor-reentry-admitted",
+      "outer-guard-not-restored",
+      "unwound-ancestor-not-released"
+    ]
+  },
+  "measurement": {
+    "plan": "baseline/milestone-forty-one/performance-plan.json",
+    "planSha256": "2c2e84f6dc154dfbc668adaa8a71eccf0e3f7cc58f7beb3d6f11236a4f66c0ef",
+    "helperSha256": "ec9da09799cd65d52567a25616dd99f38c29078246c8700ce4aa51604127451d",
+    "graphs": ["retained v0.35", "retained initial M41", "candidate"],
+    "independentRuns": 2,
+    "inputsUnchanged": true,
+    "allowedChangedRuntimeOutputs": ["buffs.js", "buffs.js.map"]
+  },
+  "tradeoffsAndLimits": [
+    "Ancestor lookup is linear in the active nesting depth, bounded to 63 ancestors; the native benchmark does not time deeply nested callback chains.",
+    "Cross-owner nesting allocates temporary ancestor storage. Retained-heap measurements do not quantify allocation volume or peak memory.",
+    "The memory benchmark measures warmed Actor graphs after grants/removal. The separate collection test covers ordinary, nested and failed timer updates, without a byte-budget claim for those paths.",
+    "CPU profiling identified costs across adapter/runtime/stat work rather than one removable operation. Grant validation and publication remain unchanged in this candidate.",
+    "No improvement is accepted before the prescribed comparisons. Desktop results do not establish Steam Deck, mobile or native-engine performance."
+  ]
+}
