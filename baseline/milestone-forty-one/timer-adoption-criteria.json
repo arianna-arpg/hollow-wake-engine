@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "decision": "buff-live-clock-prefix-adoption/v1",
+  "status": "recorded-before-comparative-timing",
+  "candidateCommit": "e71994d22ca353bff01a92401e741ecc409a1bb6",
+  "purpose": "Decide whether the extra branch/loop code is worth retaining. These are local engineering acceptance thresholds, not confidence intervals or device budgets.",
+  "requirements": [
+    "All original, SDK, installed game, failure and renderer checks pass with unchanged accepted expectations.",
+    "Run the unchanged 13-workload/6-memory-case plan twice, comparing native v0.35, the retained reentry candidate and the timer candidate.",
+    "Independent-live-timers median is at least 3% below the reentry candidate in each independent run.",
+    "No other planned workload has a median regression greater than 5% against the reentry candidate in both independent runs.",
+    "Used/active Actor retained-memory medians remain within 16 bytes per actor of the reentry candidate in both runs, with all collection witnesses released.",
+    "All existing code-size limits remain unchanged and pass."
+  ],
+  "failureAction": "If the requirements are not met, restore the simpler reentry implementation while retaining the new behavior tests, the candidate and all measurements. Do not repeat trials merely to seek a passing ranking.",
+  "limits": "Passing permits retaining this implementation; it establishes neither statistical certainty nor a whole-game, native-engine, Steam Deck or mobile performance claim. Grant costs remain a separate documented boundary cost."
+}

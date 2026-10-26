@@ -33,7 +33,7 @@ if (inject) {
     'm38-prepared-adapter-location.json', 'm38-proc-initial/retained.json', 'm38-observation-control/retained.json',
     'm38-native-array-initial-control/retained.json', 'm38-effect-control/retained.json', 'm39-ward-initial-control/retained.json',
     'm39-delayed-control/retained.json', 'm40-delayed-initial-control/retained.json', 'm40-buff-control/retained.json',
-    'm40-measured-control/retained.json', 'm41-buff-initial-control/retained.json', 'm41-buff-control/retained.json', 'm41-measured-control/retained.json',
+    'm40-measured-control/retained.json', 'm41-buff-initial-control/retained.json', 'm41-buff-control/retained.json', 'm41-measured-control/retained.json', 'm41-timer-control/retained.json',
   ]) {
     const file = path.join(artifacts, name);
     if (!fs.existsSync(file)) continue;
