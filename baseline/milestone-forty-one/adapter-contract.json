@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "decision": "buff-lifecycle-adapter/v1",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "sourceBoundariesSha256": "ef020cfd3df16f6b92dc7cfe5586dd13b2ef0f06067ef0792f03f67e4f794b15",
+  "predecessor": {
+    "commit": "193b84fcee89cbde48af05ba0361a68f5a589bea",
+    "actorSha256": "9ff79836e98db446aba1cce2c8df36abc817fb9f52a85915fd9517307729773e"
+  },
+  "members": {
+    "addBuff": "223208ef1a131069e7021a4ecd2168454553abb478ec9dd65941d30d7b5eafff",
+    "consumeBuffStacks": "cf307437fc6ac6a209fe465dbdd2d146400c021fe8d8c9c9801b1da0ae60a213",
+    "spendBuffs": "7359b49f3d805192883f589bd2a4c74cee2bb814ecd6d09d07e64ad011264e81",
+    "syncBuffSource": "c2544482c22cddbdd1001397e36289972029a8912bc2f90f429749460407a137",
+    "removeBuff": "634694ea870ca8eb392cc8b8d7422ed5e2a34dbbd63e715458f1ab9d9d118c95",
+    "updateTimers": "f592659de063583892cfad4112f99b11571be640137172bce37125532c23f7c2",
+    "buffs": "c28a75b67ab8aabbd4727c838733ddabf58b79e468fab020050de04f7cae2ca7",
+    "gainEvents": "7c7702b4cf12cf519926184468ce1e1e9fc4c836029e48003bca3d01f61c56aa"
+  },
+  "interfaces": {
+    "ActiveBuff": "fe632f19158049e46ce4c09a5c13ac78d07fd18f18cef584bc9d6f060d437c21",
+    "GainEvent": "0ebf14943ed2de856a9bf91b1f9a6d1e0c2535cfc10f6335971e48cd714e0fe6"
+  },
+  "buffEffectSha256": "728ee0ae0430bbbfb96fd1edc449e2c08e13551aa9097cbb8c97e50c63afe66b",
+  "timer": {
+    "loopSha256": "1adcbb5d7744380b7fe3c86131b953b3f23d8029bad0e0343dd43a02ff2dfca0",
+    "beforeSha256": "0156d448fd20908eeffe5cf18077a66ea33c8bc818b2cddee6e85ca4d46ceed0",
+    "afterSha256": "21f19e2fc556375fef41ce6f87b6efacdc68840941193458c129133ef60284e8"
+  },
+  "reservedNames": [
+    "EngineBuffRuntime",
+    "buffPorts",
+    "sdkBuffRuntime",
+    "sdkBuffs"
+  ],
+  "imports": [
+    "import {BuffRuntime as EngineBuffRuntime} from '@hollow-wake/engine/combat/buffs';",
+    "import {buffPorts} from './buffAdapter';"
+  ],
+  "reconstruction": "Pinned Actor plus the accepted first engine adapter, ammunition and resource-payment transformations reproduces every guarded member of the retained v0.35 actor.",
+  "ownership": "Each actor lazily owns its runtime. The shared port table is immutable. Empty never-buffed actors allocate no runtime; restored nonempty maps still advance. All existing methods and the timer phase retain host dispatch.",
+  "repair": "independent-buff-consumption/v1",
+  "recovery": {
+    "method": "syncBuffSource",
+    "before": "private",
+    "after": "public",
+    "reason": "Delegation removes internal callers. Expose the existing recovery operation for explicit stat-source repair without suppressing unused-private-member checks."
+  },
+  "scope": "Five delegated methods and the existing buff timer loop. No World, native payload, recipient selection or presentation algorithm is extracted here.",
+  "removedCueImports": {
+    "module": "./procCues",
+    "names": [
+      "buffProcCue",
+      "noteProcCue"
+    ],
+    "identifierOccurrences": {
+      "buffProcCue": 2,
+      "noteProcCue": 2
+    }
+  }
+}

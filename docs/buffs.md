@@ -4,7 +4,8 @@ Milestone 41 starts from forty original observations, captured before the SDK
 implementation. The [manifest](../baseline/milestone-forty-one/acceptance.json)
 retains four unchanged helpers and fixtures, including their historical discovery
 wording. Two original runs, a measured v0.35 installation and an independent final
-v0.35 installation reproduce the same bytes. Implementation acceptance is pending.
+v0.35 installation reproduce the same bytes. Standalone runtime verification has
+passed; full game adapter and performance acceptance are still in progress.
 
 The boundary covers named grants, shared and independent clocks, modifier sources,
 event-gated consumption, explicit removal and timer-phase expiry. Recipient and
@@ -124,6 +125,27 @@ transitions. The owned compiler is the ingress path for serialized content, whil
 native typed callers retain responsibility for coherent host records and metadata.
 
 ## Verification and optimization
+
+The [game adapter contract](../baseline/milestone-forty-one/adapter-contract.json)
+guards all five methods, the complete timer method and native state/definition
+shapes before integration. Each actor creates its runtime on first use. Actors
+with no buff history avoid runtime allocation during empty timer/consumption
+checks; restored nonempty maps initialize the runtime when they advance. The
+shared port table contains immutable callbacks, while state remains actor-owned.
+
+The binding preserves native stat publication, release cues and instrumented
+`consumeBuffStacks` dispatch. The existing `syncBuffSource` method becomes public
+for explicit recovery after a failed stat callback; all other method signatures
+retain their original visibility and parameters. No compiler check is disabled.
+The integration removes the two cue imports that moved into the binding and
+retains every unrelated actor member and timer statement.
+
+`npm run adapter:buff-source` checks source rejection/preservation with both line
+ending styles. `npm run adapter:buffs -- --location <location.json>` compares an
+installed adapter read-only by default. Explicit `--faults` requires a disposable
+candidate; retained controls, source/runtime aliases and linked target files are
+rejected. The game preparer stores each package archive in its own tooling folder,
+so preparing another candidate cannot overwrite an earlier archive of that version.
 
 `npm run reference:buffs` replays the unchanged original. Normal verification never
 regenerates accepted fixtures. The source record captures five methods, the exact
