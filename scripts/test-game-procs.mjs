@@ -5,7 +5,7 @@ const readOnly=process.argv.includes('--read-only'),game=location.game,installed
 if(!readOnly){
  assert.equal(location.procAdapterDecision,'proc-game-adapter/v1','Requires the complete proc adapter');
  const canonical=p=>fs.realpathSync(p).toLowerCase();
- for(const file of ['m36-condition-control/retained.json','m37-initial-candidate/retained.json','m37-proc-control/retained.json','m38-prepared-adapter-location.json','m38-proc-initial/retained.json','m38-observation-control/retained.json','m38-native-array-initial-control/retained.json','m38-effect-control/retained.json','m39-ward-initial-control/retained.json']){
+ for(const file of ['m36-condition-control/retained.json','m37-initial-candidate/retained.json','m37-proc-control/retained.json','m38-prepared-adapter-location.json','m38-proc-initial/retained.json','m38-observation-control/retained.json','m38-native-array-initial-control/retained.json','m38-effect-control/retained.json','m39-ward-initial-control/retained.json','m39-delayed-control/retained.json']){
   const controlPath=path.join(artifacts,file);if(!fs.existsSync(controlPath))continue;const retained=JSON.parse(fs.readFileSync(controlPath)),control=retained.location??retained;
   assert.notEqual(canonical(game),canonical(control.game),'Retained game control: use --read-only');
   assert.notEqual(canonical(location.tooling),canonical(control.tooling),'Retained runtime control: use --read-only');
