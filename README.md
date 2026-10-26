@@ -9,12 +9,25 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
+Version 0.34 adds optional [effect scaling and ward gain](docs/proc-effects.md).
+The first complete proc-effect path composes scaling, native resource access,
+proc dispatch and visible ward feedback through the installed SDK. Its
+[acceptance record](evidence/milestone-thirty-nine/verification.json) includes
+1,096 original observations, seven extra native hook/cue cases, 15 installed
+effect faults, 12 renderer checks and a preserved managed-game integration.
+The other 21 native effect branches and the full delayed scheduler remain work
+to extract. All eleven partial system families remain partial.
+
+Separate object-copy sites reduce authored scaling time by about 24% against
+the first extraction in two desktop runs. Remaining overhead against v0.33 is
+recorded; this does not establish device performance or zero abstraction cost.
+
 Version 0.33 adds optional [proc selection and dispatch](docs/proc-runtime.md):
 ordered gates, probability draws, cooldowns, causal depth and rider selection over
 explicit host ports. A validated content pack preserves 147 procs, one rider and
 298 stat definitions. The game adapter delegates native events and demonstrates
-an earned low-life ward reaching the HUD. All 22 native effect branches still execute
-in the host; this does not make them standalone SDK capabilities.
+an earned low-life ward reaching the HUD. In that version, all 22 native effect
+branches execute in the host; the ward follow-up is described above.
 
 The [v0.33 acceptance evidence](evidence/milestone-thirty-eight/verification.json)
 records 150 original courses, 18 installed faults, 12 renderer checks and a

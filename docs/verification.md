@@ -1,6 +1,25 @@
 # Verification and reproduction
 
-The next effect extraction begins with [bounded original observations](proc-effects.md).
+Version 0.34 adds `reference:proc-effects`, `adapter:effects-source`,
+`adapter:effects` and `benchmark:effects`. The [effect contract](proc-effects.md)
+and [M39 evidence](../evidence/milestone-thirty-nine/verification.json) record 478
+SDK tests, 1,096 original observations, seven extra native hook/cue cases,
+13 runtime faults, 110 source-guard faults and 15 installed effect faults.
+The optimized package passes 12 renderer checks and nine managed-game checks.
+Earlier broad coverage is explicitly attributed to the retained initial package;
+the current targeted reruns and unchanged runtime/source hashes are separate.
+
+The effect module is 2,394 bytes inside its 4 KiB allowance; all 177 predecessor
+runtime files are unchanged. Two controlled eleven-workload comparisons and two
+supplemental longer-warmup frame runs retain matching outcomes. Authored scaling
+is about 24% faster than the initial extraction, with residual overhead against
+v0.33 documented. This is not a device, allocation-volume or general FPS result.
+Use `adapter:effects -- --location <location.json> --read-only` to compare an
+existing integrated game without fault injection. The default mutating checks
+require disposable candidates and reject retained controls and source/package
+aliases. Eleven of thirteen system families still have work remaining.
+
+This extraction began with [bounded original observations](proc-effects.md).
 `npm run reference:proc-effects` type-checks five capture helpers and compares
 1,096 observations with immutable original fixtures: 22 native branch examples,
 1,036 magnitude-fold observations, 15 ward/delayed-resolution edges and 23

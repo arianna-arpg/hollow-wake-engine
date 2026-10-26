@@ -1,0 +1,488 @@
+{
+  "base": "92f62ff70f502d77675510dbfb95655e3a647a8a",
+  "branch": "codex/engine-proc-effects",
+  "results": [
+    {
+      "name": "effects",
+      "passed": true,
+      "log": "<local>/m39-managed-effects-1792981265277.txt",
+      "sha256": "90eafa57fbc3d45022d73b694b8c4b5ad9ff75dc1bbb4f9caacdd80017443260"
+    },
+    {
+      "name": "procs",
+      "passed": true,
+      "log": "<local>/m39-managed-procs-1792981338573.txt",
+      "sha256": "ea406849bdfddab1d02a37cfb64256a4866e6c20457ee7f5daf16684e0fa06ae"
+    },
+    {
+      "name": "conditions",
+      "passed": true,
+      "log": "<local>/m39-managed-conditions-1792981396680.txt",
+      "sha256": "b49f7d4941f36e49f2e45e3814726840183b8e2507d0eec5d0b2b7488054bc00"
+    },
+    {
+      "name": "banks",
+      "passed": true,
+      "log": "<local>/m39-managed-banks-1792981442107.txt",
+      "sha256": "095f71e67b842f431ca8131a339256999b56d6fbb00b111c23b83519c971dce5"
+    },
+    {
+      "name": "check",
+      "passed": true,
+      "log": "<local>/m39-managed-check-1792981501101.txt",
+      "sha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+    },
+    {
+      "name": "native-defenses",
+      "passed": true,
+      "log": "<local>/m39-managed-native-defenses-1792981548794.txt",
+      "sha256": "c90e045b9599b30c6e5006ff7599d0af2f817de5df2b3cfb13a939681f364f77"
+    },
+    {
+      "name": "native-proccues",
+      "passed": true,
+      "log": "<local>/m39-managed-native-proccues-1792981554498.txt",
+      "sha256": "f65cb4f2ac6a78367aed9b96b79903cf303adc48c180ebba284cf5038fefc629"
+    },
+    {
+      "name": "sim-smoke",
+      "passed": true,
+      "log": "<local>/m39-managed-sim-smoke-1792981560244.txt",
+      "sha256": "3863556cdd330cbecc46e90af686c06fc68129e5f6fe042c687f042edcde3513"
+    },
+    {
+      "name": "original-preservation",
+      "passed": true,
+      "log": "<local>/m39-managed-original-preservation-1792981577735.txt",
+      "sha256": "6185300870260a1bc28db433b8ff7910fa96a9340ee59d3112c58af86ae4e851"
+    }
+  ],
+  "trackedFiles": 1865,
+  "unchangedTrackedFiles": 1862,
+  "changedFiles": [
+    "src/data/procs.ts",
+    "src/engine/actor.ts",
+    "src/engine/world.ts",
+    "src/engine/procEffectAdapter.ts"
+  ],
+  "expected": {
+    "src/data/procs.ts": "d93f529ae64830c8a5442fed3c93bdeada51cf212256b59cba24204336281611",
+    "src/engine/actor.ts": "9ff79836e98db446aba1cce2c8df36abc817fb9f52a85915fd9517307729773e",
+    "src/engine/world.ts": "8e1b40f45ab5908f4c83e5a7f0e91a7a16c139ae2526652f3271feb1a7b4ae33",
+    "src/engine/procEffectAdapter.ts": "b4e38109ef0c9fe0dbdd2b0a56f5ff366d16ac06d460887f300354dcc2dd8a10"
+  },
+  "installedRuntimeFiles": 180,
+  "installedFaults": 0,
+  "preservedManagedMethods": [
+    "bountyBoardsHere",
+    "bountyBoardRoster",
+    "armBountyBoard",
+    "turnInBounty"
+  ],
+  "independentDependencies": true,
+  "readyForOwnershipCommit": true,
+  "pushed": false,
+  "commit": {
+    "commit": "c7e570abb966beb15bdfb268782aa7a486fdd1ba",
+    "base": "92f62ff70f502d77675510dbfb95655e3a647a8a",
+    "branch": "codex/engine-proc-effects",
+    "files": [
+      "src/data/procs.ts",
+      "src/engine/actor.ts",
+      "src/engine/procEffectAdapter.ts",
+      "src/engine/world.ts"
+    ],
+    "reviewedDiffSha256": "6b3c5f9f67804c7a7a03099bf94607490ab0097d0cfdf59e60286b098904e63f",
+    "unchangedTrackedFiles": 1862,
+    "clean": true,
+    "pushed": false
+  },
+  "effects": {
+    "output": "<local>/game-proc-effects-pjSqyD",
+    "game": "<local>/ARPG Game - World",
+    "tooling": "<local>/m39-managed-tools-CAJs0F",
+    "packageIntegrity": "sha512-5AQmhiWrNAnKzuQpyV9oyGa2wX5aMra8Xulz9/mJdlqUOvjibCEkaXpeJBO8DV3+V+rRQ0bEYRw6WkGZoAcltQ==",
+    "readOnly": true,
+    "typesPassed": true,
+    "originalHostTypesPassed": true,
+    "originalCoursesCompared": 1096,
+    "additionalNativeHookAndCueCases": 7,
+    "hostProbeSha256": "ebcc4e9ad10463ba7ea6aa4f2a055a581d7e1d39582298115031f94c9b01eaa4",
+    "hostProbeByteEqual": true,
+    "results": [
+      {
+        "name": "proc-effects-native",
+        "courses": 22,
+        "byteEqual": true,
+        "sha256": "99f2cbf5a21ecdf20d92cbc87186e1f0ebfc4cbe25da9d961ba3a08cafb185be"
+      },
+      {
+        "name": "proc-effects-scaling",
+        "courses": 1036,
+        "byteEqual": true,
+        "sha256": "1b91382617e4297925a3a51330e70ca8f21b3ef9788392e317ab08609b52129f"
+      },
+      {
+        "name": "proc-effects-edges",
+        "courses": 15,
+        "byteEqual": true,
+        "sha256": "df73d15721e5f2718d63c4af7c75e78a28a53f877339b06efb4240105115eff7"
+      },
+      {
+        "name": "proc-ward-resource",
+        "courses": 15,
+        "byteEqual": true,
+        "sha256": "6fced77025d91b514f77d278185f3c22225e83fc8f6e7f15b4ae529d08f368bd"
+      },
+      {
+        "name": "proc-magnitude-metadata",
+        "courses": 8,
+        "byteEqual": true,
+        "sha256": "733f600d4015c23b3d798ccd1586dde3724674f804d6b99e576893a64ee1be27"
+      }
+    ],
+    "installedFaults": [],
+    "allInstalledFilesRestored": true,
+    "originalUnchanged": true
+  },
+  "procs": {
+    "output": "<local>/game-procs-YJvawM",
+    "game": "<local>/ARPG Game - World",
+    "tooling": "<local>/m39-managed-tools-CAJs0F",
+    "packageIntegrity": "sha512-5AQmhiWrNAnKzuQpyV9oyGa2wX5aMra8Xulz9/mJdlqUOvjibCEkaXpeJBO8DV3+V+rRQ0bEYRw6WkGZoAcltQ==",
+    "typesPassed": true,
+    "results": [
+      {
+        "name": "proc-rules",
+        "courses": 47,
+        "byteEqual": true,
+        "sha256": "d88bd7d7f6ba42cecff65c8ea08c5a71ffce2eec14777ef317671bfdc2fae32a"
+      },
+      {
+        "name": "proc-native",
+        "courses": 4,
+        "byteEqual": true,
+        "sha256": "9f4fcb1967b45fbfbaa8e9ad610b7b517a678caaf6deece5b7e049330d1a17eb"
+      },
+      {
+        "name": "proc-ordering",
+        "courses": 6,
+        "byteEqual": true,
+        "sha256": "144b341e09e22e47514ed4712689bf34a7d5d91932c030dea480c9cbb57e72ac"
+      },
+      {
+        "name": "proc-catalogue",
+        "procRows": 147,
+        "riderRows": 1,
+        "byteEqual": true,
+        "sha256": "f3c7d5b1243aacc276587c54154e90381a4dd90ad740abd0c8409f8ea79d7df6"
+      },
+      {
+        "name": "proc-dispatch",
+        "courses": 51,
+        "byteEqual": true,
+        "sha256": "8968fb007fb8faefc8d4d2daac7ad9668ae36956af8ec962047ccb2c2b64ea4b"
+      },
+      {
+        "name": "proc-hits",
+        "courses": 30,
+        "byteEqual": true,
+        "sha256": "8c67352eae617b074278b37ddbc8b0f61f45febea763e560cfbf2c36ed5c0755"
+      },
+      {
+        "name": "proc-frames",
+        "courses": 2,
+        "byteEqual": true,
+        "sha256": "83e48a37053514b49efca6ef931b98dcaa72a8d311661f22efa4f5e07977fad5"
+      },
+      {
+        "name": "proc-registry",
+        "courses": 3,
+        "byteEqual": true,
+        "sha256": "011bba3e85d2e62afcbcad971770d2d34677ee4f0537337e96a6fffa162de359"
+      },
+      {
+        "name": "proc-host-phases",
+        "courses": 7,
+        "byteEqual": true,
+        "sha256": "9e2097582bb5a330cf810a2058d027de28dc5987db21c626858f66996b3961f8"
+      }
+    ],
+    "originalCoursesCompared": 150,
+    "installedFaults": [],
+    "hitObservationContractVerified": false,
+    "nativeRegistryViewVerified": false,
+    "nativeOwnHookVerified": false,
+    "readOnly": true,
+    "allInstalledFilesRestored": true
+  },
+  "conditions": {
+    "output": "<local>/game-conditions-4NmT0A",
+    "packageIntegrity": "sha512-5AQmhiWrNAnKzuQpyV9oyGa2wX5aMra8Xulz9/mJdlqUOvjibCEkaXpeJBO8DV3+V+rRQ0bEYRw6WkGZoAcltQ==",
+    "game": "<local>/ARPG Game - World",
+    "typesPassed": true,
+    "results": [
+      {
+        "name": "actor-condition-native",
+        "courses": 2,
+        "mode": "byte-equal-original",
+        "sha256": "07cd0787a5d1460c1cb42ac0ac40da78f4b7a23eb93c13ff8909b3ab3d4a7fb6"
+      },
+      {
+        "name": "actor-condition-boundary",
+        "courses": 31,
+        "mode": "byte-equal-original",
+        "sha256": "f76356aff85cf0d040f36f4ca48d84a2e75430a5898bdfb3425cb0d28324b1ca"
+      },
+      {
+        "name": "actor-condition-feedback",
+        "courses": 7,
+        "mode": "explicit-recovery-decision",
+        "sha256": "ec4a1fc9e1c1f74c5c767e830248e6053d8ddc566063d1152e44bfbe87f2635a"
+      },
+      {
+        "name": "actor-condition-config-after-import",
+        "courses": 1,
+        "mode": "byte-equal-original",
+        "sha256": "6b6ca98a15b4b0acba66321e8d42e28409955d438b7176692abfc83308111130"
+      },
+      {
+        "name": "actor-condition-config-before-import",
+        "courses": 1,
+        "mode": "byte-equal-original",
+        "sha256": "90c63288c25c8a636a13508822721a775e663ede02275d52e56b3fc31eda71fa"
+      }
+    ],
+    "originalCoursesCompared": 42,
+    "recovery": [
+      "existing-throw-before",
+      "existing-throw-after",
+      "replacement-throw-before",
+      "replacement-throw-after",
+      "changed-before-retry",
+      "sink-reentry-propagated",
+      "sink-reentry-caught",
+      "read-reentry-propagated",
+      "read-reentry-caught",
+      "different-actor-nested",
+      "retained-array-and-replacement",
+      "read-failure-forces-replacement",
+      "condition-success-then-gauge-failure",
+      "invalidation",
+      "mutating-reentry-false-false",
+      "mutating-reentry-false-true",
+      "mutating-reentry-true-false",
+      "mutating-reentry-true-true",
+      "native-dead-sweep"
+    ],
+    "installedFaults": [],
+    "readOnly": true,
+    "allInstalledFilesRestored": true
+  },
+  "banks": {
+    "game": "<local>/ARPG Game - World",
+    "output": "<local>/game-channel-banks-mpxnQ7",
+    "version": "0.34.0",
+    "packageIntegrity": "sha512-5AQmhiWrNAnKzuQpyV9oyGa2wX5aMra8Xulz9/mJdlqUOvjibCEkaXpeJBO8DV3+V+rRQ0bEYRw6WkGZoAcltQ==",
+    "installedRuntimeFilesMatchBuild": 180,
+    "gameLauncherAndCaptureTypeChecks": true,
+    "fixtures": [
+      {
+        "name": "channel-banks",
+        "helperSha256": "8546bd4c9cf565291618edb799ce108d8f8e89b6ced86e0c1e1c104ebd22b940",
+        "fixtureSha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+        "compressedSha256": "9b7c78a5a1b7c0bf8f6879512e2f3f37b9af80f26379526377b7811b389458fe",
+        "courses": 35,
+        "transitions": 146,
+        "originalRuns": 2,
+        "retainedControlByteEqual": true,
+        "typeCheckedInOriginalAndControl": true
+      },
+      {
+        "name": "actor-gauges",
+        "helperSha256": "14f6aa96ea896f49266f6e09bbfac28abcd4863da58a0c746204feb6dfa0833d",
+        "fixtureSha256": "56b0618ad03e333469632b15d8249f25b79db624a00e6fc89ecd7098805c1920",
+        "compressedSha256": "1c0c1b84bd48270c41815b64583fd366b8181f8a762a752c2363818fb9550d98",
+        "courses": 22,
+        "transitions": 146,
+        "originalRuns": 2,
+        "retainedControlByteEqual": true,
+        "typeCheckedInOriginalAndControl": true
+      },
+      {
+        "name": "absent-counts",
+        "helper": "reference/export-absent-gauge-counts.ts",
+        "helperSha256": "2c94ee17a97a6705ff6b68bdf85add691d4027e67918932655b19186709b51d0",
+        "fixtureSha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+        "compressedSha256": "49493c6a2d5e615377e7c034dabb096c55810c4114bc3f2761686fdf79c17502",
+        "courses": 2,
+        "transitions": 10,
+        "originalRuns": 2,
+        "retainedControlByteEqual": true,
+        "originalHelperTypesPassed": true
+      }
+    ],
+    "observations": [
+      {
+        "name": "channel-banks",
+        "label": "candidate",
+        "sha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+        "exactExpectedMatch": true,
+        "originalByteEqual": true
+      },
+      {
+        "name": "actor-gauges",
+        "label": "candidate",
+        "sha256": "2dc6a288d49d25754501726fa7f37a8460d97e01a146c80e5605e9b44c7e1cd6",
+        "exactExpectedMatch": true,
+        "originalByteEqual": false
+      },
+      {
+        "name": "absent-counts",
+        "label": "candidate",
+        "sha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+        "exactExpectedMatch": true,
+        "originalByteEqual": true
+      }
+    ],
+    "oracle": [
+      {
+        "name": "channel-banks",
+        "originalSha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+        "expectedSha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+        "intentional": []
+      },
+      {
+        "name": "actor-gauges",
+        "originalSha256": "56b0618ad03e333469632b15d8249f25b79db624a00e6fc89ecd7098805c1920",
+        "expectedSha256": "2dc6a288d49d25754501726fa7f37a8460d97e01a146c80e5605e9b44c7e1cd6",
+        "intentional": [
+          {
+            "course": "namespace-exchange:status-to-charge",
+            "step": 4,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount",
+              "publications"
+            ]
+          },
+          {
+            "course": "namespace-exchange:status-to-charge",
+            "step": 5,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount"
+            ]
+          },
+          {
+            "course": "namespace-exchange:charge-to-brim",
+            "step": 4,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount",
+              "publications"
+            ]
+          },
+          {
+            "course": "namespace-exchange:charge-to-brim",
+            "step": 5,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount"
+            ]
+          },
+          {
+            "course": "namespace-exchange:brim-to-reserve",
+            "step": 4,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount",
+              "publications"
+            ]
+          },
+          {
+            "course": "namespace-exchange:brim-to-reserve",
+            "step": 5,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount"
+            ]
+          },
+          {
+            "course": "namespace-exchange:reserve-to-derived",
+            "step": 4,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount",
+              "publications"
+            ]
+          },
+          {
+            "course": "namespace-exchange:reserve-to-derived",
+            "step": 5,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount"
+            ]
+          },
+          {
+            "course": "namespace-exchange:derived-to-status",
+            "step": 4,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount",
+              "publications"
+            ]
+          },
+          {
+            "course": "namespace-exchange:derived-to-status",
+            "step": 5,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount"
+            ]
+          },
+          {
+            "course": "native-communion-earned-bank-namespace-exchange",
+            "step": 5,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount",
+              "publications"
+            ]
+          },
+          {
+            "course": "native-communion-earned-bank-namespace-exchange",
+            "step": 6,
+            "fields": [
+              "after.gauges",
+              "after.damage",
+              "after.publicationCount",
+              "publications"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "absent-counts",
+        "originalSha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+        "expectedSha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+        "intentional": []
+      }
+    ],
+    "installedFaults": [],
+    "allInstalledFilesAndHostRestored": true
+  },
+  "scope": "Four installed comparisons without fault injection, game/launcher/simulation types, native defenses and proc cues, smoke and original preservation. Independent dependencies; 1,862 other tracked files and four pre-existing bounty methods preserved. No game push."
+}

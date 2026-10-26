@@ -47,7 +47,8 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | Projectile travel, contact collection, spatial queries and 2D/3D conventions | Host adapter plus future delivery module | Host supplies a resolved contact today |
 | Strongest-wins Burning and raw typed ticks | `TimedDamage`, per bearer/effect | Extracted; host supplies resolved application and damage routing |
 | Proc eligibility, ordering, probability, cooldowns, causal depth and riders | Optional `ProcContent`, `BorrowedProcRegistry` and `ProcRuntime` / `combat/procs` | Extracted and delegated through explicit host ports; 147 proc records and one rider retain their order. Host event production and all 22 native effect branches remain outside this capability; see proc contract |
-| Other statuses, proc effects, summons, guard/pool defenses and death lifecycle | Future combat modules | Pending; never silently emulated by this slice |
+| Proc magnitude folding, ward resource arithmetic and ward effect gain | Optional `scaleProcEffect`, `gainWard`, `applyWardEffect` / `combat/effects` | Guarded delegation over borrowed state and shared ports preserves lazy queries, nested updates and native cue/rider order; see effect contract. Minimum arithmetic fields are not a complete serialized effect schema |
+| Other statuses, remaining 21 proc effect branches, full delayed scheduler, summons, guard/pool defenses and death lifecycle | Future combat modules | Pending; never silently emulated by this slice |
 | Rendering, sound, input, storage, UI, world streaming, networking | Host and optional adapters | Outside the core runtime |
 
 The primary Hollow Wake checkout retains authority. The isolated game adapter

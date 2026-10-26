@@ -1,0 +1,1696 @@
+{
+  "current": {
+    "checks": [
+      {
+        "name": "effects",
+        "passed": true,
+        "log": "<local>/m39-split-effects-1792976813155.txt",
+        "sha256": "3593e7f1a96ce9745f19e86b617705ed362baf2d604b8a4c6a2abe7a8a89d391"
+      },
+      {
+        "name": "game-types",
+        "passed": true,
+        "log": "<local>/m39-split-game-types-1792977000232.txt",
+        "sha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+      },
+      {
+        "name": "game-smoke",
+        "passed": true,
+        "log": "<local>/m39-split-game-smoke-1792977046025.txt",
+        "sha256": "24cadb0446f6953eddc202051174965902640173de29d2c4b57a2104e7659547"
+      },
+      {
+        "name": "native-defenses",
+        "passed": true,
+        "log": "<local>/m39-split-native-defenses-1792977064616.txt",
+        "sha256": "c90e045b9599b30c6e5006ff7599d0af2f817de5df2b3cfb13a939681f364f77"
+      },
+      {
+        "name": "native-proccues",
+        "passed": true,
+        "log": "<local>/m39-split-native-proccues-1792977072353.txt",
+        "sha256": "f65cb4f2ac6a78367aed9b96b79903cf303adc48c180ebba284cf5038fefc629"
+      },
+      {
+        "name": "reference-core",
+        "passed": true,
+        "log": "<local>/m39-split-reference-core-1792977080359.txt",
+        "sha256": "1bb67435e9c3b979fbea65e7d252a912a271616b8c00a506f9eaf8a66bfdb407"
+      },
+      {
+        "name": "original-preservation",
+        "passed": true,
+        "log": "<local>/m39-split-original-preservation-1792977087435.txt",
+        "sha256": "364b8bf76a3fd0c3241e2a12fea304c8b94032414594636602253f488f98289f"
+      },
+      {
+        "name": "four-graph-validation",
+        "passed": true,
+        "log": "<local>/m39-split-four-graph-validation-1792977093365.txt",
+        "sha256": "3260c319a8f54882dd3e91b716f285333715aee98b6fea5bf21f715b789536cf"
+      }
+    ],
+    "installedEffects": {
+      "output": "<local>/game-proc-effects-uAzFR7",
+      "game": "<local>/game-adapter-m39-split",
+      "tooling": "<local>/adapter-tools-L6Bw6D",
+      "packageIntegrity": "sha512-5AQmhiWrNAnKzuQpyV9oyGa2wX5aMra8Xulz9/mJdlqUOvjibCEkaXpeJBO8DV3+V+rRQ0bEYRw6WkGZoAcltQ==",
+      "typesPassed": true,
+      "originalHostTypesPassed": true,
+      "originalCoursesCompared": 1096,
+      "additionalNativeHookAndCueCases": 7,
+      "hostProbeSha256": "ebcc4e9ad10463ba7ea6aa4f2a055a581d7e1d39582298115031f94c9b01eaa4",
+      "hostProbeByteEqual": true,
+      "results": [
+        {
+          "name": "proc-effects-native",
+          "courses": 22,
+          "byteEqual": true,
+          "sha256": "99f2cbf5a21ecdf20d92cbc87186e1f0ebfc4cbe25da9d961ba3a08cafb185be"
+        },
+        {
+          "name": "proc-effects-scaling",
+          "courses": 1036,
+          "byteEqual": true,
+          "sha256": "1b91382617e4297925a3a51330e70ca8f21b3ef9788392e317ab08609b52129f"
+        },
+        {
+          "name": "proc-effects-edges",
+          "courses": 15,
+          "byteEqual": true,
+          "sha256": "df73d15721e5f2718d63c4af7c75e78a28a53f877339b06efb4240105115eff7"
+        },
+        {
+          "name": "proc-ward-resource",
+          "courses": 15,
+          "byteEqual": true,
+          "sha256": "6fced77025d91b514f77d278185f3c22225e83fc8f6e7f15b4ae529d08f368bd"
+        },
+        {
+          "name": "proc-magnitude-metadata",
+          "courses": 8,
+          "byteEqual": true,
+          "sha256": "733f600d4015c23b3d798ccd1586dde3724674f804d6b99e576893a64ee1be27"
+        }
+      ],
+      "installedFaults": [
+        {
+          "name": "zero-power-clears",
+          "detected": true
+        },
+        {
+          "name": "ward-percent-unscaled",
+          "detected": true
+        },
+        {
+          "name": "metadata-retained-incorrectly",
+          "detected": true
+        },
+        {
+          "name": "zero-cast-defaulted",
+          "detected": true
+        },
+        {
+          "name": "dead-resource-admitted",
+          "detected": true
+        },
+        {
+          "name": "ward-capped",
+          "detected": true
+        },
+        {
+          "name": "stale-pool-before-rate",
+          "detected": true
+        },
+        {
+          "name": "growth-not-observed",
+          "detected": true
+        },
+        {
+          "name": "snapshot-before-life",
+          "detected": true
+        },
+        {
+          "name": "native-gain-bypassed",
+          "detected": true
+        },
+        {
+          "name": "native-rate-bypassed",
+          "detected": true
+        },
+        {
+          "name": "native-life-bypassed",
+          "detected": true
+        },
+        {
+          "name": "cue-unconditional",
+          "detected": true
+        },
+        {
+          "name": "cue-omitted",
+          "detected": true
+        },
+        {
+          "name": "rider-tail-bypassed",
+          "detected": true
+        }
+      ],
+      "allInstalledFilesRestored": true,
+      "originalUnchanged": true
+    },
+    "scope": "Eight focused checks rerun against optimized runtime. Full SDK verification and renderer checks are recorded separately."
+  },
+  "initial": {
+    "archive": {
+      "archive": "<local>/hollow-wake-engine-0.34.0.tgz",
+      "sha256": "4a82cd27ee0e63a62e399fe5576588322b09e8643ed51c8164f70a2d33667f8d",
+      "integrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+      "game": "<local>/game-adapter-m39-ward",
+      "tooling": "<local>/adapter-tools-Ya1idz"
+    },
+    "checks": [
+      {
+        "name": "effects",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-effects-1792972235274.txt",
+        "sha256": "3593e7f1a96ce9745f19e86b617705ed362baf2d604b8a4c6a2abe7a8a89d391"
+      },
+      {
+        "name": "procs",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-procs-1792972406504.txt",
+        "sha256": "12498efc313d5190b3d1aece9c48c0645f41c879281e63381fbb47c4637a80eb"
+      },
+      {
+        "name": "game-types",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-game-types-1792972597316.txt",
+        "sha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+      },
+      {
+        "name": "game-smoke",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-game-smoke-1792972639345.txt",
+        "sha256": "57e6c4ee8a2a6955a3ad6035d00947f9f9e35d4a412ef5692b7547fe36405c1e"
+      },
+      {
+        "name": "native-chargegate",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-chargegate-1792972657587.txt",
+        "sha256": "e7bb479495ae6db7f9e22123c5ff73646f82da816210b4c3ba72e1dd103e4fbd"
+      },
+      {
+        "name": "native-pours",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-pours-1792972667290.txt",
+        "sha256": "daf0572f994fb7e3bdab5c118d4235675b27bac42f0c90898ca099173eb30ac8"
+      },
+      {
+        "name": "native-castreq",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-castreq-1792972674935.txt",
+        "sha256": "e95c28abddd7caa6af2ee9d729037fc30d06b1f3bf5f43aec96aef296a298c23"
+      },
+      {
+        "name": "native-spent",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-spent-1792972682376.txt",
+        "sha256": "c9a8a4813876e61c85c95a320e75aa223edb2db6389fe6512e10b8ffe7caa849"
+      },
+      {
+        "name": "native-gauge",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-gauge-1792972691081.txt",
+        "sha256": "f18c082d0e9c26ea23b7a81f83c1a4720926bd7de8251f3fedf07bdc64ffa4ff"
+      },
+      {
+        "name": "native-skillmodes",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-skillmodes-1792972699631.txt",
+        "sha256": "1044ad9febcc4bda65326038ccadbb6ad2e3dbf59d84820d864d2b583dfe20ee"
+      },
+      {
+        "name": "native-corpse",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-corpse-1792972711837.txt",
+        "sha256": "8189dc9bdd783213a3628c5d37d586cd6bf2f1bab71a7c04fe2cc488051193c6"
+      },
+      {
+        "name": "native-combo",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-combo-1792972719298.txt",
+        "sha256": "246310928b7169cfe243c0a69cadba52ae8c246fd47c317c6304b2689aedcd21"
+      },
+      {
+        "name": "native-mimic",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-mimic-1792972726951.txt",
+        "sha256": "c70ecf3897d97888cd03eb53fbe335dfc3df041d3c317c0449b4da63ecb7add2"
+      },
+      {
+        "name": "native-clingbalance",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-clingbalance-1792972733802.txt",
+        "sha256": "4c62e7b4a2cdf79d174eace2646b56cd5977875bda781d9c77718382a1f16cf6"
+      },
+      {
+        "name": "native-deviceworkshop",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-deviceworkshop-1792972741222.txt",
+        "sha256": "17045a439b0ed2f60a89e9fe02b2941e6b12264e5cbeb5149ad1797594aaaf23"
+      },
+      {
+        "name": "native-hivecall",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-hivecall-1792972748753.txt",
+        "sha256": "91beee49484b9b9878a1eedd9222a8fb39bfb586148f9aafd65998ea74360bbf"
+      },
+      {
+        "name": "native-grab",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-grab-1792972758647.txt",
+        "sha256": "c08380bd87de68a4c00a84f403d0e490ac733dbabf5931babc4b11ccdc83f824"
+      },
+      {
+        "name": "native-mount",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-mount-1792972766780.txt",
+        "sha256": "c66d07b642959648be9372b8ae7a40c36b7b79ceb1bb982fcff40cf8c466c341"
+      },
+      {
+        "name": "native-overdrive",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-overdrive-1792972774099.txt",
+        "sha256": "55aeff7251ef282f081ba7e7f8e2c5b73b5b8d373b3c19408a80f7ba11f16b6f"
+      },
+      {
+        "name": "native-workshop",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-workshop-1792972781669.txt",
+        "sha256": "3893e49b51226be47ee2461ff5250259fa67d7a51d45b84d47d7d5e4e90588a1"
+      },
+      {
+        "name": "native-throngcombat",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-throngcombat-1792972789230.txt",
+        "sha256": "b61c8e5e0019843039546aeae30e31719ea0272b0edd2bd95678e494d4b7f6fc"
+      },
+      {
+        "name": "native-throng",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-throng-1792972803671.txt",
+        "sha256": "e8d458b6ccdf7dde723aa4ee2ccf6e3ebfe328a4927beef08e9c6cc914235a3d"
+      },
+      {
+        "name": "native-summonfill",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-summonfill-1792972812034.txt",
+        "sha256": "dc6b0a848de1babcdbb1b09e44b313d3bb10b4174af578db3f3ebb755d9e63d7"
+      },
+      {
+        "name": "native-defenses",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-defenses-1792972820285.txt",
+        "sha256": "c90e045b9599b30c6e5006ff7599d0af2f817de5df2b3cfb13a939681f364f77"
+      },
+      {
+        "name": "native-proccues",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-native-proccues-1792972827658.txt",
+        "sha256": "f65cb4f2ac6a78367aed9b96b79903cf303adc48c180ebba284cf5038fefc629"
+      },
+      {
+        "name": "conditions",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-conditions-1792972835008.txt",
+        "sha256": "4b6ac1386358dd2107f28b4026d155af9a5e409ee04a3698cdd1efdf69ca18da"
+      },
+      {
+        "name": "banks",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-banks-1792972945202.txt",
+        "sha256": "cdc62bc1c349225b2b7e7d92fabc900bd86c230abbda4e640cacb82453963930"
+      },
+      {
+        "name": "continuation",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-continuation-1792973115026.txt",
+        "sha256": "f35d63a27a7bb0f2ead924cab9c412ebc09b04ead3550b9d18c37d71d7ff1082"
+      },
+      {
+        "name": "dispatch",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-dispatch-1792973239343.txt",
+        "sha256": "cca2b86c3a75e741330f64c3c991f1e4df477961c749a58ef8b4086defae85d3"
+      },
+      {
+        "name": "request",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-request-1792973347533.txt",
+        "sha256": "c4a6a9f7439bcf624e59051aba38b86464561692ee2a32a24b1fb5f6d63421e7"
+      },
+      {
+        "name": "supports",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-supports-1792973437456.txt",
+        "sha256": "e08339a6acba8fbcdbf31458c9a2ab03b1cf4073ea1dc4f2302311ba8fb5c2e7"
+      },
+      {
+        "name": "intent",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-intent-1792973490340.txt",
+        "sha256": "63a1866722759bf28696f05a01769ffe306e35ba24a2111f204769d5e07be2db"
+      },
+      {
+        "name": "resources",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-resources-1792973584929.txt",
+        "sha256": "bc84f0380b4c01b43fd735e2b5468c2a78109632c0ae8387556894d81439829e"
+      },
+      {
+        "name": "resource-events",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-resource-events-1792973685739.txt",
+        "sha256": "7bd6a33898599ecdebb7434836f66de6f6b35f2e0a866ce364ff78df4c35ba75"
+      },
+      {
+        "name": "admission",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-admission-1792973752807.txt",
+        "sha256": "17d569b847a9468232e9f05fd9b5910c780f0117978cef01227e87cb2c631cd4"
+      },
+      {
+        "name": "ordinary",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-ordinary-1792973892440.txt",
+        "sha256": "4cfbde6f506d5fa5377ccda2b4f99adac121af15eac7e4404bce1d4aa14ade2a"
+      },
+      {
+        "name": "charged",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-charged-1792973906274.txt",
+        "sha256": "076fbcfccbd67a418aab65ed23c9694a74e1953a11d966e267f8050316cdb6eb"
+      },
+      {
+        "name": "interactive",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-interactive-1792973981466.txt",
+        "sha256": "3e42e0c583c9800880fb32739246a67332b868e54dc9932317312e8f352d4523"
+      },
+      {
+        "name": "channel",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-channel-1792974066935.txt",
+        "sha256": "09229766a852e015e504404b24128ea7fd18fbf6e97022e24e0f9433b27db44a"
+      },
+      {
+        "name": "guard",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-guard-1792974162713.txt",
+        "sha256": "4da3a661f2e9d183fa3f881d0cfda446fba2e5be4440ca844cb022102edcf7f1"
+      },
+      {
+        "name": "ammunition",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-ammunition-1792974246728.txt",
+        "sha256": "950cc188932e758c06cfcaa57483bc847f58fb95a833b958291d7e429ea94d2a"
+      },
+      {
+        "name": "payment",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-payment-1792974328940.txt",
+        "sha256": "b0cae5c085168f92652a27cf92170f9fbe69a32d1ade9ae9a77ab420776c4f11"
+      },
+      {
+        "name": "reference-core",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-reference-core-1792974600904.txt",
+        "sha256": "1bb67435e9c3b979fbea65e7d252a912a271616b8c00a506f9eaf8a66bfdb407"
+      },
+      {
+        "name": "original-preservation",
+        "passed": true,
+        "log": "<local>/m39-ward-regression-original-preservation-1792974607727.txt",
+        "sha256": "364b8bf76a3fd0c3241e2a12fea304c8b94032414594636602253f488f98289f"
+      }
+    ],
+    "suites": [
+      {
+        "name": "adapter",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "originalTracesMatch": true,
+        "installedPackageMutationRejected": true,
+        "castingPaths": 7,
+        "burningPaths": 2,
+        "node": "v24.9.0"
+      },
+      {
+        "name": "game-support",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "reports": [
+          {
+            "name": "support-content",
+            "sha256": "1e89a4945641b1c0234633f7967f798b4c562455e767a2a5d560c6889b6f6381",
+            "bytes": 412512
+          },
+          {
+            "name": "support-rules",
+            "sha256": "afac8edead1667af3ccd5e220b4e7cb051c6e3d2749d41b75098e3d4ad4cfaf3",
+            "bytes": 1630267
+          },
+          {
+            "name": "support-composition",
+            "sha256": "98e7e6d8cbea9ad79b38d16f963efe5dacf6eca822427a97cf3e9ef467cc3fcb",
+            "bytes": 315001
+          },
+          {
+            "name": "support-actions",
+            "sha256": "f8ae56803623bc2b5fd841b8f2f65392a3c547f91fe2445d68a234bc92e57e60",
+            "bytes": 459949
+          }
+        ],
+        "skills": 954,
+        "supports": 457,
+        "pairs": 435978,
+        "resolverStates": 954,
+        "changedCompositions": 301,
+        "courses": 8,
+        "transitions": 35,
+        "installedFaults": [
+          {
+            "name": "tag-closure",
+            "detected": true
+          },
+          {
+            "name": "effective-level",
+            "detected": true
+          },
+          {
+            "name": "forwarded-override",
+            "detected": true
+          },
+          {
+            "name": "clear-before-bag-room",
+            "detected": true
+          },
+          {
+            "name": "live-crew-resync",
+            "detected": true
+          }
+        ],
+        "allInstalledFilesRestored": true
+      },
+      {
+        "name": "game-resource",
+        "game": "<local>/game-adapter-m39-ward",
+        "output": "<local>/game-resources-RNoxFY",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "version": "0.34.0",
+        "installedRuntimeFilesMatchBuild": 180,
+        "gameLauncherAndCaptureTypeChecks": true,
+        "reports": [
+          {
+            "name": "charge-banks",
+            "sha256": "03e1cf682c91c6b702270b26418faf362282b4202715ea5e80878bbcd72b95a8",
+            "bytes": 256778
+          },
+          {
+            "name": "charge-clocks",
+            "sha256": "096769de5d982976203c9fb0535c7fc705a53d6368bb660fe6b46160c89b0f09",
+            "bytes": 297531
+          },
+          {
+            "name": "resource-gauges",
+            "sha256": "1d3bb3eb53617c2631cc67917fb86f35a3ac8c5b611e6ec9a36dfcf8b3e4c521",
+            "bytes": 1177728
+          },
+          {
+            "name": "resource-world",
+            "sha256": "f3da23119d1ae1825cbaad3ebeb4dc4a778525d5d405aa363532a2dab67b0617",
+            "bytes": 84490
+          },
+          {
+            "name": "resource-costs",
+            "sha256": "2070ae9aa129120e0dafea27cfed5be367734e4342a7655552aa684be755f714",
+            "bytes": 54748
+          }
+        ],
+        "installedFaults": [
+          {
+            "name": "capped-idle-refresh",
+            "detected": true
+          },
+          {
+            "name": "regen-debt-partition",
+            "detected": true
+          },
+          {
+            "name": "retired-tree-clock",
+            "detected": true
+          },
+          {
+            "name": "bank-overpayment",
+            "detected": true
+          },
+          {
+            "name": "gauge-lockout-remainder",
+            "detected": true
+          }
+        ],
+        "allInstalledFilesRestored": true
+      },
+      {
+        "name": "game-resource-event",
+        "game": "<local>/game-adapter-m39-ward",
+        "output": "<local>/game-resource-events-adUQGc",
+        "version": "0.34.0",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "installedRuntimeFilesMatchBuild": 180,
+        "gameLauncherAndCaptureTypeChecks": true,
+        "fixtureSha256": "eb2449b7d1433fa5e06ba1402cdb6a744fd2dd15e79c04872e15d412f149ff69",
+        "predicateCases": 1300,
+        "dispatchTransitions": 21,
+        "privatePredicateUsesExplicitSDKBinding": true,
+        "dispatchUsesActualGameCaller": true,
+        "installedFaults": [
+          {
+            "name": "inclusive-chance",
+            "detected": true
+          },
+          {
+            "name": "reversed-slots",
+            "detected": true
+          },
+          {
+            "name": "bank-after-shave",
+            "detected": true
+          }
+        ],
+        "allInstalledFilesRestored": true
+      },
+      {
+        "name": "game-skill-intent",
+        "game": "<local>/game-adapter-m39-ward",
+        "output": "<local>/game-skill-intent-1cyocw",
+        "version": "0.34.0",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "installedRuntimeFilesMatchBuild": 180,
+        "gameLauncherAndCaptureTypeChecks": true,
+        "fixtures": [
+          {
+            "name": "skill-intent",
+            "helperSha256": "77fd9e49221b20cd86577b85f51b72df0f52b2479cd50590b34e63d06557c47c",
+            "fixtureSha256": "1e1f3529c86337bf0ac6359f238cff03639b1e371f15752ae35515bc1fbe1cae",
+            "courses": 29,
+            "transitions": 195,
+            "sealRows": 32
+          },
+          {
+            "name": "skill-instance-identity",
+            "helperSha256": "b741ee2c9b939a03c752dc3e9a93afe7ae25eaee30b985ec95cab319936d006c",
+            "fixtureSha256": "677f03fee656cc667509244904a19364b9c7facf2c7ebd2dd6c49269550713cb",
+            "transitions": 29
+          },
+          {
+            "name": "cast-request",
+            "helperSha256": "fd68d753ba44d8e2413177addc0ac8070c73e1afaf677b587b25ae812d6cf044",
+            "fixtureSha256": "c964c81efe14641583bc465bfd9f6be8817d4a4d0b3010d7af5eb89855ddffb8",
+            "courses": 20,
+            "transitions": 22
+          }
+        ],
+        "observations": [
+          {
+            "name": "skill-intent",
+            "sha256": "83350fddd4e2bf1c56fb8bb6e11230b55c07d6424a9893d2b0c218f022b89b63",
+            "rawByteEqual": false
+          },
+          {
+            "name": "skill-instance-identity",
+            "sha256": "677f03fee656cc667509244904a19364b9c7facf2c7ebd2dd6c49269550713cb",
+            "rawByteEqual": true
+          },
+          {
+            "name": "cast-request",
+            "sha256": "c964c81efe14641583bc465bfd9f6be8817d4a4d0b3010d7af5eb89855ddffb8",
+            "rawByteEqual": true
+          }
+        ],
+        "originalForwardingCallsProjected": 118,
+        "projection": "Original query diagnostic forwarders only; candidate unfiltered. Identity and actual request fixtures byte-exact.",
+        "installedFaults": [
+          {
+            "name": "hard-seal-ignored",
+            "detected": true
+          },
+          {
+            "name": "combo-endpoint-excluded",
+            "detected": true
+          },
+          {
+            "name": "relocation-host-identity-lost",
+            "detected": true
+          },
+          {
+            "name": "meta-host-scope-lost",
+            "detected": true
+          },
+          {
+            "name": "press-admission-bypassed",
+            "detected": true
+          },
+          {
+            "name": "native-intent-disconnected",
+            "detected": true
+          }
+        ],
+        "allInstalledFilesRestored": true
+      },
+      {
+        "name": "game-skill-admission",
+        "game": "<local>/game-adapter-m39-ward",
+        "output": "<local>/game-skill-admission-vd3Vf6",
+        "version": "0.34.0",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "installedRuntimeFilesMatchBuild": 180,
+        "gameLauncherAndCaptureTypeChecks": true,
+        "fixtures": [
+          {
+            "name": "admission-actor",
+            "helperSha256": "d40e601ffd77e4e839d1d49ffe12b5d64fc7d08e0f5a6db0101fef0c051e27f2",
+            "fixtureSha256": "cf999116802c75f5454f5f10d8f570d6018e95dd89790e1d3106d73c147b4c6c",
+            "courses": 126,
+            "transitions": 129
+          },
+          {
+            "name": "admission-world",
+            "helperSha256": "29b640454f68f4fecea8a91916af9f9bc66b27e25ebceced01133a6e7025f85a",
+            "fixtureSha256": "b8cef320f47dc283bf8ac11fd783ea0b9531e504b34a56282e5f5609ecd532fe",
+            "courses": 11,
+            "transitions": 114
+          }
+        ],
+        "projection": "Retired actor forwarding entries and instrumented gatesMet -> unmetGate / canUse -> gatesMet -> unmetGate calls. Original expected HUD/press-query castSealed forwarding entries removed after M31; actual requests and candidate seal calls retained. All raw captures retained.",
+        "installedFaults": [
+          {
+            "name": "ammunition-bank-created-before-body-refusal",
+            "detected": true
+          },
+          {
+            "name": "recovery-lock-ignored",
+            "detected": true
+          },
+          {
+            "name": "authored-gate-identity-lost",
+            "detected": true
+          },
+          {
+            "name": "prime-admits-one-point-dent",
+            "detected": true
+          },
+          {
+            "name": "aura-debt-lock-ignored",
+            "detected": true
+          },
+          {
+            "name": "disconnected-native-admission",
+            "detected": true
+          }
+        ],
+        "allInstalledFilesRestored": true
+      },
+      {
+        "name": "game-charged-casting",
+        "game": "<local>/game-adapter-m39-ward",
+        "output": "<local>/game-charged-casting-jSyIeh",
+        "version": "0.34.0",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "installedRuntimeFilesMatchBuild": 180,
+        "gameLauncherAndCaptureTypeChecks": true,
+        "fixtureSha256": "5f29a9f9a9a2bda1a25a4dbdde78bb067f82497a59cc29ce32295f91f4cbbd21",
+        "courses": 29,
+        "transitions": 144,
+        "actualGamePressUpdatePaymentAndDelivery": true,
+        "installedFaults": [
+          {
+            "name": "stage-payment-skipped",
+            "detected": true
+          },
+          {
+            "name": "stage-overshoot-carried",
+            "detected": true
+          },
+          {
+            "name": "charge-death-suppressed",
+            "detected": true
+          }
+        ],
+        "allInstalledFilesRestored": true
+      },
+      {
+        "name": "game-interactive-casting",
+        "game": "<local>/game-adapter-m39-ward",
+        "output": "<local>/game-interactive-casting-9W4eGt",
+        "version": "0.34.0",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "installedRuntimeFilesMatchBuild": 180,
+        "gameLauncherAndCaptureTypeChecks": true,
+        "fixtureSha256": "a36b8bbe62f8417c62bfc4485ca3f22bd2d0cfb1b1182893830531e85edc56b8",
+        "courses": 47,
+        "transitions": 204,
+        "actualGamePressUpdatePaymentAndDelivery": true,
+        "installedFaults": [
+          {
+            "name": "timing-attempt-not-spent",
+            "detected": true
+          },
+          {
+            "name": "focus-drain-fills",
+            "detected": true
+          },
+          {
+            "name": "focus-release-adds-frame",
+            "detected": true
+          },
+          {
+            "name": "focus-fizzle-ignores-recovery",
+            "detected": true
+          }
+        ],
+        "allInstalledFilesRestored": true
+      },
+      {
+        "name": "game-channel-casting",
+        "game": "<local>/game-adapter-m39-ward",
+        "output": "<local>/game-channel-casting-tQI9PR",
+        "version": "0.34.0",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "installedRuntimeFilesMatchBuild": 180,
+        "gameLauncherAndCaptureTypeChecks": true,
+        "fixtureSha256": "d3928f007ceec72a25d3452c8f642e011ca0ed0e451797589ae480bc3deda5c0",
+        "courses": 85,
+        "transitions": 461,
+        "actualGameChannelPaymentsAndDelivery": true,
+        "installedFaults": [
+          {
+            "name": "unfunded-keeps-holding",
+            "detected": true
+          },
+          {
+            "name": "repeated-cap-finish",
+            "detected": true
+          },
+          {
+            "name": "missing-target-spends",
+            "detected": true
+          },
+          {
+            "name": "persist-catches-up",
+            "detected": true
+          },
+          {
+            "name": "brim-cleared-before-payoff",
+            "detected": true
+          }
+        ],
+        "allInstalledFilesRestored": true
+      },
+      {
+        "name": "game-guard-casting",
+        "game": "<local>/game-adapter-m39-ward",
+        "output": "<local>/game-guard-casting-qsMOgl",
+        "version": "0.34.0",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "installedRuntimeFilesMatchBuild": 180,
+        "gameLauncherAndCaptureTypeChecks": true,
+        "fixtureSha256": "0af15ed7fc4b7bef7c03e3fd0b1e6857c99d163676797778b9b67da71ffaf2c8",
+        "courses": 53,
+        "transitions": 256,
+        "readinessCases": 284,
+        "actualGameGuardBashesPulsesAndWarnings": true,
+        "installedFaults": [
+          {
+            "name": "unearned-bash",
+            "detected": true
+          },
+          {
+            "name": "pulse-carry-lost",
+            "detected": true
+          },
+          {
+            "name": "inverted-payload-uses-remaining",
+            "detected": true
+          },
+          {
+            "name": "release-cooldown-omitted",
+            "detected": true
+          },
+          {
+            "name": "warning-never-releases",
+            "detected": true
+          }
+        ],
+        "allInstalledFilesRestored": true
+      },
+      {
+        "name": "game-ammunition",
+        "game": "<local>/game-adapter-m39-ward",
+        "output": "<local>/game-ammunition-7eojmL",
+        "version": "0.34.0",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "installedRuntimeFilesMatchBuild": 180,
+        "gameLauncherAndCaptureTypeChecks": true,
+        "fixtureSha256": "93dcc69962ead25d46a4063a1d32a453c0c727f9a837ccc22956fb2660a43605",
+        "courses": 46,
+        "transitions": 223,
+        "actualGamePressTimersAndReload": true,
+        "installedFaults": [
+          {
+            "name": "press-rest-clock-retained",
+            "detected": true
+          },
+          {
+            "name": "reload-wipes-rest-clock",
+            "detected": true
+          },
+          {
+            "name": "optional-fuel-gates-on-bank",
+            "detected": true
+          },
+          {
+            "name": "movement-clamps-fractional-bank",
+            "detected": true
+          },
+          {
+            "name": "drip-catches-up-in-one-frame",
+            "detected": true
+          }
+        ],
+        "allInstalledFilesRestored": true
+      },
+      {
+        "name": "game-resource-payment",
+        "game": "<local>/game-adapter-m39-ward",
+        "output": "<local>/game-resource-payment-A3NpWq",
+        "version": "0.34.0",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "installedRuntimeFilesMatchBuild": 180,
+        "gameLauncherAndCaptureTypeChecks": true,
+        "fixtures": [
+          {
+            "name": "resource-payment",
+            "helperSha256": "a6316b019fadc3b4a17bdbb45871d76746c2b1ff2dc63cac3a34dcb45fa6b3d7",
+            "fixtureSha256": "ba5964fdd909abd601cb5a9d1d9a6f6fbf2a114802ea6e8e143611367232fa3a",
+            "courses": 37,
+            "transitions": 147
+          },
+          {
+            "name": "resource-payment-world",
+            "helperSha256": "e22aa4d828fa591af1f6af169d0dcae7c51320f79426197e9b469e76a6344bbc",
+            "fixtureSha256": "a3d1760adcd61ae1f87de519ea0ac93f6c0798961cb542512e65e83da092d63e",
+            "courses": 10,
+            "transitions": 69
+          }
+        ],
+        "installedFaults": [
+          {
+            "name": "mana-reservation-omitted",
+            "detected": true
+          },
+          {
+            "name": "life-borrows-only-shortfall",
+            "detected": true
+          },
+          {
+            "name": "shield-fraction-changes-spend",
+            "detected": true
+          },
+          {
+            "name": "idle-boundary-not-inclusive",
+            "detected": true
+          },
+          {
+            "name": "blood-observer-omitted",
+            "detected": true
+          },
+          {
+            "name": "repayment-does-not-free-mana",
+            "detected": true
+          }
+        ],
+        "allInstalledFilesRestored": true
+      },
+      {
+        "name": "game-skill-request",
+        "game": "<local>/game-adapter-m39-ward",
+        "output": "<local>/game-skill-request-7qPh69",
+        "version": "0.34.0",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "installedRuntimeFilesMatchBuild": 180,
+        "gameLauncherAndCaptureTypeChecks": true,
+        "fixtures": [
+          {
+            "name": "skill-request",
+            "helperSha256": "c3a034a1e94f2cff16673700f2c7f67cf3d14fab44908d9b27fde5d78baee9af",
+            "fixtureSha256": "419d1c013d58ec050009a34a9d8d08850f427a5bc52a15ffa7ed3be7f7e87f89",
+            "compressedSha256": "ee84e7b775bbb87935319e943d38fbac4407198d13934ee343dc4e19d471983a",
+            "courses": 68,
+            "transitions": 71,
+            "originalRuns": 2,
+            "retainedControlByteEqual": true
+          }
+        ],
+        "observations": [
+          {
+            "name": "skill-request",
+            "sha256": "419d1c013d58ec050009a34a9d8d08850f427a5bc52a15ffa7ed3be7f7e87f89",
+            "rawByteEqual": true
+          }
+        ],
+        "installedFaults": [
+          {
+            "name": "request-seal-ignored",
+            "detected": true
+          },
+          {
+            "name": "request-held-struggle-lost",
+            "detected": true
+          },
+          {
+            "name": "request-replenish-forget-lost",
+            "detected": true
+          },
+          {
+            "name": "request-life-endpoint-closed",
+            "detected": true
+          },
+          {
+            "name": "request-depth-retained",
+            "detected": true
+          },
+          {
+            "name": "request-admission-ignored",
+            "detected": true
+          },
+          {
+            "name": "request-native-disconnected",
+            "detected": true
+          }
+        ],
+        "allInstalledFilesAndHostRestored": true
+      },
+      {
+        "name": "game-skill-dispatch",
+        "game": "<local>/game-adapter-m39-ward",
+        "output": "<local>/game-skill-dispatch-Qy6xMy",
+        "version": "0.34.0",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "installedRuntimeFilesMatchBuild": 180,
+        "gameLauncherAndCaptureTypeChecks": true,
+        "fixtures": [
+          {
+            "name": "skill-dispatch",
+            "helperSha256": "1ec909b20eaac0b2db7048f59b2ae3a213bea3891ed6e15abff16c485b6a04d8",
+            "fixtureSha256": "65d1632c0d30fa9ef3de0c047f7a07e8a55c97c568e67901bd8c76b6d49a7e4b",
+            "compressedSha256": "eda8178e2c33d99e38f21eefdf817f7b0bc43090f9d528e40e69daa4257c1df7",
+            "courses": 88,
+            "transitions": 104,
+            "originalRuns": 2,
+            "retainedControlByteEqual": true,
+            "typeCheckedInOriginalAndControl": true
+          }
+        ],
+        "observations": [
+          {
+            "name": "candidate",
+            "sha256": "65d1632c0d30fa9ef3de0c047f7a07e8a55c97c568e67901bd8c76b6d49a7e4b",
+            "rawByteEqual": true
+          }
+        ],
+        "installedFaults": [
+          {
+            "name": "dispatch-preflight-ignored",
+            "detected": true
+          },
+          {
+            "name": "dispatch-vent-endpoint-closed",
+            "detected": true
+          },
+          {
+            "name": "dispatch-reserve-not-spent",
+            "detected": true
+          },
+          {
+            "name": "dispatch-combo-seat-leaked",
+            "detected": true
+          },
+          {
+            "name": "dispatch-pierced-aim-overwritten",
+            "detected": true
+          },
+          {
+            "name": "dispatch-scramble-latch-retained",
+            "detected": true
+          },
+          {
+            "name": "dispatch-channel-ordinary-payment",
+            "detected": true
+          },
+          {
+            "name": "dispatch-press-clock-lost",
+            "detected": true
+          },
+          {
+            "name": "dispatch-primed-pour-lost",
+            "detected": true
+          },
+          {
+            "name": "dispatch-native-disconnected",
+            "detected": true
+          }
+        ],
+        "allInstalledFilesAndHostRestored": true
+      },
+      {
+        "name": "game-casting-continuation",
+        "game": "<local>/game-adapter-m39-ward",
+        "output": "<local>/game-casting-continuation-XfZuJ3",
+        "version": "0.34.0",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "installedRuntimeFilesMatchBuild": 180,
+        "gameLauncherAndCaptureTypeChecks": true,
+        "fixtures": [
+          {
+            "name": "casting-continuation",
+            "helperSha256": "cb1a37fd89c1ba49c288276bafd2bcdfa800384e4a6f474bcda262e2af1da902",
+            "fixtureSha256": "ca83627aa32ea477e198add3c9ab9343338fc208cccd026d306c113c00ef5be6",
+            "compressedSha256": "c796437d02b32329e5bc36cabb2a17c44dbf956471330df522293aab1c22080c",
+            "courses": 60,
+            "transitions": 269,
+            "originalRuns": 2,
+            "retainedControlByteEqual": true,
+            "typeCheckedInOriginalAndControl": true
+          }
+        ],
+        "observations": [
+          {
+            "name": "candidate",
+            "sha256": "ca83627aa32ea477e198add3c9ab9343338fc208cccd026d306c113c00ef5be6",
+            "rawByteEqual": true
+          }
+        ],
+        "installedFaults": [
+          {
+            "name": "continuation-guard-lowering-lost",
+            "detected": true
+          },
+          {
+            "name": "continuation-clinger-replaces-aim",
+            "detected": true
+          },
+          {
+            "name": "continuation-secondary-seat-hold-skipped",
+            "detected": true
+          },
+          {
+            "name": "continuation-charge-cap-lost",
+            "detected": true
+          },
+          {
+            "name": "continuation-los-boundary-delayed",
+            "detected": true
+          },
+          {
+            "name": "continuation-ai-click-disconnected",
+            "detected": true
+          },
+          {
+            "name": "continuation-focus-recovery-retained",
+            "detected": true
+          },
+          {
+            "name": "continuation-vessel-repeats",
+            "detected": true
+          },
+          {
+            "name": "continuation-click-activity-lost",
+            "detected": true
+          },
+          {
+            "name": "continuation-flawless-trigger-lost",
+            "detected": true
+          },
+          {
+            "name": "continuation-native-update-disconnected",
+            "detected": true
+          },
+          {
+            "name": "continuation-native-click-disconnected",
+            "detected": true
+          }
+        ],
+        "allInstalledFilesAndHostRestored": true
+      },
+      {
+        "name": "game-channel-bank",
+        "game": "<local>/game-adapter-m39-ward",
+        "output": "<local>/game-channel-banks-9K3MPs",
+        "version": "0.34.0",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "installedRuntimeFilesMatchBuild": 180,
+        "gameLauncherAndCaptureTypeChecks": true,
+        "fixtures": [
+          {
+            "name": "channel-banks",
+            "helperSha256": "8546bd4c9cf565291618edb799ce108d8f8e89b6ced86e0c1e1c104ebd22b940",
+            "fixtureSha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+            "compressedSha256": "9b7c78a5a1b7c0bf8f6879512e2f3f37b9af80f26379526377b7811b389458fe",
+            "courses": 35,
+            "transitions": 146,
+            "originalRuns": 2,
+            "retainedControlByteEqual": true,
+            "typeCheckedInOriginalAndControl": true
+          },
+          {
+            "name": "actor-gauges",
+            "helperSha256": "14f6aa96ea896f49266f6e09bbfac28abcd4863da58a0c746204feb6dfa0833d",
+            "fixtureSha256": "56b0618ad03e333469632b15d8249f25b79db624a00e6fc89ecd7098805c1920",
+            "compressedSha256": "1c0c1b84bd48270c41815b64583fd366b8181f8a762a752c2363818fb9550d98",
+            "courses": 22,
+            "transitions": 146,
+            "originalRuns": 2,
+            "retainedControlByteEqual": true,
+            "typeCheckedInOriginalAndControl": true
+          },
+          {
+            "name": "absent-counts",
+            "helper": "reference/export-absent-gauge-counts.ts",
+            "helperSha256": "2c94ee17a97a6705ff6b68bdf85add691d4027e67918932655b19186709b51d0",
+            "fixtureSha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+            "compressedSha256": "49493c6a2d5e615377e7c034dabb096c55810c4114bc3f2761686fdf79c17502",
+            "courses": 2,
+            "transitions": 10,
+            "originalRuns": 2,
+            "retainedControlByteEqual": true,
+            "originalHelperTypesPassed": true
+          }
+        ],
+        "observations": [
+          {
+            "name": "channel-banks",
+            "label": "candidate",
+            "sha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+            "exactExpectedMatch": true,
+            "originalByteEqual": true
+          },
+          {
+            "name": "actor-gauges",
+            "label": "candidate",
+            "sha256": "2dc6a288d49d25754501726fa7f37a8460d97e01a146c80e5605e9b44c7e1cd6",
+            "exactExpectedMatch": true,
+            "originalByteEqual": false
+          },
+          {
+            "name": "absent-counts",
+            "label": "candidate",
+            "sha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+            "exactExpectedMatch": true,
+            "originalByteEqual": true
+          }
+        ],
+        "oracle": [
+          {
+            "name": "channel-banks",
+            "originalSha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+            "expectedSha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+            "intentional": []
+          },
+          {
+            "name": "actor-gauges",
+            "originalSha256": "56b0618ad03e333469632b15d8249f25b79db624a00e6fc89ecd7098805c1920",
+            "expectedSha256": "2dc6a288d49d25754501726fa7f37a8460d97e01a146c80e5605e9b44c7e1cd6",
+            "intentional": [
+              {
+                "course": "namespace-exchange:status-to-charge",
+                "step": 4,
+                "fields": [
+                  "after.gauges",
+                  "after.damage",
+                  "after.publicationCount",
+                  "publications"
+                ]
+              },
+              {
+                "course": "namespace-exchange:status-to-charge",
+                "step": 5,
+                "fields": [
+                  "after.gauges",
+                  "after.damage",
+                  "after.publicationCount"
+                ]
+              },
+              {
+                "course": "namespace-exchange:charge-to-brim",
+                "step": 4,
+                "fields": [
+                  "after.gauges",
+                  "after.damage",
+                  "after.publicationCount",
+                  "publications"
+                ]
+              },
+              {
+                "course": "namespace-exchange:charge-to-brim",
+                "step": 5,
+                "fields": [
+                  "after.gauges",
+                  "after.damage",
+                  "after.publicationCount"
+                ]
+              },
+              {
+                "course": "namespace-exchange:brim-to-reserve",
+                "step": 4,
+                "fields": [
+                  "after.gauges",
+                  "after.damage",
+                  "after.publicationCount",
+                  "publications"
+                ]
+              },
+              {
+                "course": "namespace-exchange:brim-to-reserve",
+                "step": 5,
+                "fields": [
+                  "after.gauges",
+                  "after.damage",
+                  "after.publicationCount"
+                ]
+              },
+              {
+                "course": "namespace-exchange:reserve-to-derived",
+                "step": 4,
+                "fields": [
+                  "after.gauges",
+                  "after.damage",
+                  "after.publicationCount",
+                  "publications"
+                ]
+              },
+              {
+                "course": "namespace-exchange:reserve-to-derived",
+                "step": 5,
+                "fields": [
+                  "after.gauges",
+                  "after.damage",
+                  "after.publicationCount"
+                ]
+              },
+              {
+                "course": "namespace-exchange:derived-to-status",
+                "step": 4,
+                "fields": [
+                  "after.gauges",
+                  "after.damage",
+                  "after.publicationCount",
+                  "publications"
+                ]
+              },
+              {
+                "course": "namespace-exchange:derived-to-status",
+                "step": 5,
+                "fields": [
+                  "after.gauges",
+                  "after.damage",
+                  "after.publicationCount"
+                ]
+              },
+              {
+                "course": "native-communion-earned-bank-namespace-exchange",
+                "step": 5,
+                "fields": [
+                  "after.gauges",
+                  "after.damage",
+                  "after.publicationCount",
+                  "publications"
+                ]
+              },
+              {
+                "course": "native-communion-earned-bank-namespace-exchange",
+                "step": 6,
+                "fields": [
+                  "after.gauges",
+                  "after.damage",
+                  "after.publicationCount",
+                  "publications"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "absent-counts",
+            "originalSha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+            "expectedSha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+            "intentional": []
+          }
+        ],
+        "installedFaults": [
+          {
+            "name": "bank-retained-fill-reset",
+            "detected": true
+          },
+          {
+            "name": "bank-spec-rebinding-lost",
+            "detected": true
+          },
+          {
+            "name": "bank-release-lookup-lost",
+            "detected": true
+          },
+          {
+            "name": "bank-held-exclusion-lost",
+            "detected": true
+          },
+          {
+            "name": "bank-empty-removal-lost",
+            "detected": true
+          },
+          {
+            "name": "bank-plateau-boundary-lost",
+            "detected": true
+          },
+          {
+            "name": "bank-live-context-lost",
+            "detected": true
+          },
+          {
+            "name": "bank-detached-fill-clamped",
+            "detected": true
+          },
+          {
+            "name": "gauge-namespace-omitted",
+            "detected": true
+          },
+          {
+            "name": "gauge-sheet-replacement-ignored",
+            "detected": true
+          },
+          {
+            "name": "gauge-pips-rounded-down",
+            "detected": true
+          },
+          {
+            "name": "gauge-derived-key-prefixed",
+            "detected": true
+          },
+          {
+            "name": "gauge-zero-records-published",
+            "detected": true
+          },
+          {
+            "name": "gauge-absent-stacks-invented",
+            "detected": true
+          },
+          {
+            "name": "gauge-absent-reserve-pips-invented",
+            "detected": true
+          },
+          {
+            "name": "host-bank-decay-disconnected",
+            "detected": true
+          },
+          {
+            "name": "host-gauge-publication-disconnected",
+            "detected": true
+          },
+          {
+            "name": "host-bank-creation-detached",
+            "detected": true
+          }
+        ],
+        "allInstalledFilesAndHostRestored": true
+      },
+      {
+        "name": "game-actor-condition",
+        "output": "<local>/game-conditions-545RBx",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "game": "<local>/game-adapter-m39-ward",
+        "typesPassed": true,
+        "results": [
+          {
+            "name": "actor-condition-native",
+            "courses": 2,
+            "mode": "byte-equal-original",
+            "sha256": "07cd0787a5d1460c1cb42ac0ac40da78f4b7a23eb93c13ff8909b3ab3d4a7fb6"
+          },
+          {
+            "name": "actor-condition-boundary",
+            "courses": 31,
+            "mode": "byte-equal-original",
+            "sha256": "f76356aff85cf0d040f36f4ca48d84a2e75430a5898bdfb3425cb0d28324b1ca"
+          },
+          {
+            "name": "actor-condition-feedback",
+            "courses": 7,
+            "mode": "explicit-recovery-decision",
+            "sha256": "ec4a1fc9e1c1f74c5c767e830248e6053d8ddc566063d1152e44bfbe87f2635a"
+          },
+          {
+            "name": "actor-condition-config-after-import",
+            "courses": 1,
+            "mode": "byte-equal-original",
+            "sha256": "6b6ca98a15b4b0acba66321e8d42e28409955d438b7176692abfc83308111130"
+          },
+          {
+            "name": "actor-condition-config-before-import",
+            "courses": 1,
+            "mode": "byte-equal-original",
+            "sha256": "90c63288c25c8a636a13508822721a775e663ede02275d52e56b3fc31eda71fa"
+          }
+        ],
+        "originalCoursesCompared": 42,
+        "recovery": [
+          "existing-throw-before",
+          "existing-throw-after",
+          "replacement-throw-before",
+          "replacement-throw-after",
+          "changed-before-retry",
+          "sink-reentry-propagated",
+          "sink-reentry-caught",
+          "read-reentry-propagated",
+          "read-reentry-caught",
+          "different-actor-nested",
+          "retained-array-and-replacement",
+          "read-failure-forces-replacement",
+          "condition-success-then-gauge-failure",
+          "invalidation",
+          "mutating-reentry-false-false",
+          "mutating-reentry-false-true",
+          "mutating-reentry-true-false",
+          "mutating-reentry-true-true",
+          "native-dead-sweep"
+        ],
+        "installedFaults": [
+          {
+            "name": "threshold-inclusive",
+            "detected": true
+          },
+          {
+            "name": "recency-inclusive",
+            "detected": true
+          },
+          {
+            "name": "queue-expanded",
+            "detected": true
+          },
+          {
+            "name": "birth-events",
+            "detected": true
+          },
+          {
+            "name": "failed-confirmation",
+            "detected": true
+          },
+          {
+            "name": "recursion-allowed",
+            "detected": true
+          },
+          {
+            "name": "host-low-line-ignored",
+            "detected": true
+          },
+          {
+            "name": "host-stride-never-ready",
+            "detected": true
+          }
+        ],
+        "readOnly": false,
+        "allInstalledFilesRestored": true
+      },
+      {
+        "name": "game-proc",
+        "output": "<local>/game-procs-NogPNV",
+        "game": "<local>/game-adapter-m39-ward",
+        "tooling": "<local>/adapter-tools-Ya1idz",
+        "packageIntegrity": "sha512-I+pFRezvNzS8EiNspxxJ9cgsJjCxiQ34l1TwEgOYrPed/ndrLnYcqvoJ97H25hrnVbn/PleSXQ3+Zyp2Ae3auQ==",
+        "typesPassed": true,
+        "results": [
+          {
+            "name": "proc-rules",
+            "courses": 47,
+            "byteEqual": true,
+            "sha256": "d88bd7d7f6ba42cecff65c8ea08c5a71ffce2eec14777ef317671bfdc2fae32a"
+          },
+          {
+            "name": "proc-native",
+            "courses": 4,
+            "byteEqual": true,
+            "sha256": "9f4fcb1967b45fbfbaa8e9ad610b7b517a678caaf6deece5b7e049330d1a17eb"
+          },
+          {
+            "name": "proc-ordering",
+            "courses": 6,
+            "byteEqual": true,
+            "sha256": "144b341e09e22e47514ed4712689bf34a7d5d91932c030dea480c9cbb57e72ac"
+          },
+          {
+            "name": "proc-catalogue",
+            "procRows": 147,
+            "riderRows": 1,
+            "byteEqual": true,
+            "sha256": "f3c7d5b1243aacc276587c54154e90381a4dd90ad740abd0c8409f8ea79d7df6"
+          },
+          {
+            "name": "proc-dispatch",
+            "courses": 51,
+            "byteEqual": true,
+            "sha256": "8968fb007fb8faefc8d4d2daac7ad9668ae36956af8ec962047ccb2c2b64ea4b"
+          },
+          {
+            "name": "proc-hits",
+            "courses": 30,
+            "byteEqual": true,
+            "sha256": "8c67352eae617b074278b37ddbc8b0f61f45febea763e560cfbf2c36ed5c0755"
+          },
+          {
+            "name": "proc-frames",
+            "courses": 2,
+            "byteEqual": true,
+            "sha256": "83e48a37053514b49efca6ef931b98dcaa72a8d311661f22efa4f5e07977fad5"
+          },
+          {
+            "name": "proc-registry",
+            "courses": 3,
+            "byteEqual": true,
+            "sha256": "011bba3e85d2e62afcbcad971770d2d34677ee4f0537337e96a6fffa162de359"
+          },
+          {
+            "name": "proc-host-phases",
+            "courses": 7,
+            "byteEqual": true,
+            "sha256": "9e2097582bb5a330cf810a2058d027de28dc5987db21c626858f66996b3961f8"
+          }
+        ],
+        "originalCoursesCompared": 150,
+        "installedFaults": [
+          {
+            "name": "chance-cap",
+            "detected": true
+          },
+          {
+            "name": "cooldown-equality",
+            "detected": true
+          },
+          {
+            "name": "once-ignored",
+            "detected": true
+          },
+          {
+            "name": "own-selection-skipped",
+            "detected": true
+          },
+          {
+            "name": "pulse-live-grants",
+            "detected": true
+          },
+          {
+            "name": "status-bank-depth-gated",
+            "detected": true
+          },
+          {
+            "name": "collision-dead-caster",
+            "detected": true
+          },
+          {
+            "name": "surface-dead-caster",
+            "detected": true
+          },
+          {
+            "name": "court-normalization-omitted",
+            "detected": true
+          },
+          {
+            "name": "true-kill-normalized",
+            "detected": true
+          },
+          {
+            "name": "rider-depth",
+            "detected": true
+          },
+          {
+            "name": "carry-context-omitted",
+            "detected": true
+          },
+          {
+            "name": "hit-observation-stale-type",
+            "detected": true
+          },
+          {
+            "name": "hit-observation-stale-roll",
+            "detected": true
+          },
+          {
+            "name": "native-registry-view-stale",
+            "detected": true
+          },
+          {
+            "name": "native-own-observer-bypassed",
+            "detected": true
+          },
+          {
+            "name": "later-death-skips-gauges",
+            "detected": true
+          },
+          {
+            "name": "later-death-skips-kill-rewards",
+            "detected": true
+          }
+        ],
+        "hitObservationContractVerified": true,
+        "nativeRegistryViewVerified": true,
+        "nativeOwnHookVerified": true,
+        "readOnly": false,
+        "allInstalledFilesRestored": true
+      }
+    ],
+    "effectsLog": {
+      "name": "effects",
+      "passed": true,
+      "log": "<local>/m39-ward-regression-effects-1792972235274.txt",
+      "sha256": "3593e7f1a96ce9745f19e86b617705ed362baf2d604b8a4c6a2abe7a8a89d391"
+    },
+    "installedSuites": 19,
+    "installedFaults": 142,
+    "nativeProbes": 21,
+    "scope": "44 checks completed against the retained initial M39 package. These are not claimed as reruns against the optimized archive."
+  },
+  "carryForward": {
+    "hostSourceFilesIdentical": 993,
+    "runtimeAndDeclarationFilesIdentical": 178,
+    "changed": [
+      "proc-effects.js",
+      "proc-effects.js.map"
+    ],
+    "reason": "Only magnitude copy sites changed; targeted comparisons, faults, full SDK verification, renderer and managed integration were rerun."
+  }
+}

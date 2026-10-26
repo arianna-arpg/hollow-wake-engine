@@ -1,11 +1,12 @@
-# Effect extraction baseline
+# Effect scaling and ward
 
-The v0.34 development branch implements the magnitude fold, ward resource gain
-and ward effect arithmetic as an optional module. A guarded game adapter connects
-those functions to the existing native methods; its publication, renderer and
-performance acceptance remain pending. The published v0.33 adapter retains the
-prior implementation. The [accepted original fixtures](../baseline/milestone-thirty-nine/acceptance.json)
-establish the comparison point before implementation changes.
+Version 0.34 implements magnitude folding, ward resource gain and ward effect
+arithmetic as an optional module. A guarded game adapter connects them to the
+existing native methods. [Integrated acceptance](../evidence/milestone-thirty-nine/verification.json)
+records installed comparisons, renderer observations, managed-game preservation
+and bounded desktop measurements. The [original fixtures](../baseline/milestone-thirty-nine/acceptance.json)
+were accepted before implementation changes. Final package consumers and hosted
+checks are separate publication gates; target-device acceptance remains open.
 
 ## Portable ward functions
 
@@ -122,8 +123,8 @@ return value. The host then delivers cues and the existing rider hook in order.
 The optional module has a 4 KiB JavaScript allowance; prior module and core
 allowances remain unchanged. This is a size limit, not a performance result.
 
-Begin with the pure magnitude fold and a complete ward path, retaining the
-native resource/cue/rider observation boundaries. Extend the time-dependent
+The first path implements the magnitude fold and complete ward behavior while
+retaining native resource/cue/rider observation boundaries. Extend the time-dependent
 path only after its queue and target-selection requirements are captured.
 The SDK owns gameplay decisions; adapters supply spatial observations, native
 presentation and explicit state access. Host services must remain visible in
@@ -219,9 +220,9 @@ original fold. The initial extraction combined those branches with other effect
 types. Two isolated comparisons found that separating them reduced the scaling
 cost even through a forwarding function, with matching output receipts.
 The diagnostic also tested direct calls independently; its absolute
-timings varied substantially between processes. Confirm the change in an
-independently installed candidate before accepting a release or claiming a
-whole-frame benefit. This implementation choice changes no API, arithmetic,
+timings varied substantially between processes. The independently installed
+comparisons below confirm the bounded scaling improvement without establishing
+a whole-frame benefit. This implementation choice changes no API, arithmetic,
 metadata rule, host initialization order or accepted fixture.
 
 The initial v0.34 candidate is retained as an immutable comparison. An optional
@@ -254,3 +255,28 @@ A supplemental diagnostic kept the same 128-frame course, used 40 warmups and
 58.6828 and 58.4608 ms; v0.33 medians were 59.5134 and 59.7719 ms. Outcomes matched
 in both runs. This supports proceeding with this adapter without a repeated
 penalty in that workload; it does not establish a general frame-rate benefit.
+
+## Acceptance records
+
+The [integration record](../evidence/milestone-thirty-nine/integration-results.json)
+separates 44 earlier checks against the retained initial package from eight
+focused checks rerun after the copy-site optimization. All 993 host source files
+and 178 of 180 runtime/declaration files are unchanged; only the effect JavaScript
+and source map differ. The full SDK verifier passed 478 tests on the optimized
+implementation. Original fixtures were not regenerated.
+
+[Renderer evidence](../evidence/milestone-thirty-nine/renderer.json) contains 12
+checks and three inspected images. Actual low-life frame processing earns ward
+300 with one probability draw and one event, and the HUD displays that pool.
+The [managed game](../evidence/milestone-thirty-nine/managed-adapter.json) passes
+four installed comparisons without fault injection, types, two native probes,
+smoke and original preservation. Four existing bounty methods and all 1,862
+other tracked files remain intact.
+
+The [performance record](../evidence/milestone-thirty-nine/performance-decision.json)
+links both eleven-workload runs, raw samples and the fixed longer-warmup frame
+diagnostic. Its captured helper preserves the exact native frame course and
+records the diagnostic parameters. The [final archive](../evidence/milestone-thirty-nine/final-installation.json)
+has separate consumer and byte-identity checks. These checks establish this
+bounded path; the remaining 21 effect branches, scheduler semantics, complete
+native-engine packages and physical-device measurements remain outstanding.

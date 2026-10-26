@@ -1,0 +1,978 @@
+
+> @hollow-wake/engine@0.34.0 verify
+> npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs && node scripts/test-skill-admission-package.mjs && node scripts/test-skill-intent-package.mjs && node scripts/test-skill-request-package.mjs && node scripts/test-skill-dispatch-package.mjs && node scripts/test-casting-continuation-package.mjs && node scripts/test-channel-bank-package.mjs && node scripts/test-actor-condition-mutations.mjs && node scripts/test-actor-condition-package.mjs && node scripts/test-proc-mutations.mjs && node scripts/test-proc-package.mjs && node scripts/test-proc-effects-mutations.mjs && node scripts/test-proc-effects-package.mjs
+
+
+> @hollow-wake/engine@0.34.0 test
+> npm run build && node --test test/*.test.mjs
+
+
+> @hollow-wake/engine@0.34.0 build
+> tsc -p tsconfig.json
+
+✔ native condition policy matches 154 immutable original sampling observations (7.7519ms)
+✔ predeclared recovery: existing-throw-before (1.2374ms)
+✔ predeclared recovery: existing-throw-after (0.3126ms)
+✔ predeclared recovery: replacement-throw-before (1.0886ms)
+✔ predeclared recovery: replacement-throw-after (0.3564ms)
+✔ predeclared recovery: changed-before-retry (0.2251ms)
+✔ predeclared recovery: sink-reentry-caught (0.399ms)
+✔ predeclared recovery: sink-reentry-propagated (0.2676ms)
+✔ predeclared recovery: read-reentry-caught (0.2995ms)
+✔ predeclared recovery: read-reentry-propagated (0.3416ms)
+✔ predeclared recovery: different-actor-nested (0.3323ms)
+✔ predeclared recovery: retained-array-and-replacement (0.256ms)
+✔ predeclared recovery: read-failure-forces-replacement (0.2529ms)
+✔ predeclared recovery: condition-success-then-gauge-failure (0.3812ms)
+✔ predeclared recovery: invalidation (0.2448ms)
+✔ same actor cannot reenter through a different policy instance (0.1387ms)
+✔ holds reads last sample inside the sink and ignores unknown core condition names (0.2025ms)
+✔ queue order and identity survive limited capacity and already overfull input (0.2553ms)
+✔ birth does not append edges and stable samples preserve sink array identity (0.1257ms)
+✔ configuration capture is immutable and separate policies stay independent (0.1427ms)
+✔ distinct recency windows retain counter indexing, strict expiry and the hurt inverse (0.4047ms)
+✔ invalid configuration and sparse recency windows fail before any host read (1.6396ms)
+✔ one-pass conditional-maximum feedback is not iterated to a fixed point (0.2651ms)
+✔ initial empty publication occurs once without allocating source storage (2.2077ms)
+✔ all sources retain namespace and native entry order (0.4965ms)
+✔ namespace correction: status to charge at unchanged raw id and value (0.2815ms)
+✔ namespace correction: charge to brim at unchanged raw id and value (0.2238ms)
+✔ namespace correction: brim to reserve at unchanged raw id and value (0.2116ms)
+✔ namespace correction: reserve to derived at unchanged raw id and value (0.1559ms)
+✔ namespace correction: derived to status at unchanged raw id and value (0.2103ms)
+✔ independent actual stat-sheet oracle replaces stale charge damage with brim damage (1.2849ms)
+✔ brim rounding changes only at the half-pip threshold (0.2794ms)
+✔ zero and negative source values disappear from the complete replacement (0.4721ms)
+✔ replacement sheet republishes unchanged values while replacing maps does not (0.2203ms)
+✔ absent status count is omitted and removing a positive count clears its gauge (0.2806ms)
+✔ absent reserve count is omitted and removing a positive count clears its gauge (0.2181ms)
+✔ present invalid status count still rejects without publishing and retries (0.6271ms)
+✔ present invalid reserve count still rejects without publishing and retries (0.3147ms)
+✔ sparse record accessors are sampled once in source order (0.2358ms)
+✔ entry ordering and duplicate status values remain observable (0.142ms)
+✔ sinks can retain or mutate delivered tuples without corrupting the exact cache (0.1598ms)
+✔ throwing sink retries unchanged sources after refusal (0.2624ms)
+✔ throwing sink retries unchanged sources after partial application (0.1273ms)
+✔ failed sampling leaves sink unchanged and invalidates a partially refreshed cache (0.2004ms)
+✔ recursive refresh is rejected before reading the recursive source (0.2301ms)
+✔ invalidation during sink callback schedules the next publication (0.1807ms)
+✔ reset drops cached state and is refused during a callback (0.2204ms)
+✔ independent publishers cannot share cached values or sink identity (0.1386ms)
+✔ comparison retains preflight gates, payment, targeting and every state field (3.1364ms)
+✔ comparison never discards unknown observations or bank, price and stat read ordering (1.193ms)
+Compared 108 whole actor timer phases.
+✔ SDK reproduces original bank recovery through complete actor timer phases (6.81ms)
+✔ last-round stamp observes payment before reload flag and rest-clock reset (0.6309ms)
+✔ empower, vent and repeated delivery quote preserve distinct bank economies (0.3929ms)
+✔ active reload keeps partial rest time and does not mutate an over-cap or full bank (0.3104ms)
+✔ one recovery per update carries time; moving bleed retains fractional remainder (0.2518ms)
+✔ lazy optional fuel, fixed ports and independent bank ownership are explicit (0.3733ms)
+✔ invalid inputs reject before public writes and fractional legacy banks remain representable (1.0031ms)
+✔ read reentry and excessive bleed fail without leaving the binding locked (3.0235ms)
+✔ ordered updates retain earlier commits when a later host observation fails (0.7521ms)
+✔ idle update has no callbacks; idle click still records activity (3.1229ms)
+✔ guard interruption lowers before removing its shell and clearing the cast (0.4266ms)
+✔ interruption preserves an unrelated shell (1.08ms)
+✔ failed guard lowering preserves the original active cast and shell (0.6346ms)
+✔ failed interrupt feedback propagates after clearing without poisoning later casts (0.557ms)
+✔ clinger tracking follows live-aim handling and preserves a 3D aim identity (0.3377ms)
+✔ seated, dead and missing clinger targets do not overwrite aim (0.3951ms)
+✔ AI charge hold uses the old clock and caps a long hold at full charge (0.3377ms)
+✔ secondary-seat hold and finesse use deliberately different authority predicates (0.383ms)
+✔ primary charge preserves the input-held flag at its cap (0.2608ms)
+✔ completion-required and brim holds initialize without random draws (0.3776ms)
+✔ random hold is initialized once and gather overrides the instance channel (0.2626ms)
+✔ channel line grace includes its boundary; clear and invalid prey reset it (0.2808ms)
+✔ unpracticed and spent finesse do not consume randomness (0.162ms)
+✔ AI finesse preserves success/fumble draw ordering and clamps timed markers (0.2858ms)
+✔ AI clicks through the host entry at the exact pre-advance threshold (0.3614ms)
+✔ large timing steps do not invent substeps to rescue a missed AI window (0.1597ms)
+✔ focus tracking copies the full quarry position; release clears before delivery (0.4854ms)
+✔ focus distance includes the radius-plus-slack boundary in three dimensions (0.2252ms)
+✔ invalid focus quarry is rejected before distance or automatic tracking (0.3377ms)
+✔ focus fizzle observes feedback mutations before contextual/global cooldown reads (0.2196ms)
+✔ partial focus release with lost quarry copies aim and retains payment identity (0.2914ms)
+✔ existing mode services receive the original actor, cast, time and target (0.2429ms)
+✔ ordinary completion retains aim, target and payment identities (0.2258ms)
+✔ multitude repeats clamp to at least one and clicks cap at fifteen (0.1959ms)
+✔ totem placement wins over channel planting and stamps only the base clock (0.2527ms)
+✔ channel vessel uses live context, minimum duration and one-held-channel policy (0.1584ms)
+✔ missing vessel still completes the cast and stamps its cooldown (0.1358ms)
+✔ failed delivery propagates after completion with no rollback or busy latch (0.2201ms)
+✔ successful click cues precede triggers; the trigger receives a copied 3D aim (0.331ms)
+✔ click reads active state after activity callback and keeps committed timing on cue failure (0.2925ms)
+✔ independent controllers retain independent ports and copy configuration once (0.2959ms)
+(node:53572) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ all registry shards preserve source data and identify every executable source rule (1093.6411ms)
+✔ SQLite catalogue roundtrips all rows, order, child records and migration evidence (2222.2667ms)
+✔ absent release lookup and sweep keep storage lazy (2.4772ms)
+✔ binding creates once and preserves map, record and unrelated host fields (0.4173ms)
+✔ one service isolates actor storage even for the same instance (0.3592ms)
+✔ held same-skill bank is skipped before empty-record deletion (0.2735ms)
+✔ held different skill and nonchannel cast do not protect a bank (0.36ms)
+✔ empty records are deleted in iteration order without contextual queries (0.8611ms)
+✔ missing, zero decay and inclusive bank plateau skip the live query (0.2891ms)
+✔ below-plateau bank consumes current contextual multiplier (0.3215ms)
+✔ large step deletes bank but preserves detached negative fill (0.2024ms)
+✔ zero elapsed sweep deletes spent entries without advancing retained fill (0.2958ms)
+✔ query failure preserves earlier work and leaves current and later fill untouched (0.5943ms)
+✔ invalid delta is rejected before mutation or host observation (0.2689ms)
+✔ nonfinite contextual result cannot corrupt the current bank (0.2648ms)
+Compared 79 original channel phases.
+✔ channel phases reproduce original clocks, prices, ramps, release and persistence (17.549ms)
+✔ phase reads observe trigger and payment changes without replacing captured context (0.7481ms)
+✔ failed target and unfunded pulse do not consume jitter; payment precedes draw (0.3956ms)
+✔ bounded beats preserve carry, interleaved actors and one finish (0.4428ms)
+✔ release clears casting before effects and preserves the initial target reference (0.4037ms)
+✔ persistence expires before a due beat and carries at most one pulse per frame (0.4722ms)
+✔ numeric helpers preserve authored floors and curves, with explicit invalid-input errors (1.2441ms)
+✔ bound ports, invalid frames and callback reentry do not wedge the binding (0.5384ms)
+✔ all original class and party XP transitions retain arithmetic, milestone order and per-level callbacks (224.2279ms)
+✔ invalid arithmetic and bounded-work refusals leave the current character untouched (8.4211ms)
+✔ input ownership, unknown classes and prototype-named milestone keys are explicit (16.3268ms)
+✔ fractional and negative awards remain valid; no level-100 cap is inferred (1.4428ms)
+✔ completion callbacks cannot reenter, and downed status is read after recalculation (1.0256ms)
+✔ charge gains fold capacity, preserve capped idle and gate shared event capacity (3.2925ms)
+✔ draining blocks gain until empty and defers drain-only modifiers until synchronization (1.2236ms)
+✔ charge frame policy keeps full crossing-frame decay, fractional overdraw and regeneration debt (0.6313ms)
+✔ regeneration requires a spender only for the definition baseline and preserves phase order (0.6261ms)
+✔ timed taps preserve duplicate shared clocks, tree cleanup and matching channel definition (0.5186ms)
+✔ modifier caches preserve count semantics, borrowed maps, copy-on-write rows and separate instances (0.3501ms)
+✔ public charge numeric failures and reentry are explicit; malformed meters terminate (1.1444ms)
+✔ charge costs distinguish admission from payment and clear fractional legacy overdraw (1.0612ms)
+✔ standalone charge banks reproduce every original bank, partition and live-content course (104.432ms)
+✔ standalone timed meters reproduce original authored tap ordering and retained clocks (60.2941ms)
+✔ all authored charge costs match original admission, payment and modifier synchronization (40.8015ms)
+Compared 69 original charged update transitions.
+✔ charged updates match independent original state, payments and releases (9.1752ms)
+✔ duration laws and marker endpoints are explicit (0.6996ms)
+✔ one binding serves interleaved actors with independent stage payment and release (0.5598ms)
+✔ marker draws follow successful stage commits, including free stages (0.4427ms)
+✔ release clears state before delivery, then emits timing and spark cues in order (0.4019ms)
+✔ invalid frames and reentry fail explicitly and release the shared guard (0.4259ms)
+✔ compiled container ladders match all original feature combinations, first openers and wire roundtrips (14.4593ms)
+✔ container geometry owns its inputs and each returned board; live changes require a new plan (1.0641ms)
+✔ live container policy matches 2000 original landings, refusals, misfits and ownership lookups (272.1835ms)
+✔ account exchanges do not require a bag seat; ordinary exchanges and unique limits remain atomic (1.096ms)
+✔ container ports are live and a reentrant footprint read refuses without mutating caller items (1.8093ms)
+✔ independent arithmetic: additive increases, multiplicative more, ordered override and clamps (4.5717ms)
+✔ independent arithmetic: links are single-hop, and trade reads the pre-forgo source (1.2129ms)
+✔ source ownership and collision-free context keys prevent stale and aliased results (1.1498ms)
+✔ two sessions remain independent when their operations are interleaved (11.4961ms)
+✔ preview is random-free; changed sources invalidate the compiled attack exactly once (3.7309ms)
+✔ equip, unequip and passive refunds restore values; rejected commands are atomic (3.9131ms)
+✔ state restoration continues the exact random and target sequence (4.2323ms)
+✔ range bounds and target resistance caps hold across a broad seed sweep (411.9324ms)
+✔ unsupported mechanics fail explicitly and content is detached from caller mutation (4.5461ms)
+✔ a second content pack changes the same engine through data (2.3209ms)
+✔ content rejects cycles, host objects and silently ignored skill-node behavior (3.8554ms)
+✔ stat caches stay bounded when a host supplies many distinct contexts (15.9577ms)
+✔ equipment slot content preserves all authored order and rejects malformed packs (3.0897ms)
+✔ equipment tier requirements use authored breakpoints and clamp above the last tier (0.4463ms)
+✔ equipment fallback, level boundary and worn swaps preserve both bodies (1.3347ms)
+✔ full bag displacement transfers to the host at the original commit point (4.0848ms)
+✔ missing displacement sink and throwing reads fail before ownership changes (0.6462ms)
+✔ unequip honors exact placement, keeps identity and refuses a full bag (0.8728ms)
+✔ bag and board moves share atomic simultaneous swap geometry and same-cell success (1.273ms)
+✔ generic-container refusal preserves the observed source array ordering (1.3498ms)
+✔ generic-container exchanges plan both destinations and preserve drop callback ordering (1.005ms)
+✔ unplaceable source recovery fails before removing the source item (0.471ms)
+✔ custom prototype-named slots are safe and geometry never enumerates item payloads (0.3494ms)
+✔ reentrant read ports are rejected and the action guard recovers (0.3107ms)
+✔ guard readiness matches 284 original observations (3.6786ms)
+✔ guard lifecycle phases reproduce original hold, pulse and release decisions (9.9223ms)
+✔ release lowers active arts before rereading bash and shield; cleanup precedes cooldown and delivery (0.5387ms)
+✔ guard refresh precedes reactive effects and entry duration stays fixed for this update (0.4502ms)
+✔ AI warning commits once, holds through windup, and pressure can deny the bash (0.5837ms)
+✔ component pulses retain carry and still precede cleanup on release or death (0.4591ms)
+✔ one binding isolates borrowed actors; missing bash clears obsolete readiness (0.3314ms)
+✔ invalid frames and reentry fail explicitly; completed effects are not rolled back (0.9898ms)
+Compared 56 original focus phases.
+Compared 22 original timing press commands.
+✔ original focus phases preserve progress, terminal decisions and fizzle clocks (5.8032ms)
+✔ original timing presses match one-shot attempts, defaults, grafts and multitude cap (5.7437ms)
+✔ focus timing is explicit at thresholds and never consumes release-frame progress (0.5992ms)
+✔ timing cue edges and press-spent state retain the source law (0.2906ms)
+✔ independent focus states and immutable outcomes require no retained simulation data (0.6143ms)
+✔ invalid public timing inputs fail explicitly (0.4388ms)
+✔ live inventory queries match the original on overlaps, duplicate identities and transient placements (458.3428ms)
+✔ live inventory host matches all 3000 original transitions without replacing item identity (71.8541ms)
+✔ first-fit observes external edits, masks, overlaps, duplicates and unplaced records (0.8359ms)
+✔ refused moves preserve host records and ports fail before writes (1.6217ms)
+✔ original grid/World moves: board 0 (559.8379ms)
+✔ original grid/World moves: board 1 (54.3403ms)
+✔ original grid/World moves: board 2 (100.835ms)
+✔ original grid/World moves: board 3 (33.425ms)
+✔ single blocker swaps are atomic and prospective footprints may not overlap (0.5007ms)
+✔ transfers reject full/duplicate destinations without losing ownership or payload (0.8077ms)
+✔ masks, independent boards, resize and snapshot validation preserve legal state (0.973ms)
+✔ malformed inputs are rejected before mutation and item slots are reusable (151.856ms)
+✔ payload accessors/array extras cannot disappear in saves or run during ownership transfer (0.7433ms)
+✔ host-owned RNG and identity reproduce the uninterrupted original item stream (617.1255ms)
+✔ host content refresh changes values without replacing identity or random ownership (389.8689ms)
+✔ invalid commands do not call host ports and invalid ports fail explicitly (5.1973ms)
+✔ custom choice identities and overflowing weights cannot corrupt state (430.7483ms)
+✔ generated-item equipment changes match original World character, preview and costs (8.5683ms)
+✔ wild drops, ceilings, forced families, quality, forge and unsatisfiable requests match source (8651.2045ms)
+✔ one long original stream crosses cache levels/rarities/bases with unchanged results and replay (3019.4602ms)
+✔ all captured item modifiers, local folds and unique migrations match the original (571.0926ms)
+✔ all reference drops retain complete item data and exact random consumption (2915.7636ms)
+✔ mint continuation, independent owners, transfer/save and re-derived values agree (20.0509ms)
+✔ invalid commands and snapshots cannot consume randomness or identity (2.7536ms)
+✔ content and returned modifiers do not alias; unknown saved definitions fail explicitly (1.3308ms)
+✔ generated item values equip, survive a build save and affect actual spell damage (5.4706ms)
+✔ custom zero-sided affix caps cannot be bypassed by magic or guaranteed families (356.5174ms)
+✔ original World trace: ordinary-completion-and-recast (19.9769ms)
+✔ original World trace: instant (0.5746ms)
+✔ original World trace: minimum-bar-and-snapshotted-speed (0.4587ms)
+✔ original World trace: stun-keeps-payment (0.4566ms)
+✔ original World trace: host-cancel-keeps-press-clock (0.4167ms)
+✔ original World trace: completion-reprices-cooldown (0.4225ms)
+✔ original World trace: insufficient-resources-are-atomic (3.8532ms)
+✔ compiled Firebolt cost, duration and cooldown quotes match original Actor reads (69.2572ms)
+✔ invalid frames and exhausted capacity cannot partially pay or tick (1.1845ms)
+✔ cancel, death and interleaved runtimes produce at most one completion (0.394ms)
+✔ completion cooldown and token restore validation reject corrupt snapshots (0.9208ms)
+✔ build changes invalidate casting quotes while active bars retain their quote (26.8725ms)
+✔ base attributes are sampled once in authored order before grant folding (3.6322ms)
+✔ invalid base input stops later reads and never coerces objects into numbers (0.9232ms)
+✔ derived validation covers attributes without per-point grants and does not poison other builds (0.612ms)
+✔ derived results stay detached across item accumulation, rejection and interleaved builds (0.6161ms)
+✔ successful reentrant input reads remain committed when an outer batch rejects (0.4468ms)
+✔ a rejected derived overflow can recover after a valid percentage change (0.4173ms)
+✔ attribute reads do not invoke inherited array-index setters while deriving values (0.3517ms)
+✔ every original node and choice grant reproduces attributes, modifier order, conduits, graft sources and sheet reads (582.9838ms)
+✔ flat source order and one final percentage/rounding phase remain authoritative (0.4706ms)
+✔ grant output and accumulators own their state; invalid item rows are atomic (0.703ms)
+✔ unknown selections require an explicit compatibility choice; malformed content never becomes executable (1.0743ms)
+✔ item snapshots retain own field order, explicit undefined and independent tag arrays (0.3134ms)
+✔ snapshot reads each field and tag once before capturing the build accumulator (0.2501ms)
+✔ nonplain and executable modifier payloads fail atomically without invoking nested values (0.4591ms)
+✔ modifier snapshots define own fields without invoking inherited setters (0.2678ms)
+✔ host-owned sessions reproduce every original command and observe replaced save containers (639.8706ms)
+✔ host ownership is explicit; read-only queries preserve containers and snapshots stay detached (1.1162ms)
+✔ retired live selections are retained and refunds report the original refusal priority (0.9697ms)
+✔ live reference mode is explicit and does not fabricate deleted roots or missing choice power (0.5589ms)
+✔ passive policy matches original allocation, choice, refund, realm and graft transitions (806.3155ms)
+✔ point conservation, multi-pick costs, leaves and denied services are independent invariants (0.7902ms)
+✔ root seeding on failed purchase is explicit, idempotent and retained through save/restore (0.4276ms)
+✔ cross-domain edges cannot rescue a detached branch, and an unrooted cycle is not an anchor (0.4766ms)
+✔ owned state, immutable content, scratch and snapshots never leak across characters (1.1998ms)
+✔ vocation membership, gate toggle and currency are independent requirements (0.7111ms)
+✔ malformed content and state fail before becoming executable policy (1.471ms)
+✔ owned proc content preserves every authored proc/rider without adding a rider stat (11.5988ms)
+✔ owned input and all returned nested data are detached and immutable (0.8757ms)
+✔ owned proc validation rejects malformed dispatch and nonportable payload data (1.9236ms)
+✔ empty filters and explicit zero ICD are retained rather than normalized away (0.3753ms)
+✔ owned revisions with identical ids have independent indexes (0.4157ms)
+✔ borrowed indexes preserve native identities and length-keyed staleness (0.5243ms)
+✔ borrowed source identity replacement refreshes an equal-length index without sharing another binding (0.2929ms)
+✔ magnitude fold matches 1036 unchanged original observations and input identities (35.9515ms)
+✔ magnitude metadata matches eight original frozen-input observations (2.1261ms)
+✔ ward resource matches all 15 original callback, arithmetic and failure observations (3.9142ms)
+✔ scaled ward uses maximum life, then the live pool, then native rate and growth (0.3787ms)
+✔ maximum-life callback changes precede the before-value even for a zero effect (0.2228ms)
+✔ ward effect skips nonpositive amounts, but still reads maximum life (0.2193ms)
+✔ ward cue decision uses actual growth independently of the gain return value (0.2849ms)
+✔ nested ward effects have independent before-values and committed gain failures propagate (0.6893ms)
+✔ a failed rate query leaves the pool unchanged and prevents any later read/write (0.2461ms)
+✔ shared resource ports preserve receiver binding and isolate actor pools (0.2828ms)
+✔ carry and talent results preserve entry eligibility for following host phases (6.3713ms)
+✔ ordinary and rider rolls reject equality at the original 95 percent cap (1.016ms)
+✔ proc rules match all 47 immutable original observations (9.805ms)
+✔ same-actor nesting follows purchased depth without a shared busy guard (1.4895ms)
+✔ live grants and removals affect later owned candidates without changing content (0.7135ms)
+✔ borrowed live appends and same-length index staleness match the original diagnostics (0.9777ms)
+✔ pulse grants use an armed snapshot and missed beats are never replayed (0.5393ms)
+✔ throwing execution retains PPM and cooldown stamps and does not retry effects (0.9311ms)
+✔ condition read failure precedes once-per-time stamping and random draws (0.5266ms)
+✔ invalid random values fail before delivery while retaining earlier gate and attempt stamps (1.1804ms)
+✔ callbacks and tuning are captured while live actor values and callback receivers remain usable (1.1635ms)
+✔ actor clocks keep their identities and remain independent through a shared runtime (0.4592ms)
+✔ talent sweep failure retains detached-edge consumption and stops later phases (0.3495ms)
+✔ dead talent sweep clears edges in place and never reads pulse state (0.2158ms)
+✔ gain dispatch has no own-event armed guard and status banking precedes depth rejection (0.4806ms)
+✔ carry uses summoning context, owner clocks and the explicit-zero ICD exemption (2.7102ms)
+✔ kill eligibility follows chance bookkeeping and rider delivery keeps its depth and payload identity (0.4906ms)
+✔ each build transition matches the original World, skill compiler, preview and cost rules (13.5938ms)
+✔ reference contact trace and random draw order, seed 0 (3.6689ms)
+✔ reference contact trace and random draw order, seed 1 (4.7486ms)
+✔ reference contact trace and random draw order, seed 2 (1.7843ms)
+✔ reference contact trace and random draw order, seed 17 (1.6036ms)
+✔ reference contact trace and random draw order, seed 42 (2.1892ms)
+✔ reference contact trace and random draw order, seed 99 (4.142ms)
+✔ reference contact trace and random draw order, seed 255 (2.4793ms)
+✔ reference contact trace and random draw order, seed 1024 (3.0293ms)
+✔ reference contact trace and random draw order, seed 12345 (1.7801ms)
+✔ reference contact trace and random draw order, seed 659918 (1.7387ms)
+✔ reference contact trace and random draw order, seed 2147483647 (1.475ms)
+✔ reference contact trace and random draw order, seed 4294967295 (1.3745ms)
+✔ generated source, condition, gauge and removal sequences match original StatSheet (31.4645ms)
+✔ mixed conversions, range changes, lucky rolls, crit avoidance, penetration and cost conversion match the original (73.2806ms)
+✔ differential comparator rejects a deliberately altered result (1.4611ms)
+✔ relic access matches 2048 original queries covering 512 distinct near/far authority combinations (6.7267ms)
+✔ authorization reads stop at the first refusal and calm boundary is inclusive (1.7737ms)
+✔ relic transfer chain preserves canonical identity through swap, bag, reserve, release and stale replay (5.6741ms)
+✔ full bag and recovery refusals keep the complete source ownership intact (1.9174ms)
+✔ lesson seating bypasses calm/casting but never host identity, death or missing board (0.5092ms)
+✔ personal locker transfers keep body identity and honor exact destinations (0.6661ms)
+✔ storage exchange retains canonical bodies and reuses the departing reserve capacity (0.6008ms)
+✔ personal locker refuses full destinations without losing or relocating either body (0.5237ms)
+✔ reentrant observations fail before mutation and release the operation guard (1.0274ms)
+✔ placement and withdrawal do not enumerate unrelated item payload fields (0.5746ms)
+✔ relic restoration matches 240 original legacy shapes and UID floors (164.2618ms)
+✔ relic investment matches 600 original bounded pours, gates and invalid amounts (17.0635ms)
+✔ canonical relic custody matches 2520 original bank, migration, storage and loss transitions (542.2142ms)
+✔ occupied-cell experience matches 160 original folds including disabled state (1.596ms)
+✔ relic ownership is canonical, loss is irreversible on replay, and accounts are isolated (0.6986ms)
+✔ relic pour conserves funds, advances one rung, and observes live tuning (0.7729ms)
+✔ custody rejects bad UID providers and reentrancy and releases failed-call guards (0.6807ms)
+✔ Resource compilation retains authored fields, ordering, 25 tree payloads and stat bases (3.4699ms)
+✔ Resource content is detached, deeply immutable and shares ordered entries without query allocation (3.8261ms)
+✔ Resource ingress rejects broken schema, references, rates, intervals and payload typos (37.4044ms)
+✔ original authored feed predicates preserve all 1300 filter and random draw observations (20.248ms)
+✔ original ordered awards compose with the extracted charge and gauge runtimes (5.5871ms)
+✔ radius/toggle rejection is lazy and defaults do not draw randomness (0.343ms)
+✔ ports are instance bound, no shared state, and reentry releases its guard (0.7872ms)
+✔ invalid numeric observations fail explicitly without swallowing previous awards (0.5387ms)
+✔ one simulation binding routes interleaved actors without sharing banks or cooldowns (0.4717ms)
+✔ resource gauges match all repeated original courses and legacy boundary observations (75.9069ms)
+✔ gauge clocks consume silence before regeneration and preserve unrelated state identity (0.325ms)
+✔ gauge admission, partial payment, overflow and cooldown hastening stay distinct (0.3276ms)
+✔ gauge arithmetic refuses nonfinite and invalid timing without mutating state (0.7209ms)
+✔ payment, headroom and repayment match original primitive observations (12.3292ms)
+✔ independent arithmetic: shield availability, whole-life borrowing, shared reservations (0.532ms)
+✔ repayment crossing uses the whole frame and never fills freed pools (0.341ms)
+✔ life-spent callbacks observe committed pools and may nest without cross-actor scratch (0.3056ms)
+✔ invalid arguments fail before mutation; unchecked valid costs retain partial spending (1.0931ms)
+✔ ports are captured once and lane reads preserve phase and short-circuit ordering (0.2555ms)
+✔ seat geometry and raw amplification match 600 original neighbourhoods including overlaps, masks and repeated UIDs (233.3772ms)
+✔ every original relic numeric cap preserves tradeoffs, feedback and structural lines across 2816 power cases (18.8023ms)
+✔ two neighbouring crowns amplify raw damage once and never amplify each other’s amplifier (0.769ms)
+✔ live footprint replacement is observed; reentrant or failing ports release scratch without changing inputs (0.4477ms)
+✔ legendary merge keeps stable highest investment and returns only donor sockets without mutating inputs (2.5179ms)
+✔ ordinary merges choose highest levels, advance one rarity and return all input sockets (0.3191ms)
+✔ invalid merge policies and investments refuse before custody changes (0.6739ms)
+✔ level-to-choice-to-reset preserves callback order and first-use cleanup semantics (4.925ms)
+✔ permission and funds refusals leave paid investment untouched; granted skills may pick but cannot level (0.6962ms)
+✔ wallet clamp, fractional credits, lossy conversion and strict invalid-input boundary are independent (1.6111ms)
+✔ merge preflights every donor before consuming and grants the keeper before supports (0.8747ms)
+✔ hosts own their ports and reject callback reentry without poisoning later operations (0.9301ms)
+✔ admission preserves lazy bank creation and stops before later observations (4.4316ms)
+✔ active off-switches precede ammunition and prices but retain debt, life and body locks (0.4598ms)
+✔ first authored refusal keeps identity and gauge notes precede gate reads (0.4942ms)
+✔ gate thresholds are inclusive and each authored predicate retains its position (0.4211ms)
+✔ missing-resource arithmetic uses raw life, available mana and life-or-mana any (0.5393ms)
+✔ priming requires actual full relevant pools, instant restoration and floored spare capacity (0.4569ms)
+✔ held combinations and reflexes observe different body restrictions and live policy (0.5334ms)
+✔ gather cooldown release requires native cast shape and never bypasses recovery lock (0.2985ms)
+✔ reserve fuel, invocation, charge costs and pool venting retain inclusive floors (0.5736ms)
+✔ resolved summon slots and exclusive rivals free only their actual reservation (1.773ms)
+✔ existing charge-cost validation remains at its original nonoptional admission point (0.7437ms)
+✔ status contexts are lazy, ordered and independent from reflex stat context (1.7037ms)
+✔ policies snapshot ports, retain no actor scratch and do not roll back lazy mutation on error (0.4551ms)
+✔ bindings are captured without gameplay reads; original 3D aim and state identities survive (4.7031ms)
+✔ terminal preflight false stops every later observation (0.4705ms)
+✔ terminal preflight true stops every later observation (0.2409ms)
+✔ reserve checks finish before spending; live pricing is read again in the spend pass (0.4994ms)
+✔ a named zero reserve price overrides the default and World vent equality admits (0.4431ms)
+✔ missing target spends reserves but does not pay ordinary cost or consume combo charges (0.4219ms)
+✔ combo redirect re-enters full admission, spends each price and clears seat press (0.4871ms)
+✔ failed combo redirect keeps its earlier spend and does not advance the cursor (0.4144ms)
+✔ a repeated combo step retains the instance and commits its next cursor without recursion (0.3513ms)
+✔ zero powered fumble still draws; fumble caps chance and preserves earlier reserve spend (0.5726ms)
+✔ scramble preserves duplicate bar/AI candidates and exact feedback/latch/re-entry order (0.5562ms)
+✔ scramble exceptions restore temporary request state; independent simulations stay isolated (0.8516ms)
+✔ aura toggle releases without payment (0.2325ms)
+✔ summon toggle releases without payment (0.1864ms)
+✔ strobe ignition reserves once and release is seat-only (0.3098ms)
+✔ hex ignition reserves once and release is seat-only (0.1304ms)
+✔ following curse expiry precedes live-list removal even if expiry replaces the list (0.3209ms)
+✔ lightweight target promotion re-queries after promotion and preserves target identity (0.3494ms)
+✔ channel starts consume combo charges while deferring mana and gauge payment; aim copies are distinct (0.3734ms)
+✔ gathered casts retain movement rules and configured duration scaling (0.2094ms)
+✔ concentration without quarry refuses only after ordered payment, charge and opening effects (0.2476ms)
+✔ guard state exists before callbacks and graft uses the live guard-strength context (0.3273ms)
+✔ overcharge captures context before timing, speed, marker and spark stat observations (0.4243ms)
+✔ pierced instant reflex retains running cast, aim and facing (0.3196ms)
+✔ pierced instant hold combo retains running cast, aim and facing (0.154ms)
+✔ instant primed eligibility reads after payment; the passed aim and cost retain host identity (0.2579ms)
+✔ host exceptions propagate without refunding earlier reserves or inventing a cast (0.2587ms)
+✔ ammunition is resolved lazily and last-round payment and cooldown use existing commitment rules (0.4484ms)
+✔ channel persistence pays at press and does not consume the ordinary combo charge bank (0.1527ms)
+✔ totem preparation pays once, keeps the host 3D copy and floors placement time (0.148ms)
+✔ cast creates the corresponding cast with the expected timing data (0.1813ms)
+✔ perfect creates the corresponding cast with the expected timing data (0.1295ms)
+✔ timed creates the corresponding cast with the expected timing data (0.0949ms)
+✔ multitude creates the corresponding cast with the expected timing data (0.1109ms)
+✔ charge creates the corresponding cast with the expected timing data (0.1782ms)
+✔ concentration creates the corresponding cast with the expected timing data (0.2336ms)
+✔ instant delivery failure retains prior payment and does not invent recovery or restore facing (0.345ms)
+✔ older admission projection retains actual request seals and every non-seal host observation (3.931ms)
+✔ intent projection removes only contextual original forwarding entries (3.6548ms)
+✔ intent comparison retains state, results, host call order and seal observations (3.7505ms)
+✔ unknown query operations or instrumented calls cannot be projected silently (0.5779ms)
+✔ validation captures both authored rows before callbacks can replace them (2.2859ms)
+✔ conversion callbacks can replace the displayed definition or its selected id (0.797ms)
+✔ cast seals preserve hard locks, seat scope and id/tag/law short-circuit order (0.889ms)
+✔ cast law replacement is live, ordered and isolated, including replacement during a fold (0.8109ms)
+✔ cast seal diagnostics retain authored order, duplicates and the open-ground hint (0.3546ms)
+✔ HUD readiness is supplementary and preserves trigger, seal and pool early refusals (0.6586ms)
+✔ HUD charge gates distinguish optional, fixed and all-charge prices (0.292ms)
+✔ HUD never resolves corpse side effects and only queries qualified targets after gates (0.2871ms)
+✔ requirements honor seat, gift, known-skill and active-toggle exemptions with live reads (0.3997ms)
+✔ a seal returns its original object and prevents minting or actor admission (0.3604ms)
+✔ mimic, combo and conversion query precedence differs from empty mimic face fallback (3.0128ms)
+✔ queued steps include the exact window endpoint and preserve lazy cursor creation (0.2858ms)
+✔ cursor ownership isolates borrowed constructs by simulation and actor while own bars retain instance state (0.3488ms)
+✔ combo cache keeps base-level arithmetic and refreshes borrowed sockets, grafts and tree modifiers (0.2581ms)
+✔ meta cache uses effective levels, command scope and exact relocation host identity (0.3496ms)
+✔ a later admission exception retains the mint and shared payload; policies snapshot ports, not live state (0.2962ms)
+✔ all original authored tree graphs, layouts, seals and prerequisite names match (88.1114ms)
+✔ all original level bands, costs and empowerment normalization match (1.0809ms)
+✔ ordered purchases, point assignment and all original restoration diagnostics match (460.1573ms)
+✔ owned progression content is detached, immutable and independent of caller or character mutation (757.5327ms)
+✔ strict economy inputs, fractional reward normalization, overflow and restoration opening distinction are explicit (0.6977ms)
+✔ all original tree payload folds match, including deliberately exclusive resolver inputs (69.6325ms)
+✔ borrowed payload references, ranked arrays, repeated modifiers and effect order remain explicit (0.4802ms)
+✔ graph ownership, alternate paths, duplicate precedence and bounded cycle reads are explicit (18.5849ms)
+✔ constructor performs no gameplay reads; port bindings are copied but state stays live (2.8792ms)
+✔ seals precede all mutation and speak only for explicit presses (0.3129ms)
+✔ hive handling precedes travel refusal and coalesces missing handling (0.3846ms)
+✔ each throng refusal stops before replenishment and seat activity (0.472ms)
+✔ replenishment toggle preserves state deletion and ordered completion before held checks (0.3758ms)
+✔ replenishment rereads delivery and refuses AI, dead, downed and nonowned instances (0.4189ms)
+✔ replenishment completion works without a seat; callback failure preserves prior state (0.6191ms)
+✔ held refusals interrupt dwell and mash only the matching holder, including id zero (0.378ms)
+✔ gnaw exempts seated bodies and mounted movement refuses before attributes (0.2891ms)
+✔ active aura debt precedes triggers; positive debt locks only its configured lane (4.6931ms)
+✔ life lock includes only life above the threshold and does not read inactive maximums (1.3799ms)
+✔ trigger toggles use body identity, initialize state before armed read, and preserve longer locks (0.3613ms)
+✔ stale trigger depth clears even on attribute refusal; zero does not cause a write (0.237ms)
+✔ conversion precedes mimic, shares live sockets and forwards exact aim and press to dispatch (0.2637ms)
+✔ conversion skips missing definitions and observes rule changes before mint (0.6949ms)
+✔ mimic samples time and live power after mint/socket assignment, and forwards missing-art notes (0.5989ms)
+✔ redirects re-enter authority and propagate the terminal result without host continuation (0.273ms)
+✔ prerequisite notes preserve empty strings and precede all relocation and admission work (0.2341ms)
+✔ relocation queries retain authored order, stop at first missing target, and precede admission (0.2844ms)
+✔ actor admission owns lazy state and exceptions; separate policies do not share answers (0.3359ms)
+✔ storage repair matches 400 original malformed/retuned layouts without changing any input body (115.6282ms)
+✔ legacy missing fields and repeated UIDs retain the original repair behavior (4.1584ms)
+✔ storage plans match 3000 original commands including cross-page swaps, recovery and save roundtrips (196.6273ms)
+✔ storage plans own their addresses while bodies and recovery entries remain host-owned (0.8413ms)
+✔ storage refuses invalid contracts and reentrancy before changing caller state (1.1134ms)
+✔ recovery cannot grow deposit capacity and unequal cross-page swaps must fit simultaneously (0.5861ms)
+✔ socket commit retains gem identity and completes removal, rebuild, creature sync and dirty notification in order (3.4967ms)
+✔ unsocket refuses a full bag before clearing custody, then performs the original notification order (0.4874ms)
+✔ known skills take precedence over granted skills and granted-only supports remain actionable (0.3273ms)
+✔ compatibility, occupancy and discipline refuse without custody changes (0.4202ms)
+✔ stored-skill cargo returns before its saved socket is cleared, without an actor rebuild (0.3896ms)
+✔ malformed addresses refuse before ports and independent hosts never share a busy flag (0.3067ms)
+✔ ports bind once and action reentry is rejected before mutation (0.7886ms)
+✔ support content is detached and deeply immutable, including policy sets and prototype-like identities (2.9675ms)
+✔ owned content rejects unknown rules while borrowed legacy hosts may pass them through (0.8378ms)
+✔ malformed support identities, modifier references, axes and non-finite values fail at content load (1.649ms)
+✔ chance tuning preserves identity thresholds and leaves untuned statuses alone (0.6371ms)
+✔ dynamic stat vocabulary records provenance without inventing stat definitions (3.0905ms)
+✔ opaque payload data is retained as data without evaluating code or accepting nonserializable values (1.8026ms)
+✔ tag closure preserves slot identities, graft order and caller-owned base tags (2.5252ms)
+✔ legacy exclusion timing and unseeded cycles stay explicit (0.3941ms)
+✔ effective levels floor each bonus independently and stay above paid caps (0.3343ms)
+✔ numeric folding retains source order, borrowed identities and override forwarding semantics (0.9752ms)
+✔ global modifiers and gated creature costs use their distinct original lanes (0.7874ms)
+✔ component-only costs include rolled rows once, scale correctly and precede self stacks (0.6738ms)
+✔ creature admission composes riders, keeps definition identity and excludes seat-bound fields even when false (1.2384ms)
+✔ all fourteen built-in mechanism families observe current structural inputs (1.1077ms)
+✔ mechanism overrides are per binding and do not replace built-in dispatch (0.3324ms)
+✔ cut resolution preserves row identities, canonical fallback, authored order and explicit random draws (2.0316ms)
+✔ empty socket admission skips unused tags without caching later socket or graft changes (1.1355ms)
+✔ original Burning and applyDot trace: damageTaken=1 (10.7107ms)
+✔ original Burning and applyDot trace: damageTaken=0.7 (11.137ms)
+✔ full expiry frame is an explicit compatibility rule (0.4714ms)
+✔ invalid tick and application are atomic; attribution is first-applier owned (1.2412ms)
+✔ recursive copies preserve enumerable order, descriptors, sparse arrays and independent owners (2.0691ms)
+✔ recursive copies read each parent field before child traversal, exactly once (1.8007ms)
+✔ cycles, executable values, nonfinite values and nonplain records remain rejected (0.6066ms)
+✔ prototype-named fields remain ordinary own data without changing prototypes or calling setters (0.2995ms)
+ℹ tests 478
+ℹ suites 0
+ℹ pass 478
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17270.5181
+Boundary check passed: 60 production modules; no external runtime dependencies, host APIs, or ambient randomness.
+Boundary controls accept typed data keys while rejecting bare and property-based host globals.
+Rejected deliberate fault: incorrect-increase
+Rejected deliberate fault: stale-stat-cache
+Rejected deliberate fault: payment-mana-reservation-omitted
+Rejected deliberate fault: payment-life-only-shortfall
+Rejected deliberate fault: payment-shield-fraction-spend
+Rejected deliberate fault: payment-idle-boundary
+Rejected deliberate fault: payment-blood-observer-omitted
+Rejected deliberate fault: payment-reservation-not-freed
+Rejected deliberate fault: guard-unearned-bash
+Rejected deliberate fault: guard-pulse-carry-lost
+Rejected deliberate fault: guard-native-lower-omitted
+Rejected deliberate fault: guard-dead-bash
+Rejected deliberate fault: guard-inclusive-line-lost
+Rejected deliberate fault: guard-inversion-omitted
+Rejected deliberate fault: guard-minimum-duration-omitted
+Rejected deliberate fault: guard-release-recovery-changed
+Rejected deliberate fault: channel-finish-repeated
+Rejected deliberate fault: channel-missing-target-spends
+Rejected deliberate fault: channel-pay-omitted
+Rejected deliberate fault: channel-pulse-overshoot-lost
+Rejected deliberate fault: channel-persistence-expiry-late
+Rejected deliberate fault: channel-gather-fraction-omitted
+Rejected deliberate fault: channel-brim-spend-omitted
+Rejected deliberate fault: channel-jitter-skips-draw
+Rejected deliberate fault: missing-cast-completion
+Rejected deliberate fault: changed-expiry-damage
+Rejected deliberate fault: closed-cell-open
+Rejected deliberate fault: overlapping-swap
+Rejected deliberate fault: wrong-local-item-increase
+Rejected deliberate fault: reversed-item-affix-order
+Rejected deliberate fault: refund-borrows-other-realm
+Rejected deliberate fault: refund-loses-choice-points
+Rejected deliberate fault: doubled-passive-attribute-percent
+Rejected deliberate fault: reversed-passive-grant-order
+Rejected deliberate fault: duplicate-base-attribute-read
+Rejected deliberate fault: host-allocation-disconnected
+Rejected deliberate fault: retired-node-refusal-lost
+Rejected deliberate fault: stale-live-occupancy
+Rejected deliberate fault: live-swap-overlap
+Rejected deliberate fault: storage-overflow-deposit
+Rejected deliberate fault: storage-swap-overlap
+Rejected deliberate fault: container-first-unlock-bypassed
+Rejected deliberate fault: neighbour-power-doubled
+Rejected deliberate fault: admission-ammunition-bank-read-omitted
+Rejected deliberate fault: admission-recovery-lock-ignored
+Rejected deliberate fault: admission-authored-gate-identity-lost
+Rejected deliberate fault: admission-prime-admits-one-point-dent
+Rejected deliberate fault: admission-aura-debt-lock-ignored
+Rejected deliberate fault: admission-charge-validator-bypassed
+Rejected deliberate fault: released-relic-resurrected
+Rejected deliberate fault: relic-pour-debit-omitted
+Rejected deliberate fault: foreign-account-actions-enabled
+Rejected deliberate fault: withdrawal-loses-bag-owner
+Rejected deliberate fault: equipment-level-bypassed
+Rejected deliberate fault: displaced-equipment-lost
+Rejected deliberate fault: nested-copy-omitted
+Rejected deliberate fault: copied-properties-use-setters
+Rejected deliberate fault: level-point-credit-omitted
+Rejected deliberate fault: downed-level-auto-heals
+Rejected deliberate fault: empowerment-budget-omitted
+Rejected deliberate fault: aura-ranks-ignored
+Rejected deliberate fault: paid-skill-level-omitted
+Rejected deliberate fault: legendary-donor-ranks-lost
+Rejected deliberate fault: support-empty-observation
+Rejected deliberate fault: support-tag-closure-skipped
+Rejected deliberate fault: support-effective-level-capped
+Rejected deliberate fault: support-override-scaled
+Rejected deliberate fault: support-cleared-before-room
+Rejected deliberate fault: support-chance-threshold-ignored
+Rejected deliberate fault: capped-gain-refreshes-idle
+Rejected deliberate fault: regeneration-debt-drained-in-one-frame
+Rejected deliberate fault: retired-tree-clock-retained
+Rejected deliberate fault: charge-payment-overdraws-bank
+Rejected deliberate fault: gauge-regenerates-during-lockout
+Rejected deliberate fault: resource-zero-interval-accepted
+Rejected deliberate fault: timing-attempt-not-spent
+Rejected deliberate fault: timed-excludes-window-edge
+Rejected deliberate fault: multitude-cap-expanded
+Rejected deliberate fault: focus-drain-fills
+Rejected deliberate fault: focus-release-adds-frame
+Rejected deliberate fault: focus-release-excludes-minimum
+Rejected deliberate fault: focus-fizzle-ignores-recovery
+Rejected deliberate fault: focus-completion-late
+Rejected deliberate fault: ammunition-rest-clock-retained
+Rejected deliberate fault: ammunition-reload-wipes-rest
+Rejected deliberate fault: ammunition-optional-fuel-gated
+Rejected deliberate fault: ammunition-negative-fraction-clamped
+Rejected deliberate fault: ammunition-drip-catches-up
+Rejected deliberate fault: ammunition-capacity-bonus-ignored
+Rejected deliberate fault: ammunition-final-round-bonus-ignored
+Rejected deliberate fault: ammunition-bleed-limit-expanded
+Rejected deliberate fault: charge-progress-exceeds-cap
+Rejected deliberate fault: charge-death-silently-suppressed
+Rejected deliberate fault: stage-carries-frame-overshoot
+Rejected deliberate fault: stage-payment-skipped
+Rejected deliberate fault: stage-marker-draw-skipped
+Rejected deliberate fault: spark-excludes-window-edge
+Rejected deliberate fault: perfect-excludes-window-edge
+Rejected deliberate fault: inclusive-event-chance
+Rejected deliberate fault: event-zero-chance-skips-draw
+Rejected deliberate fault: event-strict-radius-edge
+Rejected deliberate fault: event-toggle-filter-ignored
+Rejected deliberate fault: event-banks-after-shave
+Rejected deliberate fault: event-reversed-slot-order
+Rejected deliberate fault: intent-hard-seal-ignored
+Rejected deliberate fault: intent-validation-reads-replaced-row
+Rejected deliberate fault: intent-conversion-face-cached-before-rule
+Rejected deliberate fault: intent-trigger-hud-enabled
+Rejected deliberate fault: intent-corpse-query-side-effects
+Rejected deliberate fault: intent-combo-endpoint-excluded
+Rejected deliberate fault: intent-gift-attribute-exemption-removed
+Rejected deliberate fault: intent-nonconstruct-cursor-detached
+Rejected deliberate fault: intent-relocation-host-identity-lost
+Rejected deliberate fault: intent-combo-double-counts-socket-levels
+Rejected deliberate fault: intent-combo-copies-sockets
+Rejected deliberate fault: request-seal-bypassed
+Rejected deliberate fault: request-forget-omitted
+Rejected deliberate fault: request-struggle-omitted
+Rejected deliberate fault: request-life-lock-endpoint
+Rejected deliberate fault: request-trigger-possession-seat
+Rejected deliberate fault: request-stale-depth-retained
+Rejected deliberate fault: request-conversion-socket-copy
+Rejected deliberate fault: request-prerequisite-empty-note
+Rejected deliberate fault: request-relocation-bypassed
+Rejected deliberate fault: request-admission-bypassed
+Rejected deliberate fault: request-continuation-treated-as-handled
+Rejected deliberate fault: dispatch-reserve-check-ignored
+Rejected deliberate fault: dispatch-reserve-not-spent
+Rejected deliberate fault: dispatch-vent-end-closed
+Rejected deliberate fault: dispatch-combo-seat-leaked
+Rejected deliberate fault: dispatch-pierced-aim-restamped
+Rejected deliberate fault: dispatch-scramble-deduplicated
+Rejected deliberate fault: dispatch-scramble-cleanup-lost
+Rejected deliberate fault: dispatch-channel-payment-added
+Rejected deliberate fault: dispatch-context-recaptured
+Rejected deliberate fault: dispatch-guard-not-refreshed
+Rejected deliberate fault: dispatch-prime-lost
+Rejected deliberate fault: dispatch-timed-draw-lost
+{"installedConsumer":true,"damage":44.96973610836269,"randomDraws":5}
+Packaged runtime 491141 bytes JS; selected content 22539 bytes; archive 433033 bytes.
+{"definitions":14434,"executable":false,"archiveBytes":924047,"unpackedBytes":10024239}
+13 scoped families tracked; 11 still have extraction/integration work. This gate validates evidence references, not feature correctness.
+{"itemToInventoryToEquipmentToHit":true,"explicitHostPorts":true,"authorizedEquipmentPolicy":true,"equipmentContentId":"hollow-wake-equipment:sha256:728116a09be62911cebfad4a1e3592465d0a61c1b1fccecb8be50910ace00850","contentId":"hollow-wake-items:sha256:06c5f9f83f40b880360f0bba0e46b5fa9d02f22ed93e8ea52324e6c5aeb2231d","itemArchiveBytes":236720}
+{
+  installedConsumer: true,
+  nodes: 2489,
+  classes: 39,
+  checked: 277,
+  attached: 277,
+  contentId: 'hollow-wake-passives:sha256:c4987d84998be2f8074ac9a254b41391fa9be76167b810487a3dd2ab88bdede1'
+}
+{
+  installedConsumer: true,
+  policyToGrantsToStats: true,
+  checked: 277,
+  contentId: 'hollow-wake-grants:sha256:0cdbe52dfe9c9c04f7c8cf3510a8b3843cc52d081e34b5c6ad140f5372affc6f'
+}
+{
+  installedConsumer: true,
+  itemToContainerToNeighbourPowerToStatistics: true,
+  canonicalCustodySaveAndDeathReplay: true,
+  boundedInvestment: true,
+  authorizedActionTransfers: true,
+  containers: 1,
+  activeLife: 33.69587,
+  initialLife: 20,
+  contentId: 'hollow-wake-containers:sha256:6d78f44a3873bd8835b78b2ce3594747e59ea501697a0f9758df75d2378b8237'
+}
+{
+  installedConsumer: true,
+  experienceToPassiveSpendToStats: true,
+  classes: 39,
+  contentId: 'hollow-wake-progression:sha256:78152785c491747b4ae61e492cb1abed45886651a17904b62d51f48e308b852f'
+}
+{
+  installedConsumer: true,
+  trees: 132,
+  rebuilds: 793,
+  skills: 954,
+  supports: 457,
+  levelPurchaseChoicePayloadReset: true,
+  legendaryInvestment: true,
+  contentId: 'hollow-wake-skill-progression:sha256:10ecf75633ba5388eadaf6b9a8e958e28be783899431b2c348b9fff5ccb6db7f'
+}
+{
+  installedConsumer: true,
+  emptyAdmissionNoTagReads: true,
+  supports: 457,
+  bareFireballAdmissions: 457,
+  chanceChecks: 1064,
+  cutDraws: 35,
+  resolverCases: 2,
+  rebuilds: 2,
+  socketPreviewSaveUnsocket: true,
+  contentId: 'hollow-wake-supports:sha256:b27581c046bfefc1086231132bc29e6e9f339fbc978b6a2142d3c50b0d1cbc8c'
+}
+{
+  installedConsumer: true,
+  authoredPaymentStates: 240,
+  cycle: {
+    wisp: 1,
+    speed: 1.09,
+    drained: 4,
+    drainingSpeed: 1.17,
+    blocked: 4,
+    released: true,
+    ready: true,
+    paid: { mult: 1, consumed: 1 },
+    retiredTreeClocks: 0,
+    feed: 3,
+    partialReady: true,
+    power: 0.25,
+    duringLock: 0,
+    afterLock: 1,
+    flaskRemaining: 0,
+    contentId: 'hollow-wake-resources:sha256:9207cc1d12e796b351d104a420d66f94b6fb253fbf946178205ab197c85d98d2'
+  },
+  independentActors: true
+}
+{
+  installedConsumer: true,
+  shippedExamples: true,
+  cycle: {
+    ready: true,
+    power: 0.25,
+    soulsBefore: 4,
+    flask: 1,
+    duringLock: 0,
+    afterLock: 1,
+    distantBank: 0,
+    distantGauge: 0,
+    randomDraws: 0
+  },
+  contentId: 'hollow-wake-resources:sha256:9207cc1d12e796b351d104a420d66f94b6fb253fbf946178205ab197c85d98d2'
+}
+{
+  installedConsumer: true,
+  shippedExample: true,
+  result: {
+    delivered: [ [Object], [Object] ],
+    stages: [ [Object], [Object] ],
+    blockedStage: 1,
+    remaining: { a: [Array], b: [Array] },
+    draws: 0
+  }
+}
+{
+  installedConsumer: true,
+  shippedExample: true,
+  result: {
+    deliveries: [ [Object], [Object] ],
+    cues: [ 'perfect' ],
+    fizzles: 1,
+    resources: { focus: [Array], timed: [Array] },
+    cooldowns: [ 1, 2 ]
+  }
+}
+{
+  installedConsumer: true,
+  shippedExample: true,
+  result: {
+    deliveries: [
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object]
+    ],
+    stamps: [ [Object], [Object] ],
+    restored: 1,
+    refusedWhileReloading: true,
+    refusedWithoutBank: true,
+    gunner: { mana: 5, bank: [Object], clocks: [] },
+    caster: { mana: 0, bank: [Object] },
+    independentBanks: true
+  }
+}
+{
+  installedConsumer: true,
+  shippedExample: true,
+  result: {
+    deliveries: [ [Object], [Object], [Object], [Object], [Object] ],
+    completions: [ 'gather' ],
+    rainMana: 4,
+    gatherMana: 8,
+    spentBrim: 0,
+    remainingPersists: 0,
+    bothReleased: true
+  }
+}
+{
+  installedConsumer: true,
+  shippedExample: true,
+  result: {
+    pulses: [ 'wall', 'wall' ],
+    warnings: [ [Object] ],
+    bashes: [ [Object], [Object] ],
+    mana: [ 90, 90 ],
+    bothReleased: true
+  }
+}
+{
+  installedConsumer: true,
+  shippedExample: true,
+  result: {
+    admitted: [ true, true, true ],
+    refused: true,
+    events: [ [Object] ],
+    mage: { mana: 0, es: 20, debt: 5, reserved: 5 },
+    fighter: { life: 40, debt: 5, reserved: 5 }
+  }
+}
+{
+  installedConsumer: true,
+  shippedExample: true,
+  result: {
+    busy: false,
+    banksWhileBusy: 0,
+    ready: true,
+    ammo: 3,
+    broke: false,
+    reflex: true,
+    castPreserved: true,
+    life: 90,
+    mana: 0
+  }
+}
+{
+  installedConsumer: true,
+  shippedExample: true,
+  validationRowSnapshot: true,
+  liveConversionDefinition: true,
+  result: {
+    firstFace: 'opener',
+    nextFace: 'finisher',
+    hudReady: true,
+    finisherReady: false,
+    fundedReady: true,
+    sealedPress: false,
+    expiredFace: 'opener',
+    sharedSockets: true
+  }
+}
+{
+  installedConsumer: true,
+  shippedExample: true,
+  result: {
+    sealedPress: false,
+    toggled: true,
+    disarmed: true,
+    refused: false,
+    continued: true,
+    useLock: 0.25,
+    events: [ 'acted', 'metadata', 'acted', 'acted', 'host-continuation' ]
+  }
+}
+{
+  installedConsumer: true,
+  shippedExample: true,
+  threeDimensionalAim: true,
+  result: {
+    started: true,
+    ownedAim: true,
+    early: false,
+    completed: true,
+    refused: false,
+    mana: 16,
+    targetLife: 38,
+    events: [ 'acted', 'paid', 'opening', 'delivered', 'castseal' ]
+  }
+}
+{
+  installedConsumer: true,
+  shippedExample: true,
+  threeDimensionalAim: true,
+  requestThroughDelivery: true,
+  result: {
+    started: true,
+    ownedAim: true,
+    early: false,
+    completed: true,
+    refused: false,
+    mana: 16,
+    targetLife: 38,
+    recovery: 0.1,
+    events: [ 'acted', 'paid', 'opening', 'delivered', 'clicked', 'castseal' ]
+  }
+}
+{
+  installedConsumer: true,
+  shippedExample: true,
+  namespacedCorrection: true,
+  separateSamplingPhase: true,
+  result: {
+    damage: [ 2, 5, 5, 1 ],
+    bankDeleted: true,
+    detachedFill: -0.0625,
+    retainedInstance: true,
+    stable: true
+  }
+}
+Rejected condition fault: low-life-inclusive
+Rejected condition fault: full-life-exclusive
+Rejected condition fault: stride-exclusive
+Rejected condition fault: recency-inclusive
+Rejected condition fault: birth-events
+Rejected condition fault: queue-cap-expanded
+Rejected condition fault: sink-replacement-ignored
+Rejected condition fault: failure-confirmed
+Rejected condition fault: recursion-allowed
+Rejected condition fault: stride-read-eager
+{
+  installedConsumer: true,
+  birthEvents: 0,
+  damage: [ 1, 2, 1 ],
+  events: [ 'lowLife', 'recentlyHurt' ],
+  ward: 30,
+  expired: true,
+  final: [ 'notHurtRecently', 'fullLife' ]
+}
+Rejected proc fault: inclusive-random
+Rejected proc fault: closed-random-range
+Rejected proc fault: exclusive-cooldown
+Rejected proc fault: duplicate-once
+Rejected proc fault: unbounded-ppm
+Rejected proc fault: uncapped-chance
+Rejected proc fault: missing-depth-falloff
+Rejected proc fault: nested-proc-rejected
+Rejected proc fault: grant-snapshot
+Rejected proc fault: cooldown-before-draw
+Rejected proc fault: pulse-live-grants
+Rejected proc fault: condition-edges-cleared
+Rejected proc fault: zero-icd-court
+Rejected proc fault: true-kill-court
+Rejected proc fault: callback-receiver
+Rejected proc fault: mutable-owned-content
+Rejected proc fault: borrowed-trigger-refresh
+Rejected proc fault: late-death-cancels-gauge-phase
+Rejected proc fault: late-death-cancels-kill-phase
+{
+  installedConsumer: true,
+  ward: 20,
+  draws: 3,
+  nextReady: 4,
+  procs: 147,
+  riders: 1,
+  stats: 298,
+  dynamicStatIds: [ 'procRider_static_shrapnel' ],
+  contentId: 'hollow-wake-procs:sha256:164c251a39d48feb41a2fd16c471bd03054c594b70d9240865b26580c5a40e20'
+}
+Rejected effect fault: zero-power-clears-effect
+Rejected effect fault: unscaled-identity-lost
+Rejected effect fault: damage-not-scaled
+Rejected effect fault: ward-percent-not-scaled
+Rejected effect fault: healing-metadata-retained
+Rejected effect fault: zero-cast-defaulted
+Rejected effect fault: dead-admission-removed
+Rejected effect fault: eager-rate-query
+Rejected effect fault: pool-snapshot-before-rate
+Rejected effect fault: resource-capped
+Rejected effect fault: effect-snapshot-before-life
+Rejected effect fault: nonpositive-gain-called
+Rejected effect fault: growth-not-observed
+{
+  installedConsumer: true,
+  ward: 226,
+  draws: 3,
+  nextReady: 4,
+  cues: [ { time: 0, ward: 116 }, { time: 2, ward: 226 } ],
+  tails: [ { time: 0, depth: 0 }, { time: 2, depth: 0 } ],
+  isolatedSimulations: true
+}

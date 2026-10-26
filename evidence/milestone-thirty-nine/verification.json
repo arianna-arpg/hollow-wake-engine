@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "version": "0.34.0",
+  "sdkBase": "51cf115189e31668aa599a5c22e7838e46749c1f",
+  "baselineCommit": "94526dee9e01ea49652fda667a57fd97b4929351",
+  "contractCommit": "c3c6a96d6551cd8b85ad9ddb7458472765e7f8cc",
+  "implementationCommit": "08d3fb2fb7f6db036ba9a24b8139c06f3b24b2db",
+  "comparisonToolsCommit": "51c0b1d92e40dea3c715c3882b463b694ad1286b",
+  "checks": {
+    "sdkTests": 478,
+    "originalEffectObservations": 1096,
+    "additionalNativeHookAndCueCases": 7,
+    "runtimeFaults": 13,
+    "sourceGuardFaults": 110,
+    "installedEffectFaults": 15,
+    "currentFocusedChecks": 8,
+    "currentRendererChecks": 12,
+    "currentProcRendererStages": 10,
+    "currentRequestStagesByteEqual": 6,
+    "managedChecks": 9,
+    "managedInstalledSuites": 4,
+    "managedGameLauncherSimTypes": true,
+    "managedAndCandidateSmoke": "5 scenarios x 5 seeds each",
+    "earlierInitialCandidateChecks": 44,
+    "earlierInstalledSuites": 19,
+    "earlierInstalledFaults": 142,
+    "earlierNativeProbes": 21
+  },
+  "runtimeFiles": 180,
+  "unchangedPreviousRuntimeFiles": 177,
+  "originalPreservation": {
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "indexEmpty": true,
+    "filesByteIdentical": 4120,
+    "trackedFiles": 1896,
+    "untrackedFiles": 2224,
+    "pinnedSourceCapsuleVerified": true,
+    "snapshot": "m37-original-external-update.json",
+    "upstreamMigrationReview": "m37-original-upstream-review.json",
+    "note": "Exact identity with the newly reviewed external state, not with the earlier f44 snapshot. No original-game writes."
+  },
+  "sourceMigrationReview": "../milestone-thirty-seven/verification.json",
+  "logs": [
+    {
+      "file": "sdk-verification.txt",
+      "rawSha256": "15d929e4aaf70f1bea81794fc4259967a4e5bc5a95ae75d4b590018994b21f75",
+      "publishedSha256": "d82e902048ecc323c8403c92f60a046e3c8168fa14ecd650e2be4aaaff424873"
+    },
+    {
+      "file": "managed-types.txt",
+      "rawSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d",
+      "publishedSha256": "191c4684202ada301b8ac19abc7d6afdcdb521d37f6e6619434e6073db22de60"
+    },
+    {
+      "file": "managed-smoke.txt",
+      "rawSha256": "3863556cdd330cbecc46e90af686c06fc68129e5f6fe042c687f042edcde3513",
+      "publishedSha256": "d15db9c08711582799c0f671abad12a1366eccf180b39433dfeaab3a61585950"
+    }
+  ],
+  "evidence": [
+    "integration-results.json",
+    "installed-effects.json",
+    "managed-adapter.json",
+    "renderer.json",
+    "runtime-verification.json",
+    "performance-decision.json",
+    "source-guard.json",
+    "runtime-faults.json",
+    "final-installation.json"
+  ],
+  "developmentCorrections": [
+    "Original ward gain observes the current pool after its lazy rate callback, without repeating admission; explicit nested/death/pool cases were accepted before implementation.",
+    "Grouped magnitude copies caused a repeatable fold regression. Separate original copying sites reduced it without changing fixtures, APIs, declarations or other modules.",
+    "The first longer-warmup diagnostic exposed a negative rotation index in its private runner; normalized modulo fixed the runner before both complete recorded runs.",
+    "A restricted desktop renderer launch failed before gameplay; the unchanged renderer checks passed with normal desktop access."
+  ],
+  "limits": "11 of 13 families remain partial. Ward is the first complete extracted proc effect path; the other 21 native branches and full delayed scheduler remain outside it. Full Unity/Godot/Unreal packages, newer source reconciliation, device performance and allocation profiling remain incomplete. Final archive consumers and exact-commit hosted checks are separate publication gates."
+}
