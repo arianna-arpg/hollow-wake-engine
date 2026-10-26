@@ -19,10 +19,14 @@ export function scaleProcEffect<E extends ProcMagnitudeEffect>(fx:E,pw:number):P
 export function scaleProcEffect(fx:ProcMagnitudeEffect,pw:number):ProcMagnitudeEffect {
   if(pw===1||!(pw>0))return fx;
   switch(fx.type){
-    case 'extraHit':case 'collisionDamage':case 'explosion':case 'arc':return {...fx,damageScale:fx.damageScale*pw};
+    // Distinct copy sites avoid combining differently shaped authored effects.
+    case 'extraHit':case 'collisionDamage':return {...fx,damageScale:fx.damageScale*pw};
+    case 'explosion':return {...fx,damageScale:fx.damageScale*pw};
+    case 'arc':return {...fx,damageScale:fx.damageScale*pw};
     case 'displace':return {...fx,force:fx.force*pw};
     case 'status':return {...fx,magnitude:(fx.magnitude??1)*pw};
-    case 'heal':case 'restore':return {...fx,flat:fx.flat===undefined?undefined:fx.flat*pw,pctMax:fx.pctMax===undefined?undefined:fx.pctMax*pw};
+    case 'heal':return {...fx,flat:fx.flat===undefined?undefined:fx.flat*pw,pctMax:fx.pctMax===undefined?undefined:fx.pctMax*pw};
+    case 'restore':return {...fx,flat:fx.flat===undefined?undefined:fx.flat*pw,pctMax:fx.pctMax===undefined?undefined:fx.pctMax*pw};
     case 'burst':return {...fx,base:fx.base*pw,perLevel:fx.perLevel*pw};
     case 'delayedBurst':return {...fx,
       damage:fx.damage?{...fx.damage,base:fx.damage.base*pw,perLevel:fx.damage.perLevel*pw}:undefined,

@@ -207,3 +207,44 @@ and the stated observation work stay inside the measured operation.
 These desktop checks distinguish arithmetic overhead from whole-frame cost.
 They do not establish device performance, allocation volume or peak memory.
 Steam Deck and older-mobile acceptance still requires actual device runs.
+
+Keep separate copying sites for `explosion`, `arc` and `restore`, as in the
+original fold. The initial extraction combined those branches with other effect
+types. Two isolated comparisons found that separating them reduced the scaling
+cost even through a forwarding function, with matching output receipts.
+The diagnostic also tested direct calls independently; its absolute
+timings varied substantially between processes. Confirm the change in an
+independently installed candidate before accepting a release or claiming a
+whole-frame benefit. This implementation choice changes no API, arithmetic,
+metadata rule, host initialization order or accepted fixture.
+
+The initial v0.34 candidate is retained as an immutable comparison. An optional
+`--comparison-adapter <retained-initial-v0.34-game>` adds it to both benchmark
+helpers. Its host files must match the candidate exactly; only the effect
+implementation and its source map may differ. All earlier modules and the
+effect declarations must remain identical. The command verifies both retained
+packages and sources before and after running.
+The packages and source directories must resolve to distinct physical locations;
+an alias of the candidate is not an independent comparison graph.
+The optional graph also invokes the existing five-sample retained hit-observation
+diagnostic. That measures neither effect allocation nor ordinary SDK retention.
+
+Two installed comparisons on Node 24.9.0 / Windows x64 / i9-10900K measured
+75,776 authored folds per sample. Median milliseconds were:
+
+| Run | Native v0.33 | Initial v0.34 | Separate copy sites |
+| --- | ---: | ---: | ---: |
+| 1 | 1.6522 | 2.6886 | 2.0499 |
+| 2 | 1.9901 | 2.7411 | 2.0632 |
+
+The separate sites reduced this cost by 23.8% and 24.7% versus the initial
+extraction. The native forwarding declaration remains intact; installed folding
+still took 0.073–0.398 ms more than v0.33 across these 75,776-call samples.
+These measurements do not establish zero abstraction overhead.
+
+The initial four-warmup frame samples continued warming during measurement.
+A supplemental diagnostic kept the same 128-frame course, used 40 warmups and
+25 samples per graph, and retained the earlier evidence. Candidate medians were
+58.6828 and 58.4608 ms; v0.33 medians were 59.5134 and 59.7719 ms. Outcomes matched
+in both runs. This supports proceeding with this adapter without a repeated
+penalty in that workload; it does not establish a general frame-rate benefit.
