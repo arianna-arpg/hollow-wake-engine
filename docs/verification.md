@@ -1,6 +1,33 @@
 # Verification and reproduction
 
-Version 0.34 adds `reference:proc-effects`, `adapter:effects-source`,
+Version 0.35 adds `reference:delayed-effects`, `adapter:delayed-source`,
+`adapter:delayed`, `adapter:delayed-ui`, `test:delayed-package` and
+`benchmark:delayed`. The [contract](delayed-effects.md) and
+[M40 evidence](../evidence/milestone-forty/verification.json) record 520 SDK tests,
+48 original courses with six separately specified repairs, four additional host
+cases, 100 source-guard faults, 24 runtime faults and 17 installed faults.
+All 180 predecessor runtime files are unchanged. The optional delayed module is
+8,136 bytes within its unchanged 8 KiB allowance.
+
+The measured package passes 13 renderer checks, including nine delayed-effect
+stages, and ten managed-game checks with independently installed dependencies.
+Renderer comparison preserves every accepted gameplay/paint field and the first
+eight random draw counts. The last post-departure ambient count is diagnostic:
+an unchanged original repeat also varies there. This is not raw-byte or pixel
+equivalence. Managed checks include five read-only installed comparisons, full
+game/launcher/simulation types, native defenses and proc cues, smoke and original
+preservation. The four existing bounty methods and 1,865 other tracked files
+remain unchanged; the game checkpoint is local only.
+
+Use `adapter:delayed -- --location <location.json>` for a read-only comparison.
+Fault injection requires explicit `--faults` on a disposable candidate; retained
+controls and their aliases are rejected. Four order-varied performance runs
+record 2,700 timed samples and 168 paired retained-heap observations. Waiting
+drains improve 8.9–14.3% over the initial extraction but remain 9.1–24.3% slower
+than v0.34; other rankings vary. No general speed, allocation-volume, physical
+device or FPS claim follows. Eleven of thirteen system families remain partial.
+
+Version 0.34 added `reference:proc-effects`, `adapter:effects-source`,
 `adapter:effects` and `benchmark:effects`. The [effect contract](proc-effects.md)
 and [M39 evidence](../evidence/milestone-thirty-nine/verification.json) record 478
 SDK tests, 1,096 original observations, seven extra native hook/cue cases,

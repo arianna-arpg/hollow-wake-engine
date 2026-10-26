@@ -1,10 +1,10 @@
 # Delayed effects: runtime and cancellation contract
 
-Milestone 40 starts with 48 pinned-original observations. The SDK scheduler and
-owned-content compiler are implemented. The first installed game adapter matches
-all 48 original scenarios with exactly the six predeclared repairs. Controlled
-headless frame and performance comparisons are recorded below; renderer and
-managed-game acceptance remain pending. The [acceptance manifest](../baseline/milestone-forty/acceptance.json)
+Milestone 40 implements the SDK scheduler, owned-content compiler and game adapter.
+The installed adapter matches all 48 original scenarios with exactly the six
+predeclared repairs. Controlled headless frame, performance, renderer and managed
+game checks pass; [the acceptance record](../evidence/milestone-forty/verification.json)
+links their separate evidence. The [acceptance manifest](../baseline/milestone-forty/acceptance.json)
 retains the original helper and fixture bytes, including their historical
 discovery-scope wording. It does not adopt the recorded defects as SDK behavior.
 
@@ -330,6 +330,21 @@ The check requires source and runtime hashes to match the bundle, verifies
 unchanged source, installed package and outputs afterwards, and uses disposable
 saves/profiles. This validates the Hollow Wake browser adapter, not native engine
 packages, physical input, device speed or rendered FPS.
+
+## Managed game and packaging
+
+The isolated managed game passed ten checks against the exact measured package
+using independent dependencies: delayed effects and four earlier installed
+comparison suites, game/launcher/simulation types, native defenses and proc cues,
+simulation smoke, and original preservation. Only `world.ts` and the new delayed
+binding change; all 1,865 other tracked files and four existing bounty methods
+remain byte-identical. The checkpoint is local; no game repository is pushed.
+See [managed acceptance](../evidence/milestone-forty/managed-adapter.json).
+
+The final documentation archive is verified separately against these same 183
+runtime files, including all 180 unchanged v0.34 files. Clean package consumers
+exercise the installed example and synchronous port types. Full native-engine
+packages and physical Steam Deck/mobile acceptance remain unfinished.
 
 ## Reproduction
 

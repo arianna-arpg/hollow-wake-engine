@@ -1,0 +1,633 @@
+{
+  "base": "c7e570abb966beb15bdfb268782aa7a486fdd1ba",
+  "branch": "codex/engine-delayed-effects",
+  "results": [
+    {
+      "name": "delayed",
+      "passed": true,
+      "log": "<local>/m40-managed-delayed-1793036225326.txt",
+      "sha256": "e40a8eeed3c9124539e3478394e487431be099f343cdf5676906db47e7a0c3f9"
+    },
+    {
+      "name": "effects",
+      "passed": true,
+      "log": "<local>/m40-managed-effects-1793036298703.txt",
+      "sha256": "90eafa57fbc3d45022d73b694b8c4b5ad9ff75dc1bbb4f9caacdd80017443260"
+    },
+    {
+      "name": "procs",
+      "passed": true,
+      "log": "<local>/m40-managed-procs-1793036376831.txt",
+      "sha256": "ea406849bdfddab1d02a37cfb64256a4866e6c20457ee7f5daf16684e0fa06ae"
+    },
+    {
+      "name": "conditions",
+      "passed": true,
+      "log": "<local>/m40-managed-conditions-1793036438737.txt",
+      "sha256": "b49f7d4941f36e49f2e45e3814726840183b8e2507d0eec5d0b2b7488054bc00"
+    },
+    {
+      "name": "banks",
+      "passed": true,
+      "log": "<local>/m40-managed-banks-1793036487311.txt",
+      "sha256": "095f71e67b842f431ca8131a339256999b56d6fbb00b111c23b83519c971dce5"
+    },
+    {
+      "name": "check",
+      "passed": true,
+      "log": "<local>/m40-managed-check-1793036560532.txt",
+      "sha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+    },
+    {
+      "name": "native-defenses",
+      "passed": true,
+      "log": "<local>/m40-managed-native-defenses-1793036615305.txt",
+      "sha256": "c90e045b9599b30c6e5006ff7599d0af2f817de5df2b3cfb13a939681f364f77"
+    },
+    {
+      "name": "native-proccues",
+      "passed": true,
+      "log": "<local>/m40-managed-native-proccues-1793036623781.txt",
+      "sha256": "f65cb4f2ac6a78367aed9b96b79903cf303adc48c180ebba284cf5038fefc629"
+    },
+    {
+      "name": "sim-smoke",
+      "passed": true,
+      "log": "<local>/m40-managed-sim-smoke-1793036631833.txt",
+      "sha256": "825b042676866c8d7cf7b3b3d7d0d958f18e1c46f3edf7ad9ee57977b55b0303"
+    },
+    {
+      "name": "original-preservation",
+      "passed": true,
+      "log": "<local>/m40-managed-original-preservation-1793036651109.txt",
+      "sha256": "6185300870260a1bc28db433b8ff7910fa96a9340ee59d3112c58af86ae4e851"
+    }
+  ],
+  "trackedFiles": 1866,
+  "unchangedTrackedFiles": 1865,
+  "changedFiles": [
+    "src/engine/world.ts",
+    "src/engine/delayedBurstAdapter.ts"
+  ],
+  "expected": {
+    "src/engine/world.ts": "15ed2ee25e0829dfb5aaf0532b4c80a61866c83e317cc9ca1d3f241b81c7a913",
+    "src/engine/delayedBurstAdapter.ts": "5aef3cf3376610e3646e39990041b7e448754362d0452988401c2a5f1c5209c2"
+  },
+  "installedRuntimeFiles": 183,
+  "installedFaults": 0,
+  "preservedManagedMethods": [
+    "bountyBoardsHere",
+    "bountyBoardRoster",
+    "armBountyBoard",
+    "turnInBounty"
+  ],
+  "independentDependencies": true,
+  "readyForOwnershipCommit": true,
+  "pushed": false,
+  "commit": {
+    "commit": "815238643edb824cca8130e9f48f9a9c281fbb2b",
+    "base": "c7e570abb966beb15bdfb268782aa7a486fdd1ba",
+    "branch": "codex/engine-delayed-effects",
+    "files": [
+      "src/engine/delayedBurstAdapter.ts",
+      "src/engine/world.ts"
+    ],
+    "reviewedDiffSha256": "8e23e0abd7b6b3027146d025a5fb248ef99ce720f3f0c124fac79e6873dc609f",
+    "unchangedTrackedFiles": 1865,
+    "clean": true,
+    "pushed": false
+  },
+  "suites": {
+    "delayed": {
+      "output": "<local>/game-delayed-CaOp28",
+      "game": "<local>/ARPG Game - World",
+      "tooling": "<local>/m40-managed-tools-6kLH10",
+      "packageIntegrity": "sha512-/yJrhVlzlgVXd4qpqI+sWzgl5lcAmHNWsCBvKwqNhAH4kfhHbgTve5xnzjCFswGqaeIDnEWpPQ2MPFc+W2jVLA==",
+      "readOnly": true,
+      "typesPassed": true,
+      "courses": 48,
+      "repair": {
+        "decision": "delayed-queue-generation/v1",
+        "contractSha256": "1956a674b6d0f3ee9f9165bc9a861e1f14157c2c654e255ca768a49fccffed53",
+        "repairSha256": "658f4e315b6180180111b21b2d516c15baf8646a5518b1e775363e96e26f25ec",
+        "acceptanceSha256": "9752a25f96734bef03d613047e5f8f8dc6b77e417dbe2a1253f0996188bbcf90",
+        "changedCourses": 6,
+        "unchangedCourses": 42,
+        "edits": 22,
+        "originalFixturesUnchanged": true,
+        "implementationAccepted": false
+      },
+      "results": [
+        {
+          "name": "delayed-ordering",
+          "courses": 15,
+          "sha256": "b35247709546cd253dbd7efff79b5e660a832868c23e87c727e2654ffbf0da88",
+          "byteEqualToExplicitExpectations": true,
+          "helper": {
+            "runtimeFile": "<local>/export-delayed-ordering.ts",
+            "originalSha256": "9c6e69801662bbc28a76b24d5eb656664ee8d5bc4894035db5883daeecbdc02e",
+            "adaptedSha256": "ce6bff744de78d0427a5785fd579aca570ed2a7e8d048421b22759e050ec76e3"
+          }
+        },
+        {
+          "name": "delayed-defense",
+          "courses": 14,
+          "sha256": "a7b06897fe801e38f2dff56a8d4b52a3a0e4e9885beaea648b7c58778cb485b3",
+          "byteEqualToExplicitExpectations": true,
+          "helper": {
+            "runtimeFile": "<local>/export-delayed-defense.ts",
+            "originalSha256": "29e76f35a45c3a37fdefdf9ba4a29d95ce65f746524ed50a31dbe18eb8c9d17a",
+            "adaptedSha256": "29e76f35a45c3a37fdefdf9ba4a29d95ce65f746524ed50a31dbe18eb8c9d17a"
+          }
+        },
+        {
+          "name": "delayed-descent",
+          "courses": 2,
+          "sha256": "b027ee48b6455e4c76d697582f418fe8bd96ececa9b06a79d1ba26f562d246c0",
+          "byteEqualToExplicitExpectations": true,
+          "helper": {
+            "runtimeFile": "<local>/export-delayed-descent.ts",
+            "originalSha256": "c7f13daba634183a637d39629242cb27ea8af78e814f9486a5125f4f5a0b2773",
+            "adaptedSha256": "26ff0366cb4b1e7b3473651384ca2ff98748b599e38341e4aa2d94d2222c2b4a"
+          }
+        },
+        {
+          "name": "delayed-frames",
+          "courses": 7,
+          "sha256": "e6ed1a9a40ffe328100b07c32f81c0c7bdbcda2edeb80aae6ed3eb803514ce8f",
+          "byteEqualToExplicitExpectations": true,
+          "helper": {
+            "runtimeFile": "<local>/export-delayed-frames.ts",
+            "originalSha256": "17eff9f88913cff0fade6d5089d929168afe8bffb7be5a43968b741eeed99050",
+            "adaptedSha256": "17eff9f88913cff0fade6d5089d929168afe8bffb7be5a43968b741eeed99050"
+          }
+        },
+        {
+          "name": "delayed-load",
+          "courses": 6,
+          "sha256": "575ad566e66868ff5f90f22309fde2268d34653572c45ba0514a2c62675cdb8e",
+          "byteEqualToExplicitExpectations": true,
+          "helper": {
+            "runtimeFile": "<local>/export-delayed-load.ts",
+            "originalSha256": "a69748910e09f32c6d45d722977b195511ee12b2f148a7c16f606f1448d7a071",
+            "adaptedSha256": "a69748910e09f32c6d45d722977b195511ee12b2f148a7c16f606f1448d7a071"
+          }
+        },
+        {
+          "name": "delayed-stale",
+          "courses": 2,
+          "sha256": "1ef9a9e86a63c06d443ca6f2b42068c87842ac437d964217063f2286eed7b649",
+          "byteEqualToExplicitExpectations": true,
+          "helper": {
+            "runtimeFile": "<local>/export-delayed-stale.ts",
+            "originalSha256": "f8420d5f609b8513fc2a6d6ba0db78fdde7dbd320cb657610e6220dd6bcbd837",
+            "adaptedSha256": "6190f9a4e7d4a6904b3ac96e39b6ee8e0a9747c4c61995faf6aaae23d6a1a7e2"
+          }
+        },
+        {
+          "name": "delayed-passives",
+          "courses": 2,
+          "sha256": "440e035b845eea68985399e4f3a5bb07c5bd66b4e4863f32011a6e0f361d527d",
+          "byteEqualToExplicitExpectations": true,
+          "helper": {
+            "runtimeFile": "<local>/export-delayed-passives.ts",
+            "originalSha256": "074c10b34c5981acf2fbab5dbd9e8db5ae81bbb03d439d7d4d990aeb4e7777ce",
+            "adaptedSha256": "074c10b34c5981acf2fbab5dbd9e8db5ae81bbb03d439d7d4d990aeb4e7777ce"
+          }
+        }
+      ],
+      "adaptations": [
+        {
+          "helper": "reference/export-delayed-ordering.ts",
+          "course": "nested-drain-exhausts-outer-index",
+          "before": "assert.equal(s.drain(),'TypeError');assert.deepEqual(s.calls.map(c=>c.amount),[31,11]);assert.equal(s.w['pendingBursts'].length,0);assert.equal(s.actors[0].life,542);",
+          "after": "assert.equal(s.drain(),'Error');assert.deepEqual(s.calls.map(c=>c.amount),[31]);assert.equal(s.w['pendingBursts'].length,1);assert.equal(s.actors[0].life,531);"
+        },
+        {
+          "helper": "reference/export-delayed-ordering.ts",
+          "course": "clear-queue-during-callback",
+          "before": "assert.equal(s.drain(),'TypeError');",
+          "after": "assert.equal(s.drain(),null);"
+        },
+        {
+          "helper": "reference/export-delayed-ordering.ts",
+          "course": "replace-queue-during-callback",
+          "before": "assert.deepEqual(s.calls.map(c=>c.amount),[31,41]);assert.equal(s.w['pendingBursts'].length,0);",
+          "after": "assert.deepEqual(s.calls.map(c=>c.amount),[31]);assert.equal(s.w['pendingBursts'].length,1);"
+        },
+        {
+          "helper": "reference/export-delayed-descent.ts",
+          "course": null,
+          "before": "assert.equal(failure,count===2?'TypeError':null);",
+          "after": "assert.equal(failure,null);"
+        },
+        {
+          "helper": "reference/export-delayed-stale.ts",
+          "course": null,
+          "before": "assert.equal(failure,count===2?'TypeError':null);",
+          "after": "assert.equal(failure,null);"
+        },
+        {
+          "helper": "reference/export-delayed-stale.ts",
+          "course": null,
+          "before": "assert.equal(stale.life,950);",
+          "after": "assert.equal(stale.life,1000);"
+        }
+      ],
+      "hostCases": 4,
+      "hostProbeSha256": "74028ea784fb94662c6a0e4c29686470c268caf321eaae75e6562d3b003fab7a",
+      "hostOutputSha256": "63e7a33200b8e7ed4f5a61c2fc691cdb96f7eba2e1f95554a1b3627a7c3566ba",
+      "installedFaults": [],
+      "allSourceAndRuntimeFilesUnchanged": true,
+      "scope": "Installed original comparisons with only the six predeclared repairs, plus independent host checks. Renderer and performance acceptance remain required."
+    },
+    "effects": {
+      "output": "<local>/game-proc-effects-LSpj2G",
+      "game": "<local>/ARPG Game - World",
+      "tooling": "<local>/m40-managed-tools-6kLH10",
+      "packageIntegrity": "sha512-/yJrhVlzlgVXd4qpqI+sWzgl5lcAmHNWsCBvKwqNhAH4kfhHbgTve5xnzjCFswGqaeIDnEWpPQ2MPFc+W2jVLA==",
+      "readOnly": true,
+      "typesPassed": true,
+      "originalHostTypesPassed": true,
+      "originalCoursesCompared": 1096,
+      "additionalNativeHookAndCueCases": 7,
+      "hostProbeSha256": "ebcc4e9ad10463ba7ea6aa4f2a055a581d7e1d39582298115031f94c9b01eaa4",
+      "hostProbeByteEqual": true,
+      "results": [
+        {
+          "name": "proc-effects-native",
+          "courses": 22,
+          "byteEqual": true,
+          "sha256": "99f2cbf5a21ecdf20d92cbc87186e1f0ebfc4cbe25da9d961ba3a08cafb185be"
+        },
+        {
+          "name": "proc-effects-scaling",
+          "courses": 1036,
+          "byteEqual": true,
+          "sha256": "1b91382617e4297925a3a51330e70ca8f21b3ef9788392e317ab08609b52129f"
+        },
+        {
+          "name": "proc-effects-edges",
+          "courses": 15,
+          "byteEqual": true,
+          "sha256": "df73d15721e5f2718d63c4af7c75e78a28a53f877339b06efb4240105115eff7"
+        },
+        {
+          "name": "proc-ward-resource",
+          "courses": 15,
+          "byteEqual": true,
+          "sha256": "6fced77025d91b514f77d278185f3c22225e83fc8f6e7f15b4ae529d08f368bd"
+        },
+        {
+          "name": "proc-magnitude-metadata",
+          "courses": 8,
+          "byteEqual": true,
+          "sha256": "733f600d4015c23b3d798ccd1586dde3724674f804d6b99e576893a64ee1be27"
+        }
+      ],
+      "installedFaults": [],
+      "allInstalledFilesRestored": true,
+      "originalUnchanged": true
+    },
+    "procs": {
+      "output": "<local>/game-procs-CyedUv",
+      "game": "<local>/ARPG Game - World",
+      "tooling": "<local>/m40-managed-tools-6kLH10",
+      "packageIntegrity": "sha512-/yJrhVlzlgVXd4qpqI+sWzgl5lcAmHNWsCBvKwqNhAH4kfhHbgTve5xnzjCFswGqaeIDnEWpPQ2MPFc+W2jVLA==",
+      "typesPassed": true,
+      "results": [
+        {
+          "name": "proc-rules",
+          "courses": 47,
+          "byteEqual": true,
+          "sha256": "d88bd7d7f6ba42cecff65c8ea08c5a71ffce2eec14777ef317671bfdc2fae32a"
+        },
+        {
+          "name": "proc-native",
+          "courses": 4,
+          "byteEqual": true,
+          "sha256": "9f4fcb1967b45fbfbaa8e9ad610b7b517a678caaf6deece5b7e049330d1a17eb"
+        },
+        {
+          "name": "proc-ordering",
+          "courses": 6,
+          "byteEqual": true,
+          "sha256": "144b341e09e22e47514ed4712689bf34a7d5d91932c030dea480c9cbb57e72ac"
+        },
+        {
+          "name": "proc-catalogue",
+          "procRows": 147,
+          "riderRows": 1,
+          "byteEqual": true,
+          "sha256": "f3c7d5b1243aacc276587c54154e90381a4dd90ad740abd0c8409f8ea79d7df6"
+        },
+        {
+          "name": "proc-dispatch",
+          "courses": 51,
+          "byteEqual": true,
+          "sha256": "8968fb007fb8faefc8d4d2daac7ad9668ae36956af8ec962047ccb2c2b64ea4b"
+        },
+        {
+          "name": "proc-hits",
+          "courses": 30,
+          "byteEqual": true,
+          "sha256": "8c67352eae617b074278b37ddbc8b0f61f45febea763e560cfbf2c36ed5c0755"
+        },
+        {
+          "name": "proc-frames",
+          "courses": 2,
+          "byteEqual": true,
+          "sha256": "83e48a37053514b49efca6ef931b98dcaa72a8d311661f22efa4f5e07977fad5"
+        },
+        {
+          "name": "proc-registry",
+          "courses": 3,
+          "byteEqual": true,
+          "sha256": "011bba3e85d2e62afcbcad971770d2d34677ee4f0537337e96a6fffa162de359"
+        },
+        {
+          "name": "proc-host-phases",
+          "courses": 7,
+          "byteEqual": true,
+          "sha256": "9e2097582bb5a330cf810a2058d027de28dc5987db21c626858f66996b3961f8"
+        }
+      ],
+      "originalCoursesCompared": 150,
+      "installedFaults": [],
+      "hitObservationContractVerified": false,
+      "nativeRegistryViewVerified": false,
+      "nativeOwnHookVerified": false,
+      "readOnly": true,
+      "allInstalledFilesRestored": true
+    },
+    "conditions": {
+      "output": "<local>/game-conditions-7dvXOw",
+      "packageIntegrity": "sha512-/yJrhVlzlgVXd4qpqI+sWzgl5lcAmHNWsCBvKwqNhAH4kfhHbgTve5xnzjCFswGqaeIDnEWpPQ2MPFc+W2jVLA==",
+      "game": "<local>/ARPG Game - World",
+      "typesPassed": true,
+      "results": [
+        {
+          "name": "actor-condition-native",
+          "courses": 2,
+          "mode": "byte-equal-original",
+          "sha256": "07cd0787a5d1460c1cb42ac0ac40da78f4b7a23eb93c13ff8909b3ab3d4a7fb6"
+        },
+        {
+          "name": "actor-condition-boundary",
+          "courses": 31,
+          "mode": "byte-equal-original",
+          "sha256": "f76356aff85cf0d040f36f4ca48d84a2e75430a5898bdfb3425cb0d28324b1ca"
+        },
+        {
+          "name": "actor-condition-feedback",
+          "courses": 7,
+          "mode": "explicit-recovery-decision",
+          "sha256": "ec4a1fc9e1c1f74c5c767e830248e6053d8ddc566063d1152e44bfbe87f2635a"
+        },
+        {
+          "name": "actor-condition-config-after-import",
+          "courses": 1,
+          "mode": "byte-equal-original",
+          "sha256": "6b6ca98a15b4b0acba66321e8d42e28409955d438b7176692abfc83308111130"
+        },
+        {
+          "name": "actor-condition-config-before-import",
+          "courses": 1,
+          "mode": "byte-equal-original",
+          "sha256": "90c63288c25c8a636a13508822721a775e663ede02275d52e56b3fc31eda71fa"
+        }
+      ],
+      "originalCoursesCompared": 42,
+      "recovery": [
+        "existing-throw-before",
+        "existing-throw-after",
+        "replacement-throw-before",
+        "replacement-throw-after",
+        "changed-before-retry",
+        "sink-reentry-propagated",
+        "sink-reentry-caught",
+        "read-reentry-propagated",
+        "read-reentry-caught",
+        "different-actor-nested",
+        "retained-array-and-replacement",
+        "read-failure-forces-replacement",
+        "condition-success-then-gauge-failure",
+        "invalidation",
+        "mutating-reentry-false-false",
+        "mutating-reentry-false-true",
+        "mutating-reentry-true-false",
+        "mutating-reentry-true-true",
+        "native-dead-sweep"
+      ],
+      "installedFaults": [],
+      "readOnly": true,
+      "allInstalledFilesRestored": true
+    },
+    "banks": {
+      "game": "<local>/ARPG Game - World",
+      "output": "<local>/game-channel-banks-MAeNgI",
+      "version": "0.35.0",
+      "packageIntegrity": "sha512-/yJrhVlzlgVXd4qpqI+sWzgl5lcAmHNWsCBvKwqNhAH4kfhHbgTve5xnzjCFswGqaeIDnEWpPQ2MPFc+W2jVLA==",
+      "installedRuntimeFilesMatchBuild": 183,
+      "gameLauncherAndCaptureTypeChecks": true,
+      "fixtures": [
+        {
+          "name": "channel-banks",
+          "helperSha256": "8546bd4c9cf565291618edb799ce108d8f8e89b6ced86e0c1e1c104ebd22b940",
+          "fixtureSha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+          "compressedSha256": "9b7c78a5a1b7c0bf8f6879512e2f3f37b9af80f26379526377b7811b389458fe",
+          "courses": 35,
+          "transitions": 146,
+          "originalRuns": 2,
+          "retainedControlByteEqual": true,
+          "typeCheckedInOriginalAndControl": true
+        },
+        {
+          "name": "actor-gauges",
+          "helperSha256": "14f6aa96ea896f49266f6e09bbfac28abcd4863da58a0c746204feb6dfa0833d",
+          "fixtureSha256": "56b0618ad03e333469632b15d8249f25b79db624a00e6fc89ecd7098805c1920",
+          "compressedSha256": "1c0c1b84bd48270c41815b64583fd366b8181f8a762a752c2363818fb9550d98",
+          "courses": 22,
+          "transitions": 146,
+          "originalRuns": 2,
+          "retainedControlByteEqual": true,
+          "typeCheckedInOriginalAndControl": true
+        },
+        {
+          "name": "absent-counts",
+          "helper": "reference/export-absent-gauge-counts.ts",
+          "helperSha256": "2c94ee17a97a6705ff6b68bdf85add691d4027e67918932655b19186709b51d0",
+          "fixtureSha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+          "compressedSha256": "49493c6a2d5e615377e7c034dabb096c55810c4114bc3f2761686fdf79c17502",
+          "courses": 2,
+          "transitions": 10,
+          "originalRuns": 2,
+          "retainedControlByteEqual": true,
+          "originalHelperTypesPassed": true
+        }
+      ],
+      "observations": [
+        {
+          "name": "channel-banks",
+          "label": "candidate",
+          "sha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+          "exactExpectedMatch": true,
+          "originalByteEqual": true
+        },
+        {
+          "name": "actor-gauges",
+          "label": "candidate",
+          "sha256": "2dc6a288d49d25754501726fa7f37a8460d97e01a146c80e5605e9b44c7e1cd6",
+          "exactExpectedMatch": true,
+          "originalByteEqual": false
+        },
+        {
+          "name": "absent-counts",
+          "label": "candidate",
+          "sha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+          "exactExpectedMatch": true,
+          "originalByteEqual": true
+        }
+      ],
+      "oracle": [
+        {
+          "name": "channel-banks",
+          "originalSha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+          "expectedSha256": "10938aef7d47b849ece8b23e2848284ad27f402800cea79467ee7b7a87f8eaeb",
+          "intentional": []
+        },
+        {
+          "name": "actor-gauges",
+          "originalSha256": "56b0618ad03e333469632b15d8249f25b79db624a00e6fc89ecd7098805c1920",
+          "expectedSha256": "2dc6a288d49d25754501726fa7f37a8460d97e01a146c80e5605e9b44c7e1cd6",
+          "intentional": [
+            {
+              "course": "namespace-exchange:status-to-charge",
+              "step": 4,
+              "fields": [
+                "after.gauges",
+                "after.damage",
+                "after.publicationCount",
+                "publications"
+              ]
+            },
+            {
+              "course": "namespace-exchange:status-to-charge",
+              "step": 5,
+              "fields": [
+                "after.gauges",
+                "after.damage",
+                "after.publicationCount"
+              ]
+            },
+            {
+              "course": "namespace-exchange:charge-to-brim",
+              "step": 4,
+              "fields": [
+                "after.gauges",
+                "after.damage",
+                "after.publicationCount",
+                "publications"
+              ]
+            },
+            {
+              "course": "namespace-exchange:charge-to-brim",
+              "step": 5,
+              "fields": [
+                "after.gauges",
+                "after.damage",
+                "after.publicationCount"
+              ]
+            },
+            {
+              "course": "namespace-exchange:brim-to-reserve",
+              "step": 4,
+              "fields": [
+                "after.gauges",
+                "after.damage",
+                "after.publicationCount",
+                "publications"
+              ]
+            },
+            {
+              "course": "namespace-exchange:brim-to-reserve",
+              "step": 5,
+              "fields": [
+                "after.gauges",
+                "after.damage",
+                "after.publicationCount"
+              ]
+            },
+            {
+              "course": "namespace-exchange:reserve-to-derived",
+              "step": 4,
+              "fields": [
+                "after.gauges",
+                "after.damage",
+                "after.publicationCount",
+                "publications"
+              ]
+            },
+            {
+              "course": "namespace-exchange:reserve-to-derived",
+              "step": 5,
+              "fields": [
+                "after.gauges",
+                "after.damage",
+                "after.publicationCount"
+              ]
+            },
+            {
+              "course": "namespace-exchange:derived-to-status",
+              "step": 4,
+              "fields": [
+                "after.gauges",
+                "after.damage",
+                "after.publicationCount",
+                "publications"
+              ]
+            },
+            {
+              "course": "namespace-exchange:derived-to-status",
+              "step": 5,
+              "fields": [
+                "after.gauges",
+                "after.damage",
+                "after.publicationCount"
+              ]
+            },
+            {
+              "course": "native-communion-earned-bank-namespace-exchange",
+              "step": 5,
+              "fields": [
+                "after.gauges",
+                "after.damage",
+                "after.publicationCount",
+                "publications"
+              ]
+            },
+            {
+              "course": "native-communion-earned-bank-namespace-exchange",
+              "step": 6,
+              "fields": [
+                "after.gauges",
+                "after.damage",
+                "after.publicationCount",
+                "publications"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "absent-counts",
+          "originalSha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+          "expectedSha256": "da3a8b216b4021536cc1cdd405184558324a1831890eed3c0ebf16f6b1d80a76",
+          "intentional": []
+        }
+      ],
+      "installedFaults": [],
+      "allInstalledFilesAndHostRestored": true
+    }
+  },
+  "scope": "Five read-only installed comparisons, game/launcher/simulation type checks, native defenses and proc cues, smoke, and original preservation. Exact measured package with independent dependencies; four prior bounty methods and 1,865 other tracked files preserved. No game push."
+}

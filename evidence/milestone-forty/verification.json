@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "version": "0.35.0",
+  "sdkBase": "aa1ff29402840b26284864b003a3e89638daeea3",
+  "contractCommit": "c86a95919e1ee0e8be4812ce00dd6bf63dda0e7c",
+  "runtimeCommit": "3f38254daba1fa032de7f4d99345b38fbcd8b396",
+  "adapterCommit": "7f21f65c0b49fac9b1cb3e5b797574499e5f5617",
+  "optimizedRuntimeCommit": "7d761c917502f19b6c2856e10092d0640ae89797",
+  "rendererCommit": "f63b0dd5b2e70cf659f2a916079a705f80fd55f3",
+  "checks": {
+    "sdkTests": 520,
+    "originalDelayedCourses": 48,
+    "intentionalRepairCourses": 6,
+    "unchangedCourses": 42,
+    "fieldEdits": 22,
+    "additionalHostCases": 4,
+    "sourceGuardFaults": 100,
+    "runtimeFaults": 24,
+    "installedFaults": 17,
+    "currentFocusedChecks": 4,
+    "currentRendererChecks": 13,
+    "delayedRendererStages": 9,
+    "managedChecks": 10,
+    "managedInstalledSuites": 5,
+    "managedGameLauncherSimTypes": true,
+    "priorEffectObservations": 1096,
+    "additionalPriorNativeHookAndCueCases": 7,
+    "managedAndCandidateSmoke": "5 scenarios x 5 seeds each"
+  },
+  "runtimeFiles": 183,
+  "unchangedPreviousRuntimeFiles": 180,
+  "originalPreservation": {
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "indexEmpty": true,
+    "filesByteIdentical": 4120,
+    "trackedFiles": 1896,
+    "untrackedFiles": 2224,
+    "pinnedSourceCapsuleVerified": true,
+    "snapshot": "m37-original-external-update.json",
+    "upstreamMigrationReview": "m37-original-upstream-review.json",
+    "note": "Exact identity with the newly reviewed external state, not with the earlier f44 snapshot. No original-game writes."
+  },
+  "logs": [
+    {
+      "file": "sdk-verification.txt",
+      "rawSha256": "d8596e19f7a74ba2fb1b24c32c3a031cc34f5bc873e537a90c45f6f4d30d949c",
+      "publishedSha256": "d8596e19f7a74ba2fb1b24c32c3a031cc34f5bc873e537a90c45f6f4d30d949c",
+      "presentation": "Local paths redacted; trailing whitespace normalized. Raw log hash retained."
+    },
+    {
+      "file": "managed-types.txt",
+      "rawSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d",
+      "publishedSha256": "191c4684202ada301b8ac19abc7d6afdcdb521d37f6e6619434e6073db22de60",
+      "presentation": "Local paths redacted; trailing whitespace normalized. Raw log hash retained."
+    },
+    {
+      "file": "managed-smoke.txt",
+      "rawSha256": "825b042676866c8d7cf7b3b3d7d0d958f18e1c46f3edf7ad9ee57977b55b0303",
+      "publishedSha256": "ab61f18d095fdfd36c1a76b29761fe4967e38fde31ecffff46b1d960ee2a795d",
+      "presentation": "Local paths redacted; trailing whitespace normalized. Raw log hash retained."
+    }
+  ],
+  "evidence": [
+    "reference-verification.json",
+    "installed-delayed.json",
+    "source-guard.json",
+    "runtime-faults.json",
+    "integration-results.json",
+    "managed-adapter.json",
+    "runtime-verification.json",
+    "delayed-renderer-verification.json",
+    "delayed-polling-performance.json",
+    "initial-delayed-performance.json",
+    "final-installation.json"
+  ],
+  "decisions": {
+    "repair": "delayed-queue-generation/v1",
+    "renderer": "delayed-ui-ambient-random-scope/v1",
+    "rendererRawByteEqual": false,
+    "rendererScope": "Every accepted gameplay/paint field and first eight draw counts match. Only the last post-departure ambient draw count is diagnostic, justified by variation in an unchanged original repeat. No pixel-equivalence claim.",
+    "performance": "Four order-varied three-graph runs: waiting drains improve 8.9–14.3% over initial extraction, but remain 9.1–24.3% slower than v0.34. Other rankings vary; no broad speed or FPS claim."
+  },
+  "limits": "11 of 13 families remain partial. Twenty other native proc effect branches, defense/status/death systems and further host delivery remain. Full Unity/Godot/Unreal packages, newer original-source reconciliation, physical Steam Deck/mobile tests and allocation-volume profiling are incomplete. Exact final documentation archive consumers and hosted checks are separate publication gates.",
+  "finalPackageChecked": true
+}
