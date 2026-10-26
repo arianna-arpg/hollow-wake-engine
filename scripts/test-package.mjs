@@ -105,7 +105,8 @@ const guardCastJsBytes = packed.files.filter(file => file.path === 'dist/guard-c
 const paymentJsBytes = packed.files.filter(file => file.path === 'dist/resource-payment.js').reduce((sum, file) => sum + file.size, 0);
 const procJsBytes = packed.files.filter(file => /^dist\/proc-.*\.js$/.test(file.path) && file.path !== 'dist/proc-effects.js').reduce((sum, file) => sum + file.size, 0);
 const procEffectJsBytes = packed.files.filter(file => file.path === 'dist/proc-effects.js').reduce((sum, file) => sum + file.size, 0);
-const coreJsBytes = jsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes - stashJsBytes - containerJsBytes - relicJsBytes - actionJsBytes - equipmentJsBytes - progressionJsBytes - skillJsBytes - supportJsBytes - resourceJsBytes - chargedCastJsBytes - interactiveCastJsBytes - ammunitionJsBytes - channelCastJsBytes - guardCastJsBytes - paymentJsBytes - admissionJsBytes - intentJsBytes - requestJsBytes - dispatchJsBytes - continuationJsBytes - bankJsBytes - actorGaugeJsBytes - actorConditionJsBytes - procJsBytes - procEffectJsBytes;
+const delayedJsBytes = packed.files.filter(file => file.path === 'dist/delayed-bursts.js').reduce((sum, file) => sum + file.size, 0);
+const coreJsBytes = jsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes - stashJsBytes - containerJsBytes - relicJsBytes - actionJsBytes - equipmentJsBytes - progressionJsBytes - skillJsBytes - supportJsBytes - resourceJsBytes - chargedCastJsBytes - interactiveCastJsBytes - ammunitionJsBytes - channelCastJsBytes - guardCastJsBytes - paymentJsBytes - admissionJsBytes - intentJsBytes - requestJsBytes - dispatchJsBytes - continuationJsBytes - bankJsBytes - actorGaugeJsBytes - actorConditionJsBytes - procJsBytes - procEffectJsBytes - delayedJsBytes;
 const contentBytes = packed.files.filter(file => file.path.startsWith('content/') && file.path.endsWith('.json')).reduce((sum, file) => sum + file.size, 0);
 assert.ok(coreJsBytes <= 96 * 1024, 'Core runtime exceeded the retained 96 KiB unminified JS budget');
 assert.ok(itemJsBytes <= 64 * 1024, 'Optional item entry exceeded its 64 KiB unminified JS budget');
@@ -136,11 +137,12 @@ assert.ok(intentJsBytes <= 12 * 1024, 'Optional skill intent exceeded its 12 KiB
 assert.ok(actorConditionJsBytes <= 8 * 1024, 'Optional actor conditions exceeded their 8 KiB unminified JS budget');
 assert.ok(procJsBytes <= 24 * 1024, 'Optional proc dispatch exceeded its 24 KiB unminified JS budget');
 assert.ok(procEffectJsBytes > 0 && procEffectJsBytes <= 4 * 1024, 'Optional magnitude/ward exceeded its 4 KiB unminified JS budget or is missing');
-assert.ok(jsBytes <= 492 * 1024, 'Combined runtime exceeded the 492 KiB unminified JS budget');
+assert.ok(delayedJsBytes > 0 && delayedJsBytes <= 8 * 1024, 'Optional delayed bursts exceeded the 8 KiB unminified JS budget or are missing');
+assert.ok(jsBytes <= 500 * 1024, 'Combined runtime exceeded the 500 KiB unminified JS budget');
 assert.ok(contentBytes <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
   runtimeJsBytes: jsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, equipmentJsBytes, progressionJsBytes, skillJsBytes, supportJsBytes, resourceJsBytes, chargedCastJsBytes, interactiveCastJsBytes, ammunitionJsBytes, channelCastJsBytes, guardCastJsBytes, paymentJsBytes, admissionJsBytes, intentJsBytes, requestJsBytes, dispatchJsBytes, continuationJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
-  bankJsBytes, actorGaugeJsBytes, actorConditionJsBytes, procJsBytes, procEffectJsBytes, isolatedConsumer: JSON.parse(result), node: process.version,
+  bankJsBytes, actorGaugeJsBytes, actorConditionJsBytes, procJsBytes, procEffectJsBytes, delayedJsBytes, isolatedConsumer: JSON.parse(result), node: process.version,
 }, null, 2) + '\n');
 console.log(result.trim());
 console.log(`Packaged runtime ${jsBytes} bytes JS; selected content ${contentBytes} bytes; archive ${packed.size} bytes.`);

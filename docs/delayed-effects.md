@@ -1,7 +1,8 @@
-# Delayed effects: baseline and cancellation contract
+# Delayed effects: runtime and cancellation contract
 
-Milestone 40 starts with 48 pinned-original observations. No SDK scheduler or
-game repair is implemented yet. The [acceptance manifest](../baseline/milestone-forty/acceptance.json)
+Milestone 40 starts with 48 pinned-original observations. The SDK scheduler and
+owned-content compiler are implemented; game integration and its original-source
+comparison are pending. The [acceptance manifest](../baseline/milestone-forty/acceptance.json)
 retains the original helper and fixture bytes, including their historical
 discovery-scope wording. It does not adopt the recorded defects as SDK behavior.
 
@@ -90,12 +91,14 @@ hashes. The other 42 courses and all unaffected fields remain exact. The origina
 failing fixtures are unchanged; `scripts/check-delayed-contract.mjs` produces
 only detached expected copies for future installed comparisons.
 
-Private queue-splicing and recursive-drain cases characterize unsupported
-boundaries. They are distinct from the reproduced native descent path.
+Same-array queue splicing during a drain remains unsupported. Recursive advance
+deliberately rejects with `Error('Delayed burst advance is already active')`;
+the caller may catch it and let the outer invocation continue. These diagnostic
+cases are distinct from the reproduced native descent path.
 
-## Planned SDK boundary
+## SDK boundary
 
-The optional `@hollow-wake/engine/combat/delayed` entry will own scheduling,
+The optional `@hollow-wake/engine/combat/delayed` entry owns scheduling,
 reverse queue traversal, target filtering, magnitude arithmetic and ordered
 delivery. Shared synchronous host ports supply the clock, queue, actor array,
 warning/impact visuals, native healing/mitigation, text, defense events and
@@ -104,17 +107,44 @@ host retains its actor and queue records. Port tables need no per-frame or
 per-actor wrappers. The game adapter will delegate scheduling, draining and
 the native queue-reset site, preserving other proc branches and the rider tail.
 
-An optional owned-content compiler will validate the complete delayed shape,
-including supported damage type membership, finite numeric fields and
-nonnegative delay/radius, then freeze a copied definition. Finite negative
+The optional `compileDelayedBurstEffect(input, damageTypes)` compiler validates
+the complete delayed shape, including supported damage type membership, finite
+numeric fields and nonnegative delay/radius, then freezes a copied definition. Finite negative
 magnitudes and visual-only payloads remain representable. The trusted native
 binding retains borrowed payload identity and live edits. These are separate
 ownership choices; imported content alone does not prove executable support.
+Serialized input must contain plain enumerable data fields. Unknown fields,
+symbols, accessors and exotic prototypes are rejected; getters are not evaluated.
 
-The prospective module allowance is 8 KiB, raising the combined JavaScript
-ceiling to 500 KiB while leaving prior module/core limits unchanged. These are
-limits for implementation review, not measured module sizes or performance
-results. Benchmarks must compare the new path with retained v0.34, include
+Create one `DelayedBursts(ports)` per host queue. Call `schedule(host, owner,
+effect, color, depth, target)` with an already-scaled effect; `depth` defaults to
+zero, and a missing target falls back to the owner. Advance at the host's delayed
+effect phase with `advance(host)`. Call `reset(host)` on scene/zone replacement.
+The host must implement `clearQueue`; changing a generation does not itself erase
+host records. Read ports must be coherent, synchronous observations over plain
+records. Keep the shared port table immutable. Sink ports return `undefined`,
+which rejects asynchronous implementations in TypeScript; wrap a native `void`
+method in a block-bodied callback if necessary. JavaScript hosts must obey the
+same synchronous contract.
+
+The packaged [example](../examples/delayed-bursts.mjs) runs independent encounters
+and demonstrates cancellation from death. Its healing and mitigation are small
+example policies, not substitutes for a game's real defense rules. The installed
+consumer verifies both encounter outcomes, subtype preservation and rejection
+of asynchronous implementations of all 12 ports without Node or DOM types.
+
+The focused SDK suite has 42 checks, separate from the 48 original observations.
+It covers all five loaded definitions, mutation/ownership rules, iteration,
+cancellation after every delivery callback, exceptions and nested invocation.
+Twenty-four injected runtime defects must fail behavioral assertions, including
+removing each cancellation checkpoint. Those tests do not replace the pending
+48-course installed-game comparison against the explicit six repairs.
+
+The built module is 8,143 bytes of unminified JavaScript, within the previously
+declared 8 KiB allowance. The combined JavaScript ceiling is 500 KiB; prior
+module/core limits remain unchanged. It has no imports and is not an eager core
+dependency. This size result is not a speed or allocation measurement.
+Benchmarks must compare the new path with retained v0.34, include
 overlapping queues and full-frame work, and retain matching gameplay receipts.
 
 ## Reproduction
@@ -123,10 +153,11 @@ After `npm ci`, `npm run reference:prepare` and `npm run reference:install`:
 
 ```sh
 npm run reference:delayed-effects
+npm run test:delayed-package
 ```
 
-The command checks hashes, type-checks the seven helpers, runs the pinned
+The reference command checks hashes, type-checks the seven helpers, runs the pinned
 original and compares exact fixture bytes. It writes diagnostics only under
 `.artifacts`; normal verification never regenerates accepted expectations.
-This baseline establishes no device speed, allocation budget, fixed queue
-capacity, native-engine support or complete serialized effect schema.
+These checks establish no device speed, allocation budget, fixed queue capacity,
+native-engine support or schema coverage for the remaining effect families.
