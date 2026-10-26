@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "capability": "delayed-burst/v1",
+  "decision": "delayed-queue-generation/v1",
+  "stage": "Contract and six-case expected differences committed before implementation. Runtime, adapter, renderer and performance acceptance are still required.",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "baselineAcceptanceSha256": "9752a25f96734bef03d613047e5f8f8dc6b77e417dbe2a1253f0996188bbcf90",
+  "repairExpectations": {
+    "file": "baseline/milestone-forty/repair-expectations.json",
+    "sha256": "658f4e315b6180180111b21b2d516c15baf8646a5518b1e775363e96e26f25ec"
+  },
+  "entry": "@hollow-wake/engine/combat/delayed",
+  "api": [
+    {
+      "name": "DelayedBursts",
+      "role": "One scheduler per independent host queue. Own the active-drain guard and cancellation generation; share immutable ports across instances. Expose schedule, advance and reset operations. Do not retain host actors or host worlds beyond their caller-owned queue entries."
+    },
+    {
+      "name": "compileDelayedBurstEffect",
+      "role": "Optional owned-content boundary for the complete delayedBurst shape, including type, at, delay, radius, damage and healAllies. Validate unknown keys, scalar types, finite numbers, nonnegative delay/radius and damage type membership in the supplied allowed types; freeze an owned copy. Finite negative magnitudes remain representable. Empty visual-only payloads are allowed. Native borrowed payloads use the separately documented trusted path."
+    }
+  ],
+  "ownership": {
+    "queue": "Host-owned plain arrays of pending envelopes. The SDK owns scheduling/removal/reset orchestration through explicit queue ports; do not splice or reorder entries during a drain. Host resets use the reset operation. Replacement identity is also observed as a cancellation boundary.",
+    "state": "Per-instance active guard and fresh generation token. No process-wide mutable registry, shared RNG, frame polling timer or per-actor/per-frame wrapper allocation.",
+    "content": "The schedule operation receives already-scaled typed payloads. Native payload references remain borrowed and live; use compileDelayedBurstEffect for immutable owned content. No implicit clone/freeze of native payloads.",
+    "host": "Clock, actor array, warning and delivery visuals, native healBy/mitigation, text, shield-break dispatch, defense sweep, death and queue clearing are explicit synchronous ports. Their ordinary method calls remain observable; geometry filtering, magnitude arithmetic and delivery ordering belong to the SDK."
+  },
+  "queuePolicy": [
+    "Retain reverse insertion traversal, live time per visited entry and removal before delivery. New appended entries wait for a later advance. Do not replace these semantics with deadline ordering.",
+    "Capture location, deadline, tier, depth and color at schedule time; retain owner and effect references. Sample level once per removed entry and team/payload fields per target.",
+    "Retain the current actor-array iterator, including ordinary append/removal behavior. Cancellation overrides continued iteration after an area reset.",
+    "Schedule commits the entry before warning delivery. Warning failure propagates, retains the pending entry and prevents the native rider tail. The SDK never retries or invokes riders itself."
+  ],
+  "cancellation": [
+    "Capture the current generation and queue identity at advance entry. A generation change or replacement queue cancels the current burst and all remaining work from that invocation.",
+    "Recheck cancellation after each external delivery callback before reading or mutating another target, issuing a later notification, dispatching another defense/death stage or visiting another pending entry. In particular, return after a native kill that loads a new area.",
+    "Reset invalidates the generation before calling the host queue-clear port. This prevents an explicit reset from being hidden by later restoration of an old queue reference.",
+    "Reset/clear ports perform the host queue replacement synchronously. If a callback throws, propagate that error and retain whatever it committed; never roll back native death, loading, mitigation or healing. The active guard always releases.",
+    "Entries scheduled into the replacement queue during a callback remain queued until the next advance. The cancelled invocation does not consume them."
+  ],
+  "reentry": {
+    "sameInstance": "Throw Error with message \"Delayed burst advance is already active\" before reading host state or advancing another entry. The outer invocation propagates an uncaught error, retaining prior commits and unvisited entries; a caught nested rejection permits the outer invocation to continue.",
+    "independentInstances": "Independent queues may advance synchronously inside one another. No shared guard or scratch state.",
+    "recovery": "Successful completion, cancellation and exceptions all release the active guard. Reset and schedule remain available during delivery."
+  },
+  "unchangedBehavior": [
+    "The 42 unaffected baseline cases and every unaffected field of the six specified cases remain exact.",
+    "Damage immunity, the later invulnerability check, pending shield-break flags, defense ordering and ordinary failure partial commits remain as captured.",
+    "Frame placement stays after temporary grounds/evaporation and before contagions/terrain. A burst heal does not gain an earlier heal-triggered reaction.",
+    "No implicit cancellation when an owner dies; the original already-loosed effect still resolves.",
+    "Direct same-array removal/reordering during callbacks remains outside the supported queue contract; its original diagnostic is retained without declaring it a supported API."
+  ],
+  "adapter": {
+    "scope": "Delegate the delayedBurst executor case, pending-burst drain and loadZone queue-reset occurrence. Keep the other executor branches and rider tail intact. Keep native geometry, Actor objects and observable methods through shared ports.",
+    "controls": "Use a new disposable candidate. The published M39 installation, earlier controls and original checkout are immutable. No game repository push.",
+    "sourceGuards": "Guard scheduling, queue declaration, drain, reset site and update-phase adjacency against the accepted original boundaries before any mutation."
+  },
+  "verification": [
+    "48 original observations still reproduce unchanged from the pinned source.",
+    "Installed output matches all fields, with only the six independently specified case edits; helpers may adapt only the named changed assertions.",
+    "Independent SDK cases cover reset after every callback stage, same-reference reset, new-queue scheduling, caught/uncaught re-entry, independent-instance nesting and recovery after failures.",
+    "Owned-content validation rejects malformed/nonfinite/unknown inputs, copies nested magnitudes and freezes results; all five loaded original definitions compile.",
+    "Typed and JavaScript consumers exercise the installed package without game startup; meaningful behavioral faults must be detected.",
+    "Native descent and stale-target repair work through the installed adapter; retained frame/casting/effect regressions and real renderer checks pass.",
+    "Receipt-checked CPU/retained-memory and whole-frame comparisons include idle/not-due/due, sparse/dense targets and overlapping queues, with repeat runs and adequate warmup. No hardware or allocation-volume claim without measurement."
+  ],
+  "packageBudget": {
+    "optionalModuleBytes": 8192,
+    "combinedJavaScriptBytes": 512000,
+    "unchangedCoreJavaScriptBytes": 98304,
+    "priorModuleLimitsUnchanged": true
+  },
+  "notEstablished": [
+    "SDK implementation or installed repair",
+    "Complete combat/effect extraction",
+    "Full native-engine packages",
+    "Device performance or allocation-volume acceptance",
+    "A heap, database, spatial index or fixed-capacity pool advantage"
+  ]
+}

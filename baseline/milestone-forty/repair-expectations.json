@@ -1,0 +1,709 @@
+{
+  "schemaVersion": 1,
+  "decision": "delayed-queue-generation/v1",
+  "stage": "Expected differences recorded before runtime implementation. Original fixtures are unchanged.",
+  "baselineAcceptanceSha256": "9752a25f96734bef03d613047e5f8f8dc6b77e417dbe2a1253f0996188bbcf90",
+  "affectedCourses": 6,
+  "unchangedCourses": 42,
+  "comparison": "Apply only these named edits to a detached copy of the accepted original output. Check every original before-value and both case hashes; compare all other fields exactly. No global omission, exception normalization or fixture regeneration.",
+  "changes": [
+    {
+      "fixture": "delayed-ordering",
+      "case": "nested-drain-exhausts-outer-index",
+      "reason": "Same-instance nested advance rejects before visiting another entry; the already committed outer heal remains.",
+      "originalCaseSha256": "aed2008275538cfb9ad12fbc99d13b4f10b6cf96ab9ba8323ddf3b1118777e6e",
+      "expectedCaseSha256": "b11edd1f0d07f1032f26f8c621dd32b048645ea6a9439dea725c0fd0e7b067d7",
+      "edits": [
+        {
+          "path": [
+            "stages",
+            0,
+            "failure"
+          ],
+          "before": "TypeError",
+          "after": "Error"
+        },
+        {
+          "path": [
+            "stages",
+            0,
+            "state",
+            "actors",
+            0,
+            "life"
+          ],
+          "before": 542,
+          "after": 531
+        },
+        {
+          "path": [
+            "stages",
+            0,
+            "state",
+            "pending"
+          ],
+          "before": [],
+          "after": [
+            {
+              "when": 10,
+              "at": {
+                "x": 700,
+                "y": 700
+              },
+              "tier": 0,
+              "depth": 4,
+              "color": "#abcdef",
+              "fx": {
+                "type": "delayedBurst",
+                "delay": 0,
+                "radius": 100,
+                "at": "self",
+                "healAllies": {
+                  "base": 11,
+                  "perLevel": 0
+                }
+              }
+            }
+          ]
+        },
+        {
+          "path": [
+            "stages",
+            0,
+            "state",
+            "flashes"
+          ],
+          "before": [
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0.3
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0.3
+            }
+          ],
+          "after": [
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0.3
+            }
+          ]
+        },
+        {
+          "path": [
+            "final",
+            "actors",
+            0,
+            "life"
+          ],
+          "before": 542,
+          "after": 531
+        },
+        {
+          "path": [
+            "final",
+            "pending"
+          ],
+          "before": [],
+          "after": [
+            {
+              "when": 10,
+              "at": {
+                "x": 700,
+                "y": 700
+              },
+              "tier": 0,
+              "depth": 4,
+              "color": "#abcdef",
+              "fx": {
+                "type": "delayedBurst",
+                "delay": 0,
+                "radius": 100,
+                "at": "self",
+                "healAllies": {
+                  "base": 11,
+                  "perLevel": 0
+                }
+              }
+            }
+          ]
+        },
+        {
+          "path": [
+            "final",
+            "flashes"
+          ],
+          "before": [
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0.3
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0.3
+            }
+          ],
+          "after": [
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0.3
+            }
+          ]
+        },
+        {
+          "path": [
+            "stages",
+            0,
+            "calls"
+          ],
+          "before": [
+            {
+              "actor": "a",
+              "amount": 31,
+              "time": 10
+            },
+            {
+              "actor": "a",
+              "amount": 11,
+              "time": 10
+            }
+          ],
+          "after": [
+            {
+              "actor": "a",
+              "amount": 31,
+              "time": 10
+            }
+          ]
+        },
+        {
+          "path": [
+            "calls"
+          ],
+          "before": [
+            {
+              "actor": "a",
+              "amount": 31,
+              "time": 10
+            },
+            {
+              "actor": "a",
+              "amount": 11,
+              "time": 10
+            }
+          ],
+          "after": [
+            {
+              "actor": "a",
+              "amount": 31,
+              "time": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "delayed-ordering",
+      "case": "clear-queue-during-callback",
+      "reason": "A replacement queue cancels the active drain without an indexing failure.",
+      "originalCaseSha256": "00147a1142f00661eb9109691ab552b59f2e7fc3d70003bbf6a7b4b8ad72a64c",
+      "expectedCaseSha256": "6311370ca05728ac44880d493e6736c2d56dacea426347d958f931ffb67cb94f",
+      "edits": [
+        {
+          "path": [
+            "stages",
+            0,
+            "failure"
+          ],
+          "before": "TypeError",
+          "after": null
+        }
+      ]
+    },
+    {
+      "fixture": "delayed-ordering",
+      "case": "replace-queue-during-callback",
+      "reason": "Replacement work belongs to the new queue and waits for the next advance.",
+      "originalCaseSha256": "f4fb378cc8475885950004cf4d1376c2cbb1747c72620fc4155ce2d3d24526e1",
+      "expectedCaseSha256": "8000af52ed848c61cd95a628911394a80abad44fc0a2b0ca9b63d6640e7636b2",
+      "edits": [
+        {
+          "path": [
+            "stages",
+            0,
+            "state",
+            "actors",
+            0,
+            "life"
+          ],
+          "before": 572,
+          "after": 531
+        },
+        {
+          "path": [
+            "stages",
+            0,
+            "state",
+            "pending"
+          ],
+          "before": [],
+          "after": [
+            {
+              "when": 10,
+              "at": {
+                "x": 700,
+                "y": 700
+              },
+              "tier": 0,
+              "depth": 4,
+              "color": "#abcdef",
+              "fx": {
+                "type": "delayedBurst",
+                "delay": 0,
+                "radius": 100,
+                "at": "self",
+                "healAllies": {
+                  "base": 41,
+                  "perLevel": 0
+                }
+              }
+            }
+          ]
+        },
+        {
+          "path": [
+            "stages",
+            0,
+            "state",
+            "flashes"
+          ],
+          "before": [
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0.3
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0.3
+            }
+          ],
+          "after": [
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0.3
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            }
+          ]
+        },
+        {
+          "path": [
+            "final",
+            "actors",
+            0,
+            "life"
+          ],
+          "before": 572,
+          "after": 531
+        },
+        {
+          "path": [
+            "final",
+            "pending"
+          ],
+          "before": [],
+          "after": [
+            {
+              "when": 10,
+              "at": {
+                "x": 700,
+                "y": 700
+              },
+              "tier": 0,
+              "depth": 4,
+              "color": "#abcdef",
+              "fx": {
+                "type": "delayedBurst",
+                "delay": 0,
+                "radius": 100,
+                "at": "self",
+                "healAllies": {
+                  "base": 41,
+                  "perLevel": 0
+                }
+              }
+            }
+          ]
+        },
+        {
+          "path": [
+            "final",
+            "flashes"
+          ],
+          "before": [
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0.3
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0.3
+            }
+          ],
+          "after": [
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0.3
+            },
+            {
+              "pos": {
+                "x": 700,
+                "y": 700
+              },
+              "radius": 100,
+              "color": "#abcdef",
+              "life": 0
+            }
+          ]
+        },
+        {
+          "path": [
+            "stages",
+            0,
+            "calls"
+          ],
+          "before": [
+            {
+              "actor": "a",
+              "amount": 31,
+              "time": 10
+            },
+            {
+              "actor": "a",
+              "amount": 41,
+              "time": 10
+            }
+          ],
+          "after": [
+            {
+              "actor": "a",
+              "amount": 31,
+              "time": 10
+            }
+          ]
+        },
+        {
+          "path": [
+            "calls"
+          ],
+          "before": [
+            {
+              "actor": "a",
+              "amount": 31,
+              "time": 10
+            },
+            {
+              "actor": "a",
+              "amount": 41,
+              "time": 10
+            }
+          ],
+          "after": [
+            {
+              "actor": "a",
+              "amount": 31,
+              "time": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "delayed-descent",
+      "case": "future-entry-before-lethal-descent-wipe",
+      "reason": "Native resurface remains committed; the old queue no longer produces TypeError.",
+      "originalCaseSha256": "7842364b2a60aa76e94deb4e87c90935ebbd01c67c4234ad96abc411360891d6",
+      "expectedCaseSha256": "2c1500443387a334659bd5354f7c98459515ecb19465047908e48ce6d5615bc9",
+      "edits": [
+        {
+          "path": [
+            "failure"
+          ],
+          "before": "TypeError",
+          "after": null
+        }
+      ]
+    },
+    {
+      "fixture": "delayed-stale",
+      "case": "single-burst-stale-target-after-descent-wipe",
+      "reason": "Stop the current target loop after native zone loading; the departed ally receives no further damage.",
+      "originalCaseSha256": "75359a80874f6dc4ab95aeb88752f1b792f40b3ca518c50aced4550ada7684d7",
+      "expectedCaseSha256": "81fda85ad82d1f85618a3859de8db535d7b35d3822dc2b7571327e9102cfe579",
+      "edits": [
+        {
+          "path": [
+            "after",
+            "outgoingAllyLife"
+          ],
+          "before": 950,
+          "after": 1000
+        }
+      ]
+    },
+    {
+      "fixture": "delayed-stale",
+      "case": "future-entry-and-stale-target-after-descent-wipe",
+      "reason": "Stop the current target loop after native zone loading; the departed ally receives no further damage.",
+      "originalCaseSha256": "452ced4bf4c8cd86644d6411550c8b01ff903d18393b789e90a6d8ebf95bd33c",
+      "expectedCaseSha256": "97ce1cc1d91de9edf9d7a36503ed1a2b579022324a148790af4a3f505c33a285",
+      "edits": [
+        {
+          "path": [
+            "after",
+            "outgoingAllyLife"
+          ],
+          "before": 950,
+          "after": 1000
+        },
+        {
+          "path": [
+            "failure"
+          ],
+          "before": "TypeError",
+          "after": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-# Delayed effects: original baseline
+# Delayed effects: baseline and cancellation contract
 
 Milestone 40 starts with 48 pinned-original observations. No SDK scheduler or
 game repair is implemented yet. The [acceptance manifest](../baseline/milestone-forty/acceptance.json)
@@ -70,13 +70,52 @@ The current target iterator still visits actors from the departed area; a
 remaining queue index can then throw `TypeError`. The single-entry case proves
 that eliminating the exception alone would leave the stale-target damage.
 
-The SDK must cancel the current delivery and old pending work when the host
-replaces the queue. Already committed damage, death and zone loading remain
-committed. This needs a separate, explicit cancellation/re-entry contract
-before implementation; the original failing fixtures must remain intact.
+The [runtime contract](../baseline/milestone-forty/runtime-contract.json) records
+the intended behavior before implementation. The SDK must cancel the current
+delivery and old pending work when the host resets or replaces the queue.
+Already committed damage, death and zone loading remain committed. Generation
+and queue identity are checked after external delivery callbacks. New work in
+the replacement queue waits until the next advance.
+
+Each independent host queue gets its own scheduler and re-entry guard. Nested
+advance on the same instance fails before another entry is visited; independent
+instances may nest. The guard releases after success, cancellation or failure.
+Explicit reset invalidates the generation before clearing the host queue, so
+restoring an old array reference cannot conceal that reset.
+
+The [repair expectations](../baseline/milestone-forty/repair-expectations.json)
+specify exactly six changed courses: three queue/re-entry diagnostics and three
+native descent cases. They check every original before-value and both case
+hashes. The other 42 courses and all unaffected fields remain exact. The original
+failing fixtures are unchanged; `scripts/check-delayed-contract.mjs` produces
+only detached expected copies for future installed comparisons.
 
 Private queue-splicing and recursive-drain cases characterize unsupported
 boundaries. They are distinct from the reproduced native descent path.
+
+## Planned SDK boundary
+
+The optional `@hollow-wake/engine/combat/delayed` entry will own scheduling,
+reverse queue traversal, target filtering, magnitude arithmetic and ordered
+delivery. Shared synchronous host ports supply the clock, queue, actor array,
+warning/impact visuals, native healing/mitigation, text, defense events and
+death. One scheduler per host owns only its drain guard and generation; the
+host retains its actor and queue records. Port tables need no per-frame or
+per-actor wrappers. The game adapter will delegate scheduling, draining and
+the native queue-reset site, preserving other proc branches and the rider tail.
+
+An optional owned-content compiler will validate the complete delayed shape,
+including supported damage type membership, finite numeric fields and
+nonnegative delay/radius, then freeze a copied definition. Finite negative
+magnitudes and visual-only payloads remain representable. The trusted native
+binding retains borrowed payload identity and live edits. These are separate
+ownership choices; imported content alone does not prove executable support.
+
+The prospective module allowance is 8 KiB, raising the combined JavaScript
+ceiling to 500 KiB while leaving prior module/core limits unchanged. These are
+limits for implementation review, not measured module sizes or performance
+results. Benchmarks must compare the new path with retained v0.34, include
+overlapping queues and full-frame work, and retain matching gameplay receipts.
 
 ## Reproduction
 

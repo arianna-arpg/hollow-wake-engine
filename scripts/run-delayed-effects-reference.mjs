@@ -1,11 +1,13 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';
 import {gunzipSync} from 'node:zlib';import {execFileSync} from 'node:child_process';import {pathToFileURL} from 'node:url';
 import {root,sha256,verifyReference,writeJSON} from './reference-utils.mjs';
+import {readDelayedRepairExpectations} from './check-delayed-contract.mjs';
 const game=path.join(root,'.reference'),artifacts=path.join(root,'.artifacts');
 const lockBytes=fs.readFileSync(path.join(root,'baseline/source-lock.json')),lock=JSON.parse(lockBytes);
 const acceptanceBytes=fs.readFileSync(path.join(root,'baseline/milestone-forty/acceptance.json')),acceptance=JSON.parse(acceptanceBytes);
 assert.equal(acceptance.schemaVersion,1);assert.equal(acceptance.milestone,40);assert.equal(acceptance.source,lock.commit);assert.equal(acceptance.sourceLockSha256,sha256(lockBytes));
 assert.equal(acceptance.courses,48);assert.equal(acceptance.helpers.length,7);
+const intendedRepair=readDelayedRepairExpectations().proof;
 assert.deepEqual(acceptance.fixtures.map(r=>[r.name,r.courses]),[['delayed-ordering',15],['delayed-defense',14],['delayed-descent',2],['delayed-frames',7],['delayed-load',6],['delayed-stale',2],['delayed-passives',2]]);
 const boundaryBytes=fs.readFileSync(path.join(root,acceptance.sourceBoundaries.file));assert.equal(sha256(boundaryBytes),acceptance.sourceBoundaries.sha256);
 const boundary=JSON.parse(boundaryBytes);assert.equal(boundary.source,lock.commit);assert.equal(boundary.sourceLockSha256,sha256(lockBytes));assert.equal(boundary.world.sha256,lock.files[boundary.world.file]);
@@ -31,4 +33,4 @@ const results=[];for(const row of acceptance.fixtures){
  results.push({name:row.name,courses:row.courses,sha256:sha256(actual),byteEqual:true});console.log('PASS original '+row.name);
 }
 assert.equal(results.reduce((sum,row)=>sum+row.courses,0),acceptance.courses);
-writeJSON(path.join(artifacts,'delayed-effects-reference-verification.json'),{source:lock.commit,acceptanceSha256:sha256(acceptanceBytes),boundarySha256:sha256(boundaryBytes),output,helpers:7,courses:48,fixtures:results,typesPassed:true,sourceUnchanged:true,scope:'Bounded original observations including unchanged failure cases. Normal verification never regenerates fixtures. No scheduler implementation, repaired behavior or performance acceptance.'});
+writeJSON(path.join(artifacts,'delayed-effects-reference-verification.json'),{source:lock.commit,acceptanceSha256:sha256(acceptanceBytes),boundarySha256:sha256(boundaryBytes),output,helpers:7,courses:48,fixtures:results,typesPassed:true,sourceUnchanged:true,intendedRepair,scope:'Bounded original observations including unchanged failure cases. Normal verification never regenerates fixtures. Intended repair expectations are validated separately, without implementing or accepting repaired runtime behavior.'});
