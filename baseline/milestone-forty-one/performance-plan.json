@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "decision": "buff-lifecycle-performance/v1",
+  "status": "accepted-before-timing",
+  "helperSha256": "ec9da09799cd65d52567a25616dd99f38c29078246c8700ce4aa51604127451d",
+  "proposalSha256": "deb9092a6cd82a83d191aedd378de1f0318e961c7d757b348ae21145d9a3b550",
+  "comparison": "Retained published v0.35 and the initial M41 installation; retain initial as an optional third graph after optimization. Prior runtime and unrelated host files must match byte-for-byte.",
+  "warmups": 8,
+  "samples": 25,
+  "memorySamples": 7,
+  "requiredIndependentRuns": 2,
+  "order": "One process at a time. Rotate graph order each sample and reverse initial graph order in the second independent run. Stop renderer, verification and build work before timing.",
+  "workloads": [
+    {
+      "name": "never-buffed-timers",
+      "actors": 64,
+      "frames": 2048,
+      "dt": 0.016666666666666666
+    },
+    {
+      "name": "previously-buffed-empty-timers",
+      "actors": 64,
+      "frames": 2048,
+      "dt": 0.016666666666666666
+    },
+    {
+      "name": "shared-live-timers",
+      "actors": 64,
+      "frames": 256,
+      "durationScale": 64,
+      "definition": "war_cry"
+    },
+    {
+      "name": "independent-live-timers",
+      "actors": 64,
+      "frames": 128,
+      "stacks": 12,
+      "durationScale": 64,
+      "definition": "deep_carve"
+    },
+    {
+      "name": "shared-refresh",
+      "actors": 32,
+      "callsPerActor": 256,
+      "definition": "war_cry"
+    },
+    {
+      "name": "independent-at-cap-grant",
+      "actors": 32,
+      "stacks": 12,
+      "callsPerActor": 256,
+      "definition": "deep_carve"
+    },
+    {
+      "name": "shared-consume-regrant",
+      "actors": 32,
+      "cycles": 64,
+      "stacks": 6,
+      "definition": "flame_imbuement",
+      "note": "Exercise native matching and nonmatching spend dispatch and native cues; derive event/tags from the unchanged definition."
+    },
+    {
+      "name": "independent-mixed-expiry",
+      "actors": 32,
+      "waves": 32,
+      "stacks": 12,
+      "definition": "deep_carve",
+      "note": "Prebuild independent actors with distinct native grant durations; one native timer call per wave. Assert partial expiry and surviving order."
+    },
+    {
+      "name": "independent-dense-expiry",
+      "actors": 32,
+      "waves": 32,
+      "stacks": 12,
+      "definition": "deep_carve"
+    },
+    {
+      "name": "synthetic-large-expiry",
+      "actors": 8,
+      "waves": 16,
+      "stacks": 4096,
+      "note": "Explicit synthetic capacity stress, not authored gameplay occupancy. Report separately; never infer ordinary gameplay benefit from this case alone."
+    },
+    {
+      "name": "quiet-world-frames",
+      "actors": 16,
+      "frames": 600
+    },
+    {
+      "name": "buffed-world-frames",
+      "actors": 16,
+      "frames": 600,
+      "note": "Native shared and independent grants before the timed frame loop, with natural expiry during it."
+    },
+    {
+      "name": "casting-world-frames",
+      "actors": 2,
+      "frames": 900,
+      "attemptEveryFrames": 60,
+      "quietTailFrames": 180,
+      "definitions": [
+        "war_cry",
+        "flame_imbuement",
+        "deep_carve"
+      ]
+    }
+  ],
+  "memory": {
+    "actorCounts": [
+      1024,
+      4096
+    ],
+    "states": [
+      "never-buffed",
+      "previously-buffed-empty",
+      "active-shared-and-independent"
+    ],
+    "method": "Retain native Actor batches, collect twice, release all batch references, collect twice again. Report retained bytes per Actor and paired differences at both sizes. Includes the native Actor and stat graph; it is not isolated runtime allocation volume, peak memory or whole-game residency. Ensure observation closures and caches do not keep released actors alive."
+  },
+  "validation": "Before timing, type-check the helper against the pinned native source and validate every graph/course receipt. Compare full canonical buff definitions/state/clocks, stat values, source publication/removal/release counts, gain queues, relevant native combat state and RNG counts. Assert each intended refresh, expiry, consumption or casting path actually ran. Setup/serialization/equality checks stay outside timing; call-through observers inside timed work must be identified in the report.",
+  "setupDetails": "Actor-only cases use clean native Actors and native stat sheets. World cases use seeded makeSimWorld with explicit resource/stat overrides, stationary actors and native useSkill/update. Initial grants and prebuilt expiry waves occur outside timing. Shared/independent live-clock durations are scaled by 64 to isolate non-expiring updates. Authored Deep Carve caps at 12; at-cap grants republish but do not refresh clocks. Dense expiry removes all 12 clocks; mixed expiry removes six short clocks and preserves six long clocks. Synthetic stress uses two native grants of 2,048 clocks (short first, long second), then removes the short half. It is not a normal gameplay occupancy.",
+  "instrumentation": "Timed work includes native calls, scalar counters, call-through grant/stat-source/consumption observers, and RNG counting. The shared consumption course also reads tagged added-fire after grant and each matching spend, requiring the 48,40,32,24,16,8,0 sequence sum (168 per cycle) and six stacks after every nonmatching use. Setup, forced GC, state serialization, receipt hashing/equality and invariant assertions are outside timing. Complete recorded receipts—not just hashes—are retained once per course.",
+  "memoryDetails": "No instrumentation wrappers are attached to memory batches. Canonical state queries warm the same damage/added-fire/attack-speed caches before retained-heap collection. Each batch has one releasable Actor-array reference. Release ends the current JavaScript job before double GC; WeakRef witnesses at first/middle/last indices must be gone. These witnesses and source inspection guard batch retention; they are not a claim that every allocation was counted.",
+  "validationEvidence": {
+    "helperTypesPassed": true,
+    "courses": 13,
+    "memoryCases": 6,
+    "rawReceiptsEqual": true,
+    "witnessesReleased": true,
+    "validationSha256": "fcd7bd94ee0ecab25f8050e2d393ddc271ce33404bfb1e4eee56afbb089f5bed",
+    "originalRuntimeFilesUnchanged": 183,
+    "initialRuntimeFiles": 189,
+    "scope": "Validation only. No samples or memory byte results accepted before this plan."
+  },
+  "revisionsBeforeTiming": [
+    {
+      "reason": "Native source inspection: grants at the independent cap do not refresh clocks.",
+      "change": "Renamed independent-at-cap-refresh to independent-at-cap-grant; workload size unchanged."
+    },
+    {
+      "reason": "Final empty state alone does not prove correct consumption sequence.",
+      "change": "Added per-cycle nonmatching-stack accumulation and intermediate tagged-fire queries before timing."
+    }
+  ],
+  "repairScope": "Do not claim an equal-work timing comparison for independent consumption, which intentionally repairs native behavior. Shared Flame Imbuement consumption is eligible for paired native equality. Keep independent-consumption invariants in the existing correctness suite; any separate performance course for it must identify the unequal semantics explicitly.",
+  "reporting": "Retain all samples, medians, p95 and normalized per-call/per-frame interpretation from both runs. Investigate any repeatable ordinary-workload regression before accepting the milestone; document remaining tradeoffs explicitly. Desktop Node results are not Steam Deck/mobile acceptance, renderer FPS, C#/C++/Wasm performance or a guarantee of absolute optimization.",
+  "optimization": "Retain every result, including regressions. Optimize measured costs while preserving accepted behavior, callbacks, identity and ownership. Do not substitute synthetic stress gains for ordinary-workload results. Any helper or plan revision after timing needs a separate explicit record and fresh comparison runs."
+}

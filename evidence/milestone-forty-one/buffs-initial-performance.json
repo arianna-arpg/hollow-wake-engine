@@ -1,0 +1,446 @@
+{
+  "schemaVersion": 1,
+  "stage": "Initial candidate evidence; optimization and milestone acceptance remain pending.",
+  "plan": {
+    "file": "baseline/milestone-forty-one/performance-plan.json",
+    "sha256": "2c2e84f6dc154dfbc668adaa8a71eccf0e3f7cc58f7beb3d6f11236a4f66c0ef"
+  },
+  "helper": {
+    "file": "reference/benchmark-buffs.ts",
+    "sha256": "ec9da09799cd65d52567a25616dd99f38c29078246c8700ce4aa51604127451d"
+  },
+  "controls": {
+    "previous": {
+      "commit": "193b84fcee89cbde48af05ba0361a68f5a589bea",
+      "version": "0.35.0",
+      "published": true,
+      "archiveSha256": "067b8dfa2aa4818a31952eb071400ad35bbf9ffcc1b3a52700bc850d37ada09c",
+      "sourceMapSha256": "7880af5076365f1deb00819e987e91491e6eb8bbc39b66a442a2193e972eb93a",
+      "runtimeMapSha256": "65d3f3d821153834d6c3ac6c600f130c8e87d92996134d775e97fc283e415dfe"
+    },
+    "initial": {
+      "commit": "c5f52ea6eb9ca107cdc941974e7b0015d25b6ccd",
+      "version": "0.35.0",
+      "published": false,
+      "archiveSha256": "c564fd7388a40ff698c14f6f5d755befb9b40575082a2026e2069b2719a9f61b",
+      "sourceMapSha256": "7fd69753ef56bbecfed6c0ed1d083ff4bad4bfe6b8fcb8e7e2d742e3306fe110",
+      "runtimeMapSha256": "932f549130829880e8ebbe7126d04f5677836acc2cecd133b3ff628cabcfde29"
+    }
+  },
+  "runs": [
+    {
+      "file": "evidence/milestone-forty-one/buffs-initial-run-1.json.gz",
+      "sha256": "614a6e216c9e69f0b13459d60f2492388d26eef1d1597753ef6253a7d723d8b4",
+      "uncompressedSha256": "b3b742124e5195eeed8b465614e179e0d70a8efda9e42f38e16c903359ea4d47",
+      "bytes": 304840,
+      "graphOrder": [
+        "previous",
+        "current"
+      ],
+      "node": "v24.9.0",
+      "platform": "win32",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz"
+    },
+    {
+      "file": "evidence/milestone-forty-one/buffs-initial-run-2.json.gz",
+      "sha256": "c8639014da3c2b7f6af3290bf14df0bd9fcee72812e4ceea3e34b33502a58037",
+      "uncompressedSha256": "2a5057ef40494dd860ffed8f773f086a438becb9976f30ff7760ee7bf683c52b",
+      "bytes": 304794,
+      "graphOrder": [
+        "current",
+        "previous"
+      ],
+      "node": "v24.9.0",
+      "platform": "win32",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz"
+    }
+  ],
+  "timedSamples": 1300,
+  "retainedHeapObservations": 168,
+  "allCanonicalReceiptsEqualAcrossGraphsAndRuns": true,
+  "allSampledActorWitnessesReleased": true,
+  "controlsUnchanged": true,
+  "unchangedPriorRuntimeFiles": 183,
+  "unrelatedHostFilesUnchanged": 993,
+  "timings": [
+    {
+      "name": "never-buffed-timers",
+      "receiptSha256": "954e3da190bf6e0ccc0f1dc6b984d1f330cd64547664efab265d19d1ce73d585",
+      "runs": [
+        {
+          "previousMedianMs": 369.28659999999945,
+          "currentMedianMs": 390.1189999999988,
+          "changePercent": 5.641255328517025,
+          "previousP95Ms": 410.2992000000013,
+          "currentP95Ms": 405.96740000000136
+        },
+        {
+          "previousMedianMs": 394.88540000000285,
+          "currentMedianMs": 372.8787999999986,
+          "changePercent": -5.572907987989451,
+          "previousP95Ms": 442.47279999999955,
+          "currentP95Ms": 424.90060000000085
+        }
+      ]
+    },
+    {
+      "name": "previously-buffed-empty-timers",
+      "receiptSha256": "dac2c6135b03c8922cce9e4a3b992a116f97c31203df4afdaf36563b443bed8a",
+      "runs": [
+        {
+          "previousMedianMs": 395.287900000003,
+          "currentMedianMs": 410.5855999999985,
+          "changePercent": 3.870014741153316,
+          "previousP95Ms": 437.6958000000013,
+          "currentP95Ms": 452.00709999999526
+        },
+        {
+          "previousMedianMs": 392.7929000000004,
+          "currentMedianMs": 387.5226000000039,
+          "changePercent": -1.341750321860835,
+          "previousP95Ms": 406.7211000000025,
+          "currentP95Ms": 428.2474000000002
+        }
+      ]
+    },
+    {
+      "name": "shared-live-timers",
+      "receiptSha256": "d62c8fb352de0764ce4ddcff392a31ef0a7e5a5fcb4d520a731f0063c95d3157",
+      "runs": [
+        {
+          "previousMedianMs": 103.25199999999313,
+          "currentMedianMs": 110.18440000001283,
+          "changePercent": 6.714058807597101,
+          "previousP95Ms": 260.8493000000017,
+          "currentP95Ms": 259.4849000000104
+        },
+        {
+          "previousMedianMs": 93.26380000000063,
+          "currentMedianMs": 76.8579000000027,
+          "changePercent": -17.590855187112066,
+          "previousP95Ms": 99.41340000000491,
+          "currentP95Ms": 100.45100000000093
+        }
+      ]
+    },
+    {
+      "name": "independent-live-timers",
+      "receiptSha256": "9c365bb621e508911d5618e81500281f5b47c4f88d3d97ec323f110026c3a3d1",
+      "runs": [
+        {
+          "previousMedianMs": 42.18249999999534,
+          "currentMedianMs": 71.46769999999378,
+          "changePercent": 69.42499851834687,
+          "previousP95Ms": 104.84570000000531,
+          "currentP95Ms": 93.59980000001087
+        },
+        {
+          "previousMedianMs": 55.971999999994296,
+          "currentMedianMs": 38.21899999999732,
+          "changePercent": -31.717644536551816,
+          "previousP95Ms": 74.13719999999739,
+          "currentP95Ms": 74.20699999999488
+        }
+      ]
+    },
+    {
+      "name": "shared-refresh",
+      "receiptSha256": "ebb9cc9100086371995cacd8c9d3e802a7a26f68ff30f376d76286140fab9a06",
+      "runs": [
+        {
+          "previousMedianMs": 5.14450000000943,
+          "currentMedianMs": 7.776499999992666,
+          "changePercent": 51.16143454132398,
+          "previousP95Ms": 8.754300000000512,
+          "currentP95Ms": 10.964300000006915
+        },
+        {
+          "previousMedianMs": 4.604800000000978,
+          "currentMedianMs": 6.521700000012061,
+          "changePercent": 41.62830090363698,
+          "previousP95Ms": 6.392000000007101,
+          "currentP95Ms": 8.490599999990081
+        }
+      ]
+    },
+    {
+      "name": "independent-at-cap-grant",
+      "receiptSha256": "7b3f7032b9196248a2cca90675c2849fbeca7fbc6ff90487d5c0ebcaf0e1c1ad",
+      "runs": [
+        {
+          "previousMedianMs": 7.312000000005355,
+          "currentMedianMs": 9.291400000001886,
+          "changePercent": 27.07056892772266,
+          "previousP95Ms": 9.136499999993248,
+          "currentP95Ms": 11.884900000004563
+        },
+        {
+          "previousMedianMs": 7.612599999993108,
+          "currentMedianMs": 9.051999999996042,
+          "changePercent": 18.908126001684543,
+          "previousP95Ms": 11.24199999999837,
+          "currentP95Ms": 11.532099999996717
+        }
+      ]
+    },
+    {
+      "name": "shared-consume-regrant",
+      "receiptSha256": "f2f23b6401ff0ba266d47e1be45803bd7c5c2f108ac337a74dab0ff5641ebd8e",
+      "runs": [
+        {
+          "previousMedianMs": 41.914300000004005,
+          "currentMedianMs": 50.40209999999206,
+          "changePercent": 20.25036801279574,
+          "previousP95Ms": 62.40350000000035,
+          "currentP95Ms": 63.78049999999348
+        },
+        {
+          "previousMedianMs": 42.77469999999448,
+          "currentMedianMs": 40.25690000000759,
+          "changePercent": -5.886189733621084,
+          "previousP95Ms": 47.24120000000403,
+          "currentP95Ms": 54.98910000000615
+        }
+      ]
+    },
+    {
+      "name": "independent-mixed-expiry",
+      "receiptSha256": "e8f522ef292eb22afb77763762d0ec4bc96aba7a814f7eb64da85e58b02d5e1e",
+      "runs": [
+        {
+          "previousMedianMs": 63.91949999998906,
+          "currentMedianMs": 63.86609999999928,
+          "changePercent": -0.08354258088656419,
+          "previousP95Ms": 74.00729999999749,
+          "currentP95Ms": 70.97410000000673
+        },
+        {
+          "previousMedianMs": 61.95130000000063,
+          "currentMedianMs": 59.53220000000147,
+          "changePercent": -3.9048413834724016,
+          "previousP95Ms": 73.99640000000363,
+          "currentP95Ms": 70.29140000000189
+        }
+      ]
+    },
+    {
+      "name": "independent-dense-expiry",
+      "receiptSha256": "a472dd178b74a3193efe4972110a2f63acf5d757d2ef0a2ce8aa1e0273aaa67c",
+      "runs": [
+        {
+          "previousMedianMs": 63.44130000000587,
+          "currentMedianMs": 63.97469999999157,
+          "changePercent": 0.8407772223861354,
+          "previousP95Ms": 76.17819999999483,
+          "currentP95Ms": 74.38420000000042
+        },
+        {
+          "previousMedianMs": 61.45029999999679,
+          "currentMedianMs": 60.51469999999972,
+          "changePercent": -1.5225312162790328,
+          "previousP95Ms": 70.04979999999341,
+          "currentP95Ms": 69.04429999997956
+        }
+      ]
+    },
+    {
+      "name": "synthetic-large-expiry",
+      "receiptSha256": "3e6199c5f3d920c08e028f090949fc6bdc194bff1028395ae36d0c86c4aa5c01",
+      "runs": [
+        {
+          "previousMedianMs": 82.6362000000081,
+          "currentMedianMs": 15.064799999992829,
+          "changePercent": -81.7697328773693,
+          "previousP95Ms": 86.11129999998957,
+          "currentP95Ms": 18.56930000000284
+        },
+        {
+          "previousMedianMs": 81.78789999999572,
+          "currentMedianMs": 12.630400000023656,
+          "changePercent": -84.55712886622065,
+          "previousP95Ms": 91.72200000000885,
+          "currentP95Ms": 19.624099999986356
+        }
+      ]
+    },
+    {
+      "name": "quiet-world-frames",
+      "receiptSha256": "6e81d2337f500faae9012c17fc0122f2c35453e0dd84ba0c03a891fc998f9499",
+      "runs": [
+        {
+          "previousMedianMs": 211.2103000000061,
+          "currentMedianMs": 212.4936999999918,
+          "changePercent": 0.6076408205403228,
+          "previousP95Ms": 244.36329999999725,
+          "currentP95Ms": 247.62919999999576
+        },
+        {
+          "previousMedianMs": 213.52760000000126,
+          "currentMedianMs": 212.31830000001355,
+          "changePercent": -0.5663436483094975,
+          "previousP95Ms": 274.56359999999404,
+          "currentP95Ms": 251.22370000000228
+        }
+      ]
+    },
+    {
+      "name": "buffed-world-frames",
+      "receiptSha256": "6fc328d842f8a6782090888d67da010b91db95be71ef1deb73486651cd970d28",
+      "runs": [
+        {
+          "previousMedianMs": 220.81950000001234,
+          "currentMedianMs": 222.40599999998813,
+          "changePercent": 0.7184600997537371,
+          "previousP95Ms": 268.1086999999825,
+          "currentP95Ms": 262.9921000000031
+        },
+        {
+          "previousMedianMs": 219.55060000001686,
+          "currentMedianMs": 207.2737999999954,
+          "changePercent": -5.591786130404797,
+          "previousP95Ms": 278.4933000000019,
+          "currentP95Ms": 282.1359999999986
+        }
+      ]
+    },
+    {
+      "name": "casting-world-frames",
+      "receiptSha256": "874a2c7cb31dbe12fe7bc6d49d3686a4b8c127b5cbe81c9760472d59e1671e44",
+      "runs": [
+        {
+          "previousMedianMs": 180.7430999999924,
+          "currentMedianMs": 186.52780000001076,
+          "changePercent": 3.2005094523766653,
+          "previousP95Ms": 209.09389999997802,
+          "currentP95Ms": 204.10250000000815
+        },
+        {
+          "previousMedianMs": 190.7794999999751,
+          "currentMedianMs": 190.90520000000834,
+          "changePercent": 0.06588758227863423,
+          "previousP95Ms": 254.52760000000126,
+          "currentP95Ms": 249.34470000001602
+        }
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "mode": "never-buffed",
+      "count": 1024,
+      "receiptSha256": "0d41b403813efacb3ed6885aaf69d1077145ec6187ddfbcf94cfe1527392725f",
+      "runs": [
+        {
+          "previousBytesPerActor": 11343.8359375,
+          "currentBytesPerActor": 11343.9609375,
+          "differenceBytesPerActor": 0.125
+        },
+        {
+          "previousBytesPerActor": 11343.9609375,
+          "currentBytesPerActor": 11343.7890625,
+          "differenceBytesPerActor": -0.171875
+        }
+      ]
+    },
+    {
+      "mode": "never-buffed",
+      "count": 4096,
+      "receiptSha256": "8a90bb67544133f5b7059a2897c36804fb632e8bed35e9be2f4d5007c20c9736",
+      "runs": [
+        {
+          "previousBytesPerActor": 11343.990234375,
+          "currentBytesPerActor": 11343.990234375,
+          "differenceBytesPerActor": 0
+        },
+        {
+          "previousBytesPerActor": 11343.990234375,
+          "currentBytesPerActor": 11343.990234375,
+          "differenceBytesPerActor": 0
+        }
+      ]
+    },
+    {
+      "mode": "previously-buffed-empty",
+      "count": 1024,
+      "receiptSha256": "f91f49fd4b10f3913c67c570916cd9459d4301b35639b294cc7322af237b3ce4",
+      "runs": [
+        {
+          "previousBytesPerActor": 11559.9609375,
+          "currentBytesPerActor": 11799.9609375,
+          "differenceBytesPerActor": 240
+        },
+        {
+          "previousBytesPerActor": 11559.9609375,
+          "currentBytesPerActor": 11799.9609375,
+          "differenceBytesPerActor": 240
+        }
+      ]
+    },
+    {
+      "mode": "previously-buffed-empty",
+      "count": 4096,
+      "receiptSha256": "56a93217fb71ed01d5ed35e83859c16144130f304d4593291595d05adb42ac71",
+      "runs": [
+        {
+          "previousBytesPerActor": 11559.990234375,
+          "currentBytesPerActor": 11799.990234375,
+          "differenceBytesPerActor": 240
+        },
+        {
+          "previousBytesPerActor": 11559.990234375,
+          "currentBytesPerActor": 11799.990234375,
+          "differenceBytesPerActor": 240
+        }
+      ]
+    },
+    {
+      "mode": "active-shared-and-independent",
+      "count": 1024,
+      "receiptSha256": "b7c3cc11323bf32a8377d245809a8286b359cf495dae14435bfa95a9ce78d171",
+      "runs": [
+        {
+          "previousBytesPerActor": 13503.9609375,
+          "currentBytesPerActor": 13743.9609375,
+          "differenceBytesPerActor": 240
+        },
+        {
+          "previousBytesPerActor": 13503.9609375,
+          "currentBytesPerActor": 13743.9609375,
+          "differenceBytesPerActor": 240
+        }
+      ]
+    },
+    {
+      "mode": "active-shared-and-independent",
+      "count": 4096,
+      "receiptSha256": "f1f3e97bc131804d1f02ff294d71c0c747f449fca3bc16a30e6399cb8687ea3f",
+      "runs": [
+        {
+          "previousBytesPerActor": 13499.787109375,
+          "currentBytesPerActor": 13739.169921875,
+          "differenceBytesPerActor": 239.3828125
+        },
+        {
+          "previousBytesPerActor": 13499.638671875,
+          "currentBytesPerActor": 13739.232421875,
+          "differenceBytesPerActor": 239.59375
+        }
+      ]
+    }
+  ],
+  "interpretation": {
+    "repeatedGrantOverhead": "Shared refresh medians are 41.6–51.2% above the original, and capped independent grants are 18.9–27.1% above. These are measured batch costs with the declared call-through observers, not entire-frame regressions.",
+    "retainedActorCost": "Used and active Actor batches retain approximately 240 additional bytes per Actor. Never-buffed batches have no consistent measured increase. This includes warmed native Actor/stat state and does not measure total allocation volume.",
+    "orderSensitivity": "Idle/live timer, consumption and some frame rankings change direction across runs. In particular, independent live timers range from 69.4% above to 31.7% below the original. Those results do not establish a stable speed ranking; further targeted profiling or separately recorded stabilization is needed.",
+    "stress": "The explicit 4,096-clock partial-expiry case is 81.8–84.6% faster in these runs. This does not establish ordinary-gameplay speed improvement.",
+    "next": "Investigate repeated grant overhead and retained per-runtime state first. Preserve port snapshot/callback and reentrancy semantics. Keep all initial data; do not choose one order or replace these runs after optimization."
+  },
+  "limitations": [
+    "Desktop Windows Node only; Steam Deck, older mobile hardware and native engines are unmeasured.",
+    "No renderer FPS, general game-speed, peak-memory or allocation-volume claim.",
+    "Independent consumption repairs are excluded from equal-work timing comparisons.",
+    "The existing core benchmark also passed checksum/plan-build checks; its narrower resolved-contact scope is not evidence for these buff costs."
+  ]
+}

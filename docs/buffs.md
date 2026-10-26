@@ -5,7 +5,7 @@ implementation. The [manifest](../baseline/milestone-forty-one/acceptance.json)
 retains four unchanged helpers and fixtures, including their historical discovery
 wording. Two original runs, a measured v0.35 installation and an independent final
 v0.35 installation reproduce the same bytes. Standalone runtime, installed adapter
-and renderer checks pass; performance and final integration acceptance remain pending.
+and renderer checks pass; optimization and final integration acceptance remain pending.
 
 The boundary covers named grants, shared and independent clocks, modifier sources,
 event-gated consumption, explicit removal and timer-phase expiry. Recipient and
@@ -181,6 +181,39 @@ before delegating them.
 
 The runtime uses stable in-place clock compaction in place of repeated interior
 splices, preserving array identity, surviving order, publication timing and detached
-values. Its performance still requires comparison against the retained v0.35 graph.
-No speed, allocation-volume, Steam Deck, mobile or native-engine compatibility
-claim follows from the current correctness and local renderer checks.
+values. The initial comparison against retained v0.35 is recorded below; it does
+not establish a general speed improvement. Steam Deck, mobile and native-engine
+compatibility remain unverified.
+
+The [performance plan](../baseline/milestone-forty-one/performance-plan.json)
+freezes thirteen native workloads and six retained-memory cases before timing.
+They cover never-used and previously-used actors, live clocks, refresh/grants,
+tagged consumption, expiry and full World frames. Deep Carve's authored cap is
+twelve; grants at that cap do not refresh its clocks. A separate 4,096-clock
+case stresses partial expiry and does not represent normal gameplay occupancy.
+
+`npm run benchmark:buffs -- --location <location.json> --previous-adapter <v0.35-game>`
+compares isolated installed graphs without writing their source or packages.
+Use `--validate-only` to check receipts and released-Actor witnesses without
+recording timing or memory results. After optimization, pass the retained initial
+installation as `--comparison-adapter <initial-game>`. The helper and plan hashes
+must match. Timed comparisons require two independent runs with different initial
+`--order` values and no competing build, verification or renderer work.
+
+The consumption workload records intermediate damage values and stacks, alongside
+native callback counts and final state. Retained-memory batches include Actor and
+stat state with warmed query caches; they measure neither allocation volume nor
+peak memory. Independent consumption's intentional behavior repair is covered by
+correctness checks and excluded from equal-work comparisons with the original.
+
+Two [initial comparison runs](../evidence/milestone-forty-one/buffs-initial-performance.json)
+retain all 1,300 timed samples and 168 retained-heap observations, with matching
+canonical receipts. Shared refresh medians are 41.6–51.2% above the original;
+capped independent grants are 18.9–27.1% above. Used/active Actor batches retain
+approximately 240 additional bytes per Actor, while never-buffed batches show no
+consistent increase. These are costs to investigate before milestone acceptance.
+
+Several timer, consumption and frame rankings reverse between runs, so those
+measurements do not establish a stable speed ranking. The synthetic partial-expiry
+case improves 81.8–84.6%; that result cannot stand in for ordinary gameplay benefit.
+The report includes both orders, all raw observations and the measurement limits.
