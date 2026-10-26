@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "decision": "delayed-burst-game-adapter/v1",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "sourceBoundariesSha256": "69e2517b106ff83195bd0fb27756fe4e63a0160f9249adf4d83685c4e05fa812",
+  "runtimeContractSha256": "1956a674b6d0f3ee9f9165bc9a861e1f14157c2c654e255ca768a49fccffed53",
+  "predecessor": {
+    "commit": "aa1ff29402840b26284864b003a3e89638daeea3",
+    "worldSha256": "be814ebe8416c0854a8efa8ba20e9b7e9ee140d82ee1b2e8bd403376899a9834",
+    "note": "Guarded members are reconstructed by the reviewed ward and bank renderers; the ordinary preparation path retains all prior integrations.",
+    "reconstruction": [
+      "adapters/hollow-wake/integrate-proc-effects.mjs#renderProcEffectSource",
+      "adapters/hollow-wake/integrate-channel-banks.mjs#renderBankWorld"
+    ]
+  },
+  "members": {
+    "executeProc": "fe4ff9aa1d466c6b9f613fa0ed7efa26a80dfcd078c9b83bbc041a6aefb5b44b",
+    "updatePendingBursts": "85b0d2854317cbe46e6d003de7feb34b7c2f9fec13e665dfe8d418788d891fd0",
+    "pendingBursts": "f304b7ae5f7105204b7aaa4edba74f3a7cd3c80b79cf996655101744675633cc",
+    "loadZone": "95e0b1eec2b03218553cfa7d3cd2cc74885589ca5f931f585ef18005240d6fa5",
+    "update": "0a74b84806175075bc0f9958728dfb66f11f4e964f86f158a97c264710823d72"
+  },
+  "caseHashes": {
+    "gainCharge": "c5df65d74817305cddaae70b8d895b68b79d5fa08d9ae17f36ce9e9008a2ec23",
+    "buff": "b2c1c1d86bfe109dfcf9883cb7c6fda3c2b13dba459d95029fe2c48c2ebd69ae",
+    "status": "aa311ce1c8b10a67edd423f9815f14a92ab62deef7cbb7ed59606fb857372909",
+    "heal": "e26df276b716addffac11493c745d006cd905a28fc81c0154ae86a7c5259480e",
+    "restore": "78648003d4b4a6586114edb5e6ab43c74b1b10def754fdde895566dc51402341",
+    "burst": "2957b345cfa51c5cf481591a1bc0abf7723f019be9d7da21b5c23d79dd9b130c",
+    "delayedBurst": "73358ac6ecb15d6c148bf607c60c830d070ad511ddec9194bf955e0c6bd9ef19",
+    "fortify": "ae9dc67904ced4377737a81907d586dcc3f0a692e16c756ae14a54327c652456",
+    "cooldown": "be91dfd5b9e9524e165ca4f7a7afb9f34e78ccad1d9cdd0c044a0f20052a6d2f",
+    "removeBuff": "e7b262e13017124facfb0d0e0209578ec73c32179068404bc997b7f25fc86697",
+    "ward": "2e98fae68c9de40dd2f1c6963f57abde3cfded817dcc7e59027c9d9febbc039c",
+    "cleanse": "b9147ecd3fa73003a957543c5553e53df2a3786deb0a28702edbbbc742822fc8",
+    "kindle": "87fd461244099d56db0bd4f9ce84e5280524550b9672b58f432b1221c3e17b22",
+    "vent": "e366a077c36d826db2e4c371e99b7d3d76f1aa41dca820541d37a9f5b3687e14",
+    "cast": "3ff865c06731ea0e0126ea30fc5a761ae93ec7daf9fe64810711cfe437014265",
+    "extraHit": "f8221a96f137a7a4b7bc19cd78cb0e28e05ed9dcfbaa020d5325157fc83f8383",
+    "explosion": "dd5f809277d46ded7d62df716edb7464c6b69a7508ee18bfb7c8ec5f68c16a29",
+    "arc": "1aad5813702cb2037efa98d99e7474c2caa3d913bfd4b1108ae628f603e7bd84",
+    "displace": "30891dfb95782c7892eb23fb6fd7cd128c13714258558bda656dc96bd24bbac2",
+    "collisionDamage": "9b64afafb6f96c5a8d2eb1bfe7c37d419cfae165a05605f2fb17ae241d35f778",
+    "summon": "bd10bf55ac7535ca09c34eca4ac537a1a9cd8a7f1f34b79b0c153b652211105d",
+    "birth": "084a8b8ff72440c4454fb50a53cf34147abb47c832a1ae0eb0187fb53219e2f3"
+  },
+  "resetSha256": "92b8d19841d6d6e67f42c8b6d410da2ff8408df89e8707bae8129ce9f47eebc3",
+  "frameText": "this.updateTempGrounds(dt);\nthis.updateEvaporation(dt);\nthis.updatePendingBursts();\nthis.updatePendingContagions();\nthis.updateTerrainEffects(dt);",
+  "queueAccesses": {
+    "loadZone": 1,
+    "executeProc": 1,
+    "pendingBursts": 1,
+    "updatePendingBursts": 3
+  },
+  "reservedNames": [
+    "EngineDelayedBursts",
+    "delayedBurstEngine",
+    "delayedBurstPorts"
+  ],
+  "imports": [
+    "import {DelayedBursts as EngineDelayedBursts} from '@hollow-wake/engine/combat/delayed';",
+    "import {delayedBurstPorts} from './delayedBurstAdapter';"
+  ],
+  "helperAssertions": [
+    {
+      "helper": "reference/export-delayed-ordering.ts",
+      "course": "nested-drain-exhausts-outer-index",
+      "before": "assert.equal(s.drain(),'TypeError');assert.deepEqual(s.calls.map(c=>c.amount),[31,11]);assert.equal(s.w['pendingBursts'].length,0);assert.equal(s.actors[0].life,542);",
+      "after": "assert.equal(s.drain(),'Error');assert.deepEqual(s.calls.map(c=>c.amount),[31]);assert.equal(s.w['pendingBursts'].length,1);assert.equal(s.actors[0].life,531);"
+    },
+    {
+      "helper": "reference/export-delayed-ordering.ts",
+      "course": "clear-queue-during-callback",
+      "before": "assert.equal(s.drain(),'TypeError');",
+      "after": "assert.equal(s.drain(),null);"
+    },
+    {
+      "helper": "reference/export-delayed-ordering.ts",
+      "course": "replace-queue-during-callback",
+      "before": "assert.deepEqual(s.calls.map(c=>c.amount),[31,41]);assert.equal(s.w['pendingBursts'].length,0);",
+      "after": "assert.deepEqual(s.calls.map(c=>c.amount),[31]);assert.equal(s.w['pendingBursts'].length,1);"
+    },
+    {
+      "helper": "reference/export-delayed-descent.ts",
+      "course": null,
+      "before": "assert.equal(failure,count===2?'TypeError':null);",
+      "after": "assert.equal(failure,null);"
+    },
+    {
+      "helper": "reference/export-delayed-stale.ts",
+      "course": null,
+      "before": "assert.equal(failure,count===2?'TypeError':null);",
+      "after": "assert.equal(failure,null);"
+    },
+    {
+      "helper": "reference/export-delayed-stale.ts",
+      "course": null,
+      "before": "assert.equal(stale.life,950);",
+      "after": "assert.equal(stale.life,1000);"
+    }
+  ]
+}

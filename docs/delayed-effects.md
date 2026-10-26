@@ -1,8 +1,9 @@
 # Delayed effects: runtime and cancellation contract
 
 Milestone 40 starts with 48 pinned-original observations. The SDK scheduler and
-owned-content compiler are implemented; game integration and its original-source
-comparison are pending. The [acceptance manifest](../baseline/milestone-forty/acceptance.json)
+owned-content compiler are implemented. The first installed game adapter matches
+all 48 original scenarios with exactly the six predeclared repairs; frame/renderer,
+performance and managed-game acceptance remain pending. The [acceptance manifest](../baseline/milestone-forty/acceptance.json)
 retains the original helper and fixture bytes, including their historical
 discovery-scope wording. It does not adopt the recorded defects as SDK behavior.
 
@@ -104,7 +105,7 @@ delivery. Shared synchronous host ports supply the clock, queue, actor array,
 warning/impact visuals, native healing/mitigation, text, defense events and
 death. One scheduler per host owns only its drain guard and generation; the
 host retains its actor and queue records. Port tables need no per-frame or
-per-actor wrappers. The game adapter will delegate scheduling, draining and
+per-actor wrappers. The game adapter delegates scheduling, draining and
 the native queue-reset site, preserving other proc branches and the rider tail.
 
 The optional `compileDelayedBurstEffect(input, damageTypes)` compiler validates
@@ -137,8 +138,41 @@ The focused SDK suite has 42 checks, separate from the 48 original observations.
 It covers all five loaded definitions, mutation/ownership rules, iteration,
 cancellation after every delivery callback, exceptions and nested invocation.
 Twenty-four injected runtime defects must fail behavioral assertions, including
-removing each cancellation checkpoint. Those tests do not replace the pending
-48-course installed-game comparison against the explicit six repairs.
+removing each cancellation checkpoint. The separate installed-game comparison
+passes all 48 courses against the explicit six repairs.
+
+## Native game adapter
+
+The [source integration contract](../baseline/milestone-forty/adapter-contract.json)
+guards the scheduling case, queue declaration/accesses, drain, zone reset and
+frame adjacency before writing either host file. Its five member hashes match
+the retained M39 installation. Source tests reconstruct those members from the
+pinned original with the earlier ward and bank transformations, then reject
+100 faults across LF and CRLF inputs without partial writes. The other 21 effect
+branches, method signatures, executor context, rider tail, other World members
+and unrelated declarations remain unchanged.
+
+Each World owns a scheduler. A shared frozen callback table invokes native
+`healBy`, `mitigateTyped`, text, defense dispatch/sweeping and death at the
+original boundaries. The original pending queue remains host-owned. There are
+no new per-frame wrapper objects or per-target callback closures. This is a
+structural property, not a measured allocation-volume result.
+
+The installed comparison uses unchanged original helpers except six explicitly
+listed assertion edits in temporary copies. Each edit is restricted to complete
+assert calls in its named diagnostic; setup, catches and observations remain
+intact. Every output field matches the separately committed repair expectations.
+Four additional host cases verify exact warning/impact shapes and independent
+world nesting, plus real zone loading followed by restoration of the old queue
+reference at flash and healing callbacks. The latter diagnose generation
+cancellation without claiming that ordinary gameplay restores that private array.
+
+`adapter:delayed` is read-only by default. `--faults` requires a disposable
+installation under `.artifacts`, rejects retained game/tooling aliases and
+restores source/runtime bytes after every injected defect. Faults exercise the
+installed module, callback table and World delegation separately; all 17 are
+detected by assertions or complete output differences. The ordinary
+adapter preparation path and hosted verification include the new integration.
 
 The built module is 8,143 bytes of unminified JavaScript, within the previously
 declared 8 KiB allowance. The combined JavaScript ceiling is 500 KiB; prior
@@ -154,7 +188,13 @@ After `npm ci`, `npm run reference:prepare` and `npm run reference:install`:
 ```sh
 npm run reference:delayed-effects
 npm run test:delayed-package
+npm run adapter:delayed-source
+npm run adapter:prepare
+npm run adapter:delayed -- --location .artifacts/adapter-location.json
 ```
+
+Preparation creates a fresh disposable game. To inspect an existing installation,
+skip preparation and supply its location file; `--faults` is a separate opt-in.
 
 The reference command checks hashes, type-checks the seven helpers, runs the pinned
 original and compares exact fixture bytes. It writes diagnostics only under

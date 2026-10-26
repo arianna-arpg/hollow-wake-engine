@@ -34,6 +34,7 @@ import { integrateChannelBanks } from '../adapters/hollow-wake/integrate-channel
 import { integrateActorConditions } from '../adapters/hollow-wake/integrate-actor-conditions.mjs';
 import { integrateProcs } from '../adapters/hollow-wake/integrate-procs.mjs';
 import { integrateProcEffects } from '../adapters/hollow-wake/integrate-proc-effects.mjs';
+import { integrateDelayedBursts } from '../adapters/hollow-wake/integrate-delayed-bursts.mjs';
 const artifacts = path.join(root, '.artifacts');
 fs.mkdirSync(artifacts, { recursive: true });
 const requested = process.argv.indexOf('--game');
@@ -148,6 +149,9 @@ changes.procAdapterDecision = procs.decision;
 const procEffects = integrateProcEffects(game);
 changes.files.push(...procEffects.files);
 changes.procEffectAdapterDecision = procEffects.decision;
+const delayed = integrateDelayedBursts(game);
+changes.files.push(...delayed.files);
+changes.delayedAdapterDecision = delayed.decision;
 fs.symlinkSync(path.join(tooling, 'node_modules'), path.join(game, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
 fs.copyFileSync(path.join(root, 'reference/export-lifecycle.ts'), path.join(game, 'balance/export-engine-lifecycle.ts'));
 fs.writeFileSync(path.join(artifacts, 'adapter-location.json'), JSON.stringify({ game, tooling, package: packed.filename, integrity: packed.integrity, ...changes }, null, 2));
