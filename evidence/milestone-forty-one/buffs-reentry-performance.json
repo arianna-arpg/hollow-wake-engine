@@ -1,0 +1,574 @@
+{
+  "schemaVersion": 1,
+  "stage": "Reentry-storage candidate measured; final milestone integration and publication remain pending.",
+  "plan": {
+    "file": "baseline/milestone-forty-one/performance-plan.json",
+    "sha256": "2c2e84f6dc154dfbc668adaa8a71eccf0e3f7cc58f7beb3d6f11236a4f66c0ef"
+  },
+  "optimizationPlan": {
+    "file": "baseline/milestone-forty-one/optimization-plan.json",
+    "sha256": "349d1932e12f21571d4f2dacbc892d38b21684da2b95d193e44db957033c1f66"
+  },
+  "helper": {
+    "file": "reference/benchmark-buffs.ts",
+    "sha256": "ec9da09799cd65d52567a25616dd99f38c29078246c8700ce4aa51604127451d"
+  },
+  "controls": {
+    "original": {
+      "commit": "193b84fcee89cbde48af05ba0361a68f5a589bea",
+      "version": "0.35.0",
+      "archiveSha256": "067b8dfa2aa4818a31952eb071400ad35bbf9ffcc1b3a52700bc850d37ada09c",
+      "sourceMapSha256": "7880af5076365f1deb00819e987e91491e6eb8bbc39b66a442a2193e972eb93a",
+      "runtimeMapSha256": "65d3f3d821153834d6c3ac6c600f130c8e87d92996134d775e97fc283e415dfe"
+    },
+    "initial": {
+      "commit": "c5f52ea6eb9ca107cdc941974e7b0015d25b6ccd",
+      "version": "0.35.0",
+      "published": false,
+      "archiveSha256": "c564fd7388a40ff698c14f6f5d755befb9b40575082a2026e2069b2719a9f61b",
+      "sourceMapSha256": "7fd69753ef56bbecfed6c0ed1d083ff4bad4bfe6b8fcb8e7e2d742e3306fe110",
+      "runtimeMapSha256": "932f549130829880e8ebbe7126d04f5677836acc2cecd133b3ff628cabcfde29"
+    },
+    "candidate": {
+      "commit": "0cba77e0063fa1f0ac6990c826eff17a0190fc29",
+      "version": "0.35.0",
+      "published": false,
+      "archiveSha256": "cb1f8c9b69b74f64ca75c64adab9acf8296ce85d4d75e8a60489a036936051e3",
+      "sourceMapSha256": "7fd69753ef56bbecfed6c0ed1d083ff4bad4bfe6b8fcb8e7e2d742e3306fe110",
+      "runtimeMapSha256": "365e87b86dc1b970ce3e73ba8ea60ba13cabfa093c04fed32fdd98e00ede6c0c"
+    }
+  },
+  "runs": [
+    {
+      "file": "evidence/milestone-forty-one/buffs-reentry-run-1.json.gz",
+      "sha256": "8cc7421699531a70b6cd46ccf25776958522bfd62fd5ed85a50323c7a021e361",
+      "uncompressedSha256": "8cf7f1b0d4c13ca495eb67cdfd8b3f2added9a5f5a2c049239dc114a0d593c5e",
+      "bytes": 308605,
+      "graphOrder": [
+        "previous",
+        "current",
+        "comparison"
+      ],
+      "node": "v24.9.0",
+      "platform": "win32",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz"
+    },
+    {
+      "file": "evidence/milestone-forty-one/buffs-reentry-run-2.json.gz",
+      "sha256": "9c3460786f34c2c37dc327dfec73d2dbf4fafd54c885f1f9b0cd8787049f45a5",
+      "uncompressedSha256": "86e1d5273faeaff5be67eb65bdddc14da2736afbfdba7eda2212e0796a1f367c",
+      "bytes": 308640,
+      "graphOrder": [
+        "current",
+        "comparison",
+        "previous"
+      ],
+      "node": "v24.9.0",
+      "platform": "win32",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz"
+    }
+  ],
+  "graphKeys": {
+    "previous": "original v0.35",
+    "comparison": "initial M41",
+    "current": "reentry-storage candidate"
+  },
+  "timedSamples": 1950,
+  "retainedHeapObservations": 252,
+  "allCanonicalReceiptsEqualAcrossGraphsAndRuns": true,
+  "allSampledActorWitnessesReleased": true,
+  "controlsUnchanged": true,
+  "changedRuntimeOutputs": [
+    "buffs.js",
+    "buffs.js.map"
+  ],
+  "unchangedInitialRuntimeFiles": 187,
+  "unchangedPredecessorRuntimeFiles": 183,
+  "hostSourceFilesUnchangedFromInitial": 995,
+  "timings": [
+    {
+      "name": "never-buffed-timers",
+      "receiptSha256": "954e3da190bf6e0ccc0f1dc6b984d1f330cd64547664efab265d19d1ce73d585",
+      "runs": [
+        {
+          "originalMedianMs": 395.8426000000036,
+          "initialMedianMs": 403.95969999999943,
+          "candidateMedianMs": 408.1229000000021,
+          "candidateVsOriginalPercent": 3.102318952027505,
+          "candidateVsInitialPercent": 1.0305978541925498,
+          "originalP95Ms": 437.4400999999998,
+          "initialP95Ms": 427.648799999999,
+          "candidateP95Ms": 432.0965999999971
+        },
+        {
+          "originalMedianMs": 407.55689999999595,
+          "initialMedianMs": 402.40819999999803,
+          "candidateMedianMs": 410.83200000000215,
+          "candidateVsOriginalPercent": 0.8035933142111595,
+          "candidateVsInitialPercent": 2.093347004361279,
+          "originalP95Ms": 447.7487999999976,
+          "initialP95Ms": 488.4179000000004,
+          "candidateP95Ms": 920.5843000000023
+        }
+      ]
+    },
+    {
+      "name": "previously-buffed-empty-timers",
+      "receiptSha256": "dac2c6135b03c8922cce9e4a3b992a116f97c31203df4afdaf36563b443bed8a",
+      "runs": [
+        {
+          "originalMedianMs": 400.7302999999956,
+          "initialMedianMs": 419.1415999999881,
+          "candidateMedianMs": 402.50969999999506,
+          "candidateVsOriginalPercent": 0.4440392952565597,
+          "candidateVsInitialPercent": -3.9680862028473207,
+          "originalP95Ms": 433.06879999999364,
+          "initialP95Ms": 464.9869000000035,
+          "candidateP95Ms": 434.6116000000038
+        },
+        {
+          "originalMedianMs": 406.9121000000014,
+          "initialMedianMs": 424.49289999999746,
+          "candidateMedianMs": 415.95389999999315,
+          "candidateVsOriginalPercent": 2.2220523793693436,
+          "candidateVsInitialPercent": -2.0115766365007226,
+          "originalP95Ms": 438.75770000000193,
+          "initialP95Ms": 459.99060000000463,
+          "candidateP95Ms": 459.9542999999976
+        }
+      ]
+    },
+    {
+      "name": "shared-live-timers",
+      "receiptSha256": "d62c8fb352de0764ce4ddcff392a31ef0a7e5a5fcb4d520a731f0063c95d3157",
+      "runs": [
+        {
+          "originalMedianMs": 95.04129999999714,
+          "initialMedianMs": 98.75719999999274,
+          "candidateMedianMs": 95.66220000000612,
+          "candidateVsOriginalPercent": 0.6532949360004592,
+          "candidateVsInitialPercent": -3.1339487146120337,
+          "originalP95Ms": 115.79700000000594,
+          "initialP95Ms": 119.835699999996,
+          "candidateP95Ms": 112.69599999999627
+        },
+        {
+          "originalMedianMs": 96.74159999999392,
+          "initialMedianMs": 100.63159999999334,
+          "candidateMedianMs": 102.32449999998789,
+          "candidateVsOriginalPercent": 5.770940319360363,
+          "candidateVsInitialPercent": 1.682274752656876,
+          "originalP95Ms": 112.01050000000396,
+          "initialP95Ms": 114.35970000000088,
+          "candidateP95Ms": 118.22590000001946
+        }
+      ]
+    },
+    {
+      "name": "independent-live-timers",
+      "receiptSha256": "9c365bb621e508911d5618e81500281f5b47c4f88d3d97ec323f110026c3a3d1",
+      "runs": [
+        {
+          "originalMedianMs": 58.701900000014575,
+          "initialMedianMs": 68.24099999997998,
+          "candidateMedianMs": 65.2215000000142,
+          "candidateVsOriginalPercent": 11.10628446438362,
+          "candidateVsInitialPercent": -4.424759308870996,
+          "originalP95Ms": 69.44039999999222,
+          "initialP95Ms": 76.4826999999932,
+          "candidateP95Ms": 71.64990000001853
+        },
+        {
+          "originalMedianMs": 61.51459999999497,
+          "initialMedianMs": 69.42350000000442,
+          "candidateMedianMs": 68.28809999997611,
+          "candidateVsOriginalPercent": 11.011207095521547,
+          "candidateVsInitialPercent": -1.6354692575687446,
+          "originalP95Ms": 67.58819999999832,
+          "initialP95Ms": 74.41810000000987,
+          "candidateP95Ms": 77.58740000001853
+        }
+      ]
+    },
+    {
+      "name": "shared-refresh",
+      "receiptSha256": "ebb9cc9100086371995cacd8c9d3e802a7a26f68ff30f376d76286140fab9a06",
+      "runs": [
+        {
+          "originalMedianMs": 4.900900000007823,
+          "initialMedianMs": 6.446599999995669,
+          "candidateMedianMs": 6.522399999987101,
+          "candidateVsOriginalPercent": 33.08575975793608,
+          "candidateVsInitialPercent": 1.1758136070406433,
+          "originalP95Ms": 5.3893000000098255,
+          "initialP95Ms": 8.11720000000787,
+          "candidateP95Ms": 7.663100000005215
+        },
+        {
+          "originalMedianMs": 4.757500000006985,
+          "initialMedianMs": 6.42870000001858,
+          "candidateMedianMs": 6.611300000018673,
+          "candidateVsOriginalPercent": 38.96584340533824,
+          "candidateVsInitialPercent": 2.840387636684949,
+          "originalP95Ms": 6.345899999985704,
+          "initialP95Ms": 8.0230000000156,
+          "candidateP95Ms": 10.451800000009825
+        }
+      ]
+    },
+    {
+      "name": "independent-at-cap-grant",
+      "receiptSha256": "7b3f7032b9196248a2cca90675c2849fbeca7fbc6ff90487d5c0ebcaf0e1c1ad",
+      "runs": [
+        {
+          "originalMedianMs": 8.423099999985425,
+          "initialMedianMs": 9.277799999981653,
+          "candidateMedianMs": 9.425499999983003,
+          "candidateVsOriginalPercent": 11.900606664996417,
+          "candidateVsInitialPercent": 1.5919722348147536,
+          "originalP95Ms": 9.668499999999767,
+          "initialP95Ms": 9.849199999996927,
+          "candidateP95Ms": 10.475699999980861
+        },
+        {
+          "originalMedianMs": 7.6313999999838416,
+          "initialMedianMs": 8.914099999994505,
+          "candidateMedianMs": 9.029500000004191,
+          "candidateVsOriginalPercent": 18.320360615657805,
+          "candidateVsInitialPercent": 1.294578252541001,
+          "originalP95Ms": 10.424899999983609,
+          "initialP95Ms": 12.105700000014622,
+          "candidateP95Ms": 13.34539999999106
+        }
+      ]
+    },
+    {
+      "name": "shared-consume-regrant",
+      "receiptSha256": "f2f23b6401ff0ba266d47e1be45803bd7c5c2f108ac337a74dab0ff5641ebd8e",
+      "runs": [
+        {
+          "originalMedianMs": 43.959499999997206,
+          "initialMedianMs": 47.32860000000801,
+          "candidateMedianMs": 47.73519999999553,
+          "candidateVsOriginalPercent": 8.589042186554806,
+          "candidateVsInitialPercent": 0.8590999944799727,
+          "originalP95Ms": 48.20579999999609,
+          "initialP95Ms": 60.35779999999795,
+          "candidateP95Ms": 53.16319999998086
+        },
+        {
+          "originalMedianMs": 44.59769999998389,
+          "initialMedianMs": 50.416399999987334,
+          "candidateMedianMs": 48.60559999998077,
+          "candidateVsOriginalPercent": 8.98678631408869,
+          "candidateVsInitialPercent": -3.5916884188617604,
+          "originalP95Ms": 53.66159999999218,
+          "initialP95Ms": 62.885699999984354,
+          "candidateP95Ms": 55.064400000002934
+        }
+      ]
+    },
+    {
+      "name": "independent-mixed-expiry",
+      "receiptSha256": "e8f522ef292eb22afb77763762d0ec4bc96aba7a814f7eb64da85e58b02d5e1e",
+      "runs": [
+        {
+          "originalMedianMs": 66.6987000000081,
+          "initialMedianMs": 66.53070000000298,
+          "candidateMedianMs": 65.75960000001942,
+          "candidateVsOriginalPercent": -1.4079734687311274,
+          "candidateVsInitialPercent": -1.1590138086380097,
+          "originalP95Ms": 77.84930000000168,
+          "initialP95Ms": 76.30009999999311,
+          "candidateP95Ms": 84.56969999999274
+        },
+        {
+          "originalMedianMs": 71.47309999997378,
+          "initialMedianMs": 67.4030999999959,
+          "candidateMedianMs": 67.96979999999166,
+          "candidateVsOriginalPercent": -4.901564364751776,
+          "candidateVsInitialPercent": 0.8407625168513011,
+          "originalP95Ms": 81.11680000001797,
+          "initialP95Ms": 80.90260000000126,
+          "candidateP95Ms": 81.64089999999851
+        }
+      ]
+    },
+    {
+      "name": "independent-dense-expiry",
+      "receiptSha256": "a472dd178b74a3193efe4972110a2f63acf5d757d2ef0a2ce8aa1e0273aaa67c",
+      "runs": [
+        {
+          "originalMedianMs": 67.1872999999905,
+          "initialMedianMs": 66.59540000002016,
+          "candidateMedianMs": 64.83209999999963,
+          "candidateVsOriginalPercent": -3.505424388226952,
+          "candidateVsInitialPercent": -2.6477804773602953,
+          "originalP95Ms": 92.20240000000922,
+          "initialP95Ms": 103.69130000000587,
+          "candidateP95Ms": 77.30830000000424
+        },
+        {
+          "originalMedianMs": 66.70599999997648,
+          "initialMedianMs": 65.46880000000237,
+          "candidateMedianMs": 64.66949999998906,
+          "candidateVsOriginalPercent": -3.0529487602136918,
+          "candidateVsInitialPercent": -1.220886895763007,
+          "originalP95Ms": 74.49629999999888,
+          "initialP95Ms": 83.28409999998985,
+          "candidateP95Ms": 81.48979999998119
+        }
+      ]
+    },
+    {
+      "name": "synthetic-large-expiry",
+      "receiptSha256": "3e6199c5f3d920c08e028f090949fc6bdc194bff1028395ae36d0c86c4aa5c01",
+      "runs": [
+        {
+          "originalMedianMs": 82.02509999999893,
+          "initialMedianMs": 17.62009999997099,
+          "candidateMedianMs": 17.934700000012526,
+          "candidateVsOriginalPercent": -78.13510742441916,
+          "candidateVsInitialPercent": 1.7854609227079044,
+          "originalP95Ms": 88.85670000000391,
+          "initialP95Ms": 19.601900000008754,
+          "candidateP95Ms": 19.836799999990035
+        },
+        {
+          "originalMedianMs": 81.75710000001709,
+          "initialMedianMs": 17.550600000016857,
+          "candidateMedianMs": 17.634699999995064,
+          "candidateVsOriginalPercent": -78.43037485430455,
+          "candidateVsInitialPercent": 0.47918589665383315,
+          "originalP95Ms": 87.0683999999892,
+          "initialP95Ms": 19.40109999998822,
+          "candidateP95Ms": 18.795100000017555
+        }
+      ]
+    },
+    {
+      "name": "quiet-world-frames",
+      "receiptSha256": "6e81d2337f500faae9012c17fc0122f2c35453e0dd84ba0c03a891fc998f9499",
+      "runs": [
+        {
+          "originalMedianMs": 205.2321000000229,
+          "initialMedianMs": 209.17790000000969,
+          "candidateMedianMs": 209.11680000001797,
+          "candidateVsOriginalPercent": 1.8928325539692148,
+          "candidateVsInitialPercent": -0.029209586668432763,
+          "originalP95Ms": 220.4475000000093,
+          "initialP95Ms": 245.14400000002934,
+          "candidateP95Ms": 219.9247000000032
+        },
+        {
+          "originalMedianMs": 218.38199999998324,
+          "initialMedianMs": 219.36079999999492,
+          "candidateMedianMs": 214.18839999998454,
+          "candidateVsOriginalPercent": -1.9203047870241186,
+          "candidateVsInitialPercent": -2.3579418018217058,
+          "originalP95Ms": 323.1675999999861,
+          "initialP95Ms": 321.1240000000107,
+          "candidateP95Ms": 338.45899999997346
+        }
+      ]
+    },
+    {
+      "name": "buffed-world-frames",
+      "receiptSha256": "6fc328d842f8a6782090888d67da010b91db95be71ef1deb73486651cd970d28",
+      "runs": [
+        {
+          "originalMedianMs": 210.78330000001006,
+          "initialMedianMs": 204.48790000000736,
+          "candidateMedianMs": 199.4472999999998,
+          "candidateVsOriginalPercent": -5.378035166927219,
+          "candidateVsInitialPercent": -2.464986925880386,
+          "originalP95Ms": 222.38769999996293,
+          "initialP95Ms": 225.66880000004312,
+          "candidateP95Ms": 207.4314000000013
+        },
+        {
+          "originalMedianMs": 218.7958000000217,
+          "initialMedianMs": 209.61170000000857,
+          "candidateMedianMs": 211.34460000001127,
+          "candidateVsOriginalPercent": -3.4055498323138256,
+          "candidateVsInitialPercent": 0.8267191192107282,
+          "originalP95Ms": 284.3006999999634,
+          "initialP95Ms": 268.67050000000745,
+          "candidateP95Ms": 248.73459999996703
+        }
+      ]
+    },
+    {
+      "name": "casting-world-frames",
+      "receiptSha256": "874a2c7cb31dbe12fe7bc6d49d3686a4b8c127b5cbe81c9760472d59e1671e44",
+      "runs": [
+        {
+          "originalMedianMs": 176.71940000000177,
+          "initialMedianMs": 178.8243000000366,
+          "candidateMedianMs": 174.9680000000517,
+          "candidateVsOriginalPercent": -0.9910626676811196,
+          "candidateVsInitialPercent": -2.156474259921115,
+          "originalP95Ms": 216.5849000000162,
+          "initialP95Ms": 212.8753999999608,
+          "candidateP95Ms": 194.86780000000726
+        },
+        {
+          "originalMedianMs": 184.60470000002533,
+          "initialMedianMs": 188.48710000002757,
+          "candidateMedianMs": 180.4036999999662,
+          "candidateVsOriginalPercent": -2.275673371294751,
+          "candidateVsInitialPercent": -4.288569350401272,
+          "originalP95Ms": 206.2620000000461,
+          "initialP95Ms": 216.9880000000121,
+          "candidateP95Ms": 218.63020000001416
+        }
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "mode": "never-buffed",
+      "count": 1024,
+      "receiptSha256": "0d41b403813efacb3ed6885aaf69d1077145ec6187ddfbcf94cfe1527392725f",
+      "runs": [
+        {
+          "originalBytesPerActor": 11343.9609375,
+          "initialBytesPerActor": 11343.9609375,
+          "candidateBytesPerActor": 11343.9609375,
+          "candidateMinusOriginalBytesPerActor": 0,
+          "candidateMinusInitialBytesPerActor": 0
+        },
+        {
+          "originalBytesPerActor": 11343.9609375,
+          "initialBytesPerActor": 11343.9609375,
+          "candidateBytesPerActor": 11343.9609375,
+          "candidateMinusOriginalBytesPerActor": 0,
+          "candidateMinusInitialBytesPerActor": 0
+        }
+      ]
+    },
+    {
+      "mode": "never-buffed",
+      "count": 4096,
+      "receiptSha256": "8a90bb67544133f5b7059a2897c36804fb632e8bed35e9be2f4d5007c20c9736",
+      "runs": [
+        {
+          "originalBytesPerActor": 11343.990234375,
+          "initialBytesPerActor": 11343.990234375,
+          "candidateBytesPerActor": 11343.990234375,
+          "candidateMinusOriginalBytesPerActor": 0,
+          "candidateMinusInitialBytesPerActor": 0
+        },
+        {
+          "originalBytesPerActor": 11343.990234375,
+          "initialBytesPerActor": 11343.990234375,
+          "candidateBytesPerActor": 11343.990234375,
+          "candidateMinusOriginalBytesPerActor": 0,
+          "candidateMinusInitialBytesPerActor": 0
+        }
+      ]
+    },
+    {
+      "mode": "previously-buffed-empty",
+      "count": 1024,
+      "receiptSha256": "f91f49fd4b10f3913c67c570916cd9459d4301b35639b294cc7322af237b3ce4",
+      "runs": [
+        {
+          "originalBytesPerActor": 11559.9609375,
+          "initialBytesPerActor": 11799.9609375,
+          "candidateBytesPerActor": 11703.9609375,
+          "candidateMinusOriginalBytesPerActor": 144,
+          "candidateMinusInitialBytesPerActor": -96
+        },
+        {
+          "originalBytesPerActor": 11559.9609375,
+          "initialBytesPerActor": 11799.9609375,
+          "candidateBytesPerActor": 11703.9609375,
+          "candidateMinusOriginalBytesPerActor": 144,
+          "candidateMinusInitialBytesPerActor": -96
+        }
+      ]
+    },
+    {
+      "mode": "previously-buffed-empty",
+      "count": 4096,
+      "receiptSha256": "56a93217fb71ed01d5ed35e83859c16144130f304d4593291595d05adb42ac71",
+      "runs": [
+        {
+          "originalBytesPerActor": 11559.990234375,
+          "initialBytesPerActor": 11799.990234375,
+          "candidateBytesPerActor": 11703.990234375,
+          "candidateMinusOriginalBytesPerActor": 144,
+          "candidateMinusInitialBytesPerActor": -96
+        },
+        {
+          "originalBytesPerActor": 11559.990234375,
+          "initialBytesPerActor": 11799.990234375,
+          "candidateBytesPerActor": 11703.990234375,
+          "candidateMinusOriginalBytesPerActor": 144,
+          "candidateMinusInitialBytesPerActor": -96
+        }
+      ]
+    },
+    {
+      "mode": "active-shared-and-independent",
+      "count": 1024,
+      "receiptSha256": "b7c3cc11323bf32a8377d245809a8286b359cf495dae14435bfa95a9ce78d171",
+      "runs": [
+        {
+          "originalBytesPerActor": 13503.9609375,
+          "initialBytesPerActor": 13743.9609375,
+          "candidateBytesPerActor": 13647.9609375,
+          "candidateMinusOriginalBytesPerActor": 144,
+          "candidateMinusInitialBytesPerActor": -96
+        },
+        {
+          "originalBytesPerActor": 13503.9609375,
+          "initialBytesPerActor": 13743.9609375,
+          "candidateBytesPerActor": 13647.9609375,
+          "candidateMinusOriginalBytesPerActor": 144,
+          "candidateMinusInitialBytesPerActor": -96
+        }
+      ]
+    },
+    {
+      "mode": "active-shared-and-independent",
+      "count": 4096,
+      "receiptSha256": "f1f3e97bc131804d1f02ff294d71c0c747f449fca3bc16a30e6399cb8687ea3f",
+      "runs": [
+        {
+          "originalBytesPerActor": 13499.599609375,
+          "initialBytesPerActor": 13738.982421875,
+          "candidateBytesPerActor": 13642.896484375,
+          "candidateMinusOriginalBytesPerActor": 143.296875,
+          "candidateMinusInitialBytesPerActor": -96.0859375
+        },
+        {
+          "originalBytesPerActor": 13499.607421875,
+          "initialBytesPerActor": 13739.162109375,
+          "candidateBytesPerActor": 13642.966796875,
+          "candidateMinusOriginalBytesPerActor": 143.359375,
+          "candidateMinusInitialBytesPerActor": -96.1953125
+        }
+      ]
+    }
+  ],
+  "interpretation": {
+    "memory": "Used/active Actor graphs retain approximately 96 fewer bytes than the initial extraction, reducing its approximately 240-byte overhead to about 144 bytes. This is a 40% reduction in that added overhead, less than 1% of the full measured Actor graph. Never-buffed medians are identical across all three graphs.",
+    "cpu": "CPU results are mixed. Previously-used empty timers, independent live timers, dense expiry and casting frames have lower candidate medians than the initial extraction in both runs; some other rankings reverse. Do not infer a general game-speed improvement or statistical certainty.",
+    "remainingCosts": "Shared refresh medians remain 33.1–39.0% above the native original; capped independent grants remain 11.9–18.3% above it. Independent live timers are approximately 11% above the original in these three-graph runs. The earlier two-graph order reversals remain recorded and cannot be discarded.",
+    "stress": "The 4,096-clock synthetic partial-expiry case remains about 78% below the original. Its candidate median is 0.5–1.8% above the initial extraction; the reentry refactor does not establish an additional stress-case gain.",
+    "next": "Investigate or explicitly adjudicate the remaining ordinary-workload costs before final milestone acceptance; retain all observations and preserve callback, ownership and collection guarantees."
+  },
+  "limitations": [
+    "Desktop Windows Node only; no Steam Deck, older-mobile or native-engine performance acceptance.",
+    "All graphs are loaded in one process and invoked through rotating call sites with call-through observers. JIT interactions and observer overhead limit inference to an uninstrumented single installed game.",
+    "Retained-heap observations measure warmed Actor graphs after grants/removal; they are not allocation-volume, peak-memory or deep-nesting byte measurements.",
+    "Deeply nested callback chains have behavioral and collection coverage, not a timing comparison.",
+    "No general speed, FPS, pixel-equivalence or absolute-optimization claim. Independent-consumption repairs remain excluded from equal-work comparisons."
+  ],
+  "generalCpuSpeedupClaimed": false,
+  "milestoneAccepted": false
+}

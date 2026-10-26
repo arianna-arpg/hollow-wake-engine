@@ -217,3 +217,23 @@ Several timer, consumption and frame rankings reverse between runs, so those
 measurements do not establish a stable speed ranking. The synthetic partial-expiry
 case improves 81.8–84.6%; that result cannot stand in for ordinary gameplay benefit.
 The report includes both orders, all raw observations and the measurement limits.
+
+The [reentry-storage candidate](../baseline/milestone-forty-one/optimization-plan.json)
+replaces the per-runtime WeakSet with a current-owner record and a temporary,
+bounded ancestor array for nested calls. Five additional behavior/collection cases
+pass on both implementations. The candidate passes 558 SDK tests, 29 runtime fault
+probes, 22 installed faults and the unchanged native renderer observations.
+
+Its [two three-graph comparisons](../evidence/milestone-forty-one/buffs-reentry-performance.json)
+retain 1,950 timing samples and 252 heap observations. Used/active Actor graphs
+retain about 96 fewer bytes than the initial extraction: added overhead falls
+from about 240 to 144 bytes per Actor. That is 40% less added overhead, below 1%
+of the full measured Actor graph. Never-buffed medians remain unchanged.
+
+CPU results remain mixed. Shared refresh costs 33.1–39.0% more than the original,
+capped grants 11.9–18.3% more, and independent live timers approximately 11% more
+in these runs. The prior order-sensitive observations are still retained. All
+graphs share a process and instrumented call sites; those measurements cannot
+establish an overall speed improvement for an uninstrumented installed game.
+Deep callback nesting is checked for behavior and owner collection, not timed.
+Final milestone acceptance and physical-device validation remain pending.
