@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "decision": "delayed-polling-order-study/v1",
+  "basePlan": "baseline/milestone-forty/performance-plan.json",
+  "basePlanSha256": "394f8ac62a9e5ea398e5f5cde162a3dfe3471e0f88bd9018ea15d1c5570fbcaf",
+  "reason": "Adding a third retained graph materially changed some control timings. Test sensitivity to the first execution order before crediting larger delivery improvements.",
+  "runtimeChange": "Remove only the cancellation check at the start of each pending-entry iteration. Coherent read ports and plain envelopes cannot change queue identity/generation. All eight post-delivery checkpoints, per-entry clock reads, entry guard and finally cleanup remain.",
+  "priorHelperSha256": "558758d7d78f2b016322fe3aad123a4985683e328e0b468d35eb0f885e1dc341",
+  "orderedHelperSha256": "290d76975cd5e71237b80c17b024177252f7c2fc90f366fa2a4e8c4bd0e9b836",
+  "workloadSetupAndTimedOperationsUnchanged": true,
+  "defaultRuns": 2,
+  "defaultOrder": [
+    "previous",
+    "current",
+    "comparison"
+  ],
+  "supplementalOrders": [
+    [
+      "current",
+      "comparison",
+      "previous"
+    ],
+    [
+      "comparison",
+      "previous",
+      "current"
+    ]
+  ],
+  "firstWarmupGraph": [
+    "current",
+    "comparison",
+    "previous"
+  ],
+  "method": "Keep the existing nine workloads, eight warmups, 25 rotating samples and seven paired heap samples per size. Only rotate the graph-label order. These two extra runs are sensitivity diagnostics, not equally replicated factorial groups. Module import order stays unchanged.",
+  "reporting": "Retain all four datasets and compare candidate, initial SDK and predecessor within each run. Do not pool selected best samples or attribute graph-context/order effects to general engine performance. Decline broad delivery/frame speed claims if results are inconsistent."
+}

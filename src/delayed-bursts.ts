@@ -78,7 +78,7 @@ export class DelayedBursts<H,O extends DelayedBurstOwner,A extends DelayedBurstA
     try {
       const ports=this.ports,generation=this.generation,queue=ports.queue(host);
       for(let i=queue.length-1;i>=0;i--){
-        if(this.cancelled(host,queue,generation))return;
+        // Pure reads cannot cancel; check every delivery callback below.
         const burst=queue[i];
         if(ports.time(host)<burst.when)continue;
         queue.splice(i,1);

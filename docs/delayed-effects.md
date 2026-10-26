@@ -175,7 +175,7 @@ installed module, callback table and World delegation separately; all 17 are
 detected by assertions or complete output differences. The ordinary
 adapter preparation path and hosted verification include the new integration.
 
-The built module is 8,143 bytes of unminified JavaScript, within the previously
+The initial built module is 8,143 bytes of unminified JavaScript, within the previously
 declared 8 KiB allowance. The combined JavaScript ceiling is 500 KiB; prior
 module/core limits remain unchanged. It has no imports and is not an eager core
 dependency. This size result is not a speed or allocation measurement.
@@ -235,6 +235,62 @@ peak memory, per-World cost or a mobile memory budget. The results do not justif
 introducing a database query, heap, spatial index or fixed-capacity pool into
 this ordered, callback-sensitive path. Any optimization must retain this initial
 control and pass the cancellation and original-outcome comparisons again.
+
+## Polling refinement
+
+The pending-entry loop no longer repeats the queue/generation cancellation check
+before pure reads. Coherent read ports and plain envelopes cannot cancel a drain;
+all eight checks after delivery callbacks remain, as do the active guard,
+per-entry clock read and finally cleanup. The 48 original courses (including the
+six separately accepted repairs), four native host probes, 17 installed faults,
+520 SDK tests, game types, smoke and prior-effect comparisons pass again. The
+994 game source files are unchanged; only the delayed runtime and its source map
+differ from the retained initial SDK. The module is now 8,136 bytes inside the
+unchanged 8 KiB bound.
+
+[All four datasets](../evidence/milestone-forty/delayed-polling-performance.json)
+include 2,700 timed samples and 168 paired heap samples. The first two runs repeat
+the default three-graph order. When the third graph changed retained control
+timings, the [supplemental plan](../baseline/milestone-forty/polling-order-study.json)
+added two runs with different first-execution orders. Workload setup and timed
+operations stayed byte-identical; the helper gained only order selection and
+receipt metadata. Imports still run in the original order. These diagnostics
+cover all first-warmup positions but are not balanced factorial replications;
+process/run variation remains.
+
+| Workload | Median CPU change versus initial SDK, runs 1 / 2 / 3 / 4 |
+| --- | --- |
+| Empty queue | −12.8% / 0.0% / −9.4% / −4.2% |
+| 32 waiting entries | −13.8% / −14.3% / −8.9% / −12.5% |
+| Sparse delivery | −13.3% / −5.3% / −0.6% / −7.3% |
+| Dense delivery | −15.5% / −3.6% / +3.6% / +1.4% |
+| Filtered delivery | −4.9% / −9.8% / +6.3% / −4.1% |
+| Contacts, 0.25 seconds | −1.7% / −1.0% / −2.1% / −2.2% |
+| Contacts, 0.75 seconds | −3.1% / −1.8% / −0.7% / −1.2% |
+| Quiet frames | +1.2% / −0.6% / −0.3% / −1.8% |
+| Casting frames | −3.7% / −0.7% / −3.3% / −0.5% |
+
+Waiting batches improve by 8.9–14.3%, about 6.7–12.7 nanoseconds per drain, but
+remain 9.1–24.3% above the native predecessor. These are batch averages. Dense
+and filtered delivery rankings vary across runs/orders, and even the unchanged
+empty path varies. The larger delivery gains do not establish a general engine
+speedup. Quiet frames range from 1.6% below to 1.2% above the predecessor; casting
+frames remain 0.5–1.4% above it. Retained queue memory stays about 176–178 bytes
+per entry. No device, rendered FPS, allocation-volume or peak-memory claim follows.
+
+`--order` accepts each graph label exactly once. For a three-graph comparison,
+repeat the default command and then use both supplemental orders:
+
+```sh
+# Append to the comparison command with all three graph paths supplied.
+--order current,comparison,previous
+--order comparison,previous,current
+```
+
+With eight warmups, the first executed graph is the middle label of each list.
+The default order is previous,current,comparison. All measurement receipts name
+their helper hash; the first two use the earlier helper at ed124ebb, while the
+order diagnostics use the new helper recorded in the supplemental plan.
 
 ## Reproduction
 
