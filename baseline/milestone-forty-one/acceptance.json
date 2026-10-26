@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "milestone": 41,
+  "stage": "Forty original buff observations accepted before implementation. Native defects remain unchanged in these fixtures; one implementation repair is separately declared.",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLock": "baseline/source-lock.json",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "predecessor": {
+    "version": "0.35.0",
+    "commit": "193b84fcee89cbde48af05ba0361a68f5a589bea",
+    "archive": "sha512-h5b0gBFdE8c82QbxnhnahqEsH2u5aoogR06aR4lOt+1tBzSCLZz+r1twMtW1LW4bZ4bGNBO9A3JPJ6W/Gof+iQ=="
+  },
+  "courses": 40,
+  "helpers": [
+    {
+      "file": "reference/export-buff-lifecycle.ts",
+      "sha256": "83a4c6153976fa2402f1564c6de973136715b0331597738586484c8908f42e2b"
+    },
+    {
+      "file": "reference/export-buff-edges.ts",
+      "sha256": "1cc53487a8e65a2e8a564d9e5e6b4acc9da6670f97bf2cf9d9ac06ff7138b884"
+    },
+    {
+      "file": "reference/export-buff-world.ts",
+      "sha256": "19f71e0f0d67258b76a4ce41d87ff6baf414c90bde03ba4e499638a8c5ec4dfd"
+    },
+    {
+      "file": "reference/export-buff-callbacks.ts",
+      "sha256": "6b8df86edda766e10e1f73fe942f731f98408cc59ab7c01b5b409c13d53ecf52"
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "buff-lifecycle",
+      "courses": 12,
+      "helper": "reference/export-buff-lifecycle.ts",
+      "helperSha256": "83a4c6153976fa2402f1564c6de973136715b0331597738586484c8908f42e2b",
+      "file": "baseline/milestone-forty-one/buff-lifecycle.json.gz",
+      "compressedSha256": "02622cb8af2fdd4c74fdf8970c88875f869a7fb22e9dbaa4cf3d719f7465f975",
+      "fixtureSha256": "6b8d51e3ae9137d70086f26a750ad919a21fd37fb39ad3e025a13d627dd036d3",
+      "args": []
+    },
+    {
+      "name": "buff-edges",
+      "courses": 12,
+      "helper": "reference/export-buff-edges.ts",
+      "helperSha256": "1cc53487a8e65a2e8a564d9e5e6b4acc9da6670f97bf2cf9d9ac06ff7138b884",
+      "file": "baseline/milestone-forty-one/buff-edges.json.gz",
+      "compressedSha256": "3d4361d71f7830aee8f0987912fef7cd23de7e99dd455061721597a79844ce7f",
+      "fixtureSha256": "65016e1af17cff87ad6ba9621fd7d4e0ef73282067e0acac439002003ddef569",
+      "args": []
+    },
+    {
+      "name": "buff-world",
+      "courses": 8,
+      "helper": "reference/export-buff-world.ts",
+      "helperSha256": "19f71e0f0d67258b76a4ce41d87ff6baf414c90bde03ba4e499638a8c5ec4dfd",
+      "file": "baseline/milestone-forty-one/buff-world.json.gz",
+      "compressedSha256": "24f6a56ff22dd0c08f9c0ec2b326c47a8e89244650990bcdc06a8504f4066444",
+      "fixtureSha256": "10d2ae7ef093e154d13ed6c1d13fe3694b3f20c3a8cfb792342ece53e2dd948c",
+      "args": []
+    },
+    {
+      "name": "buff-callbacks",
+      "courses": 8,
+      "helper": "reference/export-buff-callbacks.ts",
+      "helperSha256": "6b8df86edda766e10e1f73fe942f731f98408cc59ab7c01b5b409c13d53ecf52",
+      "file": "baseline/milestone-forty-one/buff-callbacks.json.gz",
+      "compressedSha256": "424b9481b8252434f1fa475687b34ada2290d5c29bee27d4eb062da4c8ae9a1e",
+      "fixtureSha256": "8ece930b22c7a4db904350e8433612ebb8359e5e5f0a192e127750c082767468",
+      "args": []
+    }
+  ],
+  "sourceBoundaries": {
+    "file": "baseline/milestone-forty-one/source-boundaries.json",
+    "sha256": "ef020cfd3df16f6b92dc7cfe5586dd13b2ef0f06067ef0792f03f67e4f794b15"
+  },
+  "decision": {
+    "file": "baseline/milestone-forty-one/independent-consumption-decision.json",
+    "sha256": "5887dc4b74ec5c6e7a372c4c2e762938887a50ce8f9686985074fccd3fbadd00"
+  },
+  "reproduction": {
+    "originalRuns": 2,
+    "measuredPredecessorRuns": 1,
+    "independentFinalInstallationRuns": 1,
+    "allRawOutputsByteEqual": true
+  },
+  "scope": "Native method, callback and authored World observations. No complete buff implementation, renderer, performance, device or native-engine acceptance is inferred."
+}

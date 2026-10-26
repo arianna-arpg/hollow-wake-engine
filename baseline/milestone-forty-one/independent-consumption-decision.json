@@ -1,0 +1,101 @@
+{
+  "id": "independent-buff-consumption/v1",
+  "status": "Implementation decision recorded before production code; runtime and adapter acceptance remain pending.",
+  "sourceFixtureSha256": "6b8d51e3ae9137d70086f26a750ad919a21fd37fb39ad3e025a13d627dd036d3",
+  "expectedSha256": "ad11f1686d30313d669187181c3aff19b55a3a9a2f9bbeb47ae49e8d773ca2de",
+  "course": "independent-spend-expiry-consistency-diagnostic",
+  "changes": [
+    {
+      "path": [
+        "rows",
+        6,
+        "stages",
+        1,
+        "buffs",
+        0,
+        "expiries"
+      ],
+      "before": [
+        3,
+        8,
+        8,
+        8
+      ],
+      "after": [
+        8,
+        8
+      ]
+    },
+    {
+      "path": [
+        "rows",
+        6,
+        "stages",
+        2,
+        "buffs",
+        0,
+        "expiries"
+      ],
+      "before": [
+        5,
+        5,
+        5
+      ],
+      "after": [
+        5,
+        5
+      ]
+    },
+    {
+      "path": [
+        "rows",
+        6,
+        "stages",
+        2,
+        "buffs",
+        0,
+        "stacks"
+      ],
+      "before": 3,
+      "after": 2
+    },
+    {
+      "path": [
+        "rows",
+        6,
+        "stages",
+        2,
+        "life"
+      ],
+      "before": 130,
+      "after": 120
+    }
+  ],
+  "helperAssertions": [
+    {
+      "before": "assert.equal(p.buffs.get('one')!.expiries!.length,4)",
+      "after": "assert.equal(p.buffs.get('one')!.expiries!.length,2)",
+      "course": "independent-spend-expiry-consistency-diagnostic"
+    },
+    {
+      "before": "assert.equal(p.buffs.get('one')!.stacks,3)",
+      "after": "assert.equal(p.buffs.get('one')!.stacks,2)",
+      "course": "independent-spend-expiry-consistency-diagnostic"
+    }
+  ],
+  "rule": "Consume independent clocks in original application order; a later timer-only advance cannot resurrect consumed stacks. Surviving clocks retain their relative order.",
+  "originalCounterexample": {
+    "beforeAdvance": 2,
+    "afterAdvance": 3
+  },
+  "independentCheck": "Two surviving applications at eight seconds each become two at five seconds after a three-second tick; the life source is 100 + 10 * 2 = 120.",
+  "authoredScope": "This independent-consumption combination is synthetic. Loaded Deep Carve has no configured consumption; its authored traces are unchanged.",
+  "unchangedCourses": 39,
+  "requiresBeforeAcceptance": [
+    "Tests for mixed application durations, partial/full/over-consumption and callback replacement",
+    "All unmodified authored and other native traces preserved",
+    "Public contract/decision review before production code"
+  ],
+  "helper": "reference/export-buff-lifecycle.ts",
+  "fixture": "buff-lifecycle"
+}

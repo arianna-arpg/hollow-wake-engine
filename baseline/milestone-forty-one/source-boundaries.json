@@ -1,0 +1,1343 @@
+{
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "actor": {
+    "file": "src/engine/actor.ts",
+    "sha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30",
+    "methods": {
+      "addBuff": {
+        "text": "addBuff(def: BuffEffect, durationScale = 1, chainDepth = 0, tags?: SkillTag[]): void {\n    // Every application — fresh, stacking, or refresh — counts as GAINING\n    // the buff (the buffGain trigger's event).\n    if (this.gainEvents.length < 64) {\n      this.gainEvents.push({ kind: 'buff', id: def.id, depth: chainDepth, buff: def, tags });\n    }\n    const existing = this.buffs.get(def.id);\n    const duration = def.duration * durationScale;\n    const grant = def.stacksOnApply ?? 1;\n    // INDEPENDENT stack clocks (Deep Carve): each application ADDS a stack\n    // on its own timer — nothing refreshes; old cuts close as new ones open.\n    if (def.stackTimers === 'independent' && (def.maxStacks ?? 1) > 1) {\n      const buff = existing ?? { def, remaining: 0, stacks: 0, expiries: [] as number[] };\n      buff.expiries ??= [];\n      for (let i = 0; i < grant && buff.expiries.length < (def.maxStacks ?? 1); i++) {\n        buff.expiries.push(duration);\n      }\n      buff.stacks = buff.expiries.length;\n      buff.remaining = Math.max(...buff.expiries);\n      this.buffs.set(def.id, buff);\n      this.syncBuffSource(def.id);\n      return;\n    }\n    if (existing && (def.maxStacks ?? 1) > 1) {\n      existing.stacks = Math.min(def.maxStacks ?? 1, existing.stacks + grant);\n      existing.remaining = duration;\n      existing.def = def; // dynamic-value buffs re-price on refresh\n      this.buffs.set(def.id, existing);\n    } else if (existing) {\n      existing.remaining = duration;\n      // DYNAMIC-VALUE refresh (Echoing Might): the newest application's\n      // def replaces the old, so computed mod values re-price each grant.\n      existing.def = def;\n      this.buffs.set(def.id, existing);\n    } else {\n      this.buffs.set(def.id, {\n        def, remaining: duration,\n        stacks: Math.min(def.maxStacks ?? grant, grant),\n      });\n    }\n    this.syncBuffSource(def.id);\n  }",
+        "sha256": "223208ef1a131069e7021a4ecd2168454553abb478ec9dd65941d30d7b5eafff"
+      },
+      "consumeBuffStacks": {
+        "text": "consumeBuffStacks(id: string, n = 1): void {\n    const buff = this.buffs.get(id);\n    if (!buff) return;\n    noteProcCue(this, buffProcCue(buff.def), 'release', id, Math.min(n, buff.stacks));\n    buff.stacks -= n;\n    if (buff.stacks <= 0) this.buffs.delete(id);\n    this.syncBuffSource(id);\n  }",
+        "sha256": "cf307437fc6ac6a209fe465dbdd2d146400c021fe8d8c9c9801b1da0ae60a213"
+      },
+      "spendBuffs": {
+        "text": "spendBuffs(on: NonNullable<BuffEffect['consumeOn']>['on'], tags?: readonly SkillTag[], skillId?: string): void {\n    if (!this.buffs.size) return;\n    for (const [id, buff] of [...this.buffs]) {\n      const def = buff.def;\n      const c = def.consumeOn ?? (def.consumeOnUse ? { on: 'use' as const, tags: def.consumeOnUse.tags } : undefined);\n      if (!c || c.on !== on) continue;\n      if (c.tags && !c.tags.some(t => tags?.includes(t))) continue;\n      if (c.skills && (!skillId || !c.skills.includes(skillId))) continue;\n      this.consumeBuffStacks(id, 1);\n    }\n  }",
+        "sha256": "7359b49f3d805192883f589bd2a4c74cee2bb814ecd6d09d07e64ad011264e81"
+      },
+      "syncBuffSource": {
+        "text": "private syncBuffSource(id: string): void {\n    const buff = this.buffs.get(id);\n    if (!buff) { this.sheet.removeSource('buff:' + id); return; }\n    const mods: Modifier[] = buff.def.mods.map(m => ({ ...m, value: m.value * buff.stacks }));\n    this.sheet.setSource('buff:' + id, mods);\n  }",
+        "sha256": "c2544482c22cddbdd1001397e36289972029a8912bc2f90f429749460407a137"
+      },
+      "removeBuff": {
+        "text": "removeBuff(id: string): void {\n    if (this.buffs.delete(id)) this.syncBuffSource(id);\n  }",
+        "sha256": "634694ea870ca8eb392cc8b8d7422ed5e2a34dbbd63e715458f1ab9d9d118c95"
+      }
+    },
+    "timerLoop": {
+      "text": "for (const [id, buff] of this.buffs) {\n      // Independent stack clocks: cull each expiry on its own, re-sync\n      // when the count moves; the buff ends when the last stack closes.\n      if (buff.expiries) {\n        let moved = false;\n        for (let i = buff.expiries.length - 1; i >= 0; i--) {\n          buff.expiries[i] -= dt;\n          if (buff.expiries[i] <= 0) { buff.expiries.splice(i, 1); moved = true; }\n        }\n        if (buff.expiries.length === 0) {\n          this.buffs.delete(id);\n          this.syncBuffSource(id);\n        } else if (moved) {\n          buff.stacks = buff.expiries.length;\n          buff.remaining = Math.max(...buff.expiries);\n          this.syncBuffSource(id);\n        } else {\n          buff.remaining -= dt;\n        }\n        continue;\n      }\n      buff.remaining -= dt;\n      if (buff.remaining <= 0) {\n        this.buffs.delete(id);\n        this.syncBuffSource(id);\n      }\n    }",
+      "sha256": "1adcbb5d7744380b7fe3c86131b953b3f23d8029bad0e0343dd43a02ff2dfca0"
+    },
+    "precedingStatement": {
+      "text": "this.updateConduits(dt);",
+      "sha256": "0156d448fd20908eeffe5cf18077a66ea33c8bc818b2cddee6e85ca4d46ceed0"
+    },
+    "followingStatement": {
+      "text": "let dot: Partial<Record<DamageType | 'untyped', number>> | null = null;",
+      "sha256": "21f19e2fc556375fef41ce6f87b6efacdc68840941193458c129133ef60284e8"
+    },
+    "activeBuff": {
+      "text": "export interface ActiveBuff {\n  def: BuffEffect;\n  remaining: number;\n  stacks: number;\n  /** INDEPENDENT stack clocks (BuffEffect.stackTimers 'independent'):\n   *  one expiry per stack; stacks = expiries.length. `remaining` mirrors\n   *  the LONGEST-lived stack for display. */\n  expiries?: number[];\n}",
+      "sha256": "fe632f19158049e46ce4c09a5c13ac78d07fd18f18cef584bc9d6f060d437c21"
+    }
+  },
+  "skills": {
+    "file": "src/engine/skills.ts",
+    "sha256": "6beb81a4c53666d076732b64078f2337b6e2125972f985f0bdf17e2531a2285e",
+    "buffEffect": {
+      "text": "export interface BuffEffect {\n  /** Stored payload body/HUD material. Consumable buffs inherit a profile;\n   * other buffs opt in. False hides only this supplementary presentation. */\n  storedCue?: import('../data/procCues').ProcCueSpec | false;\n  /** Player-facing name for dynamically scoped buffs such as companion bonds. */\n  label?: string;\n  type: 'buff';\n  id: string;             // buffs with the same id refresh instead of stacking...\n  duration: number;\n  mods: Modifier[];\n  maxStacks?: number;     // ...unless maxStacks > 1\n  /** Stack CLOCKS: 'shared' (default) — any application refreshes the\n   *  WHOLE pile's timer (Carve: keep swinging or lose it all at once);\n   *  'independent' — every stack lives and dies on its OWN clock (Deep\n   *  Carve: no refreshes, only additions; old cuts close as new ones open). */\n  stackTimers?: 'shared' | 'independent';\n  /** Grant this many stacks per application instead of one (clamped to\n   *  maxStacks) — how an imbuement loads its whole magazine in one press. */\n  stacksOnApply?: number;\n  /** THE GAUGE's stack lane (engine/gauge.ts): stacks granted PER UNIT of\n   *  the pressing use's gauge POWER (rounded, at least 1 while any power\n   *  stands; clamped to maxStacks) — a half-full press wears half the\n   *  stacks, an overflow press more than the full. A gauge-less skill\n   *  reads power 1 (exactly `powerStacks`). Outranks stacksOnApply. */\n  powerStacks?: number;\n  /** Recipient: default 'caster'; 'minions' = every living minion of the\n   *  caster (the generic minion-war-cry seam — Convocation's mend). */\n  affects?: 'caster' | 'minions' | 'allies';\n  /** Nearby allies include the caster; same team and story, no constructs. */\n  radius?: number;\n  /** ALL stacks are stripped when the bearer takes a LANDED hit (DoT ticks\n   *  never wipe) — Tempo-style fragility as a buff's cost. */\n  clearOnHit?: true;\n  /** AMMUNITION (imbuements): each completed REAL use of a skill matching\n   *  ANY of these tags (omit = every skill) spends one stack; at zero the\n   *  buff ends. Give the buff tag-filtered mods over the same tags and you\n   *  have \"the next X uses are imbued\". NOTE: the granting skill's own tags\n   *  must NOT match, or the grant press eats its first round. */\n  consumeOnUse?: { tags?: SkillTag[] };\n  /** THE CONSUMABLE BUFF (the talent fabric, docs/engine/talents.md —\n   *  consumeOnUse generalized to every event the ledger stamps): each\n   *  matching event spends one stack, and the last stack ends the buff.\n   *  'use' = a completed real use (consumeOnUse's exact law); 'hit' /\n   *  'crit' / 'kill' = the bearer LANDS one; 'hurt' = the bearer TAKES a\n   *  landed hit; 'block' / 'evade' = the bearer makes one. `tags` gates on\n   *  the skill involved (ANY-match, like consumeOnUse); `skills` on its id.\n   *  Give the buff mods scoped to the same tags and you have \"your next\n   *  two melee hits deal 50% more\", \"the next spell you cast is free\", or\n   *  \"after being struck, your next attack strikes twice\" — each one buff.\n   *  The event spends AFTER the hit it empowered has resolved, so the\n   *  buff's own mods always reach the blow that consumes it. */\n  consumeOn?: {\n    on: 'use' | 'hit' | 'crit' | 'kill' | 'hurt' | 'block' | 'evade';\n    tags?: SkillTag[];\n    skills?: string[];\n  };\n  /** NEXT-HIT RIDER: the bearer's next landed hit(s) carry a payload —\n   *  one stack spent per landed hit. Because buffs land on ALLIES and\n   *  MINIONS too (affects: 'minions' / targeted deliveries), \"bless the\n   *  Amalgam so its next blow poisons hugely\" is one buff. */\n  nextHit?: NextHitRider;\n  /** POWER-SCALED: every mod value multiplies by the use's power mult —\n   *  a brim release at 40% fill grants 40%-strength blessing (Surgewind's\n   *  gathered stride). Opt-in so ordinary buffs never wobble with damage\n   *  multipliers. */\n  powerScaled?: true;\n  /** LIFE BOND (the Chloromancer shape): applying this buff to an ALLY\n   *  bonds the CASTER to them — a share of the caster's damage dealt\n   *  (their bondShare stat × the striking skill's bondFeed) flows to the\n   *  bonded as healing while the buff holds. One bond per caster. */\n  bond?: true;\n}",
+      "sha256": "728ee0ae0430bbbfb96fd1edc449e2c08e13551aa9097cbb8c97e50c63afe66b"
+    }
+  },
+  "catalogue": {
+    "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+    "loadedSkills": 954,
+    "loadedProcs": 147,
+    "occurrences": 96,
+    "distinctDefinitions": 95,
+    "independent": [
+      {
+        "path": "skills.deep_carve.effects.1",
+        "id": "deep_carve",
+        "definitionSha256": "409746de9ad27e5b62bc0f8e1e69b1b11a7c1c12ad220b86ddb3427171c4603f",
+        "duration": 4.5,
+        "maxStacks": 12,
+        "stacksOnApply": null,
+        "stackTimers": "independent",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      }
+    ],
+    "independentWithConsumption": [],
+    "rows": [
+      {
+        "path": "skills.cleave.tree.nodes.2.attackSequence.cycleBuff",
+        "id": "berserk",
+        "definitionSha256": "5e1caffe376e2bfefb449994bb80e0a1f41e3f21cfba76461af99011be78dd49",
+        "duration": 4,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.war_cry.effects.0",
+        "id": "war_cry",
+        "definitionSha256": "0e7148d9fed866837dc30a084577634c55f429147dae0089b965ffb6be1f70bd",
+        "duration": 6,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.frenzy.effects.1",
+        "id": "frenzy",
+        "definitionSha256": "f0f0c45993a1bde552e52f2286b1218e36aebef481de6929309521c9452fd1f8",
+        "duration": 6,
+        "maxStacks": 5,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.solar_litany.effects.0",
+        "id": "sun_sworn",
+        "definitionSha256": "45bcb0ad9696b34b61119d0b8ef0e122934a9d5f6e3f84fda2631a49bd9e041a",
+        "duration": 6,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.mirage_step.effects.0",
+        "id": "mirage_step_veil",
+        "definitionSha256": "ed45def8d350889a7e478bc96dbf0781160f51082ea37e249851aae60b4072fb",
+        "duration": 2.5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.renew.effects.0",
+        "id": "renew",
+        "definitionSha256": "e4eb179b9e43a82e73058600a58c3a813f2e94544d3333ff17f559807c29624c",
+        "duration": 8,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.blessing_of_might.effects.0",
+        "id": "blessing_of_might",
+        "definitionSha256": "ea600101d664d558d239a8f379b5e15c78d6a3a6aeac4f2c91c0887ce4f7133a",
+        "duration": 12,
+        "maxStacks": 3,
+        "stacksOnApply": 3,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": true
+      },
+      {
+        "path": "skills.zeal.empower.buffPerPower",
+        "id": "zealous",
+        "definitionSha256": "ec9fda074aa697784edf6596fc304f2edc7c7c6900ae35481c46c326e4bc5848",
+        "duration": 6,
+        "maxStacks": 10,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.vampiric_embrace.effects.0",
+        "id": "vampiric_embrace",
+        "definitionSha256": "89b974f8b55ee0f2675c9664eb5c3d5ba603db67e02ee4b224be11697ea15ca8",
+        "duration": 10,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.guardian_bond.effects.0",
+        "id": "life_bond",
+        "definitionSha256": "171e2c7637645fd7e6caf5c5e1d29311ebca5ad316d0574678c4ce1e7f26c80e",
+        "duration": 18,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.zanshin_cut.tree.nodes.1.over.castCycle.buff",
+        "id": "zanshin",
+        "definitionSha256": "17252c4783a2e386aa56d83a4dda930003bd792d305b550c23396cb2a36b7d9d",
+        "duration": 8,
+        "maxStacks": 1,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": true
+      },
+      {
+        "path": "skills.zanshin_cut.tree.nodes.8.over.castCycle.buff",
+        "id": "zanshin",
+        "definitionSha256": "0b2fb877050821ca4e3bf40a71872ff4f48bc1f534f4c0607b5c48e98ffea16f",
+        "duration": 8,
+        "maxStacks": 1,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": true
+      },
+      {
+        "path": "skills.zanshin_cut.castCycle.buff",
+        "id": "zanshin",
+        "definitionSha256": "7572bab47c55bdb04afa2a858b76d9c0ed9d02c2dcb77c0b6f30a49a2a377473",
+        "duration": 8,
+        "maxStacks": 1,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": true
+      },
+      {
+        "path": "skills.plague_benediction.effects.0",
+        "id": "plague_blades",
+        "definitionSha256": "93bf0b38231ff060805984f86db02cf5f6be14f5358c7003220f8bd4417944a8",
+        "duration": 12,
+        "maxStacks": 3,
+        "stacksOnApply": 3,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": true
+      },
+      {
+        "path": "skills.stealth.effects.1",
+        "id": "stealth_step",
+        "definitionSha256": "b99634b357c38c469ab7dc6b31397dbbb8f8782199f1a086d41d1d8763074256",
+        "duration": 3,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.cloak.effects.0",
+        "id": "cloak",
+        "definitionSha256": "1a69c4383dc8446bb982e48618bebf69d9c2258f03f9e6b5bdd4e75bf793b868",
+        "duration": 8,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.invisibility.effects.0",
+        "id": "invisibility",
+        "definitionSha256": "e6375af6df054561c4d1a497e17c071581703d89ec88e9a50c63792c24a449b9",
+        "duration": 2.5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.corpse_feast.effects.0",
+        "id": "well_fed",
+        "definitionSha256": "4023ae4c73523142ed10275b7c76c88070bc5610bbb0f808dc096b0942c033bb",
+        "duration": 4,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.gorge_carrion.effects.0",
+        "id": "gorged",
+        "definitionSha256": "1e64d8c912fff4f659c7ef0647ddcde6344c7c63c0638518aae96f0996f980c5",
+        "duration": 4,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.quickstep.effects.0",
+        "id": "quickstep",
+        "definitionSha256": "b3b767115aad4b88d2211fd1006089af04dabae85adfe556961605cf81634e71",
+        "duration": 4,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.stone_skin.effects.0",
+        "id": "stone_skin",
+        "definitionSha256": "4ef7b71c7135b599431ff0d743c8213df455c6b8ebf13814a8f802b7288080a3",
+        "duration": 6,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.quiet_step.effects.0",
+        "id": "quiet_step",
+        "definitionSha256": "5b7ea7b86d148ff9d6ad87cc99673cb7e4d85d9d57fc26d854c0172180f63faf",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.power_surge.effects.0",
+        "id": "power_surge",
+        "definitionSha256": "b3e26cb74057f76750add419c488d29091c8d860537dfa6e4a13cbcc7007d15c",
+        "duration": 8,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.enrage_swarm.effects.0",
+        "id": "enraged",
+        "definitionSha256": "5a51a4cb171b05fa9c58af4151f3069bd1dfc7d804ac96a93e7f52eed40199e6",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.stack_the_deck.effects.0",
+        "id": "stacked_deck",
+        "definitionSha256": "2fa84068c3c0664ca65fcee0266d498f009d63293f66730816630d3e81961713",
+        "duration": 8,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.convocation.effects.1",
+        "id": "convocation_mend",
+        "definitionSha256": "e0e0fa12be36f8de6c6075fe2f28cca8eec6d08728d672bf3d3b36b903291288",
+        "duration": 2,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.flame_imbuement.effects.0",
+        "id": "flame_imbue",
+        "definitionSha256": "7b5cd3b8b6a88269ae4b2bfe88e2ff516586bbe2497114af8d6ec46ccd4e2948",
+        "duration": 20,
+        "maxStacks": 6,
+        "stacksOnApply": 6,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": {
+          "tags": [
+            "attack"
+          ]
+        },
+        "nextHit": false
+      },
+      {
+        "path": "skills.venom_ammunition.effects.0",
+        "id": "venom_ammo",
+        "definitionSha256": "5b0d4db8baad4170ff0d969b396bbf9bb8b4c5dae597525699350b79ab38562e",
+        "duration": 25,
+        "maxStacks": 8,
+        "stacksOnApply": 8,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": {
+          "tags": [
+            "projectile"
+          ]
+        },
+        "nextHit": false
+      },
+      {
+        "path": "skills.galvanize.effects.0",
+        "id": "galvanize",
+        "definitionSha256": "cf4557e156f345c0632350519f69486992ad57ee6d5d7faddedf70610e9b895f",
+        "duration": 10,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.flame_wreath.effects.0",
+        "id": "flame_wreath",
+        "definitionSha256": "31fa222a7c7b3fdc020c2315a9c168a68debcac4f6f9a2bb14c3357b736b3055",
+        "duration": 10,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.moult.effects.1",
+        "id": "fresh_moult",
+        "definitionSha256": "dda431c9c67c8c1ef6f2886600763b2f64af0ca7c69b3e36e1243933562cf6fc",
+        "duration": 2.5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.life_flask.effects.2",
+        "id": "quaffing",
+        "definitionSha256": "ae213d287c3890ea409915e30844f9121569c2311b900f50e598ff6dda13b504",
+        "duration": 4.5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.mana_flask.effects.1",
+        "id": "quaffing",
+        "definitionSha256": "9e4fc9ac05fcfc571ea9a19ccc3aba75a4f127886a540510a1ffb7107a00d98a",
+        "duration": 3,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.catalyst_flask.effects.2",
+        "id": "quaffing",
+        "definitionSha256": "eca0b691b5b7f53c45745576a06c4d763b86941c8a8c18ef1ccd6f073966ef44",
+        "duration": 3.5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.catalyst_flask.effects.3",
+        "id": "catalyst_high",
+        "definitionSha256": "5f01fb41bd2efe5eb6386edc93c643dc5e9534f8bf01d1f543d8427940990c2f",
+        "duration": 6,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.quicksilver_flask.effects.0",
+        "id": "quicksilver",
+        "definitionSha256": "4d35b5e2869ee16f857cd2838211834256a75b411a19b33bcbc0d0274139d1ed",
+        "duration": 4,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.quicksilver_flask.effects.1",
+        "id": "quaffing",
+        "definitionSha256": "3c7a9ad2854309763d11d380120e5d372235ce08b61d2186efaf78eb2bfba8f2",
+        "duration": 4,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.stoneskin_flask.effects.0",
+        "id": "stoneskin",
+        "definitionSha256": "411fe97b7d121f16c418ce112630fafa69290af0fe23eaeaee8535549fefc6f3",
+        "duration": 4.5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.stoneskin_flask.effects.1",
+        "id": "quaffing",
+        "definitionSha256": "ae213d287c3890ea409915e30844f9121569c2311b900f50e598ff6dda13b504",
+        "duration": 4.5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.antidote_flask.effects.1",
+        "id": "antidote",
+        "definitionSha256": "f01b3337080042cd8dfbd8384006644620ea3c95ffb7e4230fbf775519188f5a",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.antidote_flask.effects.2",
+        "id": "quaffing",
+        "definitionSha256": "fbc8f0847d0e07e83877493872f65145e662203f8f46911d4aba57b6ab9ebac1",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.chaser_edge.effects.0",
+        "id": "chaser_edge",
+        "definitionSha256": "9fc7aa7f7992240209ccd3bed134e840cd83033809b01a86eeee54fcd5465f74",
+        "duration": 3,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.swig.effects.1",
+        "id": "quaffing",
+        "definitionSha256": "315cb8818617b32d74335e51b32540818c0e38dfa75ed996704e0cdad57e0d85",
+        "duration": 2.5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.deathwatch.effects.0",
+        "id": "vigil_flare",
+        "definitionSha256": "14a9dbc046c9382b93d994b1366f9104441affcffe8338b35af10cb5a807d088",
+        "duration": 4,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.stalk.effects.0",
+        "id": "stalk",
+        "definitionSha256": "045c922cb94cbbd465be5432c13fa0700f0dd64531c9552056a9469d5c333c72",
+        "duration": 10,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.carve.effects.1",
+        "id": "carve",
+        "definitionSha256": "40fe2135a85d59aacdfb27e9cd04a175bcaa8ce5a8c587d82a19c5f44169f603",
+        "duration": 2.2,
+        "maxStacks": 8,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.deep_carve.effects.1",
+        "id": "deep_carve",
+        "definitionSha256": "409746de9ad27e5b62bc0f8e1e69b1b11a7c1c12ad220b86ddb3427171c4603f",
+        "duration": 4.5,
+        "maxStacks": 12,
+        "stacksOnApply": null,
+        "stackTimers": "independent",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.cerement.effects.1",
+        "id": "cerement_shroud",
+        "definitionSha256": "d9f50a2dcd4aa17888604240f5fdd647174a429b255b3d593798ef7492db4ce9",
+        "duration": 0.75,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.oblation_of_life.effects.0",
+        "id": "oblation_life",
+        "definitionSha256": "1a2745fa2da4c75554a99967604ef4f91938ff572e7fb94ec8c6382f853e27c2",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.oblation_of_mana.effects.0",
+        "id": "oblation_mana",
+        "definitionSha256": "e4fcbcc42110d9d990b8c475a7800f278dadf86234388691d88eb666161601d8",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.bone_offering.effects.0",
+        "id": "bone_offering",
+        "definitionSha256": "e4eaa58b714508b266f7dab32a8790818e875fddcddc4732be0606101087aabc",
+        "duration": 7,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.surgewind.effects.0",
+        "id": "surgewind",
+        "definitionSha256": "6efe8949416c3b437d24edfb5e814c59831cc4dbfbf041482390d90b0548259c",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.symbiote_skin.effects.0",
+        "id": "symbiote_skin",
+        "definitionSha256": "229ce09438944ea5cc54317e95f04aa116d90f24604aacf3db25c586026b7333",
+        "duration": 6,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.bulwark_set.effects.0",
+        "id": "bulwark_set",
+        "definitionSha256": "e4b65f70f8b78bbe9db173ab33f9811de89a0138aa20fb6e6f21ad68637ad1af",
+        "duration": 6,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.last_rites.effects.1",
+        "id": "last_rites_fury",
+        "definitionSha256": "2083e7cbc1a6aaed0d1b7ba62bd29e3700b6f7341f532a77728615637598ccbd",
+        "duration": 6,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.hush_of_the_wake.effects.2",
+        "id": "hushed",
+        "definitionSha256": "eb7a2e6295b521b53fe98167a65949a993a85f2444fb77fa0b8cbffb291d75f2",
+        "duration": 4,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.red_hour.effects.0",
+        "id": "red_hour",
+        "definitionSha256": "7301cea6eeb85474c3eff9c171448a87e0005d8fc2edf47e9b04e5ca9c0eb818",
+        "duration": 8,
+        "maxStacks": 30,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "skills.long_cold.effects.2",
+        "id": "long_cold",
+        "definitionSha256": "cb064a43068c40e145c3524eb8bab6a58ec27b9bc4c7866cc5f48c851fdc3372",
+        "duration": 3,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.pathcutter_stride.effect.buff",
+        "id": "pathcutter_stride",
+        "definitionSha256": "783c01c1170f318060145066329a9ae2942f3485d553615932608982a2fc98a6",
+        "duration": 3,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.tempo.effect.buff",
+        "id": "tempo",
+        "definitionSha256": "c9a840c8c3d57fd40e6e524eb6e6cb481f90e57b96df130bdb09e223240e46dd",
+        "duration": 5,
+        "maxStacks": 8,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.adrenal_rush.effect.buff",
+        "id": "adrenal_rush",
+        "definitionSha256": "21b1299c3d0a07e25b5e79527d4e36266104012157184513cd3bed07335678f7",
+        "duration": 4,
+        "maxStacks": 3,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.quickening.effect.buff",
+        "id": "quickening",
+        "definitionSha256": "36641adef2ef93285c03e6a91465a3c9abaef0360b939addc2c18b4a3185ffe3",
+        "duration": 2.5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.phase_surge.effect.buff",
+        "id": "phase_surge",
+        "definitionSha256": "eae2f6f35d546af8f8bac1b0bfa860ff9928863b64735569be100791e4bdae1d",
+        "duration": 2,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.breakers_momentum.effect.buff",
+        "id": "breakers_momentum",
+        "definitionSha256": "c432050d1f3ff9a8e1bc87242762cf1157c6e33b29927ee6dc7baf5cadd1148a",
+        "duration": 6,
+        "maxStacks": 3,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.last_stand.effect.buff",
+        "id": "last_stand",
+        "definitionSha256": "c658573f745278c4e04e1d262ece989b790882dd22ed57afce6e13874b22d1c6",
+        "duration": 2.5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.unbroken_wrath.effect.buff",
+        "id": "unbroken_wrath",
+        "definitionSha256": "2bc5c0dafb3b43474fe52fc0a1d8b12b464734406bf9dbf9818886e192201aa8",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.tempered_rearm.effect.buff",
+        "id": "tempered_rearm",
+        "definitionSha256": "222f6b13e6a7246bee8c50bb62059b0f59a20a08e096d6d96320c24ea42a657c",
+        "duration": 4,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.hot_streak.effect.buff",
+        "id": "hot_streak",
+        "definitionSha256": "9f90b3c83dbb4754e0c4ca36ae655a864a67a9c04e84899b82b2b671404faf52",
+        "duration": 10,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "spell"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.heating_up.effect.buff",
+        "id": "heating_up",
+        "definitionSha256": "1c58b5fa7935c826f224baf903056105fe5bb29d59195d79e3017f52e2bad283",
+        "duration": 6,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "crit",
+          "tags": [
+            "spell"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.overpower.effect.buff",
+        "id": "overpower",
+        "definitionSha256": "e631bdc79467f7043d522b7d1d15dcbdac8bd577ace833d8707619d760f19029",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "melee"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.reprisal.effect.buff",
+        "id": "reprisal",
+        "definitionSha256": "11f640a492d2911e1e2bb63fc2cf13e8df118d141e60d563c41a0901a2b9ac84",
+        "duration": 6,
+        "maxStacks": 3,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "melee"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.adrenaline.effect.buff",
+        "id": "adrenaline",
+        "definitionSha256": "7a45e76901434cd8b3506781ed8cb7e2877710b795159e7702280fbb0f80bf57",
+        "duration": 4,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.necrotic_feast.effect.buff",
+        "id": "necrotic_feast",
+        "definitionSha256": "760bc8808f6e773c11a614b4f955f6c31d98e45e9497b5fb7f9f584d774c2af8",
+        "duration": 8,
+        "maxStacks": 5,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.fleetfeather_refusal.effect.buff",
+        "id": "fleetfeather_refusal",
+        "definitionSha256": "8383e1ac2f645ab21c42fec268498f71ca95ae8998157e5b2f97d4bdaf4bc639",
+        "duration": 3,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.unspent_reply.effect.buff",
+        "id": "unspent_reply",
+        "definitionSha256": "f3f7f8db8ef4b851f3d31b2f299c17ebf7d3da7c15d3637712ef0e8432bff69e",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": {
+          "tags": [
+            "spell"
+          ]
+        },
+        "nextHit": false
+      },
+      {
+        "path": "procs.route_breach_spell.effect.buff",
+        "id": "route_breach_spell",
+        "definitionSha256": "b0f94d3de232cef637c6c11fc7d0cf54ca6d55af6b8c5821e61dce6b2613a0cd",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "spell"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.route_filled_spell.effect.buff",
+        "id": "route_filled_spell",
+        "definitionSha256": "a491fc3805c484f7b695236e2e9bcf3568dba960ea9424c0980cd6b1f8ad1c72",
+        "duration": 6,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "spell"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.route_move_needle.effect.buff",
+        "id": "route_move_needle",
+        "definitionSha256": "5862e4450f58b24025be0117356d6f59ae1e5e7d020eb14a385bfdab660eee91",
+        "duration": 4,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "projectile"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.route_evade_device.effect.buff",
+        "id": "route_evade_device",
+        "definitionSha256": "1c93d46142923e50d9390a7e51c5a2698c004e6651e3c51a03b786e3a3abed5f",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "use",
+          "tags": [
+            "construct"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.native_barbed_reply.effect.buff",
+        "id": "native_barbed_reply",
+        "definitionSha256": "20e29bf2c87745c6e16594b0c963efa01da9426a9ca3fc59eca312ce8260671e",
+        "duration": 4,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.weave_still_mercy.effect.buff",
+        "id": "weave_still_mercy",
+        "definitionSha256": "5f27115d032c2bc8b5749a783902540a0b69fe69c4b7d38297cc508c39a5f9cd",
+        "duration": 4,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.weave_rack_memory.effect.buff",
+        "id": "weave_rack_memory",
+        "definitionSha256": "f1acebad27febb8b4d2988d090c62078fcd71c510c271adf1f84ef514e348ba7",
+        "duration": 6,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "munition"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.weave_thermal_memory.effect.buff",
+        "id": "weave_thermal_memory",
+        "definitionSha256": "053c81eaaa74562364ae28e676709659292ed42ac42379d32899be6d04639247",
+        "duration": 4,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.weave_warcry_verse.effect.buff",
+        "id": "weave_warcry_verse",
+        "definitionSha256": "2eeb82216adead7c38d86367cb0e4718bb71029fed646d3dcbb21db6af68f5bc",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.weave_trap_hammer.effect.buff",
+        "id": "weave_trap_hammer",
+        "definitionSha256": "5dead2ab4ba03be35736705bc778f0e4f159348d1389bb9d72ad6b05a9ebc7fd",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "melee"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.weave_spell_hunger.effect.buff",
+        "id": "weave_spell_hunger",
+        "definitionSha256": "26af5215c0f21c72734c52d8f414005dca09310522e9d8a8337bcddf9a5c2ff0",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "attack"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.weave_missed_jackpot.effect.buff",
+        "id": "weave_missed_jackpot",
+        "definitionSha256": "b73c94d31548cfc74250f2b34eab7accff6794c355014c355d79da8a8916de1a",
+        "duration": 3,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": null,
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.spec_fire_relay.effect.buff",
+        "id": "spec_fire_relay",
+        "definitionSha256": "60174b19f98bcd294fe138860648c396b889e1e574deb4effb6612dd79d5091d",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "cold"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.spec_cold_relay.effect.buff",
+        "id": "spec_cold_relay",
+        "definitionSha256": "8badd171049a509b4efb85b2375236504febbe14f291bd14e5a344906b08b9c0",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "lightning"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.spec_lightning_relay.effect.buff",
+        "id": "spec_lightning_relay",
+        "definitionSha256": "24ca03b4bfd6d68e9fdd90081a7702a0db611128099aab9fa0ed0ad84052a3a3",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "fire"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.spec_blade_to_spell.effect.buff",
+        "id": "spec_blade_to_spell",
+        "definitionSha256": "8b5be3e50c6184436e7c59955096320a419dc84902a95197db44b62556adcb65",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "spell"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.spec_spell_to_blade.effect.buff",
+        "id": "spec_spell_to_blade",
+        "definitionSha256": "376a6edc4c0358889a1a918e4d49986ea61068765f89f3ee964ae4a141953536",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "melee"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.spec_quick_preparation.effect.buff",
+        "id": "spec_quick_preparation",
+        "definitionSha256": "f17e4e8f76c76417a40d7dce4f248711970fb3bf078f556b6cc30fb3ba8333ae",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "cast:timed"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.spec_deliberate_release.effect.buff",
+        "id": "spec_deliberate_release",
+        "definitionSha256": "2d46df221ccdd59af74165d6bc248df238fd6ade1946013a4ab8961ebe1bb4c3",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "cast:instant"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.spec_advance.effect.buff",
+        "id": "spec_advance",
+        "definitionSha256": "ba3b621ef2b306f10c685fd77803f6ac43f54ed802a1ce1435c59a9758a07389",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "projectile"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      },
+      {
+        "path": "procs.spec_return.effect.buff",
+        "id": "spec_return",
+        "definitionSha256": "c6a9382623c0a425693aac9fd70296f7399b0e70cf158671a7c2995d327cc268",
+        "duration": 5,
+        "maxStacks": null,
+        "stacksOnApply": null,
+        "stackTimers": "shared",
+        "consumeOn": {
+          "on": "hit",
+          "tags": [
+            "movement"
+          ]
+        },
+        "consumeOnUse": null,
+        "nextHit": false
+      }
+    ],
+    "scope": "Read-only walk of loaded SKILLS and PROCS, including nested authored tree objects where present. This is not proof of all configured or dynamic runtime combinations, nor acceptance of a repair."
+  }
+}
