@@ -194,9 +194,22 @@ export class BuffRuntime<
         const clocks = buff.expiries;
         if (clocks) {
           if (clocks.length > BUFF_LIMITS.clocks) throw new Error('Buff clock limit exceeded');
-          let write = 0, maximum = -Infinity;
+          let write = 0;
           const length = clocks.length;
-          for (let read = 0; read < length; read++) {
+          // Most ticks expire nothing. Defer compaction and maximum work until
+          // the first expired clock, preserving a possibly different scalar.
+          for (; write < length; write++) {
+            const remaining = clocks[write] - delta;
+            if (remaining <= 0) break;
+            clocks[write] = remaining;
+          }
+          if (write === length && length > 0) {
+            buff.remaining -= delta;
+            continue;
+          }
+          let maximum = -Infinity;
+          for (let i = 0; i < write; i++) if (clocks[i] > maximum) maximum = clocks[i];
+          for (let read = write + 1; read < length; read++) {
             const remaining = clocks[read] - delta;
             if (remaining <= 0) continue;
             clocks[write++] = remaining;
@@ -206,11 +219,11 @@ export class BuffRuntime<
           if (!write) {
             owner.buffs.delete(id);
             this.publish(owner, id);
-          } else if (write !== length) {
+          } else {
             buff.stacks = write;
             buff.remaining = maximum;
             this.publish(owner, id);
-          } else buff.remaining -= delta;
+          }
           continue;
         }
         buff.remaining -= delta;

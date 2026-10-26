@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "decision": "buff-live-clock-prefix/v1",
+  "status": "candidate-before-implementation-and-measurement",
+  "baseline": "59e802b3188af5fdc0a25efdbb15ba54b9b63baa",
+  "motivation": "Both retained three-graph runs show independent-live Actor timers approximately 11% above native. Diagnostic CPU sampling attributes only about 3-4% of current updateTimers samples directly to BuffRuntime.advance; the whole observed difference cannot be attributed to this loop.",
+  "candidate": "Subtract clocks in place until the first expiry. If all survive, preserve scalar subtraction without finding a maximum or resetting array length. On expiry, include the already-updated prefix in the maximum and compact the untouched suffix in application order.",
+  "behaviorChanges": [],
+  "preserved": [
+    "All existing reentry, finite-input, collection, nesting and callback guards.",
+    "Scalar remaining can differ from stack clocks after a shared refresh; an all-live tick must not normalize it or publish.",
+    "Empty arrays expire. Complete expiry leaves detached stacks and remaining unchanged.",
+    "Partial expiry recomputes remaining across all survivors, including the prefix; updates stacks; and publishes once.",
+    "Clock array and record identity, original application order, live map iteration and failure partial commits.",
+    "No grant, content, port snapshot, adapter or declaration changes."
+  ],
+  "verification": {
+    "newTest": "test/buff-timers.test.mjs",
+    "expiryPositionCases": 510,
+    "beforeImplementation": "Run all four additional cases against the unchanged retained reentry candidate.",
+    "afterImplementation": ["Full SDK verifier and original reference", "Installed game contracts and faults in a fresh disposable candidate", "Native game checks and renderer", "Unchanged benchmark plan and helper; two order-varied three-graph runs"]
+  },
+  "measurement": {
+    "plan": "baseline/milestone-forty-one/performance-plan.json",
+    "planSha256": "2c2e84f6dc154dfbc668adaa8a71eccf0e3f7cc58f7beb3d6f11236a4f66c0ef",
+    "helperSha256": "ec9da09799cd65d52567a25616dd99f38c29078246c8700ce4aa51604127451d",
+    "graphs": ["retained published v0.35", "retained reentry candidate 0cba77e", "new timer candidate"],
+    "allowedChangedRuntimeOutputs": ["buffs.js", "buffs.js.map"]
+  },
+  "limits": [
+    "Prefix maximum scanning adds a second visit to surviving prefix elements on partial expiry. Measure all existing expiry workloads, not only all-live clocks.",
+    "Profiling is diagnostic, and its elapsed times are not accepted performance data.",
+    "Same-process graph loading, observers and JIT behavior limit extrapolation. Previous order-sensitive runs remain evidence.",
+    "This changes no grant path; their remaining overhead requires explicit adjudication, not a claim that this timer change fixed it.",
+    "Desktop measurements do not establish hardware acceptance or a general game speedup. Reject the candidate if evidence does not support keeping it."
+  ]
+}
