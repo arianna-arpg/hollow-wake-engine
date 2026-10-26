@@ -4,8 +4,8 @@ Milestone 41 starts from forty original observations, captured before the SDK
 implementation. The [manifest](../baseline/milestone-forty-one/acceptance.json)
 retains four unchanged helpers and fixtures, including their historical discovery
 wording. Two original runs, a measured v0.35 installation and an independent final
-v0.35 installation reproduce the same bytes. Standalone runtime verification has
-passed; full game adapter and performance acceptance are still in progress.
+v0.35 installation reproduce the same bytes. Standalone runtime, installed adapter
+and renderer checks pass; performance and final integration acceptance remain pending.
 
 The boundary covers named grants, shared and independent clocks, modifier sources,
 event-gated consumption, explicit removal and timer-phase expiry. Recipient and
@@ -147,13 +147,40 @@ candidate; retained controls, source/runtime aliases and linked target files are
 rejected. The game preparer stores each package archive in its own tooling folder,
 so preparing another candidate cannot overwrite an earlier archive of that version.
 
+The [renderer baseline](../baseline/milestone-forty-one/buff-ui-acceptance.json)
+retains fourteen observations from two byte-identical original runs, frozen before
+the adapter comparison. The installed adapter matches every recorded field,
+including instrumented global random draw counts. Unchanged War Cry, Deep Carve
+and Flame Imbuement definitions run through native admission/casting and real 25 ms frames. Synthetic
+pilot input and dispatched canvas mouse events exercise casting and hover handlers.
+Resource/rate overrides, a safe sheltered arena and a stationary unarmed target are
+explicit test setup. Every instrumented game and paint method calls through.
+
+Visual review of the first comparison found variable weather outside the recorded
+buff fields. An explicit [environment revision](../baseline/milestone-forty-one/buff-ui-environment-decision.json)
+sets the synthetic arena's native sky exposure to sheltered. Two revised original
+runs preserved every accepted observation byte before the revised adapter comparison;
+the expected file and all assertions remain unchanged. This constrains the fixture,
+without changing production weather or claiming whole-image equality.
+
+The course checks full duration at grant, pause/slow progression, independent stack
+expiry, tagged consumption, native stat values, actual hover text and stack pips,
+and stored/release glyph drawing. It retains native per-stack wording and the
+48-to-40 added-fire transition after spending one of six eight-point stacks.
+Observations round numeric fields to six decimals. Screenshots were inspected;
+the byte comparison covers recorded observations, not every pixel. This is a local
+Windows software-renderer course, not physical-input or hardware-performance evidence.
+Run `npm run adapter:buff-ui -- --game <game> --dist <build> --electron <executable>`
+against a build made with `scripts/build-game-item-ui.mjs`. The verifier checks
+source, installed package and bundle identity and never rewrites the baseline.
+
 `npm run reference:buffs` replays the unchanged original. Normal verification never
 regenerates accepted fixtures. The source record captures five methods, the exact
 timer loop and its neighboring statements. The adapter must guard these regions
 before delegating them.
 
-Stable in-place clock compaction is a candidate replacement for repeated interior
-splices. Preserve array identity, surviving order, publication timing and detached
-values. Benchmark it against the retained v0.35 graph only after equivalence and
-independent invariants pass. No speed, allocation-volume, Steam Deck, mobile,
-renderer or native-engine compatibility claim follows from the current baseline.
+The runtime uses stable in-place clock compaction in place of repeated interior
+splices, preserving array identity, surviving order, publication timing and detached
+values. Its performance still requires comparison against the retained v0.35 graph.
+No speed, allocation-volume, Steam Deck, mobile or native-engine compatibility
+claim follows from the current correctness and local renderer checks.

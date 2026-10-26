@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "id": "sheltered-buff-renderer-arena/v1",
+  "status": "accepted-after-two-original-runs-before-revised-candidate",
+  "reason": "Visual inspection found Cinderwind in the candidate scene while accepted original captures showed Day. All fourteen recorded buff observations already matched. Weather is outside that observation contract, but leaving startup weather unconstrained is avoidable fixture variability.",
+  "previousAcceptanceSha256": "feeba1f3c6031037d190b64bcdc5210f5382bf178000e838cf6c47d8891224ee",
+  "previousHarnessSha256": "d9a95a04888a7b1d15d0ce6b710c18f88478f38e433a7174a261dd7445cf119c",
+  "proposedHarnessSha256": "db144cda3514ed1016915f5226c8990c86e152bda96a4876dc17abe67c90cb61",
+  "expectedSha256": "498e14c5fecc3a6035502ff6074b916870e7b6ca18059e97df468b299cc509c4",
+  "previousOriginalRuns": [
+    {
+      "trial": ".artifacts/buff-ui-original-RPMaux",
+      "observationSha256": "498e14c5fecc3a6035502ff6074b916870e7b6ca18059e97df468b299cc509c4",
+      "controlUnchanged": true
+    },
+    {
+      "trial": ".artifacts/buff-ui-original-i7Cy2A",
+      "observationSha256": "498e14c5fecc3a6035502ff6074b916870e7b6ca18059e97df468b299cc509c4",
+      "controlUnchanged": true
+    }
+  ],
+  "previousCandidate": {
+    "trial": ".artifacts/buff-ui-J6hYDN",
+    "observationsByteEqual": true,
+    "sha256": "498e14c5fecc3a6035502ff6074b916870e7b6ca18059e97df468b299cc509c4"
+  },
+  "change": "Set only the synthetic arena's native ZoneDef.sky to 'sheltered' and assert native World.skyFront() is null after loading. No production source or buff definitions change. Keep all fourteen stages and every assertion/observer.",
+  "sourceEvidence": {
+    "data/zones.ts": "SkyExposure and skyOf declare sheltered zones outside weather influence.",
+    "engine/world.ts": "World.skyFront returns null for sheltered zones; safe objectives already prevent sky strikes."
+  },
+  "acceptanceRule": "Run this revised harness twice on the untouched retained v0.35 renderer before executing a revised candidate. Both raw observation files must remain byte-identical to the existing accepted expected file. Do not rewrite that file. Only then update harness provenance and compare the candidate.",
+  "scope": "Buff observation equality, not whole-image equality or weather equivalence.",
+  "observedResult": "Both sheltered original runs preserve every previously accepted observation byte. The expected file is unchanged.",
+  "originalRuns": [
+    {
+      "trial": ".artifacts/buff-ui-original-sheltered-ON0O3C",
+      "observationSha256": "498e14c5fecc3a6035502ff6074b916870e7b6ca18059e97df468b299cc509c4",
+      "controlUnchanged": true
+    },
+    {
+      "trial": ".artifacts/buff-ui-original-sheltered-JMlkVW",
+      "observationSha256": "498e14c5fecc3a6035502ff6074b916870e7b6ca18059e97df468b299cc509c4",
+      "controlUnchanged": true
+    }
+  ]
+}

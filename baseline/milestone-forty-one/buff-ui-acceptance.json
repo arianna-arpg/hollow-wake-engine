@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "decision": "native-buff-renderer/v2",
+  "controlCommit": "193b84fcee89cbde48af05ba0361a68f5a589bea",
+  "controlVersion": "0.35.0",
+  "independentOriginalRuns": 2,
+  "originalRunsByteEqual": true,
+  "stages": 14,
+  "stageNames": [
+    "idle",
+    "shared-casting",
+    "shared-gained",
+    "shared-paused",
+    "shared-slowed",
+    "shared-expired",
+    "independent-first",
+    "independent-two",
+    "independent-partial-expiry",
+    "independent-expired",
+    "consumable-loaded",
+    "consumable-nonmatching-use",
+    "consumable-spent",
+    "consumable-expired"
+  ],
+  "expectedSha256": "498e14c5fecc3a6035502ff6074b916870e7b6ca18059e97df468b299cc509c4",
+  "harnessSha256": "db144cda3514ed1016915f5226c8990c86e152bda96a4876dc17abe67c90cb61",
+  "serverSha256": "8f846fd74b33ac3824b936de1024ca590e05057dd791351615cd4cbfd05fcf89",
+  "controlSourceMapSha256": "7880af5076365f1deb00819e987e91491e6eb8bbc39b66a442a2193e972eb93a",
+  "controlRuntimeMapSha256": "65d3f3d821153834d6c3ac6c600f130c8e87d92996134d775e97fc283e415dfe",
+  "controlBuildSha256": "56517130f597377e37fa7fe0c0f55b767d1635b42617b9bd04f86fc0644f8837",
+  "captureEnvironment": {
+    "platform": "win32",
+    "arch": "x64",
+    "electronPackage": "43.0.0",
+    "viewport": [
+      1280,
+      800
+    ],
+    "hardwareAcceleration": false
+  },
+  "observedNativeFiles": {
+    "render/vis/buffReadout.ts": "ddfaee9207fc44e4599b8a02dec9fee463e87a3e96c1dbde8a26d8d3034ad004",
+    "render/vis/procCueLayer.ts": "e0ad46573ec1d8a6345bea65c570ecafb6648b638d36e6bca698135639a991cc",
+    "render/renderer.ts": "8bd68cce07c156c9b2c6be7ef2ae5796f9b9eb56d9f8a230ce0163921e7be489"
+  },
+  "originalRuns": [
+    {
+      "trial": ".artifacts/buff-ui-original-sheltered-ON0O3C",
+      "observationSha256": "498e14c5fecc3a6035502ff6074b916870e7b6ca18059e97df468b299cc509c4",
+      "controlUnchanged": true
+    },
+    {
+      "trial": ".artifacts/buff-ui-original-sheltered-JMlkVW",
+      "observationSha256": "498e14c5fecc3a6035502ff6074b916870e7b6ca18059e97df468b299cc509c4",
+      "controlUnchanged": true
+    }
+  ],
+  "scope": "Fourteen local software-rendered stages use unchanged War Cry, Deep Carve and Flame Imbuement definitions selected through the native developer grant API. Synthetic pilot input drives real admission/casting and 25 ms simulation/render frames; dispatched mouse events use native canvas listeners for hover. A safe sheltered arena (native ZoneDef.sky), stationary unarmed zombie and explicit resource/rate overrides isolate buff behavior. Call-through observers record full-duration gain, pause/slow clocks, independent expiry, tagged consumption, stat values, actual native hover text/pips and stored/release glyph paint. Numeric observations round to six decimals. Full screenshots were inspected but are not pixel-equivalence evidence; physical input, whole-game visuals, device performance and native-engine support are not established. The separate independent-consumption correction remains covered by runtime/native tests. No candidate execution produced these expectations. The explicit environment revision preserves the v1 expected bytes and all assertions; two revised original runs precede revised candidate execution.",
+  "environmentRevision": {
+    "file": "baseline/milestone-forty-one/buff-ui-environment-decision.json",
+    "sha256": "26ced621c9a315271cfb263e3ac2d3d49bec0d9b08d34fb64de0b7a806731e43",
+    "expectedFileUnchanged": true
+  }
+}
