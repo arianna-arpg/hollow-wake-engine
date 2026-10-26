@@ -2,8 +2,8 @@ import fs from 'node:fs';import path from 'node:path';import assert from 'node:a
 import {root,listFiles,sha256,verifyReference,writeJSON} from './reference-utils.mjs';
 const artifacts=path.join(root,'.artifacts'),arg=process.argv.indexOf('--location'),location=JSON.parse(fs.readFileSync(arg<0?path.join(artifacts,'adapter-location.json'):path.resolve(process.argv[arg+1])));
 assert.equal(location.procEffectAdapterDecision,'proc-ward-game-adapter/v1','Requires the guarded ward adapter');
-const game=location.game,installed=path.join(location.tooling,'node_modules/@hollow-wake/engine/dist'),canonical=p=>fs.realpathSync(p).toLowerCase();
-for(const file of ['m36-condition-control/retained.json','m37-initial-candidate/retained.json','m37-proc-control/retained.json','m38-prepared-adapter-location.json','m38-proc-initial/retained.json','m38-observation-control/retained.json','m38-native-array-initial-control/retained.json','m38-effect-control/retained.json','m39-ward-initial-control/retained.json']){
+const readOnly=process.argv.includes('--read-only'),game=location.game,installed=path.join(location.tooling,'node_modules/@hollow-wake/engine/dist'),canonical=p=>fs.realpathSync(p).toLowerCase();
+if(!readOnly)for(const file of ['m36-condition-control/retained.json','m37-initial-candidate/retained.json','m37-proc-control/retained.json','m38-prepared-adapter-location.json','m38-proc-initial/retained.json','m38-observation-control/retained.json','m38-native-array-initial-control/retained.json','m38-effect-control/retained.json','m39-ward-initial-control/retained.json']){
   const retainedPath=path.join(artifacts,file);if(!fs.existsSync(retainedPath))continue;const retained=JSON.parse(fs.readFileSync(retainedPath)),control=retained.location??retained;
   assert.notEqual(canonical(game),canonical(control.game),'Refusing to mutate a retained game');assert.notEqual(canonical(location.tooling),canonical(control.tooling),'Refusing to mutate a retained runtime');
   assert.notEqual(canonical(path.join(game,'src')),canonical(path.join(control.game,'src')),'Retained source junction');
@@ -41,7 +41,7 @@ for(const row of fixtures){
   results.push({name:row.name,courses:row.courses,byteEqual:true,sha256:sha256(actual)});console.log('PASS installed '+row.name);
 }
 const targets={runtime:path.join(installed,'proc-effects.js'),binding:path.join(game,'src/engine/procEffectAdapter.ts'),world:path.join(game,'src/engine/world.ts')},faults=[];
-for(const [name,target,before,after,fixture]of [
+if(!readOnly)for(const [name,target,before,after,fixture]of [
   ['zero-power-clears','runtime','pw === 1 || !(pw > 0)','pw === 1 || pw < 0','proc-effects-scaling'],
   ['ward-percent-unscaled','runtime','pctMaxLife: fx.pctMaxLife === undefined ? undefined : fx.pctMaxLife * pw','pctMaxLife: fx.pctMaxLife','proc-effects-scaling'],
   ['metadata-retained-incorrectly','runtime','healAllies: fx.healAllies ? { base:','healAllies: fx.healAllies ? { ...fx.healAllies, base:','proc-magnitude-metadata'],
@@ -68,4 +68,4 @@ for(const [name,target,before,after,fixture]of [
   faults.push({name,detected});console.log('Rejected installed effect fault: '+name);
 }
 assert.equal(results.reduce((sum,row)=>sum+row.courses,0),1096);
-writeJSON(path.join(artifacts,'game-proc-effects-verification.json'),{output,game,tooling:location.tooling,packageIntegrity:location.integrity,typesPassed:true,originalHostTypesPassed:true,originalCoursesCompared:1096,additionalNativeHookAndCueCases:7,hostProbeSha256:sha256(hostSource),hostProbeByteEqual:true,results,installedFaults:faults,allInstalledFilesRestored:true,originalUnchanged:true});
+writeJSON(path.join(artifacts,'game-proc-effects-verification.json'),{output,game,tooling:location.tooling,packageIntegrity:location.integrity,readOnly,typesPassed:true,originalHostTypesPassed:true,originalCoursesCompared:1096,additionalNativeHookAndCueCases:7,hostProbeSha256:sha256(hostSource),hostProbeByteEqual:true,results,installedFaults:faults,allInstalledFilesRestored:true,originalUnchanged:true});

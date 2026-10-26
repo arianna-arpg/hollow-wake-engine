@@ -187,6 +187,12 @@ take effect immediately. Deliberate faults exercise installed arithmetic, host
 ports, cues and the rider tail; each fault is restored before the next runs.
 Both commands write diagnostic receipts under `.artifacts`. Normal comparisons
 never rewrite accepted fixtures or modify the preserved original checkout.
+For an existing integrated game or an immutable comparison, use
+`npm run adapter:effects -- --location <location.json> --read-only`.
+This runs the same 1,096 original observations and seven native hook/cue cases,
+with type checks and source/runtime preservation checks, and skips fault
+injection. The default mode continues to require a disposable candidate and
+rejects retained source or package aliases before any mutation.
 
 ## Measurement protocol
 
