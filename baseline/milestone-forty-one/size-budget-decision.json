@@ -1,0 +1,29 @@
+{
+  "id": "optional-buff-size-budget/v1",
+  "reason": "The newly extracted runtime and separate content compiler add optional capability. Retain the predecessor runtime allowance explicitly and attribute the additional code to the two new modules.",
+  "observedBeforeDecision": {
+    "predecessorVersion": "0.35.0",
+    "predecessorCommit": "193b84fcee89cbde48af05ba0361a68f5a589bea",
+    "predecessorJavaScriptBytes": 499277,
+    "candidateJavaScriptBytes": 515092,
+    "previousAllowanceBytes": 512000,
+    "excessBytes": 3092,
+    "newModules": [
+      { "path": "dist/buffs.js", "bytes": 9312, "sha256": "c3e4cd1e69059e80002e150be217f37a3db86dc5d4d7a3648474c9e78e5fcee2" },
+      { "path": "dist/buff-content.js", "bytes": 6503, "sha256": "4e1c508eb2297b3fad08474098cdbc84405c4146b7da88bf43bd4e175a689be2" }
+    ]
+  },
+  "limits": {
+    "existingRuntimeJavaScriptBytes": 512000,
+    "buffRuntimeAndCompilerJavaScriptBytes": 18432,
+    "combinedJavaScriptBytes": 530432,
+    "coreJavaScriptBytes": 98304
+  },
+  "requirements": [
+    "Both buff entries remain optional and unreachable from the main runtime import.",
+    "The timer runtime has no runtime imports; owned-content validation remains a separate entry.",
+    "Every prior module-specific allowance remains unchanged.",
+    "Package verification checks the old subtotal and new subtotal separately, as well as their combined ceiling.",
+    "These are unminified download/code-size bounds, not measured CPU, allocation or physical-device performance."
+  ]
+}

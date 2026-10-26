@@ -73,9 +73,9 @@ is allowed; it expires at the next timer phase. Time steps and spend counts must
 be finite and nonnegative; spend counts are integers. Native over-consumption may
 leave a negative detached stack count after the active record is removed.
 
-A separate owned-content entry will validate and freeze serialized stat-buff
-definitions. It must reject unknown fields/accessors, unsupported modifiers,
-nonfinite values and excessive collections before mutation. Spatial/payload
+A separate owned-content entry validates and freezes serialized stat-buff
+definitions. It rejects unknown fields/accessors, unsupported modifiers,
+nonfinite values and excessive collections before runtime mutation. Spatial/payload
 metadata is not silently implemented by that compiler. Typed borrowed content is
 an explicit host-trust boundary, not a serialized-content validator. Persistence
 remains host-owned; live maps are not a validated save format.
@@ -84,6 +84,44 @@ Sinks return `undefined` and must complete synchronously. Ports and borrowed sta
 must not be replaced asynchronously during an operation. Proxies, accessor-based
 records and instrumented clock-array methods are outside the borrowed-state
 contract; controlled queue/cue callbacks in the fixtures are separately exercised.
+
+## Standalone API
+
+Import `BuffRuntime` from `@hollow-wake/engine/combat/buffs` and
+`compileBuffDefinition` from `@hollow-wake/engine/combat/buff-content`.
+Both are optional entries. The timer runtime has no imports; the compiler uses
+the shared stat validation outside the simulation loop. The two new modules have
+an 18 KiB combined unminified JavaScript allowance. The
+[size decision](../baseline/milestone-forty-one/size-budget-decision.json) retains
+the previous 500 KiB allowance for existing runtime modules and 96 KiB for the
+core; adding the optional buff allowance gives a 518 KiB total ceiling. Every
+previous module-specific limit remains unchanged. This accounts for added
+capability without treating code size as a CPU or allocation measurement.
+
+`grant(owner, definition, durationScale?, chainDepth?, tags?)` retains native
+definitions and tag identity. `consume(owner, id, count?)` spends directly;
+`spend(owner, event, tags?, skillId?)` applies event gates. `advance(owner, delta)`
+belongs at the host timer phase. `remove(owner, id)` removes an active buff and
+`synchronize(owner, id)` explicitly republishes or removes its source.
+
+Supply synchronous `publish`, `removeSource` and `release` callbacks. The optional
+`consume` callback preserves a host's instrumented method dispatch and must call
+through to the same runtime. A frozen copy of the supplied port table fixes its
+callbacks at construction. Use the same runtime for all operations on its owners
+so callback guards remain effective. See the [plain-record example](../examples/buffs.mjs).
+
+The compiler accepts stat modifiers plus duration, stack settings, consumption
+gates and an optional label. Tags and skill lists preserve order, including empty
+lists. An omitted `consumeOnUse.tags` means every completed use. Modifier and link
+source ids must exist in the supplied `StatRules`. Limits are 4,096 modifiers,
+256 entries per tag/skill list, 256 characters per id/tag and 1,024 per label.
+It owns and freezes every accepted object/array without freezing the input.
+
+Borrowed scalar validation after a gain-queue callback can fail with that event
+already committed. Likewise, native mode transitions retain their recorded
+scalar/clock mismatches; the spending correction does not normalize those prior
+transitions. The owned compiler is the ingress path for serialized content, while
+native typed callers retain responsibility for coherent host records and metadata.
 
 ## Verification and optimization
 

@@ -106,7 +106,8 @@ const paymentJsBytes = packed.files.filter(file => file.path === 'dist/resource-
 const procJsBytes = packed.files.filter(file => /^dist\/proc-.*\.js$/.test(file.path) && file.path !== 'dist/proc-effects.js').reduce((sum, file) => sum + file.size, 0);
 const procEffectJsBytes = packed.files.filter(file => file.path === 'dist/proc-effects.js').reduce((sum, file) => sum + file.size, 0);
 const delayedJsBytes = packed.files.filter(file => file.path === 'dist/delayed-bursts.js').reduce((sum, file) => sum + file.size, 0);
-const coreJsBytes = jsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes - stashJsBytes - containerJsBytes - relicJsBytes - actionJsBytes - equipmentJsBytes - progressionJsBytes - skillJsBytes - supportJsBytes - resourceJsBytes - chargedCastJsBytes - interactiveCastJsBytes - ammunitionJsBytes - channelCastJsBytes - guardCastJsBytes - paymentJsBytes - admissionJsBytes - intentJsBytes - requestJsBytes - dispatchJsBytes - continuationJsBytes - bankJsBytes - actorGaugeJsBytes - actorConditionJsBytes - procJsBytes - procEffectJsBytes - delayedJsBytes;
+const buffJsBytes = packed.files.filter(file => /^dist\/(buffs|buff-content)\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
+const coreJsBytes = jsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes - stashJsBytes - containerJsBytes - relicJsBytes - actionJsBytes - equipmentJsBytes - progressionJsBytes - skillJsBytes - supportJsBytes - resourceJsBytes - chargedCastJsBytes - interactiveCastJsBytes - ammunitionJsBytes - channelCastJsBytes - guardCastJsBytes - paymentJsBytes - admissionJsBytes - intentJsBytes - requestJsBytes - dispatchJsBytes - continuationJsBytes - bankJsBytes - actorGaugeJsBytes - actorConditionJsBytes - procJsBytes - procEffectJsBytes - delayedJsBytes - buffJsBytes;
 const contentBytes = packed.files.filter(file => file.path.startsWith('content/') && file.path.endsWith('.json')).reduce((sum, file) => sum + file.size, 0);
 assert.ok(coreJsBytes <= 96 * 1024, 'Core runtime exceeded the retained 96 KiB unminified JS budget');
 assert.ok(itemJsBytes <= 64 * 1024, 'Optional item entry exceeded its 64 KiB unminified JS budget');
@@ -138,11 +139,13 @@ assert.ok(actorConditionJsBytes <= 8 * 1024, 'Optional actor conditions exceeded
 assert.ok(procJsBytes <= 24 * 1024, 'Optional proc dispatch exceeded its 24 KiB unminified JS budget');
 assert.ok(procEffectJsBytes > 0 && procEffectJsBytes <= 4 * 1024, 'Optional magnitude/ward exceeded its 4 KiB unminified JS budget or is missing');
 assert.ok(delayedJsBytes > 0 && delayedJsBytes <= 8 * 1024, 'Optional delayed bursts exceeded the 8 KiB unminified JS budget or are missing');
-assert.ok(jsBytes <= 500 * 1024, 'Combined runtime exceeded the 500 KiB unminified JS budget');
+assert.ok(buffJsBytes > 0 && buffJsBytes <= 18 * 1024, 'Optional buff runtime and content compiler exceeded their 18 KiB unminified JS budget or are missing');
+assert.ok(jsBytes - buffJsBytes <= 500 * 1024, 'Existing runtime exceeded its retained 500 KiB unminified JS budget');
+assert.ok(jsBytes <= 518 * 1024, 'Combined runtime exceeded the explicit 500 + 18 KiB unminified JS budget');
 assert.ok(contentBytes <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
   runtimeJsBytes: jsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, equipmentJsBytes, progressionJsBytes, skillJsBytes, supportJsBytes, resourceJsBytes, chargedCastJsBytes, interactiveCastJsBytes, ammunitionJsBytes, channelCastJsBytes, guardCastJsBytes, paymentJsBytes, admissionJsBytes, intentJsBytes, requestJsBytes, dispatchJsBytes, continuationJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
-  bankJsBytes, actorGaugeJsBytes, actorConditionJsBytes, procJsBytes, procEffectJsBytes, delayedJsBytes, isolatedConsumer: JSON.parse(result), node: process.version,
+  bankJsBytes, actorGaugeJsBytes, actorConditionJsBytes, procJsBytes, procEffectJsBytes, delayedJsBytes, buffJsBytes, isolatedConsumer: JSON.parse(result), node: process.version,
 }, null, 2) + '\n');
 console.log(result.trim());
 console.log(`Packaged runtime ${jsBytes} bytes JS; selected content ${contentBytes} bytes; archive ${packed.size} bytes.`);
