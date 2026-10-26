@@ -1,0 +1,816 @@
+[
+  {
+    "name": "idle",
+    "frame": 1,
+    "enemyRequests": 0,
+    "clock": 0.025,
+    "zone": "qa_delayed",
+    "life": 500,
+    "enemyLife": 1000000,
+    "enemyPresent": true,
+    "mana": 1000,
+    "casting": null,
+    "pending": [],
+    "flashes": [],
+    "paint": [],
+    "requests": [],
+    "effects": [],
+    "heals": [],
+    "draws": 0,
+    "fatal": null
+  },
+  {
+    "name": "casting",
+    "frame": 2,
+    "enemyRequests": 0,
+    "clock": 0.05,
+    "zone": "qa_delayed",
+    "life": 500,
+    "enemyLife": 1000000,
+    "enemyPresent": true,
+    "mana": 993,
+    "casting": "sanctified_strike",
+    "pending": [],
+    "flashes": [],
+    "paint": [],
+    "requests": [
+      {
+        "skill": "sanctified_strike",
+        "result": true,
+        "clock": 0.025
+      }
+    ],
+    "effects": [],
+    "heals": [],
+    "draws": 1,
+    "fatal": null
+  },
+  {
+    "name": "warning",
+    "frame": 29,
+    "enemyRequests": 0,
+    "clock": 0.725,
+    "zone": "qa_delayed",
+    "life": 500,
+    "enemyLife": 999979.810414,
+    "enemyPresent": true,
+    "mana": 993,
+    "casting": null,
+    "pending": [
+      {
+        "due": 0.5,
+        "radius": 120,
+        "at": {
+          "x": 945,
+          "y": 760
+        },
+        "depth": 1,
+        "tier": 0
+      },
+      {
+        "due": 0.5,
+        "radius": 70,
+        "at": {
+          "x": 945,
+          "y": 760
+        },
+        "depth": 1,
+        "tier": 0
+      }
+    ],
+    "flashes": [
+      {
+        "radius": 120,
+        "color": "#ffe8b0",
+        "life": 0.475,
+        "maxLife": 0.5,
+        "edgeFrac": 0.94
+      },
+      {
+        "radius": 70,
+        "color": "#ffd890",
+        "life": 0.475,
+        "maxLife": 0.5,
+        "edgeFrac": 0.94
+      }
+    ],
+    "paint": [
+      {
+        "radius": 120,
+        "color": "#ffe8b0",
+        "phase": "warning",
+        "life": 0.475,
+        "calls": [
+          {
+            "method": "arc",
+            "alpha": 0.475,
+            "x": 945,
+            "y": 760,
+            "radius": 116.4
+          },
+          {
+            "method": "stroke",
+            "alpha": 0.475,
+            "width": 7.2
+          }
+        ]
+      },
+      {
+        "radius": 70,
+        "color": "#ffd890",
+        "phase": "warning",
+        "life": 0.475,
+        "calls": [
+          {
+            "method": "arc",
+            "alpha": 0.475,
+            "x": 945,
+            "y": 760,
+            "radius": 67.9
+          },
+          {
+            "method": "stroke",
+            "alpha": 0.475,
+            "width": 4.2
+          }
+        ]
+      }
+    ],
+    "requests": [
+      {
+        "skill": "sanctified_strike",
+        "result": true,
+        "clock": 0.025
+      }
+    ],
+    "effects": [
+      {
+        "id": "radiant_reprisal",
+        "clock": 0.725
+      },
+      {
+        "id": "radiant_cascade",
+        "clock": 0.725
+      }
+    ],
+    "heals": [
+      {
+        "amount": 0,
+        "rate": 1,
+        "landed": 0,
+        "clock": 0.725
+      }
+    ],
+    "draws": 11,
+    "fatal": null
+  },
+  {
+    "name": "paused",
+    "frame": 39,
+    "enemyRequests": 0,
+    "clock": 0.725,
+    "zone": "qa_delayed",
+    "life": 500,
+    "enemyLife": 999979.810414,
+    "enemyPresent": true,
+    "mana": 993,
+    "casting": null,
+    "pending": [
+      {
+        "due": 0.5,
+        "radius": 120,
+        "at": {
+          "x": 945,
+          "y": 760
+        },
+        "depth": 1,
+        "tier": 0
+      },
+      {
+        "due": 0.5,
+        "radius": 70,
+        "at": {
+          "x": 945,
+          "y": 760
+        },
+        "depth": 1,
+        "tier": 0
+      }
+    ],
+    "flashes": [
+      {
+        "radius": 120,
+        "color": "#ffe8b0",
+        "life": 0.475,
+        "maxLife": 0.5,
+        "edgeFrac": 0.94
+      },
+      {
+        "radius": 70,
+        "color": "#ffd890",
+        "life": 0.475,
+        "maxLife": 0.5,
+        "edgeFrac": 0.94
+      }
+    ],
+    "paint": [
+      {
+        "radius": 120,
+        "color": "#ffe8b0",
+        "phase": "warning",
+        "life": 0.475,
+        "calls": [
+          {
+            "method": "arc",
+            "alpha": 0.475,
+            "x": 945,
+            "y": 760,
+            "radius": 116.4
+          },
+          {
+            "method": "stroke",
+            "alpha": 0.475,
+            "width": 7.2
+          }
+        ]
+      },
+      {
+        "radius": 70,
+        "color": "#ffd890",
+        "phase": "warning",
+        "life": 0.475,
+        "calls": [
+          {
+            "method": "arc",
+            "alpha": 0.475,
+            "x": 945,
+            "y": 760,
+            "radius": 67.9
+          },
+          {
+            "method": "stroke",
+            "alpha": 0.475,
+            "width": 4.2
+          }
+        ]
+      }
+    ],
+    "requests": [
+      {
+        "skill": "sanctified_strike",
+        "result": true,
+        "clock": 0.025
+      }
+    ],
+    "effects": [
+      {
+        "id": "radiant_reprisal",
+        "clock": 0.725
+      },
+      {
+        "id": "radiant_cascade",
+        "clock": 0.725
+      }
+    ],
+    "heals": [
+      {
+        "amount": 0,
+        "rate": 1,
+        "landed": 0,
+        "clock": 0.725
+      }
+    ],
+    "draws": 11,
+    "fatal": null
+  },
+  {
+    "name": "slowed",
+    "frame": 47,
+    "enemyRequests": 0,
+    "clock": 0.825,
+    "zone": "qa_delayed",
+    "life": 500,
+    "enemyLife": 999979.810414,
+    "enemyPresent": true,
+    "mana": 993,
+    "casting": null,
+    "pending": [
+      {
+        "due": 0.4,
+        "radius": 120,
+        "at": {
+          "x": 945,
+          "y": 760
+        },
+        "depth": 1,
+        "tier": 0
+      },
+      {
+        "due": 0.4,
+        "radius": 70,
+        "at": {
+          "x": 945,
+          "y": 760
+        },
+        "depth": 1,
+        "tier": 0
+      }
+    ],
+    "flashes": [
+      {
+        "radius": 120,
+        "color": "#ffe8b0",
+        "life": 0.375,
+        "maxLife": 0.5,
+        "edgeFrac": 0.94
+      },
+      {
+        "radius": 70,
+        "color": "#ffd890",
+        "life": 0.375,
+        "maxLife": 0.5,
+        "edgeFrac": 0.94
+      }
+    ],
+    "paint": [
+      {
+        "radius": 120,
+        "color": "#ffe8b0",
+        "phase": "warning",
+        "life": 0.375,
+        "calls": [
+          {
+            "method": "arc",
+            "alpha": 0.375,
+            "x": 945,
+            "y": 760,
+            "radius": 116.4
+          },
+          {
+            "method": "stroke",
+            "alpha": 0.375,
+            "width": 7.2
+          }
+        ]
+      },
+      {
+        "radius": 70,
+        "color": "#ffd890",
+        "phase": "warning",
+        "life": 0.375,
+        "calls": [
+          {
+            "method": "arc",
+            "alpha": 0.375,
+            "x": 945,
+            "y": 760,
+            "radius": 67.9
+          },
+          {
+            "method": "stroke",
+            "alpha": 0.375,
+            "width": 4.2
+          }
+        ]
+      }
+    ],
+    "requests": [
+      {
+        "skill": "sanctified_strike",
+        "result": true,
+        "clock": 0.025
+      }
+    ],
+    "effects": [
+      {
+        "id": "radiant_reprisal",
+        "clock": 0.725
+      },
+      {
+        "id": "radiant_cascade",
+        "clock": 0.725
+      }
+    ],
+    "heals": [
+      {
+        "amount": 0,
+        "rate": 1,
+        "landed": 0,
+        "clock": 0.725
+      }
+    ],
+    "draws": 11,
+    "fatal": null
+  },
+  {
+    "name": "impact",
+    "frame": 63,
+    "enemyRequests": 0,
+    "clock": 1.225,
+    "zone": "qa_delayed",
+    "life": 512,
+    "enemyLife": 999961.810414,
+    "enemyPresent": true,
+    "mana": 993,
+    "casting": null,
+    "pending": [],
+    "flashes": [
+      {
+        "radius": 70,
+        "color": "#ffd890",
+        "life": 0.275,
+        "maxLife": 0.3,
+        "edgeFrac": null
+      },
+      {
+        "radius": 120,
+        "color": "#ffe8b0",
+        "life": 0.275,
+        "maxLife": 0.3,
+        "edgeFrac": null
+      }
+    ],
+    "paint": [
+      {
+        "radius": 70,
+        "color": "#ffd890",
+        "phase": "impact",
+        "life": 0.275,
+        "calls": [
+          {
+            "method": "arc",
+            "alpha": 1,
+            "x": 945,
+            "y": 760,
+            "radius": 71.166667
+          },
+          {
+            "method": "fill",
+            "alpha": 1,
+            "width": 1.1
+          },
+          {
+            "method": "arc",
+            "alpha": 0.641667,
+            "x": 945,
+            "y": 760,
+            "radius": 38.616667
+          },
+          {
+            "method": "stroke",
+            "alpha": 0.641667,
+            "width": 3.833333
+          }
+        ]
+      },
+      {
+        "radius": 120,
+        "color": "#ffe8b0",
+        "phase": "impact",
+        "life": 0.275,
+        "calls": [
+          {
+            "method": "arc",
+            "alpha": 1,
+            "x": 945,
+            "y": 760,
+            "radius": 122
+          },
+          {
+            "method": "fill",
+            "alpha": 1,
+            "width": 3.833333
+          },
+          {
+            "method": "arc",
+            "alpha": 0.641667,
+            "x": 945,
+            "y": 760,
+            "radius": 66.2
+          },
+          {
+            "method": "stroke",
+            "alpha": 0.641667,
+            "width": 3.833333
+          }
+        ]
+      }
+    ],
+    "requests": [
+      {
+        "skill": "sanctified_strike",
+        "result": true,
+        "clock": 0.025
+      }
+    ],
+    "effects": [
+      {
+        "id": "radiant_reprisal",
+        "clock": 0.725
+      },
+      {
+        "id": "radiant_cascade",
+        "clock": 0.725
+      }
+    ],
+    "heals": [
+      {
+        "amount": 0,
+        "rate": 1,
+        "landed": 0,
+        "clock": 0.725
+      },
+      {
+        "amount": 4,
+        "rate": 1,
+        "landed": 4,
+        "clock": 1.225
+      },
+      {
+        "amount": 8,
+        "rate": 1,
+        "landed": 8,
+        "clock": 1.225
+      }
+    ],
+    "draws": 15,
+    "fatal": null
+  },
+  {
+    "name": "expired",
+    "frame": 79,
+    "enemyRequests": 0,
+    "clock": 1.625,
+    "zone": "qa_delayed",
+    "life": 512,
+    "enemyLife": 999961.810414,
+    "enemyPresent": true,
+    "mana": 993,
+    "casting": null,
+    "pending": [],
+    "flashes": [],
+    "paint": [],
+    "requests": [
+      {
+        "skill": "sanctified_strike",
+        "result": true,
+        "clock": 0.025
+      }
+    ],
+    "effects": [
+      {
+        "id": "radiant_reprisal",
+        "clock": 0.725
+      },
+      {
+        "id": "radiant_cascade",
+        "clock": 0.725
+      }
+    ],
+    "heals": [
+      {
+        "amount": 0,
+        "rate": 1,
+        "landed": 0,
+        "clock": 0.725
+      },
+      {
+        "amount": 4,
+        "rate": 1,
+        "landed": 4,
+        "clock": 1.225
+      },
+      {
+        "amount": 8,
+        "rate": 1,
+        "landed": 8,
+        "clock": 1.225
+      }
+    ],
+    "draws": 15,
+    "fatal": null
+  },
+  {
+    "name": "departing-warning",
+    "frame": 107,
+    "enemyRequests": 0,
+    "clock": 2.325,
+    "zone": "qa_delayed",
+    "life": 512,
+    "enemyLife": 999945.894489,
+    "enemyPresent": true,
+    "mana": 986,
+    "casting": null,
+    "pending": [
+      {
+        "due": 0.5,
+        "radius": 120,
+        "at": {
+          "x": 945,
+          "y": 760
+        },
+        "depth": 1,
+        "tier": 0
+      },
+      {
+        "due": 0.5,
+        "radius": 70,
+        "at": {
+          "x": 945,
+          "y": 760
+        },
+        "depth": 1,
+        "tier": 0
+      }
+    ],
+    "flashes": [
+      {
+        "radius": 120,
+        "color": "#ffe8b0",
+        "life": 0.475,
+        "maxLife": 0.5,
+        "edgeFrac": 0.94
+      },
+      {
+        "radius": 70,
+        "color": "#ffd890",
+        "life": 0.475,
+        "maxLife": 0.5,
+        "edgeFrac": 0.94
+      }
+    ],
+    "paint": [
+      {
+        "radius": 120,
+        "color": "#ffe8b0",
+        "phase": "warning",
+        "life": 0.475,
+        "calls": [
+          {
+            "method": "arc",
+            "alpha": 0.475,
+            "x": 945,
+            "y": 760,
+            "radius": 116.4
+          },
+          {
+            "method": "stroke",
+            "alpha": 0.475,
+            "width": 7.2
+          }
+        ]
+      },
+      {
+        "radius": 70,
+        "color": "#ffd890",
+        "phase": "warning",
+        "life": 0.475,
+        "calls": [
+          {
+            "method": "arc",
+            "alpha": 0.475,
+            "x": 945,
+            "y": 760,
+            "radius": 67.9
+          },
+          {
+            "method": "stroke",
+            "alpha": 0.475,
+            "width": 4.2
+          }
+        ]
+      }
+    ],
+    "requests": [
+      {
+        "skill": "sanctified_strike",
+        "result": true,
+        "clock": 0.025
+      },
+      {
+        "skill": "sanctified_strike",
+        "result": true,
+        "clock": 1.625
+      }
+    ],
+    "effects": [
+      {
+        "id": "radiant_reprisal",
+        "clock": 0.725
+      },
+      {
+        "id": "radiant_cascade",
+        "clock": 0.725
+      },
+      {
+        "id": "radiant_reprisal",
+        "clock": 2.325
+      },
+      {
+        "id": "radiant_cascade",
+        "clock": 2.325
+      }
+    ],
+    "heals": [
+      {
+        "amount": 0,
+        "rate": 1,
+        "landed": 0,
+        "clock": 0.725
+      },
+      {
+        "amount": 4,
+        "rate": 1,
+        "landed": 4,
+        "clock": 1.225
+      },
+      {
+        "amount": 8,
+        "rate": 1,
+        "landed": 8,
+        "clock": 1.225
+      },
+      {
+        "amount": 0,
+        "rate": 1,
+        "landed": 0,
+        "clock": 2.325
+      }
+    ],
+    "draws": 24,
+    "fatal": null
+  },
+  {
+    "name": "departed",
+    "frame": 140,
+    "enemyRequests": 0,
+    "clock": 3.15,
+    "zone": "lastlight",
+    "life": 512,
+    "enemyLife": 999945.894489,
+    "enemyPresent": false,
+    "mana": 986,
+    "casting": null,
+    "pending": [],
+    "flashes": [],
+    "paint": [],
+    "requests": [
+      {
+        "skill": "sanctified_strike",
+        "result": true,
+        "clock": 0.025
+      },
+      {
+        "skill": "sanctified_strike",
+        "result": true,
+        "clock": 1.625
+      }
+    ],
+    "effects": [
+      {
+        "id": "radiant_reprisal",
+        "clock": 0.725
+      },
+      {
+        "id": "radiant_cascade",
+        "clock": 0.725
+      },
+      {
+        "id": "radiant_reprisal",
+        "clock": 2.325
+      },
+      {
+        "id": "radiant_cascade",
+        "clock": 2.325
+      }
+    ],
+    "heals": [
+      {
+        "amount": 0,
+        "rate": 1,
+        "landed": 0,
+        "clock": 0.725
+      },
+      {
+        "amount": 4,
+        "rate": 1,
+        "landed": 4,
+        "clock": 1.225
+      },
+      {
+        "amount": 8,
+        "rate": 1,
+        "landed": 8,
+        "clock": 1.225
+      },
+      {
+        "amount": 0,
+        "rate": 1,
+        "landed": 0,
+        "clock": 2.325
+      }
+    ],
+    "draws": 143,
+    "fatal": null
+  }
+]

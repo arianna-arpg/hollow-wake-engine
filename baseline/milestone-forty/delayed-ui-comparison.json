@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "decision": "delayed-ui-ambient-random-scope/v1",
+  "acceptanceSha256": "872594ba4e893a1353428e31290f64c2f608e58012413665defb88396cdcbeed",
+  "expectedSha256": "3d45796772a0284e5d8a17843014bd7573156358bbd19afb221fae4fe398c732",
+  "excludedDiagnostic": {
+    "index": 8,
+    "stage": "departed",
+    "field": "draws"
+  },
+  "originalEvidence": {
+    "firstTwoRawSha256": "3d45796772a0284e5d8a17843014bd7573156358bbd19afb221fae4fe398c732",
+    "firstTwoFinalDraws": 143,
+    "additionalRawSha256": "6771708c7ff4aa3db12c4a7b731091b3c01b7a3129b35a3d576b37b68714d9be",
+    "additionalFinalDraws": 137,
+    "additionalObservationReconstruction": "Replace only /8/draws in the accepted expected JSON, serialize with two-space indentation and a final newline, and verify additionalRawSha256.",
+    "allOtherFieldsAndEarlierDrawCountsEqual": true
+  },
+  "reason": "A later run of the unchanged original also varies in the total ambient random draws after loading Lastlight. That count is not a reproducible equivalence signal for this renderer course. Preserve the accepted original fixture and all raw outputs. Compare every other field, including all eight pre-departure random counts; retain the final count as a nonnegative monotonic integer diagnostic. This changes only observation scope, not gameplay expectations or the six cancellation repairs."
+}

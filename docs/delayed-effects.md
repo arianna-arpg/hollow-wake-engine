@@ -292,6 +292,45 @@ The default order is previous,current,comparison. All measurement receipts name
 their helper hash; the first two use the earlier helper at ed124ebb, while the
 order diagnostics use the new helper recorded in the supplemental plan.
 
+## Native renderer course
+
+[The measured v0.35 package passes this course and twelve existing renderer/boot checks](../evidence/milestone-forty/delayed-renderer-verification.json).
+Source, installed package and bundle bytes remain unchanged. Warning/impact
+images were visually reviewed; no pixel-equality result is claimed.
+
+The [accepted original observations](../baseline/milestone-forty/delayed-ui-acceptance.json)
+come from two fresh executions of retained v0.34, before candidate execution.
+A nine-stage hidden Electron course presses the actual Cleric starter skill
+through the native input/frame loop. The skill and two authored proc definitions
+remain unchanged. Explicit resource/proc grants and a stationary, unarmed target
+in a safe test arena isolate casting, warning rings, pause, slow motion, impact
+healing/damage, expiry and ordinary zone departure before delivery. Every observed
+method calls through; canvas calls are observed during the real frame paint,
+without a second render. Screenshots show both rings and the resolved impacts.
+
+A third unchanged-original run exposed variation in the total ambient random
+draws after loading Lastlight: the first two ended at 143, the third at 137.
+Every other field matched. The [comparison decision](../baseline/milestone-forty/delayed-ui-comparison.json)
+preserves the original fixture and raw reports, and excludes only that final
+ambient count from equality. It still requires a valid monotonic integer count.
+All eight earlier random counts and every gameplay/paint observation remain
+strict. This is an observation-scope correction, not a gameplay change. The
+six reentrant cancellation repairs remain covered by the separate native/runtime
+tests; this ordinary zone-departure course does not exercise those callbacks.
+
+With the integrated game's shell/static assets present, build into a new folder
+and compare the installed package:
+
+```sh
+node scripts/build-game-item-ui.mjs --game integrated-game --output fresh-renderer-output
+npm run adapter:delayed-ui -- --game integrated-game --dist fresh-renderer-output --electron electron-executable
+```
+
+The check requires source and runtime hashes to match the bundle, verifies
+unchanged source, installed package and outputs afterwards, and uses disposable
+saves/profiles. This validates the Hollow Wake browser adapter, not native engine
+packages, physical input, device speed or rendered FPS.
+
 ## Reproduction
 
 After `npm ci`, `npm run reference:prepare` and `npm run reference:install`:
