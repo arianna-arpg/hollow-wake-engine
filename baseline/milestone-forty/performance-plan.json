@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "decision": "delayed-burst-performance/v1",
+  "comparison": "Retained published v0.34 and installed v0.35; optionally retain the initial v0.35 as a third graph when optimizing. Prior runtime and unrelated host source must match byte-for-byte.",
+  "warmups": 8,
+  "samples": 25,
+  "memorySamples": 7,
+  "requiredIndependentRuns": 2,
+  "order": "Rotate the first graph each trial, including warmup. One sequential benchmark process, no competing verification/build jobs.",
+  "workloads": [
+    {"name":"empty-drain","calls":131072,"pending":0,"actors":1},
+    {"name":"waiting-drain","calls":16384,"pending":32,"actors":1},
+    {"name":"sparse-deliveries","waves":16,"pendingPerWave":128,"actors":128},
+    {"name":"dense-deliveries","waves":16,"pendingPerWave":128,"actors":64},
+    {"name":"filtered-deliveries","waves":16,"pendingPerWave":128,"actors":64},
+    {"name":"overlapping-contacts","batches":64,"targets":32,"interval":0.25},
+    {"name":"separated-contacts","batches":64,"targets":32,"interval":0.75},
+    {"name":"quiet-frames","frames":600,"actors":16},
+    {"name":"casting-frames","frames":600,"targets":32,"attemptEveryFrames":60,"quietTailFrames":120}
+  ],
+  "memoryEntries": [8192,32768],
+  "memoryMethod": "Use native scheduling, release warning flashes, then compare twice-forced-GC retained heap with and without the pending queue while the same World remains alive. Two amplified sizes and seven rotating paired samples. Includes queue array, captured positions and scaled payloads; excludes released warnings. Not allocation volume, normal occupancy, peak memory or per-World constructor cost.",
+  "receipt": "Every timed sample must produce identical full canonical observations across graphs and trials. Hash queue payloads, actor combat/proc state, texts and flashes; record random draws, damage/healing changes, frame/cast counts and queue occupancy. Assert that each intended path actually ran.",
+  "timing": "Setup, forced GC, observation serialization and equality checks are outside timing. Native scheduling/contact/frame loops, delivery, host callback work, RNG count and queue-occupancy observation are included. Prebuilt delivery waves replace the inactive queue between native drains to isolate delivery cost.",
+  "reporting": "Keep every sample, batch median, p95 and per-call/per-frame interpretation. Report both independent runs, including regressions and noise; do not select the best trial or extrapolate desktop Node results to Steam Deck/mobile, renderer FPS or general game performance.",
+  "optimization": "Only change measured costs with retained initial controls and unchanged behavioral/cancellation evidence. No database, heap, spatial-index or pooling change without a demonstrated workload advantage and valid ownership/order semantics."
+}

@@ -2,8 +2,9 @@
 
 Milestone 40 starts with 48 pinned-original observations. The SDK scheduler and
 owned-content compiler are implemented. The first installed game adapter matches
-all 48 original scenarios with exactly the six predeclared repairs; frame/renderer,
-performance and managed-game acceptance remain pending. The [acceptance manifest](../baseline/milestone-forty/acceptance.json)
+all 48 original scenarios with exactly the six predeclared repairs. Controlled
+headless frame and performance comparisons are recorded below; renderer and
+managed-game acceptance remain pending. The [acceptance manifest](../baseline/milestone-forty/acceptance.json)
 retains the original helper and fixture bytes, including their historical
 discovery-scope wording. It does not adopt the recorded defects as SDK behavior.
 
@@ -178,8 +179,62 @@ The built module is 8,143 bytes of unminified JavaScript, within the previously
 declared 8 KiB allowance. The combined JavaScript ceiling is 500 KiB; prior
 module/core limits remain unchanged. It has no imports and is not an eager core
 dependency. This size result is not a speed or allocation measurement.
-Benchmarks must compare the new path with retained v0.34, include
-overlapping queues and full-frame work, and retain matching gameplay receipts.
+
+## Initial integration measurements
+
+The [performance plan](../baseline/milestone-forty/performance-plan.json) was
+written before timing. [Both complete runs and all samples](../evidence/milestone-forty/initial-delayed-performance.json)
+compare the retained published v0.34 game with the initial v0.35 integration.
+The 180 previous runtime files and 992 unrelated host files are unchanged.
+The measured packages, source graphs, helper and plan are hashed. The initial
+v0.35 installation is now a retained control; all three mutating combat harnesses
+reject its game, tooling and source/runtime junction aliases (12 checks).
+
+The machine is an Intel i9-10900K running Windows x64 and Node 24.9.0. Each run
+has eight warmups and 25 samples per graph per workload, with rotating order.
+Every trial and both runs have identical observed outcomes. Setup, forced GC
+and receipt construction are excluded from timing. An interrupted attempt
+produced no complete receipt; its partial log was retained and excluded, and a
+complete replacement run is included. These are desktop measurements, not
+Steam Deck/mobile acceptance or rendered FPS.
+
+| Workload | Calls per sample | Median CPU change, run 1 / run 2 |
+| --- | ---: | ---: |
+| Empty queue | 131,072 drains | +30.6% / +33.3% |
+| 32 waiting entries | 16,384 drains | +34.2% / +38.0% |
+| Sparse delivery, 128 actors | 2,048 bursts | −2.0% / −2.2% |
+| Dense delivery, 64 actors | 2,048 bursts | +2.2% / +0.2% |
+| Dead/untargetable/tier filtering, 64 actors | 2,048 bursts | −1.0% / −1.4% |
+| Authored contacts, 0.25-second batches | 2,048 contacts | −1.0% / −1.0% |
+| Authored contacts, 0.75-second batches | 2,048 contacts | −1.0% / +1.2% |
+| Quiet World, 16 actors | 600 frames | +1.0% / +1.0% |
+| Casting World, 32 enemies | 600 frames | +0.4% / −1.8% |
+
+Positive changes mean more CPU time. The empty-queue difference is about
+4.2–4.5 nanoseconds per drain; the waiting-queue difference is about 19–21
+nanoseconds per drain. The quiet-frame difference is about 0.0034 milliseconds
+per frame. These are derived batch averages, not individually timed calls.
+Busy-workload differences are small and include run-to-run variation; they do
+not establish a general speed improvement. The safeguards remain enabled.
+
+Delivery courses drain sixteen prebuilt waves of 128 effects, assigning each
+inactive queue before the native drain. Contact courses use the unchanged
+Sanctified Strike and three authored grants, seeded native hit rolls and manual
+clock advancement. They reach peaks of 191 and 129 entries; the earlier
+195-entry discovery used fixed successful rolls. They do not model normal cast
+pacing. The separate casting course uses actual `useSkill` and `World.update`,
+accepts eight casts, reaches 18 pending effects, and includes a quiet tail that
+drains them. Native body separation and other frame work remain active.
+
+Seven rotating paired heap samples at each of 8,192 and 32,768 entries measure
+the pending queue while keeping its World alive. Warnings are released before
+measurement; clearing the queue then releases the array, positions and retained
+payloads. Both implementations retain about 176–178 bytes per entry at these
+amplified sizes. This is not normal queue occupancy, total allocation traffic,
+peak memory, per-World cost or a mobile memory budget. The results do not justify
+introducing a database query, heap, spatial index or fixed-capacity pool into
+this ordered, callback-sensitive path. Any optimization must retain this initial
+control and pass the cancellation and original-outcome comparisons again.
 
 ## Reproduction
 
@@ -195,6 +250,19 @@ npm run adapter:delayed -- --location .artifacts/adapter-location.json
 
 Preparation creates a fresh disposable game. To inspect an existing installation,
 skip preparation and supply its location file; `--faults` is a separate opt-in.
+
+For performance reproduction, retain a v0.34 integrated game and supply its path:
+
+```sh
+npm run benchmark:delayed -- --location candidate-location.json --previous-adapter retained-v034-game --validate-only
+npm run benchmark:delayed -- --location candidate-location.json --previous-adapter retained-v034-game
+```
+
+Run the timed command twice with competing heavy jobs stopped. The harness
+checks source/runtime separation and preservation before and after, type-checks
+its helper, and saves all samples and input hashes in a fresh artifact directory.
+`--comparison-adapter` can add the retained initial v0.35 graph when testing a
+later optimization. Validation-only timings and heap readings are diagnostics.
 
 The reference command checks hashes, type-checks the seven helpers, runs the pinned
 original and compares exact fixture bytes. It writes diagnostics only under
