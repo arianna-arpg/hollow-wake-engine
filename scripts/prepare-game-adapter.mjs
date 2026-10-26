@@ -33,6 +33,7 @@ import { integrateCastingContinuation } from '../adapters/hollow-wake/integrate-
 import { integrateChannelBanks } from '../adapters/hollow-wake/integrate-channel-banks.mjs';
 import { integrateActorConditions } from '../adapters/hollow-wake/integrate-actor-conditions.mjs';
 import { integrateProcs } from '../adapters/hollow-wake/integrate-procs.mjs';
+import { integrateProcEffects } from '../adapters/hollow-wake/integrate-proc-effects.mjs';
 const artifacts = path.join(root, '.artifacts');
 fs.mkdirSync(artifacts, { recursive: true });
 const requested = process.argv.indexOf('--game');
@@ -66,6 +67,7 @@ integrateResourcePayment(game, false);
 integrateSkillAdmission(game, false);
 integrateSkillIntent(game, false);
 integrateSkillRequest(game, false);
+integrateProcEffects(game, false);
 // A distinct tool environment: never install into the frozen reference or another checkout's junction.
 const tooling = fs.mkdtempSync(path.join(artifacts, 'adapter-tools-'));
 for (const file of ['package.json', 'package-lock.json']) fs.copyFileSync(path.join(root, 'reference/tooling', file), path.join(tooling, file));
@@ -143,6 +145,9 @@ changes.intentionalConditionRepair = actorConditions.decision;
 const procs = integrateProcs(game);
 changes.files.push(...procs.files);
 changes.procAdapterDecision = procs.decision;
+const procEffects = integrateProcEffects(game);
+changes.files.push(...procEffects.files);
+changes.procEffectAdapterDecision = procEffects.decision;
 fs.symlinkSync(path.join(tooling, 'node_modules'), path.join(game, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
 fs.copyFileSync(path.join(root, 'reference/export-lifecycle.ts'), path.join(game, 'balance/export-engine-lifecycle.ts'));
 fs.writeFileSync(path.join(artifacts, 'adapter-location.json'), JSON.stringify({ game, tooling, package: packed.filename, integrity: packed.integrity, ...changes }, null, 2));

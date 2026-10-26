@@ -1,9 +1,10 @@
 # Effect extraction baseline
 
 The v0.34 development branch implements the magnitude fold, ward resource gain
-and ward effect arithmetic as an optional module. The published v0.33 game adapter
-still executes effects in the game; acceptance of a new installed game path is
-pending. The [accepted original fixtures](../baseline/milestone-thirty-nine/acceptance.json)
+and ward effect arithmetic as an optional module. A guarded game adapter connects
+those functions to the existing native methods; its publication, renderer and
+performance acceptance remain pending. The published v0.33 adapter retains the
+prior implementation. The [accepted original fixtures](../baseline/milestone-thirty-nine/acceptance.json)
 establish the comparison point before implementation changes.
 
 ## Portable ward functions
@@ -143,6 +144,22 @@ completion status.
 
 ## Reproduction
 
+The [adapter contract](../baseline/milestone-thirty-nine/adapter-contract.json)
+was committed before its implementation. The adapter changes three existing
+method boundaries and adds one stateless binding. Data-layer scaling imports
+the optional SDK directly. Actor imports in the shared port binding are type
+only, preventing a new runtime dependency cycle. The gain port calls the current
+native `gainWard` method, so nested grants, replacement methods and exceptions
+remain observable. The native cue construction, other 21 executor branches and
+rider tail stay in place.
+
+Before writing any source, the integrator requires the accepted method hashes,
+one unambiguous owner/method, unchanged sibling cases and no binding collision.
+It renders and parses all three edited sources first. Filesystem write failures
+are not a transactional rollback guarantee; use a fresh disposable game copy.
+The source controls cover both LF and CRLF and verify preservation of unrelated
+members, signatures, context queries and cue/rider phases.
+
 After preparing the pinned reference and its dependencies, run:
 
 ```sh
@@ -154,3 +171,39 @@ executes them against the preserved source and compares the results with the
 accepted compressed fixtures. It writes fresh diagnostic outputs under
 `.artifacts` and never regenerates expected results. The source lock, helper
 hashes and source-boundary digest are checked before comparisons.
+
+For a fresh game copy prepared with the existing adapter workflow, run:
+
+```sh
+npm run adapter:effects-source
+npm run adapter:effects
+```
+
+The installed comparison runs the five unchanged helpers against the package,
+then checks seven additional native hook/cue cases against the pinned original.
+Those cases distinguish actual pool growth from a callback return, observe pool
+changes during the maximum-life query and require a replacement gain method to
+take effect immediately. Deliberate faults exercise installed arithmetic, host
+ports, cues and the rider tail; each fault is restored before the next runs.
+Both commands write diagnostic receipts under `.artifacts`. Normal comparisons
+never rewrite accepted fixtures or modify the preserved original checkout.
+
+## Measurement protocol
+
+`npm run benchmark:effects -- --location <candidate-location.json>
+--previous-adapter <retained-v0.33-game>` checks the exact three source delegates,
+binding, unchanged predecessor modules and independent installed packages before
+running. Add `--validate-only` to compare receipts without treating its timings
+as evidence. Run timed samples only after other heavy verification has stopped.
+
+The command retains the seven dispatch/frame workloads and adds four focused
+courses: all authored magnitude folds plus `birth`, resource gains with mixed
+admission, complete native ward dispatch, and ward dispatch with changing gain
+rates. Each course compares the original, retained v0.33 and v0.34 candidate.
+Timed runs use four warmups and 15 rotating samples per graph; setup, forced GC
+and receipt construction are excluded. Stat writes, native cue/rider delivery
+and the stated observation work stay inside the measured operation.
+
+These desktop checks distinguish arithmetic overhead from whole-frame cost.
+They do not establish device performance, allocation volume or peak memory.
+Steam Deck and older-mobile acceptance still requires actual device runs.
