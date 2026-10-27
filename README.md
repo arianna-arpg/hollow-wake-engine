@@ -9,17 +9,19 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
-An unpublished [life-recovery candidate](docs/life-recovery.md) adds optional
-healing/refill operations and validated proc-heal content. Native direct cases,
-method-selection cases and an independent package consumer pass. Its installed
-game adapter reproduces 121 native observations, including actual healing cues
-and customized callable behavior.
-A measured function-layout experiment failed its predefined acceptance threshold;
-the corrected runtime remains selected, with [both comparison runs retained](evidence/milestone-forty-two/recovery-notification-performance.json).
-Fifteen healing display stages now match two native reference runs, including
-life-orb drawing, cast timing, healing numbers and proc cues. Managed-game
-acceptance remains pending, and device performance is unmeasured. Published
-v0.36 is described below.
+Version 0.37 adds optional [life recovery](docs/life-recovery.md): healing,
+full refill and validated proc-heal content. The installed game adapter preserves
+121 native observations, including callback order, actual healing cues and
+customized callable behavior. Fifteen display stages match two native reference
+runs, covering life-orb drawing, cast timing, healing numbers and proc cues.
+The [acceptance record](evidence/milestone-forty-two/verification.json) records
+the isolated game integration, final package checks and preservation of existing work.
+
+A function-layout experiment failed its predefined performance threshold and
+was rejected. [Both comparison runs and the rejected patch](evidence/milestone-forty-two/recovery-notification-performance.json)
+remain available. The selected modules add no per-Actor fields; throughput,
+allocation-volume and physical-device acceptance remain separate requirements.
+These desktop checks do not establish a general speedup or native-engine support.
 
 Version 0.36 adds optional [buff lifecycle and content validation](docs/buffs.md):
 grants, shared and independent clocks, stat publication, event-gated consumption,

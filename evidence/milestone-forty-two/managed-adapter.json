@@ -1,0 +1,213 @@
+{
+  "passed": true,
+  "output": "<local>/m42-managed-checks-kqwJu1",
+  "base": "a6cfd6bc36e007313d6d16e7bed4bcb77408e154",
+  "branch": "codex/engine-life-recovery",
+  "results": [
+    {
+      "name": "recovery",
+      "passed": true,
+      "log": "<local>/recovery.txt",
+      "sha256": "3788ee3781c3c0efe597f2fcf7f52f5f75fde88ce958a736d1e1f53cf20e5f10",
+      "receipt": "<local>/game-life-recovery-verification.json",
+      "receiptSha256": "af1ee13288c5acb575f5354d229b71dca1fca49e81e2285e73400f934528dc5d"
+    },
+    {
+      "name": "buffs",
+      "passed": true,
+      "log": "<local>/buffs.txt",
+      "sha256": "4d6666f4b6def1803ccb58b3a60b586ddc1cf28c0bd31b556f82b5d46832a09f",
+      "receipt": "<local>/game-buff-verification.json",
+      "receiptSha256": "d39c570a208cdb9eb3e301c7eda7299822828472ca88709fe96dd10e3d6fc1bc"
+    },
+    {
+      "name": "delayed",
+      "passed": true,
+      "log": "<local>/delayed.txt",
+      "sha256": "e40a8eeed3c9124539e3478394e487431be099f343cdf5676906db47e7a0c3f9",
+      "receipt": "<local>/game-delayed-verification.json",
+      "receiptSha256": "4c890acc6d509e312d729cf33318f58bb94b89b8135879246505b1b5f379565e"
+    },
+    {
+      "name": "effects",
+      "passed": true,
+      "log": "<local>/effects.txt",
+      "sha256": "90eafa57fbc3d45022d73b694b8c4b5ad9ff75dc1bbb4f9caacdd80017443260",
+      "receipt": "<local>/game-proc-effects-verification.json",
+      "receiptSha256": "f19aed1d714f77212691e39692e127b3ddcb7f3093f67bdde74d2ea9befa862e"
+    },
+    {
+      "name": "procs",
+      "passed": true,
+      "log": "<local>/procs.txt",
+      "sha256": "ea406849bdfddab1d02a37cfb64256a4866e6c20457ee7f5daf16684e0fa06ae",
+      "receipt": "<local>/game-proc-verification.json",
+      "receiptSha256": "180fa42ac5090dbe62fe233e0c254c90b561a08ef8a786407843ca00e069d9bb"
+    },
+    {
+      "name": "check",
+      "passed": true,
+      "log": "<local>/check.txt",
+      "sha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+    },
+    {
+      "name": "native-defenses",
+      "passed": true,
+      "log": "<local>/native-defenses.txt",
+      "sha256": "c90e045b9599b30c6e5006ff7599d0af2f817de5df2b3cfb13a939681f364f77"
+    },
+    {
+      "name": "native-proccues",
+      "passed": true,
+      "log": "<local>/native-proccues.txt",
+      "sha256": "f65cb4f2ac6a78367aed9b96b79903cf303adc48c180ebba284cf5038fefc629"
+    },
+    {
+      "name": "native-feedingcues",
+      "passed": true,
+      "log": "<local>/native-feedingcues.txt",
+      "sha256": "8690bc74a5fbe40dcb532f189aa1e091fc29130ed1fba6c581eaa63152bc71aa"
+    },
+    {
+      "name": "sim-smoke",
+      "passed": true,
+      "log": "<local>/sim-smoke.txt",
+      "sha256": "7052ed020edb79f76d03d3954b01ac5340380a2ae1bd6f9b57530e2f9f78e10e"
+    },
+    {
+      "name": "original-preservation",
+      "passed": true,
+      "log": "<local>/original-preservation.txt",
+      "sha256": "6c36b79e20ff81dc7efa6c180bfe8bc5b7a56c44535e95373511dbf5ca6cbb7a"
+    }
+  ],
+  "trackedFiles": 1868,
+  "unchangedTrackedFiles": 1866,
+  "expected": {
+    "src/engine/actor.ts": "d4d12e18bae9ae839c9f7a94b6cff6943e527b38f8d3fb7cf1d7c136993d982a",
+    "src/engine/world.ts": "d3ccc3583211954bcbcad336fda2058d825fb80f4480f1b225010a89206d7716",
+    "src/engine/lifeRecoveryAdapter.ts": "e1b302421dcdc1c2c56f77311a787ba7c025705480fbcd098e0526172cdafc8a"
+  },
+  "changedFiles": [
+    "src/engine/actor.ts",
+    "src/engine/world.ts",
+    "src/engine/lifeRecoveryAdapter.ts"
+  ],
+  "runtimeFiles": 195,
+  "preservedManagedMethods": [
+    "bountyBoardsHere",
+    "bountyBoardRoster",
+    "armBountyBoard",
+    "turnInBounty"
+  ],
+  "independentDependencies": true,
+  "readyForOwnershipCommit": true,
+  "pushed": false,
+  "commit": {
+    "commit": "80c52f9206bc6acc0b6a34475ca68a08829d0456",
+    "base": "a6cfd6bc36e007313d6d16e7bed4bcb77408e154",
+    "branch": "codex/engine-life-recovery",
+    "files": [
+      "src/engine/actor.ts",
+      "src/engine/lifeRecoveryAdapter.ts",
+      "src/engine/world.ts"
+    ],
+    "reviewedDiffSha256": "1b3d7e8a68006d969353812ad48ac52ed3aa3b95a837eb6aa4539991d10bd4a7",
+    "unchangedTrackedFiles": 1866,
+    "clean": true,
+    "pushed": false
+  },
+  "finalArchiveVerification": {
+    "passed": true,
+    "output": "<local>/m42-final-managed-check-BsSHNl",
+    "log": "<local>/recovery.txt",
+    "sha256": "3788ee3781c3c0efe597f2fcf7f52f5f75fde88ce958a736d1e1f53cf20e5f10",
+    "receipt": {
+      "output": "<local>/game-life-recovery-gqjESH",
+      "game": "<local>/ARPG Game - World",
+      "tooling": "<local>/m42-managed-tools-iVbIHw",
+      "packageIntegrity": "sha512-s7wE9l78fdvGYNnoRSA8ozIaZsEaABkUZWpdXgd8dQ/eOv6RgQdhOQ1RUcgn4Zb3vTq5Bypo4B9NJLfZScREsQ==",
+      "archiveSha256": "6942da7c951b9399c74786c8580d9d59600637f0f0d4260017f3014d2edc6f30",
+      "runnerSha256": "a576e13dd31fe4eabb822e99686a61ac62076bd0d7ca83adbdaa7c9cb71db1a0",
+      "courses": 121,
+      "results": [
+        {
+          "name": "life-recovery",
+          "courses": 59,
+          "sha256": "1b64ba36fd23f0ef74097acadefa50eceb7accdd1d4bb08866cdc858a3a3f839",
+          "byteEqual": true
+        },
+        {
+          "name": "heal-procs",
+          "courses": 29,
+          "sha256": "760ae80f3966c563a02fcc64366f428f9f9fae377323d261a327622da450e00c",
+          "byteEqual": true
+        },
+        {
+          "name": "life-recovery-world",
+          "courses": 13,
+          "sha256": "f0c07756e5895f4e06372ea1a3a8d0f80e524f16fc869c3273e2dccc4e5ec195",
+          "byteEqual": true
+        },
+        {
+          "name": "heal-method-resolution",
+          "courses": 3,
+          "sha256": "3185915673360e4c0e9820d8ef6344f16b664bbcf49645a56213f9a626480a95",
+          "byteEqual": true
+        },
+        {
+          "name": "heal-cues",
+          "courses": 13,
+          "sha256": "e24c43e3595b74f34c4178b7cd624d74947732371806e748999ba3e535bdc06f",
+          "byteEqual": true
+        },
+        {
+          "name": "heal-invocation",
+          "courses": 4,
+          "sha256": "bc41c44894d3d19e730f9fd1e17e40efec214fbba59e5620a4b05ee8913148f7",
+          "byteEqual": true
+        }
+      ],
+      "typesPassed": true,
+      "readOnly": true,
+      "hostSourceSha256": "1a655037f4724d14458a07bac31f300b870be95fdb9067fca60610bff3ec54a0",
+      "packageFilesSha256": "e2dc134c6235b195ebc894597147d2306ce3551b1c74745e38ced871a049f45d",
+      "allSourceAndPackageFilesUnchanged": true,
+      "scope": "Original observations reproduced through the installed SDK. Installed-fault, renderer, performance and hardware acceptance remain separate gates."
+    },
+    "courses": 121,
+    "typesPassed": true,
+    "gameCommit": "80c52f9206bc6acc0b6a34475ca68a08829d0456",
+    "archiveSha256": "6942da7c951b9399c74786c8580d9d59600637f0f0d4260017f3014d2edc6f30",
+    "priorElevenChecksTransferThroughIdenticalSourceAndRuntime": true,
+    "priorDependenciesPreserved": true,
+    "originalGameNotWritten": true,
+    "pushed": false
+  },
+  "sourceRelationship": {
+    "managedSourceFiles": 988,
+    "captureSourceFiles": 996,
+    "differingOrAbsentFiles": [
+      "data/adventureForms.ts",
+      "data/adventureGrammar.ts",
+      "data/adventureLocales.ts",
+      "data/adventureRegions.ts",
+      "data/bountyPassages.ts",
+      "data/bountyboard.ts",
+      "data/locales.ts",
+      "engine/adventureDistricts.ts",
+      "engine/explorationDistricts.ts",
+      "engine/landmarkComplexGen.ts",
+      "engine/localeGen.ts",
+      "engine/world.ts",
+      "main.ts",
+      "net/snapshot.ts",
+      "sim/arena.ts",
+      "world/bountyRoutes.ts",
+      "world/generationDiversity.ts",
+      "world/landmarkComplexes.ts"
+    ],
+    "description": "Ten differing and eight absent source files predate this integration. Guarded edits replace only the two Actor recovery bodies and the World heal case, plus their imports and one new adapter. Four existing bounty methods remain unchanged."
+  },
+  "preservation": "All 1,866 other tracked files, prior managed package installations and original game work preserved. Game commits remain local."
+}

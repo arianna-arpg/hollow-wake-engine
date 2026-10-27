@@ -1,10 +1,12 @@
 # Life recovery boundary
 
-Milestone 42 has an unpublished recovery candidate and an installed game adapter.
+Version 0.37 adds recovery operations and the installed game adapter.
 Its original 101-case baseline is unchanged. Separate three-case method-resolution
 and thirteen-case cue addenda record discoveries during implementation and fault
-testing. A four-case invocation addendum records customized callable behavior. Version 0.36 remains the published baseline. Renderer, performance and
-managed-game acceptance are pending.
+testing. A four-case invocation addendum records customized callable behavior.
+The [acceptance record](../evidence/milestone-forty-two/verification.json) joins
+native observations, renderer checks, managed integration and package verification.
+Physical-device and full native-engine acceptance remain incomplete.
 Run `npm run reference:life-recovery` after preparing and installing the pinned
 reference environment to reproduce all 121 native observations.
 The [verification checkpoint](../evidence/milestone-forty-two/adapter-checkpoint.json)
@@ -49,7 +51,7 @@ rendered equivalence, every healing caller, device performance or native-engine
 compatibility. The source inventory identifies 31 direct `healBy` calls; it is
 not a proof that dynamic or aliased calls are absent.
 
-## Candidate ownership
+## Capability ownership
 
 The recovery capability implements the transitions of `Actor.healBy`, `Actor.refillLife` and the numeric
 application of the proc `heal` branch. State remains owned by the caller. Shared
@@ -249,8 +251,16 @@ native gold seal label overlaps the life number at this position; this existing
 presentation is retained. These checks do not establish portable pixel identity,
 renderer FPS or physical-device performance.
 
-## Remaining acceptance
+## Integration and remaining work
 
-Review managed game integration with the final package, then complete final
-package and publication checks. Keep physical Steam Deck/mobile acceptance open;
+The isolated game delegates only the two recovery methods and the proc heal
+application, with one shared binding. Its four existing bounty methods, 1,866
+other tracked files and prior dependency installation remain unchanged. The
+managed source predates the capture game; the acceptance record lists the
+pre-existing differences. Neither game repository is pushed.
+
+The final package must match every selected compiled runtime byte before it is
+installed. Final-package checks and hosted CI are recorded separately from the
+older comparison archives. Keep physical Steam Deck/mobile acceptance open;
 desktop path measurements do not establish a device or general game speedup.
+Target selection and other delivery policies remain host-owned.
