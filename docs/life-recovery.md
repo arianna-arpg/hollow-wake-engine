@@ -1,9 +1,11 @@
 # Life recovery boundary
 
-Milestone 42 begins with 101 frozen original-game observations. The SDK recovery
-implementation and package integration are pending. Version 0.36 remains the
-published baseline. Run `npm run reference:life-recovery` after preparing and
-installing the pinned reference environment.
+Milestone 42 has an unpublished standalone recovery candidate. Its original
+101-case baseline is unchanged; a separate three-case method-resolution addendum
+records a callback-order discovery during implementation. Version 0.36 remains
+the published baseline. The game adapter and performance acceptance are pending.
+Run `npm run reference:life-recovery` after preparing and installing the pinned
+reference environment to reproduce all 104 native observations.
 
 ## Authority and coverage
 
@@ -25,15 +27,19 @@ controls are preserved.
   Actual World updates and authored admission execute. Native Choir of Light has
   no `castMode` and remains instant, consistent with the earlier channel baseline.
   One separately named synthetic variant enables channel mode to test pulses.
+- Three [addendum cases](../baseline/milestone-forty-two/method-resolution-addendum.json)
+  replace the heal method while maximum life or effect fields are being read.
+  The original method remains selected for that pending call, with its original
+  receiver. Two original runs and one published-v0.36 run agree byte for byte.
 
 These are controlled, seeded observations. They do not prove physical input,
 rendered equivalence, every healing caller, device performance or native-engine
 compatibility. The source inventory identifies 31 direct `healBy` calls; it is
 not a proof that dynamic or aliased calls are absent.
 
-## Proposed ownership
+## Candidate ownership
 
-The recovery capability will own `Actor.healBy`, `Actor.refillLife` and the numeric
+The recovery capability implements the transitions of `Actor.healBy`, `Actor.refillLife` and the numeric
 application of the proc `heal` branch. State remains owned by the caller. Shared
 synchronous ports supply the existing life ceiling, maximum life, healing rate,
 observation hooks and recency stamp. No per-actor runtime or copied Actor is needed
@@ -70,17 +76,41 @@ healing rate and dead check. Only positive growth notifies the actor observer,
 with `silent=true`; it does not invoke the sim tap or stamp a heal event.
 
 The proc branch always evaluates maximum life, even for a flat-only effect, and
-invokes the current `healBy` method. Its cue follows the returned positive result,
+selects the current `healBy` method before evaluating the amount. Replacing that
+method during an amount query affects subsequent calls, not the pending call.
+Its cue follows the returned positive result,
 not a separate inspection of pool growth. Riders follow successful completion.
 
 Nonfinite inputs in the direct-method fixture are explicit diagnostics of native
 IEEE-number behavior. They do not establish validity of untrusted content. Owned
 proc content must reject nonfinite fields and incompatible skill-heal fields.
 
+## Standalone use and checks
+
+Import `healLife`, `refillLife` and `applyProcHeal` from
+`@hollow-wake/engine/combat/recovery`. Supply caller-owned state and shared ports;
+`applyProcHeal(actor, effect, ports, actor.heal)` passes the selected method without
+allocating a bound function on each call. Notifications return `undefined` so
+TypeScript rejects accidentally asynchronous ports. JavaScript hosts must uphold
+the same synchronous contract.
+
+`@hollow-wake/engine/combat/recovery-content` separately exports
+`compileProcHealingEffect`. It accepts plain proc-heal records, validates finite
+numbers and returns detached frozen content. Unknown fields, accessors, hidden
+properties and the different targeted-skill schema are rejected. Compilation is
+a content-loading operation, outside the per-heal path.
+
+Seventy focused tests cover native direct transitions, method resolution, strict
+content and independent actor isolation. `test:life-recovery-mutations` rejects
+sixteen deliberate runtime faults in disposable modules. `test:life-recovery-package`
+installs a fresh archive, checks public types and runs the example with ambient
+randomness, clocks, browser globals and network access unavailable. The optional
+JavaScript modules total 3,428 bytes, within a 4 KiB allowance. This size gate is
+not a throughput, allocation-volume or hardware measurement.
+
 ## Remaining acceptance
 
-Implement and test the standalone capability against the committed observations,
-add strict owned proc-heal content, a guarded game adapter, independent package
-consumers and deliberate-error tests. Verify the real game and renderer with the
-new package. Measure representative workloads against the retained v0.36 control
+Add the guarded game adapter and compare all proc and World cases through the
+installed package. Verify the real game, deliberate installed faults and renderer
+with the new package. Measure representative workloads against the retained v0.36 control
 before choosing optimizations; keep physical Steam Deck/mobile acceptance open.

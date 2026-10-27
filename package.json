@@ -36,7 +36,8 @@
     "examples/procs.mjs",
     "examples/proc-effects.mjs",
     "examples/delayed-bursts.mjs",
-    "examples/buffs.mjs"
+    "examples/buffs.mjs",
+    "examples/life-recovery.mjs"
   ],
   "exports": {
     ".": {
@@ -221,13 +222,21 @@
     "./combat/buff-content": {
       "types": "./dist/buff-content.d.ts",
       "import": "./dist/buff-content.js"
+    },
+    "./combat/recovery": {
+      "types": "./dist/life-recovery.d.ts",
+      "import": "./dist/life-recovery.js"
+    },
+    "./combat/recovery-content": {
+      "types": "./dist/life-recovery-content.d.ts",
+      "import": "./dist/life-recovery-content.js"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs && node scripts/test-skill-admission-package.mjs && node scripts/test-skill-intent-package.mjs && node scripts/test-skill-request-package.mjs && node scripts/test-skill-dispatch-package.mjs && node scripts/test-casting-continuation-package.mjs && node scripts/test-channel-bank-package.mjs && node scripts/test-actor-condition-mutations.mjs && node scripts/test-actor-condition-package.mjs && node scripts/test-proc-mutations.mjs && node scripts/test-proc-package.mjs && node scripts/test-proc-effects-mutations.mjs && node scripts/test-proc-effects-package.mjs && node scripts/test-delayed-mutations.mjs && node scripts/test-delayed-package.mjs && node scripts/test-buff-mutations.mjs && node scripts/test-buff-package.mjs",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs && node scripts/test-skill-admission-package.mjs && node scripts/test-skill-intent-package.mjs && node scripts/test-skill-request-package.mjs && node scripts/test-skill-dispatch-package.mjs && node scripts/test-casting-continuation-package.mjs && node scripts/test-channel-bank-package.mjs && node scripts/test-actor-condition-mutations.mjs && node scripts/test-actor-condition-package.mjs && node scripts/test-proc-mutations.mjs && node scripts/test-proc-package.mjs && node scripts/test-proc-effects-mutations.mjs && node scripts/test-proc-effects-package.mjs && node scripts/test-delayed-mutations.mjs && node scripts/test-delayed-package.mjs && node scripts/test-buff-mutations.mjs && node scripts/test-buff-package.mjs && npm run test:life-recovery-package && npm run test:life-recovery-mutations",
     "example": "npm run build && node examples/first-path.mjs",
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
@@ -388,7 +397,9 @@
     "adapter:buffs": "node scripts/test-game-buffs.mjs",
     "adapter:buff-ui": "node scripts/test-buff-ui.mjs",
     "benchmark:buffs": "node scripts/benchmark-buffs.mjs",
-    "reference:life-recovery": "node scripts/run-life-recovery-reference.mjs"
+    "reference:life-recovery": "node scripts/run-life-recovery-reference.mjs",
+    "test:life-recovery-package": "node scripts/test-life-recovery-package.mjs",
+    "test:life-recovery-mutations": "node scripts/test-life-recovery-mutations.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

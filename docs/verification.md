@@ -1,9 +1,16 @@
 # Verification and reproduction
 
-Life-recovery extraction begins with `reference:life-recovery`: 101 frozen native
+The unpublished life-recovery candidate uses `reference:life-recovery`: 101 frozen native
 cases covering recovery/refill, all five loaded heal procs and representative
 World delivery. Two original runs and one published-v0.36 run agree exactly.
-See [the boundary](life-recovery.md); implementation and performance are pending.
+A separate three-case addendum checks method selection before callbacks, bringing
+the original reproduction to 104 cases. Seventy focused SDK tests, sixteen
+deliberate runtime faults and an independently installed package check the new
+optional modules. See [the boundary](life-recovery.md); game-adapter and performance
+acceptance are pending.
+The candidate passes the complete `npm run verify` gate with 632 tests, including
+the prior package consumers and fault checks. All 189 predecessor runtime outputs
+remain byte-identical; the recovery modules add six compiled outputs.
 
 Version 0.36 adds `reference:buffs`, `adapter:buff-source`, `adapter:buffs`,
 `adapter:buff-ui`, `test:buff-package`, `test:buff-mutations` and `benchmark:buffs`.

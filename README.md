@@ -9,6 +9,11 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
+An unpublished [life-recovery candidate](docs/life-recovery.md) adds optional
+healing/refill operations and validated proc-heal content. Native direct cases,
+method-selection cases and an independent package consumer pass; its game adapter
+and performance acceptance remain pending. Published v0.36 is described below.
+
 Version 0.36 adds optional [buff lifecycle and content validation](docs/buffs.md):
 grants, shared and independent clocks, stat publication, event-gated consumption,
 removal and expiry. Host ports retain native cue and callback behavior. The

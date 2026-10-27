@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "stage": "Method-resolution observations added during candidate implementation, before game-adapter acceptance. The original 101-case baseline is unchanged.",
+  "baseAcceptanceSha256": "ec9ff69e31dc26b5bee93424b298b5d91491e24d3a6e7b236e0ca611ca2d7aa1",
+  "courses": 3,
+  "helper": {
+    "file": "reference/export-heal-method-resolution.ts",
+    "sha256": "6e13b8a87e1b6f9cae2d1584ee229d79d83f51a88710363200f5756bfd1dbfe8"
+  },
+  "fixture": {
+    "name": "heal-method-resolution",
+    "helper": "reference/export-heal-method-resolution.ts",
+    "helperSha256": "6e13b8a87e1b6f9cae2d1584ee229d79d83f51a88710363200f5756bfd1dbfe8",
+    "file": "baseline/milestone-forty-two/heal-method-resolution.json.gz",
+    "courses": 3,
+    "bytes": 683,
+    "fixtureSha256": "3185915673360e4c0e9820d8ef6344f16b664bbcf49645a56213f9a626480a95",
+    "compressedSha256": "0fc89309c0eed1e7ead875846e56f5b031c1c50c4b088d4fcfc4bab582186892"
+  },
+  "reproduction": {
+    "originalRuns": 2,
+    "publishedPredecessorRuns": 1,
+    "allRawOutputsByteEqual": true
+  },
+  "decision": "The game adapter must select the current heal method before maximum-life/effect arguments are evaluated and preserve its receiver. Passing that method explicitly avoids a per-operation bound closure.",
+  "scope": "Synthetic method replacement during maximum-life or effect-field reads. No malformed-content acceptance or semantic repair."
+}
