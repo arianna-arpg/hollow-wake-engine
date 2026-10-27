@@ -65,4 +65,5 @@ assert.ok([...reachable].every(file => path.basename(file)!=='actor-conditions.t
 assert.ok([...reachable].every(file => !path.basename(file).startsWith('proc-')), 'Optional procs became an eager core import');
 assert.ok([...reachable].every(file => path.basename(file)!=='delayed-bursts.ts'), 'Optional delayed bursts became an eager core import');
 assert.ok([...reachable].every(file => !['buffs.ts', 'buff-content.ts'].includes(path.basename(file))), 'Optional buffs became an eager core import');
+assert.ok([...reachable].every(file => !['resource-restoration.ts', 'resource-restoration-content.ts'].includes(path.basename(file))), 'Optional restoration became an eager core import');
 console.log(`Boundary check passed: ${files} production modules; no external runtime dependencies, host APIs, or ambient randomness.`);

@@ -9,6 +9,11 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
+The unpublished v0.38 candidate adds [resource restoration](docs/resource-restoration.md):
+shield/poise gain gates, immediate restore events, reserved-mana proc restoration
+and strict content compilers. Its native baseline is committed separately.
+Installed-game, renderer, performance and publication acceptance remain open.
+
 Version 0.37 adds optional [life recovery](docs/life-recovery.md): healing,
 full refill and validated proc-heal content. The installed game adapter preserves
 121 native observations, including callback order, actual healing cues and

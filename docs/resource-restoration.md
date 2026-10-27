@@ -1,7 +1,8 @@
 # Resource restoration
 
-The native baseline is accepted before implementation. The planned optional
-`combat/restoration` and `combat/restoration-content` entries are not yet shipped.
+The native baseline was committed before implementation. The unpublished v0.38
+candidate provides optional `combat/restoration` and `combat/restoration-content`
+entries. Installed-game, renderer, measurement and publication acceptance remain open.
 This contract extends life recovery with shield/poise gain gates, immediate
 restoration and the restore proc branch. It does not authorize a gameplay change.
 
@@ -88,7 +89,7 @@ the gain applied; a later event failure can leave both the gain and feeding cue.
 These transitions are not rollback transactions. Fourteen expected query/failure
 exceptions are part of the baseline, not unexpected test failures.
 
-The planned content compilers own frozen plain data records with exact fields:
+The content compilers own frozen plain data records with exact fields:
 
 | Effect | Required fields | Optional fields |
 | --- | --- | --- |
@@ -116,6 +117,26 @@ writing and preserve other members, existing delegations and other proc cases.
 Relevant gameplay regressions and a renderer course remain separate acceptance
 steps. Timed World cases exercise host composition; they do not claim that stream
 scheduling or all defensive lifecycle rules have been extracted.
+
+The initial runtime passes 210 focused tests: 200 frozen native observations
+replayed over borrowed state (numeric/event projections, query traces, invocation
+and failure boundaries), plus ten independent arithmetic, ordering and content
+tests. Cue payloads and the ten World/eight pool-base courses still require the
+complete installed-game comparison. Twenty-three deliberate runtime faults are
+detected without changing the production runtime. An independently installed
+package runs with host APIs disabled; its type consumer rejects all eleven
+asynchronous ports, an asynchronous event queue and incompatible host payloads.
+The two optional JavaScript modules total 6,074 bytes, within the fixed 8 KiB
+allowance. This is a size result, not a speed or allocation claim.
+
+Consumers import `gainEnergyShield`, `gainPoise`, `applyInstantRestoration` and
+`applyProcRestoration` from `@hollow-wake/engine/combat/restoration`. Use
+`compileInstantRestorationEffect` and `compileProcRestorationEffect` from the
+separate content entry on ingestion. The
+[installed example](../examples/resource-restoration.mjs) demonstrates shared
+ports, distinct actor state, reserved mana and borrowed tags. A proc caller
+applies its existing power scaling before invoking restoration and owns the
+subsequent presentation cue.
 
 The [measurement plan](../baseline/milestone-forty-three/performance-plan.json)
 requires receipt-checked paired comparisons and profiles before adopting an
