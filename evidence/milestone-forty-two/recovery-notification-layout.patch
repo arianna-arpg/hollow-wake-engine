@@ -1,0 +1,58 @@
+diff --git a/scripts/test-life-recovery-mutations.mjs b/scripts/test-life-recovery-mutations.mjs
+index a410d2f..4a99ee0 100644
+--- a/scripts/test-life-recovery-mutations.mjs
++++ b/scripts/test-life-recovery-mutations.mjs
+@@ -3,6 +3,8 @@ import {spawnSync} from 'node:child_process';import {pathToFileURL} from 'node:u
+ import {root,sha256,writeJSON} from './reference-utils.mjs';
+ const file=path.join(root,'dist/life-recovery.js'),original=fs.readFileSync(file),source=original.toString().replaceAll('\r\n','\n'),
+   output=fs.mkdtempSync(path.join(root,'.artifacts/life-recovery-mutations-'));
++const ledgerOrder=source.match(/ports\.recent\(actor\);(\s+)actor\.healedSince \+= landed;/);
++assert(ledgerOrder,'Missing recency/ledger mutation anchor');
+ const faults=[
+   ['zero-is-not-early','amount <= 0 || actor.dead','amount < 0 || actor.dead'],
+   ['dead-heals','amount <= 0 || actor.dead','amount <= 0'],
+@@ -15,7 +17,7 @@ const faults=[
+   ['silent-suppresses-observer','ports.observed?.(actor, landed, silent);','if (!silent) ports.observed?.(actor, landed, silent);'],
+   ['tap-omitted','ports.tapped?.(actor, landed);',''],
+   ['ledger-overwritten','actor.healedSince += landed;','actor.healedSince = landed;'],
+-  ['ledger-before-recency','ports.recent(actor);\n            actor.healedSince += landed;','actor.healedSince += landed;\n            ports.recent(actor);'],
++  ['ledger-before-recency',ledgerOrder[0],'actor.healedSince += landed;'+ledgerOrder[1]+'ports.recent(actor);'],
+   ['refill-is-conditional','actor.life = ports.maximumLife(actor);','if (actor.life < 50) actor.life = ports.maximumLife(actor);'],
+   ['refill-not-silent','actor.life - before, true','actor.life - before, false'],
+   ['proc-skip-flat-maximum','(effect.pctMax ?? 0) * ports.maximumLife(actor)','(effect.pctMax ? effect.pctMax * ports.maximumLife(actor) : 0)'],
+diff --git a/src/life-recovery.ts b/src/life-recovery.ts
+index 353ec2a..5e1961a 100644
+--- a/src/life-recovery.ts
++++ b/src/life-recovery.ts
+@@ -23,6 +23,15 @@ export interface RefillPorts<A extends {life: number}> {
+ 
+ export interface LifeRecoveryPorts<A extends HealingState> extends HealingPorts<A>, RefillPorts<A> {}
+ 
++function notifyHealing<A extends HealingState>(actor: A, landed: number, ports: HealingPorts<A>, silent: boolean): void {
++  ports.tapped?.(actor, landed);
++  ports.observed?.(actor, landed, silent);
++  if (!silent) {
++    ports.recent(actor);
++    actor.healedSince += landed;
++  }
++}
++
+ /** Native numeric transition. Use validated content and coherent host state;
+  * this low-level operation deliberately preserves native IEEE-number behavior. */
+ export function healLife<A extends HealingState>(actor: A, amount: number, ports: HealingPorts<A>, silent = false): number {
+@@ -35,14 +44,7 @@ export function healLife<A extends HealingState>(actor: A, amount: number, ports
+   // The life operand is sampled before the rate callback, as in the original.
+   actor.life = Math.min(cap, actor.life + amount * ports.rate(actor));
+   const landed = actor.life - before;
+-  if (landed > 0) {
+-    ports.tapped?.(actor, landed);
+-    ports.observed?.(actor, landed, silent);
+-    if (!silent) {
+-      ports.recent(actor);
+-      actor.healedSince += landed;
+-    }
+-  }
++  if (landed > 0) notifyHealing(actor, landed, ports, silent);
+   return landed;
+ }
+ 

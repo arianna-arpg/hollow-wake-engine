@@ -1,0 +1,444 @@
+{
+  "schemaVersion": 1,
+  "stage": "Rejected function-layout experiment; retain the invocation-corrected runtime.",
+  "proposal": {
+    "controlCommit": "4ee07ddf7185fc3ca2d724e59afacbbc24fa1638",
+    "stage": "Untimed experiment; do not adopt without the frozen three-graph comparison.",
+    "change": "Move positive-heal notifications and recency into a private shared helper, preserving live port lookup and callback order. No new Actor state or cache.",
+    "hypothesis": "A smaller arithmetic function may improve inlining choices at the hot healing call site. Existing profiles prove the prior function can already inline; this is not an established cause or improvement.",
+    "sourceSha256": "2146b040b1f97263ac3a62cff15be2ff20dba58878daeeff996c35763bdbd697",
+    "plan": "baseline/milestone-forty-two/performance-plan.json",
+    "planSha256": "62dc73ea61ff67768231407e450cf1f5599d71ac12fbef25298dfc2abe64f195",
+    "adoption": "At least 3% targeted ordinary-workload improvement in both independent runs against the corrected control; no repeatable >5% regression elsewhere without an explicit tradeoff decision. Keep all results, including rejected experiments."
+  },
+  "plan": {
+    "file": "baseline/milestone-forty-two/performance-plan.json",
+    "sha256": "62dc73ea61ff67768231407e450cf1f5599d71ac12fbef25298dfc2abe64f195"
+  },
+  "helper": {
+    "file": "reference/benchmark-life-recovery.ts",
+    "sha256": "1c4623791de2642daed8e676c556faa45b8620d441a9fcc7b649a168e30ca7f7"
+  },
+  "controls": {
+    "previous": {
+      "commit": "83f6021c589728d2d7958ee846628a33e7ec44c7",
+      "published": true,
+      "version": "0.36.0",
+      "archiveSha256": "c6809d7426c3a941e8dadb95d5c754a585bca9d187dfe6779ca77c824f3b14af",
+      "sourceMapSha256": "7fd69753ef56bbecfed6c0ed1d083ff4bad4bfe6b8fcb8e7e2d742e3306fe110",
+      "runtimeMapSha256": "365e87b86dc1b970ce3e73ba8ea60ba13cabfa093c04fed32fdd98e00ede6c0c"
+    },
+    "corrected": {
+      "commit": "4ee07ddf7185fc3ca2d724e59afacbbc24fa1638",
+      "published": false,
+      "version": "0.36.0",
+      "archiveSha256": "bd2856f2456ba26b5866db07790270b7b0ffdc291c3f3ad11e586c70f4350275",
+      "sourceMapSha256": "c6645dd8f02c8be5f7a3c2dc4d77a5388522aabe13a6589b68dbd851e1e0d47d",
+      "runtimeMapSha256": "83181ace23da5a3830b916b8315b92b90e157e8710318c5fbea86caa26ef6d6b"
+    },
+    "proposed": {
+      "baseCommit": "4ee07ddf7185fc3ca2d724e59afacbbc24fa1638",
+      "patch": "evidence/milestone-forty-two/recovery-notification-layout.patch",
+      "patchSha256": "245f5a14840db2243957417b47ee9df0b0f19749956d5e40599aa265102c562a",
+      "archiveSha256": "fe76509e5e4c4978bae2444635b1bc908880602415ee9601bba33ade467fde60",
+      "sourceMapSha256": "c6645dd8f02c8be5f7a3c2dc4d77a5388522aabe13a6589b68dbd851e1e0d47d",
+      "runtimeMapSha256": "99036556d214b227ec0b749d6b5be6c4e8dcba0bf5e2d781b8f35a3a9593a49e",
+      "published": false
+    }
+  },
+  "runs": [
+    {
+      "file": "evidence/milestone-forty-two/recovery-notification-run-1.json.gz",
+      "sha256": "bb18ce9c40a5875427c92e4a81db3398e1d510e78e29be3a73de338d8c9ec763",
+      "uncompressedSha256": "e293b6ee502806d56ab45da77b3643e7ec0107d47339b22c4553743ea961d96b",
+      "bytes": 20220,
+      "graphOrder": [
+        "previous",
+        "comparison",
+        "current"
+      ],
+      "node": "v24.9.0",
+      "platform": "win32",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz"
+    },
+    {
+      "file": "evidence/milestone-forty-two/recovery-notification-run-2.json.gz",
+      "sha256": "ccdc468824c04cda3f8ab3a8dbce47ce92ce5b761eeb3923683029f4ccf40a34",
+      "uncompressedSha256": "253669eb9ad3cef09f505d7815ce056d1babc1718f8da71ce12487a3deeb62fe",
+      "bytes": 20136,
+      "graphOrder": [
+        "current",
+        "comparison",
+        "previous"
+      ],
+      "node": "v24.9.0",
+      "platform": "win32",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz"
+    }
+  ],
+  "timedSamples": 1350,
+  "retainedHeapObservations": 168,
+  "allCanonicalReceiptsEqualAcrossGraphsAndRuns": true,
+  "allSampledActorWitnessesReleased": true,
+  "controlsUnchanged": true,
+  "verification": {
+    "focusedTests": 74,
+    "nativeAndInstalledCases": 121,
+    "runtimeFaults": 17,
+    "installedFaults": 17,
+    "predecessorRuntimeOutputsUnchanged": 189,
+    "gameSourceMatchesCorrected": true,
+    "newPerActorFields": 0,
+    "runtimeBytes": 3747,
+    "correctedRuntimeBytes": 3669
+  },
+  "gate": {
+    "eligible": false,
+    "qualifyingTargetedWorkloads": [],
+    "repeatableRegressionsAboveFivePercent": [
+      "full-refill"
+    ],
+    "tradeoffOverride": false,
+    "note": "Ordinary and silent positive healing were the investigation targets. No acceptance from synthetic clipping alone, no favorable-run selection, and no regression override."
+  },
+  "timings": [
+    {
+      "name": "refused",
+      "receiptSha256": "d9f8f1b89cb20cbedec118fb28c14470f7124a8aec27bd804784d66dc7340c6b",
+      "runs": [
+        {
+          "previousMedianMs": 0.3470999999999549,
+          "correctedMedianMs": 0.42920000000049185,
+          "proposedMedianMs": 0.42180000000007567,
+          "changeFromCorrectedPercent": -1.7241379311294769,
+          "correctedChangeFromPreviousPercent": 23.65312590047468,
+          "proposedChangeFromPreviousPercent": 21.521175453797326,
+          "previousP95Ms": 0.6610000000000582,
+          "correctedP95Ms": 0.6356999999998152,
+          "proposedP95Ms": 0.5009999999992942
+        },
+        {
+          "previousMedianMs": 0.3447999999998501,
+          "correctedMedianMs": 0.41409999999996217,
+          "proposedMedianMs": 0.43360000000029686,
+          "changeFromCorrectedPercent": 4.709007486195715,
+          "correctedChangeFromPreviousPercent": 20.098607888672326,
+          "proposedChangeFromPreviousPercent": 25.754060324966744,
+          "previousP95Ms": 0.4173000000000684,
+          "correctedP95Ms": 0.45870000000013533,
+          "proposedP95Ms": 0.5946999999996478
+        }
+      ]
+    },
+    {
+      "name": "already-full",
+      "receiptSha256": "c1a188c5181bec11b6692d1f89d28193cae543b41149907616f7276f51e9b6ec",
+      "runs": [
+        {
+          "previousMedianMs": 5.493099999999686,
+          "correctedMedianMs": 8.795400000000882,
+          "proposedMedianMs": 5.56420000000071,
+          "changeFromCorrectedPercent": -36.73738545148427,
+          "correctedChangeFromPreviousPercent": 60.117237989502925,
+          "proposedChangeFromPreviousPercent": 1.2943510950288228,
+          "previousP95Ms": 6.105999999999767,
+          "correctedP95Ms": 11.410499999999956,
+          "proposedP95Ms": 8.664800000000469
+        },
+        {
+          "previousMedianMs": 5.1423999999988155,
+          "correctedMedianMs": 7.860300000000279,
+          "proposedMedianMs": 5.529099999999744,
+          "changeFromCorrectedPercent": -29.65790109792823,
+          "correctedChangeFromPreviousPercent": 52.85275357813648,
+          "proposedChangeFromPreviousPercent": 7.5198350964728045,
+          "previousP95Ms": 5.67489999999998,
+          "correctedP95Ms": 8.712600000000748,
+          "proposedP95Ms": 5.947599999999511
+        }
+      ]
+    },
+    {
+      "name": "ordinary",
+      "receiptSha256": "bebedddc28a823b453d3a01e6d4bf1f01357bed05bece09a3436d6384b24bd00",
+      "runs": [
+        {
+          "previousMedianMs": 12.160400000000664,
+          "correctedMedianMs": 12.656800000000658,
+          "proposedMedianMs": 12.32339999999931,
+          "changeFromCorrectedPercent": -2.6341571329351,
+          "correctedChangeFromPreviousPercent": 4.082102562415435,
+          "proposedChangeFromPreviousPercent": 1.340416433658742,
+          "previousP95Ms": 15.436999999999898,
+          "correctedP95Ms": 14.21389999999883,
+          "proposedP95Ms": 13.825600000000122
+        },
+        {
+          "previousMedianMs": 11.441800000000512,
+          "correctedMedianMs": 11.112900000000081,
+          "proposedMedianMs": 11.437700000000405,
+          "changeFromCorrectedPercent": 2.9227294405629545,
+          "correctedChangeFromPreviousPercent": -2.8745477110281303,
+          "proposedChangeFromPreviousPercent": -0.03583352269841411,
+          "previousP95Ms": 12.129100000000108,
+          "correctedP95Ms": 11.509800000001633,
+          "proposedP95Ms": 11.869200000001001
+        }
+      ]
+    },
+    {
+      "name": "silent",
+      "receiptSha256": "a1fc33f08c05d62172b4437c126fe01f02ee75c4cf4c8c363c636b0ec61626f3",
+      "runs": [
+        {
+          "previousMedianMs": 9.892800000001444,
+          "correctedMedianMs": 11.20509999999922,
+          "proposedMedianMs": 10.662099999999555,
+          "changeFromCorrectedPercent": -4.846007621526837,
+          "correctedChangeFromPreviousPercent": 13.265202975877255,
+          "proposedChangeFromPreviousPercent": 7.776362607128395,
+          "previousP95Ms": 12.147300000000541,
+          "correctedP95Ms": 13.818100000000413,
+          "proposedP95Ms": 11.285799999999654
+        },
+        {
+          "previousMedianMs": 7.828199999999924,
+          "correctedMedianMs": 6.976500000000669,
+          "proposedMedianMs": 10.051500000001397,
+          "changeFromCorrectedPercent": 44.076542678999964,
+          "correctedChangeFromPreviousPercent": -10.879895761468317,
+          "proposedChangeFromPreviousPercent": 28.401165018797347,
+          "previousP95Ms": 9.972499999999854,
+          "correctedP95Ms": 7.461900000000242,
+          "proposedP95Ms": 11.168999999999869
+        }
+      ]
+    },
+    {
+      "name": "sealed-clipping",
+      "receiptSha256": "c0d9e2a54ffb25db07a3a1d7a3782cced88617fca04a6fcd0483ad5dfcb0f1cb",
+      "runs": [
+        {
+          "previousMedianMs": 9.478100000000268,
+          "correctedMedianMs": 11.597700000000259,
+          "proposedMedianMs": 12.02219999999943,
+          "changeFromCorrectedPercent": 3.6602084896070863,
+          "correctedChangeFromPreviousPercent": 22.363131851319686,
+          "proposedChangeFromPreviousPercent": 26.841877591490814,
+          "previousP95Ms": 12.000299999999697,
+          "correctedP95Ms": 12.704999999999927,
+          "proposedP95Ms": 13.486500000000888
+        },
+        {
+          "previousMedianMs": 10.778599999999642,
+          "correctedMedianMs": 11.041600000000471,
+          "proposedMedianMs": 11.947000000000116,
+          "changeFromCorrectedPercent": 8.199898565421737,
+          "correctedChangeFromPreviousPercent": 2.4400200397160843,
+          "proposedChangeFromPreviousPercent": 10.839997773370502,
+          "previousP95Ms": 11.588799999999537,
+          "correctedP95Ms": 11.389199999999619,
+          "proposedP95Ms": 12.687700000000405
+        }
+      ]
+    },
+    {
+      "name": "full-refill",
+      "receiptSha256": "e0f555f1cf409ee21488eb3f52d9199d8198a19f780249646ecdd02ededaf35f",
+      "runs": [
+        {
+          "previousMedianMs": 4.335999999999331,
+          "correctedMedianMs": 4.431799999998475,
+          "proposedMedianMs": 4.731000000003405,
+          "changeFromCorrectedPercent": 6.7512071845533095,
+          "correctedChangeFromPreviousPercent": 2.209409594076539,
+          "proposedChangeFromPreviousPercent": 9.109778597881357,
+          "previousP95Ms": 5.163400000001275,
+          "correctedP95Ms": 5.580200000000332,
+          "proposedP95Ms": 6.593600000000151
+        },
+        {
+          "previousMedianMs": 3.8004000000000815,
+          "correctedMedianMs": 3.983299999999872,
+          "proposedMedianMs": 4.699199999999109,
+          "changeFromCorrectedPercent": 17.97253533500516,
+          "correctedChangeFromPreviousPercent": 4.812651299857551,
+          "proposedChangeFromPreviousPercent": 23.6501420902802,
+          "previousP95Ms": 3.8443000000006577,
+          "correctedP95Ms": 4.744299999998475,
+          "proposedP95Ms": 5.456999999998516
+        }
+      ]
+    },
+    {
+      "name": "heal-proc-dispatch",
+      "receiptSha256": "3a9385e66d173c76d0e26ab92225a7de57d22a2335f0d50512d399dc09eff1c9",
+      "runs": [
+        {
+          "previousMedianMs": 4.526899999997113,
+          "correctedMedianMs": 4.126400000001013,
+          "proposedMedianMs": 4.1634999999987485,
+          "changeFromCorrectedPercent": 0.8990887940511394,
+          "correctedChangeFromPreviousPercent": -8.847113918936921,
+          "proposedChangeFromPreviousPercent": -8.02756853472787,
+          "previousP95Ms": 5.260600000001432,
+          "correctedP95Ms": 5.49199999999837,
+          "proposedP95Ms": 6.015500000001339
+        },
+        {
+          "previousMedianMs": 4.375599999999395,
+          "correctedMedianMs": 4.051100000000588,
+          "proposedMedianMs": 4.0987999999997555,
+          "changeFromCorrectedPercent": 1.1774579743566216,
+          "correctedChangeFromPreviousPercent": -7.416125788437055,
+          "proposedChangeFromPreviousPercent": -6.325989578564705,
+          "previousP95Ms": 4.550800000000891,
+          "correctedP95Ms": 4.613600000000588,
+          "proposedP95Ms": 4.499599999999191
+        }
+      ]
+    },
+    {
+      "name": "regenerating-world-frames",
+      "receiptSha256": "a0f117c937805117ee757ca504698ce57ca35f9c89405d48ff350641e8410ec8",
+      "runs": [
+        {
+          "previousMedianMs": 185.92399999999907,
+          "correctedMedianMs": 181.32819999999992,
+          "proposedMedianMs": 186.33850000000166,
+          "changeFromCorrectedPercent": 2.763111308666688,
+          "correctedChangeFromPreviousPercent": -2.4718702265437265,
+          "proposedChangeFromPreviousPercent": 0.22294055635776466,
+          "previousP95Ms": 198.60640000000058,
+          "correctedP95Ms": 202.3775999999998,
+          "proposedP95Ms": 191.98129999999946
+        },
+        {
+          "previousMedianMs": 178.86679999999978,
+          "correctedMedianMs": 176.33299999999872,
+          "proposedMedianMs": 181.16899999999805,
+          "changeFromCorrectedPercent": 2.742538265667438,
+          "correctedChangeFromPreviousPercent": -1.4165848553231108,
+          "proposedChangeFromPreviousPercent": 1.2871030286214502,
+          "previousP95Ms": 191.17989999999918,
+          "correctedP95Ms": 188.66869999999835,
+          "proposedP95Ms": 191.4962000000014
+        }
+      ]
+    },
+    {
+      "name": "casting-world-frames",
+      "receiptSha256": "2a6d42601e225f4c3950ef98a1ce62ed660238197db4dc18a906f227b859fdc5",
+      "runs": [
+        {
+          "previousMedianMs": 157.23139999999694,
+          "correctedMedianMs": 153.67719999999827,
+          "proposedMedianMs": 151.19659999999567,
+          "changeFromCorrectedPercent": -1.6141626734496928,
+          "correctedChangeFromPreviousPercent": -2.2604899530238476,
+          "proposedChangeFromPreviousPercent": -3.838164641414743,
+          "previousP95Ms": 174.0708999999988,
+          "correctedP95Ms": 167.83630000000267,
+          "proposedP95Ms": 159.23849999999948
+        },
+        {
+          "previousMedianMs": 148.90490000000136,
+          "correctedMedianMs": 148.80149999999776,
+          "proposedMedianMs": 149.55490000000282,
+          "changeFromCorrectedPercent": 0.5063121003518578,
+          "correctedChangeFromPreviousPercent": -0.06944029377381478,
+          "proposedChangeFromPreviousPercent": 0.43652022196813967,
+          "previousP95Ms": 155.0658000000003,
+          "correctedP95Ms": 155.4864000000016,
+          "proposedP95Ms": 159.60599999999977
+        }
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "mode": "unused",
+      "count": 1024,
+      "receiptSha256": "5f4ace372d588e787a5664db60913e4c92565d8aa68eaf5320b342d5be8e1d86",
+      "runs": [
+        {
+          "previousBytesPerActor": 11335.890625,
+          "correctedBytesPerActor": 11335.890625,
+          "proposedBytesPerActor": 11335.890625,
+          "proposedMinusCorrectedBytesPerActor": 0
+        },
+        {
+          "previousBytesPerActor": 11335.765625,
+          "correctedBytesPerActor": 11335.890625,
+          "proposedBytesPerActor": 11335.890625,
+          "proposedMinusCorrectedBytesPerActor": 0
+        }
+      ]
+    },
+    {
+      "mode": "unused",
+      "count": 4096,
+      "receiptSha256": "346c5c61696d62cfc42c610aee9f7aac8e3f245ae227899bab577b110ac08120",
+      "runs": [
+        {
+          "previousBytesPerActor": 11335.99609375,
+          "correctedBytesPerActor": 11335.99609375,
+          "proposedBytesPerActor": 11335.99609375,
+          "proposedMinusCorrectedBytesPerActor": 0
+        },
+        {
+          "previousBytesPerActor": 11335.99609375,
+          "correctedBytesPerActor": 11335.99609375,
+          "proposedBytesPerActor": 11335.99609375,
+          "proposedMinusCorrectedBytesPerActor": 0
+        }
+      ]
+    },
+    {
+      "mode": "used",
+      "count": 1024,
+      "receiptSha256": "a396175b43cee11d713cb5cb0681dd39108009702fb4a880cdd8bd245fd6a9b0",
+      "runs": [
+        {
+          "previousBytesPerActor": 11335.984375,
+          "correctedBytesPerActor": 11335.984375,
+          "proposedBytesPerActor": 11335.984375,
+          "proposedMinusCorrectedBytesPerActor": 0
+        },
+        {
+          "previousBytesPerActor": 11335.984375,
+          "correctedBytesPerActor": 11335.984375,
+          "proposedBytesPerActor": 11335.984375,
+          "proposedMinusCorrectedBytesPerActor": 0
+        }
+      ]
+    },
+    {
+      "mode": "used",
+      "count": 4096,
+      "receiptSha256": "e4c518cf9cd457520f9f840adec03ebeb3bf716b0e03ad9e76fd1da1295f9183",
+      "runs": [
+        {
+          "previousBytesPerActor": 11335.99609375,
+          "correctedBytesPerActor": 11335.99609375,
+          "proposedBytesPerActor": 11335.99609375,
+          "proposedMinusCorrectedBytesPerActor": 0
+        },
+        {
+          "previousBytesPerActor": 11335.99609375,
+          "correctedBytesPerActor": 11335.99609375,
+          "proposedBytesPerActor": 11335.99609375,
+          "proposedMinusCorrectedBytesPerActor": 0
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Controlled Windows desktop Node only; physical Steam Deck/mobile and native engines remain unmeasured.",
+    "Whole-world modes contain other game work. No renderer FPS, allocation-volume, peak-memory or general game-speed claim.",
+    "Reversed independent process order does not isolate the cause of inter-run variation. Retain all samples and both runs.",
+    "This experiment changes function layout only. It does not justify caching live stat values or changing content storage."
+  ]
+}

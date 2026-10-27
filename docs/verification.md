@@ -13,8 +13,15 @@ optional modules. The guarded adapter rejects 188 source faults and preserves
 the prior effect/delayed/buff comparisons pass. Seventeen installed faults are
 detected in a copied graph, including the formerly unobserved zero-result cue
 and accidental reads of a callable's custom `.call` property.
-See [the boundary](life-recovery.md); renderer, performance and managed-game
-acceptance are pending.
+See [the boundary](life-recovery.md); renderer and managed-game acceptance are
+pending. A function-layout proposal was rejected after two comparisons against
+both native v0.36 and the corrected candidate. Its 1,350 timings, 168 heap
+observations and source patch remain available in the
+[measurement record](../evidence/milestone-forty-two/recovery-notification-performance.json).
+No targeted positive-healing workload improved by the required amount in both
+runs, and refill batches exceeded the regression threshold. The selected runtime
+is restored byte-for-byte to the corrected checkpoint; no performance change is
+adopted. Physical-device measurements remain outstanding.
 The candidate passes the complete `npm run verify` gate with 636 tests, including
 the prior package consumers and fault checks. All 189 predecessor runtime outputs
 remain byte-identical; the recovery modules add six compiled outputs.

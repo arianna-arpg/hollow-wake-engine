@@ -190,8 +190,30 @@ investigation. It does not establish a single cause for the measured overhead.
 
 ## Remaining acceptance
 
-Test a small function-layout change against the retained corrected candidate
-before selecting an optimization. The original 117-case candidate and its
-measurements remain preserved separately from the invocation correction.
-Complete renderer checks, then review managed game integration with the final
-package. Keep physical Steam Deck/mobile acceptance open.
+The [notification-layout experiment](../evidence/milestone-forty-two/recovery-notification-performance.json)
+compares native v0.36, the invocation-corrected candidate and a proposed private
+notification helper. Two runs reverse process order and retain 1,350 timings and
+168 heap observations. All complete outcome records agree, and the proposal
+passes 74 focused tests, 121 installed observations and seventeen installed faults.
+
+The proposal is **rejected**. Ordinary healing changes by -2.6% and +2.9% against
+the corrected control; silent healing changes by -4.8% and +44.1%. Neither target
+meets the required improvement in both runs. Refill batches are 6.8% and 18.0%
+slower. The already-full path improves 29.7–36.7%, but that does not satisfy the
+preselected positive-healing target or waive the regression rule. Both Actor
+batch sizes have identical median retained bytes between the two candidates.
+The proposed modules add 78 bytes without a qualifying benefit; the selected
+runtime remains 3,669 bytes with no new per-Actor fields.
+
+The corrected control's ordinary and silent rankings against v0.36 also change
+between runs. These measurements do not establish that the invocation repair
+improved performance, or isolate the cause of differences in unchanged paths.
+The report preserves every workload, the rejected source patch and raw samples.
+To repeat the three-graph comparison, add `--comparison-adapter <corrected-game>`
+and use `--order previous,comparison,current`, then reverse that order. Keep each
+installed graph distinct and build the proposed runtime before measuring it.
+
+The original 117-case candidate, corrected candidate and rejected experiment are
+retained separately. Complete renderer checks, then review managed game
+integration with the final package. Keep physical Steam Deck/mobile acceptance
+open; desktop path measurements do not establish a device or general game speedup.
