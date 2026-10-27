@@ -27,7 +27,7 @@ jobs:
       - run: npm run reference:install
       - name: Prepare independent installations and collect the frozen protocol
         timeout-minutes: 50
-        run: node scripts/run-restoration-diagnosis-ci.mjs
+        run: npm run diagnose:restoration
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:

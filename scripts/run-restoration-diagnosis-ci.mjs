@@ -15,6 +15,8 @@ assert.equal(plan.status,'diagnostic-only-frozen-before-collection');
 assert.equal(process.version,plan.node);
 if(!prepareOnly) assert.equal(process.platform,'linux','Measurement mode requires the planned Linux environment');
 assert(!process.env.NODE_OPTIONS && !process.env.NODE_V8_COVERAGE);
+assert(process.env.npm_execpath && fs.existsSync(process.env.npm_execpath),
+  'Run through npm run diagnose:restoration so child installs use the active npm');
 const artifacts=path.join(root,'.artifacts'),receipt=path.join(artifacts,'restoration-diagnosis-ci.json');
 assert(!fs.existsSync(receipt),'Preserve the existing run and use a fresh checkout');
 assert(!fs.existsSync(path.join(artifacts,'adapter-location.json')),'Preserve existing adapter work and use a fresh checkout');

@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "failedCommit": "67d8a245ea6f26b516f9a34f4d44a30f52557853",
+  "run": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40592033366",
+  "stage": "prepare-A",
+  "measuredSamples": 0,
+  "failure": "Direct Node invocation did not supply npm_execpath. The existing adapter preparer fell back to a Windows-style location, absent in the hosted Linux Node layout.",
+  "correction": "Launch through npm run diagnose:restoration and reject direct launches without an existing npm_execpath. The adapter and its frozen measurement protocol are unchanged.",
+  "failureLog": {
+    "file": "linux-diagnosis-first-preparation-failure.txt",
+    "sha256": "0ba2c442585e6c264ce43cee9fd601d7fc19478ca6aba8ad7ed6ad09ece3e38d"
+  },
+  "localChecks": {
+    "passed": true,
+    "directLaunchRejected": true,
+    "npmLaunchPassedToolPathGuard": true,
+    "existingAdapterPreserved": true,
+    "measuredSamples": 0,
+    "inputs": {
+      "scripts/run-restoration-diagnosis-ci.mjs": "085f3f203d7ec2aa61652d5e0a3dcd25b02a459ba37de93c2171e3ff81153aa7",
+      "package.json": "68e7329d3af95c867367e3afae70bda19cc5ca0372b76d1f8cd71879fb5126f5"
+    }
+  },
+  "hostedCorrectionStatus": "pending",
+  "optimizationAccepted": false
+}

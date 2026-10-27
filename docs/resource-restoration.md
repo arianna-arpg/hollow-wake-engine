@@ -336,10 +336,10 @@ npm ci
 npm run build
 npm run reference:prepare
 npm run reference:install
-node scripts/run-restoration-diagnosis-ci.mjs
+npm run diagnose:restoration
 ```
 
-`--prepare-only` validates the two-install setup without collecting timings and
+`npm run diagnose:restoration -- --prepare-only` validates the two-install setup without collecting timings and
 also works on Windows. Measurement mode requires Linux. The workflow records a
 small explicit environment description without collecting credentials. GitHub's
 [runner contract](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)
@@ -347,6 +347,12 @@ provides a fresh VM for this runner class; it does not establish exclusive physi
 hardware or stable timing. Evaluate the retained pairs before using this runner
 for performance decisions. Cross-OS timings do not measure a code improvement or
 represent Steam Deck or mobile hardware.
+
+The first hosted attempt stopped during preparation because a direct Node launch
+left the adapter without npm's executable path. No timings were collected. The
+npm script now supplies that path to child installations, and the driver refuses
+direct launches without it. The failed run remains available in the
+[setup correction record](../evidence/milestone-forty-three/linux-diagnosis-setup-correction.json).
 
 Neither these observations nor desktop measurements establish
 Steam Deck, mobile, Unity, Godot or Unreal compatibility. Those deliverables,
