@@ -251,8 +251,34 @@ being inlined. Allocation sampling includes a positive control for discarded
 objects using the documented [HeapProfiler collection flags](https://chromedevtools.github.io/devtools-protocol/tot/HeapProfiler/#method-startSampling).
 The instrumented helper adds asynchronous sampling boundaries and substantial
 profiler-control overhead. Its timing and sample-count differences therefore do
-not explain the uninstrumented regression. An unchanged-helper trace or a bounded
-experiment remains necessary before attributing a cause or accepting a fix.
+not explain the uninstrumented regression.
+
+An unchanged-helper compiler trace also observes the gain and query functions
+being inlined. Its diagnostic results and the subsequent
+[immutable-export experiment](../evidence/milestone-forty-three/restoration-immutable-export-experiment.json)
+are retained separately from acceptance measurements. The experiment changed only
+the two gain exports to immutable named function expressions. Their bodies and
+callable metadata stayed identical; 218 installed observations, all 18 installed
+faults and all 20 renderer stages passed. No Actor fields were added.
+
+The preselected target was positive shield gain at 4,096 Actors, with 32 calls
+per Actor. Two reversed-order comparisons measured the native game, initial SDK
+and candidate across all 16 workloads and four memory cases. The target improved
+6.27% in the first order and regressed 220.09% in the reverse order. The first
+order also exceeded the full-shield p95 limit and the 64-Actor World median limit;
+22 limits failed overall. The unchanged native comparator varied widely too.
+These observations reject the proposal under the frozen rules; they do not
+identify the cause or establish a general performance rule about const exports.
+
+All 2,400 timing samples and the reproducible patch are preserved. At the recorded
+baseline commit, apply the zero-context patch with `git apply --unidiff-zero`;
+its application and reversal are checked against both source hashes. Cleanup checks
+passed, and retained memory showed no repeatable reduction. The
+[initial runtime is restored](../evidence/milestone-forty-three/restoration-immutable-rollback-verification.json),
+including all 201 compiled outputs. The syntax-tree fault selector remains so
+faults cannot accidentally target adjacent exports or decoy strings. Performance
+acceptance is still open; another proposal needs an explicit hypothesis and the
+same improvement and regression limits.
 
 Neither these observations nor desktop measurements establish
 Steam Deck, mobile, Unity, Godot or Unreal compatibility. Those deliverables,

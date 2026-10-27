@@ -1,0 +1,986 @@
+{
+  "schemaVersion": 1,
+  "milestone": 43,
+  "decision": "restoration-immutable-export-experiment/v1",
+  "status": "rejected",
+  "optimizationAccepted": false,
+  "proposal": "baseline/milestone-forty-three/immutable-export-proposal.json",
+  "proposalSha256": "5397ce16c89c9d12912f0c46be74afdab9da8ccd221cb6475bb78522f64250c4",
+  "baselineCommit": "6373ecfe8f78c1a52d14738341efac475d6eec95",
+  "plan": "baseline/milestone-forty-three/performance-workloads.json",
+  "planSha256": "bb975f3a20b137cfd6cdb23f28c26b78a87fa088928a1de11d4037b850889fdc",
+  "helperSha256": "49ad02db0c680b35a21a0cc918441da666e5553efd9ad18b3142980f504be59f",
+  "graphRoles": {
+    "previous": "Native v0.37 restoration",
+    "comparison": "Initial v0.38 SDK restoration",
+    "current": "Immutable-export v0.38 experiment"
+  },
+  "archiveSha256": "2347342d1e03a383da67ef50f79a6c2fe8dee45f85b7ff2076d45acf30f74986",
+  "archiveIntegrity": "sha512-5Sj3U85LWsBZbbfzoMKUDvPs+Vb1HOq/FyUItmWN5A2OuQ0q0YY2MJoLyYMYkgxczdN/x0Qi75OvSd24mUDviw==",
+  "patch": {
+    "file": "restoration-immutable-export.patch",
+    "sha256": "7bb4647f084fb7bbb51103a30f4d8e2717222b97f53efb3ca4b04240be137b37",
+    "appliesToPublishedBaselineAndReversesExactly": true,
+    "candidateSourceSha256": "c65ae5f307fc4ad1b7d858e724ec46411cf52715a6c1635bcdd51938b05c44da",
+    "format": "Zero-context Git diff; apply with git apply --unidiff-zero at the recorded baseline. The original context diff is retained locally."
+  },
+  "verification": {
+    "sdkTests": 850,
+    "fullVerifyAndReference": true,
+    "logs": [
+      {
+        "name": "verify",
+        "logSha256": "6ebe043b26f783734a3c65f2b41c3eb93b2ecf6b998528e16e784df6ddc23fcc"
+      },
+      {
+        "name": "reference",
+        "logSha256": "ed9449e747fdb1f57570cdcc3c0c46a363a0e3720d661dd8df1026f2e66fb987"
+      }
+    ],
+    "gameTypes": true,
+    "nativeObservations": 218,
+    "installedFaultsRejected": 18,
+    "rendererStages": 20,
+    "rendererByteEqual": true,
+    "rendererExpectedSha256": "99a9998f0483d1407092b8f9c3903a3550e4290df8931cdcf8e6cb0b5b3aa258",
+    "rendererActualSha256": "99a9998f0483d1407092b8f9c3903a3550e4290df8931cdcf8e6cb0b5b3aa258",
+    "unchangedGameSourceFiles": 997,
+    "unchangedPredecessorRuntimeFiles": 195,
+    "changedRuntimeFiles": [
+      "resource-restoration.d.ts",
+      "resource-restoration.js",
+      "resource-restoration.js.map"
+    ],
+    "callableMetadata": [
+      {
+        "name": "gainEnergyShield",
+        "functionSourceIdentical": true,
+        "metadataIdentical": true
+      },
+      {
+        "name": "gainPoise",
+        "functionSourceIdentical": true,
+        "metadataIdentical": true
+      }
+    ],
+    "runtimeJsBytes": 6119,
+    "runtimeJsBudgetBytes": 8192,
+    "additionalActorFields": 0,
+    "controlsPreserved": 12,
+    "restorationRuntimeFaultsRejected": 23
+  },
+  "unchangedHelperTrace": {
+    "helperSha256": "49ad02db0c680b35a21a0cc918441da666e5553efd9ad18b3142980f504be59f",
+    "emittedHelperSha256": "f4f3ac0e03c30d90c0e480de0f040a597166e287f3bf795501fe6594b3a3dab7",
+    "diagnosticPlanSha256": "c722b227a4e3c2f8c8c48c3e886b43131835d3aa6f1993a3a8b9a5271715f2a2",
+    "flags": [
+      "--trace-opt",
+      "--trace-turbo-inlining",
+      "--trace-deopt"
+    ],
+    "cases": 6,
+    "warmups": 8,
+    "samples": 25,
+    "acceptedOutcomesMatched": true,
+    "graphs": {
+      "previous": {
+        "rawTraceSha256": "d6c97d7a570744d305e734630c89f0c828641556347946696e8fb9eaf0de1edc",
+        "resultSha256": "d5ff1a890fb4668afb00b2e80b1f6f7930449e02b35d1fa1dc78b3e4509f11dc",
+        "inliningRecords": {
+          "gainEnergyShield": 0,
+          "gainEs": 3,
+          "gainPoise": 5,
+          "maximumShield": 0,
+          "maximumPoise": 0,
+          "maxEs": 8,
+          "maxPoise": 10,
+          "compute": 0
+        },
+        "namedGainOrQueryBailoutLines": 0
+      },
+      "current": {
+        "rawTraceSha256": "255512b7458d595a9f75f57d891ffe077f5118aed1836603b74f11e88e9e16f7",
+        "resultSha256": "2838b98b8d805c3f92874d0bd6620132afaa959ae00b9ffcef6b11fb777ebfea",
+        "inliningRecords": {
+          "gainEnergyShield": 4,
+          "gainEs": 3,
+          "gainPoise": 7,
+          "maximumShield": 5,
+          "maximumPoise": 4,
+          "maxEs": 9,
+          "maxPoise": 8,
+          "compute": 0
+        },
+        "namedGainOrQueryBailoutLines": 0
+      }
+    },
+    "interpretation": "Gain and query forwarding functions were observed inlined. Tracing changes execution; counts and diagnostic timings do not establish the cause of the uninstrumented regression.",
+    "counting": "Inlining records where the named function is the callee; caller mentions are excluded. Records are not unique functions or time samples."
+  },
+  "runs": [
+    {
+      "number": 1,
+      "graphOrder": [
+        "previous",
+        "comparison",
+        "current"
+      ],
+      "graphs": {
+        "previous": {
+          "file": "restoration-immutable-run-1-previous.json",
+          "sha256": "d8e30c0efc385f34f024215a1fae13cc33babe697b5a152f1783efd18bd8e2d0",
+          "version": "0.37.0"
+        },
+        "comparison": {
+          "file": "restoration-immutable-run-1-comparison.json",
+          "sha256": "789426f20c1c1d2d0057a8e0bc8d7b1ff8db47bbe0915ff39782dff5f7945eb4",
+          "version": "0.38.0"
+        },
+        "current": {
+          "file": "restoration-immutable-run-1-current.json",
+          "sha256": "85d9a782437b6bba198354eb870e9d754437625360c45e600d0d65c89b16bab8",
+          "version": "0.38.0"
+        }
+      },
+      "outcomeSha256": "a3f4d1b73611bf2c122225e14ee24a10cf6c29a8e706fcde36e02b4eb2df79d1",
+      "controlsUnchanged": true
+    },
+    {
+      "number": 2,
+      "graphOrder": [
+        "current",
+        "comparison",
+        "previous"
+      ],
+      "graphs": {
+        "current": {
+          "file": "restoration-immutable-run-2-current.json",
+          "sha256": "b6cb14a1fc69591dc36cee60457d9e97e3ea5273b5abea48e1c763b0260e658b",
+          "version": "0.38.0"
+        },
+        "comparison": {
+          "file": "restoration-immutable-run-2-comparison.json",
+          "sha256": "b82ef7fbb7c78ca03f3941b281ac248060a63230ccb8a8d74e4f7d5c050ba088",
+          "version": "0.38.0"
+        },
+        "previous": {
+          "file": "restoration-immutable-run-2-previous.json",
+          "sha256": "9400c0dfa6c5974ebff80f3637332f7f13a4f1ec36fedc55640fe99679bafb2b",
+          "version": "0.37.0"
+        }
+      },
+      "outcomeSha256": "a3f4d1b73611bf2c122225e14ee24a10cf6c29a8e706fcde36e02b4eb2df79d1",
+      "controlsUnchanged": true
+    }
+  ],
+  "measuredTimingSamples": 2400,
+  "comparisons": [
+    {
+      "name": "shield-positive",
+      "actors": 1024,
+      "primaryTarget": false,
+      "runs": [
+        {
+          "number": 1,
+          "initialMedianMs": 2.843399999999747,
+          "candidateMedianMs": 2.731499999999869,
+          "medianDeltaPercent": -3.935429415484548,
+          "initialP95Ms": 4.991700000000492,
+          "candidateP95Ms": 3.4679999999989377,
+          "p95DeltaPercent": -30.524670953811405,
+          "nativeMedianMs": 3.233700000000681,
+          "nativeP95Ms": 5.052299999999377
+        },
+        {
+          "number": 2,
+          "initialMedianMs": 3.6708999999991647,
+          "candidateMedianMs": 3.0406999999995605,
+          "medianDeltaPercent": -17.167452123450587,
+          "initialP95Ms": 5.584000000000742,
+          "candidateP95Ms": 4.167699999999968,
+          "p95DeltaPercent": -25.363538681958918,
+          "nativeMedianMs": 2.617100000001301,
+          "nativeP95Ms": 4.678200000000288
+        }
+      ]
+    },
+    {
+      "name": "shield-positive",
+      "actors": 4096,
+      "primaryTarget": true,
+      "runs": [
+        {
+          "number": 1,
+          "initialMedianMs": 12.226200000000972,
+          "candidateMedianMs": 11.459499999997206,
+          "medianDeltaPercent": -6.2709590878908035,
+          "initialP95Ms": 16.89600000000064,
+          "candidateP95Ms": 20.714500000001863,
+          "p95DeltaPercent": 22.600023674248803,
+          "nativeMedianMs": 21.187699999994948,
+          "nativeP95Ms": 51.29349999999977
+        },
+        {
+          "number": 2,
+          "initialMedianMs": 11.806899999999587,
+          "candidateMedianMs": 37.792999999997846,
+          "medianDeltaPercent": 220.0924882907382,
+          "initialP95Ms": 16.87130000000252,
+          "candidateP95Ms": 53.09169999999722,
+          "p95DeltaPercent": 214.6864794057914,
+          "nativeMedianMs": 8.840799999998126,
+          "nativeP95Ms": 11.757300000001123
+        }
+      ]
+    },
+    {
+      "name": "shield-full",
+      "actors": 1024,
+      "primaryTarget": false,
+      "runs": [
+        {
+          "number": 1,
+          "initialMedianMs": 2.6529000000009546,
+          "candidateMedianMs": 2.5213999999978114,
+          "medianDeltaPercent": -4.9568396849898555,
+          "initialP95Ms": 4.283300000002782,
+          "candidateP95Ms": 4.1379999999990105,
+          "p95DeltaPercent": -3.392244297706848,
+          "nativeMedianMs": 4.2027000000016415,
+          "nativeP95Ms": 5.878699999993842
+        },
+        {
+          "number": 2,
+          "initialMedianMs": 3.2704000000012456,
+          "candidateMedianMs": 3.0591999999960535,
+          "medianDeltaPercent": -6.457925636164131,
+          "initialP95Ms": 5.121800000000803,
+          "candidateP95Ms": 4.581100000003062,
+          "p95DeltaPercent": -10.556835487478168,
+          "nativeMedianMs": 2.3106000000043423,
+          "nativeP95Ms": 2.865700000002107
+        }
+      ]
+    },
+    {
+      "name": "shield-full",
+      "actors": 4096,
+      "primaryTarget": false,
+      "runs": [
+        {
+          "number": 1,
+          "initialMedianMs": 10.964100000004692,
+          "candidateMedianMs": 11.134799999999814,
+          "medianDeltaPercent": 1.5568993350575822,
+          "initialP95Ms": 17.916099999994913,
+          "candidateP95Ms": 28.29660000000149,
+          "p95DeltaPercent": 57.93950692399308,
+          "nativeMedianMs": 14.390900000005786,
+          "nativeP95Ms": 30.6733000000022
+        },
+        {
+          "number": 2,
+          "initialMedianMs": 11.163999999997031,
+          "candidateMedianMs": 17.121500000008382,
+          "medianDeltaPercent": 53.3634897887221,
+          "initialP95Ms": 13.209799999996903,
+          "candidateP95Ms": 37.54639999999199,
+          "p95DeltaPercent": 184.2314039576738,
+          "nativeMedianMs": 8.650900000000547,
+          "nativeP95Ms": 12.062700000002224
+        }
+      ]
+    },
+    {
+      "name": "poise-positive",
+      "actors": 1024,
+      "primaryTarget": false,
+      "runs": [
+        {
+          "number": 1,
+          "initialMedianMs": 3.8056000000069616,
+          "candidateMedianMs": 3.6722000000008848,
+          "medianDeltaPercent": -3.505360521490253,
+          "initialP95Ms": 5.120599999994738,
+          "candidateP95Ms": 3.9940999999962514,
+          "p95DeltaPercent": -21.999375073226656,
+          "nativeMedianMs": 3.8506999999954132,
+          "nativeP95Ms": 4.628200000006473
+        },
+        {
+          "number": 2,
+          "initialMedianMs": 3.7241999999969266,
+          "candidateMedianMs": 5.197700000004261,
+          "medianDeltaPercent": 39.56554427819532,
+          "initialP95Ms": 4.256699999998091,
+          "candidateP95Ms": 7.9179000000003725,
+          "p95DeltaPercent": 86.01028966109719,
+          "nativeMedianMs": 3.7884999999951106,
+          "nativeP95Ms": 3.944099999993341
+        }
+      ]
+    },
+    {
+      "name": "poise-positive",
+      "actors": 4096,
+      "primaryTarget": false,
+      "runs": [
+        {
+          "number": 1,
+          "initialMedianMs": 32.83740000000398,
+          "candidateMedianMs": 18.424200000008568,
+          "medianDeltaPercent": -43.892634617824996,
+          "initialP95Ms": 75.68180000000575,
+          "candidateP95Ms": 27.198099999994156,
+          "p95DeltaPercent": -64.06256193696227,
+          "nativeMedianMs": 40.225600000005215,
+          "nativeP95Ms": 52.69230000000971
+        },
+        {
+          "number": 2,
+          "initialMedianMs": 17.309399999998277,
+          "candidateMedianMs": 32.20530000000144,
+          "medianDeltaPercent": 86.05670907139849,
+          "initialP95Ms": 22.206899999990128,
+          "candidateP95Ms": 52.20650000000023,
+          "p95DeltaPercent": 135.09134548281588,
+          "nativeMedianMs": 17.46339999999327,
+          "nativeP95Ms": 25.038099999990663
+        }
+      ]
+    },
+    {
+      "name": "poise-overcharge",
+      "actors": 1024,
+      "primaryTarget": false,
+      "runs": [
+        {
+          "number": 1,
+          "initialMedianMs": 4.519000000000233,
+          "candidateMedianMs": 4.108699999997043,
+          "medianDeltaPercent": -9.079442354573331,
+          "initialP95Ms": 6.805399999997462,
+          "candidateP95Ms": 5.620100000000093,
+          "p95DeltaPercent": -17.417051165218954,
+          "nativeMedianMs": 4.6163999999989755,
+          "nativeP95Ms": 5.62850000000617
+        },
+        {
+          "number": 2,
+          "initialMedianMs": 3.676899999991292,
+          "candidateMedianMs": 4.878599999996368,
+          "medianDeltaPercent": 32.6824226932449,
+          "initialP95Ms": 3.9321000000054482,
+          "candidateP95Ms": 5.961699999999837,
+          "p95DeltaPercent": 51.61618473567755,
+          "nativeMedianMs": 3.8236999999935506,
+          "nativeP95Ms": 5.209499999997206
+        }
+      ]
+    },
+    {
+      "name": "poise-overcharge",
+      "actors": 4096,
+      "primaryTarget": false,
+      "runs": [
+        {
+          "number": 1,
+          "initialMedianMs": 46.80430000000342,
+          "candidateMedianMs": 19.056299999996554,
+          "medianDeltaPercent": -59.28515115065248,
+          "initialP95Ms": 60.70470000000205,
+          "candidateP95Ms": 28.11470000000554,
+          "p95DeltaPercent": -53.68612315025922,
+          "nativeMedianMs": 23.37630000000354,
+          "nativeP95Ms": 39.50689999999304
+        },
+        {
+          "number": 2,
+          "initialMedianMs": 23.932399999990594,
+          "candidateMedianMs": 40.406400000007125,
+          "medianDeltaPercent": 68.83555347571912,
+          "initialP95Ms": 53.487100000013015,
+          "candidateP95Ms": 58.25869999997667,
+          "p95DeltaPercent": 8.921029556589332,
+          "nativeMedianMs": 18.9658999999956,
+          "nativeP95Ms": 26.095100000005914
+        }
+      ]
+    },
+    {
+      "name": "instant-mana",
+      "actors": 1024,
+      "primaryTarget": false,
+      "runs": [
+        {
+          "number": 1,
+          "initialMedianMs": 18.85899999999674,
+          "candidateMedianMs": 16.56020000000717,
+          "medianDeltaPercent": -12.189405588790326,
+          "initialP95Ms": 36.50909999999567,
+          "candidateP95Ms": 34.71129999999539,
+          "p95DeltaPercent": -4.924251761890853,
+          "nativeMedianMs": 17.537599999981467,
+          "nativeP95Ms": 37.12810000000172
+        },
+        {
+          "number": 2,
+          "initialMedianMs": 14.91359999999986,
+          "candidateMedianMs": 16.73399999999674,
+          "medianDeltaPercent": 12.206308335994652,
+          "initialP95Ms": 22.633399999991525,
+          "candidateP95Ms": 21.12619999999879,
+          "p95DeltaPercent": -6.659185098099707,
+          "nativeMedianMs": 13.499800000005052,
+          "nativeP95Ms": 17.386700000002747
+        }
+      ]
+    },
+    {
+      "name": "instant-mana",
+      "actors": 4096,
+      "primaryTarget": false,
+      "runs": [
+        {
+          "number": 1,
+          "initialMedianMs": 108.71819999997388,
+          "candidateMedianMs": 71.78240000002552,
+          "medianDeltaPercent": -33.97388845653923,
+          "initialP95Ms": 130.22569999998086,
+          "candidateP95Ms": 97.6883000000089,
+          "p95DeltaPercent": -24.985390748505676,
+          "nativeMedianMs": 92.81109999999171,
+          "nativeP95Ms": 116.16310000000522
+        },
+        {
+          "number": 2,
+          "initialMedianMs": 64.01010000001406,
+          "candidateMedianMs": 104.93659999998636,
+          "medianDeltaPercent": 63.93756610279206,
+          "initialP95Ms": 95.92780000000494,
+          "candidateP95Ms": 122.79999999998836,
+          "p95DeltaPercent": 28.012943067580043,
+          "nativeMedianMs": 49.498600000020815,
+          "nativeP95Ms": 90.534799999994
+        }
+      ]
+    },
+    {
+      "name": "proc-mana",
+      "actors": 1024,
+      "primaryTarget": false,
+      "runs": [
+        {
+          "number": 1,
+          "initialMedianMs": 31.77050000001327,
+          "candidateMedianMs": 22.325199999992037,
+          "medianDeltaPercent": -29.729780771524805,
+          "initialP95Ms": 47.408599999995204,
+          "candidateP95Ms": 27.653800000000047,
+          "p95DeltaPercent": -41.669233008351135,
+          "nativeMedianMs": 28.217600000003586,
+          "nativeP95Ms": 37.499299999995856
+        },
+        {
+          "number": 2,
+          "initialMedianMs": 22.216400000004796,
+          "candidateMedianMs": 25.33640000000014,
+          "medianDeltaPercent": 14.043679443990342,
+          "initialP95Ms": 25.80590000000666,
+          "candidateP95Ms": 34.98740000001271,
+          "p95DeltaPercent": 35.579073002699715,
+          "nativeMedianMs": 22.457199999975273,
+          "nativeP95Ms": 29.197099999990314
+        }
+      ]
+    },
+    {
+      "name": "proc-mana",
+      "actors": 4096,
+      "primaryTarget": false,
+      "runs": [
+        {
+          "number": 1,
+          "initialMedianMs": 127.7890999999945,
+          "candidateMedianMs": 81.637000000017,
+          "medianDeltaPercent": -36.11583460559585,
+          "initialP95Ms": 151.6211000000185,
+          "candidateP95Ms": 97.99710000000778,
+          "p95DeltaPercent": -35.367109195226895,
+          "nativeMedianMs": 133.488400000002,
+          "nativeP95Ms": 158.20199999999022
+        },
+        {
+          "number": 2,
+          "initialMedianMs": 97.01550000000861,
+          "candidateMedianMs": 130.84599999999045,
+          "medianDeltaPercent": 34.87123191652761,
+          "initialP95Ms": 116.99499999999534,
+          "candidateP95Ms": 146.11200000002282,
+          "p95DeltaPercent": 24.887388349953966,
+          "nativeMedianMs": 78.70529999997234,
+          "nativeP95Ms": 124.4825000000128
+        }
+      ]
+    },
+    {
+      "name": "proc-poise",
+      "actors": 1024,
+      "primaryTarget": false,
+      "runs": [
+        {
+          "number": 1,
+          "initialMedianMs": 27.578000000008615,
+          "candidateMedianMs": 25.967700000008335,
+          "medianDeltaPercent": -5.839074624700036,
+          "initialP95Ms": 36.959800000011455,
+          "candidateP95Ms": 33.77390000000014,
+          "p95DeltaPercent": -8.619905951899975,
+          "nativeMedianMs": 31.386200000008103,
+          "nativeP95Ms": 52.764999999984866
+        },
+        {
+          "number": 2,
+          "initialMedianMs": 24.194900000002235,
+          "candidateMedianMs": 31.08079999999609,
+          "medianDeltaPercent": 28.46013002737444,
+          "initialP95Ms": 26.073999999993248,
+          "candidateP95Ms": 40.814299999998184,
+          "p95DeltaPercent": 56.53256117208236,
+          "nativeMedianMs": 24.133399999991525,
+          "nativeP95Ms": 26.511499999993248
+        }
+      ]
+    },
+    {
+      "name": "proc-poise",
+      "actors": 4096,
+      "primaryTarget": false,
+      "runs": [
+        {
+          "number": 1,
+          "initialMedianMs": 129.53599999999278,
+          "candidateMedianMs": 129.66289999999572,
+          "medianDeltaPercent": 0.09796504446868415,
+          "initialP95Ms": 150.03230000002077,
+          "candidateP95Ms": 147.95769999999902,
+          "p95DeltaPercent": -1.3827689104422558,
+          "nativeMedianMs": 129.8391999999876,
+          "nativeP95Ms": 148.5847000000067
+        },
+        {
+          "number": 2,
+          "initialMedianMs": 108.00399999998626,
+          "candidateMedianMs": 100.113400000002,
+          "medianDeltaPercent": -7.305840524411378,
+          "initialP95Ms": 128.71970000001602,
+          "candidateP95Ms": 122.04529999999795,
+          "p95DeltaPercent": -5.185220288749304,
+          "nativeMedianMs": 89.13649999999325,
+          "nativeP95Ms": 126.80059999998775
+        }
+      ]
+    },
+    {
+      "name": "world-shield-conversion",
+      "actors": 16,
+      "primaryTarget": false,
+      "runs": [
+        {
+          "number": 1,
+          "initialMedianMs": 64.71799999999348,
+          "candidateMedianMs": 59.05279999997583,
+          "medianDeltaPercent": -8.753669767326278,
+          "initialP95Ms": 113.46809999999823,
+          "candidateP95Ms": 68.80830000000424,
+          "p95DeltaPercent": -39.35890351560896,
+          "nativeMedianMs": 62.5848999999871,
+          "nativeP95Ms": 79.98500000001513
+        },
+        {
+          "number": 2,
+          "initialMedianMs": 55.82500000001164,
+          "candidateMedianMs": 57.21919999999227,
+          "medianDeltaPercent": 2.4974473801707697,
+          "initialP95Ms": 63.36389999999665,
+          "candidateP95Ms": 64.90849999999045,
+          "p95DeltaPercent": 2.437665610850792,
+          "nativeMedianMs": 55.26559999998426,
+          "nativeP95Ms": 63.46960000001127
+        }
+      ]
+    },
+    {
+      "name": "world-shield-conversion",
+      "actors": 64,
+      "primaryTarget": false,
+      "runs": [
+        {
+          "number": 1,
+          "initialMedianMs": 139.6266000000178,
+          "candidateMedianMs": 159.7117000000144,
+          "medianDeltaPercent": 14.384866493915949,
+          "initialP95Ms": 180.61170000000857,
+          "candidateP95Ms": 192.1976999999897,
+          "p95DeltaPercent": 6.414866810943365,
+          "nativeMedianMs": 140.72849999999744,
+          "nativeP95Ms": 161.58729999998468
+        },
+        {
+          "number": 2,
+          "initialMedianMs": 124.55379999999423,
+          "candidateMedianMs": 123.1083000000217,
+          "medianDeltaPercent": -1.1605426731039814,
+          "initialP95Ms": 131.35090000001946,
+          "candidateP95Ms": 151.3251000000164,
+          "p95DeltaPercent": 15.20674772688575,
+          "nativeMedianMs": 126.31750000000466,
+          "nativeP95Ms": 136.1939999999886
+        }
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "mode": "unused",
+      "count": 1024,
+      "runs": [
+        {
+          "number": 1,
+          "previous": {
+            "medianBytesPerActor": 12555.234375,
+            "allActorWeakRefsReleased": true
+          },
+          "comparison": {
+            "medianBytesPerActor": 12555.234375,
+            "allActorWeakRefsReleased": true
+          },
+          "current": {
+            "medianBytesPerActor": 12555.234375,
+            "allActorWeakRefsReleased": true
+          }
+        },
+        {
+          "number": 2,
+          "current": {
+            "medianBytesPerActor": 12555.3984375,
+            "allActorWeakRefsReleased": true
+          },
+          "comparison": {
+            "medianBytesPerActor": 12555.234375,
+            "allActorWeakRefsReleased": true
+          },
+          "previous": {
+            "medianBytesPerActor": 12555.234375,
+            "allActorWeakRefsReleased": true
+          }
+        }
+      ]
+    },
+    {
+      "mode": "unused",
+      "count": 4096,
+      "runs": [
+        {
+          "number": 1,
+          "previous": {
+            "medianBytesPerActor": 12492.00390625,
+            "allActorWeakRefsReleased": true
+          },
+          "comparison": {
+            "medianBytesPerActor": 12491.962890625,
+            "allActorWeakRefsReleased": true
+          },
+          "current": {
+            "medianBytesPerActor": 12492.00390625,
+            "allActorWeakRefsReleased": true
+          }
+        },
+        {
+          "number": 2,
+          "current": {
+            "medianBytesPerActor": 12491.962890625,
+            "allActorWeakRefsReleased": true
+          },
+          "comparison": {
+            "medianBytesPerActor": 12491.962890625,
+            "allActorWeakRefsReleased": true
+          },
+          "previous": {
+            "medianBytesPerActor": 12491.962890625,
+            "allActorWeakRefsReleased": true
+          }
+        }
+      ]
+    },
+    {
+      "mode": "restored",
+      "count": 1024,
+      "runs": [
+        {
+          "number": 1,
+          "previous": {
+            "medianBytesPerActor": 17788.4609375,
+            "allActorWeakRefsReleased": true
+          },
+          "comparison": {
+            "medianBytesPerActor": 17787.8515625,
+            "allActorWeakRefsReleased": true
+          },
+          "current": {
+            "medianBytesPerActor": 17787.8515625,
+            "allActorWeakRefsReleased": true
+          }
+        },
+        {
+          "number": 2,
+          "current": {
+            "medianBytesPerActor": 17787.8515625,
+            "allActorWeakRefsReleased": true
+          },
+          "comparison": {
+            "medianBytesPerActor": 17787.8515625,
+            "allActorWeakRefsReleased": true
+          },
+          "previous": {
+            "medianBytesPerActor": 17787.8515625,
+            "allActorWeakRefsReleased": true
+          }
+        }
+      ]
+    },
+    {
+      "mode": "restored",
+      "count": 4096,
+      "runs": [
+        {
+          "number": 1,
+          "previous": {
+            "medianBytesPerActor": 17787.962890625,
+            "allActorWeakRefsReleased": true
+          },
+          "comparison": {
+            "medianBytesPerActor": 17787.962890625,
+            "allActorWeakRefsReleased": true
+          },
+          "current": {
+            "medianBytesPerActor": 17787.962890625,
+            "allActorWeakRefsReleased": true
+          }
+        },
+        {
+          "number": 2,
+          "current": {
+            "medianBytesPerActor": 17787.962890625,
+            "allActorWeakRefsReleased": true
+          },
+          "comparison": {
+            "medianBytesPerActor": 17787.962890625,
+            "allActorWeakRefsReleased": true
+          },
+          "previous": {
+            "medianBytesPerActor": 17787.962890625,
+            "allActorWeakRefsReleased": true
+          }
+        }
+      ]
+    }
+  ],
+  "acceptance": {
+    "minimumRepeatableMedianImprovementPercent": 5,
+    "maximumOtherMedianRegressionPercent": 5,
+    "maximumOtherP95RegressionPercent": 10,
+    "rule": "An optimization proposal must improve its preselected workload in both reversed-order runs and meet the other-workload limits; reject or investigate inconsistent rankings."
+  },
+  "failedGates": [
+    {
+      "name": "shield-positive",
+      "actors": 4096,
+      "run": 2,
+      "gate": "primary median improvement",
+      "observedDeltaPercent": 220.0924882907382,
+      "maximumDeltaPercent": -5
+    },
+    {
+      "name": "shield-full",
+      "actors": 4096,
+      "run": 1,
+      "gate": "other p95 regression",
+      "observedDeltaPercent": 57.93950692399308,
+      "maximumDeltaPercent": 10
+    },
+    {
+      "name": "shield-full",
+      "actors": 4096,
+      "run": 2,
+      "gate": "other median regression",
+      "observedDeltaPercent": 53.3634897887221,
+      "maximumDeltaPercent": 5
+    },
+    {
+      "name": "shield-full",
+      "actors": 4096,
+      "run": 2,
+      "gate": "other p95 regression",
+      "observedDeltaPercent": 184.2314039576738,
+      "maximumDeltaPercent": 10
+    },
+    {
+      "name": "poise-positive",
+      "actors": 1024,
+      "run": 2,
+      "gate": "other median regression",
+      "observedDeltaPercent": 39.56554427819532,
+      "maximumDeltaPercent": 5
+    },
+    {
+      "name": "poise-positive",
+      "actors": 1024,
+      "run": 2,
+      "gate": "other p95 regression",
+      "observedDeltaPercent": 86.01028966109719,
+      "maximumDeltaPercent": 10
+    },
+    {
+      "name": "poise-positive",
+      "actors": 4096,
+      "run": 2,
+      "gate": "other median regression",
+      "observedDeltaPercent": 86.05670907139849,
+      "maximumDeltaPercent": 5
+    },
+    {
+      "name": "poise-positive",
+      "actors": 4096,
+      "run": 2,
+      "gate": "other p95 regression",
+      "observedDeltaPercent": 135.09134548281588,
+      "maximumDeltaPercent": 10
+    },
+    {
+      "name": "poise-overcharge",
+      "actors": 1024,
+      "run": 2,
+      "gate": "other median regression",
+      "observedDeltaPercent": 32.6824226932449,
+      "maximumDeltaPercent": 5
+    },
+    {
+      "name": "poise-overcharge",
+      "actors": 1024,
+      "run": 2,
+      "gate": "other p95 regression",
+      "observedDeltaPercent": 51.61618473567755,
+      "maximumDeltaPercent": 10
+    },
+    {
+      "name": "poise-overcharge",
+      "actors": 4096,
+      "run": 2,
+      "gate": "other median regression",
+      "observedDeltaPercent": 68.83555347571912,
+      "maximumDeltaPercent": 5
+    },
+    {
+      "name": "instant-mana",
+      "actors": 1024,
+      "run": 2,
+      "gate": "other median regression",
+      "observedDeltaPercent": 12.206308335994652,
+      "maximumDeltaPercent": 5
+    },
+    {
+      "name": "instant-mana",
+      "actors": 4096,
+      "run": 2,
+      "gate": "other median regression",
+      "observedDeltaPercent": 63.93756610279206,
+      "maximumDeltaPercent": 5
+    },
+    {
+      "name": "instant-mana",
+      "actors": 4096,
+      "run": 2,
+      "gate": "other p95 regression",
+      "observedDeltaPercent": 28.012943067580043,
+      "maximumDeltaPercent": 10
+    },
+    {
+      "name": "proc-mana",
+      "actors": 1024,
+      "run": 2,
+      "gate": "other median regression",
+      "observedDeltaPercent": 14.043679443990342,
+      "maximumDeltaPercent": 5
+    },
+    {
+      "name": "proc-mana",
+      "actors": 1024,
+      "run": 2,
+      "gate": "other p95 regression",
+      "observedDeltaPercent": 35.579073002699715,
+      "maximumDeltaPercent": 10
+    },
+    {
+      "name": "proc-mana",
+      "actors": 4096,
+      "run": 2,
+      "gate": "other median regression",
+      "observedDeltaPercent": 34.87123191652761,
+      "maximumDeltaPercent": 5
+    },
+    {
+      "name": "proc-mana",
+      "actors": 4096,
+      "run": 2,
+      "gate": "other p95 regression",
+      "observedDeltaPercent": 24.887388349953966,
+      "maximumDeltaPercent": 10
+    },
+    {
+      "name": "proc-poise",
+      "actors": 1024,
+      "run": 2,
+      "gate": "other median regression",
+      "observedDeltaPercent": 28.46013002737444,
+      "maximumDeltaPercent": 5
+    },
+    {
+      "name": "proc-poise",
+      "actors": 1024,
+      "run": 2,
+      "gate": "other p95 regression",
+      "observedDeltaPercent": 56.53256117208236,
+      "maximumDeltaPercent": 10
+    },
+    {
+      "name": "world-shield-conversion",
+      "actors": 64,
+      "run": 1,
+      "gate": "other median regression",
+      "observedDeltaPercent": 14.384866493915949,
+      "maximumDeltaPercent": 5
+    },
+    {
+      "name": "world-shield-conversion",
+      "actors": 64,
+      "run": 2,
+      "gate": "other p95 regression",
+      "observedDeltaPercent": 15.20674772688575,
+      "maximumDeltaPercent": 10
+    }
+  ],
+  "scope": "Two independent reversed-order three-graph Node comparisons using the unchanged accepted helper. No profiler or tracing in timed runs. Retained heap is not allocation volume or peak memory. No Steam Deck, mobile, renderer performance or native-engine compatibility claim.",
+  "traceCountsRefined": true,
+  "environment": {
+    "node": "v24.9.0",
+    "v8": "13.6.233.10-node.27",
+    "platform": "win32",
+    "osRelease": "10.0.19045",
+    "arch": "x64",
+    "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+    "logicalCpus": 20,
+    "totalMemoryBytes": 68631449600
+  },
+  "interpretation": "Rejected under the predeclared limits. The primary median improved by 6.27% in the first order but regressed by 220.09% in the reverse order; 22 gates failed across both runs. The unchanged native comparator also varied widely, so these observations do not isolate a causal mechanism or show that immutable exports are generally slower. All behavior and cleanup checks passed; retained memory showed no repeatable reduction. The initial runtime was restored and verified before publication."
+}

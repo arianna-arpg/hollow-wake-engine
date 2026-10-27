@@ -3,6 +3,7 @@ import {spawnSync} from 'node:child_process';import {pathToFileURL} from 'node:u
 import {root,listFiles,sha256,writeJSON} from './reference-utils.mjs';
 import {readRestorationExpectations} from './check-restoration-contract.mjs';
 import {restorationDecision} from '../adapters/hollow-wake/integrate-resource-restoration.mjs';
+import {exportedFunctionBody} from './exported-function-body.mjs';
 
 const at=process.argv.indexOf('--location');assert(at<0||process.argv[at+1],'Missing restoration location');
 const location=JSON.parse(fs.readFileSync(at<0?path.join(root,'.artifacts/adapter-location.json'):path.resolve(process.argv[at+1])));
@@ -77,8 +78,7 @@ const faults=[
 const results=[];
 for(const[name,target,before,after,fixture,method]of faults){
   const file=targets[target],source=fs.readFileSync(file,'utf8');
-  const start=method?source.indexOf('export function '+method+'('):0;assert(start>=0);
-  const next=method?source.indexOf('export function ',start+1):-1,end=next<0?source.length:next,region=source.slice(start,end);
+  const {start,end}=method?exportedFunctionBody(source,method):{start:0,end:source.length},region=source.slice(start,end);
   assert.equal(region.split(before).length,2,'Changed installed fault anchor: '+name);
   const changed=source.slice(0,start)+region.replace(before,after)+source.slice(end);
   let result;try{fs.writeFileSync(file,changed);result=run('fault-'+name,fixture);assert(!result.equal,'Installed fault escaped: '+name);}

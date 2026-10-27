@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "milestone": 43,
+  "status": "proposed-before-implementation",
+  "decision": "restoration-immutable-export-experiment/v1",
+  "baselineCommit": "6373ecfe8f78c1a52d14738341efac475d6eec95",
+  "runtimeSourceSha256": "1f937480b931cc8bf97594b1e7fb6d3eef8c54fcf1ac7d55d4b55387fbd79334",
+  "unchangedFunctionBodySha256": {
+    "gainEnergyShield": "79863d82708f291d15fba430430a029d0037e171062cd5422fe9cbcf251b328f",
+    "gainPoise": "85bb190ac50c7ee16fecba6958a475a66c640c918641a29d1ef62783a02e33a1"
+  },
+  "measurementPlanSha256": "bb975f3a20b137cfd6cdb23f28c26b78a87fa088928a1de11d4037b850889fdc",
+  "initialMeasurements": "evidence/milestone-forty-three/restoration-initial-performance.json",
+  "initialProfiles": "evidence/milestone-forty-three/restoration-initial-profiles.json",
+  "unchangedHelperTraceSummarySha256": "449784d6d4dd5b293b5406225600e6f4afcbf8c2b85f2923857114e5ac48882e",
+  "hypothesis": "Test whether immutable named function-expression exports alter the generated code or binding access enough to reduce the repeated large shield-gain cost. Inlining is already observed, so this is a bounded layout/binding experiment, not an assertion that callback calls remain uninlined or that const exports are generally faster.",
+  "change": "Replace only gainEnergyShield and gainPoise exported function declarations with exported const bindings to identically named function expressions. Keep both bodies byte-identical and preserve signatures, names, arities, constructibility and prototype-constructor identity. No new API names, fields, caches, dependencies or host changes.",
+  "primaryTarget": {
+    "name": "shield-positive",
+    "actors": 4096,
+    "callsPerActor": 32
+  },
+  "comparison": "Initial SDK versus proposed SDK in both reversed orders using all16 accepted workloads and all four memory cases. Native v0.37 is also retained as an independent correctness and timing comparator. No profiler or tracing during acceptance measurements.",
+  "acceptance": {
+    "minimumRepeatableMedianImprovementPercent": 5,
+    "maximumOtherMedianRegressionPercent": 5,
+    "maximumOtherP95RegressionPercent": 10,
+    "rule": "An optimization proposal must improve its preselected workload in both reversed-order runs and meet the other-workload limits; reject or investigate inconsistent rankings."
+  },
+  "additionalActorFields": 0,
+  "runtimeJsBudgetBytes": 8192,
+  "requiredVerification": [
+    "Byte-identical function bodies, same public callable metadata and constructor behavior",
+    "All accepted native and renderer expectations unchanged",
+    "Full SDK verification, all23 restoration runtime faults and all18 installed faults retained",
+    "Packed consumer and asynchronous-port type refusals",
+    "All195 predecessor outputs unchanged; all997 game sources unchanged from the initial SDK adapter",
+    "Fresh candidate installation; no mutation of any retained control",
+    "Complete two-order measurements; reject or investigate failure of any fixed improvement/regression threshold"
+  ],
+  "verificationTooling": "Use syntax-tree function-body selection for runtime fault injection so it supports both existing declarations and immutable named expressions. Keep all fault operators and expected rejection assertions.",
+  "rollback": "Retain the proposal, patch and measurements even if rejected; restore the published initial runtime before further release work."
+}

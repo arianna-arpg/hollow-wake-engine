@@ -18,7 +18,10 @@ cases pass native/SDK outcome validation before timing. Performance, managed-gam
 and public-main acceptance remain open. Initial reversed-order measurements
 preserve outcomes and retained memory but show repeated shield/poise CPU
 regressions; [the full evidence](evidence/milestone-forty-three/restoration-initial-performance.json)
-is retained for profiling before an optimization decision.
+is retained. A bounded [immutable-export experiment](evidence/milestone-forty-three/restoration-immutable-export-experiment.json)
+preserved behavior but failed the fixed performance limits across two reversed
+three-version comparisons. Its patch and all 2,400 timing samples are retained;
+the initial runtime is restored, with no optimization accepted.
 
 Version 0.37 adds optional [life recovery](docs/life-recovery.md): healing,
 full refill and validated proc-heal content. The installed game adapter preserves

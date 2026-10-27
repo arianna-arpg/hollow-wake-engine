@@ -1,0 +1,16 @@
+diff --git a/src/resource-restoration.ts b/src/resource-restoration.ts
+index 51914b0..972b924 100644
+--- a/src/resource-restoration.ts
++++ b/src/resource-restoration.ts
+@@ -12 +12 @@ export interface PoiseGainPorts<A> {
+-export function gainEnergyShield<A extends ShieldGainState>(actor: A, amount: number, ports: ShieldGainPorts<A>): number {
++export const gainEnergyShield = function gainEnergyShield<A extends ShieldGainState>(actor: A, amount: number, ports: ShieldGainPorts<A>): number {
+@@ -20 +20 @@ export function gainEnergyShield<A extends ShieldGainState>(actor: A, amount: nu
+-}
++};
+@@ -23 +23 @@ export function gainEnergyShield<A extends ShieldGainState>(actor: A, amount: nu
+-export function gainPoise<A extends PoiseGainState>(actor: A, amount: number, ports: PoiseGainPorts<A>): number {
++export const gainPoise = function gainPoise<A extends PoiseGainState>(actor: A, amount: number, ports: PoiseGainPorts<A>): number {
+@@ -31 +31 @@ export function gainPoise<A extends PoiseGainState>(actor: A, amount: number, po
+-}
++};

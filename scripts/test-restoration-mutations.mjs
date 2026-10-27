@@ -1,6 +1,7 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';import {pathToFileURL} from 'node:url';
 import {root,sha256,writeJSON} from './reference-utils.mjs';
+import {exportedFunctionBody} from './exported-function-body.mjs';
 const file=path.join(root,'dist/resource-restoration.js'),original=fs.readFileSync(file),source=original.toString().replaceAll('\r\n','\n'),
   output=fs.mkdtempSync(path.join(root,'.artifacts/restoration-mutations-'));
 const faults=[
@@ -32,8 +33,7 @@ const faults=[
 ];
 const results=[];
 for(const[name,method,before,after]of faults){
-  const start=source.indexOf('export function '+method+'(');assert(start>=0);
-  const next=source.indexOf('export function ',start+1),end=next<0?source.length:next;
+  const {start,end}=exportedFunctionBody(source,method);
   const body=source.slice(start,end);assert.equal(body.split(before).length-1,1,'Mutation anchor: '+name);
   const mutant=path.join(output,name+'.mjs');fs.writeFileSync(mutant,source.slice(0,start)+body.replace(before,after)+source.slice(end),{flag:'wx'});
   const syntax=spawnSync(process.execPath,['--check',mutant],{encoding:'utf8',windowsHide:true});assert.equal(syntax.status,0,syntax.stderr);

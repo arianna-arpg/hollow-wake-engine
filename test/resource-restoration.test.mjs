@@ -157,3 +157,14 @@ test('instant mana samples capacity before the live pool and amount getter',()=>
   assert.equal(applyInstantRestoration(a,effect,ports),40);assert.equal(a.mana,80);
   assert.deepEqual(calls,['capacity','amount']);assert.equal(a.gainEvents[0].n,40);
 });
+test('pool gain exports retain named callable and constructor metadata',()=>{
+  for(const [name,fn] of [['gainEnergyShield',gainEnergyShield],['gainPoise',gainPoise]]){
+    assert.equal(fn.name,name);assert.equal(fn.length,3);
+    assert.deepEqual(Reflect.ownKeys(fn),['length','name','prototype']);
+    assert.equal(fn.prototype.constructor,fn);
+    const a=actor(),before={es:a.es,poise:a.poise};
+    const constructed=Reflect.construct(fn,[a,0,ports]);
+    assert.equal(Object.getPrototypeOf(constructed),fn.prototype);
+    assert.deepEqual({es:a.es,poise:a.poise},before);
+  }
+});

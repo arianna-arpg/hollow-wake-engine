@@ -1,7 +1,8 @@
 # Verification and reproduction
 
-The v0.38 development restoration candidate passes 846 SDK tests, including 210
-focused restoration checks, and preserves all 195 predecessor compiled files.
+The v0.38 development restoration candidate passes 850 SDK tests, including 211
+focused restoration checks and three fault-selector checks, and preserves all
+195 predecessor compiled files.
 All 218 native observations match through the installed package, including full
 cue/event payloads, timed World updates, reservations, callback order and partial
 failures. Twenty-three runtime faults, 222 source-guard faults and eighteen
@@ -24,6 +25,13 @@ medians match, but shield gains and large ordinary-poise batches show repeated
 CPU regressions. The [full samples](../evidence/milestone-forty-three/restoration-initial-performance.json)
 are retained for the profiling and optimization decision; passing outcome checks
 does not imply performance acceptance.
+The [immutable-export experiment](../evidence/milestone-forty-three/restoration-immutable-export-experiment.json)
+adds two reversed three-version comparisons and all 2,400 timing samples. All
+behavior and cleanup checks passed, but 22 fixed performance gates failed. Its
+patch applies to the published baseline and reverses exactly. The
+[rollback verification](../evidence/milestone-forty-three/restoration-immutable-rollback-verification.json)
+confirms all 201 initial runtime outputs are restored. The syntax-tree fault
+selector and callable-metadata checks remain; no speed improvement is accepted.
 The [restoration contract](resource-restoration.md) separates these checks from
 performance, managed-game and public-main acceptance, which remain open.
 Its [initial adapter checkpoint](../evidence/milestone-forty-three/adapter-checkpoint.json)
