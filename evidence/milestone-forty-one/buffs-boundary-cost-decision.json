@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "decision": "buff-boundary-cost-disposition/v1",
+  "status": "Accepted as a documented alpha boundary cost; final package/integration and device acceptance remain separate.",
+  "selectedImplementation": {
+    "commit": "0cba77e0063fa1f0ac6990c826eff17a0190fc29",
+    "runtimeMapSha256": "365e87b86dc1b970ce3e73ba8ea60ba13cabfa093c04fed32fdd98e00ede6c0c",
+    "optionalBuffJavaScriptBytes": 16383
+  },
+  "observations": [
+    {
+      "name": "shared-refresh",
+      "runs": [
+        {
+          "report": "buffs-reentry-performance.json",
+          "run": 1,
+          "role": "candidate",
+          "nativeMedianMs": 4.900900000007823,
+          "selectedMedianMs": 6.522399999987101,
+          "differenceMs": 1.621499999979278,
+          "differencePercent": 33.08575975793608
+        },
+        {
+          "report": "buffs-reentry-performance.json",
+          "run": 2,
+          "role": "candidate",
+          "nativeMedianMs": 4.757500000006985,
+          "selectedMedianMs": 6.611300000018673,
+          "differenceMs": 1.853800000011688,
+          "differencePercent": 38.96584340533824
+        },
+        {
+          "report": "buffs-timer-performance.json",
+          "run": 1,
+          "role": "comparison",
+          "nativeMedianMs": 4.745200000004843,
+          "selectedMedianMs": 6.4214000000210945,
+          "differenceMs": 1.6762000000162516,
+          "differencePercent": 35.324117002750995
+        },
+        {
+          "report": "buffs-timer-performance.json",
+          "run": 2,
+          "role": "comparison",
+          "nativeMedianMs": 4.706799999985378,
+          "selectedMedianMs": 6.627399999997579,
+          "differenceMs": 1.9206000000122003,
+          "differencePercent": 40.80479306573823
+        }
+      ]
+    },
+    {
+      "name": "independent-at-cap-grant",
+      "runs": [
+        {
+          "report": "buffs-reentry-performance.json",
+          "run": 1,
+          "role": "candidate",
+          "nativeMedianMs": 8.423099999985425,
+          "selectedMedianMs": 9.425499999983003,
+          "differenceMs": 1.0023999999975786,
+          "differencePercent": 11.900606664996417
+        },
+        {
+          "report": "buffs-reentry-performance.json",
+          "run": 2,
+          "role": "candidate",
+          "nativeMedianMs": 7.6313999999838416,
+          "selectedMedianMs": 9.029500000004191,
+          "differenceMs": 1.3981000000203494,
+          "differencePercent": 18.320360615657805
+        },
+        {
+          "report": "buffs-timer-performance.json",
+          "run": 1,
+          "role": "comparison",
+          "nativeMedianMs": 7.558699999994133,
+          "selectedMedianMs": 9.16400000001886,
+          "differenceMs": 1.6053000000247266,
+          "differencePercent": 21.237778983502096
+        },
+        {
+          "report": "buffs-timer-performance.json",
+          "run": 2,
+          "role": "comparison",
+          "nativeMedianMs": 7.794499999989057,
+          "selectedMedianMs": 9.49989999999525,
+          "differenceMs": 1.7054000000061933,
+          "differencePercent": 21.879530438239627
+        }
+      ]
+    },
+    {
+      "name": "independent-live-timers",
+      "runs": [
+        {
+          "report": "buffs-reentry-performance.json",
+          "run": 1,
+          "role": "candidate",
+          "nativeMedianMs": 58.701900000014575,
+          "selectedMedianMs": 65.2215000000142,
+          "differenceMs": 6.5195999999996275,
+          "differencePercent": 11.10628446438362
+        },
+        {
+          "report": "buffs-reentry-performance.json",
+          "run": 2,
+          "role": "candidate",
+          "nativeMedianMs": 61.51459999999497,
+          "selectedMedianMs": 68.28809999997611,
+          "differenceMs": 6.773499999981141,
+          "differencePercent": 11.011207095521547
+        },
+        {
+          "report": "buffs-timer-performance.json",
+          "run": 1,
+          "role": "comparison",
+          "nativeMedianMs": 62.08629999999539,
+          "selectedMedianMs": 69.51150000002235,
+          "differenceMs": 7.425200000026962,
+          "differencePercent": 11.95948220465306
+        },
+        {
+          "report": "buffs-timer-performance.json",
+          "run": 2,
+          "role": "comparison",
+          "nativeMedianMs": 59.75280000001658,
+          "selectedMedianMs": 66.40249999999651,
+          "differenceMs": 6.64969999997993,
+          "differencePercent": 11.12868350935534
+        }
+      ]
+    }
+  ],
+  "batchDefinitions": {
+    "shared-refresh": {
+      "actors": 32,
+      "grantsPerActor": 256,
+      "totalGrants": 8192
+    },
+    "independent-at-cap-grant": {
+      "actors": 32,
+      "grantsPerActor": 256,
+      "totalGrants": 8192,
+      "authoredStackCap": 12
+    },
+    "independent-live-timers": {
+      "actors": 64,
+      "frames": 128,
+      "totalActorTimerCalls": 8192
+    }
+  },
+  "rationale": [
+    "The extracted borrowed-host API preserves live queue callbacks, dynamic definition replacement, per-grant stat publication, partial commits and bounded callback/collection work. Eliminating observations or skipping publication is not an equivalent optimization.",
+    "The eager reentry guard was replaced with bounded temporary storage, reducing measured retained overhead by approximately 96 bytes per used Actor. That verified change remains selected.",
+    "The additional timer fast path was tested and rejected by the criteria committed before timing. Keep its additional behavior tests and all positive and negative measurements.",
+    "Grant CPU samples spread across adapter, runtime and stat work. The observations do not isolate one removable operation or prove that validation alone explains the difference.",
+    "The current live borrowed-definition contract does not permit caching mutable definitions or modifier values solely by identity. An immutable executable-content path can be evaluated separately with explicit semantics and realistic workloads.",
+    "Keep the selected implementation and advance to packaging and remaining systems. Further optimization must be supported by allocation/whole-frame and target-device evidence, not indefinite retries of these same desktop trials."
+  ],
+  "scope": [
+    "Four runs use different third graphs and therefore are not pooled as independent identically distributed samples or statistical confidence intervals.",
+    "The native and selected graphs share one process and instrumented call sites. These are batch comparisons, not isolated single-call latency or a whole-game speedup.",
+    "No absolute-optimization, FPS, target-device budget, Unity/Godot/Unreal compatibility or general storage-layout claim follows.",
+    "The small synthetic expiry result cannot substitute for ordinary gameplay performance.",
+    "SQLite remains an optional authoring/query projection; immutable capability data is prepared outside the runtime loop. Changing storage alone is not evidence that these observed runtime costs disappear."
+  ],
+  "grantAndTimerCostsResolvedForMilestoneDisposition": true,
+  "physicalDeviceAcceptance": false,
+  "overallSdkComplete": false
+}

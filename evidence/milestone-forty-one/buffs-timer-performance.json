@@ -1,0 +1,579 @@
+{
+  "schemaVersion": 1,
+  "stage": "Timer candidate rejected by the predeclared adoption criteria. The simpler reentry implementation is selected for final integration.",
+  "plan": {
+    "file": "baseline/milestone-forty-one/performance-plan.json",
+    "sha256": "2c2e84f6dc154dfbc668adaa8a71eccf0e3f7cc58f7beb3d6f11236a4f66c0ef"
+  },
+  "adoptionCriteria": {
+    "file": "baseline/milestone-forty-one/timer-adoption-criteria.json",
+    "sha256": "809e6b86986a362678177d2ed7de8688f9059d3460d1d05e219996561542c498"
+  },
+  "optimizationPlan": {
+    "file": "baseline/milestone-forty-one/timer-optimization-plan.json",
+    "sha256": "9015404121c82c8582860555249596ff620ebcbb3200efef438d92f0b2bb21bc"
+  },
+  "helper": {
+    "file": "reference/benchmark-buffs.ts",
+    "sha256": "ec9da09799cd65d52567a25616dd99f38c29078246c8700ce4aa51604127451d"
+  },
+  "controls": {
+    "original": {
+      "commit": "193b84fcee89cbde48af05ba0361a68f5a589bea",
+      "version": "0.35.0",
+      "archiveSha256": "067b8dfa2aa4818a31952eb071400ad35bbf9ffcc1b3a52700bc850d37ada09c",
+      "sourceMapSha256": "7880af5076365f1deb00819e987e91491e6eb8bbc39b66a442a2193e972eb93a",
+      "runtimeMapSha256": "65d3f3d821153834d6c3ac6c600f130c8e87d92996134d775e97fc283e415dfe"
+    },
+    "reentry": {
+      "commit": "0cba77e0063fa1f0ac6990c826eff17a0190fc29",
+      "version": "0.35.0",
+      "published": false,
+      "archiveSha256": "cb1f8c9b69b74f64ca75c64adab9acf8296ce85d4d75e8a60489a036936051e3",
+      "sourceMapSha256": "7fd69753ef56bbecfed6c0ed1d083ff4bad4bfe6b8fcb8e7e2d742e3306fe110",
+      "runtimeMapSha256": "365e87b86dc1b970ce3e73ba8ea60ba13cabfa093c04fed32fdd98e00ede6c0c"
+    },
+    "candidate": {
+      "commit": "e71994d22ca353bff01a92401e741ecc409a1bb6",
+      "version": "0.35.0",
+      "published": false,
+      "archiveSha256": "f57cd3b2f58d2aedd9d77c8a75cee262eb43d9f81a262e80d027d0dcfe79ae9b",
+      "sourceMapSha256": "7fd69753ef56bbecfed6c0ed1d083ff4bad4bfe6b8fcb8e7e2d742e3306fe110",
+      "runtimeMapSha256": "f2e6b3c964b69375f74c434a312b1a2759fd2082f0e4f07733bdd6a20009b3a0"
+    }
+  },
+  "runs": [
+    {
+      "file": "evidence/milestone-forty-one/buffs-timer-run-1.json.gz",
+      "sha256": "35cb7edf99c86078d7cb1ffcc49ce2f590717805063023abf310f26450d1f64a",
+      "uncompressedSha256": "6920e65ce076e7f439ab6454d826e82aff2cb8188b8914a740a9c81f87f8e79d",
+      "bytes": 308515,
+      "graphOrder": [
+        "previous",
+        "current",
+        "comparison"
+      ],
+      "node": "v24.9.0",
+      "platform": "win32",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz"
+    },
+    {
+      "file": "evidence/milestone-forty-one/buffs-timer-run-2.json.gz",
+      "sha256": "0158314e9ae0ac0ffa9ff9a8990902ece3a0be4451b791740ba29dff1b139579",
+      "uncompressedSha256": "4223dac53e72d7e70e8555fa5c12989162b390cbe4b8fca41d9b02ec1c74ec79",
+      "bytes": 308490,
+      "graphOrder": [
+        "current",
+        "comparison",
+        "previous"
+      ],
+      "node": "v24.9.0",
+      "platform": "win32",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz"
+    }
+  ],
+  "graphKeys": {
+    "previous": "original v0.35",
+    "comparison": "reentry M41",
+    "current": "live-clock-prefix candidate"
+  },
+  "timedSamples": 1950,
+  "retainedHeapObservations": 252,
+  "allCanonicalReceiptsEqualAcrossGraphsAndRuns": true,
+  "allSampledActorWitnessesReleased": true,
+  "controlsUnchanged": true,
+  "changedRuntimeOutputs": [
+    "buffs.js",
+    "buffs.js.map"
+  ],
+  "unchangedReentryRuntimeFiles": 187,
+  "unchangedPredecessorRuntimeFiles": 183,
+  "hostSourceFilesUnchangedFromInitial": 995,
+  "timings": [
+    {
+      "name": "never-buffed-timers",
+      "receiptSha256": "954e3da190bf6e0ccc0f1dc6b984d1f330cd64547664efab265d19d1ce73d585",
+      "runs": [
+        {
+          "originalMedianMs": 400.23909999999887,
+          "reentryMedianMs": 398.38460000000487,
+          "candidateMedianMs": 400.73159999999916,
+          "candidateVsOriginalPercent": 0.12305144599822349,
+          "candidateVsReentryPercent": 0.5891291982657698,
+          "originalP95Ms": 449.0610000000015,
+          "reentryP95Ms": 414.2698999999993,
+          "candidateP95Ms": 412.8864999999969
+        },
+        {
+          "originalMedianMs": 401.0538000000015,
+          "reentryMedianMs": 399.93239999999787,
+          "candidateMedianMs": 405.17259999999806,
+          "candidateVsOriginalPercent": 1.0269943832963424,
+          "candidateVsReentryPercent": 1.310271435872723,
+          "originalP95Ms": 453.5054999999993,
+          "reentryP95Ms": 453.51929999999993,
+          "candidateP95Ms": 445.59850000000006
+        }
+      ]
+    },
+    {
+      "name": "previously-buffed-empty-timers",
+      "receiptSha256": "dac2c6135b03c8922cce9e4a3b992a116f97c31203df4afdaf36563b443bed8a",
+      "runs": [
+        {
+          "originalMedianMs": 401.5141999999905,
+          "reentryMedianMs": 412.82530000001134,
+          "candidateMedianMs": 411.98889999999665,
+          "candidateVsOriginalPercent": 2.608799389911076,
+          "candidateVsReentryPercent": -0.20260386173392986,
+          "originalP95Ms": 431.48880000000645,
+          "reentryP95Ms": 443.678899999999,
+          "candidateP95Ms": 444.14379999999073
+        },
+        {
+          "originalMedianMs": 406.29790000000503,
+          "reentryMedianMs": 408.5506999999925,
+          "candidateMedianMs": 411.15280000001076,
+          "candidateVsOriginalPercent": 1.194911418445832,
+          "candidateVsReentryPercent": 0.6369099355400198,
+          "originalP95Ms": 429.7985999999946,
+          "reentryP95Ms": 437.7621000000072,
+          "candidateP95Ms": 456.869200000001
+        }
+      ]
+    },
+    {
+      "name": "shared-live-timers",
+      "receiptSha256": "d62c8fb352de0764ce4ddcff392a31ef0a7e5a5fcb4d520a731f0063c95d3157",
+      "runs": [
+        {
+          "originalMedianMs": 99.04700000000594,
+          "reentryMedianMs": 97.89659999999276,
+          "candidateMedianMs": 97.14650000000256,
+          "candidateVsOriginalPercent": -1.9187860308775284,
+          "candidateVsReentryPercent": -0.7662165999536841,
+          "originalP95Ms": 109.46789999998873,
+          "reentryP95Ms": 112.64420000000973,
+          "candidateP95Ms": 104.81429999999818
+        },
+        {
+          "originalMedianMs": 96.62050000000454,
+          "reentryMedianMs": 94.48279999999795,
+          "candidateMedianMs": 97.30460000000312,
+          "candidateVsOriginalPercent": 0.7080277994820472,
+          "candidateVsReentryPercent": 2.986575334352115,
+          "originalP95Ms": 101.87240000000747,
+          "reentryP95Ms": 98.02529999997932,
+          "candidateP95Ms": 101.17320000000473
+        }
+      ]
+    },
+    {
+      "name": "independent-live-timers",
+      "receiptSha256": "9c365bb621e508911d5618e81500281f5b47c4f88d3d97ec323f110026c3a3d1",
+      "runs": [
+        {
+          "originalMedianMs": 62.08629999999539,
+          "reentryMedianMs": 69.51150000002235,
+          "candidateMedianMs": 67.93100000001141,
+          "candidateVsOriginalPercent": 9.413832037045932,
+          "candidateVsReentryPercent": -2.27372449164589,
+          "originalP95Ms": 69.75909999999567,
+          "reentryP95Ms": 74.9993999999715,
+          "candidateP95Ms": 78.4204000000027
+        },
+        {
+          "originalMedianMs": 59.75280000001658,
+          "reentryMedianMs": 66.40249999999651,
+          "candidateMedianMs": 65.00260000000708,
+          "candidateVsOriginalPercent": 8.78586442809215,
+          "candidateVsReentryPercent": -2.1082037573728396,
+          "originalP95Ms": 63.3752000000095,
+          "reentryP95Ms": 73.04949999999371,
+          "candidateP95Ms": 75.12609999999404
+        }
+      ]
+    },
+    {
+      "name": "shared-refresh",
+      "receiptSha256": "ebb9cc9100086371995cacd8c9d3e802a7a26f68ff30f376d76286140fab9a06",
+      "runs": [
+        {
+          "originalMedianMs": 4.745200000004843,
+          "reentryMedianMs": 6.4214000000210945,
+          "candidateMedianMs": 6.508700000005774,
+          "candidateVsOriginalPercent": 37.163870858954986,
+          "candidateVsReentryPercent": 1.3595166160711436,
+          "originalP95Ms": 7.715800000005402,
+          "reentryP95Ms": 7.076099999976577,
+          "candidateP95Ms": 10.571300000010524
+        },
+        {
+          "originalMedianMs": 4.706799999985378,
+          "reentryMedianMs": 6.627399999997579,
+          "candidateMedianMs": 6.460900000005495,
+          "candidateVsOriginalPercent": 37.26735786575945,
+          "candidateVsReentryPercent": -2.512297431755206,
+          "originalP95Ms": 5.310899999982212,
+          "reentryP95Ms": 8.645699999993667,
+          "candidateP95Ms": 7.044099999999162
+        }
+      ]
+    },
+    {
+      "name": "independent-at-cap-grant",
+      "receiptSha256": "7b3f7032b9196248a2cca90675c2849fbeca7fbc6ff90487d5c0ebcaf0e1c1ad",
+      "runs": [
+        {
+          "originalMedianMs": 7.558699999994133,
+          "reentryMedianMs": 9.16400000001886,
+          "candidateMedianMs": 9.362400000012713,
+          "candidateVsOriginalPercent": 23.86256896053527,
+          "candidateVsReentryPercent": 2.1649934525692416,
+          "originalP95Ms": 9.692999999999302,
+          "reentryP95Ms": 11.191200000001118,
+          "candidateP95Ms": 11.262500000011642
+        },
+        {
+          "originalMedianMs": 7.794499999989057,
+          "reentryMedianMs": 9.49989999999525,
+          "candidateMedianMs": 9.85000000000582,
+          "candidateVsOriginalPercent": 26.371159150935263,
+          "candidateVsReentryPercent": 3.6853019506599693,
+          "originalP95Ms": 10.590900000010151,
+          "reentryP95Ms": 11.501399999979185,
+          "candidateP95Ms": 13.174900000012713
+        }
+      ]
+    },
+    {
+      "name": "shared-consume-regrant",
+      "receiptSha256": "f2f23b6401ff0ba266d47e1be45803bd7c5c2f108ac337a74dab0ff5641ebd8e",
+      "runs": [
+        {
+          "originalMedianMs": 44.76970000000438,
+          "reentryMedianMs": 49.17320000001928,
+          "candidateMedianMs": 48.99110000001383,
+          "candidateVsOriginalPercent": 9.429145158464403,
+          "candidateVsReentryPercent": -0.3703236722551684,
+          "originalP95Ms": 50.324600000021746,
+          "reentryP95Ms": 56.9487000000081,
+          "candidateP95Ms": 58.960800000000745
+        },
+        {
+          "originalMedianMs": 42.251399999979185,
+          "reentryMedianMs": 47.75399999998626,
+          "candidateMedianMs": 48.320100000011735,
+          "candidateVsOriginalPercent": 14.363311038298242,
+          "candidateVsReentryPercent": 1.1854504335252258,
+          "originalP95Ms": 43.38139999998384,
+          "reentryP95Ms": 49.787799999990966,
+          "candidateP95Ms": 51.83309999998892
+        }
+      ]
+    },
+    {
+      "name": "independent-mixed-expiry",
+      "receiptSha256": "e8f522ef292eb22afb77763762d0ec4bc96aba7a814f7eb64da85e58b02d5e1e",
+      "runs": [
+        {
+          "originalMedianMs": 65.33039999997709,
+          "reentryMedianMs": 65.55389999999898,
+          "candidateMedianMs": 65.152700000006,
+          "candidateVsOriginalPercent": -0.27200200820926,
+          "candidateVsReentryPercent": -0.6120154559728364,
+          "originalP95Ms": 72.49220000000787,
+          "reentryP95Ms": 73.03259999997681,
+          "candidateP95Ms": 71.71430000002147
+        },
+        {
+          "originalMedianMs": 66.47000000000116,
+          "reentryMedianMs": 64.62049999998999,
+          "candidateMedianMs": 65.4776000000129,
+          "candidateVsOriginalPercent": -1.49300436285279,
+          "candidateVsReentryPercent": 1.326359282306755,
+          "originalP95Ms": 70.7491999999911,
+          "reentryP95Ms": 69.51259999998729,
+          "candidateP95Ms": 69.4378999999899
+        }
+      ]
+    },
+    {
+      "name": "independent-dense-expiry",
+      "receiptSha256": "a472dd178b74a3193efe4972110a2f63acf5d757d2ef0a2ce8aa1e0273aaa67c",
+      "runs": [
+        {
+          "originalMedianMs": 70.67259999999078,
+          "reentryMedianMs": 67.2674999999872,
+          "candidateMedianMs": 67.92600000000675,
+          "candidateVsOriginalPercent": -3.886371804609401,
+          "candidateVsReentryPercent": 0.9789274166866369,
+          "originalP95Ms": 84.92819999999483,
+          "reentryP95Ms": 89.98670000000857,
+          "candidateP95Ms": 89.199099999998
+        },
+        {
+          "originalMedianMs": 65.8409999999858,
+          "reentryMedianMs": 66.43279999998049,
+          "candidateMedianMs": 65.13860000000568,
+          "candidateVsOriginalPercent": -1.0668124724415917,
+          "candidateVsReentryPercent": -1.9481340542250036,
+          "originalP95Ms": 79.86009999999078,
+          "reentryP95Ms": 84.98849999997765,
+          "candidateP95Ms": 75.97539999999572
+        }
+      ]
+    },
+    {
+      "name": "synthetic-large-expiry",
+      "receiptSha256": "3e6199c5f3d920c08e028f090949fc6bdc194bff1028395ae36d0c86c4aa5c01",
+      "runs": [
+        {
+          "originalMedianMs": 84.2715999999782,
+          "reentryMedianMs": 18.260799999989104,
+          "candidateMedianMs": 18.84560000000056,
+          "candidateVsOriginalPercent": -77.63706871590735,
+          "candidateVsReentryPercent": 3.202488390496616,
+          "originalP95Ms": 94.29399999999441,
+          "reentryP95Ms": 21.472299999993993,
+          "candidateP95Ms": 23.92379999998957
+        },
+        {
+          "originalMedianMs": 81.85090000001946,
+          "reentryMedianMs": 17.707699999999022,
+          "candidateMedianMs": 18.28169999999227,
+          "candidateVsOriginalPercent": -77.66463166564091,
+          "candidateVsReentryPercent": 3.2415276969526285,
+          "originalP95Ms": 85.44990000000689,
+          "reentryP95Ms": 19.154799999989336,
+          "candidateP95Ms": 19.700600000011036
+        }
+      ]
+    },
+    {
+      "name": "quiet-world-frames",
+      "receiptSha256": "6e81d2337f500faae9012c17fc0122f2c35453e0dd84ba0c03a891fc998f9499",
+      "runs": [
+        {
+          "originalMedianMs": 207.80040000000736,
+          "reentryMedianMs": 207.66639999998733,
+          "candidateMedianMs": 208.85960000002524,
+          "candidateVsOriginalPercent": 0.5097199043013534,
+          "candidateVsReentryPercent": 0.5745753766800865,
+          "originalP95Ms": 285.64280000003055,
+          "reentryP95Ms": 301.352200000023,
+          "candidateP95Ms": 230.11650000000373
+        },
+        {
+          "originalMedianMs": 207.04820000001928,
+          "reentryMedianMs": 206.95329999999376,
+          "candidateMedianMs": 210.19839999999385,
+          "candidateVsOriginalPercent": 1.5214814714517022,
+          "candidateVsReentryPercent": 1.568034914157046,
+          "originalP95Ms": 220.68089999997756,
+          "reentryP95Ms": 258.6649000000034,
+          "candidateP95Ms": 240.9955000000191
+        }
+      ]
+    },
+    {
+      "name": "buffed-world-frames",
+      "receiptSha256": "6fc328d842f8a6782090888d67da010b91db95be71ef1deb73486651cd970d28",
+      "runs": [
+        {
+          "originalMedianMs": 212.48099999997066,
+          "reentryMedianMs": 203.77439999999478,
+          "candidateMedianMs": 203.4947000000393,
+          "candidateVsOriginalPercent": -4.2292252012803955,
+          "candidateVsReentryPercent": -0.13725963612479797,
+          "originalP95Ms": 225.22509999998147,
+          "reentryP95Ms": 220.3183999999892,
+          "candidateP95Ms": 216.42249999998603
+        },
+        {
+          "originalMedianMs": 212.12249999999767,
+          "reentryMedianMs": 201.62449999997625,
+          "candidateMedianMs": 198.08889999997336,
+          "candidateVsOriginalPercent": -6.6157998326554,
+          "candidateVsReentryPercent": -1.7535567354182158,
+          "originalP95Ms": 231.5175000000163,
+          "reentryP95Ms": 212.49559999996563,
+          "candidateP95Ms": 214.78720000002068
+        }
+      ]
+    },
+    {
+      "name": "casting-world-frames",
+      "receiptSha256": "874a2c7cb31dbe12fe7bc6d49d3686a4b8c127b5cbe81c9760472d59e1671e44",
+      "runs": [
+        {
+          "originalMedianMs": 182.27659999998286,
+          "reentryMedianMs": 183.39980000001378,
+          "candidateMedianMs": 181.64929999999003,
+          "candidateVsOriginalPercent": -0.3441473014050511,
+          "candidateVsReentryPercent": -0.9544721422943825,
+          "originalP95Ms": 214.27419999998529,
+          "reentryP95Ms": 237.72570000000997,
+          "candidateP95Ms": 212.26409999997122
+        },
+        {
+          "originalMedianMs": 171.78619999997318,
+          "reentryMedianMs": 175.3401999999769,
+          "candidateMedianMs": 173.62350000004517,
+          "candidateVsOriginalPercent": 1.0695271215454216,
+          "candidateVsReentryPercent": -0.9790681201070628,
+          "originalP95Ms": 184.44029999995837,
+          "reentryP95Ms": 191.12049999996088,
+          "candidateP95Ms": 183.19900000002235
+        }
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "mode": "never-buffed",
+      "count": 1024,
+      "receiptSha256": "0d41b403813efacb3ed6885aaf69d1077145ec6187ddfbcf94cfe1527392725f",
+      "runs": [
+        {
+          "originalBytesPerActor": 11343.9609375,
+          "reentryBytesPerActor": 11343.9609375,
+          "candidateBytesPerActor": 11343.9609375,
+          "candidateMinusOriginalBytesPerActor": 0,
+          "candidateMinusReentryBytesPerActor": 0
+        },
+        {
+          "originalBytesPerActor": 11343.9609375,
+          "reentryBytesPerActor": 11343.9609375,
+          "candidateBytesPerActor": 11343.9609375,
+          "candidateMinusOriginalBytesPerActor": 0,
+          "candidateMinusReentryBytesPerActor": 0
+        }
+      ]
+    },
+    {
+      "mode": "never-buffed",
+      "count": 4096,
+      "receiptSha256": "8a90bb67544133f5b7059a2897c36804fb632e8bed35e9be2f4d5007c20c9736",
+      "runs": [
+        {
+          "originalBytesPerActor": 11343.990234375,
+          "reentryBytesPerActor": 11343.990234375,
+          "candidateBytesPerActor": 11343.990234375,
+          "candidateMinusOriginalBytesPerActor": 0,
+          "candidateMinusReentryBytesPerActor": 0
+        },
+        {
+          "originalBytesPerActor": 11343.990234375,
+          "reentryBytesPerActor": 11343.990234375,
+          "candidateBytesPerActor": 11343.990234375,
+          "candidateMinusOriginalBytesPerActor": 0,
+          "candidateMinusReentryBytesPerActor": 0
+        }
+      ]
+    },
+    {
+      "mode": "previously-buffed-empty",
+      "count": 1024,
+      "receiptSha256": "f91f49fd4b10f3913c67c570916cd9459d4301b35639b294cc7322af237b3ce4",
+      "runs": [
+        {
+          "originalBytesPerActor": 11559.9609375,
+          "reentryBytesPerActor": 11703.9609375,
+          "candidateBytesPerActor": 11703.9609375,
+          "candidateMinusOriginalBytesPerActor": 144,
+          "candidateMinusReentryBytesPerActor": 0
+        },
+        {
+          "originalBytesPerActor": 11559.9609375,
+          "reentryBytesPerActor": 11703.9609375,
+          "candidateBytesPerActor": 11703.9609375,
+          "candidateMinusOriginalBytesPerActor": 144,
+          "candidateMinusReentryBytesPerActor": 0
+        }
+      ]
+    },
+    {
+      "mode": "previously-buffed-empty",
+      "count": 4096,
+      "receiptSha256": "56a93217fb71ed01d5ed35e83859c16144130f304d4593291595d05adb42ac71",
+      "runs": [
+        {
+          "originalBytesPerActor": 11559.990234375,
+          "reentryBytesPerActor": 11703.990234375,
+          "candidateBytesPerActor": 11703.990234375,
+          "candidateMinusOriginalBytesPerActor": 144,
+          "candidateMinusReentryBytesPerActor": 0
+        },
+        {
+          "originalBytesPerActor": 11559.990234375,
+          "reentryBytesPerActor": 11703.990234375,
+          "candidateBytesPerActor": 11703.990234375,
+          "candidateMinusOriginalBytesPerActor": 144,
+          "candidateMinusReentryBytesPerActor": 0
+        }
+      ]
+    },
+    {
+      "mode": "active-shared-and-independent",
+      "count": 1024,
+      "receiptSha256": "b7c3cc11323bf32a8377d245809a8286b359cf495dae14435bfa95a9ce78d171",
+      "runs": [
+        {
+          "originalBytesPerActor": 13503.9609375,
+          "reentryBytesPerActor": 13647.9609375,
+          "candidateBytesPerActor": 13647.9609375,
+          "candidateMinusOriginalBytesPerActor": 144,
+          "candidateMinusReentryBytesPerActor": 0
+        },
+        {
+          "originalBytesPerActor": 13503.9609375,
+          "reentryBytesPerActor": 13647.9609375,
+          "candidateBytesPerActor": 13647.9609375,
+          "candidateMinusOriginalBytesPerActor": 144,
+          "candidateMinusReentryBytesPerActor": 0
+        }
+      ]
+    },
+    {
+      "mode": "active-shared-and-independent",
+      "count": 4096,
+      "receiptSha256": "f1f3e97bc131804d1f02ff294d71c0c747f449fca3bc16a30e6399cb8687ea3f",
+      "runs": [
+        {
+          "originalBytesPerActor": 13499.787109375,
+          "reentryBytesPerActor": 13643.052734375,
+          "candidateBytesPerActor": 13642.943359375,
+          "candidateMinusOriginalBytesPerActor": 143.15625,
+          "candidateMinusReentryBytesPerActor": -0.109375
+        },
+        {
+          "originalBytesPerActor": 13499.654296875,
+          "reentryBytesPerActor": 13642.951171875,
+          "candidateBytesPerActor": 13643.013671875,
+          "candidateMinusOriginalBytesPerActor": 143.359375,
+          "candidateMinusReentryBytesPerActor": 0.0625
+        }
+      ]
+    }
+  ],
+  "interpretation": {
+    "disposition": "Rejected by the criteria committed before timing. Restore the simpler reentry implementation, retaining the candidate and all new behavior checks.",
+    "target": "Independent live-timer medians are 2.27% and 2.11% below the reentry implementation; neither reaches the required 3% reduction. Other workload rankings are mixed. No general speed improvement is established.",
+    "memory": "Retained Actor-graph medians are effectively unchanged from the reentry implementation: all differences are within 0.11 byte per actor. This candidate adds no demonstrated per-Actor memory saving.",
+    "remainingCosts": "The selected reentry implementation remains 35.3–40.8% above native for shared refresh and 21.2–21.9% above native for capped independent grants in these two comparisons. Independent live timers remain 11.1–12.0% above native. Earlier observations remain retained.",
+    "stress": "The timer candidate is about 3.2% slower than reentry on the synthetic 4,096-clock expiry workload in both runs. That synthetic workload does not represent ordinary gameplay occupancy.",
+    "next": "Verify restoration of all 189 runtime files to the retained reentry bytes, preserve the extra tests, explicitly document the remaining boundary costs, then finish the milestone package and integration."
+  },
+  "limitations": [
+    "Desktop Windows Node only; no Steam Deck, older-mobile or native-engine performance acceptance.",
+    "All graphs are loaded in one process and invoked through rotating call sites with call-through observers. JIT interactions and observer overhead limit inference to an uninstrumented single installed game.",
+    "Retained-heap observations measure warmed Actor graphs after grants/removal; they are not allocation-volume, peak-memory or deep-nesting byte measurements.",
+    "Deeply nested callback chains have behavioral and collection coverage, not a timing comparison.",
+    "No general speed, FPS, pixel-equivalence or absolute-optimization claim. Independent-consumption repairs remain excluded from equal-work comparisons."
+  ],
+  "generalCpuSpeedupClaimed": false,
+  "milestoneAccepted": false
+}

@@ -1,0 +1,231 @@
+{
+  "decision": "buff-live-clock-prefix-adoption/v1",
+  "criteria": "baseline/milestone-forty-one/timer-adoption-criteria.json",
+  "criteriaSha256": "809e6b86986a362678177d2ed7de8688f9059d3460d1d05e219996561542c498",
+  "adopt": false,
+  "checks": {
+    "correctness": true,
+    "requiredLiveGain": false,
+    "noRepeatedOtherRegression": true,
+    "retainedMemory": true,
+    "existingSizeLimits": true
+  },
+  "timings": [
+    {
+      "name": "never-buffed-timers",
+      "vsReentryPercent": [
+        0.5891291982657698,
+        1.310271435872723
+      ],
+      "vsNativePercent": [
+        0.12305144599822349,
+        1.0269943832963424
+      ]
+    },
+    {
+      "name": "previously-buffed-empty-timers",
+      "vsReentryPercent": [
+        -0.20260386173392986,
+        0.6369099355400198
+      ],
+      "vsNativePercent": [
+        2.608799389911076,
+        1.194911418445832
+      ]
+    },
+    {
+      "name": "shared-live-timers",
+      "vsReentryPercent": [
+        -0.7662165999536841,
+        2.986575334352115
+      ],
+      "vsNativePercent": [
+        -1.9187860308775284,
+        0.7080277994820472
+      ]
+    },
+    {
+      "name": "independent-live-timers",
+      "vsReentryPercent": [
+        -2.27372449164589,
+        -2.1082037573728396
+      ],
+      "vsNativePercent": [
+        9.413832037045932,
+        8.78586442809215
+      ]
+    },
+    {
+      "name": "shared-refresh",
+      "vsReentryPercent": [
+        1.3595166160711436,
+        -2.512297431755206
+      ],
+      "vsNativePercent": [
+        37.163870858954986,
+        37.26735786575945
+      ]
+    },
+    {
+      "name": "independent-at-cap-grant",
+      "vsReentryPercent": [
+        2.1649934525692416,
+        3.6853019506599693
+      ],
+      "vsNativePercent": [
+        23.86256896053527,
+        26.371159150935263
+      ]
+    },
+    {
+      "name": "shared-consume-regrant",
+      "vsReentryPercent": [
+        -0.3703236722551684,
+        1.1854504335252258
+      ],
+      "vsNativePercent": [
+        9.429145158464403,
+        14.363311038298242
+      ]
+    },
+    {
+      "name": "independent-mixed-expiry",
+      "vsReentryPercent": [
+        -0.6120154559728364,
+        1.326359282306755
+      ],
+      "vsNativePercent": [
+        -0.27200200820926,
+        -1.49300436285279
+      ]
+    },
+    {
+      "name": "independent-dense-expiry",
+      "vsReentryPercent": [
+        0.9789274166866369,
+        -1.9481340542250036
+      ],
+      "vsNativePercent": [
+        -3.886371804609401,
+        -1.0668124724415917
+      ]
+    },
+    {
+      "name": "synthetic-large-expiry",
+      "vsReentryPercent": [
+        3.202488390496616,
+        3.2415276969526285
+      ],
+      "vsNativePercent": [
+        -77.63706871590735,
+        -77.66463166564091
+      ]
+    },
+    {
+      "name": "quiet-world-frames",
+      "vsReentryPercent": [
+        0.5745753766800865,
+        1.568034914157046
+      ],
+      "vsNativePercent": [
+        0.5097199043013534,
+        1.5214814714517022
+      ]
+    },
+    {
+      "name": "buffed-world-frames",
+      "vsReentryPercent": [
+        -0.13725963612479797,
+        -1.7535567354182158
+      ],
+      "vsNativePercent": [
+        -4.2292252012803955,
+        -6.6157998326554
+      ]
+    },
+    {
+      "name": "casting-world-frames",
+      "vsReentryPercent": [
+        -0.9544721422943825,
+        -0.9790681201070628
+      ],
+      "vsNativePercent": [
+        -0.3441473014050511,
+        1.0695271215454216
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "mode": "never-buffed",
+      "count": 1024,
+      "vsReentryBytes": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "never-buffed",
+      "count": 4096,
+      "vsReentryBytes": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "previously-buffed-empty",
+      "count": 1024,
+      "vsReentryBytes": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "previously-buffed-empty",
+      "count": 4096,
+      "vsReentryBytes": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "active-shared-and-independent",
+      "count": 1024,
+      "vsReentryBytes": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "active-shared-and-independent",
+      "count": 4096,
+      "vsReentryBytes": [
+        -0.109375,
+        0.0625
+      ]
+    }
+  ],
+  "repeatedRegressions": [],
+  "comparisons": "buffs-timer-performance.json",
+  "allWitnessesReleased": true,
+  "selectedImplementation": {
+    "commit": "0cba77e0063fa1f0ac6990c826eff17a0190fc29",
+    "runtimeMapSha256": "365e87b86dc1b970ce3e73ba8ea60ba13cabfa093c04fed32fdd98e00ede6c0c",
+    "optionalBuffJavaScriptBytes": 16383
+  },
+  "rejectedCandidate": {
+    "commit": "e71994d22ca353bff01a92401e741ecc409a1bb6",
+    "runtimeMapSha256": "f2e6b3c964b69375f74c434a312b1a2759fd2082f0e4f07733bdd6a20009b3a0",
+    "additionalJavaScriptBytes": 698
+  },
+  "correctnessEvidence": {
+    "sdkTests": 562,
+    "runtimeFaults": 32,
+    "installedFaults": 23,
+    "gameChecks": 10,
+    "buffRendererStages": 14,
+    "scope": "These counts describe the rejected timer candidate. Restored-runtime verification is recorded separately."
+  },
+  "repeatTrialsToSeekPassingRanking": false,
+  "action": "Restore the simpler reentry runtime; preserve the four added behavior tests, 510 expiry-position cases, two complete comparisons and the rejected candidate."
+}

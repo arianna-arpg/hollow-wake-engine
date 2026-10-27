@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "decision": "buff-timer-restoration/v1",
+  "selectedRuntimeCommit": "0cba77e0063fa1f0ac6990c826eff17a0190fc29",
+  "selectedRuntimeMapSha256": "365e87b86dc1b970ce3e73ba8ea60ba13cabfa093c04fed32fdd98e00ede6c0c",
+  "rejectedCandidateCommit": "e71994d22ca353bff01a92401e741ecc409a1bb6",
+  "restoredRuntimeFiles": 189,
+  "predecessorRuntimeFilesUnchanged": 183,
+  "sdkTests": 562,
+  "buffFaults": 31,
+  "extraTimerTestsRetained": 4,
+  "expiryPositionCases": 510,
+  "timerTestSha256": "c2424e28f4a32d00b3af22f16becfcada7676b6e34b88467132291452c239f1d",
+  "referenceVerified": true,
+  "coreBenchmarkChecksumsMatch": true,
+  "controlsUnchanged": true,
+  "retainedSelectedGameEvidence": {
+    "installedBuffCourses": 40,
+    "additionalHostCases": 8,
+    "installedFaults": 22,
+    "gameChecks": 10,
+    "buffRendererStages": 14,
+    "scope": "Earlier installed game and renderer evidence for the identical retained reentry runtime. These are not new renderer or managed-game executions after restoration."
+  },
+  "logs": {
+    "verify": {
+      "sha256": "aa9ed6e9c1d9f83b898dc9172dcaec73aafb211dc280f4367ba64f7586e96885"
+    },
+    "reference-verify": {
+      "sha256": "ee9429cba9fe023aaa45ba888248ba0bf75a6717632f02e7299630fb566096bd"
+    },
+    "benchmark": {
+      "sha256": "64deb52132b03ae91c1f7a1aafd19248b6cb9b4bd656c14a0114800b7ad65a27"
+    }
+  },
+  "scope": "Current SDK, reference and core-checksum verification after restoring the simpler timer loop. All runtime bytes equal the retained implementation. Final versioned package and managed-game integration remain separate gates."
+}

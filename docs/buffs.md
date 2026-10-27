@@ -5,7 +5,8 @@ implementation. The [manifest](../baseline/milestone-forty-one/acceptance.json)
 retains four unchanged helpers and fixtures, including their historical discovery
 wording. Two original runs, a measured v0.35 installation and an independent final
 v0.35 installation reproduce the same bytes. Standalone runtime, installed adapter
-and renderer checks pass; optimization and final integration acceptance remain pending.
+and renderer checks pass. Runtime selection is verified; final package and game
+integration acceptance remain pending.
 
 The boundary covers named grants, shared and independent clocks, modifier sources,
 event-gated consumption, explicit removal and timer-phase expiry. Recipient and
@@ -237,3 +238,40 @@ graphs share a process and instrumented call sites; those measurements cannot
 establish an overall speed improvement for an uninstrumented installed game.
 Deep callback nesting is checked for behavior and owner collection, not timed.
 Final milestone acceptance and physical-device validation remain pending.
+
+The subsequent [live-clock experiment](../baseline/milestone-forty-one/timer-optimization-plan.json)
+deferred compaction bookkeeping until a clock expired. Four additional tests cover
+510 expiry-position combinations, a shared refresh over independent clocks, a
+surviving prefix containing the longest duration, and empty-clock removal. They
+passed on the preceding implementation before the experiment and remain in the
+suite. [Diagnostic profiles](../evidence/milestone-forty-one/buffs-timer-profile.json)
+and their separate input plan are retained; profiler elapsed times are not accepted
+performance measurements.
+
+The [adoption criteria](../baseline/milestone-forty-one/timer-adoption-criteria.json)
+were committed before comparative timing. Both target-workload medians had to
+improve at least 3%, with limits on repeated regressions and retained memory.
+The [two complete comparisons](../evidence/milestone-forty-one/buffs-timer-performance.json)
+record 1,950 timing samples and 252 heap observations. Live-timer medians were
+2.27% and 2.11% below the reentry implementation, so the
+[decision](../evidence/milestone-forty-one/buffs-timer-decision.json) rejects the
+extra code. No additional trials were run to seek a passing ranking.
+
+The [restored implementation](../evidence/milestone-forty-one/buffs-restoration.json)
+passes 562 SDK tests and 31 buff faults. All 189 runtime outputs match the retained
+reentry implementation, including declarations and source maps. The four added
+tests, rejected candidate, raw samples and diagnostic profiles remain available.
+The measured approximately 96-byte reduction in added retained cost is preserved.
+
+The [boundary-cost decision](../evidence/milestone-forty-one/buffs-boundary-cost-decision.json)
+records the remaining overhead across all four selected-runtime comparisons:
+33.1–40.8% for shared refresh and 11.9–21.9% for capped independent grants.
+These correspond to roughly 1.62–1.92 ms and 1.00–1.71 ms extra per batch of
+8,192 grants on the measured desktop. Independent live timers remain 11.0–12.0%
+above native in these comparisons. Different third graphs and shared-process
+instrumentation prevent pooling the runs into a general speed claim.
+
+Those costs are accepted explicitly for this alpha boundary, preserving live
+definition observations, callback order, publication and bounded work. Further
+optimization remains subject to allocation, whole-frame and device measurements.
+Final packaging/integration and the broader SDK completion requirements remain open.
