@@ -146,8 +146,44 @@ The prior ward/effect, delayed-effect and buff comparisons also pass. The new
 adapter changes two source files and adds one binding; 993 other game source
 files and all 189 predecessor runtime outputs are unchanged.
 
+## Desktop measurement baseline
+
+The [frozen plan](../baseline/milestone-forty-two/performance-plan.json) compares
+the initial recovery adapter with retained v0.36 in separate Node processes.
+Two runs reverse process order and retain 900 timings and 112 heap observations.
+All nine workloads produce identical complete outcome records. The
+[report and raw samples](../evidence/milestone-forty-two/recovery-initial-performance.json)
+retain both runs, including the unfavorable results.
+
+Silent healing is 30.1–51.6% slower in the controlled 131,072-call batches:
+11.08/12.77 ms versus 8.51/8.42 ms. Ordinary healing is 3.2–18.1% slower.
+Proc and world-update rankings vary substantially between runs; their cause has
+not been isolated. Used native Actor batches show identical retained bytes in
+both runs at 1,024 and 4,096 Actors. This does not measure allocation volume.
+
+Reproduce with `npm run benchmark:recovery -- --location <candidate-location.json>
+--previous-adapter <retained-v036-game> --order previous,current`, then reverse
+the order. The installed candidate must match the current runtime build and
+guarded adapter output. The runner preserves all inputs and rejects outcomes
+that differ from the validation performed before timing. `--validate-only`
+checks paths and Actor release without recording performance results.
+
+Each game gets its own process so the versions do not share V8's runtime type
+feedback. This isolation is a measurement choice informed by
+[V8's description of inline caches](https://v8.dev/blog/system-analyzer).
+CPU sampling with [Node's profiler](https://github.com/nodejs/node/blob/v24.9.0/doc/api/cli.md#--cpu-prof)
+is diagnostic; instrumented timings are not acceptance measurements.
+The [retained diagnostic](../evidence/milestone-forty-two/recovery-profile.json)
+includes sanitized profiles and inlining traces. It confirms that `healLife`
+can be inlined and identifies stat queries and callback delivery for further
+investigation. It does not establish a single cause for the measured overhead.
+
 ## Remaining acceptance
 
-Complete renderer checks, then review the managed
-game integration with the final package. Measure representative workloads against the retained v0.36 control
-before choosing optimizations; keep physical Steam Deck/mobile acceptance open.
+Test a small function-layout change against the retained initial candidate
+before selecting an optimization. Capture and address an invocation edge found
+in review: using a healing function's `.call` property can differ from native
+method invocation when that property is customized. This diagnostic still needs
+the pinned World comparison before changing the invocation primitive.
+Complete renderer checks, then review managed game integration with the final
+package. Keep physical Steam Deck/mobile acceptance open.

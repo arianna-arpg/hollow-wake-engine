@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "decision": "life-recovery-performance/v1",
+  "status": "accepted-before-timing",
+  "helperSha256": "1c4623791de2642daed8e676c556faa45b8620d441a9fcc7b649a168e30ca7f7",
+  "warmups": 8,
+  "samples": 25,
+  "memorySamples": 7,
+  "requiredIndependentRuns": 2,
+  "processIsolation": "Each graph uses its own fresh process to avoid sharing V8 inline-cache/type feedback. Execute graphs sequentially; reverse initial graph order for the second independent run. Stop builds, renderer work and verification during timings.",
+  "workloads": [
+    {
+      "name": "refused",
+      "actors": 64,
+      "callsPerActor": 2048
+    },
+    {
+      "name": "already-full",
+      "actors": 64,
+      "callsPerActor": 2048
+    },
+    {
+      "name": "ordinary",
+      "actors": 64,
+      "callsPerActor": 2048
+    },
+    {
+      "name": "silent",
+      "actors": 64,
+      "callsPerActor": 2048
+    },
+    {
+      "name": "sealed-clipping",
+      "actors": 64,
+      "callsPerActor": 2048
+    },
+    {
+      "name": "full-refill",
+      "actors": 64,
+      "callsPerActor": 2048
+    },
+    {
+      "name": "heal-proc-dispatch",
+      "actors": 16,
+      "callsPerActor": 256
+    },
+    {
+      "name": "regenerating-world-frames",
+      "actors": 16,
+      "frames": 600
+    },
+    {
+      "name": "casting-world-frames",
+      "actors": 2,
+      "frames": 900,
+      "attemptEveryFrames": 60
+    }
+  ],
+  "memory": {
+    "actorCounts": [
+      1024,
+      4096
+    ],
+    "states": [
+      "unused",
+      "used"
+    ],
+    "method": "Retain native Actor batches; collect twice, release their only strong array, end the JS job and collect twice. First/middle/last WeakRef witnesses must be gone. Report both batch sizes. This measures retained native Actor/stat graphs, not allocation volume, peak memory or whole-game residency."
+  },
+  "validation": {
+    "helperTypesPassed": true,
+    "workloads": 9,
+    "memoryCases": 4,
+    "graphs": 2,
+    "completeReceiptsEqual": true,
+    "allSampledActorWitnessesReleased": true,
+    "sourceCapsuleAndControlsUnchanged": true,
+    "scope": "No elapsed timings or retained-byte results recorded during validation."
+  },
+  "instrumentation": "Direct methods are not wrapped. Scalar accumulation and a call-through onLifeHealed observer are timed, as is RNG counting. Proc and world workloads execute native dispatch/update. Setup, cache warming, GC, receipt construction, assertions and hashing are outside timing. Memory batches have no observer instrumentation.",
+  "scope": "Controlled desktop Node workloads: unchanged authored guarded_heart and Mend, with explicitly controlled resources and stationary actors. Sealed, refill and proc loops reset life per operation inside timing. These are path costs, not captured player frequency distributions. No Steam Deck/mobile, renderer FPS, C#/C++/Wasm or zero-allocation claim.",
+  "optimization": "Investigate repeatable overhead against v0.36. Adopt a proposed optimization only with at least 3% improvement in an ordinary targeted workload in both independent runs, unchanged complete receipts, and no repeatable >5% regression elsewhere without an explicit tradeoff decision. Retain rejected experiments and all results.",
+  "validatedOutcomeSha256": "a31a783cbc8df2ba2b3cc0445af2cd6b020bb78cf791591e6ef9ae4ead160b85",
+  "proposalSha256": "a08999ff4a7c968fbb06fcd1cc16735490ef615dff629fc6fa09c90f5654bb16"
+}

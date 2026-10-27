@@ -1,0 +1,332 @@
+{
+  "schemaVersion": 1,
+  "stage": "Initial recovery candidate measurement; investigation, renderer and milestone acceptance remain pending.",
+  "plan": {
+    "file": "baseline/milestone-forty-two/performance-plan.json",
+    "sha256": "62dc73ea61ff67768231407e450cf1f5599d71ac12fbef25298dfc2abe64f195"
+  },
+  "helper": {
+    "file": "reference/benchmark-life-recovery.ts",
+    "sha256": "1c4623791de2642daed8e676c556faa45b8620d441a9fcc7b649a168e30ca7f7"
+  },
+  "controls": {
+    "previous": {
+      "commit": "83f6021c589728d2d7958ee846628a33e7ec44c7",
+      "published": true,
+      "version": "0.36.0",
+      "archiveSha256": "c6809d7426c3a941e8dadb95d5c754a585bca9d187dfe6779ca77c824f3b14af",
+      "sourceMapSha256": "7fd69753ef56bbecfed6c0ed1d083ff4bad4bfe6b8fcb8e7e2d742e3306fe110",
+      "runtimeMapSha256": "365e87b86dc1b970ce3e73ba8ea60ba13cabfa093c04fed32fdd98e00ede6c0c"
+    },
+    "current": {
+      "commit": "42d03af5da39ddfbc61502ab6f64e72d843debf6",
+      "published": false,
+      "version": "0.36.0",
+      "archiveSha256": "ca1e60926550587f9c52709eccfbbd9930ad2e8f350bcc7f72c1702afd4eb818",
+      "sourceMapSha256": "c6645dd8f02c8be5f7a3c2dc4d77a5388522aabe13a6589b68dbd851e1e0d47d",
+      "runtimeMapSha256": "c53951746f8e7e6e94508ab2af03d9e615d3bd562ee4764993acf431bde81807"
+    }
+  },
+  "runs": [
+    {
+      "file": "evidence/milestone-forty-two/recovery-initial-run-1.json.gz",
+      "sha256": "9fcd36f8f54a4d2e782f4869341ac6deb9b6debfb0bdaecb35813c762afe9fb5",
+      "uncompressedSha256": "46333b17a8107293fa4bbd511d60047c429059f684d9e1ab76863a2a4b879758",
+      "bytes": 13724,
+      "graphOrder": [
+        "previous",
+        "current"
+      ],
+      "node": "v24.9.0",
+      "platform": "win32",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz"
+    },
+    {
+      "file": "evidence/milestone-forty-two/recovery-initial-run-2.json.gz",
+      "sha256": "30df6a8a8ff8e6bbe3b598ccbfa1e8b2412c1d83f6baeefdc58b8d1b89e84dfc",
+      "uncompressedSha256": "4b678c902d363f304aa813ef5782b8f6f8a71be28079fc353e4019ceae2c83a9",
+      "bytes": 13855,
+      "graphOrder": [
+        "current",
+        "previous"
+      ],
+      "node": "v24.9.0",
+      "platform": "win32",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz"
+    }
+  ],
+  "timedSamples": 900,
+  "retainedHeapObservations": 112,
+  "allCanonicalReceiptsEqualAcrossGraphsAndRuns": true,
+  "allSampledActorWitnessesReleased": true,
+  "controlsUnchanged": true,
+  "unchangedPriorRuntimeFiles": 189,
+  "unrelatedHostFilesUnchanged": 993,
+  "timings": [
+    {
+      "name": "refused",
+      "receiptSha256": "d9f8f1b89cb20cbedec118fb28c14470f7124a8aec27bd804784d66dc7340c6b",
+      "runs": [
+        {
+          "previousMedianMs": 0.3492000000005646,
+          "currentMedianMs": 0.44059999999990396,
+          "changePercent": 26.174112256354974,
+          "previousP95Ms": 0.4511000000002241,
+          "currentP95Ms": 0.6886999999996988
+        },
+        {
+          "previousMedianMs": 0.35230000000046857,
+          "currentMedianMs": 0.5092000000004191,
+          "changePercent": 44.53590689745723,
+          "previousP95Ms": 0.6392000000014377,
+          "currentP95Ms": 0.7443999999995867
+        }
+      ]
+    },
+    {
+      "name": "already-full",
+      "receiptSha256": "c1a188c5181bec11b6692d1f89d28193cae543b41149907616f7276f51e9b6ec",
+      "runs": [
+        {
+          "previousMedianMs": 5.309600000000501,
+          "currentMedianMs": 5.208099999999831,
+          "changePercent": -1.9116317613503853,
+          "previousP95Ms": 7.005199999999604,
+          "currentP95Ms": 5.720100000000457
+        },
+        {
+          "previousMedianMs": 6.253600000000006,
+          "currentMedianMs": 6.1907999999984895,
+          "changePercent": -1.0042215684008649,
+          "previousP95Ms": 8.837100000000646,
+          "currentP95Ms": 9.333699999999226
+        }
+      ]
+    },
+    {
+      "name": "ordinary",
+      "receiptSha256": "bebedddc28a823b453d3a01e6d4bf1f01357bed05bece09a3436d6384b24bd00",
+      "runs": [
+        {
+          "previousMedianMs": 12.47309999999925,
+          "currentMedianMs": 12.871099999998478,
+          "changePercent": 3.190866745229748,
+          "previousP95Ms": 14.201499999999214,
+          "currentP95Ms": 16.560499999999593
+        },
+        {
+          "previousMedianMs": 12.984000000000378,
+          "currentMedianMs": 15.329399999998714,
+          "changePercent": 18.063770794811052,
+          "previousP95Ms": 17.080799999999726,
+          "currentP95Ms": 18.120300000000498
+        }
+      ]
+    },
+    {
+      "name": "silent",
+      "receiptSha256": "a1fc33f08c05d62172b4437c126fe01f02ee75c4cf4c8c363c636b0ec61626f3",
+      "runs": [
+        {
+          "previousMedianMs": 8.512199999999211,
+          "currentMedianMs": 11.076399999999921,
+          "changePercent": 30.123822278623003,
+          "previousP95Ms": 11.229300000000876,
+          "currentP95Ms": 15.049200000001292
+        },
+        {
+          "previousMedianMs": 8.424699999999575,
+          "currentMedianMs": 12.772600000000239,
+          "changePercent": 51.60895936948358,
+          "previousP95Ms": 12.031399999999849,
+          "currentP95Ms": 16.826199999999517
+        }
+      ]
+    },
+    {
+      "name": "sealed-clipping",
+      "receiptSha256": "c0d9e2a54ffb25db07a3a1d7a3782cced88617fca04a6fcd0483ad5dfcb0f1cb",
+      "runs": [
+        {
+          "previousMedianMs": 11.927400000000489,
+          "currentMedianMs": 11.763699999999517,
+          "changePercent": -1.3724701108453252,
+          "previousP95Ms": 15.478000000000975,
+          "currentP95Ms": 12.51890000000094
+        },
+        {
+          "previousMedianMs": 12.506099999998696,
+          "currentMedianMs": 13.308000000000902,
+          "changePercent": 6.412070909414513,
+          "previousP95Ms": 18.033199999998033,
+          "currentP95Ms": 15.59349999999904
+        }
+      ]
+    },
+    {
+      "name": "full-refill",
+      "receiptSha256": "e0f555f1cf409ee21488eb3f52d9199d8198a19f780249646ecdd02ededaf35f",
+      "runs": [
+        {
+          "previousMedianMs": 4.033599999998842,
+          "currentMedianMs": 4.217699999997421,
+          "changePercent": 4.56416104716959,
+          "previousP95Ms": 4.55739999999787,
+          "currentP95Ms": 4.757000000001426
+        },
+        {
+          "previousMedianMs": 3.9601999999977124,
+          "currentMedianMs": 4.468199999999342,
+          "changePercent": 12.827634967979474,
+          "previousP95Ms": 4.751199999998789,
+          "currentP95Ms": 6.5578999999997905
+        }
+      ]
+    },
+    {
+      "name": "heal-proc-dispatch",
+      "receiptSha256": "3a9385e66d173c76d0e26ab92225a7de57d22a2335f0d50512d399dc09eff1c9",
+      "runs": [
+        {
+          "previousMedianMs": 4.4244999999973516,
+          "currentMedianMs": 4.44289999999819,
+          "changePercent": 0.4158661995897761,
+          "previousP95Ms": 7.056499999998778,
+          "currentP95Ms": 6.252799999998388
+        },
+        {
+          "previousMedianMs": 4.456500000000233,
+          "currentMedianMs": 5.51759999999922,
+          "changePercent": 23.810164927609833,
+          "previousP95Ms": 5.550800000000891,
+          "currentP95Ms": 8.347000000001572
+        }
+      ]
+    },
+    {
+      "name": "regenerating-world-frames",
+      "receiptSha256": "a0f117c937805117ee757ca504698ce57ca35f9c89405d48ff350641e8410ec8",
+      "runs": [
+        {
+          "previousMedianMs": 188.81039999999848,
+          "currentMedianMs": 189.71429999999964,
+          "changePercent": 0.4787342222680291,
+          "previousP95Ms": 200.95490000000063,
+          "currentP95Ms": 210.64960000000065
+        },
+        {
+          "previousMedianMs": 190.26760000000286,
+          "currentMedianMs": 214.8152999999984,
+          "changePercent": 12.901671120041014,
+          "previousP95Ms": 218.66059999999925,
+          "currentP95Ms": 240.22850000000108
+        }
+      ]
+    },
+    {
+      "name": "casting-world-frames",
+      "receiptSha256": "2a6d42601e225f4c3950ef98a1ce62ed660238197db4dc18a906f227b859fdc5",
+      "runs": [
+        {
+          "previousMedianMs": 156.17229999999836,
+          "currentMedianMs": 157.2106000000058,
+          "changePercent": 0.6648426129393314,
+          "previousP95Ms": 166.74599999999919,
+          "currentP95Ms": 169.14890000000014
+        },
+        {
+          "previousMedianMs": 159.20530000000144,
+          "currentMedianMs": 176.80429999999615,
+          "changePercent": 11.054280228104552,
+          "previousP95Ms": 173.3591000000015,
+          "currentP95Ms": 191.48739999999816
+        }
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "mode": "unused",
+      "count": 1024,
+      "receiptSha256": "5f4ace372d588e787a5664db60913e4c92565d8aa68eaf5320b342d5be8e1d86",
+      "runs": [
+        {
+          "previousBytesPerActor": 11335.765625,
+          "currentBytesPerActor": 11335.890625,
+          "differenceBytesPerActor": 0.125
+        },
+        {
+          "previousBytesPerActor": 11335.890625,
+          "currentBytesPerActor": 11335.984375,
+          "differenceBytesPerActor": 0.09375
+        }
+      ]
+    },
+    {
+      "mode": "unused",
+      "count": 4096,
+      "receiptSha256": "346c5c61696d62cfc42c610aee9f7aac8e3f245ae227899bab577b110ac08120",
+      "runs": [
+        {
+          "previousBytesPerActor": 11335.99609375,
+          "currentBytesPerActor": 11335.99609375,
+          "differenceBytesPerActor": 0
+        },
+        {
+          "previousBytesPerActor": 11335.99609375,
+          "currentBytesPerActor": 11335.99609375,
+          "differenceBytesPerActor": 0
+        }
+      ]
+    },
+    {
+      "mode": "used",
+      "count": 1024,
+      "receiptSha256": "a396175b43cee11d713cb5cb0681dd39108009702fb4a880cdd8bd245fd6a9b0",
+      "runs": [
+        {
+          "previousBytesPerActor": 11335.984375,
+          "currentBytesPerActor": 11335.984375,
+          "differenceBytesPerActor": 0
+        },
+        {
+          "previousBytesPerActor": 11335.984375,
+          "currentBytesPerActor": 11335.984375,
+          "differenceBytesPerActor": 0
+        }
+      ]
+    },
+    {
+      "mode": "used",
+      "count": 4096,
+      "receiptSha256": "e4c518cf9cd457520f9f840adec03ebeb3bf716b0e03ad9e76fd1da1295f9183",
+      "runs": [
+        {
+          "previousBytesPerActor": 11335.99609375,
+          "currentBytesPerActor": 11335.99609375,
+          "differenceBytesPerActor": 0
+        },
+        {
+          "previousBytesPerActor": 11335.99609375,
+          "currentBytesPerActor": 11335.99609375,
+          "differenceBytesPerActor": 0
+        }
+      ]
+    }
+  ],
+  "interpretation": {
+    "silentHealing": "The 131,072-operation silent-heal workload is 30.1% and 51.6% slower than retained v0.36 (11.08/12.77 ms versus 8.51/8.42 ms). This is the first profiling target.",
+    "ordinary": "Ordinary positive healing is 3.2% and 18.1% slower; full refills are 4.6% and 12.8% slower. Refused calls are 26.2% and 44.5% slower, but the absolute difference is only 0.09/0.16 ms per 131,072 calls.",
+    "retainedMemory": "Used batches measure identical retained bytes per Actor in both runs at 1,024 and 4,096 Actors. Unused batches differ by 0–0.125 byte per Actor. Whole retained native Actor/stat state is approximately 11,336 bytes per Actor; this is not the size of the recovery module.",
+    "variability": "Proc and world-update medians show 0.4–0.7% overhead in the first run and 11.1–23.8% in the second. Sealed clipping changes ranking. These runs do not isolate the cause or establish stable whole-world overhead; retain both and investigate instead of choosing a favorable result.",
+    "next": "Profile silent healing on isolated fresh processes. Preserve callback order, live method selection and all prior native observations. Do not add per-Actor caches or replace storage without measured benefit."
+  },
+  "limitations": [
+    "Controlled Windows desktop Node only. Steam Deck, older phones/tablets and native engines remain unmeasured.",
+    "Whole-world modes contain other game work; no renderer FPS, general game-speed, allocation-volume or peak-memory claim.",
+    "Independent process order is reversed, but the cause of inter-run timing variation has not been isolated.",
+    "The core benchmark passed its separate contact checksum checks; those results do not measure this recovery path."
+  ]
+}
