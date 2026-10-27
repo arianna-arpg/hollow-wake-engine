@@ -96,7 +96,6 @@ jobs:
       - run: npm run adapter:effects-source
       - run: npm run adapter:delayed-source
       - run: npm run adapter:buff-source
-      - run: npm run adapter:recovery-source
       - run: npm run adapter:ammunition-source
       - run: npm run reference:install
       - run: npm run reference:verify
@@ -144,7 +143,8 @@ jobs:
         working-directory: .reference
       - run: npm run sim -- run --suite smoke
         working-directory: .reference
-      - run: npm run adapter:prepare
+      - name: Prepare game and verify recovery source guards
+        run: npm run adapter:prepare
       - run: npm run adapter:verify
       - run: npm run adapter:items
       - run: npm run adapter:passive-grants

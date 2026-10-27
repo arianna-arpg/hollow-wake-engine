@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "decision": "recovery-ci-preparation-order/v1",
+  "failedCommit": "780eb7656726a016913c2b7b37227feb3d66d16b",
+  "failedRun": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40537340100",
+  "failedJob": 122306049902,
+  "failure": "The standalone recovery source-check command requires --game pointing to a prepared predecessor; the newly added early CI step omitted it.",
+  "correction": "Remove the invalid earlier CLI call. The existing adapter preparation already invokes verifyLifeRecoveryOverlay on its fully assembled predecessor before applying the recovery integration; name that CI step explicitly.",
+  "verification": {
+    "freshOriginalMaterialized": true,
+    "sourceFaultsRejected": 188,
+    "lineEndings": [
+      "LF",
+      "CRLF"
+    ],
+    "sourceFilesIdentical": 996,
+    "runtimeFilesIdentical": 195,
+    "packageFilesIdentical": 279,
+    "archiveIntegrity": "sha512-s7wE9l78fdvGYNnoRSA8ozIaZsEaABkUZWpdXgd8dQ/eOv6RgQdhOQ1RUcgn4Zb3vTq5Bypo4B9NJLfZScREsQ==",
+    "archiveUnchanged": true,
+    "allRetainedControlsUnchanged": true,
+    "prepareLogSha256": "0aa0005862e2885c08d074acca7908aee6eedd40f95107440d6904534f22e7db",
+    "sourceGuardContractSha256": "7b26c7c41d3bfb5382da146fbd67a30d36921e1b96d24fc116bd7367f4890590"
+  },
+  "scope": "Workflow orchestration only. No runtime, content, accepted observations, package metadata or installed-game behavior changes. Hosted checks must run again on the correction commit."
+}
