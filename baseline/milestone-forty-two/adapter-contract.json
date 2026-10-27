@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "decision": "life-recovery-adapter/v1",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "sourceBoundariesSha256": "f4ac5e4d9809615a25c85e94aaa4c3d25c2f08e31c50e4324a813634bc031be6",
+  "predecessor": "83f6021c589728d2d7958ee846628a33e7ec44c7",
+  "reconstruction": "Apply previously accepted overlays through v0.36; target healBy/refillLife and the heal case still match original source exactly. Existing resource payment supplies lifeCeiling.",
+  "actorMembers": {
+    "healBy": {
+      "kind": "MethodDeclaration",
+      "sha256": "9920a6c8ed40e3537ab083d563377513a19097cd63c6d45ee48797a3fc11a8ba"
+    },
+    "refillLife": {
+      "kind": "MethodDeclaration",
+      "sha256": "08521ed3b4b42cb483e49b9ec5eb7e2c0d50cef75da57a8ebbc1e44f37119825"
+    },
+    "maxLife": {
+      "kind": "MethodDeclaration",
+      "sha256": "910481057f2ef668a8e2e3b4777bbb8e04f3a6d5ba8cd4f82197928d6e2bff57"
+    },
+    "lifeCeiling": {
+      "kind": "MethodDeclaration",
+      "sha256": "2dc668fbf53a0dfced6b6bf4ad3798f151c07c7c243b32d3f00d3ac1aaa68400"
+    },
+    "noteRecent": {
+      "kind": "MethodDeclaration",
+      "sha256": "e69a526f927357089db1d3477d5b9ad4e03169354dccd45bf0b5676901eaacd9"
+    },
+    "fillResources": {
+      "kind": "MethodDeclaration",
+      "sha256": "6cbaf48bfdc8e3c554c645721005f02a7c6d0c3fbdd89853b39ba950eff7e198"
+    },
+    "life": {
+      "kind": "PropertyDeclaration",
+      "sha256": "862b5f9122bac6562d83d37a6056fa3a80b844af7defa7cd11761566d768c0f8"
+    },
+    "dead": {
+      "kind": "PropertyDeclaration",
+      "sha256": "d1c172e9a5f41b2d097fbfbde68eb109e568d1e8ab25f82ff9114050aa4ea1ef"
+    },
+    "lifeSealAt": {
+      "kind": "PropertyDeclaration",
+      "sha256": "a4520493642ba6d868a219b1bbd56d78d03dd7d257432715ac3e48cfbd1ec779"
+    },
+    "healedSince": {
+      "kind": "PropertyDeclaration",
+      "sha256": "9d8be1fcfc40a440e4c079edca3ec0b7f0c44e908fbaabb82ce8be6599057a22"
+    },
+    "onLifeHealed": {
+      "kind": "PropertyDeclaration",
+      "sha256": "570e771f7586d116a4ff64e31ffe2bd0f13b52a14a1a09fccca53b5f0ee059f3"
+    },
+    "sheet": {
+      "kind": "PropertyDeclaration",
+      "sha256": "6a40b6f6e26370d1a217a1d00515502b431632d7ffa5a87dc37dfa0bafc78895"
+    },
+    "since": {
+      "kind": "PropertyDeclaration",
+      "sha256": "6f5b3ef54d52836a726a928aaa1f26ba979c05e071dd474ef9f3fc3b57338f42"
+    }
+  },
+  "worldMethodSha256": "78129ce90b34ee1fa18c99bd86f96d159d383b4fcac7d137b6eb6e96e2a1d3df",
+  "caseHashes": {
+    "gainCharge": "c5df65d74817305cddaae70b8d895b68b79d5fa08d9ae17f36ce9e9008a2ec23",
+    "buff": "b2c1c1d86bfe109dfcf9883cb7c6fda3c2b13dba459d95029fe2c48c2ebd69ae",
+    "status": "aa311ce1c8b10a67edd423f9815f14a92ab62deef7cbb7ed59606fb857372909",
+    "heal": "e26df276b716addffac11493c745d006cd905a28fc81c0154ae86a7c5259480e",
+    "restore": "78648003d4b4a6586114edb5e6ab43c74b1b10def754fdde895566dc51402341",
+    "burst": "2957b345cfa51c5cf481591a1bc0abf7723f019be9d7da21b5c23d79dd9b130c",
+    "delayedBurst": "1c9a2981a0510987933643b2fede8659c7a107c0ae006d6790bc7128d6bdbbc4",
+    "fortify": "ae9dc67904ced4377737a81907d586dcc3f0a692e16c756ae14a54327c652456",
+    "cooldown": "be91dfd5b9e9524e165ca4f7a7afb9f34e78ccad1d9cdd0c044a0f20052a6d2f",
+    "removeBuff": "e7b262e13017124facfb0d0e0209578ec73c32179068404bc997b7f25fc86697",
+    "ward": "2e98fae68c9de40dd2f1c6963f57abde3cfded817dcc7e59027c9d9febbc039c",
+    "cleanse": "b9147ecd3fa73003a957543c5553e53df2a3786deb0a28702edbbbc742822fc8",
+    "kindle": "87fd461244099d56db0bd4f9ce84e5280524550b9672b58f432b1221c3e17b22",
+    "vent": "e366a077c36d826db2e4c371e99b7d3d76f1aa41dca820541d37a9f5b3687e14",
+    "cast": "3ff865c06731ea0e0126ea30fc5a761ae93ec7daf9fe64810711cfe437014265",
+    "extraHit": "f8221a96f137a7a4b7bc19cd78cb0e28e05ed9dcfbaa020d5325157fc83f8383",
+    "explosion": "dd5f809277d46ded7d62df716edb7464c6b69a7508ee18bfb7c8ec5f68c16a29",
+    "arc": "1aad5813702cb2037efa98d99e7474c2caa3d913bfd4b1108ae628f603e7bd84",
+    "displace": "30891dfb95782c7892eb23fb6fd7cd128c13714258558bda656dc96bd24bbac2",
+    "collisionDamage": "9b64afafb6f96c5a8d2eb1bfe7c37d419cfae165a05605f2fb17ae241d35f778",
+    "summon": "bd10bf55ac7535ca09c34eca4ac537a1a9cd8a7f1f34b79b0c153b652211105d",
+    "birth": "084a8b8ff72440c4454fb50a53cf34147abb47c832a1ae0eb0187fb53219e2f3"
+  },
+  "existingImports": {
+    "actor": "import { SIM_TAP } from './tap';",
+    "world": "import { buffProcCue, noteProcCue, procCueStyle } from './procCues';"
+  },
+  "reservedNames": [
+    "engineHealLife",
+    "engineRefillLife",
+    "engineApplyProcHeal",
+    "lifeRecoveryPorts"
+  ],
+  "imports": {
+    "actor": [
+      "import {healLife as engineHealLife, refillLife as engineRefillLife} from '@hollow-wake/engine/combat/recovery';",
+      "import {lifeRecoveryPorts} from './lifeRecoveryAdapter';"
+    ],
+    "world": [
+      "import {applyProcHeal as engineApplyProcHeal} from '@hollow-wake/engine/combat/recovery';",
+      "import {lifeRecoveryPorts} from './lifeRecoveryAdapter';"
+    ]
+  },
+  "removedActorTapImport": {
+    "name": "SIM_TAP",
+    "identifierOccurrences": 2,
+    "reason": "The only Actor use moves into the shared recovery ports; reject new callers before removing its import."
+  }
+}

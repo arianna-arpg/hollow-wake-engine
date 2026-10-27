@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 1,
+  "status": "Unpublished verified recovery adapter checkpoint; not milestone release acceptance",
+  "publishedPredecessor": "83f6021c589728d2d7958ee846628a33e7ec44c7",
+  "kernelCheckpoint": "61493b8a2889332cf9c9eb283181d0219d267641",
+  "node": "v24.9.0",
+  "sdkVerification": {
+    "command": "npm run verify",
+    "passed": true,
+    "tests": 632,
+    "recoveryTests": 70,
+    "recoveryRuntimeFaults": 16,
+    "independentPackageConsumer": true,
+    "asyncPortTypesRejected": 6,
+    "modules": [
+      {
+        "name": "life-recovery",
+        "bytes": 1707,
+        "sha256": "9dcbe01c78bf086023802e414139e6449e15dfae6cde6edc7eb6a738f77bc39f"
+      },
+      {
+        "name": "life-recovery-content",
+        "bytes": 1721,
+        "sha256": "32e4a6fd8612d306e83a4d99c57812c48f2a1ed83503572301cf96722639c7f4"
+      }
+    ],
+    "combinedJavaScriptBytes": 3428,
+    "allowanceBytes": 4096,
+    "logSha256": "f690cc503ac65afc99a95bef8351765d7e38df7f660f08fc4a3dc5b0f8c98995"
+  },
+  "nativeObservations": {
+    "courses": 117,
+    "fixtures": [
+      {
+        "name": "life-recovery",
+        "courses": 59,
+        "sha256": "1b64ba36fd23f0ef74097acadefa50eceb7accdd1d4bb08866cdc858a3a3f839"
+      },
+      {
+        "name": "heal-procs",
+        "courses": 29,
+        "sha256": "760ae80f3966c563a02fcc64366f428f9f9fae377323d261a327622da450e00c"
+      },
+      {
+        "name": "life-recovery-world",
+        "courses": 13,
+        "sha256": "f0c07756e5895f4e06372ea1a3a8d0f80e524f16fc869c3273e2dccc4e5ec195"
+      },
+      {
+        "name": "heal-method-resolution",
+        "courses": 3,
+        "sha256": "3185915673360e4c0e9820d8ef6344f16b664bbcf49645a56213f9a626480a95"
+      },
+      {
+        "name": "heal-cues",
+        "courses": 13,
+        "sha256": "e24c43e3595b74f34c4178b7cd624d74947732371806e748999ba3e535bdc06f"
+      }
+    ],
+    "originalReproductionPassed": true,
+    "installedReproductionByteEqual": true,
+    "initial101CasesUnchanged": true,
+    "methodResolutionAddendum": 3,
+    "cueObservationAddendum": 13,
+    "cueCoverageGap": "A zero-result gain-cue mutation survived the earlier proc comparison because it recorded the display override. Separate native pulse/pop/HUD-row observations now detect it; no production behavior was changed."
+  },
+  "adapter": {
+    "sourceGuardFaults": 188,
+    "lineEndings": [
+      "LF",
+      "CRLF"
+    ],
+    "sourceGuardsFinishBeforeWrites": true,
+    "installedFaults": [
+      {
+        "name": "rate-ignored",
+        "target": "runtime",
+        "fixture": "life-recovery",
+        "detected": true,
+        "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+      },
+      {
+        "name": "dead-heals",
+        "target": "runtime",
+        "fixture": "life-recovery",
+        "detected": true,
+        "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+      },
+      {
+        "name": "silent-stamps",
+        "target": "runtime",
+        "fixture": "life-recovery",
+        "detected": true,
+        "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+      },
+      {
+        "name": "rate-before-life",
+        "target": "runtime",
+        "fixture": "life-recovery",
+        "detected": true,
+        "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+      },
+      {
+        "name": "refill-not-silent",
+        "target": "runtime",
+        "fixture": "life-recovery",
+        "detected": true,
+        "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+      },
+      {
+        "name": "flat-proc-skips-maximum",
+        "target": "runtime",
+        "fixture": "heal-procs",
+        "detected": true,
+        "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+      },
+      {
+        "name": "zero-proc-signals",
+        "target": "runtime",
+        "fixture": "heal-cues",
+        "detected": true,
+        "logSha256": "d112d9bb5d337e6d512c5f8cf5fc64167653be1ce6e91d046def681d6855b14d"
+      },
+      {
+        "name": "reservation-ignored",
+        "target": "binding",
+        "fixture": "life-recovery",
+        "detected": true,
+        "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+      },
+      {
+        "name": "observer-loses-silent",
+        "target": "binding",
+        "fixture": "life-recovery",
+        "detected": true,
+        "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+      },
+      {
+        "name": "tap-omitted",
+        "target": "binding",
+        "fixture": "life-recovery",
+        "detected": true,
+        "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+      },
+      {
+        "name": "recency-omitted",
+        "target": "binding",
+        "fixture": "life-recovery",
+        "detected": true,
+        "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+      },
+      {
+        "name": "actor-loses-silent",
+        "target": "actor",
+        "fixture": "life-recovery",
+        "detected": true,
+        "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+      },
+      {
+        "name": "refill-uses-healing-gates",
+        "target": "actor",
+        "fixture": "life-recovery",
+        "detected": true,
+        "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+      },
+      {
+        "name": "heal-cue-omitted",
+        "target": "world",
+        "fixture": "heal-cues",
+        "detected": true,
+        "logSha256": "decf7f7e7435b0f87bf1604df66b37fa3ff6a0d3839a883312cd440a22551ad5"
+      },
+      {
+        "name": "method-selected-too-late",
+        "target": "world",
+        "fixture": "heal-method-resolution",
+        "detected": true,
+        "logSha256": "6faa2a7b340f173188cd826a390fb71eb4cd7640ec46aeec796b023a0cab1e69"
+      },
+      {
+        "name": "riders-omitted",
+        "target": "world",
+        "fixture": "heal-procs",
+        "detected": true,
+        "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+      }
+    ],
+    "mutationsUseIndependentCopiedGraph": true,
+    "sourceAndPackageRestored": true,
+    "gameTypesPassed": true,
+    "launcherTypesPassed": true,
+    "simulationTypesPassed": true,
+    "simulationSmokePassed": true,
+    "priorEffectsOriginalCourses": 1096,
+    "priorEffectsExtraNativeCases": 7,
+    "priorDelayedCourses": 48,
+    "priorDelayedHostCases": 4,
+    "priorBuffCourses": 40,
+    "priorBuffHostCases": 8,
+    "sourceFiles": 996,
+    "unrelatedSourceFilesPreserved": 993,
+    "predecessorRuntimeOutputsPreserved": 189,
+    "newRuntimeOutputs": 6
+  },
+  "packageUsedByGame": {
+    "version": "0.36.0",
+    "published": false,
+    "stage": "Local candidate archive contains the new optional recovery modules; do not confuse it with the different public v0.36 archive.",
+    "sha256": "ca1e60926550587f9c52709eccfbbd9930ad2e8f350bcc7f72c1702afd4eb818",
+    "integrity": "sha512-PND0w3WEvZ9UIopbCYfNaMZ+oH0CRs77uMGcQkeMb6WV4Dv2TV7jdX6HsDkwBzU6g6hE9zswobcOraN4F47yEA=="
+  },
+  "sourceSha256": {
+    "src/life-recovery.ts": "1f8f8e32eafcf38e19c2ec728093d14c82b20d40d87f25cca8c9c4d4d08ad5ed",
+    "src/life-recovery-content.ts": "93d1578106c064b1ad2fc2d36cc79281365659cfdd46e4ceda6254d6f55aced7",
+    "adapters/hollow-wake/integrate-life-recovery.mjs": "a8497acb0dd6ec7e6ec11bb4cee1ccffe57b881e9da6afd9c3decdfbe960d810",
+    "adapters/hollow-wake/lifeRecoveryAdapter.ts": "e1b302421dcdc1c2c56f77311a787ba7c025705480fbcd098e0526172cdafc8a",
+    "scripts/test-game-life-recovery.mjs": "a576e13dd31fe4eabb822e99686a61ac62076bd0d7ca83adbdaa7c9cb71db1a0",
+    "scripts/test-life-recovery-installed-faults.mjs": "b0e80d32131843c56dc5429bf172918c6d83ea393c0e06ea826e12f4189aff8f",
+    "scripts/test-life-recovery-overlay.mjs": "f66f0d630df2a2d2d7ce2a207a8a513256d56c5a0dd7756e68fca62fa727a877"
+  },
+  "preservation": {
+    "sourceFiles": 996,
+    "otherSourceFilesUnchanged": 993,
+    "predecessorRuntimeFilesUnchanged": 189,
+    "sourceMatchesCurrentIntegrator": true,
+    "installedPackageUnchangedSince117CaseComparison": true,
+    "publishedControlsUnchanged": true
+  },
+  "remaining": [
+    "Recovery throughput and retained-heap comparisons",
+    "Renderer observations for actual healing feedback",
+    "Reviewed managed-game integration and final package publication",
+    "Native-engine drop-in packages and physical Steam Deck/older-mobile acceptance"
+  ]
+}

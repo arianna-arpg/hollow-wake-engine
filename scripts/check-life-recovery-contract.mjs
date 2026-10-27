@@ -10,7 +10,10 @@ export function readLifeRecoveryExpectations(){
   const addendum=JSON.parse(fs.readFileSync(path.join(root,'baseline/milestone-forty-two/method-resolution-addendum.json')));
   assert.equal(addendum.baseAcceptanceSha256,sha256(fs.readFileSync(path.join(root,'baseline/milestone-forty-two/acceptance.json'))));
   assert.equal(addendum.courses,3);assert.equal(addendum.fixture.courses,3);assert.equal(addendum.fixture.name,'heal-method-resolution');
-  const helpers=[...acceptance.helpers,addendum.helper],rows=[...acceptance.fixtures,addendum.fixture];
+  const cueAddendum=JSON.parse(fs.readFileSync(path.join(root,'baseline/milestone-forty-two/cue-observation-addendum.json')));
+  assert.equal(cueAddendum.baseAcceptanceSha256,addendum.baseAcceptanceSha256);
+  assert.equal(cueAddendum.courses,13);assert.equal(cueAddendum.fixture.courses,13);assert.equal(cueAddendum.fixture.name,'heal-cues');
+  const helpers=[...acceptance.helpers,addendum.helper,cueAddendum.helper],rows=[...acceptance.fixtures,addendum.fixture,cueAddendum.fixture];
   for(const helper of helpers)assert.equal(sha256(fs.readFileSync(path.join(root,helper.file))),helper.sha256);
   const boundaryBytes=fs.readFileSync(path.join(root,acceptance.sourceBoundaries.file));
   assert.equal(sha256(boundaryBytes),acceptance.sourceBoundaries.sha256);
@@ -26,5 +29,5 @@ export function readLifeRecoveryExpectations(){
     const value=JSON.parse(bytes);assert.equal(value.courses,row.courses);assert.equal(value.rows.length,row.courses);
     fixtures.set(row.name,{bytes,value});
   }
-  return{acceptance,addendum,boundaries,fixtures,helpers,rows,courses:104};
+  return{acceptance,addendum,cueAddendum,boundaries,fixtures,helpers,rows,courses:117};
 }

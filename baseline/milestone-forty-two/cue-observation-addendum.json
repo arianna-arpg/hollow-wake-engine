@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "stage": "Additional native observations captured after an installed cue-gate mutation survived the initial comparison. No runtime behavior changed.",
+  "baseAcceptanceSha256": "ec9ff69e31dc26b5bee93424b298b5d91491e24d3a6e7b236e0ca611ca2d7aa1",
+  "courses": 13,
+  "helper": {
+    "file": "reference/export-heal-cues.ts",
+    "sha256": "47d04d00682843c97f06e64c8bf000aa7fcdee75258f853ba71de4160a9fb75d"
+  },
+  "fixture": {
+    "name": "heal-cues",
+    "helper": "reference/export-heal-cues.ts",
+    "helperSha256": "47d04d00682843c97f06e64c8bf000aa7fcdee75258f853ba71de4160a9fb75d",
+    "file": "baseline/milestone-forty-two/heal-cues.json.gz",
+    "courses": 13,
+    "bytes": 19476,
+    "fixtureSha256": "e24c43e3595b74f34c4178b7cd624d74947732371806e748999ba3e535bdc06f",
+    "compressedSha256": "9f128bb5de6be2fecdea398bcb9d601ab368ff8b91bbd0d967915655d1b96967"
+  },
+  "reproduction": {
+    "originalRuns": 2,
+    "publishedPredecessorRuns": 1,
+    "allRawOutputsByteEqual": true
+  },
+  "limitationOfPriorFixture": "The original heal-procs observations record procCues, an optional display override, but omit live procCuePulses and procPopEvents. They alone do not prove gain cue publication.",
+  "decision": "Keep the original 101 observations and the three method-resolution cases unchanged. Add direct pulse, pop and derived HUD-row observations, including zero/negative returns, callback failure, repeated gains, expiry and death.",
+  "scope": "Native state and derived rows, not rendered pixels or physical input."
+}

@@ -1,11 +1,14 @@
 # Life recovery boundary
 
-Milestone 42 has an unpublished standalone recovery candidate. Its original
-101-case baseline is unchanged; a separate three-case method-resolution addendum
-records a callback-order discovery during implementation. Version 0.36 remains
-the published baseline. The game adapter and performance acceptance are pending.
+Milestone 42 has an unpublished recovery candidate and an installed game adapter.
+Its original 101-case baseline is unchanged. Separate three-case method-resolution
+and thirteen-case cue addenda record discoveries during implementation and fault
+testing. Version 0.36 remains the published baseline. Renderer, performance and
+managed-game acceptance are pending.
 Run `npm run reference:life-recovery` after preparing and installing the pinned
-reference environment to reproduce all 104 native observations.
+reference environment to reproduce all 117 native observations.
+The [verification checkpoint](../evidence/milestone-forty-two/adapter-checkpoint.json)
+records the passing checks and the remaining release gates.
 
 ## Authority and coverage
 
@@ -19,7 +22,7 @@ controls are preserved.
 - 59 Actor cases cover ordinary and silent healing, seals, reserved life, full
   refills, query order, replaced observers, nested calls and partial failure.
 - 29 proc cases cover all five loaded heal definitions at three power settings,
-  cue and rider behavior, three granted proc triggers and the post-heal sweep.
+  rider behavior, three granted proc triggers and the post-heal sweep.
   Native startup generates `native_field_patch` and `weave_break_for_breath` in
   addition to the three obvious literal definitions.
 - 13 delivery cases use targeted self/ally skills, regeneration, restore streams,
@@ -31,6 +34,13 @@ controls are preserved.
   replace the heal method while maximum life or effect fields are being read.
   The original method remains selected for that pending call, with its original
   receiver. Two original runs and one published-v0.36 run agree byte for byte.
+- Thirteen [cue cases](../baseline/milestone-forty-two/cue-observation-addendum.json)
+  observe actual pulse storage, pop events and derived HUD rows. The earlier proc
+  fixture records `procCues`, an optional display override, and alone cannot prove
+  gain-cue publication. An injected zero-result cue fault exposed that gap. The
+  addendum covers positive, zero and negative returns, failed callbacks, disabled
+  cues, repeated gains, expiry and death. Both original runs and the published
+  predecessor agree byte for byte; existing observations are unchanged.
 
 These are controlled, seeded observations. They do not prove physical input,
 rendered equivalence, every healing caller, device performance or native-engine
@@ -108,9 +118,36 @@ randomness, clocks, browser globals and network access unavailable. The optional
 JavaScript modules total 3,428 bytes, within a 4 KiB allowance. This size gate is
 not a throughput, allocation-volume or hardware measurement.
 
+## Installed game adapter
+
+The adapter delegates the bodies of `healBy` and `refillLife`, and the `heal` case
+of `World.executeProc`. Shared frozen ports use the current native methods and
+callbacks. The exclusive Actor tap import moves into the binding; an additional
+caller prevents that removal. Actor field layout, other methods, the other 21
+proc cases and the rider tail are preserved. No new Actor field is introduced.
+
+The source tests reject 188 changed inputs across LF and CRLF files before any
+target is written. `adapter:prepare` runs those controls before applying the
+recovery overlay. For a separate prepared predecessor, use
+`adapter:recovery-source -- --game <path>`.
+
+`adapter:recovery -- --location <location.json>` checks the installed archive and
+compares all 117 native observations without changing game source or the package.
+`adapter:recovery-faults -- --location <location.json>` then requires that matching
+receipt, copies the source and installed SDK into a fresh disposable graph, and
+tests runtime, port and World faults there. Legacy mutation harnesses must finish
+before either comparison; input hashes reject a graph changed by another test.
+All sixteen injected integration faults are detected, including a healing cue
+incorrectly emitted for a zero result. Supplied source and package files remain
+unchanged; the disposable copies are restored after every fault.
+
+Game, launcher and simulation type checks and the simulation smoke suite pass.
+The prior ward/effect, delayed-effect and buff comparisons also pass. The new
+adapter changes two source files and adds one binding; 993 other game source
+files and all 189 predecessor runtime outputs are unchanged.
+
 ## Remaining acceptance
 
-Add the guarded game adapter and compare all proc and World cases through the
-installed package. Verify the real game, deliberate installed faults and renderer
-with the new package. Measure representative workloads against the retained v0.36 control
+Complete renderer checks, then review the managed
+game integration with the final package. Measure representative workloads against the retained v0.36 control
 before choosing optimizations; keep physical Steam Deck/mobile acceptance open.

@@ -3,10 +3,15 @@
 The unpublished life-recovery candidate uses `reference:life-recovery`: 101 frozen native
 cases covering recovery/refill, all five loaded heal procs and representative
 World delivery. Two original runs and one published-v0.36 run agree exactly.
-A separate three-case addendum checks method selection before callbacks, bringing
-the original reproduction to 104 cases. Seventy focused SDK tests, sixteen
+A three-case addendum checks method selection before callbacks; thirteen further
+cases capture the actual cue pulses missed by the earlier display-override field.
+Original and installed-game reproduction now cover 117 cases. Seventy focused SDK tests, sixteen
 deliberate runtime faults and an independently installed package check the new
-optional modules. See [the boundary](life-recovery.md); game-adapter and performance
+optional modules. The guarded adapter rejects 188 source faults and preserves
+993 other game source files. Game/launcher/simulation types, simulation smoke and
+the prior effect/delayed/buff comparisons pass. Sixteen installed faults are
+detected in a copied graph, including the formerly unobserved zero-result cue.
+See [the boundary](life-recovery.md); renderer, performance and managed-game
 acceptance are pending.
 The candidate passes the complete `npm run verify` gate with 632 tests, including
 the prior package consumers and fault checks. All 189 predecessor runtime outputs
