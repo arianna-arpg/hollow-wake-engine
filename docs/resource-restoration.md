@@ -2,7 +2,8 @@
 
 The native baseline was committed before implementation. The unpublished v0.38
 candidate provides optional `combat/restoration` and `combat/restoration-content`
-entries. Installed-game, renderer, measurement and publication acceptance remain open.
+entries. The installed game reproduces all 218 native observations. Renderer,
+measurement, managed-game and publication acceptance remain open.
 This contract extends life recovery with shield/poise gain gates, immediate
 restoration and the restore proc branch. It does not authorize a gameplay change.
 
@@ -110,24 +111,42 @@ After reconstructing and installing the pinned reference, run
 checks source/fixture hashes and compares new native observations with the frozen
 bytes. The output goes to a fresh directory under `.artifacts`.
 
-Runtime implementation must pass independent arithmetic and content tests,
-deliberate fault checks, a clean packed consumer and all 218 installed-game
-observations. Adapter preparation must reject unreviewed source changes before
-writing and preserve other members, existing delegations and other proc cases.
-Relevant gameplay regressions and a renderer course remain separate acceptance
-steps. Timed World cases exercise host composition; they do not claim that stream
+The runtime passes independent arithmetic and content tests, deliberate fault
+checks, a clean packed consumer and all 218 installed-game observations.
+Adapter preparation rejects 222 source faults before writing and preserves
+other members, existing delegations and the other 21 proc cases. Eighteen
+installed faults are detected in a separate copied graph, including lost cue
+payloads, borrowed-tag identity, reservation capacity and native invocation.
+Timed World cases exercise host composition; they do not claim that stream
 scheduling or all defensive lifecycle rules have been extracted.
 
 The initial runtime passes 210 focused tests: 200 frozen native observations
 replayed over borrowed state (numeric/event projections, query traces, invocation
 and failure boundaries), plus ten independent arithmetic, ordering and content
-tests. Cue payloads and the ten World/eight pool-base courses still require the
-complete installed-game comparison. Twenty-three deliberate runtime faults are
+tests. The complete installed-game comparison additionally checks native cue
+payloads and the ten World/eight pool-base courses. Twenty-three runtime faults are
 detected without changing the production runtime. An independently installed
 package runs with host APIs disabled; its type consumer rejects all eleven
 asynchronous ports, an asynchronous event queue and incompatible host payloads.
 The two optional JavaScript modules total 6,074 bytes, within the fixed 8 KiB
 allowance. This is a size result, not a speed or allocation claim.
+
+The full SDK verification gate passes 846 tests and the existing package/fault
+checks; all 195 predecessor compiled outputs remain byte-identical. The guarded
+adapter preserves 994 other source files and adds no Actor fields. Public
+preparation from the frozen source capsule reproduces all 997 candidate source
+files and 201 compiled SDK files. See the
+[runtime checkpoint](../evidence/milestone-forty-three/runtime-checkpoint.json)
+and [adapter checkpoint](../evidence/milestone-forty-three/adapter-checkpoint.json).
+The latter records the exact initial archive; later metadata or release packages
+must be checked separately before publication.
+
+`npm run adapter:prepare` now includes restoration. Use
+`npm run adapter:restoration -- --location <location.json>` for a read-only
+installed comparison. `adapter:restoration-faults` creates a separate source and
+SDK copy before changing any bytes, even when supplied a retained control.
+`adapter:restoration-source -- --game <predecessor>` tests source transformations
+on temporary copies. Normal verification never overwrites accepted expectations.
 
 Consumers import `gainEnergyShield`, `gainPoise`, `applyInstantRestoration` and
 `applyProcRestoration` from `@hollow-wake/engine/combat/restoration`. Use

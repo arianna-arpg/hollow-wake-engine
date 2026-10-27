@@ -1,5 +1,19 @@
 # Verification and reproduction
 
+The unpublished v0.38 restoration candidate passes 846 SDK tests, including 210
+focused restoration checks, and preserves all 195 predecessor compiled files.
+All 218 native observations match through the installed package, including full
+cue/event payloads, timed World updates, reservations, callback order and partial
+failures. Twenty-three runtime faults, 222 source-guard faults and eighteen
+installed-game faults are detected. Installed faults touch only newly copied
+source and package files. The public preparation path reproduces the same 997
+game source files and 201 SDK outputs from the pinned capsule.
+The [restoration contract](resource-restoration.md) separates these checks from
+renderer, performance, managed-game and publication acceptance, which remain open.
+Its [initial adapter checkpoint](../evidence/milestone-forty-three/adapter-checkpoint.json)
+records archive identity and gameplay regressions. No hardware or native-engine
+compatibility claim follows from these desktop checks.
+
 Version 0.37 uses `reference:life-recovery`: 101 frozen native
 cases covering recovery/refill, all five loaded heal procs and representative
 World delivery. Two original runs and one published-v0.36 run agree exactly.

@@ -179,6 +179,8 @@ jobs:
       - run: npm run adapter:buffs -- --faults
       - run: npm run adapter:recovery
       - run: npm run adapter:recovery-faults
+      - run: npm run adapter:restoration
+      - run: npm run adapter:restoration-faults
       - run: npm run adapter:ammunition
       - run: npm run check
         working-directory: .artifacts/game-adapter
@@ -265,6 +267,12 @@ jobs:
             .artifacts/life-recovery-reference-verification.json
             .artifacts/game-life-recovery-verification.json
             .artifacts/life-recovery-installed-faults.json
+            .artifacts/restoration-overlay-verification.json
+            .artifacts/restoration-reference-verification.json
+            .artifacts/game-restoration-verification.json
+            .artifacts/restoration-installed-faults.json
+            .artifacts/game-restoration-*/*.txt
+            .artifacts/restoration-installed-faults-*/*.txt
             .artifacts/game-life-recovery-*/*.txt
             .artifacts/recovery-installed-faults-*/*.txt
             .artifacts/game-buff-verification.json

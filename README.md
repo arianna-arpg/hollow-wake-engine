@@ -11,8 +11,9 @@ and Steam Deck/older-mobile measurements remain incomplete.
 
 The unpublished v0.38 candidate adds [resource restoration](docs/resource-restoration.md):
 shield/poise gain gates, immediate restore events, reserved-mana proc restoration
-and strict content compilers. Its native baseline is committed separately.
-Installed-game, renderer, performance and publication acceptance remain open.
+and strict content compilers. Its separately committed native baseline is reproduced
+in 218 installed-game observations. Renderer, performance, managed-game and
+publication acceptance remain open.
 
 Version 0.37 adds optional [life recovery](docs/life-recovery.md): healing,
 full refill and validated proc-heal content. The installed game adapter preserves

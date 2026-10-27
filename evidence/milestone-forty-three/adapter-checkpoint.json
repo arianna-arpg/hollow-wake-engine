@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 1,
+  "milestone": 43,
+  "stage": "Unpublished installed-game restoration checkpoint; renderer, performance, managed-game and final publication remain pending",
+  "runtimeCommit": "ad0337604a9157af5a66525adc586dac6a8bbbfd",
+  "sourceDecision": "M43: delegate shield/poise gains and immediate/proc restoration over borrowed state; preserve native invocation, cue/event order and partial failures",
+  "initialArchive": {
+    "sha256": "4ee0bef42b3937fe52e25ce0a377a3e9339498980e0388dfdb8fc4dddc19b4d8",
+    "integrity": "sha512-emy4tfv84PBCCondQc341bGSVDqOGZWqSqsvIMDm+Pr5XfiwSoelLvzT8HsnQY6gLys7AdpHIa+sf56c5LLQPQ=="
+  },
+  "sdk": {
+    "tests": 846,
+    "focused": 210,
+    "verification": [
+      {
+        "name": "verify",
+        "passed": true,
+        "logSha256": "111aa234e49688664499a702dba6149dda78fe13bec6e1d8c19b477751555d7e"
+      },
+      {
+        "name": "reference",
+        "passed": true,
+        "logSha256": "ed9449e747fdb1f57570cdcc3c0c46a363a0e3720d661dd8df1026f2e66fb987"
+      }
+    ],
+    "all201CompiledOutputsMatchInitial": true
+  },
+  "native": {
+    "courses": 218,
+    "typesPassed": true,
+    "results": [
+      {
+        "name": "restoration",
+        "courses": 114,
+        "sha256": "21b0e842ed97fa24110cd1e809cc4c2c203a8ac1662df6206cb33d580e2b8a71",
+        "byteEqual": true
+      },
+      {
+        "name": "invocation",
+        "courses": 15,
+        "sha256": "c00f16940cc81b8035843a264cacbebf35ba8caa85c9742c5c5ec26c0eaa20d3",
+        "byteEqual": true
+      },
+      {
+        "name": "query-order",
+        "courses": 56,
+        "sha256": "9513f06e378edbba44d7dba5cf95563bde28121dbad407eda316d7fedf2078b7",
+        "byteEqual": true
+      },
+      {
+        "name": "world",
+        "courses": 10,
+        "sha256": "61f2a61aa946915332c3c32c1c9fb2de01ab445f67032859d52801fb4726683d",
+        "byteEqual": true
+      },
+      {
+        "name": "partial-failure",
+        "courses": 15,
+        "sha256": "f1ec03cadbfb11e1b9f095bd8ce8882ed0b952ac6c368fb31b26d2fdceedc57c",
+        "byteEqual": true
+      },
+      {
+        "name": "pool-bases",
+        "courses": 8,
+        "sha256": "7aaa2eccdb5f1bc610bcf43ae3eeb5022f6ddf3d15f2c0a2d2af16a4b45acb90",
+        "byteEqual": true
+      }
+    ],
+    "hostSourceSha256": "b9c78cdee4dc32da064827d8d28c0388d2764cc6ece049d42b8f03b1f80fdfa4",
+    "packageFilesSha256": "bd75a8c2a55c01cb01fca09b2ddc011535f1796f02f44472e5e4dd86ef762e8b",
+    "sourceAndPackageUnchanged": true
+  },
+  "sourceGuards": {
+    "faults": 222,
+    "reports": [
+      {
+        "ending": "\n",
+        "sourceFaultsRejected": 111,
+        "dryRunUnchanged": true,
+        "rejectedInputsUnchanged": true,
+        "unrelatedMembersGlobalsAndImportsPreserved": true,
+        "methodSignaturesPreserved": true,
+        "other21ProcCasesAndRiderTailPreserved": true
+      },
+      {
+        "ending": "\r\n",
+        "sourceFaultsRejected": 111,
+        "dryRunUnchanged": true,
+        "rejectedInputsUnchanged": true,
+        "unrelatedMembersGlobalsAndImportsPreserved": true,
+        "methodSignaturesPreserved": true,
+        "other21ProcCasesAndRiderTailPreserved": true
+      }
+    ]
+  },
+  "installedFaults": [
+    {
+      "name": "shield-no-clamp",
+      "target": "runtime",
+      "fixture": "restoration",
+      "detected": true,
+      "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+    },
+    {
+      "name": "shield-dead-gains",
+      "target": "runtime",
+      "fixture": "restoration",
+      "detected": true,
+      "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+    },
+    {
+      "name": "shield-threshold-lost",
+      "target": "runtime",
+      "fixture": "restoration",
+      "detected": true,
+      "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+    },
+    {
+      "name": "poise-overcharge-lost",
+      "target": "runtime",
+      "fixture": "restoration",
+      "detected": true,
+      "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+    },
+    {
+      "name": "event-overflow",
+      "target": "runtime",
+      "fixture": "restoration",
+      "detected": true,
+      "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+    },
+    {
+      "name": "event-tags-copied",
+      "target": "runtime",
+      "fixture": "partial-failure",
+      "detected": true,
+      "logSha256": "e6947eb949b3e6eb8095a003c84188fab53eae6db69bc8281e5791199db8460e"
+    },
+    {
+      "name": "zero-gain-skips-cue-read",
+      "target": "runtime",
+      "fixture": "partial-failure",
+      "detected": true,
+      "logSha256": "7a79aaf89d9c675190b3154bae7b40ae43561e7e114b66b8c01728b41f7c0fc0"
+    },
+    {
+      "name": "proc-wrong-mana-base",
+      "target": "runtime",
+      "fixture": "pool-bases",
+      "detected": true,
+      "logSha256": "e224118d32f92c04a8171c0f9f69acb92fd8dc486ef1bde3d1846bab95343fe5"
+    },
+    {
+      "name": "proc-zero-signals",
+      "target": "runtime",
+      "fixture": "restoration",
+      "detected": true,
+      "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+    },
+    {
+      "name": "proc-delay-reset-lost",
+      "target": "runtime",
+      "fixture": "restoration",
+      "detected": true,
+      "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+    },
+    {
+      "name": "available-mana-ignored",
+      "target": "binding",
+      "fixture": "restoration",
+      "detected": true,
+      "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+    },
+    {
+      "name": "instant-method-selected-late",
+      "target": "binding",
+      "fixture": "invocation",
+      "detected": true,
+      "logSha256": "03f1a1ea7a7d18e5a005359d33fcdbd34040dd4d368a416a1ed8f05045adaa48"
+    },
+    {
+      "name": "instant-consults-custom-call",
+      "target": "binding",
+      "fixture": "invocation",
+      "detected": true,
+      "logSha256": "660e8a25f020409388e89374404d0e3f43bc20bfb1ac066e3bc121aebf05c1e8"
+    },
+    {
+      "name": "feeding-notification-lost",
+      "target": "binding",
+      "fixture": "restoration",
+      "detected": true,
+      "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+    },
+    {
+      "name": "actor-shield-path-disconnected",
+      "target": "actor",
+      "fixture": "world",
+      "detected": true,
+      "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+    },
+    {
+      "name": "actor-poise-blocks-broken",
+      "target": "actor",
+      "fixture": "restoration",
+      "detected": true,
+      "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+    },
+    {
+      "name": "instant-options-lost",
+      "target": "world",
+      "fixture": "partial-failure",
+      "detected": true,
+      "logSha256": "7a79aaf89d9c675190b3154bae7b40ae43561e7e114b66b8c01728b41f7c0fc0"
+    },
+    {
+      "name": "proc-gain-cue-lost",
+      "target": "world",
+      "fixture": "restoration",
+      "detected": true,
+      "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+    }
+  ],
+  "regressions": [
+    {
+      "name": "game-types",
+      "status": 0,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "launcher-types",
+      "status": 0,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "sim-types",
+      "status": 0,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "sim-smoke",
+      "status": 0,
+      "logSha256": "609c66afbc38150a9cc5300d684f96a0555ba9c58592dea7ff4119397c98881e"
+    },
+    {
+      "name": "prior-procs",
+      "status": 0,
+      "logSha256": "ea406849bdfddab1d02a37cfb64256a4866e6c20457ee7f5daf16684e0fa06ae"
+    },
+    {
+      "name": "prior-proc-effects",
+      "status": 0,
+      "logSha256": "90eafa57fbc3d45022d73b694b8c4b5ad9ff75dc1bbb4f9caacdd80017443260"
+    },
+    {
+      "name": "prior-delayed",
+      "status": 0,
+      "logSha256": "e40a8eeed3c9124539e3478394e487431be099f343cdf5676906db47e7a0c3f9"
+    },
+    {
+      "name": "prior-buffs",
+      "status": 0,
+      "logSha256": "4d6666f4b6def1803ccb58b3a60b586ddc1cf28c0bd31b556f82b5d46832a09f"
+    },
+    {
+      "name": "prior-recovery",
+      "status": 0,
+      "logSha256": "3788ee3781c3c0efe597f2fcf7f52f5f75fde88ce958a736d1e1f53cf20e5f10"
+    }
+  ],
+  "publicPreparation": {
+    "source": "Pinned capsule and complete public adapter pipeline",
+    "sourceFiles": 997,
+    "runtimeFiles": 201,
+    "sourceAndRuntimeMatchInitial": true,
+    "logSha256": "3761acaa44eac1befeec0d0a33f4a7bea4a9740f7f6a51027337000c01024d53"
+  },
+  "preservation": {
+    "unchangedPredecessorSourceFiles": 994,
+    "unchangedPredecessorCompiledFiles": 195,
+    "additionalActorFields": 0,
+    "protectedControls": 12,
+    "directAndAliasRefusals": 16,
+    "protectedWriteAttempts": 0,
+    "originalStableFiles": 4112,
+    "reviewedConcurrentUiPaths": 8,
+    "gameRepositoriesPushed": false
+  },
+  "limits": [
+    "Initial archive has been checked; current/final metadata archives require their own installation and acceptance",
+    "Renderer comparison and controlled performance measurements remain pending",
+    "Managed game is still on v0.37 and no game repository is pushed",
+    "Physical devices and complete native-engine packages remain unverified"
+  ]
+}
