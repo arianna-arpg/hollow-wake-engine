@@ -1,0 +1,220 @@
+{
+  "output": "<local>/game-buffs-fwzI1M",
+  "runnerSha256": "b4740722956c4bed568b048e09359686de3f376053f35db2456f08235279672b",
+  "game": "<local>/game",
+  "tooling": "<local>/adapter-tools-WOsE2p",
+  "packageIntegrity": "sha512-ayBg9TCJv5IIQLROGPRkPBr3qtEVHE/uok3zcT/Zjc0KNgaSze2yXKxgOTDGZtTgR0XQYwDHzb/yaWJhqAzGpw==",
+  "readOnly": false,
+  "typesPassed": true,
+  "sourceMapSha256": "7fd69753ef56bbecfed6c0ed1d083ff4bad4bfe6b8fcb8e7e2d742e3306fe110",
+  "runtimeMapSha256": "365e87b86dc1b970ce3e73ba8ea60ba13cabfa093c04fed32fdd98e00ede6c0c",
+  "courses": 40,
+  "repair": {
+    "id": "independent-buff-consumption/v1",
+    "originalCourses": 40,
+    "unchangedCourses": 39,
+    "changedCourses": 1,
+    "fieldEdits": 4,
+    "sourceFixtureSha256": "6b8d51e3ae9137d70086f26a750ad919a21fd37fb39ad3e025a13d627dd036d3",
+    "expectedSha256": "ad11f1686d30313d669187181c3aff19b55a3a9a2f9bbeb47ae49e8d773ca2de"
+  },
+  "results": [
+    {
+      "name": "buff-lifecycle",
+      "courses": 12,
+      "sha256": "ad11f1686d30313d669187181c3aff19b55a3a9a2f9bbeb47ae49e8d773ca2de",
+      "byteEqualToExplicitExpectations": true,
+      "helper": {
+        "runtimeFile": "<local>/export-buff-lifecycle.ts",
+        "originalSha256": "83a4c6153976fa2402f1564c6de973136715b0331597738586484c8908f42e2b",
+        "adaptedSha256": "05ded6640ada0082f7dd223ba1e73960d9048eb2dfbb189c3a2e1e7396841a5e"
+      }
+    },
+    {
+      "name": "buff-edges",
+      "courses": 12,
+      "sha256": "65016e1af17cff87ad6ba9621fd7d4e0ef73282067e0acac439002003ddef569",
+      "byteEqualToExplicitExpectations": true,
+      "helper": {
+        "runtimeFile": "<local>/export-buff-edges.ts",
+        "originalSha256": "1cc53487a8e65a2e8a564d9e5e6b4acc9da6670f97bf2cf9d9ac06ff7138b884",
+        "adaptedSha256": "1cc53487a8e65a2e8a564d9e5e6b4acc9da6670f97bf2cf9d9ac06ff7138b884"
+      }
+    },
+    {
+      "name": "buff-world",
+      "courses": 8,
+      "sha256": "10d2ae7ef093e154d13ed6c1d13fe3694b3f20c3a8cfb792342ece53e2dd948c",
+      "byteEqualToExplicitExpectations": true,
+      "helper": {
+        "runtimeFile": "<local>/export-buff-world.ts",
+        "originalSha256": "19f71e0f0d67258b76a4ce41d87ff6baf414c90bde03ba4e499638a8c5ec4dfd",
+        "adaptedSha256": "19f71e0f0d67258b76a4ce41d87ff6baf414c90bde03ba4e499638a8c5ec4dfd"
+      }
+    },
+    {
+      "name": "buff-callbacks",
+      "courses": 8,
+      "sha256": "8ece930b22c7a4db904350e8433612ebb8359e5e5f0a192e127750c082767468",
+      "byteEqualToExplicitExpectations": true,
+      "helper": {
+        "runtimeFile": "<local>/export-buff-callbacks.ts",
+        "originalSha256": "6b8df86edda766e10e1f73fe942f731f98408cc59ab7c01b5b409c13d53ecf52",
+        "adaptedSha256": "6b8df86edda766e10e1f73fe942f731f98408cc59ab7c01b5b409c13d53ecf52"
+      }
+    }
+  ],
+  "adaptations": [
+    {
+      "helper": "reference/export-buff-lifecycle.ts",
+      "course": "independent-spend-expiry-consistency-diagnostic",
+      "before": "assert.equal(p.buffs.get('one')!.expiries!.length,4)",
+      "after": "assert.equal(p.buffs.get('one')!.expiries!.length,2)"
+    },
+    {
+      "helper": "reference/export-buff-lifecycle.ts",
+      "course": "independent-spend-expiry-consistency-diagnostic",
+      "before": "assert.equal(p.buffs.get('one')!.stacks,3)",
+      "after": "assert.equal(p.buffs.get('one')!.stacks,2)"
+    }
+  ],
+  "hostCases": 8,
+  "hostProbeSha256": "10c2a1118c40e6bdd4bd8d70584b306eab8b285786d429f4fb561332ed2228e1",
+  "hostOutputSha256": "53b4e01cef14fbcdbd283fc95a69019920294cdc0cac28e693d668a07152e409",
+  "installedFaults": [
+    {
+      "name": "duration-scale-ignored",
+      "target": "runtime",
+      "fixture": "buff-lifecycle",
+      "detected": true
+    },
+    {
+      "name": "initial-grant-clipped",
+      "target": "runtime",
+      "fixture": "buff-lifecycle",
+      "detected": true
+    },
+    {
+      "name": "gain-cap-reduced",
+      "target": "runtime",
+      "fixture": "buff-lifecycle",
+      "detected": true
+    },
+    {
+      "name": "gain-queue-omitted",
+      "target": "runtime",
+      "fixture": "buff-edges",
+      "detected": true
+    },
+    {
+      "name": "independent-definition-replaced",
+      "target": "runtime",
+      "fixture": "buff-lifecycle",
+      "detected": true
+    },
+    {
+      "name": "consumed-clocks-retained",
+      "target": "runtime",
+      "fixture": "buff-lifecycle",
+      "detected": true
+    },
+    {
+      "name": "newest-clocks-spent",
+      "target": "runtime",
+      "fixture": "host",
+      "detected": true
+    },
+    {
+      "name": "clock-delta-ignored",
+      "target": "runtime",
+      "fixture": "buff-lifecycle",
+      "detected": true
+    },
+    {
+      "name": "stack-magnitude-ignored",
+      "target": "runtime",
+      "fixture": "buff-lifecycle",
+      "detected": true
+    },
+    {
+      "name": "spend-uses-live-map",
+      "target": "runtime",
+      "fixture": "buff-edges",
+      "detected": true
+    },
+    {
+      "name": "expiry-uses-snapshot",
+      "target": "runtime",
+      "fixture": "buff-edges",
+      "detected": true
+    },
+    {
+      "name": "release-port-omitted",
+      "target": "runtime",
+      "fixture": "buff-callbacks",
+      "detected": true
+    },
+    {
+      "name": "same-actor-reentry-admitted",
+      "target": "runtime",
+      "fixture": "host",
+      "detected": true
+    },
+    {
+      "name": "native-publication-zeroed",
+      "target": "binding",
+      "fixture": "buff-lifecycle",
+      "detected": true
+    },
+    {
+      "name": "release-phase-changed",
+      "target": "binding",
+      "fixture": "buff-callbacks",
+      "detected": true
+    },
+    {
+      "name": "release-count-ignored",
+      "target": "binding",
+      "fixture": "host",
+      "detected": true
+    },
+    {
+      "name": "native-consume-dispatch-bypassed",
+      "target": "binding",
+      "fixture": "host",
+      "detected": true
+    },
+    {
+      "name": "native-spend-count-ignored",
+      "target": "actor",
+      "fixture": "buff-lifecycle",
+      "detected": true
+    },
+    {
+      "name": "timer-delta-ignored",
+      "target": "actor",
+      "fixture": "buff-lifecycle",
+      "detected": true
+    },
+    {
+      "name": "restored-map-ignored",
+      "target": "actor",
+      "fixture": "host",
+      "detected": true
+    },
+    {
+      "name": "empty-spend-allocates-runtime",
+      "target": "actor",
+      "fixture": "host",
+      "detected": true
+    },
+    {
+      "name": "recovery-synchronization-omitted",
+      "target": "actor",
+      "fixture": "buff-edges",
+      "detected": true
+    }
+  ],
+  "allSourceAndRuntimeFilesUnchanged": true,
+  "scope": "Forty installed original comparisons with only four declared repair fields changed, plus eight independent host cases. Renderer and performance acceptance remain required."
+}

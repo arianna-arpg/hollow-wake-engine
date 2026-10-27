@@ -4,9 +4,10 @@ Milestone 41 starts from forty original observations, captured before the SDK
 implementation. The [manifest](../baseline/milestone-forty-one/acceptance.json)
 retains four unchanged helpers and fixtures, including their historical discovery
 wording. Two original runs, a measured v0.35 installation and an independent final
-v0.35 installation reproduce the same bytes. Standalone runtime, installed adapter
-and renderer checks pass. Runtime selection is verified; final package and game
-integration acceptance remain pending.
+v0.35 installation reproduce the same bytes. The [v0.36 acceptance record](../evidence/milestone-forty-one/verification.json)
+connects the selected runtime, installed comparisons, renderer observations and
+preserved managed-game integration. Exact final archive installation is recorded
+separately. This remains an alpha capability within an incomplete SDK.
 
 The boundary covers named grants, shared and independent clocks, modifier sources,
 event-gated consumption, explicit removal and timer-phase expiry. Recipient and
@@ -237,7 +238,8 @@ in these runs. The prior order-sensitive observations are still retained. All
 graphs share a process and instrumented call sites; those measurements cannot
 establish an overall speed improvement for an uninstrumented installed game.
 Deep callback nesting is checked for behavior and owner collection, not timed.
-Final milestone acceptance and physical-device validation remain pending.
+Final archive and managed-game acceptance are recorded separately;
+physical-device validation remains pending.
 
 The subsequent [live-clock experiment](../baseline/milestone-forty-one/timer-optimization-plan.json)
 deferred compaction bookkeeping until a clock expired. Four additional tests cover
@@ -274,4 +276,5 @@ instrumentation prevent pooling the runs into a general speed claim.
 Those costs are accepted explicitly for this alpha boundary, preserving live
 definition observations, callback order, publication and bounded work. Further
 optimization remains subject to allocation, whole-frame and device measurements.
-Final packaging/integration and the broader SDK completion requirements remain open.
+Final archive and game integration evidence is linked above. The broader SDK
+completion requirements remain open.

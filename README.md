@@ -9,6 +9,21 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
+Version 0.36 adds optional [buff lifecycle and content validation](docs/buffs.md):
+grants, shared and independent clocks, stat publication, event-gated consumption,
+removal and expiry. Host ports retain native cue and callback behavior. The
+[acceptance record](evidence/milestone-forty-one/verification.json) includes forty
+original courses, one explicitly specified independent-consumption correction,
+fourteen matching renderer observations and a preserved local game integration.
+
+Lazy reentry bookkeeping saves 96 retained bytes per used Actor against the first
+extraction. Remaining grant and timer overhead is reported against v0.35. A later
+timer experiment missed its prespecified adoption threshold and was reverted;
+its tests and measurements remain available. These desktop results establish
+neither device performance nor a general speedup. All eleven partial system
+families remain partial; native-engine packages and hardware acceptance still
+require work.
+
 Version 0.35 adds optional [delayed effects](docs/delayed-effects.md): scheduling,
 ordered delivery, validated effect content and cancellation across zone changes.
 The installed game adapter preserves 48 original courses with six explicitly

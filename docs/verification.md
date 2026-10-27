@@ -1,5 +1,35 @@
 # Verification and reproduction
 
+Version 0.36 adds `reference:buffs`, `adapter:buff-source`, `adapter:buffs`,
+`adapter:buff-ui`, `test:buff-package`, `test:buff-mutations` and `benchmark:buffs`.
+The [buff contract](buffs.md) and [M41 evidence](../evidence/milestone-forty-one/verification.json)
+record 562 SDK tests, forty original courses, eight additional host cases,
+112 source-guard faults, 31 runtime faults and 22 installed faults. One synthetic
+independent-consumption course has four explicitly repaired fields; the other
+39 courses remain unchanged. All 183 predecessor runtime files are unchanged.
+The two optional modules total 16,383 bytes within their 18 KiB allowance.
+
+The selected runtime passes fourteen byte-equal buff renderer observations,
+ten prior proc stages and nine prior delayed stages. The delayed comparison keeps
+its previously specified ambient-random limitation. None is pixel-equivalence or
+physical-input evidence. Eleven managed-game checks include six read-only
+installed comparisons, full types, native defenses and cues, smoke, and an audit
+of original work. The managed copy retains all 1,866 other tracked files, its four
+existing bounty methods and its independent prior dependency tree. Its older
+source differs from the capture game; that relationship is recorded explicitly.
+Concurrent original-game UI edits are observed and preserved separately, without
+claiming byte identity for files actively edited elsewhere. No game is pushed.
+
+Use `adapter:buffs -- --location <location.json>` for a read-only comparison.
+Fault injection requires `--faults` on a disposable candidate; retained controls
+and source/package aliases are rejected. Six order-varied comparisons retain
+5,200 timed samples and 672 heap observations across three experimental stages.
+The selected reentry implementation saves 96 retained bytes per used Actor versus
+the first extraction. A timer experiment failed its prespecified threshold and
+was restored; its four regression tests include 510 expiry-position combinations.
+Remaining native-versus-SDK overhead is explicit. Allocation volume, general FPS,
+physical Steam Deck/mobile results and full native-engine packages remain open.
+
 Version 0.35 adds `reference:delayed-effects`, `adapter:delayed-source`,
 `adapter:delayed`, `adapter:delayed-ui`, `test:delayed-package` and
 `benchmark:delayed`. The [contract](delayed-effects.md) and
