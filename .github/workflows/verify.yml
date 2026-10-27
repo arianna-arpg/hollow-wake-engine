@@ -95,6 +95,7 @@ jobs:
       - run: npm run adapter:procs-source
       - run: npm run adapter:effects-source
       - run: npm run adapter:delayed-source
+      - run: npm run adapter:buff-source
       - run: npm run adapter:ammunition-source
       - run: npm run reference:install
       - run: npm run reference:verify
@@ -131,6 +132,7 @@ jobs:
       - run: npm run reference:procs
       - run: npm run reference:proc-effects
       - run: npm run reference:delayed-effects
+      - run: npm run reference:buffs
       - run: npm run reference:ammunition
       - run: node --import tsx balance/probe_passiverefund.ts
         working-directory: .reference
@@ -171,6 +173,7 @@ jobs:
       - run: npm run adapter:procs
       - run: npm run adapter:effects
       - run: npm run adapter:delayed -- --faults
+      - run: npm run adapter:buffs -- --faults
       - run: npm run adapter:ammunition
       - run: npm run check
         working-directory: .artifacts/game-adapter
@@ -251,6 +254,10 @@ jobs:
             .artifacts/resource-overlay-verification.json
             .artifacts/game-resource-verification.json
             .artifacts/game-resource-event-verification.json
+            .artifacts/buff-overlay-verification.json
+            .artifacts/buff-reference-verification.json
+            .artifacts/game-buff-verification.json
+            .artifacts/game-buffs-*/*.txt
             .artifacts/resource-event-overlay-verification.json
             .artifacts/game-charged-casting-verification.json
             .artifacts/game-interactive-casting-verification.json
