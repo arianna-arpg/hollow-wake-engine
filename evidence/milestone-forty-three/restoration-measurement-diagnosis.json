@@ -1,0 +1,998 @@
+{
+  "schemaVersion": 1,
+  "milestone": 43,
+  "decision": "restoration-measurement-diagnosis/v1",
+  "status": "diagnostic-collection-completed",
+  "optimizationAccepted": false,
+  "plan": "baseline/milestone-forty-three/measurement-diagnosis-plan.json",
+  "planSha256": "2acd71b232b11e4d47efb4cb6c436dd19f06ec9179d7e2872d47aeac77ae01ca",
+  "driver": "scripts/diagnose-restoration-timing.mjs",
+  "driverSha256": "157bedd34ca872518d89e13de7c530a3741981f3e25505d451d4985ee332475c",
+  "acceptedHelperSha256": "49ad02db0c680b35a21a0cc918441da666e5553efd9ad18b3142980f504be59f",
+  "acceptedPlanSha256": "bb975f3a20b137cfd6cdb23f28c26b78a87fa088928a1de11d4037b850889fdc",
+  "expectedOutcomesSha256": "3eb63e36205f8ccd7a680ad725ce1b46e9d6bffd1db69f322f388c40f4581a0a",
+  "calibration": {
+    "file": "restoration-cpu-calibration.json",
+    "sha256": "1a965c67d0aed24503e851b3c4cfc56ad8aaf034f185801b478da1f0157948ca",
+    "passed": true,
+    "busyMedianThreadCpuMs": 203,
+    "idleMedianThreadCpuMs": 0,
+    "observedCounterIncrementsMicroseconds": {
+      "process": [
+        0,
+        15000,
+        16000
+      ],
+      "thread": [
+        0,
+        15000,
+        16000
+      ]
+    }
+  },
+  "inputIdentity": {
+    "archiveSha256": "4ee0bef42b3937fe52e25ce0a377a3e9339498980e0388dfdb8fc4dddc19b4d8",
+    "sourceFiles": 997,
+    "packageFiles": 287,
+    "runtimeFiles": 201,
+    "sourceMapSha256": "b9c78cdee4dc32da064827d8d28c0388d2764cc6ece049d42b8f03b1f80fdfa4",
+    "runtimeMapSha256": "49f4a5637979a46c3770e315d13a415508446f7654db0f40bf3fe67a23150189",
+    "wholePackageMapSha256": "bd75a8c2a55c01cb01fca09b2ddc011535f1796f02f44472e5e4dd86ef762e8b",
+    "independentInstallations": true,
+    "identicalSourceAndPackage": true
+  },
+  "helpers": {
+    "plain": {
+      "derivedSourceSha256": "49ad02db0c680b35a21a0cc918441da666e5553efd9ad18b3142980f504be59f",
+      "emittedHelperSha256": "f4f3ac0e03c30d90c0e480de0f040a597166e287f3bf795501fe6594b3a3dab7"
+    },
+    "cpu": {
+      "derivedSourceSha256": "2a0c8b8dabcdf207fe27c14b561cfdab3f9f1e0194cc1c712cba96f1976b9809",
+      "emittedHelperSha256": "b05aa3b331cfb411e8fa5506284a848325e6b7fabf62dce17e032eb7b878516a"
+    }
+  },
+  "runs": [
+    {
+      "mode": "plain",
+      "graph": "A",
+      "pair": 1,
+      "number": 1,
+      "file": "restoration-diagnosis-1-plain-A.json",
+      "sha256": "632c3693d9e9c0c607852af24c011f0ca4d77ab0889a51cbc57ce5d7ad2899d2",
+      "logSha256": "49129d59fb8488409ab80f5e74e5788994a2e68c4192e73ac08fc85bcdf12559"
+    },
+    {
+      "mode": "plain",
+      "graph": "B",
+      "pair": 1,
+      "number": 2,
+      "file": "restoration-diagnosis-2-plain-B.json",
+      "sha256": "12589b6098d383fc0c6d0eeed3433c5edc2f2bdf0062c6bd52cd3127ef06d7ad",
+      "logSha256": "49129d59fb8488409ab80f5e74e5788994a2e68c4192e73ac08fc85bcdf12559"
+    },
+    {
+      "mode": "cpu",
+      "graph": "A",
+      "pair": 1,
+      "number": 3,
+      "file": "restoration-diagnosis-3-cpu-A.json",
+      "sha256": "19c3089175c2318d7676931b23f0a24c3f720f0367d9105e2e548400436b8f56",
+      "logSha256": "49129d59fb8488409ab80f5e74e5788994a2e68c4192e73ac08fc85bcdf12559"
+    },
+    {
+      "mode": "cpu",
+      "graph": "B",
+      "pair": 1,
+      "number": 4,
+      "file": "restoration-diagnosis-4-cpu-B.json",
+      "sha256": "f71924885bc730fd23aecfb77e68b3b3a7c2903c51c6ba091416e1d537036090",
+      "logSha256": "49129d59fb8488409ab80f5e74e5788994a2e68c4192e73ac08fc85bcdf12559"
+    },
+    {
+      "mode": "cpu",
+      "graph": "B",
+      "pair": 2,
+      "number": 5,
+      "file": "restoration-diagnosis-5-cpu-B.json",
+      "sha256": "c4285adaf5d3513e1fa90d0efce3414bd29bb585fb59d3ef20dbd974b6166bba",
+      "logSha256": "49129d59fb8488409ab80f5e74e5788994a2e68c4192e73ac08fc85bcdf12559"
+    },
+    {
+      "mode": "cpu",
+      "graph": "A",
+      "pair": 2,
+      "number": 6,
+      "file": "restoration-diagnosis-6-cpu-A.json",
+      "sha256": "f3e8bc194ce1de36a35bf4e636901a05a10442f455752797468d86aa2be98f4b",
+      "logSha256": "49129d59fb8488409ab80f5e74e5788994a2e68c4192e73ac08fc85bcdf12559"
+    },
+    {
+      "mode": "plain",
+      "graph": "B",
+      "pair": 2,
+      "number": 7,
+      "file": "restoration-diagnosis-7-plain-B.json",
+      "sha256": "70857be3ec1e53acc378e63bec082757f411cca733d720d305729c5f42a0def4",
+      "logSha256": "49129d59fb8488409ab80f5e74e5788994a2e68c4192e73ac08fc85bcdf12559"
+    },
+    {
+      "mode": "plain",
+      "graph": "A",
+      "pair": 2,
+      "number": 8,
+      "file": "restoration-diagnosis-8-plain-A.json",
+      "sha256": "dd67f35489df2644c865d3342f527026ad20095effdbdcd8dc2df1c653955c71",
+      "logSha256": "49129d59fb8488409ab80f5e74e5788994a2e68c4192e73ac08fc85bcdf12559"
+    }
+  ],
+  "measuredSamples": 1200,
+  "acceptedOutcomesMatched": true,
+  "inputsUnchanged": true,
+  "retainedControlsPreserved": 12,
+  "comparabilityIndicators": [
+    {
+      "mode": "plain",
+      "pair": 1,
+      "caseCount": 6,
+      "medianDifferencesAboveFivePercent": 5,
+      "p95DifferencesAboveTenPercent": 4
+    },
+    {
+      "mode": "plain",
+      "pair": 2,
+      "caseCount": 6,
+      "medianDifferencesAboveFivePercent": 2,
+      "p95DifferencesAboveTenPercent": 3
+    },
+    {
+      "mode": "cpu",
+      "pair": 1,
+      "caseCount": 6,
+      "medianDifferencesAboveFivePercent": 6,
+      "p95DifferencesAboveTenPercent": 5
+    },
+    {
+      "mode": "cpu",
+      "pair": 2,
+      "caseCount": 6,
+      "medianDifferencesAboveFivePercent": 5,
+      "p95DifferencesAboveTenPercent": 4
+    }
+  ],
+  "indicatorMeaning": "Symmetric differences around zero for identical code; these describe variability and do not change the optimization acceptance rules.",
+  "pairedComparisons": [
+    {
+      "mode": "plain",
+      "pair": 1,
+      "order": [
+        "A",
+        "B"
+      ],
+      "cases": [
+        {
+          "name": "shield-positive",
+          "actors": 1024,
+          "AMedianMs": 2.7564000000002125,
+          "BMedianMs": 3.3607000000010885,
+          "medianBRelativeToAPercent": 21.923523436396366,
+          "AP95Ms": 3.685699999999997,
+          "BP95Ms": 3.7211000000006607,
+          "p95BRelativeToAPercent": 0.9604688390445038
+        },
+        {
+          "name": "shield-positive",
+          "actors": 4096,
+          "AMedianMs": 16.305599999999686,
+          "BMedianMs": 11.732099999997445,
+          "medianBRelativeToAPercent": -28.048645864011934,
+          "AP95Ms": 38.62189999999828,
+          "BP95Ms": 16.93709999999919,
+          "p95BRelativeToAPercent": -56.14638326959589
+        },
+        {
+          "name": "shield-full",
+          "actors": 1024,
+          "AMedianMs": 2.7401000000027125,
+          "BMedianMs": 3.4781000000002678,
+          "medianBRelativeToAPercent": 26.933323601212543,
+          "AP95Ms": 4.342400000001362,
+          "BP95Ms": 4.240900000004331,
+          "p95BRelativeToAPercent": -2.337417096467387
+        },
+        {
+          "name": "shield-full",
+          "actors": 4096,
+          "AMedianMs": 12.960299999998824,
+          "BMedianMs": 13.8978000000061,
+          "medianBRelativeToAPercent": 7.233628851240792,
+          "AP95Ms": 20.49199999999837,
+          "BP95Ms": 26.569600000002538,
+          "p95BRelativeToAPercent": 29.65840327935121
+        },
+        {
+          "name": "poise-positive",
+          "actors": 1024,
+          "AMedianMs": 3.668999999994412,
+          "BMedianMs": 3.8211000000010245,
+          "medianBRelativeToAPercent": 4.145543745076163,
+          "AP95Ms": 4.7960000000020955,
+          "BP95Ms": 5.457600000008824,
+          "p95BRelativeToAPercent": 13.794829024321098
+        },
+        {
+          "name": "poise-positive",
+          "actors": 4096,
+          "AMedianMs": 16.08179999999993,
+          "BMedianMs": 18.296100000006845,
+          "medianBRelativeToAPercent": 13.768981084250044,
+          "AP95Ms": 20.441299999991315,
+          "BP95Ms": 24.474399999991874,
+          "p95BRelativeToAPercent": 19.73015414871986
+        }
+      ]
+    },
+    {
+      "mode": "plain",
+      "pair": 2,
+      "order": [
+        "B",
+        "A"
+      ],
+      "cases": [
+        {
+          "name": "shield-positive",
+          "actors": 1024,
+          "AMedianMs": 2.8508999999994558,
+          "BMedianMs": 2.7203000000008615,
+          "medianBRelativeToAPercent": -4.581009505721678,
+          "AP95Ms": 3.3017999999992753,
+          "BP95Ms": 3.2726999999995314,
+          "p95BRelativeToAPercent": -0.8813374522911865
+        },
+        {
+          "name": "shield-positive",
+          "actors": 4096,
+          "AMedianMs": 10.999900000002526,
+          "BMedianMs": 12.445700000000215,
+          "medianBRelativeToAPercent": 13.143755852301897,
+          "AP95Ms": 13.85109999999986,
+          "BP95Ms": 17.422600000001694,
+          "p95BRelativeToAPercent": 25.784955707502434
+        },
+        {
+          "name": "shield-full",
+          "actors": 1024,
+          "AMedianMs": 2.7141000000046915,
+          "BMedianMs": 2.646200000002864,
+          "medianBRelativeToAPercent": -2.501750119808055,
+          "AP95Ms": 3.636500000000524,
+          "BP95Ms": 3.1137000000016997,
+          "p95BRelativeToAPercent": -14.376460882682496
+        },
+        {
+          "name": "shield-full",
+          "actors": 4096,
+          "AMedianMs": 10.669499999996333,
+          "BMedianMs": 10.288399999997637,
+          "medianBRelativeToAPercent": -3.5718637236873962,
+          "AP95Ms": 12.451200000003155,
+          "BP95Ms": 12.465400000000955,
+          "p95BRelativeToAPercent": 0.11404523257032562
+        },
+        {
+          "name": "poise-positive",
+          "actors": 1024,
+          "AMedianMs": 3.586699999999837,
+          "BMedianMs": 3.7868000000016764,
+          "medianBRelativeToAPercent": 5.578944433653454,
+          "AP95Ms": 3.77730000000156,
+          "BP95Ms": 3.990699999994831,
+          "p95BRelativeToAPercent": 5.649538029629175
+        },
+        {
+          "name": "poise-positive",
+          "actors": 4096,
+          "AMedianMs": 15.287599999996019,
+          "BMedianMs": 15.790000000008149,
+          "medianBRelativeToAPercent": 3.286323556426529,
+          "AP95Ms": 16.763300000005984,
+          "BP95Ms": 19.65129999999772,
+          "p95BRelativeToAPercent": 17.2281114099891
+        }
+      ]
+    },
+    {
+      "mode": "cpu",
+      "pair": 1,
+      "order": [
+        "A",
+        "B"
+      ],
+      "cases": [
+        {
+          "name": "shield-positive",
+          "actors": 1024,
+          "AMedianMs": 2.6401999999998225,
+          "BMedianMs": 3.4241000000001804,
+          "medianBRelativeToAPercent": 29.6909325051288,
+          "AP95Ms": 3.787499999998545,
+          "BP95Ms": 4.180099999999584,
+          "p95BRelativeToAPercent": 10.365676567688187
+        },
+        {
+          "name": "shield-positive",
+          "actors": 4096,
+          "AMedianMs": 11.489000000001397,
+          "BMedianMs": 50.620600000002014,
+          "medianBRelativeToAPercent": 340.60057446249334,
+          "AP95Ms": 19.784100000000763,
+          "BP95Ms": 74.0070999999989,
+          "p95BRelativeToAPercent": 274.07362477947464
+        },
+        {
+          "name": "shield-full",
+          "actors": 1024,
+          "AMedianMs": 2.701500000002852,
+          "BMedianMs": 5.08640000000014,
+          "medianBRelativeToAPercent": 88.2805848600692,
+          "AP95Ms": 4.2413999999989755,
+          "BP95Ms": 5.715400000000955,
+          "p95BRelativeToAPercent": 34.75267600326155
+        },
+        {
+          "name": "shield-full",
+          "actors": 4096,
+          "AMedianMs": 16.09360000000015,
+          "BMedianMs": 54.32079999999405,
+          "medianBRelativeToAPercent": 237.5304468856784,
+          "AP95Ms": 30.60859999999957,
+          "BP95Ms": 67.5376000000033,
+          "p95BRelativeToAPercent": 120.64909861935615
+        },
+        {
+          "name": "poise-positive",
+          "actors": 1024,
+          "AMedianMs": 4.531800000011572,
+          "BMedianMs": 5.5856000000057975,
+          "medianBRelativeToAPercent": 23.253453373748513,
+          "AP95Ms": 6.079700000002049,
+          "BP95Ms": 6.319099999993341,
+          "p95BRelativeToAPercent": 3.9376942939818083
+        },
+        {
+          "name": "poise-positive",
+          "actors": 4096,
+          "AMedianMs": 20.49889999999141,
+          "BMedianMs": 51.11830000000191,
+          "medianBRelativeToAPercent": 149.37094185553045,
+          "AP95Ms": 26.005799999999,
+          "BP95Ms": 72.0344999999943,
+          "p95BRelativeToAPercent": 176.99397826637545
+        }
+      ]
+    },
+    {
+      "mode": "cpu",
+      "pair": 2,
+      "order": [
+        "B",
+        "A"
+      ],
+      "cases": [
+        {
+          "name": "shield-positive",
+          "actors": 1024,
+          "AMedianMs": 2.831500000000233,
+          "BMedianMs": 2.5689000000002125,
+          "medianBRelativeToAPercent": -9.274236270527947,
+          "AP95Ms": 4.385200000000623,
+          "BP95Ms": 3.0194999999985157,
+          "p95BRelativeToAPercent": -31.143391407505085
+        },
+        {
+          "name": "shield-positive",
+          "actors": 4096,
+          "AMedianMs": 10.452400000001944,
+          "BMedianMs": 18.496499999997468,
+          "medianBRelativeToAPercent": 76.95935861614585,
+          "AP95Ms": 18.46860000000015,
+          "BP95Ms": 45.90660000000207,
+          "p95BRelativeToAPercent": 148.56567362984578
+        },
+        {
+          "name": "shield-full",
+          "actors": 1024,
+          "AMedianMs": 2.5753999999942607,
+          "BMedianMs": 2.612300000000687,
+          "medianBRelativeToAPercent": 1.4327871401144776,
+          "AP95Ms": 4.039899999996123,
+          "BP95Ms": 3.51929999999993,
+          "p95BRelativeToAPercent": -12.886457585501942
+        },
+        {
+          "name": "shield-full",
+          "actors": 4096,
+          "AMedianMs": 9.749199999998382,
+          "BMedianMs": 11.444000000003143,
+          "medianBRelativeToAPercent": 17.383990481321977,
+          "AP95Ms": 24.896600000000035,
+          "BP95Ms": 25.531499999997322,
+          "p95BRelativeToAPercent": 2.5501474096755627
+        },
+        {
+          "name": "poise-positive",
+          "actors": 1024,
+          "AMedianMs": 3.9152999999932945,
+          "BMedianMs": 4.14440000000468,
+          "medianBRelativeToAPercent": 5.851403468745131,
+          "AP95Ms": 5.21919999999227,
+          "BP95Ms": 5.6071999999985565,
+          "p95BRelativeToAPercent": 7.434089515766029
+        },
+        {
+          "name": "poise-positive",
+          "actors": 4096,
+          "AMedianMs": 17.866399999998976,
+          "BMedianMs": 23.91920000000391,
+          "medianBRelativeToAPercent": 33.878117583874115,
+          "AP95Ms": 22.658500000005006,
+          "BP95Ms": 37.22859999998764,
+          "p95BRelativeToAPercent": 64.30302094127771
+        }
+      ]
+    }
+  ],
+  "crossRunComparisons": [
+    {
+      "mode": "plain",
+      "graph": "A",
+      "cases": [
+        {
+          "name": "shield-positive",
+          "actors": 1024,
+          "mediansMs": [
+            2.7564000000002125,
+            2.8508999999994558
+          ],
+          "run2RelativeToRun1Percent": 3.428384849776367
+        },
+        {
+          "name": "shield-positive",
+          "actors": 4096,
+          "mediansMs": [
+            16.305599999999686,
+            10.999900000002526
+          ],
+          "run2RelativeToRun1Percent": -32.53912766164546
+        },
+        {
+          "name": "shield-full",
+          "actors": 1024,
+          "mediansMs": [
+            2.7401000000027125,
+            2.7141000000046915
+          ],
+          "run2RelativeToRun1Percent": -0.9488704791064229
+        },
+        {
+          "name": "shield-full",
+          "actors": 4096,
+          "mediansMs": [
+            12.960299999998824,
+            10.669499999996333
+          ],
+          "run2RelativeToRun1Percent": -17.67551677046596
+        },
+        {
+          "name": "poise-positive",
+          "actors": 1024,
+          "mediansMs": [
+            3.668999999994412,
+            3.586699999999837
+          ],
+          "run2RelativeToRun1Percent": -2.243118015663681
+        },
+        {
+          "name": "poise-positive",
+          "actors": 4096,
+          "mediansMs": [
+            16.08179999999993,
+            15.287599999996019
+          ],
+          "run2RelativeToRun1Percent": -4.9385019090146365
+        }
+      ]
+    },
+    {
+      "mode": "plain",
+      "graph": "B",
+      "cases": [
+        {
+          "name": "shield-positive",
+          "actors": 1024,
+          "mediansMs": [
+            3.3607000000010885,
+            2.7203000000008615
+          ],
+          "run2RelativeToRun1Percent": -19.055553902461376
+        },
+        {
+          "name": "shield-positive",
+          "actors": 4096,
+          "mediansMs": [
+            11.732099999997445,
+            12.445700000000215
+          ],
+          "run2RelativeToRun1Percent": 6.082457531072238
+        },
+        {
+          "name": "shield-full",
+          "actors": 1024,
+          "mediansMs": [
+            3.4781000000002678,
+            2.646200000002864
+          ],
+          "run2RelativeToRun1Percent": -23.91823121811736
+        },
+        {
+          "name": "shield-full",
+          "actors": 4096,
+          "mediansMs": [
+            13.8978000000061,
+            10.288399999997637
+          ],
+          "run2RelativeToRun1Percent": -25.97101699554519
+        },
+        {
+          "name": "poise-positive",
+          "actors": 1024,
+          "mediansMs": [
+            3.8211000000010245,
+            3.7868000000016764
+          ],
+          "run2RelativeToRun1Percent": -0.8976472743277841
+        },
+        {
+          "name": "poise-positive",
+          "actors": 4096,
+          "mediansMs": [
+            18.296100000006845,
+            15.790000000008149
+          ],
+          "run2RelativeToRun1Percent": -13.697454648792684
+        }
+      ]
+    },
+    {
+      "mode": "cpu",
+      "graph": "A",
+      "cases": [
+        {
+          "name": "shield-positive",
+          "actors": 1024,
+          "mediansMs": [
+            2.6401999999998225,
+            2.831500000000233
+          ],
+          "run2RelativeToRun1Percent": 7.245663207348807
+        },
+        {
+          "name": "shield-positive",
+          "actors": 4096,
+          "mediansMs": [
+            11.489000000001397,
+            10.452400000001944
+          ],
+          "run2RelativeToRun1Percent": -9.022543302283282
+        },
+        {
+          "name": "shield-full",
+          "actors": 1024,
+          "mediansMs": [
+            2.701500000002852,
+            2.5753999999942607
+          ],
+          "run2RelativeToRun1Percent": -4.667777161149667
+        },
+        {
+          "name": "shield-full",
+          "actors": 4096,
+          "mediansMs": [
+            16.09360000000015,
+            9.749199999998382
+          ],
+          "run2RelativeToRun1Percent": -39.421881990367034
+        },
+        {
+          "name": "poise-positive",
+          "actors": 1024,
+          "mediansMs": [
+            4.531800000011572,
+            3.9152999999932945
+          ],
+          "run2RelativeToRun1Percent": -13.603866013873144
+        },
+        {
+          "name": "poise-positive",
+          "actors": 4096,
+          "mediansMs": [
+            20.49889999999141,
+            17.866399999998976
+          ],
+          "run2RelativeToRun1Percent": -12.84215250571268
+        }
+      ]
+    },
+    {
+      "mode": "cpu",
+      "graph": "B",
+      "cases": [
+        {
+          "name": "shield-positive",
+          "actors": 1024,
+          "mediansMs": [
+            3.4241000000001804,
+            2.5689000000002125
+          ],
+          "run2RelativeToRun1Percent": -24.97590607750717
+        },
+        {
+          "name": "shield-positive",
+          "actors": 4096,
+          "mediansMs": [
+            50.620600000002014,
+            18.496499999997468
+          ],
+          "run2RelativeToRun1Percent": -63.460527927372
+        },
+        {
+          "name": "shield-full",
+          "actors": 1024,
+          "mediansMs": [
+            5.08640000000014,
+            2.612300000000687
+          ],
+          "run2RelativeToRun1Percent": -48.64147530668813
+        },
+        {
+          "name": "shield-full",
+          "actors": 4096,
+          "mediansMs": [
+            54.32079999999405,
+            11.444000000003143
+          ],
+          "run2RelativeToRun1Percent": -78.93256358521157
+        },
+        {
+          "name": "poise-positive",
+          "actors": 1024,
+          "mediansMs": [
+            5.5856000000057975,
+            4.14440000000468
+          ],
+          "run2RelativeToRun1Percent": -25.802062446283692
+        },
+        {
+          "name": "poise-positive",
+          "actors": 4096,
+          "mediansMs": [
+            51.11830000000191,
+            23.91920000000391
+          ],
+          "run2RelativeToRun1Percent": -53.208146593288475
+        }
+      ]
+    }
+  ],
+  "cpuAggregates": [
+    {
+      "number": 3,
+      "graph": "A",
+      "pair": 1,
+      "cases": [
+        {
+          "name": "shield-positive",
+          "actors": 1024,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 70.87729999998919,
+          "sumRecordedThreadCpuMs": 94,
+          "sumRecordedProcessCpuMs": 468,
+          "zeroThreadReadings": 19,
+          "zeroProcessReadings": 19
+        },
+        {
+          "name": "shield-positive",
+          "actors": 4096,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 322.91530000000057,
+          "sumRecordedThreadCpuMs": 294,
+          "sumRecordedProcessCpuMs": 858,
+          "zeroThreadReadings": 6,
+          "zeroProcessReadings": 6
+        },
+        {
+          "name": "shield-full",
+          "actors": 1024,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 73.13270000000193,
+          "sumRecordedThreadCpuMs": 111,
+          "sumRecordedProcessCpuMs": 546,
+          "zeroThreadReadings": 18,
+          "zeroProcessReadings": 18
+        },
+        {
+          "name": "shield-full",
+          "actors": 4096,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 429.27539999999135,
+          "sumRecordedThreadCpuMs": 404,
+          "sumRecordedProcessCpuMs": 1092,
+          "zeroThreadReadings": 3,
+          "zeroProcessReadings": 3
+        },
+        {
+          "name": "poise-positive",
+          "actors": 1024,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 119.00490000002901,
+          "sumRecordedThreadCpuMs": 91,
+          "sumRecordedProcessCpuMs": 468,
+          "zeroThreadReadings": 19,
+          "zeroProcessReadings": 19
+        },
+        {
+          "name": "poise-positive",
+          "actors": 4096,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 523.4800000000541,
+          "sumRecordedThreadCpuMs": 532,
+          "sumRecordedProcessCpuMs": 1155,
+          "zeroThreadReadings": 0,
+          "zeroProcessReadings": 0
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "graph": "B",
+      "pair": 1,
+      "cases": [
+        {
+          "name": "shield-positive",
+          "actors": 1024,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 88.30219999998735,
+          "sumRecordedThreadCpuMs": 63,
+          "sumRecordedProcessCpuMs": 312,
+          "zeroThreadReadings": 21,
+          "zeroProcessReadings": 21
+        },
+        {
+          "name": "shield-positive",
+          "actors": 4096,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 993.0896000000066,
+          "sumRecordedThreadCpuMs": 951,
+          "sumRecordedProcessCpuMs": 1642,
+          "zeroThreadReadings": 3,
+          "zeroProcessReadings": 3
+        },
+        {
+          "name": "shield-full",
+          "actors": 1024,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 121.09110000001237,
+          "sumRecordedThreadCpuMs": 157,
+          "sumRecordedProcessCpuMs": 861,
+          "zeroThreadReadings": 15,
+          "zeroProcessReadings": 14
+        },
+        {
+          "name": "shield-full",
+          "actors": 4096,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 1374.1393000000025,
+          "sumRecordedThreadCpuMs": 1362,
+          "sumRecordedProcessCpuMs": 2297,
+          "zeroThreadReadings": 0,
+          "zeroProcessReadings": 0
+        },
+        {
+          "name": "poise-positive",
+          "actors": 1024,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 131.7262999999657,
+          "sumRecordedThreadCpuMs": 110,
+          "sumRecordedProcessCpuMs": 547,
+          "zeroThreadReadings": 18,
+          "zeroProcessReadings": 18
+        },
+        {
+          "name": "poise-positive",
+          "actors": 4096,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 1044.0771999999852,
+          "sumRecordedThreadCpuMs": 1109,
+          "sumRecordedProcessCpuMs": 1921,
+          "zeroThreadReadings": 0,
+          "zeroProcessReadings": 0
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "graph": "B",
+      "pair": 2,
+      "cases": [
+        {
+          "name": "shield-positive",
+          "actors": 1024,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 65.5072000000082,
+          "sumRecordedThreadCpuMs": 30,
+          "sumRecordedProcessCpuMs": 156,
+          "zeroThreadReadings": 23,
+          "zeroProcessReadings": 23
+        },
+        {
+          "name": "shield-positive",
+          "actors": 4096,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 615.4629999999997,
+          "sumRecordedThreadCpuMs": 624,
+          "sumRecordedProcessCpuMs": 1628,
+          "zeroThreadReadings": 1,
+          "zeroProcessReadings": 1
+        },
+        {
+          "name": "shield-full",
+          "actors": 1024,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 69.44839999998658,
+          "sumRecordedThreadCpuMs": 46,
+          "sumRecordedProcessCpuMs": 234,
+          "zeroThreadReadings": 22,
+          "zeroProcessReadings": 22
+        },
+        {
+          "name": "shield-full",
+          "actors": 4096,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 320.11149999999907,
+          "sumRecordedThreadCpuMs": 263,
+          "sumRecordedProcessCpuMs": 830,
+          "zeroThreadReadings": 10,
+          "zeroProcessReadings": 10
+        },
+        {
+          "name": "poise-positive",
+          "actors": 1024,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 109.91280000003462,
+          "sumRecordedThreadCpuMs": 79,
+          "sumRecordedProcessCpuMs": 469,
+          "zeroThreadReadings": 20,
+          "zeroProcessReadings": 19
+        },
+        {
+          "name": "poise-positive",
+          "actors": 4096,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 610.8012999999919,
+          "sumRecordedThreadCpuMs": 623,
+          "sumRecordedProcessCpuMs": 1378,
+          "zeroThreadReadings": 0,
+          "zeroProcessReadings": 0
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "graph": "A",
+      "pair": 2,
+      "cases": [
+        {
+          "name": "shield-positive",
+          "actors": 1024,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 77.18629999999575,
+          "sumRecordedThreadCpuMs": 170,
+          "sumRecordedProcessCpuMs": 873,
+          "zeroThreadReadings": 14,
+          "zeroProcessReadings": 14
+        },
+        {
+          "name": "shield-positive",
+          "actors": 4096,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 332.9986000000172,
+          "sumRecordedThreadCpuMs": 359,
+          "sumRecordedProcessCpuMs": 1359,
+          "zeroThreadReadings": 5,
+          "zeroProcessReadings": 5
+        },
+        {
+          "name": "shield-full",
+          "actors": 1024,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 70.23619999999937,
+          "sumRecordedThreadCpuMs": 79,
+          "sumRecordedProcessCpuMs": 390,
+          "zeroThreadReadings": 20,
+          "zeroProcessReadings": 20
+        },
+        {
+          "name": "shield-full",
+          "actors": 4096,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 290.9420999999784,
+          "sumRecordedThreadCpuMs": 330,
+          "sumRecordedProcessCpuMs": 1144,
+          "zeroThreadReadings": 5,
+          "zeroProcessReadings": 5
+        },
+        {
+          "name": "poise-positive",
+          "actors": 1024,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 104.50530000003346,
+          "sumRecordedThreadCpuMs": 170,
+          "sumRecordedProcessCpuMs": 859,
+          "zeroThreadReadings": 14,
+          "zeroProcessReadings": 14
+        },
+        {
+          "name": "poise-positive",
+          "actors": 4096,
+          "measuredSamples": 25,
+          "warmupsRetainedInRaw": 8,
+          "sumMeasuredElapsedMs": 480.4398000000365,
+          "sumRecordedThreadCpuMs": 420,
+          "sumRecordedProcessCpuMs": 1049,
+          "zeroThreadReadings": 0,
+          "zeroProcessReadings": 0
+        }
+      ]
+    }
+  ],
+  "scope": "Report all paired and cross-run differences, zero CPU deltas and aggregate CPU/elapsed values. CPU spans include counter-call overhead and may be quantized. Whole-process CPU can exceed wall time. Instrumented and historical timings do not establish a causal explanation or qualify as optimization acceptance. No change to runtime, fixtures, accepted measurement helper or improvement/regression thresholds.",
+  "limits": [
+    "Only the unchanged first six workload/count cases; no full-game, memory, device or native-engine performance conclusion.",
+    "CPU sums combine disjoint sampled intervals. Observed 15–16 ms counter steps prevent precise short-batch attribution, including when reported CPU time is zero.",
+    "Counter spans include read overhead; instrumentation, process history and changing host conditions can affect results. Cohort differences do not isolate a cause.",
+    "No production code, accepted helper, frozen outcome or optimization threshold changed."
+  ],
+  "findings": {
+    "plainPairedCases": 12,
+    "plainMedianDifferencesBeyondFivePercent": 7,
+    "plainP95DifferencesBeyondTenPercent": 7,
+    "measuredCpuBatches": 600,
+    "zeroThreadCpuReadings": 256,
+    "conclusion": "The current Windows setup has not demonstrated repeatability within the intended small-change thresholds for these six workload/count cases. Byte-identical implementations produced opposite apparent advantages across process orders. Preserve the rejected optimization decision and the original acceptance rules; do not select the fastest run or infer a code mechanism from these data.",
+    "counterLimit": "Observed 15–16 ms CPU-counter increments make individual short windows and sums of disjoint windows too coarse for reliable attribution of small timing differences. Zero readings do not mean zero CPU work.",
+    "nextDecision": "Require better measurement controls and evidence of repeatability before accepting another performance proposal. This diagnosis does not justify changing SDK behavior or claim physical-device performance."
+  }
+}

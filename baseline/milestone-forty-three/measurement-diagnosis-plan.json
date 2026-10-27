@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "decision": "restoration-measurement-diagnosis/v1",
+  "status": "diagnostic-only-frozen-before-collection",
+  "baseCommit": "1ded54a6e2ce28f960a8e321f18fa25f90e63adb",
+  "acceptedPlanSha256": "bb975f3a20b137cfd6cdb23f28c26b78a87fa088928a1de11d4037b850889fdc",
+  "acceptedHelperSha256": "49ad02db0c680b35a21a0cc918441da666e5553efd9ad18b3142980f504be59f",
+  "question": "How much variation appears between identical SDK implementations, and does elapsed time track CPU time charged to the main thread or whole process?",
+  "hypotheses": [
+    "Identical implementations may exceed the proposed optimization limits, indicating measurement variability that must be understood before another proposal.",
+    "Elapsed-time changes may include time not charged to the main thread; process counters may also include parallel runtime threads. Counter resolution and instrumentation can limit interpretation."
+  ],
+  "graphs": "Two independent game and dependency installations of the initial v0.38 SDK, with identical source, whole package and all 201 runtime outputs. Neither is a retained control; both remain read-only.",
+  "workloadIndices": [0, 1, 2, 3, 4, 5],
+  "workloadSelection": "The unchanged first six accepted workloads: positive/full shield and positive poise, each at 1024 and 4096 Actors with 32 calls per Actor. Preserve their order and preceding cases. This targeted diagnosis does not replace full 16-workload acceptance.",
+  "warmups": 8,
+  "samples": 25,
+  "memoryCases": 0,
+  "processOrder": [
+    {"mode": "plain", "graph": "A", "pair": 1},
+    {"mode": "plain", "graph": "B", "pair": 1},
+    {"mode": "cpu", "graph": "A", "pair": 1},
+    {"mode": "cpu", "graph": "B", "pair": 1},
+    {"mode": "cpu", "graph": "B", "pair": 2},
+    {"mode": "cpu", "graph": "A", "pair": 2},
+    {"mode": "plain", "graph": "B", "pair": 2},
+    {"mode": "plain", "graph": "A", "pair": 2}
+  ],
+  "plainHelper": "Accepted helper unchanged except erased type-import paths. No profiler, tracing, extra awaits or gain wrappers.",
+  "cpuHelper": "Derive from the same accepted source. After explicit GC, read process CPU then main-thread CPU, take the original elapsed-time interval around prepared.run(), then read thread CPU delta followed by process CPU delta. Counter reads and diagnostic record allocation are outside the elapsed interval. Record all warmup and measured batches. Keep setup, operation counts, receipts and cleanup unchanged. No extra awaits, profiler or gain wrappers.",
+  "counterCalibration": {
+    "api": ["process.cpuUsage", "process.threadCpuUsage"],
+    "cycles": 5,
+    "busyMilliseconds": 200,
+    "idleMilliseconds": 200,
+    "busyControlMinimumMedianThreadCpuMilliseconds": 50,
+    "idleControlMaximumMedianThreadCpuMilliseconds": 50,
+    "resolutionReads": 20000,
+    "rule": "Require monotonic nonnegative counters and a positive busy-versus-idle control. Record observed increments and zero deltas rather than assuming microsecond resolution. If the capability check fails, retain the failure and stop before game measurements."
+  },
+  "validation": "Type-check both emitted helpers before collection and compare every complete receipt with the already accepted first-six outcomes. Verify source, package, archive, helper, plan, reference capsule and all retained controls before and after. Capture all raw samples without discarding outliers.",
+  "interpretation": "Report all paired and cross-run differences, zero CPU deltas and aggregate CPU/elapsed values. CPU spans include counter-call overhead and may be quantized. Whole-process CPU can exceed wall time. Instrumented and historical timings do not establish a causal explanation or qualify as optimization acceptance. No change to runtime, fixtures, accepted measurement helper or improvement/regression thresholds.",
+  "sources": [
+    "https://nodejs.org/download/release/v24.9.0/docs/api/process.html#processcpuusagepreviousvalue",
+    "https://nodejs.org/download/release/v24.9.0/docs/api/process.html#processthreadcpuusagepreviousvalue"
+  ]
+}

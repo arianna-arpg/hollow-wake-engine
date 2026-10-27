@@ -280,6 +280,45 @@ faults cannot accidentally target adjacent exports or decoy strings. Performance
 acceptance is still open; another proposal needs an explicit hypothesis and the
 same improvement and regression limits.
 
+### Measurement repeatability
+
+The [identical-code diagnosis](../evidence/milestone-forty-three/restoration-measurement-diagnosis.json)
+uses two independent installations with byte-identical source and packages.
+Eight fresh processes exercise the unchanged first six workload/count cases,
+with ordinary and CPU-counter helpers in reversed orders. Both helpers type-check;
+all outcomes and all 1,200 measured samples are retained. The accepted benchmark
+helper and performance thresholds stay unchanged.
+
+Seven of twelve ordinary paired comparisons differ by more than five percent in
+median time; seven exceed ten percent at p95. For positive shield at 4,096 Actors,
+copy B appears 28.05% faster in the first order and 13.14% slower in the reverse
+order. The same implementation cannot justify an optimization claim from those
+opposite apparent advantages. This Windows setup has not demonstrated the
+repeatability needed to accept small changes for these cases.
+
+CPU-counter calibration distinguishes busy from idle work, but observed readings
+advance in 15–16 ms steps. The instrumented helpers report zero thread CPU time in
+256 of 600 measured batches; that does not mean the operations used no CPU. Even
+sums combine disjoint, coarsely accounted windows. They cannot reliably attribute
+small differences to scheduling, runtime compilation, clock frequency or other
+causes. The [Node counter contract](https://nodejs.org/download/release/v24.9.0/docs/api/process.html#processcpuusagepreviousvalue)
+also permits whole-process CPU to exceed wall time when runtime threads work in
+parallel. These diagnostics are not replacement acceptance measurements.
+
+Reproduce from two independently prepared initial-v0.38 game locations with
+identical packages and the matching SDK build, using Node 24.9.0:
+
+```sh
+node scripts/calibrate-restoration-cpu.mjs .artifacts/cpu-calibration-new.json
+node scripts/diagnose-restoration-timing.mjs --a /path/to/first/location.json --b /path/to/second/location.json --calibration .artifacts/cpu-calibration-new.json
+```
+
+The calibration output must be new. The diagnosis checks package and source
+identity, refuses inherited Node instrumentation, and writes a fresh output
+directory. Keep other CPU-heavy jobs stopped. Further performance proposals need
+better measurement controls and demonstrated repeatability; no threshold is
+relaxed and no faster sample is selected as the result.
+
 Neither these observations nor desktop measurements establish
 Steam Deck, mobile, Unity, Godot or Unreal compatibility. Those deliverables,
 current-source/content reconciliation and the remaining system families stay open.

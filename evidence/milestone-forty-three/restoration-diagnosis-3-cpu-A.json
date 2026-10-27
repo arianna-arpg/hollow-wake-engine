@@ -1,0 +1,3345 @@
+{
+  "validationOnly": false,
+  "node": "v24.9.0",
+  "v8": "13.6.233.10-node.27",
+  "platform": "win32",
+  "osRelease": "10.0.19045",
+  "arch": "x64",
+  "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+  "logicalCpus": 20,
+  "totalMemoryBytes": 68631449600,
+  "planSha256": "8a9c415d27fc048743630cfc450bb7ff57adc69c63dfc41fba3c9ff04d796f00",
+  "authoredProcs": {
+    "mana": {
+      "id": "desperate_reserves",
+      "name": "Desperate Reserves",
+      "color": "#8fa8d8",
+      "trigger": "cast",
+      "tags": [
+        "spell"
+      ],
+      "when": "lowMana",
+      "icd": 3,
+      "effect": {
+        "type": "restore",
+        "resource": "mana",
+        "pctMax": 0.1
+      }
+    },
+    "poise": {
+      "id": "relic_guard_refrain",
+      "name": "Censer Refrain",
+      "color": "#ddc58f",
+      "trigger": "block",
+      "icd": 5,
+      "effect": {
+        "type": "restore",
+        "resource": "poise",
+        "pctMax": 0.06
+      }
+    }
+  },
+  "results": [
+    {
+      "name": "shield-positive",
+      "actors": 1024,
+      "receipt": {
+        "name": "shield-positive",
+        "actors": 1024,
+        "operations": 32768,
+        "actorUpdateOpportunities": 0,
+        "returned": 98304,
+        "draws": 0,
+        "actorStateSha256": "224f9ebece22d384f0dfdf434e22d11bda1114b48d64c0ff97a83c15c61cd5a5",
+        "actorOwnFieldsSha256": "9f2c97497948659ce6e3c0d3e6ddd9d09af771adaf13bacaeb5fa2f923b3e5bf",
+        "totals": {
+          "life": 1024000,
+          "mana": 409600,
+          "es": 507904,
+          "poise": 409600,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 496,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 512,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 496,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 1023,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 496,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": null
+      },
+      "receiptSha256": "97ee46eba6fdcfb082c7dad7e9c29dcf0ba09897d2d9c813dfd74f1a09e98a51",
+      "samplesMs": [
+        2.4607000000014523,
+        2.6112000000011903,
+        2.8403999999991356,
+        2.2471999999997934,
+        3.3795999999983906,
+        3.488499999999476,
+        2.605099999998856,
+        2.579200000000128,
+        3.787499999998545,
+        3.6921999999995023,
+        4.372399999998379,
+        2.720499999999447,
+        2.6018000000003667,
+        2.51050000000032,
+        2.643099999999322,
+        3.0128999999997177,
+        2.6401999999998225,
+        2.659399999998641,
+        2.550199999999677,
+        2.5010000000002037,
+        2.4745999999995547,
+        2.872299999999086,
+        2.5371999999988475,
+        2.6535000000003492,
+        2.436099999998987
+      ],
+      "medianMs": 2.6401999999998225,
+      "p95Ms": 3.787499999998545,
+      "cpuSamples": [
+        {
+          "trial": -8,
+          "elapsedMs": 9.44210000000021,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 16000
+          }
+        },
+        {
+          "trial": -7,
+          "elapsedMs": 6.845400000000154,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -6,
+          "elapsedMs": 4.1687999999994645,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -5,
+          "elapsedMs": 3.845200000000659,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -4,
+          "elapsedMs": 3.8870999999999185,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -3,
+          "elapsedMs": 3.5023999999993976,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -2,
+          "elapsedMs": 2.611399999999776,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -1,
+          "elapsedMs": 2.438399999999092,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 0,
+          "elapsedMs": 2.4607000000014523,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 1,
+          "elapsedMs": 2.6112000000011903,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 2,
+          "elapsedMs": 2.8403999999991356,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 3,
+          "elapsedMs": 2.2471999999997934,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 4,
+          "elapsedMs": 3.3795999999983906,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 5,
+          "elapsedMs": 3.488499999999476,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 6,
+          "elapsedMs": 2.605099999998856,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 7,
+          "elapsedMs": 2.579200000000128,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 8,
+          "elapsedMs": 3.787499999998545,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 9,
+          "elapsedMs": 3.6921999999995023,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 10,
+          "elapsedMs": 4.372399999998379,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 11,
+          "elapsedMs": 2.720499999999447,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 12,
+          "elapsedMs": 2.6018000000003667,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 13,
+          "elapsedMs": 2.51050000000032,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 14,
+          "elapsedMs": 2.643099999999322,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 15,
+          "elapsedMs": 3.0128999999997177,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 16,
+          "elapsedMs": 2.6401999999998225,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 17,
+          "elapsedMs": 2.659399999998641,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 18,
+          "elapsedMs": 2.550199999999677,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 19,
+          "elapsedMs": 2.5010000000002037,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 20,
+          "elapsedMs": 2.4745999999995547,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 21,
+          "elapsedMs": 2.872299999999086,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 22,
+          "elapsedMs": 2.5371999999988475,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 23,
+          "elapsedMs": 2.6535000000003492,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 24,
+          "elapsedMs": 2.436099999998987,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "shield-positive",
+      "actors": 4096,
+      "receipt": {
+        "name": "shield-positive",
+        "actors": 4096,
+        "operations": 131072,
+        "actorUpdateOpportunities": 0,
+        "returned": 393216,
+        "draws": 0,
+        "actorStateSha256": "c2bf49729357644a14bcc4abf2ded1db5bf00e05203599ebaa7d6ea42379555d",
+        "actorOwnFieldsSha256": "1d2ed9a5951afb530bd78f00f02bcf7085e97dda478f9878451c9049f91960b7",
+        "totals": {
+          "life": 4096000,
+          "mana": 1638400,
+          "es": 2031616,
+          "poise": 1638400,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 496,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 2048,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 496,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 4095,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 496,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": null
+      },
+      "receiptSha256": "674cd8366c58479bf584f8cb9de05a45e4da5cbfe757e41b49fa318d83798540",
+      "samplesMs": [
+        10.49500000000262,
+        11.465999999996711,
+        9.898399999998219,
+        13.004099999998289,
+        12.423999999999069,
+        12.233700000000681,
+        9.34309999999823,
+        9.400100000002567,
+        9.765400000000227,
+        11.117799999999988,
+        11.489000000001397,
+        13.700999999997293,
+        19.784100000000763,
+        10.102500000000873,
+        11.051899999998568,
+        15.126499999998487,
+        10.82419999999911,
+        19.558899999999994,
+        11.13300000000163,
+        21.494299999998475,
+        13.224000000001979,
+        11.891199999998207,
+        19.38930000000255,
+        15.573700000000827,
+        9.424100000003818
+      ],
+      "medianMs": 11.489000000001397,
+      "p95Ms": 19.784100000000763,
+      "cpuSamples": [
+        {
+          "trial": -8,
+          "elapsedMs": 11.440999999998894,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -7,
+          "elapsedMs": 14.862900000000081,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -6,
+          "elapsedMs": 12.231499999999869,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -5,
+          "elapsedMs": 12.961100000000442,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -4,
+          "elapsedMs": 13.575000000000728,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -3,
+          "elapsedMs": 11.217099999998027,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -2,
+          "elapsedMs": 16.014900000001944,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -1,
+          "elapsedMs": 11.381400000002031,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 0,
+          "elapsedMs": 10.49500000000262,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 1,
+          "elapsedMs": 11.465999999996711,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 2,
+          "elapsedMs": 9.898399999998219,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 3,
+          "elapsedMs": 13.004099999998289,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 4,
+          "elapsedMs": 12.423999999999069,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 5,
+          "elapsedMs": 12.233700000000681,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 6,
+          "elapsedMs": 9.34309999999823,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 7,
+          "elapsedMs": 9.400100000002567,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 79000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 8,
+          "elapsedMs": 9.765400000000227,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 9,
+          "elapsedMs": 11.117799999999988,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 10,
+          "elapsedMs": 11.489000000001397,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 11,
+          "elapsedMs": 13.700999999997293,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 12,
+          "elapsedMs": 19.784100000000763,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 13,
+          "elapsedMs": 10.102500000000873,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 14,
+          "elapsedMs": 11.051899999998568,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 15,
+          "elapsedMs": 15.126499999998487,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 16,
+          "elapsedMs": 10.82419999999911,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 17,
+          "elapsedMs": 19.558899999999994,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 18,
+          "elapsedMs": 11.13300000000163,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 19,
+          "elapsedMs": 21.494299999998475,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 20,
+          "elapsedMs": 13.224000000001979,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 21,
+          "elapsedMs": 11.891199999998207,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 22,
+          "elapsedMs": 19.38930000000255,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 23,
+          "elapsedMs": 15.573700000000827,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 24,
+          "elapsedMs": 9.424100000003818,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "shield-full",
+      "actors": 1024,
+      "receipt": {
+        "name": "shield-full",
+        "actors": 1024,
+        "operations": 32768,
+        "actorUpdateOpportunities": 0,
+        "returned": 0,
+        "draws": 0,
+        "actorStateSha256": "d01fdecb39e3c16e36d650569d4091103c79e606cc24635bbe98284980c1ec04",
+        "actorOwnFieldsSha256": "9f2c97497948659ce6e3c0d3e6ddd9d09af771adaf13bacaeb5fa2f923b3e5bf",
+        "totals": {
+          "life": 1024000,
+          "mana": 409600,
+          "es": 1024000,
+          "poise": 409600,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 1000,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 512,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 1000,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 1023,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 1000,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": null
+      },
+      "receiptSha256": "fe704ad474adce88da696c8fd724994a4511b6e5b1e0fefb37e964ad201e2d44",
+      "samplesMs": [
+        3.7577999999994063,
+        2.4571999999971013,
+        2.5601999999998952,
+        2.438799999996263,
+        2.8804999999993015,
+        2.5126000000018394,
+        2.486799999998766,
+        2.7776000000012573,
+        2.5723999999972875,
+        2.559500000003027,
+        2.8104999999995925,
+        2.430999999996857,
+        3.4305999999996857,
+        2.4156999999977415,
+        2.94720000000234,
+        2.701500000002852,
+        2.595600000000559,
+        2.5274000000063097,
+        4.2413999999989755,
+        4.27209999999468,
+        3.7717000000047847,
+        3.120100000000093,
+        2.487200000003213,
+        3.4265999999988708,
+        2.950700000001234
+      ],
+      "medianMs": 2.701500000002852,
+      "p95Ms": 4.2413999999989755,
+      "cpuSamples": [
+        {
+          "trial": -8,
+          "elapsedMs": 2.5143000000025495,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -7,
+          "elapsedMs": 2.907100000003993,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -6,
+          "elapsedMs": 2.5759000000034575,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -5,
+          "elapsedMs": 2.321700000000419,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -4,
+          "elapsedMs": 2.406299999995099,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -3,
+          "elapsedMs": 2.4395999999978812,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -2,
+          "elapsedMs": 2.5152000000016415,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -1,
+          "elapsedMs": 2.6600000000034925,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 0,
+          "elapsedMs": 3.7577999999994063,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 1,
+          "elapsedMs": 2.4571999999971013,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 2,
+          "elapsedMs": 2.5601999999998952,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 3,
+          "elapsedMs": 2.438799999996263,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 4,
+          "elapsedMs": 2.8804999999993015,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 5,
+          "elapsedMs": 2.5126000000018394,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 6,
+          "elapsedMs": 2.486799999998766,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 7,
+          "elapsedMs": 2.7776000000012573,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 8,
+          "elapsedMs": 2.5723999999972875,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 9,
+          "elapsedMs": 2.559500000003027,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 10,
+          "elapsedMs": 2.8104999999995925,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 11,
+          "elapsedMs": 2.430999999996857,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 12,
+          "elapsedMs": 3.4305999999996857,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 13,
+          "elapsedMs": 2.4156999999977415,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 14,
+          "elapsedMs": 2.94720000000234,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 15,
+          "elapsedMs": 2.701500000002852,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 16,
+          "elapsedMs": 2.595600000000559,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 17,
+          "elapsedMs": 2.5274000000063097,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 18,
+          "elapsedMs": 4.2413999999989755,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 19,
+          "elapsedMs": 4.27209999999468,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 20,
+          "elapsedMs": 3.7717000000047847,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 21,
+          "elapsedMs": 3.120100000000093,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 22,
+          "elapsedMs": 2.487200000003213,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 23,
+          "elapsedMs": 3.4265999999988708,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 24,
+          "elapsedMs": 2.950700000001234,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "shield-full",
+      "actors": 4096,
+      "receipt": {
+        "name": "shield-full",
+        "actors": 4096,
+        "operations": 131072,
+        "actorUpdateOpportunities": 0,
+        "returned": 0,
+        "draws": 0,
+        "actorStateSha256": "cbe40a133cc889ac1d50f9ff49ac56d9ca232c211c677084dd0416b892a9130c",
+        "actorOwnFieldsSha256": "1d2ed9a5951afb530bd78f00f02bcf7085e97dda478f9878451c9049f91960b7",
+        "totals": {
+          "life": 4096000,
+          "mana": 1638400,
+          "es": 4096000,
+          "poise": 1638400,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 1000,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 2048,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 1000,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 4095,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 1000,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": null
+      },
+      "receiptSha256": "51b14f61c9b780431ac45d420385d5424124568837f012e33154060f20738f5d",
+      "samplesMs": [
+        12.789499999998952,
+        16.09360000000015,
+        12.513599999998405,
+        21.871299999998882,
+        30.60859999999957,
+        15.77610000000277,
+        22.608799999994517,
+        14.803899999998976,
+        20.172500000000582,
+        17.772499999999127,
+        13.170099999995728,
+        17.143700000000536,
+        18.95010000000184,
+        19.27479999999923,
+        15.764100000000326,
+        16.044000000001688,
+        18.606599999999162,
+        12.609500000005937,
+        17.264999999999418,
+        8.925699999999779,
+        9.13959999999497,
+        12.508999999998196,
+        12.512099999999919,
+        35.143400000008114,
+        17.207299999994575
+      ],
+      "medianMs": 16.09360000000015,
+      "p95Ms": 30.60859999999957,
+      "cpuSamples": [
+        {
+          "trial": -8,
+          "elapsedMs": 22.71969999999419,
+          "threadCpuMicroseconds": {
+            "user": 31000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 94000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -7,
+          "elapsedMs": 14.619299999998475,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -6,
+          "elapsedMs": 26.272400000001653,
+          "threadCpuMicroseconds": {
+            "user": 32000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 94000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -5,
+          "elapsedMs": 17.01890000000276,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 79000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -4,
+          "elapsedMs": 16.282099999996717,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -3,
+          "elapsedMs": 10.534599999999045,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -2,
+          "elapsedMs": 18.4687000000049,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -1,
+          "elapsedMs": 17.40860000000248,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 79000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 0,
+          "elapsedMs": 12.789499999998952,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 1,
+          "elapsedMs": 16.09360000000015,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 2,
+          "elapsedMs": 12.513599999998405,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 3,
+          "elapsedMs": 21.871299999998882,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 4,
+          "elapsedMs": 30.60859999999957,
+          "threadCpuMicroseconds": {
+            "user": 31000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 94000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 5,
+          "elapsedMs": 15.77610000000277,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 6,
+          "elapsedMs": 22.608799999994517,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 7,
+          "elapsedMs": 14.803899999998976,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 8,
+          "elapsedMs": 20.172500000000582,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 9,
+          "elapsedMs": 17.772499999999127,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 10,
+          "elapsedMs": 13.170099999995728,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 11,
+          "elapsedMs": 17.143700000000536,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 12,
+          "elapsedMs": 18.95010000000184,
+          "threadCpuMicroseconds": {
+            "user": 32000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 93000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 13,
+          "elapsedMs": 19.27479999999923,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 14,
+          "elapsedMs": 15.764100000000326,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 15,
+          "elapsedMs": 16.044000000001688,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 16,
+          "elapsedMs": 18.606599999999162,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 17,
+          "elapsedMs": 12.609500000005937,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 18,
+          "elapsedMs": 17.264999999999418,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 19,
+          "elapsedMs": 8.925699999999779,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 20,
+          "elapsedMs": 9.13959999999497,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 21,
+          "elapsedMs": 12.508999999998196,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 22,
+          "elapsedMs": 12.512099999999919,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 23,
+          "elapsedMs": 35.143400000008114,
+          "threadCpuMicroseconds": {
+            "user": 47000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 109000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 24,
+          "elapsedMs": 17.207299999994575,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "poise-positive",
+      "actors": 1024,
+      "receipt": {
+        "name": "poise-positive",
+        "actors": 1024,
+        "operations": 32768,
+        "actorUpdateOpportunities": 0,
+        "returned": 98304,
+        "draws": 0,
+        "actorStateSha256": "ece9bd0fc367200d215899d1ec3adb6d0137416ba7b103089fb84098dbf5a3c4",
+        "actorOwnFieldsSha256": "9f2c97497948659ce6e3c0d3e6ddd9d09af771adaf13bacaeb5fa2f923b3e5bf",
+        "totals": {
+          "life": 1024000,
+          "mana": 409600,
+          "es": 409600,
+          "poise": 507904,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 496,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 512,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 496,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 1023,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 496,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": null
+      },
+      "receiptSha256": "e17eb65974d041ed1baa9c7139073469e111b7a98d65ae783a29a915caaeb487",
+      "samplesMs": [
+        4.393800000005285,
+        4.50340000000142,
+        4.598599999997532,
+        4.531800000011572,
+        5.083100000003469,
+        4.299899999998161,
+        4.356799999994109,
+        4.929199999998673,
+        4.539000000004307,
+        4.309300000008079,
+        6.443299999998999,
+        5.8950000000040745,
+        4.563900000008289,
+        4.408999999999651,
+        4.826500000010128,
+        5.875599999999395,
+        4.324099999997998,
+        4.389199999990524,
+        4.245899999994435,
+        4.406199999997625,
+        6.079700000002049,
+        5.156700000006822,
+        4.563399999999092,
+        4.3171000000002095,
+        3.964399999997113
+      ],
+      "medianMs": 4.531800000011572,
+      "p95Ms": 6.079700000002049,
+      "cpuSamples": [
+        {
+          "trial": -8,
+          "elapsedMs": 8.136799999992945,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 79000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -7,
+          "elapsedMs": 6.095400000005611,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -6,
+          "elapsedMs": 5.263099999996484,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -5,
+          "elapsedMs": 6.397299999996903,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -4,
+          "elapsedMs": 5.444799999997485,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -3,
+          "elapsedMs": 5.789600000003702,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -2,
+          "elapsedMs": 5.4680999999982305,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": -1,
+          "elapsedMs": 5.106599999999162,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 0,
+          "elapsedMs": 4.393800000005285,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 1,
+          "elapsedMs": 4.50340000000142,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 2,
+          "elapsedMs": 4.598599999997532,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 3,
+          "elapsedMs": 4.531800000011572,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 4,
+          "elapsedMs": 5.083100000003469,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 5,
+          "elapsedMs": 4.299899999998161,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 6,
+          "elapsedMs": 4.356799999994109,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 7,
+          "elapsedMs": 4.929199999998673,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 8,
+          "elapsedMs": 4.539000000004307,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 9,
+          "elapsedMs": 4.309300000008079,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 10,
+          "elapsedMs": 6.443299999998999,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 11,
+          "elapsedMs": 5.8950000000040745,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 12,
+          "elapsedMs": 4.563900000008289,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 13,
+          "elapsedMs": 4.408999999999651,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 14,
+          "elapsedMs": 4.826500000010128,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 15,
+          "elapsedMs": 5.875599999999395,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 16,
+          "elapsedMs": 4.324099999997998,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 17,
+          "elapsedMs": 4.389199999990524,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 18,
+          "elapsedMs": 4.245899999994435,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 19,
+          "elapsedMs": 4.406199999997625,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 20,
+          "elapsedMs": 6.079700000002049,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 21,
+          "elapsedMs": 5.156700000006822,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 22,
+          "elapsedMs": 4.563399999999092,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 23,
+          "elapsedMs": 4.3171000000002095,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        },
+        {
+          "trial": 24,
+          "elapsedMs": 3.964399999997113,
+          "threadCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 0,
+            "system": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "poise-positive",
+      "actors": 4096,
+      "receipt": {
+        "name": "poise-positive",
+        "actors": 4096,
+        "operations": 131072,
+        "actorUpdateOpportunities": 0,
+        "returned": 393216,
+        "draws": 0,
+        "actorStateSha256": "4ec1bbb1eaf8bca290eead1eb83eb8a9383aba9f8e69c116fd213e1b43506276",
+        "actorOwnFieldsSha256": "1d2ed9a5951afb530bd78f00f02bcf7085e97dda478f9878451c9049f91960b7",
+        "totals": {
+          "life": 4096000,
+          "mana": 1638400,
+          "es": 1638400,
+          "poise": 2031616,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 496,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 2048,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 496,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 4095,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 496,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": null
+      },
+      "receiptSha256": "f78e2ffaa3d250c31ebf67c51b793969d8ac5535aa1bc7372b3a2c523bd7e373",
+      "samplesMs": [
+        19.555299999992712,
+        20.683300000004238,
+        26.005799999999,
+        28.361000000004424,
+        21.4033999999956,
+        19.072100000004866,
+        21.809500000003027,
+        22.870800000004238,
+        21.699599999992643,
+        19.730200000005425,
+        19.55250000000524,
+        21.490300000004936,
+        20.447100000004866,
+        19.407200000001467,
+        19.180200000002515,
+        19.3408999999956,
+        20.61820000001171,
+        20.732700000007753,
+        20.49889999999141,
+        18.72839999999269,
+        19.25800000000163,
+        19.132800000006682,
+        17.155500000008033,
+        22.643000000010943,
+        24.10330000000249
+      ],
+      "medianMs": 20.49889999999141,
+      "p95Ms": 26.005799999999,
+      "cpuSamples": [
+        {
+          "trial": -8,
+          "elapsedMs": 23.868800000011106,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -7,
+          "elapsedMs": 19.174399999988964,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -6,
+          "elapsedMs": 24.650599999993574,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -5,
+          "elapsedMs": 22.619900000005146,
+          "threadCpuMicroseconds": {
+            "user": 31000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 94000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -4,
+          "elapsedMs": 20.11129999998957,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -3,
+          "elapsedMs": 21.018899999995483,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -2,
+          "elapsedMs": 20.56569999999192,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": -1,
+          "elapsedMs": 38.759699999995064,
+          "threadCpuMicroseconds": {
+            "user": 47000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 110000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 0,
+          "elapsedMs": 19.555299999992712,
+          "threadCpuMicroseconds": {
+            "user": 32000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 94000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 1,
+          "elapsedMs": 20.683300000004238,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 2,
+          "elapsedMs": 26.005799999999,
+          "threadCpuMicroseconds": {
+            "user": 31000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 94000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 3,
+          "elapsedMs": 28.361000000004424,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 4,
+          "elapsedMs": 21.4033999999956,
+          "threadCpuMicroseconds": {
+            "user": 31000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 93000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 5,
+          "elapsedMs": 19.072100000004866,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 6,
+          "elapsedMs": 21.809500000003027,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 7,
+          "elapsedMs": 22.870800000004238,
+          "threadCpuMicroseconds": {
+            "user": 31000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 94000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 8,
+          "elapsedMs": 21.699599999992643,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 78000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 9,
+          "elapsedMs": 19.730200000005425,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 10,
+          "elapsedMs": 19.55250000000524,
+          "threadCpuMicroseconds": {
+            "user": 32000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 94000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 11,
+          "elapsedMs": 21.490300000004936,
+          "threadCpuMicroseconds": {
+            "user": 31000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 93000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 12,
+          "elapsedMs": 20.447100000004866,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 13,
+          "elapsedMs": 19.407200000001467,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 14,
+          "elapsedMs": 19.180200000002515,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 15,
+          "elapsedMs": 19.3408999999956,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 16,
+          "elapsedMs": 20.61820000001171,
+          "threadCpuMicroseconds": {
+            "user": 31000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 93000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 17,
+          "elapsedMs": 20.732700000007753,
+          "threadCpuMicroseconds": {
+            "user": 31000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 94000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 18,
+          "elapsedMs": 20.49889999999141,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 19,
+          "elapsedMs": 18.72839999999269,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 20,
+          "elapsedMs": 19.25800000000163,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 21,
+          "elapsedMs": 19.132800000006682,
+          "threadCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 22,
+          "elapsedMs": 17.155500000008033,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 23,
+          "elapsedMs": 22.643000000010943,
+          "threadCpuMicroseconds": {
+            "user": 16000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 15000,
+            "system": 0
+          }
+        },
+        {
+          "trial": 24,
+          "elapsedMs": 24.10330000000249,
+          "threadCpuMicroseconds": {
+            "user": 31000,
+            "system": 0
+          },
+          "processCpuMicroseconds": {
+            "user": 94000,
+            "system": 0
+          }
+        }
+      ]
+    }
+  ],
+  "memory": []
+}

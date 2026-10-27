@@ -32,6 +32,13 @@ patch applies to the published baseline and reverses exactly. The
 [rollback verification](../evidence/milestone-forty-three/restoration-immutable-rollback-verification.json)
 confirms all 201 initial runtime outputs are restored. The syntax-tree fault
 selector and callable-metadata checks remain; no speed improvement is accepted.
+An [identical-code diagnostic](../evidence/milestone-forty-three/restoration-measurement-diagnosis.json)
+then validates eight fresh processes and 1,200 samples across the first six
+workload/count cases. Both helper variants type-check and reproduce accepted
+outcomes. Seven of twelve ordinary pairs exceed five-percent median differences
+despite identical code; the coarse CPU counters do not establish a cause. This
+records a measurement limitation and keeps performance acceptance open. See the
+restoration contract for the frozen plan, calibration and reproduction commands.
 The [restoration contract](resource-restoration.md) separates these checks from
 performance, managed-game and public-main acceptance, which remain open.
 Its [initial adapter checkpoint](../evidence/milestone-forty-three/adapter-checkpoint.json)
