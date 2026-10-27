@@ -1,9 +1,9 @@
 # Resource restoration
 
-The native baseline was committed before implementation. The unpublished v0.38
+The native baseline was committed before implementation. The v0.38 development
 candidate provides optional `combat/restoration` and `combat/restoration-content`
-entries. The installed game reproduces all 218 native observations. Renderer,
-measurement, managed-game and publication acceptance remain open.
+entries. The installed game reproduces all 218 native observations and 20 renderer
+stages. Measurement, managed-game and public-main acceptance remain open.
 This contract extends life recovery with shield/poise gain gates, immediate
 restoration and the restore proc branch. It does not authorize a gameplay change.
 
@@ -39,6 +39,40 @@ The extraction must add no per-actor cache, registry or bound closure.
 Stat/condition production, event occurrence, spatial selection, stream creation
 and ticking, natural recharge, poise recovery, presentation and saves remain
 explicit host responsibilities for this capability.
+
+## Renderer verification
+
+The [renderer acceptance](../baseline/milestone-forty-three/restoration-ui-acceptance.json)
+freezes two identical native v0.37 captures before the first SDK renderer
+comparison. All 20 SDK-backed stages match the recorded JSON bytes. Numbers in
+those observations are rounded to six decimals; queue and trace membership and
+order are preserved. Screenshots support inspection, not a pixel-equality claim.
+
+The harness checks the mana fill and reservation band, feeding-cue appearance
+and expiry, shield recharge tracks, stream pause/slow/completion, broken-poise
+rearm and the additional overcharge arc. Authored Mend input earns Desperate
+Reserves; controlled native attack contacts earn Censer Refrain. Their resource
+gains and three visible proc glyphs are checked independently of fixture equality.
+
+The browser clock and ambient animation pump are controlled before startup, and
+the installation and exact native frame deltas are asserted. This matters at a
+stream's endpoint: an uncontrolled fractional frame origin can leave a tiny
+remaining amount for another frame. The game arithmetic is preserved. A zero
+recharge modifier also retains the native stat's 1%/second minimum.
+
+Use a complete isolated game copy with this adapter and installed SDK, including
+its renderer configuration, HTML, assets and launcher. The headless source capsule
+alone does not provide that shell. Build a new output with
+`node scripts/build-game-item-ui.mjs --game <game> --output <new-bundle>`, then run
+`npm run adapter:restoration-ui -- --game <game> --dist <new-bundle> --electron <electron>`.
+The verifier checks source/runtime/build identities, uses fresh profile and save
+directories, and refuses changed expected data. It preserves game source, the
+installed package and build outputs. Canonical harness source uses LF endings.
+
+These are software-rendered desktop Electron observations at 1280×800. They do
+not establish physical input coverage, device performance or complete native
+engine packages. The [renderer checkpoint](../evidence/milestone-forty-three/renderer-checkpoint.json)
+records the tested archive and the remaining acceptance work.
 
 ## Native transitions
 

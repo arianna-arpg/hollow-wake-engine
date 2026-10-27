@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "decision": "native-restoration-renderer/v1",
+  "status": "accepted-after-two-native-runs-before-sdk-renderer-comparison",
+  "sourceCanonicalization": "CRLF to LF only",
+  "numericRepresentation": "Observed numeric fields rounded to six decimals; queue and trace membership/order are preserved.",
+  "harnessSha256": "37dac78b44e813aa83084c87723b8115d4dfe8f7244cd0afb2102624fbb09b65",
+  "serverSha256": "8f846fd74b33ac3824b936de1024ca590e05057dd791351615cd4cbfd05fcf89",
+  "stages": 20,
+  "stageNames": [
+    "initial",
+    "mana-reserved",
+    "mana-capped",
+    "mana-cue-expired",
+    "mana-full-no-cue",
+    "signed-mana-restoration",
+    "shield-reset-recharge",
+    "shield-natural-recharge",
+    "shield-stream-start",
+    "shield-stream-growing",
+    "shield-stream-paused",
+    "shield-stream-slowed",
+    "shield-stream-complete",
+    "poise-broken",
+    "poise-fed-rearmed",
+    "poise-overcharged",
+    "spell-low-mana",
+    "spell-earned-mana",
+    "block-contact-ready",
+    "block-earned-poise"
+  ],
+  "expected": {
+    "file": "restoration-ui-expected.json.gz",
+    "sha256": "99a9998f0483d1407092b8f9c3903a3550e4290df8931cdcf8e6cb0b5b3aa258",
+    "compressedSha256": "109787395b4451acbfba955874cdfe6e6750c56b9a5c6c8bd14fbb8e3c931c0a",
+    "bytes": 832586,
+    "compressedBytes": 28646
+  },
+  "native": {
+    "version": "0.37.0",
+    "publishedMain": "56f6974bd91499f6655272962696cac273dadb83",
+    "buildSha256": "465237fb940db12588cd75cddf917ef0fd9ff0491558fe76d2ab96da9fb9c514",
+    "sourceMapSha256": "c6645dd8f02c8be5f7a3c2dc4d77a5388522aabe13a6589b68dbd851e1e0d47d",
+    "runtimeMapSha256": "83181ace23da5a3830b916b8315b92b90e157e8710318c5fbea86caa26ef6d6b",
+    "allM43PredecessorMemberAndCaseGuardsPassed": true
+  },
+  "runs": [
+    {
+      "observationSha256": "99a9998f0483d1407092b8f9c3903a3550e4290df8931cdcf8e6cb0b5b3aa258",
+      "harnessSha256": "37dac78b44e813aa83084c87723b8115d4dfe8f7244cd0afb2102624fbb09b65",
+      "logSha256": "6f0799254db7301e4898306a571fe81b0ae7e44f4239b94bc64b0669236b4f2f",
+      "independentProfileAndSaves": true,
+      "retainedInputsUnchanged": true
+    },
+    {
+      "observationSha256": "99a9998f0483d1407092b8f9c3903a3550e4290df8931cdcf8e6cb0b5b3aa258",
+      "harnessSha256": "37dac78b44e813aa83084c87723b8115d4dfe8f7244cd0afb2102624fbb09b65",
+      "logSha256": "6f0799254db7301e4898306a571fe81b0ae7e44f4239b94bc64b0669236b4f2f",
+      "independentProfileAndSaves": true,
+      "retainedInputsUnchanged": true
+    }
+  ],
+  "clock": "Integral 20000ms performance origin and suppressed ambient requestAnimationFrame installed before game bootstrap; native __game.step drives 25ms frames. Startup installation is asserted, as are exact 0.025 input deltas and allowed 0/0.0125/0.025 actor deltas. World pause and half-speed remain native.",
+  "independentAssertions": [
+    "Mana amount, fill height, reservation band, gain-event amount, painted feeding cue and expiry/full suppression",
+    "Shield immediate gain followed by minimum 1% recharge, recharge arc/track, six outlined feeding-cue strokes",
+    "Natural recharge bypasses gainEs; shield stream advances, pauses, slows, and completes through World frames",
+    "Broken poise stays broken during the gain and rearms on the following update; overcharge caps at150 and decays to149.5; main/extra arc geometry",
+    "Authored Mend through native input pays9 mana, earns10 through Desperate Reserves and paints three proc glyphs",
+    "Actual native resolveHit contacts earn Censer Refrain and restore6 poise; three corresponding proc glyphs are drawn"
+  ],
+  "discoveryNotes": [
+    "An unrestricted hidden browser launch was needed after the restricted graphics helper failed.",
+    "The initial zero-recharge assumption was corrected from native stat metadata: esRechargeRate has a0.01 minimum. Shield feeding marks are outlined.",
+    "A post-bootstrap clock override left a fractional private frame origin. One native repetition left a tiny stream remainder for an additional frame; fixed startup timing is now installed before bootstrap. No game arithmetic was changed.",
+    "The browser must initialize an about:blank document and enable the Page domain before registering the startup script. Early attempts either timed out or did not establish repeatability. Final captures assert installed clock/pump values and exact native frame deltas."
+  ],
+  "scope": "Twenty actual game renderer stages with controlled pools, a native skill-input driver, real World timing and controlled native attack contacts. Canvas geometry, colors, alpha, transforms, captions, resource transitions and cue payloads are compared as complete recorded JSON bytes.",
+  "limits": [
+    "Not physical mouse/keyboard/controller coverage",
+    "Not pixel equality; screenshots are inspection evidence",
+    "Software-rendered desktop Electron at1280x800; no GPU, FPS, Steam Deck or mobile acceptance",
+    "Does not establish complete Unity/Godot/Unreal integration"
+  ]
+}
