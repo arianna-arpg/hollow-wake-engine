@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "decision": "resource-restoration-performance/v1",
+  "status": "accepted-before-timing",
+  "parentPlanSha256": "7005494da8f6f5884c308ef5baf8834e6dd87ef63c0b14945ff7859f2653e2fa",
+  "helperSha256": "49ad02db0c680b35a21a0cc918441da666e5553efd9ad18b3142980f504be59f",
+  "warmups": 8,
+  "samples": 25,
+  "memorySamples": 7,
+  "requiredIndependentRuns": 2,
+  "actorCounts": [
+    1024,
+    4096
+  ],
+  "worldActorCounts": [
+    16,
+    64
+  ],
+  "sourceWorkloads": [
+    "shield positive gain",
+    "shield already full",
+    "poise positive gain",
+    "poise overcharge gain",
+    "instant mana restore with event/cue",
+    "proc mana restore with reservation",
+    "proc poise restore",
+    "World update with shield regeneration conversion"
+  ],
+  "workloads": [
+    {
+      "name": "shield-positive",
+      "actors": 1024,
+      "callsPerActor": 32
+    },
+    {
+      "name": "shield-positive",
+      "actors": 4096,
+      "callsPerActor": 32
+    },
+    {
+      "name": "shield-full",
+      "actors": 1024,
+      "callsPerActor": 32
+    },
+    {
+      "name": "shield-full",
+      "actors": 4096,
+      "callsPerActor": 32
+    },
+    {
+      "name": "poise-positive",
+      "actors": 1024,
+      "callsPerActor": 32
+    },
+    {
+      "name": "poise-positive",
+      "actors": 4096,
+      "callsPerActor": 32
+    },
+    {
+      "name": "poise-overcharge",
+      "actors": 1024,
+      "callsPerActor": 32
+    },
+    {
+      "name": "poise-overcharge",
+      "actors": 4096,
+      "callsPerActor": 32
+    },
+    {
+      "name": "instant-mana",
+      "actors": 1024,
+      "callsPerActor": 32
+    },
+    {
+      "name": "instant-mana",
+      "actors": 4096,
+      "callsPerActor": 32
+    },
+    {
+      "name": "proc-mana",
+      "actors": 1024,
+      "callsPerActor": 32
+    },
+    {
+      "name": "proc-mana",
+      "actors": 4096,
+      "callsPerActor": 32
+    },
+    {
+      "name": "proc-poise",
+      "actors": 1024,
+      "callsPerActor": 32
+    },
+    {
+      "name": "proc-poise",
+      "actors": 4096,
+      "callsPerActor": 32
+    },
+    {
+      "name": "world-shield-conversion",
+      "actors": 16,
+      "frames": 120,
+      "dt": 0.015625
+    },
+    {
+      "name": "world-shield-conversion",
+      "actors": 64,
+      "frames": 120,
+      "dt": 0.015625
+    }
+  ],
+  "memory": {
+    "actorCounts": [
+      1024,
+      4096
+    ],
+    "states": [
+      "unused",
+      "restored"
+    ],
+    "method": "Construct actual Actor/stat graphs. Used heap is sampled immediately after construction/restoration, before receipt work. Collect twice with Actors retained, release their strong array, end the JS job and collect twice. Every Actor WeakRef must be cleared. Retained minus released heap is reported separately from pre-collection used heap; neither is allocation volume or peak memory."
+  },
+  "reset": "Every sample constructs a fresh configured Actor graph and, where needed, native World outside timing. Warm stat caches and collect twice before timing. No resource reset is performed inside the timed batch.",
+  "instrumentation": "Direct native Actor/World entry points; scalar returned-gain accumulation and seeded RNG draw counting are timed. No gain wrappers. All outcome assertions, state hashing, setup, cache warming and GC are outside timing.",
+  "correctness": "Independent analytic pool/event expectations plus hashes of complete selected pool, flag, queue, cue and timer state for every Actor; aggregate totals, three representative states, complete World feedback and Actor-own-field hashes. Require identical full receipts across native and installed graphs and every sample.",
+  "scope": "Seven path workloads at both1024 and4096 Actors,32 operations per Actor. One real World workload at16 and64 Actors for120 binary-exact1/64-second steps with life regeneration converted to shield. These are controlled path costs, not player frequency distributions or FPS.",
+  "optimizationDecision": {
+    "minimumRepeatableMedianImprovementPercent": 5,
+    "maximumOtherMedianRegressionPercent": 5,
+    "maximumOtherP95RegressionPercent": 10,
+    "rule": "An optimization proposal must improve its preselected workload in both reversed-order runs and meet the other-workload limits; reject or investigate inconsistent rankings."
+  },
+  "limits": [
+    "Retained heap is not allocation volume",
+    "Headless World updates are not frame-rate measurements",
+    "Steam Deck and a named older mobile device remain required for device acceptance"
+  ],
+  "validatedOutcomeSha256": "a3f4d1b73611bf2c122225e14ee24a10cf6c29a8e706fcde36e02b4eb2df79d1"
+}

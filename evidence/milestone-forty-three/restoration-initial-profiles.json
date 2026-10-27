@@ -1,0 +1,1277 @@
+{
+  "schemaVersion": 1,
+  "milestone": 43,
+  "stage": "Initial diagnostic profiles; no causal attribution or optimization acceptance",
+  "helper": "reference/benchmark-restoration.ts",
+  "workloads": [
+    "shield-positive",
+    "shield-full",
+    "poise-positive"
+  ],
+  "actors": 4096,
+  "directCallsPerActor": 32,
+  "warmups": 8,
+  "diagnosticSamples": 5,
+  "method": "Derived helper preserves all six preceding workload/count cases and their original setup and operation counts. Inspector sampling starts immediately before selected run() batches and stops immediately after; setup, receipt hashing and explicit GC are outside those windows. CPU and allocation sampling use separate processes. All full receipts match the accepted benchmark outcomes.",
+  "profiles": {
+    "cpu": {
+      "parameters": {
+        "mode": "cpu",
+        "names": [
+          "shield-positive",
+          "shield-full",
+          "poise-positive"
+        ],
+        "actors": 4096,
+        "samples": 5,
+        "warmups": 8,
+        "cpuIntervalMicroseconds": 100,
+        "heapSamplingIntervalBytes": 512,
+        "includeObjectsCollectedByMajorGC": true,
+        "includeObjectsCollectedByMinorGC": true
+      },
+      "helperSha256": "49ad02db0c680b35a21a0cc918441da666e5553efd9ad18b3142980f504be59f",
+      "diagnosticHelperSha256": "892ee374e539c43e5c1b17af3f40d7cfc506a91a38fef0c877fd0578afb42ce0",
+      "planSha256": "34074eb8a4ce54bde9a77afc75123ae875bcbbeb93e01b7c0b3c6dd7e4f017cf",
+      "acceptedOutcomesMatched": true,
+      "inputsUnchanged": true,
+      "graphs": {
+        "previous": {
+          "profilesSha256": "2e4b06d06d87fb931f64d27defd60fe9dfaeaaf8c216ebc5e241bc5a4845ad82",
+          "resultSha256": "d96902cb828763547ebef6aec849273241f43fb5e6214b6e2160201673cadd3a",
+          "traceSha256": "cb82cfec61862063ba5317216db9e3bab49cabf3ec1ed665f8b5c393a3a157ff",
+          "samples": {
+            "shield-positive": {
+              "profiles": 5,
+              "samples": 152,
+              "topSelf": [
+                [
+                  "compute [stats.ts:1]",
+                  {
+                    "self": 104,
+                    "inclusive": 104
+                  }
+                ],
+                [
+                  " [helper.ts:1]",
+                  {
+                    "self": 37,
+                    "inclusive": 141
+                  }
+                ],
+                [
+                  "dispatch [:0]",
+                  {
+                    "self": 6,
+                    "inclusive": 6
+                  }
+                ],
+                [
+                  "post [node:inspector:115]",
+                  {
+                    "self": 5,
+                    "inclusive": 11
+                  }
+                ],
+                [
+                  " [util:480]",
+                  {
+                    "self": 0,
+                    "inclusive": 11
+                  }
+                ]
+              ]
+            },
+            "shield-full": {
+              "profiles": 5,
+              "samples": 153,
+              "topSelf": [
+                [
+                  "compute [stats.ts:1]",
+                  {
+                    "self": 116,
+                    "inclusive": 116
+                  }
+                ],
+                [
+                  " [helper.ts:1]",
+                  {
+                    "self": 26,
+                    "inclusive": 142
+                  }
+                ],
+                [
+                  "post [node:inspector:115]",
+                  {
+                    "self": 5,
+                    "inclusive": 10
+                  }
+                ],
+                [
+                  "dispatch [:0]",
+                  {
+                    "self": 5,
+                    "inclusive": 5
+                  }
+                ],
+                [
+                  "get [stats.ts:1]",
+                  {
+                    "self": 1,
+                    "inclusive": 116
+                  }
+                ]
+              ]
+            },
+            "poise-positive": {
+              "profiles": 5,
+              "samples": 235,
+              "topSelf": [
+                [
+                  "compute [stats.ts:1]",
+                  {
+                    "self": 134,
+                    "inclusive": 134
+                  }
+                ],
+                [
+                  " [helper.ts:1]",
+                  {
+                    "self": 91,
+                    "inclusive": 223
+                  }
+                ],
+                [
+                  "post [node:inspector:115]",
+                  {
+                    "self": 5,
+                    "inclusive": 10
+                  }
+                ],
+                [
+                  "dispatch [:0]",
+                  {
+                    "self": 5,
+                    "inclusive": 5
+                  }
+                ],
+                [
+                  " [util:480]",
+                  {
+                    "self": 0,
+                    "inclusive": 10
+                  }
+                ]
+              ]
+            }
+          },
+          "selectedInliningEvents": [
+            {
+              "function": "gainEs",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainEs",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "gainEs",
+              "insideTryBlock": false
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainEs",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "gainPoise",
+              "insideTryBlock": false
+            },
+            {
+              "function": "gainPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            }
+          ]
+        },
+        "current": {
+          "profilesSha256": "0d3f240dcd717728406a7a532a3763f344d0d88c189bccea7bbf8546aa058075",
+          "resultSha256": "0bdda76298591dbea2d2a791847d6248b4a6b83544570053b5163c8321ea0a17",
+          "traceSha256": "8bc4d6a95906a589c0c15677e3da0e50b0172c3d1536bb178ecb1fbf3fd3e33e",
+          "samples": {
+            "shield-positive": {
+              "profiles": 5,
+              "samples": 128,
+              "topSelf": [
+                [
+                  "compute [stats.ts:1]",
+                  {
+                    "self": 95,
+                    "inclusive": 95
+                  }
+                ],
+                [
+                  " [helper.ts:1]",
+                  {
+                    "self": 20,
+                    "inclusive": 118
+                  }
+                ],
+                [
+                  "post [node:inspector:115]",
+                  {
+                    "self": 5,
+                    "inclusive": 10
+                  }
+                ],
+                [
+                  "dispatch [:0]",
+                  {
+                    "self": 5,
+                    "inclusive": 5
+                  }
+                ],
+                [
+                  "get [stats.ts:1]",
+                  {
+                    "self": 3,
+                    "inclusive": 98
+                  }
+                ]
+              ]
+            },
+            "shield-full": {
+              "profiles": 5,
+              "samples": 108,
+              "topSelf": [
+                [
+                  "compute [stats.ts:1]",
+                  {
+                    "self": 77,
+                    "inclusive": 77
+                  }
+                ],
+                [
+                  " [helper.ts:1]",
+                  {
+                    "self": 20,
+                    "inclusive": 96
+                  }
+                ],
+                [
+                  "post [node:inspector:115]",
+                  {
+                    "self": 5,
+                    "inclusive": 10
+                  }
+                ],
+                [
+                  "dispatch [:0]",
+                  {
+                    "self": 5,
+                    "inclusive": 5
+                  }
+                ],
+                [
+                  "wrappedFn [errors:537]",
+                  {
+                    "self": 1,
+                    "inclusive": 1
+                  }
+                ]
+              ]
+            },
+            "poise-positive": {
+              "profiles": 5,
+              "samples": 189,
+              "topSelf": [
+                [
+                  "compute [stats.ts:1]",
+                  {
+                    "self": 103,
+                    "inclusive": 103
+                  }
+                ],
+                [
+                  " [helper.ts:1]",
+                  {
+                    "self": 72,
+                    "inclusive": 176
+                  }
+                ],
+                [
+                  "post [node:inspector:115]",
+                  {
+                    "self": 6,
+                    "inclusive": 11
+                  }
+                ],
+                [
+                  "dispatch [:0]",
+                  {
+                    "self": 5,
+                    "inclusive": 5
+                  }
+                ],
+                [
+                  "get [stats.ts:1]",
+                  {
+                    "self": 2,
+                    "inclusive": 104
+                  }
+                ]
+              ]
+            }
+          },
+          "selectedInliningEvents": [
+            {
+              "function": "gainEs",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainEs",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainEnergyShield",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maximumShield",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainEnergyShield",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maximumShield",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maximumShield",
+              "into": "gainEnergyShield",
+              "insideTryBlock": false
+            },
+            {
+              "function": "maxEs",
+              "into": "gainEnergyShield",
+              "insideTryBlock": false
+            },
+            {
+              "function": "gainEnergyShield",
+              "into": "gainEs",
+              "insideTryBlock": false
+            },
+            {
+              "function": "maximumShield",
+              "into": "gainEs",
+              "insideTryBlock": false
+            },
+            {
+              "function": "maxEs",
+              "into": "gainEs",
+              "insideTryBlock": false
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainEs",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainEnergyShield",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maximumShield",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "poiseOvercharge",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maximumPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "poiseOvercharge",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maximumPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainPoise",
+              "into": "gainPoise",
+              "insideTryBlock": false
+            },
+            {
+              "function": "poiseOvercharge",
+              "into": "gainPoise",
+              "insideTryBlock": false
+            },
+            {
+              "function": "maximumPoise",
+              "into": "gainPoise",
+              "insideTryBlock": false
+            },
+            {
+              "function": "gainPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "poiseOvercharge",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maximumPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "poiseOvercharge",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maximumPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "gainPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "poiseOvercharge",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maximumPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "(anonymous)",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxEs",
+              "into": "setup",
+              "insideTryBlock": true
+            },
+            {
+              "function": "maxPoise",
+              "into": "setup",
+              "insideTryBlock": true
+            }
+          ]
+        }
+      }
+    },
+    "allocation": {
+      "parameters": {
+        "mode": "allocations",
+        "names": [
+          "shield-positive",
+          "shield-full",
+          "poise-positive"
+        ],
+        "actors": 4096,
+        "samples": 5,
+        "warmups": 8,
+        "cpuIntervalMicroseconds": 100,
+        "heapSamplingIntervalBytes": 512,
+        "includeObjectsCollectedByMajorGC": true,
+        "includeObjectsCollectedByMinorGC": true
+      },
+      "helperSha256": "49ad02db0c680b35a21a0cc918441da666e5553efd9ad18b3142980f504be59f",
+      "diagnosticHelperSha256": "f7b01524dadf2d19bfef437e1a2cfb521e7a07323c699cc499eac7f12d73e271",
+      "planSha256": "39b390026c3bd958078f438491640a169296fa0f5a65b2973d63313818653f45",
+      "acceptedOutcomesMatched": true,
+      "inputsUnchanged": true,
+      "graphs": {
+        "previous": {
+          "profilesSha256": "c8f1b0a1db7d7da8b089e73328ee1947bb0ce142c04059f44d7ff4ee929b5dcc",
+          "resultSha256": "d4bf9ded326f5e56f413d35ae0e187c8dbed464eb6cca368fc6b7c4e1d4ac148",
+          "traceSha256": "49129d59fb8488409ab80f5e74e5788994a2e68c4192e73ac08fc85bcdf12559",
+          "samples": {
+            "shield-positive": {
+              "profiles": 5,
+              "totalSampledBytes": 21992,
+              "byFunction": [
+                [
+                  "post [node:inspector:115]",
+                  13440
+                ],
+                [
+                  " [helper.ts:1]",
+                  2296
+                ],
+                [
+                  "Promise [:0]",
+                  1344
+                ],
+                [
+                  "#onMessage [node:inspector:84]",
+                  1080
+                ],
+                [
+                  "delete [:0]",
+                  608
+                ],
+                [
+                  "wrappedFn [errors:537]",
+                  544
+                ],
+                [
+                  " [util:481]",
+                  544
+                ],
+                [
+                  "fn [util:479]",
+                  544
+                ],
+                [
+                  " [node:inspector:66]",
+                  544
+                ],
+                [
+                  "now [performance:137]",
+                  528
+                ],
+                [
+                  "endSample [helper.ts:1]",
+                  520
+                ]
+              ]
+            },
+            "shield-full": {
+              "profiles": 5,
+              "totalSampledBytes": 10520,
+              "byFunction": [
+                [
+                  "beginSample [helper.ts:1]",
+                  2440
+                ],
+                [
+                  "post [node:inspector:115]",
+                  2248
+                ],
+                [
+                  "#onMessage [node:inspector:84]",
+                  1824
+                ],
+                [
+                  "Promise [:0]",
+                  1200
+                ],
+                [
+                  "endSample [helper.ts:1]",
+                  1048
+                ],
+                [
+                  "push [:0]",
+                  672
+                ],
+                [
+                  " [util:481]",
+                  544
+                ],
+                [
+                  "fn [util:479]",
+                  544
+                ]
+              ]
+            },
+            "poise-positive": {
+              "profiles": 5,
+              "totalSampledBytes": 8848,
+              "byFunction": [
+                [
+                  "#onMessage [node:inspector:84]",
+                  3072
+                ],
+                [
+                  "push [:0]",
+                  1344
+                ],
+                [
+                  "wrappedFn [errors:537]",
+                  1064
+                ],
+                [
+                  " [helper.ts:1]",
+                  600
+                ],
+                [
+                  "beginSample [helper.ts:1]",
+                  600
+                ],
+                [
+                  " [util:480]",
+                  560
+                ],
+                [
+                  "fn [util:479]",
+                  544
+                ],
+                [
+                  " [util:481]",
+                  544
+                ],
+                [
+                  "endSample [helper.ts:1]",
+                  520
+                ]
+              ]
+            }
+          },
+          "completeGameAndRestorationAttribution": {
+            "shield-positive": {
+              "profiles": 5,
+              "sampledGameOrRestorationSelfBytes": 0
+            },
+            "shield-full": {
+              "profiles": 5,
+              "sampledGameOrRestorationSelfBytes": 0
+            },
+            "poise-positive": {
+              "profiles": 5,
+              "sampledGameOrRestorationSelfBytes": 0
+            }
+          }
+        },
+        "current": {
+          "profilesSha256": "352f6b5c252640f3d9d1d627f821e7e3794e455895b8c3d73793e8c37298d4d7",
+          "resultSha256": "12f4a62bb0d3d37ce1890b5e7d1dad5c37f0a2a7bc9e84ad6a14a9036f182544",
+          "traceSha256": "49129d59fb8488409ab80f5e74e5788994a2e68c4192e73ac08fc85bcdf12559",
+          "samples": {
+            "shield-positive": {
+              "profiles": 5,
+              "totalSampledBytes": 23152,
+              "byFunction": [
+                [
+                  "post [node:inspector:115]",
+                  12328
+                ],
+                [
+                  " [helper.ts:1]",
+                  2200
+                ],
+                [
+                  "endSample [helper.ts:1]",
+                  1576
+                ],
+                [
+                  "Promise [:0]",
+                  1344
+                ],
+                [
+                  "beginSample [helper.ts:1]",
+                  1200
+                ],
+                [
+                  "#onMessage [node:inspector:84]",
+                  1120
+                ],
+                [
+                  "push [:0]",
+                  672
+                ],
+                [
+                  "delete [:0]",
+                  608
+                ],
+                [
+                  " [util:480]",
+                  528
+                ],
+                [
+                  "fn [util:479]",
+                  528
+                ],
+                [
+                  " [util:481]",
+                  528
+                ],
+                [
+                  "wrappedFn [errors:537]",
+                  520
+                ]
+              ]
+            },
+            "shield-full": {
+              "profiles": 5,
+              "totalSampledBytes": 18808,
+              "byFunction": [
+                [
+                  "#onMessage [node:inspector:84]",
+                  4744
+                ],
+                [
+                  "post [node:inspector:115]",
+                  3336
+                ],
+                [
+                  "push [:0]",
+                  2016
+                ],
+                [
+                  "Promise [:0]",
+                  1872
+                ],
+                [
+                  "beginSample [helper.ts:1]",
+                  1800
+                ],
+                [
+                  "wrappedFn [errors:537]",
+                  1608
+                ],
+                [
+                  "delete [:0]",
+                  1216
+                ],
+                [
+                  " [helper.ts:1]",
+                  600
+                ],
+                [
+                  "fn [util:479]",
+                  544
+                ],
+                [
+                  " [util:481]",
+                  544
+                ],
+                [
+                  "endSample [helper.ts:1]",
+                  528
+                ]
+              ]
+            },
+            "poise-positive": {
+              "profiles": 5,
+              "totalSampledBytes": 14064,
+              "byFunction": [
+                [
+                  "#onMessage [node:inspector:84]",
+                  3016
+                ],
+                [
+                  "post [node:inspector:115]",
+                  2760
+                ],
+                [
+                  "wrappedFn [errors:537]",
+                  2128
+                ],
+                [
+                  "endSample [helper.ts:1]",
+                  2096
+                ],
+                [
+                  "beginSample [helper.ts:1]",
+                  1800
+                ],
+                [
+                  " [helper.ts:1]",
+                  1128
+                ],
+                [
+                  "delete [:0]",
+                  608
+                ],
+                [
+                  " [util:480]",
+                  528
+                ]
+              ]
+            }
+          },
+          "completeGameAndRestorationAttribution": {
+            "shield-positive": {
+              "profiles": 5,
+              "sampledGameOrRestorationSelfBytes": 0
+            },
+            "shield-full": {
+              "profiles": 5,
+              "sampledGameOrRestorationSelfBytes": 0
+            },
+            "poise-positive": {
+              "profiles": 5,
+              "sampledGameOrRestorationSelfBytes": 0
+            }
+          }
+        }
+      }
+    }
+  },
+  "allocationSamplingPositiveControl": {
+    "passed": true,
+    "node": "v24.9.0",
+    "v8": "13.6.233.10-node.27",
+    "samplingInterval": 512,
+    "results": [
+      {
+        "includeCollected": false,
+        "sampledBytesInDiscardedAllocationStacks": 0,
+        "weakRefsCleared": true
+      },
+      {
+        "includeCollected": true,
+        "sampledBytesInDiscardedAllocationStacks": 4067488,
+        "weakRefsCleared": true
+      },
+      {
+        "includeCollected": false,
+        "sampledBytesInDiscardedAllocationStacks": 0,
+        "weakRefsCleared": true
+      },
+      {
+        "includeCollected": true,
+        "sampledBytesInDiscardedAllocationStacks": 4049280,
+        "weakRefsCleared": true
+      }
+    ],
+    "scope": "Positive control for sampling discarded allocations using both collection flags. Statistical samples are not exact allocation totals.",
+    "protocolDocumentation": "https://chromedevtools.github.io/devtools-protocol/tot/HeapProfiler/#method-startSampling"
+  },
+  "findings": [
+    "CPU self samples are concentrated in the host stat compute routine, with remaining samples in the timed loop and inspector control.",
+    "The diagnostic trace contains inlining of SDK gain functions and their forwarding queries into host gain functions and timed loops. It does not support assuming that these calls always remain uninlined.",
+    "The separate allocation samples and their complete game/restoration attribution are recorded above. They are not proof of zero allocation.",
+    "The Inspector wrapper adds awaits around selected batches and changes execution conditions. Profile-control overhead is substantial; its elapsed values and comparative sample counts cannot explain or replace the uninstrumented timings.",
+    "The repeated uninstrumented regression remains unresolved. Inspect unchanged-helper traces or test an explicitly bounded proposal before attributing or accepting a fix."
+  ],
+  "optimizationAccepted": false
+}

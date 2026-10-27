@@ -1,0 +1,4800 @@
+{
+  "validationOnly": false,
+  "node": "v24.9.0",
+  "v8": "13.6.233.10-node.27",
+  "platform": "win32",
+  "osRelease": "10.0.19045",
+  "arch": "x64",
+  "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+  "logicalCpus": 20,
+  "totalMemoryBytes": 68631449600,
+  "planSha256": "bb975f3a20b137cfd6cdb23f28c26b78a87fa088928a1de11d4037b850889fdc",
+  "authoredProcs": {
+    "mana": {
+      "id": "desperate_reserves",
+      "name": "Desperate Reserves",
+      "color": "#8fa8d8",
+      "trigger": "cast",
+      "tags": [
+        "spell"
+      ],
+      "when": "lowMana",
+      "icd": 3,
+      "effect": {
+        "type": "restore",
+        "resource": "mana",
+        "pctMax": 0.1
+      }
+    },
+    "poise": {
+      "id": "relic_guard_refrain",
+      "name": "Censer Refrain",
+      "color": "#ddc58f",
+      "trigger": "block",
+      "icd": 5,
+      "effect": {
+        "type": "restore",
+        "resource": "poise",
+        "pctMax": 0.06
+      }
+    }
+  },
+  "results": [
+    {
+      "name": "shield-positive",
+      "actors": 1024,
+      "receipt": {
+        "name": "shield-positive",
+        "actors": 1024,
+        "operations": 32768,
+        "actorUpdateOpportunities": 0,
+        "returned": 98304,
+        "draws": 0,
+        "actorStateSha256": "224f9ebece22d384f0dfdf434e22d11bda1114b48d64c0ff97a83c15c61cd5a5",
+        "actorOwnFieldsSha256": "9f2c97497948659ce6e3c0d3e6ddd9d09af771adaf13bacaeb5fa2f923b3e5bf",
+        "totals": {
+          "life": 1024000,
+          "mana": 409600,
+          "es": 507904,
+          "poise": 409600,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 496,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 512,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 496,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 1023,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 496,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": null
+      },
+      "receiptSha256": "97ee46eba6fdcfb082c7dad7e9c29dcf0ba09897d2d9c813dfd74f1a09e98a51",
+      "samplesMs": [
+        2.9844000000011874,
+        2.949900000001435,
+        3.1098000000001775,
+        3.530399999999645,
+        3.1916999999994005,
+        3.7565000000013242,
+        3.4375,
+        3.1022999999986496,
+        3.128899999999703,
+        3.2049999999999272,
+        3.2505999999993946,
+        3.5002999999996973,
+        3.3179999999993015,
+        5.278999999998632,
+        5.033900000000358,
+        3.2043999999987136,
+        4.655099999999948,
+        3.9619999999995343,
+        2.8919000000005326,
+        3.2876000000014756,
+        3.607299999999668,
+        3.0364000000008673,
+        3.134299999999712,
+        3.425100000000384,
+        3.730600000000777
+      ],
+      "medianMs": 3.2876000000014756,
+      "p95Ms": 5.033900000000358
+    },
+    {
+      "name": "shield-positive",
+      "actors": 4096,
+      "receipt": {
+        "name": "shield-positive",
+        "actors": 4096,
+        "operations": 131072,
+        "actorUpdateOpportunities": 0,
+        "returned": 393216,
+        "draws": 0,
+        "actorStateSha256": "c2bf49729357644a14bcc4abf2ded1db5bf00e05203599ebaa7d6ea42379555d",
+        "actorOwnFieldsSha256": "1d2ed9a5951afb530bd78f00f02bcf7085e97dda478f9878451c9049f91960b7",
+        "totals": {
+          "life": 4096000,
+          "mana": 1638400,
+          "es": 2031616,
+          "poise": 1638400,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 496,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 2048,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 496,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 4095,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 496,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": null
+      },
+      "receiptSha256": "674cd8366c58479bf584f8cb9de05a45e4da5cbfe757e41b49fa318d83798540",
+      "samplesMs": [
+        13.526200000000244,
+        15.890800000001036,
+        16.842099999998027,
+        16.289300000000367,
+        14.830500000000029,
+        12.453999999997905,
+        20.869800000000396,
+        15.719699999997829,
+        14.083399999999529,
+        16.73649999999907,
+        18.584399999999732,
+        17.270300000000134,
+        16.269400000001042,
+        15.6720000000023,
+        13.723699999998644,
+        19.441200000001118,
+        22.34990000000107,
+        19.020300000000134,
+        27.81789999999819,
+        16.394599999999627,
+        18.704299999997602,
+        14.083200000000943,
+        17.17199999999866,
+        17.844599999996717,
+        16.64979999999923
+      ],
+      "medianMs": 16.64979999999923,
+      "p95Ms": 22.34990000000107
+    },
+    {
+      "name": "shield-full",
+      "actors": 1024,
+      "receipt": {
+        "name": "shield-full",
+        "actors": 1024,
+        "operations": 32768,
+        "actorUpdateOpportunities": 0,
+        "returned": 0,
+        "draws": 0,
+        "actorStateSha256": "d01fdecb39e3c16e36d650569d4091103c79e606cc24635bbe98284980c1ec04",
+        "actorOwnFieldsSha256": "9f2c97497948659ce6e3c0d3e6ddd9d09af771adaf13bacaeb5fa2f923b3e5bf",
+        "totals": {
+          "life": 1024000,
+          "mana": 409600,
+          "es": 1024000,
+          "poise": 409600,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 1000,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 512,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 1000,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 1023,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 1000,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": null
+      },
+      "receiptSha256": "fe704ad474adce88da696c8fd724994a4511b6e5b1e0fefb37e964ad201e2d44",
+      "samplesMs": [
+        2.9052000000010594,
+        3.0700999999971827,
+        3.0689999999958673,
+        3.2615999999979977,
+        3.1741000000038184,
+        3.1569000000017695,
+        3.147499999999127,
+        4.8017000000036205,
+        3.071300000003248,
+        3.241199999996752,
+        4.164499999998952,
+        3.3588999999992666,
+        3.818200000001525,
+        3.1652000000030966,
+        3.0656999999991967,
+        3.173500000004424,
+        3.0593000000008033,
+        3.2035000000032596,
+        3.1173000000053435,
+        3.110499999995227,
+        3.1582000000053085,
+        3.4844999999986612,
+        2.8430000000007567,
+        3.146099999998114,
+        3.0388999999995576
+      ],
+      "medianMs": 3.1569000000017695,
+      "p95Ms": 4.164499999998952
+    },
+    {
+      "name": "shield-full",
+      "actors": 4096,
+      "receipt": {
+        "name": "shield-full",
+        "actors": 4096,
+        "operations": 131072,
+        "actorUpdateOpportunities": 0,
+        "returned": 0,
+        "draws": 0,
+        "actorStateSha256": "cbe40a133cc889ac1d50f9ff49ac56d9ca232c211c677084dd0416b892a9130c",
+        "actorOwnFieldsSha256": "1d2ed9a5951afb530bd78f00f02bcf7085e97dda478f9878451c9049f91960b7",
+        "totals": {
+          "life": 4096000,
+          "mana": 1638400,
+          "es": 4096000,
+          "poise": 1638400,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 1000,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 2048,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 1000,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 4095,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 1000,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": null
+      },
+      "receiptSha256": "51b14f61c9b780431ac45d420385d5424124568837f012e33154060f20738f5d",
+      "samplesMs": [
+        14.999799999997776,
+        23.249199999998382,
+        16.65110000000277,
+        12.215199999998731,
+        21.703200000003562,
+        14.826999999997497,
+        16.326600000000326,
+        15.271200000002864,
+        14.853000000002794,
+        14.502300000000105,
+        16.93930000000546,
+        32.5425000000032,
+        15.11030000000028,
+        17.374299999995856,
+        17.42059999999765,
+        15.233099999997648,
+        13.625,
+        13.254500000002736,
+        13.23240000000078,
+        13.976599999994505,
+        11.26260000000184,
+        17.045899999997346,
+        14.483099999997648,
+        13.895700000000943,
+        16.13680000000022
+      ],
+      "medianMs": 15.11030000000028,
+      "p95Ms": 23.249199999998382
+    },
+    {
+      "name": "poise-positive",
+      "actors": 1024,
+      "receipt": {
+        "name": "poise-positive",
+        "actors": 1024,
+        "operations": 32768,
+        "actorUpdateOpportunities": 0,
+        "returned": 98304,
+        "draws": 0,
+        "actorStateSha256": "ece9bd0fc367200d215899d1ec3adb6d0137416ba7b103089fb84098dbf5a3c4",
+        "actorOwnFieldsSha256": "9f2c97497948659ce6e3c0d3e6ddd9d09af771adaf13bacaeb5fa2f923b3e5bf",
+        "totals": {
+          "life": 1024000,
+          "mana": 409600,
+          "es": 409600,
+          "poise": 507904,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 496,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 512,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 496,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 1023,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 496,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": null
+      },
+      "receiptSha256": "e17eb65974d041ed1baa9c7139073469e111b7a98d65ae783a29a915caaeb487",
+      "samplesMs": [
+        3.699499999987893,
+        5.360799999994924,
+        3.792700000005425,
+        3.7577000000019325,
+        3.765499999994063,
+        5.125599999999395,
+        5.255199999999604,
+        4.023299999986193,
+        4.24900000001071,
+        4.372300000002724,
+        3.917600000000675,
+        4.00340000000142,
+        4.032099999996717,
+        3.8016999999963446,
+        4.21119999999064,
+        4.147199999992154,
+        3.86270000001241,
+        5.173000000009779,
+        4.867700000002515,
+        4.049100000003818,
+        5.910900000002584,
+        5.794999999998254,
+        4.00800000000163,
+        4.245100000000093,
+        4.345900000000256
+      ],
+      "medianMs": 4.147199999992154,
+      "p95Ms": 5.794999999998254
+    },
+    {
+      "name": "poise-positive",
+      "actors": 4096,
+      "receipt": {
+        "name": "poise-positive",
+        "actors": 4096,
+        "operations": 131072,
+        "actorUpdateOpportunities": 0,
+        "returned": 393216,
+        "draws": 0,
+        "actorStateSha256": "4ec1bbb1eaf8bca290eead1eb83eb8a9383aba9f8e69c116fd213e1b43506276",
+        "actorOwnFieldsSha256": "1d2ed9a5951afb530bd78f00f02bcf7085e97dda478f9878451c9049f91960b7",
+        "totals": {
+          "life": 4096000,
+          "mana": 1638400,
+          "es": 1638400,
+          "poise": 2031616,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 496,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 2048,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 496,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 4095,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 496,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": null
+      },
+      "receiptSha256": "f78e2ffaa3d250c31ebf67c51b793969d8ac5535aa1bc7372b3a2c523bd7e373",
+      "samplesMs": [
+        39.16679999999178,
+        26.451799999995274,
+        20.858500000002095,
+        19.175300000002608,
+        24.063300000008894,
+        24.054199999998673,
+        21.001399999993737,
+        21.523999999990338,
+        25.29910000000382,
+        18.800300000002608,
+        22.132400000002235,
+        21.732099999993807,
+        26.859000000011292,
+        41.82080000000133,
+        24.883700000005774,
+        24.01380000000063,
+        27.120999999999185,
+        31.59440000000177,
+        34.24530000000959,
+        24.84100000000035,
+        24.749500000005355,
+        20.44179999998596,
+        20.13839999999618,
+        21.197099999990314,
+        20.690100000007078
+      ],
+      "medianMs": 24.054199999998673,
+      "p95Ms": 39.16679999999178
+    },
+    {
+      "name": "poise-overcharge",
+      "actors": 1024,
+      "receipt": {
+        "name": "poise-overcharge",
+        "actors": 1024,
+        "operations": 32768,
+        "actorUpdateOpportunities": 0,
+        "returned": 512000,
+        "draws": 0,
+        "actorStateSha256": "ef1fa7883626f022a41514a4d89fe002c154b04d3cdd8a29ce2efbef6a08c081",
+        "actorOwnFieldsSha256": "9f2c97497948659ce6e3c0d3e6ddd9d09af771adaf13bacaeb5fa2f923b3e5bf",
+        "totals": {
+          "life": 1024000,
+          "mana": 409600,
+          "es": 409600,
+          "poise": 1536000,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 1500,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 512,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 1500,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 1023,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 1500,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": null
+      },
+      "receiptSha256": "1af86568959a9caeaa26b49a17d2cd89a12f6efebd2eb325241e674bc34e9b50",
+      "samplesMs": [
+        4.580399999991641,
+        4.2185000000026776,
+        7.440300000002026,
+        5.224600000001374,
+        3.644399999990128,
+        6.209000000002561,
+        3.677000000010594,
+        3.874600000010105,
+        3.9046999999991385,
+        3.838400000007823,
+        4.083499999993364,
+        3.7744000000093365,
+        4.036399999997229,
+        3.9611000000004424,
+        4.185300000011921,
+        3.927299999995739,
+        3.889899999994668,
+        4.041199999992386,
+        3.620199999990291,
+        3.760200000004261,
+        4.21919999999227,
+        3.954599999997299,
+        3.774199999999837,
+        3.831500000000233,
+        4.13310000000638
+      ],
+      "medianMs": 3.954599999997299,
+      "p95Ms": 6.209000000002561
+    },
+    {
+      "name": "poise-overcharge",
+      "actors": 4096,
+      "receipt": {
+        "name": "poise-overcharge",
+        "actors": 4096,
+        "operations": 131072,
+        "actorUpdateOpportunities": 0,
+        "returned": 2048000,
+        "draws": 0,
+        "actorStateSha256": "0ff3af3ef382fd7f5ec3ca8e4a0babca2a72e99d4ffd64a99403ad8b38c5edfd",
+        "actorOwnFieldsSha256": "1d2ed9a5951afb530bd78f00f02bcf7085e97dda478f9878451c9049f91960b7",
+        "totals": {
+          "life": 4096000,
+          "mana": 1638400,
+          "es": 1638400,
+          "poise": 6144000,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 1500,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 2048,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 1500,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 4095,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 1500,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": null
+      },
+      "receiptSha256": "cd47974bb862dc953053ea1fefe1e4d0fa10b058fc8edfb3e88e464f25d6094e",
+      "samplesMs": [
+        27.918799999999464,
+        16.53660000000673,
+        16.160700000007637,
+        18.42399999999907,
+        18.00569999999425,
+        15.943700000003446,
+        17.574400000012247,
+        19.47929999999178,
+        16.342600000003586,
+        29.80689999999595,
+        20.85460000000603,
+        18.74529999999504,
+        22.647100000001956,
+        26.352800000007846,
+        51.89289999999164,
+        17.24869999999646,
+        16.27400000000489,
+        29.165200000003097,
+        18.03630000000703,
+        16.881999999997788,
+        52.65030000000843,
+        22.28069999998843,
+        46.16379999999481,
+        23.498300000006566,
+        16.050600000002305
+      ],
+      "medianMs": 18.74529999999504,
+      "p95Ms": 51.89289999999164
+    },
+    {
+      "name": "instant-mana",
+      "actors": 1024,
+      "receipt": {
+        "name": "instant-mana",
+        "actors": 1024,
+        "operations": 32768,
+        "actorUpdateOpportunities": 0,
+        "returned": 98304,
+        "draws": 0,
+        "actorStateSha256": "eec10934721b2b47e746302f214ab9f3959d3c2be27b2df2e8f608b307d653da",
+        "actorOwnFieldsSha256": "9f2c97497948659ce6e3c0d3e6ddd9d09af771adaf13bacaeb5fa2f923b3e5bf",
+        "totals": {
+          "life": 1024000,
+          "mana": 507904,
+          "es": 409600,
+          "poise": 409600,
+          "events": 32768,
+          "eventAmount": 98304,
+          "feeding": 1024,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 496,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                }
+              ],
+              "feeding": [
+                {
+                  "resource": "mana",
+                  "profile": "mana",
+                  "color": "#91b9f3",
+                  "strength": 0.4266666666666667,
+                  "left": 0.25
+                }
+              ],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 512,
+            "state": {
+              "life": 1000,
+              "mana": 496,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                }
+              ],
+              "feeding": [
+                {
+                  "resource": "mana",
+                  "profile": "mana",
+                  "color": "#91b9f3",
+                  "strength": 0.4266666666666667,
+                  "left": 0.25
+                }
+              ],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 1023,
+            "state": {
+              "life": 1000,
+              "mana": 496,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                }
+              ],
+              "feeding": [
+                {
+                  "resource": "mana",
+                  "profile": "mana",
+                  "color": "#91b9f3",
+                  "strength": 0.4266666666666667,
+                  "left": 0.25
+                }
+              ],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": {
+          "time": 10,
+          "texts": [],
+          "flashes": [],
+          "pendingBursts": 0
+        }
+      },
+      "receiptSha256": "1b3de5ebb1286b3ca388cd2e24a75312969df63e21eb24e26ccccc425026786c",
+      "samplesMs": [
+        14.63969999999972,
+        11.00769999998738,
+        14.68300000000454,
+        10.774499999999534,
+        14.760999999998603,
+        12.293999999994412,
+        14.89549999999872,
+        12.458399999988615,
+        15.989000000001397,
+        13.213400000007823,
+        19.550199999997858,
+        13.766600000002654,
+        16.391300000002957,
+        11.481599999999162,
+        15.0684000000183,
+        11.095000000001164,
+        19.49299999998766,
+        15.564099999988684,
+        13.409699999989243,
+        10.517300000006799,
+        25.98649999999907,
+        19.235799999994924,
+        15.205300000001444,
+        11.11009999999078,
+        15.786300000007031
+      ],
+      "medianMs": 14.68300000000454,
+      "p95Ms": 19.550199999997858
+    },
+    {
+      "name": "instant-mana",
+      "actors": 4096,
+      "receipt": {
+        "name": "instant-mana",
+        "actors": 4096,
+        "operations": 131072,
+        "actorUpdateOpportunities": 0,
+        "returned": 393216,
+        "draws": 0,
+        "actorStateSha256": "633616f2f798614ae287d0e0c1a205444eb10b28900408c742988475e51cfcec",
+        "actorOwnFieldsSha256": "1d2ed9a5951afb530bd78f00f02bcf7085e97dda478f9878451c9049f91960b7",
+        "totals": {
+          "life": 4096000,
+          "mana": 2031616,
+          "es": 1638400,
+          "poise": 1638400,
+          "events": 131072,
+          "eventAmount": 393216,
+          "feeding": 4096,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 496,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                }
+              ],
+              "feeding": [
+                {
+                  "resource": "mana",
+                  "profile": "mana",
+                  "color": "#91b9f3",
+                  "strength": 0.4266666666666667,
+                  "left": 0.25
+                }
+              ],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 2048,
+            "state": {
+              "life": 1000,
+              "mana": 496,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                }
+              ],
+              "feeding": [
+                {
+                  "resource": "mana",
+                  "profile": "mana",
+                  "color": "#91b9f3",
+                  "strength": 0.4266666666666667,
+                  "left": 0.25
+                }
+              ],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 4095,
+            "state": {
+              "life": 1000,
+              "mana": 496,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                },
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                }
+              ],
+              "feeding": [
+                {
+                  "resource": "mana",
+                  "profile": "mana",
+                  "color": "#91b9f3",
+                  "strength": 0.4266666666666667,
+                  "left": 0.25
+                }
+              ],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": {
+          "time": 10,
+          "texts": [],
+          "flashes": [],
+          "pendingBursts": 0
+        }
+      },
+      "receiptSha256": "d4177e6cf4fa1932b1c875de984878e432aae5daebd31b49f771974901bc7173",
+      "samplesMs": [
+        105.80410000000848,
+        86.89160000000265,
+        57.98209999999381,
+        103.91269999998622,
+        59.98540000000503,
+        81.9658000000054,
+        126.38329999998678,
+        92.5637000000279,
+        80.81220000001485,
+        71.28090000001248,
+        63.1533000000054,
+        95.19289999999455,
+        122.79170000000158,
+        80.50680000000284,
+        96.41209999998682,
+        63.46769999997923,
+        55.521899999992456,
+        48.978000000002794,
+        97.20780000000377,
+        85.72830000001704,
+        126.58679999999003,
+        83.14810000002035,
+        116.29889999999432,
+        49.036800000001676,
+        55.374900000024354
+      ],
+      "medianMs": 83.14810000002035,
+      "p95Ms": 126.38329999998678
+    },
+    {
+      "name": "proc-mana",
+      "actors": 1024,
+      "receipt": {
+        "name": "proc-mana",
+        "actors": 1024,
+        "operations": 32768,
+        "actorUpdateOpportunities": 0,
+        "returned": 0,
+        "draws": 0,
+        "actorStateSha256": "5aca876c89a7b24a0991734c4ee063d7aacbbe17fcedb9e5ccf44f491fca8596",
+        "actorOwnFieldsSha256": "9f2c97497948659ce6e3c0d3e6ddd9d09af771adaf13bacaeb5fa2f923b3e5bf",
+        "totals": {
+          "life": 1024000,
+          "mana": 921600,
+          "es": 409600,
+          "poise": 409600,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 1024,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 900,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "desperate_reserves",
+                  "profile": "mend",
+                  "color": "#8fa8d8",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 512,
+            "state": {
+              "life": 1000,
+              "mana": 900,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "desperate_reserves",
+                  "profile": "mend",
+                  "color": "#8fa8d8",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 1023,
+            "state": {
+              "life": 1000,
+              "mana": 900,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "desperate_reserves",
+                  "profile": "mend",
+                  "color": "#8fa8d8",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": {
+          "time": 10,
+          "texts": [],
+          "flashes": [],
+          "pendingBursts": 0
+        }
+      },
+      "receiptSha256": "9cce5db12a1a08859457dd02e93e64ab04eca2ffe78b42a8fe1e0aa11f6ee415",
+      "samplesMs": [
+        22.688099999999395,
+        22.384600000019418,
+        21.459299999987707,
+        22.65539999998873,
+        22.559299999993527,
+        27.083600000012666,
+        21.745400000014342,
+        20.914400000008754,
+        34.382299999997485,
+        21.24790000001667,
+        20.78240000002552,
+        21.290900000021793,
+        21.64079999999376,
+        21.499599999981,
+        21.07839999999851,
+        21.90710000001127,
+        21.84580000001006,
+        22.38860000000568,
+        21.573000000003958,
+        21.81119999999646,
+        22.0570000000007,
+        20.955300000001444,
+        21.818900000012945,
+        22.043799999984913,
+        21.40649999998277
+      ],
+      "medianMs": 21.81119999999646,
+      "p95Ms": 27.083600000012666
+    },
+    {
+      "name": "proc-mana",
+      "actors": 4096,
+      "receipt": {
+        "name": "proc-mana",
+        "actors": 4096,
+        "operations": 131072,
+        "actorUpdateOpportunities": 0,
+        "returned": 0,
+        "draws": 0,
+        "actorStateSha256": "da931575aaaf58f61e23be320e7ab23042955f15aa939faf301dd8ac513cf5cf",
+        "actorOwnFieldsSha256": "1d2ed9a5951afb530bd78f00f02bcf7085e97dda478f9878451c9049f91960b7",
+        "totals": {
+          "life": 4096000,
+          "mana": 3686400,
+          "es": 1638400,
+          "poise": 1638400,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 4096,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 900,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "desperate_reserves",
+                  "profile": "mend",
+                  "color": "#8fa8d8",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 2048,
+            "state": {
+              "life": 1000,
+              "mana": 900,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "desperate_reserves",
+                  "profile": "mend",
+                  "color": "#8fa8d8",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 4095,
+            "state": {
+              "life": 1000,
+              "mana": 900,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "desperate_reserves",
+                  "profile": "mend",
+                  "color": "#8fa8d8",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": {
+          "time": 10,
+          "texts": [],
+          "flashes": [],
+          "pendingBursts": 0
+        }
+      },
+      "receiptSha256": "101a242dec4b13d1906cd9065da94101a6aa6abb3c10b6b8d0b24d2045912c18",
+      "samplesMs": [
+        139.0814000000246,
+        126.92929999998887,
+        110.32629999998608,
+        89.97250000000349,
+        99.19569999998203,
+        111.46959999998217,
+        103.3815000000177,
+        104.37420000002021,
+        123.08919999998761,
+        105.49109999998473,
+        126.13219999999274,
+        132.43250000002445,
+        112.23109999997541,
+        121.14830000000075,
+        106.47060000000056,
+        103.61439999999129,
+        106.71549999999115,
+        105.17530000000261,
+        122.85519999999087,
+        98.81479999999283,
+        118.82179999997607,
+        112.95560000001569,
+        97.40929999999935,
+        95.73999999999069,
+        104.55499999999302
+      ],
+      "medianMs": 106.71549999999115,
+      "p95Ms": 132.43250000002445
+    },
+    {
+      "name": "proc-poise",
+      "actors": 1024,
+      "receipt": {
+        "name": "proc-poise",
+        "actors": 1024,
+        "operations": 32768,
+        "actorUpdateOpportunities": 0,
+        "returned": 0,
+        "draws": 0,
+        "actorStateSha256": "8d0a25b20b573852f3a518220e41d1e646d84c9b9fa0c8327f5478386affcf21",
+        "actorOwnFieldsSha256": "9f2c97497948659ce6e3c0d3e6ddd9d09af771adaf13bacaeb5fa2f923b3e5bf",
+        "totals": {
+          "life": 1024000,
+          "mana": 409600,
+          "es": 409600,
+          "poise": 1024000,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 1024,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 1000,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "relic_guard_refrain",
+                  "profile": "mend",
+                  "color": "#ddc58f",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 512,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 1000,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "relic_guard_refrain",
+                  "profile": "mend",
+                  "color": "#ddc58f",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 1023,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 1000,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "relic_guard_refrain",
+                  "profile": "mend",
+                  "color": "#ddc58f",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": {
+          "time": 10,
+          "texts": [],
+          "flashes": [],
+          "pendingBursts": 0
+        }
+      },
+      "receiptSha256": "487a6c65704a4db88a327a97057294f26c981a7455917808033554335c0ee375",
+      "samplesMs": [
+        23.550199999997858,
+        25.492800000007264,
+        28.609599999996135,
+        31.769700000004377,
+        38.36600000000908,
+        29.84560000000056,
+        24.914199999999255,
+        23.661800000001676,
+        28.919699999998556,
+        26.752900000021327,
+        27.921500000025844,
+        33.39350000000559,
+        65.72019999998156,
+        54.80909999998403,
+        26.551000000006752,
+        32.79880000001867,
+        37.266399999993155,
+        36.67530000000261,
+        37.18359999998938,
+        33.065199999982724,
+        24.53859999999986,
+        54.19140000001062,
+        42.107300000003306,
+        36.86350000000675,
+        27.301799999986542
+      ],
+      "medianMs": 31.769700000004377,
+      "p95Ms": 54.80909999998403
+    },
+    {
+      "name": "proc-poise",
+      "actors": 4096,
+      "receipt": {
+        "name": "proc-poise",
+        "actors": 4096,
+        "operations": 131072,
+        "actorUpdateOpportunities": 0,
+        "returned": 0,
+        "draws": 0,
+        "actorStateSha256": "3ea40878bd35651d91e820254c0f0ecda6b2368892c5d342bbbf65410645300c",
+        "actorOwnFieldsSha256": "1d2ed9a5951afb530bd78f00f02bcf7085e97dda478f9878451c9049f91960b7",
+        "totals": {
+          "life": 4096000,
+          "mana": 1638400,
+          "es": 1638400,
+          "poise": 4096000,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 4096,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 1000,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "relic_guard_refrain",
+                  "profile": "mend",
+                  "color": "#ddc58f",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 2048,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 1000,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "relic_guard_refrain",
+                  "profile": "mend",
+                  "color": "#ddc58f",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 4095,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 1000,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "relic_guard_refrain",
+                  "profile": "mend",
+                  "color": "#ddc58f",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": {
+          "time": 10,
+          "texts": [],
+          "flashes": [],
+          "pendingBursts": 0
+        }
+      },
+      "receiptSha256": "018a8f308fcbf3faabca9d2aa8b4f0d52f11e756a55d9752c637a7c73496ea89",
+      "samplesMs": [
+        131.73490000001038,
+        109.0286999999953,
+        100.9260999999824,
+        122.7839999999851,
+        113.54780000000028,
+        100.71499999999651,
+        103.29720000000088,
+        122.86460000000079,
+        104.04509999998845,
+        94.44419999999809,
+        94.83050000001094,
+        96.52410000000964,
+        124.824099999998,
+        119.13279999999213,
+        99.59489999999641,
+        106.63910000000033,
+        124.77510000002803,
+        116.72729999999865,
+        112.34930000000168,
+        99.83199999999488,
+        111.425900000002,
+        112.33660000000964,
+        101.99009999999544,
+        122.21290000001318,
+        107.55019999999786
+      ],
+      "medianMs": 109.0286999999953,
+      "p95Ms": 124.824099999998
+    },
+    {
+      "name": "world-shield-conversion",
+      "actors": 16,
+      "receipt": {
+        "name": "world-shield-conversion",
+        "actors": 16,
+        "operations": 120,
+        "actorUpdateOpportunities": 1920,
+        "returned": 0,
+        "draws": 0,
+        "actorStateSha256": "5513d2de35f817f88760c6335d77209441324ab04ce8f22bd0dedb9b69d74495",
+        "actorOwnFieldsSha256": "7867fe434fd03b88b37c01528336a4474cfc5ce414ff646f91690a8238e7560c",
+        "totals": {
+          "life": 16000,
+          "mana": 6400,
+          "es": 7000,
+          "poise": 6400,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 437.5,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 998.125,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 1.875,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 8,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 437.5,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 998.125,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 1.875,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 15,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 437.5,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 998.125,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 1.875,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": {
+          "time": 11.875,
+          "texts": [],
+          "flashes": [],
+          "pendingBursts": 0
+        }
+      },
+      "receiptSha256": "3d5317cbce19969c626cc55808baf46ce1fea86d6f46f81288b4f6c41f9470b0",
+      "samplesMs": [
+        60.88959999999497,
+        62.54279999999562,
+        60.196300000010524,
+        67.08119999998598,
+        65.15580000000773,
+        67.98099999999977,
+        63.601699999999255,
+        70.98790000000736,
+        60.57719999999972,
+        57.89790000001085,
+        56.2271999999939,
+        62.41750000001048,
+        54.98179999997956,
+        103.36259999999311,
+        54.48619999998482,
+        55.193900000012945,
+        60.28470000001835,
+        57.09149999998044,
+        65.78519999998389,
+        52.677700000000186,
+        66.57209999999031,
+        61.47159999998985,
+        56.33239999998477,
+        63.89260000002105,
+        54.33209999999963
+      ],
+      "medianMs": 60.88959999999497,
+      "p95Ms": 70.98790000000736
+    },
+    {
+      "name": "world-shield-conversion",
+      "actors": 64,
+      "receipt": {
+        "name": "world-shield-conversion",
+        "actors": 64,
+        "operations": 120,
+        "actorUpdateOpportunities": 7680,
+        "returned": 0,
+        "draws": 0,
+        "actorStateSha256": "7fd4afd9fe18a97cff70cd034b58bd5e357b15342706c417b0dbe9cdd79bb47b",
+        "actorOwnFieldsSha256": "9ec5f651460db7b449543d03a314f4b3f52d38ef9fc63166bd9fa69c43cfd599",
+        "totals": {
+          "life": 64000,
+          "mana": 25600,
+          "es": 28000,
+          "poise": 25600,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 437.5,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 998.125,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 1.875,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 32,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 437.5,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 998.125,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 1.875,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 63,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 437.5,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 998.125,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 1.875,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ],
+        "world": {
+          "time": 11.875,
+          "texts": [],
+          "flashes": [],
+          "pendingBursts": 0
+        }
+      },
+      "receiptSha256": "13338f4cba5bee3615932c390fa46f4412b4a54a24dd43c398e9e4fa2cc17f93",
+      "samplesMs": [
+        135.66909999999916,
+        149.98130000001402,
+        122.9095999999845,
+        126.96400000000722,
+        142.42780000000494,
+        135.96590000001015,
+        123.87150000000838,
+        134.39990000001853,
+        131.48909999997704,
+        122.72270000001299,
+        149.48789999997825,
+        124.51799999998184,
+        129.14319999999134,
+        134.98769999999786,
+        128.53779999999097,
+        135.6998999999778,
+        120.87450000000536,
+        130.3920999999973,
+        143.05479999998352,
+        116.58359999998356,
+        117.10889999999199,
+        131.4413999999815,
+        128.2494000000006,
+        126.32579999999143,
+        144.82670000000508
+      ],
+      "medianMs": 130.3920999999973,
+      "p95Ms": 149.48789999997825
+    }
+  ],
+  "memory": [
+    {
+      "mode": "unused",
+      "count": 1024,
+      "receipt": {
+        "actorStateSha256": "33a502d937471ab29106219dbe37d695678181b0135e82f7a8a27ed5fed0eb93",
+        "actorOwnFieldsSha256": "9f2c97497948659ce6e3c0d3e6ddd9d09af771adaf13bacaeb5fa2f923b3e5bf",
+        "totals": {
+          "life": 1024000,
+          "mana": 409600,
+          "es": 409600,
+          "poise": 409600,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 512,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 1023,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ]
+      },
+      "receiptSha256": "1eff8554e6bbf04a0456d41056a8d7197f84c92c006f24a8b96a0d48457815cd",
+      "allActorWeakRefsReleased": true,
+      "samples": [
+        {
+          "beforeHeap": 153997280,
+          "usedHeapBeforeReceipt": 203188600,
+          "retainedHeap": 166910648,
+          "releasedHeap": 154041888,
+          "retainedBytes": 12868760,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154057160,
+          "usedHeapBeforeReceipt": 203188568,
+          "retainedHeap": 166902424,
+          "releasedHeap": 154044032,
+          "retainedBytes": 12858392,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154045744,
+          "usedHeapBeforeReceipt": 203171752,
+          "retainedHeap": 166901576,
+          "releasedHeap": 154044384,
+          "retainedBytes": 12857192,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154058504,
+          "usedHeapBeforeReceipt": 203159752,
+          "retainedHeap": 166910496,
+          "releasedHeap": 154053936,
+          "retainedBytes": 12856560,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154054144,
+          "usedHeapBeforeReceipt": 203200808,
+          "retainedHeap": 166845744,
+          "releasedHeap": 154054312,
+          "retainedBytes": 12791432,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154067176,
+          "usedHeapBeforeReceipt": 203239440,
+          "retainedHeap": 166846120,
+          "releasedHeap": 154054464,
+          "retainedBytes": 12791656,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154067784,
+          "usedHeapBeforeReceipt": 203240048,
+          "retainedHeap": 166846728,
+          "releasedHeap": 154062136,
+          "retainedBytes": 12784592,
+          "allActorWeakRefsReleased": true
+        }
+      ],
+      "medianBytesPerActor": 12555.234375
+    },
+    {
+      "mode": "unused",
+      "count": 4096,
+      "receipt": {
+        "actorStateSha256": "0d1ce789bf8af908f6dada50c783145f29d76970326c81d07435a4d549215b69",
+        "actorOwnFieldsSha256": "1d2ed9a5951afb530bd78f00f02bcf7085e97dda478f9878451c9049f91960b7",
+        "totals": {
+          "life": 4096000,
+          "mana": 1638400,
+          "es": 1638400,
+          "poise": 1638400,
+          "events": 0,
+          "eventAmount": 0,
+          "feeding": 0,
+          "pulses": 0,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 2048,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 4095,
+            "state": {
+              "life": 1000,
+              "mana": 400,
+              "es": 400,
+              "poise": 400,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [],
+              "feeding": [],
+              "streams": [],
+              "pulses": [],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ]
+      },
+      "receiptSha256": "13fd0c8ef7b95dc30eba5fd09a81834087e4bdb114b690e226bbbd04039a7963",
+      "allActorWeakRefsReleased": true,
+      "samples": [
+        {
+          "beforeHeap": 154065632,
+          "usedHeapBeforeReceipt": 257727752,
+          "retainedHeap": 205357592,
+          "releasedHeap": 154189632,
+          "retainedBytes": 51167960,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154204416,
+          "usedHeapBeforeReceipt": 257855328,
+          "retainedHeap": 205365760,
+          "releasedHeap": 154198184,
+          "retainedBytes": 51167576,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154202696,
+          "usedHeapBeforeReceipt": 257888768,
+          "retainedHeap": 205369616,
+          "releasedHeap": 154202536,
+          "retainedBytes": 51167080,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154204216,
+          "usedHeapBeforeReceipt": 257861688,
+          "retainedHeap": 205370136,
+          "releasedHeap": 154203056,
+          "retainedBytes": 51167080,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154226056,
+          "usedHeapBeforeReceipt": 257911464,
+          "retainedHeap": 205360456,
+          "releasedHeap": 154193208,
+          "retainedBytes": 51167248,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154194040,
+          "usedHeapBeforeReceipt": 257922736,
+          "retainedHeap": 205361296,
+          "releasedHeap": 154193456,
+          "retainedBytes": 51167840,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154193832,
+          "usedHeapBeforeReceipt": 257824184,
+          "retainedHeap": 205360688,
+          "releasedHeap": 154193608,
+          "retainedBytes": 51167080,
+          "allActorWeakRefsReleased": true
+        }
+      ],
+      "medianBytesPerActor": 12492.00390625
+    },
+    {
+      "mode": "restored",
+      "count": 1024,
+      "receipt": {
+        "actorStateSha256": "f3c93c6628a83cf91ee9750e60da2e04586787cf7c351ae202fa92329b9c09c6",
+        "actorOwnFieldsSha256": "9f2c97497948659ce6e3c0d3e6ddd9d09af771adaf13bacaeb5fa2f923b3e5bf",
+        "totals": {
+          "life": 1024000,
+          "mana": 515072,
+          "es": 412672,
+          "poise": 474112,
+          "events": 1024,
+          "eventAmount": 3072,
+          "feeding": 1024,
+          "pulses": 2048,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 503,
+              "es": 403,
+              "poise": 463,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                }
+              ],
+              "feeding": [
+                {
+                  "resource": "mana",
+                  "profile": "mana",
+                  "color": "#91b9f3",
+                  "strength": 0.4266666666666667,
+                  "left": 0.25
+                }
+              ],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "desperate_reserves",
+                  "profile": "mend",
+                  "color": "#8fa8d8",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                },
+                {
+                  "id": "relic_guard_refrain",
+                  "profile": "mend",
+                  "color": "#ddc58f",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 512,
+            "state": {
+              "life": 1000,
+              "mana": 503,
+              "es": 403,
+              "poise": 463,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                }
+              ],
+              "feeding": [
+                {
+                  "resource": "mana",
+                  "profile": "mana",
+                  "color": "#91b9f3",
+                  "strength": 0.4266666666666667,
+                  "left": 0.25
+                }
+              ],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "desperate_reserves",
+                  "profile": "mend",
+                  "color": "#8fa8d8",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                },
+                {
+                  "id": "relic_guard_refrain",
+                  "profile": "mend",
+                  "color": "#ddc58f",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 1023,
+            "state": {
+              "life": 1000,
+              "mana": 503,
+              "es": 403,
+              "poise": 463,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                }
+              ],
+              "feeding": [
+                {
+                  "resource": "mana",
+                  "profile": "mana",
+                  "color": "#91b9f3",
+                  "strength": 0.4266666666666667,
+                  "left": 0.25
+                }
+              ],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "desperate_reserves",
+                  "profile": "mend",
+                  "color": "#8fa8d8",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                },
+                {
+                  "id": "relic_guard_refrain",
+                  "profile": "mend",
+                  "color": "#ddc58f",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ]
+      },
+      "receiptSha256": "de45f29f3daeb94862ad3f2a0e0e1e8c9c63e5e8e050b7e4459f798086c90797",
+      "allActorWeakRefsReleased": true,
+      "samples": [
+        {
+          "beforeHeap": 154222240,
+          "usedHeapBeforeReceipt": 211087688,
+          "retainedHeap": 172338096,
+          "releasedHeap": 154121952,
+          "retainedBytes": 18216144,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154101744,
+          "usedHeapBeforeReceipt": 210946808,
+          "retainedHeap": 172340792,
+          "releasedHeap": 154126032,
+          "retainedBytes": 18214760,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154117424,
+          "usedHeapBeforeReceipt": 210986336,
+          "retainedHeap": 172372264,
+          "releasedHeap": 154157504,
+          "retainedBytes": 18214760,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154136992,
+          "usedHeapBeforeReceipt": 210963624,
+          "retainedHeap": 172375008,
+          "releasedHeap": 154160248,
+          "retainedBytes": 18214760,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154141040,
+          "usedHeapBeforeReceipt": 210974648,
+          "retainedHeap": 172399464,
+          "releasedHeap": 154184704,
+          "retainedBytes": 18214760,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154176848,
+          "usedHeapBeforeReceipt": 210699616,
+          "retainedHeap": 172409720,
+          "releasedHeap": 154194200,
+          "retainedBytes": 18215520,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154186464,
+          "usedHeapBeforeReceipt": 210651424,
+          "retainedHeap": 172409400,
+          "releasedHeap": 154194184,
+          "retainedBytes": 18215216,
+          "allActorWeakRefsReleased": true
+        }
+      ],
+      "medianBytesPerActor": 17787.8515625
+    },
+    {
+      "mode": "restored",
+      "count": 4096,
+      "receipt": {
+        "actorStateSha256": "ff972f24ef1aff06b65c47f5a7bcee8944e2a904b515cdf6f4e4b07ea36273e2",
+        "actorOwnFieldsSha256": "1d2ed9a5951afb530bd78f00f02bcf7085e97dda478f9878451c9049f91960b7",
+        "totals": {
+          "life": 4096000,
+          "mana": 2060288,
+          "es": 1650688,
+          "poise": 1896448,
+          "events": 4096,
+          "eventAmount": 12288,
+          "feeding": 4096,
+          "pulses": 8192,
+          "pops": 0,
+          "streams": 0
+        },
+        "representatives": [
+          {
+            "index": 0,
+            "state": {
+              "life": 1000,
+              "mana": 503,
+              "es": 403,
+              "poise": 463,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                }
+              ],
+              "feeding": [
+                {
+                  "resource": "mana",
+                  "profile": "mana",
+                  "color": "#91b9f3",
+                  "strength": 0.4266666666666667,
+                  "left": 0.25
+                }
+              ],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "desperate_reserves",
+                  "profile": "mend",
+                  "color": "#8fa8d8",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                },
+                {
+                  "id": "relic_guard_refrain",
+                  "profile": "mend",
+                  "color": "#ddc58f",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 2048,
+            "state": {
+              "life": 1000,
+              "mana": 503,
+              "es": 403,
+              "poise": 463,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                }
+              ],
+              "feeding": [
+                {
+                  "resource": "mana",
+                  "profile": "mana",
+                  "color": "#91b9f3",
+                  "strength": 0.4266666666666667,
+                  "left": 0.25
+                }
+              ],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "desperate_reserves",
+                  "profile": "mend",
+                  "color": "#8fa8d8",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                },
+                {
+                  "id": "relic_guard_refrain",
+                  "profile": "mend",
+                  "color": "#ddc58f",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          },
+          {
+            "index": 4095,
+            "state": {
+              "life": 1000,
+              "mana": 503,
+              "es": 403,
+              "poise": 463,
+              "dead": false,
+              "healedSince": 0,
+              "reservedMana": 100,
+              "reservedLife": 0,
+              "esDelay": 1000,
+              "esJustFilled": false,
+              "esRecharging": false,
+              "esRechargeJustStarted": false,
+              "poiseBroken": false,
+              "poiseDelay": 0,
+              "poiseJustRearmed": false,
+              "poiseCalm": 0,
+              "gainEvents": [
+                {
+                  "kind": "restore",
+                  "id": "mana",
+                  "depth": 0,
+                  "n": 3
+                }
+              ],
+              "feeding": [
+                {
+                  "resource": "mana",
+                  "profile": "mana",
+                  "color": "#91b9f3",
+                  "strength": 0.4266666666666667,
+                  "left": 0.25
+                }
+              ],
+              "streams": [],
+              "pulses": [
+                {
+                  "id": "desperate_reserves",
+                  "profile": "mend",
+                  "color": "#8fa8d8",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                },
+                {
+                  "id": "relic_guard_refrain",
+                  "profile": "mend",
+                  "color": "#ddc58f",
+                  "count": 1,
+                  "cap": 1,
+                  "phase": "gain",
+                  "remaining": 1,
+                  "left": 0.55,
+                  "total": 0.55
+                }
+              ],
+              "pops": [],
+              "ready": [],
+              "attempted": [],
+              "fired": [],
+              "cooldowns": [],
+              "conditions": []
+            }
+          }
+        ]
+      },
+      "receiptSha256": "eed8c477cfd88410c81e5645c08d159ea92093c5b245280166d3e8e32cf1759d",
+      "allActorWeakRefsReleased": true,
+      "samples": [
+        {
+          "beforeHeap": 154188632,
+          "usedHeapBeforeReceipt": 233367336,
+          "retainedHeap": 227211192,
+          "releasedHeap": 154359656,
+          "retainedBytes": 72851536,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154358672,
+          "usedHeapBeforeReceipt": 233764240,
+          "retainedHeap": 227231424,
+          "releasedHeap": 154371472,
+          "retainedBytes": 72859952,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154350792,
+          "usedHeapBeforeReceipt": 233590992,
+          "retainedHeap": 227231120,
+          "releasedHeap": 154371624,
+          "retainedBytes": 72859496,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154351400,
+          "usedHeapBeforeReceipt": 233404736,
+          "retainedHeap": 227241456,
+          "releasedHeap": 154381960,
+          "retainedBytes": 72859496,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154362112,
+          "usedHeapBeforeReceipt": 233346472,
+          "retainedHeap": 227241920,
+          "releasedHeap": 154382424,
+          "retainedBytes": 72859496,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154363048,
+          "usedHeapBeforeReceipt": 233348808,
+          "retainedHeap": 227242072,
+          "releasedHeap": 154382576,
+          "retainedBytes": 72859496,
+          "allActorWeakRefsReleased": true
+        },
+        {
+          "beforeHeap": 154371032,
+          "usedHeapBeforeReceipt": 233340776,
+          "retainedHeap": 227242224,
+          "releasedHeap": 154382728,
+          "retainedBytes": 72859496,
+          "allActorWeakRefsReleased": true
+        }
+      ],
+      "medianBytesPerActor": 17787.962890625
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "milestone": 43,
+  "stage": "Actual-game workload validation; timing and optimization acceptance remain separate",
+  "parentCommit": "966cfac05148aea442af40755f73b9fba33ab670",
+  "plan": "baseline/milestone-forty-three/performance-workloads.json",
+  "planSha256": "bb975f3a20b137cfd6cdb23f28c26b78a87fa088928a1de11d4037b850889fdc",
+  "helperSha256": "49ad02db0c680b35a21a0cc918441da666e5553efd9ad18b3142980f504be59f",
+  "validatedOutcomeSha256": "a3f4d1b73611bf2c122225e14ee24a10cf6c29a8e706fcde36e02b4eb2df79d1",
+  "workloads": 16,
+  "memoryCases": 4,
+  "helperTypesPassed": true,
+  "validationOnly": true,
+  "noTimingOrMemoryByteResultsRecorded": true,
+  "actorCounts": [
+    1024,
+    4096
+  ],
+  "worldActorCounts": [
+    16,
+    64
+  ],
+  "directCallsPerActor": 32,
+  "worldFrames": 120,
+  "worldStepSeconds": 0.015625,
+  "graphOrder": [
+    "previous",
+    "current"
+  ],
+  "graphs": {
+    "previous": {
+      "version": "0.37.0",
+      "validationResultSha256": "5804be160a33f9724dc3359b9fdbfdf48083564baf48a009ad72125f9df8d6b5",
+      "sourceFiles": 996,
+      "runtimeFiles": 195,
+      "sourceMapSha256": "c6645dd8f02c8be5f7a3c2dc4d77a5388522aabe13a6589b68dbd851e1e0d47d",
+      "runtimeMapSha256": "83181ace23da5a3830b916b8315b92b90e157e8710318c5fbea86caa26ef6d6b"
+    },
+    "current": {
+      "version": "0.38.0",
+      "validationResultSha256": "5804be160a33f9724dc3359b9fdbfdf48083564baf48a009ad72125f9df8d6b5",
+      "sourceFiles": 997,
+      "runtimeFiles": 201,
+      "sourceMapSha256": "b9c78cdee4dc32da064827d8d28c0388d2764cc6ece049d42b8f03b1f80fdfa4",
+      "runtimeMapSha256": "49f4a5637979a46c3770e315d13a415508446f7654db0f40bf3fe67a23150189"
+    }
+  },
+  "candidateArchiveSha256": "4ee0bef42b3937fe52e25ce0a377a3e9339498980e0388dfdb8fc4dddc19b4d8",
+  "unchangedPreviousRuntimeFiles": 195,
+  "unrelatedHostFilesUnchanged": 994,
+  "sourceCapsuleUnchanged": true,
+  "retainedControls": 12,
+  "retainedControlsAndSealedRendererUnchanged": true,
+  "actorRelease": "Every Actor WeakRef cleared after explicit strong-reference release, a new JS job and two collections in all four memory cases in both graphs.",
+  "method": "One real Actor/World game graph per process. Fresh configured Actors, cache warming, GC, state assertions and hashing stay outside timing. Timed direct calls include scalar return accumulation and seeded RNG counting, without gain-method wrappers. All relevant pool/flag/queue/cue state and own-field names are hashed across every Actor.",
+  "initialValidationFailure": "Type-check rejected an optional event amount in the benchmark accumulator. The helper now counts absent amounts as zero. Both graphs then passed every analytic expectation and complete receipt comparison before plan acceptance.",
+  "limits": [
+    "Controlled path costs, not a production event-frequency distribution.",
+    "No FPS, renderer, physical-device, native-engine or allocation-volume claim.",
+    "Two reversed-order timed runs and profiling before optimization acceptance remain required."
+  ]
+}

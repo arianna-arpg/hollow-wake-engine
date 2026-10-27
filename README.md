@@ -13,8 +13,12 @@ The v0.38 development candidate adds [resource restoration](docs/resource-restor
 shield/poise gain gates, immediate restore events, reserved-mana proc restoration
 and strict content compilers. Its separately committed native baseline is reproduced
 in 218 installed-game observations. Twenty renderer scenarios also match two
-independent native captures. Performance, managed-game and public-main acceptance
-remain open.
+independent native captures. Sixteen actual-game benchmark cases and four memory
+cases pass native/SDK outcome validation before timing. Performance, managed-game
+and public-main acceptance remain open. Initial reversed-order measurements
+preserve outcomes and retained memory but show repeated shield/poise CPU
+regressions; [the full evidence](evidence/milestone-forty-three/restoration-initial-performance.json)
+is retained for profiling before an optimization decision.
 
 Version 0.37 adds optional [life recovery](docs/life-recovery.md): healing,
 full refill and validated proc-heal content. The installed game adapter preserves

@@ -1,0 +1,590 @@
+{
+  "schemaVersion": 1,
+  "milestone": 43,
+  "stage": "Initial restoration runtime measurements; optimization decision and release acceptance remain open",
+  "runtimeCommit": "ad0337604a9157af5a66525adc586dac6a8bbbfd",
+  "version": "0.38.0 development candidate",
+  "plan": "baseline/milestone-forty-three/performance-workloads.json",
+  "planSha256": "bb975f3a20b137cfd6cdb23f28c26b78a87fa088928a1de11d4037b850889fdc",
+  "helperSha256": "49ad02db0c680b35a21a0cc918441da666e5553efd9ad18b3142980f504be59f",
+  "wrapperSha256": "e54775f25b8d5f87672c511f17d46d6b335116ed752358fe13cc31e2e7d7b510",
+  "validatedOutcomeSha256": "a3f4d1b73611bf2c122225e14ee24a10cf6c29a8e706fcde36e02b4eb2df79d1",
+  "runs": [
+    {
+      "number": 1,
+      "graphOrder": [
+        "previous",
+        "current"
+      ],
+      "graphs": {
+        "previous": {
+          "file": "restoration-initial-run-1-previous.json",
+          "sha256": "b0f52e56699c5ebbcbc8fe80ba6bd69517d801a2f65ffa10c36aa3bea8ab7014",
+          "version": "0.37.0"
+        },
+        "current": {
+          "file": "restoration-initial-run-1-current.json",
+          "sha256": "3eb63e36205f8ccd7a680ad725ce1b46e9d6bffd1db69f322f388c40f4581a0a",
+          "version": "0.38.0"
+        }
+      },
+      "outcomeSha256": "a3f4d1b73611bf2c122225e14ee24a10cf6c29a8e706fcde36e02b4eb2df79d1",
+      "sourceAndPackageAndControlChecksPassed": true
+    },
+    {
+      "number": 2,
+      "graphOrder": [
+        "current",
+        "previous"
+      ],
+      "graphs": {
+        "current": {
+          "file": "restoration-initial-run-2-current.json",
+          "sha256": "b5bac6c490d489c55d260242491436a00d9d39c7cdf4817b6ae03c009c60feed",
+          "version": "0.38.0"
+        },
+        "previous": {
+          "file": "restoration-initial-run-2-previous.json",
+          "sha256": "4c0f49b6952adfe26a4265019cbb4ff99c7b3a2bcd668dab5f678f45a6552f85",
+          "version": "0.37.0"
+        }
+      },
+      "outcomeSha256": "a3f4d1b73611bf2c122225e14ee24a10cf6c29a8e706fcde36e02b4eb2df79d1",
+      "sourceAndPackageAndControlChecksPassed": true
+    }
+  ],
+  "comparisons": [
+    {
+      "name": "shield-positive",
+      "actors": 1024,
+      "operations": 32768,
+      "actorUpdateOpportunities": 0,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianMs": 2.5129999999990105,
+          "sdkMedianMs": 3.2876000000014756,
+          "medianDeltaPercent": 30.823716673409084,
+          "nativeP95Ms": 3.7347999999983585,
+          "sdkP95Ms": 5.033900000000358,
+          "p95DeltaPercent": 34.78365642076069
+        },
+        {
+          "number": 2,
+          "nativeMedianMs": 2.4112000000004628,
+          "sdkMedianMs": 2.6376000000000204,
+          "medianDeltaPercent": 9.389515593874997,
+          "nativeP95Ms": 3.8418000000001484,
+          "sdkP95Ms": 2.7726000000002387,
+          "p95DeltaPercent": -27.830704357329072
+        }
+      ]
+    },
+    {
+      "name": "shield-positive",
+      "actors": 4096,
+      "operations": 131072,
+      "actorUpdateOpportunities": 0,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianMs": 8.90179999999964,
+          "sdkMedianMs": 16.64979999999923,
+          "medianDeltaPercent": 87.03857646767965,
+          "nativeP95Ms": 11.25180000000546,
+          "sdkP95Ms": 22.34990000000107,
+          "p95DeltaPercent": 98.63399633827676
+        },
+        {
+          "number": 2,
+          "nativeMedianMs": 8.864300000001094,
+          "sdkMedianMs": 11.736699999997654,
+          "medianDeltaPercent": 32.40413794655197,
+          "nativeP95Ms": 11.709500000000844,
+          "sdkP95Ms": 15.603300000002491,
+          "p95DeltaPercent": 33.25334130408102
+        }
+      ]
+    },
+    {
+      "name": "shield-full",
+      "actors": 1024,
+      "operations": 32768,
+      "actorUpdateOpportunities": 0,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianMs": 2.2338999999992666,
+          "sdkMedianMs": 3.1569000000017695,
+          "medianDeltaPercent": 41.31787456926479,
+          "nativeP95Ms": 2.7603999999992084,
+          "sdkP95Ms": 4.164499999998952,
+          "p95DeltaPercent": 50.865816548331644
+        },
+        {
+          "number": 2,
+          "nativeMedianMs": 2.249900000002526,
+          "sdkMedianMs": 2.6428999999989173,
+          "medianDeltaPercent": 17.467442997286533,
+          "nativeP95Ms": 4.0953000000008615,
+          "sdkP95Ms": 3.3369000000020606,
+          "p95DeltaPercent": -18.518789832213546
+        }
+      ]
+    },
+    {
+      "name": "shield-full",
+      "actors": 4096,
+      "operations": 131072,
+      "actorUpdateOpportunities": 0,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianMs": 8.470200000003388,
+          "sdkMedianMs": 15.11030000000028,
+          "medianDeltaPercent": 78.3936624872404,
+          "nativeP95Ms": 12.66979999999603,
+          "sdkP95Ms": 23.249199999998382,
+          "p95DeltaPercent": 83.50092345582145
+        },
+        {
+          "number": 2,
+          "nativeMedianMs": 8.671900000001187,
+          "sdkMedianMs": 13.630499999999302,
+          "medianDeltaPercent": 57.180087408727445,
+          "nativeP95Ms": 9.881099999998696,
+          "sdkP95Ms": 25.868499999996857,
+          "p95DeltaPercent": 161.79777555130778
+        }
+      ]
+    },
+    {
+      "name": "poise-positive",
+      "actors": 1024,
+      "operations": 32768,
+      "actorUpdateOpportunities": 0,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianMs": 4.695700000011129,
+          "sdkMedianMs": 4.147199999992154,
+          "medianDeltaPercent": -11.680899546769929,
+          "nativeP95Ms": 5.879800000009709,
+          "sdkP95Ms": 5.794999999998254,
+          "p95DeltaPercent": -1.4422259262443449
+        },
+        {
+          "number": 2,
+          "nativeMedianMs": 3.977200000001176,
+          "sdkMedianMs": 4.347300000008545,
+          "medianDeltaPercent": 9.305541587228694,
+          "nativeP95Ms": 5.21820000000298,
+          "sdkP95Ms": 5.224600000001374,
+          "p95DeltaPercent": 0.12264765624907525
+        }
+      ]
+    },
+    {
+      "name": "poise-positive",
+      "actors": 4096,
+      "operations": 131072,
+      "actorUpdateOpportunities": 0,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianMs": 19.63509999999951,
+          "sdkMedianMs": 24.054199999998673,
+          "medianDeltaPercent": 22.506124236694845,
+          "nativeP95Ms": 28.699300000007497,
+          "sdkP95Ms": 39.16679999999178,
+          "p95DeltaPercent": 36.47301502120801
+        },
+        {
+          "number": 2,
+          "nativeMedianMs": 17.410799999997835,
+          "sdkMedianMs": 19.290499999988242,
+          "medianDeltaPercent": 10.796172490584244,
+          "nativeP95Ms": 21.132400000002235,
+          "sdkP95Ms": 50.30899999999383,
+          "p95DeltaPercent": 138.0657189906897
+        }
+      ]
+    },
+    {
+      "name": "poise-overcharge",
+      "actors": 1024,
+      "operations": 32768,
+      "actorUpdateOpportunities": 0,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianMs": 4.796299999987241,
+          "sdkMedianMs": 3.954599999997299,
+          "medianDeltaPercent": -17.54894397748641,
+          "nativeP95Ms": 6.318799999993644,
+          "sdkP95Ms": 6.209000000002561,
+          "p95DeltaPercent": -1.7376717096789451
+        },
+        {
+          "number": 2,
+          "nativeMedianMs": 4.019899999999325,
+          "sdkMedianMs": 4.324400000012247,
+          "medianDeltaPercent": 7.574815294235515,
+          "nativeP95Ms": 5.3453000000008615,
+          "sdkP95Ms": 5.10460000000603,
+          "p95DeltaPercent": -4.503021345757818
+        }
+      ]
+    },
+    {
+      "name": "poise-overcharge",
+      "actors": 4096,
+      "operations": 131072,
+      "actorUpdateOpportunities": 0,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianMs": 26.713199999998324,
+          "sdkMedianMs": 18.74529999999504,
+          "medianDeltaPercent": -29.827575880103407,
+          "nativeP95Ms": 49.263999999995576,
+          "sdkP95Ms": 51.89289999999164,
+          "p95DeltaPercent": 5.336351088008073
+        },
+        {
+          "number": 2,
+          "nativeMedianMs": 20.888300000005984,
+          "sdkMedianMs": 19.539000000004307,
+          "medianDeltaPercent": -6.45959699928328,
+          "nativeP95Ms": 35.450800000005984,
+          "sdkP95Ms": 21.965500000005704,
+          "p95DeltaPercent": -38.03948006814516
+        }
+      ]
+    },
+    {
+      "name": "instant-mana",
+      "actors": 1024,
+      "operations": 32768,
+      "actorUpdateOpportunities": 0,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianMs": 15.469599999996717,
+          "sdkMedianMs": 14.68300000000454,
+          "medianDeltaPercent": -5.084811501217512,
+          "nativeP95Ms": 32.398400000005495,
+          "sdkP95Ms": 19.550199999997858,
+          "p95DeltaPercent": -39.65689663688781
+        },
+        {
+          "number": 2,
+          "nativeMedianMs": 13.34539999999106,
+          "sdkMedianMs": 14.698999999993248,
+          "medianDeltaPercent": 10.142820747246951,
+          "nativeP95Ms": 16.227100000003702,
+          "sdkP95Ms": 16.693499999993946,
+          "p95DeltaPercent": 2.874204263177882
+        }
+      ]
+    },
+    {
+      "name": "instant-mana",
+      "actors": 4096,
+      "operations": 131072,
+      "actorUpdateOpportunities": 0,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianMs": 79.89300000001094,
+          "sdkMedianMs": 83.14810000002035,
+          "medianDeltaPercent": 4.074324408908114,
+          "nativeP95Ms": 97.28239999999641,
+          "sdkP95Ms": 126.38329999998678,
+          "p95DeltaPercent": 29.913838474370948
+        },
+        {
+          "number": 2,
+          "nativeMedianMs": 50.82630000001518,
+          "sdkMedianMs": 58.83240000001388,
+          "medianDeltaPercent": 15.751884359074552,
+          "nativeP95Ms": 62.950500000006286,
+          "sdkP95Ms": 81.95040000000154,
+          "p95DeltaPercent": 30.18228608191096
+        }
+      ]
+    },
+    {
+      "name": "proc-mana",
+      "actors": 1024,
+      "operations": 32768,
+      "actorUpdateOpportunities": 0,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianMs": 24.1478000000061,
+          "sdkMedianMs": 21.81119999999646,
+          "medianDeltaPercent": -9.676243798644391,
+          "nativeP95Ms": 29.550600000016857,
+          "sdkP95Ms": 27.083600000012666,
+          "p95DeltaPercent": -8.34839224923617
+        },
+        {
+          "number": 2,
+          "nativeMedianMs": 23.15700000000652,
+          "sdkMedianMs": 21.85030000002007,
+          "medianDeltaPercent": -5.6427861984975625,
+          "nativeP95Ms": 27.301399999996647,
+          "sdkP95Ms": 26.00319999997737,
+          "p95DeltaPercent": -4.755067505766874
+        }
+      ]
+    },
+    {
+      "name": "proc-mana",
+      "actors": 4096,
+      "operations": 131072,
+      "actorUpdateOpportunities": 0,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianMs": 116.67250000001513,
+          "sdkMedianMs": 106.71549999999115,
+          "medianDeltaPercent": -8.534144721354808,
+          "nativeP95Ms": 146.66159999999218,
+          "sdkP95Ms": 132.43250000002445,
+          "p95DeltaPercent": -9.701994250688994
+        },
+        {
+          "number": 2,
+          "nativeMedianMs": 83.64459999999963,
+          "sdkMedianMs": 83.4613000000245,
+          "medianDeltaPercent": -0.21914146277839386,
+          "nativeP95Ms": 111.15510000000359,
+          "sdkP95Ms": 113.42599999997765,
+          "p95DeltaPercent": 2.0430011758110878
+        }
+      ]
+    },
+    {
+      "name": "proc-poise",
+      "actors": 1024,
+      "operations": 32768,
+      "actorUpdateOpportunities": 0,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianMs": 25.34409999998752,
+          "sdkMedianMs": 31.769700000004377,
+          "medianDeltaPercent": 25.353435316385365,
+          "nativeP95Ms": 29.008700000005774,
+          "sdkP95Ms": 54.80909999998403,
+          "p95DeltaPercent": 88.94021448728526
+        },
+        {
+          "number": 2,
+          "nativeMedianMs": 24.812100000010105,
+          "sdkMedianMs": 24.188200000004144,
+          "medianDeltaPercent": -2.5144989743137725,
+          "nativeP95Ms": 28.40779999998631,
+          "sdkP95Ms": 29.228100000007544,
+          "p95DeltaPercent": 2.8875872120390556
+        }
+      ]
+    },
+    {
+      "name": "proc-poise",
+      "actors": 4096,
+      "operations": 131072,
+      "actorUpdateOpportunities": 0,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianMs": 114.85990000001038,
+          "sdkMedianMs": 109.0286999999953,
+          "medianDeltaPercent": -5.076793554595261,
+          "nativeP95Ms": 160.68250000002445,
+          "sdkP95Ms": 124.824099999998,
+          "p95DeltaPercent": -22.31630700295365
+        },
+        {
+          "number": 2,
+          "nativeMedianMs": 120.84899999998743,
+          "sdkMedianMs": 120.9030999999959,
+          "medianDeltaPercent": 0.044766609577640004,
+          "nativeP95Ms": 140.34359999999288,
+          "sdkP95Ms": 146.683800000028,
+          "p95DeltaPercent": 4.5176267389716696
+        }
+      ]
+    },
+    {
+      "name": "world-shield-conversion",
+      "actors": 16,
+      "operations": 120,
+      "actorUpdateOpportunities": 1920,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianMs": 56.7330999999831,
+          "sdkMedianMs": 60.88959999999497,
+          "medianDeltaPercent": 7.326410860702337,
+          "nativeP95Ms": 61.74210000000312,
+          "sdkP95Ms": 70.98790000000736,
+          "p95DeltaPercent": 14.974871279084724
+        },
+        {
+          "number": 2,
+          "nativeMedianMs": 57.733500000002095,
+          "sdkMedianMs": 55.517699999996694,
+          "medianDeltaPercent": -3.837979682515902,
+          "nativeP95Ms": 76.66499999997905,
+          "sdkP95Ms": 63.77490000001853,
+          "p95DeltaPercent": -16.81353942472319
+        }
+      ]
+    },
+    {
+      "name": "world-shield-conversion",
+      "actors": 64,
+      "operations": 120,
+      "actorUpdateOpportunities": 7680,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianMs": 127.75969999999506,
+          "sdkMedianMs": 130.3920999999973,
+          "medianDeltaPercent": 2.0604306365797243,
+          "nativeP95Ms": 151.09460000001127,
+          "sdkP95Ms": 149.48789999997825,
+          "p95DeltaPercent": -1.063373542160273
+        },
+        {
+          "number": 2,
+          "nativeMedianMs": 126.68800000002375,
+          "sdkMedianMs": 122.15790000002016,
+          "medianDeltaPercent": -3.575792498107744,
+          "nativeP95Ms": 153.97219999998924,
+          "sdkP95Ms": 129.2840000000142,
+          "p95DeltaPercent": -16.034193185508006
+        }
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "mode": "unused",
+      "actors": 1024,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianBytesPerActor": 12555.234375,
+          "sdkMedianBytesPerActor": 12555.234375,
+          "differenceBytesPerActor": 0
+        },
+        {
+          "number": 2,
+          "nativeMedianBytesPerActor": 12555.234375,
+          "sdkMedianBytesPerActor": 12555.234375,
+          "differenceBytesPerActor": 0
+        }
+      ]
+    },
+    {
+      "mode": "unused",
+      "actors": 4096,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianBytesPerActor": 12492.00390625,
+          "sdkMedianBytesPerActor": 12492.00390625,
+          "differenceBytesPerActor": 0
+        },
+        {
+          "number": 2,
+          "nativeMedianBytesPerActor": 12492.00390625,
+          "sdkMedianBytesPerActor": 12492.00390625,
+          "differenceBytesPerActor": 0
+        }
+      ]
+    },
+    {
+      "mode": "restored",
+      "actors": 1024,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianBytesPerActor": 17787.8515625,
+          "sdkMedianBytesPerActor": 17787.8515625,
+          "differenceBytesPerActor": 0
+        },
+        {
+          "number": 2,
+          "nativeMedianBytesPerActor": 17787.8515625,
+          "sdkMedianBytesPerActor": 17787.8515625,
+          "differenceBytesPerActor": 0
+        }
+      ]
+    },
+    {
+      "mode": "restored",
+      "actors": 4096,
+      "runs": [
+        {
+          "number": 1,
+          "nativeMedianBytesPerActor": 17787.962890625,
+          "sdkMedianBytesPerActor": 17787.962890625,
+          "differenceBytesPerActor": 0
+        },
+        {
+          "number": 2,
+          "nativeMedianBytesPerActor": 17787.962890625,
+          "sdkMedianBytesPerActor": 17787.962890625,
+          "differenceBytesPerActor": 0
+        }
+      ]
+    }
+  ],
+  "repeatableInitialMedianRegressionsAboveFivePercent": [
+    {
+      "name": "shield-positive",
+      "actors": 1024
+    },
+    {
+      "name": "shield-positive",
+      "actors": 4096
+    },
+    {
+      "name": "shield-full",
+      "actors": 1024
+    },
+    {
+      "name": "shield-full",
+      "actors": 4096
+    },
+    {
+      "name": "poise-positive",
+      "actors": 4096
+    }
+  ],
+  "coreRegression": {
+    "file": "restoration-core-regression.json",
+    "sha256": "9b95cf897288ff2aec08585068811d766122545dcbe50e35a9d2de9800c5bb6c",
+    "command": "npm run benchmark",
+    "passed": true
+  },
+  "warmups": 8,
+  "timingSamplesPerCasePerGraph": 25,
+  "retainedHeapSamplesPerCasePerGraph": 7,
+  "retainedControls": 12,
+  "retainedControlsAndRendererUnchanged": true,
+  "optimizationEvaluated": false,
+  "optimizationAccepted": false,
+  "limits": [
+    "Two reversed-order desktop runs on the environment recorded in each raw graph.",
+    "Initial five-percent grouping is an investigation aid; the fixed optimization-adoption rule applies to a later explicit proposal versus this initial SDK.",
+    "Headless World batches are not FPS or device measurements.",
+    "Used heap is sampled before receipt construction; retained heap uses explicit collection and verifies Actor release. Neither proves allocation volume or peak memory.",
+    "Only this agent’s known CPU-heavy jobs were serialized; external OS scheduling is not controlled."
+  ]
+}

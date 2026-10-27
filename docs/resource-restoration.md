@@ -193,6 +193,67 @@ subsequent presentation cue.
 
 The [measurement plan](../baseline/milestone-forty-three/performance-plan.json)
 requires receipt-checked paired comparisons and profiles before adopting an
-optimization. Neither these observations nor desktop measurements establish
+optimization. Its [concrete workloads](../baseline/milestone-forty-three/performance-workloads.json)
+were frozen after both independent game graphs passed all 16 path cases and four
+memory cases, before recording timing or memory-byte results. The
+[validation receipt](../evidence/milestone-forty-three/performance-validation.json)
+records the helper, plan, outcomes and input hashes.
+
+The seven direct paths each perform 32 calls per Actor at 1,024 and 4,096 Actors.
+They exercise positive/full shield, ordinary/overcharge poise, immediate mana with
+events and feeding cues, reserved-mana proc restoration and poise proc restoration.
+The eighth path advances real Worlds with 16 and 64 Actors through 120 steps of
+1/64 second, converting life regeneration to shield. These controlled batches do
+not represent an estimated production event frequency.
+
+Prepare separate v0.37 and candidate game/package graphs, then run:
+
+```sh
+npm run benchmark:restoration -- --location <candidate-location.json> --previous-adapter <v0.37-game> --validate-only
+npm run benchmark:restoration -- --location <candidate-location.json> --previous-adapter <v0.37-game>
+npm run benchmark:restoration -- --location <candidate-location.json> --previous-adapter <v0.37-game> --order current,previous
+```
+
+Each process uses actual Actor/World entry points. Fresh Actor construction, stat
+cache warming, GC and receipt checks stay outside each timed batch. Scalar return
+accumulation and RNG counting are included; gain methods are not wrapped. All 25
+samples follow eight warmups and must retain the validated state, event/cue and
+Actor-field hashes. Memory cases collect seven samples, distinguish used from
+retained heap, and require every discarded Actor's weak reference to clear.
+Retained heap is neither total allocation nor peak memory. The runner preserves
+both source/package graphs, the source capsule, helper and accepted plan.
+
+The [initial desktop measurements](../evidence/milestone-forty-three/restoration-initial-performance.json)
+contain both reversed-order runs and their complete raw samples. All state checks
+passed, and all four retained-memory medians matched exactly in both runs.
+Shield gain at both Actor counts and ordinary poise gain at 4,096 Actors had
+median regressions above five percent in both runs. Representative 4,096-Actor
+batches, each containing 131,072 gain calls, measured:
+
+| Path | Run 1 native / SDK median | Run 2 native / SDK median |
+| --- | --- | --- |
+| Positive shield | 8.90 / 16.65 ms | 8.86 / 11.74 ms |
+| Full shield | 8.47 / 15.11 ms | 8.67 / 13.63 ms |
+| Positive poise | 19.64 / 24.05 ms | 17.41 / 19.29 ms |
+
+These are Windows/Node 24.9 measurements on an i9-10900K. The variation between
+runs is retained in the evidence; the initial runtime has not earned a speed
+improvement claim. The repeated regressions require profiling and an explicit
+optimization experiment before performance acceptance. The five-percent grouping
+identifies investigation targets; the original acceptance rule still evaluates a
+proposed optimization against this initial SDK, across every workload in both
+orders. No optimization is accepted by these initial results.
+
+Separate [CPU and allocation diagnostics](../evidence/milestone-forty-three/restoration-initial-profiles.json)
+preserve the accepted outcomes. CPU samples concentrate in the existing stat
+queries, and the diagnostic trace shows SDK gain functions and forwarding queries
+being inlined. Allocation sampling includes a positive control for discarded
+objects using the documented [HeapProfiler collection flags](https://chromedevtools.github.io/devtools-protocol/tot/HeapProfiler/#method-startSampling).
+The instrumented helper adds asynchronous sampling boundaries and substantial
+profiler-control overhead. Its timing and sample-count differences therefore do
+not explain the uninstrumented regression. An unchanged-helper trace or a bounded
+experiment remains necessary before attributing a cause or accepting a fix.
+
+Neither these observations nor desktop measurements establish
 Steam Deck, mobile, Unity, Godot or Unreal compatibility. Those deliverables,
 current-source/content reconciliation and the remaining system families stay open.

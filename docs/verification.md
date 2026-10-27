@@ -13,6 +13,17 @@ including reservation bands, feeding cues, recharge/poise arcs, real World clock
 and earned proc glyphs. `adapter:restoration-ui` checks a matching full game build
 against the frozen observations using a verified deterministic browser clock.
 See the [renderer checkpoint](../evidence/milestone-forty-three/renderer-checkpoint.json).
+The restoration benchmark also passes 16 analytic and cross-graph workload
+checks plus four Actor-release checks before timing. Its accepted plan pins the
+helper and complete outcomes; `benchmark:restoration` measures the real game
+entry points in separate processes and verifies every sample against those
+outcomes. See the [validation record](../evidence/milestone-forty-three/performance-validation.json)
+and reproduction commands in the restoration contract.
+Both initial timed runs now preserve those outcomes. All four retained-memory
+medians match, but shield gains and large ordinary-poise batches show repeated
+CPU regressions. The [full samples](../evidence/milestone-forty-three/restoration-initial-performance.json)
+are retained for the profiling and optimization decision; passing outcome checks
+does not imply performance acceptance.
 The [restoration contract](resource-restoration.md) separates these checks from
 performance, managed-game and public-main acceptance, which remain open.
 Its [initial adapter checkpoint](../evidence/milestone-forty-three/adapter-checkpoint.json)
