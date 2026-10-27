@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "textNormalization": "LF node text; complete source hashes retain original bytes",
+  "actor": {
+    "path": "src/engine/actor.ts",
+    "sha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30",
+    "methods": [
+      {
+        "name": "healBy",
+        "role": "extraction",
+        "line": 2184,
+        "sha256": "9920a6c8ed40e3537ab083d563377513a19097cd63c6d45ee48797a3fc11a8ba",
+        "text": "healBy(amount: number, silent = false): number {\n    if (amount <= 0 || this.dead) return 0;\n    const before = this.life;\n    // A LIFE SEAL (Mortis Seal) locks the top of the pool below even the\n    // ceiling: heals pour against the seal and spill away.\n    const cap = this.lifeSealAt !== undefined\n      ? Math.min(this.lifeCeiling(), this.lifeSealAt)\n      : this.lifeCeiling();\n    this.life = Math.min(cap,\n      this.life + amount * this.sheet.get('healTaken'));\n    const landed = this.life - before;\n    if (landed > 0) {\n      SIM_TAP.current?.onHeal?.(this, landed);\n      this.onLifeHealed?.(landed, silent);\n      // THE RECENCY LEDGER + the 'heal' trigger's event — for REAL heals\n      // only: passive regeneration pours silently (a body that never\n      // stops regenerating is not 'recently healed', and the heal trigger\n      // must never be a free metronome).\n      if (!silent) {\n        this.noteRecent('heal');\n        this.healedSince += landed;\n      }\n    }\n    return landed;\n  }"
+      },
+      {
+        "name": "refillLife",
+        "role": "extraction",
+        "line": 2232,
+        "sha256": "08521ed3b4b42cb483e49b9ec5eb7e2c0d50cef75da57a8ebbc1e44f37119825",
+        "text": "refillLife(): void {\n    const before = this.life;\n    this.life = this.maxLife();\n    if (this.life > before) this.onLifeHealed?.(this.life - before, true);\n  }"
+      },
+      {
+        "name": "maxLife",
+        "role": "dependency",
+        "line": 2045,
+        "sha256": "910481057f2ef668a8e2e3b4777bbb8e04f3a6d5ba8cd4f82197928d6e2bff57",
+        "text": "maxLife(): number { return this.sheet.get('life'); }"
+      },
+      {
+        "name": "lifeCeiling",
+        "role": "dependency",
+        "line": 3811,
+        "sha256": "7236f3bb1f977efbef4e724f2b3217de91c40e3452756ffc8845d3046ff1f44a",
+        "text": "lifeCeiling(): number {\n    return Math.max(1, this.maxLife() - this.reservedLife);\n  }"
+      },
+      {
+        "name": "noteRecent",
+        "role": "dependency",
+        "line": 2427,
+        "sha256": "e69a526f927357089db1d3477d5b9ad4e03169354dccd45bf0b5676901eaacd9",
+        "text": "noteRecent(kind: RecentKind): void {\n    this.since[recentIndex(kind)] = 0;\n  }"
+      },
+      {
+        "name": "fillResources",
+        "role": "dependency",
+        "line": 2238,
+        "sha256": "6cbaf48bfdc8e3c554c645721005f02a7c6d0c3fbdd89853b39ba950eff7e198",
+        "text": "fillResources(): void {\n    this.refillLife();\n    this.mana = this.maxMana();\n    this.es = this.maxEs();\n    this.poise = this.maxPoise();\n    this.insight = this.maxInsight();\n    this.endurance = this.maxEndurance();\n    this.poiseBroken = false;\n    this.poiseDelay = 0;\n    this.poiseCalm = 0;\n    this.esDelay = 0;\n    this.esRecharging = false;\n  }"
+      }
+    ]
+  },
+  "proc": {
+    "path": "src/engine/world.ts",
+    "fileSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+    "method": "executeProc",
+    "methodSha256": "ac4a4715e9e75d39121ee1337a158ed3e6d7bf31e032da98691513cd4b8fd8bb",
+    "case": "heal",
+    "sha256": "e26df276b716addffac11493c745d006cd905a28fc81c0154ae86a7c5259480e",
+    "text": "case 'heal':\n        if (caster.healBy((fx.flat ?? 0) + (fx.pctMax ?? 0) * caster.maxLife()) > 0) noteProcCue(caster, procCue, 'gain', proc.id);\n        break;",
+    "methodBodySha256": "2f1cc15b7ba8733f5cce386a266da9f93dbb47992475e75b08e827174e17308d"
+  },
+  "callers": [
+    {
+      "path": "src/engine/actor.ts",
+      "line": 3382,
+      "text": "const landed = this.healBy(step);"
+    },
+    {
+      "path": "src/engine/actor.ts",
+      "line": 3558,
+      "text": "this.healBy(regen * (1 - toEs) * dt, true);"
+    },
+    {
+      "path": "src/engine/actor.ts",
+      "line": 4252,
+      "text": "feed: (a, amt) => a.healBy(amt),"
+    },
+    {
+      "path": "src/engine/ai.ts",
+      "line": 899,
+      "text": "if (leash.heal) actor.healBy(actor.maxLife() * dt * 0.25);"
+    },
+    {
+      "path": "src/engine/aiActions.ts",
+      "line": 395,
+      "text": "const landed = actor.healBy(actor.maxLife() * act.frac);"
+    },
+    {
+      "path": "src/engine/damage.ts",
+      "line": 901,
+      "text": "const healed = attacker.healBy(onHit + leech);"
+    },
+    {
+      "path": "src/engine/guardArts.ts",
+      "line": 255,
+      "text": "ally.healBy(ally.maxLife() * heal.lifeFraction);"
+    },
+    {
+      "path": "src/engine/magicPackEvents.ts",
+      "line": 122,
+      "text": "target.healBy(amount);"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 33745,
+      "text": "if (hold.spec.leech) noteResourceFlow(a, v, 'life', a.healBy(taken * hold.spec.leech));"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 38153,
+      "text": "caster.healBy(fx.healPer * caster.sheet.get('healPower', tags, extra));"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 39120,
+      "text": "e.healBy(t.heal * dt);"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 40064,
+      "text": "const got = ally.healBy(mend);"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 42577,
+      "text": "landed = target.healBy(fx.amount);"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 42747,
+      "text": "const landed = target.healBy(raw);"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 43498,
+      "text": "if (mend > 0) target.healBy(mend);"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 43514,
+      "text": "if (mend > 0) target.healBy(mend);"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 43578,
+      "text": "const gained = caster.healBy(dealt * def.siphon"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 43594,
+      "text": "const got = ally.healBy(heal);"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 43609,
+      "text": "const got = bonded.healBy(dealt * share * (def.bondFeed ?? 1)"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 44638,
+      "text": "if (lk > 0) caster.healBy(lk);"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 45313,
+      "text": "return r.healBy((ev.n ?? 0) * scale) > 0;"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 45497,
+      "text": "if (caster.healBy((fx.flat ?? 0) + (fx.pctMax ?? 0) * caster.maxLife()) > 0) noteProcCue(caster, procCue, 'gain', proc.id);"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 45931,
+      "text": "const healed = a.healBy(b.fx.healAllies.base + b.fx.healAllies.perLevel * lvl);"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 46547,
+      "text": "const got = m.healBy(amount);"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 49783,
+      "text": "if (applier) noteResourceFlow(applier, a, 'life', applier.healBy(sip));"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 53092,
+      "text": "noteResourceFlow(bearer, e, 'life', bearer.healBy(amount * aura.spec.siphonFraction), aura.inst.def.feedingCue);"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 53119,
+      "text": "const landed = a.healBy(base * heal.amount);"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 56386,
+      "text": "if (a.healBy(heal) > 0) {"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 57237,
+      "text": "ally.healBy(mend * hp * dt);"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 57539,
+      "text": "if (spec.heal) noteRestoreGain(eater, 'life', eater.healBy(meal.maxLife() * spec.heal), spec.feedingCue);"
+    },
+    {
+      "path": "src/engine/world.ts",
+      "line": 60363,
+      "text": "const got = ally.healBy(z.healTick * hp);"
+    }
+  ]
+}

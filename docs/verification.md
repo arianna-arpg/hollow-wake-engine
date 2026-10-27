@@ -1,5 +1,10 @@
 # Verification and reproduction
 
+Life-recovery extraction begins with `reference:life-recovery`: 101 frozen native
+cases covering recovery/refill, all five loaded heal procs and representative
+World delivery. Two original runs and one published-v0.36 run agree exactly.
+See [the boundary](life-recovery.md); implementation and performance are pending.
+
 Version 0.36 adds `reference:buffs`, `adapter:buff-source`, `adapter:buffs`,
 `adapter:buff-ui`, `test:buff-package`, `test:buff-mutations` and `benchmark:buffs`.
 The [buff contract](buffs.md) and [M41 evidence](../evidence/milestone-forty-one/verification.json)

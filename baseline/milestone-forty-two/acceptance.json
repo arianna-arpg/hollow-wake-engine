@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "milestone": 42,
+  "stage": "Original life-recovery observations accepted before implementation; no semantic repair is authorized by this baseline.",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLock": "baseline/source-lock.json",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "predecessor": {
+    "version": "0.36.0",
+    "commit": "83f6021c589728d2d7958ee846628a33e7ec44c7",
+    "archive": "sha512-vTCqH6O/3gDBOLvMubQmJC+6dqNt0VOoiPRRJp/bHCjr7fZczk86Wu93vfmk9VUsXOeoV/OSZIIXuIGQqDsTTQ=="
+  },
+  "courses": 101,
+  "helpers": [
+    {
+      "file": "reference/export-life-recovery.ts",
+      "sha256": "8cd318098afcc27b9e4146644b970fce2e4deba8e0255b75bdd992c20933bd56"
+    },
+    {
+      "file": "reference/export-heal-procs.ts",
+      "sha256": "4bb68471917a50134a6bafb717d4e15279c2c1df3f2f2fa3fa7fdd864c8aebb6"
+    },
+    {
+      "file": "reference/export-life-recovery-world.ts",
+      "sha256": "bbf4b23b6d2df21c109de6af28fb4973a5cc796219ce544508d04e7049d9ed53"
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "life-recovery",
+      "helper": "reference/export-life-recovery.ts",
+      "helperSha256": "8cd318098afcc27b9e4146644b970fce2e4deba8e0255b75bdd992c20933bd56",
+      "file": "baseline/milestone-forty-two/life-recovery.json.gz",
+      "courses": 59,
+      "compressedSha256": "6b3d323d3e3c5eb3934be2d64a1db06fe9c193e62156ba920049ece7a3ddee57",
+      "fixtureSha256": "1b64ba36fd23f0ef74097acadefa50eceb7accdd1d4bb08866cdc858a3a3f839",
+      "bytes": 298863
+    },
+    {
+      "name": "heal-procs",
+      "helper": "reference/export-heal-procs.ts",
+      "helperSha256": "4bb68471917a50134a6bafb717d4e15279c2c1df3f2f2fa3fa7fdd864c8aebb6",
+      "file": "baseline/milestone-forty-two/heal-procs.json.gz",
+      "courses": 29,
+      "compressedSha256": "c3e906b5585edfd4b6d303f2f29d777ccaf7eb46eee4e68a89a3101a48aa95a0",
+      "fixtureSha256": "760ae80f3966c563a02fcc64366f428f9f9fae377323d261a327622da450e00c",
+      "bytes": 193958
+    },
+    {
+      "name": "life-recovery-world",
+      "helper": "reference/export-life-recovery-world.ts",
+      "helperSha256": "bbf4b23b6d2df21c109de6af28fb4973a5cc796219ce544508d04e7049d9ed53",
+      "file": "baseline/milestone-forty-two/life-recovery-world.json.gz",
+      "courses": 13,
+      "compressedSha256": "9fe239c0b407a8d3efc4a6cebc16b69bd89875daca63292f33030c8861081680",
+      "fixtureSha256": "f0c07756e5895f4e06372ea1a3a8d0f80e524f16fc869c3273e2dccc4e5ec195",
+      "bytes": 647904
+    }
+  ],
+  "sourceBoundaries": {
+    "file": "baseline/milestone-forty-two/source-boundaries.json",
+    "sha256": "f4ac5e4d9809615a25c85e94aaa4c3d25c2f08e31c50e4324a813634bc031be6"
+  },
+  "reproduction": {
+    "originalRuns": 2,
+    "publishedPredecessorRuns": 1,
+    "allRawOutputsByteEqual": true
+  },
+  "observations": [
+    "Five heal procs exist after native startup, including two generated registrations.",
+    "Original Choir of Light remains instant despite its channel metadata; a separately named synthetic variant tests channel healing.",
+    "Nonfinite diagnostic inputs expose original IEEE-number behavior; they do not validate untrusted authored content.",
+    "Callback exceptions retain native partial state, and nested callbacks retain native ordering."
+  ],
+  "scope": "59 direct/query/callback cases, 29 proc cases, and 13 delivery cases. Includes native admission for three heal proc triggers, real event sweeps and World updates; excludes complete spatial healing policy, renderer, measured performance, hardware or native-engine support."
+}
