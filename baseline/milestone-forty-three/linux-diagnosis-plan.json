@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "decision": "restoration-linux-measurement-diagnosis/v1",
+  "status": "diagnostic-only-frozen-before-collection",
+  "baseCommit": "29609e0e17ec510e44dad17e6d5146619239177b",
+  "question": "Does the unchanged identical-code protocol demonstrate repeatability in a separate Linux job, and what CPU-counter increments are observed there?",
+  "runner": "ubuntu-24.04",
+  "node": "v24.9.0",
+  "runtimeOutputs": 201,
+  "runtimeMapSha256": "49f4a5637979a46c3770e315d13a415508446f7654db0f40bf3fe67a23150189",
+  "gameSourceFiles": 997,
+  "gameSourceMapSha256": "b9c78cdee4dc32da064827d8d28c0388d2764cc6ece049d42b8f03b1f80fdfa4",
+  "pinnedFiles": {
+    "baseline/milestone-forty-three/measurement-diagnosis-plan.json": "2acd71b232b11e4d47efb4cb6c436dd19f06ec9179d7e2872d47aeac77ae01ca",
+    "scripts/calibrate-restoration-cpu.mjs": "67ec0f8f9bc91a6a5844d7bfedb7373b75df04e4a1493cdecd16e133667a3498",
+    "scripts/diagnose-restoration-timing.mjs": "157bedd34ca872518d89e13de7c530a3741981f3e25505d451d4985ee332475c"
+  },
+  "preparation": "Use a fresh checkout. Materialize two independent games from the pinned public source capsule; run the existing adapter preparation and install the same current package separately. Require both game source maps and all runtime outputs to match the retained initial v0.38 hashes. Whole package bytes must match between installations; documentation may differ from the historical archive.",
+  "execution": "Complete all installs, builds and helper type checks before collection. Run the unchanged eight-process protocol once in its frozen order. Retain all samples, outcomes, logs and failure records. No other job runs inside this job's VM; shared physical hardware and runner variability are not controlled.",
+  "environment": "Record Node/V8 versions, OS, architecture, CPU model/count, total memory, runner-image identifiers and commit identity. Do not collect environment variables beyond this explicit whitelist, and do not capture credentials.",
+  "interpretation": "This is a repeatability diagnosis, not optimization acceptance or a comparison of Linux speed against Windows speed. Analyze all plain and instrumented pairs under the existing indicators; do not select faster runs, relax limits, infer a cause, or claim Steam Deck/mobile performance. A completed workflow verifies the protocol and outcomes, not performance acceptability.",
+  "source": "https://docs.github.com/en/actions/reference/runners/github-hosted-runners"
+}

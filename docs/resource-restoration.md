@@ -319,6 +319,35 @@ directory. Keep other CPU-heavy jobs stopped. Further performance proposals need
 better measurement controls and demonstrated repeatability; no threshold is
 relaxed and no faster sample is selected as the result.
 
+### Linux repeatability check
+
+The [Linux diagnosis plan](../baseline/milestone-forty-three/linux-diagnosis-plan.json)
+repeats that same protocol on Node 24.9.0 in a separate Ubuntu 24.04 job. It pins
+the original 201 runtime outputs and 997 adapted game source files by hash. Two
+fresh installs must also have identical complete packages. Build and installation
+finish before measurement; every raw run and failure log is retained as a workflow
+artifact. A successful job means the protocol and gameplay outcomes passed; it
+does not mean the timings satisfy optimization acceptance.
+
+Use a fresh checkout to preserve existing adapter work:
+
+```sh
+npm ci
+npm run build
+npm run reference:prepare
+npm run reference:install
+node scripts/run-restoration-diagnosis-ci.mjs
+```
+
+`--prepare-only` validates the two-install setup without collecting timings and
+also works on Windows. Measurement mode requires Linux. The workflow records a
+small explicit environment description without collecting credentials. GitHub's
+[runner contract](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)
+provides a fresh VM for this runner class; it does not establish exclusive physical
+hardware or stable timing. Evaluate the retained pairs before using this runner
+for performance decisions. Cross-OS timings do not measure a code improvement or
+represent Steam Deck or mobile hardware.
+
 Neither these observations nor desktop measurements establish
 Steam Deck, mobile, Unity, Godot or Unreal compatibility. Those deliverables,
 current-source/content reconciliation and the remaining system families stay open.

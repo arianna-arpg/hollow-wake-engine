@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "scope": "Preparation only, executed from a fresh SDK source archive. No Linux measurements collected locally and no optimization accepted.",
+  "baseCommit": "29609e0e17ec510e44dad17e6d5146619239177b",
+  "node": "v24.9.0",
+  "platform": "win32",
+  "checkedInputs": {
+    "baseline/milestone-forty-three/linux-diagnosis-plan.json": "cfe5b20278de6473f9bde4f1bf9baeb160d3c6d76177d94ad3fbb6881e79c403",
+    "scripts/run-restoration-diagnosis-ci.mjs": "b3b3be764e54a4ac52b8a7998028bac00aa615aea2309b72a54b5bf0e0d2025e"
+  },
+  "runtimeOutputs": 201,
+  "runtimeMapSha256": "49f4a5637979a46c3770e315d13a415508446f7654db0f40bf3fe67a23150189",
+  "gameSourceFiles": 997,
+  "gameSourceMapSha256": "b9c78cdee4dc32da064827d8d28c0388d2764cc6ece049d42b8f03b1f80fdfa4",
+  "independentInstallations": 2,
+  "identicalPackages": true,
+  "measuredSamples": 0,
+  "steps": [
+    "Install locked SDK development tools",
+    "Build SDK",
+    "Materialize and verify the reference capsule",
+    "Install independent reference tooling",
+    "Materialize two independent games and run existing adapter preparation",
+    "Match both complete game-source maps and all runtime outputs to the retained baseline",
+    "Verify identical complete installed SDK packages"
+  ],
+  "hostedMeasurementStatus": "pending",
+  "workflowTimeout": {
+    "jobMinutes": 60,
+    "measurementStepMinutes": 50,
+    "reason": "Reserve time to upload logs and partial results if the measurement step times out."
+  }
+}
