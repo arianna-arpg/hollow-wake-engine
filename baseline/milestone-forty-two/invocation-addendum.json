@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "stage": "Additional native callable-invocation observations captured before repairing the initial SDK adapter. All prior 117 observations are unchanged.",
+  "baseAcceptanceSha256": "ec9ff69e31dc26b5bee93424b298b5d91491e24d3a6e7b236e0ca611ca2d7aa1",
+  "courses": 4,
+  "helper": {
+    "file": "reference/export-heal-invocation.ts",
+    "sha256": "f70204baf1416cee579a0c44dc9f429483b8a2343f04e46996172a9ba6948c6d"
+  },
+  "fixture": {
+    "name": "heal-invocation",
+    "helper": "reference/export-heal-invocation.ts",
+    "helperSha256": "f70204baf1416cee579a0c44dc9f429483b8a2343f04e46996172a9ba6948c6d",
+    "file": "baseline/milestone-forty-two/heal-invocation.json.gz",
+    "courses": 4,
+    "bytes": 2595,
+    "fixtureSha256": "bc41c44894d3d19e730f9fd1e17e40efec214fbba59e5620a4b05ee8913148f7",
+    "compressedSha256": "104f140ffe1615697f2d1f3fc550a567dd5f5675fe1f8cea8ba678af049114dc"
+  },
+  "reproduction": {
+    "originalRuns": 2,
+    "publishedPredecessorRuns": 1,
+    "allRawOutputsByteEqual": true
+  },
+  "decision": "Invoke the selected callable directly with the native receiver and computed amount. Do not inspect its call property; preserve Proxy apply and bound-receiver behavior. Bind the standard call intrinsic once per module rather than creating a per-operation closure or arguments array.",
+  "scope": "Synthetic host function values/accessors, callable Proxy and bound receiver through native World execution. Owned content still rejects accessors; standard JavaScript intrinsics are required at module initialization."
+}

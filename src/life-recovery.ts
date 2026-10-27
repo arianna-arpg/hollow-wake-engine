@@ -60,9 +60,14 @@ export interface ProcHealingPorts<A> {
 }
 export type ProcHealMethod<A> = (this: A, amount: number) => number;
 
+// Capture native invocation once. A host callable can shadow its own .call;
+// native method syntax does not read that property. No per-call array or binding.
+const invokeHeal: <A>(method: ProcHealMethod<A>, actor: A, amount: number) => number =
+  Function.prototype.call.bind(Function.prototype.call);
+
 /** Apply an already-scaled proc effect. The host follows with its cue and riders.
  * Pass the current method before amount queries run, retaining native method
  * selection even when a query replaces that method. No bound closure is needed. */
 export function applyProcHeal<A>(actor: A, effect: ProcHealingEffect, ports: ProcHealingPorts<A>, method: ProcHealMethod<A>): boolean {
-  return method.call(actor, (effect.flat ?? 0) + (effect.pctMax ?? 0) * ports.maximumLife(actor)) > 0;
+  return invokeHeal(method, actor, (effect.flat ?? 0) + (effect.pctMax ?? 0) * ports.maximumLife(actor)) > 0;
 }

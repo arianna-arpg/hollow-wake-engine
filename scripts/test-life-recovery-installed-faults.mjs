@@ -7,8 +7,9 @@ const at=process.argv.indexOf('--location');assert(at<0||process.argv[at+1],'Mis
 const location=JSON.parse(fs.readFileSync(at<0?path.join(root,'.artifacts/adapter-location.json'):path.resolve(process.argv[at+1])));
 assert.equal(location.lifeRecoveryAdapterDecision,'life-recovery-adapter/v1');
 const verification=JSON.parse(fs.readFileSync(path.join(root,'.artifacts/game-life-recovery-verification.json')));
+const expectations=readLifeRecoveryExpectations();
 assert.equal(verification.game,location.game);assert.equal(verification.packageIntegrity,location.integrity);
-assert.equal(verification.courses,117);assert(verification.typesPassed&&verification.allSourceAndPackageFilesUnchanged);
+assert.equal(verification.courses,expectations.courses);assert(verification.typesPassed&&verification.allSourceAndPackageFilesUnchanged);
 const snapshot=directory=>Object.fromEntries(listFiles(directory).map(file=>[file,sha256(fs.readFileSync(path.join(directory,file)))]));
 const installed=fs.realpathSync(path.join(location.tooling,'node_modules/@hollow-wake/engine'));
 const sourceBefore=snapshot(path.join(location.game,'src')),packageBefore=snapshot(installed);
@@ -24,12 +25,15 @@ copy(path.join(location.game,'src'),path.join(game,'src'));fs.copyFileSync(path.
 for(const name of ['tsconfig.json','tsconfig.sim.json'])fs.copyFileSync(path.join(location.game,name),path.join(game,name));
 fs.mkdirSync(modules,{recursive:true});
 for(const entry of fs.readdirSync(path.join(location.tooling,'node_modules'),{withFileTypes:true})){
-  if(entry.name==='@hollow-wake'||!entry.isDirectory())continue;
-  fs.symlinkSync(path.join(location.tooling,'node_modules',entry.name),path.join(modules,entry.name),process.platform==='win32'?'junction':'dir');
+  const dependency=path.join(location.tooling,'node_modules',entry.name);
+  // Prepared graphs may already share read-only third-party tool directories.
+  // The SDK itself is always copied into regular files below.
+  if(entry.name==='@hollow-wake'||!fs.statSync(dependency).isDirectory())continue;
+  fs.symlinkSync(dependency,path.join(modules,entry.name),process.platform==='win32'?'junction':'dir');
 }
 const ownPackage=path.join(modules,'@hollow-wake/engine');copy(installed,ownPackage);
 assert.deepEqual(snapshot(path.join(game,'src')),sourceBefore);assert.deepEqual(snapshot(ownPackage),packageBefore);
-const {fixtures,helpers:captureHelpers,rows}=readLifeRecoveryExpectations(),helpers=new Map();
+const {fixtures,helpers:captureHelpers,rows,courses}=expectations,helpers=new Map();
 for(const row of captureHelpers){const file=path.join(output,path.basename(row.file)),source=fs.readFileSync(path.join(root,row.file),'utf8');
   fs.writeFileSync(file,source.replace(/(['"])\.\.\/src\/([^'"]+)\1/g,(_all,_q,p)=>JSON.stringify(pathToFileURL(path.join(game,'src',p+'.ts')).href)),{flag:'wx'});helpers.set(row.file,file);
 }
@@ -57,6 +61,7 @@ const faults=[
   ['refill-not-silent','runtime','actor.life - before, true','actor.life - before, false','life-recovery'],
   ['flat-proc-skips-maximum','runtime','(effect.pctMax ?? 0) * ports.maximumLife(actor)','(effect.pctMax ? effect.pctMax * ports.maximumLife(actor) : 0)','heal-procs'],
   ['zero-proc-signals','runtime','ports.maximumLife(actor)) > 0','ports.maximumLife(actor)) >= 0','heal-cues'],
+  ['proc-consults-call-property','runtime','invokeHeal(method, actor,','method.call(actor,','heal-invocation'],
   ['reservation-ignored','binding','return actor.lifeCeiling();','return actor.maxLife();','life-recovery'],
   ['observer-loses-silent','binding','actor.onLifeHealed?.(amount, silent)','actor.onLifeHealed?.(amount, false)','life-recovery'],
   ['tap-omitted','binding','SIM_TAP.current?.onHeal?.(actor, amount);','void amount;','life-recovery'],
@@ -75,4 +80,4 @@ for(const[name,target,before,after,fixture]of faults){
   results.push({name,target,fixture,detected:true,logSha256:result.logSha256});console.log('Rejected recovery fault: '+name);
 }
 unchanged();writeJSON(path.join(root,'.artifacts/life-recovery-installed-faults.json'),{output,game:location.game,disposableGame:game,packageIntegrity:location.integrity,
-  controlCourses:117,faults:results,suppliedGameAndPackageUnchanged:true,disposableSourceAndPackageRestored:true});
+  controlCourses:courses,faults:results,suppliedGameAndPackageUnchanged:true,disposableSourceAndPackageRestored:true});

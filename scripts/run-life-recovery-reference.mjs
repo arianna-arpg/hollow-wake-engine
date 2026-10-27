@@ -30,4 +30,5 @@ writeJSON(path.join(root,'.artifacts/life-recovery-reference-verification.json')
   acceptanceSha256:sha256(fs.readFileSync(path.join(root,'baseline/milestone-forty-two/acceptance.json'))),
   methodResolutionAddendumSha256:sha256(fs.readFileSync(path.join(root,'baseline/milestone-forty-two/method-resolution-addendum.json'))),
   cueObservationAddendumSha256:sha256(fs.readFileSync(path.join(root,'baseline/milestone-forty-two/cue-observation-addendum.json'))),
+  invocationAddendumSha256:sha256(fs.readFileSync(path.join(root,'baseline/milestone-forty-two/invocation-addendum.json'))),
   scope:'Original recovery baseline reproduced; implementation, adapter, performance, renderer and device acceptance are separate gates.'});

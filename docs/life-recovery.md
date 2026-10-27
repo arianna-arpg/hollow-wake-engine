@@ -3,12 +3,14 @@
 Milestone 42 has an unpublished recovery candidate and an installed game adapter.
 Its original 101-case baseline is unchanged. Separate three-case method-resolution
 and thirteen-case cue addenda record discoveries during implementation and fault
-testing. Version 0.36 remains the published baseline. Renderer, performance and
+testing. A four-case invocation addendum records customized callable behavior. Version 0.36 remains the published baseline. Renderer, performance and
 managed-game acceptance are pending.
 Run `npm run reference:life-recovery` after preparing and installing the pinned
-reference environment to reproduce all 117 native observations.
+reference environment to reproduce all 121 native observations.
 The [verification checkpoint](../evidence/milestone-forty-two/adapter-checkpoint.json)
 records the passing checks and the remaining release gates.
+The later [invocation checkpoint](../evidence/milestone-forty-two/invocation-checkpoint.json)
+records the four-case correction, 636-test verification and fresh installation.
 
 ## Authority and coverage
 
@@ -104,18 +106,26 @@ allocating a bound function on each call. Notifications return `undefined` so
 TypeScript rejects accidentally asynchronous ports. JavaScript hosts must uphold
 the same synchronous contract.
 
+Invocation uses the standard call intrinsic captured once when the module loads.
+It never reads the selected function's own `.call` property. The
+[invocation addendum](../baseline/milestone-forty-two/invocation-addendum.json)
+preserves callable Proxy traps and bound receivers, as demonstrated through the
+original World. All four added cases fail against the retained initial SDK and
+pass with this correction. No argument array or binding is created per heal;
+this source-level property is not a claim of zero runtime allocation.
+
 `@hollow-wake/engine/combat/recovery-content` separately exports
 `compileProcHealingEffect`. It accepts plain proc-heal records, validates finite
 numbers and returns detached frozen content. Unknown fields, accessors, hidden
 properties and the different targeted-skill schema are rejected. Compilation is
 a content-loading operation, outside the per-heal path.
 
-Seventy focused tests cover native direct transitions, method resolution, strict
-content and independent actor isolation. `test:life-recovery-mutations` rejects
-sixteen deliberate runtime faults in disposable modules. `test:life-recovery-package`
+Seventy-four focused tests cover native direct transitions, method selection and
+invocation, strict content and independent actor isolation. `test:life-recovery-mutations` rejects
+seventeen deliberate runtime faults in disposable modules. `test:life-recovery-package`
 installs a fresh archive, checks public types and runs the example with ambient
 randomness, clocks, browser globals and network access unavailable. The optional
-JavaScript modules total 3,428 bytes, within a 4 KiB allowance. This size gate is
+JavaScript modules total 3,669 bytes, within a 4 KiB allowance. This size gate is
 not a throughput, allocation-volume or hardware measurement.
 
 ## Installed game adapter
@@ -132,12 +142,12 @@ recovery overlay. For a separate prepared predecessor, use
 `adapter:recovery-source -- --game <path>`.
 
 `adapter:recovery -- --location <location.json>` checks the installed archive and
-compares all 117 native observations without changing game source or the package.
+compares all 121 native observations without changing game source or the package.
 `adapter:recovery-faults -- --location <location.json>` then requires that matching
 receipt, copies the source and installed SDK into a fresh disposable graph, and
 tests runtime, port and World faults there. Legacy mutation harnesses must finish
 before either comparison; input hashes reject a graph changed by another test.
-All sixteen injected integration faults are detected, including a healing cue
+All seventeen injected integration faults are detected, including a healing cue
 incorrectly emitted for a zero result. Supplied source and package files remain
 unchanged; the disposable copies are restored after every fault.
 
@@ -180,10 +190,8 @@ investigation. It does not establish a single cause for the measured overhead.
 
 ## Remaining acceptance
 
-Test a small function-layout change against the retained initial candidate
-before selecting an optimization. Capture and address an invocation edge found
-in review: using a healing function's `.call` property can differ from native
-method invocation when that property is customized. This diagnostic still needs
-the pinned World comparison before changing the invocation primitive.
+Test a small function-layout change against the retained corrected candidate
+before selecting an optimization. The original 117-case candidate and its
+measurements remain preserved separately from the invocation correction.
 Complete renderer checks, then review managed game integration with the final
 package. Keep physical Steam Deck/mobile acceptance open.

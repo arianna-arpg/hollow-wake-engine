@@ -19,7 +19,8 @@ const faults=[
   ['refill-is-conditional','actor.life = ports.maximumLife(actor);','if (actor.life < 50) actor.life = ports.maximumLife(actor);'],
   ['refill-not-silent','actor.life - before, true','actor.life - before, false'],
   ['proc-skip-flat-maximum','(effect.pctMax ?? 0) * ports.maximumLife(actor)','(effect.pctMax ? effect.pctMax * ports.maximumLife(actor) : 0)'],
-  ['proc-reresolves-method','method.call(actor,','actor.heal.call(actor,'],
+  ['proc-reresolves-method','invokeHeal(method, actor,','invokeHeal(actor.heal, actor,'],
+  ['proc-consults-call-property','invokeHeal(method, actor,','method.call(actor,'],
 ];
 const results=[];
 for(const[name,before,after]of faults){

@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "stage": "Verified invocation correction; optimization, renderer and final milestone acceptance remain pending.",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "initialCandidate": "42d03af5da39ddfbc61502ab6f64e72d843debf6",
+  "baseline": {
+    "file": "baseline/milestone-forty-two/acceptance.json",
+    "sha256": "ec9ff69e31dc26b5bee93424b298b5d91491e24d3a6e7b236e0ca611ca2d7aa1"
+  },
+  "addendum": {
+    "file": "baseline/milestone-forty-two/invocation-addendum.json",
+    "sha256": "af22cbcf61b985bb16bf85aeb8c0e2f0523bf9bf38fd662e32b0c910ebeef466"
+  },
+  "helper": {
+    "file": "reference/export-heal-invocation.ts",
+    "sha256": "f70204baf1416cee579a0c44dc9f429483b8a2343f04e46996172a9ba6948c6d"
+  },
+  "fixture": {
+    "file": "baseline/milestone-forty-two/heal-invocation.json.gz",
+    "sha256": "104f140ffe1615697f2d1f3fc550a567dd5f5675fe1f8cea8ba678af049114dc"
+  },
+  "nativeCapture": {
+    "originalRuns": 2,
+    "publishedV036Runs": 1,
+    "allBytesEqual": true,
+    "newCases": 4,
+    "previousCasesUnchanged": 117,
+    "totalCases": 121
+  },
+  "regressionProof": {
+    "initialArchiveSha256": "ca1e60926550587f9c52709eccfbbd9930ad2e8f350bcc7f72c1702afd4eb818",
+    "initialRuntimeModuleSha256": "9dcbe01c78bf086023802e414139e6449e15dfae6cde6edc7eb6a738f77bc39f",
+    "priorUnitCasesPassed": 66,
+    "newCasesFailed": 4,
+    "failures": [
+      "native callable invocation: call-value",
+      "native callable invocation: call-getter",
+      "native callable invocation: proxy",
+      "native callable invocation: bound-receiver"
+    ],
+    "negativeLogSha256": "b5f2aad067ceae7c272894668b1aec3854ff11499b25abb9f017a6b95721f156"
+  },
+  "verification": {
+    "sdkTests": 636,
+    "focusedRecoveryTests": 74,
+    "runtimeFaultsDetected": 17,
+    "installedNativeCases": 121,
+    "installedFaultsDetected": 17,
+    "allSdkPackageConsumersPassed": true,
+    "originalReferencePassed": true,
+    "installedTypesPassed": true,
+    "allSourceAndInstalledPackageFilesUnchanged": true,
+    "sourceGuard": "The previously verified 188 source controls and all game source remain unchanged."
+  },
+  "candidate": {
+    "archiveSha256": "bd2856f2456ba26b5866db07790270b7b0ffdc291c3f3ad11e586c70f4350275",
+    "integrity": "sha512-gvpGHVDCYwXGjiuquDi/gPbrQTXuDVMoY85onWdbmI1sSjXHq4wUDW03rjRGWQL+IS1xVMKE56vxHQv95EJLHA==",
+    "version": "0.36.0",
+    "published": false,
+    "sourceFiles": 996,
+    "sourceMatchesInitial": true,
+    "sourceMapSha256": "c6645dd8f02c8be5f7a3c2dc4d77a5388522aabe13a6589b68dbd851e1e0d47d",
+    "runtimeFiles": 195,
+    "runtimeMapSha256": "83181ace23da5a3830b916b8315b92b90e157e8710318c5fbea86caa26ef6d6b",
+    "changedRuntimeFiles": [
+      "life-recovery.js",
+      "life-recovery.js.map"
+    ],
+    "totalRecoveryJavaScriptBytes": 3669,
+    "packageProvenance": "Same archive as the passing independent package consumer. Its docs precede this checkpoint; it is a local corrected control, not a public v0.36 archive or final M42 release."
+  },
+  "implementation": "Capture the standard call intrinsic once per module. Invoke the preselected host callable without reading its call property or creating a per-operation binding or arguments array. Preserve native receiver, Proxy and bound-function behavior.",
+  "harnessRepair": "Disposable fault graphs now follow read-only third-party directory junctions. The SDK under fault injection remains a regular copy, isolated from supplied packages.",
+  "limitations": [
+    "No performance improvement is claimed for this correctness change.",
+    "Renderer, final managed integration, native-engine packages and physical-device measurements remain separate work."
+  ]
+}

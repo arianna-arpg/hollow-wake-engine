@@ -48,6 +48,24 @@ for(const expected of fixtures.get('heal-method-resolution').value.rows)test('na
   assert.deepEqual({phase:expected.phase,calls,life:actor.life},expected);
 });
 
+for(const expected of fixtures.get('heal-invocation').value.rows)test('native callable invocation: '+expected.mode,()=>{
+  const owner={life:50,dead:false,healedSince:0},other={life:50,dead:false,healedSince:0},calls=[];
+  const label=a=>a===owner?'caster':'bound';
+  const ports={ceiling(a){calls.push(['maximum',label(a)]);return 100;},maximumLife(a){calls.push(['maximum',label(a)]);return 100;},
+    rate:()=>1,recent:()=>undefined,observed(a,amount,silent){calls.push(['observer',label(a),amount,silent]);}};
+  let selected=function(amount,silent=false){calls.push(['selected',label(this),amount,silent]);return healLife(this,amount,ports,silent);};
+  if(expected.mode==='call-value')Object.defineProperty(selected,'call',{value:()=>{calls.push(['incorrect-call']);return 0;}});
+  if(expected.mode==='call-getter')Object.defineProperty(selected,'call',{get(){calls.push(['incorrect-call-getter']);throw Error('Unexpected callable property read');}});
+  if(expected.mode==='proxy')selected=new Proxy(selected,{
+    get(target,key,receiver){calls.push(['callable-get',String(key)]);return Reflect.get(target,key,receiver);},
+    apply(target,receiver,args){calls.push(['proxy-apply',receiver===owner,args[0]]);return Reflect.apply(target,receiver,args);},
+  });
+  if(expected.mode==='bound-receiver'){selected=selected.bind(other);Object.defineProperty(selected,'call',{value:null});}
+  const effect={type:'heal',get flat(){calls.push(['flat']);return 3;},get pctMax(){calls.push(['pct']);return 0;}};
+  const gain=applyProcHeal(owner,effect,ports,selected);
+  assert.deepEqual({mode:expected.mode,calls,life:owner.life,boundLife:other.life,healedSince:owner.healedSince,boundHealedSince:other.healedSince,gainPulses:gain?1:0},expected);
+});
+
 test('independent healing arithmetic and actor isolation',()=>{
   const a={life:10,dead:false,healedSince:0},b={life:20,dead:false,healedSince:0};
   const ports={ceiling:()=>50,rate:()=>2,recent:()=>undefined};
