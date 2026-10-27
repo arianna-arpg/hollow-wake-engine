@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "stage": "Healing renderer acceptance passed. Managed integration, final package and publication remain pending.",
+  "selectedRuntimeCommit": "4ee07ddf7185fc3ca2d724e59afacbbc24fa1638",
+  "selectedRuntimeLastFullSuite": {
+    "file": "evidence/milestone-forty-two/invocation-checkpoint.json",
+    "sha256": "e35ad187f129deac70c9f583ff1d112151dc9cf45c85f9acbb892df48319175c",
+    "tests": 636,
+    "compiledOutputsMatchExactly": 195
+  },
+  "baseline": {
+    "file": "baseline/milestone-forty-two/healing-ui-acceptance.json",
+    "sha256": "400216cf40346c6b105a0ffca8cf77f443c59fcab426ce3265b22bc91caa837a"
+  },
+  "expected": {
+    "file": "baseline/milestone-forty-two/healing-ui-expected.json",
+    "sha256": "6d4068e414e07b3a318905633fdcde421a3f75c35f4ab5ee51d9acbc3feba9c1"
+  },
+  "harness": {
+    "file": "adapters/hollow-wake/life-recovery-ui.cjs",
+    "sha256": "87c82b1785b7cacfb8208cd14a4e12fdf9e0aa31698af946e7be01f45f17cbac",
+    "capturedSha256": "f1dead020c2ed925255e053c105355669a794516c9ce16512e013fdddae1e53b"
+  },
+  "nativeRuns": 2,
+  "candidateStages": 15,
+  "allHealingObservationBytesEqual": true,
+  "nativeSource": {
+    "publishedCommit": "83f6021c589728d2d7958ee846628a33e7ec44c7",
+    "sourceMapSha256": "7fd69753ef56bbecfed6c0ed1d083ff4bad4bfe6b8fcb8e7e2d742e3306fe110",
+    "runtimeMapSha256": "365e87b86dc1b970ce3e73ba8ea60ba13cabfa093c04fed32fdd98e00ede6c0c",
+    "sourceFiles": 995,
+    "runtimeFiles": 189,
+    "rendererPackageMetadataVersion": "0.35.0",
+    "qualification": "Retained renderer was built during M41. Its complete game source and compiled SDK runtime are byte-identical to published v0.36, while package metadata predates publication. Healing/refill/proc-heal operations are still native in this control."
+  },
+  "regressions": {
+    "buffs": {
+      "stages": 14,
+      "rawByteEqual": true
+    },
+    "procs": {
+      "stages": 10,
+      "comparison": "Retained native cue harness plus one earned low-life ward course. Proc grant, low-life setup and a temporary zero RNG are explicit. Original eight cue stages remain; those stages partly call native executeProc directly. New ward course calls World.update, observes the public own-event hook and checks the visible ward count. No device or physical-input claim. Expected observations come from two retained published-v0.32 renderer executions; the catalogue separately matches a fresh pinned-original probe. No candidate output produces these expected results."
+    },
+    "delayed": {
+      "stages": 9,
+      "rawByteEqual": false,
+      "comparisonDecision": "delayed-ui-ambient-random-scope/v1",
+      "comparisonSha256": "9c7243ecc012ee59a302404f0eb2ef51e698e5ccf877dce4b96c1cd950bdfd24"
+    }
+  },
+  "sourceFiles": 996,
+  "runtimeFiles": 195,
+  "sourceMapSha256": "c6645dd8f02c8be5f7a3c2dc4d77a5388522aabe13a6589b68dbd851e1e0d47d",
+  "runtimeMapSha256": "83181ace23da5a3830b916b8315b92b90e157e8710318c5fbea86caa26ef6d6b",
+  "archiveSha256": "bd2856f2456ba26b5866db07790270b7b0ffdc291c3f3ad11e586c70f4350275",
+  "buildSha256": "465237fb940db12588cd75cddf917ef0fd9ff0491558fe76d2ab96da9fb9c514",
+  "allSourcePackageAndBundleFilesUnchanged": true,
+  "priorControlsUnchanged": true,
+  "referenceCheckPassed": true,
+  "originalPreservation": {
+    "stableFiles": 4112,
+    "reviewedConcurrentUiPaths": 8,
+    "modifiedByThisWork": 0
+  },
+  "visualReview": {
+    "images": [
+      {
+        "graph": "native",
+        "stage": "proc-gained",
+        "file": ".artifacts/healing-ui-native-uw18a3/reports/proc-gained.png",
+        "sha256": "e1285c3fa005e1e602fe5fbb7379cfaa98bdc87ed9929825db5cc13fc2e39409"
+      },
+      {
+        "graph": "native",
+        "stage": "sealed-clipped",
+        "file": ".artifacts/healing-ui-native-uw18a3/reports/sealed-clipped.png",
+        "sha256": "328a2d6952891f8e0c1a92a738b7bf2c12d65e59985d44d47b6f7e41451bc847"
+      },
+      {
+        "graph": "sdk",
+        "stage": "mend-healed",
+        "file": ".artifacts/healing-ui-vehZ0d/reports/mend-healed.png",
+        "sha256": "998864bcee939c41353272aea7af57efad97d30900ae9145dad1a82ab8e27ffc"
+      },
+      {
+        "graph": "sdk",
+        "stage": "sealed-clipped",
+        "file": ".artifacts/healing-ui-vehZ0d/reports/sealed-clipped.png",
+        "sha256": "328a2d6952891f8e0c1a92a738b7bf2c12d65e59985d44d47b6f7e41451bc847"
+      },
+      {
+        "graph": "sdk",
+        "stage": "proc-gained",
+        "file": ".artifacts/healing-ui-vehZ0d/reports/proc-gained.png",
+        "sha256": "e1285c3fa005e1e602fe5fbb7379cfaa98bdc87ed9929825db5cc13fc2e39409"
+      }
+    ],
+    "findings": "Mend displays a green +66 with life 566; seal clipping displays +10 and life 510; native and SDK gain screenshots show matching green bead glyphs with life 526. The native gold seal label overlaps the life number at this position; existing presentation is preserved. Review covers sampled screenshots and the recorded canvas calls, not portable pixel identity."
+  },
+  "scope": "Native Mend and Greater Mending via the real skill-input/frame path, life-orb drawing and floating heal text, a controlled life seal, host refill, regeneration under normal/paused/slowed world clocks, and native Guarded Heart selection/execution from a controlled block event with gain/expiry/full-life HUD drawing. Records actual canvas calls and screenshots. The block event and refill are host inputs, not physical combat or device-input evidence. No pixel-equivalence, renderer-FPS or physical-device claim.",
+  "sourceFormatRevision": {
+    "file": "baseline/milestone-forty-two/healing-ui-format-decision.json",
+    "sha256": "e4da5da5544a84184c58b7137a06257993dbe18a882b317b6dd8ecd9603c1acd",
+    "normalizationOnly": true,
+    "originalAcceptanceAndExpectedBytesUnchanged": true,
+    "candidateStages": 15,
+    "allObservationBytesEqual": true,
+    "actualSha256": "6d4068e414e07b3a318905633fdcde421a3f75c35f4ab5ee51d9acbc3feba9c1"
+  }
+}

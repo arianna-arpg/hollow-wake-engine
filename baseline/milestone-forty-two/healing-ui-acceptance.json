@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "milestone": 42,
+  "decision": "native-healing-renderer/v1",
+  "status": "accepted-after-two-native-runs-before-sdk-renderer-comparison",
+  "stages": 15,
+  "stageNames": [
+    "full",
+    "wounded",
+    "mend-healed",
+    "mending-casting",
+    "mending-landed",
+    "sealed-clipped",
+    "refill-bypasses-seal",
+    "regen-start",
+    "regen-growing",
+    "regen-paused",
+    "regen-slowed",
+    "proc-wounded",
+    "proc-gained",
+    "proc-expired",
+    "proc-full"
+  ],
+  "expectedSha256": "6d4068e414e07b3a318905633fdcde421a3f75c35f4ab5ee51d9acbc3feba9c1",
+  "harnessSha256": "f1dead020c2ed925255e053c105355669a794516c9ce16512e013fdddae1e53b",
+  "serverSha256": "8f846fd74b33ac3824b936de1024ca590e05057dd791351615cd4cbfd05fcf89",
+  "nativeSource": {
+    "publishedCommit": "83f6021c589728d2d7958ee846628a33e7ec44c7",
+    "sourceMapSha256": "7fd69753ef56bbecfed6c0ed1d083ff4bad4bfe6b8fcb8e7e2d742e3306fe110",
+    "runtimeMapSha256": "365e87b86dc1b970ce3e73ba8ea60ba13cabfa093c04fed32fdd98e00ede6c0c",
+    "sourceFiles": 995,
+    "runtimeFiles": 189,
+    "rendererPackageMetadataVersion": "0.35.0",
+    "qualification": "Retained renderer was built during M41. Its complete game source and compiled SDK runtime are byte-identical to published v0.36, while package metadata predates publication. Healing/refill/proc-heal operations are still native in this control."
+  },
+  "nativeRuns": [
+    {
+      "trial": ".artifacts/healing-ui-native-uw18a3",
+      "harnessSha256": "f1dead020c2ed925255e053c105355669a794516c9ce16512e013fdddae1e53b",
+      "observationsSha256": "6d4068e414e07b3a318905633fdcde421a3f75c35f4ab5ee51d9acbc3feba9c1",
+      "receiptSha256": "e9d82c660f2e6c8dfd72a9cf8647485068540652f32a1a2306f3517400412130"
+    },
+    {
+      "trial": ".artifacts/healing-ui-native-9A4xqw",
+      "harnessSha256": "f1dead020c2ed925255e053c105355669a794516c9ce16512e013fdddae1e53b",
+      "observationsSha256": "6d4068e414e07b3a318905633fdcde421a3f75c35f4ab5ee51d9acbc3feba9c1",
+      "receiptSha256": "6b019ea25b350b9697c62c1345c85a2559b1d085709101a334674a13551a94e6"
+    }
+  ],
+  "environment": {
+    "viewport": [
+      1280,
+      800
+    ],
+    "hidden": true,
+    "hardwareAcceleration": false,
+    "shelteredWeather": true,
+    "controlledRandomAndFrameTime": true
+  },
+  "scope": "Native Mend and Greater Mending via the real skill-input/frame path, life-orb drawing and floating heal text, a controlled life seal, host refill, regeneration under normal/paused/slowed world clocks, and native Guarded Heart selection/execution from a controlled block event with gain/expiry/full-life HUD drawing. Records actual canvas calls and screenshots. The block event and refill are host inputs, not physical combat or device-input evidence. No pixel-equivalence, renderer-FPS or physical-device claim."
+}

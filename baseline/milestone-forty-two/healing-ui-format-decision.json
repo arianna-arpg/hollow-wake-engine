@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "decision": "healing-ui-canonical-source/v1",
+  "reason": "The first Windows captures used CRLF source, while Git stores LF. Pin the canonical LF source for clean checkouts and retain the exact captured source. Expected observations and original acceptance are unchanged.",
+  "originalAcceptanceSha256": "400216cf40346c6b105a0ffca8cf77f443c59fcab426ce3265b22bc91caa837a",
+  "capturedSource": {
+    "file": "baseline/milestone-forty-two/healing-ui-captured-source.cjs.gz",
+    "compressedSha256": "f230386c01e34057a82cafc35a56da761169b04bea0bbe3346319e1ee1a529a0",
+    "sha256": "f1dead020c2ed925255e053c105355669a794516c9ce16512e013fdddae1e53b"
+  },
+  "canonicalSource": {
+    "file": "adapters/hollow-wake/life-recovery-ui.cjs",
+    "sha256": "87c82b1785b7cacfb8208cd14a4e12fdf9e0aa31698af946e7be01f45f17cbac"
+  },
+  "transformation": "Replace CRLF with LF only; preserve every other byte, including the existing UTF-8 marker.",
+  "expectedSha256": "6d4068e414e07b3a318905633fdcde421a3f75c35f4ab5ee51d9acbc3feba9c1",
+  "semanticChanges": false
+}

@@ -16,8 +16,10 @@ game adapter reproduces 121 native observations, including actual healing cues
 and customized callable behavior.
 A measured function-layout experiment failed its predefined acceptance threshold;
 the corrected runtime remains selected, with [both comparison runs retained](evidence/milestone-forty-two/recovery-notification-performance.json).
-Renderer and managed-game acceptance remain pending, and device performance is
-unmeasured. Published v0.36 is described below.
+Fifteen healing display stages now match two native reference runs, including
+life-orb drawing, cast timing, healing numbers and proc cues. Managed-game
+acceptance remains pending, and device performance is unmeasured. Published
+v0.36 is described below.
 
 Version 0.36 adds optional [buff lifecycle and content validation](docs/buffs.md):
 grants, shared and independent clocks, stat publication, event-gated consumption,

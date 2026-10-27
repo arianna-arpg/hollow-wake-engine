@@ -188,7 +188,7 @@ includes sanitized profiles and inlining traces. It confirms that `healLife`
 can be inlined and identifies stat queries and callback delivery for further
 investigation. It does not establish a single cause for the measured overhead.
 
-## Remaining acceptance
+## Notification-layout experiment
 
 The [notification-layout experiment](../evidence/milestone-forty-two/recovery-notification-performance.json)
 compares native v0.36, the invocation-corrected candidate and a proposed private
@@ -214,6 +214,43 @@ and use `--order previous,comparison,current`, then reverse that order. Keep eac
 installed graph distinct and build the proposed runtime before measuring it.
 
 The original 117-case candidate, corrected candidate and rejected experiment are
-retained separately. Complete renderer checks, then review managed game
-integration with the final package. Keep physical Steam Deck/mobile acceptance
-open; desktop path measurements do not establish a device or general game speedup.
+retained separately.
+
+## Player-visible recovery
+
+The [renderer checkpoint](../evidence/milestone-forty-two/renderer-checkpoint.json)
+records fifteen stages through the installed SDK. Two independent runs of the
+retained native-healing renderer establish the expected observations before the
+SDK comparison. Its source and compiled runtime match published v0.36; its older
+package metadata is recorded separately. The SDK reproduces every observation
+byte-for-byte, including actual canvas calls, callback records and clock values.
+The [source-format decision](../baseline/milestone-forty-two/healing-ui-format-decision.json)
+retains the exact Windows capture script and pins its LF form for clean Git
+checkouts. Only line endings change; the original acceptance and expected
+observations remain unchanged, and the LF script passes the same fifteen stages.
+
+Native input drives authored Mend and Greater Mending, preserving instant and
+1.1-second cast timing. The controlled 1,000-life character displays +66 and +160
+heals, a +10 heal clipped at a 510-life seal, and a full refill that bypasses the
+seal. Normal, paused and slowed world frames drive silent regeneration. A
+controlled block event reaches native Guarded Heart selection and execution;
+its gain glyph is drawn, expires, and is absent when life is already full.
+Refill and the block event are explicit host inputs, not physical combat input.
+
+Run `npm run adapter:recovery-ui -- --game <game> --dist <built-bundle>
+--electron <electron-executable>`. The runner requires a current installed
+adapter and a source/runtime-matched bundle. It uses a hidden window and
+disposable saves, preserves its inputs, and never regenerates expectations.
+The previous fourteen buff, ten proc and nine delayed-effect renderer stages
+also pass; the delayed suite retains its declared ambient-random limitation.
+
+Sampled screenshots show the life values, healing text and gain glyphs. The
+native gold seal label overlaps the life number at this position; this existing
+presentation is retained. These checks do not establish portable pixel identity,
+renderer FPS or physical-device performance.
+
+## Remaining acceptance
+
+Review managed game integration with the final package, then complete final
+package and publication checks. Keep physical Steam Deck/mobile acceptance open;
+desktop path measurements do not establish a device or general game speedup.

@@ -13,8 +13,15 @@ optional modules. The guarded adapter rejects 188 source faults and preserves
 the prior effect/delayed/buff comparisons pass. Seventeen installed faults are
 detected in a copied graph, including the formerly unobserved zero-result cue
 and accidental reads of a callable's custom `.call` property.
-See [the boundary](life-recovery.md); renderer and managed-game acceptance are
-pending. A function-layout proposal was rejected after two comparisons against
+See [the boundary](life-recovery.md); managed-game acceptance remains pending.
+Fifteen renderer stages match two independently captured native runs, including
+actual life-orb painting, floating heal numbers, native casts and recovery under
+paused/slowed clocks. `adapter:recovery-ui` preserves its source, installed
+package, bundle and frozen expectations. The preceding fourteen buff, ten proc
+and nine delayed renderer stages also pass. The controlled block event and host
+refill are explicitly distinguished from physical input; delayed observations
+retain their existing ambient-random scope.
+A function-layout proposal was rejected after two comparisons against
 both native v0.36 and the corrected candidate. Its 1,350 timings, 168 heap
 observations and source patch remain available in the
 [measurement record](../evidence/milestone-forty-two/recovery-notification-performance.json).
