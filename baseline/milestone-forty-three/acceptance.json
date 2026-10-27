@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "milestone": 43,
+  "stage": "Original restoration observations accepted before implementation; no semantic repair is authorized by this baseline.",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLock": "baseline/source-lock.json",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "predecessor": {
+    "version": "0.37.0",
+    "commit": "56f6974bd91499f6655272962696cac273dadb83",
+    "archiveSha256": "6942da7c951b9399c74786c8580d9d59600637f0f0d4260017f3014d2edc6f30",
+    "integrity": "sha512-s7wE9l78fdvGYNnoRSA8ozIaZsEaABkUZWpdXgd8dQ/eOv6RgQdhOQ1RUcgn4Zb3vTq5Bypo4B9NJLfZScREsQ=="
+  },
+  "courses": 218,
+  "expectedFailures": 14,
+  "helpers": [
+    {
+      "file": "reference/export-restoration.ts",
+      "sha256": "c951fbf36fe53632cc496735a5e1067ed08648efee8eb885af291f46fdefe6ec"
+    },
+    {
+      "file": "reference/export-restoration-invocation.ts",
+      "sha256": "ae60c80ecffb83740ea437383d8cfa9fdb0e69f987a99baeeb719587acf02255"
+    },
+    {
+      "file": "reference/export-restoration-gain-order.ts",
+      "sha256": "ce782ca311267440cc5032ebe3259051c5dc93fb803c54ccada0173e9a3d4c06"
+    },
+    {
+      "file": "reference/export-restoration-world.ts",
+      "sha256": "bb409fc1ec70bdbd5dd59dbe0d370c914ee6ed8049a4fe269bef14bcd8046744"
+    },
+    {
+      "file": "reference/export-restoration-failures.ts",
+      "sha256": "5ce1d0c56a1c550e878ffe36cc6409bb3007a865079661d12a85bc3c040aa4c5"
+    },
+    {
+      "file": "reference/export-restoration-pool-bases.ts",
+      "sha256": "5d6d8c7bf0ddacaccff8b1dfd794ae6852bd7c07f1c5126331a2d7d4d81f315b"
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "restoration",
+      "helper": "reference/export-restoration.ts",
+      "helperSha256": "c951fbf36fe53632cc496735a5e1067ed08648efee8eb885af291f46fdefe6ec",
+      "file": "baseline/milestone-forty-three/restoration.json.gz",
+      "courses": 114,
+      "expectedFailures": 0,
+      "compressedSha256": "c09120bab6dbebf5addbbbff177bdb726741f58e97602ef7387d660c50e72d34",
+      "fixtureSha256": "21b0e842ed97fa24110cd1e809cc4c2c203a8ac1662df6206cb33d580e2b8a71",
+      "bytes": 186995
+    },
+    {
+      "name": "invocation",
+      "helper": "reference/export-restoration-invocation.ts",
+      "helperSha256": "ae60c80ecffb83740ea437383d8cfa9fdb0e69f987a99baeeb719587acf02255",
+      "file": "baseline/milestone-forty-three/invocation.json.gz",
+      "courses": 15,
+      "expectedFailures": 0,
+      "compressedSha256": "effd41c8cd82c3784d734db8b91985435882835ebc6b23a789daf3f87cec10cd",
+      "fixtureSha256": "c00f16940cc81b8035843a264cacbebf35ba8caa85c9742c5c5ec26c0eaa20d3",
+      "bytes": 24417
+    },
+    {
+      "name": "query-order",
+      "helper": "reference/export-restoration-gain-order.ts",
+      "helperSha256": "ce782ca311267440cc5032ebe3259051c5dc93fb803c54ccada0173e9a3d4c06",
+      "file": "baseline/milestone-forty-three/query-order.json.gz",
+      "courses": 56,
+      "expectedFailures": 3,
+      "compressedSha256": "8dd2c7e80bd7f70b903474ceda2b99cdace5b87f7e3a4b1c60c7dc2eb22d7a43",
+      "fixtureSha256": "9513f06e378edbba44d7dba5cf95563bde28121dbad407eda316d7fedf2078b7",
+      "bytes": 65836
+    },
+    {
+      "name": "world",
+      "helper": "reference/export-restoration-world.ts",
+      "helperSha256": "bb409fc1ec70bdbd5dd59dbe0d370c914ee6ed8049a4fe269bef14bcd8046744",
+      "file": "baseline/milestone-forty-three/world.json.gz",
+      "courses": 10,
+      "expectedFailures": 0,
+      "compressedSha256": "383d517dc84a34f0c589ee734651c26fb02d1fc2696f7ea8ef8d3aacfc371fd9",
+      "fixtureSha256": "61f2a61aa946915332c3c32c1c9fb2de01ab445f67032859d52801fb4726683d",
+      "bytes": 173837
+    },
+    {
+      "name": "partial-failure",
+      "helper": "reference/export-restoration-failures.ts",
+      "helperSha256": "5ce1d0c56a1c550e878ffe36cc6409bb3007a865079661d12a85bc3c040aa4c5",
+      "file": "baseline/milestone-forty-three/partial-failure.json.gz",
+      "courses": 15,
+      "expectedFailures": 11,
+      "compressedSha256": "ef7f41243d2b389893a8a9f36b8c53722c9ba6eb9dd3cada87a01d188c419ac6",
+      "fixtureSha256": "f1ec03cadbfb11e1b9f095bd8ce8882ed0b952ac6c368fb31b26d2fdceedc57c",
+      "bytes": 27408
+    },
+    {
+      "name": "pool-bases",
+      "helper": "reference/export-restoration-pool-bases.ts",
+      "helperSha256": "5d6d8c7bf0ddacaccff8b1dfd794ae6852bd7c07f1c5126331a2d7d4d81f315b",
+      "file": "baseline/milestone-forty-three/pool-bases.json.gz",
+      "courses": 8,
+      "expectedFailures": 0,
+      "compressedSha256": "23388fd2a08f14a0b2442aa675af964f76aab473ff20d14f342395bf7a779e57",
+      "fixtureSha256": "7aaa2eccdb5f1bc610bcf43ae3eeb5022f6ddf3d15f2c0a2d2af16a4b45acb90",
+      "bytes": 16633
+    }
+  ],
+  "sourceBoundaries": {
+    "file": "baseline/milestone-forty-three/source-boundaries.json",
+    "sha256": "ddb705ac22a898c7d8364b1943da099b5cfcbb0fa6b69f173394c3a5872bfa08"
+  },
+  "adapterContract": {
+    "file": "baseline/milestone-forty-three/adapter-contract.json",
+    "sha256": "96f247435b2447727c22dc8ff1d22e629fe3bb2a76823ff899487d895a28927b"
+  },
+  "callerInventory": {
+    "file": "baseline/milestone-forty-three/caller-inventory.json",
+    "sha256": "12aae94b3786f9e6a7d5b0604a8f28aac41fe46f7a54d932ce039623a65a7dbc"
+  },
+  "reproduction": {
+    "originalRuns": 2,
+    "publishedPredecessorRuns": 1,
+    "allRawOutputsByteEqual": true,
+    "allCaptureHelpersTypeChecked": true
+  },
+  "observations": [
+    "All 23 restore procs loaded by native startup are covered at powers zero, one and two.",
+    "Instant returns drive feeding/event cues; proc cues compare actual before/after pool state.",
+    "Mana percentage uses total maximum before the available-mana clamp; poise percentage excludes overcharge headroom.",
+    "Early gates, query order, method selection, bound receivers, short-circuit option reads and surviving partial state are preserved.",
+    "Real World courses exercise streams, natural recharge, conversion, reservation, stasis, slow, broken-poise rearm, an authored spell and host-resolved contacts earning procs.",
+    "Synthetic direct-proc diagnostics intentionally preserve omitted presentation color; they do not establish validity of a serialized ProcDef.",
+    "The raw capture-stage strings are historical metadata retained byte-for-byte. This acceptance record establishes their reviewed baseline status.",
+    "Nonfinite runtime observations do not authorize nonfinite authored content."
+  ],
+  "scope": "Native baseline and source boundary only. Runtime implementation, validated content, adapter adoption, renderer, performance and device/native-engine acceptance are separate gates."
+}

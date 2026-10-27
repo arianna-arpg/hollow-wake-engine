@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "milestone": 43,
+  "stage": "Plan fixed before restoration implementation; no performance result is claimed",
+  "predecessor": {
+    "version": "0.37.0",
+    "commit": "56f6974bd91499f6655272962696cac273dadb83"
+  },
+  "comparison": "Actual native/v0.37 and installed candidate Actor/World entry points in separate processes; no fake actor substituted for one side",
+  "actorCounts": [
+    1024,
+    4096
+  ],
+  "worldActorCounts": [
+    16,
+    64
+  ],
+  "warmups": 8,
+  "timingSamples": 25,
+  "retainedHeapSamples": 7,
+  "independentRuns": 2,
+  "reverseProcessOrder": true,
+  "workloads": [
+    "shield positive gain",
+    "shield already full",
+    "poise positive gain",
+    "poise overcharge gain",
+    "instant mana restore with event/cue",
+    "proc mana restore with reservation",
+    "proc poise restore",
+    "World update with shield regeneration conversion"
+  ],
+  "correctness": "Check complete relevant final state and event/cue summaries before accepting timings. Reset workload state outside timing; report exact measured operations and reset behavior.",
+  "isolation": "No concurrent CPU-heavy work; record runtime, OS, CPU, package archive and source/runtime hashes.",
+  "metrics": [
+    "Median and tail elapsed time per stated batch",
+    "Used and retained memory reported separately",
+    "Profiles and allocation evidence before attributing an observed regression"
+  ],
+  "optimizationDecision": {
+    "minimumRepeatableMedianImprovementPercent": 5,
+    "maximumOtherMedianRegressionPercent": 5,
+    "maximumOtherP95RegressionPercent": 10,
+    "rule": "An optimization proposal must improve its preselected workload in both reversed-order runs and meet the other-workload limits; reject or investigate inconsistent rankings."
+  },
+  "runtimeJsBudgetBytes": 8192,
+  "additionalActorFields": 0,
+  "limitations": [
+    "Retained heap is not allocation volume",
+    "Headless World updates are not frame-rate measurements",
+    "Steam Deck and a named older mobile device remain required for device acceptance"
+  ]
+}

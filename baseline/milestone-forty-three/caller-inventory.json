@@ -1,0 +1,224 @@
+{
+  "stage": "Read-only static discovery; no completeness claim for dynamic or aliased calls",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "files": 3,
+  "counts": {
+    "gainEs": 6,
+    "gainPoise": 4,
+    "applyRestore": 10,
+    "startRestoreStream": 3
+  },
+  "calls": [
+    {
+      "file": "src/engine/actor.ts",
+      "line": 3407,
+      "owner": "updateTimers",
+      "method": "gainEs",
+      "expression": "this.gainEs(step)",
+      "sourceSha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30"
+    },
+    {
+      "file": "src/engine/actor.ts",
+      "line": 3591,
+      "owner": "updateTimers",
+      "method": "gainEs",
+      "expression": "this.gainEs(regen * toEs * dt)",
+      "sourceSha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30"
+    },
+    {
+      "file": "src/engine/actor.ts",
+      "line": 4287,
+      "owner": "<module>",
+      "method": "gainEs",
+      "expression": "a.gainEs(amt)",
+      "sourceSha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30"
+    },
+    {
+      "file": "src/engine/actor.ts",
+      "line": 4303,
+      "owner": "<module>",
+      "method": "gainPoise",
+      "expression": "a.gainPoise(amt)",
+      "sourceSha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30"
+    },
+    {
+      "file": "src/engine/damage.ts",
+      "line": 913,
+      "owner": "applyHitCore",
+      "method": "gainEs",
+      "expression": "attacker.gainEs(esGain)",
+      "sourceSha256": "dbfe8a43e1c92842e46ad0ebfb819cd412fa7ef69bf4c114d481fedba4551b4f"
+    },
+    {
+      "file": "src/engine/damage.ts",
+      "line": 924,
+      "owner": "applyHitCore",
+      "method": "gainPoise",
+      "expression": "attacker.gainPoise(pGain)",
+      "sourceSha256": "dbfe8a43e1c92842e46ad0ebfb819cd412fa7ef69bf4c114d481fedba4551b4f"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 35523,
+      "owner": "executeSkill",
+      "method": "applyRestore",
+      "expression": "this.applyRestore(caster, { resource: 'life', amount: meat * rr.life }, { tags: def.tags, feedingCue: def.feedingCue })",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 35524,
+      "owner": "executeSkill",
+      "method": "applyRestore",
+      "expression": "this.applyRestore(caster, { resource: 'mana', amount: meat * rr.mana }, { tags: def.tags, feedingCue: def.feedingCue })",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 36219,
+      "owner": "executeSkill",
+      "method": "applyRestore",
+      "expression": "this.applyRestore(friendly, fx, { tags: def.tags })",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 36225,
+      "owner": "executeSkill",
+      "method": "startRestoreStream",
+      "expression": "this.startRestoreStream(friendly, caster, inst, fx, opts.chargesSpent ?? 0, pourCrit)",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 38041,
+      "owner": "executeSkill",
+      "method": "applyRestore",
+      "expression": "this.applyRestore(caster, fx, { tags: def.tags })",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 38052,
+      "owner": "executeSkill",
+      "method": "startRestoreStream",
+      "expression": "this.startRestoreStream(caster, caster, inst, fx, opts.chargesSpent ?? 0, pourCrit)",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 42583,
+      "owner": "applyRestore",
+      "method": "gainPoise",
+      "expression": "target.gainPoise(fx.amount)",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 42585,
+      "owner": "applyRestore",
+      "method": "gainEs",
+      "expression": "target.gainEs(fx.amount)",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 42685,
+      "owner": "releasePrimedPours",
+      "method": "startRestoreStream",
+      "expression": "this.startRestoreStream(a, a, inst, fx, b.chargesSpent, pourCrit)",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 42691,
+      "owner": "releasePrimedPours",
+      "method": "applyRestore",
+      "expression": "this.applyRestore(a, fx, { tags: inst.def.tags })",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 44384,
+      "owner": "resolveHit",
+      "method": "applyRestore",
+      "expression": "this.applyRestore(target, fx, { tags: def.tags })",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 45301,
+      "owner": "applySympathyEcho",
+      "method": "applyRestore",
+      "expression": "this.applyRestore(r, {\n            resource: ev.id as 'life' | 'mana' | 'es' | 'poise', amount: total,\n          }, { noEvent: true })",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 45337,
+      "owner": "applySympathyEcho",
+      "method": "applyRestore",
+      "expression": "this.applyRestore(r, {\n            resource: def.restore, amount: (ev.n ?? 0) * scale,\n            resetEsDelay: def.restore === 'es',\n          }, { noEvent: true })",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 45509,
+      "owner": "executeProc",
+      "method": "gainPoise",
+      "expression": "caster.gainPoise(amount)",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 45511,
+      "owner": "executeProc",
+      "method": "gainEs",
+      "expression": "caster.gainEs(amount)",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 52704,
+      "owner": "updateConstructs",
+      "method": "applyRestore",
+      "expression": "this.applyRestore(owner, { resource: col.resource, amount: col.amount })",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "line": 58085,
+      "owner": "pourOrb",
+      "method": "applyRestore",
+      "expression": "this.applyRestore(a, {\n        resource: def.restore, amount: orb.amount,\n        resetEsDelay: def.restore === 'es',\n      }, { noEvent: true })",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    }
+  ],
+  "members": [
+    {
+      "file": "src/engine/actor.ts",
+      "name": "gainPoise",
+      "sha256": "3ebce8010f79b8064f6036492d3a603166c5e41c12e0acfad3d91b96702877e8",
+      "source": "gainPoise(amount: number): number {\n    if (amount <= 0 || this.dead) return 0;\n    const max = this.maxPoise();\n    if (max <= 0) return 0;\n    const cap = max * (1 + this.sheet.get('poiseOvercharge'));\n    const before = this.poise;\n    this.poise = Math.min(cap, this.poise + amount);\n    return this.poise - before;\n  }"
+    },
+    {
+      "file": "src/engine/actor.ts",
+      "name": "gainEs",
+      "sha256": "9bc5e3c8785f306252d9ca6049b4b89960656d0d41fac5647725632a1adaae0a",
+      "source": "gainEs(amount: number): number {\n    if (amount <= 0 || this.dead) return 0;\n    const max = this.maxEs();\n    if (max <= 0) return 0;\n    const before = this.es;\n    this.es = Math.min(max, this.es + amount);\n    if (before < max - 0.001 && this.es >= max - 0.001) this.esJustFilled = true;\n    return this.es - before;\n  }"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "name": "applyRestore",
+      "sha256": "b7d216b04689478b32cb8dd0776a3b09b7f3c892b34f0cd5bb6ec21c8142cf0f",
+      "source": "private applyRestore(\n    target: Actor,\n    fx: { resource: 'life' | 'mana' | 'es' | 'poise'; amount: number; resetEsDelay?: boolean },\n    opts?: { noEvent?: boolean; tags?: SkillTag[]; feedingCue?: import('../data/feedingCues').FeedingCueSpec | false },\n  ): number {\n    let landed = 0;\n    if (fx.resource === 'life') {\n      landed = target.healBy(fx.amount);\n    } else if (fx.resource === 'mana') {\n      const before = target.mana;\n      target.mana = Math.min(target.availableMaxMana(), target.mana + fx.amount);\n      landed = target.mana - before;\n    } else if (fx.resource === 'poise') {\n      landed = target.gainPoise(fx.amount);\n    } else {\n      landed = target.gainEs(fx.amount);\n      if (fx.resetEsDelay) target.esDelay = 0;\n    }\n    if (fx.resource !== 'poise') noteRestoreGain(target, fx.resource, landed, opts?.feedingCue);\n    if (landed > 0 && !opts?.noEvent && target.gainEvents.length < 64) {\n      target.gainEvents.push({\n        kind: 'restore', id: fx.resource, depth: 0,\n        n: landed, tags: opts?.tags,\n      });\n    }\n    return landed;\n  }"
+    },
+    {
+      "file": "src/engine/world.ts",
+      "name": "startRestoreStream",
+      "sha256": "fcc6afec552d93b3a8676b4da64ca049ea93ceff062210e8598aa6666c19f9c9",
+      "source": "private startRestoreStream(\n    target: Actor, caster: Actor, inst: SkillInstance,\n    fx: {\n      resource: 'life' | 'mana' | 'es'; amount: number; duration: number;\n      amountPerLevel?: number; amountPctMax?: number; perCharge?: boolean;\n      lane?: 'surge' | 'settle';\n      feedingCue?: import('../data/feedingCues').FeedingCueSpec | false;\n    },\n    chargesSpent: number,\n    critMult?: number,\n  ): void {\n    const tags = skillContextTags(inst);\n    const extra = instanceMods(inst);\n    const maxPool = fx.resource === 'life' ? target.maxLife()\n      : fx.resource === 'mana' ? target.availableMaxMana() : target.maxEs();\n    const pct = (fx.amountPctMax ?? 0)\n      + (fx.lane !== 'surge' ? caster.sheet.get('restorePctMax', tags, extra) : 0)\n      + (fx.lane ? caster.sheet.get('pourPct_' + fx.lane, tags, extra) : 0);\n    const base = fx.amount\n      + (fx.amountPerLevel ?? 0) * Math.max(0, effectiveSkillLevel(inst) - 1)\n      + pct * maxPool;\n    const total = base * (fx.perCharge ? Math.max(1, chargesSpent) : 1)\n      * caster.sheet.get('restorePower', tags, extra)\n      * (fx.lane ? caster.sheet.get('pourPower_' + fx.lane, tags, extra) : 1)\n      // THE LUCKY POUR: the whole stream may crit at the pour (a flask\n      // with Deadly Precision socketed pours deeper on its crits).\n      * (critMult ?? this.critMendMult(caster, inst, target.pos));\n    if (total <= 0) return;\n    const dur = Math.max(0.2, fx.duration\n      * caster.sheet.get('effectDuration', tags, extra));\n    target.restoreStreams.push({\n      resource: fx.resource, perSec: total / dur, remaining: total,\n      feedingCue: fx.feedingCue ?? inst.def.feedingCue,\n    });\n    // The pour is a GAIN EVENT (depth 0 — a drink is real play): sympathy\n    // links replay it on kin (the tamed-beast flask bond). Echo streams are\n    // granted directly and never re-event, so pours can't chain.\n    if (target.gainEvents.length < 64) {\n      target.gainEvents.push({\n        kind: 'restore', id: fx.resource, depth: 0,\n        n: total, dur, tags: inst.def.tags,\n      });\n    }\n    // feedingCue gains are emitted by actual ticks, including primed releases.\n  }"
+    }
+  ],
+  "originalSourceUnchanged": true
+}
