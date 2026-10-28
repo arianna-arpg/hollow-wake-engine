@@ -5,6 +5,7 @@ on:
       - '.github/workflows/embedded-host.yml'
       - 'experiments/embedded-js/**'
       - 'scripts/test-embedded-host.mjs'
+      - 'scripts/test-embedded-session.mjs'
       - 'scripts/native-tools.mjs'
       - 'scripts/reference-utils.mjs'
       - 'scripts/compile-item-content.mjs'
@@ -59,6 +60,8 @@ jobs:
           } finally { $archive.Dispose() }
       - name: Verify compatibility, limits and disposal
         run: node scripts/test-embedded-host.mjs --amalgam-dir .artifacts/embedded-host-upstream
+      - name: Verify persistent sessions and batched calls
+        run: node scripts/test-embedded-session.mjs --amalgam-dir .artifacts/embedded-host-upstream
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
@@ -71,3 +74,8 @@ jobs:
             .artifacts/embedded-host-*/input.json
             .artifacts/embedded-host-*/*.jsonl
             .artifacts/embedded-host-*/*.txt
+            .artifacts/embedded-session-latest.json
+            .artifacts/embedded-session-*/verification.json
+            .artifacts/embedded-session-*/input.json
+            .artifacts/embedded-session-*/*.jsonl
+            .artifacts/embedded-session-*/*.txt

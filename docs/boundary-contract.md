@@ -103,8 +103,9 @@ authored skill directly as this compiled skill schema fails on unsupported field
 
 ## Numerical and ordering semantics
 
-- Numbers use JavaScript binary64. Cross-runtime verification currently covers
-  only the seven [native lifecycle leaves](native-lifecycle.md), not the full SDK.
+- Numbers use JavaScript binary64. Cross-runtime checks cover the seven
+  [native lifecycle leaves](native-lifecycle.md) and selected content-bearing
+  [embedded paths](embedded-runtime-experiment.md), not the full SDK.
   Fixture comparisons allow relative/absolute error of `1e-12`;
   discrete results, modifier lists and random draw counts must match.
 - Named source insertion order is significant. Flat additions precede additive

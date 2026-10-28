@@ -99,6 +99,10 @@ does not establish support on another operating system.
 
 ## Decision still required
 
+The next [persistent-session experiment](persistent-native-session.md) retains
+shared content and isolated mutable sessions across native calls, with batch and
+checkpoint continuation checks. It remains separate from a stable native SDK ABI.
+
 QuickJS's documented [C API](https://quickjs-ng.github.io/quickjs/developer-guide/intro/)
 provides explicit runtime/context ownership, memory limits and interruption hooks.
 The host experiment now checks ownership, limits and disposal in the cases above.
