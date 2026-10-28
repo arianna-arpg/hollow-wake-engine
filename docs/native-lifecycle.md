@@ -35,6 +35,11 @@ to prove these numeric leaves. It does **not** establish that a native rewrite o
 all gameplay is cheaper or faster than embedding a VM; compare those alternatives
 on a representative content-heavy path before making the full-runtime decision.
 
+The separate [embedded JavaScript experiment](embedded-runtime-experiment.md)
+now checks the unchanged SDK's item, passive and selected combat paths in QuickJS.
+That CLI compatibility check is a prerequisite investigation, not the outstanding
+embedded-host versus native-kernel cost comparison or an engine package.
+
 ## ABI v1 contract
 
 `native/include/hwe_lifecycle.h` is the declaration authority. Export names include
