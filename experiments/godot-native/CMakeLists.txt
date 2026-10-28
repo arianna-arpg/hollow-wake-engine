@@ -12,6 +12,12 @@ add_library(hwe_native SHARED IMPORTED)
 set_target_properties(hwe_native PROPERTIES IMPORTED_LOCATION "${HWE_NATIVE_LIBRARY}")
 if(WIN32)
     set_target_properties(hwe_native PROPERTIES IMPORTED_IMPLIB "${HWE_NATIVE_IMPORT_LIBRARY}")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    # The verified embedded library has no SONAME. Link by its filename so its
+    # original build directory cannot become an ELF dependency at runtime.
+    set_target_properties(hwe_native PROPERTIES IMPORTED_NO_SONAME TRUE)
+else()
+    message(FATAL_ERROR "Only Windows and Linux development packages are configured")
 endif()
 add_library(hwe_godot SHARED host.cpp)
 target_link_libraries(hwe_godot PRIVATE godot-cpp hwe_native)
@@ -20,6 +26,10 @@ set_target_properties(hwe_godot PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED
     CXX_EXTENSIONS OFF CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN ON
     LIBRARY_OUTPUT_DIRECTORY "${HWE_OUTPUT}" RUNTIME_OUTPUT_DIRECTORY "${HWE_OUTPUT}"
     BUILD_RPATH "$ORIGIN" INSTALL_RPATH "$ORIGIN")
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set_target_properties(hwe_godot PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE
+        INSTALL_RPATH_USE_LINK_PATH FALSE)
+endif()
 if(MSVC)
     target_compile_options(hwe_godot PRIVATE /W4 /WX /fp:strict)
 else()

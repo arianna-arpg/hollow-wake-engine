@@ -20,8 +20,16 @@ on:
 permissions:
   contents: read
 jobs:
-  windows:
-    runs-on: windows-2025
+  native:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-2025
+            platform: windows
+          - os: ubuntu-24.04
+            platform: linux
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -84,7 +92,7 @@ jobs:
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
-          name: godot-native-windows-evidence
+          name: godot-native-${{ matrix.platform }}-evidence
           include-hidden-files: true
           if-no-files-found: error
           path: |

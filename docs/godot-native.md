@@ -57,3 +57,21 @@ The JSON boundary is an experiment, not an accepted format for every frame.
 Godot/process allocations are outside the native VM's tracked-byte counters.
 The existing SDK license is preserved. Built archives and exported games remain
 local development artifacts; this milestone does not create a registry release.
+
+Linux x86_64 packaging is now configured alongside Windows, with pinned official
+editor/export inputs and an Ubuntu 24.04 CI job. Its first execution outcome is
+pending; the earlier Windows results do not establish Linux support. The shared
+builder also passed a [fresh Windows regression](../evidence/godot/linux-package-preparation.json)
+after this refactor.
+
+The Linux bridge links the embedded library by filename using CMake's
+[`IMPORTED_NO_SONAME`](https://cmake.org/cmake/help/latest/prop_tgt/IMPORTED_NO_SONAME.html)
+and builds with its installation search path, `$ORIGIN`, using
+[`BUILD_WITH_INSTALL_RPATH`](https://cmake.org/cmake/help/latest/prop_tgt/BUILD_WITH_INSTALL_RPATH.html).
+The verifier inspects the resulting ELF dependencies/search path, removes loader
+environment overrides, and checks actual loader traces against the installed
+and exported library paths. Both platform replays now hide the native compiler
+input, bridge build and staging directories. The release also hides the original
+project/export paths and verifies that the exported libraries match the addon.
+These checks address accidental dependencies on a developer's build tree; they
+do not measure performance or establish SteamOS/mobile compatibility.

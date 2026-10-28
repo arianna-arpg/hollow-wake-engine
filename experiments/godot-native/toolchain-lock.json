@@ -1,16 +1,7 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "godotVersion": "4.7.2-stable",
   "godotVersionOutput": "4.7.2.stable.official.ed1daf0bf",
-  "editor": {
-    "archive": {
-      "name": "Godot_v4.7.2-stable_win64.exe.zip",
-      "url": "https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/Godot_v4.7.2-stable_win64.exe.zip",
-      "sha256": "731980f9608d61333e5baf54a2ef17210acc7a538446c0cb9969f002aca1e953",
-      "bytes": 86013866
-    },
-    "executableSha256": "ab1824f85bfd8e0e4128182c000c4003a3e042245b2967848d089b2a04b22424"
-  },
   "bindings": {
     "tag": "10.0.0-stable",
     "commit": "507ed9d840c01a3c5b2a39af8bb4000bfac30bf5",
@@ -226,10 +217,56 @@
     "sha256": "f298490b8d44d934be425a5a65a51bf15f422428b229a06a6e11d9ffea248011",
     "bytes": 1281349702
   },
-  "templateFiles": {
-    "windows_release_x86_64.exe": "d34d36f3be1a6c49c56525ae86469b92e4f417ddf0b43cf00dd80c385c4b0562",
-    "windows_debug_x86_64.exe": "51498b72b3a237f882ebd7d1787f06a4bc1eaf0572daab93837adcfd3cfdc107",
-    "version.txt": "38885c88f75abbc797a1db7559719800279a00cfb9fa8b2e2868a7f6f84bad2e"
-  },
-  "scope": "Pinned Windows x64 development and export verification inputs. No target-device or other-engine acceptance."
+  "scope": "Pinned Windows and Linux x64 development/export inputs; platform execution and physical-device acceptance are separate evidence.",
+  "platforms": {
+    "win32": {
+      "editor": {
+        "archive": {
+          "name": "Godot_v4.7.2-stable_win64.exe.zip",
+          "url": "https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/Godot_v4.7.2-stable_win64.exe.zip",
+          "sha256": "731980f9608d61333e5baf54a2ef17210acc7a538446c0cb9969f002aca1e953",
+          "bytes": 86013866
+        },
+        "executableSha256": "ab1824f85bfd8e0e4128182c000c4003a3e042245b2967848d089b2a04b22424",
+        "executable": "Godot_v4.7.2-stable_win64.exe",
+        "members": [
+          "Godot_v4.7.2-stable_win64.exe",
+          "Godot_v4.7.2-stable_win64_console.exe"
+        ]
+      },
+      "templates": {
+        "release": "windows_release_x86_64.exe",
+        "debug": "windows_debug_x86_64.exe",
+        "files": {
+          "windows_release_x86_64.exe": "d34d36f3be1a6c49c56525ae86469b92e4f417ddf0b43cf00dd80c385c4b0562",
+          "windows_debug_x86_64.exe": "51498b72b3a237f882ebd7d1787f06a4bc1eaf0572daab93837adcfd3cfdc107",
+          "version.txt": "38885c88f75abbc797a1db7559719800279a00cfb9fa8b2e2868a7f6f84bad2e"
+        }
+      }
+    },
+    "linux": {
+      "editor": {
+        "archive": {
+          "name": "Godot_v4.7.2-stable_linux.x86_64.zip",
+          "url": "https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/Godot_v4.7.2-stable_linux.x86_64.zip",
+          "bytes": 77860424,
+          "sha256": "cadd3204e728a35d3f13adb7fd0d7902636b79f6b95c40c265eb73b6c35329e4"
+        },
+        "executable": "Godot_v4.7.2-stable_linux.x86_64",
+        "members": [
+          "Godot_v4.7.2-stable_linux.x86_64"
+        ],
+        "executableSha256": "8d106cbe6144c2dc7e881d61d2429c1a8a76e6b22ef48bd5e48dcf934953f71e"
+      },
+      "templates": {
+        "release": "linux_release.x86_64",
+        "debug": "linux_debug.x86_64",
+        "files": {
+          "linux_release.x86_64": "d9f79ab89b5ae369aeed11c6052d402e8218cd503bf85b4a235f9c30c46a7c63",
+          "linux_debug.x86_64": "1a291d3d15e4180b60b0af96cf6458f11fe143636d76575ddf1e23d1a3f24f2e",
+          "version.txt": "38885c88f75abbc797a1db7559719800279a00cfb9fa8b2e2868a7f6f84bad2e"
+        }
+      }
+    }
+  }
 }

@@ -1,9 +1,12 @@
 # Experimental Hollow Wake addon for Godot
 
 This development package connects the existing Hollow Wake SDK to Godot's native
-extension interface. The current proof targets the standard **Godot 4.7.2 Windows
-x64** editor and release export. It needs no Node.js or .NET runtime in the game.
-Build tools need Node.js, Python, CMake, Ninja and the Visual C++ toolchain.
+extension interface. Package paths target the standard **Godot 4.7.2 Windows x64
+and Linux x86_64** editor and release export; consult `docs/godot-native.md` in the
+SDK repository for the actual verified outcomes. The game needs no Node.js or
+.NET runtime. Build tools need Node.js, Python, CMake, Ninja and Visual C++ on
+Windows, or a C/C++ toolchain and `readelf` on Linux. Linux CI targets Ubuntu 24.04;
+that build environment does not establish compatibility with every distribution.
 Automated import uses `--import --frame-delay 1000` for the pinned editor's
 [cold-import shutdown issue](https://github.com/godotengine/godot/issues/111048).
 This is a build-tool workaround, not an engine fix or a runtime delay. Import
@@ -16,7 +19,7 @@ equipment and passive changes, inventory movement, ordinary casting, a timed
 damage effect, and component snapshot/restore. It retains the SDK implementation
 and authored definitions. It does not expose every SDK module or replace a whole
 game's actor, spatial, rendering, persistence or authority systems. The protocol
-and native ABI remain experimental. Linux Godot, other engines, ARM, mobile and
+and native ABI remain experimental. Other engines, ARM, mobile and
 physical-device performance have separate acceptance work.
 
 ## Install a locally built package
@@ -105,7 +108,7 @@ node scripts/prepare-godot-tools.mjs --cmake PATH_TO_CMAKE --ninja PATH_TO_NINJA
 
 The QuickJS source lock and download procedure are in the SDK's embedded-host
 documentation. Godot preparation downloads about 1.37 GB of pinned official
-archives, extracts only Windows x64 editor/templates and the pinned C++ binding
+archives, extracts only the current platform's x64 editor/templates and the pinned C++ binding
 source, and writes a fresh tools JSON under `.artifacts`. It checks archive,
 executable, template and all 198 binding-source hashes. Python must support
 `tarfile`'s `data` extraction filter. The preparer prints the tools JSON path;
@@ -119,6 +122,11 @@ The verifier builds the native bridge, creates an addon ZIP, installs that ZIP
 into a fresh project, imports it with an isolated editor, executes the gameplay
 and threading course, then exports a release game. It relocates that game and
 makes the original project/export directories unavailable during its replay.
+Both editor and release replays also run with the native input, bridge build and
+staging directories unavailable. Linux ELF dependencies must use filenames and
+`$ORIGIN`, with no build-directory search path. Loader tracing confirms that the
+installed/exported native libraries are the ones actually loaded; loader search
+environment overrides are removed for the verification subprocesses.
 Both runs consume packaged resources and compare every response to the retained
 independent SDK observations. It retains commands, logs, manifests and hashes in
 a fresh result directory. Native build metadata is excluded from the addon ZIP.
