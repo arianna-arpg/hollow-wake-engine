@@ -7,9 +7,9 @@ reimplemented in the bindings. The selected gameplay scope remains the
 [persistent-session experiment](persistent-native-session.md).
 
 This is a development interface, not a stable ABI, supported engine package or
-replacement for the JavaScript package. The build tools now configure Windows
-and Linux x64. The [Windows portability regression](../evidence/embedded-js/portability-windows.json)
-has passed locally; Linux acceptance awaits inspection of the first hosted run.
+replacement for the JavaScript package. The build tools configure Windows
+and Linux x64. Both passed the [hosted portability checks](../evidence/embedded-js/portability-ci.json),
+following the [local Windows regression](../evidence/embedded-js/portability-windows.json).
 ARM, Unity/IL2CPP, Godot, Unreal, mobile platforms and device performance remain
 unverified. The existing seven-leaf native experiment is separate.
 
@@ -187,3 +187,19 @@ process-cost and item-index experiment runners retain their Windows scope.
 An Ubuntu x64 result cannot establish Steam Deck, ARM, engine import, or mobile
 acceptance. Their toolchains, packaging, application lifecycle and physical
 device measurements remain separate work.
+
+The inspected [two-platform CI run](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40772024690)
+replayed 60 requests with 609 exact numeric observations through each C++ and
+.NET consumer. The sanitized Linux C++ replay matched the same responses and
+completed its ownership and failure cases without sanitizer errors. Each
+platform also passed 21 executable-host cycles. All reported owners finished
+with zero tracked live allocations; this is not a claim of zero process memory.
+The evidence includes compiler commands, source hashes and raw observations.
+
+The first Linux attempt passed the executable, session and C++ checks, then
+failed because the managed test's residency probe called Windows `kernel32`.
+The correction retains every ownership assertion and uses glibc's
+[`RTLD_NOLOAD` lookup](https://man7.org/linux/man-pages/man3/dlopen.3.html),
+balancing its temporary loader reference. The failed attempt is retained in
+the evidence alongside the passing run. The C ownership implementation,
+managed binding and gameplay runtime did not change for this correction.
