@@ -5,6 +5,8 @@ import {spawnSync, execFileSync} from 'node:child_process';
 import {root, git, sha256, listFiles, writeJSON} from './reference-utils.mjs';
 
 assert.equal(process.platform, 'linux'); assert.equal(process.arch, 'x64');
+const identity = {uid: process.geteuid(), gid: process.getegid()}, sdkHome = '/tmp/hollow-wake-sdk-home';
+assert(identity.uid > 0, 'Run as the non-root owner of the fresh checkout');
 const read = file => JSON.parse(fs.readFileSync(file)), hash = file => sha256(fs.readFileSync(file));
 const lockDirectory = path.join(root, 'experiments/steamrt-godot');
 const lock = read(path.join(lockDirectory, 'toolchain-lock.json'));
@@ -34,7 +36,7 @@ const sourceFiles = ['scripts/test-steamrt-godot.mjs', '.github/workflows/steamr
   ...listFiles(lockDirectory).map(file => 'experiments/steamrt-godot/' + file)];
 const sources = Object.fromEntries(sourceFiles.map(file => [file, hash(path.join(root, file))]));
 const report = {schemaVersion: 1, passed: false, status: 'started', phase: inside ? 'sdk' : 'host',
-  commit: git(root, ['rev-parse', 'HEAD']).trim(), sources, commands: [], images: lock.images,
+  commit: git(root, ['rev-parse', 'HEAD']).trim(), sources, identity, commands: [], images: lock.images,
   scope: 'Steam Runtime 4 SDK build and runtime-only headless Godot export. Selected capability, not Steam client/device/performance qualification.'};
 const receipt = path.join(directory, 'verification.json');
 if (!inside) writeJSON(path.join(root, '.artifacts/steamrt-godot-latest.json'), {directory, receipt});
@@ -65,6 +67,8 @@ try {
     }));
     assert.equal(release.ID, 'steamrt'); assert.equal(release.BUILD_ID, lock.images.sdk.buildId);
     assert.equal(release.VARIANT_ID, lock.images.sdk.variant); fs.writeFileSync(path.join(directory, 'os-release.txt'), releaseText, {flag: 'wx'});
+    assert.equal(process.env.HOME, sdkHome); assert.equal(process.env.DOTNET_CLI_HOME, sdkHome);
+    fs.mkdirSync(sdkHome, {mode: 0o700});
     report.environment = {release, node: process.version, libc: run('libc', 'getconf', ['GNU_LIBC_VERSION']),
       cc: run('cc', 'cc', ['--version']), cxx: run('cxx', 'c++', ['--version']),
       cmake: run('cmake', 'cmake', ['--version']), python: run('python', 'python3', ['--version']),
@@ -106,18 +110,23 @@ try {
     }
     const create = (kind, parameters, command) => {
       const id = run(kind + '-create', 'docker', ['create', '--platform', 'linux/amd64', '--label', 'org.hollow-wake.proof=' + path.basename(directory),
-        ...parameters, images[kind], ...command]); assert(/^[0-9a-f]{64}$/.test(id)); containers.push(id); return id;
+        '--user', identity.uid + ':' + identity.gid, ...parameters, images[kind], ...command]); assert(/^[0-9a-f]{64}$/.test(id)); containers.push(id); return id;
     };
     const sdkDirectory = path.join(directory, 'sdk'); fs.mkdirSync(sdkDirectory);
     const nodeRoot = path.dirname(path.dirname(fs.realpathSync(process.execPath))), dotnetRoot = path.dirname(commandPath('dotnet'));
     const sdk = create('sdk', ['--volume', root + ':/workspace', '--volume', nodeRoot + ':/tools/node:ro', '--volume', dotnetRoot + ':/tools/dotnet:ro',
       '--workdir', '/workspace', '--env', 'PATH=/tools/node/bin:/tools/dotnet:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
-      '--env', 'CI=true', '--env', 'DOTNET_ROOT=/tools/dotnet', '--entrypoint', '/tools/node/bin/node'],
+      '--env', 'CI=true', '--env', 'DOTNET_ROOT=/tools/dotnet', '--env', 'HOME=' + sdkHome, '--env', 'DOTNET_CLI_HOME=' + sdkHome,
+      '--entrypoint', '/tools/node/bin/node'],
       ['/workspace/scripts/test-steamrt-godot.mjs', '--sdk', '/workspace/' + path.relative(root, sdkDirectory).split(path.sep).join('/')]);
+    const sdkConfiguration = JSON.parse(run('sdk-container-created', 'docker', ['inspect', sdk]))[0];
+    assert.equal(sdkConfiguration.Image, lock.images.sdk.configDigest);
+    assert.equal(sdkConfiguration.Config.User, identity.uid + ':' + identity.gid);
     run('sdk-execution', 'docker', ['start', '--attach', sdk], 2700000);
     const sdkState = JSON.parse(run('sdk-container', 'docker', ['inspect', sdk]))[0];
     assert.equal(sdkState.Image, lock.images.sdk.configDigest); assert.equal(sdkState.State.ExitCode, 0); assert.equal(sdkState.State.Status, 'exited');
     const sdkProof = read(path.join(sdkDirectory, 'verification.json')); assert(sdkProof.passed && sdkProof.inputsUnchanged);
+    assert.deepEqual(sdkProof.identity, identity);
     const godotDirectory = localArtifact(sdkProof.generated['godot-native']), godot = read(path.join(godotDirectory, 'verification.json'));
     const sessionDirectory = localArtifact(sdkProof.generated['embedded-session']);
     assert(godot.passed && godot.inputsUnchanged && godot.sourceProjectUnavailableDuringRelease && godot.buildInputsUnavailableDuringReplay);
@@ -127,12 +136,13 @@ try {
     const output = path.join(directory, 'platform'); fs.mkdirSync(output);
     const platform = create('platform', ['--network', 'none', '--read-only', '--cap-drop', 'ALL', '--security-opt', 'no-new-privileges',
       '--volume', exported + ':/package:ro', '--volume', output + ':/evidence', '--tmpfs', '/tmp:rw,nosuid,nodev,size=268435456',
-      '--workdir', '/package', '--env', 'XDG_DATA_HOME=/tmp/data', '--env', 'XDG_CONFIG_HOME=/tmp/config', '--env', 'XDG_CACHE_HOME=/tmp/cache',
+      '--workdir', '/package', '--env', 'HOME=/tmp', '--env', 'XDG_DATA_HOME=/tmp/data', '--env', 'XDG_CONFIG_HOME=/tmp/config', '--env', 'XDG_CACHE_HOME=/tmp/cache',
       '--env', 'LD_DEBUG=libs', '--env', 'LD_DEBUG_OUTPUT=/evidence/platform-loader', '--entrypoint', '/package/hollow-wake-proof.x86_64'],
       ['--headless', '--log-file', '/evidence/platform-engine.log', '--', '/evidence/platform.jsonl']);
     // Keep the exact container configuration before execution, including mounts.
     const configuration = JSON.parse(run('platform-container-created', 'docker', ['inspect', platform]))[0];
     assert.equal(configuration.Image, lock.images.platform.configDigest); assert.equal(configuration.HostConfig.NetworkMode, 'none');
+    assert.equal(configuration.Config.User, identity.uid + ':' + identity.gid);
     assert.equal(configuration.HostConfig.ReadonlyRootfs, true);
     assert.deepEqual(Object.keys(configuration.HostConfig.Tmpfs), ['/tmp']);
     for (const mount of configuration.Mounts) if (mount.Type !== 'bind') assert(mount.Type === 'tmpfs' && mount.Destination === '/tmp');

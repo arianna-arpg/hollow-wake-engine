@@ -9,6 +9,16 @@ stopped before container creation because the new harness assumed its results
 parent directory already existed. Initialization now creates it in a fresh
 checkout. That attempt establishes no runtime result; its failure log is retained.
 
+The [second attempt](../evidence/godot/steam-runtime-ownership-failure.json)
+reached the host's read of the Godot receipt, then failed because the container's
+root-owned private directories were inaccessible to the runner. Artifact upload
+also failed. Only the job log survives; the underlying receipts cannot be
+independently inspected, so that attempt is not accepted as runtime verification.
+Both containers now use the non-root caller's numeric user and group, checked
+against Docker's actual configuration. The SDK gets a private temporary home for
+tool caches; the Platform uses its bounded temporary filesystem. The correction
+still requires a successful hosted replay and readable evidence.
+
 Valve recommends the [Steam Runtime 4 SDK](https://github.com/ValveSoftware/steam-runtime/blob/master/README.md)
 for new native Linux games. Its [SDK guide](https://gitlab.steamos.cloud/steamrt/steamrt4/sdk/-/blob/steamrt/steamrt4/README.md)
 provides both SDK and Platform OCI images. The
@@ -16,7 +26,8 @@ provides both SDK and Platform OCI images. The
 configurations to release `4.0.20261021.265997`; the original registry metadata is
 retained alongside it. Normal builds use immutable digests, not floating tags.
 
-In a fresh Linux x86_64 checkout with Docker, Node 24.9.0 and .NET SDK 8.0.427:
+As the non-root owner of a fresh Linux x86_64 checkout with Docker, Node 24.9.0
+and .NET SDK 8.0.427:
 
 ```sh
 node scripts/test-steamrt-godot.mjs
