@@ -4,6 +4,11 @@ This extends the verified Godot package with a pinned Steam Runtime 4 build and
 a separate runtime-only replay. Execution is pending. Source and configuration
 alone do not establish compatibility, a Steam client launch or device performance.
 
+The [first hosted attempt](../evidence/godot/steam-runtime-startup-failure.json)
+stopped before container creation because the new harness assumed its results
+parent directory already existed. Initialization now creates it in a fresh
+checkout. That attempt establishes no runtime result; its failure log is retained.
+
 Valve recommends the [Steam Runtime 4 SDK](https://github.com/ValveSoftware/steam-runtime/blob/master/README.md)
 for new native Linux games. Its [SDK guide](https://gitlab.steamos.cloud/steamrt/steamrt4/sdk/-/blob/steamrt/steamrt4/README.md)
 provides both SDK and Platform OCI images. The

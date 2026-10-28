@@ -27,6 +27,7 @@ for (const image of Object.values(lock.images)) {
 }
 const args = process.argv.slice(2), inside = args[0] === '--sdk';
 assert(inside ? args.length === 2 : args.length === 0, 'Run in a fresh Linux checkout with Docker, Node and .NET installed');
+if (!inside) fs.mkdirSync(path.join(root, '.artifacts'), {recursive: true});
 const directory = inside ? fs.realpathSync(args[1]) : fs.mkdtempSync(path.join(root, '.artifacts/steamrt-godot-'));
 assert(/^\.artifacts\/steamrt-godot-[A-Za-z0-9]+(?:\/sdk)?$/.test(path.relative(root, directory).split(path.sep).join('/')));
 const sourceFiles = ['scripts/test-steamrt-godot.mjs', '.github/workflows/steamrt-godot.yml',
