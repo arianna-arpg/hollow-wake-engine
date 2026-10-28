@@ -6,6 +6,7 @@ on:
       - 'experiments/embedded-js/**'
       - 'scripts/test-embedded-host.mjs'
       - 'scripts/test-embedded-session.mjs'
+      - 'scripts/test-embedded-library.mjs'
       - 'scripts/native-tools.mjs'
       - 'scripts/reference-utils.mjs'
       - 'scripts/compile-item-content.mjs'
@@ -31,6 +32,9 @@ jobs:
         with:
           node-version: 24.9.0
           cache: npm
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 8.0.x
       - run: npm ci
       - run: npm run build
       - run: npm run reference:prepare
@@ -62,6 +66,8 @@ jobs:
         run: node scripts/test-embedded-host.mjs --amalgam-dir .artifacts/embedded-host-upstream
       - name: Verify persistent sessions and batched calls
         run: node scripts/test-embedded-session.mjs --amalgam-dir .artifacts/embedded-host-upstream
+      - name: Verify library ownership and independent consumers
+        run: node scripts/test-embedded-library.mjs --amalgam-dir .artifacts/embedded-host-upstream --session-fixture .artifacts/embedded-session-latest.json
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
@@ -79,3 +85,7 @@ jobs:
             .artifacts/embedded-session-*/input.json
             .artifacts/embedded-session-*/*.jsonl
             .artifacts/embedded-session-*/*.txt
+            .artifacts/embedded-library-latest.json
+            .artifacts/embedded-library-*/verification.json
+            .artifacts/embedded-library-*/*.jsonl
+            .artifacts/embedded-library-*/*.txt

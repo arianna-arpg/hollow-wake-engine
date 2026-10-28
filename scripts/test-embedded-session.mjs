@@ -20,6 +20,7 @@ const lock = JSON.parse(fs.readFileSync(path.join(root, 'experiments/embedded-js
 for (const [file, hash] of Object.entries(lock.files)) assert.equal(sha256(fs.readFileSync(path.join(upstream, file))), hash);
 const sources = ['experiments/embedded-js/session.mjs', 'experiments/embedded-js/session-scenario.mjs',
   'experiments/embedded-js/session-host.c', 'experiments/embedded-js/host-support.h',
+  'experiments/embedded-js/tracked-allocator.h',
   'experiments/embedded-js/host-source-lock.json', 'scripts/test-embedded-session.mjs'];
 const sourceHashes = Object.fromEntries(sources.map(file => [file, sha256(fs.readFileSync(path.join(root, file)))]));
 const runtimeSnapshot = () => Object.fromEntries(listFiles(path.join(root, 'dist')).map(file =>

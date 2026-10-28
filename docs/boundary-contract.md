@@ -201,8 +201,10 @@ implementation with minimal language-induced uncertainty. Production compilation
 uses the ECMAScript library only: no DOM or Node type libraries.
 
 The data and snapshot contracts are portable specifications; the broad implementation
-still needs a JavaScript host. The experimental C ABI proves seven leaf transitions
-from an independent C# caller and a C++ linkage consumer. Unity, Godot, Unreal, mobile
+still needs a JavaScript runtime. The leaf C ABI proves seven transitions from
+independent C#/C++ callers. The separate [embedded library](embedded-native-library.md)
+exercises selected persistent gameplay paths through C++ and .NET callers using
+the shared JavaScript implementation. Unity, Godot, Unreal, mobile
 and WebAssembly compatibility remain unproven. The full-runtime language decision
 still requires comparing embedding versus a native kernel on representative content,
 call overhead, memory, debugging and distribution targets. Node consumer checks alone

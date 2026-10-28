@@ -93,7 +93,7 @@ helpers are reused by the two C drivers; refactoring them requires rerunning bot
 Tracked requested bytes exclude allocator metadata and memory outside the VM.
 No execution-time, frame-allocation or physical-device result is established here.
 
-The next integration work is a reusable native boundary with explicit buffer and
-thread ownership, independent native-language consumers, unload/reload behavior,
-and measured initialization, state-transfer and batched-call costs. Compare
-equivalent embedded and native candidates before choosing the runtime architecture.
+The [experimental native library](embedded-native-library.md) adds explicit buffer
+and thread ownership, C++/.NET consumers, and unload/reload checks. Initialization,
+state-transfer and batched-call costs still need measurement. Compare equivalent
+embedded and native candidates before choosing the runtime architecture.

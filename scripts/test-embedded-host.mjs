@@ -28,6 +28,8 @@ const observation = path.join(root, 'experiments/embedded-js/compatibility.mjs')
 const sourceBytes = fs.readFileSync(source), observationBytes = fs.readFileSync(observation);
 const support = path.join(root, 'experiments/embedded-js/host-support.h');
 const supportBytes = fs.readFileSync(support);
+const allocationSource = path.join(root, 'experiments/embedded-js/tracked-allocator.h');
+const allocationBytes = fs.readFileSync(allocationSource);
 const directory = fs.mkdtempSync(path.join(root, '.artifacts/embedded-host-'));
 const receipt = path.join(directory, 'verification.json');
 writeJSON(path.join(root, '.artifacts/embedded-host-latest.json'), {directory, receipt});
@@ -42,6 +44,7 @@ const report = {
   platform: process.platform, arch: process.arch, node: process.version, bundlerVersion,
   commit: git(root, ['rev-parse', 'HEAD']).trim(), hostSourceSha256: sha256(sourceBytes),
   supportSourceSha256: sha256(supportBytes),
+  allocationSourceSha256: sha256(allocationBytes),
   observationSourceSha256: sha256(observationBytes), sourceLockSha256: sha256(lockBytes),
   upstreamFiles: lock.files, runtimeOutputs: Object.keys(before).length,
   runtimeMapSha256: sha256(JSON.stringify(before)), inputSha256: inputHash,
@@ -151,6 +154,7 @@ finally {
   assert.deepEqual(runtimeSnapshot(), before);
   assert(fs.readFileSync(source).equals(sourceBytes));
   assert(fs.readFileSync(support).equals(supportBytes));
+  assert(fs.readFileSync(allocationSource).equals(allocationBytes));
   assert(fs.readFileSync(observation).equals(observationBytes));
   assert(fs.readFileSync(lockFile).equals(lockBytes));
   for (const [file, hash] of Object.entries(lock.files)) assert.equal(sha256(fs.readFileSync(path.join(upstream, file))), hash);

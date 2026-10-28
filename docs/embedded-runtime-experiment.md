@@ -112,7 +112,9 @@ embedded approach with the native-kernel option on a representative content
 workload before selecting an architecture. Preserve the same gameplay
 observations across candidates before comparing costs.
 
-Native bindings, engine imports, editor/player lifetimes, supported platforms,
+An [experimental C interface and .NET binding](embedded-native-library.md) now
+exercise the persistent controller through a dynamically loaded library.
+Production bindings, engine imports, editor/player lifetimes, supported platforms,
 remaining SDK capabilities and physical Steam Deck/mobile tests remain open.
 The existing [seven-operation native experiment](native-lifecycle.md) remains
 separate. No production dependency or license change follows from this check.
