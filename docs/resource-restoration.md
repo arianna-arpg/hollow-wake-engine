@@ -354,6 +354,16 @@ npm script now supplies that path to child installations, and the driver refuses
 direct launches without it. The failed run remains available in the
 [setup correction record](../evidence/milestone-forty-three/linux-diagnosis-setup-correction.json).
 
+The corrected [Linux run](../evidence/milestone-forty-three/linux-diagnosis/summary.json)
+completes all eight processes and preserves all 1,200 samples and accepted gameplay
+outcomes. Calibration observes one-microsecond CPU-counter increments, and none of
+the 600 instrumented measured batches reports zero thread CPU. However, ten of
+twelve ordinary identical-code pairs exceed five percent in median time; seven
+exceed ten percent at p95. The two 4,096-Actor positive-shield comparisons make
+copy B appear 14.89% and 6.36% slower despite identical code. Moving to this Linux
+job alone therefore does not establish the required repeatability. No optimization
+is accepted, no threshold changes, and these results do not identify the cause.
+
 Neither these observations nor desktop measurements establish
 Steam Deck, mobile, Unity, Godot or Unreal compatibility. Those deliverables,
 current-source/content reconciliation and the remaining system families stay open.
