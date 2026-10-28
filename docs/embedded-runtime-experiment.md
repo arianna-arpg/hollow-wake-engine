@@ -48,15 +48,65 @@ SHA-256 before execution. The binary is a separate development tool, not include
 in the SDK. Every run creates a fresh directory containing inputs, bundle, logs,
 three raw observations and a verification receipt. No timings are collected.
 
+## Embedded C host
+
+The [development host](../experiments/embedded-js/host.c) compiles the pinned
+QuickJS source into a Windows x64 executable and invokes the same observations
+through its C API. The host supplies no QuickJS filesystem, network or standard
+library bindings to gameplay code. Its C wrapper reads the test files and owns
+all JavaScript values, contexts and runtimes. This is an embedding experiment;
+it does not yet expose a reusable SDK ABI or retain a context across game frames.
+
+Each case creates and disposes three runtimes in one process. Checks cover normal
+execution, malformed JSON, a gameplay exception, interrupted infinite work, heap
+exhaustion, startup allocation failure and stack exhaustion. The allocator also
+checks overflow, alignment, zero-length requests, growth/shrink behavior and
+preservation after a rejected reallocation. Successful calls must leave no queued
+JavaScript jobs. Interruption uses a deterministic poll allowance, not a wall-clock
+deadline or instruction-count guarantee.
+
+The [Windows receipt](../evidence/embedded-js/windows-host.json) records 21 runtime
+cycles with zero tracked live allocations after disposal. Three successful runs
+each match all 5,153 numbers exactly, as well as structure, strings and ordering.
+The unbundled and bundled Node observations agree. Error checks verify the actual
+runtime exceptions; original gameplay fixtures remain unchanged.
+
+The observed peak is 70,950,514 bytes (about 67.7 MiB) requested through the VM
+allocator, including parsed content and test observations. It excludes allocation
+prefixes, allocator overhead, native input buffers, executable memory and other
+process costs. It is neither resident memory nor a frame-allocation budget, and
+it does not establish a mobile memory target. The prefix preserves the documented
+[Windows x64 allocation alignment](https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/malloc?view=msvc-170).
+No timing comparison or native-kernel superiority is claimed.
+
+To reproduce, run the build and reference preparation commands above. Install
+Visual Studio C tools, then extract `quickjs-amalgam.zip` from the official
+[0.17.0 release](https://github.com/quickjs-ng/quickjs/releases/tag/v0.17.0) to a
+separate development directory:
+
+```sh
+node scripts/test-embedded-host.mjs --amalgam-dir /path/to/extracted/sources
+```
+
+The [source lock](../experiments/embedded-js/host-source-lock.json) pins the archive
+and source hashes. The script verifies both compiled source files before use,
+creates a fresh build/test directory, treats host-code warnings as errors and
+preserves raw output and error logs. The separate
+[host workflow](../.github/workflows/embedded-host.yml) also verifies the downloaded
+archive before extracting only the required files. Upstream source and binaries
+are not included in the SDK or committed to this repository. This Windows check
+does not establish support on another operating system.
+
 ## Decision still required
 
 QuickJS's documented [C API](https://quickjs-ng.github.io/quickjs/developer-guide/intro/)
 provides explicit runtime/context ownership, memory limits and interruption hooks.
-That makes an embedded host plausible; the CLI test does not verify our use of
-those APIs. Next, compare an actual embedded host with the native-kernel option
-on a representative content workload, including initialization, peak/resident
-memory, state transfer, batched host calls and failure/disposal behavior. Preserve
-the same gameplay observations across candidates before comparing costs.
+The host experiment now checks ownership, limits and disposal in the cases above.
+Persistent context/state ownership, state transfer, batched game-facing calls,
+initialization and resident-memory costs still need measurement. Compare the
+embedded approach with the native-kernel option on a representative content
+workload before selecting an architecture. Preserve the same gameplay
+observations across candidates before comparing costs.
 
 Native bindings, engine imports, editor/player lifetimes, supported platforms,
 remaining SDK capabilities and physical Steam Deck/mobile tests remain open.
