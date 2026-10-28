@@ -9,6 +9,12 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
+An experimental [Godot native addon](docs/godot-native.md) now packages a selected
+character, inventory and combat capability without a Node.js or .NET dependency
+in the game. Independent Windows/Linux editor and relocated release runs each
+pass 98 checks and match all 60 gameplay responses. Full SDK coverage, other
+engine packages and device performance remain open.
+
 The v0.38 development candidate adds [resource restoration](docs/resource-restoration.md):
 shield/poise gain gates, immediate restore events, reserved-mana proc restoration
 and strict content compilers. Its separately committed native baseline is reproduced

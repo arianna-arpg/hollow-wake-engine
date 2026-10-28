@@ -1,0 +1,847 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "scope": "Independent Windows 2025 x64 and Ubuntu 24.04 x86_64 Godot installation, editor and relocated release verification; selected session capability only",
+  "sourceCommit": "b8757a70cf06ae89c13cd4b57fbdd5c7a3a935ad",
+  "run": {
+    "id": 40785255940,
+    "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40785255940",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "id": 123156717524,
+        "name": "native (windows-2025, windows)",
+        "conclusion": "success"
+      },
+      {
+        "id": 123156717734,
+        "name": "native (ubuntu-24.04, linux)",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "sourceRecordsVerified": 80,
+  "distinctSourcesVerified": 33,
+  "rawFilesVerified": 78,
+  "requestsPerRun": 60,
+  "exactNumericObservationsPerRun": 609,
+  "checksPerRun": 98,
+  "observationsMatchLocalAndIndependent": true,
+  "linuxBridgeGlibcRequirements": [
+    "2.2.5",
+    "2.3",
+    "2.3.2",
+    "2.3.4",
+    "2.4",
+    "2.14",
+    "2.17",
+    "2.25",
+    "2.32",
+    "2.34",
+    "2.35",
+    "2.36",
+    "2.38"
+  ],
+  "linux": {
+    "verification": {
+      "schemaVersion": 1,
+      "passed": true,
+      "status": "completed",
+      "commit": "b8757a70cf06ae89c13cd4b57fbdd5c7a3a935ad",
+      "platform": "linux",
+      "arch": "x64",
+      "node": "v24.9.0",
+      "sources": {
+        "experiments/godot-native/CMakeLists.txt": "59769879804a1cc8b078922a72ceb69caef27a2006f63883209b2a78289b1111",
+        "experiments/godot-native/README.md": "c49fe5aeac882d9d3d5d6b9c12d657f079e3b7d1de7a00fd103c56ff02e3a765",
+        "experiments/godot-native/build-profile.json": "d91e96bc849d2f33e1ea0bff1ae7ec49bf0aac6d8e026c17ff5e340ebc352142",
+        "experiments/godot-native/hollow_wake.gdextension": "7eec349e666560c3edfad41d02d791c55aca6a0a935b7da4352d318d3aff3568",
+        "experiments/godot-native/host.cpp": "88a375910fe50ec78499cd2d28e558c07e5bffafd330ce6b994764076df4540b",
+        "experiments/godot-native/main.tscn": "cea04e92f424dc8b33de67394ac6205191e3ac4840a54fd77de6a22ca7993910",
+        "experiments/godot-native/notices/godot-cpp-LICENSE.md": "26a5b210d90760156ce886267ce9df235787dcc6cebfd7ecd95ef5b6fdcc95bf",
+        "experiments/godot-native/notices/quickjs-source-notices.txt": "a899b3c40e680b96e24b49dfc1ac4a83f0a60e61303d52c41856d0cce29616a5",
+        "experiments/godot-native/project.godot": "68dad399824fd42cb3a21d273b8682e3e8c6912482e01937a10665d6fa7717cd",
+        "experiments/godot-native/replay.gd": "f379879789b018da0e6305a4f457bb7bb28dd8743106eb68a823311e6f3da204",
+        "experiments/godot-native/toolchain-lock.json": "3cfa573fe44bc8a7691d111378a0cf1951f64d0a7c704827538870c5d4ee871f",
+        "scripts/test-godot-native.mjs": "ee563f2b3202afded55a64b7ed7851f2d033e8c7326a86f91a113fb172ce5d0f",
+        "scripts/prepare-godot-tools.mjs": "23ef762e2125a96fdc603fa496d37929f022f1cf42d623d6ea6508b22688e8bf",
+        "scripts/native-tools.mjs": "80671f3913e94caaecc8d18ab0c87d95aa3cb978201f38896291a4b823db5b89",
+        "scripts/reference-utils.mjs": "e36edca23dfd5ac73f203599495a1bc348e2fc90689c5c922154f7da0a40feeb",
+        "LICENSE.md": "5b944b285c70cb59ab4803c682bb7d8b36652131bbb504f0f2bea5089e941c71",
+        "NOTICE.md": "666739e716daf975a5204f82bfa8c3458a74de729718b317b3ef88bf0624f19e",
+        "experiments/embedded-js/native/hwe_embedded.h": "29fb4f208074cd4d6407482900479322cbd21d1e722851cf5617b732aac72978"
+      },
+      "tools": {
+        "cmake": "/usr/local/bin/cmake",
+        "ninja": "/usr/local/bin/ninja",
+        "python": "/usr/bin/python3.12",
+        "platform": "linux",
+        "editor": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-tools-OBPVNk/Godot_v4.7.2-stable_linux.x86_64",
+        "bindings": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-tools-OBPVNk/godot-cpp-507ed9d840c01a3c5b2a39af8bb4000bfac30bf5",
+        "exportRelease": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-tools-OBPVNk/linux_release.x86_64",
+        "exportDebug": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-tools-OBPVNk/linux_debug.x86_64"
+      },
+      "commands": [
+        {
+          "label": "editor-version",
+          "command": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/editor/godot",
+          "args": [
+            "--headless",
+            "--version"
+          ],
+          "cwd": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa",
+          "extraEnv": {},
+          "pid": 2853,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "native-library-elf",
+          "command": "readelf",
+          "args": [
+            "--dynamic",
+            "--wide",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/native-input/libhwe_embedded.so"
+          ],
+          "cwd": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa",
+          "extraEnv": {},
+          "pid": 2857,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "configure",
+          "command": "/usr/local/bin/cmake",
+          "args": [
+            "-S",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/experiments/godot-native",
+            "-B",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/build",
+            "-G",
+            "Ninja",
+            "-DCMAKE_BUILD_TYPE=Release",
+            "-DCMAKE_MAKE_PROGRAM=/usr/local/bin/ninja",
+            "-DPython3_EXECUTABLE=/usr/bin/python3.12",
+            "-DGODOT_CPP_SOURCE=/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-tools-OBPVNk/godot-cpp-507ed9d840c01a3c5b2a39af8bb4000bfac30bf5",
+            "-DHWE_NATIVE_LIBRARY=/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/native-input/libhwe_embedded.so",
+            "-DHWE_OUTPUT=/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/staging/addons/hollow_wake/bin"
+          ],
+          "cwd": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa",
+          "extraEnv": {},
+          "pid": 2858,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "build",
+          "command": "/usr/local/bin/cmake",
+          "args": [
+            "--build",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/build",
+            "--parallel",
+            "4"
+          ],
+          "cwd": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa",
+          "extraEnv": {},
+          "pid": 2898,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "bridge-elf",
+          "command": "readelf",
+          "args": [
+            "--dynamic",
+            "--wide",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/staging/addons/hollow_wake/bin/libhwe_godot.so"
+          ],
+          "cwd": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa",
+          "extraEnv": {},
+          "pid": 3167,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "bridge-symbol-versions",
+          "command": "readelf",
+          "args": [
+            "--version-info",
+            "--wide",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/staging/addons/hollow_wake/bin/libhwe_godot.so"
+          ],
+          "cwd": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa",
+          "extraEnv": {},
+          "pid": 3168,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "install-addon",
+          "command": "/usr/bin/python3.12",
+          "args": [
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/install.py",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/staging",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/hollow-wake-godot-experimental.zip",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/installed-project"
+          ],
+          "cwd": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa",
+          "extraEnv": {},
+          "pid": 3169,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "import",
+          "command": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/editor/godot",
+          "args": [
+            "--headless",
+            "--import",
+            "--path",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/installed-project",
+            "--frame-delay",
+            "1000",
+            "--log-file",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/import-engine.log"
+          ],
+          "cwd": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa",
+          "extraEnv": {},
+          "pid": 3170,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "editor-replay",
+          "command": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/editor/godot",
+          "args": [
+            "--path",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/installed-project",
+            "--headless",
+            "--log-file",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/editor-replay-engine.log",
+            "--",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/editor-replay.jsonl"
+          ],
+          "cwd": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa",
+          "extraEnv": {
+            "LD_DEBUG": "libs",
+            "LD_DEBUG_OUTPUT": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/editor-replay-loader"
+          },
+          "pid": 3214,
+          "exitCode": 0,
+          "signal": null,
+          "loaderTrace": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/editor-replay-loader.log"
+        },
+        {
+          "label": "export-release",
+          "command": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/editor/godot",
+          "args": [
+            "--headless",
+            "--path",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/installed-project",
+            "--export-release",
+            "Linux",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/exported/hollow-wake-proof.x86_64",
+            "--log-file",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/export-engine.log"
+          ],
+          "cwd": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa",
+          "extraEnv": {},
+          "pid": 3235,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "release-replay",
+          "command": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/relocated-game/hollow-wake-proof.x86_64",
+          "args": [
+            "--headless",
+            "--log-file",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/release-replay-engine.log",
+            "--",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/release-replay.jsonl"
+          ],
+          "cwd": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/relocated-game",
+          "extraEnv": {
+            "LD_DEBUG": "libs",
+            "LD_DEBUG_OUTPUT": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/release-replay-loader"
+          },
+          "pid": 3249,
+          "exitCode": 0,
+          "signal": null,
+          "loaderTrace": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/release-replay-loader.log"
+        }
+      ],
+      "libraryProofSha256": "e7f61edee8ea3ce39facdb1a52bf5b07085870daad20f44398e8949d612ba6f6",
+      "sessionProofSha256": "ea1284d09249d54c0e45e0b503a21bf16c5b3bd1e690e851364553bafa54c6cb",
+      "runtimeMapSha256": "49f4a5637979a46c3770e315d13a415508446f7654db0f40bf3fe67a23150189",
+      "runtimeOutputs": 201,
+      "scope": "Experimental linux x64 Godot 4.7.2 native addon, editor replay and standalone release export. Selected embedded-session capability only; no stable API, device performance or other-platform claim.",
+      "pythonCachesIsolated": true,
+      "elf": {
+        "needed": [
+          "libhwe_embedded.so",
+          "libm.so.6",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "search": [
+          "$ORIGIN"
+        ],
+        "loaderEnvironmentOverridesRemoved": true
+      },
+      "importLifecycle": {
+        "waitsForResources": true,
+        "frameDelayMs": 1000,
+        "retries": 0,
+        "upstreamWorkaround": "https://github.com/godotengine/godot/issues/111048"
+      },
+      "editor": {
+        "checks": 98,
+        "editor_build": true,
+        "live_blocks_after_dispose": 0,
+        "live_bytes_after_dispose": 0,
+        "packaged_inputs": true,
+        "passed": true,
+        "requests": 60,
+        "thread_checks": true,
+        "observationsSha256": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+        "loadedLibraries": [
+          "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/installed-project/addons/hollow_wake/bin/libhwe_embedded.so",
+          "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/installed-project/addons/hollow_wake/bin/libhwe_godot.so"
+        ]
+      },
+      "release": {
+        "checks": 98,
+        "editor_build": false,
+        "live_blocks_after_dispose": 0,
+        "live_bytes_after_dispose": 0,
+        "packaged_inputs": true,
+        "passed": true,
+        "requests": 60,
+        "thread_checks": true,
+        "observationsSha256": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+        "loadedLibraries": [
+          "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/relocated-game/libhwe_embedded.so",
+          "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-native-4liVWa/relocated-game/libhwe_godot.so"
+        ]
+      },
+      "sourceProjectUnavailableDuringRelease": true,
+      "buildInputsUnavailableDuringReplay": true,
+      "addon": {
+        "archiveSha256": "b52bae270b1132a926bad3949edb3f0ab0af6369917f029935b9b5a36712e286",
+        "archiveBytes": 1548426,
+        "files": {
+          "README.md": "c49fe5aeac882d9d3d5d6b9c12d657f079e3b7d1de7a00fd103c56ff02e3a765",
+          "bin/libhwe_embedded.so": "8e3d419dcb28f651dd2084e6cd8426d8dfa061f388f45d946fc31d610c7c2f9b",
+          "bin/libhwe_godot.so": "363680eb92601fb742d0c10510b28ab92a3b2dc993110877ea082ebd67b4b1ac",
+          "data/bundle.txt": "05689b448733a21de8672bb3386d488c07c05b71145a094b62d4b5acb714d354",
+          "data/content.json": "c5ea6f2b6ccc1f3147e79e92967675d592b7433063685034a02691b5e60d5ea9",
+          "data/example-create.json": "a647668f64795b79ffc2fe72aafa51e696c90110032e0623eab97236cd1d116c",
+          "hollow_wake.gdextension": "7eec349e666560c3edfad41d02d791c55aca6a0a935b7da4352d318d3aff3568",
+          "notices/Hollow-Wake-LICENSE.md": "5b944b285c70cb59ab4803c682bb7d8b36652131bbb504f0f2bea5089e941c71",
+          "notices/Hollow-Wake-NOTICE.md": "666739e716daf975a5204f82bfa8c3458a74de729718b317b3ef88bf0624f19e",
+          "notices/godot-cpp-LICENSE.md": "26a5b210d90760156ce886267ce9df235787dcc6cebfd7ecd95ef5b6fdcc95bf",
+          "notices/quickjs-source-notices.txt": "a899b3c40e680b96e24b49dfc1ac4a83f0a60e61303d52c41856d0cce29616a5"
+        }
+      },
+      "exportedFiles": {
+        "hollow-wake-proof.pck": "ee9f45272f84390ed2c2ddfff602b46e91ee499b92d095ac90c1eaf7e21b90e8",
+        "hollow-wake-proof.x86_64": "d9f79ab89b5ae369aeed11c6052d402e8218cd503bf85b4a235f9c30c46a7c63",
+        "libhwe_embedded.so": "8e3d419dcb28f651dd2084e6cd8426d8dfa061f388f45d946fc31d610c7c2f9b",
+        "libhwe_godot.so": "363680eb92601fb742d0c10510b28ab92a3b2dc993110877ea082ebd67b4b1ac"
+      },
+      "productionRuntimeChanged": false,
+      "deviceSupportEstablished": false,
+      "inputsUnchanged": true,
+      "raw": {
+        "bridge-elf.txt": "c101c19e7dccdad6786734dd667aa0403fb0a727ab28882c8922a67e19e19a8c",
+        "bridge-symbol-versions.txt": "a3a259a706330dc1ff2331977e0f444549fde5ff5df0cc9d6b712935a9203dc8",
+        "build.txt": "1f42a4f07721dd663916fc4d21c4b46ae1111b016275428414f8c54111e32cbb",
+        "configure.txt": "0727a0c02a73dbc011212e211e86bc50acd93ff3457d9cd96af8a305d7489eb5",
+        "editor-replay-engine.log": "e08fd5aa1f9c2ccd28abf1e534c4d6378ddde9b6276bde89818ef57ef2a8e8cc",
+        "editor-replay-loader.log": "ebcf7c040e078853254ae4eb64b7ff81b7b4f2fcdebb967fb9f839dbd02f0342",
+        "editor-replay.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+        "editor-replay.txt": "e08fd5aa1f9c2ccd28abf1e534c4d6378ddde9b6276bde89818ef57ef2a8e8cc",
+        "editor-version.txt": "edff16c1721dd4ae989cadf29a01f574ae8d51b118221f664725bd6980bbba5d",
+        "export-engine.log": "6c61f5c37f80999fa121c91e228069d5bb76348ff59f0ed4f6033f32e7a6c1a5",
+        "export-release.txt": "54bf6f138d0e262d0b49929b0c07e1822f73cfaf621ef3e599b2f1fa8862c480",
+        "import-engine.log": "158dc26483d8d869bb4480668f32464988ed3003b2875bc33b61e42167002daa",
+        "import.txt": "f15ffd4c558b01611d562c8c257508942bdc2dc542124f423ae2a592a46edfa6",
+        "install-addon.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "native-library-elf.txt": "2e4f18f2aaece3028c555bb4835033a050e0e124e2de0da5083a2fe48496e787",
+        "release-replay-engine.log": "9a27fc5365c088d6d97c4d062cd7c42cf1428210e49a05413b227028f344374b",
+        "release-replay-loader.log": "9849779c65839d08ade7297c0c2ea216b1f8795d9fdef3d44993086739014631",
+        "release-replay.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+        "release-replay.txt": "9a27fc5365c088d6d97c4d062cd7c42cf1428210e49a05413b227028f344374b"
+      }
+    },
+    "preparation": {
+      "schemaVersion": 1,
+      "directory": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/godot-tools-OBPVNk",
+      "platform": "linux",
+      "arch": "x64",
+      "passed": true,
+      "status": "completed",
+      "downloads": [
+        {
+          "file": "Godot_v4.7.2-stable_linux.x86_64.zip",
+          "bytes": 77860424,
+          "sha256": "cadd3204e728a35d3f13adb7fd0d7902636b79f6b95c40c265eb73b6c35329e4"
+        },
+        {
+          "file": "godot-cpp-507ed9d840c01a3c5b2a39af8bb4000bfac30bf5.tar.gz",
+          "bytes": 2551856,
+          "sha256": "30da4ac295997061a6af81ae531510efd4e6a86e506eb4466edc0898ef3fe048"
+        },
+        {
+          "file": "Godot_v4.7.2-stable_export_templates.tpz",
+          "bytes": 1281349702,
+          "sha256": "f298490b8d44d934be425a5a65a51bf15f422428b229a06a6e11d9ffea248011"
+        }
+      ]
+    }
+  },
+  "windows": {
+    "verification": {
+      "schemaVersion": 1,
+      "passed": true,
+      "status": "completed",
+      "commit": "b8757a70cf06ae89c13cd4b57fbdd5c7a3a935ad",
+      "platform": "win32",
+      "arch": "x64",
+      "node": "v24.9.0",
+      "sources": {
+        "experiments/godot-native/CMakeLists.txt": "59769879804a1cc8b078922a72ceb69caef27a2006f63883209b2a78289b1111",
+        "experiments/godot-native/README.md": "c49fe5aeac882d9d3d5d6b9c12d657f079e3b7d1de7a00fd103c56ff02e3a765",
+        "experiments/godot-native/build-profile.json": "d91e96bc849d2f33e1ea0bff1ae7ec49bf0aac6d8e026c17ff5e340ebc352142",
+        "experiments/godot-native/hollow_wake.gdextension": "7eec349e666560c3edfad41d02d791c55aca6a0a935b7da4352d318d3aff3568",
+        "experiments/godot-native/host.cpp": "88a375910fe50ec78499cd2d28e558c07e5bffafd330ce6b994764076df4540b",
+        "experiments/godot-native/main.tscn": "cea04e92f424dc8b33de67394ac6205191e3ac4840a54fd77de6a22ca7993910",
+        "experiments/godot-native/notices/godot-cpp-LICENSE.md": "26a5b210d90760156ce886267ce9df235787dcc6cebfd7ecd95ef5b6fdcc95bf",
+        "experiments/godot-native/notices/quickjs-source-notices.txt": "a899b3c40e680b96e24b49dfc1ac4a83f0a60e61303d52c41856d0cce29616a5",
+        "experiments/godot-native/project.godot": "68dad399824fd42cb3a21d273b8682e3e8c6912482e01937a10665d6fa7717cd",
+        "experiments/godot-native/replay.gd": "f379879789b018da0e6305a4f457bb7bb28dd8743106eb68a823311e6f3da204",
+        "experiments/godot-native/toolchain-lock.json": "3cfa573fe44bc8a7691d111378a0cf1951f64d0a7c704827538870c5d4ee871f",
+        "scripts/test-godot-native.mjs": "ee563f2b3202afded55a64b7ed7851f2d033e8c7326a86f91a113fb172ce5d0f",
+        "scripts/prepare-godot-tools.mjs": "23ef762e2125a96fdc603fa496d37929f022f1cf42d623d6ea6508b22688e8bf",
+        "scripts/native-tools.mjs": "80671f3913e94caaecc8d18ab0c87d95aa3cb978201f38896291a4b823db5b89",
+        "scripts/reference-utils.mjs": "e36edca23dfd5ac73f203599495a1bc348e2fc90689c5c922154f7da0a40feeb",
+        "LICENSE.md": "5b944b285c70cb59ab4803c682bb7d8b36652131bbb504f0f2bea5089e941c71",
+        "NOTICE.md": "666739e716daf975a5204f82bfa8c3458a74de729718b317b3ef88bf0624f19e",
+        "experiments/embedded-js/native/hwe_embedded.h": "29fb4f208074cd4d6407482900479322cbd21d1e722851cf5617b732aac72978"
+      },
+      "tools": {
+        "cmake": "C:\\Program Files\\CMake\\bin\\cmake.exe",
+        "ninja": "C:\\ProgramData\\Chocolatey\\bin\\ninja.exe",
+        "python": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+        "platform": "win32",
+        "editor": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-tools-a3hHat\\Godot_v4.7.2-stable_win64.exe",
+        "bindings": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-tools-a3hHat\\godot-cpp-507ed9d840c01a3c5b2a39af8bb4000bfac30bf5",
+        "exportRelease": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-tools-a3hHat\\windows_release_x86_64.exe",
+        "exportDebug": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-tools-a3hHat\\windows_debug_x86_64.exe"
+      },
+      "commands": [
+        {
+          "label": "editor-version",
+          "command": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\editor\\godot.exe",
+          "args": [
+            "--headless",
+            "--version"
+          ],
+          "cwd": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi",
+          "extraEnv": {},
+          "pid": 2764,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "import-library",
+          "command": "lib.exe",
+          "args": [
+            "/nologo",
+            "/machine:x64",
+            "/def:D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\hwe_embedded.def",
+            "/out:D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\hwe_embedded.lib"
+          ],
+          "cwd": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi",
+          "extraEnv": {},
+          "pid": 8916,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "configure",
+          "command": "C:\\Program Files\\CMake\\bin\\cmake.exe",
+          "args": [
+            "-S",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\experiments\\godot-native",
+            "-B",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\build",
+            "-G",
+            "Ninja",
+            "-DCMAKE_BUILD_TYPE=Release",
+            "-DCMAKE_MAKE_PROGRAM=C:\\ProgramData\\Chocolatey\\bin\\ninja.exe",
+            "-DPython3_EXECUTABLE=C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+            "-DGODOT_CPP_SOURCE=D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-tools-a3hHat\\godot-cpp-507ed9d840c01a3c5b2a39af8bb4000bfac30bf5",
+            "-DHWE_NATIVE_LIBRARY=D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\native-input\\hwe_embedded.dll",
+            "-DHWE_NATIVE_IMPORT_LIBRARY=D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\hwe_embedded.lib",
+            "-DHWE_OUTPUT=D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\staging\\addons\\hollow_wake\\bin"
+          ],
+          "cwd": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi",
+          "extraEnv": {},
+          "pid": 3540,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "build",
+          "command": "C:\\Program Files\\CMake\\bin\\cmake.exe",
+          "args": [
+            "--build",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\build",
+            "--parallel",
+            "4"
+          ],
+          "cwd": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi",
+          "extraEnv": {},
+          "pid": 7820,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "install-addon",
+          "command": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+          "args": [
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\install.py",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\staging",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\hollow-wake-godot-experimental.zip",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\installed-project"
+          ],
+          "cwd": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi",
+          "extraEnv": {},
+          "pid": 5640,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "import",
+          "command": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\editor\\godot.exe",
+          "args": [
+            "--headless",
+            "--import",
+            "--path",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\installed-project",
+            "--frame-delay",
+            "1000",
+            "--log-file",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\import-engine.log"
+          ],
+          "cwd": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi",
+          "extraEnv": {},
+          "pid": 5908,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "editor-replay",
+          "command": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\editor\\godot.exe",
+          "args": [
+            "--path",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\installed-project",
+            "--headless",
+            "--log-file",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\editor-replay-engine.log",
+            "--",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\editor-replay.jsonl"
+          ],
+          "cwd": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi",
+          "extraEnv": {},
+          "pid": 5588,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "export-release",
+          "command": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\editor\\godot.exe",
+          "args": [
+            "--headless",
+            "--path",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\installed-project",
+            "--export-release",
+            "Windows Desktop",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\exported\\hollow-wake-proof.exe",
+            "--log-file",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\export-engine.log"
+          ],
+          "cwd": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi",
+          "extraEnv": {},
+          "pid": 5140,
+          "exitCode": 0,
+          "signal": null
+        },
+        {
+          "label": "release-replay",
+          "command": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\relocated-game\\hollow-wake-proof.exe",
+          "args": [
+            "--headless",
+            "--log-file",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\release-replay-engine.log",
+            "--",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\release-replay.jsonl"
+          ],
+          "cwd": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-native-WAflHi\\relocated-game",
+          "extraEnv": {},
+          "pid": 2280,
+          "exitCode": 0,
+          "signal": null
+        }
+      ],
+      "libraryProofSha256": "7fc15804d942f121fc230f248112fd2f90a8372446f63920e0a1427114a33edb",
+      "sessionProofSha256": "e3714da3a5b0a83dedf5b5f7ba59fc825acfea1510e78aa00b50b9a7c735ffc9",
+      "runtimeMapSha256": "49f4a5637979a46c3770e315d13a415508446f7654db0f40bf3fe67a23150189",
+      "runtimeOutputs": 201,
+      "scope": "Experimental win32 x64 Godot 4.7.2 native addon, editor replay and standalone release export. Selected embedded-session capability only; no stable API, device performance or other-platform claim.",
+      "pythonCachesIsolated": true,
+      "importLifecycle": {
+        "waitsForResources": true,
+        "frameDelayMs": 1000,
+        "retries": 0,
+        "upstreamWorkaround": "https://github.com/godotengine/godot/issues/111048"
+      },
+      "editor": {
+        "checks": 98,
+        "editor_build": true,
+        "live_blocks_after_dispose": 0,
+        "live_bytes_after_dispose": 0,
+        "packaged_inputs": true,
+        "passed": true,
+        "requests": 60,
+        "thread_checks": true,
+        "observationsSha256": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254"
+      },
+      "release": {
+        "checks": 98,
+        "editor_build": false,
+        "live_blocks_after_dispose": 0,
+        "live_bytes_after_dispose": 0,
+        "packaged_inputs": true,
+        "passed": true,
+        "requests": 60,
+        "thread_checks": true,
+        "observationsSha256": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254"
+      },
+      "sourceProjectUnavailableDuringRelease": true,
+      "buildInputsUnavailableDuringReplay": true,
+      "addon": {
+        "archiveSha256": "befae7f5a6aa8f22c671c58e28cd885b63425556de7b5efdffc21ffa346fe543",
+        "archiveBytes": 1200202,
+        "files": {
+          "README.md": "c49fe5aeac882d9d3d5d6b9c12d657f079e3b7d1de7a00fd103c56ff02e3a765",
+          "bin/hwe_embedded.dll": "835bd7b4041abf08a011cf976a7f8254e7faac0a8511a92fa423562fae1a749f",
+          "bin/hwe_godot.dll": "9292489133c64c7d0a5d8497fe0fea76fc1bd8bb866f0bac79c9d707569a1e28",
+          "data/bundle.txt": "99cfebd5afda92531c7e18b966596288060abbe21cea5ffab06a1d199c97f2ee",
+          "data/content.json": "c5ea6f2b6ccc1f3147e79e92967675d592b7433063685034a02691b5e60d5ea9",
+          "data/example-create.json": "a647668f64795b79ffc2fe72aafa51e696c90110032e0623eab97236cd1d116c",
+          "hollow_wake.gdextension": "7eec349e666560c3edfad41d02d791c55aca6a0a935b7da4352d318d3aff3568",
+          "notices/Hollow-Wake-LICENSE.md": "5b944b285c70cb59ab4803c682bb7d8b36652131bbb504f0f2bea5089e941c71",
+          "notices/Hollow-Wake-NOTICE.md": "666739e716daf975a5204f82bfa8c3458a74de729718b317b3ef88bf0624f19e",
+          "notices/godot-cpp-LICENSE.md": "26a5b210d90760156ce886267ce9df235787dcc6cebfd7ecd95ef5b6fdcc95bf",
+          "notices/quickjs-source-notices.txt": "a899b3c40e680b96e24b49dfc1ac4a83f0a60e61303d52c41856d0cce29616a5"
+        }
+      },
+      "exportedFiles": {
+        "hollow-wake-proof.exe": "d34d36f3be1a6c49c56525ae86469b92e4f417ddf0b43cf00dd80c385c4b0562",
+        "hollow-wake-proof.pck": "fa83353c5c54e468d8ef7298bf830f8929f4e8aab89e1e15841e087fa4c1aae9",
+        "hwe_embedded.dll": "835bd7b4041abf08a011cf976a7f8254e7faac0a8511a92fa423562fae1a749f",
+        "hwe_godot.dll": "9292489133c64c7d0a5d8497fe0fea76fc1bd8bb866f0bac79c9d707569a1e28"
+      },
+      "productionRuntimeChanged": false,
+      "deviceSupportEstablished": false,
+      "inputsUnchanged": true,
+      "raw": {
+        "build.txt": "66dca85d0dcd627d2ed4c0cfec1168c63de7c05b47cf2d8c0466839b65dfa458",
+        "configure.txt": "56c1ecdc4db6ea92b0b21987fa7afd8d09779db4aae992544bcbbf84f807a4e0",
+        "editor-replay-engine.log": "e08fd5aa1f9c2ccd28abf1e534c4d6378ddde9b6276bde89818ef57ef2a8e8cc",
+        "editor-replay.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+        "editor-replay.txt": "947bc03c71c5c9e4dd52c45cd9a41aa31904cb54b6c6172912c54685a278a3cf",
+        "editor-version.txt": "bf8803022b574250bb04dea65053a46b7c58570725316c1f7fe2aa6735706498",
+        "export-engine.log": "84c4f21b87b08773d21009e421eac4bbcc351483af30a931f7a7e5431299e921",
+        "export-release.txt": "4148283d355b4fbd4f33112a2ac1ccde90d55164615d87abe1d61ccc84b81879",
+        "import-engine.log": "158dc26483d8d869bb4480668f32464988ed3003b2875bc33b61e42167002daa",
+        "import-library.txt": "6c4412a88e83491d8c755617e28aff9cfc7ef539b9d098be5cfba38e46f354a6",
+        "import.txt": "b728de0c23f24d9aa31bc7608b177d7ca13857d7c3aca862a08506d00675123b",
+        "install-addon.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "release-replay-engine.log": "9a27fc5365c088d6d97c4d062cd7c42cf1428210e49a05413b227028f344374b",
+        "release-replay.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+        "release-replay.txt": "e2f5b8a35f392d5e9ea9b0c7dac50112f967f2cebc4bcee2d7b21f531a77f883"
+      }
+    },
+    "preparation": {
+      "schemaVersion": 1,
+      "directory": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\godot-tools-a3hHat",
+      "platform": "win32",
+      "arch": "x64",
+      "passed": true,
+      "status": "completed",
+      "downloads": [
+        {
+          "file": "Godot_v4.7.2-stable_win64.exe.zip",
+          "bytes": 86013866,
+          "sha256": "731980f9608d61333e5baf54a2ef17210acc7a538446c0cb9969f002aca1e953"
+        },
+        {
+          "file": "godot-cpp-507ed9d840c01a3c5b2a39af8bb4000bfac30bf5.tar.gz",
+          "bytes": 2551856,
+          "sha256": "30da4ac295997061a6af81ae531510efd4e6a86e506eb4466edc0898ef3fe048"
+        },
+        {
+          "file": "Godot_v4.7.2-stable_export_templates.tpz",
+          "bytes": 1281349702,
+          "sha256": "f298490b8d44d934be425a5a65a51bf15f422428b229a06a6e11d9ffea248011"
+        }
+      ]
+    }
+  },
+  "firstLinuxFailure": "evidence/godot/linux-loader-diagnostics.json",
+  "productionRuntimeChanged": false,
+  "deviceSupportEstablished": false,
+  "stableNativeApiEstablished": false,
+  "steamRuntimeVerified": false,
+  "broaderSdkWorkflowStatus": "separately tracked; not inferred from this result",
+  "raw": {
+    "file": "portability-ci-raw.json.gz",
+    "sha256": "d0bfd29f83ad0cc3bc1922b942e7bdda56e2235b85b2e0fe70c44a567f02c42d",
+    "uncompressedSha256": "62093b0ae63df5a179ac3f19b547ac74f4393adf6b3c9d4739681acdf2638758",
+    "uncompressedBytes": 3124475,
+    "files": {
+      "linux/embedded-library-hJnnAc/build.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/embedded-library-hJnnAc/cpp-sanitized.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "linux/embedded-library-hJnnAc/cpp-sanitized.txt": "16e2147586ee5b11987ae74e64ee6926fd82d3b528071e147c22facf1cbcf83b",
+      "linux/embedded-library-hJnnAc/cpp.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "linux/embedded-library-hJnnAc/cpp.txt": "69e54d3fcfadb4f7372764140448b4172d22cbfbe2900e003a8d859d55fb740d",
+      "linux/embedded-library-hJnnAc/dotnet-build.txt": "c2057abc2d54c2593c24ed328edf96e01314ed26ce4a72f5e750f7b24afcdeb1",
+      "linux/embedded-library-hJnnAc/dotnet.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "linux/embedded-library-hJnnAc/dotnet.txt": "ad10b8ffc407a43d719429d584347a0d2a10cb79d13e83d78cc21a1e3bfdfd32",
+      "linux/embedded-library-hJnnAc/exports.txt": "d71f253fa33b161f1bf00fdd12e8912b79400fef4488e9309846a10d5b1d5b7a",
+      "linux/embedded-library-hJnnAc/verification.json": "e7f61edee8ea3ce39facdb1a52bf5b07085870daad20f44398e8949d612ba6f6",
+      "linux/embedded-session-KU5Qii/build.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/embedded-session-KU5Qii/initialization-failure.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/embedded-session-KU5Qii/initialization-failure.txt": "8db6564e659306a556a67ebdad9730a86de40b83cb2987e4104f3abe8069b0dd",
+      "linux/embedded-session-KU5Qii/malformed-requests.jsonl": "6571fc8c5068a1b1aa6e22976a61468b861c040af1ce271f9aaa26b613546757",
+      "linux/embedded-session-KU5Qii/malformed.jsonl": "ad9da98f273bc730a471183545fbfad031fac220e9e73e4fd2581d248e5f2f79",
+      "linux/embedded-session-KU5Qii/malformed.txt": "39530cbf8335af90d252144c584d1735311a72e7309ed36786593733f19e3905",
+      "linux/embedded-session-KU5Qii/native.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "linux/embedded-session-KU5Qii/native.txt": "01c80d239f1fea504c6c7a78b6fa3a053ed41e7f85efc3ceffd0b356fecade90",
+      "linux/embedded-session-KU5Qii/node-bundled.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "linux/embedded-session-KU5Qii/node-original.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "linux/embedded-session-KU5Qii/oversized-requests.jsonl": "0ef1c2e81414ade66ed5ce8758f304c16ad11b974ebf2e1fa242841486922e91",
+      "linux/embedded-session-KU5Qii/oversized.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/embedded-session-KU5Qii/oversized.txt": "d9c4814c3abf95a98f6dca3d17525befcc55aec07e8d2f9bfc4b42fc2db3cb6a",
+      "linux/embedded-session-KU5Qii/requests.jsonl": "346256f06446472b917b31c70aac994701ad784c5a07352a5729d051ee4c7d10",
+      "linux/embedded-session-KU5Qii/verification.json": "ea1284d09249d54c0e45e0b503a21bf16c5b3bd1e690e851364553bafa54c6cb",
+      "linux/godot-native-4liVWa/bridge-elf.txt": "c101c19e7dccdad6786734dd667aa0403fb0a727ab28882c8922a67e19e19a8c",
+      "linux/godot-native-4liVWa/bridge-symbol-versions.txt": "a3a259a706330dc1ff2331977e0f444549fde5ff5df0cc9d6b712935a9203dc8",
+      "linux/godot-native-4liVWa/build.txt": "1f42a4f07721dd663916fc4d21c4b46ae1111b016275428414f8c54111e32cbb",
+      "linux/godot-native-4liVWa/configure.txt": "0727a0c02a73dbc011212e211e86bc50acd93ff3457d9cd96af8a305d7489eb5",
+      "linux/godot-native-4liVWa/editor-replay-engine.log": "e08fd5aa1f9c2ccd28abf1e534c4d6378ddde9b6276bde89818ef57ef2a8e8cc",
+      "linux/godot-native-4liVWa/editor-replay-loader.log": "ebcf7c040e078853254ae4eb64b7ff81b7b4f2fcdebb967fb9f839dbd02f0342",
+      "linux/godot-native-4liVWa/editor-replay.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "linux/godot-native-4liVWa/editor-replay.txt": "e08fd5aa1f9c2ccd28abf1e534c4d6378ddde9b6276bde89818ef57ef2a8e8cc",
+      "linux/godot-native-4liVWa/editor-version.txt": "edff16c1721dd4ae989cadf29a01f574ae8d51b118221f664725bd6980bbba5d",
+      "linux/godot-native-4liVWa/export-engine.log": "6c61f5c37f80999fa121c91e228069d5bb76348ff59f0ed4f6033f32e7a6c1a5",
+      "linux/godot-native-4liVWa/export-release.txt": "54bf6f138d0e262d0b49929b0c07e1822f73cfaf621ef3e599b2f1fa8862c480",
+      "linux/godot-native-4liVWa/import-engine.log": "158dc26483d8d869bb4480668f32464988ed3003b2875bc33b61e42167002daa",
+      "linux/godot-native-4liVWa/import.txt": "f15ffd4c558b01611d562c8c257508942bdc2dc542124f423ae2a592a46edfa6",
+      "linux/godot-native-4liVWa/install-addon.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/godot-native-4liVWa/native-library-elf.txt": "2e4f18f2aaece3028c555bb4835033a050e0e124e2de0da5083a2fe48496e787",
+      "linux/godot-native-4liVWa/release-replay-engine.log": "9a27fc5365c088d6d97c4d062cd7c42cf1428210e49a05413b227028f344374b",
+      "linux/godot-native-4liVWa/release-replay-loader.log": "9849779c65839d08ade7297c0c2ea216b1f8795d9fdef3d44993086739014631",
+      "linux/godot-native-4liVWa/release-replay.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "linux/godot-native-4liVWa/release-replay.txt": "9a27fc5365c088d6d97c4d062cd7c42cf1428210e49a05413b227028f344374b",
+      "linux/godot-native-4liVWa/staging/addons/hollow_wake/manifest.json": "2ced41f9f119c234283d3162702485a1253f8cb21c71e419b70197cf2d99b0f3",
+      "linux/godot-native-4liVWa/verification.json": "4a3036e5fa5b695cb25bd19b82fd6f5929d960af8e0a96cea210f95433337a0f",
+      "linux/godot-native-latest.json": "0e5380465e853c475c30e64360d509255fe89f7ce8cd0df8786e48d5a340e3b9",
+      "linux/godot-tools-OBPVNk/preparation.json": "b09c4740d199d8bd8e4a7c22b7f7a15d4ebbe1b9d2684e83e27e2976b6c35d34",
+      "linux/godot-tools-latest.json": "23983ed0915843ea6d0a4b76d500d17f4f98e679dc444eec1cf2900499e90b9d",
+      "run.json": "03b8fb55e447315bdbfbd204ed66c3a899cf22ca316e69523f317897ab7e0bd2",
+      "windows/embedded-library-RY1Gn3/build.txt": "d30a6981bdf3576fce5f3db02be7570b92200735ddd0e230f41921b0be3cabe3",
+      "windows/embedded-library-RY1Gn3/cpp.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "windows/embedded-library-RY1Gn3/cpp.txt": "d1d47751926d05b3c72602f0f7066f3c6aa5589feb6c8a3872a6a46e97838ff7",
+      "windows/embedded-library-RY1Gn3/dotnet-build.txt": "f31c51f8aeff35d152e418262f16cad4814964813d02178fea17e63d17ce56b2",
+      "windows/embedded-library-RY1Gn3/dotnet.jsonl": "67c49f46fb39f7e3340f8cb817241bfeaa36da617c83e9cd38b3809848b466da",
+      "windows/embedded-library-RY1Gn3/dotnet.txt": "ed188de29cb1da8cab8b70e8ee3a26a061ae37de1b97f993979e09fba1f38e5d",
+      "windows/embedded-library-RY1Gn3/exports.txt": "ce1739e15c7d35959163feac6bfed1c56d1a7b50898e6a2872540edac671f40d",
+      "windows/embedded-library-RY1Gn3/verification.json": "7fc15804d942f121fc230f248112fd2f90a8372446f63920e0a1427114a33edb",
+      "windows/embedded-session-pDyJVF/build.txt": "87326368ca275c55c429d1f7430760921866b2b7103a25f5a1debb0b3cc8f18a",
+      "windows/embedded-session-pDyJVF/initialization-failure.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "windows/embedded-session-pDyJVF/initialization-failure.txt": "ffe3564375d82bb5707f01edf48d3bc06ae350aa90e33830a71926ad3e799643",
+      "windows/embedded-session-pDyJVF/malformed-requests.jsonl": "6571fc8c5068a1b1aa6e22976a61468b861c040af1ce271f9aaa26b613546757",
+      "windows/embedded-session-pDyJVF/malformed.jsonl": "99e49124482484d110274bf9b95539cba9527d32923ab3beed3db376dc19c863",
+      "windows/embedded-session-pDyJVF/malformed.txt": "833e2679821d069463af6ec96585a15b92fb063966f0b7c6ad88c4a166b4d99e",
+      "windows/embedded-session-pDyJVF/native.jsonl": "67c49f46fb39f7e3340f8cb817241bfeaa36da617c83e9cd38b3809848b466da",
+      "windows/embedded-session-pDyJVF/native.txt": "053f1c447d2d4a5a5c1bebf60bea39f79732772223e9e89663e9d9fdb13a1e5f",
+      "windows/embedded-session-pDyJVF/node-bundled.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "windows/embedded-session-pDyJVF/node-original.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "windows/embedded-session-pDyJVF/oversized-requests.jsonl": "0ef1c2e81414ade66ed5ce8758f304c16ad11b974ebf2e1fa242841486922e91",
+      "windows/embedded-session-pDyJVF/oversized.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "windows/embedded-session-pDyJVF/oversized.txt": "496d94f6d414e908203e6cde078e695cddde4e737817015a2da5dc99db8cc7ed",
+      "windows/embedded-session-pDyJVF/requests.jsonl": "346256f06446472b917b31c70aac994701ad784c5a07352a5729d051ee4c7d10",
+      "windows/embedded-session-pDyJVF/verification.json": "e3714da3a5b0a83dedf5b5f7ba59fc825acfea1510e78aa00b50b9a7c735ffc9",
+      "windows/godot-native-WAflHi/build.txt": "66dca85d0dcd627d2ed4c0cfec1168c63de7c05b47cf2d8c0466839b65dfa458",
+      "windows/godot-native-WAflHi/configure.txt": "56c1ecdc4db6ea92b0b21987fa7afd8d09779db4aae992544bcbbf84f807a4e0",
+      "windows/godot-native-WAflHi/editor-replay-engine.log": "e08fd5aa1f9c2ccd28abf1e534c4d6378ddde9b6276bde89818ef57ef2a8e8cc",
+      "windows/godot-native-WAflHi/editor-replay.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "windows/godot-native-WAflHi/editor-replay.txt": "947bc03c71c5c9e4dd52c45cd9a41aa31904cb54b6c6172912c54685a278a3cf",
+      "windows/godot-native-WAflHi/editor-version.txt": "bf8803022b574250bb04dea65053a46b7c58570725316c1f7fe2aa6735706498",
+      "windows/godot-native-WAflHi/export-engine.log": "84c4f21b87b08773d21009e421eac4bbcc351483af30a931f7a7e5431299e921",
+      "windows/godot-native-WAflHi/export-release.txt": "4148283d355b4fbd4f33112a2ac1ccde90d55164615d87abe1d61ccc84b81879",
+      "windows/godot-native-WAflHi/import-engine.log": "158dc26483d8d869bb4480668f32464988ed3003b2875bc33b61e42167002daa",
+      "windows/godot-native-WAflHi/import-library.txt": "6c4412a88e83491d8c755617e28aff9cfc7ef539b9d098be5cfba38e46f354a6",
+      "windows/godot-native-WAflHi/import.txt": "b728de0c23f24d9aa31bc7608b177d7ca13857d7c3aca862a08506d00675123b",
+      "windows/godot-native-WAflHi/install-addon.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "windows/godot-native-WAflHi/release-replay-engine.log": "9a27fc5365c088d6d97c4d062cd7c42cf1428210e49a05413b227028f344374b",
+      "windows/godot-native-WAflHi/release-replay.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "windows/godot-native-WAflHi/release-replay.txt": "e2f5b8a35f392d5e9ea9b0c7dac50112f967f2cebc4bcee2d7b21f531a77f883",
+      "windows/godot-native-WAflHi/staging/addons/hollow_wake/manifest.json": "c5e6865c20b5327ed29a1e26b0e98009f2fdeda97591a3c269095adc6f5febf2",
+      "windows/godot-native-WAflHi/verification.json": "a069f0657d2b912d0a87f877b4ebb0ad60ffa4ee7d9eb53bfd4fdea32cf57496",
+      "windows/godot-native-latest.json": "30de012371d0bbed5bdd2576b1e19d025435b47322ef756cc9778e7ec969464b",
+      "windows/godot-tools-a3hHat/preparation.json": "67e6c72f01105f5ee0ece3effa46f4415470d16918a6c46e6ef95b2ccba8c452",
+      "windows/godot-tools-latest.json": "5b39bf581040d2e33bdb98f3e4c1ae0c472f79be86ee63b1b86bb59d12c4f31f",
+      "verified-source/experiments/godot-native/CMakeLists.txt": "59769879804a1cc8b078922a72ceb69caef27a2006f63883209b2a78289b1111",
+      "verified-source/experiments/godot-native/README.md": "c49fe5aeac882d9d3d5d6b9c12d657f079e3b7d1de7a00fd103c56ff02e3a765",
+      "verified-source/experiments/godot-native/build-profile.json": "d91e96bc849d2f33e1ea0bff1ae7ec49bf0aac6d8e026c17ff5e340ebc352142",
+      "verified-source/experiments/godot-native/hollow_wake.gdextension": "7eec349e666560c3edfad41d02d791c55aca6a0a935b7da4352d318d3aff3568",
+      "verified-source/experiments/godot-native/host.cpp": "88a375910fe50ec78499cd2d28e558c07e5bffafd330ce6b994764076df4540b",
+      "verified-source/experiments/godot-native/main.tscn": "cea04e92f424dc8b33de67394ac6205191e3ac4840a54fd77de6a22ca7993910",
+      "verified-source/experiments/godot-native/notices/godot-cpp-LICENSE.md": "26a5b210d90760156ce886267ce9df235787dcc6cebfd7ecd95ef5b6fdcc95bf",
+      "verified-source/experiments/godot-native/notices/quickjs-source-notices.txt": "a899b3c40e680b96e24b49dfc1ac4a83f0a60e61303d52c41856d0cce29616a5",
+      "verified-source/experiments/godot-native/project.godot": "68dad399824fd42cb3a21d273b8682e3e8c6912482e01937a10665d6fa7717cd",
+      "verified-source/experiments/godot-native/replay.gd": "f379879789b018da0e6305a4f457bb7bb28dd8743106eb68a823311e6f3da204",
+      "verified-source/experiments/godot-native/toolchain-lock.json": "3cfa573fe44bc8a7691d111378a0cf1951f64d0a7c704827538870c5d4ee871f",
+      "verified-source/scripts/test-godot-native.mjs": "ee563f2b3202afded55a64b7ed7851f2d033e8c7326a86f91a113fb172ce5d0f",
+      "verified-source/scripts/prepare-godot-tools.mjs": "23ef762e2125a96fdc603fa496d37929f022f1cf42d623d6ea6508b22688e8bf",
+      "verified-source/scripts/native-tools.mjs": "80671f3913e94caaecc8d18ab0c87d95aa3cb978201f38896291a4b823db5b89",
+      "verified-source/scripts/reference-utils.mjs": "e36edca23dfd5ac73f203599495a1bc348e2fc90689c5c922154f7da0a40feeb",
+      "verified-source/LICENSE.md": "5b944b285c70cb59ab4803c682bb7d8b36652131bbb504f0f2bea5089e941c71",
+      "verified-source/NOTICE.md": "666739e716daf975a5204f82bfa8c3458a74de729718b317b3ef88bf0624f19e",
+      "verified-source/experiments/embedded-js/native/hwe_embedded.h": "29fb4f208074cd4d6407482900479322cbd21d1e722851cf5617b732aac72978",
+      "verified-source/scripts/test-embedded-library.mjs": "e5b2d4fd731c4281c9de019a3ed6ca562dded54b61df1d508447ce97eb2d004d",
+      "verified-source/scripts/embedded-native-tools.mjs": "c92fbe1e1af2d563fd6b58b3fd8ee152a1ba5a9c6200e4d75ba6cf9be745ecf5",
+      "verified-source/experiments/embedded-js/tracked-allocator.h": "5c8e5cbf6412a3b9edf93826e190524221dc0cecc77f903690352f2a8c01ac0f",
+      "verified-source/experiments/embedded-js/host-source-lock.json": "f920648cfa2b7b8ca35597106d94d3a990360f0b8441c9039a72e74706da6ffa",
+      "verified-source/experiments/embedded-js/native/consumer.cpp": "d83b1c49c3d4049059cb8cbde3958b3e8cf7ccfb350621368501651cb20a2df6",
+      "verified-source/experiments/embedded-js/native/dotnet/Consumer.csproj": "5752c7f35a5b6b7f286e0e9fe3fc1ae94e4935873e07179a729777e0b79804cc",
+      "verified-source/experiments/embedded-js/native/dotnet/Embedded.cs": "c6cea31a4ca20ed3373fdc53159477e9db38f77512c135d6209a8c057ea35000",
+      "verified-source/experiments/embedded-js/native/dotnet/NuGet.Config": "2142cfb2dfa2c7feefbe40fabcc68b0dfecadafa99a1db9b70239d977cf2a7ef",
+      "verified-source/experiments/embedded-js/native/dotnet/Program.cs": "ea866913c81e6f6be8d72da91e193e132bc94790bbe8a44b555347d5e22a861c",
+      "verified-source/experiments/embedded-js/native/hwe_embedded.c": "382b4c0a404b7219feeb35742aaff0b2136c8df65c1cf93e634a9ee9e33f155a",
+      "verified-source/experiments/embedded-js/session.mjs": "70f5396abcfacfda3909588f8f037c7a509e93562ec6394bfc5891fa6487f08a",
+      "verified-source/experiments/embedded-js/session-scenario.mjs": "910072d38e3623b4a2542b4f5aef9926d271b16008020cccb6307a8ddcc5aea9",
+      "verified-source/experiments/embedded-js/session-host.c": "d4e4decec9ba2f3c9bf22ad5b5040c80bb06fb8da46d34ae4f0c8edf0d9dc5f9",
+      "verified-source/experiments/embedded-js/host-support.h": "3a0c476def580a963a866d103d4a61cc3942b89ddb826d140e0d0dae734d9aad",
+      "verified-source/scripts/test-embedded-session.mjs": "0f68e3135d9e42ca08ada79b2646ca594bb41b5bc9850e0b4eb362cc4bb25579",
+      "independent-node-original.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254"
+    }
+  }
+}

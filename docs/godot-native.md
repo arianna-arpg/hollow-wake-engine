@@ -1,15 +1,17 @@
 # Experimental Godot native addon
 
-The SDK now has a reproducible Windows x64 Godot 4.7.2 addon experiment. It builds
-an archive containing the native bridge, embedded SDK runtime, selected content,
+The SDK now has a reproducible Windows x64 and Ubuntu 24.04 x86_64 Godot 4.7.2
+addon experiment. It builds an archive containing the native bridge, embedded
+SDK runtime, selected content,
 manifest and notices. Verification installs that archive in a fresh project and
 runs the same gameplay course in the standard editor and a relocated release
 export. Node.js and .NET are build/test tools, not dependencies of that game.
 
 See the [installation, API and reproduction guide](../experiments/godot-native/README.md)
 and the [local verification record](../evidence/godot/windows-native-addon.json).
-The [CI workflow](../.github/workflows/godot-native.yml) repeats this path on a
-separate Windows machine and uploads observations rather than native binaries.
+The [CI workflow](../.github/workflows/godot-native.yml) repeats this path on
+separate Windows and Linux machines and uploads observations rather than native
+binaries.
 The [corrected hosted run](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40780494509)
 passed at `cb60183`. Its [inspected evidence](../evidence/godot/windows-ci.json)
 matches all 60 local/independent responses and passes the same 98 checks in both
@@ -51,8 +53,9 @@ with explicit log paths. Compiler input includes all 198 pinned binding sources;
 code-generation bytecode caches are isolated in each build's private directory.
 
 This proves the selected session capability through one native engine package
-path. It does not establish the complete SDK surface, stable native APIs, Linux
-Godot, other engines, mobile/ARM, physical-device behavior, or performance gains.
+path on two operating systems. It does not establish the complete SDK surface,
+stable native APIs, other Linux distributions, other engines, mobile/ARM,
+physical-device behavior, or performance gains.
 The JSON boundary is an experiment, not an accepted format for every frame.
 Godot/process allocations are outside the native VM's tracked-byte counters.
 The existing SDK license is preserved. Built archives and exported games remain
@@ -71,7 +74,15 @@ retains that failed run and its successful Windows matrix job. The correction
 uses glibc's [`LD_DEBUG_OUTPUT`](https://man7.org/linux/man-pages/man8/ld.so.8.html)
 to retain the actual child process's loader trace separately, including on
 failure. Godot's error gate remains unchanged. Another local Windows editor and
-release regression passes; the corrected Linux execution remains pending.
+release regression passes.
+
+The [corrected Windows/Linux run](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40785255940)
+passed at `b8757a7`. Its [inspected evidence](../evidence/godot/portability-ci.json)
+checks the source fingerprints, underlying native/session proofs, official tool
+pins, addon manifests and raw responses. All four editor/release runs pass 98
+checks and match the same 60 responses and 609 numeric observations. Linux loader
+traces confirm that the installed project and relocated game load their own two
+packaged libraries. Explicit disposal reports zero tracked VM bytes and blocks.
 
 The Linux bridge links the embedded library by filename using CMake's
 [`IMPORTED_NO_SONAME`](https://cmake.org/cmake/help/latest/prop_tgt/IMPORTED_NO_SONAME.html)
@@ -84,3 +95,11 @@ input, bridge build and staging directories. The release also hides the original
 project/export paths and verifies that the exported libraries match the addon.
 These checks address accidental dependencies on a developer's build tree; they
 do not measure performance or establish SteamOS/mobile compatibility.
+
+The retained ELF version requirements include `GLIBC_2.38` for this Ubuntu-built
+bridge. That is a concrete compatibility requirement, not a universal Linux
+binary guarantee. Valve currently recommends building new native games inside
+the [Steam Runtime 4 SDK](https://github.com/ValveSoftware/steam-runtime/blob/master/README.md)
+and selecting its matching runtime; the older sniper target has its own SDK.
+A pinned Steam Runtime build, an actual Steam launch and physical-device
+measurements remain separate work. Current binaries are experimental build outputs.
