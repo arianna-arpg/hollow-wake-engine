@@ -8,6 +8,10 @@ on:
       - 'scripts/test-embedded-session.mjs'
       - 'scripts/test-embedded-library.mjs'
       - 'scripts/benchmark-embedded-library.mjs'
+      - 'experiments/item-index/**'
+      - 'scripts/test-content-index.mjs'
+      - 'scripts/benchmark-content-index.mjs'
+      - 'scripts/profile-content-index.mjs'
       - 'scripts/native-tools.mjs'
       - 'scripts/reference-utils.mjs'
       - 'scripts/compile-item-content.mjs'
@@ -75,6 +79,18 @@ jobs:
           $libraryProof = (Get-Content .artifacts/embedded-library-latest.json -Raw | ConvertFrom-Json).directory
           $sessionProof = (Get-Content .artifacts/embedded-session-latest.json -Raw | ConvertFrom-Json).directory
           node scripts/benchmark-embedded-library.mjs --verify --library-proof $libraryProof --session-proof $sessionProof
+      - name: Verify isolated item-index candidate and cost controls
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $libraryProof = (Get-Content .artifacts/embedded-library-latest.json -Raw | ConvertFrom-Json).directory
+          $sessionProof = (Get-Content .artifacts/embedded-session-latest.json -Raw | ConvertFrom-Json).directory
+          $costProof = (Get-Content .artifacts/embedded-cost-verification-latest.json -Raw | ConvertFrom-Json).directory
+          node scripts/test-content-index.mjs --library-proof $libraryProof --session-proof $sessionProof
+          if ($LASTEXITCODE -ne 0) { throw 'Candidate verification failed' }
+          $candidateProof = (Get-Content .artifacts/content-index-candidate-latest.json -Raw | ConvertFrom-Json).directory
+          node scripts/benchmark-content-index.mjs --verify --candidate-proof $candidateProof --cost-proof $costProof
+          if ($LASTEXITCODE -ne 0) { throw 'Cost-control verification failed' }
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
@@ -103,3 +119,17 @@ jobs:
             .artifacts/embedded-cost-verification-*/**/events.jsonl
             .artifacts/embedded-cost-verification-*/**/memory.json
             .artifacts/embedded-cost-verification-*/**/stderr.txt
+            .artifacts/content-index-candidate-latest.json
+            .artifacts/content-index-candidate-*/*.json
+            .artifacts/content-index-candidate-*/*.jsonl
+            .artifacts/content-index-candidate-*/*.txt
+            .artifacts/content-index-candidate-*/native/*.json
+            .artifacts/content-index-candidate-*/native/*.jsonl
+            .artifacts/content-index-candidate-*/native/*.txt
+            .artifacts/content-index-candidate-*/pool-probes/verification.json
+            .artifacts/content-index-verification-latest.json
+            .artifacts/content-index-verification-*/*.json
+            .artifacts/content-index-verification-*/*.txt
+            .artifacts/content-index-verification-*/**/job.json
+            .artifacts/content-index-verification-*/**/events.jsonl
+            .artifacts/content-index-verification-*/**/stderr.txt

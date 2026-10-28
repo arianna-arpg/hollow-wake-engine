@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "content-affix-tag-index-measurements/v1",
+  "parent": "content-affix-tag-index/v1",
+  "hosts": ["node", "dotnet"],
+  "variants": ["baseline", "candidate"],
+  "warmups": 8,
+  "samples": 25,
+  "orders": ["forward", "reverse"],
+  "checkpointRounds": 32,
+  "startup": "One complete context/content initialization per fresh worker process; eight warmup processes and 25 retained samples per variant, host and order. Alternate variants within each repetition; reverse their order in the reverse course. Use the existing host-cost worker initialization boundary, excluding file reads and including bundle parsing and controller creation",
+  "firstForge": "One rare ring, level 21, with the explicit attr_intelligence affix and random roll quality, in a fresh generator; no setup mint. The existing protocol permits explicit forging, not fillRandom",
+  "steadyForge": "64 rare rings with explicit attr_intelligence and random roll quality, level 21, after one setup mint warms the same base pool. Inventory insertion outcomes and final snapshots remain checked; weighted random affix selection is covered separately by the inventory course and owner tests",
+  "throughput": "Reuse verified host-cost workers, their timing boundaries and exact-output checks. Eight warmups and 25 retained samples in each worker; fresh logical sessions per sample",
+  "memory": "Fresh native host for each variant; measure content, eight empty owners, eight identically warmed owners, after destroying owners and after host disposal. Compare incremental live bytes from content to warmed owners and report the content difference separately",
+  "summary": "Median, nearest-rank p95 and full range; no sample deletion. Every applicable gate in content-plan.json must pass separately for each host and both orders",
+  "ambientCpu": "Three two-second per-processor samples before each order. Run no concurrent local builds, profiles or verification jobs",
+  "scope": "Windows desktop experimental comparison; no target-device result, architecture selection or milestone 43 acceptance"
+}

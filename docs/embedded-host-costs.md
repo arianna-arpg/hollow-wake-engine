@@ -1,5 +1,9 @@
 # Experimental host costs
 
+The [item-index follow-up](item-index-experiment.md) tests an inventory hotspot
+found by profiling. Its first shared-index candidate improved Node timings but
+regressed in the embedded host and was rejected; production outputs are unchanged.
+
 This experiment measures the existing bundled JavaScript session through two
 prototype hosts: Node/V8 with a JSON boundary and the .NET 8 binding to the
 QuickJS native library. It characterizes those complete paths. It does not

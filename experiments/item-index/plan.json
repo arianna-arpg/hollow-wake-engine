@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "lazy-affix-tag-index/v1",
+  "purpose": "Test the inventory profile's catalogue-scan hotspot while preserving every authored result and random draw",
+  "productionChange": false,
+  "variant": "An owner builds a lazy tag-to-row index, unions matching row ids and restores authored row order before applying exclusions; existing base and weighted caches stay owner-local",
+  "correctness": [
+    "Existing SDK tests use the isolated candidate runtime, including all recorded item and mint-stream fixtures",
+    "All authored bases and synthetic open, explicit, empty-tag, duplicate-tag and exclusion combinations preserve ordered pool membership",
+    "Long seeded streams, restore, interleaved owners and different base affinities preserve items, modifiers and RNG/uid snapshots",
+    "Persistent native-library consumers retain their gameplay and ownership results with the candidate bundle"
+  ],
+  "timing": {
+    "warmups": 8,
+    "samples": 25,
+    "orders": ["forward", "reverse"],
+    "primary": "Existing 320-command inventory course at batch 64 with a fresh logical session per sample",
+    "controls": ["Existing combat course at batch 64", "Existing checkpoint course", "Steady item stream after pool warmup", "First affix request in a fresh generator"],
+    "primaryMinimumMedianImprovementPercent": 10,
+    "maximumControlMedianRegressionPercent": 5,
+    "maximumControlP95RegressionPercent": 10,
+    "policy": "All samples retained; both orders must pass; profiler samples are not acceptance timings"
+  },
+  "memory": {
+    "owners": 8,
+    "maximumAdditionalTrackedNativeBytes": 4194304,
+    "policy": "Compare equivalent warmed owners and state. This is an experiment guard, not a device-memory budget; zero tracked leaks remains required"
+  },
+  "decision": "No production promotion until correctness, controls and memory guard pass. No milestone 43 threshold changes or hardware-support claims"
+}
