@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "runtime": "Steam Runtime 4",
+  "scope": "Pinned development SDK and runtime-only container experiment; not a Steam client or device qualification",
+  "node": "24.9.0",
+  "dotnetSdk": "8.0.427",
+  "images": {
+    "sdk": {
+      "repository": "registry.gitlab.steamos.cloud/steamrt/steamrt4/sdk",
+      "manifestDigest": "sha256:0827d5839550c228b4e454ae2608ce09e0ff023d2bbb6bfceb9812eb5813b742",
+      "configDigest": "sha256:53ebc18dfc907e22aadc2cc1394bd90eb9d9e1c2dc2b761277cb2c1c57f4bd34",
+      "buildId": "4.0.20261021.265997",
+      "variant": "com.valvesoftware.steamruntime.sdk-amd64_i386-steamrt4",
+      "platform": {
+        "os": "linux",
+        "architecture": "amd64"
+      },
+      "compressedLayerBytes": 1291786095,
+      "records": [
+        {
+          "file": "sdk-manifests.json",
+          "digest": "sha256:0827d5839550c228b4e454ae2608ce09e0ff023d2bbb6bfceb9812eb5813b742",
+          "bytes": 591
+        },
+        {
+          "file": "sdk-blobs.json",
+          "digest": "sha256:53ebc18dfc907e22aadc2cc1394bd90eb9d9e1c2dc2b761277cb2c1c57f4bd34",
+          "bytes": 1540
+        }
+      ]
+    },
+    "platform": {
+      "repository": "registry.gitlab.steamos.cloud/steamrt/steamrt4/platform",
+      "manifestDigest": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+      "configDigest": "sha256:b740749db0ecbfb6614d5ba84390dedc5802b83635e14e41c8e46d90431b84a8",
+      "buildId": "4.0.20261021.265997",
+      "variant": "com.valvesoftware.steamruntime.platform-amd64_i386-steamrt4",
+      "platform": {
+        "os": "linux",
+        "architecture": "amd64"
+      },
+      "compressedLayerBytes": 376504326,
+      "records": [
+        {
+          "file": "platform-manifests.json",
+          "digest": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+          "bytes": 590
+        },
+        {
+          "file": "platform-blobs.json",
+          "digest": "sha256:b740749db0ecbfb6614d5ba84390dedc5802b83635e14e41c8e46d90431b84a8",
+          "bytes": 1555
+        }
+      ]
+    }
+  },
+  "documentation": [
+    "https://github.com/ValveSoftware/steam-runtime/blob/master/README.md",
+    "https://gitlab.steamos.cloud/steamrt/steamrt4/sdk/-/blob/steamrt/steamrt4/README.md",
+    "https://gitlab.steamos.cloud/steamrt/steamrt4/sdk/-/blob/steamrt/steamrt4/doc/docker.md"
+  ]
+}

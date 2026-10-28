@@ -1,0 +1,64 @@
+name: Verify Steam Runtime Godot experiment
+on:
+  push:
+    paths:
+      - '.github/workflows/steamrt-godot.yml'
+      - 'experiments/steamrt-godot/**'
+      - 'experiments/godot-native/**'
+      - 'experiments/embedded-js/**'
+      - 'scripts/test-steamrt-godot.mjs'
+      - 'scripts/*embedded*.mjs'
+      - 'scripts/*godot*.mjs'
+      - 'scripts/native-tools.mjs'
+      - 'scripts/reference-utils.mjs'
+      - 'src/**'
+      - 'content/**'
+      - 'baseline/**'
+      - 'package*.json'
+      - 'tsconfig*.json'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  steamrt4:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.9.0
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        env:
+          DOTNET_INSTALL_DIR: ${{ runner.temp }}/hwe-steamrt-dotnet
+        with:
+          dotnet-version: 8.0.427
+      - name: Build in pinned SDK and replay in runtime-only container
+        run: node scripts/test-steamrt-godot.mjs
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: steamrt-godot-evidence
+          include-hidden-files: true
+          if-no-files-found: error
+          path: |
+            .artifacts/steamrt-godot-latest.json
+            .artifacts/steamrt-godot-*/**/*.json
+            .artifacts/steamrt-godot-*/**/*.txt
+            .artifacts/steamrt-godot-*/**/*.log
+            .artifacts/steamrt-godot-*/**/*.jsonl
+            .artifacts/godot-tools-*/preparation.json
+            .artifacts/godot-native-*/verification.json
+            .artifacts/godot-native-*/*.txt
+            .artifacts/godot-native-*/*.log
+            .artifacts/godot-native-*/*.jsonl
+            .artifacts/godot-native-*/staging/addons/hollow_wake/manifest.json
+            .artifacts/embedded-library-*/verification.json
+            .artifacts/embedded-library-*/*.txt
+            .artifacts/embedded-library-*/*.jsonl
+            .artifacts/embedded-session-*/verification.json
+            .artifacts/embedded-session-*/*.txt
+            .artifacts/embedded-session-*/*.jsonl
