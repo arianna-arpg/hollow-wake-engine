@@ -10,7 +10,10 @@ See the [installation, API and reproduction guide](../experiments/godot-native/R
 and the [local verification record](../evidence/godot/windows-native-addon.json).
 The [CI workflow](../.github/workflows/godot-native.yml) repeats this path on a
 separate Windows machine and uploads observations rather than native binaries.
-Its first hosted outcome must be inspected separately from the local result.
+The [corrected hosted run](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40780494509)
+passed at `cb60183`. Its [inspected evidence](../evidence/godot/windows-ci.json)
+matches all 60 local/independent responses and passes the same 98 checks in both
+the editor and relocated release. The broader SDK workflow is tracked separately.
 
 The first hosted attempt at `0cb94c7` compiled the addon and passed the underlying
 native-library tests, then exited with `0xC0000005` during first-import shutdown.
