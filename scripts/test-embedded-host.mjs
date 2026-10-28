@@ -1,15 +1,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import {execFileSync, spawnSync} from 'node:child_process';
+import {spawnSync} from 'node:child_process';
 import assert from 'node:assert/strict';
 import {pathToFileURL} from 'node:url';
 import {root, git, sha256, listFiles, writeJSON} from './reference-utils.mjs';
-import {nativeEnvironment} from './native-tools.mjs';
+import {buildEmbeddedExecutable} from './embedded-native-tools.mjs';
 import {itemPack} from './compile-item-content.mjs';
 import {passivePack} from './compile-passive-content.mjs';
 import {build, version as bundlerVersion} from '../.reference/node_modules/esbuild/lib/main.js';
 
-assert.equal(process.platform, 'win32', 'This experiment currently verifies Windows x64 only');
+assert(['win32', 'linux'].includes(process.platform), 'Only Windows and Linux proof builds are configured');
 assert.equal(process.arch, 'x64');
 const args = process.argv.slice(2);
 assert.equal(args.length, 2);
@@ -30,6 +30,8 @@ const support = path.join(root, 'experiments/embedded-js/host-support.h');
 const supportBytes = fs.readFileSync(support);
 const allocationSource = path.join(root, 'experiments/embedded-js/tracked-allocator.h');
 const allocationBytes = fs.readFileSync(allocationSource);
+const toolSources = Object.fromEntries(['scripts/test-embedded-host.mjs', 'scripts/embedded-native-tools.mjs', 'scripts/native-tools.mjs']
+  .map(file => [file, sha256(fs.readFileSync(path.join(root, file)))]));
 const directory = fs.mkdtempSync(path.join(root, '.artifacts/embedded-host-'));
 const receipt = path.join(directory, 'verification.json');
 writeJSON(path.join(root, '.artifacts/embedded-host-latest.json'), {directory, receipt});
@@ -47,29 +49,16 @@ const report = {
   allocationSourceSha256: sha256(allocationBytes),
   observationSourceSha256: sha256(observationBytes), sourceLockSha256: sha256(lockBytes),
   upstreamFiles: lock.files, runtimeOutputs: Object.keys(before).length,
-  runtimeMapSha256: sha256(JSON.stringify(before)), inputSha256: inputHash,
+  runtimeMapSha256: sha256(JSON.stringify(before)), inputSha256: inputHash, toolSources,
   inputBytes: fs.statSync(input).size, cases: [],
   scope: 'Development executable with three fresh runtimes per case. No reusable native ABI, persistent-context, timing, engine-package or device result.'
 };
 try {
-  const env = nativeEnvironment(directory), log = path.join(directory, 'build.txt');
-  const descriptor = fs.openSync(log, 'wx');
-  const hostObject = path.join(directory, 'host.obj');
-  const upstreamObject = path.join(directory, 'quickjs-amalgam.obj');
-  const binary = path.join(directory, 'host.exe');
-  const flags = ['/nologo', '/O2', '/std:c11', '/fp:strict', '/MT', '/experimental:c11atomics', '/I' + upstream];
-  const compile = argv => execFileSync('cl.exe', argv, {
-    cwd: directory, env, windowsHide: true, stdio: ['ignore', descriptor, descriptor]
-  });
-  try {
-    compile([...flags, '/W4', '/WX', '/c', source, '/Fo:' + hostObject]);
-    compile([...flags, '/c', path.join(upstream, 'quickjs-amalgam.c'), '/Fo:' + upstreamObject]);
-    compile(['/nologo', '/MT', hostObject, upstreamObject, '/Fe:' + binary]);
-  } finally { fs.closeSync(descriptor); }
-  const compiler = spawnSync('cl.exe', [], {cwd: directory, env, windowsHide: true, encoding: 'utf8'});
-  assert(!compiler.error, compiler.error?.message);
-  report.compilerBanner = (compiler.stdout + compiler.stderr).trim();
-  report.compilerFlags = flags.filter(flag => !flag.startsWith('/I'));
+  const built = buildEmbeddedExecutable(directory, upstream, source, 'host');
+  const {env, binary} = built;
+  report.compilerBanner = built.compilerBanner;
+  report.compilerFlags = built.compilerFlags;
+  report.buildCommands = built.commands;
   report.hostWarningsAsErrors = true;
   report.binarySha256 = sha256(fs.readFileSync(binary));
   report.binaryBytes = fs.statSync(binary).size;
@@ -157,6 +146,7 @@ finally {
   assert(fs.readFileSync(allocationSource).equals(allocationBytes));
   assert(fs.readFileSync(observation).equals(observationBytes));
   assert(fs.readFileSync(lockFile).equals(lockBytes));
+  for (const [file, hash] of Object.entries(toolSources)) assert.equal(sha256(fs.readFileSync(path.join(root, file))), hash, file);
   for (const [file, hash] of Object.entries(lock.files)) assert.equal(sha256(fs.readFileSync(path.join(upstream, file))), hash);
   assert.equal(sha256(fs.readFileSync(input)), inputHash);
   report.inputsUnchanged = true;

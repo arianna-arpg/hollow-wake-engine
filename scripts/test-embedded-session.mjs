@@ -1,17 +1,17 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
-import {execFileSync, spawnSync} from 'node:child_process';
+import {spawnSync} from 'node:child_process';
 import assert from 'node:assert/strict';
 import {root, git, sha256, listFiles, writeJSON} from './reference-utils.mjs';
-import {nativeEnvironment} from './native-tools.mjs';
+import {buildEmbeddedExecutable} from './embedded-native-tools.mjs';
 import {itemPack} from './compile-item-content.mjs';
 import {passivePack} from './compile-passive-content.mjs';
 import {build, version as bundlerVersion} from '../.reference/node_modules/esbuild/lib/main.js';
 import * as session from '../experiments/embedded-js/session.mjs';
 import {scenario} from '../experiments/embedded-js/session-scenario.mjs';
 
-assert.equal(process.platform, 'win32', 'Current native session proof requires Windows x64');
+assert(['win32', 'linux'].includes(process.platform), 'Only Windows and Linux proof builds are configured');
 assert.equal(process.arch, 'x64');
 const args = process.argv.slice(2);
 assert.equal(args.length, 2); assert.equal(args[0], '--amalgam-dir');
@@ -21,7 +21,8 @@ for (const [file, hash] of Object.entries(lock.files)) assert.equal(sha256(fs.re
 const sources = ['experiments/embedded-js/session.mjs', 'experiments/embedded-js/session-scenario.mjs',
   'experiments/embedded-js/session-host.c', 'experiments/embedded-js/host-support.h',
   'experiments/embedded-js/tracked-allocator.h',
-  'experiments/embedded-js/host-source-lock.json', 'scripts/test-embedded-session.mjs'];
+  'experiments/embedded-js/host-source-lock.json', 'scripts/test-embedded-session.mjs',
+  'scripts/embedded-native-tools.mjs', 'scripts/native-tools.mjs'];
 const sourceHashes = Object.fromEntries(sources.map(file => [file, sha256(fs.readFileSync(path.join(root, file)))]));
 const runtimeSnapshot = () => Object.fromEntries(listFiles(path.join(root, 'dist')).map(file =>
   [file, sha256(fs.readFileSync(path.join(root, 'dist', file)))]));
@@ -61,18 +62,10 @@ export function create(input){Math.random=()=>{throw new Error('Ambient randomne
   assert.deepEqual(bundled,plan.responses);
   fs.writeFileSync(path.join(directory,'node-bundled.jsonl'),bundled.map(value=>JSON.stringify(value)).join('\n')+'\n',{flag:'wx'});
 
-  const env=nativeEnvironment(directory),descriptor=fs.openSync(path.join(directory,'build.txt'),'wx');
-  const hostObject=path.join(directory,'session-host.obj'),upstreamObject=path.join(directory,'quickjs-amalgam.obj'),binary=path.join(directory,'session-host.exe');
-  const flags=['/nologo','/O2','/std:c11','/fp:strict','/MT','/experimental:c11atomics','/I'+upstream];
-  const compile=argv=>execFileSync('cl.exe',argv,{cwd:directory,env,windowsHide:true,stdio:['ignore',descriptor,descriptor]});
-  try{
-    compile([...flags,'/W4','/WX','/c',path.join(root,'experiments/embedded-js/session-host.c'),'/Fo:'+hostObject]);
-    compile([...flags,'/c',path.join(upstream,'quickjs-amalgam.c'),'/Fo:'+upstreamObject]);
-    compile(['/nologo','/MT',hostObject,upstreamObject,'/Fe:'+binary]);
-  }finally{fs.closeSync(descriptor);}
+  const built=buildEmbeddedExecutable(directory,upstream,path.join(root,'experiments/embedded-js/session-host.c'),'session-host');
+  const {env,binary}=built;
   report.binarySha256=sha256(fs.readFileSync(binary));report.binaryBytes=fs.statSync(binary).size;
-  const compiler=spawnSync('cl.exe',[],{cwd:directory,env,windowsHide:true,encoding:'utf8'});
-  assert(!compiler.error);report.compilerBanner=(compiler.stdout+compiler.stderr).trim();
+  report.compilerBanner=built.compilerBanner;report.buildCommands=built.commands;
   const run=(label,requestFile,expectedCode,expectedCompleted,contentFile=inputFile)=>{
     const out=fs.openSync(path.join(directory,label+'.jsonl'),'wx'),err=fs.openSync(path.join(directory,label+'.txt'),'wx');let result;
     try{result=spawnSync(binary,[bundle,contentFile,requestFile],{cwd:directory,env,windowsHide:true,stdio:['ignore',out,err],timeout:60000});}

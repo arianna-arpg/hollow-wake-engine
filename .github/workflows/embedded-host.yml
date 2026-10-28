@@ -13,6 +13,7 @@ on:
       - 'scripts/benchmark-content-index.mjs'
       - 'scripts/profile-content-index.mjs'
       - 'scripts/native-tools.mjs'
+      - 'scripts/embedded-native-tools.mjs'
       - 'scripts/reference-utils.mjs'
       - 'scripts/compile-item-content.mjs'
       - 'scripts/compile-passive-content.mjs'
@@ -26,8 +27,12 @@ on:
 permissions:
   contents: read
 jobs:
-  windows-host:
-    runs-on: windows-2025
+  host:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2025, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -74,12 +79,14 @@ jobs:
       - name: Verify library ownership and independent consumers
         run: node scripts/test-embedded-library.mjs --amalgam-dir .artifacts/embedded-host-upstream --session-fixture .artifacts/embedded-session-latest.json
       - name: Verify equivalent cost workloads without recording timings
+        if: runner.os == 'Windows'
         shell: pwsh
         run: |
           $libraryProof = (Get-Content .artifacts/embedded-library-latest.json -Raw | ConvertFrom-Json).directory
           $sessionProof = (Get-Content .artifacts/embedded-session-latest.json -Raw | ConvertFrom-Json).directory
           node scripts/benchmark-embedded-library.mjs --verify --library-proof $libraryProof --session-proof $sessionProof
       - name: Verify isolated item-index candidate and cost controls
+        if: runner.os == 'Windows'
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
@@ -92,6 +99,7 @@ jobs:
           node scripts/benchmark-content-index.mjs --verify --candidate-proof $candidateProof --cost-proof $costProof
           if ($LASTEXITCODE -ne 0) { throw 'Cost-control verification failed' }
       - name: Verify isolated bitmap candidate and cost controls
+        if: runner.os == 'Windows'
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
@@ -106,22 +114,27 @@ jobs:
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
-          name: embedded-host-windows
+          name: embedded-host-${{ runner.os }}
           include-hidden-files: true
           if-no-files-found: error
           path: |
             .artifacts/embedded-host-latest.json
             .artifacts/embedded-host-*/verification.json
             .artifacts/embedded-host-*/input.json
+            .artifacts/embedded-host-*/build-commands.json
             .artifacts/embedded-host-*/*.jsonl
             .artifacts/embedded-host-*/*.txt
             .artifacts/embedded-session-latest.json
             .artifacts/embedded-session-*/verification.json
             .artifacts/embedded-session-*/input.json
+            .artifacts/embedded-session-*/build-commands.json
             .artifacts/embedded-session-*/*.jsonl
             .artifacts/embedded-session-*/*.txt
             .artifacts/embedded-library-latest.json
             .artifacts/embedded-library-*/verification.json
+            .artifacts/embedded-library-*/build-commands.json
+            .artifacts/embedded-library-*/sanitized/build-commands.json
+            .artifacts/embedded-library-*/sanitized/*.txt
             .artifacts/embedded-library-*/*.jsonl
             .artifacts/embedded-library-*/*.txt
             .artifacts/embedded-cost-verification-latest.json

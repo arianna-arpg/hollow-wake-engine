@@ -1,15 +1,17 @@
 # Experimental native library
 
 The persistent session experiment can be called through an eight-function C
-interface. C++ and .NET consumers load the same Windows x64 library dynamically;
+interface. C++ and .NET consumers load the same native library dynamically;
 the library runs the bundled SDK implementation. Gameplay rules are not
 reimplemented in the bindings. The selected gameplay scope remains the
 [persistent-session experiment](persistent-native-session.md).
 
 This is a development interface, not a stable ABI, supported engine package or
-replacement for the JavaScript package. Windows x64 is the configured target.
-Linux, ARM, Unity/IL2CPP, Godot, Unreal, mobile platforms and device performance
-remain unverified. The existing seven-leaf native experiment is separate.
+replacement for the JavaScript package. The build tools now configure Windows
+and Linux x64. The [Windows portability regression](../evidence/embedded-js/portability-windows.json)
+has passed locally; Linux acceptance awaits inspection of the first hosted run.
+ARM, Unity/IL2CPP, Godot, Unreal, mobile platforms and device performance remain
+unverified. The existing seven-leaf native experiment is separate.
 
 ## Ownership and failure contract
 
@@ -118,7 +120,8 @@ records source hashes, compiler versions, both consumer results and the earlier
 host regressions. It links losslessly compressed raw observations and the full
 SDK verification log.
 
-Use Windows x64, MSVC, the .NET 8 SDK with its offline targeting packs, the
+Use x64 Windows with MSVC, or x64 Linux with a GNU-compatible C/C++ compiler and
+binutils. Both require the .NET 8 SDK with its offline targeting packs, the
 repository's Node dependencies and prepared reference compiler. Fetch and verify
 the QuickJS-NG source pinned in `host-source-lock.json` using the existing
 [embedded-host workflow](../.github/workflows/embedded-host.yml).
@@ -154,3 +157,33 @@ remain unchanged during each test. Reports and raw observations live in fresh
 outputs. The public workflow uploads reports and observations, not native
 binaries. Shipping binaries requires packaging and third-party notices, and
 does not authorize changing the SDK's existing license.
+
+## Linux proof boundary
+
+The shared build helper retains the Windows compiler commands and adds native
+Linux builds. It records the actual commands and compiler banners. Linux uses
+position-independent code, hidden symbols and strict floating-point options;
+only the eight C interface functions may appear in the dynamic export table.
+The library links with undefined-symbol checks and immediate relocation. Its
+loader requests immediate, local symbol resolution. The runtime source and C
+ownership implementation are unchanged.
+
+The pinned runtime's [build configuration](https://github.com/quickjs-ng/quickjs/blob/v0.17.0/CMakeLists.txt)
+documents GNU feature definitions, unsigned characters and math/thread support.
+The compiler's [visibility documentation](https://gcc.gnu.org/onlinedocs/gcc/Code-Gen-Options.html)
+explains the hidden-default/exported-interface boundary. These settings do not
+substitute for executing the compatibility, allocator and consumer checks.
+
+Linux verification additionally rebuilds the library and C++ consumer with
+AddressSanitizer and UndefinedBehaviorSanitizer, including leak detection, and
+repeats all 60 requests and native failure/ownership cases. The .NET consumer
+uses the ordinary library in a separate process. This avoids treating managed
+runtime allocations as native-library leak evidence. Loader tests verify
+reference ownership and successful reopening; they do not guarantee that an
+operating-system loader physically unmaps a library at a particular moment.
+
+The host/session/library suites run on both CI platforms. Windows-specific
+process-cost and item-index experiment runners retain their Windows scope.
+An Ubuntu x64 result cannot establish Steam Deck, ARM, engine import, or mobile
+acceptance. Their toolchains, packaging, application lifecycle and physical
+device measurements remain separate work.

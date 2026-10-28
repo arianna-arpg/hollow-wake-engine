@@ -1,5 +1,9 @@
+#if defined(_WIN32)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#else
+#include <dlfcn.h>
+#endif
 #include "hwe_embedded.h"
 #include <chrono>
 #include <cstring>
@@ -22,9 +26,19 @@ static std::string read(const std::filesystem::path &path) {
     return {std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>()};
 }
 struct Api {
+#if defined(_WIN32)
     HMODULE module;
+#else
+    void *module;
+#endif
     template<class T> T load(const char *name) {
+#if defined(_WIN32)
         FARPROC address = GetProcAddress(module, name);
+#else
+        dlerror();
+        void *address = dlsym(module, name);
+        require(dlerror() == nullptr, name);
+#endif
         require(address != nullptr, name);
         T pointer;
         static_assert(sizeof(pointer) == sizeof(address));
@@ -39,7 +53,12 @@ struct Api {
     decltype(&hwe_js_metrics_v1) metrics;
     decltype(&hwe_js_cancel_v1) cancel;
     decltype(&hwe_js_destroy_v1) destroy;
-    explicit Api(const wchar_t *path) : module(LoadLibraryW(path)) {
+    explicit Api(const std::filesystem::path &path)
+#if defined(_WIN32)
+        : module(LoadLibraryW(path.c_str())) {
+#else
+        : module(dlopen(path.c_str(), RTLD_NOW | RTLD_LOCAL)) {
+#endif
         require(module != nullptr, "Load library");
         try {
             layout = load<decltype(layout)>("hwe_js_layout_v1");
@@ -50,11 +69,18 @@ struct Api {
             metrics = load<decltype(metrics)>("hwe_js_metrics_v1");
             cancel = load<decltype(cancel)>("hwe_js_cancel_v1");
             destroy = load<decltype(destroy)>("hwe_js_destroy_v1");
-        } catch (...) { FreeLibrary(module); throw; }
+        } catch (...) { close(); throw; }
     }
     Api(const Api &) = delete;
     Api &operator=(const Api &) = delete;
-    ~Api() { FreeLibrary(module); }
+    ~Api() { close(); }
+    void close() noexcept {
+#if defined(_WIN32)
+        FreeLibrary(module);
+#else
+        dlclose(module);
+#endif
+    }
 };
 static const char *probe = R"JS(var HollowWakeSession={
 create(input){return {n:input.n||0};},
@@ -229,7 +255,11 @@ static void contracts(Api &api) {
     pending.close();
 }
 
+#if defined(_WIN32)
 int wmain(int argc, wchar_t **argv) {
+#else
+int main(int argc, char **argv) {
+#endif
     try {
         require(argc == 6, "Library, bundle, content, requests and output required");
         const auto bundle = read(argv[2]), content = read(argv[3]);
