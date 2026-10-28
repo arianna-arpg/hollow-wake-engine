@@ -1,0 +1,2805 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "scope": "Windows desktop prototype-host diagnostic; no optimization acceptance, architecture selection or target-device claim",
+  "sourceCommitAtRun": "286212dcd7cc2a1789994d1e12712e5c7a500ff5",
+  "environment": {
+    "node": "v24.9.0",
+    "platform": "win32",
+    "arch": "x64",
+    "os": "10.0.19045",
+    "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+    "logicalCpus": 20,
+    "totalMemoryBytes": 68631449600
+  },
+  "plan": {
+    "schemaVersion": 1,
+    "id": "embedded-host-costs/v1",
+    "purpose": "Characterize equivalent end-to-end prototype hosts before selecting a runtime or frame protocol",
+    "hosts": [
+      "node-bundled-json",
+      "dotnet-embedded-json"
+    ],
+    "batchSizes": [
+      1,
+      16,
+      64
+    ],
+    "warmups": 8,
+    "samples": 25,
+    "orders": [
+      "forward",
+      "reverse"
+    ],
+    "workloads": [
+      {
+        "name": "combat",
+        "commands": 4096,
+        "motif": [
+          "press",
+          "applyDot",
+          "advance",
+          "hit"
+        ]
+      },
+      {
+        "name": "inventory",
+        "commands": 320,
+        "motif": [
+          "roll",
+          "allocate",
+          "refund",
+          "move",
+          "move"
+        ]
+      }
+    ],
+    "checkpointRounds": 32,
+    "memoryRepeatsPerHost": 7,
+    "ambientCpuPolicy": "Observe three two-second system CPU intervals before each timing order. Record every processor's busy fraction; this is context, not proof of an uncontended machine. Run no concurrent build or verification jobs",
+    "memoryStages": [
+      "worker-ready",
+      "inputs-loaded",
+      "content-loaded",
+      "content-after-input-release-gc",
+      "one-session",
+      "eight-sessions",
+      "checkpoint-retained",
+      "disposed",
+      "after-explicit-gc"
+    ],
+    "equivalence": "Every timed sample must match all expected responses and the final checkpoint; batch sizes must produce identical flattened observations and state",
+    "timingBoundary": "Prebuilt requests through response delivery; setup, verification, reporting and process-memory queries are outside the batch timing interval",
+    "checkpointBoundary": "Restore, snapshot and destroy round trips, including handle decoding and request construction; validation is outside the interval",
+    "initializationBoundary": "Runtime/context and bundle initialization plus content parsing and controller construction, with file bytes already read",
+    "memoryBoundary": "Same Windows process-memory observer for both hosts; VM and managed counters are separately labelled and are not interchangeable",
+    "gcPolicy": "No explicit collection in throughput trials; separate memory trials collect the host heap after releasing caller input buffers and after disposal. Node collection includes V8; managed collection excludes the native VM, which retains its ordinary collection policy",
+    "summary": "Retain every sample; median, nearest-rank p95 and range per order, workload, host and batch size; no outlier deletion or pooled significance claim",
+    "decision": "Diagnostic characterization only. No optimization acceptance, architecture selection, whole-game frame budget or device-support claim",
+    "limitations": [
+      "Windows desktop hosts, not Steam Deck or mobile hardware",
+      ".NET 8 consumer, not Unity IL2CPP or an engine editor/player",
+      "Selected gameplay capabilities and complete item/passive packs, not the entire game",
+      "Process initialization includes test-driver work and does not imply a cold filesystem cache",
+      "Private committed bytes and working-set bytes have different meanings",
+      "Node heap changes are not total allocations; tracked native allocation counts omit reallocations",
+      "Fixed warmup count does not prove JIT or GC convergence",
+      "Milestone 43 performance acceptance remains governed by its existing thresholds"
+    ]
+  },
+  "sources": {
+    "scripts/benchmark-embedded-library.mjs": "7df287bd43c59bbd02f531770c919ef09f5789553eea403f3fe57579c1f022c0",
+    "scripts/native-tools.mjs": "80671f3913e94caaecc8d18ab0c87d95aa3cb978201f38896291a4b823db5b89",
+    "scripts/reference-utils.mjs": "e36edca23dfd5ac73f203599495a1bc348e2fc90689c5c922154f7da0a40feeb",
+    "experiments/embedded-js/measurements/Worker.cs": "1aa0057f911b8a3a1c1c662a1638078f207b84e0166a664527284aa5645e6b9a",
+    "experiments/embedded-js/measurements/Worker.csproj": "c59440b7b7c06715f3c69aa4ed67604b91a3dff122076be491c7bed20f997eeb",
+    "experiments/embedded-js/measurements/node-worker.mjs": "abde5460758e76418a8c8a77a3d44dba5d0e07584cdc9ea27540651bb7489bee",
+    "experiments/embedded-js/measurements/plan.json": "c7aa3be972c2dc398bd7358d55540de43bf10c690fea5bc45e9e5482399c0db6",
+    "experiments/embedded-js/measurements/process-memory.c": "9d29e0749d81ff035598c0c8f5bd603447d4afd4672ee94d0886746922790c8e",
+    "experiments/embedded-js/measurements/workload.mjs": "4e513f70aeec8d1dda9f15291406b1b65880bf687ad1ef3ddef88f5a4c53bce3"
+  },
+  "runtimeMapSha256": "49f4a5637979a46c3770e315d13a415508446f7654db0f40bf3fe67a23150189",
+  "reports": {
+    "verification": "a69d99ada382d9a09da9b8800be752c9f9d37ed85f8db91e8c1625da5a4a7ae5",
+    "measurement": "690cd7c9009a7c3809244c8312022dc372b446c110f94221aa6f4304367cffa4",
+    "priorMeasurement": "c58d4543ce2da5af6fa368d68262256028cadd36a84153a44602accc73c028b0"
+  },
+  "verifiedInputHashes": {
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\embedded-library-qCZI59\\hwe_embedded.dll": "985bfe0d5a277dd968df8c5c160a5e9d93d5056eb01221b36ffc55fb24686bad",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\embedded-session-HZEV29\\bundle.js": "d7a13e079314c520f5b68729ef3fd1553d64b817d5ef19d524752a899cc0da33",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\embedded-session-HZEV29\\input.json": "c5ea6f2b6ccc1f3147e79e92967675d592b7433063685034a02691b5e60d5ea9",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\embedded-session-HZEV29\\requests.jsonl": "346256f06446472b917b31c70aac994701ad784c5a07352a5729d051ee4c7d10",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\embedded-cost-verification-AgQioc\\process-memory.exe": "b89b847e665be7c3969296253a1a8539e7d5b9505a8a4eab7479e616a8ffdd1b",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\embedded-cost-verification-AgQioc\\workload.json": "96eaeb454f4e8958175ea51f141cc314eac4e2e889b634944315e09dd766388c",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\scripts\\test-embedded-library.mjs": "8b7724e3c47fcddc0c137f8b9376a749455ac9642361ca28f1b01c8a0d34e57b",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\scripts\\native-tools.mjs": "80671f3913e94caaecc8d18ab0c87d95aa3cb978201f38896291a4b823db5b89",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\scripts\\reference-utils.mjs": "e36edca23dfd5ac73f203599495a1bc348e2fc90689c5c922154f7da0a40feeb",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\tracked-allocator.h": "5c8e5cbf6412a3b9edf93826e190524221dc0cecc77f903690352f2a8c01ac0f",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\host-source-lock.json": "f920648cfa2b7b8ca35597106d94d3a990360f0b8441c9039a72e74706da6ffa",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\native\\consumer.cpp": "8bdf0f6ed7ff6aff149208ed686600c619868eec607b50b26b50e8cf91257358",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\native\\dotnet\\Consumer.csproj": "5752c7f35a5b6b7f286e0e9fe3fc1ae94e4935873e07179a729777e0b79804cc",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\native\\dotnet\\Embedded.cs": "c6cea31a4ca20ed3373fdc53159477e9db38f77512c135d6209a8c057ea35000",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\native\\dotnet\\NuGet.Config": "2142cfb2dfa2c7feefbe40fabcc68b0dfecadafa99a1db9b70239d977cf2a7ef",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\native\\dotnet\\Program.cs": "12bbdede3d1d6eec9af1208fd22bfb7f1c461078060dd5f9489cc60580e6321c",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\native\\hwe_embedded.c": "382b4c0a404b7219feeb35742aaff0b2136c8df65c1cf93e634a9ee9e33f155a",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\native\\hwe_embedded.h": "29fb4f208074cd4d6407482900479322cbd21d1e722851cf5617b732aac72978",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\session.mjs": "70f5396abcfacfda3909588f8f037c7a509e93562ec6394bfc5891fa6487f08a",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\session-scenario.mjs": "910072d38e3623b4a2542b4f5aef9926d271b16008020cccb6307a8ddcc5aea9",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\session-host.c": "d4e4decec9ba2f3c9bf22ad5b5040c80bb06fb8da46d34ae4f0c8edf0d9dc5f9",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\host-support.h": "3a0c476def580a963a866d103d4a61cc3942b89ddb826d140e0d0dae734d9aad",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\scripts\\test-embedded-session.mjs": "2e05cf7d2ce07c23aeeef405c6b776eb6c40e80bb0c02bff7d5100c59db753dd",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\embedded-cost-verification-AgQioc\\managed\\Worker.deps.json": "7712a38840f3319e72c7ae04ab54d35f333acdc7ca4ce09a89bfa5a16875ba3f",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\embedded-cost-verification-AgQioc\\managed\\Worker.dll": "f0ac190bca2c02a54f53ae4b356dd9277f8ec14507325796fd6c02433875e2ba",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\embedded-cost-verification-AgQioc\\managed\\Worker.exe": "d1d15a26d61c5243f4fe0ce4accbda2850cb9411d00202180564c86bcb5c0514",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\embedded-cost-verification-AgQioc\\managed\\Worker.pdb": "507fee8a15d35cee38a43b7d7adea8034f0dab20eff25f13752f2477b2b359a4",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\embedded-cost-verification-AgQioc\\managed\\Worker.runtimeconfig.json": "28329cf08f6505e73806b17558b187c02f0c1c516fe47ebfb7a013d082aaa306",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\embedded-library-qCZI59\\verification.json": "8c5578e4ade76565d15f238c9ca65f967adc28d9a6aa1e8d3ea9c9ebc2c94976",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\embedded-session-HZEV29\\verification.json": "fe73e2d28fde6c7a7abf11c6f94444ba2f196120b36ed943f64317b43688ab89",
+    "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\embedded-cost-verification-AgQioc\\verification.json": "a69d99ada382d9a09da9b8800be752c9f9d37ed85f8db91e8c1625da5a4a7ae5"
+  },
+  "ambientCpu": [
+    {
+      "order": "forward",
+      "samples": [
+        {
+          "processors": [
+            {
+              "processor": 0,
+              "totalMs": 2017,
+              "busyFraction": 0.5969261279127417
+            },
+            {
+              "processor": 1,
+              "totalMs": 2001,
+              "busyFraction": 0.5077461269365318
+            },
+            {
+              "processor": 2,
+              "totalMs": 1999,
+              "busyFraction": 0.45322661330665337
+            },
+            {
+              "processor": 3,
+              "totalMs": 2000,
+              "busyFraction": 0.07799999999999996
+            },
+            {
+              "processor": 4,
+              "totalMs": 2000,
+              "busyFraction": 0.15649999999999997
+            },
+            {
+              "processor": 5,
+              "totalMs": 2000,
+              "busyFraction": 0.0625
+            },
+            {
+              "processor": 6,
+              "totalMs": 2032,
+              "busyFraction": 0.10777559055118113
+            },
+            {
+              "processor": 7,
+              "totalMs": 2001,
+              "busyFraction": 0.015992003998001048
+            },
+            {
+              "processor": 8,
+              "totalMs": 2000,
+              "busyFraction": 0.07799999999999996
+            },
+            {
+              "processor": 9,
+              "totalMs": 2000,
+              "busyFraction": 0.023499999999999965
+            },
+            {
+              "processor": 10,
+              "totalMs": 2001,
+              "busyFraction": 0.07046476761619191
+            },
+            {
+              "processor": 11,
+              "totalMs": 2000,
+              "busyFraction": 0.039000000000000035
+            },
+            {
+              "processor": 12,
+              "totalMs": 2000,
+              "busyFraction": 0.09350000000000003
+            },
+            {
+              "processor": 13,
+              "totalMs": 2000,
+              "busyFraction": 0.031000000000000028
+            },
+            {
+              "processor": 14,
+              "totalMs": 2001,
+              "busyFraction": 0.06296851574212892
+            },
+            {
+              "processor": 15,
+              "totalMs": 2001,
+              "busyFraction": 0.03948025987006498
+            },
+            {
+              "processor": 16,
+              "totalMs": 1999,
+              "busyFraction": 0.1480740370185093
+            },
+            {
+              "processor": 17,
+              "totalMs": 2001,
+              "busyFraction": 0.16441779110444776
+            },
+            {
+              "processor": 18,
+              "totalMs": 2017,
+              "busyFraction": 0.18641546851760038
+            },
+            {
+              "processor": 19,
+              "totalMs": 2000,
+              "busyFraction": 0.19499999999999995
+            }
+          ],
+          "meanBusyFraction": 0.15552436512870266
+        },
+        {
+          "processors": [
+            {
+              "processor": 0,
+              "totalMs": 2030,
+              "busyFraction": 0.8073891625615763
+            },
+            {
+              "processor": 1,
+              "totalMs": 2077,
+              "busyFraction": 0.30043331728454503
+            },
+            {
+              "processor": 2,
+              "totalMs": 2016,
+              "busyFraction": 0.4186507936507936
+            },
+            {
+              "processor": 3,
+              "totalMs": 2016,
+              "busyFraction": 0.062003968253968256
+            },
+            {
+              "processor": 4,
+              "totalMs": 2032,
+              "busyFraction": 0.12303149606299213
+            },
+            {
+              "processor": 5,
+              "totalMs": 2015,
+              "busyFraction": 0.05409429280397027
+            },
+            {
+              "processor": 6,
+              "totalMs": 2032,
+              "busyFraction": 0.07726377952755903
+            },
+            {
+              "processor": 7,
+              "totalMs": 2016,
+              "busyFraction": 0.062003968253968256
+            },
+            {
+              "processor": 8,
+              "totalMs": 2016,
+              "busyFraction": 0.06994047619047616
+            },
+            {
+              "processor": 9,
+              "totalMs": 2015,
+              "busyFraction": 0.06153846153846154
+            },
+            {
+              "processor": 10,
+              "totalMs": 2015,
+              "busyFraction": 0.06203473945409432
+            },
+            {
+              "processor": 11,
+              "totalMs": 2015,
+              "busyFraction": 0.0461538461538461
+            },
+            {
+              "processor": 12,
+              "totalMs": 2015,
+              "busyFraction": 0.05409429280397027
+            },
+            {
+              "processor": 13,
+              "totalMs": 2016,
+              "busyFraction": 0.02331349206349209
+            },
+            {
+              "processor": 14,
+              "totalMs": 2014,
+              "busyFraction": 0.06901688182720955
+            },
+            {
+              "processor": 15,
+              "totalMs": 2016,
+              "busyFraction": 0.04662698412698407
+            },
+            {
+              "processor": 16,
+              "totalMs": 2016,
+              "busyFraction": 0.1552579365079365
+            },
+            {
+              "processor": 17,
+              "totalMs": 2030,
+              "busyFraction": 0.1995073891625616
+            },
+            {
+              "processor": 18,
+              "totalMs": 2014,
+              "busyFraction": 0.1703078450844091
+            },
+            {
+              "processor": 19,
+              "totalMs": 2016,
+              "busyFraction": 0.19394841269841268
+            }
+          ],
+          "meanBusyFraction": 0.1528305768005613
+        },
+        {
+          "processors": [
+            {
+              "processor": 0,
+              "totalMs": 2016,
+              "busyFraction": 0.6125992063492063
+            },
+            {
+              "processor": 1,
+              "totalMs": 2032,
+              "busyFraction": 0.4616141732283464
+            },
+            {
+              "processor": 2,
+              "totalMs": 2016,
+              "busyFraction": 0.24801587301587302
+            },
+            {
+              "processor": 3,
+              "totalMs": 2015,
+              "busyFraction": 0.08486352357320104
+            },
+            {
+              "processor": 4,
+              "totalMs": 2016,
+              "busyFraction": 0.06994047619047616
+            },
+            {
+              "processor": 5,
+              "totalMs": 2016,
+              "busyFraction": 0.04662698412698407
+            },
+            {
+              "processor": 6,
+              "totalMs": 2015,
+              "busyFraction": 0.05409429280397027
+            },
+            {
+              "processor": 7,
+              "totalMs": 2015,
+              "busyFraction": 0.01538461538461533
+            },
+            {
+              "processor": 8,
+              "totalMs": 2015,
+              "busyFraction": 0.01538461538461533
+            },
+            {
+              "processor": 9,
+              "totalMs": 2016,
+              "busyFraction": 0.03125
+            },
+            {
+              "processor": 10,
+              "totalMs": 2016,
+              "busyFraction": 0.02331349206349209
+            },
+            {
+              "processor": 11,
+              "totalMs": 2017,
+              "busyFraction": 0.02379771938522557
+            },
+            {
+              "processor": 12,
+              "totalMs": 2017,
+              "busyFraction": 0.02379771938522557
+            },
+            {
+              "processor": 13,
+              "totalMs": 2014,
+              "busyFraction": 0.022840119165839168
+            },
+            {
+              "processor": 14,
+              "totalMs": 2016,
+              "busyFraction": 0.023809523809523836
+            },
+            {
+              "processor": 15,
+              "totalMs": 2015,
+              "busyFraction": 0.01538461538461533
+            },
+            {
+              "processor": 16,
+              "totalMs": 2016,
+              "busyFraction": 0.08531746031746035
+            },
+            {
+              "processor": 17,
+              "totalMs": 2016,
+              "busyFraction": 0.11656746031746035
+            },
+            {
+              "processor": 18,
+              "totalMs": 2016,
+              "busyFraction": 0.10863095238095233
+            },
+            {
+              "processor": 19,
+              "totalMs": 2031,
+              "busyFraction": 0.16937469226981783
+            }
+          ],
+          "meanBusyFraction": 0.11263037572684506
+        }
+      ]
+    },
+    {
+      "order": "reverse",
+      "samples": [
+        {
+          "processors": [
+            {
+              "processor": 0,
+              "totalMs": 2033,
+              "busyFraction": 0.1008362026561731
+            },
+            {
+              "processor": 1,
+              "totalMs": 2015,
+              "busyFraction": 0.25558312655086846
+            },
+            {
+              "processor": 2,
+              "totalMs": 2000,
+              "busyFraction": 0.16400000000000003
+            },
+            {
+              "processor": 3,
+              "totalMs": 2001,
+              "busyFraction": 0.03148425787106446
+            },
+            {
+              "processor": 4,
+              "totalMs": 2000,
+              "busyFraction": 0.04700000000000004
+            },
+            {
+              "processor": 5,
+              "totalMs": 2000,
+              "busyFraction": 0.05500000000000005
+            },
+            {
+              "processor": 6,
+              "totalMs": 2000,
+              "busyFraction": 0.03949999999999998
+            },
+            {
+              "processor": 7,
+              "totalMs": 2000,
+              "busyFraction": 0.015499999999999958
+            },
+            {
+              "processor": 8,
+              "totalMs": 2000,
+              "busyFraction": 0.03149999999999997
+            },
+            {
+              "processor": 9,
+              "totalMs": 2000,
+              "busyFraction": 0.023499999999999965
+            },
+            {
+              "processor": 10,
+              "totalMs": 2016,
+              "busyFraction": 0.062003968253968256
+            },
+            {
+              "processor": 11,
+              "totalMs": 1999,
+              "busyFraction": 0.007503751875937992
+            },
+            {
+              "processor": 12,
+              "totalMs": 2016,
+              "busyFraction": 0.04662698412698407
+            },
+            {
+              "processor": 13,
+              "totalMs": 2015,
+              "busyFraction": 0.022828784119106715
+            },
+            {
+              "processor": 14,
+              "totalMs": 2000,
+              "busyFraction": 0.07799999999999996
+            },
+            {
+              "processor": 15,
+              "totalMs": 2000,
+              "busyFraction": 0.039000000000000035
+            },
+            {
+              "processor": 16,
+              "totalMs": 2000,
+              "busyFraction": 0.09399999999999997
+            },
+            {
+              "processor": 17,
+              "totalMs": 2000,
+              "busyFraction": 0.125
+            },
+            {
+              "processor": 18,
+              "totalMs": 2000,
+              "busyFraction": 0.10899999999999999
+            },
+            {
+              "processor": 19,
+              "totalMs": 1999,
+              "busyFraction": 0.11705852926463234
+            }
+          ],
+          "meanBusyFraction": 0.07324628023593675
+        },
+        {
+          "processors": [
+            {
+              "processor": 0,
+              "totalMs": 1999,
+              "busyFraction": 0.0695347673836918
+            },
+            {
+              "processor": 1,
+              "totalMs": 2017,
+              "busyFraction": 0.2097174020823005
+            },
+            {
+              "processor": 2,
+              "totalMs": 2000,
+              "busyFraction": 0.09399999999999997
+            },
+            {
+              "processor": 3,
+              "totalMs": 1999,
+              "busyFraction": 0.03101550775387696
+            },
+            {
+              "processor": 4,
+              "totalMs": 2000,
+              "busyFraction": 0.015499999999999958
+            },
+            {
+              "processor": 5,
+              "totalMs": 2000,
+              "busyFraction": 0.015499999999999958
+            },
+            {
+              "processor": 6,
+              "totalMs": 2000,
+              "busyFraction": 0.02300000000000002
+            },
+            {
+              "processor": 7,
+              "totalMs": 1999,
+              "busyFraction": 0.02301150575287647
+            },
+            {
+              "processor": 8,
+              "totalMs": 2000,
+              "busyFraction": 0.023499999999999965
+            },
+            {
+              "processor": 9,
+              "totalMs": 1999,
+              "busyFraction": 0.015007503751875984
+            },
+            {
+              "processor": 10,
+              "totalMs": 1999,
+              "busyFraction": 0.02301150575287647
+            },
+            {
+              "processor": 11,
+              "totalMs": 2002,
+              "busyFraction": 0.02397602397602394
+            },
+            {
+              "processor": 12,
+              "totalMs": 2000,
+              "busyFraction": 0.039000000000000035
+            },
+            {
+              "processor": 13,
+              "totalMs": 1999,
+              "busyFraction": 0.01550775387693848
+            },
+            {
+              "processor": 14,
+              "totalMs": 2000,
+              "busyFraction": 0.03149999999999997
+            },
+            {
+              "processor": 15,
+              "totalMs": 2000,
+              "busyFraction": 0.023499999999999965
+            },
+            {
+              "processor": 16,
+              "totalMs": 2000,
+              "busyFraction": 0.07799999999999996
+            },
+            {
+              "processor": 17,
+              "totalMs": 1999,
+              "busyFraction": 0.1480740370185093
+            },
+            {
+              "processor": 18,
+              "totalMs": 2000,
+              "busyFraction": 0.0625
+            },
+            {
+              "processor": 19,
+              "totalMs": 2000,
+              "busyFraction": 0.05449999999999999
+            }
+          ],
+          "meanBusyFraction": 0.05096780036744848
+        },
+        {
+          "processors": [
+            {
+              "processor": 0,
+              "totalMs": 2017,
+              "busyFraction": 0.07040158651462569
+            },
+            {
+              "processor": 1,
+              "totalMs": 2046,
+              "busyFraction": 0.1754643206256109
+            },
+            {
+              "processor": 2,
+              "totalMs": 2015,
+              "busyFraction": 0.12357320099255586
+            },
+            {
+              "processor": 3,
+              "totalMs": 2016,
+              "busyFraction": 0.007936507936507908
+            },
+            {
+              "processor": 4,
+              "totalMs": 2016,
+              "busyFraction": 0.02331349206349209
+            },
+            {
+              "processor": 5,
+              "totalMs": 2030,
+              "busyFraction": 0.037931034482758585
+            },
+            {
+              "processor": 6,
+              "totalMs": 2031,
+              "busyFraction": 0.023141309699655332
+            },
+            {
+              "processor": 7,
+              "totalMs": 2016,
+              "busyFraction": 0.007936507936507908
+            },
+            {
+              "processor": 8,
+              "totalMs": 2016,
+              "busyFraction": 0.007936507936507908
+            },
+            {
+              "processor": 9,
+              "totalMs": 2016,
+              "busyFraction": 0.015873015873015928
+            },
+            {
+              "processor": 10,
+              "totalMs": 2016,
+              "busyFraction": 0.015873015873015928
+            },
+            {
+              "processor": 11,
+              "totalMs": 2015,
+              "busyFraction": 0.007444168734491274
+            },
+            {
+              "processor": 12,
+              "totalMs": 2016,
+              "busyFraction": 0.007936507936507908
+            },
+            {
+              "processor": 13,
+              "totalMs": 2016,
+              "busyFraction": 0.007936507936507908
+            },
+            {
+              "processor": 14,
+              "totalMs": 2016,
+              "busyFraction": 0.015376984126984072
+            },
+            {
+              "processor": 15,
+              "totalMs": 2015,
+              "busyFraction": 0.007444168734491274
+            },
+            {
+              "processor": 16,
+              "totalMs": 2016,
+              "busyFraction": 0.038690476190476164
+            },
+            {
+              "processor": 17,
+              "totalMs": 2016,
+              "busyFraction": 0.06994047619047616
+            },
+            {
+              "processor": 18,
+              "totalMs": 2015,
+              "busyFraction": 0.08535980148883371
+            },
+            {
+              "processor": 19,
+              "totalMs": 2016,
+              "busyFraction": 0.07787698412698407
+            }
+          ],
+          "meanBusyFraction": 0.04136932877000033
+        }
+      ]
+    }
+  ],
+  "timing": [
+    {
+      "host": "node-bundled-json",
+      "mode": "throughput",
+      "workload": "combat",
+      "batchSize": 1,
+      "order": "forward",
+      "commands": 4096,
+      "calls": 4096,
+      "responseBytes": 380791,
+      "elapsedNs": {
+        "count": 25,
+        "median": 24561900,
+        "p95": 34976500,
+        "min": 23018000,
+        "max": 44647300
+      },
+      "v8HeapUsedDeltaBytes": {
+        "count": 25,
+        "median": 6294592,
+        "p95": 6418832,
+        "min": -28623880,
+        "max": 6724432
+      }
+    },
+    {
+      "host": "dotnet-embedded-json",
+      "mode": "throughput",
+      "workload": "combat",
+      "batchSize": 1,
+      "order": "forward",
+      "commands": 4096,
+      "calls": 4096,
+      "responseBytes": 380791,
+      "elapsedNs": {
+        "count": 25,
+        "median": 95875900,
+        "p95": 104834300,
+        "min": 92623800,
+        "max": 105795100
+      },
+      "managedAllocatedBytes": {
+        "count": 25,
+        "median": 1761448,
+        "p95": 1761448,
+        "min": 1761448,
+        "max": 1767064
+      },
+      "trackedNativeNewAllocations": {
+        "count": 25,
+        "median": 4099,
+        "p95": 8450,
+        "min": 4096,
+        "max": 8958
+      },
+      "trackedNativeLiveDeltaBytes": {
+        "count": 25,
+        "median": 8128,
+        "p95": 12224,
+        "min": 0,
+        "max": 12224
+      }
+    },
+    {
+      "host": "node-bundled-json",
+      "mode": "throughput",
+      "workload": "combat",
+      "batchSize": 16,
+      "order": "forward",
+      "commands": 4096,
+      "calls": 256,
+      "responseBytes": 292471,
+      "elapsedNs": {
+        "count": 25,
+        "median": 14403400,
+        "p95": 17695900,
+        "min": 13823300,
+        "max": 19696600
+      },
+      "v8HeapUsedDeltaBytes": {
+        "count": 25,
+        "median": 4866160,
+        "p95": 4881640,
+        "min": -30565032,
+        "max": 5090456
+      }
+    },
+    {
+      "host": "dotnet-embedded-json",
+      "mode": "throughput",
+      "workload": "combat",
+      "batchSize": 16,
+      "order": "forward",
+      "commands": 4096,
+      "calls": 256,
+      "responseBytes": 292471,
+      "elapsedNs": {
+        "count": 25,
+        "median": 62851600,
+        "p95": 74202700,
+        "min": 60846900,
+        "max": 74292600
+      },
+      "managedAllocatedBytes": {
+        "count": 25,
+        "median": 993192,
+        "p95": 993192,
+        "min": 993192,
+        "max": 993192
+      },
+      "trackedNativeNewAllocations": {
+        "count": 25,
+        "median": 2051,
+        "p95": 5937,
+        "min": 515,
+        "max": 6781
+      },
+      "trackedNativeLiveDeltaBytes": {
+        "count": 25,
+        "median": 8136,
+        "p95": 16240,
+        "min": 4040,
+        "max": 16264
+      }
+    },
+    {
+      "host": "node-bundled-json",
+      "mode": "throughput",
+      "workload": "combat",
+      "batchSize": 64,
+      "order": "forward",
+      "commands": 4096,
+      "calls": 64,
+      "responseBytes": 288055,
+      "elapsedNs": {
+        "count": 25,
+        "median": 14188000,
+        "p95": 18453000,
+        "min": 13404900,
+        "max": 20722600
+      },
+      "v8HeapUsedDeltaBytes": {
+        "count": 25,
+        "median": 4606056,
+        "p95": 4863880,
+        "min": -30557000,
+        "max": 5031376
+      }
+    },
+    {
+      "host": "dotnet-embedded-json",
+      "mode": "throughput",
+      "workload": "combat",
+      "batchSize": 64,
+      "order": "forward",
+      "commands": 4096,
+      "calls": 64,
+      "responseBytes": 288055,
+      "elapsedNs": {
+        "count": 25,
+        "median": 63348000,
+        "p95": 71318900,
+        "min": 57227800,
+        "max": 78341300
+      },
+      "managedAllocatedBytes": {
+        "count": 25,
+        "median": 955608,
+        "p95": 956280,
+        "min": 955608,
+        "max": 961992
+      },
+      "trackedNativeNewAllocations": {
+        "count": 25,
+        "median": 898,
+        "p95": 4992,
+        "min": 420,
+        "max": 5504
+      },
+      "trackedNativeLiveDeltaBytes": {
+        "count": 25,
+        "median": 12176,
+        "p95": 16264,
+        "min": 8080,
+        "max": 20304
+      }
+    },
+    {
+      "host": "node-bundled-json",
+      "mode": "throughput",
+      "workload": "inventory",
+      "batchSize": 1,
+      "order": "forward",
+      "commands": 320,
+      "calls": 320,
+      "responseBytes": 36387,
+      "elapsedNs": {
+        "count": 25,
+        "median": 33272100,
+        "p95": 37613400,
+        "min": 31829100,
+        "max": 40548300
+      },
+      "v8HeapUsedDeltaBytes": {
+        "count": 25,
+        "median": 9448464,
+        "p95": 9519864,
+        "min": -24144584,
+        "max": 9662144
+      }
+    },
+    {
+      "host": "dotnet-embedded-json",
+      "mode": "throughput",
+      "workload": "inventory",
+      "batchSize": 1,
+      "order": "forward",
+      "commands": 320,
+      "calls": 320,
+      "responseBytes": 36387,
+      "elapsedNs": {
+        "count": 25,
+        "median": 143946700,
+        "p95": 159593600,
+        "min": 128668900,
+        "max": 177975100
+      },
+      "managedAllocatedBytes": {
+        "count": 25,
+        "median": 164944,
+        "p95": 164944,
+        "min": 164944,
+        "max": 173448
+      },
+      "trackedNativeNewAllocations": {
+        "count": 25,
+        "median": 1349,
+        "p95": 90351,
+        "min": 822,
+        "max": 90351
+      },
+      "trackedNativeLiveDeltaBytes": {
+        "count": 25,
+        "median": 997808,
+        "p95": 1006160,
+        "min": -19067208,
+        "max": 1010232
+      }
+    },
+    {
+      "host": "node-bundled-json",
+      "mode": "throughput",
+      "workload": "inventory",
+      "batchSize": 16,
+      "order": "forward",
+      "commands": 320,
+      "calls": 20,
+      "responseBytes": 29487,
+      "elapsedNs": {
+        "count": 25,
+        "median": 34869100,
+        "p95": 45672400,
+        "min": 31150900,
+        "max": 47230900
+      },
+      "v8HeapUsedDeltaBytes": {
+        "count": 25,
+        "median": 9224584,
+        "p95": 9350344,
+        "min": -24254560,
+        "max": 9356872
+      }
+    },
+    {
+      "host": "dotnet-embedded-json",
+      "mode": "throughput",
+      "workload": "inventory",
+      "batchSize": 16,
+      "order": "forward",
+      "commands": 320,
+      "calls": 20,
+      "responseBytes": 29487,
+      "elapsedNs": {
+        "count": 25,
+        "median": 134704500,
+        "p95": 152338300,
+        "min": 128422300,
+        "max": 152553800
+      },
+      "managedAllocatedBytes": {
+        "count": 25,
+        "median": 105104,
+        "p95": 105104,
+        "min": 105104,
+        "max": 117136
+      },
+      "trackedNativeNewAllocations": {
+        "count": 25,
+        "median": 695,
+        "p95": 89871,
+        "min": 522,
+        "max": 89890
+      },
+      "trackedNativeLiveDeltaBytes": {
+        "count": 25,
+        "median": 998208,
+        "p95": 1010232,
+        "min": -19095488,
+        "max": 1010392
+      }
+    },
+    {
+      "host": "node-bundled-json",
+      "mode": "throughput",
+      "workload": "inventory",
+      "batchSize": 64,
+      "order": "forward",
+      "commands": 320,
+      "calls": 5,
+      "responseBytes": 29142,
+      "elapsedNs": {
+        "count": 25,
+        "median": 35204400,
+        "p95": 43931600,
+        "min": 31069800,
+        "max": 44429800
+      },
+      "v8HeapUsedDeltaBytes": {
+        "count": 25,
+        "median": 9252688,
+        "p95": 9359000,
+        "min": -24275600,
+        "max": 9386168
+      }
+    },
+    {
+      "host": "dotnet-embedded-json",
+      "mode": "throughput",
+      "workload": "inventory",
+      "batchSize": 64,
+      "order": "forward",
+      "commands": 320,
+      "calls": 5,
+      "responseBytes": 29142,
+      "elapsedNs": {
+        "count": 25,
+        "median": 122173200,
+        "p95": 150539900,
+        "min": 116992500,
+        "max": 151334000
+      },
+      "managedAllocatedBytes": {
+        "count": 25,
+        "median": 102152,
+        "p95": 102152,
+        "min": 102152,
+        "max": 102152
+      },
+      "trackedNativeNewAllocations": {
+        "count": 25,
+        "median": 726,
+        "p95": 89869,
+        "min": 481,
+        "max": 89877
+      },
+      "trackedNativeLiveDeltaBytes": {
+        "count": 25,
+        "median": 1010416,
+        "p95": 1018312,
+        "min": -19022480,
+        "max": 1018504
+      }
+    },
+    {
+      "host": "node-bundled-json",
+      "mode": "checkpoint",
+      "order": "forward",
+      "commands": null,
+      "calls": 96,
+      "responseBytes": 61184,
+      "elapsedNs": {
+        "count": 25,
+        "median": 33408200,
+        "p95": 34450200,
+        "min": 32646000,
+        "max": 34560900
+      },
+      "v8HeapUsedDeltaBytes": {
+        "count": 25,
+        "median": 11201808,
+        "p95": 12537872,
+        "min": -21026560,
+        "max": 12550552
+      }
+    },
+    {
+      "host": "dotnet-embedded-json",
+      "mode": "checkpoint",
+      "order": "forward",
+      "commands": null,
+      "calls": 96,
+      "responseBytes": 61184,
+      "elapsedNs": {
+        "count": 25,
+        "median": 39150900,
+        "p95": 63170900,
+        "min": 37706400,
+        "max": 70148100
+      },
+      "managedAllocatedBytes": {
+        "count": 25,
+        "median": 283392,
+        "p95": 284928,
+        "min": 283392,
+        "max": 284928
+      },
+      "trackedNativeNewAllocations": {
+        "count": 25,
+        "median": 833,
+        "p95": 1011,
+        "min": 675,
+        "max": 1052
+      },
+      "trackedNativeLiveDeltaBytes": {
+        "count": 25,
+        "median": 3521240,
+        "p95": 3533480,
+        "min": -18826744,
+        "max": 3533480
+      }
+    },
+    {
+      "host": "dotnet-embedded-json",
+      "mode": "checkpoint",
+      "order": "reverse",
+      "commands": null,
+      "calls": 96,
+      "responseBytes": 61184,
+      "elapsedNs": {
+        "count": 25,
+        "median": 38585700,
+        "p95": 62895300,
+        "min": 37889500,
+        "max": 73117800
+      },
+      "managedAllocatedBytes": {
+        "count": 25,
+        "median": 283392,
+        "p95": 284928,
+        "min": 283392,
+        "max": 308016
+      },
+      "trackedNativeNewAllocations": {
+        "count": 25,
+        "median": 833,
+        "p95": 1011,
+        "min": 675,
+        "max": 1052
+      },
+      "trackedNativeLiveDeltaBytes": {
+        "count": 25,
+        "median": 3521240,
+        "p95": 3533480,
+        "min": -18826744,
+        "max": 3533480
+      }
+    },
+    {
+      "host": "node-bundled-json",
+      "mode": "checkpoint",
+      "order": "reverse",
+      "commands": null,
+      "calls": 96,
+      "responseBytes": 61184,
+      "elapsedNs": {
+        "count": 25,
+        "median": 33851700,
+        "p95": 35821600,
+        "min": 32790800,
+        "max": 37671400
+      },
+      "v8HeapUsedDeltaBytes": {
+        "count": 25,
+        "median": 11227224,
+        "p95": 11969448,
+        "min": -21298976,
+        "max": 12550552
+      }
+    },
+    {
+      "host": "dotnet-embedded-json",
+      "mode": "throughput",
+      "workload": "inventory",
+      "batchSize": 64,
+      "order": "reverse",
+      "commands": 320,
+      "calls": 5,
+      "responseBytes": 29142,
+      "elapsedNs": {
+        "count": 25,
+        "median": 125335300,
+        "p95": 148119700,
+        "min": 119932700,
+        "max": 162016100
+      },
+      "managedAllocatedBytes": {
+        "count": 25,
+        "median": 102152,
+        "p95": 102152,
+        "min": 102152,
+        "max": 102152
+      },
+      "trackedNativeNewAllocations": {
+        "count": 25,
+        "median": 726,
+        "p95": 89869,
+        "min": 481,
+        "max": 89877
+      },
+      "trackedNativeLiveDeltaBytes": {
+        "count": 25,
+        "median": 1010416,
+        "p95": 1018312,
+        "min": -19022480,
+        "max": 1018504
+      }
+    },
+    {
+      "host": "node-bundled-json",
+      "mode": "throughput",
+      "workload": "inventory",
+      "batchSize": 64,
+      "order": "reverse",
+      "commands": 320,
+      "calls": 5,
+      "responseBytes": 29142,
+      "elapsedNs": {
+        "count": 25,
+        "median": 31076700,
+        "p95": 36730200,
+        "min": 30236600,
+        "max": 37269700
+      },
+      "v8HeapUsedDeltaBytes": {
+        "count": 25,
+        "median": 9241000,
+        "p95": 9342704,
+        "min": -24315120,
+        "max": 9424688
+      }
+    },
+    {
+      "host": "dotnet-embedded-json",
+      "mode": "throughput",
+      "workload": "inventory",
+      "batchSize": 16,
+      "order": "reverse",
+      "commands": 320,
+      "calls": 20,
+      "responseBytes": 29487,
+      "elapsedNs": {
+        "count": 25,
+        "median": 121050400,
+        "p95": 145269700,
+        "min": 118567200,
+        "max": 145508900
+      },
+      "managedAllocatedBytes": {
+        "count": 25,
+        "median": 105104,
+        "p95": 105104,
+        "min": 105104,
+        "max": 109272
+      },
+      "trackedNativeNewAllocations": {
+        "count": 25,
+        "median": 695,
+        "p95": 89871,
+        "min": 522,
+        "max": 89890
+      },
+      "trackedNativeLiveDeltaBytes": {
+        "count": 25,
+        "median": 998208,
+        "p95": 1010232,
+        "min": -19095488,
+        "max": 1010392
+      }
+    },
+    {
+      "host": "node-bundled-json",
+      "mode": "throughput",
+      "workload": "inventory",
+      "batchSize": 16,
+      "order": "reverse",
+      "commands": 320,
+      "calls": 20,
+      "responseBytes": 29487,
+      "elapsedNs": {
+        "count": 25,
+        "median": 30897400,
+        "p95": 33219500,
+        "min": 29769500,
+        "max": 35905600
+      },
+      "v8HeapUsedDeltaBytes": {
+        "count": 25,
+        "median": 9232312,
+        "p95": 9415480,
+        "min": -24188840,
+        "max": 9449752
+      }
+    },
+    {
+      "host": "dotnet-embedded-json",
+      "mode": "throughput",
+      "workload": "inventory",
+      "batchSize": 1,
+      "order": "reverse",
+      "commands": 320,
+      "calls": 320,
+      "responseBytes": 36387,
+      "elapsedNs": {
+        "count": 25,
+        "median": 129260500,
+        "p95": 145118300,
+        "min": 122837500,
+        "max": 151032200
+      },
+      "managedAllocatedBytes": {
+        "count": 25,
+        "median": 164944,
+        "p95": 164944,
+        "min": 164944,
+        "max": 167328
+      },
+      "trackedNativeNewAllocations": {
+        "count": 25,
+        "median": 1349,
+        "p95": 90351,
+        "min": 822,
+        "max": 90351
+      },
+      "trackedNativeLiveDeltaBytes": {
+        "count": 25,
+        "median": 997808,
+        "p95": 1006160,
+        "min": -19067208,
+        "max": 1010232
+      }
+    },
+    {
+      "host": "node-bundled-json",
+      "mode": "throughput",
+      "workload": "inventory",
+      "batchSize": 1,
+      "order": "reverse",
+      "commands": 320,
+      "calls": 320,
+      "responseBytes": 36387,
+      "elapsedNs": {
+        "count": 25,
+        "median": 31323600,
+        "p95": 35214000,
+        "min": 30595800,
+        "max": 35400200
+      },
+      "v8HeapUsedDeltaBytes": {
+        "count": 25,
+        "median": 9462080,
+        "p95": 9555400,
+        "min": -24037672,
+        "max": 9677888
+      }
+    },
+    {
+      "host": "dotnet-embedded-json",
+      "mode": "throughput",
+      "workload": "combat",
+      "batchSize": 64,
+      "order": "reverse",
+      "commands": 4096,
+      "calls": 64,
+      "responseBytes": 288055,
+      "elapsedNs": {
+        "count": 25,
+        "median": 58123900,
+        "p95": 63090200,
+        "min": 57224600,
+        "max": 64564700
+      },
+      "managedAllocatedBytes": {
+        "count": 25,
+        "median": 955608,
+        "p95": 956280,
+        "min": 955608,
+        "max": 958584
+      },
+      "trackedNativeNewAllocations": {
+        "count": 25,
+        "median": 898,
+        "p95": 4992,
+        "min": 420,
+        "max": 5504
+      },
+      "trackedNativeLiveDeltaBytes": {
+        "count": 25,
+        "median": 12176,
+        "p95": 16264,
+        "min": 8080,
+        "max": 20304
+      }
+    },
+    {
+      "host": "node-bundled-json",
+      "mode": "throughput",
+      "workload": "combat",
+      "batchSize": 64,
+      "order": "reverse",
+      "commands": 4096,
+      "calls": 64,
+      "responseBytes": 288055,
+      "elapsedNs": {
+        "count": 25,
+        "median": 13447100,
+        "p95": 14192800,
+        "min": 12912400,
+        "max": 14448700
+      },
+      "v8HeapUsedDeltaBytes": {
+        "count": 25,
+        "median": 4610720,
+        "p95": 4856208,
+        "min": -30522408,
+        "max": 5038376
+      }
+    },
+    {
+      "host": "dotnet-embedded-json",
+      "mode": "throughput",
+      "workload": "combat",
+      "batchSize": 16,
+      "order": "reverse",
+      "commands": 4096,
+      "calls": 256,
+      "responseBytes": 292471,
+      "elapsedNs": {
+        "count": 25,
+        "median": 62826800,
+        "p95": 66276500,
+        "min": 61028500,
+        "max": 69774700
+      },
+      "managedAllocatedBytes": {
+        "count": 25,
+        "median": 993192,
+        "p95": 993192,
+        "min": 993192,
+        "max": 993192
+      },
+      "trackedNativeNewAllocations": {
+        "count": 25,
+        "median": 2051,
+        "p95": 5937,
+        "min": 515,
+        "max": 6781
+      },
+      "trackedNativeLiveDeltaBytes": {
+        "count": 25,
+        "median": 8136,
+        "p95": 16240,
+        "min": 4040,
+        "max": 16264
+      }
+    },
+    {
+      "host": "node-bundled-json",
+      "mode": "throughput",
+      "workload": "combat",
+      "batchSize": 16,
+      "order": "reverse",
+      "commands": 4096,
+      "calls": 256,
+      "responseBytes": 292471,
+      "elapsedNs": {
+        "count": 25,
+        "median": 13989600,
+        "p95": 15238000,
+        "min": 13507300,
+        "max": 15678800
+      },
+      "v8HeapUsedDeltaBytes": {
+        "count": 25,
+        "median": 4866160,
+        "p95": 4881640,
+        "min": -30452336,
+        "max": 5090912
+      }
+    },
+    {
+      "host": "dotnet-embedded-json",
+      "mode": "throughput",
+      "workload": "combat",
+      "batchSize": 1,
+      "order": "reverse",
+      "commands": 4096,
+      "calls": 4096,
+      "responseBytes": 380791,
+      "elapsedNs": {
+        "count": 25,
+        "median": 95179500,
+        "p95": 97497200,
+        "min": 94047400,
+        "max": 98013700
+      },
+      "managedAllocatedBytes": {
+        "count": 25,
+        "median": 1761448,
+        "p95": 1761448,
+        "min": 1761448,
+        "max": 1767144
+      },
+      "trackedNativeNewAllocations": {
+        "count": 25,
+        "median": 4099,
+        "p95": 8450,
+        "min": 4096,
+        "max": 8958
+      },
+      "trackedNativeLiveDeltaBytes": {
+        "count": 25,
+        "median": 8128,
+        "p95": 12224,
+        "min": 0,
+        "max": 12224
+      }
+    },
+    {
+      "host": "node-bundled-json",
+      "mode": "throughput",
+      "workload": "combat",
+      "batchSize": 1,
+      "order": "reverse",
+      "commands": 4096,
+      "calls": 4096,
+      "responseBytes": 380791,
+      "elapsedNs": {
+        "count": 25,
+        "median": 24606700,
+        "p95": 25425400,
+        "min": 24032700,
+        "max": 25539400
+      },
+      "v8HeapUsedDeltaBytes": {
+        "count": 25,
+        "median": 6294424,
+        "p95": 6419376,
+        "min": -28631928,
+        "max": 6725000
+      }
+    }
+  ],
+  "memory": [
+    {
+      "host": "node-bundled-json",
+      "initializationNs": {
+        "count": 7,
+        "median": 350909700,
+        "p95": 362595400,
+        "min": 345356200,
+        "max": 362595400
+      },
+      "processReadyLatencyNs": {
+        "count": 7,
+        "median": 68963500,
+        "p95": 69923400,
+        "min": 68035300,
+        "max": 69923400
+      },
+      "stages": [
+        {
+          "stage": "worker-ready",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 24641536,
+            "p95": 24846336,
+            "min": 24588288,
+            "max": 24846336
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 45785088,
+            "p95": 45948928,
+            "min": 45740032,
+            "max": 45948928
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 45789184,
+            "p95": 45953024,
+            "min": 45744128,
+            "max": 45953024
+          }
+        },
+        {
+          "stage": "inputs-loaded",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 52928512,
+            "p95": 53002240,
+            "min": 52670464,
+            "max": 53002240
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 71856128,
+            "p95": 72105984,
+            "min": 71778304,
+            "max": 72105984
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 84553728,
+            "p95": 84779008,
+            "min": 84471808,
+            "max": 84779008
+          }
+        },
+        {
+          "stage": "content-loaded",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 145342464,
+            "p95": 146210816,
+            "min": 144400384,
+            "max": 146210816
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 130002944,
+            "p95": 130392064,
+            "min": 129646592,
+            "max": 130392064
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 131534848,
+            "p95": 131837952,
+            "min": 131416064,
+            "max": 131837952
+          }
+        },
+        {
+          "stage": "content-after-input-release-gc",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 119484416,
+            "p95": 120770560,
+            "min": 118423552,
+            "max": 120770560
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 105111552,
+            "p95": 105357312,
+            "min": 104464384,
+            "max": 105357312
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 131534848,
+            "p95": 131837952,
+            "min": 131416064,
+            "max": 131837952
+          }
+        },
+        {
+          "stage": "one-session",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 119488512,
+            "p95": 120741888,
+            "min": 118128640,
+            "max": 120741888
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 105062400,
+            "p95": 105390080,
+            "min": 104558592,
+            "max": 105390080
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 131534848,
+            "p95": 131837952,
+            "min": 131416064,
+            "max": 131837952
+          }
+        },
+        {
+          "stage": "eight-sessions",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 119558144,
+            "p95": 120741888,
+            "min": 118792192,
+            "max": 120741888
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 105390080,
+            "p95": 105848832,
+            "min": 104865792,
+            "max": 105848832
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 131534848,
+            "p95": 131837952,
+            "min": 131416064,
+            "max": 131837952
+          }
+        },
+        {
+          "stage": "checkpoint-retained",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 119828480,
+            "p95": 121012224,
+            "min": 119062528,
+            "max": 121012224
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 105414656,
+            "p95": 105877504,
+            "min": 104890368,
+            "max": 105877504
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 131534848,
+            "p95": 131837952,
+            "min": 131416064,
+            "max": 131837952
+          }
+        },
+        {
+          "stage": "disposed",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 119828480,
+            "p95": 121012224,
+            "min": 119062528,
+            "max": 121012224
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 105426944,
+            "p95": 105902080,
+            "min": 104910848,
+            "max": 105902080
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 131534848,
+            "p95": 131837952,
+            "min": 131416064,
+            "max": 131837952
+          }
+        },
+        {
+          "stage": "after-explicit-gc",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 118599680,
+            "p95": 120745984,
+            "min": 117465088,
+            "max": 120745984
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 104943616,
+            "p95": 105668608,
+            "min": 104050688,
+            "max": 105668608
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 131534848,
+            "p95": 131837952,
+            "min": 131416064,
+            "max": 131837952
+          }
+        }
+      ]
+    },
+    {
+      "host": "dotnet-embedded-json",
+      "initializationNs": {
+        "count": 7,
+        "median": 723037200,
+        "p95": 732673400,
+        "min": 716980700,
+        "max": 732673400
+      },
+      "processReadyLatencyNs": {
+        "count": 7,
+        "median": 91859800,
+        "p95": 92236300,
+        "min": 91259500,
+        "max": 92236300
+      },
+      "stages": [
+        {
+          "stage": "worker-ready",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 7163904,
+            "p95": 7335936,
+            "min": 7139328,
+            "max": 7335936
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 25223168,
+            "p95": 25329664,
+            "min": 25202688,
+            "max": 25329664
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 25227264,
+            "p95": 25333760,
+            "min": 25206784,
+            "max": 25333760
+          }
+        },
+        {
+          "stage": "inputs-loaded",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 20840448,
+            "p95": 21028864,
+            "min": 20766720,
+            "max": 21028864
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 39055360,
+            "p95": 39141376,
+            "min": 39018496,
+            "max": 39141376
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 39059456,
+            "p95": 39145472,
+            "min": 39022592,
+            "max": 39145472
+          }
+        },
+        {
+          "stage": "content-loaded",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 87801856,
+            "p95": 87875584,
+            "min": 87703552,
+            "max": 87875584
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 106278912,
+            "p95": 106385408,
+            "min": 106205184,
+            "max": 106385408
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 110456832,
+            "p95": 110575616,
+            "min": 110362624,
+            "max": 110575616
+          }
+        },
+        {
+          "stage": "content-after-input-release-gc",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 76222464,
+            "p95": 76292096,
+            "min": 76124160,
+            "max": 76292096
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 94400512,
+            "p95": 94502912,
+            "min": 94322688,
+            "max": 94502912
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 110456832,
+            "p95": 110575616,
+            "min": 110362624,
+            "max": 110575616
+          }
+        },
+        {
+          "stage": "one-session",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 76464128,
+            "p95": 76525568,
+            "min": 76423168,
+            "max": 76525568
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 94732288,
+            "p95": 94842880,
+            "min": 94670848,
+            "max": 94842880
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 110456832,
+            "p95": 110575616,
+            "min": 110362624,
+            "max": 110575616
+          }
+        },
+        {
+          "stage": "eight-sessions",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 76931072,
+            "p95": 77037568,
+            "min": 76652544,
+            "max": 77037568
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 95141888,
+            "p95": 95252480,
+            "min": 94986240,
+            "max": 95252480
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 110456832,
+            "p95": 110575616,
+            "min": 110362624,
+            "max": 110575616
+          }
+        },
+        {
+          "stage": "checkpoint-retained",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 76931072,
+            "p95": 77041664,
+            "min": 76652544,
+            "max": 77041664
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 95289344,
+            "p95": 95408128,
+            "min": 95129600,
+            "max": 95408128
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 110456832,
+            "p95": 110575616,
+            "min": 110362624,
+            "max": 110575616
+          }
+        },
+        {
+          "stage": "disposed",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 11231232,
+            "p95": 11825152,
+            "min": 10375168,
+            "max": 11825152
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 30330880,
+            "p95": 30674944,
+            "min": 29810688,
+            "max": 30674944
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 110456832,
+            "p95": 110575616,
+            "min": 110362624,
+            "max": 110575616
+          }
+        },
+        {
+          "stage": "after-explicit-gc",
+          "privateCommitBytes": {
+            "count": 7,
+            "median": 10387456,
+            "p95": 10981376,
+            "min": 9527296,
+            "max": 10981376
+          },
+          "workingSetBytes": {
+            "count": 7,
+            "median": 29442048,
+            "p95": 29786112,
+            "min": 28921856,
+            "max": 29786112
+          },
+          "peakWorkingSetBytes": {
+            "count": 7,
+            "median": 110456832,
+            "p95": 110575616,
+            "min": 110362624,
+            "max": 110575616
+          }
+        }
+      ]
+    }
+  ],
+  "measuredSamples": 700,
+  "warmupSamples": 224,
+  "memoryProcesses": 14,
+  "functionalCases": 16,
+  "priorMeasurement": {
+    "reportSha256": "c58d4543ce2da5af6fa368d68262256028cadd36a84153a44602accc73c028b0",
+    "measuredSamples": 700,
+    "warmupSamples": 224,
+    "memoryProcesses": 14,
+    "reasonRetained": "All samples retained. A final run followed stronger request-fixture and native-source seals, not a selection based on favorable timings. The earlier exact driver is in the raw archive.",
+    "ambientCpu": [
+      {
+        "order": "forward",
+        "samples": [
+          {
+            "processors": [
+              {
+                "processor": 0,
+                "totalMs": 2000,
+                "busyFraction": 0.23450000000000004
+              },
+              {
+                "processor": 1,
+                "totalMs": 2015,
+                "busyFraction": 0.10818858560794042
+              },
+              {
+                "processor": 2,
+                "totalMs": 2015,
+                "busyFraction": 0.13151364764267992
+              },
+              {
+                "processor": 3,
+                "totalMs": 1999,
+                "busyFraction": 0.05402701350675343
+              },
+              {
+                "processor": 4,
+                "totalMs": 2016,
+                "busyFraction": 0.06994047619047616
+              },
+              {
+                "processor": 5,
+                "totalMs": 2031,
+                "busyFraction": 0.0768094534711965
+              },
+              {
+                "processor": 6,
+                "totalMs": 1999,
+                "busyFraction": 0.04652326163081544
+              },
+              {
+                "processor": 7,
+                "totalMs": 1999,
+                "busyFraction": 0.06203101550775392
+              },
+              {
+                "processor": 8,
+                "totalMs": 2015,
+                "busyFraction": 0.05409429280397027
+              },
+              {
+                "processor": 9,
+                "totalMs": 2000,
+                "busyFraction": 0.0625
+              },
+              {
+                "processor": 10,
+                "totalMs": 1999,
+                "busyFraction": 0.0700350175087544
+              },
+              {
+                "processor": 11,
+                "totalMs": 2015,
+                "busyFraction": 0.07741935483870965
+              },
+              {
+                "processor": 12,
+                "totalMs": 1999,
+                "busyFraction": 0.04652326163081544
+              },
+              {
+                "processor": 13,
+                "totalMs": 1999,
+                "busyFraction": 0.04652326163081544
+              },
+              {
+                "processor": 14,
+                "totalMs": 2001,
+                "busyFraction": 0.07846076961519244
+              },
+              {
+                "processor": 15,
+                "totalMs": 2000,
+                "busyFraction": 0.04700000000000004
+              },
+              {
+                "processor": 16,
+                "totalMs": 2000,
+                "busyFraction": 0.125
+              },
+              {
+                "processor": 17,
+                "totalMs": 2000,
+                "busyFraction": 0.15600000000000003
+              },
+              {
+                "processor": 18,
+                "totalMs": 2030,
+                "busyFraction": 0.26108374384236455
+              },
+              {
+                "processor": 19,
+                "totalMs": 2000,
+                "busyFraction": 0.10150000000000003
+              }
+            ],
+            "meanBusyFraction": 0.0954836577714119
+          },
+          {
+            "processors": [
+              {
+                "processor": 0,
+                "totalMs": 2016,
+                "busyFraction": 0.47271825396825395
+              },
+              {
+                "processor": 1,
+                "totalMs": 2032,
+                "busyFraction": 0.20029527559055116
+              },
+              {
+                "processor": 2,
+                "totalMs": 2015,
+                "busyFraction": 0.2014888337468983
+              },
+              {
+                "processor": 3,
+                "totalMs": 2017,
+                "busyFraction": 0.039167079821517126
+              },
+              {
+                "processor": 4,
+                "totalMs": 2016,
+                "busyFraction": 0.06994047619047616
+              },
+              {
+                "processor": 5,
+                "totalMs": 2015,
+                "busyFraction": 0.01538461538461533
+              },
+              {
+                "processor": 6,
+                "totalMs": 2017,
+                "busyFraction": 0.01586514625681701
+              },
+              {
+                "processor": 7,
+                "totalMs": 2016,
+                "busyFraction": 0.02331349206349209
+              },
+              {
+                "processor": 8,
+                "totalMs": 2015,
+                "busyFraction": 0.007444168734491274
+              },
+              {
+                "processor": 9,
+                "totalMs": 2015,
+                "busyFraction": 0.01538461538461533
+              },
+              {
+                "processor": 10,
+                "totalMs": 2016,
+                "busyFraction": 0.03125
+              },
+              {
+                "processor": 11,
+                "totalMs": 2016,
+                "busyFraction": 0.007936507936507908
+              },
+              {
+                "processor": 12,
+                "totalMs": 2017,
+                "busyFraction": 0.031234506693108566
+              },
+              {
+                "processor": 13,
+                "totalMs": 2017,
+                "busyFraction": 0.031234506693108566
+              },
+              {
+                "processor": 14,
+                "totalMs": 2016,
+                "busyFraction": 0.03125
+              },
+              {
+                "processor": 15,
+                "totalMs": 2014,
+                "busyFraction": 0.030287984111221466
+              },
+              {
+                "processor": 16,
+                "totalMs": 2030,
+                "busyFraction": 0.16108374384236457
+              },
+              {
+                "processor": 17,
+                "totalMs": 2016,
+                "busyFraction": 0.09325396825396826
+              },
+              {
+                "processor": 18,
+                "totalMs": 2016,
+                "busyFraction": 0.21726190476190477
+              },
+              {
+                "processor": 19,
+                "totalMs": 2016,
+                "busyFraction": 0.12450396825396826
+              }
+            ],
+            "meanBusyFraction": 0.09101495238439401
+          },
+          {
+            "processors": [
+              {
+                "processor": 0,
+                "totalMs": 2016,
+                "busyFraction": 0.1552579365079365
+              },
+              {
+                "processor": 1,
+                "totalMs": 2014,
+                "busyFraction": 0.26315789473684215
+              },
+              {
+                "processor": 2,
+                "totalMs": 2015,
+                "busyFraction": 0.05409429280397027
+              },
+              {
+                "processor": 3,
+                "totalMs": 2014,
+                "busyFraction": 0.046176762661370385
+              },
+              {
+                "processor": 4,
+                "totalMs": 2030,
+                "busyFraction": 0.06108374384236448
+              },
+              {
+                "processor": 5,
+                "totalMs": 2047,
+                "busyFraction": 0.06106497313141179
+              },
+              {
+                "processor": 6,
+                "totalMs": 2015,
+                "busyFraction": 0.0694789081885856
+              },
+              {
+                "processor": 7,
+                "totalMs": 2033,
+                "busyFraction": 0.04672897196261683
+              },
+              {
+                "processor": 8,
+                "totalMs": 2032,
+                "busyFraction": 0.038385826771653586
+              },
+              {
+                "processor": 9,
+                "totalMs": 2016,
+                "busyFraction": 0.030753968253968256
+              },
+              {
+                "processor": 10,
+                "totalMs": 2015,
+                "busyFraction": 0.0461538461538461
+              },
+              {
+                "processor": 11,
+                "totalMs": 2016,
+                "busyFraction": 0.038690476190476164
+              },
+              {
+                "processor": 12,
+                "totalMs": 2015,
+                "busyFraction": 0.04665012406947888
+              },
+              {
+                "processor": 13,
+                "totalMs": 2015,
+                "busyFraction": 0.03870967741935483
+              },
+              {
+                "processor": 14,
+                "totalMs": 2015,
+                "busyFraction": 0.038213399503722045
+              },
+              {
+                "processor": 15,
+                "totalMs": 2032,
+                "busyFraction": 0.05413385826771655
+              },
+              {
+                "processor": 16,
+                "totalMs": 2016,
+                "busyFraction": 0.10863095238095233
+              },
+              {
+                "processor": 17,
+                "totalMs": 2016,
+                "busyFraction": 0.08531746031746035
+              },
+              {
+                "processor": 18,
+                "totalMs": 2015,
+                "busyFraction": 0.13945409429280398
+              },
+              {
+                "processor": 19,
+                "totalMs": 2015,
+                "busyFraction": 0.10818858560794042
+              }
+            ],
+            "meanBusyFraction": 0.07651628765322357
+          }
+        ]
+      },
+      {
+        "order": "reverse",
+        "samples": [
+          {
+            "processors": [
+              {
+                "processor": 0,
+                "totalMs": 2015,
+                "busyFraction": 0.286848635235732
+              },
+              {
+                "processor": 1,
+                "totalMs": 2032,
+                "busyFraction": 0.06200787401574803
+              },
+              {
+                "processor": 2,
+                "totalMs": 2016,
+                "busyFraction": 0.07787698412698407
+              },
+              {
+                "processor": 3,
+                "totalMs": 2016,
+                "busyFraction": 0.02331349206349209
+              },
+              {
+                "processor": 4,
+                "totalMs": 2015,
+                "busyFraction": 0.03076923076923077
+              },
+              {
+                "processor": 5,
+                "totalMs": 2015,
+                "busyFraction": 0.022828784119106715
+              },
+              {
+                "processor": 6,
+                "totalMs": 2015,
+                "busyFraction": 0.007444168734491274
+              },
+              {
+                "processor": 7,
+                "totalMs": 2016,
+                "busyFraction": 0.007936507936507908
+              },
+              {
+                "processor": 8,
+                "totalMs": 2015,
+                "busyFraction": 0.01538461538461533
+              },
+              {
+                "processor": 9,
+                "totalMs": 2031,
+                "busyFraction": 0.023141309699655332
+              },
+              {
+                "processor": 10,
+                "totalMs": 2016,
+                "busyFraction": 0.007936507936507908
+              },
+              {
+                "processor": 11,
+                "totalMs": 2016,
+                "busyFraction": 0.015873015873015928
+              },
+              {
+                "processor": 12,
+                "totalMs": 2016,
+                "busyFraction": 0.03125
+              },
+              {
+                "processor": 13,
+                "totalMs": 2016,
+                "busyFraction": 0.02331349206349209
+              },
+              {
+                "processor": 14,
+                "totalMs": 2016,
+                "busyFraction": 0.007936507936507908
+              },
+              {
+                "processor": 15,
+                "totalMs": 2032,
+                "busyFraction": 0.02312992125984248
+              },
+              {
+                "processor": 16,
+                "totalMs": 2016,
+                "busyFraction": 0.12400793650793651
+              },
+              {
+                "processor": 17,
+                "totalMs": 2030,
+                "busyFraction": 0.14581280788177342
+              },
+              {
+                "processor": 18,
+                "totalMs": 2016,
+                "busyFraction": 0.07738095238095233
+              },
+              {
+                "processor": 19,
+                "totalMs": 2030,
+                "busyFraction": 0.15369458128078817
+              }
+            ],
+            "meanBusyFraction": 0.05839436626031902
+          },
+          {
+            "processors": [
+              {
+                "processor": 0,
+                "totalMs": 2000,
+                "busyFraction": 0.1875
+              },
+              {
+                "processor": 1,
+                "totalMs": 1999,
+                "busyFraction": 0.11705852926463234
+              },
+              {
+                "processor": 2,
+                "totalMs": 2000,
+                "busyFraction": 0.0625
+              },
+              {
+                "processor": 3,
+                "totalMs": 2000,
+                "busyFraction": 0.039000000000000035
+              },
+              {
+                "processor": 4,
+                "totalMs": 2001,
+                "busyFraction": 0.03948025987006498
+              },
+              {
+                "processor": 5,
+                "totalMs": 2016,
+                "busyFraction": 0.03918650793650791
+              },
+              {
+                "processor": 6,
+                "totalMs": 2015,
+                "busyFraction": 0.03076923076923077
+              },
+              {
+                "processor": 7,
+                "totalMs": 2001,
+                "busyFraction": 0.015992003998001048
+              },
+              {
+                "processor": 8,
+                "totalMs": 2001,
+                "busyFraction": 0.015992003998001048
+              },
+              {
+                "processor": 9,
+                "totalMs": 2001,
+                "busyFraction": 0.02398800599700146
+              },
+              {
+                "processor": 10,
+                "totalMs": 2000,
+                "busyFraction": 0.015499999999999958
+              },
+              {
+                "processor": 11,
+                "totalMs": 2000,
+                "busyFraction": 0.023499999999999965
+              },
+              {
+                "processor": 12,
+                "totalMs": 2000,
+                "busyFraction": 0.015499999999999958
+              },
+              {
+                "processor": 13,
+                "totalMs": 1999,
+                "busyFraction": 0.03101550775387696
+              },
+              {
+                "processor": 14,
+                "totalMs": 2000,
+                "busyFraction": 0.031000000000000028
+              },
+              {
+                "processor": 15,
+                "totalMs": 1999,
+                "busyFraction": 0.01550775387693848
+              },
+              {
+                "processor": 16,
+                "totalMs": 2016,
+                "busyFraction": 0.09325396825396826
+              },
+              {
+                "processor": 17,
+                "totalMs": 2001,
+                "busyFraction": 0.1329335332333833
+              },
+              {
+                "processor": 18,
+                "totalMs": 2000,
+                "busyFraction": 0.07050000000000001
+              },
+              {
+                "processor": 19,
+                "totalMs": 2001,
+                "busyFraction": 0.21889055472263863
+              }
+            ],
+            "meanBusyFraction": 0.06095339298371225
+          },
+          {
+            "processors": [
+              {
+                "processor": 0,
+                "totalMs": 2015,
+                "busyFraction": 0.2635235732009925
+              },
+              {
+                "processor": 1,
+                "totalMs": 2048,
+                "busyFraction": 0.12255859375
+              },
+              {
+                "processor": 2,
+                "totalMs": 2016,
+                "busyFraction": 0.22470238095238093
+              },
+              {
+                "processor": 3,
+                "totalMs": 2016,
+                "busyFraction": 0.03125
+              },
+              {
+                "processor": 4,
+                "totalMs": 2015,
+                "busyFraction": 0.0694789081885856
+              },
+              {
+                "processor": 5,
+                "totalMs": 2030,
+                "busyFraction": 0.08423645320197048
+              },
+              {
+                "processor": 6,
+                "totalMs": 2017,
+                "busyFraction": 0.1011403073872087
+              },
+              {
+                "processor": 7,
+                "totalMs": 2016,
+                "busyFraction": 0.038690476190476164
+              },
+              {
+                "processor": 8,
+                "totalMs": 2015,
+                "busyFraction": 0.0928039702233251
+              },
+              {
+                "processor": 9,
+                "totalMs": 2029,
+                "busyFraction": 0.05273533760473137
+              },
+              {
+                "processor": 10,
+                "totalMs": 2015,
+                "busyFraction": 0.07741935483870965
+              },
+              {
+                "processor": 11,
+                "totalMs": 2016,
+                "busyFraction": 0.04662698412698407
+              },
+              {
+                "processor": 12,
+                "totalMs": 2032,
+                "busyFraction": 0.09301181102362199
+              },
+              {
+                "processor": 13,
+                "totalMs": 2016,
+                "busyFraction": 0.062003968253968256
+              },
+              {
+                "processor": 14,
+                "totalMs": 2016,
+                "busyFraction": 0.10119047619047616
+              },
+              {
+                "processor": 15,
+                "totalMs": 2017,
+                "busyFraction": 0.05453644025780857
+              },
+              {
+                "processor": 16,
+                "totalMs": 2015,
+                "busyFraction": 0.13945409429280398
+              },
+              {
+                "processor": 17,
+                "totalMs": 2030,
+                "busyFraction": 0.2152709359605911
+              },
+              {
+                "processor": 18,
+                "totalMs": 2016,
+                "busyFraction": 0.20932539682539686
+              },
+              {
+                "processor": 19,
+                "totalMs": 2015,
+                "busyFraction": 0.22481389578163768
+              }
+            ],
+            "meanBusyFraction": 0.11523866791258346
+          }
+        ]
+      }
+    ]
+  },
+  "requiredRepositoryBenchmark": {
+    "status": "completed",
+    "passed": true,
+    "priorFilesRestored": true,
+    "runtimeUnchanged": true,
+    "runtimeMapSha256": "49f4a5637979a46c3770e315d13a415508446f7654db0f40bf3fe67a23150189",
+    "logSha256": "077b7c393ac9fc058d658aa4a0e899bc2f088d34da10dedb51f917eda0908803",
+    "resultSha256": "2ca485ad859d137ed67da4f7dc09b97cb529db5512b069b52e29a0cfa453f868"
+  },
+  "workflow": {
+    "passed": true,
+    "workflowSha256": "1c5f44e5d677263925d7752c82033285de10afabae54e5867da38df113d9e1d4",
+    "functionalOnly": true,
+    "compilersAndBinariesExcluded": true,
+    "completionFamiliesKeptPartial": 2
+  },
+  "priorSdkVerification": {
+    "evidence": "windows-native-library.json",
+    "sha256": "d956c549640d7d634501dbffb03a7e494b9c6f33ee2749c3f6b33a5762148e86",
+    "tests": 850,
+    "unchangedRuntimeOutputs": 201
+  },
+  "rawArtifacts": [
+    {
+      "file": "windows-host-costs-raw.json.gz",
+      "sha256": "435347c21e6ede9fe7b7a3a9537b64b7f93f6f68819df8d9e2b5ab8ff8e72890",
+      "uncompressedSha256": "6c93ae5b8c26df3ea41543d06e2a336cdd2cad7a1ac54c65b04961c3165546ec",
+      "uncompressedBytes": 24088092
+    }
+  ],
+  "productionRuntimeChanged": false,
+  "optimizationAccepted": false,
+  "architectureSelected": false,
+  "enginePackageDelivered": false,
+  "deviceSupportEstablished": false,
+  "performanceAcceptanceComplete": false
+}

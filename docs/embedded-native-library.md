@@ -105,6 +105,9 @@ Neither the C ABI nor a successful .NET call demonstrates lower frame cost,
 lower process memory or suitability for older devices. JSON remains a control
 protocol for this experiment. Selecting a frame format, content representation
 and runtime still requires equivalent workload measurements. The
+[host-cost experiment](embedded-host-costs.md) measures equivalent combat,
+inventory and checkpoint workloads with separate process-memory observations;
+it remains a desktop diagnostic rather than an architecture decision. The
 [content-storage boundary](content-storage.md) remains unchanged: validated
 content packs and mutable simulation state have different responsibilities.
 

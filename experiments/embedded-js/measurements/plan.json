@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "embedded-host-costs/v1",
+  "purpose": "Characterize equivalent end-to-end prototype hosts before selecting a runtime or frame protocol",
+  "hosts": ["node-bundled-json", "dotnet-embedded-json"],
+  "batchSizes": [1, 16, 64],
+  "warmups": 8,
+  "samples": 25,
+  "orders": ["forward", "reverse"],
+  "workloads": [
+    {"name": "combat", "commands": 4096, "motif": ["press", "applyDot", "advance", "hit"]},
+    {"name": "inventory", "commands": 320, "motif": ["roll", "allocate", "refund", "move", "move"]}
+  ],
+  "checkpointRounds": 32,
+  "memoryRepeatsPerHost": 7,
+  "ambientCpuPolicy": "Observe three two-second system CPU intervals before each timing order. Record every processor's busy fraction; this is context, not proof of an uncontended machine. Run no concurrent build or verification jobs",
+  "memoryStages": ["worker-ready", "inputs-loaded", "content-loaded", "content-after-input-release-gc", "one-session", "eight-sessions", "checkpoint-retained", "disposed", "after-explicit-gc"],
+  "equivalence": "Every timed sample must match all expected responses and the final checkpoint; batch sizes must produce identical flattened observations and state",
+  "timingBoundary": "Prebuilt requests through response delivery; setup, verification, reporting and process-memory queries are outside the batch timing interval",
+  "checkpointBoundary": "Restore, snapshot and destroy round trips, including handle decoding and request construction; validation is outside the interval",
+  "initializationBoundary": "Runtime/context and bundle initialization plus content parsing and controller construction, with file bytes already read",
+  "memoryBoundary": "Same Windows process-memory observer for both hosts; VM and managed counters are separately labelled and are not interchangeable",
+  "gcPolicy": "No explicit collection in throughput trials; separate memory trials collect the host heap after releasing caller input buffers and after disposal. Node collection includes V8; managed collection excludes the native VM, which retains its ordinary collection policy",
+  "summary": "Retain every sample; median, nearest-rank p95 and range per order, workload, host and batch size; no outlier deletion or pooled significance claim",
+  "decision": "Diagnostic characterization only. No optimization acceptance, architecture selection, whole-game frame budget or device-support claim",
+  "limitations": [
+    "Windows desktop hosts, not Steam Deck or mobile hardware",
+    ".NET 8 consumer, not Unity IL2CPP or an engine editor/player",
+    "Selected gameplay capabilities and complete item/passive packs, not the entire game",
+    "Process initialization includes test-driver work and does not imply a cold filesystem cache",
+    "Private committed bytes and working-set bytes have different meanings",
+    "Node heap changes are not total allocations; tracked native allocation counts omit reallocations",
+    "Fixed warmup count does not prove JIT or GC convergence",
+    "Milestone 43 performance acceptance remains governed by its existing thresholds"
+  ]
+}

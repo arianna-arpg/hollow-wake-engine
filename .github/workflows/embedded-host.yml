@@ -7,6 +7,7 @@ on:
       - 'scripts/test-embedded-host.mjs'
       - 'scripts/test-embedded-session.mjs'
       - 'scripts/test-embedded-library.mjs'
+      - 'scripts/benchmark-embedded-library.mjs'
       - 'scripts/native-tools.mjs'
       - 'scripts/reference-utils.mjs'
       - 'scripts/compile-item-content.mjs'
@@ -68,6 +69,12 @@ jobs:
         run: node scripts/test-embedded-session.mjs --amalgam-dir .artifacts/embedded-host-upstream
       - name: Verify library ownership and independent consumers
         run: node scripts/test-embedded-library.mjs --amalgam-dir .artifacts/embedded-host-upstream --session-fixture .artifacts/embedded-session-latest.json
+      - name: Verify equivalent cost workloads without recording timings
+        shell: pwsh
+        run: |
+          $libraryProof = (Get-Content .artifacts/embedded-library-latest.json -Raw | ConvertFrom-Json).directory
+          $sessionProof = (Get-Content .artifacts/embedded-session-latest.json -Raw | ConvertFrom-Json).directory
+          node scripts/benchmark-embedded-library.mjs --verify --library-proof $libraryProof --session-proof $sessionProof
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
@@ -89,3 +96,10 @@ jobs:
             .artifacts/embedded-library-*/verification.json
             .artifacts/embedded-library-*/*.jsonl
             .artifacts/embedded-library-*/*.txt
+            .artifacts/embedded-cost-verification-latest.json
+            .artifacts/embedded-cost-verification-*/verification.json
+            .artifacts/embedded-cost-verification-*/workload.json
+            .artifacts/embedded-cost-verification-*/*.txt
+            .artifacts/embedded-cost-verification-*/**/events.jsonl
+            .artifacts/embedded-cost-verification-*/**/memory.json
+            .artifacts/embedded-cost-verification-*/**/stderr.txt
