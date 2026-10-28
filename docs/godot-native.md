@@ -59,10 +59,19 @@ The existing SDK license is preserved. Built archives and exported games remain
 local development artifacts; this milestone does not create a registry release.
 
 Linux x86_64 packaging is now configured alongside Windows, with pinned official
-editor/export inputs and an Ubuntu 24.04 CI job. Its first execution outcome is
-pending; the earlier Windows results do not establish Linux support. The shared
+editor/export inputs and an Ubuntu 24.04 CI job. The first Linux editor run
+completed all 98 checks and matched all 60 responses, but its verifier rejected
+optional symbol probes in the mixed Linux loader trace as engine errors. The
+standalone Linux release was not reached. The shared
 builder also passed a [fresh Windows regression](../evidence/godot/linux-package-preparation.json)
 after this refactor.
+
+The [diagnostic separation record](../evidence/godot/linux-loader-diagnostics.json)
+retains that failed run and its successful Windows matrix job. The correction
+uses glibc's [`LD_DEBUG_OUTPUT`](https://man7.org/linux/man-pages/man8/ld.so.8.html)
+to retain the actual child process's loader trace separately, including on
+failure. Godot's error gate remains unchanged. Another local Windows editor and
+release regression passes; the corrected Linux execution remains pending.
 
 The Linux bridge links the embedded library by filename using CMake's
 [`IMPORTED_NO_SONAME`](https://cmake.org/cmake/help/latest/prop_tgt/IMPORTED_NO_SONAME.html)

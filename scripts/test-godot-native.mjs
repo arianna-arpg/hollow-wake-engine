@@ -68,9 +68,18 @@ env.PYTHONPYCACHEPREFIX = path.join(directory, 'python-cache');
 report.pythonCachesIsolated = true;
 function run(label, command, argv, engine = false, cwd = directory, extraEnv = {}) {
   const output = path.join(directory, label + '.txt'), fd = fs.openSync(output, 'wx');
-  report.commands.push({label, command, args: argv, cwd, extraEnv}); let result;
+  const record = {label, command, args: argv, cwd, extraEnv}; report.commands.push(record); let result;
   try { result = spawnSync(command, argv, {cwd, env: {...env, ...extraEnv}, windowsHide: true, stdio: ['ignore', fd, fd], timeout: 300000}); }
   finally { fs.closeSync(fd); }
+  Object.assign(record, {pid: result.pid, exitCode: result.status, signal: result.signal});
+  // Preserve loader diagnostics even when execution or the engine gate fails.
+  if (extraEnv.LD_DEBUG_OUTPUT && result.pid) {
+    const trace = extraEnv.LD_DEBUG_OUTPUT + '.' + result.pid;
+    if (fs.existsSync(trace)) {
+      record.loaderTrace = extraEnv.LD_DEBUG_OUTPUT + '.log';
+      assert(!fs.existsSync(record.loaderTrace)); fs.renameSync(trace, record.loaderTrace);
+    }
+  }
   assert(!result.error, result.error?.message); assert.equal(result.signal, null, label); assert.equal(result.status, 0, label);
   const text = fs.readFileSync(output, 'utf8');
   if (engine) assert(!/ERROR:|SCRIPT ERROR|WARNING:.*(?:leak|ObjectDB)/i.test(text), label + ': engine diagnostics');
@@ -80,8 +89,9 @@ const jsonLines = file => fs.readFileSync(file, 'utf8').trim().split(/\r?\n/).ma
 const expected = jsonLines(path.join(fixture, 'node-original.jsonl'));
 function verifyReplay(label, command, argv, exported, cwd, expectedLibraryPaths) {
   const output = path.join(directory, label + '.jsonl');
+  const loaderPrefix = path.join(directory, label + '-loader');
   const text = run(label, command, [...argv, '--headless', '--log-file', path.join(directory, label + '-engine.log'), '--', output], true, cwd,
-    windows ? {} : {LD_DEBUG: 'libs'});
+    windows ? {} : {LD_DEBUG: 'libs', LD_DEBUG_OUTPUT: loaderPrefix});
   const stats = text.split(/\r?\n/).filter(line => line.startsWith('{')).map(JSON.parse).at(-1);
   assert(stats?.passed && stats.thread_checks && stats.packaged_inputs);
   assert.equal(stats.requests, 60); assert.equal(stats.checks, 98);
@@ -90,7 +100,12 @@ function verifyReplay(label, command, argv, exported, cwd, expectedLibraryPaths)
   assert.deepEqual(jsonLines(output), expected, label + ': all observable gameplay responses');
   const result = {...stats, observationsSha256: hash(output)};
   if (!windows) {
-    const loaded = [...text.matchAll(/calling init:\s+([^\r\n]+)/g)].map(match => match[1].trim())
+    // glibc traces include failed optional dlsym probes even after successful
+    // execution. Keep them separate from the unchanged Godot diagnostic gate.
+    // LD_DEBUG_OUTPUT appends the actual child PID; require that exact trace.
+    const traceLog = loaderPrefix + '.log';
+    assert.equal(report.commands.at(-1).loaderTrace, traceLog, 'Trace from the actual replay process is required');
+    const loaded = [...fs.readFileSync(traceLog, 'utf8').matchAll(/calling init:\s+([^\r\n]+)/g)].map(match => match[1].trim())
       .filter(file => [platform.library, platform.bridge].includes(path.basename(file))).map(file => fs.realpathSync(file)).sort();
     assert.deepEqual(loaded, expectedLibraryPaths.map(file => fs.realpathSync(file)).sort(), label + ': loaded package libraries');
     result.loadedLibraries = loaded;
