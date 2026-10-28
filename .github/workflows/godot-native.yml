@@ -1,0 +1,104 @@
+name: Verify Godot native addon experiment
+on:
+  push:
+    paths:
+      - '.github/workflows/godot-native.yml'
+      - 'experiments/godot-native/**'
+      - 'experiments/embedded-js/**'
+      - 'scripts/prepare-godot-tools.mjs'
+      - 'scripts/test-godot-native.mjs'
+      - 'scripts/*embedded*.mjs'
+      - 'scripts/native-tools.mjs'
+      - 'scripts/reference-utils.mjs'
+      - 'src/**'
+      - 'content/**'
+      - 'baseline/**'
+      - 'package*.json'
+      - 'tsconfig*.json'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-2025
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.9.0
+          cache: npm
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 8.0.x
+      - run: npm ci
+      - run: npm run build
+      - run: npm run reference:prepare
+      - run: npm run reference:install
+      - name: Fetch pinned development runtime source
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $lock = Get-Content experiments/embedded-js/host-source-lock.json -Raw | ConvertFrom-Json
+          $sourceDirectory = Join-Path $PWD '.artifacts/embedded-host-upstream'
+          New-Item -ItemType Directory -Path $sourceDirectory | Out-Null
+          $archivePath = Join-Path $sourceDirectory $lock.archive.name
+          $download = 'https://github.com/quickjs-ng/quickjs/releases/download/v0.17.0/' + $lock.archive.name
+          Invoke-WebRequest -Uri $download -OutFile $archivePath
+          if ((Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $lock.archive.sha256) {
+            throw 'Runtime archive hash differs from the pinned release'
+          }
+          $archive = [System.IO.Compression.ZipFile]::OpenRead($archivePath)
+          try {
+            foreach ($file in $lock.files.PSObject.Properties) {
+              $entry = $archive.GetEntry($file.Name)
+              if ($null -eq $entry -or $entry.FullName -notin @('quickjs-amalgam.c', 'quickjs.h')) {
+                throw 'Unexpected runtime source archive layout'
+              }
+              [System.IO.Compression.ZipFileExtensions]::ExtractToFile($entry, (Join-Path $sourceDirectory $file.Name), $false)
+            }
+          } finally { $archive.Dispose() }
+      - name: Verify native library and create session fixture
+        run: node scripts/test-embedded-library.mjs --amalgam-dir .artifacts/embedded-host-upstream
+      - name: Prepare pinned Godot editor, bindings and export templates
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $cmakePath = (Get-Command cmake -ErrorAction Stop).Source
+          $ninjaPath = (Get-Command ninja -ErrorAction Stop).Source
+          $pythonPath = (Get-Command python -ErrorAction Stop).Source
+          node scripts/prepare-godot-tools.mjs --cmake $cmakePath --ninja $ninjaPath --python $pythonPath
+          if ($LASTEXITCODE -ne 0) { throw 'Godot preparation failed' }
+      - name: Verify addon installation, workers and relocated release
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $toolsFile = (Get-Content .artifacts/godot-tools-latest.json -Raw | ConvertFrom-Json).tools
+          $libraryProof = (Get-Content .artifacts/embedded-library-latest.json -Raw | ConvertFrom-Json).directory
+          $sessionProof = (Get-Content .artifacts/embedded-session-latest.json -Raw | ConvertFrom-Json).directory
+          node scripts/test-godot-native.mjs --tools $toolsFile --library-proof $libraryProof --session-proof $sessionProof
+          if ($LASTEXITCODE -ne 0) { throw 'Godot verification failed' }
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: godot-native-windows-evidence
+          include-hidden-files: true
+          if-no-files-found: error
+          path: |
+            .artifacts/godot-tools-latest.json
+            .artifacts/godot-tools-*/preparation.json
+            .artifacts/godot-native-latest.json
+            .artifacts/godot-native-*/verification.json
+            .artifacts/godot-native-*/*.txt
+            .artifacts/godot-native-*/*.log
+            .artifacts/godot-native-*/*.jsonl
+            .artifacts/godot-native-*/staging/addons/hollow_wake/manifest.json
+            .artifacts/embedded-library-*/verification.json
+            .artifacts/embedded-library-*/*.txt
+            .artifacts/embedded-library-*/*.jsonl
+            .artifacts/embedded-session-*/verification.json
+            .artifacts/embedded-session-*/*.txt
+            .artifacts/embedded-session-*/*.jsonl

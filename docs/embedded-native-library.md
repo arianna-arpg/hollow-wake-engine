@@ -10,7 +10,9 @@ This is a development interface, not a stable ABI, supported engine package or
 replacement for the JavaScript package. The build tools configure Windows
 and Linux x64. Both passed the [hosted portability checks](../evidence/embedded-js/portability-ci.json),
 following the [local Windows regression](../evidence/embedded-js/portability-windows.json).
-ARM, Unity/IL2CPP, Godot, Unreal, mobile platforms and device performance remain
+The [Godot addon experiment](godot-native.md) adds a locally verified Windows
+editor and release-export path for the selected session capability. ARM,
+Unity/IL2CPP, Unreal, other Godot platforms and device performance remain
 unverified. The existing seven-leaf native experiment is separate.
 
 ## Ownership and failure contract
