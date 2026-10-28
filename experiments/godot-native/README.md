@@ -4,6 +4,11 @@ This development package connects the existing Hollow Wake SDK to Godot's native
 extension interface. The current proof targets the standard **Godot 4.7.2 Windows
 x64** editor and release export. It needs no Node.js or .NET runtime in the game.
 Build tools need Node.js, Python, CMake, Ninja and the Visual C++ toolchain.
+Automated import uses `--import --frame-delay 1000` for the pinned editor's
+[cold-import shutdown issue](https://github.com/godotengine/godot/issues/111048).
+This is a build-tool workaround, not an engine fix or a runtime delay. Import
+must still exit successfully on its first attempt. Immediate editor shutdown
+after a first scan remains an upstream limitation of this engine version.
 
 The package exposes the selected `embedded-session/experiment-v1` capability:
 character/skill configuration, resolved hits, item generation and forging,

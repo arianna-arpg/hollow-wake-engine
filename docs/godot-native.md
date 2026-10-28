@@ -12,6 +12,18 @@ The [CI workflow](../.github/workflows/godot-native.yml) repeats this path on a
 separate Windows machine and uploads observations rather than native binaries.
 Its first hosted outcome must be inspected separately from the local result.
 
+The first hosted attempt at `0cb94c7` compiled the addon and passed the underlying
+native-library tests, then exited with `0xC0000005` during first-import shutdown.
+The verifier had used `--editor --quit`, which quits after one iteration. It now
+uses Godot's resource-aware `--import` lifecycle and a 1000 ms editor-frame delay.
+The delay is the documented workaround for the pinned engine's
+[cold-import documentation race](https://github.com/godotengine/godot/issues/111048);
+the matching failure pattern is evidence for this diagnosis, not a captured
+native stack trace. This does not fix Godot itself. The failed attempt is retained,
+crashes remain fatal, and there is no automatic retry or skipped gameplay check.
+The [import lifecycle record](../evidence/godot/import-lifecycle.json) preserves
+that failure and the successful local verification of the revised import path.
+
 Both local runs match all 60 responses, including 609 numeric observations, from
 the retained independent SDK scenario. Each also passes 98 boundary/lifecycle
 checks. Godot workers exercise serialized calls, responsive metrics, cancellation

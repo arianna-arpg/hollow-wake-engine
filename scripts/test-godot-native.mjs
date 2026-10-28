@@ -136,7 +136,13 @@ with zipfile.ZipFile(sys.argv[2]) as archive:
   for (const [file, expectedHash] of Object.entries(addonFiles)) assert.equal(hash(path.join(project, 'addons/hollow_wake', file)), expectedHash);
   for (const file of ['project.godot', 'main.tscn', 'replay.gd']) copy(path.join(source, file), path.join(project, file));
   copy(path.join(fixture, 'requests.jsonl'), path.join(project, 'fixtures/requests.jsonl'));
-  run('import', editor, ['--headless', '--editor', '--path', project, '--quit', '--log-file', path.join(directory, 'import-engine.log')], true);
+  // --quit exits after one iteration, not after import completion. The pinned
+  // editor also has a cold-import documentation shutdown race (Godot #111048).
+  // Use its import lifecycle plus the documented frame-delay workaround. This
+  // is build-tool pacing only; every crash remains fatal and there are no retries.
+  run('import', editor, ['--headless', '--import', '--path', project, '--frame-delay', '1000', '--log-file', path.join(directory, 'import-engine.log')], true);
+  report.importLifecycle = {waitsForResources: true, frameDelayMs: 1000, retries: 0,
+    upstreamWorkaround: 'https://github.com/godotengine/godot/issues/111048'};
   report.editor = verifyReplay('editor-replay', editor, ['--path', project], false);
   const exported = path.join(directory, 'exported'); fs.mkdirSync(exported);
   const preset = '[preset.0]\nname="Windows Desktop"\nplatform="Windows Desktop"\nrunnable=true\nexport_filter="all_resources"\ninclude_filter="*.txt,*.json,*.jsonl,*.md"\nexclude_filter=""\n\n[preset.0.options]\ncustom_template/debug=' + JSON.stringify(tools.exportDebug.replaceAll('\\', '/')) + '\ncustom_template/release=' + JSON.stringify(tools.exportRelease.replaceAll('\\', '/')) + '\nbinary_format/architecture="x86_64"\nbinary_format/embed_pck=false\napplication/modify_resources=false\ncodesign/enable=false\n';
