@@ -6,6 +6,11 @@ import {root, sha256, listFiles, writeJSON} from './reference-utils.mjs';
 import {contentIndexedSource} from '../experiments/item-index/content-variant.mjs';
 
 const args = process.argv.slice(2);
+let implementation = 'set';
+if (args.length === 6) {
+  assert.equal(args[4], '--index'); implementation = args[5]; args.splice(4);
+}
+assert(['set', 'bitmap'].includes(implementation));
 assert.equal(args.length, 4); assert.equal(args[0], '--library-proof'); assert.equal(args[2], '--session-proof');
 const library = fs.realpathSync(args[1]), session = fs.realpathSync(args[3]);
 const read = file => JSON.parse(fs.readFileSync(file));
@@ -19,7 +24,7 @@ const sources = Object.fromEntries(['scripts/test-content-index.mjs',
   .map(file => [file, sha256(fs.readFileSync(path.join(root, file)))]));
 const receipt = path.join(directory, 'verification.json');
 writeJSON(path.join(root, '.artifacts/content-index-candidate-latest.json'), {directory, receipt});
-const result = {passed: false, status: 'started', directory, sources, baselineRuntime: runtime};
+const result = {passed: false, status: 'started', implementation, directory, sources, baselineRuntime: runtime};
 writeJSON(receipt, result);
 try {
   fs.mkdirSync(candidate); fs.mkdirSync(baseline);
@@ -29,7 +34,8 @@ try {
   writeJSON(path.join(candidate, 'package.json'), {type: 'module'});
   for (const file of ['item-core.ts', 'item-rules.ts', 'item-host.ts']) fs.writeFileSync(path.join(candidate, 'src', file),
     contentIndexedSource(file, fs.readFileSync(path.join(root, 'src', file))));
-  fs.copyFileSync(path.join(root, 'experiments/item-index/content-index.ts'), path.join(candidate, 'src/item-affix-index.ts'));
+  fs.copyFileSync(path.join(root, 'experiments/item-index', implementation === 'bitmap' ? 'bitmap-index.ts' : 'content-index.ts'),
+    path.join(candidate, 'src/item-affix-index.ts'));
   const log = path.join(directory, 'build.txt'), fd = fs.openSync(log, 'wx');
   try {execFileSync(process.execPath, [path.join(root, 'node_modules/typescript/bin/tsc'), '-p', path.join(candidate, 'tsconfig.json')],
     {cwd: root, windowsHide: true, stdio: ['ignore', fd, fd]});} finally {fs.closeSync(fd);}
@@ -38,11 +44,11 @@ try {
   const changed = Object.keys(runtime).filter(file => runtime[file] !== candidateRuntime[file]);
   assert.deepEqual(added, ['item-affix-index.d.ts', 'item-affix-index.js', 'item-affix-index.js.map']);
   assert(changed.every(file => /^item-(core|rules|host)\.(js|js.map|d.ts)$/.test(file)));
-  const build = {passed: true, directory, candidate, baseline, productionRuntimeUnchanged: true, productionSourcesUnchanged: true,
+  const build = {passed: true, implementation, directory, candidate, baseline, productionRuntimeUnchanged: true, productionSourcesUnchanged: true,
     baselineRuntime: runtime, candidateRuntime, added, changed, sources, logSha256: sha256(fs.readFileSync(log))};
   assert.deepEqual(snapshot(path.join(root, 'dist')), runtime); assert.deepEqual(snapshot(path.join(root, 'src')), sourcesBefore);
   writeJSON(path.join(directory, 'build-verification.json'), build);
-  for (const name of ['unit', 'pools', 'owners', 'native']) {
+  for (const name of ['unit', 'pools', ...(implementation === 'bitmap' ? ['bitmap-boundaries'] : []), 'owners', 'native']) {
     const output = fs.openSync(path.join(directory, name + '-driver.txt'), 'wx');
     try {execFileSync(process.execPath, [path.join(root, 'experiments/item-index/verify-' + name + '.mjs'), directory,
       ...(name === 'native' ? [library, session] : [path.join(session, 'input.json')])],

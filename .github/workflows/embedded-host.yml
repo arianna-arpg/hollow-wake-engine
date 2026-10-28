@@ -91,6 +91,18 @@ jobs:
           $candidateProof = (Get-Content .artifacts/content-index-candidate-latest.json -Raw | ConvertFrom-Json).directory
           node scripts/benchmark-content-index.mjs --verify --candidate-proof $candidateProof --cost-proof $costProof
           if ($LASTEXITCODE -ne 0) { throw 'Cost-control verification failed' }
+      - name: Verify isolated bitmap candidate and cost controls
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $libraryProof = (Get-Content .artifacts/embedded-library-latest.json -Raw | ConvertFrom-Json).directory
+          $sessionProof = (Get-Content .artifacts/embedded-session-latest.json -Raw | ConvertFrom-Json).directory
+          $costProof = (Get-Content .artifacts/embedded-cost-verification-latest.json -Raw | ConvertFrom-Json).directory
+          node scripts/test-content-index.mjs --library-proof $libraryProof --session-proof $sessionProof --index bitmap
+          if ($LASTEXITCODE -ne 0) { throw 'Bitmap candidate verification failed' }
+          $candidateProof = (Get-Content .artifacts/content-index-candidate-latest.json -Raw | ConvertFrom-Json).directory
+          node scripts/benchmark-content-index.mjs --verify --candidate-proof $candidateProof --cost-proof $costProof --index bitmap
+          if ($LASTEXITCODE -ne 0) { throw 'Bitmap cost-control verification failed' }
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:

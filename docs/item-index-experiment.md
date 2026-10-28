@@ -102,7 +102,8 @@ places the ring's 3,769 numeric row keys into only four of 2,048 buckets, with
 permute bucket labels without changing collisions. It is not a native bucket
 counter. Together, the diagnostic and source model support testing a bounded
 bitmap to replace numeric Set membership. That alternative has not yet passed
-the acceptance gates.
+the acceptance gates; its separate evaluation and retained control failures are
+documented in the [bitmap experiment](item-bitmap-experiment.md).
 
 The machine-readable decision and full raw records are in
 [the recorded evidence](../evidence/item-index/windows-set-index.json).

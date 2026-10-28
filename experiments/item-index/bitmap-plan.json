@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "content-affix-bitmap-index/v1",
+  "purpose": "Move immutable catalogue membership work into content preparation while preserving generator ownership and exact results",
+  "productionChange": false,
+  "predecessor": "The shared numeric-Set index retained exact behavior but failed cross-host timing gates. Its source and complete evidence are preserved at commit 1acdd7c.",
+  "variant": "Keep content-owned sparse tag postings; merge membership into bounded query-local bitmap words and visit set bits in authored order. No numeric Set or sorting; independent owner pools and random state remain unchanged.",
+  "correctness": [
+    "All existing SDK tests including recorded item payloads and exact RNG/uid streams use isolated candidate outputs",
+    "Ordered pool membership matches the original for every authored base and synthetic open, explicit, empty, duplicate, reserved and excluded tags",
+    "Shared content, interleaved owners and different affinities never share mutable pools or random state",
+    "Native C++ and managed consumers retain their gameplay and ownership results",
+    "Compare empty, word-boundary, high-bit and partial-word catalogues with the original ordered-pool oracle; ensure query scratch cannot affect earlier results"
+  ],
+  "timing": {
+    "warmups": 8,
+    "samples": 25,
+    "orders": [
+      "forward",
+      "reverse"
+    ],
+    "primary": "Existing 320-command inventory course at batch 64 with a fresh logical session per sample",
+    "controls": [
+      "Existing combat course at batch 64",
+      "Existing checkpoint course",
+      "Steady ring forging after its pool is warmed",
+      "First rare ring forge in a fresh generator",
+      "Full content initialization"
+    ],
+    "primaryMinimumMedianImprovementPercent": 10,
+    "maximumControlMedianRegressionPercent": 5,
+    "maximumControlP95RegressionPercent": 10,
+    "policy": "Both orders must pass with all samples retained. The startup control is additional; predecessor thresholds are not relaxed"
+  },
+  "memory": {
+    "owners": 8,
+    "maximumAdditionalTrackedNativeBytes": 4194304,
+    "policy": "Compare equivalent warmed owners and state, excluding separately reported content initialization. Zero tracked leaks required; this is not a device-memory budget"
+  },
+  "decision": "No promotion before correctness, timing controls and memory pass. Existing milestone 43 gates and target-device requirements remain separate"
+}

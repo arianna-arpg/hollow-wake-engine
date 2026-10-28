@@ -5,25 +5,36 @@ import vm from 'node:vm';
 import assert from 'node:assert/strict';
 import {spawn, execFileSync} from 'node:child_process';
 import {root, sha256, listFiles, writeJSON} from './reference-utils.mjs';
+import {quietStart} from '../experiments/item-index/quiet-start.mjs';
 
 const args = process.argv.slice(2), verifyOnly = args[0] === '--verify';
+let implementation = 'set';
+const indexArgument = args.indexOf('--index');
+if (indexArgument !== -1) {
+  assert.equal(indexArgument, args.length - 2); implementation = args.at(-1); args.splice(indexArgument);
+}
+assert(['set', 'bitmap'].includes(implementation));
 assert.equal(process.platform, 'win32'); assert.equal(process.arch, 'x64');
 assert(verifyOnly || args[0] === '--measure');
 const read = file => JSON.parse(fs.readFileSync(file));
 const hash = file => sha256(fs.readFileSync(file));
 const map = directory => Object.fromEntries(listFiles(directory).map(file => [file, hash(path.join(directory, file))]));
-const plan = read(path.join(root, 'experiments/item-index/measurement-plan.json'));
-const gates = read(path.join(root, 'experiments/item-index/content-plan.json'));
+const bitmap = implementation === 'bitmap';
+const planFile = bitmap ? 'bitmap-quiet-measurement-plan.json' : 'measurement-plan.json';
+const gatesFile = bitmap ? 'bitmap-plan.json' : 'content-plan.json';
+const plan = read(path.join(root, 'experiments/item-index', planFile));
+const gates = read(path.join(root, 'experiments/item-index', gatesFile));
 assert.equal(plan.parent, gates.id);
 const sourceFiles = ['scripts/benchmark-content-index.mjs', 'scripts/reference-utils.mjs',
+  'experiments/item-index/quiet-start.mjs', 'experiments/item-index/quiet-start.test.mjs',
   'experiments/embedded-js/measurements/node-worker.mjs', 'experiments/embedded-js/measurements/Worker.cs',
   'experiments/embedded-js/native/dotnet/Embedded.cs', 'experiments/embedded-js/native/dotnet/NuGet.Config',
-  ...['content-index.ts', 'content-variant.mjs', 'content-plan.json', 'measurement-plan.json', 'Memory.cs', 'Memory.csproj']
+  ...[bitmap ? 'bitmap-index.ts' : 'content-index.ts', 'content-variant.mjs', gatesFile, planFile, 'Memory.cs', 'Memory.csproj']
     .map(file => 'experiments/item-index/' + file)];
 const sources = Object.fromEntries(sourceFiles.map(file => [file, hash(path.join(root, file))]));
 const directory = fs.mkdtempSync(path.join(root, verifyOnly ? '.artifacts/content-index-verification-' : '.artifacts/content-index-measurement-'));
 const receipt = path.join(directory, 'verification.json');
-const report = {schemaVersion: 1, startedAt: new Date().toISOString(), passed: false, status: 'started', verifyOnly, plan, gates, sources,
+const report = {schemaVersion: 1, startedAt: new Date().toISOString(), passed: false, status: 'started', implementation, verifyOnly, plan, gates, sources,
   environment: {node: process.version, os: os.release(), cpu: os.cpus()[0]?.model, logicalCpus: os.cpus().length}, cases: []};
 writeJSON(path.join(root, verifyOnly ? '.artifacts/content-index-verification-latest.json' : '.artifacts/content-index-measurement-latest.json'), {directory, receipt});
 const environment = {...process.env, DOTNET_CLI_TELEMETRY_OPTOUT: '1', DOTNET_NOLOGO: '1', DOTNET_SKIP_FIRST_TIME_EXPERIENCE: '1'};
@@ -100,15 +111,24 @@ async function worker(host, variant, test, order, repeat = 0, startup = false) {
   if (!startup || repeat % 8 === 0) console.log({label, passed: true});
 }
 async function ambient(order) {
-  const samples = [];
-  for (let i = 0; i < 3; i++) {
-    const before = os.cpus(); await new Promise(resolve => setTimeout(resolve, 2000));
-    const processors = os.cpus().map((cpu, i) => {const previous = before[i].times;
-      const total = Object.keys(cpu.times).reduce((sum, key) => sum + cpu.times[key] - previous[key], 0);
-      return {processor: i, busyFraction: 1 - (cpu.times.idle - previous.idle) / total};});
-    samples.push({processors, meanBusyFraction: processors.reduce((sum, value) => sum + value.busyFraction, 0) / processors.length});
-  }
-  (report.ambientCpu ??= []).push({order, samples}); writeJSON(receipt, report);
+  try {
+    await quietStart({limit: plan.maximumAmbientMeanBusyFraction, attempts: plan.ambientAttempts ?? 1,
+      retryDelayMs: plan.ambientRetryDelayMs ?? 0, wait: ms => new Promise(resolve => setTimeout(resolve, ms)),
+      sample: async () => {
+        const samples = [];
+        for (let i = 0; i < 3; i++) {
+          const before = os.cpus(); await new Promise(resolve => setTimeout(resolve, 2000));
+          const after = os.cpus(); assert.equal(after.length, before.length);
+          const processors = after.map((cpu, i) => {const previous = before[i].times;
+            const total = Object.keys(cpu.times).reduce((sum, key) => sum + cpu.times[key] - previous[key], 0);
+            return {processor: i, busyFraction: 1 - (cpu.times.idle - previous.idle) / total};});
+          samples.push({processors, meanBusyFraction: processors.reduce((sum, value) => sum + value.busyFraction, 0) / processors.length});
+        }
+        return {order, samples};
+      },
+      record: async (observation, attempt) => {(report.ambientCpu ??= []).push({...observation, attempt}); writeJSON(receipt, report);}
+    });
+  } catch (error) {if (error.code === 'ENVIRONMENT_BUSY') report.refusedOrder = order; throw error;}
 }
 function summarize(values) {
   assert.equal(values.length, plan.samples); values.sort((a, b) => a - b);
@@ -116,12 +136,18 @@ function summarize(values) {
 }
 try {
   if (verifyOnly) {
+    const guardLog = fs.openSync(path.join(directory, 'quiet-guard-tests.txt'), 'wx');
+    try {execFileSync(process.execPath, ['--test', path.join(root, 'experiments/item-index/quiet-start.test.mjs')],
+      {cwd: root, windowsHide: true, stdio: ['ignore', guardLog, guardLog]});} finally {fs.closeSync(guardLog);}
+    report.quietGuardVerified = true;
     assert.equal(args.length, 5); assert.equal(args[1], '--candidate-proof'); assert.equal(args[3], '--cost-proof');
     const candidateDirectory = fs.realpathSync(args[2]), costDirectory = fs.realpathSync(args[4]);
     candidate = read(path.join(candidateDirectory, 'build-verification.json'));
+    assert.equal(candidate.implementation ?? 'set', implementation);
     native = read(path.join(candidateDirectory, 'native/verification.json')); cost = read(path.join(costDirectory, 'verification.json'));
     assert(candidate.passed && native.passed && cost.passed && cost.verifyOnly && cost.inputsUnchanged);
-    const proofFiles = ['build-verification.json', 'unit-verification-v2.json', 'pool-probes/verification.json', 'shared-owners-v2.json', 'native/verification.json'].map(file => path.join(candidateDirectory, file));
+    const proofFiles = ['build-verification.json', 'unit-verification-v2.json', 'pool-probes/verification.json', 'shared-owners-v2.json', 'native/verification.json',
+      ...(bitmap ? ['bitmap-boundaries.json'] : [])].map(file => path.join(candidateDirectory, file));
     for (const file of proofFiles) assert(read(file).passed, file);
     for (const [file, expected] of Object.entries(candidate.sources)) assert.equal(hash(path.join(root, file)), expected, file);
     for (const [file, expected] of Object.entries(cost.sources)) assert.equal(hash(path.join(root, file)), expected, file);
@@ -148,6 +174,7 @@ try {
   } else {
     assert.equal(args.length, 3); assert.equal(args[1], '--verification'); const verifiedFile = path.join(fs.realpathSync(args[2]), 'verification.json');
     const verified = read(verifiedFile); assert(verified.passed && verified.verifyOnly && verified.inputsUnchanged);
+    assert.equal(verified.implementation ?? 'set', implementation);
     assert.deepEqual(verified.sources, sources); assert.deepEqual(verified.plan, plan); assert.deepEqual(verified.gates, gates);
     ({candidate, cost, native, memoryAssembly} = verified); pins = {...verified.pins, [verifiedFile]: hash(verifiedFile)}; data = read(verified.workloadFile);
     Object.assign(report, {candidate, cost, native, memoryAssembly, pins, verifiedFile});
@@ -191,5 +218,5 @@ try {
     report.accepted = report.memoryGate.passed && report.comparisons.every(value => value.passed);
   }
   report.passed = true; report.status = 'completed';
-} catch (error) {report.status = 'failed'; report.error = error.stack; throw error;}
+} catch (error) {report.status = error.code === 'ENVIRONMENT_BUSY' ? 'environment-refused' : 'failed'; report.error = error.stack; throw error;}
 finally {checkPins(); report.inputsUnchanged = true; writeJSON(receipt, report); console.log({directory, passed: report.passed, accepted: report.accepted, cases: report.cases.length});}
