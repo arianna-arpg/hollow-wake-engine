@@ -74,3 +74,4 @@ assert.ok([...reachable].every(file => !file.endsWith('/damage-pipeline.ts') && 
 
 assert.ok([...reachable].every(file=>!['status-lifecycle.ts','status-lifecycle-types.ts'].includes(path.basename(file))), 'Optional statuses became an eager core import');
 assert.ok([...reachable].every(file=>!['status-effects.ts','status-effects-types.ts'].includes(path.basename(file))), 'Optional status effects became an eager core import');
+assert.ok([...reachable].every(file=>!['hit-status.ts','hit-status-types.ts'].includes(path.basename(file))), 'Optional hit/status policy became an eager core import');

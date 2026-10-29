@@ -147,6 +147,7 @@ jobs:
       - run: node scripts/run-hit-status-reference.mjs
       - run: node scripts/test-hit-status-observer.mjs
       - run: npm run adapter:status-effects-source
+      - run: npm run adapter:hit-status-source
       - run: node scripts/test-status-overlay.mjs
       - run: npm run reference:damage
       - run: node scripts/test-damage-overlay.mjs
@@ -210,6 +211,8 @@ jobs:
       - run: npm run adapter:attack-sequences
       - run: npm run adapter:statuses
       - run: npm run adapter:status-effects
+      - run: npm run adapter:hit-status
+      - run: npm run adapter:hit-status-faults
       - run: node scripts/test-game-status-effects-faults.mjs --location .artifacts/adapter-location.json
       - run: node scripts/test-status-effects-diagnostics.mjs --location .artifacts/adapter-location.json
       - run: node scripts/test-game-status-faults.mjs --location .artifacts/adapter-location.json
@@ -341,6 +344,11 @@ jobs:
             .artifacts/reference-status-relay-*/*.json
             .artifacts/reference-status-relay-*/*.txt
             .artifacts/game-status-effects-verification.json
+            .artifacts/game-hit-status-verification.json
+            .artifacts/game-hit-status-fault-verification.json
+            .artifacts/hit-status-overlay-verification.json
+            .artifacts/game-hit-status-faults-*/*.json
+            .artifacts/game-hit-status-faults-*/*.txt
             .artifacts/game-status-effects-fault-verification.json
             .artifacts/status-effects-diagnostics-verification.json
             .artifacts/status-effects-diagnostics-*/*.json

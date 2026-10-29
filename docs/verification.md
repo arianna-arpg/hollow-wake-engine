@@ -1,5 +1,13 @@
 # Verification and reproduction
 
+`reference:hit-status` compares 369 frozen original hit/status courses without
+rewriting expectations. `adapter:hit-status` verifies archive/install identity,
+the same trace, and unchanged game/package files. `adapter:hit-status-source`
+rejects 21 source faults/collisions. Six installed runtime faults must change
+the trace without introducing an unrelated exception. The full SDK verifier
+includes 22 independent tests, 25 runtime faults and a clean package consumer.
+See [hit/status policy](hit-status-boundary.md) for phase ordering and limitations.
+
 `reference:status-effects` compares the 263-course frozen original World status
 fixture without rewriting it. `adapter:status-effects` checks archive identity,
 installed runtime equality and the same observations through the game adapter.

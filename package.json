@@ -284,13 +284,17 @@
     "./statuses/effects": {
       "types": "./dist/status-effects.d.ts",
       "import": "./dist/status-effects.js"
+    },
+    "./statuses/hits": {
+      "types": "./dist/hit-status.d.ts",
+      "import": "./dist/hit-status.js"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs && node scripts/test-skill-admission-package.mjs && node scripts/test-skill-intent-package.mjs && node scripts/test-skill-request-package.mjs && node scripts/test-skill-dispatch-package.mjs && node scripts/test-casting-continuation-package.mjs && node scripts/test-channel-bank-package.mjs && node scripts/test-actor-condition-mutations.mjs && node scripts/test-actor-condition-package.mjs && node scripts/test-proc-mutations.mjs && node scripts/test-proc-package.mjs && node scripts/test-proc-effects-mutations.mjs && node scripts/test-proc-effects-package.mjs && node scripts/test-delayed-mutations.mjs && node scripts/test-delayed-package.mjs && node scripts/test-buff-mutations.mjs && node scripts/test-buff-package.mjs && npm run test:life-recovery-package && npm run test:life-recovery-mutations && npm run test:restoration-package && npm run test:restoration-mutations && npm run test:cooldown-package && npm run test:cooldown-mutations && npm run test:cooldown-lifecycle-package && npm run test:cooldown-lifecycle-mutations && npm run test:ready-bank-package && npm run test:ready-bank-mutations && npm run test:sequence-recovery-package && npm run test:sequence-recovery-mutations && npm run test:attack-sequences-package && npm run test:attack-sequences-mutations && npm run test:damage-package && npm run test:damage-mutations && npm run test:status-package && npm run test:status-mutations && npm run test:status-effects-package && npm run test:status-effects-mutations",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs && node scripts/test-skill-admission-package.mjs && node scripts/test-skill-intent-package.mjs && node scripts/test-skill-request-package.mjs && node scripts/test-skill-dispatch-package.mjs && node scripts/test-casting-continuation-package.mjs && node scripts/test-channel-bank-package.mjs && node scripts/test-actor-condition-mutations.mjs && node scripts/test-actor-condition-package.mjs && node scripts/test-proc-mutations.mjs && node scripts/test-proc-package.mjs && node scripts/test-proc-effects-mutations.mjs && node scripts/test-proc-effects-package.mjs && node scripts/test-delayed-mutations.mjs && node scripts/test-delayed-package.mjs && node scripts/test-buff-mutations.mjs && node scripts/test-buff-package.mjs && npm run test:life-recovery-package && npm run test:life-recovery-mutations && npm run test:restoration-package && npm run test:restoration-mutations && npm run test:cooldown-package && npm run test:cooldown-mutations && npm run test:cooldown-lifecycle-package && npm run test:cooldown-lifecycle-mutations && npm run test:ready-bank-package && npm run test:ready-bank-mutations && npm run test:sequence-recovery-package && npm run test:sequence-recovery-mutations && npm run test:attack-sequences-package && npm run test:attack-sequences-mutations && npm run test:damage-package && npm run test:damage-mutations && npm run test:status-package && npm run test:status-mutations && npm run test:status-effects-package && npm run test:status-effects-mutations && npm run test:hit-status-package && npm run test:hit-status-mutations",
     "example": "npm run build && node examples/first-path.mjs",
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
@@ -517,7 +521,14 @@
     "adapter:status-effects": "node scripts/test-game-status-effects.mjs",
     "adapter:status-effects-source": "node scripts/test-status-effects-overlay.mjs",
     "test:status-effects-package": "node scripts/test-status-effects-package.mjs",
-    "test:status-effects-mutations": "node scripts/test-status-effects-mutations.mjs"
+    "test:status-effects-mutations": "node scripts/test-status-effects-mutations.mjs",
+    "test:hit-status-package": "node scripts/test-hit-status-package.mjs",
+    "test:hit-status-mutations": "node scripts/test-hit-status-mutations.mjs",
+    "reference:hit-status": "node scripts/run-hit-status-reference.mjs",
+    "adapter:hit-status": "node scripts/test-game-hit-status.mjs",
+    "adapter:hit-status-source": "node scripts/test-hit-status-overlay.mjs",
+    "adapter:hit-status-faults": "node scripts/test-game-hit-status-faults.mjs --location .artifacts/adapter-location.json",
+    "benchmark:hit-status": "node scripts/benchmark-hit-status.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12",

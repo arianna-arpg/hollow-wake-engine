@@ -1,3 +1,4 @@
+import {integrateHitStatus} from '../adapters/hollow-wake/integrate-hit-status.mjs';
 import {integrateStatusEffects} from '../adapters/hollow-wake/integrate-status-effects.mjs';
 import {integrateStatusLifecycle} from '../adapters/hollow-wake/integrate-status-lifecycle.mjs';
 import {verifyAttackSequencesOverlay} from './test-attack-sequences-overlay.mjs';
@@ -91,6 +92,7 @@ integrateSequenceRecovery(game, false);
 integrateDamagePipeline(game, false);
 integrateStatusLifecycle(game, false);
 integrateStatusEffects(game, false);
+integrateHitStatus(game, false);
 // A distinct tool environment: never install into the frozen reference or another checkout's junction.
 const tooling = fs.mkdtempSync(path.join(artifacts, 'adapter-tools-'));
 for (const file of ['package.json', 'package-lock.json']) fs.copyFileSync(path.join(root, 'reference/tooling', file), path.join(tooling, file));
@@ -219,6 +221,9 @@ changes.statusDecision = statuses.decision;
 const statusEffects = integrateStatusEffects(game);
 changes.files.push(...statusEffects.files);
 changes.statusEffectsDecision = statusEffects.decision;
+const hitStatuses = integrateHitStatus(game);
+changes.files.push(...hitStatuses.files);
+changes.hitStatusDecision = hitStatuses.decision;
 fs.symlinkSync(path.join(tooling, 'node_modules'), path.join(game, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
 fs.copyFileSync(path.join(root, 'reference/export-lifecycle.ts'), path.join(game, 'balance/export-engine-lifecycle.ts'));
 fs.writeFileSync(path.join(artifacts, 'adapter-location.json'), JSON.stringify({ game, tooling, package: packed.filename, archive, integrity: packed.integrity, ...changes }, null, 2));
