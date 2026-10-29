@@ -1,32 +1,13 @@
 # Steam Runtime package experiment
 
-This extends the verified Godot package with a pinned Steam Runtime 4 build and
-a separate runtime-only replay. Execution is pending. Source and configuration
-alone do not establish compatibility, a Steam client launch or device performance.
-
-The [first hosted attempt](../evidence/godot/steam-runtime-startup-failure.json)
-stopped before container creation because the new harness assumed its results
-parent directory already existed. Initialization now creates it in a fresh
-checkout. That attempt establishes no runtime result; its failure log is retained.
-
-The [second attempt](../evidence/godot/steam-runtime-ownership-failure.json)
-reached the host's read of the Godot receipt, then failed because the container's
-root-owned private directories were inaccessible to the runner. Artifact upload
-also failed. Only the job log survives; the underlying receipts cannot be
-independently inspected, so that attempt is not accepted as runtime verification.
-Both containers now use the non-root caller's numeric user and group, checked
-against Docker's actual configuration. The SDK gets a private temporary home for
-tool caches; the Platform uses its bounded temporary filesystem. The correction
-still requires a successful hosted replay and readable evidence.
-
-The [third attempt](../evidence/godot/steam-runtime-mutex-failure.json) retained
-readable evidence and passed all 850 SDK tests, then stopped at .NET's
-`NuGet-Migrations` mutex initialization. This matches the upstream
-[Unix named-mutex requirements](https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/11/named-mutexes-unix-default-scope.md).
-The SDK container now creates an owner-only `XDG_RUNTIME_DIR`, checks its owner
-and permissions, and exercises NuGet startup before the full build. The .NET
-version and all consumer checks remain unchanged. Godot and Platform verification
-were not reached in that attempt.
+The selected Godot package passes a build in the pinned Steam Runtime 4 SDK and
+a separate headless replay in its matching Platform image. The
+[hosted evidence](../evidence/godot/steam-runtime-ci.json) retains the inspected
+logs, receipts, image identities and container configurations. All 850 SDK tests
+pass. The Godot editor, relocated export and Platform replay each pass 98 checks
+and reproduce all 60 responses, including 609 numeric comparisons. C++, .NET and
+the C++ sanitizer consumer also pass; explicit disposal leaves zero tracked VM
+bytes and blocks. These results cover the selected embedded-session capability.
 
 Valve recommends the [Steam Runtime 4 SDK](https://github.com/ValveSoftware/steam-runtime/blob/master/README.md)
 for new native Linux games. Its [SDK guide](https://gitlab.steamos.cloud/steamrt/steamrt4/sdk/-/blob/steamrt/steamrt4/README.md)
@@ -47,6 +28,11 @@ separate machine. It builds and verifies the SDK inside Valve's SDK image, using
 that image's compiler, linker, CMake and Python. Read-only Node and .NET tools
 support the build and independent consumer tests. The existing native-library
 checks, sanitizers, Godot import, editor replay and relocated export remain intact.
+Both containers use the caller's numeric user and group, checked against their
+actual configuration. Build tools receive a private temporary home and an
+owner-only `XDG_RUNTIME_DIR`, following .NET's
+[Unix named-mutex requirements](https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/11/named-mutexes-unix-default-scope.md).
+NuGet startup is checked before the expensive build.
 
 The resulting game then runs in the separately pinned Platform image. Only the
 exported game and an observation folder are mounted. The package and container
@@ -60,6 +46,11 @@ Only containers created by this invocation are removed. Existing image caches,
 other containers and prior experiment directories are preserved. A fresh checkout
 is required to prevent prior native/session receipts from being mistaken for this
 run. Logs and receipts are uploaded by CI; binaries and image layers are not.
+
+Earlier attempts remain available: [missing results parent](../evidence/godot/steam-runtime-startup-failure.json),
+[inaccessible container-owned files](../evidence/godot/steam-runtime-ownership-failure.json),
+and [.NET mutex initialization](../evidence/godot/steam-runtime-mutex-failure.json).
+Their outcomes are preserved separately from the successful run.
 
 This remains the selected embedded-session capability described in the
 [Godot guide](godot-native.md). A headless Platform-container replay does not

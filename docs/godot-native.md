@@ -101,5 +101,7 @@ bridge. That is a concrete compatibility requirement, not a universal Linux
 binary guarantee. Valve currently recommends building new native games inside
 the [Steam Runtime 4 SDK](https://github.com/ValveSoftware/steam-runtime/blob/master/README.md)
 and selecting its matching runtime; the older sniper target has its own SDK.
-A pinned Steam Runtime build, an actual Steam launch and physical-device
-measurements remain separate work. Current binaries are experimental build outputs.
+A [pinned Steam Runtime 4 SDK build and matching Platform replay](steam-runtime.md)
+now pass for this selected capability, with inspected hosted evidence. An actual
+Steam client launch and physical-device measurements remain separate work.
+Current binaries are experimental build outputs.

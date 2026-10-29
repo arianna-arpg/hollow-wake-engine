@@ -1,0 +1,385 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "scope": "Selected embedded-session capability: build with Steam Runtime 4 SDK, independent native consumers, Godot editor/export, and isolated matching Platform replay. Not Steam client, graphics, hardware, performance or full-SDK acceptance.",
+  "run": {
+    "conclusion": "success",
+    "databaseId": 40791621269,
+    "headSha": "6cf186e409adb34b8ff672202c14127c5d4e0a4e",
+    "jobs": [
+      {
+        "completedAt": "2026-10-29T00:11:52Z",
+        "conclusion": "success",
+        "databaseId": 123177978688,
+        "name": "steamrt4",
+        "startedAt": "2026-10-29T00:04:33Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-29T00:04:34Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-29T00:04:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-29T00:04:36Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 2,
+            "startedAt": "2026-10-29T00:04:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-29T00:04:41Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "number": 3,
+            "startedAt": "2026-10-29T00:04:36Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-29T00:04:54Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68",
+            "number": 4,
+            "startedAt": "2026-10-29T00:04:41Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-29T00:11:48Z",
+            "conclusion": "success",
+            "name": "Build in pinned SDK and replay in runtime-only container",
+            "number": 5,
+            "startedAt": "2026-10-29T00:04:54Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-29T00:11:49Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+            "number": 6,
+            "startedAt": "2026-10-29T00:11:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-29T00:11:50Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68",
+            "number": 10,
+            "startedAt": "2026-10-29T00:11:49Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-29T00:11:50Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "number": 11,
+            "startedAt": "2026-10-29T00:11:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-29T00:11:50Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 12,
+            "startedAt": "2026-10-29T00:11:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-29T00:11:50Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 13,
+            "startedAt": "2026-10-29T00:11:50Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40791621269/job/123177978688"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40791621269"
+  },
+  "verified": {
+    "archiveSha256": "7c33a1b0111c7a6970cb095bef5b9d5076c2fada1deb9117b4b60130eba0d8b6",
+    "artifactId": 12861604110,
+    "artifactFiles": 83,
+    "sourceRecords": 54,
+    "rawRecords": 91,
+    "runtimeOutputs": 201,
+    "runtimeMapSha256": "49f4a5637979a46c3770e315d13a415508446f7654db0f40bf3fe67a23150189",
+    "productionRuntimeChanged": false,
+    "sdkTests": 850,
+    "sdkPassed": 850,
+    "sdkFailed": 0,
+    "gameplayResponses": 60,
+    "exactNumbersPerReplay": 609,
+    "independentComparedReplays": 8,
+    "observationsSha256": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+    "godotChecksEach": 98,
+    "zeroTrackedVmBytesAndBlocksAfterDispose": true,
+    "cppDotnetAndSanitizerConsumersPassed": true,
+    "privateRuntimeDirectory": {
+      "path": "/tmp/hollow-wake-sdk-home/run",
+      "uid": 1001,
+      "mode": 448
+    },
+    "cleanupPassed": true
+  },
+  "images": {
+    "sdk": {
+      "repository": "registry.gitlab.steamos.cloud/steamrt/steamrt4/sdk",
+      "manifestDigest": "sha256:0827d5839550c228b4e454ae2608ce09e0ff023d2bbb6bfceb9812eb5813b742",
+      "configDigest": "sha256:53ebc18dfc907e22aadc2cc1394bd90eb9d9e1c2dc2b761277cb2c1c57f4bd34",
+      "buildId": "4.0.20261021.265997",
+      "variant": "com.valvesoftware.steamruntime.sdk-amd64_i386-steamrt4",
+      "platform": {
+        "os": "linux",
+        "architecture": "amd64"
+      },
+      "compressedLayerBytes": 1291786095,
+      "records": [
+        {
+          "file": "sdk-manifests.json",
+          "digest": "sha256:0827d5839550c228b4e454ae2608ce09e0ff023d2bbb6bfceb9812eb5813b742",
+          "bytes": 591
+        },
+        {
+          "file": "sdk-blobs.json",
+          "digest": "sha256:53ebc18dfc907e22aadc2cc1394bd90eb9d9e1c2dc2b761277cb2c1c57f4bd34",
+          "bytes": 1540
+        }
+      ]
+    },
+    "platform": {
+      "repository": "registry.gitlab.steamos.cloud/steamrt/steamrt4/platform",
+      "manifestDigest": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+      "configDigest": "sha256:b740749db0ecbfb6614d5ba84390dedc5802b83635e14e41c8e46d90431b84a8",
+      "buildId": "4.0.20261021.265997",
+      "variant": "com.valvesoftware.steamruntime.platform-amd64_i386-steamrt4",
+      "platform": {
+        "os": "linux",
+        "architecture": "amd64"
+      },
+      "compressedLayerBytes": 376504326,
+      "records": [
+        {
+          "file": "platform-manifests.json",
+          "digest": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+          "bytes": 590
+        },
+        {
+          "file": "platform-blobs.json",
+          "digest": "sha256:b740749db0ecbfb6614d5ba84390dedc5802b83635e14e41c8e46d90431b84a8",
+          "bytes": 1555
+        }
+      ]
+    }
+  },
+  "environment": {
+    "release": {
+      "PRETTY_NAME": "Steam Runtime 4",
+      "NAME": "Steam Runtime",
+      "VERSION_ID": "4",
+      "VERSION": "4",
+      "VERSION_CODENAME": "steamrt4",
+      "DEBIAN_VERSION_FULL": "13.7",
+      "ID": "steamrt",
+      "ID_LIKE": "debian",
+      "HOME_URL": "https://store.steampowered.com/",
+      "SUPPORT_URL": "https://help.steampowered.com/",
+      "BUG_REPORT_URL": "https://github.com/ValveSoftware/steam-runtime/issues",
+      "BUILD_ID": "4.0.20261021.265997",
+      "VARIANT": "SDK",
+      "VARIANT_ID": "com.valvesoftware.steamruntime.sdk-amd64_i386-steamrt4"
+    },
+    "node": "v24.9.0",
+    "libc": "glibc 2.41",
+    "cc": "cc (Debian 14.2.0-19) 14.2.0\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+    "cxx": "c++ (Debian 14.2.0-19) 14.2.0\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+    "cmake": "cmake version 3.31.6\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).",
+    "python": "Python 3.13.5",
+    "dotnet": "8.0.427"
+  },
+  "platform": {
+    "checks": 98,
+    "editor_build": false,
+    "live_blocks_after_dispose": 0,
+    "live_bytes_after_dispose": 0,
+    "packaged_inputs": true,
+    "passed": true,
+    "requests": 60,
+    "thread_checks": true,
+    "loadedLibraries": [
+      "/package/libhwe_embedded.so",
+      "/package/libhwe_godot.so"
+    ],
+    "observationsSha256": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+    "image": "sha256:b740749db0ecbfb6614d5ba84390dedc5802b83635e14e41c8e46d90431b84a8",
+    "gameFiles": {
+      "hollow-wake-proof.pck": "4a697eaeb3e1c24191f996551863fb82b97da02162f9efd5be2e32855eb79f15",
+      "hollow-wake-proof.x86_64": "d9f79ab89b5ae369aeed11c6052d402e8218cd503bf85b4a235f9c30c46a7c63",
+      "libhwe_embedded.so": "8d33177a6a4ab21adc4a1e1ef2ebd4726d54486512c6c1601530f34a22b83f4e",
+      "libhwe_godot.so": "d7babb7357f4ef7bd5c3e7dbaf1828db325bd7e212084da49ca1279c42941852"
+    },
+    "sourceAndBuildToolsNotMounted": true,
+    "networkDisabled": true,
+    "packageUnchanged": true
+  },
+  "exportedFiles": {
+    "hollow-wake-proof.pck": "4a697eaeb3e1c24191f996551863fb82b97da02162f9efd5be2e32855eb79f15",
+    "hollow-wake-proof.x86_64": "d9f79ab89b5ae369aeed11c6052d402e8218cd503bf85b4a235f9c30c46a7c63",
+    "libhwe_embedded.so": "8d33177a6a4ab21adc4a1e1ef2ebd4726d54486512c6c1601530f34a22b83f4e",
+    "libhwe_godot.so": "d7babb7357f4ef7bd5c3e7dbaf1828db325bd7e212084da49ca1279c42941852"
+  },
+  "addon": {
+    "archiveSha256": "0cb4eff6fc0db4056e1d0b91c4adf6a053a314692fb3ccd262b9824cbdd940fb",
+    "archiveBytes": 1743651,
+    "files": {
+      "README.md": "c49fe5aeac882d9d3d5d6b9c12d657f079e3b7d1de7a00fd103c56ff02e3a765",
+      "bin/libhwe_embedded.so": "8d33177a6a4ab21adc4a1e1ef2ebd4726d54486512c6c1601530f34a22b83f4e",
+      "bin/libhwe_godot.so": "d7babb7357f4ef7bd5c3e7dbaf1828db325bd7e212084da49ca1279c42941852",
+      "data/bundle.txt": "1b942b63265fbd224169792ab879bf2eec0b16f26cfb0e66c688d94c1c31e2f7",
+      "data/content.json": "c5ea6f2b6ccc1f3147e79e92967675d592b7433063685034a02691b5e60d5ea9",
+      "data/example-create.json": "a647668f64795b79ffc2fe72aafa51e696c90110032e0623eab97236cd1d116c",
+      "hollow_wake.gdextension": "7eec349e666560c3edfad41d02d791c55aca6a0a935b7da4352d318d3aff3568",
+      "notices/Hollow-Wake-LICENSE.md": "5b944b285c70cb59ab4803c682bb7d8b36652131bbb504f0f2bea5089e941c71",
+      "notices/Hollow-Wake-NOTICE.md": "666739e716daf975a5204f82bfa8c3458a74de729718b317b3ef88bf0624f19e",
+      "notices/godot-cpp-LICENSE.md": "26a5b210d90760156ce886267ce9df235787dcc6cebfd7ecd95ef5b6fdcc95bf",
+      "notices/quickjs-source-notices.txt": "a899b3c40e680b96e24b49dfc1ac4a83f0a60e61303d52c41856d0cce29616a5"
+    }
+  },
+  "elf": {
+    "needed": [
+      "libhwe_embedded.so",
+      "libm.so.6",
+      "libc.so.6",
+      "ld-linux-x86-64.so.2"
+    ],
+    "search": [
+      "$ORIGIN"
+    ],
+    "loaderEnvironmentOverridesRemoved": true
+  },
+  "isolation": {
+    "containerUser": "1001:1001",
+    "network": "none",
+    "rootReadOnly": true,
+    "packageReadOnly": true,
+    "capabilitiesDropped": [
+      "ALL"
+    ],
+    "noNewPrivileges": true,
+    "tmpfsBytes": 268435456,
+    "sourceAndBuildToolsNotMounted": true,
+    "actualPackagedLibrariesVerified": true,
+    "buildInputsUnavailableDuringSdkReplays": true
+  },
+  "remaining": [
+    "Steam client / pressure-vessel launch, overlay, graphics and input",
+    "Steam Deck and named older mobile measurements",
+    "ARM, other engine integrations and the remaining SDK surface",
+    "Native architecture/API acceptance and package distribution"
+  ],
+  "previousAttempts": [
+    "steam-runtime-startup-failure.json",
+    "steam-runtime-ownership-failure.json",
+    "steam-runtime-mutex-failure.json"
+  ],
+  "raw": {
+    "file": "steam-runtime-ci-raw.json.gz",
+    "sha256": "7772e9a504ec55a53dab7c862e5b9f4064c13b437265ea0bb1ef8c775cbfb82f",
+    "uncompressedSha256": "dbdca2f91e172f03eb0ca470084a71544680d788d6fdcd8919790facf1235029",
+    "files": {
+      "embedded-library-nRPfSR/build.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "embedded-library-nRPfSR/cpp-sanitized.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "embedded-library-nRPfSR/cpp-sanitized.txt": "16e2147586ee5b11987ae74e64ee6926fd82d3b528071e147c22facf1cbcf83b",
+      "embedded-library-nRPfSR/cpp.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "embedded-library-nRPfSR/cpp.txt": "69e54d3fcfadb4f7372764140448b4172d22cbfbe2900e003a8d859d55fb740d",
+      "embedded-library-nRPfSR/dotnet-build.txt": "ea97ae014dcfb41edee160d9a074f8e53ae5c48c3373012fd8d5c2475d1a7ca0",
+      "embedded-library-nRPfSR/dotnet.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "embedded-library-nRPfSR/dotnet.txt": "ad10b8ffc407a43d719429d584347a0d2a10cb79d13e83d78cc21a1e3bfdfd32",
+      "embedded-library-nRPfSR/exports.txt": "f6d857ff9943454ddde29aa4725f89f8e6c00cc7b234e7c13e52966aec2bd651",
+      "embedded-library-nRPfSR/verification.json": "3285776fcd4c815004f87b433272055d92dbda2fcde6bd0ff02a523a591b1423",
+      "embedded-session-GtflwS/build.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "embedded-session-GtflwS/initialization-failure.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "embedded-session-GtflwS/initialization-failure.txt": "8db6564e659306a556a67ebdad9730a86de40b83cb2987e4104f3abe8069b0dd",
+      "embedded-session-GtflwS/malformed-requests.jsonl": "6571fc8c5068a1b1aa6e22976a61468b861c040af1ce271f9aaa26b613546757",
+      "embedded-session-GtflwS/malformed.jsonl": "ad9da98f273bc730a471183545fbfad031fac220e9e73e4fd2581d248e5f2f79",
+      "embedded-session-GtflwS/malformed.txt": "39530cbf8335af90d252144c584d1735311a72e7309ed36786593733f19e3905",
+      "embedded-session-GtflwS/native.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "embedded-session-GtflwS/native.txt": "01c80d239f1fea504c6c7a78b6fa3a053ed41e7f85efc3ceffd0b356fecade90",
+      "embedded-session-GtflwS/node-bundled.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "embedded-session-GtflwS/node-original.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "embedded-session-GtflwS/oversized-requests.jsonl": "0ef1c2e81414ade66ed5ce8758f304c16ad11b974ebf2e1fa242841486922e91",
+      "embedded-session-GtflwS/oversized.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "embedded-session-GtflwS/oversized.txt": "d9c4814c3abf95a98f6dca3d17525befcc55aec07e8d2f9bfc4b42fc2db3cb6a",
+      "embedded-session-GtflwS/requests.jsonl": "346256f06446472b917b31c70aac994701ad784c5a07352a5729d051ee4c7d10",
+      "embedded-session-GtflwS/verification.json": "26f66a2562e34fda14e26921cfab0dd8d9cc6b0b604312fc65657f4055eaca38",
+      "godot-native-AxvGlJ/bridge-elf.txt": "19b78bf3a00115c0070aa0ef3b3522c81bfa6e7ef4c407c33103266d5e6ebd5c",
+      "godot-native-AxvGlJ/bridge-symbol-versions.txt": "1f8a2d14f8a9ba42df53d6ddae654cb886141d92a96ef2b1cdafd10e1b2263a9",
+      "godot-native-AxvGlJ/build.txt": "56f9f9bb322da5f87dc71292e9d3caf4befb5007901aa5c21fd51052691759fc",
+      "godot-native-AxvGlJ/configure.txt": "4cf7ad06a5947c64e0c9b5901765c21fe2d81c162fd9026987b70c1109848c12",
+      "godot-native-AxvGlJ/editor-replay-engine.log": "e08fd5aa1f9c2ccd28abf1e534c4d6378ddde9b6276bde89818ef57ef2a8e8cc",
+      "godot-native-AxvGlJ/editor-replay-loader.log": "ffdfe488abd5116443940891871cdda97ed9b085b6f5b3f1a4d4a78e046b1d51",
+      "godot-native-AxvGlJ/editor-replay.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "godot-native-AxvGlJ/editor-replay.txt": "e08fd5aa1f9c2ccd28abf1e534c4d6378ddde9b6276bde89818ef57ef2a8e8cc",
+      "godot-native-AxvGlJ/editor-version.txt": "edff16c1721dd4ae989cadf29a01f574ae8d51b118221f664725bd6980bbba5d",
+      "godot-native-AxvGlJ/export-engine.log": "6c61f5c37f80999fa121c91e228069d5bb76348ff59f0ed4f6033f32e7a6c1a5",
+      "godot-native-AxvGlJ/export-release.txt": "54bf6f138d0e262d0b49929b0c07e1822f73cfaf621ef3e599b2f1fa8862c480",
+      "godot-native-AxvGlJ/import-engine.log": "158dc26483d8d869bb4480668f32464988ed3003b2875bc33b61e42167002daa",
+      "godot-native-AxvGlJ/import.txt": "f15ffd4c558b01611d562c8c257508942bdc2dc542124f423ae2a592a46edfa6",
+      "godot-native-AxvGlJ/install-addon.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "godot-native-AxvGlJ/native-library-elf.txt": "68f2abd4f4e5e9264d80295320a58bc9171c84783d333c731a295844a5e162bb",
+      "godot-native-AxvGlJ/release-replay-engine.log": "9a27fc5365c088d6d97c4d062cd7c42cf1428210e49a05413b227028f344374b",
+      "godot-native-AxvGlJ/release-replay-loader.log": "f878706b1d5a915bcb13541ab2acb815970e85854fda56137393175c9106fca7",
+      "godot-native-AxvGlJ/release-replay.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "godot-native-AxvGlJ/release-replay.txt": "9a27fc5365c088d6d97c4d062cd7c42cf1428210e49a05413b227028f344374b",
+      "godot-native-AxvGlJ/staging/addons/hollow_wake/manifest.json": "afb2202d9c59866835bc00bc2db8d57b2ea0d5b6f25d5befcea7ecf1004c9bf8",
+      "godot-native-AxvGlJ/verification.json": "d9eab167e06d25a3038f152872c16cdf7200619e22f89797c0aa9db69b95667a",
+      "godot-tools-TF1MkZ/preparation.json": "e66aef169854d76711a7f25b3bb27474f1c6e961f57c541e2293beeceedd0c34",
+      "steamrt-godot-latest.json": "e99f123be59beaad00789783bd7986c344f0f5697d139b6a92d44590b0aa2ea1",
+      "steamrt-godot-pxnbLx/docker-version.txt": "1647560e301abf68c6e094ab63fc046cd6fd4bedf77df30597f1cf7d14438bc0",
+      "steamrt-godot-pxnbLx/dotnet-version.txt": "b806cbbdfcdc91968c65662d7eb51fc98c88681f012432aeb816faa71687d069",
+      "steamrt-godot-pxnbLx/platform-container-completed.txt": "165107845a856e4abcf547de61cbdb8a5a6d25253959102d1ed38407259ca0ff",
+      "steamrt-godot-pxnbLx/platform-container-created.txt": "f18d9f46f25a58617d0c3d57e106ff0a6f69f5208a304ac7d8ab0dc9701a7e1a",
+      "steamrt-godot-pxnbLx/platform-create.txt": "b3847f71bfe53a6c6d99299dd6bdb190e8bece10b5301aa10404fdcb0ea7e2e9",
+      "steamrt-godot-pxnbLx/platform-execution.txt": "9a27fc5365c088d6d97c4d062cd7c42cf1428210e49a05413b227028f344374b",
+      "steamrt-godot-pxnbLx/platform-image.txt": "0e9fd9457d2621c5b1c1bbd07e954ff55b6b3f2904efa9add9ca1b3c263ed702",
+      "steamrt-godot-pxnbLx/platform-pull.txt": "68675d95d3cd3e7aa85bfeb09f8ff8d160c44e50f19207d841ffcb0d02ac9ad9",
+      "steamrt-godot-pxnbLx/platform/platform-engine.log": "9a27fc5365c088d6d97c4d062cd7c42cf1428210e49a05413b227028f344374b",
+      "steamrt-godot-pxnbLx/platform/platform-loader.log": "4835a4430a435d6fe63838b710ccf43c4cfc68f2430fe042d6f2c9a719c06ae3",
+      "steamrt-godot-pxnbLx/platform/platform.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "steamrt-godot-pxnbLx/sdk-container-created.txt": "9e57355e542015cae0b1216a7bda00d7c5630ffe342f1e46ce7f0ec2c58470b7",
+      "steamrt-godot-pxnbLx/sdk-container.txt": "7c6f370cb343059e4c5720e8396620df96375e335bcdad6e76b76eb331b7f853",
+      "steamrt-godot-pxnbLx/sdk-create.txt": "ab36e91580ab692125863d4f7fb5e533e8d3c3f921f723db4841ccfb521541df",
+      "steamrt-godot-pxnbLx/sdk-execution.txt": "92091cc30877f743c79e1df476b6c4e0e5ed92cf336f877d8e7ead6b9095b9e3",
+      "steamrt-godot-pxnbLx/sdk-image.txt": "320ba337d004f4d18116c4dc084d189fbf7aa2d2a141f91e39f09b4d7d53371c",
+      "steamrt-godot-pxnbLx/sdk-pull.txt": "39a67079d7120773e9699b55f989fe9c1aeaa44ef89aa92502508b0b0ac44df1",
+      "steamrt-godot-pxnbLx/sdk/cc.txt": "78fc11ae2c3ff7c235eb18ed90989d18f6cc864fb27027f839368cd0888deebc",
+      "steamrt-godot-pxnbLx/sdk/cmake.txt": "f6e81c2559f3ce00c5fdad01d7b226c301f5d6b07ee04f65db6dbfdc1cc5970b",
+      "steamrt-godot-pxnbLx/sdk/cxx.txt": "00f7e3c3e6a0308d7b60cc02429720ef6000d84c0add523f7dc030058d19961b",
+      "steamrt-godot-pxnbLx/sdk/dotnet-preflight.txt": "1f5a54462dfe191e6fd83d32dd42f99af1a77f8d4964f3c790ae9706cd3172fb",
+      "steamrt-godot-pxnbLx/sdk/dotnet.txt": "b806cbbdfcdc91968c65662d7eb51fc98c88681f012432aeb816faa71687d069",
+      "steamrt-godot-pxnbLx/sdk/extract-runtime.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "steamrt-godot-pxnbLx/sdk/godot-package.txt": "8cc69c47e3a7c69fe022cf2832503de58342f26555ba98addafc1cba48d6c3a6",
+      "steamrt-godot-pxnbLx/sdk/godot-tools.txt": "0fcdee5b1da97cb00a8f3e5e031c4e8f2227833c0c4e4b3678a27226f283aa9d",
+      "steamrt-godot-pxnbLx/sdk/libc.txt": "0584cb92f3422fd95c4a1d03a2843f3e844cfe5466619885dafbc31ebed1e323",
+      "steamrt-godot-pxnbLx/sdk/native-library.txt": "6344b4c5dbaadb7579ebc64bb75355847ab96fc7cecf2667200de6644b1d22b7",
+      "steamrt-godot-pxnbLx/sdk/npm-install.txt": "32a4ad9575ac4bff402bfca04d28b93f0638b1b024c420da6d01815b9ca787a2",
+      "steamrt-godot-pxnbLx/sdk/os-release.txt": "d1d632d611fe287b5693333bdbc8041448afef31e8270ef8ad22360f07bb8a00",
+      "steamrt-godot-pxnbLx/sdk/python.txt": "01870de7caca112afeefd77b3c3b4c5e263cf5539a33af3f3411100727fad7d3",
+      "steamrt-godot-pxnbLx/sdk/reference-install.txt": "11d8b9a3d584a5dfeb5c2bc23980ea0731196963be311d1a22e5c5d07cf571ac",
+      "steamrt-godot-pxnbLx/sdk/reference-prepare.txt": "acc6323363711d458790ca6137c2f032088953e52a58565a14fb763dea8c294d",
+      "steamrt-godot-pxnbLx/sdk/sdk-verification.txt": "985205b801d5e34035b9dc4a7afe3e82df6a1070ae38a7b6325e65065858b88c",
+      "steamrt-godot-pxnbLx/sdk/verification.json": "06a9b6a644a67a26e8dd4913772097a35cf33743d045b649ad8031b765368cc8",
+      "steamrt-godot-pxnbLx/verification.json": "6962ff5d8d1f7a2fa4dddcb65a8b0129e79fa23f6e02fe26d26fdd909199af61",
+      "run.json": "0b7446fef014cd8630e70ac0da562348b8ce39a1225e2f409565e33e9c942a3e",
+      "artifacts.json": "52fcae712e159a9d0867752e1dfc67e04539f8cd07f9cc18b93e40410eb67616",
+      "download.json": "5a7ab17b4c6b5d30a0d254c392a1a2be961fced7d60a66c57176e54e674a2b1b",
+      "job-log.txt": "528b2a54525d1f7ce3107e5730b0fb510f1cb0715eef5807f009196b9e52333b"
+    }
+  }
+}
