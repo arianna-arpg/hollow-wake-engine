@@ -1,0 +1,23 @@
+import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {build} from 'esbuild';
+import {root,sha256,writeJSON} from './reference-utils.mjs';
+const directory=fs.mkdtempSync(path.join(root,'.artifacts/damage-package-')),consumer=fs.mkdtempSync(path.join(os.tmpdir(),'hollow-damage-'));
+const npm=process.env.npm_execpath??path.join(path.dirname(process.execPath),'node_modules/npm/bin/npm-cli.js');
+const [packed]=JSON.parse(execFileSync(process.execPath,[npm,'pack','--json','--pack-destination',directory,'--cache',path.join(root,'.artifacts/npm-cache')],{cwd:root,encoding:'utf8'}));
+writeJSON(path.join(consumer,'package.json'),{private:true,type:'module'});
+execFileSync(process.execPath,[npm,'install',path.join(directory,packed.filename),'--offline','--ignore-scripts','--no-audit','--no-fund','--cache',path.join(consumer,'cache')],{cwd:consumer,stdio:'pipe'});
+const source=fs.readFileSync(path.join(root,'test/damage-pipeline.test.mjs'),'utf8').replace("'../dist/damage-pipeline.js'","'@hollow-wake/engine/combat/damage'");
+assert(!source.includes('../dist/'));fs.writeFileSync(path.join(consumer,'test.mjs'),"Math.random=()=>{throw Error('Ambient random');};globalThis.fetch=()=>{throw Error('Network');};\n"+source);
+const result=execFileSync(process.execPath,['--test','test.mjs'],{cwd:consumer,encoding:'utf8',env:{...process.env,HWE_DAMAGE_MODULE:''}});fs.writeFileSync(path.join(directory,'tests.txt'),result);assert.match(result,/pass 18/);
+fs.writeFileSync(path.join(consumer,'types.ts'),`import {createDamagePipeline,type DamageActor,type DamageSkill,type DamagePorts} from '@hollow-wake/engine/combat/damage';
+interface Actor extends DamageActor<Actor,DamageSkill,{when?:string},string>{}
+declare const actor:Actor,ports:DamagePorts<Actor,DamageSkill,{when?:string},string>;
+const damage=createDamagePipeline<Actor,DamageSkill,{when?:string},string>(ports);
+const n:number=damage.applyHit(actor,actor,{amounts:{fire:10},crit:false,tags:new Set(['spell']),sourceName:'test'}).total;
+void n;damage.tickAbsorbLayers(actor,.1);`);
+writeJSON(path.join(consumer,'tsconfig.json'),{compilerOptions:{target:'ES2022',module:'NodeNext',moduleResolution:'NodeNext',strict:true,noEmit:true,types:[]},include:['types.ts']});
+const types=execFileSync(process.execPath,[path.join(root,'node_modules/typescript/bin/tsc'),'-p','tsconfig.json'],{cwd:consumer,encoding:'utf8'});fs.writeFileSync(path.join(directory,'types.txt'),types);
+fs.writeFileSync(path.join(consumer,'browser.mjs'),"export {createDamagePipeline,HOLLOW_WAKE_DAMAGE_RULES} from '@hollow-wake/engine/combat/damage';\n");
+const browser=await build({absWorkingDir:consumer,tsconfigRaw:{},nodePaths:[path.join(consumer,'node_modules')],entryPoints:[path.join(consumer,'browser.mjs')],bundle:true,platform:'browser',format:'esm',target:'es2022',write:false,metafile:true});
+assert(Object.keys(browser.metafile.inputs).every(file=>!file.includes('.reference')));fs.writeFileSync(path.join(directory,'browser.mjs'),browser.outputFiles[0].contents);
+const report={passed:true,directory,consumer,tests:18,typesPassed:true,browserBytes:browser.outputFiles[0].contents.length,archiveSha256:sha256(fs.readFileSync(path.join(directory,packed.filename))),independentInstallation:true};
+writeJSON(path.join(directory,'verification.json'),report);writeJSON(path.join(root,'.artifacts/damage-package-verification.json'),report);console.log(report);

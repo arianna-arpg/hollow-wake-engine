@@ -1,0 +1,960 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "6cd6b220cb096a0423b1eac7194684d6972b038e",
+  "scope": "Shared synchronous damage/absorption service with a guarded installed game adapter; not complete standalone actor/native packages or performance acceptance",
+  "tests": 1048,
+  "originalCourses": 119,
+  "originalRunsBeforeImplementation": 2,
+  "predecessorCaptureBeforeImplementation": true,
+  "independentDamageTests": 18,
+  "comparisonTests": 5,
+  "runtimeFaults": 19,
+  "installedFaults": 6,
+  "overlayChecks": 7,
+  "gameChecks": [
+    {
+      "label": "types",
+      "passed": true
+    },
+    {
+      "label": "damage-reference",
+      "passed": true
+    },
+    {
+      "label": "attack-sequences",
+      "passed": true
+    },
+    {
+      "label": "probe-defenses",
+      "passed": true
+    },
+    {
+      "label": "probe-defensecues",
+      "passed": true
+    },
+    {
+      "label": "probe-skillpreview",
+      "passed": true
+    },
+    {
+      "label": "probe-talents",
+      "passed": true
+    },
+    {
+      "label": "probe-anatomy",
+      "passed": true
+    },
+    {
+      "label": "probe-throngcombat",
+      "passed": true
+    },
+    {
+      "label": "smoke",
+      "passed": true
+    }
+  ],
+  "smokeEpisodes": 25,
+  "attackChecks": 114,
+  "attackContentProjections": 12,
+  "sourceDelta": {
+    "changed": [
+      "engine/absorb.ts",
+      "engine/damage.ts",
+      "engine/reception.ts"
+    ],
+    "added": [
+      "engine/damagePipeline.ts"
+    ],
+    "unchanged": 994,
+    "beforeMapSha256": "cf64b8ddcb023c0f3ccffaf6c69a5cb64609614fe600df6aa480343128a83b03",
+    "afterMapSha256": "02c186f9f13944091f2ac1035829d5bb74285ed0be53a31679c1c93767071755"
+  },
+  "runtimeDelta": {
+    "unchanged": 225,
+    "changed": [],
+    "added": [
+      "damage-pipeline-types.d.ts",
+      "damage-pipeline-types.js",
+      "damage-pipeline-types.js.map",
+      "damage-pipeline.d.ts",
+      "damage-pipeline.js",
+      "damage-pipeline.js.map"
+    ],
+    "beforeMapSha256": "21c819990767c60932cc73ffaf088de3a42a02445c08a4a696dd29701d174ff5",
+    "afterMapSha256": "6aafc68467a768e5804af821df145cb981514b06c4c868e650cbe99a7b460125",
+    "addedJsBytes": 32770
+  },
+  "native": {
+    "directory": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-attack-course-BByLIE",
+    "runtimeMapSha256": "6aafc68467a768e5804af821df145cb981514b06c4c868e650cbe99a7b460125",
+    "originalAndInstalledNative": {
+      "numbers": 150608,
+      "differences": []
+    },
+    "runs": [
+      {
+        "label": "original",
+        "passed": true,
+        "bundleBytes": 13561760,
+        "bundleSha256": "be0f5fc0a1f3b7714560a44318da7cb065d76c8fecef834384412133b0d42c2b",
+        "cloneChecks": 931,
+        "metrics": {
+          "code": 0,
+          "completedRequests": 33,
+          "peakRequestedBytes": 160481753,
+          "liveRequestedBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "allocationRequests": 280438
+        },
+        "nodeExact": true,
+        "comparison": {
+          "numbers": 150608,
+          "differences": [
+            {
+              "path": "$/19/value/rows/2/worlds/0/actors/2/facing",
+              "actual": 2.0067420640161253,
+              "expected": 2.0067420640161258,
+              "absoluteError": 4.440892098500626e-16,
+              "kind": "facing"
+            },
+            {
+              "path": "$/19/value/rows/3/worlds/0/actors/2/facing",
+              "actual": 2.0067420640161253,
+              "expected": 2.0067420640161258,
+              "absoluteError": 4.440892098500626e-16,
+              "kind": "facing"
+            }
+          ]
+        },
+        "libraryComparison": {
+          "numbers": 150608,
+          "differences": []
+        },
+        "libraryMetrics": {
+          "passed": true,
+          "requests": 33,
+          "liveBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "peakTrackedBytes": 160477665,
+          "bufferOwnership": true,
+          "threadMigration": true,
+          "concurrentCancellation": true,
+          "unloadReload": true
+        }
+      },
+      {
+        "label": "installed",
+        "passed": true,
+        "bundleBytes": 13845300,
+        "bundleSha256": "96c69f70294f5a898b8f23a5b2ba2137413da08b96b01a2c2ec7785b25e975db",
+        "cloneChecks": 931,
+        "metrics": {
+          "code": 0,
+          "completedRequests": 33,
+          "peakRequestedBytes": 200953400,
+          "liveRequestedBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "allocationRequests": 319543
+        },
+        "nodeExact": true,
+        "comparison": {
+          "numbers": 150608,
+          "differences": [
+            {
+              "path": "$/19/value/rows/2/worlds/0/actors/2/facing",
+              "actual": 2.0067420640161253,
+              "expected": 2.0067420640161258,
+              "absoluteError": 4.440892098500626e-16,
+              "kind": "facing"
+            },
+            {
+              "path": "$/19/value/rows/3/worlds/0/actors/2/facing",
+              "actual": 2.0067420640161253,
+              "expected": 2.0067420640161258,
+              "absoluteError": 4.440892098500626e-16,
+              "kind": "facing"
+            }
+          ]
+        },
+        "libraryComparison": {
+          "numbers": 150608,
+          "differences": []
+        },
+        "libraryMetrics": {
+          "passed": true,
+          "requests": 33,
+          "liveBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "peakTrackedBytes": 200945240,
+          "bufferOwnership": true,
+          "threadMigration": true,
+          "concurrentCancellation": true,
+          "unloadReload": true
+        }
+      },
+      {
+        "label": "early-freeze-fault",
+        "passed": true,
+        "bundleBytes": 13845282,
+        "bundleSha256": "6a0cb0d091213b254f3b5bba149b0d821347f7cc7afa5f5230c554533ef4ac74",
+        "cloneChecks": 931,
+        "metrics": {
+          "code": 2,
+          "completedRequests": 0,
+          "peakRequestedBytes": 101160901,
+          "liveRequestedBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "allocationRequests": 123145
+        },
+        "nodeExact": true,
+        "detected": true
+      }
+    ]
+  },
+  "linuxOriginalReview": {
+    "passed": true,
+    "originalOnly": true,
+    "hostedRun": 40919484200,
+    "sourceRevision": "6cd6b220cb096a0423b1eac7194684d6972b038e",
+    "result": {
+      "numbers": 150608,
+      "differences": [
+        {
+          "path": "$/19/value/rows/2/worlds/0/actors/2/facing",
+          "actual": 2.0067420640161253,
+          "expected": 2.0067420640161258,
+          "absoluteError": 4.440892098500626e-16,
+          "kind": "facing"
+        },
+        {
+          "path": "$/19/value/rows/3/worlds/0/actors/2/facing",
+          "actual": 2.0067420640161253,
+          "expected": 2.0067420640161258,
+          "absoluteError": 4.440892098500626e-16,
+          "kind": "facing"
+        },
+        {
+          "path": "$/19/value/trace/170/args/0/pos/x",
+          "actual": 833.9673138648322,
+          "expected": 833.9673138648324,
+          "absoluteError": 1.1368683772161603e-13,
+          "kind": "flight-coordinate"
+        },
+        {
+          "path": "$/19/value/trace/170/args/0/anchor/x",
+          "actual": 833.9673138648322,
+          "expected": 833.9673138648324,
+          "absoluteError": 1.1368683772161603e-13,
+          "kind": "flight-coordinate"
+        },
+        {
+          "path": "$/19/value/trace/188/args/0/pos/x",
+          "actual": 843.971032058419,
+          "expected": 843.9710320584193,
+          "absoluteError": 2.2737367544323206e-13,
+          "kind": "flight-coordinate"
+        },
+        {
+          "path": "$/19/value/trace/188/args/0/anchor/x",
+          "actual": 843.971032058419,
+          "expected": 843.9710320584193,
+          "absoluteError": 2.2737367544323206e-13,
+          "kind": "flight-coordinate"
+        },
+        {
+          "path": "$/19/value/trace/206/args/0/pos/x",
+          "actual": 853.9747502520058,
+          "expected": 853.9747502520062,
+          "absoluteError": 3.410605131648481e-13,
+          "kind": "flight-coordinate"
+        },
+        {
+          "path": "$/19/value/trace/206/args/0/anchor/x",
+          "actual": 853.9747502520058,
+          "expected": 853.9747502520062,
+          "absoluteError": 3.410605131648481e-13,
+          "kind": "flight-coordinate"
+        },
+        {
+          "path": "$/19/value/trace/224/args/0/pos/x",
+          "actual": 863.9784684455926,
+          "expected": 863.9784684455931,
+          "absoluteError": 4.547473508864641e-13,
+          "kind": "flight-coordinate"
+        },
+        {
+          "path": "$/19/value/trace/224/args/0/anchor/x",
+          "actual": 863.9784684455926,
+          "expected": 863.9784684455931,
+          "absoluteError": 4.547473508864641e-13,
+          "kind": "flight-coordinate"
+        }
+      ]
+    },
+    "comparatorSha256": "9737e1b0922f779716c58ee48cd07f2c4ff2aef6dea9914fcb6e78fa92751711",
+    "inputs": {
+      "native.jsonl": "ed7d3ac5a895d51c060ad7b9d5385f565efda10f248394847631ec61f3b2ad90",
+      "node.jsonl": "a609cd4c1738d8a1d5973782e8958aae47bfa6391010076a2d2694ae84d273f8"
+    }
+  },
+  "configurationDecision": "Rules are copied and frozen per service; mutable module configuration becomes construction-time input. No arithmetic or callback ordering change is accepted.",
+  "packageAccounting": {
+    "newModuleJsBytes": 32770,
+    "newGrowthBudgetBytes": 33792,
+    "predecessorBudgetsUnchanged": true,
+    "initialFailuresRetained": true,
+    "note": "The initial optional classification was missing. The first separate 32 KiB guard then exceeded its new limit by 2 bytes including the generated type-only module; the measured initial module has a 33 KiB growth guard. No optimization is claimed."
+  },
+  "reproduction": {
+    "passed": true,
+    "directory": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\damage-final-reproduction-SYlf6H",
+    "game": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\damage-final-reproduction-SYlf6H\\game",
+    "location": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\damage-final-reproduction-SYlf6H\\location.json",
+    "scriptHash": "e6e34533fc6726c597240785b1e03f59bee8f1f4a701a05cb736fddbad6523a5",
+    "previousGame": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\damage-reproduction-jWrVaO\\game",
+    "identicalGameSource": true,
+    "identicalRuntime": true,
+    "archiveSha256": "bd62e30d5550c59a0b0286a998011872f85fd4340d5234f4299f7818267ee7dc"
+  },
+  "raw": {
+    "path": "evidence/damage-pipeline/windows-raw.json.gz",
+    "sha256": "4b642784bc9309fabcbcd854eeef32ce35b8141c10ae744b1fbd7caeb826046c",
+    "bytes": 2672263,
+    "records": [
+      {
+        "path": "sdk.json",
+        "sha256": "20eafddab285795f9b7424657e83b3027990da16946508ff8a10e3d4e895330a",
+        "bytes": 359
+      },
+      {
+        "path": "game.json",
+        "sha256": "4a973ddb796df235c6d73b811c7905c6a892de32c1e267a423b9c7853ee5c094",
+        "bytes": 1272
+      },
+      {
+        "path": "installed.json",
+        "sha256": "18998bad7c0db4c8ad88b1580f8edd3821ee859138f826d68c320c6d98766855",
+        "bytes": 1348
+      },
+      {
+        "path": "faults.json",
+        "sha256": "976308387771969c36d19595f11aa214d9d3ef62c71fd550f338f751c0cba1f7",
+        "bytes": 1385
+      },
+      {
+        "path": "candidate.json",
+        "sha256": "9525990d26c583c5b96358388109893f26fd2016030070421400456caf865751",
+        "bytes": 793
+      },
+      {
+        "path": "firstReproduction.json",
+        "sha256": "dd68fd06f675ff42e126476c430b2ecba1dc1c8a28a8652fe28db34791e605b4",
+        "bytes": 393
+      },
+      {
+        "path": "runtimeDelta.json",
+        "sha256": "f664fd9d8311d9e857bd99659c64b506dbda7e5d832a8548fad73e3a6894c2d6",
+        "bytes": 445
+      },
+      {
+        "path": "sourceDelta.json",
+        "sha256": "3ba079238f5610d33bd6091ca852686d3730acd124ce19e2149f53b6d3c80611",
+        "bytes": 343
+      },
+      {
+        "path": "baseline.json",
+        "sha256": "de842d56512ca65b6994790601e20baf100511e7201d429de9c739ac8d4f5fea",
+        "bytes": 1821
+      },
+      {
+        "path": "preservation.json",
+        "sha256": "a16d3ba5de9b33b09bc5cc57e6655d694e645e6426a37f57bdc0b5a1b92dd6b6",
+        "bytes": 3068
+      },
+      {
+        "path": "linuxReview.json",
+        "sha256": "3c06d7881f8268393460c8af5c79fa30d7492a14b6b2f62fe474751992f3c31d",
+        "bytes": 2801
+      },
+      {
+        "path": "package.json",
+        "sha256": "cddc480c80f6758e21dd90a2ffc678704d5dd10f5ee4fbcc435427f7ccc1b1e7",
+        "bytes": 1315
+      },
+      {
+        "path": "overlay.json",
+        "sha256": "2cf80962f25413e613e81228fb1a615fb62270ab2cabbf748a3aaddf84367ee1",
+        "bytes": 823
+      },
+      {
+        "path": "mutations.json",
+        "sha256": "148efc14f137e17cb2ace03a5c017d838360d93d71c667d941b729a58425d32c",
+        "bytes": 3071
+      },
+      {
+        "path": "consumer.json",
+        "sha256": "b8e7a1f114aeae7e49defddab316344087e7ff7afc07411b9bd2d37679a2cbc3",
+        "bytes": 403
+      },
+      {
+        "path": "sdk-gates/reference-damage.txt",
+        "sha256": "8d589f0f28cf43af0c986f946ab2474b046a9406c76a65d41154aa50a6a5f3dc",
+        "bytes": 790
+      },
+      {
+        "path": "sdk-gates/reference-verify.txt",
+        "sha256": "ed9449e747fdb1f57570cdcc3c0c46a363a0e3720d661dd8df1026f2e66fb987",
+        "bytes": 972
+      },
+      {
+        "path": "sdk-gates/verification.json",
+        "sha256": "20eafddab285795f9b7424657e83b3027990da16946508ff8a10e3d4e895330a",
+        "bytes": 359
+      },
+      {
+        "path": "sdk-gates/verify.txt",
+        "sha256": "dc8534afdbcff9e4f8cce967f283e80dc01352ce356a80d0208461eec90b303f",
+        "bytes": 116382
+      },
+      {
+        "path": "game-gates/attack-sequences.txt",
+        "sha256": "9a57909cf95798d642d98b56f0574dbaa25140ecba223146e57ea57f4e70dac5",
+        "bytes": 1189
+      },
+      {
+        "path": "game-gates/damage-reference.txt",
+        "sha256": "c5af322388dd04a57b909b4d2a7101fe091cc11445d6327acfab6e2cf912870a",
+        "bytes": 727
+      },
+      {
+        "path": "game-gates/probe-anatomy.txt",
+        "sha256": "ac7c2bc9485cd5ccb081561eb79c33f8edc696f0416aceaa53dcfc33c09f04ec",
+        "bytes": 4588
+      },
+      {
+        "path": "game-gates/probe-defensecues.txt",
+        "sha256": "10cd4b62cb391fa7f7e72c668066f35a5e4bd06a531658d9766b30a589424bca",
+        "bytes": 4616
+      },
+      {
+        "path": "game-gates/probe-defenses.txt",
+        "sha256": "c90e045b9599b30c6e5006ff7599d0af2f817de5df2b3cfb13a939681f364f77",
+        "bytes": 6979
+      },
+      {
+        "path": "game-gates/probe-skillpreview.txt",
+        "sha256": "7cb9600b82d0e018c7179550577a5e3f0c898c72d7e2da075c42404aa15e167d",
+        "bytes": 3316
+      },
+      {
+        "path": "game-gates/probe-talents.txt",
+        "sha256": "45d915f59dd2ee340a289bfe6b27918c8688f359d8bf17c2e5dc4230c5b3de7e",
+        "bytes": 5208
+      },
+      {
+        "path": "game-gates/probe-throngcombat.txt",
+        "sha256": "b61c8e5e0019843039546aeae30e31719ea0272b0edd2bd95678e494d4b7f6fc",
+        "bytes": 5164
+      },
+      {
+        "path": "game-gates/smoke.txt",
+        "sha256": "d1f51653ee119d846cb4542639c023a18bf9254e0f9f377a922be25123fa11d3",
+        "bytes": 2120
+      },
+      {
+        "path": "game-gates/types.txt",
+        "sha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d",
+        "bytes": 107
+      },
+      {
+        "path": "game-gates/verification.json",
+        "sha256": "4a973ddb796df235c6d73b811c7905c6a892de32c1e267a423b9c7853ee5c094",
+        "bytes": 1272
+      },
+      {
+        "path": "installed/reference.txt",
+        "sha256": "869077937b00965810f176cacbc92ed90eaaf5cc0f67e42e636f0001ef4144f7",
+        "bytes": 727
+      },
+      {
+        "path": "installed/verification.json",
+        "sha256": "18998bad7c0db4c8ad88b1580f8edd3821ee859138f826d68c320c6d98766855",
+        "bytes": 1348
+      },
+      {
+        "path": "installed-faults/absorb-expiry.json",
+        "sha256": "c25703a1ff7646c781fc6e54b65f286ba9d22ebb04ca57bf50b3186e543c3296",
+        "bytes": 3725742
+      },
+      {
+        "path": "installed-faults/absorb-expiry.txt",
+        "sha256": "b59378f04a9f4daf4cfa0267cb71b8c08e5f2c50fccb272ab0c6079b9341a1a6",
+        "bytes": 805
+      },
+      {
+        "path": "installed-faults/added-damage.json",
+        "sha256": "b4c697f8dab06a70b7f25e9dc4a4e372fa103d5761f34fa4c7f5d23730c12735",
+        "bytes": 3728992
+      },
+      {
+        "path": "installed-faults/added-damage.txt",
+        "sha256": "b59378f04a9f4daf4cfa0267cb71b8c08e5f2c50fccb272ab0c6079b9341a1a6",
+        "bytes": 805
+      },
+      {
+        "path": "installed-faults/armor.json",
+        "sha256": "6ee83abee2db968b2c1e38bf7e3886cd753f5a54aea53e12fbdbc9ea2c3cab98",
+        "bytes": 3728718
+      },
+      {
+        "path": "installed-faults/armor.txt",
+        "sha256": "b59378f04a9f4daf4cfa0267cb71b8c08e5f2c50fccb272ab0c6079b9341a1a6",
+        "bytes": 805
+      },
+      {
+        "path": "installed-faults/capture.ts",
+        "sha256": "74082ccf4afc94561ac25990f0ae18b088050294519a4e12901ce9e5f470b43c",
+        "bytes": 16815
+      },
+      {
+        "path": "installed-faults/control.json",
+        "sha256": "f009a9f35c0d30e72cf2e9f00dc25917d5febdf82ff184d02ed77f8e4740762c",
+        "bytes": 3728835
+      },
+      {
+        "path": "installed-faults/control.txt",
+        "sha256": "b59378f04a9f4daf4cfa0267cb71b8c08e5f2c50fccb272ab0c6079b9341a1a6",
+        "bytes": 805
+      },
+      {
+        "path": "installed-faults/crit-avoidance.json",
+        "sha256": "c87b180d6409a660e67b85c96e9249ef4501dcc2c44a19c588c5acf5aaceb0d5",
+        "bytes": 3728681
+      },
+      {
+        "path": "installed-faults/crit-avoidance.txt",
+        "sha256": "b59378f04a9f4daf4cfa0267cb71b8c08e5f2c50fccb272ab0c6079b9341a1a6",
+        "bytes": 805
+      },
+      {
+        "path": "installed-faults/incoming-conversion.json",
+        "sha256": "22aa280a866e7637f6ab130065fdfcf449d85e7a2542fd5f6a0e942e29e5fe13",
+        "bytes": 3728837
+      },
+      {
+        "path": "installed-faults/incoming-conversion.txt",
+        "sha256": "b59378f04a9f4daf4cfa0267cb71b8c08e5f2c50fccb272ab0c6079b9341a1a6",
+        "bytes": 805
+      },
+      {
+        "path": "installed-faults/insight.json",
+        "sha256": "a483b0d1b0765d83a62abcf2fa7db0984e3baa62166a6cce09e0e68c2673e9cb",
+        "bytes": 3728837
+      },
+      {
+        "path": "installed-faults/insight.txt",
+        "sha256": "b59378f04a9f4daf4cfa0267cb71b8c08e5f2c50fccb272ab0c6079b9341a1a6",
+        "bytes": 805
+      },
+      {
+        "path": "installed-faults/verification.json",
+        "sha256": "976308387771969c36d19595f11aa214d9d3ef62c71fd550f338f751c0cba1f7",
+        "bytes": 1385
+      },
+      {
+        "path": "consumer/tests.txt",
+        "sha256": "853417f8797bb3cdbee0206629fe319d430bfd03b932c6e5d1944622ad5db0ca",
+        "bytes": 1728
+      },
+      {
+        "path": "consumer/types.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "consumer/verification.json",
+        "sha256": "b8e7a1f114aeae7e49defddab316344087e7ff7afc07411b9bd2d37679a2cbc3",
+        "bytes": 403
+      },
+      {
+        "path": "mutations/added-flat.txt",
+        "sha256": "3bb086e258a6216645d32f452787e9f0886d6f47a1a0e1f022ab459b6470fc60",
+        "bytes": 2835
+      },
+      {
+        "path": "mutations/armor.txt",
+        "sha256": "9d3d76f22cd9a7432016691169398d6eaad03fbf455abf976853e7f25bbb4372",
+        "bytes": 3507
+      },
+      {
+        "path": "mutations/block.txt",
+        "sha256": "686ee5f2a84c2c11b5c3063cdbcae668386f5592ebcd09fcffaf90fe37caa2b8",
+        "bytes": 2662
+      },
+      {
+        "path": "mutations/conversion-extra.txt",
+        "sha256": "3accb18fa5b0e239d433b049c9cfe2a679947616420548eafb2e447f20166935",
+        "bytes": 2837
+      },
+      {
+        "path": "mutations/crit-avoidance.txt",
+        "sha256": "842ef8842656d24668a73c92c90cb647c219d02ccf361b4dd5dacd04dbe8f9d9",
+        "bytes": 2664
+      },
+      {
+        "path": "mutations/dot-shield-resistance.txt",
+        "sha256": "e1b46fcde68c39fc28805546f14b1bc7ce583c8b400fc08b92251d71be55d545",
+        "bytes": 2669
+      },
+      {
+        "path": "mutations/endurance.txt",
+        "sha256": "44a1bac9f3e579af510beaaaaa6f6a001b7ec551b63b7dada7f199ee050d84ce",
+        "bytes": 2621
+      },
+      {
+        "path": "mutations/expiry.txt",
+        "sha256": "9938e2a27941dde224195d04dee5f4bfce5190887e9e03e22d66e86c5afaac3d",
+        "bytes": 2655
+      },
+      {
+        "path": "mutations/hit-cap.txt",
+        "sha256": "45a3adfe5cf808360cc6645f48dd4ae9d392bf6ea24d8fe36b623b842736833f",
+        "bytes": 2619
+      },
+      {
+        "path": "mutations/incoming-normalization.txt",
+        "sha256": "444c2f9b4cf435f216b74c16ee7716022dc3e12b4c152ac16ba0d360ec28772d",
+        "bytes": 2838
+      },
+      {
+        "path": "mutations/insight.txt",
+        "sha256": "815d430d1372450d277da106a23bd760347b47afba2827110034c9941c56b731",
+        "bytes": 2625
+      },
+      {
+        "path": "mutations/last-gasp.txt",
+        "sha256": "fe4443483d28b9b05e1f20f48eaba20c86836e838494667567c78df1abcec2c7",
+        "bytes": 2666
+      },
+      {
+        "path": "mutations/ledger.txt",
+        "sha256": "3c57aeb8f1b14c046559b2e59a62b2f43cc86a15bc90e22435df51e93aa33932",
+        "bytes": 2619
+      },
+      {
+        "path": "mutations/leech.txt",
+        "sha256": "07b382c925b4e7fc2cbd61679f567717acf2da3436e026252ce81c57dde4762b",
+        "bytes": 2653
+      },
+      {
+        "path": "mutations/lucky.txt",
+        "sha256": "0e34407d804280a08d1b07bcb3d9981f685b0413db091c1f6df6317e9aad2538",
+        "bytes": 2664
+      },
+      {
+        "path": "mutations/penetration.txt",
+        "sha256": "316dfffc476a17dd1b41599094d0f9b07059696b5b67506adafe0fcb41aa0fbc",
+        "bytes": 2591
+      },
+      {
+        "path": "mutations/ply.txt",
+        "sha256": "6ca6638f8dff0aa1a889fc11cf8e7208be4e6c0e9b3ee4c4e8ef08d4f7f41d27",
+        "bytes": 2635
+      },
+      {
+        "path": "mutations/poise-drain.txt",
+        "sha256": "1973694ccc35d29edaf1891cba914fc49731307507d717d0dca39eac124caa0e",
+        "bytes": 2623
+      },
+      {
+        "path": "mutations/shield-bypass.txt",
+        "sha256": "7f02431e864047a492a60c6f5201a59acac0d80d22deaf52e81847950c5328af",
+        "bytes": 2669
+      },
+      {
+        "path": "mutations/verification.json",
+        "sha256": "148efc14f137e17cb2ace03a5c017d838360d93d71c667d941b729a58425d32c",
+        "bytes": 3071
+      },
+      {
+        "path": "final-prepare/location.json",
+        "sha256": "ea9b37dd8c15d7538ed9e5d1625f23fc74e9efa999007ce56f8f0287e12f33d4",
+        "bytes": 5704
+      },
+      {
+        "path": "final-prepare/prepare.txt",
+        "sha256": "87770cfbc5edb68cb5db073888db0a0a11c0627d9dedbb7f4ee9c0bbbf8e7b56",
+        "bytes": 315
+      },
+      {
+        "path": "baseline/original-final.json",
+        "sha256": "fa55feb409b95e67518d8ae638f2c38ca99bd3d0b3a91c051ba60f5458161ded",
+        "bytes": 522
+      },
+      {
+        "path": "baseline/original-confirm.json",
+        "sha256": "ae277bbd87f2109a5a5d4799614d52449231d63e810ead9f19ecadb9f59a9f69",
+        "bytes": 524
+      },
+      {
+        "path": "baseline/predecessor.json",
+        "sha256": "c00dc97ceba4dceff0bb437c62b6280d74f8e1fa75c500d64711860582e6bc57",
+        "bytes": 555
+      },
+      {
+        "path": "native-course/input.json",
+        "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "bytes": 2
+      },
+      {
+        "path": "native-course/requests.jsonl",
+        "sha256": "c21172af415652f80d197f6bc75faa1525f1a8c00e92bc2546c5fb4dc969b78f",
+        "bytes": 466
+      },
+      {
+        "path": "native-course/verification.json",
+        "sha256": "5437e78ea5caea689838167c59b8a7eb960c289079cc76bd2198df3fa51797ca",
+        "bytes": 11951
+      },
+      {
+        "path": "native-course/original/entry.ts",
+        "sha256": "13b003d2702be9f3b2dae1a82e0e0f42923f7f7ecce24e51693d0834f887e74d",
+        "bytes": 45981
+      },
+      {
+        "path": "native-course/original/library.jsonl",
+        "sha256": "d5c4332a58aa8bf2ba887a47f8ecefc54be960657e195751f994ae96636374d4",
+        "bytes": 6391110
+      },
+      {
+        "path": "native-course/original/library.txt",
+        "sha256": "6bcfb1b2a9b077b274ef62ca52f1b316b7801a85183033f9a3dbfd3c129eb267",
+        "bytes": 209
+      },
+      {
+        "path": "native-course/original/metafile.json",
+        "sha256": "5af68625a87de2770dc79f3b0f920b30745d743ef7a442b5564197caa21a5b2a",
+        "bytes": 622146
+      },
+      {
+        "path": "native-course/original/native.jsonl",
+        "sha256": "7b258feaf0d80c7a398b8c6c1ed812a578aaaadd51f313cac5b85fd494f23d78",
+        "bytes": 6391143
+      },
+      {
+        "path": "native-course/original/native.txt",
+        "sha256": "edbb58b8f2e82255bd624b67e3121929fa4612d468aa4f6c04f4c763e129d27f",
+        "bytes": 156
+      },
+      {
+        "path": "native-course/original/node-services.json",
+        "sha256": "027977d5d0f602cd7f9e5a7b3a02a9bffaf951b450bfbcc10d4beb372b239b98",
+        "bytes": 15431
+      },
+      {
+        "path": "native-course/original/node.jsonl",
+        "sha256": "a609cd4c1738d8a1d5973782e8958aae47bfa6391010076a2d2694ae84d273f8",
+        "bytes": 6380693
+      },
+      {
+        "path": "native-course/original/verification.json",
+        "sha256": "cf98d7cdb90a48b0ca73330bb5ca79abbb0d4229f7abf3ce9d33bb4753b94f4c",
+        "bytes": 1301
+      },
+      {
+        "path": "native-course/installed/entry.ts",
+        "sha256": "b5d9d2f03c248d16c4e7d454144079277cb1e592d6a8dd35efca11eeb86481cb",
+        "bytes": 46557
+      },
+      {
+        "path": "native-course/installed/library.jsonl",
+        "sha256": "d5c4332a58aa8bf2ba887a47f8ecefc54be960657e195751f994ae96636374d4",
+        "bytes": 6391110
+      },
+      {
+        "path": "native-course/installed/library.txt",
+        "sha256": "4bde8b144df4448228b36bf971d8cebe5d78e8d4f90ce3e7409c2d297c9f4633",
+        "bytes": 209
+      },
+      {
+        "path": "native-course/installed/metafile.json",
+        "sha256": "6e9764a1e16ed7a6968446866b52360016a430b5331e8252fca0813f78faf786",
+        "bytes": 844389
+      },
+      {
+        "path": "native-course/installed/native.jsonl",
+        "sha256": "7b258feaf0d80c7a398b8c6c1ed812a578aaaadd51f313cac5b85fd494f23d78",
+        "bytes": 6391143
+      },
+      {
+        "path": "native-course/installed/native.txt",
+        "sha256": "af3d358249f62ff6a98399306839a48fc4881f85a5d367fa74f42c5568c3c3b9",
+        "bytes": 156
+      },
+      {
+        "path": "native-course/installed/node-services.json",
+        "sha256": "027977d5d0f602cd7f9e5a7b3a02a9bffaf951b450bfbcc10d4beb372b239b98",
+        "bytes": 15431
+      },
+      {
+        "path": "native-course/installed/node.jsonl",
+        "sha256": "a609cd4c1738d8a1d5973782e8958aae47bfa6391010076a2d2694ae84d273f8",
+        "bytes": 6380693
+      },
+      {
+        "path": "native-course/installed/verification.json",
+        "sha256": "118a0a7567ff0ba6adc45e21fee49a0b5bc07c39b14ec345bbf9765d1f2f8dc4",
+        "bytes": 1302
+      },
+      {
+        "path": "native-course/early-freeze-fault/entry.ts",
+        "sha256": "b5d9d2f03c248d16c4e7d454144079277cb1e592d6a8dd35efca11eeb86481cb",
+        "bytes": 46557
+      },
+      {
+        "path": "native-course/early-freeze-fault/metafile.json",
+        "sha256": "3e6cab030173b4f7bb64c0e0c4635981057170293b7da33c92aacd36668fe2a6",
+        "bytes": 844425
+      },
+      {
+        "path": "native-course/early-freeze-fault/native.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "native-course/early-freeze-fault/native.txt",
+        "sha256": "2e332c3380a8ef94e1043057468e72b67a9277cf150016fc305b88fe8b0b9bfc",
+        "bytes": 665
+      },
+      {
+        "path": "native-course/early-freeze-fault/node-services.json",
+        "sha256": "027977d5d0f602cd7f9e5a7b3a02a9bffaf951b450bfbcc10d4beb372b239b98",
+        "bytes": 15431
+      },
+      {
+        "path": "native-course/early-freeze-fault/node.jsonl",
+        "sha256": "a609cd4c1738d8a1d5973782e8958aae47bfa6391010076a2d2694ae84d273f8",
+        "bytes": 6380693
+      },
+      {
+        "path": "native-course/early-freeze-fault/verification.json",
+        "sha256": "81003a2d171ee262ffd4ffff74afb60f5a559c157db5fa1f85aa8e763e4c313f",
+        "bytes": 437
+      },
+      {
+        "path": "native-course/native/build-commands.json",
+        "sha256": "69fd5a55dad31504c33a3c016241ec3eabb094daa793d7a4089c3da77a7391b1",
+        "bytes": 1670
+      },
+      {
+        "path": "native-course/native/build.txt",
+        "sha256": "4afb29cbb31a90255acc2c1428ae39bce37cb6a14a3f510ce18513499e0a43b1",
+        "bytes": 798
+      },
+      {
+        "path": "native-course/library/build-commands.json",
+        "sha256": "18ff34e0af15d51141edf27c901888a5c3d3275e8e60e8ab365e6d026b6d6d2c",
+        "bytes": 2354
+      },
+      {
+        "path": "native-course/library/build.txt",
+        "sha256": "c39c68444c4b90bd8a949aa274024d37ffa9ced9b92a015013528f01b87fdcff",
+        "bytes": 1096
+      },
+      {
+        "path": "native-course/library/exports.txt",
+        "sha256": "071a162bd5cda068b18219b87262ef8d0185400a525bf76cc4ffad575dd01aaa",
+        "bytes": 1060
+      },
+      {
+        "path": "prior-linux/verification.json",
+        "sha256": "b98f56d92aefd310e1fb710787d5fcb3eb78c0460885927f411e88c05c8afe64",
+        "bytes": 10464
+      },
+      {
+        "path": "prior-linux/node.jsonl",
+        "sha256": "a609cd4c1738d8a1d5973782e8958aae47bfa6391010076a2d2694ae84d273f8",
+        "bytes": 6380693
+      },
+      {
+        "path": "prior-linux/native.jsonl",
+        "sha256": "ed7d3ac5a895d51c060ad7b9d5385f565efda10f248394847631ec61f3b2ad90",
+        "bytes": 6391108
+      },
+      {
+        "path": "prior-linux/native.txt",
+        "sha256": "6749618eb6742b527f200194379b29c781a358544371c63b459b4f6e29837de4",
+        "bytes": 155
+      },
+      {
+        "path": "initial-package-accounting/zxrEFd/verification.json",
+        "sha256": "0cab0590d313d326ab1c3f47b5ce4e45098f5e9a0131934e00020600dd9531aa",
+        "bytes": 371
+      },
+      {
+        "path": "initial-package-accounting/zxrEFd/verify.txt",
+        "sha256": "3e96fce01afe8c3e8707d2430ca57a57ff336d895a703cae340cf2464206224c",
+        "bytes": 97475
+      },
+      {
+        "path": "initial-package-accounting/cNxe1j/verification.json",
+        "sha256": "3f089fa210fb0bc43f87af75e26588aaf4ef413f0bf960bf22107cae217a19c8",
+        "bytes": 371
+      },
+      {
+        "path": "initial-package-accounting/cNxe1j/verify.txt",
+        "sha256": "d3861327ef0ff7a45ce1c47f8cf2760ac073e69a95208af56dec8eabcfb553a5",
+        "bytes": 97470
+      },
+      {
+        "path": "initial-actor-nullability/types.txt",
+        "sha256": "253f0afac01e89086144f3fb0507affe458744bf3ecfa4b5281b22297514bbab",
+        "bytes": 414
+      }
+    ]
+  },
+  "sources": {
+    ".github/workflows/verify.yml": "7d85c66f2909bafa6f3ea4436dd00a6a61a53b1a5b19896c71c442e27e567d91",
+    "README.md": "1949ca8256765c70c4df40765c1cdb25088c99d209a49457a25c05e8cbc0da35",
+    "adapters/hollow-wake/absorb.ts": "1b4625f4e31fa72efdcfaf5ed1526d85a7763839a9f23204ed3f57b3639d92e1",
+    "adapters/hollow-wake/damage-boundary.json": "67938c71c5f4c3607694e7961511d97bb4fcca3ac3bd0d90cbc9eb20a7dc63c4",
+    "adapters/hollow-wake/damage-pipeline.ts": "ba20dfa99479214e471a23af71bf1eff1a01993a31559a992790d246255920fa",
+    "adapters/hollow-wake/damage.ts": "4b5e950513853f21982f305b9ad453b618e3248ce314a8250bfe296f6a4f6349",
+    "adapters/hollow-wake/integrate-damage-pipeline.mjs": "4aac4ee39d6d10209cd89de0a209b0cb5d627306895d84206fbd547f884b875a",
+    "baseline/damage-pipeline/acceptance.json": "340d38c8a46c2e6b7acf6f6fa9564b5e43ca66d8032b5a897da4673bb97d68d1",
+    "baseline/damage-pipeline/observations.json.gz": "07b41e7e9ac501e44e24e45ffffe59c18b561f2ddfcbcb2dce76f56c03b26ffd",
+    "baseline/damage-pipeline/source-boundary.json": "41ba1e9b3da686037e04b19031d4577041a25344bf254a47fc540d755eca7284",
+    "docs/boundary-contract.md": "88b1a53ff02f13a9bf2c5870f767b9200ef6be9bbf4b9532071daf6903efc90e",
+    "docs/completion.json": "cc221c2979ed7b25b760653ee80b68da9236690f792cd890efdc13104a0cb77f",
+    "docs/damage-pipeline.md": "533b4f7fde950abb876fd0379a023ea073768601216015af1a8d34680717aa90",
+    "docs/native-attack-course.md": "3032054113a9e2f1a1674593e13affde887dee0641378d73a8d6dba60b7d8d43",
+    "docs/verification.md": "bfa69bfea36d1a72cb7f29192a2528bc0cd0eb4f4282c1abf190287f4eb17dfd",
+    "package.json": "16920a91b543d6ad07063ae0eeac2e43dcbb2ac25a459445e7f6ca022a231f79",
+    "reference/export-damage-pipeline.ts": "b05f57d85503df81208e71c69254c07b4139b0f9c4accb9013d59c044596462d",
+    "scripts/check-boundaries.mjs": "2fbafe2f9d73567c5a43592e7ed56df3cc65a931d794275bc8ebf49069a4ddeb",
+    "scripts/native-attack-comparison.mjs": "9737e1b0922f779716c58ee48cd07f2c4ff2aef6dea9914fcb6e78fa92751711",
+    "scripts/prepare-game-adapter.mjs": "e6e34533fc6726c597240785b1e03f59bee8f1f4a701a05cb736fddbad6523a5",
+    "scripts/run-damage-pipeline-reference.mjs": "24c8ecff33b14df58fa949cdc9136641b7de57a26459ed13b4d1e8d48f84a3d5",
+    "scripts/test-damage-mutations.mjs": "3cdc800608068b9ece60ef7199e4b7aed304589f8ad7411b3c0c5777014eb753",
+    "scripts/test-damage-overlay.mjs": "350eca45f22e4b7a32703b4fcfd5e6bc0fdb6fa52745a9a0fa919ed80f0653d4",
+    "scripts/test-damage-package.mjs": "2120190d5a8a1e799ca329361186a2c4a6ec7ec9b0bd36466510c1b9db7d1cf8",
+    "scripts/test-game-damage-faults.mjs": "1b8dc6383ec79e0a397ba8c7e054e6a5ade8effe6ecf69c0b5d7c6429e55f875",
+    "scripts/test-game-damage.mjs": "9e975686ad876664565e61fbc16d224f923ce70b919f693f3c1438b87f35c18f",
+    "scripts/test-native-attack-course.mjs": "e93693c4e7b8f769003d02017faa7e2ecb9c47c750c843c4fa9e8c1385f563a2",
+    "scripts/test-package.mjs": "6bedfb60e16f111cf3e4d2a421b3ce5f84b73e045059f170e0f9e7e24b97d91d",
+    "src/damage-pipeline-types.ts": "93f8b51ef92f95c03386a9abb99ad3f9048d90b8e9906a81d4cbd15785aaed70",
+    "src/damage-pipeline.ts": "75d61a97625efbb23af68e9c0d546eb777e8cc605677e650d9d477dc95856681",
+    "test/damage-pipeline.test.mjs": "5038dc50dc21bc1c487ce51f87adeeb51fe6958028c287aa2f5b35d2458806ee",
+    "test/native-attack-comparison.test.mjs": "70d927ede29067981817986ee91a0c537c3a877a62b5a8261e6e9484d6b004d6",
+    ".github/workflows/embedded-host.yml": "667f34c9b2241c227daf40222de8bf455dae37c8c6a3fd6b958d46b23e4b79e4"
+  },
+  "remaining": [
+    "Complete actor/status/death/delivery extraction",
+    "Linux installed native full-course acceptance after the reviewed geometric comparator",
+    "Dedicated new renderer acceptance",
+    "Supported Unity/Godot/Unreal packages for the complete SDK",
+    "Measured Steam Deck/older mobile CPU and memory acceptance",
+    "Other scoped gameplay families and current-source reconciliation"
+  ]
+}

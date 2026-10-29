@@ -272,13 +272,17 @@
     "./combat/attack-sequence-content": {
       "types": "./dist/attack-sequence-content.d.ts",
       "import": "./dist/attack-sequence-content.js"
+    },
+    "./combat/damage": {
+      "types": "./dist/damage-pipeline.d.ts",
+      "import": "./dist/damage-pipeline.js"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs && node scripts/test-skill-admission-package.mjs && node scripts/test-skill-intent-package.mjs && node scripts/test-skill-request-package.mjs && node scripts/test-skill-dispatch-package.mjs && node scripts/test-casting-continuation-package.mjs && node scripts/test-channel-bank-package.mjs && node scripts/test-actor-condition-mutations.mjs && node scripts/test-actor-condition-package.mjs && node scripts/test-proc-mutations.mjs && node scripts/test-proc-package.mjs && node scripts/test-proc-effects-mutations.mjs && node scripts/test-proc-effects-package.mjs && node scripts/test-delayed-mutations.mjs && node scripts/test-delayed-package.mjs && node scripts/test-buff-mutations.mjs && node scripts/test-buff-package.mjs && npm run test:life-recovery-package && npm run test:life-recovery-mutations && npm run test:restoration-package && npm run test:restoration-mutations && npm run test:cooldown-package && npm run test:cooldown-mutations && npm run test:cooldown-lifecycle-package && npm run test:cooldown-lifecycle-mutations && npm run test:ready-bank-package && npm run test:ready-bank-mutations && npm run test:sequence-recovery-package && npm run test:sequence-recovery-mutations && npm run test:attack-sequences-package && npm run test:attack-sequences-mutations",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs && node scripts/test-skill-admission-package.mjs && node scripts/test-skill-intent-package.mjs && node scripts/test-skill-request-package.mjs && node scripts/test-skill-dispatch-package.mjs && node scripts/test-casting-continuation-package.mjs && node scripts/test-channel-bank-package.mjs && node scripts/test-actor-condition-mutations.mjs && node scripts/test-actor-condition-package.mjs && node scripts/test-proc-mutations.mjs && node scripts/test-proc-package.mjs && node scripts/test-proc-effects-mutations.mjs && node scripts/test-proc-effects-package.mjs && node scripts/test-delayed-mutations.mjs && node scripts/test-delayed-package.mjs && node scripts/test-buff-mutations.mjs && node scripts/test-buff-package.mjs && npm run test:life-recovery-package && npm run test:life-recovery-mutations && npm run test:restoration-package && npm run test:restoration-mutations && npm run test:cooldown-package && npm run test:cooldown-mutations && npm run test:cooldown-lifecycle-package && npm run test:cooldown-lifecycle-mutations && npm run test:ready-bank-package && npm run test:ready-bank-mutations && npm run test:sequence-recovery-package && npm run test:sequence-recovery-mutations && npm run test:attack-sequences-package && npm run test:attack-sequences-mutations && npm run test:damage-package && npm run test:damage-mutations",
     "example": "npm run build && node examples/first-path.mjs",
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
@@ -492,7 +496,11 @@
     "adapter:attack-sequences": "node scripts/test-game-attack-sequences.mjs",
     "adapter:attack-sequences-source": "node scripts/test-attack-sequences-overlay.mjs",
     "adapter:attack-sequences-faults": "node scripts/test-attack-sequences-installed-faults.mjs",
-    "reference:attack-sequence-content": "node scripts/run-attack-sequence-content-reference.mjs"
+    "reference:attack-sequence-content": "node scripts/run-attack-sequence-content-reference.mjs",
+    "reference:damage": "node scripts/run-damage-pipeline-reference.mjs",
+    "adapter:damage": "node scripts/test-game-damage.mjs",
+    "test:damage-package": "node scripts/test-damage-package.mjs",
+    "test:damage-mutations": "node scripts/test-damage-mutations.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

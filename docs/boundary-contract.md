@@ -13,6 +13,7 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | Character attribute fold, item contributions, connected passive point spend/refund | `Character` | Selected level-one build path implemented |
 | Numeric skill levels, tag-gated supports and one-rank tree selections | `ConfiguredSkill` | Implemented for the exposed arithmetic content |
 | Outgoing damage ranges, conversion, extra damage, lucky/unlucky and critical rolls | `Engine` | Implemented for pre-resolved spell contacts |
+| Shared roll/preview, attack accuracy/block, full defensive ladder, sustain, life landing, DoT, incoming conversion and absorb-layer clocks | Optional `combat/damage` | 119 original Actor courses match through the installed adapter; explicit skill, RNG, spatial-condition and cue ports. Actor lifecycle, stat/content registration, death processing and persistence remain host-owned; see [damage pipeline](damage-pipeline.md) |
 | Armor, capped resistances, penetration, damage taken and crit avoidance | `Target` | Plain defender implemented; other defensive layers rejected |
 | Random stream and continuation state | Each `Engine` | Serializable Mulberry32 state; no ambient RNG |
 | Inventory grids and synchronous ownership transfer | `Inventory`, per board | Indexed grids, masks, atomic moves/swaps/transfers and versioned snapshots; see inventory contract |

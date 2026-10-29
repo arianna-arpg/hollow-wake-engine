@@ -1,5 +1,22 @@
 # Verification and reproduction
 
+The [shared damage service](damage-pipeline.md) matches 119 original Actor courses
+including state writes, query order, random draws and callback failures. Its fresh
+adapter reproduction passes game/launcher/simulation types, six combat probes,
+114 attack-course checks, 12 attack-content projections and 25 smoke episodes.
+The full attack course also passes through the native driver and shared library
+with exact original-versus-installed native output. Independent arithmetic,
+packed consumer, browser build and deliberate-fault checks cover the new service.
+Device measurements and complete actor/native-engine packaging remain open.
+
+All 1,048 SDK tests and both original-reference gates pass for this checkpoint.
+Nineteen runtime faults and six installed-package faults are detected. All 225
+predecessor outputs remain unchanged; the optional module adds 32,770 bytes of
+unminified JavaScript. The separate 33 KiB growth limit is a packaging guard,
+not a performance result. [Raw-backed evidence](../evidence/damage-pipeline/windows.json)
+retains the successful runs, initial package-accounting failures and Linux
+original-game comparison review.
+
 The [native full-game attack course](native-attack-course.md) verifies 114 actual
 gameplay checks and 150,608 numeric observations through the pinned native driver
 and shared library on Windows x64. Original and installed native results match

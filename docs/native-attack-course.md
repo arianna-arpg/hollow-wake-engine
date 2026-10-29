@@ -1,5 +1,18 @@
 # Native full-game attack course
 
+The first Linux run of this course exposed ten original-game geometry
+differences from Node: two actor facing values and eight projectile `pos.x` /
+`anchor.x` observations, with maximum absolute difference
+`4.547473508864641e-13`. The latter follow the original cosine-based projectile
+advance. All other 150,598 numeric observations and all nonnumeric data match.
+The reviewed comparator now allows at most `1e-12` absolute error only for
+coordinates in `sequence.flight` before-call observations, alongside the earlier
+facing tolerance. Dedicated negative controls reject damage, time, RNG, unrelated
+coordinate changes and larger drift. Original-versus-installed native comparisons
+still require exact equality everywhere. This corrects a diagnostic comparison;
+it changes no runtime arithmetic. The Linux installed replay must pass hosted
+verification before that platform's full-course checkpoint is accepted.
+
 The real Hollow Wake adapter now completes the frozen Cleave course in the
 pinned QuickJS-NG 0.17.0 development driver on local Windows x64. The original
 game and installed SDK adapter produce identical native observations: 114 checks,

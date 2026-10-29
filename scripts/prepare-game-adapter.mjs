@@ -1,5 +1,6 @@
 import {verifyAttackSequencesOverlay} from './test-attack-sequences-overlay.mjs';
 import {integrateAttackSequences} from '../adapters/hollow-wake/integrate-attack-sequences.mjs';
+import {integrateDamagePipeline} from '../adapters/hollow-wake/integrate-damage-pipeline.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -85,6 +86,7 @@ integrateSkillIntent(game, false);
 integrateSkillRequest(game, false);
 integrateProcEffects(game, false);
 integrateSequenceRecovery(game, false);
+integrateDamagePipeline(game, false);
 // A distinct tool environment: never install into the frozen reference or another checkout's junction.
 const tooling = fs.mkdtempSync(path.join(artifacts, 'adapter-tools-'));
 for (const file of ['package.json', 'package-lock.json']) fs.copyFileSync(path.join(root, 'reference/tooling', file), path.join(tooling, file));
@@ -204,6 +206,9 @@ verifyAttackSequencesOverlay(game);
 const attackSequences = integrateAttackSequences(game);
 changes.files.push(...attackSequences.files);
 changes.attackSequencesDecision = attackSequences.decision;
+const damagePipeline = integrateDamagePipeline(game);
+changes.files.push(...damagePipeline.files);
+changes.damageDecision = damagePipeline.decision;
 fs.symlinkSync(path.join(tooling, 'node_modules'), path.join(game, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
 fs.copyFileSync(path.join(root, 'reference/export-lifecycle.ts'), path.join(game, 'balance/export-engine-lifecycle.ts'));
 fs.writeFileSync(path.join(artifacts, 'adapter-location.json'), JSON.stringify({ game, tooling, package: packed.filename, archive, integrity: packed.integrity, ...changes }, null, 2));

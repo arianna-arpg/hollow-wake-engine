@@ -21,6 +21,13 @@ and shared library. Their gameplay observations match exactly. This exposed and
 fixed a proc subclass construction failure; the game-specific diagnostic remains
 separate from the selected Godot package and future standalone actor API.
 
+The [shared damage pipeline](docs/damage-pipeline.md) now delegates outgoing
+rolls/previews, the complete hit and DoT defense ladder, sustain, incoming
+conversion and absorption clocks through explicit host services. Its 119 frozen
+original courses match the installed adapter; independent arithmetic checks,
+combat probes and the native full-game course cover the new boundary. Performance
+and complete standalone actor/native-package acceptance remain open.
+
 The v0.38 development candidate adds [resource restoration](docs/resource-restoration.md):
 shield/poise gain gates, immediate restore events, reserved-mana proc restoration
 and strict content compilers. Its separately committed native baseline is reproduced

@@ -140,6 +140,8 @@ jobs:
       - run: npm run reference:ready-bank
       - run: npm run reference:sequence-recovery
       - run: npm run reference:attack-sequences
+      - run: npm run reference:damage
+      - run: node scripts/test-damage-overlay.mjs
       - run: npm run reference:attack-sequence-content
       - run: node --import tsx balance/probe_cleave.ts
         working-directory: .reference
@@ -198,6 +200,8 @@ jobs:
       - run: npm run adapter:sequence-recovery
       - run: npm run adapter:sequence-recovery-faults
       - run: npm run adapter:attack-sequences
+      - run: npm run adapter:damage
+      - run: node scripts/test-game-damage-faults.mjs --location .artifacts/adapter-location.json
       - run: npm run adapter:attack-sequences-faults
       - run: node --import tsx balance/probe_cleave.ts
         working-directory: .artifacts/game-adapter
@@ -311,6 +315,18 @@ jobs:
             .artifacts/reference-attack-sequence-content-*/*.txt
             .artifacts/attack-sequences-reference-verification.json
             .artifacts/game-attack-sequences-verification.json
+            .artifacts/damage-pipeline-reference-verification.json
+            .artifacts/game-damage-verification.json
+            .artifacts/game-damage-fault-verification.json
+            .artifacts/game-damage-faults-*/*.json
+            .artifacts/game-damage-faults-*/*.txt
+            .artifacts/damage-overlay-verification.json
+            .artifacts/damage-package-verification.json
+            .artifacts/damage-mutation-verification.json
+            .artifacts/reference-damage-pipeline-*/*.json
+            .artifacts/reference-damage-pipeline-*/*.txt
+            .artifacts/game-damage-*/*.json
+            .artifacts/game-damage-*/*.txt
             .artifacts/attack-sequences-overlay.json
             .artifacts/attack-sequences-installed-faults.json
             .artifacts/reference-attack-sequences-*/*.json

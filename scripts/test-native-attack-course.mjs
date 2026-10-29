@@ -1,3 +1,4 @@
+import {compareAttackCourse as compare} from './native-attack-comparison.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
@@ -27,7 +28,7 @@ const expected = JSON.parse(expectedBytes), helper = fs.readFileSync(path.join(r
 assert.equal(sha256(helper), accepted.helperSha256);
 const lock = JSON.parse(fs.readFileSync(path.join(root, 'experiments/embedded-js/host-source-lock.json')));
 for (const [file, hash] of Object.entries(lock.files)) assert.equal(sha256(fs.readFileSync(path.join(upstream, file))), hash);
-const owned = ['scripts/test-native-attack-course.mjs', 'experiments/embedded-js/course-services.mjs',
+const owned = ['scripts/native-attack-comparison.mjs', 'scripts/test-native-attack-course.mjs', 'experiments/embedded-js/course-services.mjs',
   'experiments/embedded-js/session-host.c', 'experiments/embedded-js/host-support.h', 'experiments/embedded-js/tracked-allocator.h',
   'scripts/embedded-native-tools.mjs', 'scripts/native-tools.mjs', 'baseline/attack-sequences/acceptance.json', accepted.helper, accepted.observations];
 owned.push(...listFiles(path.join(root,'experiments/embedded-js/native')).map(file=>'experiments/embedded-js/native/'+file));
@@ -69,27 +70,6 @@ export function dispatch(controller,request){
  try{return controller.next();}catch(error){throw new Error(String(error)+'\\n'+error.stack);}
 }
 `;
-}
-function compare(actual, expected, tolerance = false) {
-  const differences = []; let numbers = 0;
-  function visit(a, b, at) {
-    if (typeof a === 'number' && typeof b === 'number') {
-      numbers++;
-      if (Object.is(a, b)) return;
-      // Existing cross-runtime 1e-12 contract, limited here to actor-facing
-      // trigonometry. Every RNG sample, timer, hit and decision stays exact.
-      if (tolerance && /^\$\/\d+\/value\/rows\/\d+\/worlds\/\d+\/actors\/\d+\/facing$/.test(at)
-        && Number.isFinite(a) && Number.isFinite(b) && Math.abs(a-b) <= 1e-12 * Math.max(1, Math.abs(b))) {
-        differences.push({path: at, actual: a, expected: b, absoluteError: Math.abs(a-b)}); return;
-      }
-      throw new Error(`Numeric mismatch at ${at}: ${a} != ${b}`);
-    }
-    if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') {assert.equal(a, b, at); return;}
-    assert.equal(Array.isArray(a), Array.isArray(b), at);
-    assert.deepEqual(Object.keys(a).sort(), Object.keys(b).sort(), at);
-    for (const key of Object.keys(b)) visit(a[key], b[key], at + '/' + key);
-  }
-  visit(actual, expected, '$'); return {numbers, differences};
 }
 const projected = output => ({rows: output.slice(0,31).flatMap(x=>x.value.rows), trace: output.slice(0,31).flatMap(x=>x.value.trace), random: output.slice(0,31).flatMap(x=>x.value.random)});
 try {
