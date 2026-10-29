@@ -144,6 +144,8 @@ jobs:
       - run: npm run reference:status-effects
       - run: node scripts/run-status-propagation-reference.mjs
       - run: node scripts/run-status-relay-reference.mjs
+      - run: node scripts/run-hit-status-reference.mjs
+      - run: node scripts/test-hit-status-observer.mjs
       - run: npm run adapter:status-effects-source
       - run: node scripts/test-status-overlay.mjs
       - run: npm run reference:damage
@@ -330,6 +332,12 @@ jobs:
             .artifacts/status-effects-reference-verification.json
             .artifacts/status-propagation-reference-verification.json
             .artifacts/status-relay-reference-verification.json
+            .artifacts/hit-status-reference-verification.json
+            .artifacts/hit-status-observer-verification.json
+            .artifacts/reference-hit-status-*/*.json
+            .artifacts/reference-hit-status-*/*.txt
+            .artifacts/hit-status-observer-*/*.json
+            .artifacts/hit-status-observer-*/*.txt
             .artifacts/reference-status-relay-*/*.json
             .artifacts/reference-status-relay-*/*.txt
             .artifacts/game-status-effects-verification.json
