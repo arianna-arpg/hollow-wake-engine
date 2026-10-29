@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "helper": "reference/export-attack-sequences.ts",
+  "helperSha256": "36f5b3fa6078bd3e77295671feac5ce5d6b947dfab7912d1eb39f2772b5cf1c5",
+  "observer": "reference/attack-sequence-observer.ts",
+  "observerSha256": "a66a306eab22ed6737e672f0bd99c5438287f08d93ecfb758cb4346fdc428071",
+  "observations": "baseline/attack-sequences/observations.json.gz",
+  "observationsSha256": "7b20c2c208f9f6f5ab26a7432e00afaeca97562415f2ce0ce4f0f3d027b3843a",
+  "compressedSha256": "df7ae067399ce626330693cf7e294920942618874e2676a51396ccdba6b1ea77",
+  "sourceBoundarySha256": "954d552067afa63d103dc5d51d1e36cd93f2d8fd3bc8b634b8b35bcfe9bb22f9",
+  "checks": 114,
+  "groups": 31,
+  "events": 7264,
+  "randomDraws": 2733,
+  "originalCaptures": 2,
+  "predecessorRuntimeOutputs": 216,
+  "productionImplementationStarted": false,
+  "comparison": "Exact complete serialized records, including nonfinite markers, object identities, ordering and every random draw.",
+  "notes": [
+    "First observer type-check failed on a nonexistent actor.shield field; corrected to actor.es before any baseline. Failed helper and log retained.",
+    "The unchanged pinned probe owns all actions and assertions. Observer wraps public calls and actor sinks, captures world state at checks and records the existing seeded random stream; no SDK outcomes supply expectations."
+  ]
+}

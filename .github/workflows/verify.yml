@@ -139,6 +139,8 @@ jobs:
       - run: npm run reference:cooldown-lifecycle
       - run: npm run reference:ready-bank
       - run: npm run reference:sequence-recovery
+      - run: npm run reference:attack-sequences
+      - run: npm run reference:attack-sequence-content
       - run: node --import tsx balance/probe_cleave.ts
         working-directory: .reference
       - run: npm run reference:ammunition
@@ -195,6 +197,8 @@ jobs:
       - run: npm run adapter:ready-bank-faults
       - run: npm run adapter:sequence-recovery
       - run: npm run adapter:sequence-recovery-faults
+      - run: npm run adapter:attack-sequences
+      - run: npm run adapter:attack-sequences-faults
       - run: node --import tsx balance/probe_cleave.ts
         working-directory: .artifacts/game-adapter
       - run: npm run adapter:renderer-prepare
@@ -302,6 +306,15 @@ jobs:
             .artifacts/game-ready-bank-verification.json
             .artifacts/ready-bank-overlay.json
             .artifacts/ready-bank-installed-faults.json
+            .artifacts/attack-sequence-content-reference-verification.json
+            .artifacts/reference-attack-sequence-content-*/*.json
+            .artifacts/reference-attack-sequence-content-*/*.txt
+            .artifacts/attack-sequences-reference-verification.json
+            .artifacts/game-attack-sequences-verification.json
+            .artifacts/attack-sequences-overlay.json
+            .artifacts/attack-sequences-installed-faults.json
+            .artifacts/reference-attack-sequences-*/*.json
+            .artifacts/reference-attack-sequences-*/*.txt
             .artifacts/sequence-recovery-reference-verification.json
             .artifacts/game-sequence-recovery-verification.json
             .artifacts/sequence-recovery-overlay.json

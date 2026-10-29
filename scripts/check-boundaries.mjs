@@ -68,3 +68,5 @@ assert.ok([...reachable].every(file => !['buffs.ts', 'buff-content.ts'].includes
 assert.ok([...reachable].every(file => !['resource-restoration.ts', 'resource-restoration-content.ts'].includes(path.basename(file))), 'Optional restoration became an eager core import');
 assert.ok([...reachable].every(file => !['cooldowns.ts', 'cooldown-content.ts', 'cooldown-lifecycle.ts', 'ready-cooldown-bank.ts', 'sequence-recovery.ts'].includes(path.basename(file))), 'Optional cooldowns became an eager core import');
 console.log(`Boundary check passed: ${files} production modules; no external runtime dependencies, host APIs, or ambient randomness.`);
+
+assert.ok([...reachable].every(file => !['attack-sequences.ts', 'attack-sequence-content.ts', 'attack-sequence-types.ts'].includes(path.basename(file))), 'Optional attack sequences became an eager core import');

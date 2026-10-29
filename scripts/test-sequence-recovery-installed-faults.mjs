@@ -11,12 +11,18 @@ const accepted=JSON.parse(fs.readFileSync('baseline/sequence-recovery/acceptance
 const expected=gunzipSync(compressed),capture=path.join(output,'capture.ts');fs.writeFileSync(capture,helper.replace(/(['"])\.\.\/src\/([^'"]+)\1/g,(_a,_q,p)=>JSON.stringify(pathToFileURL(path.join(game,'src',p+'.ts')).href)),{flag:'wx'});
 function run(name){const target=path.join(output,name+'.json'),r=spawnSync(process.execPath,['--import',pathToFileURL(path.join(game,'node_modules/tsx/dist/loader.mjs')).href,capture,target],{cwd:game,encoding:'utf8',windowsHide:true,timeout:120000,maxBuffer:4*1024*1024});assert(!r.error);const log=(r.stdout??'')+(r.stderr??'');fs.writeFileSync(path.join(output,name+'.txt'),log,{flag:'wx'});if(r.status!==0){assert(log.includes('AssertionError'));assert(!/SyntaxError|ReferenceError|ERR_MODULE_NOT_FOUND|TypeError/.test(log));return false;}return fs.readFileSync(target).equals(expected);}
 assert(run('control'));const targets={runtime:path.join(own,'dist/sequence-recovery.js'),adapter:path.join(game,'src/engine/attackSequences.ts')};
+if(location.attackSequencesDecision)targets.controller=path.join(own,'dist/attack-sequences.js');
 for(const file of Object.values(targets)){const relative=path.relative(fs.realpathSync(game),fs.realpathSync(file)),stat=fs.lstatSync(file);assert(relative&&!relative.startsWith('..')&&!path.isAbsolute(relative));assert(stat.isFile()&&!stat.isSymbolicLink()&&stat.nlink===1);}
-const faults=[...['lockSequenceRecovery','releaseSequenceRecovery','settleSequenceRecoveries'].map(name=>[name,'runtime',name,'noop']),
+const bindings=location.attackSequencesDecision?[
+ ['flight-binding','controller','flying: (cast, s) => this.ports.flights().some(p => this.casts.get(p.inst) === cast && p.caster === s.owner)','flying: (cast, s) => false'],
+ ['pending-binding','controller','pending: cast => this.scheduled.some(j => j.inst === cast.inst)','pending: cast => false && this.scheduled.some(j => j.inst === cast.inst)'],
+ ['objects-binding','controller','objects: cast => this.recoveries.filter(r => r.cast === cast)','objects: cast => []'],
+ ['catch-binding','controller',"clearCatch: s => { s.owner.removeBuff(s.key + ':catch'); }",'clearCatch: s => {}']]:[
  ['flight-binding','adapter','flying: (cast, s) => this.w.projectiles.some(p => this.casts.get(p.inst) === cast && p.caster === s.owner)','flying: (cast, s) => false'],
  ['pending-binding','adapter','pending: cast => this.scheduled.some(j => j.inst === cast.inst)','pending: cast => false && this.scheduled.some(j => j.inst === cast.inst)'],
  ['objects-binding','adapter','objects: cast => this.recoveries.filter(r => r.cast === cast)','objects: cast => []'],
  ['catch-binding','adapter',"clearCatch: s => { s.owner.removeBuff(s.key + ':catch'); }",'clearCatch: s => {}']];
+const faults=[...['lockSequenceRecovery','releaseSequenceRecovery','settleSequenceRecoveries'].map(name=>[name,'runtime',name,'noop']),...bindings];
 const results=[];
 for(const[name,key,before,after]of faults){const file=targets[key],original=fs.readFileSync(file,'utf8');let changed;
  if(key==='runtime'){const region=exportedFunctionBody(original,before);changed=original.slice(0,region.start)+'{ return 0; }'+original.slice(region.end);}

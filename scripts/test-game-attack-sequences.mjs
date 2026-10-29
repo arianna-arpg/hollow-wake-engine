@@ -1,0 +1,15 @@
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
+import {root,listFiles,sha256,writeJSON} from './reference-utils.mjs';import {attackSequencesDecision} from '../adapters/hollow-wake/integrate-attack-sequences.mjs';
+const args=process.argv.slice(2);assert(args.length===0||(args.length===2&&args[0]==='--location'));
+const location=JSON.parse(fs.readFileSync(path.resolve(root,args[1]??'.artifacts/adapter-location.json')));assert.equal(location.attackSequencesDecision,attackSequencesDecision);
+const installed=fs.realpathSync(path.join(location.tooling,'node_modules/@hollow-wake/engine'));assert.equal(fs.realpathSync(path.join(location.game,'node_modules/@hollow-wake/engine')),installed);
+const archive=fs.readFileSync(location.archive);assert.equal('sha512-'+createHash('sha512').update(archive).digest('base64'),location.integrity);
+const consumer=path.dirname(path.dirname(path.dirname(installed))),lock=JSON.parse(fs.readFileSync(path.join(consumer,'package-lock.json')));assert.equal(lock.packages['node_modules/@hollow-wake/engine'].integrity,location.integrity);
+const snapshot=dir=>Object.fromEntries(listFiles(dir).map(file=>[file,sha256(fs.readFileSync(path.join(dir,file)))]));
+const source=snapshot(path.join(location.game,'src')),pkg=snapshot(installed);assert.deepEqual(snapshot(path.join(installed,'dist')),snapshot(path.join(root,'dist')));
+const output=fs.mkdtempSync(path.join(root,'.artifacts/game-attack-sequences-')),log=fs.openSync(path.join(output,'driver.txt'),'wx');let result,content;
+try{execFileSync(process.execPath,['scripts/run-attack-sequences-reference.mjs','--game',location.game],{cwd:root,windowsHide:true,stdio:['ignore',log,log],timeout:240000});result=JSON.parse(fs.readFileSync('.artifacts/attack-sequences-reference-verification.json'));assert(result.passed);assert.equal(result.game,fs.realpathSync(location.game));
+ execFileSync(process.execPath,['scripts/run-attack-sequence-content-reference.mjs','--game',location.game],{cwd:root,windowsHide:true,stdio:['ignore',log,log],timeout:240000});content=JSON.parse(fs.readFileSync('.artifacts/attack-sequence-content-reference-verification.json'));assert(content.passed);assert.equal(content.game,fs.realpathSync(location.game));}
+finally{fs.closeSync(log);assert.deepEqual(snapshot(path.join(location.game,'src')),source);assert.deepEqual(snapshot(installed),pkg);}
+const report={passed:true,game:location.game,output,capture:result.output,checks:114,events:7264,randomDraws:2733,contentCapture:content.output,contentCourses:12,typesPassed:true,packageIntegrity:location.integrity,archiveSha256:sha256(archive),sourceMapSha256:sha256(JSON.stringify(source)),packageMapSha256:sha256(JSON.stringify(pkg)),runtimeMapSha256:sha256(JSON.stringify(snapshot(path.join(installed,'dist')))),sourceAndPackageUnchanged:true,rendererAccepted:false,performanceAccepted:false};
+writeJSON(path.join(output,'verification.json'),report);writeJSON('.artifacts/game-attack-sequences-verification.json',report);console.log(report);

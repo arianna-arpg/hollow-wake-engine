@@ -47,8 +47,12 @@ with the host; this is not the complete Assault controller.
 The optional [sequence recovery module](docs/sequence-recovery.md) coordinates
 held skills across flying weapons, queued throws and outstanding pickups,
 including catch-bank reset and missed-throw penalties. Its original baseline
-contains 49 courses. Hit cycles, geometry and projectile delivery remain in the
-game controller; native-host exposure and measured optimization remain open.
+contains 49 courses. The subsequent [attack-sequence capability](docs/attack-sequences.md)
+also extracts the controller and content assembly: hit cycles, wounds, catches,
+secondary attacks, scheduled sweeps and ownership cleanup. Geometry, shared
+effect services and presentation bind through explicit ports. A standalone 3D
+example exercises that boundary; native-host exposure and measured optimization
+remain open.
 
 The isolated game renderer is now reproducible from public test capsules.
 [Reproduction commands](docs/renderer-reproduction.md) cover its dedicated

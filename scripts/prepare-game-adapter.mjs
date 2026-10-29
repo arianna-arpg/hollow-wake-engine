@@ -1,3 +1,5 @@
+import {verifyAttackSequencesOverlay} from './test-attack-sequences-overlay.mjs';
+import {integrateAttackSequences} from '../adapters/hollow-wake/integrate-attack-sequences.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -198,6 +200,10 @@ verifySequenceRecoveryOverlay(game);
 const sequenceRecovery = integrateSequenceRecovery(game);
 changes.files.push(...sequenceRecovery.files);
 changes.sequenceRecoveryDecision = sequenceRecovery.decision;
+verifyAttackSequencesOverlay(game);
+const attackSequences = integrateAttackSequences(game);
+changes.files.push(...attackSequences.files);
+changes.attackSequencesDecision = attackSequences.decision;
 fs.symlinkSync(path.join(tooling, 'node_modules'), path.join(game, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
 fs.copyFileSync(path.join(root, 'reference/export-lifecycle.ts'), path.join(game, 'balance/export-engine-lifecycle.ts'));
 fs.writeFileSync(path.join(artifacts, 'adapter-location.json'), JSON.stringify({ game, tooling, package: packed.filename, archive, integrity: packed.integrity, ...changes }, null, 2));

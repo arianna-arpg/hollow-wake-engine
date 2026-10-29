@@ -1,5 +1,16 @@
 # Verification and reproduction
 
+The [attack-sequence controller and content](attack-sequences.md) checkpoint passes
+1,024 SDK tests, 114 complete original gameplay checks (7,264 events and 2,733
+random draws), 12 direct original content projections, all 49 recovery courses,
+the existing bank/lifecycle/proc regressions and 25 smoke episodes. Twenty runtime
+faults, five source guards and eight installed faults are detected. Independent
+package/type consumption and browser build pass. All 216 previous outputs are
+unchanged. [Raw-backed evidence](../evidence/attack-sequences/runtime.json) records
+the type-only correction and the content-observation gap found and closed during
+verification. Native engine exposure, dedicated renderer and device performance
+acceptance remain open.
+
 The sequence recovery checkpoint passes 1,005 SDK tests (28 focused), 49 frozen
 original courses, 114 actual Cleave checks with original-identical output, 25 smoke
 episodes and the existing 35/44/75 bank/lifecycle/proc courses. It detects 16
