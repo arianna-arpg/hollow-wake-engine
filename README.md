@@ -33,6 +33,11 @@ stacking, banking, ticking, expiry, cleanse and status queries. Its frozen basel
 covers 217 scenarios and all 152 authored status definitions. World spatial and
 death effects, complete native APIs and device measurements remain separate work.
 
+The optional [status effects](docs/status-effects.md) adds World status verbs,
+proc applications, periodic zaps/lashes and the status phases of expiry and death.
+Its frozen original courses preserve damage, attribution and callback order.
+Hit occurrence, the remaining death lifecycle and device measurements stay open.
+
 The v0.38 development candidate adds [resource restoration](docs/resource-restoration.md):
 shield/poise gain gates, immediate restore events, reserved-mana proc restoration
 and strict content compilers. Its separately committed native baseline is reproduced

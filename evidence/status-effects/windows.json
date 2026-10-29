@@ -1,0 +1,1376 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "aa119c4aeb851571471ac06077f946f5bc64a329",
+  "scope": "World status verbs, proc application, periodic effects and status expiry/death phases through the installed SDK; remaining hit occurrence, complete actor/death lifecycle, native packages and devices are separate",
+  "tests": 1087,
+  "originalCourses": 263,
+  "propagationAddendumCourses": 10,
+  "relayRepairCourses": 12,
+  "authoredDefinitions": 152,
+  "originalRunsBeforeImplementation": 2,
+  "propagationAddendumCapturedBeforeImplementation": false,
+  "independentTests": 19,
+  "runtimeFaults": 23,
+  "installedFaults": 6,
+  "overlayFaults": 17,
+  "adapterDiagnosticFaults": 3,
+  "sourceDelta": {
+    "passed": true,
+    "final": {
+      "passed": true,
+      "directory": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\status-effects-reproduction-iKdNoR",
+      "game": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\status-effects-reproduction-iKdNoR\\game",
+      "location": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\status-effects-reproduction-iKdNoR\\location.json",
+      "archiveSha256": "1dff097b7339ee415b131ceac4605284b176668bb6069a1c1060ef90bc563e47"
+    },
+    "developmentGame": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\status-effects-reproduction-vtzgMY\\game",
+    "identicalGameSource": true,
+    "identicalRuntime": true,
+    "diagnosticProbe": {
+      "path": "balance/probe_statusvoice.ts",
+      "originalSha256": "40a3d8ab755a8d9b55d0a2389bb22fc79e84219ace98d504454ecd10a1c64533",
+      "installedSha256": "5d36b8da86bdabd606edbb16fe967a181ab35e36968f7436071100df27f52194",
+      "originalAssertionsPreserved": true,
+      "scope": "Source census reads World and the installed status-effects implementation; no assertion is removed or rewritten"
+    },
+    "changed": [
+      "engine/actor.ts",
+      "engine/statusLifecycle.ts",
+      "engine/world.ts"
+    ],
+    "added": [
+      "engine/statusEffects.ts"
+    ],
+    "unchanged": 996,
+    "beforeMapSha256": "694138e81f81ae909ef7210ddfdcff7d8dd5aea574a36fc1176651d4766eeb36",
+    "afterMapSha256": "a05eba2466508a2350c187e12484238596911443a5cbd722eb9224dfc98ea337",
+    "prepareScriptSha256": "595149a3395d03890f05e78a6a0bdbe59b39821386caf10f3cb37fe8728039df",
+    "overlaySha256": "9522f2e3c4f0828baed9bf251a0532aa6b213e7b02fd4f187404e44b11a16e78",
+    "registrationOverlaySha256": "7e4f12088e946afdbe1268a4996918fd316aa1573a09874763d3a229e26eae4e"
+  },
+  "runtimeDelta": {
+    "passed": true,
+    "unchanged": 237,
+    "changed": [],
+    "added": [
+      "status-effects-types.d.ts",
+      "status-effects-types.js",
+      "status-effects-types.js.map",
+      "status-effects.d.ts",
+      "status-effects.js",
+      "status-effects.js.map"
+    ],
+    "beforeMapSha256": "216b27ed9f816276cbea0d095425c442d4b0669817cb3b20e0e1fea2bc8366c4",
+    "afterMapSha256": "988ea5c091928986d4dd84c5be7604d8ea29de509f55c1c4eb364a52062017f7"
+  },
+  "gameChecks": [
+    {
+      "label": "types",
+      "passed": true
+    },
+    {
+      "label": "passive-grants",
+      "passed": true
+    },
+    {
+      "label": "status-effects-reference",
+      "passed": true
+    },
+    {
+      "label": "status-reference",
+      "passed": true
+    },
+    {
+      "label": "damage-reference",
+      "passed": true
+    },
+    {
+      "label": "attack-sequences",
+      "passed": true
+    },
+    {
+      "label": "probe-statusvoice",
+      "passed": true
+    },
+    {
+      "label": "probe-defenses",
+      "passed": true
+    },
+    {
+      "label": "probe-defensecues",
+      "passed": true
+    },
+    {
+      "label": "probe-talents",
+      "passed": true
+    },
+    {
+      "label": "probe-anatomy",
+      "passed": true
+    },
+    {
+      "label": "probe-throngcombat",
+      "passed": true
+    },
+    {
+      "label": "smoke",
+      "passed": true
+    }
+  ],
+  "smokeEpisodes": 25,
+  "native": {
+    "runtimeMapSha256": "988ea5c091928986d4dd84c5be7604d8ea29de509f55c1c4eb364a52062017f7",
+    "gameSourceMapSha256": "a05eba2466508a2350c187e12484238596911443a5cbd722eb9224dfc98ea337",
+    "originalAndInstalledNative": {
+      "numbers": 150608,
+      "differences": []
+    },
+    "runs": [
+      {
+        "label": "original",
+        "passed": true,
+        "bundleBytes": 13561760,
+        "bundleSha256": "109d1a7ccd9162ae6824868b64cf140e71d1bef28c162d72a3fc7912ae3e66a8",
+        "cloneChecks": 931,
+        "metrics": {
+          "code": 0,
+          "completedRequests": 33,
+          "peakRequestedBytes": 160481753,
+          "liveRequestedBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "allocationRequests": 280438
+        },
+        "nodeExact": true,
+        "comparison": {
+          "numbers": 150608,
+          "differences": [
+            {
+              "path": "$/19/value/rows/2/worlds/0/actors/2/facing",
+              "actual": 2.0067420640161253,
+              "expected": 2.0067420640161258,
+              "absoluteError": 4.440892098500626e-16,
+              "kind": "facing"
+            },
+            {
+              "path": "$/19/value/rows/3/worlds/0/actors/2/facing",
+              "actual": 2.0067420640161253,
+              "expected": 2.0067420640161258,
+              "absoluteError": 4.440892098500626e-16,
+              "kind": "facing"
+            }
+          ]
+        },
+        "libraryComparison": {
+          "numbers": 150608,
+          "differences": []
+        },
+        "libraryMetrics": {
+          "passed": true,
+          "requests": 33,
+          "liveBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "peakTrackedBytes": 160477665,
+          "bufferOwnership": true,
+          "threadMigration": true,
+          "concurrentCancellation": true,
+          "unloadReload": true
+        }
+      },
+      {
+        "label": "installed",
+        "passed": true,
+        "bundleBytes": 13858535,
+        "bundleSha256": "1b833f886b84548d04474f33fff9c7c73df20ffb895b3495dfedd80d17d98ea7",
+        "cloneChecks": 931,
+        "metrics": {
+          "code": 0,
+          "completedRequests": 33,
+          "peakRequestedBytes": 201196799,
+          "liveRequestedBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "allocationRequests": 279884
+        },
+        "nodeExact": true,
+        "comparison": {
+          "numbers": 150608,
+          "differences": [
+            {
+              "path": "$/19/value/rows/2/worlds/0/actors/2/facing",
+              "actual": 2.0067420640161253,
+              "expected": 2.0067420640161258,
+              "absoluteError": 4.440892098500626e-16,
+              "kind": "facing"
+            },
+            {
+              "path": "$/19/value/rows/3/worlds/0/actors/2/facing",
+              "actual": 2.0067420640161253,
+              "expected": 2.0067420640161258,
+              "absoluteError": 4.440892098500626e-16,
+              "kind": "facing"
+            }
+          ]
+        },
+        "libraryComparison": {
+          "numbers": 150608,
+          "differences": []
+        },
+        "libraryMetrics": {
+          "passed": true,
+          "requests": 33,
+          "liveBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "peakTrackedBytes": 201192711,
+          "bufferOwnership": true,
+          "threadMigration": true,
+          "concurrentCancellation": true,
+          "unloadReload": true
+        }
+      },
+      {
+        "label": "early-freeze-fault",
+        "passed": true,
+        "bundleBytes": 13858517,
+        "bundleSha256": "7ccc97886386488d0f770b27cda85b7e808cb747b12436cb373e0992ab358b6c",
+        "cloneChecks": 931,
+        "metrics": {
+          "code": 2,
+          "completedRequests": 0,
+          "peakRequestedBytes": 101167596,
+          "liveRequestedBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "allocationRequests": 126414
+        },
+        "nodeExact": true,
+        "detected": true
+      }
+    ],
+    "scope": "114 full-game attack checks; detailed status observations run in JavaScript. No new native actor API or device acceptance."
+  },
+  "registrationRepair": {
+    "parentHostedRun": 40936027331,
+    "parentPackageMatrixPassed": true,
+    "parentNativeJobsPassed": true,
+    "parentReferenceFailure": "adapter:passive-grants; generated takenAs stat registration moved before charges/gauges",
+    "repair": "Keep Actor status binding at its original reception import slot",
+    "originalRebuilds": 4103,
+    "contentRefreshPhases": 8,
+    "expectedFixtureChanged": false
+  },
+  "relayRepair": {
+    "originalCourses": 12,
+    "capturedBeforeRepair": true,
+    "previousAdapterMatches": false,
+    "repair": "Rebuild the host binding when its ordered relay vocabulary changes; preserve immutable SDK configuration"
+  },
+  "observerAddendum": {
+    "reason": "Primary observer did not retain newly added recipients; seven-recipient fault survived",
+    "primaryFixtureChanged": false,
+    "focusedOriginalCourses": 10,
+    "capFaultCaught": true
+  },
+  "packageAccounting": {
+    "moduleJsBytes": 12466,
+    "growthBudgetBytes": 16384,
+    "previousBudgetBytes": 630784,
+    "previousBudgetsUnchanged": true,
+    "browserBytes": 11347,
+    "performanceImprovementClaimed": false
+  },
+  "knownOriginalProbeFailure": {
+    "assertion": "terrain statuses stay quiet",
+    "completedChecks": 53,
+    "originalAndPredecessorAndCandidateMatch": true,
+    "fullAfflictionProbePassed": false
+  },
+  "reproduction": {
+    "passed": true,
+    "directory": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\status-effects-reproduction-iKdNoR",
+    "game": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\status-effects-reproduction-iKdNoR\\game",
+    "location": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\status-effects-reproduction-iKdNoR\\location.json",
+    "archiveSha256": "1dff097b7339ee415b131ceac4605284b176668bb6069a1c1060ef90bc563e47"
+  },
+  "raw": {
+    "path": "evidence/status-effects/windows-raw.json.gz",
+    "sha256": "be74efa6c29520a954dc628b6a1a7cd58473b64455b1b5d1ea5a2661b0cb8b32",
+    "bytes": 5750864,
+    "records": [
+      {
+        "path": "sdk.json",
+        "sha256": "7236acc08740a690ae0134ed67fa5ba32dd14191291e642d71e49e3f179730c7",
+        "bytes": 510
+      },
+      {
+        "path": "game.json",
+        "sha256": "5f93c6549413a2739aeb611672b55eef27e964105e0e894c772f1fba57d4bcff",
+        "bytes": 1508
+      },
+      {
+        "path": "installed.json",
+        "sha256": "421aa0b71e785f40a9dc83cc1afa86afe4106de03124fb952d87daf7c93f1101",
+        "bytes": 3105
+      },
+      {
+        "path": "faults.json",
+        "sha256": "b0b5e9ca79b635888c56fc4fad4660a1eb2b44bc2c629b7ea68641005a6c811d",
+        "bytes": 2231
+      },
+      {
+        "path": "candidate.json",
+        "sha256": "d63fb2b064661aa83f62050d5aa981a146fa824b856e0c0e9165f4dfe4833013",
+        "bytes": 522
+      },
+      {
+        "path": "runtimeDelta.json",
+        "sha256": "eb60a8001686783007c633f54a716e3b0c3ddcd80f118da0c88df2487221d7e5",
+        "bytes": 432
+      },
+      {
+        "path": "sourceDelta.json",
+        "sha256": "1cdbb7e5e7fa989411e8d6f3e6226893dde7d2491803bdcc042206b377589df3",
+        "bytes": 1814
+      },
+      {
+        "path": "baseline.json",
+        "sha256": "a24e7a841c1c102aaaa1de4dd615da29664193e04d7f63ded7e584fbfabecd61",
+        "bytes": 1846
+      },
+      {
+        "path": "propagationBaseline.json",
+        "sha256": "39d3a20ff1d8330065f72911885c3b4885c0b59cab8b3b710fcc8c1dd0d4a932",
+        "bytes": 1851
+      },
+      {
+        "path": "preservation.json",
+        "sha256": "ad2421ad07875922d3aef17553323750888480c900d00b5182c2d99d5cf5a0de",
+        "bytes": 3068
+      },
+      {
+        "path": "otherRepositories.json",
+        "sha256": "555c8ec8b26a49c0375fb721389aad14bcfbf65fe7a15bac42ec3c91a00e2672",
+        "bytes": 519
+      },
+      {
+        "path": "package.json",
+        "sha256": "62050aa12859436ed969831a03a74946ca317b9257d247cee32f99231d65f75f",
+        "bytes": 1374
+      },
+      {
+        "path": "overlay.json",
+        "sha256": "591f6fdbfa103209dc7259047704a412270afafee3bdeadca06429c13b066f43",
+        "bytes": 574
+      },
+      {
+        "path": "mutations.json",
+        "sha256": "7e81f93f100fbf9b53009b70b433f9d4849b30b132f2f1dd49400c9b31ba3e55",
+        "bytes": 3708
+      },
+      {
+        "path": "consumer.json",
+        "sha256": "c63ee1301dd73b41392c56d8b8f798edb3db53bddf4a0a1b3c7bd5ed96a88543",
+        "bytes": 419
+      },
+      {
+        "path": "registration.json",
+        "sha256": "4db45c5e0b19a1e5dc237d9b6dff37f7c271e049900c609dcb6217c1aeb3ca9b",
+        "bytes": 154
+      },
+      {
+        "path": "affliction.json",
+        "sha256": "55544bc6dc3d2c9e05d906b7be806107835c348a693b62cd1134bd2a4844c431",
+        "bytes": 11459
+      },
+      {
+        "path": "relayBaseline.json",
+        "sha256": "cdfbe5b78a03f49556cf558eee4480de7b7d6f0fc838f045ff454132f9480368",
+        "bytes": 1839
+      },
+      {
+        "path": "diagnostics.json",
+        "sha256": "7e4b971ded7178b09830586e8827b4021810a601814e3fa3a9b97566f76f5962",
+        "bytes": 913
+      },
+      {
+        "path": "parent-hosted.json",
+        "sha256": "081b2402cf47d745c7419fc290062affa85d066ad86ad6803bb6b0a80ea3f058",
+        "bytes": 44347
+      },
+      {
+        "path": "adapter-diagnostics/caption-kind-fault.txt",
+        "sha256": "dfcbffe07085e28e115293b44edbfa571491336dca8ca8730cd0e8031a6a1a42",
+        "bytes": 2072
+      },
+      {
+        "path": "adapter-diagnostics/registration-control.txt",
+        "sha256": "c50f22ca3a341a6bddee9b81fad5d5124aba20831ef7a6d03cbed7d4f6452c0c",
+        "bytes": 1751
+      },
+      {
+        "path": "adapter-diagnostics/registration-order-fault.txt",
+        "sha256": "d05f684e03d99e2bb980feb1b925fa614a7ad349bc3c752dd564a8ee147838cf",
+        "bytes": 369445
+      },
+      {
+        "path": "adapter-diagnostics/relay-control.txt",
+        "sha256": "c19c7f03e8c07fded896a6f5f556ea8ec386376b411d8f48b578895f678f473b",
+        "bytes": 741
+      },
+      {
+        "path": "adapter-diagnostics/stale-relay-fault.txt",
+        "sha256": "42bca1dba4069560d3e2a0b0fdc291cad06e8b715b52eaafd69e84b17a29ff1a",
+        "bytes": 1430
+      },
+      {
+        "path": "adapter-diagnostics/verification.json",
+        "sha256": "7e4b971ded7178b09830586e8827b4021810a601814e3fa3a9b97566f76f5962",
+        "bytes": 913
+      },
+      {
+        "path": "adapter-diagnostics/voice-control.txt",
+        "sha256": "a5c7b348758fe8ec1bad560fb49d1216fab448155de6f0df84c6d8212740cd38",
+        "bytes": 2057
+      },
+      {
+        "path": "status-relay/original.json",
+        "sha256": "cc348d32ae5cba19ddc812b266868e85dfc90eec5d295b2338aa0762791a5cb2",
+        "bytes": 521
+      },
+      {
+        "path": "status-relay/original/capture.txt",
+        "sha256": "b09a18bfe81fd1487a9174b5a7b9aa4a57f5b2e0a4e6b054747fbdbfe35e8b8e",
+        "bytes": 871
+      },
+      {
+        "path": "status-relay/original/tsconfig.json",
+        "sha256": "9854774c79b04116cec421d714314572eb3a54d881a246d8c807e4513f054218",
+        "bytes": 449
+      },
+      {
+        "path": "status-relay/original/types.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "status-relay/original/verification.json",
+        "sha256": "cc348d32ae5cba19ddc812b266868e85dfc90eec5d295b2338aa0762791a5cb2",
+        "bytes": 521
+      },
+      {
+        "path": "status-relay/confirm.json",
+        "sha256": "d1bc3e68ba5d85712a96a1d7e70d9d1c1640d0fd9579c13c536c466baef457ed",
+        "bytes": 520
+      },
+      {
+        "path": "status-relay/confirm/capture.txt",
+        "sha256": "b09a18bfe81fd1487a9174b5a7b9aa4a57f5b2e0a4e6b054747fbdbfe35e8b8e",
+        "bytes": 871
+      },
+      {
+        "path": "status-relay/confirm/tsconfig.json",
+        "sha256": "980baa8a14406323e5b89f3068408ace36749404e0316699bdd6014249852ca8",
+        "bytes": 448
+      },
+      {
+        "path": "status-relay/confirm/types.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "status-relay/confirm/verification.json",
+        "sha256": "d1bc3e68ba5d85712a96a1d7e70d9d1c1640d0fd9579c13c536c466baef457ed",
+        "bytes": 520
+      },
+      {
+        "path": "status-relay/before-repair.json",
+        "sha256": "05f49d47cba341a9d9051ea02764278680d9a6ba40da3b79a9ae19982c9d129f",
+        "bytes": 568
+      },
+      {
+        "path": "status-relay/before-repair/capture.txt",
+        "sha256": "b09a18bfe81fd1487a9174b5a7b9aa4a57f5b2e0a4e6b054747fbdbfe35e8b8e",
+        "bytes": 871
+      },
+      {
+        "path": "status-relay/before-repair/tsconfig.json",
+        "sha256": "4f1c0d92adea9e6017c8818ed1327323b6617d84c091e010ad64a0d8e1d16dd5",
+        "bytes": 538
+      },
+      {
+        "path": "status-relay/before-repair/types.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "status-relay/before-repair/verification.json",
+        "sha256": "05f49d47cba341a9d9051ea02764278680d9a6ba40da3b79a9ae19982c9d129f",
+        "bytes": 568
+      },
+      {
+        "path": "status-relay/before-repair-observations.json",
+        "sha256": "d29d082d0fec48ad39f681f183735fd6193e0ce3f771219d7926ccdfcbf04323",
+        "bytes": 13003
+      },
+      {
+        "path": "sdk/reference-damage.txt",
+        "sha256": "6f6b2167fd155c367e374b27e13fa206d7b28e9513931533ced2235978eef4e9",
+        "bytes": 790
+      },
+      {
+        "path": "sdk/reference-status-effects.txt",
+        "sha256": "b8446a32a246c926683e64d32e74dcb1b39316bd784e62bada69a36574c5a917",
+        "bytes": 853
+      },
+      {
+        "path": "sdk/reference-statuses.txt",
+        "sha256": "7f146a31cdfe7a1be718ce79d971811bc480b540a62ca9982fef88bdaeb38580",
+        "bytes": 822
+      },
+      {
+        "path": "sdk/reference-verify.txt",
+        "sha256": "ed9449e747fdb1f57570cdcc3c0c46a363a0e3720d661dd8df1026f2e66fb987",
+        "bytes": 972
+      },
+      {
+        "path": "sdk/verification.json",
+        "sha256": "7236acc08740a690ae0134ed67fa5ba32dd14191291e642d71e49e3f179730c7",
+        "bytes": 510
+      },
+      {
+        "path": "sdk/verify.txt",
+        "sha256": "f4672010ac0396a2b8b713db641aa2dcf849752333630fbe5145474c03f243ed",
+        "bytes": 121697
+      },
+      {
+        "path": "game/attack-sequences.txt",
+        "sha256": "8eb4ed7bc7e745e9d1725d020bda8349a7e2383b8d82547dad0b30c3b3acd2e2",
+        "bytes": 1197
+      },
+      {
+        "path": "game/damage-reference.txt",
+        "sha256": "2a658da9cbc30212f5588c60cae31e606c47aa4a171f00c046534ac0c30b8f54",
+        "bytes": 150
+      },
+      {
+        "path": "game/passive-grants.txt",
+        "sha256": "504c4b8190440b2798e636aa1a6031a3e61306a80f8595b5cbcd435f2d4c238c",
+        "bytes": 1751
+      },
+      {
+        "path": "game/probe-anatomy.txt",
+        "sha256": "ac7c2bc9485cd5ccb081561eb79c33f8edc696f0416aceaa53dcfc33c09f04ec",
+        "bytes": 4588
+      },
+      {
+        "path": "game/probe-defensecues.txt",
+        "sha256": "10cd4b62cb391fa7f7e72c668066f35a5e4bd06a531658d9766b30a589424bca",
+        "bytes": 4616
+      },
+      {
+        "path": "game/probe-defenses.txt",
+        "sha256": "c90e045b9599b30c6e5006ff7599d0af2f817de5df2b3cfb13a939681f364f77",
+        "bytes": 6979
+      },
+      {
+        "path": "game/probe-statusvoice.txt",
+        "sha256": "ee565dcf5ace0a4ad6e5da40e7c6e08b09845fa6e3599a835116567fc7b74376",
+        "bytes": 2057
+      },
+      {
+        "path": "game/probe-talents.txt",
+        "sha256": "45d915f59dd2ee340a289bfe6b27918c8688f359d8bf17c2e5dc4230c5b3de7e",
+        "bytes": 5208
+      },
+      {
+        "path": "game/probe-throngcombat.txt",
+        "sha256": "b61c8e5e0019843039546aeae30e31719ea0272b0edd2bd95678e494d4b7f6fc",
+        "bytes": 5164
+      },
+      {
+        "path": "game/smoke.txt",
+        "sha256": "5e5441c57a6ca66705a50732095d118fc5726b4a0a50e7c8cab1c1972b4f85dc",
+        "bytes": 2128
+      },
+      {
+        "path": "game/status-effects-reference.txt",
+        "sha256": "bfbafeabab2daa08a90db03f2fffa61a5f3f4c08ae0e791c5213c42f025e67cb",
+        "bytes": 158
+      },
+      {
+        "path": "game/status-reference.txt",
+        "sha256": "e197151c33c23cec1bbbce4be8f11599d8f54ef96c490617c5c8b16f7504b9df",
+        "bytes": 150
+      },
+      {
+        "path": "game/types.txt",
+        "sha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d",
+        "bytes": 107
+      },
+      {
+        "path": "game/verification.json",
+        "sha256": "5f93c6549413a2739aeb611672b55eef27e964105e0e894c772f1fba57d4bcff",
+        "bytes": 1508
+      },
+      {
+        "path": "installed/reference.txt",
+        "sha256": "c4a9cc0379954db429f1b9206b3553411fc994accbc943fa771d8c83fe5a2ae5",
+        "bytes": 2362
+      },
+      {
+        "path": "installed/verification.json",
+        "sha256": "421aa0b71e785f40a9dc83cc1afa86afe4106de03124fb952d87daf7c93f1101",
+        "bytes": 3105
+      },
+      {
+        "path": "faults/bank-payout.json",
+        "sha256": "74a04f8d1fd631cb88a9a4b5ba2fd27268c4aa5ed40c191c3953a5e5c63a10cf",
+        "bytes": 14748870
+      },
+      {
+        "path": "faults/bank-payout.txt",
+        "sha256": "b2bcd75968d933c9b78561590290d97a4ac6736bf93d4ae31de9c02514010356",
+        "bytes": 810
+      },
+      {
+        "path": "faults/capture.ts",
+        "sha256": "6c2bde8084684bb9a2d66f10c8f6d953451eb3d7588661515a1de7f85ed67419",
+        "bytes": 15555
+      },
+      {
+        "path": "faults/control-propagation.json",
+        "sha256": "9f38029c27d02c8085fab300376d40f12296f3e2c8f19b06044bbbc398e616c4",
+        "bytes": 28194
+      },
+      {
+        "path": "faults/control.json",
+        "sha256": "3e0b2a433f22e12ce728387e72a7832d1b6c8890173e3c2f941593e552c170d1",
+        "bytes": 14748868
+      },
+      {
+        "path": "faults/control.txt",
+        "sha256": "26db4e8450a80fcab8bae7ad59071520686c7d1a43cf5b21e647433797b284d3",
+        "bytes": 1642
+      },
+      {
+        "path": "faults/proc-magnitude.json",
+        "sha256": "2c85feb32f7c4d3d95d00ea762141575ba4940dcce8ad5f2c26f697d62b5d794",
+        "bytes": 14748868
+      },
+      {
+        "path": "faults/proc-magnitude.txt",
+        "sha256": "b2bcd75968d933c9b78561590290d97a4ac6736bf93d4ae31de9c02514010356",
+        "bytes": 810
+      },
+      {
+        "path": "faults/propagation-cap-propagation.json",
+        "sha256": "a2f992a8d38bf1747da4ae2ef78d8de728515152cd21c45f41f58b738c424936",
+        "bytes": 29512
+      },
+      {
+        "path": "faults/propagation-cap.json",
+        "sha256": "3e0b2a433f22e12ce728387e72a7832d1b6c8890173e3c2f941593e552c170d1",
+        "bytes": 14748868
+      },
+      {
+        "path": "faults/propagation-cap.txt",
+        "sha256": "26db4e8450a80fcab8bae7ad59071520686c7d1a43cf5b21e647433797b284d3",
+        "bytes": 1642
+      },
+      {
+        "path": "faults/propagation.ts",
+        "sha256": "81a9d6226453cee1df9567db9e795e6041324ab4d12630dc2804daac4023373d",
+        "bytes": 2163
+      },
+      {
+        "path": "faults/ring-modifiers.json",
+        "sha256": "d91d97f2b16b285efc8a85e93e9e1cb3de45b103c1c29ec1cbffa73b3568b48a",
+        "bytes": 14748812
+      },
+      {
+        "path": "faults/ring-modifiers.txt",
+        "sha256": "b2bcd75968d933c9b78561590290d97a4ac6736bf93d4ae31de9c02514010356",
+        "bytes": 810
+      },
+      {
+        "path": "faults/rupture-story.json",
+        "sha256": "18aabf0c36ee49f1151285d10cf466e03180c58245d51ed91a5537690e7d4ffd",
+        "bytes": 14891824
+      },
+      {
+        "path": "faults/rupture-story.txt",
+        "sha256": "b2bcd75968d933c9b78561590290d97a4ac6736bf93d4ae31de9c02514010356",
+        "bytes": 810
+      },
+      {
+        "path": "faults/verification.json",
+        "sha256": "b0b5e9ca79b635888c56fc4fad4660a1eb2b44bc2c629b7ea68641005a6c811d",
+        "bytes": 2231
+      },
+      {
+        "path": "faults/zap-stacks.json",
+        "sha256": "22a82f8972737fe421bfeb3e77f2c3981dded3fceba8a244cdae1128ac722c07",
+        "bytes": 14748868
+      },
+      {
+        "path": "faults/zap-stacks.txt",
+        "sha256": "b2bcd75968d933c9b78561590290d97a4ac6736bf93d4ae31de9c02514010356",
+        "bytes": 810
+      },
+      {
+        "path": "candidate/location.json",
+        "sha256": "be3f237271108b8102865d3336c63a7e5e78e7f1a30bb10c922e691ff80adeef",
+        "bytes": 6313
+      },
+      {
+        "path": "candidate/prepare.txt",
+        "sha256": "e1380e7974dc8ab04bdcd25e3574d2ec695709b42758baa92d0a4bea2147cd3d",
+        "bytes": 317
+      },
+      {
+        "path": "mutations/bank-attacker.txt",
+        "sha256": "fa02ea332265e322c6a1f2132e84bfa77258561523c5c55112fd13b44a8c9e60",
+        "bytes": 3863
+      },
+      {
+        "path": "mutations/bank-flash.txt",
+        "sha256": "a25e32cc9212f5f0a388a1ccdde3e521c67d35a4c9a1d64702463f368ff46bf8",
+        "bytes": 2786
+      },
+      {
+        "path": "mutations/bank-spend.txt",
+        "sha256": "8c056d006c2891210635ddb96b166a6aa1cddba012e61e3888656441be102a07",
+        "bytes": 2790
+      },
+      {
+        "path": "mutations/capture-identity.txt",
+        "sha256": "e49b5224e1ffea3be5d66bbd5d3cab762f88ceba824d68f7742114f74759fcff",
+        "bytes": 3369
+      },
+      {
+        "path": "mutations/doom-equality.txt",
+        "sha256": "54a2da6b2da90bf8a183ecedece0e71cccce33f6c747f9b7955ffad8f15f70ef",
+        "bytes": 2888
+      },
+      {
+        "path": "mutations/expiry-gate.txt",
+        "sha256": "7c51f091d6c1b11bb7dae947d488898442cf9b256ad1a9dbab0e45ca41a09c1a",
+        "bytes": 2802
+      },
+      {
+        "path": "mutations/field.txt",
+        "sha256": "54b8b08c32a9133d63a8db746c2c7bb58641ebe96ded065e902f6a0452fe35dd",
+        "bytes": 2667
+      },
+      {
+        "path": "mutations/floor.txt",
+        "sha256": "57b922ee783a5df8803b7b35b37044e7ea520307cca292bb89cdc6e2d5288890",
+        "bytes": 3021
+      },
+      {
+        "path": "mutations/fractional-stacks.txt",
+        "sha256": "efa98a16b08e2ec14c8e428777493bfc700472aafb0f3be60b799d42fb207c74",
+        "bytes": 2665
+      },
+      {
+        "path": "mutations/lash-stun.txt",
+        "sha256": "12a4e5739927268071a3400e3834367150b02014db04f94cff693966011a0680",
+        "bytes": 2802
+      },
+      {
+        "path": "mutations/lash-tie.txt",
+        "sha256": "c21ebab6c22dc8663d7fd27a25520b20ee1e582cc3167591e2c9f9912fd856fb",
+        "bytes": 2807
+      },
+      {
+        "path": "mutations/proc-live-definition.txt",
+        "sha256": "0481b8f07f98c005c176d2444f407dbf431b9d47a419a3d5eaa9897440f6b33d",
+        "bytes": 2887
+      },
+      {
+        "path": "mutations/proc-power.txt",
+        "sha256": "be79ee44002c38c9b52f3130ad7098ac31600013e7ed98f1a924d2199c5080ee",
+        "bytes": 2810
+      },
+      {
+        "path": "mutations/proc-tags.txt",
+        "sha256": "5fdf84f5ec370c006c19083549b981e155ce75015f107e10f0f1c401318027c2",
+        "bytes": 2861
+      },
+      {
+        "path": "mutations/ring-modifiers.txt",
+        "sha256": "9ce312fcf97ce592b14ebbb01c31c541d73d1bf15745ba618bc436a89c561434",
+        "bytes": 2910
+      },
+      {
+        "path": "mutations/ring-time.txt",
+        "sha256": "2175d12d56586218f9f50595200d7c4dace16b35386cc4550ab39eafd602a1c2",
+        "bytes": 2799
+      },
+      {
+        "path": "mutations/rupture-edge.txt",
+        "sha256": "2b56165fd05dbd3ddf7fe6e6c5e2ee032db16932dc5279cbc00970c69bee7e6f",
+        "bytes": 2804
+      },
+      {
+        "path": "mutations/rupture-resistance.txt",
+        "sha256": "d4dbec58e19a1ace0fe01db3f020b79a6047beceff69e16a5a673909c7062d3c",
+        "bytes": 3707
+      },
+      {
+        "path": "mutations/rupture-story.txt",
+        "sha256": "ae57e39bc803cb2eab14fff8ad605de3396d0aed4fcd309d027b124318ec3c08",
+        "bytes": 2810
+      },
+      {
+        "path": "mutations/shed-source.txt",
+        "sha256": "94cf20ba57269ddccefc9aff4e616eec1eab161df5960267ebc598bd2e461788",
+        "bytes": 2905
+      },
+      {
+        "path": "mutations/spread-cap.txt",
+        "sha256": "2a88c8984686711d1853013300d720ee307a550e7b958caac4f69d4ba1e325e9",
+        "bytes": 2807
+      },
+      {
+        "path": "mutations/verification.json",
+        "sha256": "7e81f93f100fbf9b53009b70b433f9d4849b30b132f2f1dd49400c9b31ba3e55",
+        "bytes": 3708
+      },
+      {
+        "path": "mutations/zap-clock.txt",
+        "sha256": "c01e373725e0d4c52af173386dfc3bdfb127ac1b6b9b045caec70728c1a831aa",
+        "bytes": 2800
+      },
+      {
+        "path": "mutations/zap-stacks.txt",
+        "sha256": "25829a6d827095fc5a1b60de6a8b1049b533da82407be0c5aac68f387971f117",
+        "bytes": 2806
+      },
+      {
+        "path": "consumer/tests.txt",
+        "sha256": "e9fc34ae97f6d783679398fa5e090cc24b85e076d82ea4ca2dad3436fb4cc938",
+        "bytes": 1869
+      },
+      {
+        "path": "consumer/types.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "consumer/verification.json",
+        "sha256": "c63ee1301dd73b41392c56d8b8f798edb3db53bddf4a0a1b3c7bd5ed96a88543",
+        "bytes": 419
+      },
+      {
+        "path": "affliction/candidate.txt",
+        "sha256": "c5efb906a71ebde0ee4f6924fdc7679f807bdac56353cf958c76230c7c7c256e",
+        "bytes": 4300
+      },
+      {
+        "path": "affliction/original.txt",
+        "sha256": "9a4e95aa93d2f5264eda47379189a10f0f154ffbd391ca93c972fe8df1bc13b9",
+        "bytes": 4220
+      },
+      {
+        "path": "affliction/predecessor.txt",
+        "sha256": "0c62b1d0d72be42aad558d45fd5e30ed731b7c2a25d93090262f7357e67c802f",
+        "bytes": 4284
+      },
+      {
+        "path": "affliction/verification.json",
+        "sha256": "55544bc6dc3d2c9e05d906b7be806107835c348a693b62cd1134bd2a4844c431",
+        "bytes": 11459
+      },
+      {
+        "path": "status-effects/original-final.json",
+        "sha256": "8f033d5956131d96c45304f9ff9e6a23ca80a90514029e06e9ecc06c00afb102",
+        "bytes": 530
+      },
+      {
+        "path": "status-effects/original-final-types.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "status-effects/original-final-capture.txt",
+        "sha256": "b2bcd75968d933c9b78561590290d97a4ac6736bf93d4ae31de9c02514010356",
+        "bytes": 810
+      },
+      {
+        "path": "status-effects/confirm.json",
+        "sha256": "34038e389661de7a7a8daafcfc26d46a2b2d8c6a31956e354cb3e5dab2ada0df",
+        "bytes": 523
+      },
+      {
+        "path": "status-effects/confirm-types.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "status-effects/confirm-capture.txt",
+        "sha256": "b2bcd75968d933c9b78561590290d97a4ac6736bf93d4ae31de9c02514010356",
+        "bytes": 810
+      },
+      {
+        "path": "status-effects/predecessor.json",
+        "sha256": "587679edcae6273d5c5f24fb5f1aaeb07fd0539ccb9657a18fde4e29dc7070dd",
+        "bytes": 561
+      },
+      {
+        "path": "status-effects/predecessor-types.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "status-effects/predecessor-capture.txt",
+        "sha256": "b2bcd75968d933c9b78561590290d97a4ac6736bf93d4ae31de9c02514010356",
+        "bytes": 810
+      },
+      {
+        "path": "status-propagation/original.json",
+        "sha256": "96e0699ef9f7ebdcf61567fcf74e9bc9367e301cb0d71d70394fb5ccfc565ae6",
+        "bytes": 527
+      },
+      {
+        "path": "status-propagation/original-types.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "status-propagation/original-capture.txt",
+        "sha256": "50b24e126fe2ea7ae7ee96342e3ee7b644a5f959521166780aa2756d6d0d6c83",
+        "bytes": 832
+      },
+      {
+        "path": "status-propagation/confirm.json",
+        "sha256": "60eba03653ae792625dbee92801612852ccab3607df409425c2e9f80d6667f9d",
+        "bytes": 526
+      },
+      {
+        "path": "status-propagation/confirm-types.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "status-propagation/confirm-capture.txt",
+        "sha256": "50b24e126fe2ea7ae7ee96342e3ee7b644a5f959521166780aa2756d6d0d6c83",
+        "bytes": 832
+      },
+      {
+        "path": "status-propagation/predecessor.json",
+        "sha256": "e1fd212f565a6622042be0930e1571c703431d6dd9a1fb2a7eab72fb69ca0caa",
+        "bytes": 564
+      },
+      {
+        "path": "status-propagation/predecessor-types.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "status-propagation/predecessor-capture.txt",
+        "sha256": "50b24e126fe2ea7ae7ee96342e3ee7b644a5f959521166780aa2756d6d0d6c83",
+        "bytes": 832
+      },
+      {
+        "path": "native-course/input.json",
+        "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "bytes": 2
+      },
+      {
+        "path": "native-course/requests.jsonl",
+        "sha256": "c21172af415652f80d197f6bc75faa1525f1a8c00e92bc2546c5fb4dc969b78f",
+        "bytes": 466
+      },
+      {
+        "path": "native-course/verification.json",
+        "sha256": "0de797a522adfa6c242f75c96c9ff0374c52fb7c0dbc75f142a22950dcc6208e",
+        "bytes": 11951
+      },
+      {
+        "path": "native-course/original/entry.ts",
+        "sha256": "13b003d2702be9f3b2dae1a82e0e0f42923f7f7ecce24e51693d0834f887e74d",
+        "bytes": 45981
+      },
+      {
+        "path": "native-course/original/library.jsonl",
+        "sha256": "d5c4332a58aa8bf2ba887a47f8ecefc54be960657e195751f994ae96636374d4",
+        "bytes": 6391110
+      },
+      {
+        "path": "native-course/original/library.txt",
+        "sha256": "6bcfb1b2a9b077b274ef62ca52f1b316b7801a85183033f9a3dbfd3c129eb267",
+        "bytes": 209
+      },
+      {
+        "path": "native-course/original/metafile.json",
+        "sha256": "51c7a38f8286c8671a2fe171d2a6ea182519b5154b10b71c2025e05545afbbf6",
+        "bytes": 622146
+      },
+      {
+        "path": "native-course/original/native.jsonl",
+        "sha256": "7b258feaf0d80c7a398b8c6c1ed812a578aaaadd51f313cac5b85fd494f23d78",
+        "bytes": 6391143
+      },
+      {
+        "path": "native-course/original/native.txt",
+        "sha256": "edbb58b8f2e82255bd624b67e3121929fa4612d468aa4f6c04f4c763e129d27f",
+        "bytes": 156
+      },
+      {
+        "path": "native-course/original/node-services.json",
+        "sha256": "027977d5d0f602cd7f9e5a7b3a02a9bffaf951b450bfbcc10d4beb372b239b98",
+        "bytes": 15431
+      },
+      {
+        "path": "native-course/original/node.jsonl",
+        "sha256": "a609cd4c1738d8a1d5973782e8958aae47bfa6391010076a2d2694ae84d273f8",
+        "bytes": 6380693
+      },
+      {
+        "path": "native-course/original/verification.json",
+        "sha256": "fda2e3428f5146a7bedf2b1f1482df033638b9d2f0d655fb0415efa540c5ae2f",
+        "bytes": 1301
+      },
+      {
+        "path": "native-course/installed/entry.ts",
+        "sha256": "3f9f7bc836562669806de58d8e6964c2b6579031727848a923acd7fdb5392357",
+        "bytes": 46701
+      },
+      {
+        "path": "native-course/installed/library.jsonl",
+        "sha256": "d5c4332a58aa8bf2ba887a47f8ecefc54be960657e195751f994ae96636374d4",
+        "bytes": 6391110
+      },
+      {
+        "path": "native-course/installed/library.txt",
+        "sha256": "0a0fbce9c59761a7ef736e9b41e79ec864e866e1f1e6f7763c3da08a8975a00d",
+        "bytes": 209
+      },
+      {
+        "path": "native-course/installed/metafile.json",
+        "sha256": "ab4aa7156e46de155c27d9f24ebcff91969cb12b10ff1fdc311cfe5af30dce78",
+        "bytes": 880456
+      },
+      {
+        "path": "native-course/installed/native.jsonl",
+        "sha256": "7b258feaf0d80c7a398b8c6c1ed812a578aaaadd51f313cac5b85fd494f23d78",
+        "bytes": 6391143
+      },
+      {
+        "path": "native-course/installed/native.txt",
+        "sha256": "1a3e770737d5296de5336cbfea9d1fa7e085de873666810de35e74dbead0ab03",
+        "bytes": 156
+      },
+      {
+        "path": "native-course/installed/node-services.json",
+        "sha256": "027977d5d0f602cd7f9e5a7b3a02a9bffaf951b450bfbcc10d4beb372b239b98",
+        "bytes": 15431
+      },
+      {
+        "path": "native-course/installed/node.jsonl",
+        "sha256": "a609cd4c1738d8a1d5973782e8958aae47bfa6391010076a2d2694ae84d273f8",
+        "bytes": 6380693
+      },
+      {
+        "path": "native-course/installed/verification.json",
+        "sha256": "bd95112431f035dd13cf44eab16f72ed252c2e62cdcef3dda0e1f46c18770bce",
+        "bytes": 1302
+      },
+      {
+        "path": "native-course/early-freeze-fault/entry.ts",
+        "sha256": "3f9f7bc836562669806de58d8e6964c2b6579031727848a923acd7fdb5392357",
+        "bytes": 46701
+      },
+      {
+        "path": "native-course/early-freeze-fault/metafile.json",
+        "sha256": "38ed48845d59cb9deb04a503df47edee5d59774c86f8d8db61997ed791683d1f",
+        "bytes": 880492
+      },
+      {
+        "path": "native-course/early-freeze-fault/native.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "native-course/early-freeze-fault/native.txt",
+        "sha256": "7f008deb322de3fb805718f4d18108c3410d8cdb40b5e1a44d950acfb909cbe8",
+        "bytes": 665
+      },
+      {
+        "path": "native-course/early-freeze-fault/node-services.json",
+        "sha256": "027977d5d0f602cd7f9e5a7b3a02a9bffaf951b450bfbcc10d4beb372b239b98",
+        "bytes": 15431
+      },
+      {
+        "path": "native-course/early-freeze-fault/node.jsonl",
+        "sha256": "a609cd4c1738d8a1d5973782e8958aae47bfa6391010076a2d2694ae84d273f8",
+        "bytes": 6380693
+      },
+      {
+        "path": "native-course/early-freeze-fault/verification.json",
+        "sha256": "158bd420f4d998a75e6d45e6173d42b137ee8642d763a36c697c97c86b0f7c45",
+        "bytes": 437
+      },
+      {
+        "path": "native-course/native/build-commands.json",
+        "sha256": "8efd1772bdaf7a9d9c6b7973793da1da75b8f1e6f041b7bb317592a030a729d7",
+        "bytes": 1670
+      },
+      {
+        "path": "native-course/native/build.txt",
+        "sha256": "4afb29cbb31a90255acc2c1428ae39bce37cb6a14a3f510ce18513499e0a43b1",
+        "bytes": 798
+      },
+      {
+        "path": "native-course/library/build-commands.json",
+        "sha256": "fb791f7f851f9a5504009af709c5a18a782433b642a81bf1dba3a0a54f276484",
+        "bytes": 2354
+      },
+      {
+        "path": "native-course/library/build.txt",
+        "sha256": "9a9fe0e7cff354c6d7bd6acc1f5e0f31cc602629e812a759a90b2d7b938bdd22",
+        "bytes": 1096
+      },
+      {
+        "path": "native-course/library/exports.txt",
+        "sha256": "149574c565120c9ff572999b89258244057c54939c9a490b2d742b471ad4df4d",
+        "bytes": 1060
+      },
+      {
+        "path": "registration-failed-trial/before.txt",
+        "sha256": "a09148f0556fb5ef26604e96b33116ab614cc713af105d8bc2262a5dc9a069f4",
+        "bytes": 859
+      },
+      {
+        "path": "registration-failed-trial/original-first-dependency.txt",
+        "sha256": "a09148f0556fb5ef26604e96b33116ab614cc713af105d8bc2262a5dc9a069f4",
+        "bytes": 859
+      },
+      {
+        "path": "registration-failed-trial/verification.json",
+        "sha256": "8ed665c845570a7bd211bd450daf80c938fb911b3d2320f63ac95da665a96842",
+        "bytes": 851803
+      },
+      {
+        "path": "registration-restored-order/before.txt",
+        "sha256": "a09148f0556fb5ef26604e96b33116ab614cc713af105d8bc2262a5dc9a069f4",
+        "bytes": 859
+      },
+      {
+        "path": "registration-restored-order/original-status-import-slot.txt",
+        "sha256": "a09148f0556fb5ef26604e96b33116ab614cc713af105d8bc2262a5dc9a069f4",
+        "bytes": 859
+      },
+      {
+        "path": "registration-restored-order/verification.json",
+        "sha256": "82f2c8ceac9df9c422c1da8c277bb1e0223084489867dbbd36436d9c552eb579",
+        "bytes": 851803
+      },
+      {
+        "path": "initial-game-types/tsconfig.json",
+        "sha256": "372f69ca810c398018a2a5573dd967f13b8b96f16766ecc23bd8f4454904a2a0",
+        "bytes": 536
+      },
+      {
+        "path": "initial-game-types/types.txt",
+        "sha256": "eb44dc0b77a136a9c69fd8ade09c3d83d341066269b8294d42a3b9a528e089a0",
+        "bytes": 394
+      },
+      {
+        "path": "initial-game-types/verification.json",
+        "sha256": "745edc7a498f6dc463f38eb7fe6e7ac1b4ece4e30a84859d2780ff3ea2fa286a",
+        "bytes": 718
+      },
+      {
+        "path": "initial-observer-types/tsconfig.json",
+        "sha256": "893b03940adcb4df38a93c638075893840278550540d8f3dcefc7c074bb3936f",
+        "bytes": 460
+      },
+      {
+        "path": "initial-observer-types/types.txt",
+        "sha256": "3a666d8f0963b99aeb7ab319344a2d12187c2a2699a06f006941902ca9fd1ff4",
+        "bytes": 154
+      },
+      {
+        "path": "initial-observer-types/verification.json",
+        "sha256": "281f62745ba00993224a2cf422f7a9c4edbac41375b5cad700a1982d127f83f2",
+        "bytes": 424
+      },
+      {
+        "path": "observer-gap/bank-payout.json",
+        "sha256": "74a04f8d1fd631cb88a9a4b5ba2fd27268c4aa5ed40c191c3953a5e5c63a10cf",
+        "bytes": 14748870
+      },
+      {
+        "path": "observer-gap/bank-payout.txt",
+        "sha256": "b2bcd75968d933c9b78561590290d97a4ac6736bf93d4ae31de9c02514010356",
+        "bytes": 810
+      },
+      {
+        "path": "observer-gap/control.json",
+        "sha256": "3e0b2a433f22e12ce728387e72a7832d1b6c8890173e3c2f941593e552c170d1",
+        "bytes": 14748868
+      },
+      {
+        "path": "observer-gap/control.txt",
+        "sha256": "b2bcd75968d933c9b78561590290d97a4ac6736bf93d4ae31de9c02514010356",
+        "bytes": 810
+      },
+      {
+        "path": "observer-gap/proc-magnitude.json",
+        "sha256": "2c85feb32f7c4d3d95d00ea762141575ba4940dcce8ad5f2c26f697d62b5d794",
+        "bytes": 14748868
+      },
+      {
+        "path": "observer-gap/proc-magnitude.txt",
+        "sha256": "b2bcd75968d933c9b78561590290d97a4ac6736bf93d4ae31de9c02514010356",
+        "bytes": 810
+      },
+      {
+        "path": "observer-gap/propagation-cap.json",
+        "sha256": "3e0b2a433f22e12ce728387e72a7832d1b6c8890173e3c2f941593e552c170d1",
+        "bytes": 14748868
+      },
+      {
+        "path": "observer-gap/propagation-cap.txt",
+        "sha256": "b2bcd75968d933c9b78561590290d97a4ac6736bf93d4ae31de9c02514010356",
+        "bytes": 810
+      },
+      {
+        "path": "observer-gap/ring-modifiers.json",
+        "sha256": "d91d97f2b16b285efc8a85e93e9e1cb3de45b103c1c29ec1cbffa73b3568b48a",
+        "bytes": 14748812
+      },
+      {
+        "path": "observer-gap/ring-modifiers.txt",
+        "sha256": "b2bcd75968d933c9b78561590290d97a4ac6736bf93d4ae31de9c02514010356",
+        "bytes": 810
+      },
+      {
+        "path": "observer-gap/rupture-story.json",
+        "sha256": "18aabf0c36ee49f1151285d10cf466e03180c58245d51ed91a5537690e7d4ffd",
+        "bytes": 14891824
+      },
+      {
+        "path": "observer-gap/rupture-story.txt",
+        "sha256": "b2bcd75968d933c9b78561590290d97a4ac6736bf93d4ae31de9c02514010356",
+        "bytes": 810
+      },
+      {
+        "path": "observer-gap/verification.json",
+        "sha256": "9b5fefd6fde56d47ad488a39a324d985f23c0c21f36ad8fbb1c51c400f977159",
+        "bytes": 1256
+      },
+      {
+        "path": "observer-gap/zap-stacks.json",
+        "sha256": "22a82f8972737fe421bfeb3e77f2c3981dded3fceba8a244cdae1128ac722c07",
+        "bytes": 14748868
+      },
+      {
+        "path": "observer-gap/zap-stacks.txt",
+        "sha256": "b2bcd75968d933c9b78561590290d97a4ac6736bf93d4ae31de9c02514010356",
+        "bytes": 810
+      },
+      {
+        "path": "live-definition-before.txt",
+        "sha256": "cc200e7a72d8b10ae5461010d248fa055d3b014b2c1d00ffac21986da9eefdce",
+        "bytes": 2943
+      },
+      {
+        "path": "parent-hosted-failure.txt",
+        "sha256": "48f886d117c2b323ce5074088280adb96e73e2a446a37dc6ea42cf63f5fceb3d",
+        "bytes": 1264495
+      },
+      {
+        "path": "initial-status-voice-census-failure/attack-sequences.txt",
+        "sha256": "26850b44f3be327585eb62ea46ccdcd636976e826b32c361ffcf70d761afda8b",
+        "bytes": 1197
+      },
+      {
+        "path": "initial-status-voice-census-failure/damage-reference.txt",
+        "sha256": "48d0808b9884162c1a21d41525b827d44e60f25e96184053c197021685d8e7e5",
+        "bytes": 150
+      },
+      {
+        "path": "initial-status-voice-census-failure/passive-grants.txt",
+        "sha256": "504c4b8190440b2798e636aa1a6031a3e61306a80f8595b5cbcd435f2d4c238c",
+        "bytes": 1751
+      },
+      {
+        "path": "initial-status-voice-census-failure/probe-statusvoice.txt",
+        "sha256": "ecb50c32d151a6da090b05706d501d2751892482206c9b9a59ca3b35f45ce9ea",
+        "bytes": 2086
+      },
+      {
+        "path": "initial-status-voice-census-failure/status-effects-reference.txt",
+        "sha256": "789c54697b3ef0d2e1edc8dd28d263ff9eb0ec8a3553ee7cb766d673a2e03940",
+        "bytes": 158
+      },
+      {
+        "path": "initial-status-voice-census-failure/status-reference.txt",
+        "sha256": "5bb84e78e4614a64465511ecb708300b7d15b190701e0dcc62cc3a8bab423dbb",
+        "bytes": 150
+      },
+      {
+        "path": "initial-status-voice-census-failure/types.txt",
+        "sha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d",
+        "bytes": 107
+      },
+      {
+        "path": "initial-status-voice-census-failure/verification.json",
+        "sha256": "182cbad6a0b621904c8d8196a6b70de575f33642ff1fc523faf1f3a1287cbc19",
+        "bytes": 1041
+      }
+    ]
+  },
+  "sources": {
+    ".github/workflows/verify.yml": "9da71f07029bcdbb0b49c3a40ed0e2c5f3d826242f0a88836325eaaf0af3e578",
+    "README.md": "0e9a5ae91b34e40a3a59a4f3f3e2ce37afc104591646525bd386f589482da517",
+    "adapters/hollow-wake/integrate-status-effects.mjs": "9522f2e3c4f0828baed9bf251a0532aa6b213e7b02fd4f187404e44b11a16e78",
+    "adapters/hollow-wake/integrate-status-lifecycle.mjs": "7e4f12088e946afdbe1268a4996918fd316aa1573a09874763d3a229e26eae4e",
+    "adapters/hollow-wake/status-effects-boundary.json": "1420ca1926360e52c5b6c0fa42484f77fb463a60c5ddef58b9bd8da28901cc03",
+    "adapters/hollow-wake/status-effects-tree.mjs": "5d176836646e5ded81302eb47d0aa73d7a5af9df65ddc809fd058bf968f56b6f",
+    "adapters/hollow-wake/statusEffects.ts": "8864e05cff6d3a153479f6ad79354c903857b4c52fc6fb87fe655183f2800155",
+    "adapters/hollow-wake/statusLifecycle.ts": "529b7e14b0dab2307a9feac78f698ea5bc84bac3156392bd27f0ce07d4be78e1",
+    "baseline/status-effects/acceptance.json": "8f15b009aa958c835275b5e967e0b8a16fefaa68cdbe89f991d07aff3669e01d",
+    "baseline/status-effects/observations.json.gz": "b750cc56a22b79735f7a4578789c4e6b70b1600ff651d8f5f64522c21ecf511a",
+    "baseline/status-effects/source-boundary.json": "fc5873a5897d789a58c40b8416441d7acfd4295fe012bcb4e14adfb3b8c2ab49",
+    "baseline/status-propagation/acceptance.json": "f6ea2a34a4df76644052ace150b8d73af1523788833fad9c24e81c8a684a1308",
+    "baseline/status-propagation/observations.json.gz": "feb51f4b97bbaf6fd8cf063120c4b1d459f46f3a62af141f8aa212a6044e3a12",
+    "baseline/status-propagation/source-boundary.json": "fc5873a5897d789a58c40b8416441d7acfd4295fe012bcb4e14adfb3b8c2ab49",
+    "baseline/status-relay/acceptance.json": "e2abae09de15f1c7d2c4eeec60331e47015af8efe33a07ef54aa645fd7b84efa",
+    "baseline/status-relay/observations.json.gz": "b6903023d3e7dbc809e07a36ac270f59917791504cdc8c853317e67ef3eb0100",
+    "baseline/status-relay/source-boundary.json": "d06b1dc72a1ec55982323e7f4a27531966d01f3f1cc40924600c659e1ba998de",
+    "docs/boundary-contract.md": "7aa028ba013f91a088b96dfba014751fe07d77fe4f4e809b1db71786bb3cb772",
+    "docs/completion.json": "0b8d8c23d5ebd4a9e1e29446d757adab6d1a3f11c9b6710dd819bcae1cab5c10",
+    "docs/status-effects.md": "fd1a563339f074ca33eef986b9435efdd502063e1c580e4d1a58e6992a5d5e79",
+    "docs/verification.md": "cd011c2ce9c7101ef71eecce2b13d3eb3747aeadb2717e4717f9c96d8d673ceb",
+    "package.json": "d5040f3a5e441c213d767881df9e27de6ede5172b7b85f39c7859cc5b6bfebe7",
+    "reference/export-status-effects.ts": "bc07e1689c8980aab2a2e24e1200cf57b3c65d1a46ce40b3e3387086b4d37304",
+    "reference/export-status-propagation.ts": "0e17624824ed00258fda80919f6879589b85ebf73dad31d3ef9b646e3ccd1064",
+    "reference/export-status-relay.ts": "86a68c61e41aa511771fde0ea992361cd93a9e26a47be0f4bf6603a97744fb5b",
+    "scripts/check-boundaries.mjs": "088d08025eaa216904ac9de6e37e4d9eaa98cdd5009ae432efa3f354030e016f",
+    "scripts/prepare-game-adapter.mjs": "595149a3395d03890f05e78a6a0bdbe59b39821386caf10f3cb37fe8728039df",
+    "scripts/run-status-effects-reference.mjs": "72858a228444d7e2a9ab204a0d8040839e18809b6dc5e3f388b7537aaea299e3",
+    "scripts/run-status-propagation-reference.mjs": "5d1280853d45dc2ec41f9490061dc2cd1612fcf2639b7525b7a4483aa5af3a92",
+    "scripts/run-status-relay-reference.mjs": "e13f254279c1601f32f8595204ae29b5db974638dc733f90821ec2cb8b6f29cd",
+    "scripts/test-game-passive-grants.mjs": "59de4676fda2bb277000e859c57580ce171287bb05074bdf98c6cb33e5b1f0fb",
+    "scripts/test-game-status-effects-faults.mjs": "9d00d67c8fb4a10a31079ec3f6af379c1b01b9c55fe6ac218c22daa7da4e3794",
+    "scripts/test-game-status-effects.mjs": "1b7f0da2f1383776982a924573993606db421982b7a3f9cd6eb6a877b2933d92",
+    "scripts/test-package.mjs": "43bc0d091ba652bd91bf291e27a2c601e4d0594011d14456992097d5b662289c",
+    "scripts/test-status-effects-diagnostics.mjs": "0ae7b232a3fec25c5e024cd9ebe74c29497db671a46b1f3b8bca07d77304dbc1",
+    "scripts/test-status-effects-mutations.mjs": "177553b92d4e2509ad3953f747109d71154c9109246a387a019d13815db48d28",
+    "scripts/test-status-effects-overlay.mjs": "a6b337b0f06c9daadcc5c8ccf96e45449eb6568f3ace54cbc20ee9e7c6a96b50",
+    "scripts/test-status-effects-package.mjs": "6ae61ac8f4d17f49df413471cad1794b8f585c78b4632abaa0d792947eec4c3e",
+    "src/status-effects-types.ts": "769272feec56750ec0a5894fec244cf10e7e6cfd1af1397e61ad98de0981d8ea",
+    "src/status-effects.ts": "76639540067cc699984bb73184d7863cba245e87af45e5d8e002e73a806a4043",
+    "test/status-effects.test.mjs": "aa458ae8403d7ea70463a26c03b851973e3c6848abe039db726e8c96bed1c4e1"
+  },
+  "remaining": [
+    "Hit-authored/stat-granted status occurrence and discharge on hit",
+    "Siphon/recall and other delivery effects",
+    "Complete actor and death lifecycle",
+    "Complete native engine packages",
+    "Target-device CPU, memory and allocation measurement",
+    "Other tracked families and current-source reconciliation"
+  ]
+}

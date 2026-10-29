@@ -1,5 +1,11 @@
 # Verification and reproduction
 
+`reference:status-effects` compares the 263-course frozen original World status
+fixture without rewriting it. `adapter:status-effects` checks archive identity,
+installed runtime equality and the same observations through the game adapter.
+`test:status-effects-package` and `test:status-effects-mutations` run in the full
+SDK verifier. See [status effects](status-effects.md) for scope and phase order.
+
 The [status lifecycle](status-lifecycle.md) has a frozen 217-course baseline from
 two original runs and the previous installed adapter, covering all 152 authored
 definitions and a separately identified synthetic taper. Independent tests and

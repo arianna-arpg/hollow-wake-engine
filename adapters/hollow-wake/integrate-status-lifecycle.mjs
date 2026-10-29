@@ -21,8 +21,12 @@ export function renderStatusActor(source){
     edits.push({start:node.body.getStart(ast),end:node.body.end,text:'{ return statusLifecycle.'+name+'(this'+(entry.args?', '+entry.args:'')+'); }'});
   }
   if(prior){const imports=ast.statements.filter(n=>ts.isImportDeclaration(n)&&n.getText(ast)===boundary.predecessor.import);assert.equal(imports.length,1);edits.push({start:imports[0].getStart(ast),end:imports[0].end,text:''});}
+  // This binding imports reception's generated stat registration. Keep it at
+  // Actor's original reception slot; a leading import moves takenAs_* before
+  // charge/gauge registration and changes the complete passive content pack.
+  const reception=ast.statements.filter(n=>ts.isImportDeclaration(n)&&n.moduleSpecifier.text==='./reception');assert.equal(reception.length,1);
+  const bindingAt=reception[0].getStart(ast);edits.push({start:bindingAt,end:bindingAt,text:"import {statusLifecycle} from './statusLifecycle';\n"});
   let output=input;for(const e of edits.sort((a,b)=>b.start-a.start))output=output.slice(0,e.start)+e.text+output.slice(e.end);
-  output="import {statusLifecycle} from './statusLifecycle';\n"+output;
   const parsed=ts.createSourceFile('actor.ts',output,ts.ScriptTarget.Latest,true);assert.equal(parsed.parseDiagnostics.length,0,'Invalid rendered status Actor');
   const retired=new Set(['noteProcPop','chance','STATUS_RELAY_IDS','WET_STAND_STATUSES','bankFracOf']),counts=new Map();
   const visit=node=>{const propertyName=node.parent&&((ts.isPropertySignature(node.parent)||ts.isPropertyAssignment(node.parent))&&node.parent.name===node||ts.isPropertyAccessExpression(node.parent)&&node.parent.name===node);

@@ -141,6 +141,10 @@ jobs:
       - run: npm run reference:sequence-recovery
       - run: npm run reference:attack-sequences
       - run: npm run reference:statuses
+      - run: npm run reference:status-effects
+      - run: node scripts/run-status-propagation-reference.mjs
+      - run: node scripts/run-status-relay-reference.mjs
+      - run: npm run adapter:status-effects-source
       - run: node scripts/test-status-overlay.mjs
       - run: npm run reference:damage
       - run: node scripts/test-damage-overlay.mjs
@@ -203,6 +207,9 @@ jobs:
       - run: npm run adapter:sequence-recovery-faults
       - run: npm run adapter:attack-sequences
       - run: npm run adapter:statuses
+      - run: npm run adapter:status-effects
+      - run: node scripts/test-game-status-effects-faults.mjs --location .artifacts/adapter-location.json
+      - run: node scripts/test-status-effects-diagnostics.mjs --location .artifacts/adapter-location.json
       - run: node scripts/test-game-status-faults.mjs --location .artifacts/adapter-location.json
       - run: npm run adapter:damage
       - run: node scripts/test-game-damage-faults.mjs --location .artifacts/adapter-location.json
@@ -320,6 +327,22 @@ jobs:
             .artifacts/attack-sequences-reference-verification.json
             .artifacts/game-attack-sequences-verification.json
             .artifacts/status-lifecycle-reference-verification.json
+            .artifacts/status-effects-reference-verification.json
+            .artifacts/status-propagation-reference-verification.json
+            .artifacts/status-relay-reference-verification.json
+            .artifacts/reference-status-relay-*/*.json
+            .artifacts/reference-status-relay-*/*.txt
+            .artifacts/game-status-effects-verification.json
+            .artifacts/game-status-effects-fault-verification.json
+            .artifacts/status-effects-diagnostics-verification.json
+            .artifacts/status-effects-diagnostics-*/*.json
+            .artifacts/status-effects-diagnostics-*/*.txt
+            .artifacts/game-status-effects-faults-*/*.json
+            .artifacts/game-status-effects-faults-*/*.txt
+            .artifacts/reference-status-effects-*/*.json
+            .artifacts/reference-status-effects-*/*.txt
+            .artifacts/reference-status-propagation-*/*.json
+            .artifacts/reference-status-propagation-*/*.txt
             .artifacts/game-status-verification.json
             .artifacts/game-status-fault-verification.json
             .artifacts/status-overlay-verification.json
