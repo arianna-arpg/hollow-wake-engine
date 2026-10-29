@@ -138,6 +138,9 @@ jobs:
       - run: npm run reference:cooldowns
       - run: npm run reference:cooldown-lifecycle
       - run: npm run reference:ready-bank
+      - run: npm run reference:sequence-recovery
+      - run: node --import tsx balance/probe_cleave.ts
+        working-directory: .reference
       - run: npm run reference:ammunition
       - run: node --import tsx balance/probe_passiverefund.ts
         working-directory: .reference
@@ -190,6 +193,10 @@ jobs:
       - run: npm run adapter:cooldown-lifecycle-faults
       - run: npm run adapter:ready-bank
       - run: npm run adapter:ready-bank-faults
+      - run: npm run adapter:sequence-recovery
+      - run: npm run adapter:sequence-recovery-faults
+      - run: node --import tsx balance/probe_cleave.ts
+        working-directory: .artifacts/game-adapter
       - run: npm run adapter:renderer-prepare
       - run: node scripts/build-game-item-ui.mjs --game .artifacts/game-renderer --output .artifacts/game-renderer-dist
       - run: npm run adapter:ammunition
@@ -295,6 +302,16 @@ jobs:
             .artifacts/game-ready-bank-verification.json
             .artifacts/ready-bank-overlay.json
             .artifacts/ready-bank-installed-faults.json
+            .artifacts/sequence-recovery-reference-verification.json
+            .artifacts/game-sequence-recovery-verification.json
+            .artifacts/sequence-recovery-overlay.json
+            .artifacts/sequence-recovery-installed-faults.json
+            .artifacts/reference-sequence-recovery-*/*.json
+            .artifacts/reference-sequence-recovery-*/*.txt
+            .artifacts/game-sequence-recovery-*/*.json
+            .artifacts/game-sequence-recovery-*/*.txt
+            .artifacts/sequence-recovery-installed-faults-*/*.json
+            .artifacts/sequence-recovery-installed-faults-*/*.txt
             .artifacts/game-renderer-location.json
             .artifacts/game-renderer-dist/sdk-build.json
             .artifacts/reference-ready-bank-*/*.json

@@ -1,5 +1,15 @@
 # Verification and reproduction
 
+The sequence recovery checkpoint passes 1,005 SDK tests (28 focused), 49 frozen
+original courses, 114 actual Cleave checks with original-identical output, 25 smoke
+episodes and the existing 35/44/75 bank/lifecycle/proc courses. It detects 16
+runtime, nine source-guard and seven installed faults. Independent package/type
+consumption and a browser build pass; all 213 previous runtime outputs remain
+unchanged. The optional module adds 2,131 bytes of JavaScript. Its
+[contract](sequence-recovery.md) and [raw-backed evidence](../evidence/sequence-recovery/runtime.json)
+record preserved reentrancy and partial writes. Geometry, complete attack-sequence
+execution, new native-host exposure and measured optimization remain open.
+
 The ready-only refund bank checkpoint passes 977 SDK tests (24 focused), 35
 frozen original courses, 44 existing lifecycle courses, 75 existing proc cases,
 25 game smoke episodes and 21 existing cooldown renderer stages. It detects

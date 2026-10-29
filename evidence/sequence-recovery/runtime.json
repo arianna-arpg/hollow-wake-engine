@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "stage": "Sequence recovery runtime and installed game adapter verified",
+  "sourceParent": "633c9ec0cbf0af5ed64a73c5b6d0e0f32f3ce45c",
+  "module": "@hollow-wake/engine/combat/sequence-recovery",
+  "exports": [
+    "lockSequenceRecovery",
+    "releaseSequenceRecovery",
+    "settleSequenceRecoveries"
+  ],
+  "acceptanceSha256": "d667b6a9cbbb33552a765077fef81a129074e911921536abe3f3444869c6d58d",
+  "observationsSha256": "2c60a207e7100ef2f4d7eec0dc7c6449933f487dd44b9310bf0dcd8174511b94",
+  "verification": {
+    "sdkTests": 1005,
+    "focusedTests": 28,
+    "frozenOriginalCourses": 49,
+    "independentOriginalCaptures": 2,
+    "installedPredecessorMatches": true,
+    "deliberateOriginalFailures": 10,
+    "cleaveChecks": 114,
+    "cleaveOriginalOutputIdentical": true,
+    "existingBankCourses": 35,
+    "existingLifecycleCourses": 44,
+    "existingProcCourses": 75,
+    "runtimeFaults": 16,
+    "sourceGuardFaults": 9,
+    "installedFaults": 7,
+    "packageConsumer": true,
+    "typeConsumer": true,
+    "referenceVerification": true,
+    "gameLauncherSimulationTypes": true,
+    "smokeEpisodes": 25,
+    "browserBuild": true
+  },
+  "size": {
+    "javascriptBytes": 2131,
+    "optionalAllowanceBytes": 4096,
+    "previousRuntimeOutputsUnchanged": 213,
+    "currentRuntimeOutputs": 216,
+    "runtimeMapSha256": "3ee8f68306d2deae0a0ec1f8456dc4912831c54a24e92331f28d6bff7e6e5071",
+    "moduleSha256": "c35bdfd79c40a9f11d530ddb76b30d4389bb31f0bdde451d8ffbe1d638b6b6bb",
+    "performanceClaim": false
+  },
+  "adapter": {
+    "changedGameSourceFiles": [
+      "engine/attackSequences.ts"
+    ],
+    "totalGameSourceFiles": 997,
+    "sourceMapSha256": "e71245d609d36dbdd50a6ece64941dd7928ff46c1e8e324c2e9e3a32aa0a0bb1",
+    "installedPackageIntegrity": "sha512-l8ILFgOOLid3F2D7EvoTQ3R6Q19y/D6mAiOLyRC4gHCLhg6WO0BaJ+QDoVGiUcMoi2+uk4/0vMGgcTPZfPS+eA==",
+    "archiveSha256": "748a88b417da1427c8c037713dd56731107b313163adb6364af14109e3383254",
+    "packageMapSha256": "7ddfeaf6b62d59b8ca7cc81457d175fa9dbe3ed37f60cbda5b3fde2222c70d05",
+    "sourceAndPackageUnchanged": true
+  },
+  "ownership": {
+    "beforeReferences": 50,
+    "afterReferences": 44,
+    "beforeDirectWrites": 29,
+    "afterDirectWrites": 23,
+    "delegatedWrites": 6,
+    "scope": "Named-field AST inventory, not alias/dataflow or all timer ownership."
+  },
+  "toolingCorrections": {
+    "helperImport": "An initial type-only import referenced the wrong source module. Its failed type check and source are retained; both original captures were completed before freezing acceptance or creating runtime code.",
+    "interruptedPreparation": "The first candidate preparation stopped across continuation before dependencies or a completion record existed. Its output was preserved. After a missing session and process inspection confirmed it had stopped, a fresh candidate was built.",
+    "packageAccounting": "After the full suite, the package budget checker was updated to account separately for this optional module and rerun successfully. Runtime bytes did not change."
+  },
+  "scope": {
+    "rendererBehaviorAccepted": false,
+    "nativeHostExposureAccepted": false,
+    "devicePerformanceAccepted": false,
+    "completeAttackSequenceController": false,
+    "fullSdkComplete": false,
+    "remaining": [
+      "Attack sequence geometry, hit cycles, projectile delivery, catch rewards and scheduled execution",
+      "Remaining specialized cooldown lifecycles and full Assault controller",
+      "Supported native-engine exposure, other gameplay families, current-source reconciliation and measured device optimization"
+    ]
+  },
+  "rawEvidence": {
+    "file": "evidence/sequence-recovery/runtime-raw.json.gz",
+    "sha256": "3a0ca814b390f40173a45d5778a2a79eb38ecec4513f09d7514e6453052e1ee7",
+    "records": 117,
+    "compressedBytes": 228156,
+    "allRecordsRehashed": true
+  },
+  "preservation": {
+    "originalStableFiles": 4112,
+    "reviewedConcurrentPaths": 8,
+    "originalSourceWrites": false,
+    "canonicalSdkMainChanged": false,
+    "managedGameChanged": false,
+    "gameRepositoriesPushed": false
+  }
+}

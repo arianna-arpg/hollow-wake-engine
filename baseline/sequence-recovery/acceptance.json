@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "decision": "sequence-recovery/original-v1",
+  "sourceParent": "633c9ec0cbf0af5ed64a73c5b6d0e0f32f3ce45c",
+  "helper": "reference/export-sequence-recovery.ts",
+  "helperSha256": "7768f95e4478fa9f03e32ce4043a4ae8049d00b8be7c4547947844866428931d",
+  "fixture": {
+    "file": "baseline/sequence-recovery/observations.json.gz",
+    "sha256": "c8c839a2e186410f75a5fe1a70d027970b0c6d94d826c30bfc634cb7747eef3a",
+    "observationsSha256": "2c60a207e7100ef2f4d7eec0dc7c6449933f487dd44b9310bf0dcd8174511b94"
+  },
+  "sourceBoundary": {
+    "file": "baseline/sequence-recovery/source-boundary.json",
+    "sha256": "185c838c4e32751ab48abe20411c7e2232d21bcf6ba9c002b966d9ed6239cb46"
+  },
+  "courses": 49,
+  "modes": {
+    "lock": 7,
+    "release": 13,
+    "settle": 28,
+    "clear": 1
+  },
+  "expectedFailures": 10,
+  "originalRunsAgree": true,
+  "installedPredecessorMatches": true,
+  "implemented": false,
+  "scope": "Recovery locking, ordered settlement across flight/queued work/recoverable objects, catch-bank reset and release/miss clocks. Geometry, hit cycles, projectile delivery and scheduling remain host-owned.",
+  "sourceLock": "baseline/source-lock.json",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "originalSourceMapSha256": "384db880fa4ce06031caba166b17155bafc2e61f71ee32f8960b0e35add54ee9"
+}

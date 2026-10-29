@@ -44,6 +44,8 @@ import { integrateCooldownLifecycle } from '../adapters/hollow-wake/integrate-co
 import { verifyCooldownLifecycleOverlay } from './test-cooldown-lifecycle-overlay.mjs';
 import { integrateReadyCooldownBank } from '../adapters/hollow-wake/integrate-ready-cooldown-bank.mjs';
 import { verifyReadyBankOverlay } from './test-ready-bank-overlay.mjs';
+import {integrateSequenceRecovery} from '../adapters/hollow-wake/integrate-sequence-recovery.mjs';
+import {verifySequenceRecoveryOverlay} from './test-sequence-recovery-overlay.mjs';
 import { verifyCooldownOverlay } from './test-cooldown-overlay.mjs';
 import { verifyLifeRecoveryOverlay } from './test-life-recovery-overlay.mjs';
 const artifacts = path.join(root, '.artifacts');
@@ -80,6 +82,7 @@ integrateSkillAdmission(game, false);
 integrateSkillIntent(game, false);
 integrateSkillRequest(game, false);
 integrateProcEffects(game, false);
+integrateSequenceRecovery(game, false);
 // A distinct tool environment: never install into the frozen reference or another checkout's junction.
 const tooling = fs.mkdtempSync(path.join(artifacts, 'adapter-tools-'));
 for (const file of ['package.json', 'package-lock.json']) fs.copyFileSync(path.join(root, 'reference/tooling', file), path.join(tooling, file));
@@ -191,6 +194,10 @@ verifyReadyBankOverlay(game);
 const readyBank = integrateReadyCooldownBank(game);
 changes.files.push(...readyBank.files);
 changes.readyBankDecision = readyBank.decision;
+verifySequenceRecoveryOverlay(game);
+const sequenceRecovery = integrateSequenceRecovery(game);
+changes.files.push(...sequenceRecovery.files);
+changes.sequenceRecoveryDecision = sequenceRecovery.decision;
 fs.symlinkSync(path.join(tooling, 'node_modules'), path.join(game, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
 fs.copyFileSync(path.join(root, 'reference/export-lifecycle.ts'), path.join(game, 'balance/export-engine-lifecycle.ts'));
 fs.writeFileSync(path.join(artifacts, 'adapter-location.json'), JSON.stringify({ game, tooling, package: packed.filename, archive, integrity: packed.integrity, ...changes }, null, 2));

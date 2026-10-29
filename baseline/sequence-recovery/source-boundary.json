@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "file": "src/engine/attackSequences.ts",
+  "sourceCanonicalization": "CRLF to LF only",
+  "originalSha256": "88f840c02de4a543b1bd5d1b0a09445149144f730e765560289cf6c8d14bd371",
+  "predecessorSha256": "88f840c02de4a543b1bd5d1b0a09445149144f730e765560289cf6c8d14bd371",
+  "blocks": {
+    "lock": {
+      "text": "private lock(s: SequenceState): void {\n    s.owner.skillRecoveryLocks.add(s.host.def.id);\n    // A finite, full hotbar sweep is a presentation of the held recovery.\n    s.owner.cooldowns.set(s.host.def.id, 1); s.owner.cooldownTotals.set(s.host.def.id, 1);\n  }",
+      "sha256": "ac9538cc6c4f653eb341cb1c82d2b331e630097dea43a88340a58d2494873c5d"
+    },
+    "release": {
+      "text": "private release(s: SequenceState, miss: boolean): void {\n    s.owner.skillRecoveryLocks.delete(s.host.def.id);\n    s.owner.cooldowns.delete(s.host.def.id); s.owner.cooldownTotals.delete(s.host.def.id);\n    if (miss && s.spec.recovery!.missCooldown > 0) {\n      s.owner.cooldowns.set(s.host.def.id, s.spec.recovery!.missCooldown);\n      s.owner.cooldownTotals.set(s.host.def.id, s.spec.recovery!.missCooldown);\n    }\n  }",
+      "sha256": "b16f4fa3416ce48b9b334ebc9bbe7288e9d3ec295dca2d1e75d0e45c95e512e1"
+    },
+    "settlement": {
+      "text": "for (const cast of [...this.active]) {\n      const s = cast.state;\n      const flying = this.w.projectiles.some(p => this.casts.get(p.inst) === cast && p.caster === s.owner);\n      const pending = this.scheduled.some(j => j.inst === cast.inst)\n        || this.w.pendingSalvos.some(j => j.inst === cast.inst) || this.w.pendingRepeats.some(j => j.inst === cast.inst)\n        || this.w.pendingFuses.some(j => j.inst === cast.inst);\n      const objects = this.recoveries.filter(r => r.cast === cast);\n      if (!flying && !pending && !objects.some(r => r.airborne) && !cast.done) {\n        cast.done = true;\n        if (!cast.caught && s.spec.catchBuff) { s.caught = 0; s.owner.removeBuff(s.key + ':catch'); }\n      }\n      if (!flying && !pending && !objects.length) {\n        this.active.delete(cast);\n        if (![...this.active].some(c => c.state === s)) this.release(s, !cast.connected);\n      } else this.lock(s);\n    }",
+      "sha256": "f2710d78f12d5a2e8bb6ea278046f1917c7b9e7657a5a3fda687707f4b49bd75"
+    }
+  }
+}

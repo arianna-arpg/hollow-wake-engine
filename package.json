@@ -41,7 +41,8 @@
     "examples/resource-restoration.mjs",
     "examples/cooldowns.mjs",
     "examples/cooldown-lifecycle.mjs",
-    "examples/ready-cooldown-bank.mjs"
+    "examples/ready-cooldown-bank.mjs",
+    "examples/sequence-recovery.mjs"
   ],
   "exports": {
     ".": {
@@ -258,13 +259,17 @@
     "./combat/ready-cooldown-bank": {
       "types": "./dist/ready-cooldown-bank.d.ts",
       "import": "./dist/ready-cooldown-bank.js"
+    },
+    "./combat/sequence-recovery": {
+      "types": "./dist/sequence-recovery.d.ts",
+      "import": "./dist/sequence-recovery.js"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs && node scripts/test-skill-admission-package.mjs && node scripts/test-skill-intent-package.mjs && node scripts/test-skill-request-package.mjs && node scripts/test-skill-dispatch-package.mjs && node scripts/test-casting-continuation-package.mjs && node scripts/test-channel-bank-package.mjs && node scripts/test-actor-condition-mutations.mjs && node scripts/test-actor-condition-package.mjs && node scripts/test-proc-mutations.mjs && node scripts/test-proc-package.mjs && node scripts/test-proc-effects-mutations.mjs && node scripts/test-proc-effects-package.mjs && node scripts/test-delayed-mutations.mjs && node scripts/test-delayed-package.mjs && node scripts/test-buff-mutations.mjs && node scripts/test-buff-package.mjs && npm run test:life-recovery-package && npm run test:life-recovery-mutations && npm run test:restoration-package && npm run test:restoration-mutations && npm run test:cooldown-package && npm run test:cooldown-mutations && npm run test:cooldown-lifecycle-package && npm run test:cooldown-lifecycle-mutations && npm run test:ready-bank-package && npm run test:ready-bank-mutations",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs && node scripts/test-skill-admission-package.mjs && node scripts/test-skill-intent-package.mjs && node scripts/test-skill-request-package.mjs && node scripts/test-skill-dispatch-package.mjs && node scripts/test-casting-continuation-package.mjs && node scripts/test-channel-bank-package.mjs && node scripts/test-actor-condition-mutations.mjs && node scripts/test-actor-condition-package.mjs && node scripts/test-proc-mutations.mjs && node scripts/test-proc-package.mjs && node scripts/test-proc-effects-mutations.mjs && node scripts/test-proc-effects-package.mjs && node scripts/test-delayed-mutations.mjs && node scripts/test-delayed-package.mjs && node scripts/test-buff-mutations.mjs && node scripts/test-buff-package.mjs && npm run test:life-recovery-package && npm run test:life-recovery-mutations && npm run test:restoration-package && npm run test:restoration-mutations && npm run test:cooldown-package && npm run test:cooldown-mutations && npm run test:cooldown-lifecycle-package && npm run test:cooldown-lifecycle-mutations && npm run test:ready-bank-package && npm run test:ready-bank-mutations && npm run test:sequence-recovery-package && npm run test:sequence-recovery-mutations",
     "example": "npm run build && node examples/first-path.mjs",
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
@@ -465,7 +470,13 @@
     "inspect:cooldown-ownership": "node scripts/cooldown-ownership.mjs",
     "adapter:ready-bank-ui": "node scripts/test-ready-bank-ui.mjs",
     "adapter:ready-bank-ui-controls": "node scripts/test-ready-bank-ui-controls.mjs",
-    "adapter:renderer-prepare": "node scripts/prepare-game-renderer.mjs"
+    "adapter:renderer-prepare": "node scripts/prepare-game-renderer.mjs",
+    "test:sequence-recovery-package": "node scripts/test-sequence-recovery-package.mjs",
+    "test:sequence-recovery-mutations": "node scripts/test-sequence-recovery-mutations.mjs",
+    "reference:sequence-recovery": "node scripts/run-sequence-recovery-reference.mjs",
+    "adapter:sequence-recovery": "node scripts/test-game-sequence-recovery.mjs",
+    "adapter:sequence-recovery-source": "node scripts/test-sequence-recovery-overlay.mjs",
+    "adapter:sequence-recovery-faults": "node scripts/test-sequence-recovery-installed-faults.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"
