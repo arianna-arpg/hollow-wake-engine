@@ -38,7 +38,9 @@ test('shed retains legacy stale-reference splice and unscaled stack modifiers',(
 });
 test('bank spend precedes defenses and directly lands the shared mitigated amount',()=>{
   const r=rig(),[caster,target]=r.actors,s=r.status('burn',{dps:20,stacks:3,remaining:4});target.statuses=[s];
-  r.ports.mitigateTyped=(a,amounts,o)=>{assert.equal(s.dps,10);assert.deepEqual(amounts,{fire:240});assert.equal(o.attacker,caster);return 30;};
+  // Compare identity as a scalar: Node 22's test transport cannot serialize a
+  // failed equality's function-bearing actor and replaces its assertion code.
+  r.ports.mitigateTyped=(a,amounts,o)=>{assert.equal(s.dps,10);assert.deepEqual(amounts,{fire:240});assert.equal(o.attacker===caster,true,'bank mitigation must receive the original attacker');return 30;};
   assert.equal(r.service.ruptureBank(caster,target,'burn',.5,2),30);assert.equal(target.life,70);assert.equal(target.hitFlash,.15);assert.equal(of(r,'text')[0][5],undefined);assert.equal(of(r,'text')[0][6],14);assert.equal(of(r,'indirect').length,0);
 });
 test('zero bank payout still spends and flashes; immunity blocks the spend',()=>{

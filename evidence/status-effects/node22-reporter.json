@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "2f8cf532a4e4868fb5d623e96af657d5e980dffa",
+  "hostedRun": 40947594053,
+  "hostedFailure": "Node 22 test transport replaces the assertion error code when its expected actor contains functions; the bank-attacker mutation itself was detected",
+  "repair": "Assert the identical object-identity predicate as a boolean with an explicit message; retain strict ERR_ASSERTION classification of mutation failures",
+  "runtimeChanged": false,
+  "runtimeMapSha256": "988ea5c091928986d4dd84c5be7604d8ea29de509f55c1c4eb364a52062017f7",
+  "originalFixturesChanged": false,
+  "testsPerRuntime": 19,
+  "faultsPerRuntime": 23,
+  "versions": [
+    "22.23.4",
+    "24.9.0"
+  ],
+  "physicalDeviceAcceptance": false,
+  "source": {
+    "path": "test/status-effects.test.mjs",
+    "beforeSha256": "aa458ae8403d7ea70463a26c03b851973e3c6848abe039db726e8c96bed1c4e1",
+    "afterSha256": "d95acf3fdf4e54bce820d7a8d09900b1549e190ae8e61e418b3e7d37546c876c"
+  },
+  "raw": {
+    "path": "evidence/status-effects/node22-reporter-raw.json.gz",
+    "sha256": "d7c84670d6ac8df55e647a40b9de161017a299310e81a91aa88c80d8277adb2c",
+    "bytes": 102589,
+    "records": [
+      {
+        "name": "hosted-package-failure.txt",
+        "sha256": "a1031148fbed0284f87514a194f4cb318c656738f447a4acbbfd6163e8839c2f",
+        "bytes": 508358
+      },
+      {
+        "name": "node22-before.txt",
+        "sha256": "d65f8ce5f98e80fdcbb00ae9507d8de73556b271a4f5ff2932964d52d899f6ee",
+        "bytes": 7891
+      },
+      {
+        "name": "node22-tests.txt",
+        "sha256": "127909ed04bdd7496e4e43353ec9e540c40f44e7a004c3921d120aa2adbd1438",
+        "bytes": 4467
+      },
+      {
+        "name": "node22-after.txt",
+        "sha256": "92a07fa4bd9bb9b0afe3c8c9298e9083e9c18c6aae37673c6bf8f675cb42903e",
+        "bytes": 166
+      },
+      {
+        "name": "node24-tests.txt",
+        "sha256": "05c2a8dcfbd50e2f054e3aba45c8f4cb20416ac1cf519734184e7dc4d11c0d0d",
+        "bytes": 1896
+      },
+      {
+        "name": "node24-after.txt",
+        "sha256": "d06ef23f7015f16b8e5cd55c120897a84a82eec189853377d8df05019a44b38c",
+        "bytes": 166
+      },
+      {
+        "name": "node22/verification.json",
+        "sha256": "89bf7268ac26f1f4d9838d5e12f1f9246ef941c7ddb1d3b65b988b97dfc725d3",
+        "bytes": 3708
+      },
+      {
+        "name": "node22/field.txt",
+        "sha256": "574bbf29de694b514d14aa574044d4a9feb21c0fe9de7505840dd80c4255039a",
+        "bytes": 5061
+      },
+      {
+        "name": "node22/floor.txt",
+        "sha256": "750b8441103dac750d2a42d555423ff52d07fdb5b878bcf514dc545f3c5056c3",
+        "bytes": 5524
+      },
+      {
+        "name": "node22/fractional-stacks.txt",
+        "sha256": "1e33547728140c0cef5883dbce8a3497ea214d3d25148ff76adbf100bd64a156",
+        "bytes": 5061
+      },
+      {
+        "name": "node22/ring-modifiers.txt",
+        "sha256": "87f917f41fe5c3c2aa1caba76b57346d39d18f781911514688f0c6ab515f5632",
+        "bytes": 5330
+      },
+      {
+        "name": "node22/ring-time.txt",
+        "sha256": "52878ea8559409ff2b2a4b5a8ba7b0861a11f4ff3a1db86f82373a8d1eaf2193",
+        "bytes": 5198
+      },
+      {
+        "name": "node22/shed-source.txt",
+        "sha256": "4eab9964213a0d5320ceb133ecd4f30a1dd9322fb64068bbc80a4edd9a36b21c",
+        "bytes": 5331
+      },
+      {
+        "name": "node22/bank-spend.txt",
+        "sha256": "853777635ba92a523b7f44ff7ba70cdbd43b024f2296d269ffa61a90914fe78b",
+        "bytes": 5196
+      },
+      {
+        "name": "node22/bank-attacker.txt",
+        "sha256": "76cdf12eebdabb081e3e1ad49f501bc77bc8bdde97eda55981256e2c7772e892",
+        "bytes": 5527
+      },
+      {
+        "name": "node22/bank-flash.txt",
+        "sha256": "2970ee3f8a0f1b49ee49b48eb6506065b71528f10e86c7197607d8c4bcb4723b",
+        "bytes": 5194
+      },
+      {
+        "name": "node22/rupture-story.txt",
+        "sha256": "a41cc381c90b7ef4b44f09a7342ab5e29d948646bbe1d2e6235be1fdef2a2ce2",
+        "bytes": 5199
+      },
+      {
+        "name": "node22/rupture-edge.txt",
+        "sha256": "e6ad5011cdd8f1edbb87060e8911f262ebdd91e97af23e60311338eff595df85",
+        "bytes": 5199
+      },
+      {
+        "name": "node22/rupture-resistance.txt",
+        "sha256": "06871161afa1fb0e326a1010245259afc5a894c9acdf37cbf42782b248dfce1b",
+        "bytes": 6051
+      },
+      {
+        "name": "node22/doom-equality.txt",
+        "sha256": "69ed2751b784f9a49067c9daf42ecf56211df17b15293ff064d16c847ac0f504",
+        "bytes": 5331
+      },
+      {
+        "name": "node22/proc-tags.txt",
+        "sha256": "485d894f3cb662c5a72dfbaaf49675d17a53bbea70cb65fb562bdf4989f42997",
+        "bytes": 5256
+      },
+      {
+        "name": "node22/proc-live-definition.txt",
+        "sha256": "bee827f8bd0c3fe322a354df883736235fbca95f70f1119e7ed6c9539ec474cf",
+        "bytes": 5293
+      },
+      {
+        "name": "node22/proc-power.txt",
+        "sha256": "c3642fdb3921cac9654f6a1f59e3a9c3cc91fb2b569055a722d52dc00f090835",
+        "bytes": 5191
+      },
+      {
+        "name": "node22/expiry-gate.txt",
+        "sha256": "e71a8b60483111bd2cff8c4ee0d5e27dcd192490e64471a1868afe4d25dec811",
+        "bytes": 5189
+      },
+      {
+        "name": "node22/zap-clock.txt",
+        "sha256": "617dec81ce62f4fa5265b1d82dc8fab8a55702d9a7cbe2bb5e74e8b015836be9",
+        "bytes": 5196
+      },
+      {
+        "name": "node22/zap-stacks.txt",
+        "sha256": "b48396d5389aa2e2b85ae1125fc2eec3d873d82fe6db8c6747f7428d09d6e647",
+        "bytes": 5197
+      },
+      {
+        "name": "node22/lash-tie.txt",
+        "sha256": "6a2a53ad6cd061da848e7a053cfeaa882b066bd65f3626c649e6da2b58ffc30b",
+        "bytes": 5199
+      },
+      {
+        "name": "node22/lash-stun.txt",
+        "sha256": "258198e22248ca7a835baa3369ebbbfe9bb571099656ad8cb91e23051d8a5991",
+        "bytes": 5198
+      },
+      {
+        "name": "node22/capture-identity.txt",
+        "sha256": "c6bb45fe7dc11d9861ffe5c6a8f45aca43b128c9bef3f4769c634bd1262c05ab",
+        "bytes": 5865
+      },
+      {
+        "name": "node22/spread-cap.txt",
+        "sha256": "cbcf2c73ea87046549bb5c040aa423656b212dcfe0db5fb5631788976586afa9",
+        "bytes": 5192
+      },
+      {
+        "name": "node24/verification.json",
+        "sha256": "de8eaddc0a75cde503d84ab0350958052d70efa29cf15453621ab568659b09e5",
+        "bytes": 3708
+      },
+      {
+        "name": "node24/field.txt",
+        "sha256": "370ec6b325cc30c97df284043a43ecb347171c1b230f4b4688fcfcc776107381",
+        "bytes": 2664
+      },
+      {
+        "name": "node24/floor.txt",
+        "sha256": "deb050ec25704f845bcc56b108b96d36722bdd078dcf06eda13fb81f00e2b5a4",
+        "bytes": 3022
+      },
+      {
+        "name": "node24/fractional-stacks.txt",
+        "sha256": "ed089ffe66e2ee544d39db83f9c787de0cdab6bb76ac4b045a568b83cf0f16eb",
+        "bytes": 2665
+      },
+      {
+        "name": "node24/ring-modifiers.txt",
+        "sha256": "30da1f56b769226f6ea36538e4ebcb40a1d93507e3903adcfafe2d2dd9720337",
+        "bytes": 2911
+      },
+      {
+        "name": "node24/ring-time.txt",
+        "sha256": "68859fef37f573e6d1bc55def9f834a0bbf6f7e6ec07582663d8a0f12dbe724a",
+        "bytes": 2796
+      },
+      {
+        "name": "node24/shed-source.txt",
+        "sha256": "110e9499d2231e4510dc958e2e68678f03e29b6070892c87fb3f36b6fbec8a6b",
+        "bytes": 2904
+      },
+      {
+        "name": "node24/bank-spend.txt",
+        "sha256": "3f19d80229666d52f24e21485d4a7ec4e9d06b802f4cf6fce05bb3dc6bb51fc0",
+        "bytes": 2791
+      },
+      {
+        "name": "node24/bank-attacker.txt",
+        "sha256": "e471e1ef140f6f7f5005c919bfc48c4eb0ee7ae8162d666e8894e73b7296a2bd",
+        "bytes": 3137
+      },
+      {
+        "name": "node24/bank-flash.txt",
+        "sha256": "3288b1ecc6834f13954a5e3cf5e139024ea3e1eeabf6f608c17a81a0860de633",
+        "bytes": 2785
+      },
+      {
+        "name": "node24/rupture-story.txt",
+        "sha256": "89c0a3e252a8957da8fc942e435fbd9c1dd3eb706c0c7e5a40ce84b76f9db752",
+        "bytes": 2812
+      },
+      {
+        "name": "node24/rupture-edge.txt",
+        "sha256": "3f886453235b3245a112e090611fb8b13470eba8ab7359b3d1554d92d8b231fe",
+        "bytes": 2805
+      },
+      {
+        "name": "node24/rupture-resistance.txt",
+        "sha256": "c0e28cc388241fc0ca256d1e48790d5764b50cdfafc38204d8bd0dac1added1b",
+        "bytes": 3710
+      },
+      {
+        "name": "node24/doom-equality.txt",
+        "sha256": "5a2dbfc9b903a7696a7bf689f5b6e2db911a2b7afe081e8c48b02acbc7e9f554",
+        "bytes": 2886
+      },
+      {
+        "name": "node24/proc-tags.txt",
+        "sha256": "c5ecc6ce12feb6f6cd7db6ca1aff409dc77c3e8d9e1bce817dbf9435c3037cda",
+        "bytes": 2857
+      },
+      {
+        "name": "node24/proc-live-definition.txt",
+        "sha256": "b2e039f9e8b935b0ba9ffeffa11145f4e7feb5abdced18693087a99836245d36",
+        "bytes": 2886
+      },
+      {
+        "name": "node24/proc-power.txt",
+        "sha256": "ce4126c5884fbceae76f787466a5450aa7d58f1432f382b1413cd14bdbb9d858",
+        "bytes": 2810
+      },
+      {
+        "name": "node24/expiry-gate.txt",
+        "sha256": "c116c200e463fe5c0b47d8dabd9a2151d97d7d8613535c3d11f2ba8d36ef1c5c",
+        "bytes": 2802
+      },
+      {
+        "name": "node24/zap-clock.txt",
+        "sha256": "a02d52b515ada0d84e432a10aac89ba93eabf85fda61817f032f5c3b4b259399",
+        "bytes": 2801
+      },
+      {
+        "name": "node24/zap-stacks.txt",
+        "sha256": "f90598f10b328ad6daaef7e15a26f2d80ecd4e807b5bb68fde820c1ffe4f5af9",
+        "bytes": 2802
+      },
+      {
+        "name": "node24/lash-tie.txt",
+        "sha256": "f1a8bbf209eccf1eee8342c5c68b187c55f388a14edd9c5cceead2db9ab5818e",
+        "bytes": 2812
+      },
+      {
+        "name": "node24/lash-stun.txt",
+        "sha256": "adeb66fd450d3c2b3473920f80a359937d45771fe9584ea588a4b291964b77b5",
+        "bytes": 2799
+      },
+      {
+        "name": "node24/capture-identity.txt",
+        "sha256": "f029728b73e10ac7c895d55e96775c5bc4199aad1dc8a0cb169926a22a24499b",
+        "bytes": 3371
+      },
+      {
+        "name": "node24/spread-cap.txt",
+        "sha256": "da718ec648604e389aeb688743046a34bf2d699eb629f93aa27d264f28e6f2fe",
+        "bytes": 2812
+      }
+    ]
+  }
+}
