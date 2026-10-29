@@ -19,6 +19,15 @@ against Docker's actual configuration. The SDK gets a private temporary home for
 tool caches; the Platform uses its bounded temporary filesystem. The correction
 still requires a successful hosted replay and readable evidence.
 
+The [third attempt](../evidence/godot/steam-runtime-mutex-failure.json) retained
+readable evidence and passed all 850 SDK tests, then stopped at .NET's
+`NuGet-Migrations` mutex initialization. This matches the upstream
+[Unix named-mutex requirements](https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/11/named-mutexes-unix-default-scope.md).
+The SDK container now creates an owner-only `XDG_RUNTIME_DIR`, checks its owner
+and permissions, and exercises NuGet startup before the full build. The .NET
+version and all consumer checks remain unchanged. Godot and Platform verification
+were not reached in that attempt.
+
 Valve recommends the [Steam Runtime 4 SDK](https://github.com/ValveSoftware/steam-runtime/blob/master/README.md)
 for new native Linux games. Its [SDK guide](https://gitlab.steamos.cloud/steamrt/steamrt4/sdk/-/blob/steamrt/steamrt4/README.md)
 provides both SDK and Platform OCI images. The

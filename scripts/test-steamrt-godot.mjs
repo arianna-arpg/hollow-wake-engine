@@ -6,6 +6,7 @@ import {root, git, sha256, listFiles, writeJSON} from './reference-utils.mjs';
 
 assert.equal(process.platform, 'linux'); assert.equal(process.arch, 'x64');
 const identity = {uid: process.geteuid(), gid: process.getegid()}, sdkHome = '/tmp/hollow-wake-sdk-home';
+const sdkRuntime = sdkHome + '/run';
 assert(identity.uid > 0, 'Run as the non-root owner of the fresh checkout');
 const read = file => JSON.parse(fs.readFileSync(file)), hash = file => sha256(fs.readFileSync(file));
 const lockDirectory = path.join(root, 'experiments/steamrt-godot');
@@ -69,11 +70,19 @@ try {
     assert.equal(release.VARIANT_ID, lock.images.sdk.variant); fs.writeFileSync(path.join(directory, 'os-release.txt'), releaseText, {flag: 'wx'});
     assert.equal(process.env.HOME, sdkHome); assert.equal(process.env.DOTNET_CLI_HOME, sdkHome);
     fs.mkdirSync(sdkHome, {mode: 0o700});
+    assert.equal(process.env.XDG_RUNTIME_DIR, sdkRuntime);
+    fs.mkdirSync(sdkRuntime, {mode: 0o700});
+    const runtimeDirectory = fs.lstatSync(sdkRuntime);
+    assert(runtimeDirectory.isDirectory()); assert.equal(runtimeDirectory.uid, identity.uid);
+    assert.equal(runtimeDirectory.mode & 0o777, 0o700);
+    report.runtimeDirectory = {path: sdkRuntime, uid: runtimeDirectory.uid, mode: runtimeDirectory.mode & 0o777};
     report.environment = {release, node: process.version, libc: run('libc', 'getconf', ['GNU_LIBC_VERSION']),
       cc: run('cc', 'cc', ['--version']), cxx: run('cxx', 'c++', ['--version']),
       cmake: run('cmake', 'cmake', ['--version']), python: run('python', 'python3', ['--version']),
       dotnet: run('dotnet', 'dotnet', ['--version'])};
     assert.equal(report.environment.dotnet, lock.dotnetSdk);
+    // Exercise .NET's user-scoped mutex setup before the expensive build.
+    run('dotnet-preflight', 'dotnet', ['nuget', 'locals', 'all', '--list']);
     run('npm-install', 'npm', ['ci'], 600000);
     run('sdk-verification', 'npm', ['run', 'verify'], 1800000);
     run('reference-prepare', 'npm', ['run', 'reference:prepare'], 300000);
@@ -117,6 +126,7 @@ try {
     const sdk = create('sdk', ['--volume', root + ':/workspace', '--volume', nodeRoot + ':/tools/node:ro', '--volume', dotnetRoot + ':/tools/dotnet:ro',
       '--workdir', '/workspace', '--env', 'PATH=/tools/node/bin:/tools/dotnet:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
       '--env', 'CI=true', '--env', 'DOTNET_ROOT=/tools/dotnet', '--env', 'HOME=' + sdkHome, '--env', 'DOTNET_CLI_HOME=' + sdkHome,
+      '--env', 'XDG_RUNTIME_DIR=' + sdkRuntime,
       '--entrypoint', '/tools/node/bin/node'],
       ['/workspace/scripts/test-steamrt-godot.mjs', '--sdk', '/workspace/' + path.relative(root, sdkDirectory).split(path.sep).join('/')]);
     const sdkConfiguration = JSON.parse(run('sdk-container-created', 'docker', ['inspect', sdk]))[0];

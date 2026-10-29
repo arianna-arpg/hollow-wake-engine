@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "scope": "Third Steam Runtime attempt: readable SDK evidence, stopped at .NET named-mutex initialization",
+  "run": {
+    "conclusion": "failure",
+    "databaseId": 40790326112,
+    "headSha": "e0d9d45fd4db320dec1a59fafa92fea8f8461d3d",
+    "jobs": [
+      {
+        "completedAt": "2026-10-28T23:58:22Z",
+        "conclusion": "failure",
+        "databaseId": 123173668330,
+        "name": "steamrt4",
+        "startedAt": "2026-10-28T23:52:43Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-28T23:52:45Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-28T23:52:44Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-28T23:52:47Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 2,
+            "startedAt": "2026-10-28T23:52:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-28T23:52:51Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "number": 3,
+            "startedAt": "2026-10-28T23:52:47Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-28T23:52:59Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68",
+            "number": 4,
+            "startedAt": "2026-10-28T23:52:51Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-28T23:58:19Z",
+            "conclusion": "failure",
+            "name": "Build in pinned SDK and replay in runtime-only container",
+            "number": 5,
+            "startedAt": "2026-10-28T23:52:59Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-28T23:58:20Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+            "number": 6,
+            "startedAt": "2026-10-28T23:58:19Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-28T23:58:20Z",
+            "conclusion": "skipped",
+            "name": "Post Run actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68",
+            "number": 10,
+            "startedAt": "2026-10-28T23:58:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-28T23:58:20Z",
+            "conclusion": "skipped",
+            "name": "Post Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "number": 11,
+            "startedAt": "2026-10-28T23:58:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-28T23:58:20Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 12,
+            "startedAt": "2026-10-28T23:58:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-28T23:58:20Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 13,
+            "startedAt": "2026-10-28T23:58:20Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40790326112/job/123173668330"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40790326112"
+  },
+  "diagnosis": "NuGet-Migrations mutex creation failed under numeric UID 1001 with XDG_RUNTIME_DIR unset. This is consistent with the documented user-scoped mutex requirements for .NET 8.0.32 and later.",
+  "correction": "Create an owner-only XDG_RUNTIME_DIR, verify its owner and mode, and exercise NuGet startup before the full build. Keep the pinned SDK and all native consumer checks.",
+  "references": [
+    "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/11/named-mutexes-unix-default-scope.md",
+    "https://github.com/dotnet/runtime/issues/135726"
+  ],
+  "validated": {
+    "archiveSha256": "20940babbd5c9c0f30918fb388810ad7d6414b9c381f87d9b1649a899a6d3efa",
+    "artifactId": 12861148498,
+    "artifactFiles": 44,
+    "sourceRecords": 36,
+    "rawRecords": 49,
+    "sdkTests": 850,
+    "sdkPassed": 850,
+    "sdkFailed": 0,
+    "embeddedSessionRequests": 60,
+    "exactNumbers": 609,
+    "nodeOriginalBundleAndNativeByteEqual": true,
+    "trackedBytesAfterDispose": 0,
+    "trackedBlocksAfterDispose": 0,
+    "uid": 1001,
+    "gid": 1001,
+    "cleanupPassed": true
+  },
+  "godotReached": false,
+  "platformReached": false,
+  "completeRuntimeVerificationEstablished": false,
+  "sourceBefore": "565dffde6cb7639cb4773cfb97f312519a2ac0cb5aad689369028e8bac4990d4",
+  "sourceAfter": "34947667d0aca21bf14d500d934869fca284550bf88f88dd18a15f1d6ce1cbb0",
+  "syntaxPassed": true,
+  "productionRuntimeChanged": false,
+  "raw": {
+    "file": "steam-runtime-mutex-failure-raw.json.gz",
+    "sha256": "c1b9c2a8d65e5d5c272c6a1d711e86dc4ad4275dbb3e9c8fb542b2ba69ee1a1d",
+    "uncompressedSha256": "2f7c0a5146658ccae120190863673ec1800a14ab02528d18bdaa0756799b25d7",
+    "files": {
+      "embedded-library-XQJPSQ/build.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "embedded-library-XQJPSQ/dotnet-build.txt": "b777ba0197323f95efdc8b1f74b8e582550536089322b1a983f2ddbb08ea9701",
+      "embedded-library-XQJPSQ/exports.txt": "f6d857ff9943454ddde29aa4725f89f8e6c00cc7b234e7c13e52966aec2bd651",
+      "embedded-library-XQJPSQ/verification.json": "2d6fec99a49f8f40fc30fc883ce97450cebce7360c37177291b374ad3fee7837",
+      "embedded-session-oxaT2n/build.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "embedded-session-oxaT2n/initialization-failure.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "embedded-session-oxaT2n/initialization-failure.txt": "8db6564e659306a556a67ebdad9730a86de40b83cb2987e4104f3abe8069b0dd",
+      "embedded-session-oxaT2n/malformed-requests.jsonl": "6571fc8c5068a1b1aa6e22976a61468b861c040af1ce271f9aaa26b613546757",
+      "embedded-session-oxaT2n/malformed.jsonl": "ad9da98f273bc730a471183545fbfad031fac220e9e73e4fd2581d248e5f2f79",
+      "embedded-session-oxaT2n/malformed.txt": "39530cbf8335af90d252144c584d1735311a72e7309ed36786593733f19e3905",
+      "embedded-session-oxaT2n/native.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "embedded-session-oxaT2n/native.txt": "01c80d239f1fea504c6c7a78b6fa3a053ed41e7f85efc3ceffd0b356fecade90",
+      "embedded-session-oxaT2n/node-bundled.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "embedded-session-oxaT2n/node-original.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "embedded-session-oxaT2n/oversized-requests.jsonl": "0ef1c2e81414ade66ed5ce8758f304c16ad11b974ebf2e1fa242841486922e91",
+      "embedded-session-oxaT2n/oversized.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "embedded-session-oxaT2n/oversized.txt": "d9c4814c3abf95a98f6dca3d17525befcc55aec07e8d2f9bfc4b42fc2db3cb6a",
+      "embedded-session-oxaT2n/requests.jsonl": "346256f06446472b917b31c70aac994701ad784c5a07352a5729d051ee4c7d10",
+      "embedded-session-oxaT2n/verification.json": "5f1d770d94c41a465dcfe6ed61c4af8881951acdbc987276097f2bb835a462dc",
+      "steamrt-godot-bdOGyA/docker-version.txt": "1647560e301abf68c6e094ab63fc046cd6fd4bedf77df30597f1cf7d14438bc0",
+      "steamrt-godot-bdOGyA/dotnet-version.txt": "b806cbbdfcdc91968c65662d7eb51fc98c88681f012432aeb816faa71687d069",
+      "steamrt-godot-bdOGyA/platform-image.txt": "0a8983a81e5549a6f5d129e9d8f63f851860237a237d86572266b3c88edb0253",
+      "steamrt-godot-bdOGyA/platform-pull.txt": "68675d95d3cd3e7aa85bfeb09f8ff8d160c44e50f19207d841ffcb0d02ac9ad9",
+      "steamrt-godot-bdOGyA/sdk-container-created.txt": "9643fc7fc775b22a19cdc64183dd84157da7b30dc6cb1c2e21d88afc269b0016",
+      "steamrt-godot-bdOGyA/sdk-create.txt": "a8ed314f70b0c093cc87312d9437f3c89cda9b15c87a9a61040e50c88f402c6c",
+      "steamrt-godot-bdOGyA/sdk-execution.txt": "114c5efc5257291b219b619548403b1c983cb5cae1b435b380e37bb3f5516d50",
+      "steamrt-godot-bdOGyA/sdk-image.txt": "2da299bddb8ea2c77b0b32ade5e4e4fbfd22cdc038d61002966bf88316997f72",
+      "steamrt-godot-bdOGyA/sdk-pull.txt": "f9515ac408b1157d4d5c085ec0f3d2531bf69ca203a15e8201e485ce071200db",
+      "steamrt-godot-bdOGyA/sdk/cc.txt": "78fc11ae2c3ff7c235eb18ed90989d18f6cc864fb27027f839368cd0888deebc",
+      "steamrt-godot-bdOGyA/sdk/cmake.txt": "f6e81c2559f3ce00c5fdad01d7b226c301f5d6b07ee04f65db6dbfdc1cc5970b",
+      "steamrt-godot-bdOGyA/sdk/cxx.txt": "00f7e3c3e6a0308d7b60cc02429720ef6000d84c0add523f7dc030058d19961b",
+      "steamrt-godot-bdOGyA/sdk/dotnet.txt": "b806cbbdfcdc91968c65662d7eb51fc98c88681f012432aeb816faa71687d069",
+      "steamrt-godot-bdOGyA/sdk/extract-runtime.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "steamrt-godot-bdOGyA/sdk/libc.txt": "0584cb92f3422fd95c4a1d03a2843f3e844cfe5466619885dafbc31ebed1e323",
+      "steamrt-godot-bdOGyA/sdk/native-library.txt": "b36241dd113059cae8311aece3c5da189d22859f593e4e281aa27d29f26247af",
+      "steamrt-godot-bdOGyA/sdk/npm-install.txt": "bcff8934edf47714795d354c7ad6648b9d628dc3be4307f770069f60aae8d532",
+      "steamrt-godot-bdOGyA/sdk/os-release.txt": "d1d632d611fe287b5693333bdbc8041448afef31e8270ef8ad22360f07bb8a00",
+      "steamrt-godot-bdOGyA/sdk/python.txt": "01870de7caca112afeefd77b3c3b4c5e263cf5539a33af3f3411100727fad7d3",
+      "steamrt-godot-bdOGyA/sdk/reference-install.txt": "11d8b9a3d584a5dfeb5c2bc23980ea0731196963be311d1a22e5c5d07cf571ac",
+      "steamrt-godot-bdOGyA/sdk/reference-prepare.txt": "acc6323363711d458790ca6137c2f032088953e52a58565a14fb763dea8c294d",
+      "steamrt-godot-bdOGyA/sdk/sdk-verification.txt": "d9437d90177862c31804bf121f83bd9f776f09689d58f073113f403617be9629",
+      "steamrt-godot-bdOGyA/sdk/verification.json": "6c613708b4c748dfc178a99b2046b278f192872cd691a7ed1ba469b76c8a3c3a",
+      "steamrt-godot-bdOGyA/verification.json": "6bd1152b1f8f0843ac9045d635cb8078d812e6d3fdfd99312c6d9ab416f09f17",
+      "steamrt-godot-latest.json": "ced78d38812fda29d9b2ffb94d8ac147ec8a907f8bae70696564ec74258f7192",
+      "run.json": "0528ef84535fb90610f05674e6ac325b6b3ed9eb5778200ac50bca8d388281ae",
+      "artifacts.json": "33f12a54dd73c0deb808d364a2e6e5e54b8cf2c6396f9af43709f12c9a9a4b83",
+      "download.json": "f697910ea552ab5d9ff16bfbfd00abcd65125c68ceb03d1e3720052cf288e3bf",
+      "failed-step.txt": "b690de9c2dd3eac858a63aa7c432c686c346cc34191afdc0f92c2481c21b2969",
+      "original-script.mjs": "565dffde6cb7639cb4773cfb97f312519a2ac0cb5aad689369028e8bac4990d4",
+      "corrected-script.mjs": "34947667d0aca21bf14d500d934869fca284550bf88f88dd18a15f1d6ce1cbb0"
+    }
+  }
+}
