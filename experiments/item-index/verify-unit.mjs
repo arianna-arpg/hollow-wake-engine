@@ -14,12 +14,21 @@ fs.writeFileSync(loader, `import fs from 'node:fs';export async function resolve
 assert.deepEqual(snapshot(path.join(root, "dist")), c.baselineRuntime);
 assert.deepEqual(snapshot(path.join(c.candidate, "dist")), c.candidateRuntime);
 const tests = fs.readdirSync("test").filter((f) => f.endsWith(".test.mjs")).sort().map((f) => "test/" + f), log = path.join(c.directory, "unit-tests-v2.txt"), fd = fs.openSync(log, "wx");
-let passed = false;
+let passed = false, totals = null;
 writeJSON(receipt, { status: "running", pid: process.pid, tests, loaderSha256: sha256(fs.readFileSync(loader)) });
 try {
   cp.execFileSync(process.execPath, ["--experimental-loader", pathToFileURL(loader).href, "--test", ...tests], { cwd: root, windowsHide: true, stdio: ["ignore", fd, fd] });
-  const text = fs.readFileSync(log, "utf8"), counts = [...text.matchAll(/^(?:#|ℹ) tests (\d+)\r?$/gm)].map((m) => Number(m[1]));
-  assert(counts.includes(850));
+  const text = fs.readFileSync(log, "utf8");
+  // Discover every current test file above; the SDK suite grows as capabilities
+  // are extracted. Require one complete, entirely passing runner summary.
+  totals = Object.fromEntries(['tests', 'pass', 'fail', 'cancelled', 'skipped', 'todo'].map(name => {
+    const matches = [...text.matchAll(new RegExp('^(?:#|ℹ) ' + name + ' (\\d+)\\r?$', 'gm'))];
+    assert.equal(matches.length, 1, 'Missing or ambiguous test total: ' + name);
+    return [name, Number(matches[0][1])];
+  }));
+  assert(tests.length > 0 && totals.tests >= tests.length, 'Incomplete candidate test suite');
+  assert.equal(totals.pass, totals.tests);
+  for (const name of ['fail', 'cancelled', 'skipped', 'todo']) assert.equal(totals[name], 0, name);
   const mapped = fs.readFileSync(mapping, "utf8").trim().split("\n").map(JSON.parse);
   assert(mapped.some((m) => m.from.endsWith("/item-rules.js")));
   assert(mapped.every((m) => m.to.startsWith(to)));
@@ -28,6 +37,6 @@ try {
   fs.closeSync(fd);
   assert.deepEqual(snapshot(path.join(root, "dist")), c.baselineRuntime);
   assert.deepEqual(snapshot(path.join(c.candidate, "dist")), c.candidateRuntime);
-  writeJSON(receipt, { status: passed ? "completed" : "failed", passed, tests: 850, candidateRuntimeMapSha256: sha256(JSON.stringify(c.candidateRuntime)), productionRuntimeUnchanged: true, loader, loaderSha256: sha256(fs.readFileSync(loader)), mapping, log, logSha256: sha256(fs.readFileSync(log)) });
+  writeJSON(receipt, { status: passed ? "completed" : "failed", passed, tests: totals?.tests ?? null, testFiles: tests, totals, candidateRuntimeMapSha256: sha256(JSON.stringify(c.candidateRuntime)), productionRuntimeUnchanged: true, loader, loaderSha256: sha256(fs.readFileSync(loader)), mapping, log, logSha256: sha256(fs.readFileSync(log)) });
   console.log({ passed, receipt });
 }

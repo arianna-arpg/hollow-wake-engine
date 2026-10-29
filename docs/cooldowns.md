@@ -122,7 +122,39 @@ call/cue/rider boundary on disposable copies, leaving the supplied game untouche
 These checks join CI and retain their comparison records and failure logs.
 
 The previously accepted 201 runtime outputs are preserved byte-for-byte; the two
-optional modules add six emitted files. Renderer acceptance for this new path,
-device measurements, full native-host exposure and the remaining cooldown
-lifecycle extraction remain open. Existing Godot/Steam Runtime evidence covers
-its documented selected session surface, not automatic exposure of this module.
+optional modules add six emitted files. Device measurements, full native-host
+exposure and the remaining cooldown lifecycle extraction remain open. Existing
+Godot/Steam Runtime evidence covers its documented selected session surface,
+not automatic exposure of this module.
+
+## Renderer integration
+
+Twenty-one actual game renderer stages match the native cooldown implementation.
+Two independent native runs established the expected observations before the SDK
+renderer was built. The comparison covers actual hotbar shade geometry against
+the original stamped total, reset readiness, filtered and unslotted changes,
+clamping after signed extensions, silent effects, cue glyphs and expiry.
+Time Dilation and Quickstep run through native player-intent polling. Controlled
+resolved attack contacts earn Stalwart Rhythm and exercise its internal cooldown.
+
+Full-world pause holds both skill clocks and cues. At half speed, eight 25 ms
+frames advance skill clocks by 0.1 seconds while cues age by 0.2 seconds. The first
+discovery incorrectly expected cue ageing during full pause; its failed capture
+and harness are retained. No original behavior or accepted rule fixture changed.
+
+The runner checks the source, installed SDK, complete built bundle and frozen
+expectations before and after execution. Three disposable built-game faults
+must be rejected: omitted SDK fraction arithmetic, altered cooldown-shade style and
+halved cue opacity. Supplied game, package and bundle files remain unchanged.
+
+```sh
+node scripts/test-cooldown-ui.mjs --game <isolated-full-game> --dist <built-game> --electron <electron-executable>
+node scripts/test-cooldown-ui-controls.mjs --game <isolated-full-game> --dist <built-game> --electron <electron-executable>
+```
+
+`baseline/cooldowns/renderer-acceptance.json` records the original observations
+and scope; `evidence/cooldowns/renderer.json` records the installed comparison.
+Canvas calls and state traces are compared as complete recorded JSON bytes;
+screenshots are separate inspection evidence. These software-rendered desktop
+checks do not establish physical input, cross-platform pixel equality, GPU/FPS
+performance or Steam Deck/mobile acceptance.

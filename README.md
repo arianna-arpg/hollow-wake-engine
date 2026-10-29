@@ -32,8 +32,9 @@ the initial runtime is restored, with no optimization accepted.
 The development branch also extracts [cooldown proc effects](docs/cooldowns.md)
 behind optional execution and content-loading imports. Its baseline contains 75
 original scenarios and all 12 registered authored effects, including nested
-changes and committed failures. Elapsed cooldowns, the remaining lifecycle,
-renderer acceptance, native-host exposure and device performance remain open.
+changes and committed failures. Twenty-one actual renderer stages match the
+native game. Elapsed cooldowns, the remaining lifecycle, native-host exposure
+and device performance remain open.
 
 Version 0.37 adds optional [life recovery](docs/life-recovery.md): healing,
 full refill and validated proc-heal content. The installed game adapter preserves

@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "decision": "native-cooldown-renderer/v1",
+  "status": "accepted-after-two-native-runs-before-sdk-renderer-comparison",
+  "sourceCanonicalization": "CRLF to LF only",
+  "numericRepresentation": "Recorded numeric fields rounded to six decimals; paint/state/trace order preserved.",
+  "harnessSha256": "96c4926d7f37a1ec78a40437e937f7fb0e56cc065bb133d05fb5c3a8b1b7a215",
+  "serverSha256": "8f846fd74b33ac3824b936de1024ca590e05057dd791351615cd4cbfd05fcf89",
+  "stages": 21,
+  "stageNames": [
+    "ready",
+    "stamped-clocks",
+    "movement-reduced",
+    "empty-ids-no-gain",
+    "cue-expired-clock-runs",
+    "empty-tags-slotted-only",
+    "unslotted-reset",
+    "movement-ready",
+    "extension-clamped-shade",
+    "silent-reduction",
+    "reset-except-trigger",
+    "world-paused",
+    "paused-cue-held",
+    "half-speed-clocks",
+    "resumed-cue-expired",
+    "authored-time-dilation",
+    "quickstep-input-start",
+    "quickstep-stamped",
+    "block-earned-reduction",
+    "block-internal-cooldown",
+    "block-cue-expired"
+  ],
+  "expected": {
+    "file": "renderer-expected.json.gz",
+    "sha256": "27a8daf426467f4fae997de23182dc6a2053cf07509dca9863b73c88e8657850",
+    "compressedSha256": "d5daee20da3f36000314402d60e6576320cec60ad356dc5959a23fc42f6ee29d",
+    "bytes": 282206,
+    "compressedBytes": 5279
+  },
+  "native": {
+    "game": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\m43-initial-candidate-GauytK\\game",
+    "dist": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\m43-full-renderer-st5nhk\\bundle",
+    "sourceMapSha256": "b9c78cdee4dc32da064827d8d28c0388d2764cc6ece049d42b8f03b1f80fdfa4",
+    "runtimeMapSha256": "49f4a5637979a46c3770e315d13a415508446f7654db0f40bf3fe67a23150189",
+    "runtimeOutputs": 201,
+    "cooldownBranch": "be91dfd5b9e9524e165ca4f7a7afb9f34e78ccad1d9cdd0c044a0f20052a6d2f",
+    "originalRendererAndContentFiles": {
+      "src/render/renderer.ts": {
+        "nativeSha256": "8bd68cce07c156c9b2c6be7ef2ae5796f9b9eb56d9f8a230ce0163921e7be489",
+        "originalSha256": "8bd68cce07c156c9b2c6be7ef2ae5796f9b9eb56d9f8a230ce0163921e7be489",
+        "difference": "Byte identical"
+      },
+      "src/render/vis/procCueLayer.ts": {
+        "nativeSha256": "e0ad46573ec1d8a6345bea65c570ecafb6648b638d36e6bca698135639a991cc",
+        "originalSha256": "e0ad46573ec1d8a6345bea65c570ecafb6648b638d36e6bca698135639a991cc",
+        "difference": "Byte identical"
+      },
+      "src/engine/procCues.ts": {
+        "nativeSha256": "aded5a12f9c025788a249e504c289b468c1e7c7ec7329f285fdbc454da453e74",
+        "originalSha256": "aded5a12f9c025788a249e504c289b468c1e7c7ec7329f285fdbc454da453e74",
+        "difference": "Byte identical"
+      },
+      "src/data/procCues.ts": {
+        "nativeSha256": "04cc1fde95eb2582639a4b58219df01b4abe2378f0699d57dee48a58a2204047",
+        "originalSha256": "04cc1fde95eb2582639a4b58219df01b4abe2378f0699d57dee48a58a2204047",
+        "difference": "Byte identical"
+      },
+      "src/data/skills.ts": {
+        "nativeSha256": "1e03c12f1b0bc7b61a5c0e6154eab010fc3debba86bd7261d311cb458bcf0b71",
+        "originalSha256": "1e03c12f1b0bc7b61a5c0e6154eab010fc3debba86bd7261d311cb458bcf0b71",
+        "difference": "Byte identical"
+      },
+      "src/data/procs.ts": {
+        "nativeSha256": "d93f529ae64830c8a5442fed3c93bdeada51cf212256b59cba24204336281611",
+        "originalSha256": "d5627f3f27f0c747f3202ed4ac80908fc9c1596433322171ff5ebba62500b77a",
+        "difference": "Exactly the previously accepted magnitude-fold adapter; authored records unchanged"
+      }
+    }
+  },
+  "capture": {
+    "viewport": [
+      1280,
+      800
+    ],
+    "hidden": true,
+    "softwareRendering": true,
+    "frameMs": 25,
+    "startupPerformanceMs": 20000,
+    "ambientFramePumpSuppressed": true,
+    "independentProfilesAndSaves": true
+  },
+  "runs": [
+    {
+      "observationSha256": "27a8daf426467f4fae997de23182dc6a2053cf07509dca9863b73c88e8657850",
+      "harnessSha256": "96c4926d7f37a1ec78a40437e937f7fb0e56cc065bb133d05fb5c3a8b1b7a215",
+      "logSha256": "8172e692db3cbe8efa85a9e6ffccb70ec63ed70af4527356b62b88487881ee20",
+      "independentProfileAndSaves": true,
+      "retainedInputsUnchanged": true
+    },
+    {
+      "observationSha256": "27a8daf426467f4fae997de23182dc6a2053cf07509dca9863b73c88e8657850",
+      "harnessSha256": "96c4926d7f37a1ec78a40437e937f7fb0e56cc065bb133d05fb5c3a8b1b7a215",
+      "logSha256": "8172e692db3cbe8efa85a9e6ffccb70ec63ed70af4527356b62b88487881ee20",
+      "independentProfileAndSaves": true,
+      "retainedInputsUnchanged": true
+    }
+  ],
+  "independentAssertions": [
+    "Per-slot actual cooldown shade location, width, fraction against stamped total, full clamping and absence when ready",
+    "Actual three HUD cue glyphs per pulse, shape/size/alpha, no stale glyphs and expiry independent of remaining skill clocks",
+    "Movement/empty-ID/empty-tag selection, unslotted reset, except-trigger reset, signed extension and silent reduction",
+    "Full-world pause holds clocks and cues; half-speed advances clocks by0.1 and cues by0.2 over eight25ms frames",
+    "Actual Time Dilation input reduces other clocks and stamps its own16-second clock; Quickstep input earns an8-second stamp",
+    "Resolved block contacts earn Stalwart Rhythm, subtract one second, retain totals and obey internal cooldown"
+  ],
+  "discoveryNotes": [
+    "The predecessor retains the accepted magnitude-fold adapter in data/procs.ts; the exact guarded transform accounts for the entire difference from the original file. Authored proc records and renderer files are unchanged.",
+    "The first native capture rejected an incorrect harness assumption that cues age during full-world pause. World.update returns before actor timers at scale zero. Corrected assertions preserve that behavior; the13-stage failure and its original harness are retained.",
+    "Three native screenshots inspected: movement reduction, reset readiness and the earned block effect. No pixel-equality claim."
+  ],
+  "limits": [
+    "No physical-input coverage",
+    "Canvas call equality is not pixel equality; inspect screenshots separately",
+    "No FPS, GPU or physical-device claim",
+    "No widening of the current native-host API or completion of the remaining cooldown lifecycle"
+  ]
+}

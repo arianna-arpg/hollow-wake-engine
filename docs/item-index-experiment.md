@@ -40,7 +40,13 @@ inside combat processing.
 ## Proof and measurement boundaries
 
 The candidate is compiled into a separate directory. A recorded loader directs
-the existing 850 SDK tests to those outputs. Test-only pool probes compare
+every current SDK test file to those outputs (850 tests in the original evidence).
+The verifier reads the runner's complete totals and requires every test to pass,
+with no failures, cancellations, skips or pending tests. Its former fixed count
+incorrectly rejected the later 923-test suite despite all tests passing; that
+hosted failure and the repaired Set/bitmap comparisons are retained in
+`evidence/cooldowns/renderer.json`. This repair does not accept either rejected
+optimization or repeat its timing experiment. Test-only pool probes compare
 430 ordered queries, including all authored bases and synthetic missing, empty,
 duplicate, reserved and excluded tags. Four interleaved owners exercise 1,200
 randomly filled items and 36 restores per implementation. Paired bases share

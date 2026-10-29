@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "stage": "Cooldown renderer comparison and stale experiment-count repair; no runtime optimization or device acceptance",
+  "sourceParent": "93eafd4f18aa3712222950af022360265d176263",
+  "sourceFiles": {
+    "README.md": "949c64347848fa3110b64c3d7233748011f0865e5743ca06914f4c49a11f2bd6",
+    "adapters/hollow-wake/cooldown-ui.cjs": "96c4926d7f37a1ec78a40437e937f7fb0e56cc065bb133d05fb5c3a8b1b7a215",
+    "baseline/cooldowns/renderer-acceptance.json": "fa4a99a8cd5bd67b8d1489bf0c8d0afa525be60b7124dad1162722fd045287a9",
+    "baseline/cooldowns/renderer-expected.json.gz": "d5daee20da3f36000314402d60e6576320cec60ad356dc5959a23fc42f6ee29d",
+    "docs/completion.json": "2c3fd107364b5e91d7bcac85a08e6c57312b89c601dcac461c7323d56e87a699",
+    "docs/cooldowns.md": "79a9766d9c1e64a2a08f3bf127d54bb99a2dcb4ad146b8e26eb219634955b74e",
+    "docs/item-index-experiment.md": "324a7d223bcbd9ea40e8b5f493d1995ab22f7590d5d30a4d341d7d83fa3b1a34",
+    "experiments/item-index/verify-unit.mjs": "ca83d4ae36ce26519c1ef10c417ef47423e8746aa32a0b1bf334db30674f34f0",
+    "package.json": "ac8ca4782443905d690724b1e681653bf4b74a20ea0bb2b66882984171b6f0e1",
+    "scripts/test-cooldown-ui-controls.mjs": "e2528148414d8b65f3f62fb3a9bf41be4e72800c32539beedfe41cbdf7187b06",
+    "scripts/test-cooldown-ui.mjs": "97a57f4f695567a417532747274f4890762f8ecfaf825d2ea73a724fe8b87a86"
+  },
+  "renderer": {
+    "stages": 21,
+    "nativeRuns": 2,
+    "observationsSha256": "27a8daf426467f4fae997de23182dc6a2053cf07509dca9863b73c88e8657850",
+    "harnessSha256": "96c4926d7f37a1ec78a40437e937f7fb0e56cc065bb133d05fb5c3a8b1b7a215",
+    "acceptedBeforeSdkComparison": true,
+    "rawObservationsByteEqual": true,
+    "installedFaults": [
+      {
+        "name": "sdk-fraction-omitted",
+        "rejected": true,
+        "stagesBeforeRejection": 3
+      },
+      {
+        "name": "cooldown-shade-omitted",
+        "rejected": true,
+        "stagesBeforeRejection": 2,
+        "actualMutation": "Changes the cooldown-shade alpha from0.65 to0.64. The required canonical shade is then absent from the recorded paint calls; the historical fault label refers to that absence."
+      },
+      {
+        "name": "cue-opacity-halved",
+        "rejected": true,
+        "stagesBeforeRejection": 3
+      }
+    ],
+    "screenshots": [
+      {
+        "name": "movement-reduced",
+        "file": "evidence/cooldowns/screenshots/movement-reduced.png",
+        "sha256": "994719243bfe0d13e147e7edc8b43721c384d19d72ec0d6c1036b41c590f456f",
+        "nativeSha256": "994719243bfe0d13e147e7edc8b43721c384d19d72ec0d6c1036b41c590f456f",
+        "inspected": true
+      },
+      {
+        "name": "movement-ready",
+        "file": "evidence/cooldowns/screenshots/movement-ready.png",
+        "sha256": "95bf8e47514d621b5009bd3efdd6aa3fbf1ac18b07828b30813b67799e6b2191",
+        "nativeSha256": "95bf8e47514d621b5009bd3efdd6aa3fbf1ac18b07828b30813b67799e6b2191",
+        "inspected": true
+      },
+      {
+        "name": "block-earned-reduction",
+        "file": "evidence/cooldowns/screenshots/block-earned-reduction.png",
+        "sha256": "e13f9d9cb723a210c18a7e829b4e5a69adea42d27ac33c8695fad62a6050c123",
+        "nativeSha256": "f11c3ad130ad677d6684968ef01efa169e729e14f818231265558cd41e56ff73",
+        "inspected": true
+      }
+    ],
+    "softwareRendering": true,
+    "viewport": [
+      1280,
+      800
+    ],
+    "numericRoundingDecimals": 6,
+    "physicalInput": false,
+    "pixelEquivalenceClaim": false
+  },
+  "package": {
+    "archiveSha256": "8e7ca6660135fa669a5a0027cc5961f8b344252b2566b87a5ddfde25f04fb37d",
+    "integrity": "sha512-7Ha4As3c4djxK7GvX4MrBRz949bz2gjXZix6eaeJDmgBfb7mFdMj+do23qPYdugETQaDMS4N9S8yq9U8qq+cYA==",
+    "gameSourceMapSha256": "bcfdeb5903e760bbeb19c8ad0541d0d7263c2dda329fce67af5420f5419e00ef",
+    "runtimeMapSha256": "d4f2b09be4b1f955cd43aa905e052d0a1d99d9cd87e0c44dee25ddf8eb4c18b4",
+    "runtimeOutputs": 207,
+    "buildSha256": "1e79ce2bc4bddd07632d42b9159abba7d0468a1890bfec96b064219e81b357ff",
+    "productionRuntimeUnchanged": true,
+    "typesBoundariesAndPackedConsumerPassed": true
+  },
+  "ciRepair": {
+    "run": 40800847585,
+    "job": 123208330197,
+    "artifactId": 12865089708,
+    "originalHead": "93eafd4f18aa3712222950af022360265d176263",
+    "originalSdkTestsPassed": 923,
+    "originalSdkTestsFailed": 0,
+    "cause": "An experiment verifier required the old fixed count of850 even though all923 current tests passed.",
+    "repair": "Discover every current test file and require one complete passing summary with zero failures, cancellations, skips and pending tests.",
+    "localCandidates": [
+      {
+        "implementation": "set",
+        "tests": 923,
+        "testFiles": 63,
+        "passed": true
+      },
+      {
+        "implementation": "bitmap",
+        "tests": 923,
+        "testFiles": 63,
+        "passed": true
+      }
+    ],
+    "noTimingRerun": true,
+    "noOptimizationAccepted": true,
+    "hostedRepairVerificationPending": true
+  },
+  "discovery": {
+    "retainedNativeFailureStages": 13,
+    "reason": "Incorrect harness expectation that full-world pause ages cues; original World.update returns before actor timers.",
+    "correctedBehavior": "Full pause holds both clocks and cues. Half-speed advances clocks by0.1 seconds and cues by0.2 over eight25ms frames.",
+    "preparationCorrection": "The proc file contains only the previously accepted magnitude-fold adapter difference; the exact guarded transform is verified."
+  },
+  "preservation": {
+    "originalGameChanged": false,
+    "gameRepositoriesPushed": false,
+    "mainUpdated": false,
+    "oldRendererAndControlsVerified": true,
+    "acceptedGameplayFixturesChanged": false,
+    "all207RuntimeOutputsUnchanged": true
+  },
+  "remaining": [
+    "Remaining cooldown lifecycle and other SDK families",
+    "Full native-host API surface and Unity/Unreal/ARM integrations",
+    "Managed-game adoption and public-main acceptance",
+    "Measured performance and physical Steam Deck/older-mobile acceptance"
+  ],
+  "raw": {
+    "file": "renderer-raw.json.gz",
+    "records": 45,
+    "sha256": "3c07a6ee60de71ab067943aef64f34d0281d1fd6fe0a653d420defd8f6f972d8",
+    "uncompressedSha256": "d005a0ba841cd6348ff8ea1d5c645903a4b46c69058e78b124ac500f9529850a",
+    "files": {
+      "native-1/verification.json": "7cb79e4022b7dce41c5533354bec604b73a6b5b312765e6b0d1399b2df121895",
+      "native-1/observations.json": "c2a1db18d5a6a237989554b83ef94bc90175207ccef7606be354fdc7448f618d",
+      "native-1/process.txt": "f371b508dfc1d50078789d9ec2502b149c35631f937cb9a9a7d11f2a8bd8b88b",
+      "native-1/harness.cjs": "6a5deba8623e6015ef92fad4cb8c822bf57cea061a9671593cc17da9a65bc563",
+      "native-2/verification.json": "54da6798ca2a0461027c4b8a7d4db799f51f16b2b16bb4b5b2f230bec37acd19",
+      "native-2/observations.json": "27a8daf426467f4fae997de23182dc6a2053cf07509dca9863b73c88e8657850",
+      "native-2/process.txt": "8172e692db3cbe8efa85a9e6ffccb70ec63ed70af4527356b62b88487881ee20",
+      "native-2/harness.cjs": "96c4926d7f37a1ec78a40437e937f7fb0e56cc065bb133d05fb5c3a8b1b7a215",
+      "native-3/verification.json": "bf84f0ff247918aacc64260f4d7d99c04924d7b3af9db4c997829668412ba7fc",
+      "native-3/observations.json": "27a8daf426467f4fae997de23182dc6a2053cf07509dca9863b73c88e8657850",
+      "native-3/process.txt": "8172e692db3cbe8efa85a9e6ffccb70ec63ed70af4527356b62b88487881ee20",
+      "native-3/harness.cjs": "96c4926d7f37a1ec78a40437e937f7fb0e56cc065bb133d05fb5c3a8b1b7a215",
+      "sdk/observations.json": "27a8daf426467f4fae997de23182dc6a2053cf07509dca9863b73c88e8657850",
+      "sdk/verification.json": "e9806e79ed3a2e2357725f17bee20503a13f54156e23c1618b117f251643769a",
+      "sdk/process.txt": "8172e692db3cbe8efa85a9e6ffccb70ec63ed70af4527356b62b88487881ee20",
+      "sdk/build.txt": "201a0ea93b0e620697770f29185eb6562958a6b580579b3c7e7aa5ad542b99b8",
+      "fault/sdk-fraction-omitted/observations.json": "d2934c44ab1dd9080af6196038f493f77d6a5302f185ea1e6dd8a6441dc5861e",
+      "fault/sdk-fraction-omitted/process.txt": "ac54a6b00fd403aa021c7db94fc5b82427a97a5d9c8e29021c2bc04d145c857e",
+      "fault/sdk-fraction-omitted/driver.txt": "b217c165dd0bd586bafe9dd597f6e1ba670cd6b878fea79304b61cb1a0ad942d",
+      "fault/sdk-fraction-omitted/verification.json": "339b9752e0ba22d37fc0def8549c29af75853d1a56ed67136c52817c2d529853",
+      "fault/cooldown-shade-omitted/observations.json": "c17f2679fb1a6ff3d84cd5254e521c327b4551010cd7f36f69ec287d1387a9db",
+      "fault/cooldown-shade-omitted/process.txt": "03a88140463a7778d5703e1dba550d5c0f5bb345e4cc5909857334e70cc39f9e",
+      "fault/cooldown-shade-omitted/driver.txt": "fbdf72c682afc1dc40e9f9817839c30294991ad26ed89d26757a29c2f584cb30",
+      "fault/cooldown-shade-omitted/verification.json": "4f27ea0fdcbdd0ad8b0f57d59c2d9bbc10aeeee06ac559b1c7f9c26e13244267",
+      "fault/cue-opacity-halved/observations.json": "18911590e8a5cad2adeaac1cb305b2088e89c08003c4e39da047d56520c406d4",
+      "fault/cue-opacity-halved/process.txt": "6497a86a14071e8f181e8c6dd1987ba0a4c41fc64542fe8070e0ed064ba179a3",
+      "fault/cue-opacity-halved/driver.txt": "75eb048ffef1cb4346affd81c40df37c47d8c6db734006a37c956225db498cab",
+      "fault/cue-opacity-halved/verification.json": "b2f2eca556ca7980f3a6129ae91125996a4fa508781d15624ef6084c10bc40c6",
+      "faults.json": "43d483a0a62b3ef43a66aaeccfdb793398492eeca7fe549957698cc378afcb06",
+      "index-repair/set/verification.json": "0bf94d221cf672f4834c2114c595bdde91906f4373972387f2aa60a399c3a89d",
+      "index-repair/set/tests.txt": "5abbe1a5b7220ecf64cfeb67f277f247a1882fee82a677cb90cde5f2a43dd85e",
+      "index-repair/bitmap/verification.json": "e278adc23f294d1052c67f7101b9fe3a3ae53c6c0a4797396b5253404b3c82a6",
+      "index-repair/bitmap/tests.txt": "2d14ef8b88e74d275c155f32bddaaa6cd2928ff4b8426ef22c41f58840a88db4",
+      "index-repair/summary.json": "cfc50dca8c77197dce7cf5d55f20f7998521ed3b89e291b94a8c2e738b5de4ad",
+      "hosted/failure.json": "244b0b0543f32243b5f2a36777142f4ebdea86796e5e0b0c9c8534e2c05d280e",
+      "hosted/failure.txt": "bd3cf099cb887bd5a7c80a1fc1617fe40f873b8361248af8e13b2e53b6fef4f5",
+      "hosted/unit-tests-v2.txt": "f4e26a198920c31e37fb7800636996612bfe760a63268ed1a9f173ea43ef2be0",
+      "hosted/unit-driver.txt": "a457a3a51b39ca24dd10002c938a56cef7649fc69f4d5d0ac37513e797ad38a9",
+      "hosted/unit-verification-v2.json": "63b79a3e36dd5dfe23451263ec04377def5fc1b4c6f255fd41fab9142a11cad4",
+      "hosted/original-verifier.mjs": "cc08804a6d879db759954f8b8b53b5ed4e38b4ad3b501d0cab68d836d375baa1",
+      "checks/types.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "checks/boundaries.txt": "213270e603c911b6a2b1a4723224a058e129b09c97147b50db079a682949a5d3",
+      "checks/package.txt": "1696d964f29a4ac1a83c088afca8d189b3f0eebde06d28ea19f3a4e8af411759",
+      "checks/package.json": "a5143990b4412c01e08d0d27406d2454073ad3c037e554880058b39fc121d43b",
+      "hosted/status.json": "bd25c95a2e32ca24958695daf49f5cafe0609585f0a7acf31287f7471d010d69"
+    }
+  }
+}
