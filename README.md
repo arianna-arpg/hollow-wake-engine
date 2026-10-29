@@ -44,6 +44,10 @@ credit earned while a skill is already ready, conversion to extra command uses,
 and numeric display publication. Formation, delivery and court lifetime remain
 with the host; this is not the complete Assault controller.
 
+The isolated game renderer is now reproducible from public test capsules.
+[Reproduction commands](docs/renderer-reproduction.md) cover its dedicated
+23-stage refund-bank display comparison and deliberate fault controls.
+
 Version 0.37 adds optional [life recovery](docs/life-recovery.md): healing,
 full refill and validated proc-heal content. The installed game adapter preserves
 121 native observations, including callback order, actual healing cues and

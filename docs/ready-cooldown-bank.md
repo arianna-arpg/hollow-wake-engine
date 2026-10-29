@@ -82,6 +82,12 @@ npm run adapter:ready-bank -- --location <adapter-location.json>
 npm run adapter:ready-bank-faults -- --location <adapter-location.json>
 ```
 
-Installed-game acceptance, renderer coverage, native-host exposure and device
-performance are separate gates. See the checkpoint evidence for completed gates;
-do not infer Unity, Godot or Unreal support from the standalone Node consumer.
+Dedicated display acceptance now covers 23 native-matching stages: empty and
+fractional credit, extra hits, capacity, recall, spending, repricing, pause/resume,
+policy retirement and host removal. Five deliberate SDK/paint faults are detected.
+The full renderer can be rebuilt from the public test capsules; see
+[renderer reproduction](renderer-reproduction.md) and
+[display evidence](../evidence/ready-cooldown-bank/renderer.json).
+
+Native-host exposure, complete Assault delivery and device performance remain
+separate gates. Do not infer Unity, Godot or Unreal support from these checks.

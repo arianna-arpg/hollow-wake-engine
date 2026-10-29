@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "sourceParent": "b03b38ed22e0ecb11afa0e05c2579175dd7279b4",
+  "stage": "Dedicated ready-bank renderer and portable game-shell reproduction",
+  "acceptance": "baseline/ready-cooldown-bank/renderer-acceptance.json",
+  "acceptanceSha256": "8a584a108db67183e39b164bb7059ebd66403202ae70fb217ad00e4003d025c5",
+  "stages": 23,
+  "originalCaptures": 2,
+  "candidateCaptures": 2,
+  "rawObservationsSha256": "db50fb3eed7b03ad3cf74842536dc44b3546566dbf157366d7df4d50baa302be",
+  "independentOriginalBytesEqual": true,
+  "adaptedPaintStateAndTraceBytesEqual": true,
+  "controls": [
+    {
+      "name": "credit-omitted",
+      "kind": "runtime",
+      "rejectionStage": 6,
+      "detected": true
+    },
+    {
+      "name": "spending-omitted",
+      "kind": "runtime",
+      "rejectionStage": 10,
+      "detected": true
+    },
+    {
+      "name": "progress-halved",
+      "kind": "source",
+      "rejectionStage": 6,
+      "detected": true
+    },
+    {
+      "name": "hit-label-incremented",
+      "kind": "source",
+      "rejectionStage": 2,
+      "detected": true
+    },
+    {
+      "name": "background-omitted",
+      "kind": "source",
+      "rejectionStage": 2,
+      "detected": true
+    }
+  ],
+  "portable": {
+    "shellManifest": "baseline/renderer-shell.json",
+    "shellSha256": "41b1b9a02004a4a47d806316fb35d44e169b848dd31e3274cf78fa39a8175f13",
+    "shellFiles": 5,
+    "rawShellBytes": 91748,
+    "compressedShellBytes": 40069,
+    "copiedFiles": 1539,
+    "sourceMapSha256": "916992e86fe772616bc2e45402197849fe816e82190a610cb4b2d7d387031577",
+    "buildSha256": "0424f2a94d425529b9c553c783411be5a85d5935e9a0df08c6f0e5d5b64fe312",
+    "refusals": [
+      {
+        "name": "existing-output",
+        "detected": true,
+        "logSha256": "3b46648ba7270a0e294bd1b5b450b72c5ce61e8cd023bccd3c3a5571aee1e15c"
+      },
+      {
+        "name": "inside-source",
+        "detected": true,
+        "logSha256": "fdba20eedfe2981a8530018603a13b4e938bd34e103db940e7a92f32fc8a219b"
+      },
+      {
+        "name": "aliased-input",
+        "detected": true,
+        "logSha256": "fdba20eedfe2981a8530018603a13b4e938bd34e103db940e7a92f32fc8a219b"
+      }
+    ],
+    "originalGameCheckoutNeeded": false,
+    "installedAdapterRequired": true,
+    "explicitElectronRequired": true
+  },
+  "checks": [
+    {
+      "command": "npm run check",
+      "exitCode": 0,
+      "logSha256": "a303e18c3810bf0be220cc6ebd0474d1093cd84886c5bc2977181b9df0e5e8e0"
+    },
+    {
+      "command": "npm run reference:verify",
+      "exitCode": 0,
+      "logSha256": "ed9449e747fdb1f57570cdcc3c0c46a363a0e3720d661dd8df1026f2e66fb987"
+    },
+    {
+      "command": "npm run test:ready-bank-package",
+      "exitCode": 0,
+      "logSha256": "38d8011b8de119db8fc5981db607d84e125bf81d8cf35a7b2885874c940a7250"
+    }
+  ],
+  "runtime": {
+    "outputs": 213,
+    "mapSha256": "ed710da4e4feb2111dec71d410297fa0632b53afe7a08e5cec4b2cc96a7e0689",
+    "allPublishedOutputsUnchanged": true,
+    "implementationChanged": false,
+    "parentSdkTests": 977,
+    "parentTestsRerunThisCheckpoint": false
+  },
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v24.9.0",
+    "electronManifestVersion": "43.0.0",
+    "electronManifestSha256": "c00faae87b1a71e1efee71a42003458170c47d226acb8bff1f61b5a8407ddb7a",
+    "electronExecutableSha256AtEvidenceCollection": "e85c682e014d84d99efcd2dc18ce40fcb491b5645ce1208f255207a9b21ef614",
+    "renderer": "Offscreen software Canvas; fixed performance clock and manually stepped frames",
+    "scope": "Current toolchain recorded at evidence collection; the absolute executable path was passed to each trial."
+  },
+  "scope": {
+    "dedicatedReadyBankDisplayAccepted": true,
+    "physicalInputAccepted": false,
+    "recipientSelectionAccepted": false,
+    "fullAssaultControllerAccepted": false,
+    "pixelEquivalenceAccepted": false,
+    "otherDpiOrPlatformAccepted": false,
+    "newNativeHostSurface": false,
+    "performanceAccepted": false,
+    "physicalDeviceAcceptance": false
+  },
+  "toolingCorrections": [
+    {
+      "issue": "Private runner generation changed a function-name anchor after the original acceptance freeze.",
+      "resolution": "Generated the public runner separately with exact replacements; frozen captures and acceptance remained unchanged.",
+      "separateFailureLogSaved": false
+    },
+    {
+      "issue": "Private reproduction wrapper rejected its known dependency symlink during a postcheck.",
+      "resolution": "The first private wrapper attempted to inventory the intentionally shared dependency symlink after all three public steps had passed. These separate refusal checks exclude that link and hash the entire installed SDK independently; no rebuild or renderer rerun was needed.",
+      "separateFailureLogSaved": false
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "evidence/ready-cooldown-bank/screenshots/original-two-extra-fraction.png",
+      "sha256": "471ae02b980b77f9910884f1c739ffe959c4145a3f1e2fe928634a413220ea17",
+      "capture": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-ready-bank-ui-ui3faI"
+    },
+    {
+      "file": "evidence/ready-cooldown-bank/screenshots/original-full-capacity.png",
+      "sha256": "d9016fa0c57dd2eee8d6d0a4bf21c6cab091267d8af7190b7eb8d23627b8877f",
+      "capture": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-ready-bank-ui-ui3faI"
+    },
+    {
+      "file": "evidence/ready-cooldown-bank/screenshots/sdk-two-extra-fraction.png",
+      "sha256": "471ae02b980b77f9910884f1c739ffe959c4145a3f1e2fe928634a413220ea17",
+      "capture": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\ready-bank-ui-PwafP2"
+    },
+    {
+      "file": "evidence/ready-cooldown-bank/screenshots/sdk-full-capacity.png",
+      "sha256": "d9016fa0c57dd2eee8d6d0a4bf21c6cab091267d8af7190b7eb8d23627b8877f",
+      "capture": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\ready-bank-ui-PwafP2"
+    },
+    {
+      "file": "evidence/ready-cooldown-bank/screenshots/sdk-host-removed.png",
+      "sha256": "eb4eb296fa6b30c5b1955d0ecc4516bc1ca716d943e9f8fd0bd8b7a9a7ec175b",
+      "capture": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\ready-bank-ui-PwafP2"
+    }
+  ],
+  "raw": {
+    "file": "evidence/ready-cooldown-bank/renderer-raw.json.gz",
+    "sha256": "b9b120bf9e2e5f614e737e6cc832236c653d80bbaac5c5e20b2543ca2e82b100",
+    "bytes": 29331,
+    "records": {
+      "controls.json": "e664562ef9a8cc4c58f58745e9b1da3d28b71ae42f93204ff53ea376b6bf3904",
+      "portable.json": "83c8b26a4a64bac1703dcf0796b21bbd4024235110f19502e4022b7064683354",
+      "checks.json": "1b1102b50cfc1fab2abfcc30d6e5c8423d088f1c0f58ce67f693d775d5267f3a",
+      "hosted.json": "abf9189d518eacb894e5844a2806193c02418e7b1cb37baccfd551c140c61f36",
+      "original-1/verification.json": "2d760b3263ddecc952b1378beb639d22b78ae29a97ff0a75a091596280db9995",
+      "original-1/process.txt": "e65c3b0b143836aa392da51615555b6deb5e8054f483a979cf6b2dac63e5397b",
+      "original-1/observations.json": "db50fb3eed7b03ad3cf74842536dc44b3546566dbf157366d7df4d50baa302be",
+      "original-2/verification.json": "6bfa2240ef8d23ad99ad1dece8b504bb4715545a67ea30529bb4c6f5741dbd75",
+      "original-2/process.txt": "e65c3b0b143836aa392da51615555b6deb5e8054f483a979cf6b2dac63e5397b",
+      "original-2/observations.json": "db50fb3eed7b03ad3cf74842536dc44b3546566dbf157366d7df4d50baa302be",
+      "candidate/verification.json": "fd793bb52f088ed568637cf97ebcb51940e4f01c49600dae802b6686de13b02b",
+      "candidate/process.txt": "e65c3b0b143836aa392da51615555b6deb5e8054f483a979cf6b2dac63e5397b",
+      "candidate/observations.json": "db50fb3eed7b03ad3cf74842536dc44b3546566dbf157366d7df4d50baa302be",
+      "portable/verification.json": "783caef7245288a406e441fd11aed9178f3126c7027d66b8025ba78208142f30",
+      "portable/process.txt": "e65c3b0b143836aa392da51615555b6deb5e8054f483a979cf6b2dac63e5397b",
+      "portable/observations.json": "db50fb3eed7b03ad3cf74842536dc44b3546566dbf157366d7df4d50baa302be",
+      "faults/credit-omitted/build.txt": "0abd61920bd6187daaa3a040fda2c67b9a060e1a132f77fc04ad8b4bf0148389",
+      "faults/credit-omitted/driver.txt": "d64d98341e8ef877cbf33cd1e5b74a20f970a289bde42cade3cbb29ce1785ba8",
+      "faults/credit-omitted/process.txt": "9baa955ba82486d47bd18e28cb7b84a5519389d09bda79231654cae252e2f20c",
+      "faults/credit-omitted/verification.json": "eee7485ca2e97dcb7622d8c60cc563a3a22db01399edaa151a51df4995272c7d",
+      "faults/credit-omitted/observations.json": "53fd26f58394ce1865789d64df92026c2c534dc0bbba75fd9df29b9d77f69bfe",
+      "faults/spending-omitted/build.txt": "33e9273b4ee849ffd7ae3952a892ea9b6affd2e717c3cdc45d94e7b084428456",
+      "faults/spending-omitted/driver.txt": "d704e7be8bc7374fc9be2e86a3a2baa9fca8f6441b7aa2e82b3426b57fe2e606",
+      "faults/spending-omitted/process.txt": "058b8818d71dfc980f1d010f70492160c6c53f8d918665105a95a11ea2c8a28c",
+      "faults/spending-omitted/verification.json": "7a61dff08a7f9062b71754a75ce0dd16f10e7c135406d30ff3469cd63b5538d5",
+      "faults/spending-omitted/observations.json": "c5e48b856663e335f0dffb32eebd4979a47e3d65ed12629aebd1c6e02ed2069e",
+      "faults/progress-halved/build.txt": "224dcfc8d99124efd1447fba9b4e0328d7b1c4a870654aabb72049b0bcfc1366",
+      "faults/progress-halved/driver.txt": "de2b06cbac74591aa26fc3367ccfdf0a179e05cce40910d4dc909fa1b49d7d2b",
+      "faults/progress-halved/process.txt": "c647ed4c028a970eadf0a5809f2473b2517f54a3a65a3e553b2d20b86ba14fa5",
+      "faults/progress-halved/verification.json": "8c38fb19738433eef23c9b1b84bd3d494800da6fcc8a780f4620260179287259",
+      "faults/progress-halved/observations.json": "ad68a36d4f93d2a0a6085d4ae6b9def2724a812963d6d6b383f3a2854a74efd2",
+      "faults/hit-label-incremented/build.txt": "2546a7e10108bd98d20004ffedad91d18b0c51ff9e3bb5ca651d829ddb146a8d",
+      "faults/hit-label-incremented/driver.txt": "bf179e57caebaf802f5a0b7a917e8fee9a15d8897ce9ff592af3cbc0ce42f3dd",
+      "faults/hit-label-incremented/process.txt": "de4d5ab03cf722c66c09d5f48bd432bf8d4aa25bbd7bfea8e263273b96efc37c",
+      "faults/hit-label-incremented/verification.json": "77753c6979be5df24b4fc01d2ff6db03614678e3e67b3b176e1d73a58b5ab66b",
+      "faults/hit-label-incremented/observations.json": "d1df88923cadd5f944b0eedea9d2c5bcc7be13a9043bfdc01e22e3ebbc2ae265",
+      "faults/background-omitted/build.txt": "166978408c21d2b999af622fc3cffd5ef9ae47cecd097ce7eab56c84c52a723a",
+      "faults/background-omitted/driver.txt": "e7fe3024c3963fd18bfca05ab1f0c2c196e9dc15157843122605f909417e3299",
+      "faults/background-omitted/process.txt": "a540221a34d34b9909c9f763f456ef8a3c6ee26faa7f3e58c35d461387a58697",
+      "faults/background-omitted/verification.json": "f4a464de6513c5ae1066f0c0bacdcd5195c7d7eff97594ddc5acc84d767573ef",
+      "faults/background-omitted/observations.json": "8c63a6d32a1e3b1370bb7f28b4dbde07e524eb3a46e20091ad6510a754f9e0de",
+      "portable/prepare.txt": "26eae4bcc4ea0b5a28171ef89b03b8e8f4877f0f50012156568d18cbb0a50b9e",
+      "portable/build.txt": "866927f2378beaa6e2a5f6d7a305a655a7cbd4196731e69c3da3b988a32fe505",
+      "portable/renderer.txt": "d6a27874e60d1df7942b95bd85470721ec7489d2dae0169b6d331b8447f70fd0",
+      "portable/existing-output.txt": "3b46648ba7270a0e294bd1b5b450b72c5ce61e8cd023bccd3c3a5571aee1e15c",
+      "portable/inside-source.txt": "fdba20eedfe2981a8530018603a13b4e938bd34e103db940e7a92f32fc8a219b",
+      "portable/aliased-input.txt": "fdba20eedfe2981a8530018603a13b4e938bd34e103db940e7a92f32fc8a219b",
+      "checks/types.txt": "a303e18c3810bf0be220cc6ebd0474d1093cd84886c5bc2977181b9df0e5e8e0",
+      "checks/reference.txt": "ed9449e747fdb1f57570cdcc3c0c46a363a0e3720d661dd8df1026f2e66fb987",
+      "checks/consumer.txt": "38d8011b8de119db8fc5981db607d84e125bf81d8cf35a7b2885874c940a7250",
+      "initialFreezeDriver.mjs": "e396927a47ac2aa4085bda6077bc1d7943fbb2b345c63a2d57078f8662add2ef",
+      "initialPortableDriver.mjs": "d216b4f322ed8b50002db4b4869c1ad9653376630d34a029d6657a2ed9c97239"
+    }
+  }
+}

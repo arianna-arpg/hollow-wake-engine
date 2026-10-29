@@ -190,6 +190,8 @@ jobs:
       - run: npm run adapter:cooldown-lifecycle-faults
       - run: npm run adapter:ready-bank
       - run: npm run adapter:ready-bank-faults
+      - run: npm run adapter:renderer-prepare
+      - run: node scripts/build-game-item-ui.mjs --game .artifacts/game-renderer --output .artifacts/game-renderer-dist
       - run: npm run adapter:ammunition
       - run: npm run check
         working-directory: .artifacts/game-adapter
@@ -293,6 +295,8 @@ jobs:
             .artifacts/game-ready-bank-verification.json
             .artifacts/ready-bank-overlay.json
             .artifacts/ready-bank-installed-faults.json
+            .artifacts/game-renderer-location.json
+            .artifacts/game-renderer-dist/sdk-build.json
             .artifacts/reference-ready-bank-*/*.json
             .artifacts/reference-ready-bank-*/*.txt
             .artifacts/game-ready-bank-*/*.json

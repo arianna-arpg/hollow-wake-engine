@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "decision": "native-ready-bank-renderer/v1",
+  "status": "accepted-after-two-native-runs-before-sdk-renderer-comparison",
+  "sourceParent": "b03b38ed22e0ecb11afa0e05c2579175dd7279b4",
+  "sourceCanonicalization": "CRLF to LF only",
+  "numericRepresentation": "Recorded numbers rounded to six decimals; state, operation and paint order retained.",
+  "harnessSha256": "aff6e56be756ee8ecdc0b0ad6190eb1593038b19f50ed64f48723361347c8370",
+  "serverSha256": "8f846fd74b33ac3824b936de1024ca590e05057dd791351615cd4cbfd05fcf89",
+  "stages": 23,
+  "stageNames": [
+    "disabled",
+    "enabled-empty",
+    "running-clock",
+    "running-refund",
+    "finishing-refund",
+    "half-unit",
+    "one-extra-hit",
+    "two-extra-fraction",
+    "recall-preserves-credit",
+    "command-spends-credit",
+    "full-capacity",
+    "capacity-retained",
+    "price-increased",
+    "spend-new-price",
+    "new-price-fraction",
+    "price-restored",
+    "world-paused",
+    "paused-credit-held",
+    "world-resumed",
+    "policy-retired",
+    "policy-restored-empty",
+    "before-host-removal",
+    "host-removed"
+  ],
+  "expected": {
+    "file": "renderer-expected.json.gz",
+    "sha256": "db50fb3eed7b03ad3cf74842536dc44b3546566dbf157366d7df4d50baa302be",
+    "compressedSha256": "62b663233ca4435655a2b5c566e5d68aa7a5eceb325e19d13bfbb8ccb31453b9",
+    "bytes": 149827,
+    "compressedBytes": 2450
+  },
+  "native": {
+    "game": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\clock-full-ui-wRMNVd\\game",
+    "dist": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\clock-full-ui-wRMNVd\\bundle",
+    "sourceMapSha256": "743da43107a8ce01d7d675d418a37834d6049ddf6c492d8d315f19b638ac4533",
+    "runtimeMapSha256": "9f680333a2f6107b949ffeb3492c2ca15972742356c949e594208982e1b2906f",
+    "buildSha256": "490c00b304d1d361d2f0a83c3e3452c695eb47cbd0d3a7ee292020397c8b2a92",
+    "selectedOriginalFiles": {
+      "engine/assault.ts": "8cecb56af66e619fc189861967949d65a5b3ae74050a10c660cba09d1641dedf",
+      "render/renderer.ts": "8bd68cce07c156c9b2c6be7ef2ae5796f9b9eb56d9f8a230ce0163921e7be489",
+      "data/assaultTree.ts": "508cbb076f35fd7f22885da614be38e9b83be79a51c2f655706c3ff64dff901e"
+    },
+    "scope": "Original Assault controller, renderer and tree bytes in the verified pre-bank adapter; other previously accepted SDK integrations remain installed."
+  },
+  "captures": [
+    {
+      "passed": true,
+      "label": "original-1",
+      "game": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\clock-full-ui-wRMNVd\\game",
+      "dist": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\clock-full-ui-wRMNVd\\bundle",
+      "trial": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-ready-bank-ui-ui3faI",
+      "reports": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-ready-bank-ui-ui3faI\\reports",
+      "stages": 23,
+      "harnessSha256": "aff6e56be756ee8ecdc0b0ad6190eb1593038b19f50ed64f48723361347c8370",
+      "serverSha256": "8f846fd74b33ac3824b936de1024ca590e05057dd791351615cd4cbfd05fcf89",
+      "observationsSha256": "db50fb3eed7b03ad3cf74842536dc44b3546566dbf157366d7df4d50baa302be",
+      "sourceMapSha256": "743da43107a8ce01d7d675d418a37834d6049ddf6c492d8d315f19b638ac4533",
+      "runtimeMapSha256": "9f680333a2f6107b949ffeb3492c2ca15972742356c949e594208982e1b2906f",
+      "buildSha256": "490c00b304d1d361d2f0a83c3e3452c695eb47cbd0d3a7ee292020397c8b2a92",
+      "selectedOriginalFiles": {
+        "engine/assault.ts": "8cecb56af66e619fc189861967949d65a5b3ae74050a10c660cba09d1641dedf",
+        "render/renderer.ts": "8bd68cce07c156c9b2c6be7ef2ae5796f9b9eb56d9f8a230ce0163921e7be489",
+        "data/assaultTree.ts": "508cbb076f35fd7f22885da614be38e9b83be79a51c2f655706c3ff64dff901e"
+      },
+      "sourcePackageAndBundleUnchanged": true
+    },
+    {
+      "passed": true,
+      "label": "original-2",
+      "game": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\clock-full-ui-wRMNVd\\game",
+      "dist": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\clock-full-ui-wRMNVd\\bundle",
+      "trial": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-ready-bank-ui-BQ5w2G",
+      "reports": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-ready-bank-ui-BQ5w2G\\reports",
+      "stages": 23,
+      "harnessSha256": "aff6e56be756ee8ecdc0b0ad6190eb1593038b19f50ed64f48723361347c8370",
+      "serverSha256": "8f846fd74b33ac3824b936de1024ca590e05057dd791351615cd4cbfd05fcf89",
+      "observationsSha256": "db50fb3eed7b03ad3cf74842536dc44b3546566dbf157366d7df4d50baa302be",
+      "sourceMapSha256": "743da43107a8ce01d7d675d418a37834d6049ddf6c492d8d315f19b638ac4533",
+      "runtimeMapSha256": "9f680333a2f6107b949ffeb3492c2ca15972742356c949e594208982e1b2906f",
+      "buildSha256": "490c00b304d1d361d2f0a83c3e3452c695eb47cbd0d3a7ee292020397c8b2a92",
+      "selectedOriginalFiles": {
+        "engine/assault.ts": "8cecb56af66e619fc189861967949d65a5b3ae74050a10c660cba09d1641dedf",
+        "render/renderer.ts": "8bd68cce07c156c9b2c6be7ef2ae5796f9b9eb56d9f8a230ce0163921e7be489",
+        "data/assaultTree.ts": "508cbb076f35fd7f22885da614be38e9b83be79a51c2f655706c3ff64dff901e"
+      },
+      "sourcePackageAndBundleUnchanged": true
+    }
+  ],
+  "scope": "Controlled refund/command operations with chosen recipients, seeded clocks, real World frames and actual Canvas paint. No physical input, pixel equivalence, performance or full Assault-controller acceptance."
+}

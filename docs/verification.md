@@ -8,9 +8,12 @@ package/type consumer passes; all 210 previous runtime outputs remain unchanged.
 The optional module adds 1,896 bytes of JavaScript. See its
 [contract](ready-cooldown-bank.md) and
 [raw-backed evidence](../evidence/ready-cooldown-bank/runtime.json).
-The renderer stages cover existing cooldown regressions, not the bank's own
-display. Complete Assault extraction, new native-host exposure and measured
-device optimization remain open.
+Those initial renderer stages cover existing cooldown regressions. A subsequent
+[dedicated display checkpoint](../evidence/ready-cooldown-bank/renderer.json)
+matches 23 refund-bank states and actual paint observations against two original
+captures and detects five deliberate SDK/paint faults. Its public shell capsule
+rebuilds the isolated renderer without a local game checkout. Complete Assault
+extraction, new native-host exposure and measured device optimization remain open.
 
 The optional cooldown lifecycle development checkpoint passes 953 SDK tests
 (30 specific to this module), 44 frozen original lifecycle courses, the 75
