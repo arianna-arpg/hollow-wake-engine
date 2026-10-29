@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "source": "src/engine/world.ts",
+  "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "method": "World.resolveHit",
+  "methodSha256": "632cffc3c91e4598ed586fae0f666650892e07a8eb520f7be48460e9990d4bed",
+  "statements": [
+    {
+      "label": "depth",
+      "index": 0,
+      "line": 43287,
+      "endLine": 43287,
+      "sha256": "7d11847794c18082af165f9739903de53a7b59be42072a0c97bbfb80e1fdeb74",
+      "text": "depth = Math.max(depth, inst.procChainDepth ?? 0);"
+    },
+    {
+      "label": "definition",
+      "index": 1,
+      "line": 43288,
+      "endLine": 43288,
+      "sha256": "9577e0adc188ec5762023860e770891a8d96631484a04d82161cf09a7c8a1d52",
+      "text": "const def = inst.def;"
+    },
+    {
+      "label": "fuse",
+      "index": 2,
+      "line": 43294,
+      "endLine": 43317,
+      "sha256": "0f314e726902ae00b56f29b5a3f411d7d776d7d44382a9737d0f3ff78ce73dac",
+      "text": "if (!fromFuse) {\n      const fuse = instanceFuse(inst);\n      if (fuse) {\n        const fTags = skillContextTags(inst, grantedTags(inst));\n        this.pendingFuses.push({\n          kind: 'hit',\n          due: this.time + fuse.delay\n            * caster.sheet.get('fuseDelay', fTags, instanceMods(inst)),\n          caster, inst, targetId: target.id,\n          mult: dmgMult, depth, flat: flatBonus, force: forceDamage, hitEffects,\n          hitOrigin: { ...(hitOrigin ?? caster.pos) }, hitTier: hitTier ?? caster.tier,\n        });\n        this.text(vec(target.pos.x, target.pos.y - target.radius - 8),\n          fuse.tell ?? '…', def.color, 11);\n        this.flashes.push({\n          pos: vec(target.pos.x, target.pos.y), radius: target.radius + 8,\n          color: def.color, life: 0.25, maxLife: 0.25,\n        });\n        // SEGMENT FABRIC: the blow BANKED — drop the contact latch so the\n        // late landing feeds the shared pool with no stale attribution.\n        target.segHitPending = undefined;\n        return;\n      }\n    }"
+    },
+    {
+      "label": "combat-stamp",
+      "index": 3,
+      "line": 43320,
+      "endLine": 43326,
+      "sha256": "601bd1bb5d01f7839a4f3e9640fa4f12c842f0c23ba1c3147dfb6856ed98e135",
+      "text": "if (caster.team === 'player' || target.team === 'player') {\n      this.lastCombatAt = this.time;\n      // THE GRUDGE STAMP (survivor trigger eligibility): the world notices a\n      // foe that traded blows with a hero — in either direction.\n      if (caster.team === 'enemy' && this.seatOf(target)) caster.grudgeMark = true;\n      else if (target.team === 'enemy' && this.seatOf(caster)) target.grudgeMark = true;\n    }"
+    },
+    {
+      "label": "guise",
+      "index": 4,
+      "line": 43331,
+      "endLine": 43335,
+      "sha256": "893883cb879112a5accd30e031f5c468f00d0936bf283b36e376e57dfe74b7b7",
+      "text": "if (caster.possession?.guiseFaction && !caster.possession.guiseBroken && target !== caster) {\n      caster.possession.guiseBroken = true;\n      this.text(vec(caster.pos.x, caster.pos.y - caster.radius - 10),\n        'the guise breaks!', '#b8a8e8', 12, 'combat');\n    }"
+    },
+    {
+      "label": "target-instance",
+      "index": 5,
+      "line": 43336,
+      "endLine": 43336,
+      "sha256": "f4ad170437efddf1c079b2f77d5527b8df5d693b8715c4427ba4c4e7ed5c6a1d",
+      "text": "inst = this.attackSequences.forTarget(caster, inst, target, depth);"
+    },
+    {
+      "label": "modifiers",
+      "index": 6,
+      "line": 43337,
+      "endLine": 43337,
+      "sha256": "3198ec984f3dd75902d09df2a5bf7cd7ac309ba6531e7aaa6ac2463ae080ebf8",
+      "text": "const extra = instanceMods(inst);"
+    },
+    {
+      "label": "noise",
+      "index": 7,
+      "line": 43342,
+      "endLine": 43345,
+      "sha256": "8a529e96a66352ea3827cf305061c7421afaa73ff45963cc34027b0444ee6ffa",
+      "text": "{\n      const din = caster.sheet.get('noiseOnHit', skillContextTags(def), extra);\n      if (din > 0) this.noiseAt(target.pos, din, caster);\n    }"
+    },
+    {
+      "label": "shatter",
+      "index": 8,
+      "line": 43348,
+      "endLine": 43371,
+      "sha256": "d7a9ca45bf9c117dfb9be082f47a4151efd52d48d926f62ead9ba0e493df4454",
+      "text": "if (def.shatterStatus) {\n      let shattered = false;\n      let consumedStacks = 0;\n      for (let i = target.statuses.length - 1; i >= 0; i--) {\n        const s = target.statuses[i];\n        if (!def.shatterStatus.statuses.includes(s.id)) continue;\n        consumedStacks += s.stacks;\n        target.statuses.splice(i, 1);\n        target.sheet.removeSource('status:' + s.id);\n        shattered = true;\n      }\n      if (shattered) {\n        // perStack (Execution × Vulnerable): the payoff SCALES with the\n        // stacks consumed — five wounds opened, one blow through them all.\n        dmgMult *= def.shatterStatus.perStack\n          ? 1 + (def.shatterStatus.mult - 1) * consumedStacks\n          : def.shatterStatus.mult;\n        this.text(vec(target.pos.x, target.pos.y - 14), 'SHATTER!', '#bfe8ff', 14, 'combat');\n        this.flashes.push({\n          pos: vec(target.pos.x, target.pos.y), radius: target.radius + 14,\n          color: '#bfe8ff', life: 0.25, maxLife: 0.25,\n        });\n      }\n    }"
+    },
+    {
+      "label": "ambush",
+      "index": 9,
+      "line": 43377,
+      "endLine": 43384,
+      "sha256": "b31b7ec8c8b3b4da0693eec3fd5f6f3b0a7b9da3b00eafb82b24bca091a1f751",
+      "text": "if ((concealmentActive(caster, this.time) || caster.sheet.get('invisible') > 0)\n      && target.aiTargetId !== caster.id && target.team !== caster.team && this.time >= target.alertUntil) {\n      const amb = caster.sheet.get('ambushBonus', skillContextTags(def), extra);\n      if (amb > 0) {\n        dmgMult *= 1 + amb;\n        this.text(vec(target.pos.x, target.pos.y - 18), 'AMBUSH!', '#b8d0ff', 13, 'combat');\n      }\n    }"
+    },
+    {
+      "label": "rear-init",
+      "index": 10,
+      "line": 43387,
+      "endLine": 43387,
+      "sha256": "2e3659fd902fb8e010b788a9abe9c0a9b25bb65f880ab4aa693efb80445d91a2",
+      "text": "let rearHit = false;"
+    },
+    {
+      "label": "rear",
+      "index": 11,
+      "line": 43389,
+      "endLine": 43395,
+      "sha256": "19e568547a06400a218f4e09f0736b8235c30447814a02f4a50795437fcbbef6",
+      "text": "if (def.backstabMult && def.backstabMult > 1) {\n      const behind = Math.abs(angleDiff(target.facing, angleTo(target.pos, caster.pos))) > 2.0;\n      if (behind) {\n        dmgMult *= def.backstabMult;\n        rearHit = true;\n      }\n    }"
+    },
+    {
+      "label": "proximity",
+      "index": 12,
+      "line": 43398,
+      "endLine": 43404,
+      "sha256": "d187cdb781974b20983b7afcf25f599407aa6ee2a8b817ffd5a19d068b7e457f",
+      "text": "{\n      const prox = caster.sheet.get('proximityDamage', skillContextTags(def), extra);\n      if (prox > 0) {\n        const near = 1 - Math.min(1, dist(caster.pos, target.pos) / DEFENSE_CFG.proximity.radius);\n        if (near > 0) dmgMult *= 1 + prox * near;\n      }\n    }"
+    },
+    {
+      "label": "breakable",
+      "index": 13,
+      "line": 43408,
+      "endLine": 43413,
+      "sha256": "56b926f49c2c13dcddc71e879d41806aca8d00879bb44725a9acad4abba45875",
+      "text": "if (target.construct?.breakable && target.owner === caster) {\n      const b = target.construct.breakable;\n      const aff = b.affinityTags?.some(t => def.tags.includes(t))\n        ? (b.affinityMult ?? 2) : 1;\n      dmgMult *= b.ownerMult * aff;\n    }"
+    },
+    {
+      "label": "victim-scope",
+      "index": 14,
+      "line": 43417,
+      "endLine": 43418,
+      "sha256": "a4486d5c3849e3804b00d9a6b4e05beb08e34234fcd87479ecf1321582a0c32d",
+      "text": "const vs = victimScopeArmed(caster.sheet, extra)\n      ? victimTags(target, caster, { time: this.time }) : undefined;"
+    },
+    {
+      "label": "roll",
+      "index": 15,
+      "line": 43419,
+      "endLine": 43419,
+      "sha256": "125e8ba6a036163994847fdce5d3119d4c5897611f1fbec7529fece58344bd80",
+      "text": "const packet: DamagePacket = rollSkillDamage(caster, inst, flatBonus, vs);"
+    },
+    {
+      "label": "scale",
+      "index": 16,
+      "line": 43420,
+      "endLine": 43424,
+      "sha256": "0c66959273ef4e05bfe540c7beda24733049ab1566848ad78f64328814d4397f",
+      "text": "if (dmgMult !== 1) {\n      for (const t of Object.keys(packet.amounts) as (keyof typeof packet.amounts)[]) {\n        packet.amounts[t]! *= dmgMult;\n      }\n    }"
+    },
+    {
+      "label": "tone",
+      "index": 17,
+      "line": 43429,
+      "endLine": 43429,
+      "sha256": "32b2e0efb56d494ef66d2a01d7718f6c1c69bddf624d1447e3ec8419d4cd6d78",
+      "text": "const struckTone = target.tune ? toneOfAmounts(packet.amounts) : null;"
+    },
+    {
+      "label": "carry-init",
+      "index": 18,
+      "line": 43435,
+      "endLine": 43435,
+      "sha256": "92e18bd03cbba25a4bfb0d25538f97f3bc2e803742e4733b2831783888c30cb3",
+      "text": "let afflictionCarry = 0;"
+    },
+    {
+      "label": "forgo",
+      "index": 19,
+      "line": 43436,
+      "endLine": 43449,
+      "sha256": "881d1f15b94e08d4849b3dc7aadf8b9329819e7fb9050d7220fec2c677ad749f",
+      "text": "{\n      const f = Math.min(1, Math.max(0,\n        caster.sheet.get('hitToAffliction', skillContextTags(inst, grantedTags(inst)), extra)));\n      if (f > 0) {\n        let forgone = 0;\n        for (const t of Object.keys(packet.amounts) as (keyof typeof packet.amounts)[]) {\n          const cut = packet.amounts[t]! * f;\n          packet.amounts[t]! -= cut;\n          forgone += cut;\n        }\n        afflictionCarry = forgone\n          * caster.sheet.get('afflictionYield', skillContextTags(inst, grantedTags(inst)), extra);\n      }\n    }"
+    },
+    {
+      "label": "raw",
+      "index": 20,
+      "line": 43452,
+      "endLine": 43452,
+      "sha256": "f8cd0f3783c8da1949e3fdf537743beafe93060c4f2e432e0a1e851f5acc09fd",
+      "text": "const raw = Object.values(packet.amounts).reduce((s, v) => s + (v ?? 0), 0);"
+    },
+    {
+      "label": "guard",
+      "index": 21,
+      "line": 43453,
+      "endLine": 43453,
+      "sha256": "e42827ecf39c10c6dd22d6dc6d32dfa78d079e7e3a362a1644f55a130d9fc188",
+      "text": "if (raw > 0 && this.tryGuardBlock(target, caster, caster.pos, raw)) return;"
+    },
+    {
+      "label": "shell",
+      "index": 22,
+      "line": 43456,
+      "endLine": 43456,
+      "sha256": "495e0887b0263829ef97073554da6b63fbfc4d12ea8811f4b6faaef1103cc0b9",
+      "text": "if (raw > 0 && this.tryShellBlock(target, caster.pos, packet, caster)) return;"
+    }
+  ],
+  "nextStatementSha256": "e822fcd4638762910baa57ee3237a91e5a2d1291704980aba1831eae4ca09745",
+  "scope": "First 23 statements, through shell interception before hasDamage. Complete hit/death/delivery and underlying guard, shell, spatial, attack-target, victim-condition and presentation operations remain separate.",
+  "observations": "Invoke original complete resolveHit; record queries, RNG, packet/guard hooks, delayed queue identity, source removal, cues, final state and committed errors. No source instrumentation or implementation replacement in normal captures.",
+  "hostBoundary": [
+    "World clock and combat/seat accounting",
+    "Target-specific attack instance",
+    "Spatial observations and position copying",
+    "Concealment and victim-condition queries",
+    "Existing shared skill damage roller",
+    "Underlying guard/shell interception",
+    "Cue publication and perception noise",
+    "Host-owned pending fuse queue; execution and cancellation are separate"
+  ],
+  "expectedSemantics": [
+    "Incoming definition is captured before target-specific instance replacement; later modifiers and damage use the replacement.",
+    "Fuse admission occurs before combat, guise, target rewrite and damage. Queue objects borrow skill/flat/effect records and copy origin. Explicit tier zero survives.",
+    "Shatter visits live statuses in reverse order and commits removal before source cleanup; failures retain prior writes.",
+    "Tone is captured after scaling and before affliction forgo; guard raw uses the post-forgo packet.",
+    "Guard runs before shell and either may end the whole hit. Zero raw skips both. Shell overflow mutates the same packet.",
+    "Nested calls have separate locals. No rollback or shared scratch substitution is implied."
+  ]
+}

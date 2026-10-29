@@ -1,5 +1,12 @@
 # Verification and reproduction
 
+`reference:hit-preparation` checks 122 original courses from fuse admission
+through shell interception. `test:hit-preparation-observer` verifies 37 deliberate
+source faults, including definition capture, borrowed payloads, partial writes,
+strict thresholds and interception order. Two original captures and the installed
+predecessor agree. See [hit preparation](hit-preparation-boundary.md) for the
+corrected tier-zero observer gap and the remaining runtime extraction.
+
 `reference:hit-effects` compares 107 original ordered hit-effect courses.
 `test:hit-effects-observer` checks 26 deliberate original-source faults across
 all sixteen dispatch branches, live effect lists and hook ordering. Accepted

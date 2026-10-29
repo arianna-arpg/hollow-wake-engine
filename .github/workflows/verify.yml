@@ -148,6 +148,8 @@ jobs:
       - run: node scripts/test-hit-status-observer.mjs
       - run: npm run reference:hit-effects
       - run: npm run test:hit-effects-observer
+      - run: npm run reference:hit-preparation
+      - run: npm run test:hit-preparation-observer
       - run: npm run adapter:status-effects-source
       - run: npm run adapter:hit-status-source
       - run: npm run adapter:hit-effects-source
@@ -348,6 +350,12 @@ jobs:
             .artifacts/reference-hit-effects-*/*.txt
             .artifacts/hit-effects-observer-faults-*/verification.json
             .artifacts/hit-effects-observer-faults-*/*.txt
+            .artifacts/hit-preparation-reference-verification.json
+            .artifacts/hit-preparation-observer-verification.json
+            .artifacts/reference-hit-preparation-*/*.json
+            .artifacts/reference-hit-preparation-*/*.txt
+            .artifacts/hit-preparation-observer-faults-*/verification.json
+            .artifacts/hit-preparation-observer-faults-*/*.txt
             .artifacts/reference-hit-status-*/*.json
             .artifacts/reference-hit-status-*/*.txt
             .artifacts/hit-status-observer-*/*.json

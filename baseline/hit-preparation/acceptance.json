@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "courses": 122,
+  "preparationStatements": 23,
+  "helper": "reference/export-hit-preparation.ts",
+  "helperSha256": "51bdd28b1d42231b4a6d98731620e7a58570ff4dc3a01a73e19bdff555e43a50",
+  "sourceBoundarySha256": "f2a1b1831ce68616a44de7ab0fcec7d0828367d970ce1da853f2291cd1b21d31",
+  "observations": "baseline/hit-preparation/observations.json.gz",
+  "observationsSha256": "178092d3c6337597828fe15b6829d6d93d29669dfc5dda13acbb270da46e7475",
+  "compressedSha256": "ce164d2ebbcd28dcb019eb471f62e6ed3ae4c2ca3a467e81057a05f6d94b0c81",
+  "capturedBeforeImplementation": true,
+  "originalRuns": 2,
+  "predecessorMatches": true,
+  "observerFaults": 37,
+  "queryTraceNormalization": "Record complete (id,tags,extra) query arguments; omitted and explicitly undefined optional values share one form.",
+  "observerGaps": [
+    "The initial tier-zero case used a caster on tier zero; the nullish-to-or fault survived. The corrected case uses caster tier two and explicit hit tier zero.",
+    "The upstream StatSheet capped affliction conversion, masking the local clamp. Two explicit uncapped host-query courses distinguish the local clamp before accepting expectations."
+  ],
+  "scope": "First 23 statements, through shell interception before hasDamage. Complete hit/death/delivery and underlying guard, shell, spatial, attack-target, victim-condition and presentation operations remain separate."
+}
