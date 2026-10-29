@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "tickSha256": "032a8cdefe6ff9e9c54fd2cc6287cc6577bf0c2726db97ddb9c508d57abe5ed1",
+  "methods": {
+    "applyStatus": {
+      "args": "id, dps, durationScale, sourceName, opts",
+      "sha256": "6cf0e128f2df6305615fa74cbc6a6d649029c99d20563b844d6f7315f2198b14"
+    },
+    "tickChronoStatuses": {
+      "args": "rawDt",
+      "sha256": "0c2cb9a6b9539d07a5315d1badfcbe214419686bab55d6241ccd72cc9198822a"
+    },
+    "endStatus": {
+      "args": "id",
+      "sha256": "79eb067a551143ddf1dd1633cf8979523d1f4dd0a51934d403e0ec972e332f21"
+    },
+    "cleanseDebuffs": {
+      "args": "count",
+      "sha256": "e116063539ca2c2b0c9810dd2355a80ab7bfc4f8f8ed712040e7cdbaa225d7b1"
+    },
+    "isStunned": {
+      "args": "",
+      "sha256": "46155ac63b29d648666d78bc2df2125eb15752db00477eeb5954cffb009c9d4d"
+    },
+    "isPanicked": {
+      "args": "",
+      "sha256": "e8263f93ff8c7df2be33ba0937f896febe19421c6960a247ff5a02153410e2a8"
+    },
+    "neverRetreats": {
+      "args": "",
+      "sha256": "efdf4e193e23eb2f92e0d2a7d570431283e8c266cc2969daea90dfc05075b549"
+    },
+    "fickleSpan": {
+      "args": "",
+      "sha256": "443d2d2a8fc357db71617769d8f3b75aefa6d185fdb179f6e89fdc565808f184"
+    },
+    "isWet": {
+      "args": "",
+      "sha256": "58d9d2c36620a471404c50b47cb442eb270cf7d8ec37f0ab51c25aa0178ed593"
+    },
+    "tagsForbidden": {
+      "args": "inst",
+      "sha256": "e4a879eb4f7df7bbc325b0651a5e5d0869347c1801e678a035cb0079aa689e92"
+    }
+  },
+  "statusSha256": "fd296c4779426d85ffed7465af580862d5dbe3532997c25957d44ef709c99b77",
+  "predecessor": {
+    "import": "import { replaceStrongerDot, advanceDotFrame } from './engineAdapter';",
+    "tickSha256": "7e935a3b4d7629ff9680d2c8f20c4423b92ad11b9bba9d9e5ea07c64f1eb5411",
+    "methods": {
+      "applyStatus": "2850b3c45f26312eb731c20c0902a8c704482fab8e31f085b155a9fd19346760",
+      "tagsForbidden": "d37d64012d41eeb909164326b406cdd962733a6c558c1023f5bad82c4d2b61b4"
+    },
+    "decision": "Supersede the milestone-two burn-only bridge with the complete original status policy, remove its unused import, and delegate Actor.tagsForbidden through status policy (the independently exported admission compatibility API remains)."
+  }
+}

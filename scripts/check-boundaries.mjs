@@ -71,3 +71,5 @@ console.log(`Boundary check passed: ${files} production modules; no external run
 
 assert.ok([...reachable].every(file => !['attack-sequences.ts', 'attack-sequence-content.ts', 'attack-sequence-types.ts'].includes(path.basename(file))), 'Optional attack sequences became an eager core import');
 assert.ok([...reachable].every(file => !file.endsWith('/damage-pipeline.ts') && !file.endsWith('\\damage-pipeline.ts')), 'Optional shared damage became an eager core import');
+
+assert.ok([...reachable].every(file=>!['status-lifecycle.ts','status-lifecycle-types.ts'].includes(path.basename(file))), 'Optional statuses became an eager core import');

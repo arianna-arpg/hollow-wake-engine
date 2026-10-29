@@ -140,6 +140,8 @@ jobs:
       - run: npm run reference:ready-bank
       - run: npm run reference:sequence-recovery
       - run: npm run reference:attack-sequences
+      - run: npm run reference:statuses
+      - run: node scripts/test-status-overlay.mjs
       - run: npm run reference:damage
       - run: node scripts/test-damage-overlay.mjs
       - run: npm run reference:attack-sequence-content
@@ -200,6 +202,8 @@ jobs:
       - run: npm run adapter:sequence-recovery
       - run: npm run adapter:sequence-recovery-faults
       - run: npm run adapter:attack-sequences
+      - run: npm run adapter:statuses
+      - run: node scripts/test-game-status-faults.mjs --location .artifacts/adapter-location.json
       - run: npm run adapter:damage
       - run: node scripts/test-game-damage-faults.mjs --location .artifacts/adapter-location.json
       - run: npm run adapter:attack-sequences-faults
@@ -315,6 +319,16 @@ jobs:
             .artifacts/reference-attack-sequence-content-*/*.txt
             .artifacts/attack-sequences-reference-verification.json
             .artifacts/game-attack-sequences-verification.json
+            .artifacts/status-lifecycle-reference-verification.json
+            .artifacts/game-status-verification.json
+            .artifacts/game-status-fault-verification.json
+            .artifacts/status-overlay-verification.json
+            .artifacts/reference-status-lifecycle-*/*.json
+            .artifacts/reference-status-lifecycle-*/*.txt
+            .artifacts/game-status-*/*.json
+            .artifacts/game-status-*/*.txt
+            .artifacts/game-status-faults-*/*.json
+            .artifacts/game-status-faults-*/*.txt
             .artifacts/damage-pipeline-reference-verification.json
             .artifacts/game-damage-verification.json
             .artifacts/game-damage-fault-verification.json

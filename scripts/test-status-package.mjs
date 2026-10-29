@@ -1,0 +1,24 @@
+import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {build} from 'esbuild';
+import {root,sha256,writeJSON} from './reference-utils.mjs';
+const directory=fs.mkdtempSync(path.join(root,'.artifacts/status-package-')),consumer=fs.mkdtempSync(path.join(os.tmpdir(),'hollow-status-'));
+const npm=process.env.npm_execpath??path.join(path.dirname(process.execPath),'node_modules/npm/bin/npm-cli.js');
+const [packed]=JSON.parse(execFileSync(process.execPath,[npm,'pack','--json','--pack-destination',directory,'--cache',path.join(root,'.artifacts/npm-cache')],{cwd:root,encoding:'utf8'}));
+writeJSON(path.join(consumer,'package.json'),{private:true,type:'module'});
+execFileSync(process.execPath,[npm,'install',path.join(directory,packed.filename),'--offline','--ignore-scripts','--no-audit','--no-fund','--cache',path.join(consumer,'cache')],{cwd:consumer,stdio:'pipe'});
+const source=fs.readFileSync(path.join(root,'test/status-lifecycle.test.mjs'),'utf8').replace("'../dist/status-lifecycle.js'","'@hollow-wake/engine/statuses'");
+assert(!source.includes('../dist/'));fs.writeFileSync(path.join(consumer,'test.mjs'),"Math.random=()=>{throw Error('Ambient random');};globalThis.fetch=()=>{throw Error('Network');};\n"+source);
+const result=execFileSync(process.execPath,['--test','test.mjs'],{cwd:consumer,encoding:'utf8',env:{...process.env,HWE_STATUS_MODULE:''}});fs.writeFileSync(path.join(directory,'tests.txt'),result);assert.match(result,/pass 20/);
+fs.writeFileSync(path.join(consumer,'types.ts'),`import {createStatusLifecycle,type StatusActor,type StatusSkill,type StatusPorts,type StatusDefinition} from '@hollow-wake/engine/statuses';
+type Skill=StatusSkill<string>;type Mod={value:number};type Definition=StatusDefinition<Mod,string>;
+interface Actor extends StatusActor<Actor,Skill,Mod,string>{}
+declare const actor:Actor,ports:StatusPorts<Actor,Skill,Definition,string>;
+const service=createStatusLifecycle<Actor,Skill,Mod,string,Definition>(ports);
+service.applyStatus(actor,'burn',10,1,'source',{casterId:1});const result=service.tickStatuses(actor,.1);void result;
+`);
+writeJSON(path.join(consumer,'tsconfig.json'),{compilerOptions:{target:'ES2022',module:'NodeNext',moduleResolution:'NodeNext',strict:true,noEmit:true,types:[]},include:['types.ts']});
+const types=execFileSync(process.execPath,[path.join(root,'node_modules/typescript/bin/tsc'),'-p','tsconfig.json'],{cwd:consumer,encoding:'utf8'});fs.writeFileSync(path.join(directory,'types.txt'),types);
+fs.writeFileSync(path.join(consumer,'browser.mjs'),"export {createStatusLifecycle,HOLLOW_WAKE_AILMENT_TUNING} from '@hollow-wake/engine/statuses';\n");
+const browser=await build({absWorkingDir:consumer,tsconfigRaw:{},nodePaths:[path.join(consumer,'node_modules')],entryPoints:[path.join(consumer,'browser.mjs')],bundle:true,platform:'browser',format:'esm',target:'es2022',write:false,metafile:true});
+assert(Object.keys(browser.metafile.inputs).every(file=>!file.includes('.reference')));fs.writeFileSync(path.join(directory,'browser.mjs'),browser.outputFiles[0].contents);
+const report={passed:true,directory,consumer,tests:20,typesPassed:true,browserBytes:browser.outputFiles[0].contents.length,archiveSha256:sha256(fs.readFileSync(path.join(directory,packed.filename))),independentInstallation:true};
+writeJSON(path.join(directory,'verification.json'),report);writeJSON(path.join(root,'.artifacts/status-package-verification.json'),report);console.log(report);

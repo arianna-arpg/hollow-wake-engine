@@ -28,6 +28,11 @@ original courses match the installed adapter; independent arithmetic checks,
 combat probes and the native full-game course cover the new boundary. Performance
 and complete standalone actor/native-package acceptance remain open.
 
+The optional [status lifecycle](docs/status-lifecycle.md) owns actor application,
+stacking, banking, ticking, expiry, cleanse and status queries. Its frozen baseline
+covers 217 scenarios and all 152 authored status definitions. World spatial and
+death effects, complete native APIs and device measurements remain separate work.
+
 The v0.38 development candidate adds [resource restoration](docs/resource-restoration.md):
 shield/poise gain gates, immediate restore events, reserved-mana proc restoration
 and strict content compilers. Its separately committed native baseline is reproduced

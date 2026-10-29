@@ -1,5 +1,20 @@
 # Verification and reproduction
 
+The [status lifecycle](status-lifecycle.md) has a frozen 217-course baseline from
+two original runs and the previous installed adapter, covering all 152 authored
+definitions and a separately identified synthetic taper. Independent tests and
+runtime/installed fault injection verify the new boundary. The
+[checkpoint evidence](../evidence/status-lifecycle/windows.json) records actual
+completed checks; complete World status execution and device performance remain
+open. The browser-check build tool is now an explicit pinned development
+dependency, following a clean Steam Runtime failure that exposed ancestor-package
+resolution in the earlier local setup.
+
+One broader affliction-cue probe remains red in the pinned original, prior
+adapter and status candidate at the same `terrain statuses stay quiet` assertion,
+after 53 matching checks. The checkpoint records that baseline failure rather
+than treating the complete rendering probe as passed.
+
 The [shared damage service](damage-pipeline.md) matches 119 original Actor courses
 including state writes, query order, random draws and callback failures. Its fresh
 adapter reproduction passes game/launcher/simulation types, six combat probes,
