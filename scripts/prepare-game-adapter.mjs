@@ -1,3 +1,4 @@
+import {integrateHitPreparation} from '../adapters/hollow-wake/integrate-hit-preparation.mjs';
 import {integrateHitStatus,renderHitStatus} from '../adapters/hollow-wake/integrate-hit-status.mjs';
 import {integrateHitEffects,renderHitEffects} from '../adapters/hollow-wake/integrate-hit-effects.mjs';
 import {integrateStatusEffects} from '../adapters/hollow-wake/integrate-status-effects.mjs';
@@ -94,6 +95,7 @@ integrateDamagePipeline(game, false);
 integrateStatusLifecycle(game, false);
 integrateStatusEffects(game, false);
 integrateHitStatus(game, false);
+integrateHitPreparation(game, false);
 renderHitEffects(renderHitStatus(fs.readFileSync(path.join(game,'src/engine/world.ts'),'utf8')));
 // A distinct tool environment: never install into the frozen reference or another checkout's junction.
 const tooling = fs.mkdtempSync(path.join(artifacts, 'adapter-tools-'));
@@ -229,6 +231,9 @@ changes.hitStatusDecision = hitStatuses.decision;
 const hitEffects = integrateHitEffects(game);
 changes.files.push(...hitEffects.files);
 changes.hitEffectsDecision = hitEffects.decision;
+const hitPreparation = integrateHitPreparation(game);
+changes.files.push(...hitPreparation.files);
+changes.hitPreparationDecision = hitPreparation.decision;
 fs.symlinkSync(path.join(tooling, 'node_modules'), path.join(game, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
 fs.copyFileSync(path.join(root, 'reference/export-lifecycle.ts'), path.join(game, 'balance/export-engine-lifecycle.ts'));
 fs.writeFileSync(path.join(artifacts, 'adapter-location.json'), JSON.stringify({ game, tooling, package: packed.filename, archive, integrity: packed.integrity, ...changes }, null, 2));

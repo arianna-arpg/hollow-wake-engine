@@ -65,9 +65,11 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | World status effects, remaining proc effect branches, other timed delivery, summons, specialized defenses and death lifecycle | Future combat modules | Partial; Actor status lifecycle, damage, restoration and cooldown delegation have separate boundaries. Remaining native-only branches and specialized lifecycle ownership still require extraction and acceptance |
 | Rendering, sound, input, storage, UI, world streaming, networking | Host and optional adapters | Outside the core runtime |
 
-The next [hit-preparation boundary](hit-preparation-boundary.md) freezes original
-fuse admission, contextual packet modifiers and ordered interception before
-extracting those phases. It adds no runtime capability at this checkpoint.
+The optional [hit-preparation service](hit-preparation-boundary.md) owns fuse
+admission, contextual packet modifiers, tone/affliction capture and ordered
+interception admission through explicit synchronous host ports. Its continuation
+retains borrowed identities without a per-hit result wrapper. Fuse execution,
+native guard/shell implementations and remaining hit aftermath remain host-owned.
 
 The primary Hollow Wake checkout retains authority. The isolated game adapter
 delegates the extracted transitions to the actual installed package while keeping

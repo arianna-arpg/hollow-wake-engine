@@ -48,11 +48,11 @@ live effect ordering, recipient gates, status transfer, possession, births and
 partial failures. It reuses the per-hit frame and accepts host-specific positions
 and directions; underlying host verbs and complete hit orchestration remain open.
 
-The next [hit-preparation boundary](docs/hit-preparation-boundary.md) captures
-122 original-game courses before extracting fuse admission, contextual damage
-modifiers and ordered guard/shell interception. This baseline preserves the
-distinction between the incoming skill definition and a target-specific instance;
-it does not add a new runtime capability yet.
+The optional [hit-preparation service](docs/hit-preparation-boundary.md) delegates
+fuse admission, contextual damage modifiers and ordered guard/shell interception.
+Its 122 original-game courses preserve the distinction between the incoming skill
+definition and a target-specific instance. A synchronous continuation carries
+borrowed records into the remaining hit logic without a per-hit result wrapper.
 
 The v0.38 development candidate adds [resource restoration](docs/resource-restoration.md):
 shield/poise gain gates, immediate restore events, reserved-mana proc restoration

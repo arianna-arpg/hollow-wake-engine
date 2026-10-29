@@ -76,3 +76,5 @@ assert.ok([...reachable].every(file=>!['status-lifecycle.ts','status-lifecycle-t
 assert.ok([...reachable].every(file=>!['status-effects.ts','status-effects-types.ts'].includes(path.basename(file))), 'Optional status effects became an eager core import');
 assert.ok([...reachable].every(file=>!['hit-status.ts','hit-status-types.ts'].includes(path.basename(file))), 'Optional hit/status policy became an eager core import');
 assert.ok([...reachable].every(file=>!['hit-effects.ts','hit-effects-types.ts'].includes(path.basename(file))), 'Optional hit-effect dispatch became an eager core import');
+
+assert.ok([...reachable].every(file=>!['hit-preparation.ts','hit-preparation-types.ts'].includes(path.basename(file))), 'Optional hit preparation became an eager core import');
