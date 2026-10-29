@@ -135,6 +135,7 @@ jobs:
       - run: npm run reference:buffs
       - run: npm run reference:life-recovery
       - run: npm run reference:restoration
+      - run: npm run reference:cooldowns
       - run: npm run reference:ammunition
       - run: node --import tsx balance/probe_passiverefund.ts
         working-directory: .reference
@@ -181,6 +182,8 @@ jobs:
       - run: npm run adapter:recovery-faults
       - run: npm run adapter:restoration
       - run: npm run adapter:restoration-faults
+      - run: npm run adapter:cooldowns
+      - run: npm run adapter:cooldowns-faults
       - run: npm run adapter:ammunition
       - run: npm run check
         working-directory: .artifacts/game-adapter
@@ -271,6 +274,16 @@ jobs:
             .artifacts/restoration-reference-verification.json
             .artifacts/game-restoration-verification.json
             .artifacts/restoration-installed-faults.json
+            .artifacts/cooldown-overlay-verification.json
+            .artifacts/cooldown-reference-verification.json
+            .artifacts/game-cooldown-verification.json
+            .artifacts/cooldown-installed-faults.json
+            .artifacts/reference-cooldown-*/*.json
+            .artifacts/reference-cooldown-*/*.txt
+            .artifacts/game-cooldown-*/*.json
+            .artifacts/game-cooldown-*/*.txt
+            .artifacts/cooldown-installed-faults-*/*.json
+            .artifacts/cooldown-installed-faults-*/*.txt
             .artifacts/game-restoration-*/*.txt
             .artifacts/restoration-installed-faults-*/*.txt
             .artifacts/game-life-recovery-*/*.txt

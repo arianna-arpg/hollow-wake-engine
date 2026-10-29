@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "courses": 75,
+  "expectedFailures": 10,
+  "authoredInputs": 12,
+  "runs": [
+    {
+      "name": "rules",
+      "independentRuns": 2,
+      "typesPassed": true,
+      "byteEqual": true,
+      "sourceUnchanged": true,
+      "helperSha256": "d16b13a1a904ef0fecaf5818e45f65fcb8df9a26abd90753e414cc8f008d4d5f",
+      "fixtureSha256": "439ad4821a759695734b47c08ed8cdd3e74d30ba6f82cd7ced6ad6b5ac890e55"
+    },
+    {
+      "name": "live",
+      "independentRuns": 2,
+      "typesPassed": true,
+      "byteEqual": true,
+      "sourceUnchanged": true,
+      "helperSha256": "590bc497bd6d0ce3f8469e52b1fc249fc60694d0ee3c0873d06c0b07a26577ea",
+      "fixtureSha256": "957df4d50f7cff458fb8f6910b576360221fc521b436c08507f46da5213ad823"
+    },
+    {
+      "name": "world",
+      "independentRuns": 2,
+      "typesPassed": true,
+      "byteEqual": true,
+      "sourceUnchanged": true,
+      "helperSha256": "439866bae626bc05d150afb65e7f57775b45c728a5b6b7267a154351a251ee6c",
+      "fixtureSha256": "05f391d00dca2d8bec1e6b6b2c7a0ee0a38fbef17840e944399e853996e65400"
+    }
+  ],
+  "originalNegativeControls": [
+    {
+      "name": "live-map-iteration",
+      "from": "[...caster.cooldowns]",
+      "to": "caster.cooldowns",
+      "caught": "nested-write-keeps-outer-value-snapshot",
+      "sourceSha256": "3d1529d92192b25bb62ac3c06ceecc42167b2b0035142e86a91de7d864da0a45",
+      "typeCheckPassed": true,
+      "rejected": true,
+      "exitCode": 1,
+      "logSha256": "b049dcec3c3406c8c314d3d64ac175a035047b0699365ab745ca7a9b2feb465d"
+    },
+    {
+      "name": "omit-empty-tag-filter",
+      "from": "if (fx.tags) {",
+      "to": "if (fx.tags?.length) {",
+      "caught": "empty-tags-still-requires-bar",
+      "sourceSha256": "eeb8f10dbd8267a91aac9afb6cec01656410134ef2357135afafa233d55f0550",
+      "typeCheckPassed": true,
+      "rejected": true,
+      "exitCode": 1,
+      "logSha256": "cfeabd3c77736f0220c1aea5a5f275687fb5322f92ff2343085f2c889bdf42f1"
+    },
+    {
+      "name": "reassociate-cooldown-arithmetic",
+      "from": "t - (fx.seconds ?? 0) - t * (fx.fraction ?? 0)",
+      "to": "t * (1 - (fx.fraction ?? 0)) - (fx.seconds ?? 0)",
+      "caught": "subtraction-order-rounding",
+      "sourceSha256": "f9acc5e9d34cc1e9200f590122c37f4841917100c7523ff5238c3ce88f2601ed",
+      "typeCheckPassed": true,
+      "rejected": true,
+      "exitCode": 1,
+      "logSha256": "520ad8f2d01a55b8c49c570808b439ede2478c673222a3f1d9288b76a3a67bc9"
+    },
+    {
+      "name": "last-duplicate-skill-lookup",
+      "from": "caster.skills.find(sk => sk?.def.id === id)",
+      "to": "[...caster.skills].reverse().find(sk => sk?.def.id === id)",
+      "caught": "first-duplicate-bar-defines-tags",
+      "sourceSha256": "90cd299c30383065f4ccc01ac6772dcd8acd6d32f551d668d9bc758e6211990e",
+      "typeCheckPassed": true,
+      "rejected": true,
+      "exitCode": 1,
+      "logSha256": "d03a185195470ad0d94e0ffa538cc3339a1bc6440188bab2df4191e69c4bbc67"
+    }
+  ],
+  "typedCopiedControlEqual": true,
+  "originalAndCopyPreserved": true,
+  "liveCaptureAttempts": 2,
+  "firstAttempt": "Type-check-only harness failure: generator return and array predicate declarations. Corrected before original execution; failed source and log retained.",
+  "runtimeChanged": false,
+  "scope": "Independent original observations and semantic controls, accepted before SDK code. No SDK, adapter, renderer, performance or device result is implied."
+}

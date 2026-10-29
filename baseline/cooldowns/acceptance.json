@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "capability": "proc-cooldown",
+  "stage": "Original observations accepted before runtime implementation; no semantic change authorized.",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLock": "baseline/source-lock.json",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "courses": 75,
+  "expectedFailures": 10,
+  "authoredInputs": 12,
+  "helpers": [
+    {
+      "file": "reference/export-cooldown.ts",
+      "sha256": "d16b13a1a904ef0fecaf5818e45f65fcb8df9a26abd90753e414cc8f008d4d5f"
+    },
+    {
+      "file": "reference/export-cooldown-live.ts",
+      "sha256": "590bc497bd6d0ce3f8469e52b1fc249fc60694d0ee3c0873d06c0b07a26577ea"
+    },
+    {
+      "file": "reference/export-cooldown-world.ts",
+      "sha256": "439866bae626bc05d150afb65e7f57775b45c728a5b6b7267a154351a251ee6c"
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "rules",
+      "file": "baseline/cooldowns/rules.json.gz",
+      "helper": "reference/export-cooldown.ts",
+      "helperSha256": "d16b13a1a904ef0fecaf5818e45f65fcb8df9a26abd90753e414cc8f008d4d5f",
+      "courses": 31,
+      "expectedFailures": 3,
+      "bytes": 124249,
+      "compressedSha256": "2eacb4d52b3fae01df50222116067e04bbf244d19bc825beac69f0980562a897",
+      "fixtureSha256": "439ad4821a759695734b47c08ed8cdd3e74d30ba6f82cd7ced6ad6b5ac890e55"
+    },
+    {
+      "name": "live",
+      "file": "baseline/cooldowns/live.json.gz",
+      "helper": "reference/export-cooldown-live.ts",
+      "helperSha256": "590bc497bd6d0ce3f8469e52b1fc249fc60694d0ee3c0873d06c0b07a26577ea",
+      "courses": 34,
+      "expectedFailures": 7,
+      "bytes": 212875,
+      "compressedSha256": "8f89c8e5d53d1bdf2e6a903591498464ba879f1e34a48da4f55ec3a023d75770",
+      "fixtureSha256": "957df4d50f7cff458fb8f6910b576360221fc521b436c08507f46da5213ad823"
+    },
+    {
+      "name": "world",
+      "file": "baseline/cooldowns/world.json.gz",
+      "helper": "reference/export-cooldown-world.ts",
+      "helperSha256": "439866bae626bc05d150afb65e7f57775b45c728a5b6b7267a154351a251ee6c",
+      "courses": 10,
+      "expectedFailures": 0,
+      "bytes": 190464,
+      "compressedSha256": "2097f595d48276ce6b72a43f108a06288e18f296906898b4518ac7e021b39b36",
+      "fixtureSha256": "05f391d00dca2d8bec1e6b6b2c7a0ee0a38fbef17840e944399e853996e65400"
+    }
+  ],
+  "sourceBoundary": {
+    "file": "baseline/cooldowns/source-boundary.json",
+    "sha256": "998988d863274a77c1fdc72e2b6fbd06c07e93d5ac52b297bcddc70baeb4bdc3"
+  },
+  "semantics": "Snapshot original clock entries; read live selectors, first matching bar instance, trigger and destination map/method. Preserve subtraction order, reset precedence, computed-change cue eligibility, partial commits and thrown failures.",
+  "excluded": [
+    "Elapsed/tagged recovery extraction",
+    "Internal proc cooldown scheduling",
+    "Skill cooldown stamping and Time Dilation extraction",
+    "Renderer/device/performance acceptance",
+    "Full SDK/native API completion"
+  ]
+}
