@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "capability": "cooldown-lifecycle-baseline",
+  "stage": "Initial original observations accepted before lifecycle implementation; no behavior change authorized.",
+  "source": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sourceLock": "baseline/source-lock.json",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "helper": "reference/export-cooldown-lifecycle.ts",
+  "helperSha256": "e1efe46792987a47ee5e0edea2a376d9f890be4db1e97bceb145bde5e9a3c18a",
+  "courses": 44,
+  "families": {
+    "elapsed": 13,
+    "price": 10,
+    "stamp-refund": 8,
+    "orb-refund": 7,
+    "skill-effect": 6
+  },
+  "expectedFailures": 4,
+  "fixture": {
+    "file": "baseline/cooldown-lifecycle/observations.json.gz",
+    "sha256": "ca0081d6955565719237ae96264db9c54ae5da1e336af16594621700907cf919",
+    "uncompressedSha256": "0cc2db1e8d6253858a49fd26c9035a1afebd3c4e303449545e8afe4e2932a371",
+    "bytes": 59316
+  },
+  "sourceBoundary": {
+    "file": "baseline/cooldown-lifecycle/source-boundary.json",
+    "sha256": "970c2a2dcae752413a1a1bde393e43ad0483cbedfbfcbda6f6a6d07b8d5d4967"
+  },
+  "originalCaptures": 2,
+  "predecessorRevision": "4935209b534015cfba45954eab30eb877ccbabb9",
+  "predecessorRuntimeSha256": "d4f2b09be4b1f955cd43aa905e052d0a1d99d9cd87e0c44dee25ddf8eb4c18b4",
+  "predecessorSourceMapSha256": "bcfdeb5903e760bbeb19c8ad0541d0d7263c2dda329fce67af5420f5419e00ef",
+  "predecessorMatches": true,
+  "existingInternalProcTiming": "ProcRuntime already owns procReadyAt admission and periodic scheduling; reuse its accepted boundary.",
+  "excluded": [
+    "Complete lifecycle SDK and game adapter implementation",
+    "Remaining specialized clock writes (possession, swarm, development resets)",
+    "Unobserved callback/re-entry combinations",
+    "Renderer acceptance of a future lifecycle implementation",
+    "Performance, physical-device and full native-surface acceptance"
+  ]
+}

@@ -129,6 +129,10 @@ not automatic exposure of this module.
 
 ## Renderer integration
 
+The next lifecycle boundary now has [44 original reference courses](cooldown-lifecycle.md)
+for elapsed recovery, pricing, stamping, refunds and the distinct skill effect.
+Those observations do not yet implement the remaining SDK capability.
+
 Twenty-one actual game renderer stages match the native cooldown implementation.
 Two independent native runs established the expected observations before the SDK
 renderer was built. The comparison covers actual hotbar shade geometry against

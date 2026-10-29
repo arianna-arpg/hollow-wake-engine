@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "original": {
+    "files": {
+      "src/engine/actor.ts": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30",
+      "src/engine/skills.ts": "6beb81a4c53666d076732b64078f2337b6e2125972f985f0bdf17e2531a2285e",
+      "src/engine/world.ts": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+    },
+    "blocks": {
+      "elapsed": {
+        "file": "src/engine/actor.ts",
+        "text": "const cdr = this.sheet.get('cooldownRecovery');\nconst taggedCdr = this.sheet.hasTaggedMods('cooldownRecovery');\nfor (const [id, t] of this.cooldowns) {\n      let rate = cdr;\n      if (taggedCdr) {\n        const inst = this.skills.find(s => s?.def.id === id);\n        if (inst) {\n          rate = this.sheet.get('cooldownRecovery',\n            skillContextTags(inst), instanceMods(inst));\n        }\n      }\n      const left = t - dt * rate;\n      if (left <= 0) this.cooldowns.delete(id); else this.cooldowns.set(id, left);\n    }",
+        "sha256": "2a068a6e9e6ae50296c14ff64174f5e6adabbeafc43c4c96daa4ca69d0676c41"
+      },
+      "price": {
+        "file": "src/engine/skills.ts",
+        "text": "export function skillCooldownSeconds(\n  caster: { sheet: { get(stat: string, tags?: Set<SkillTag>, extra?: Modifier[]): number } },\n  inst: SkillInstance, base = inst.def.cooldown,\n): number {\n  const tags = skillContextTags(inst);\n  const extra = instanceMods(inst);\n  const cdBase = (guardArtsOf(inst)?.absorb?.cooldown ?? base) + caster.sheet.get('addedCooldown', tags, extra);\n  if (cdBase <= 0) return 0;\n  return cdBase / Math.max(0.1,\n    caster.sheet.get('cooldownRecovery', tags, extra) / caster.sheet.get('cooldownRecovery'));\n}",
+        "sha256": "cfe98a4a20545469c973c83ea52c194c77afd5e49f131f6618a0c5f818cc48a3"
+      },
+      "refundCooldown": {
+        "file": "src/engine/world.ts",
+        "text": "private refundCooldown(caster: Actor, skillId: string): void {\n    caster.cooldowns.delete(skillId);\n    caster.cooldownTotals.delete(skillId);\n  }",
+        "sha256": "49249301882d55dc9a9400970e3cc611ee3663485fdef1a2b81289c8facebf09"
+      },
+      "stampSkillCooldown": {
+        "file": "src/engine/world.ts",
+        "text": "private stampSkillCooldown(caster: Actor, inst: SkillInstance, base: number): void {\n    // The formula lives in skills.ts so the TOOLTIP waits on the same clock\n    // it prints (skillCooldownSeconds — one resolver, two readers).\n    let cdSet = skillCooldownSeconds(caster, inst, base);\n    // THE LAB LEVER (ULT_QA, engine/ultimates.ts): iteration builds cap an\n    // ULTIMATE's stamped clock so the arts re-fire back-to-back — a ceiling\n    // on the fold's answer, never a rewrite of the authored price (THE\n    // PRICE FLOOR stays census-pinned; shipped builds cap at Infinity).\n    if (inst.def.ultimate) cdSet = Math.min(cdSet, ultCooldownCap());\n    if (cdSet <= 0) return;\n    caster.cooldowns.set(inst.def.id, cdSet);\n    caster.cooldownTotals.set(inst.def.id, cdSet); // the HUD sweep's denominator\n  }",
+        "sha256": "bd61ff555cf2170cf16fda4eb0e7d5d0649a59e3adc3decd4f61f5f8940d8748"
+      },
+      "refundOnOrb": {
+        "file": "src/engine/world.ts",
+        "text": "private refundOnOrb(a: Actor, kind: string): void {\n    if (a.cooldowns.size === 0) return;\n    for (const inst of a.skills) {\n      if (!inst) continue;\n      const left = a.cooldowns.get(inst.def.id);\n      if (left === undefined) continue;\n      const s = a.sheet.get(orbRefundStat(kind),\n        skillContextTags(inst, grantedTags(inst)), instanceMods(inst));\n      if (s <= 0) continue;\n      const next = left - s;\n      if (next <= 0) a.cooldowns.delete(inst.def.id);\n      else a.cooldowns.set(inst.def.id, next);\n    }\n  }",
+        "sha256": "bdceb54ad02d27f9b7b546d4caf69dd6efea12b7bfc9f85b05d25c52b95668d1"
+      },
+      "skillEffect": {
+        "file": "src/engine/world.ts",
+        "text": "if (fx.type === 'reduceCooldowns') {\n        let wound = 0;\n        for (const [id, t] of [...caster.cooldowns]) {\n          if (id === def.id) continue;\n          const left = t - (fx.seconds ?? 0) - t * (fx.fraction ?? 0);\n          if (left <= 0) caster.cooldowns.delete(id);\n          else caster.cooldowns.set(id, left);\n          wound++;\n        }\n        if (wound > 0) this.text(caster.pos, 'time slips', '#8ae0e8', 12, 'combat');\n      }",
+        "sha256": "a229152482c81f99ada88f6e3a28d089980652d0e846e56782ae058f87b9a2bc"
+      }
+    }
+  },
+  "predecessor": {
+    "files": {
+      "src/engine/actor.ts": "d579b24363c6c11fcaae40bcc531b33ab5646fec75e92ec59af56906f12d43ba",
+      "src/engine/skills.ts": "c57a3501e36e6855d9535d6cbde63bf3a09efcecba6e33810147935c095a930c",
+      "src/engine/world.ts": "2c47eb2a3e6083063e521eb2178d439f7bad00c495c3eae10890d0c2bc49ccfc"
+    },
+    "blocks": {
+      "elapsed": {
+        "file": "src/engine/actor.ts",
+        "text": "const cdr = this.sheet.get('cooldownRecovery');\nconst taggedCdr = this.sheet.hasTaggedMods('cooldownRecovery');\nfor (const [id, t] of this.cooldowns) {\n      let rate = cdr;\n      if (taggedCdr) {\n        const inst = this.skills.find(s => s?.def.id === id);\n        if (inst) {\n          rate = this.sheet.get('cooldownRecovery',\n            skillContextTags(inst), instanceMods(inst));\n        }\n      }\n      const left = advanceCooldown(t, dt, rate);\n      if (left <= 0) this.cooldowns.delete(id); else this.cooldowns.set(id, left);\n    }",
+        "sha256": "5093b43aeb815b39443848ea0a83c330347244cbe1f7201ba5c9795f5a202acf"
+      },
+      "price": {
+        "file": "src/engine/skills.ts",
+        "text": "export function skillCooldownSeconds(\n  caster: { sheet: { get(stat: string, tags?: Set<SkillTag>, extra?: Modifier[]): number } },\n  inst: SkillInstance, base = inst.def.cooldown,\n): number {\n  const tags = skillContextTags(inst);\n  const extra = instanceMods(inst);\n  const cdBase = (guardArtsOf(inst)?.absorb?.cooldown ?? base) + caster.sheet.get('addedCooldown', tags, extra);\n  if (cdBase <= 0) return 0;\n  return cdBase / Math.max(0.1,\n    caster.sheet.get('cooldownRecovery', tags, extra) / caster.sheet.get('cooldownRecovery'));\n}",
+        "sha256": "cfe98a4a20545469c973c83ea52c194c77afd5e49f131f6618a0c5f818cc48a3"
+      },
+      "refundCooldown": {
+        "file": "src/engine/world.ts",
+        "text": "private refundCooldown(caster: Actor, skillId: string): void {\n    caster.cooldowns.delete(skillId);\n    caster.cooldownTotals.delete(skillId);\n  }",
+        "sha256": "49249301882d55dc9a9400970e3cc611ee3663485fdef1a2b81289c8facebf09"
+      },
+      "stampSkillCooldown": {
+        "file": "src/engine/world.ts",
+        "text": "private stampSkillCooldown(caster: Actor, inst: SkillInstance, base: number): void {\n    // The formula lives in skills.ts so the TOOLTIP waits on the same clock\n    // it prints (skillCooldownSeconds — one resolver, two readers).\n    let cdSet = skillCooldownSeconds(caster, inst, base);\n    // THE LAB LEVER (ULT_QA, engine/ultimates.ts): iteration builds cap an\n    // ULTIMATE's stamped clock so the arts re-fire back-to-back — a ceiling\n    // on the fold's answer, never a rewrite of the authored price (THE\n    // PRICE FLOOR stays census-pinned; shipped builds cap at Infinity).\n    if (inst.def.ultimate) cdSet = Math.min(cdSet, ultCooldownCap());\n    if (cdSet <= 0) return;\n    caster.cooldowns.set(inst.def.id, cdSet);\n    caster.cooldownTotals.set(inst.def.id, cdSet); // the HUD sweep's denominator\n  }",
+        "sha256": "bd61ff555cf2170cf16fda4eb0e7d5d0649a59e3adc3decd4f61f5f8940d8748"
+      },
+      "refundOnOrb": {
+        "file": "src/engine/world.ts",
+        "text": "private refundOnOrb(a: Actor, kind: string): void {\n    if (a.cooldowns.size === 0) return;\n    for (const inst of a.skills) {\n      if (!inst) continue;\n      const left = a.cooldowns.get(inst.def.id);\n      if (left === undefined) continue;\n      const s = a.sheet.get(orbRefundStat(kind),\n        skillContextTags(inst, grantedTags(inst)), instanceMods(inst));\n      if (s <= 0) continue;\n      const next = left - s;\n      if (next <= 0) a.cooldowns.delete(inst.def.id);\n      else a.cooldowns.set(inst.def.id, next);\n    }\n  }",
+        "sha256": "bdceb54ad02d27f9b7b546d4caf69dd6efea12b7bfc9f85b05d25c52b95668d1"
+      },
+      "skillEffect": {
+        "file": "src/engine/world.ts",
+        "text": "if (fx.type === 'reduceCooldowns') {\n        let wound = 0;\n        for (const [id, t] of [...caster.cooldowns]) {\n          if (id === def.id) continue;\n          const left = t - (fx.seconds ?? 0) - t * (fx.fraction ?? 0);\n          if (left <= 0) caster.cooldowns.delete(id);\n          else caster.cooldowns.set(id, left);\n          wound++;\n        }\n        if (wound > 0) this.text(caster.pos, 'time slips', '#8ae0e8', 12, 'combat');\n      }",
+        "sha256": "a229152482c81f99ada88f6e3a28d089980652d0e846e56782ae058f87b9a2bc"
+      }
+    }
+  }
+}

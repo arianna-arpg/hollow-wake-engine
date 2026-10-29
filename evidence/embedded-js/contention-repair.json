@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "stage": "Local Windows repair verified; new Linux sanitizer result pending",
+  "sourceParent": "4935209b534015cfba45954eab30eb877ccbabb9",
+  "sourceSha256": "d46fe4c20255167b85a2cfb9afa96cad10bb7871182b2ee9d873eda106c438a0",
+  "failedJob": {
+    "run": 40804968176,
+    "job": 123221600843,
+    "artifact": 12868205878,
+    "artifactDigest": "sha256:3997327aaf6d8c43648ae71196ff97e7cf767e1e1bc6ebe0665793bed69cf48b",
+    "observed": "Overlap contract assertion; no individual statuses recorded and no sanitizer diagnostic in the saved output.",
+    "causeLimit": "Source inspection proves observer/worker lock contention is possible; the failed run does not prove its exact interleaving."
+  },
+  "repair": "Retry only nonexecuting BUSY admission within a deadline; join before destruction when acquisition was not observed; retain individual failure statuses.",
+  "verification": {
+    "requestsPerConsumer": 60,
+    "exactNumbersPerConsumer": 609,
+    "cpp": {
+      "passed": true,
+      "requests": 60,
+      "liveBytesAfterDispose": 0,
+      "liveBlocksAfterDispose": 0,
+      "peakTrackedBytes": 66357035,
+      "bufferOwnership": true,
+      "threadMigration": true,
+      "concurrentCancellation": true,
+      "unloadReload": true
+    },
+    "dotnet": {
+      "passed": true,
+      "requests": 60,
+      "liveBytesAfterDispose": 0,
+      "liveBlocksAfterDispose": 0,
+      "peakTrackedBytes": 66357035,
+      "managedOwnership": true,
+      "threadMigration": true,
+      "libraryLease": true,
+      "failedConstructionLease": true,
+      "finalizerUnload": true,
+      "unloadReload": true,
+      "residencyProbe": "GetModuleHandleW"
+    },
+    "faults": [
+      {
+        "name": "abandon-on-busy",
+        "detected": true,
+        "status": 1,
+        "message": "Initial observer contention must not abandon the worker request",
+        "sourceSha256": "58583b632e6fedef1aaba64d0163b3eeebcc362bef411687458893ee8a736c73",
+        "logSha256": "af6692237b192e32981d5abc3d2a655d49fccbdc2c9936627559fca8a1dcbf1c"
+      },
+      {
+        "name": "retry-executed-error",
+        "detected": true,
+        "status": 1,
+        "message": "Executed failures are never retried",
+        "sourceSha256": "7562541e7cf3e2482692fe9eaa4bfd0c35a99be38cfea902ef8e0ff13d75a5f9",
+        "logSha256": "599bbda50a9ec60039d26d59d626031a918c30c0a9aed77e7aa4a54c7c0f8f88"
+      }
+    ]
+  },
+  "preservation": {
+    "productionOutputs": 207,
+    "runtimeMapSha256": "d4f2b09be4b1f955cd43aa905e052d0a1d99d9cd87e0c44dee25ddf8eb4c18b4",
+    "libraryImplementationUnchanged": true,
+    "abiUnchanged": true,
+    "oldControlsUnchanged": true
+  },
+  "remaining": [
+    "New Linux sanitizer verification",
+    "Complete native SDK surface and engine integrations",
+    "Performance and target-device acceptance"
+  ],
+  "raw": {
+    "file": "evidence/embedded-js/contention-repair-raw.json.gz",
+    "sha256": "00fe313daf6d15657e08f528bb90b08d5342ea61f05145c3b5ca32c103ad0b41",
+    "bytes": 34591,
+    "records": {
+      "hosted/failure-log.txt": "e313d4a9cf69800819d9b557ad767293c10c0de9637d33112d7714eb0290573f",
+      "hosted/status.json": "5bc0eeb2981b3631e8e34f758ba54310c422c153018f9977e08945dc1ccb3dda",
+      "failed/verification.json": "a2249175fe8959c8255932afdb766111a29e156df857c2bf7ea6fe52d0d85ad8",
+      "failed/cpp-sanitized.txt": "4ba61c508b818b4cbf9ca2c442e316a0d8b548b5e8e474403ae90c046938ac58",
+      "controls/verification.json": "9042423fad8d7df72d298d9e06e4c1f937489a9e15db77d46090e294b5a1ddec",
+      "source/consumer.cpp": "d46fe4c20255167b85a2cfb9afa96cad10bb7871182b2ee9d873eda106c438a0",
+      "windows/verification.json": "cec646e002e7dcd30d080992d8f0250e72efd61ac33f79aafa159eb1f7f38b80",
+      "windows/cpp.txt": "d1d47751926d05b3c72602f0f7066f3c6aa5589feb6c8a3872a6a46e97838ff7",
+      "windows/cpp.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "windows/dotnet.txt": "ed188de29cb1da8cab8b70e8ee3a26a061ae37de1b97f993979e09fba1f38e5d",
+      "windows/dotnet.jsonl": "67c49f46fb39f7e3340f8cb817241bfeaa36da617c83e9cd38b3809848b466da",
+      "windows/build-commands.json": "4649952b6874ea7826278d6be4757ef13e6a3e4b75d114b34daf2fedcba541ae",
+      "windows/build.txt": "140e71747013601f0a0b2fafd0e34020acf348b94e5321bc259c7ffab11bb6d8",
+      "windows/exports.txt": "0356ad086f2393f67c1607b170ee8e16854fee1b203605eaa72f3116b0ed74a8",
+      "session/verification.json": "180ec8235d6f6131581d8000c1754b12776fd5716a2b5edae5da76c3ef5aef81",
+      "session/requests.jsonl": "346256f06446472b917b31c70aac994701ad784c5a07352a5729d051ee4c7d10",
+      "session/node-original.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "session/node-bundled.jsonl": "d76f3ec95c015986ac53ef22a1ee556b4321a824c8d75715d083c41cb29f6254",
+      "controls/abandon-on-busy.cpp": "58583b632e6fedef1aaba64d0163b3eeebcc362bef411687458893ee8a736c73",
+      "controls/abandon-on-busy.txt": "af6692237b192e32981d5abc3d2a655d49fccbdc2c9936627559fca8a1dcbf1c",
+      "controls/abandon-on-busy-build.txt": "3ca6708e2cd86118066e6f00dc1b4ad62d9791dc9fb043c45ae5323f738acfbf",
+      "controls/retry-executed-error.cpp": "7562541e7cf3e2482692fe9eaa4bfd0c35a99be38cfea902ef8e0ff13d75a5f9",
+      "controls/retry-executed-error.txt": "599bbda50a9ec60039d26d59d626031a918c30c0a9aed77e7aa4a54c7c0f8f88",
+      "controls/retry-executed-error-build.txt": "cf6bbb7ccb08cb6f71d3110aed840c82a9988699b272ac8d373da00b3df143f2"
+    }
+  }
+}

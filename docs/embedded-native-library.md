@@ -1,5 +1,20 @@
 # Experimental native library
 
+The development C++ concurrency test now handles initial `BUSY` admission while
+its metrics observer briefly owns the same lock. Only that nonexecuting status
+is retried, within a bounded wait. Executed failures remain terminal. If ownership
+was never observed, cancellation and joining precede destruction. Additional
+status diagnostics preserve the next unexpected interleaving.
+
+The Linux Godot job at `4935209` failed the overlap assertion; its log did not
+record individual statuses, so the exact scheduling interleaving is unknown.
+Inspection found the observer/worker admission race above. The corrected Windows
+C++ and .NET replays match all 60 requests and 609 numeric observations, with zero
+tracked live allocations after disposal. Deliberate abandonment-on-BUSY and
+retry-after-execution faults are rejected. Fresh Linux sanitizer confirmation is
+pending; the library implementation and all 207 gameplay runtime outputs are
+unchanged. See [the repair evidence](../evidence/embedded-js/contention-repair.json).
+
 The persistent session experiment can be called through an eight-function C
 interface. C++ and .NET consumers load the same native library dynamically;
 the library runs the bundled SDK implementation. Gameplay rules are not

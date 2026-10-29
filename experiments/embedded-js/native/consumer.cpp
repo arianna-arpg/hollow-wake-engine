@@ -137,7 +137,29 @@ struct Host {
     }
 };
 
+// The observer's metrics call takes the same nonblocking lock as submit.
+// BUSY means this request did not execute; let the worker acquire ownership
+// before testing rejection of overlapping work. Never retry an executed call.
+template<class Submit>
+static int32_t submitAfterContention(Submit submit, std::chrono::steady_clock::time_point deadline) {
+    for (;;) {
+        const auto status = submit();
+        if (status != HWE_JS_BUSY || std::chrono::steady_clock::now() >= deadline) return status;
+        std::this_thread::yield();
+    }
+}
+
 static void contracts(Api &api) {
+    const auto retryDeadline = std::chrono::steady_clock::now() + std::chrono::seconds(10);
+    int attempts = 0;
+    require(submitAfterContention([&] { return ++attempts <= 2 ? HWE_JS_BUSY : HWE_JS_INTERRUPTED; }, retryDeadline)
+        == HWE_JS_INTERRUPTED && attempts == 3, "Initial observer contention must not abandon the worker request");
+    attempts = 0;
+    require(submitAfterContention([&] { ++attempts; return HWE_JS_SCRIPT_ERROR; }, retryDeadline)
+        == HWE_JS_SCRIPT_ERROR && attempts == 1, "Executed failures are never retried");
+    attempts = 0;
+    require(submitAfterContention([&] { ++attempts; return HWE_JS_BUSY; }, std::chrono::steady_clock::now())
+        == HWE_JS_BUSY && attempts == 1, "Contention wait is bounded");
     hwe_js_layout layout{};
     require(api.layout(&layout) == HWE_JS_OK && layout.abi_version == HWE_JS_ABI_VERSION &&
         layout.options_size == sizeof(hwe_js_options) && layout.metrics_size == sizeof(hwe_js_metrics) &&
@@ -210,26 +232,34 @@ static void contracts(Api &api) {
     auto *borrowed = concurrent.value;
     std::promise<int32_t> finished;
     auto result = finished.get_future();
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(10);
+    const std::string request = "{\"op\":\"hang\"}";
     std::thread worker([&] {
         uint64_t response = 0;
-        const std::string request = "{\"op\":\"hang\"}";
-        finished.set_value(api.submit(borrowed, bytes(request), request.size(), &response));
+        finished.set_value(submitAfterContention([&] {
+            return api.submit(borrowed, bytes(request), request.size(), &response);
+        }, deadline));
     });
     int32_t observed = HWE_JS_OK;
-    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(10);
     hwe_js_metrics observedMetrics{};
     while (observed != HWE_JS_BUSY && std::chrono::steady_clock::now() < deadline &&
             result.wait_for(std::chrono::seconds(0)) != std::future_status::ready) {
         observed = api.metrics(concurrent.value, &observedMetrics);
         std::this_thread::yield();
     }
-    const auto submitWhileBusy = concurrent.submit("{}", ignored);
-    const auto destroyWhileBusy = api.destroy(&concurrent.value, nullptr);
+    // If acquisition was never observed, cancel and join before destruction.
+    // A delayed worker may still be about to use the borrowed handle.
+    const auto submitWhileBusy = observed == HWE_JS_BUSY ? concurrent.submit("{}", ignored) : HWE_JS_OK;
+    const auto destroyWhileBusy = observed == HWE_JS_BUSY ? api.destroy(&concurrent.value, nullptr) : HWE_JS_OK;
     if (concurrent.value) api.cancel(concurrent.value);
     worker.join();
+    const auto workerStatus = result.get();
+    if (observed != HWE_JS_BUSY || submitWhileBusy != HWE_JS_BUSY || destroyWhileBusy != HWE_JS_BUSY)
+        std::cerr << "Overlap statuses: observed=" << observed << " submit=" << submitWhileBusy
+            << " destroy=" << destroyWhileBusy << " worker=" << workerStatus << '\n';
     require(observed == HWE_JS_BUSY && submitWhileBusy == HWE_JS_BUSY && destroyWhileBusy == HWE_JS_BUSY,
         "Overlapping VM work and destruction are rejected");
-    require(result.get() == HWE_JS_INTERRUPTED && concurrent.metrics().poisoned == 1, "Concurrent cancellation interrupts VM work");
+    require(workerStatus == HWE_JS_INTERRUPTED && concurrent.metrics().poisoned == 1, "Concurrent cancellation interrupts VM work");
     concurrent.close();
 
     const std::string smallBundle = probe, input = "{}";
