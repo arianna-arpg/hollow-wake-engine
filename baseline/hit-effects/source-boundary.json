@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+  "methodSha256": "632cffc3c91e4598ed586fae0f666650892e07a8eb520f7be48460e9990d4bed",
+  "statements": {
+    "challenge": {
+      "start": 44214,
+      "end": 44214,
+      "sha256": "5f4295807b6b6183f2c9af05d6524ce1077eb36f1cebf4dda03fb922871a19c3"
+    },
+    "effects": {
+      "start": 44215,
+      "end": 44215,
+      "sha256": "e4bba3efd0ef61f43a3772dd24ba782fe6945a9d38f1de04f0e19f0e2e1efc9b"
+    },
+    "loop": {
+      "start": 44216,
+      "end": 44471,
+      "sha256": "7521ab5a5285f51a3fb0c088d558537272616a9cd05cf573502a13435f82dc14"
+    }
+  },
+  "branches": [
+    {
+      "type": "heal",
+      "condition": "fx.type === 'heal'",
+      "bodySha256": "cdb7683d8ba2f5091780c23603f4fa5df1ba6498f610933640fdf3d1fd18a508"
+    },
+    {
+      "type": "cleanse",
+      "condition": "fx.type === 'cleanse'",
+      "bodySha256": "1187188997e7c01e5c7929d7ef64356078657cc56218c7d36ab4d39f6d01dc02"
+    },
+    {
+      "type": "buff",
+      "condition": "fx.type === 'buff' && target.team === caster.team && target !== caster",
+      "bodySha256": "53f57d8962f01f9c2454fa0558c5b5edd6604df004c66c403d89f67191b6920d"
+    },
+    {
+      "type": "rupture",
+      "condition": "fx.type === 'rupture'",
+      "bodySha256": "b18c4cc442a722c9305b0d983e0f7124b15ae09da61e7f3b7bee41ff0466e404"
+    },
+    {
+      "type": "status",
+      "condition": "fx.type === 'status'",
+      "bodySha256": "02321b8222b576eec554baba90dd3b0374ddacb83f214787c06a3e31f799744e"
+    },
+    {
+      "type": "knockback",
+      "condition": "fx.type === 'knockback'",
+      "bodySha256": "4b09556fbc1685fc18693339401012fe223ad386d0cf03742d48efc53251fd8e"
+    },
+    {
+      "type": "grabSeize",
+      "condition": "fx.type === 'grabSeize'",
+      "bodySha256": "a635858036a3c3f13215b1805b4654b0d5a8931d1ea0f955288a2432e00803a9"
+    },
+    {
+      "type": "possess",
+      "condition": "fx.type === 'possess'",
+      "bodySha256": "47622333df22233ae1ab67d87e2aaa9ec02ad9bbdf2f20d54f7a385f255414e2"
+    },
+    {
+      "type": "pull",
+      "condition": "fx.type === 'pull'",
+      "bodySha256": "4d55996ace10154d4a64bb4b3ef4662ea07c1aeeb4b0c96e90c5d5fc7186c30e"
+    },
+    {
+      "type": "absorb",
+      "condition": "fx.type === 'absorb'",
+      "bodySha256": "f4651d4d7ae23df9a98c06d1b85d6f18bc6ae71e370192374e7e7565a5aca2b1"
+    },
+    {
+      "type": "restore",
+      "condition": "fx.type === 'restore'",
+      "bodySha256": "6db06c006f7815cad5d156f0c9cd8f8108e2b044afce7b64e92e69fc75db7efb"
+    },
+    {
+      "type": "ward",
+      "condition": "fx.type === 'ward'",
+      "bodySha256": "9d3b21871d2e664cfba39beca6af3692346a79f17bb0b592319d2c09be01ce80"
+    },
+    {
+      "type": "siphonOrb",
+      "condition": "fx.type === 'siphonOrb'",
+      "bodySha256": "a8735dea9080dc936d1efd36d88f31b4a9d374d10514e746c6b14e5cdb0e6aa1"
+    },
+    {
+      "type": "birth",
+      "condition": "fx.type === 'birth'",
+      "bodySha256": "de44ea2b21943e516e6523433cfa748299732cfefc79943b002e08a21787b175"
+    },
+    {
+      "type": "spreadStatus",
+      "condition": "fx.type === 'spreadStatus'",
+      "bodySha256": "7cb1ae7bbe9470f1403227098cd851db30d9f5bf7f4c2d32d2ff5da80bdef262"
+    },
+    {
+      "type": "transfuseStatus",
+      "condition": "fx.type === 'transfuseStatus'",
+      "bodySha256": "495d748a962e856e43307afc902aa2a83ab8b892b23d1564e30ed2b3721b8e34"
+    }
+  ]
+}

@@ -1,5 +1,13 @@
 # Verification and reproduction
 
+`reference:hit-effects` compares 107 original ordered hit-effect courses.
+`test:hit-effects-observer` checks 26 deliberate original-source faults across
+all sixteen dispatch branches, live effect lists and hook ordering. Accepted
+expectations are immutable. Two original captures and the previous installed
+adapter agree; this checkpoint establishes a baseline before extracting the
+loop. See [hit-effect dispatch](hit-effects-boundary.md) for the discovered
+cross-story coverage gap, ownership contract and scope limits.
+
 `reference:hit-status` compares 369 frozen original hit/status courses without
 rewriting expectations. `adapter:hit-status` verifies archive/install identity,
 the same trace, and unchanged game/package files. `adapter:hit-status-source`
