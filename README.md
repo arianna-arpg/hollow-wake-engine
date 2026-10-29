@@ -42,11 +42,11 @@ Impale discharge/planting phases. Its 369 original-game courses retain the
 distinct arithmetic and callback ordering of each path. Complete hit orchestration,
 the remaining death lifecycle and device measurements stay open.
 
-The next [hit-effect dispatch boundary](docs/hit-effects-boundary.md) freezes
-107 original-game courses across sixteen branches before extracting the remaining
-effect loop. It covers live effect ordering, recipient gates, status transfer,
-possession, births and partial failures. This baseline does not add a new runtime
-capability yet.
+The optional [hit-effect dispatcher](docs/hit-effects-boundary.md) delegates
+sixteen branches through explicit host ports. Its 107 original-game courses cover
+live effect ordering, recipient gates, status transfer, possession, births and
+partial failures. It reuses the per-hit frame and accepts host-specific positions
+and directions; underlying host verbs and complete hit orchestration remain open.
 
 The v0.38 development candidate adds [resource restoration](docs/resource-restoration.md):
 shield/poise gain gates, immediate restore events, reserved-mana proc restoration

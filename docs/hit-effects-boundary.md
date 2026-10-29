@@ -1,10 +1,11 @@
-# Ordered hit-effect dispatch: original boundary
+# Ordered hit-effect dispatch
 
-This checkpoint freezes the original behavior of the effect loop inside
-`World.resolveHit`. It adds an extraction contract and reproduction tools;
-the loop itself still executes in the game. The separate
-[hit/status policy](hit-status-boundary.md) already handles its authored-status
-branch. Complete hit, death and spatial delivery remain separate work.
+`@hollow-wake/engine/combat/hit-effects` exposes `createHitEffects` and its
+`dispatch(frame, damageMultiplier, deliveryEffects?)` operation. It delegates the
+sixteen-branch effect loop from `World.resolveHit` and composes the separate
+[hit/status policy](hit-status-boundary.md) through a synchronous port. Complete
+hit, death and spatial delivery remain separate work. The original fixture below
+was accepted and committed before this runtime was implemented.
 
 The observer calls the real original hit resolver, damage service and effect
 verbs. Two independent original runs and the installed predecessor agree on
@@ -54,24 +55,35 @@ requires the authored `onHit` flag. Siphon uses the owner's identity when presen
 Pull excludes constructs, anchored, leaping and dormant targets; stun can still
 apply when the target is already close enough to need no movement.
 
-## Planned SDK boundary
+## SDK boundary
 
-The extracted service will own dispatch, admission gates, ordering, recipient
-iteration and donor cleanup. Explicit synchronous ports will provide the
+The extracted service owns dispatch, admission gates, ordering, recipient
+iteration and donor cleanup. Explicit synchronous ports provide the
 underlying heal, cleanse, buff, rupture, status, grab, possession, absorption,
 restoration, birth and orb operations. Existing SDK services can satisfy those
 ports without duplicating their policies.
 
 The host retains authoritative enemy selection, spatial observations, directions,
-positions, dormancy and presentation. The contract must permit opaque host
-positions and directions so a three-dimensional engine need not mimic the game's
-two-dimensional coordinates. The adapter must preserve the original distinction
-between borrowed orb positions and copied birth/flash positions.
+positions, dormancy and presentation. Positions and directions are generic host
+types; they may be opaque handles or three-dimensional values. The game adapter
+preserves borrowed orb positions and copied birth/flash positions.
 
-The service will operate on trusted runtime records. A content compiler and an
+The service operates on trusted plain runtime records. A content compiler and an
 untrusted-input parser are separate responsibilities. No database lookup belongs
 in this per-hit dispatch path. Content storage can change independently once
 validated records preserve these runtime contracts.
+
+`HitEffectSet` describes only fields read by dispatch. Supply a mapped set of
+your full effect types so callbacks retain their complete payloads. Other known
+delivery kinds can remain in the same list and are ignored here. The input type
+excludes recognized kinds from that ignored group; a broad `string` cannot be
+used to omit required fields. These types do not validate external JSON.
+
+The Hollow Wake binding reuses the existing readonly per-hit status frame.
+Dispatch captures its local scalars and references once, without another frame
+allocation. Each invocation keeps its own loop locals and snapshots; callbacks
+can synchronously dispatch another hit. The optional entry point has no runtime
+dependency and is not imported by the core entry point.
 
 ## Observer controls and reproduction
 
@@ -91,16 +103,31 @@ copy, restored after each run; accepted expectations are never regenerated.
 npm run reference:hit-effects
 node scripts/run-hit-effects-reference.mjs --game <prepared-game>
 npm run test:hit-effects-observer
+npm run test:hit-effects-package
+npm run test:hit-effects-mutations
+npm run adapter:hit-effects-source
+npm run adapter:hit-effects -- --location <adapter-location.json>
 ```
 
 The source lock, statement/branch hashes, compressed original observations and
 acceptance metadata live under `baseline/hit-effects`. The observer is
 `reference/export-hit-effects.ts`. The original capture precedes any implementation
-of the new dispatch service. Runtime, adapter and independent consumer validation
-must follow it before an extraction is accepted.
+of the new dispatch service. Independent tests exercise plain actors, opaque
+directions, live payloads, reentry, recipient identity and committed failures.
+Runtime faults must fail behavioral assertions, rather than imports or parsing.
+The packaged consumer also checks strict types and a browser bundle.
 
-This baseline makes no performance claim. Whole-hit CPU time, allocation volume,
+The optional module has a separate 10 KiB unminified-JavaScript growth guard;
+all earlier budgets remain intact. This is not a performance claim. Whole-hit CPU time, allocation volume,
 retained memory and physical Steam Deck/mobile measurements remain separate
 acceptance work. Reusing live arrays where the original does so is necessary for
 correctness; replacing required snapshots with shared scratch storage would risk
 changing callback and nested-hit behavior.
+
+The [runtime evidence](../evidence/hit-effects/runtime-windows.json) retains the
+installed-game comparisons, independent consumer, fault controls, native replay
+and first desktop whole-hit measurements. The five timing workloads cover plain,
+authored-status, stat-status, rider and Impale hits; they do not establish the cost
+of every effect branch. Outcome checksums agree across previous/current/current/
+previous processes. Heap deltas include GC/JIT effects and are not allocation
+volume. No physical-device performance target is accepted by this checkpoint.

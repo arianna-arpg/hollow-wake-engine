@@ -4,8 +4,10 @@
 `test:hit-effects-observer` checks 26 deliberate original-source faults across
 all sixteen dispatch branches, live effect lists and hook ordering. Accepted
 expectations are immutable. Two original captures and the previous installed
-adapter agree; this checkpoint establishes a baseline before extracting the
-loop. See [hit-effect dispatch](hit-effects-boundary.md) for the discovered
+adapter agree; this baseline predates the extracted loop. `adapter:hit-effects`
+checks the installed archive, runtime identity and the same trace. Independent
+tests, runtime faults and an installed consumer also exercise the new optional
+service. See [hit-effect dispatch](hit-effects-boundary.md) for the discovered
 cross-story coverage gap, ownership contract and scope limits.
 
 `reference:hit-status` compares 369 frozen original hit/status courses without
