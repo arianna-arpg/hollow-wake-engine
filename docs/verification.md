@@ -1,5 +1,17 @@
 # Verification and reproduction
 
+The ready-only refund bank checkpoint passes 977 SDK tests (24 focused), 35
+frozen original courses, 44 existing lifecycle courses, 75 existing proc cases,
+25 game smoke episodes and 21 existing cooldown renderer stages. It detects
+16 runtime, nine source-guard and seven installed-game faults. Its independent
+package/type consumer passes; all 210 previous runtime outputs remain unchanged.
+The optional module adds 1,896 bytes of JavaScript. See its
+[contract](ready-cooldown-bank.md) and
+[raw-backed evidence](../evidence/ready-cooldown-bank/runtime.json).
+The renderer stages cover existing cooldown regressions, not the bank's own
+display. Complete Assault extraction, new native-host exposure and measured
+device optimization remain open.
+
 The optional cooldown lifecycle development checkpoint passes 953 SDK tests
 (30 specific to this module), 44 frozen original lifecycle courses, the 75
 existing proc-cooldown courses and the 21 existing renderer stages. It detects

@@ -39,6 +39,11 @@ original observations; the same 21 renderer stages pass with that integration.
 Specialized clock writes, broader lifecycle UI coverage, native-host exposure
 and device performance remain open.
 
+The optional [ready cooldown bank](docs/ready-cooldown-bank.md) extracts refund
+credit earned while a skill is already ready, conversion to extra command uses,
+and numeric display publication. Formation, delivery and court lifetime remain
+with the host; this is not the complete Assault controller.
+
 Version 0.37 adds optional [life recovery](docs/life-recovery.md): healing,
 full refill and validated proc-heal content. The installed game adapter preserves
 121 native observations, including callback order, actual healing cues and

@@ -137,6 +137,7 @@ jobs:
       - run: npm run reference:restoration
       - run: npm run reference:cooldowns
       - run: npm run reference:cooldown-lifecycle
+      - run: npm run reference:ready-bank
       - run: npm run reference:ammunition
       - run: node --import tsx balance/probe_passiverefund.ts
         working-directory: .reference
@@ -187,6 +188,8 @@ jobs:
       - run: npm run adapter:cooldowns-faults
       - run: npm run adapter:cooldown-lifecycle
       - run: npm run adapter:cooldown-lifecycle-faults
+      - run: npm run adapter:ready-bank
+      - run: npm run adapter:ready-bank-faults
       - run: npm run adapter:ammunition
       - run: npm run check
         working-directory: .artifacts/game-adapter
@@ -286,6 +289,16 @@ jobs:
             .artifacts/cooldown-lifecycle-installed-faults.json
             .artifacts/cooldown-lifecycle-package.json
             .artifacts/cooldown-lifecycle-mutations.json
+            .artifacts/ready-bank-reference-verification.json
+            .artifacts/game-ready-bank-verification.json
+            .artifacts/ready-bank-overlay.json
+            .artifacts/ready-bank-installed-faults.json
+            .artifacts/reference-ready-bank-*/*.json
+            .artifacts/reference-ready-bank-*/*.txt
+            .artifacts/game-ready-bank-*/*.json
+            .artifacts/game-ready-bank-*/*.txt
+            .artifacts/ready-bank-installed-faults-*/*.json
+            .artifacts/ready-bank-installed-faults-*/*.txt
             .artifacts/game-clock-lifecycle-*/*.json
             .artifacts/game-clock-lifecycle-*/*.txt
             .artifacts/reference-clock-lifecycle-*/*.json

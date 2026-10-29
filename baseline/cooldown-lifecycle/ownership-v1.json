@@ -1,0 +1,1409 @@
+{
+  "schemaVersion": 1,
+  "sourceParent": "7f7179b81838813a04d1b3932d97040449aae820",
+  "scope": "Explicit named ledger references in the pinned original and 7f7179b adapter; not an alias/dataflow proof or a complete encounter timer inventory.",
+  "original": {
+    "sourceMapSha256": "384db880fa4ce06031caba166b17155bafc2e61f71ee32f8960b0e35add54ee9",
+    "files": 969,
+    "rows": [
+      {
+        "file": "agent/agent.ts",
+        "line": 423,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "HeroAgent.usable",
+        "expression": "actor.cooldowns",
+        "statement": "actor.cooldowns",
+        "sourceSha256": "7cf25c108ab240e4e95d9b4f1020ee57f5668776f27b3b7647552971a46ec9cf"
+      },
+      {
+        "file": "dev/tabs/ultlab.ts",
+        "line": 177,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "<top-level>",
+        "expression": "p.cooldowns",
+        "statement": "const cd = p.cooldowns.get(d.id);",
+        "sourceSha256": "d6ef4121902b89852ef9cd56739214a9478e8239c92c31b8402ab4aba67b0076"
+      },
+      {
+        "file": "director/director.ts",
+        "line": 470,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "Director.cue",
+        "expression": "a.cooldowns",
+        "statement": "a.cooldowns.delete(inst.def.id);",
+        "sourceSha256": "ecde64ae1939b3a870fc6b2fb643d76487889cf7efee7008156a565cd14026d2"
+      },
+      {
+        "file": "director/director.ts",
+        "line": 547,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "keepReady",
+        "expression": "p.cooldowns",
+        "statement": "const cd = p.cooldowns.get(d.id);",
+        "sourceSha256": "ecde64ae1939b3a870fc6b2fb643d76487889cf7efee7008156a565cd14026d2"
+      },
+      {
+        "file": "director/director.ts",
+        "line": 549,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "keepReady",
+        "expression": "p.cooldowns",
+        "statement": "p.cooldowns.set(d.id, cap);",
+        "sourceSha256": "ecde64ae1939b3a870fc6b2fb643d76487889cf7efee7008156a565cd14026d2"
+      },
+      {
+        "file": "engine/actor.ts",
+        "line": 1447,
+        "field": "cooldowns",
+        "operation": "declaration-or-key",
+        "owner": "Actor.<top-level>",
+        "expression": "cooldowns",
+        "statement": "cooldowns = new Map<string, number>();",
+        "sourceSha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30"
+      },
+      {
+        "file": "engine/actor.ts",
+        "line": 1859,
+        "field": "cooldownTotals",
+        "operation": "declaration-or-key",
+        "owner": "Actor.<top-level>",
+        "expression": "cooldownTotals",
+        "statement": "cooldownTotals = new Map<string, number>();",
+        "sourceSha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30"
+      },
+      {
+        "file": "engine/actor.ts",
+        "line": 3207,
+        "field": "cooldowns",
+        "operation": "iterate",
+        "owner": "Actor.updateTimers",
+        "expression": "this.cooldowns",
+        "statement": "this.cooldowns",
+        "sourceSha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30"
+      },
+      {
+        "file": "engine/actor.ts",
+        "line": 3217,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "Actor.updateTimers",
+        "expression": "this.cooldowns",
+        "statement": "this.cooldowns.delete(id);",
+        "sourceSha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30"
+      },
+      {
+        "file": "engine/actor.ts",
+        "line": 3217,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "Actor.updateTimers",
+        "expression": "this.cooldowns",
+        "statement": "this.cooldowns.set(id, left);",
+        "sourceSha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30"
+      },
+      {
+        "file": "engine/actor.ts",
+        "line": 3424,
+        "field": "cooldowns",
+        "operation": "has",
+        "owner": "Actor.updateTimers",
+        "expression": "this.cooldowns",
+        "statement": "this.cooldowns",
+        "sourceSha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30"
+      },
+      {
+        "file": "engine/actor.ts",
+        "line": 4112,
+        "field": "cooldowns",
+        "operation": "has",
+        "owner": "Actor.canUse",
+        "expression": "this.cooldowns",
+        "statement": "this.cooldowns",
+        "sourceSha256": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30"
+      },
+      {
+        "file": "engine/assault.ts",
+        "line": 138,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "Assaults.refund",
+        "expression": "owner.cooldowns",
+        "statement": "const c = this.court(owner, host), left = owner.cooldowns.get(host.def.id) ?? 0;",
+        "sourceSha256": "8cecb56af66e619fc189861967949d65a5b3ae74050a10c660cba09d1641dedf"
+      },
+      {
+        "file": "engine/assault.ts",
+        "line": 140,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "Assaults.refund",
+        "expression": "owner.cooldowns",
+        "statement": "owner.cooldowns.set(host.def.id, left - reduction);",
+        "sourceSha256": "8cecb56af66e619fc189861967949d65a5b3ae74050a10c660cba09d1641dedf"
+      },
+      {
+        "file": "engine/assault.ts",
+        "line": 140,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "Assaults.refund",
+        "expression": "owner.cooldowns",
+        "statement": "owner.cooldowns.delete(host.def.id);",
+        "sourceSha256": "8cecb56af66e619fc189861967949d65a5b3ae74050a10c660cba09d1641dedf"
+      },
+      {
+        "file": "engine/assault.ts",
+        "line": 181,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "Assaults.update",
+        "expression": "owner.cooldowns",
+        "statement": "const c = this.court(owner, host), ready = (owner.cooldowns.get(host.def.id) ?? 0) <= 0;",
+        "sourceSha256": "8cecb56af66e619fc189861967949d65a5b3ae74050a10c660cba09d1641dedf"
+      },
+      {
+        "file": "engine/assault.ts",
+        "line": 194,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "Assaults.update",
+        "expression": "owner.cooldowns",
+        "statement": "(owner.lifeDamageInterceptors ??= new Map()).set('assault', (amount: number) => {\n        if (!this.live(c) || (owner.cooldowns.get(host.def.id) ?? 0) > 0) return amount;\n        const alive = shields.filter(a => !a.dead && a.life > 0 && sameStory(a, owner) && dist(a.pos, owner.pos) <= ASSAULT.radius);\n        if (!alive.length) return amount;\n        let shared = 0;\n        for (const a of alive) {\n          const wound = Math.min(a.life, amount * 0.3 / alive.length); shared += wound;\n          landLifeDamage(a, wound); if (a.life <= 0) this.w.kill(a, false, owner);\n        }\n        return amount - shared;\n      });",
+        "sourceSha256": "8cecb56af66e619fc189861967949d65a5b3ae74050a10c660cba09d1641dedf"
+      },
+      {
+        "file": "engine/attackSequences.ts",
+        "line": 228,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "AttackSequences.lock",
+        "expression": "s.owner.cooldowns",
+        "statement": "s.owner.cooldowns.set(s.host.def.id, 1);",
+        "sourceSha256": "88f840c02de4a543b1bd5d1b0a09445149144f730e765560289cf6c8d14bd371"
+      },
+      {
+        "file": "engine/attackSequences.ts",
+        "line": 228,
+        "field": "cooldownTotals",
+        "operation": "set",
+        "owner": "AttackSequences.lock",
+        "expression": "s.owner.cooldownTotals",
+        "statement": "s.owner.cooldownTotals.set(s.host.def.id, 1);",
+        "sourceSha256": "88f840c02de4a543b1bd5d1b0a09445149144f730e765560289cf6c8d14bd371"
+      },
+      {
+        "file": "engine/attackSequences.ts",
+        "line": 232,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "AttackSequences.release",
+        "expression": "s.owner.cooldowns",
+        "statement": "s.owner.cooldowns.delete(s.host.def.id);",
+        "sourceSha256": "88f840c02de4a543b1bd5d1b0a09445149144f730e765560289cf6c8d14bd371"
+      },
+      {
+        "file": "engine/attackSequences.ts",
+        "line": 232,
+        "field": "cooldownTotals",
+        "operation": "delete",
+        "owner": "AttackSequences.release",
+        "expression": "s.owner.cooldownTotals",
+        "statement": "s.owner.cooldownTotals.delete(s.host.def.id);",
+        "sourceSha256": "88f840c02de4a543b1bd5d1b0a09445149144f730e765560289cf6c8d14bd371"
+      },
+      {
+        "file": "engine/attackSequences.ts",
+        "line": 234,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "AttackSequences.release",
+        "expression": "s.owner.cooldowns",
+        "statement": "s.owner.cooldowns.set(s.host.def.id, s.spec.recovery!.missCooldown);",
+        "sourceSha256": "88f840c02de4a543b1bd5d1b0a09445149144f730e765560289cf6c8d14bd371"
+      },
+      {
+        "file": "engine/attackSequences.ts",
+        "line": 235,
+        "field": "cooldownTotals",
+        "operation": "set",
+        "owner": "AttackSequences.release",
+        "expression": "s.owner.cooldownTotals",
+        "statement": "s.owner.cooldownTotals.set(s.host.def.id, s.spec.recovery!.missCooldown);",
+        "sourceSha256": "88f840c02de4a543b1bd5d1b0a09445149144f730e765560289cf6c8d14bd371"
+      },
+      {
+        "file": "engine/challenges.ts",
+        "line": 61,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "Challenges.completed",
+        "expression": "owner.cooldowns",
+        "statement": "owner.cooldowns.delete(state.host.def.id);",
+        "sourceSha256": "ca99395ff7dfd08510ff92a3ac99ec5015ef645fcb80c884604365fa4ef68b65"
+      },
+      {
+        "file": "engine/challenges.ts",
+        "line": 61,
+        "field": "cooldownTotals",
+        "operation": "delete",
+        "owner": "Challenges.completed",
+        "expression": "owner.cooldownTotals",
+        "statement": "owner.cooldownTotals.delete(state.host.def.id);",
+        "sourceSha256": "ca99395ff7dfd08510ff92a3ac99ec5015ef645fcb80c884604365fa4ef68b65"
+      },
+      {
+        "file": "engine/companionBonds.ts",
+        "line": 166,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "CompanionBonds.refreshBeast",
+        "expression": "beast.cooldowns",
+        "statement": "beast.cooldowns.delete(id);",
+        "sourceSha256": "e4b504c19916c582f4df2d56731a0cfccc48c2f54a1be4c1520b67b16bcc69f4"
+      },
+      {
+        "file": "engine/encounterCombat.ts",
+        "line": 64,
+        "field": "cooldowns",
+        "operation": "declaration-or-key",
+        "owner": "<top-level>",
+        "expression": "cooldowns",
+        "statement": "cooldowns",
+        "sourceSha256": "cda32e88cc2dd8ebc7f6afe06999b75314c0aa07c87f62d5fd869fdf5de1689b"
+      },
+      {
+        "file": "engine/encounterCombat.ts",
+        "line": 146,
+        "field": "cooldowns",
+        "operation": "declaration-or-key",
+        "owner": "updateEncounterCombat",
+        "expression": "cooldowns",
+        "statement": "s={nextThink:w.time+ENCOUNTER_COMBAT_CFG.initialDelay,cooldowns:new Map(),until:0,participants:[]};",
+        "sourceSha256": "cda32e88cc2dd8ebc7f6afe06999b75314c0aa07c87f62d5fd869fdf5de1689b"
+      },
+      {
+        "file": "engine/encounterCombat.ts",
+        "line": 170,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "updateEncounterCombat",
+        "expression": "s.cooldowns",
+        "statement": "s.cooldowns",
+        "sourceSha256": "cda32e88cc2dd8ebc7f6afe06999b75314c0aa07c87f62d5fd869fdf5de1689b"
+      },
+      {
+        "file": "engine/encounterCombat.ts",
+        "line": 176,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "updateEncounterCombat",
+        "expression": "s.cooldowns",
+        "statement": "s.cooldowns.set(chosen.id,w.time+chosen.warning+chosen.duration+chosen.recovery+chosen.cooldown);",
+        "sourceSha256": "cda32e88cc2dd8ebc7f6afe06999b75314c0aa07c87f62d5fd869fdf5de1689b"
+      },
+      {
+        "file": "engine/scenes.ts",
+        "line": 836,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "update",
+        "expression": "col.cooldowns",
+        "statement": "col.cooldowns.delete(s.verb);",
+        "sourceSha256": "504e59ea5edd61d055e011a50386b44aafa5db44b1093ed268207b6bcc710d2d"
+      },
+      {
+        "file": "engine/scenes.ts",
+        "line": 837,
+        "field": "cooldownTotals",
+        "operation": "delete",
+        "owner": "update",
+        "expression": "col.cooldownTotals",
+        "statement": "col.cooldownTotals.delete(s.verb);",
+        "sourceSha256": "504e59ea5edd61d055e011a50386b44aafa5db44b1093ed268207b6bcc710d2d"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 4920,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "World.seatEject",
+        "expression": "hero.cooldowns",
+        "statement": "const cd = Math.max(hero.cooldowns.get(ride.gemId) ?? 0, POSSESS_CFG.eject.cooldown);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 4921,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.seatEject",
+        "expression": "hero.cooldowns",
+        "statement": "hero.cooldowns.set(ride.gemId, cd);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 4922,
+        "field": "cooldownTotals",
+        "operation": "set",
+        "owner": "World.seatEject",
+        "expression": "hero.cooldownTotals",
+        "statement": "hero.cooldownTotals.set(ride.gemId, Math.max(hero.cooldownTotals.get(ride.gemId) ?? 0, cd));",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 4922,
+        "field": "cooldownTotals",
+        "operation": "get",
+        "owner": "World.seatEject",
+        "expression": "hero.cooldownTotals",
+        "statement": "hero.cooldownTotals.set(ride.gemId, Math.max(hero.cooldownTotals.get(ride.gemId) ?? 0, cd));",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 23034,
+        "field": "cooldowns",
+        "operation": "has",
+        "owner": "World.swapReadiness",
+        "expression": "hero.cooldowns",
+        "statement": "hero.cooldowns",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 23942,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "World.devClearUltimateCooldowns",
+        "expression": "seat.actor.cooldowns",
+        "statement": "seat.actor.cooldowns",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 23943,
+        "field": "cooldownTotals",
+        "operation": "delete",
+        "owner": "World.devClearUltimateCooldowns",
+        "expression": "seat.actor.cooldownTotals",
+        "statement": "seat.actor.cooldownTotals.delete(inst.def.id);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 30822,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "World.refundCooldown",
+        "expression": "caster.cooldowns",
+        "statement": "caster.cooldowns.delete(skillId);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 30823,
+        "field": "cooldownTotals",
+        "operation": "delete",
+        "owner": "World.refundCooldown",
+        "expression": "caster.cooldownTotals",
+        "statement": "caster.cooldownTotals.delete(skillId);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 30840,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.stampSkillCooldown",
+        "expression": "caster.cooldowns",
+        "statement": "caster.cooldowns.set(inst.def.id, cdSet);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 30841,
+        "field": "cooldownTotals",
+        "operation": "set",
+        "owner": "World.stampSkillCooldown",
+        "expression": "caster.cooldownTotals",
+        "statement": "caster.cooldownTotals.set(inst.def.id, cdSet);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 31365,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.hivecallReturn",
+        "expression": "hero.cooldowns",
+        "statement": "hero.cooldowns.set(host.def.id, cd);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 31366,
+        "field": "cooldownTotals",
+        "operation": "set",
+        "owner": "World.hivecallReturn",
+        "expression": "hero.cooldownTotals",
+        "statement": "hero.cooldownTotals.set(host.def.id, cd);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 31367,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.hivecallReturn",
+        "expression": "hero.cooldowns",
+        "statement": "hero.cooldowns.set('enrage_swarm', cd);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 31368,
+        "field": "cooldownTotals",
+        "operation": "set",
+        "owner": "World.hivecallReturn",
+        "expression": "hero.cooldownTotals",
+        "statement": "hero.cooldownTotals.set('enrage_swarm', cd);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 31396,
+        "field": "cooldowns",
+        "operation": "has",
+        "owner": "World.hivecallMeta",
+        "expression": "caster.cooldowns",
+        "statement": "caster.cooldowns",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 31399,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.hivecallMeta",
+        "expression": "caster.cooldowns",
+        "statement": "caster.cooldowns.set('enrage_swarm', cd);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 31399,
+        "field": "cooldownTotals",
+        "operation": "set",
+        "owner": "World.hivecallMeta",
+        "expression": "caster.cooldownTotals",
+        "statement": "caster.cooldownTotals.set('enrage_swarm', cd);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 34630,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.useSkill",
+        "expression": "caster.cooldowns",
+        "statement": "caster.cooldowns.set(def.id, def.cooldown);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 34631,
+        "field": "cooldownTotals",
+        "operation": "set",
+        "owner": "World.useSkill",
+        "expression": "caster.cooldownTotals",
+        "statement": "caster.cooldownTotals.set(def.id, def.cooldown);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 38326,
+        "field": "cooldowns",
+        "operation": "snapshot-or-spread",
+        "owner": "World.executeSkill",
+        "expression": "caster.cooldowns",
+        "statement": "caster.cooldowns",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 38329,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "World.executeSkill",
+        "expression": "caster.cooldowns",
+        "statement": "caster.cooldowns.delete(id);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 38330,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.executeSkill",
+        "expression": "caster.cooldowns",
+        "statement": "caster.cooldowns.set(id, left);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 44853,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "World.tapCharges",
+        "expression": "a.cooldowns",
+        "statement": "const cd = a.cooldowns.get(inst.def.id) ?? 0;",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 44855,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.tapCharges",
+        "expression": "a.cooldowns",
+        "statement": "a.cooldowns.set(inst.def.id, Math.max(0, cd - gaugeShaveSec(gs, eff, spec.amount)));",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 45579,
+        "field": "cooldowns",
+        "operation": "snapshot-or-spread",
+        "owner": "World.executeProc",
+        "expression": "caster.cooldowns",
+        "statement": "caster.cooldowns",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 45588,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "World.executeProc",
+        "expression": "caster.cooldowns",
+        "statement": "caster.cooldowns.delete(id);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 45589,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.executeProc",
+        "expression": "caster.cooldowns",
+        "statement": "caster.cooldowns.set(id, left);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 52906,
+        "field": "cooldowns",
+        "operation": "clear",
+        "owner": "World.updateConstructs",
+        "expression": "c.cooldowns",
+        "statement": "c.cooldowns.clear();",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 56414,
+        "field": "cooldowns",
+        "operation": "clear",
+        "owner": "World.updateDetonations",
+        "expression": "mine.cooldowns",
+        "statement": "mine.cooldowns.clear();",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 56653,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.updateCasting",
+        "expression": "a.cooldowns",
+        "statement": "a.cooldowns.set(def.id, cd);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 56654,
+        "field": "cooldownTotals",
+        "operation": "set",
+        "owner": "World.updateCasting",
+        "expression": "a.cooldownTotals",
+        "statement": "a.cooldownTotals.set(def.id, cd);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 56879,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.updateCasting",
+        "expression": "a.cooldowns",
+        "statement": "a.cooldowns.set(def.id, def.cooldown);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 57185,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.updateCasting",
+        "expression": "a.cooldowns",
+        "statement": "a.cooldowns.set(def.id, def.cooldown);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 57202,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.updateCasting",
+        "expression": "a.cooldowns",
+        "statement": "a.cooldowns.set(def.id, def.cooldown);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 58114,
+        "field": "cooldowns",
+        "operation": "member:size",
+        "owner": "World.refundOnOrb",
+        "expression": "a.cooldowns",
+        "statement": "a.cooldowns",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 58117,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "World.refundOnOrb",
+        "expression": "a.cooldowns",
+        "statement": "const left = a.cooldowns.get(inst.def.id);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 58123,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "World.refundOnOrb",
+        "expression": "a.cooldowns",
+        "statement": "a.cooldowns.delete(inst.def.id);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 58124,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.refundOnOrb",
+        "expression": "a.cooldowns",
+        "statement": "a.cooldowns.set(inst.def.id, next);",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 58564,
+        "field": "cooldowns",
+        "operation": "has",
+        "owner": "World.triggerEligible",
+        "expression": "owner.cooldowns",
+        "statement": "owner.cooldowns",
+        "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+      },
+      {
+        "file": "render/renderer.ts",
+        "line": 7893,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "Renderer.drawHudCluster",
+        "expression": "p.cooldowns",
+        "statement": "const cd = p.cooldowns.get(face.id);",
+        "sourceSha256": "8bd68cce07c156c9b2c6be7ef2ae5796f9b9eb56d9f8a230ce0163921e7be489"
+      },
+      {
+        "file": "render/renderer.ts",
+        "line": 7894,
+        "field": "cooldownTotals",
+        "operation": "get",
+        "owner": "Renderer.drawHudCluster",
+        "expression": "p.cooldownTotals",
+        "statement": "const cdTotal = p.cooldownTotals.get(face.id) ?? face.cooldown;",
+        "sourceSha256": "8bd68cce07c156c9b2c6be7ef2ae5796f9b9eb56d9f8a230ce0163921e7be489"
+      },
+      {
+        "file": "render/renderer.ts",
+        "line": 8228,
+        "field": "cooldowns",
+        "operation": "has",
+        "owner": "Renderer.drawHudCluster",
+        "expression": "p.cooldowns",
+        "statement": "const metaCd = p.cooldowns.has(meta.skillId);",
+        "sourceSha256": "8bd68cce07c156c9b2c6be7ef2ae5796f9b9eb56d9f8a230ce0163921e7be489"
+      },
+      {
+        "file": "showcase/stage.ts",
+        "line": 322,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "buildStage",
+        "expression": "p.cooldowns",
+        "statement": "const cd = p.cooldowns.get(i.def.id);",
+        "sourceSha256": "b23b080f0341f67428a129248e1f53bcae653ba9801ecf63f7e3f513633d328b"
+      },
+      {
+        "file": "showcase/stage.ts",
+        "line": 323,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "buildStage",
+        "expression": "p.cooldowns",
+        "statement": "p.cooldowns.set(i.def.id, SHOWCASE_CFG.cooldownCap);",
+        "sourceSha256": "b23b080f0341f67428a129248e1f53bcae653ba9801ecf63f7e3f513633d328b"
+      }
+    ]
+  },
+  "adapted": {
+    "sourceMapSha256": "743da43107a8ce01d7d675d418a37834d6049ddf6c492d8d315f19b638ac4533",
+    "files": 997,
+    "rows": [
+      {
+        "file": "agent/agent.ts",
+        "line": 423,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "HeroAgent.usable",
+        "expression": "actor.cooldowns",
+        "statement": "actor.cooldowns",
+        "sourceSha256": "7cf25c108ab240e4e95d9b4f1020ee57f5668776f27b3b7647552971a46ec9cf"
+      },
+      {
+        "file": "dev/tabs/ultlab.ts",
+        "line": 177,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "<top-level>",
+        "expression": "p.cooldowns",
+        "statement": "const cd = p.cooldowns.get(d.id);",
+        "sourceSha256": "d6ef4121902b89852ef9cd56739214a9478e8239c92c31b8402ab4aba67b0076"
+      },
+      {
+        "file": "director/director.ts",
+        "line": 470,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "Director.cue",
+        "expression": "a.cooldowns",
+        "statement": "a.cooldowns.delete(inst.def.id);",
+        "sourceSha256": "ecde64ae1939b3a870fc6b2fb643d76487889cf7efee7008156a565cd14026d2"
+      },
+      {
+        "file": "director/director.ts",
+        "line": 547,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "keepReady",
+        "expression": "p.cooldowns",
+        "statement": "const cd = p.cooldowns.get(d.id);",
+        "sourceSha256": "ecde64ae1939b3a870fc6b2fb643d76487889cf7efee7008156a565cd14026d2"
+      },
+      {
+        "file": "director/director.ts",
+        "line": 549,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "keepReady",
+        "expression": "p.cooldowns",
+        "statement": "p.cooldowns.set(d.id, cap);",
+        "sourceSha256": "ecde64ae1939b3a870fc6b2fb643d76487889cf7efee7008156a565cd14026d2"
+      },
+      {
+        "file": "engine/actor.ts",
+        "line": 1447,
+        "field": "cooldowns",
+        "operation": "declaration-or-key",
+        "owner": "Actor.<top-level>",
+        "expression": "cooldowns",
+        "statement": "cooldowns = new Map<string, number>();",
+        "sourceSha256": "6ee2915bc55ad94331f9e456ff8794478f1b8ff1b1c655783baa91741ae5268b"
+      },
+      {
+        "file": "engine/actor.ts",
+        "line": 1863,
+        "field": "cooldownTotals",
+        "operation": "declaration-or-key",
+        "owner": "Actor.<top-level>",
+        "expression": "cooldownTotals",
+        "statement": "cooldownTotals = new Map<string, number>();",
+        "sourceSha256": "6ee2915bc55ad94331f9e456ff8794478f1b8ff1b1c655783baa91741ae5268b"
+      },
+      {
+        "file": "engine/actor.ts",
+        "line": 3310,
+        "field": "cooldowns",
+        "operation": "has",
+        "owner": "Actor.sdkAmmunition",
+        "expression": "this.cooldowns",
+        "statement": "return this.sdkAmmo ??= new Ammunition(this.skillChargeState, {\n      spec: instanceUseCharges, skills: () => this.skills,\n      capacityBonus: inst => this.sheet.get('skillCharges', skillContextTags(inst), instanceMods(inst)),\n      chargeRate: inst => this.sheet.get('skillChargeRate', skillContextTags(inst.def), instanceMods(inst)),\n      cooldownRecovery: inst => this.sheet.get('cooldownRecovery', skillContextTags(inst.def), instanceMods(inst)),\n      still: () => this.skillBankStill(), cooling: inst => this.cooldowns.has(inst.def.id),\n    });",
+        "sourceSha256": "6ee2915bc55ad94331f9e456ff8794478f1b8ff1b1c655783baa91741ae5268b"
+      },
+      {
+        "file": "engine/assault.ts",
+        "line": 138,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "Assaults.refund",
+        "expression": "owner.cooldowns",
+        "statement": "const c = this.court(owner, host), left = owner.cooldowns.get(host.def.id) ?? 0;",
+        "sourceSha256": "8cecb56af66e619fc189861967949d65a5b3ae74050a10c660cba09d1641dedf"
+      },
+      {
+        "file": "engine/assault.ts",
+        "line": 140,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "Assaults.refund",
+        "expression": "owner.cooldowns",
+        "statement": "owner.cooldowns.set(host.def.id, left - reduction);",
+        "sourceSha256": "8cecb56af66e619fc189861967949d65a5b3ae74050a10c660cba09d1641dedf"
+      },
+      {
+        "file": "engine/assault.ts",
+        "line": 140,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "Assaults.refund",
+        "expression": "owner.cooldowns",
+        "statement": "owner.cooldowns.delete(host.def.id);",
+        "sourceSha256": "8cecb56af66e619fc189861967949d65a5b3ae74050a10c660cba09d1641dedf"
+      },
+      {
+        "file": "engine/assault.ts",
+        "line": 181,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "Assaults.update",
+        "expression": "owner.cooldowns",
+        "statement": "const c = this.court(owner, host), ready = (owner.cooldowns.get(host.def.id) ?? 0) <= 0;",
+        "sourceSha256": "8cecb56af66e619fc189861967949d65a5b3ae74050a10c660cba09d1641dedf"
+      },
+      {
+        "file": "engine/assault.ts",
+        "line": 194,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "Assaults.update",
+        "expression": "owner.cooldowns",
+        "statement": "(owner.lifeDamageInterceptors ??= new Map()).set('assault', (amount: number) => {\n        if (!this.live(c) || (owner.cooldowns.get(host.def.id) ?? 0) > 0) return amount;\n        const alive = shields.filter(a => !a.dead && a.life > 0 && sameStory(a, owner) && dist(a.pos, owner.pos) <= ASSAULT.radius);\n        if (!alive.length) return amount;\n        let shared = 0;\n        for (const a of alive) {\n          const wound = Math.min(a.life, amount * 0.3 / alive.length); shared += wound;\n          landLifeDamage(a, wound); if (a.life <= 0) this.w.kill(a, false, owner);\n        }\n        return amount - shared;\n      });",
+        "sourceSha256": "8cecb56af66e619fc189861967949d65a5b3ae74050a10c660cba09d1641dedf"
+      },
+      {
+        "file": "engine/attackSequences.ts",
+        "line": 228,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "AttackSequences.lock",
+        "expression": "s.owner.cooldowns",
+        "statement": "s.owner.cooldowns.set(s.host.def.id, 1);",
+        "sourceSha256": "88f840c02de4a543b1bd5d1b0a09445149144f730e765560289cf6c8d14bd371"
+      },
+      {
+        "file": "engine/attackSequences.ts",
+        "line": 228,
+        "field": "cooldownTotals",
+        "operation": "set",
+        "owner": "AttackSequences.lock",
+        "expression": "s.owner.cooldownTotals",
+        "statement": "s.owner.cooldownTotals.set(s.host.def.id, 1);",
+        "sourceSha256": "88f840c02de4a543b1bd5d1b0a09445149144f730e765560289cf6c8d14bd371"
+      },
+      {
+        "file": "engine/attackSequences.ts",
+        "line": 232,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "AttackSequences.release",
+        "expression": "s.owner.cooldowns",
+        "statement": "s.owner.cooldowns.delete(s.host.def.id);",
+        "sourceSha256": "88f840c02de4a543b1bd5d1b0a09445149144f730e765560289cf6c8d14bd371"
+      },
+      {
+        "file": "engine/attackSequences.ts",
+        "line": 232,
+        "field": "cooldownTotals",
+        "operation": "delete",
+        "owner": "AttackSequences.release",
+        "expression": "s.owner.cooldownTotals",
+        "statement": "s.owner.cooldownTotals.delete(s.host.def.id);",
+        "sourceSha256": "88f840c02de4a543b1bd5d1b0a09445149144f730e765560289cf6c8d14bd371"
+      },
+      {
+        "file": "engine/attackSequences.ts",
+        "line": 234,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "AttackSequences.release",
+        "expression": "s.owner.cooldowns",
+        "statement": "s.owner.cooldowns.set(s.host.def.id, s.spec.recovery!.missCooldown);",
+        "sourceSha256": "88f840c02de4a543b1bd5d1b0a09445149144f730e765560289cf6c8d14bd371"
+      },
+      {
+        "file": "engine/attackSequences.ts",
+        "line": 235,
+        "field": "cooldownTotals",
+        "operation": "set",
+        "owner": "AttackSequences.release",
+        "expression": "s.owner.cooldownTotals",
+        "statement": "s.owner.cooldownTotals.set(s.host.def.id, s.spec.recovery!.missCooldown);",
+        "sourceSha256": "88f840c02de4a543b1bd5d1b0a09445149144f730e765560289cf6c8d14bd371"
+      },
+      {
+        "file": "engine/challenges.ts",
+        "line": 61,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "Challenges.completed",
+        "expression": "owner.cooldowns",
+        "statement": "owner.cooldowns.delete(state.host.def.id);",
+        "sourceSha256": "ca99395ff7dfd08510ff92a3ac99ec5015ef645fcb80c884604365fa4ef68b65"
+      },
+      {
+        "file": "engine/challenges.ts",
+        "line": 61,
+        "field": "cooldownTotals",
+        "operation": "delete",
+        "owner": "Challenges.completed",
+        "expression": "owner.cooldownTotals",
+        "statement": "owner.cooldownTotals.delete(state.host.def.id);",
+        "sourceSha256": "ca99395ff7dfd08510ff92a3ac99ec5015ef645fcb80c884604365fa4ef68b65"
+      },
+      {
+        "file": "engine/channelCastingAdapter.ts",
+        "line": 26,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "createChannelCasting",
+        "expression": "actor.cooldowns",
+        "statement": "actor.cooldowns.set(state.inst.def.id, duration);",
+        "sourceSha256": "deef6df1027fc08c66cb2f78a044c4f5d201220652e832421819454837619aa0"
+      },
+      {
+        "file": "engine/companionBonds.ts",
+        "line": 166,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "CompanionBonds.refreshBeast",
+        "expression": "beast.cooldowns",
+        "statement": "beast.cooldowns.delete(id);",
+        "sourceSha256": "e4b504c19916c582f4df2d56731a0cfccc48c2f54a1be4c1520b67b16bcc69f4"
+      },
+      {
+        "file": "engine/encounterCombat.ts",
+        "line": 64,
+        "field": "cooldowns",
+        "operation": "declaration-or-key",
+        "owner": "<top-level>",
+        "expression": "cooldowns",
+        "statement": "cooldowns",
+        "sourceSha256": "cda32e88cc2dd8ebc7f6afe06999b75314c0aa07c87f62d5fd869fdf5de1689b"
+      },
+      {
+        "file": "engine/encounterCombat.ts",
+        "line": 146,
+        "field": "cooldowns",
+        "operation": "declaration-or-key",
+        "owner": "updateEncounterCombat",
+        "expression": "cooldowns",
+        "statement": "s={nextThink:w.time+ENCOUNTER_COMBAT_CFG.initialDelay,cooldowns:new Map(),until:0,participants:[]};",
+        "sourceSha256": "cda32e88cc2dd8ebc7f6afe06999b75314c0aa07c87f62d5fd869fdf5de1689b"
+      },
+      {
+        "file": "engine/encounterCombat.ts",
+        "line": 170,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "updateEncounterCombat",
+        "expression": "s.cooldowns",
+        "statement": "s.cooldowns",
+        "sourceSha256": "cda32e88cc2dd8ebc7f6afe06999b75314c0aa07c87f62d5fd869fdf5de1689b"
+      },
+      {
+        "file": "engine/encounterCombat.ts",
+        "line": 176,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "updateEncounterCombat",
+        "expression": "s.cooldowns",
+        "statement": "s.cooldowns.set(chosen.id,w.time+chosen.warning+chosen.duration+chosen.recovery+chosen.cooldown);",
+        "sourceSha256": "cda32e88cc2dd8ebc7f6afe06999b75314c0aa07c87f62d5fd869fdf5de1689b"
+      },
+      {
+        "file": "engine/resourceEventAdapter.ts",
+        "line": 18,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "createResourceEvents",
+        "expression": "actor.cooldowns",
+        "statement": "return new ResourceEvents<Actor, SkillInstance, Vec2, Actor>({\n    skills: actor => actor.skills,\n    taps: instanceChargeGain,\n    toggled: (actor, inst) => actor.activeAuras.has(inst.def.id) || actor.summonToggles.has(inst.def.id),\n    distance: (actor, at) => dist(actor.pos, at),\n    elite,\n    random: () => Math.random(),\n    gain: (actor, inst, tap) => actor.gainCharge(tap.charge, tap.amount, tap.max, inst),\n    gaugeTerms: (actor, inst) => actor.gaugeEff(inst)!,\n    cooldown: (actor, inst) => actor.cooldowns.get(inst.def.id) ?? 0,\n    setCooldown: (actor, inst, seconds) => { actor.cooldowns.set(inst.def.id, seconds); },\n  }, {deathRadius: 360});",
+        "sourceSha256": "3ff2018783958a2338343e53f9de3cf26685221e6825496d6969c6fd9a832e5f"
+      },
+      {
+        "file": "engine/resourceEventAdapter.ts",
+        "line": 19,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "createResourceEvents",
+        "expression": "actor.cooldowns",
+        "statement": "actor.cooldowns.set(inst.def.id, seconds);",
+        "sourceSha256": "3ff2018783958a2338343e53f9de3cf26685221e6825496d6969c6fd9a832e5f"
+      },
+      {
+        "file": "engine/scenes.ts",
+        "line": 836,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "update",
+        "expression": "col.cooldowns",
+        "statement": "col.cooldowns.delete(s.verb);",
+        "sourceSha256": "504e59ea5edd61d055e011a50386b44aafa5db44b1093ed268207b6bcc710d2d"
+      },
+      {
+        "file": "engine/scenes.ts",
+        "line": 837,
+        "field": "cooldownTotals",
+        "operation": "delete",
+        "owner": "update",
+        "expression": "col.cooldownTotals",
+        "statement": "col.cooldownTotals.delete(s.verb);",
+        "sourceSha256": "504e59ea5edd61d055e011a50386b44aafa5db44b1093ed268207b6bcc710d2d"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 4921,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "World.seatEject",
+        "expression": "hero.cooldowns",
+        "statement": "const cd = Math.max(hero.cooldowns.get(ride.gemId) ?? 0, POSSESS_CFG.eject.cooldown);",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 4922,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.seatEject",
+        "expression": "hero.cooldowns",
+        "statement": "hero.cooldowns.set(ride.gemId, cd);",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 4923,
+        "field": "cooldownTotals",
+        "operation": "set",
+        "owner": "World.seatEject",
+        "expression": "hero.cooldownTotals",
+        "statement": "hero.cooldownTotals.set(ride.gemId, Math.max(hero.cooldownTotals.get(ride.gemId) ?? 0, cd));",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 4923,
+        "field": "cooldownTotals",
+        "operation": "get",
+        "owner": "World.seatEject",
+        "expression": "hero.cooldownTotals",
+        "statement": "hero.cooldownTotals.set(ride.gemId, Math.max(hero.cooldownTotals.get(ride.gemId) ?? 0, cd));",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 22883,
+        "field": "cooldowns",
+        "operation": "has",
+        "owner": "World.swapReadiness",
+        "expression": "hero.cooldowns",
+        "statement": "hero.cooldowns",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 23703,
+        "field": "cooldowns",
+        "operation": "delete",
+        "owner": "World.devClearUltimateCooldowns",
+        "expression": "seat.actor.cooldowns",
+        "statement": "seat.actor.cooldowns",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 23704,
+        "field": "cooldownTotals",
+        "operation": "delete",
+        "owner": "World.devClearUltimateCooldowns",
+        "expression": "seat.actor.cooldownTotals",
+        "statement": "seat.actor.cooldownTotals.delete(inst.def.id);",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 30897,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.hivecallReturn",
+        "expression": "hero.cooldowns",
+        "statement": "hero.cooldowns.set(host.def.id, cd);",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 30898,
+        "field": "cooldownTotals",
+        "operation": "set",
+        "owner": "World.hivecallReturn",
+        "expression": "hero.cooldownTotals",
+        "statement": "hero.cooldownTotals.set(host.def.id, cd);",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 30899,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.hivecallReturn",
+        "expression": "hero.cooldowns",
+        "statement": "hero.cooldowns.set('enrage_swarm', cd);",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 30900,
+        "field": "cooldownTotals",
+        "operation": "set",
+        "owner": "World.hivecallReturn",
+        "expression": "hero.cooldownTotals",
+        "statement": "hero.cooldownTotals.set('enrage_swarm', cd);",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 30928,
+        "field": "cooldowns",
+        "operation": "has",
+        "owner": "World.hivecallMeta",
+        "expression": "caster.cooldowns",
+        "statement": "caster.cooldowns",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 30931,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "World.hivecallMeta",
+        "expression": "caster.cooldowns",
+        "statement": "caster.cooldowns.set('enrage_swarm', cd);",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 30931,
+        "field": "cooldownTotals",
+        "operation": "set",
+        "owner": "World.hivecallMeta",
+        "expression": "caster.cooldownTotals",
+        "statement": "caster.cooldownTotals.set('enrage_swarm', cd);",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 51043,
+        "field": "cooldowns",
+        "operation": "clear",
+        "owner": "World.updateConstructs",
+        "expression": "c.cooldowns",
+        "statement": "c.cooldowns.clear();",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 54551,
+        "field": "cooldowns",
+        "operation": "clear",
+        "owner": "World.updateDetonations",
+        "expression": "mine.cooldowns",
+        "statement": "mine.cooldowns.clear();",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "engine/world.ts",
+        "line": 56173,
+        "field": "cooldowns",
+        "operation": "has",
+        "owner": "World.triggerEligible",
+        "expression": "owner.cooldowns",
+        "statement": "owner.cooldowns",
+        "sourceSha256": "c3a03907a978f54d4bc3531933bf775acacff7ab1b6523d269cef90153ec2672"
+      },
+      {
+        "file": "render/renderer.ts",
+        "line": 7893,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "Renderer.drawHudCluster",
+        "expression": "p.cooldowns",
+        "statement": "const cd = p.cooldowns.get(face.id);",
+        "sourceSha256": "8bd68cce07c156c9b2c6be7ef2ae5796f9b9eb56d9f8a230ce0163921e7be489"
+      },
+      {
+        "file": "render/renderer.ts",
+        "line": 7894,
+        "field": "cooldownTotals",
+        "operation": "get",
+        "owner": "Renderer.drawHudCluster",
+        "expression": "p.cooldownTotals",
+        "statement": "const cdTotal = p.cooldownTotals.get(face.id) ?? face.cooldown;",
+        "sourceSha256": "8bd68cce07c156c9b2c6be7ef2ae5796f9b9eb56d9f8a230ce0163921e7be489"
+      },
+      {
+        "file": "render/renderer.ts",
+        "line": 8228,
+        "field": "cooldowns",
+        "operation": "has",
+        "owner": "Renderer.drawHudCluster",
+        "expression": "p.cooldowns",
+        "statement": "const metaCd = p.cooldowns.has(meta.skillId);",
+        "sourceSha256": "8bd68cce07c156c9b2c6be7ef2ae5796f9b9eb56d9f8a230ce0163921e7be489"
+      },
+      {
+        "file": "showcase/stage.ts",
+        "line": 322,
+        "field": "cooldowns",
+        "operation": "get",
+        "owner": "buildStage",
+        "expression": "p.cooldowns",
+        "statement": "const cd = p.cooldowns.get(i.def.id);",
+        "sourceSha256": "b23b080f0341f67428a129248e1f53bcae653ba9801ecf63f7e3f513633d328b"
+      },
+      {
+        "file": "showcase/stage.ts",
+        "line": 323,
+        "field": "cooldowns",
+        "operation": "set",
+        "owner": "buildStage",
+        "expression": "p.cooldowns",
+        "statement": "p.cooldowns.set(i.def.id, SHOWCASE_CFG.cooldownCap);",
+        "sourceSha256": "b23b080f0341f67428a129248e1f53bcae653ba9801ecf63f7e3f513633d328b"
+      }
+    ]
+  },
+  "policies": [
+    {
+      "file": "director/director.ts",
+      "owner": "Director.cue",
+      "ownership": "host-tool"
+    },
+    {
+      "file": "director/director.ts",
+      "owner": "keepReady",
+      "ownership": "host-tool"
+    },
+    {
+      "file": "showcase/stage.ts",
+      "owner": "buildStage",
+      "ownership": "host-tool"
+    },
+    {
+      "file": "engine/world.ts",
+      "owner": "World.devClearUltimateCooldowns",
+      "ownership": "host-tool"
+    },
+    {
+      "file": "engine/scenes.ts",
+      "owner": "update",
+      "ownership": "host-scene"
+    },
+    {
+      "file": "engine/encounterCombat.ts",
+      "owner": "updateEncounterCombat",
+      "ownership": "separate-encounter-clock"
+    },
+    {
+      "file": "engine/channelCastingAdapter.ts",
+      "owner": "createChannelCasting",
+      "ownership": "sdk-command-port"
+    },
+    {
+      "file": "engine/resourceEventAdapter.ts",
+      "owner": "createResourceEvents",
+      "ownership": "sdk-command-port"
+    },
+    {
+      "file": "engine/assault.ts",
+      "owner": "Assaults.refund",
+      "ownership": "pending-specialized-gameplay"
+    },
+    {
+      "file": "engine/attackSequences.ts",
+      "owner": "AttackSequences.lock",
+      "ownership": "pending-specialized-gameplay"
+    },
+    {
+      "file": "engine/attackSequences.ts",
+      "owner": "AttackSequences.release",
+      "ownership": "pending-specialized-gameplay"
+    },
+    {
+      "file": "engine/challenges.ts",
+      "owner": "Challenges.completed",
+      "ownership": "pending-specialized-gameplay"
+    },
+    {
+      "file": "engine/companionBonds.ts",
+      "owner": "CompanionBonds.refreshBeast",
+      "ownership": "pending-specialized-gameplay"
+    },
+    {
+      "file": "engine/world.ts",
+      "owner": "World.seatEject",
+      "ownership": "pending-specialized-gameplay"
+    },
+    {
+      "file": "engine/world.ts",
+      "owner": "World.hivecallReturn",
+      "ownership": "pending-specialized-gameplay"
+    },
+    {
+      "file": "engine/world.ts",
+      "owner": "World.hivecallMeta",
+      "ownership": "pending-specialized-gameplay"
+    },
+    {
+      "file": "engine/world.ts",
+      "owner": "World.updateConstructs",
+      "ownership": "pending-specialized-gameplay"
+    },
+    {
+      "file": "engine/world.ts",
+      "owner": "World.updateDetonations",
+      "ownership": "pending-specialized-gameplay"
+    }
+  ]
+}

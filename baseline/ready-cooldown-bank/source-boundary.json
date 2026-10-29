@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "file": "src/engine/assault.ts",
+  "sourceCanonicalization": "CRLF to LF only",
+  "originalSha256": "8cecb56af66e619fc189861967949d65a5b3ae74050a10c660cba09d1641dedf",
+  "predecessorSha256": "8cecb56af66e619fc189861967949d65a5b3ae74050a10c660cba09d1641dedf",
+  "blocks": {
+    "refund": {
+      "text": "refund(owner: Actor, host: SkillInstance, amount: number): void {\n    const c = this.court(owner, host), left = owner.cooldowns.get(host.def.id) ?? 0;\n    const reduction = Math.min(left, amount);\n    if (left > reduction) owner.cooldowns.set(host.def.id, left - reduction); else owner.cooldowns.delete(host.def.id);\n    // Only reductions earned while already ready bank; a finishing refund does not double-pay.\n    if (left <= 0 && assaultNode(host, 'patient_signal')) c.bank = Math.min(skillCooldownSeconds(owner, host) * (ASSAULT.maxHits - 1), c.bank + amount);\n    this.hud(c);\n  }",
+      "sha256": "13ab38a239de45842263d2282d4cf26b25b0d1b54e3427df03aacb14f28df92a"
+    },
+    "commandBank": {
+      "text": "const unit = Math.max(0.1, skillCooldownSeconds(owner, host));\nconst extra = !recall && assaultNode(host, 'patient_signal') ? Math.min(ASSAULT.maxHits - 1, Math.floor(c.bank / unit)) : 0;\nif (!recall) c.bank = Math.max(0, c.bank - extra * unit);",
+      "sha256": "5911b75a3a3cdf565bc3a92a149b6f4456c46e6923361cf5ac21406a81386e1e"
+    },
+    "hud": {
+      "text": "private hud(c: Court): void {\n    if (!assaultNode(c.host, 'patient_signal')) { c.owner.assaultHud = undefined; return; }\n    const unit = Math.max(0.1, skillCooldownSeconds(c.owner, c.host));\n    const extra = Math.min(ASSAULT.maxHits - 1, Math.floor(c.bank / unit));\n    c.owner.assaultHud = { hits: 1 + extra, progress: extra >= ASSAULT.maxHits - 1 ? 1 : (c.bank / unit) % 1 };\n  }",
+      "sha256": "a1aea62669681c2520b3c8a52591dfff9e4b2b01ffc46bd1d852ff8a8c471247"
+    }
+  }
+}
