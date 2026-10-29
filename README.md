@@ -33,7 +33,10 @@ The development branch also extracts [cooldown proc effects](docs/cooldowns.md)
 behind optional execution and content-loading imports. Its baseline contains 75
 original scenarios and all 12 registered authored effects, including nested
 changes and committed failures. Twenty-one actual renderer stages match the
-native game. Elapsed cooldowns, the remaining lifecycle, native-host exposure
+native game. The [lifecycle module](docs/cooldown-lifecycle.md) also delegates
+elapsed recovery, pricing, stamping, refunds and Time Dilation through 44 matching
+original observations; the same 21 renderer stages pass with that integration.
+Specialized clock writes, broader lifecycle UI coverage, native-host exposure
 and device performance remain open.
 
 Version 0.37 adds optional [life recovery](docs/life-recovery.md): healing,

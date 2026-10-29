@@ -185,6 +185,8 @@ jobs:
       - run: npm run adapter:restoration-faults
       - run: npm run adapter:cooldowns
       - run: npm run adapter:cooldowns-faults
+      - run: npm run adapter:cooldown-lifecycle
+      - run: npm run adapter:cooldown-lifecycle-faults
       - run: npm run adapter:ammunition
       - run: npm run check
         working-directory: .artifacts/game-adapter
@@ -279,6 +281,17 @@ jobs:
             .artifacts/cooldown-reference-verification.json
             .artifacts/game-cooldown-verification.json
             .artifacts/cooldown-installed-faults.json
+            .artifacts/game-cooldown-lifecycle-verification.json
+            .artifacts/cooldown-lifecycle-overlay.json
+            .artifacts/cooldown-lifecycle-installed-faults.json
+            .artifacts/cooldown-lifecycle-package.json
+            .artifacts/cooldown-lifecycle-mutations.json
+            .artifacts/game-clock-lifecycle-*/*.json
+            .artifacts/game-clock-lifecycle-*/*.txt
+            .artifacts/reference-clock-lifecycle-*/*.json
+            .artifacts/reference-clock-lifecycle-*/*.txt
+            .artifacts/clock-installed-faults-*/*.json
+            .artifacts/clock-installed-faults-*/*.txt
             .artifacts/reference-cooldown-*/*.json
             .artifacts/reference-cooldown-*/*.txt
             .artifacts/game-cooldown-*/*.json

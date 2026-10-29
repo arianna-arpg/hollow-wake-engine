@@ -39,7 +39,8 @@
     "examples/buffs.mjs",
     "examples/life-recovery.mjs",
     "examples/resource-restoration.mjs",
-    "examples/cooldowns.mjs"
+    "examples/cooldowns.mjs",
+    "examples/cooldown-lifecycle.mjs"
   ],
   "exports": {
     ".": {
@@ -248,13 +249,17 @@
     "./combat/cooldown-content": {
       "types": "./dist/cooldown-content.d.ts",
       "import": "./dist/cooldown-content.js"
+    },
+    "./combat/cooldown-lifecycle": {
+      "types": "./dist/cooldown-lifecycle.d.ts",
+      "import": "./dist/cooldown-lifecycle.js"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs && node scripts/test-skill-admission-package.mjs && node scripts/test-skill-intent-package.mjs && node scripts/test-skill-request-package.mjs && node scripts/test-skill-dispatch-package.mjs && node scripts/test-casting-continuation-package.mjs && node scripts/test-channel-bank-package.mjs && node scripts/test-actor-condition-mutations.mjs && node scripts/test-actor-condition-package.mjs && node scripts/test-proc-mutations.mjs && node scripts/test-proc-package.mjs && node scripts/test-proc-effects-mutations.mjs && node scripts/test-proc-effects-package.mjs && node scripts/test-delayed-mutations.mjs && node scripts/test-delayed-package.mjs && node scripts/test-buff-mutations.mjs && node scripts/test-buff-package.mjs && npm run test:life-recovery-package && npm run test:life-recovery-mutations && npm run test:restoration-package && npm run test:restoration-mutations && npm run test:cooldown-package && npm run test:cooldown-mutations",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs && node scripts/test-skill-admission-package.mjs && node scripts/test-skill-intent-package.mjs && node scripts/test-skill-request-package.mjs && node scripts/test-skill-dispatch-package.mjs && node scripts/test-casting-continuation-package.mjs && node scripts/test-channel-bank-package.mjs && node scripts/test-actor-condition-mutations.mjs && node scripts/test-actor-condition-package.mjs && node scripts/test-proc-mutations.mjs && node scripts/test-proc-package.mjs && node scripts/test-proc-effects-mutations.mjs && node scripts/test-proc-effects-package.mjs && node scripts/test-delayed-mutations.mjs && node scripts/test-delayed-package.mjs && node scripts/test-buff-mutations.mjs && node scripts/test-buff-package.mjs && npm run test:life-recovery-package && npm run test:life-recovery-mutations && npm run test:restoration-package && npm run test:restoration-mutations && npm run test:cooldown-package && npm run test:cooldown-mutations && npm run test:cooldown-lifecycle-package && npm run test:cooldown-lifecycle-mutations",
     "example": "npm run build && node examples/first-path.mjs",
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
@@ -434,13 +439,18 @@
     "benchmark:restoration": "node scripts/benchmark-restoration.mjs",
     "reference:cooldowns": "node scripts/run-cooldown-reference.mjs",
     "reference:cooldown-lifecycle": "node scripts/run-cooldown-lifecycle-reference.mjs",
+    "test:cooldown-lifecycle-package": "node scripts/test-cooldown-lifecycle-package.mjs",
+    "test:cooldown-lifecycle-mutations": "node scripts/test-cooldown-lifecycle-mutations.mjs",
     "test:cooldown-package": "node scripts/test-cooldown-package.mjs",
     "test:cooldown-mutations": "node scripts/test-cooldown-mutations.mjs",
     "adapter:cooldowns": "node scripts/test-game-cooldowns.mjs",
     "adapter:cooldowns-faults": "node scripts/test-cooldown-installed-faults.mjs",
     "adapter:cooldowns-source": "node scripts/test-cooldown-overlay.mjs",
     "adapter:cooldowns-ui": "node scripts/test-cooldown-ui.mjs",
-    "adapter:cooldowns-ui-controls": "node scripts/test-cooldown-ui-controls.mjs"
+    "adapter:cooldowns-ui-controls": "node scripts/test-cooldown-ui-controls.mjs",
+    "adapter:cooldown-lifecycle": "node scripts/test-game-cooldown-lifecycle.mjs",
+    "adapter:cooldown-lifecycle-faults": "node scripts/test-cooldown-lifecycle-installed-faults.mjs",
+    "adapter:cooldown-lifecycle-source": "node scripts/test-cooldown-lifecycle-overlay.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3"

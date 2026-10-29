@@ -131,7 +131,9 @@ not automatic exposure of this module.
 
 The next lifecycle boundary now has [44 original reference courses](cooldown-lifecycle.md)
 for elapsed recovery, pricing, stamping, refunds and the distinct skill effect.
-Those observations do not yet implement the remaining SDK capability.
+The optional lifecycle module and installed adapter now match those observations;
+the existing 21 renderer stages also pass with it. Broader lifecycle UI coverage
+and performance acceptance remain separate.
 
 Twenty-one actual game renderer stages match the native cooldown implementation.
 Two independent native runs established the expected observations before the SDK

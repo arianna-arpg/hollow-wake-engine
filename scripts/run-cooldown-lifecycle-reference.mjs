@@ -36,7 +36,7 @@ writeJSON(path.join(output, 'tsconfig.json'), {extends:path.join(game,'tsconfig.
   compilerOptions:{typeRoots:[path.join(game,'node_modules/@types')]}, include:[typed], exclude:[]});
 const report = {passed:false, game, output, courses:44, acceptanceSha256:sha256(acceptedBytes),
   sourceMapSha256:sha256(JSON.stringify(before)), expectedFilesRewritten:false,
-  scope:'Original lifecycle observations only; no new SDK implementation, performance or device acceptance.'};
+  scope:'Frozen lifecycle observations; a supplied game comparison does not establish renderer, native-host, performance or device acceptance.'};
 try {
   for (const [name, command] of [
     ['types',[path.join(game,'node_modules/typescript/bin/tsc'),'-p',path.join(output,'tsconfig.json')]],

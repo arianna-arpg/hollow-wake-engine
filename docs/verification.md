@@ -1,5 +1,16 @@
 # Verification and reproduction
 
+The optional cooldown lifecycle development checkpoint passes 953 SDK tests
+(30 specific to this module), 44 frozen original lifecycle courses, the 75
+existing proc-cooldown courses and the 21 existing renderer stages. It detects
+17 runtime, 16 source-guard and 10 installed-game faults. Its installed game
+passes all type checks and 25 smoke episodes. The six functions add 3,656 bytes
+of JavaScript while preserving all 207 predecessor runtime outputs. See the
+[lifecycle boundary](cooldown-lifecycle.md) and
+[runtime evidence](../evidence/cooldown-lifecycle/runtime.json) for the exact
+scope, retained failures and reproduction commands. Broader lifecycle renderer,
+native-host, performance and physical-device acceptance remain open.
+
 The v0.38 development restoration candidate passes 850 SDK tests, including 211
 focused restoration checks and three fault-selector checks, and preserves all
 195 predecessor compiled files.
