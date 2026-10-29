@@ -23,6 +23,26 @@ function rig(rows=[definition()],options={}){
 const skill={def:{id:'cleave'},tags:new Set(['attack','melee','physical','aoe'])};
 const original=JSON.parse(gunzipSync(fs.readFileSync(new URL('../baseline/milestone-thirty-eight/proc-rules.json.gz',import.meta.url))));
 
+test('proc subclasses finish their fields before freezing without changing dispatch',()=>{
+  const r=rig();
+  assert.equal(Object.isFrozen(r.runtime),true);
+  class Derived extends ProcRuntime {
+    label='derived';
+    #calls=0;
+    constructor(source,ports){super(source,ports);Object.freeze(this);}
+    own(...args){this.#calls++;return super.own(...args);}
+    get calls(){return this.#calls;}
+  }
+  const runtime=new Derived(r.content,r.ports);
+  assert.equal(runtime.label,'derived');assert.equal(Object.isFrozen(runtime),true);
+  assert.throws(()=>{runtime.label='changed';},TypeError);
+  r.actor.sheet.setBase('proc_A',1);runtime.own(r.actor,'condition');
+  assert.equal(runtime.calls,1);assert.equal(r.calls.length,1);assert.equal(r.state.draws,1);
+  class Open extends ProcRuntime {#value=7;get value(){return this.#value;}}
+  const open=new Open(r.content,r.ports);
+  assert.equal(open.value,7);assert.equal(Object.isExtensible(open),true);
+});
+
 test('carry and talent results preserve entry eligibility for following host phases',()=>{
   const r=rig([definition('A',{trigger:'hit',minionCarry:true})]);r.actor.sheet.setBase('proc_A',1);
   const event={dealt:1,depth:0,crit:false,lethal:true,elite:false};

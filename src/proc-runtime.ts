@@ -17,7 +17,11 @@ export class ProcRuntime<A extends ProcActor,I extends ProcSkill,D extends ProcD
       const fn=ports[key];if(typeof fn!=='function')throw new Error('Missing proc '+key+' port');
       Object.defineProperty(bound,key,{value:fn.bind(ports),enumerable:true});
     }
-    this.#ports=Object.freeze(bound);Object.freeze(this);
+    this.#ports=Object.freeze(bound);
+    // A derived constructor has not initialized its fields yet. Freezing here
+    // also rejects private fields in hosts implementing nonextensible private
+    // elements. Derived classes own freezing after their initialization.
+    if(new.target===ProcRuntime)Object.freeze(this);
   }
   #roll(chance:number):boolean {
     const value=finite(this.#ports.random(),'Proc random sample');if(value<0||value>=1)throw new Error('Proc random sample must be in [0, 1)');return value<chance;

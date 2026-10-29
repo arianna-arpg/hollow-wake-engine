@@ -1,0 +1,312 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parent": "5ae3f904ef2dfe4f55ba6267d11218069ca53ba5",
+  "stage": "Repair proc subclass construction and verify full original/installed attack course through native driver and shared C library",
+  "verification": {
+    "sdkTests": 1025,
+    "referenceVerification": true,
+    "gameLauncherSimulationTypes": true,
+    "installedProcCourses": 150,
+    "installedProcFaults": 18,
+    "sequenceChecks": 114,
+    "contentProjections": 12,
+    "smokeEpisodes": 25,
+    "sourceGuards": [
+      {
+        "ending": "\n",
+        "sourceFaultsRejected": 21,
+        "collisionRejectedBeforeWrites": true,
+        "unrelatedMembersAndHitPhasesPreserved": true,
+        "gaugeAndKillRewardTailsPreserved": true,
+        "duplicateRejected": true
+      },
+      {
+        "ending": "\r\n",
+        "sourceFaultsRejected": 21,
+        "collisionRejectedBeforeWrites": true,
+        "unrelatedMembersAndHitPhasesPreserved": true,
+        "gaugeAndKillRewardTailsPreserved": true,
+        "duplicateRejected": true
+      }
+    ],
+    "nativeOriginalAndInstalledExact": true,
+    "nativeNumericComparisons": 150608,
+    "events": 7264,
+    "randomSamples": 2733,
+    "requestsPerNativeReplay": 33,
+    "libraryConsumer": "C++",
+    "nativeEarlyFreezeFaultDetected": true,
+    "cloneOperationsIndependentlyCompared": 931,
+    "legacySessionRequests": 60,
+    "legacySessionNumericComparisons": 609,
+    "allNativeTrackedAllocationsDisposed": true
+  },
+  "numerical": {
+    "policy": "Only actor-facing angles may differ from Node by the existing 1e-12 relative/absolute tolerance. All other values are exact; original and installed native outcomes are exactly equal.",
+    "observed": [
+      {
+        "path": "$/19/value/rows/2/worlds/0/actors/2/facing",
+        "actual": 2.0067420640161253,
+        "expected": 2.0067420640161258,
+        "absoluteError": 4.440892098500626e-16
+      },
+      {
+        "path": "$/19/value/rows/3/worlds/0/actors/2/facing",
+        "actual": 2.0067420640161253,
+        "expected": 2.0067420640161258,
+        "absoluteError": 4.440892098500626e-16
+      }
+    ]
+  },
+  "runtime": {
+    "beforeOutputs": 225,
+    "afterOutputs": 225,
+    "changed": [
+      "proc-runtime.js",
+      "proc-runtime.js.map"
+    ],
+    "unchanged": 223,
+    "runtimeMapSha256": "21c819990767c60932cc73ffaf088de3a42a02445c08a4a696dd29701d174ff5",
+    "sourceMapSha256": "cf64b8ddcb023c0f3ccffaf6c69a5cb64609614fe600df6aa480343128a83b03",
+    "archiveSha256": "3dcd37600021d3565b77e1ba89f0208a05d86672e401d0a7be9afd2c45a381cb",
+    "integrity": "sha512-QMovTu4ysL/sc5KOrrnFYhv8pgQ4fRNUC9mc4v5nIvaaRpLJ3ISE/t6sZmwdxCogku+kaXTgjD+SK+2eZI7TxQ=="
+  },
+  "native": {
+    "directory": "native-attack-course-yYWxOm",
+    "runtimeVersion": "0.17.0",
+    "sourceHashes": {
+      "scripts/test-native-attack-course.mjs": "359f1f44ad70b1b9c45b3127b91aab5556795fd09fd30cbbaf35fdd8226b4cad",
+      "experiments/embedded-js/course-services.mjs": "422972288c57172b6316ef7df5db27b3f29ffdd97e8a1cde4cef33c6985c430a",
+      "experiments/embedded-js/session-host.c": "d4e4decec9ba2f3c9bf22ad5b5040c80bb06fb8da46d34ae4f0c8edf0d9dc5f9",
+      "experiments/embedded-js/host-support.h": "3a0c476def580a963a866d103d4a61cc3942b89ddb826d140e0d0dae734d9aad",
+      "experiments/embedded-js/tracked-allocator.h": "5c8e5cbf6412a3b9edf93826e190524221dc0cecc77f903690352f2a8c01ac0f",
+      "scripts/embedded-native-tools.mjs": "c92fbe1e1af2d563fd6b58b3fd8ee152a1ba5a9c6200e4d75ba6cf9be745ecf5",
+      "scripts/native-tools.mjs": "80671f3913e94caaecc8d18ab0c87d95aa3cb978201f38896291a4b823db5b89",
+      "baseline/attack-sequences/acceptance.json": "9c6717606b0c9f4820e868afd492e078589e0a10c7c20a0000a8bd6bb94fcd79",
+      "reference/export-attack-sequences.ts": "36f5b3fa6078bd3e77295671feac5ce5d6b947dfab7912d1eb39f2772b5cf1c5",
+      "baseline/attack-sequences/observations.json.gz": "df7ae067399ce626330693cf7e294920942618874e2676a51396ccdba6b1ea77",
+      "experiments/embedded-js/native/consumer.cpp": "d46fe4c20255167b85a2cfb9afa96cad10bb7871182b2ee9d873eda106c438a0",
+      "experiments/embedded-js/native/dotnet/Consumer.csproj": "5752c7f35a5b6b7f286e0e9fe3fc1ae94e4935873e07179a729777e0b79804cc",
+      "experiments/embedded-js/native/dotnet/Embedded.cs": "c6cea31a4ca20ed3373fdc53159477e9db38f77512c135d6209a8c057ea35000",
+      "experiments/embedded-js/native/dotnet/NuGet.Config": "2142cfb2dfa2c7feefbe40fabcc68b0dfecadafa99a1db9b70239d977cf2a7ef",
+      "experiments/embedded-js/native/dotnet/Program.cs": "ea866913c81e6f6be8d72da91e193e132bc94790bbe8a44b555347d5e22a861c",
+      "experiments/embedded-js/native/hwe_embedded.c": "382b4c0a404b7219feeb35742aaff0b2136c8df65c1cf93e634a9ee9e33f155a",
+      "experiments/embedded-js/native/hwe_embedded.h": "29fb4f208074cd4d6407482900479322cbd21d1e722851cf5617b732aac72978"
+    },
+    "runs": [
+      {
+        "label": "original",
+        "passed": true,
+        "bundleBytes": 13561760,
+        "bundleSha256": "18918498ee19a73ac70bb1c02c9cb461b561d1a4c681796f50d15a53b6f7b7fb",
+        "cloneChecks": 931,
+        "metrics": {
+          "code": 0,
+          "completedRequests": 33,
+          "peakRequestedBytes": 160481753,
+          "liveRequestedBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "allocationRequests": 280438
+        },
+        "nodeExact": true,
+        "comparison": {
+          "numbers": 150608,
+          "differences": [
+            {
+              "path": "$/19/value/rows/2/worlds/0/actors/2/facing",
+              "actual": 2.0067420640161253,
+              "expected": 2.0067420640161258,
+              "absoluteError": 4.440892098500626e-16
+            },
+            {
+              "path": "$/19/value/rows/3/worlds/0/actors/2/facing",
+              "actual": 2.0067420640161253,
+              "expected": 2.0067420640161258,
+              "absoluteError": 4.440892098500626e-16
+            }
+          ]
+        },
+        "libraryComparison": {
+          "numbers": 150608,
+          "differences": []
+        },
+        "libraryMetrics": {
+          "passed": true,
+          "requests": 33,
+          "liveBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "peakTrackedBytes": 160477665,
+          "bufferOwnership": true,
+          "threadMigration": true,
+          "concurrentCancellation": true,
+          "unloadReload": true
+        }
+      },
+      {
+        "label": "installed",
+        "passed": true,
+        "bundleBytes": 13840640,
+        "bundleSha256": "57c7fea52a4aae8294324f52b22f72baa9880ad910e04860c67c86574f769ce3",
+        "cloneChecks": 931,
+        "metrics": {
+          "code": 0,
+          "completedRequests": 33,
+          "peakRequestedBytes": 200921193,
+          "liveRequestedBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "allocationRequests": 325612
+        },
+        "nodeExact": true,
+        "comparison": {
+          "numbers": 150608,
+          "differences": [
+            {
+              "path": "$/19/value/rows/2/worlds/0/actors/2/facing",
+              "actual": 2.0067420640161253,
+              "expected": 2.0067420640161258,
+              "absoluteError": 4.440892098500626e-16
+            },
+            {
+              "path": "$/19/value/rows/3/worlds/0/actors/2/facing",
+              "actual": 2.0067420640161253,
+              "expected": 2.0067420640161258,
+              "absoluteError": 4.440892098500626e-16
+            }
+          ]
+        },
+        "libraryComparison": {
+          "numbers": 150608,
+          "differences": []
+        },
+        "libraryMetrics": {
+          "passed": true,
+          "requests": 33,
+          "liveBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "peakTrackedBytes": 200929369,
+          "bufferOwnership": true,
+          "threadMigration": true,
+          "concurrentCancellation": true,
+          "unloadReload": true
+        }
+      },
+      {
+        "label": "early-freeze-fault",
+        "passed": true,
+        "bundleBytes": 13840622,
+        "bundleSha256": "f8f48f31f7d4e21c9c7de3073a6cbee2deecffaa2c5825f0a67a0652165b5c14",
+        "cloneChecks": 931,
+        "metrics": {
+          "code": 2,
+          "completedRequests": 0,
+          "peakRequestedBytes": 101109718,
+          "liveRequestedBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "allocationRequests": 141935
+        },
+        "nodeExact": true,
+        "detected": true
+      }
+    ],
+    "library": {
+      "compilerBanner": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.38.33133 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+      "buildCommands": [
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/O2",
+            "/std:c11",
+            "/fp:strict",
+            "/MT",
+            "/experimental:c11atomics",
+            "/ID:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\quickjs-source-v017",
+            "/W4",
+            "/WX",
+            "/DHWE_JS_BUILD_SHARED",
+            "/c",
+            "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\native\\hwe_embedded.c",
+            "/Fo:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-attack-course-yYWxOm\\library\\hwe_embedded.obj"
+          ]
+        },
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/O2",
+            "/std:c11",
+            "/fp:strict",
+            "/MT",
+            "/experimental:c11atomics",
+            "/ID:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\quickjs-source-v017",
+            "/c",
+            "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\quickjs-source-v017\\quickjs-amalgam.c",
+            "/Fo:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-attack-course-yYWxOm\\library\\quickjs-amalgam.obj"
+          ]
+        },
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/MT",
+            "/LD",
+            "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-attack-course-yYWxOm\\library\\hwe_embedded.obj",
+            "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-attack-course-yYWxOm\\library\\quickjs-amalgam.obj",
+            "/Fe:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-attack-course-yYWxOm\\library\\hwe_embedded.dll"
+          ]
+        },
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/O2",
+            "/W4",
+            "/WX",
+            "/std:c++17",
+            "/utf-8",
+            "/EHsc",
+            "/MT",
+            "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\native\\consumer.cpp",
+            "/Fo:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-attack-course-yYWxOm\\library\\consumer.obj",
+            "/Fe:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-attack-course-yYWxOm\\library\\consumer.exe",
+            "/link",
+            "/STACK:2097152"
+          ]
+        }
+      ],
+      "librarySha256": "b4599be45421431f84a7c7b5e56bc5489dda510f2936277b46fadc620d8e0bb2",
+      "consumerSha256": "b517592bda892e5e22be12eb7df85e586c1d24b8e185e63971471aef01b5375d"
+    }
+  },
+  "corrections": {
+    "construction": "Base freezes direct instances only; derived adapter freezes after its fields initialize. Internal ports remain frozen. Derived public extensibility is an intentional documented constructor contract change.",
+    "initialServices": "Original headless World needed structuredClone and performance. Restricted test-only clone is checked against every reached Node built-in call; coarse wall clock supports optional background work without measuring performance.",
+    "exactComparison": "Initial native replay completed but strict Node equality rejected two facing observations differing by 4.44e-16. Both original and installed native runs have those same differences and match each other exactly. The narrow comparator retains and reports both values; accepted baseline unchanged.",
+    "concurrentControl": "An initial library-course launch was refused before bundling/execution because the game fault harness temporarily held a deliberate package mutation. After that harness finished and restored all files, a fresh run passed. The refused log is retained."
+  },
+  "scope": {
+    "windowsX64": true,
+    "linuxHostedPending": true,
+    "newCommandApi": false,
+    "completeNativeEnginePackage": false,
+    "fullSdkComplete": false,
+    "performanceAccepted": false,
+    "originalWorldStillBundled": true,
+    "remaining": "Lean actor/delivery orchestration, full content and remaining gameplay families, engine-specific packages, source reconciliation and physical-device profiling."
+  },
+  "preservation": {
+    "originalStableFiles": 4112,
+    "reviewedConcurrentPaths": 8,
+    "originalGameEdited": false,
+    "canonicalMainChanged": false,
+    "managedGameChanged": false
+  },
+  "rawEvidence": {
+    "file": "evidence/native-attack-course/windows-raw.json.gz",
+    "sha256": "dcbb45093ae463b0a4e161fbf3f044f4393484e99b7cb68549c87330c8c51f33",
+    "records": 169,
+    "compressedBytes": 2923775,
+    "allRecordsRehashed": true
+  }
+}

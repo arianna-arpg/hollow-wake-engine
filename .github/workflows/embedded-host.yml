@@ -7,6 +7,8 @@ on:
       - 'scripts/test-embedded-host.mjs'
       - 'scripts/test-embedded-session.mjs'
       - 'scripts/test-embedded-library.mjs'
+      - 'scripts/test-native-attack-course.mjs'
+      - 'adapters/hollow-wake/**'
       - 'scripts/benchmark-embedded-library.mjs'
       - 'experiments/item-index/**'
       - 'scripts/test-content-index.mjs'
@@ -33,7 +35,7 @@ jobs:
       matrix:
         os: [windows-2025, ubuntu-24.04]
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 20
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -111,6 +113,10 @@ jobs:
           $candidateProof = (Get-Content .artifacts/content-index-candidate-latest.json -Raw | ConvertFrom-Json).directory
           node scripts/benchmark-content-index.mjs --verify --candidate-proof $candidateProof --cost-proof $costProof --index bitmap
           if ($LASTEXITCODE -ne 0) { throw 'Bitmap cost-control verification failed' }
+      - name: Prepare the complete installed game adapter
+        run: npm run adapter:prepare
+      - name: Compare original and installed full attack course in the native runtime
+        run: node scripts/test-native-attack-course.mjs --location .artifacts/adapter-location.json --amalgam-dir .artifacts/embedded-host-upstream
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
@@ -118,6 +124,22 @@ jobs:
           include-hidden-files: true
           if-no-files-found: error
           path: |
+            .artifacts/native-attack-course-latest.json
+            .artifacts/native-attack-course-*/verification.json
+            .artifacts/native-attack-course-*/requests.jsonl
+            .artifacts/native-attack-course-*/input.json
+            .artifacts/native-attack-course-*/native/build-commands.json
+            .artifacts/native-attack-course-*/native/build.txt
+            .artifacts/native-attack-course-*/library/build-commands.json
+            .artifacts/native-attack-course-*/library/build.txt
+            .artifacts/native-attack-course-*/library/exports.txt
+            .artifacts/native-attack-course-*/*/verification.json
+            .artifacts/native-attack-course-*/*/metafile.json
+            .artifacts/native-attack-course-*/*/entry.ts
+            .artifacts/native-attack-course-*/*/*.jsonl
+            .artifacts/native-attack-course-*/*/node-services.json
+            .artifacts/native-attack-course-*/*/native.txt
+            .artifacts/native-attack-course-*/*/library.txt
             .artifacts/embedded-host-latest.json
             .artifacts/embedded-host-*/verification.json
             .artifacts/embedded-host-*/input.json

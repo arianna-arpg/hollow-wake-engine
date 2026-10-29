@@ -57,6 +57,7 @@ export class WorldProcs extends ProcRuntime<Actor,SkillInstance,ProcDef,ProcRide
     });
     this.#nativeChance=host.chance.bind(host);
     this.#nativeOwn=host.own.bind(host);
+    Object.freeze(this);
   }
   override own(owner:Actor,trigger:ProcDef['trigger'],event?:WorldProcOwnEvent):void {
     return this.#nativeOwn(owner,trigger,event);

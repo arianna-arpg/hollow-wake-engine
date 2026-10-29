@@ -14,6 +14,15 @@ graph. It selects and delivers procs through explicit synchronous host callbacks
 the host still executes effect payloads, supplies actor state, time and randomness,
 resolves minion ownership and runs the remaining frame phases.
 
+Direct `ProcRuntime` instances are frozen. A derived class remains extensible
+while its constructor initializes its own public and private fields; it owns
+freezing after that initialization. The Hollow Wake `WorldProcs` adapter does
+so explicitly. Its base used to freeze too early, which worked with private
+fields in Node 24.9 but failed in the pinned native runtime. The
+[native attack course](native-attack-course.md) records the failure, correction
+and full original-game comparison. Internal bound ports remain frozen in both
+construction paths; proc arithmetic and callback order are unchanged.
+
 [`examples/procs.mjs`](../examples/procs.mjs) is a runnable ward/cooldown example.
 After installing a locally packed SDK archive, import its `procCycle` function and
 call it. The result is `{ward:20, draws:3, nextReady:4}`: a blocked cooldown still

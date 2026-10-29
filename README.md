@@ -15,6 +15,12 @@ in the game. Independent Windows/Linux editor and relocated release runs each
 pass 98 checks and match all 60 gameplay responses. Full SDK coverage, other
 engine packages and device performance remain open.
 
+The [full-game native attack course](docs/native-attack-course.md) now exercises
+the actual original World and installed SDK adapter through the native driver
+and shared library. Their gameplay observations match exactly. This exposed and
+fixed a proc subclass construction failure; the game-specific diagnostic remains
+separate from the selected Godot package and future standalone actor API.
+
 The v0.38 development candidate adds [resource restoration](docs/resource-restoration.md):
 shield/poise gain gates, immediate restore events, reserved-mana proc restoration
 and strict content compilers. Its separately committed native baseline is reproduced

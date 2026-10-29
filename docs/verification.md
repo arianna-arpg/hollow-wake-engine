@@ -1,5 +1,15 @@
 # Verification and reproduction
 
+The [native full-game attack course](native-attack-course.md) verifies 114 actual
+gameplay checks and 150,608 numeric observations through the pinned native driver
+and shared library on Windows x64. Original and installed native results match
+exactly; two facing-angle observations differ from Node by less than `5e-16`.
+The proc subclass repair passes all 1,025 SDK tests, 150 installed proc courses,
+18 installed faults, full game types, 114 sequence checks, 12 content projections
+and 25 smoke episodes. The existing native session still passes its 60 requests
+and 609 numeric comparisons. No native package completeness or device performance
+claim follows from these results.
+
 The [attack-sequence controller and content](attack-sequences.md) checkpoint passes
 1,024 SDK tests, 114 complete original gameplay checks (7,264 events and 2,733
 random draws), 12 direct original content projections, all 49 recovery courses,
@@ -715,3 +725,6 @@ The current contract uses binary64 arithmetic, relative/absolute comparison
 tolerance `1e-12`, and exact discrete results and random consumption. This is not a
 claim of cross-platform lockstep determinism. Native bridges must run the same
 fixtures and report differences before adopting a different numerical policy.
+
+The [retained Windows evidence](../evidence/native-attack-course/windows.json)
+includes raw comparisons, failed discoveries and the constructor negative control.
