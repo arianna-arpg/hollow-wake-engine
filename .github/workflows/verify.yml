@@ -170,6 +170,7 @@ jobs:
       - run: npm run adapter:hit-sustain-source
       - run: npm run adapter:hit-reactions-source
       - run: npm run adapter:hit-aftermath-source
+      - run: npm run adapter:status-delivery-source
       - run: npm run adapter:hit-effects-source
       - run: node scripts/test-status-overlay.mjs
       - run: npm run reference:damage
@@ -248,6 +249,10 @@ jobs:
       - run: npm run adapter:hit-reactions-faults
       - run: npm run adapter:hit-aftermath
       - run: npm run adapter:hit-aftermath-faults
+      - run: npm run adapter:status-delivery
+      - run: npm run adapter:status-delivery-faults
+      - run: node scripts/benchmark-status-delivery.mjs --previous .artifacts/adapter-location.json --location .artifacts/adapter-location.json --verify-only
+      - run: node scripts/test-status-delivery-benchmark-observer.mjs
       - run: npm run benchmark:hit-aftermath -- --previous .artifacts/adapter-location.json --location .artifacts/adapter-location.json --verify-only
       - run: npm run test:hit-aftermath-benchmark-observer
       - run: npm run benchmark:hit-sustain -- --previous .artifacts/adapter-location.json --location .artifacts/adapter-location.json --verify-only
@@ -403,6 +408,22 @@ jobs:
             .artifacts/status-delivery-observer-faults-*/verification.json
             .artifacts/status-delivery-observer-faults-*/progress.json
             .artifacts/status-delivery-observer-faults-*/*.txt
+            .artifacts/status-delivery-overlay-verification.json
+            .artifacts/game-status-delivery-verification.json
+            .artifacts/game-status-delivery-fault-verification.json
+            .artifacts/status-delivery-overlay-*/verification.json
+            .artifacts/game-status-delivery-*/*.txt
+            .artifacts/game-status-delivery-faults-*/verification.json
+            .artifacts/game-status-delivery-faults-*/progress.json
+            .artifacts/game-status-delivery-faults-*/*.txt
+            .artifacts/status-delivery-benchmark-verification.json
+            .artifacts/status-delivery-benchmark-observer-verification.json
+            .artifacts/status-delivery-benchmark-*/verification.json
+            .artifacts/status-delivery-benchmark-*/*-audit.json
+            .artifacts/status-delivery-benchmark-*/*.txt
+            .artifacts/status-delivery-benchmark-observer-*/verification.json
+            .artifacts/status-delivery-benchmark-observer-*/*.json
+            .artifacts/status-delivery-benchmark-observer-*/*.txt
             .artifacts/hit-aftermath-reference-verification.json
             .artifacts/hit-aftermath-observer-verification.json
             .artifacts/reference-hit-aftermath-*/verification.json

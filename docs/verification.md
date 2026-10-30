@@ -902,3 +902,14 @@ fixtures and report differences before adopting a different numerical policy.
 
 The [retained Windows evidence](../evidence/native-attack-course/windows.json)
 includes raw comparisons, failed discoveries and the constructor negative control.
+
+The optional status-delivery entry adds independent contracts, runtime faults
+and a clean package consumer to `verify`. The consumer checks host-specific
+3D positions, quaternion directions and extended records through the public
+types and a browser bundle. `adapter:status-delivery-source` verifies guarded
+replacement and preservation of unrelated imports. `adapter:status-delivery`
+compares the installed archive with all 88 frozen original courses, and
+`adapter:status-delivery-faults` requires observable changes for fifteen faults
+across runtime, binding and World forwarding. The fault runner restores and
+checks the installation's full source and package maps. See the
+[status-delivery boundary](status-delivery-boundary.md) for ownership and limits.

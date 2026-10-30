@@ -1,3 +1,4 @@
+import {integrateStatusDelivery} from '../adapters/hollow-wake/integrate-status-delivery.mjs';
 import {integrateHitAftermath} from '../adapters/hollow-wake/integrate-hit-aftermath.mjs';
 import {integrateHitReactions} from '../adapters/hollow-wake/integrate-hit-reactions.mjs';
 import {integrateHitSustain} from '../adapters/hollow-wake/integrate-hit-sustain.mjs';
@@ -105,6 +106,7 @@ integrateHitLanding(game, false);
 integrateHitSustain(game, false);
 integrateHitReactions(game, false);
 integrateHitAftermath(game, false);
+integrateStatusDelivery(game, false);
 integrateStatContext(game, false);
 renderHitEffects(renderHitStatus(fs.readFileSync(path.join(game,'src/engine/world.ts'),'utf8')));
 // A distinct tool environment: never install into the frozen reference or another checkout's junction.
@@ -256,6 +258,9 @@ changes.hitReactionsDecision = hitReactions.decision;
 const hitAftermath = integrateHitAftermath(game);
 changes.files.push(...hitAftermath.files);
 changes.hitAftermathDecision = hitAftermath.decision;
+const statusDelivery = integrateStatusDelivery(game);
+changes.files.push(...statusDelivery.files);
+changes.statusDeliveryDecision = statusDelivery.decision;
 const statContext = integrateStatContext(game);
 changes.files.push(...statContext.files);
 changes.statContextDecision = statContext.decision;

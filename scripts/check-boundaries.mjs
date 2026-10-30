@@ -82,3 +82,4 @@ assert.ok([...reachable].every(file=>!['hit-preparation.ts','hit-preparation-typ
 assert.ok([...reachable].every(file=>!['hit-landing.ts','hit-landing-types.ts'].includes(path.basename(file))), 'Optional hit landing became an eager core import');
 assert.ok([...reachable].every(file=>!['hit-reactions.ts','hit-reactions-types.ts'].includes(path.basename(file))), 'Optional hit reactions became an eager core import');
 assert.ok([...reachable].every(file=>!['hit-aftermath.ts','hit-aftermath-types.ts'].includes(path.basename(file))), 'Optional hit aftermath became an eager core import');
+assert.ok([...reachable].every(file=>!['status-delivery.ts','status-delivery-types.ts'].includes(path.basename(file))), 'Optional status delivery became an eager core import');

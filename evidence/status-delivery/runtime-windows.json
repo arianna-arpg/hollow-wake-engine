@@ -1,0 +1,332 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "26e06af6b1d44415064c49baa030704b21b0d23e",
+  "node": "v24.9.0",
+  "sources": {
+    ".github/workflows/verify.yml": "c6a4e1ec894db25110e96a4c12bb10362412b1e1440e8d36d6a690a8a7eb9187",
+    "adapters/hollow-wake/integrate-status-delivery.mjs": "df3baf429abdc448a54cc925733b89fd3839ecc430a319b79ff758c73c651f9a",
+    "adapters/hollow-wake/statusDelivery.ts": "e220b7d587692341cf97c2884e0c125729b36860c5438546081add304457800e",
+    "docs/boundary-contract.md": "2d952b6103f7941e42b16c36acc9d851bf5ffdc1273dacca19051dd7ba41c74a",
+    "docs/status-delivery-boundary.md": "ae21760752c49776a11aee08a0e64458d3cdbb8eb000e0093abeed31b21dd005",
+    "docs/verification.md": "a503b7327e002323ce387a650d7c50f2dd7db2dec24b71b62385d231c529f58d",
+    "package.json": "1d6be8c6670a248e58e01aaf1a2300b5329ab9410713409a6641f177a4a2180b",
+    "reference/benchmark-status-delivery-worker.ts": "c56e5bfe2737901dfb6ad0261f32c21ebf0f3443e8a3b0ded8fc1f316ce5cd25",
+    "scripts/benchmark-status-delivery.mjs": "5db1f2e76674377d8f34d877bd250c61b52277dc5b28b0ff1064ae874d908c97",
+    "scripts/check-boundaries.mjs": "4738c0d0054e978a0c80a8c63d2c88e6ebd81e77ecc480c9e8c818566d55762d",
+    "scripts/prepare-game-adapter.mjs": "55e44997d043a68861b017766aa7e59c9f87ae53331525636cd249fd2c6c6819",
+    "scripts/status-delivery-benchmark-checks.mjs": "bdc79c70145510d17475e6fecb5c2ffb9f945eb6cd2cbfa851e96584c68a0aef",
+    "scripts/test-game-status-delivery-faults.mjs": "b91a6981f5711289d7962b2f9840cd11b53ab68a89fc535c0767e367b875b0fe",
+    "scripts/test-game-status-delivery.mjs": "384b2c3f59f99b3238044aa679b0da189d8b241ab9f96be27b39ccb87db862ab",
+    "scripts/test-package.mjs": "6b64c14015bc7199573f1143d36555992e649211ae3cae2443dc124513d6a3de",
+    "scripts/test-status-delivery-benchmark-observer.mjs": "f8ac7a1e9b96e5893678e57debfba947450ce3a679ac145761d87077955ec4f1",
+    "scripts/test-status-delivery-mutations.mjs": "1f987e07463ce11a89dcf3dae7db0a125f4576a58fe9f74348a167a7b2ed1ed9",
+    "scripts/test-status-delivery-overlay.mjs": "d670301213a7d999e3cbe637527984e11de5d023e33721800bdd9fba7050e840",
+    "scripts/test-status-delivery-package.mjs": "3cfc59664a5216c413b6d5bda18c93baf463e5245490b783e6dffe908baf3af6",
+    "src/status-delivery-types.ts": "5a9d53481c74ef08335dd9630916ac133f4332a13533244a871149bc8c063aa9",
+    "src/status-delivery.ts": "31648ac1714eef4d36da4ac1cf1d380de3cc1ce029d75e4b2b949008a4f8a75e",
+    "test/status-delivery.test.mjs": "7b668902752c8049b11b7ecae744cd5eefbc821b83c9ab3aee567ba41a247269"
+  },
+  "runtimeMapSha256": "dcca24efe79e5487f6449e95377612eebc7aede6f430f82fea47015bed9872da",
+  "unchangedCompiledFiles": 288,
+  "compiledFiles": 294,
+  "optionalJavaScriptBytes": 4697,
+  "optionalJavaScriptBudget": 5120,
+  "sdkTests": 1325,
+  "independentContracts": 25,
+  "runtimeFaultsPerNodeVersion": 52,
+  "sourceControls": 55,
+  "installedCourses": 88,
+  "installedFaults": 15,
+  "benchmarkFaults": 8,
+  "gameSourceMapSha256": "7c4877939424ae7f21e5c60d73250b372b387beaec56c8d355be6b59a11f8e9b",
+  "packageMapSha256": "f5e834ef075cea28342af09a80c9e4b2a038d755594b4f2da70c05cc32e6b559",
+  "checks": [
+    {
+      "name": "build",
+      "passed": true
+    },
+    {
+      "name": "package",
+      "passed": true
+    },
+    {
+      "name": "prepare",
+      "passed": true
+    },
+    {
+      "name": "game-types",
+      "passed": true
+    },
+    {
+      "name": "launcher-types",
+      "passed": true
+    },
+    {
+      "name": "simulation-types",
+      "passed": true
+    },
+    {
+      "name": "installed-baseline",
+      "passed": true
+    },
+    {
+      "name": "installed-faults",
+      "passed": true
+    },
+    {
+      "name": "sdk-verify",
+      "passed": true
+    },
+    {
+      "name": "original-reference",
+      "passed": true
+    },
+    {
+      "name": "node22-tests",
+      "passed": true
+    },
+    {
+      "name": "node22-faults",
+      "passed": true
+    },
+    {
+      "name": "status-lifecycle",
+      "passed": true
+    },
+    {
+      "name": "status-effects",
+      "passed": true
+    },
+    {
+      "name": "damage-pipeline",
+      "passed": true
+    },
+    {
+      "name": "hit-aftermath",
+      "passed": true
+    },
+    {
+      "name": "attack-sequences",
+      "passed": true
+    },
+    {
+      "name": "native-attack",
+      "passed": true
+    },
+    {
+      "name": "game-simulation",
+      "passed": true
+    }
+  ],
+  "consumer": {
+    "cleanInstallation": true,
+    "typesPassed": true,
+    "custom3DPositionAndQuaternionDirection": true,
+    "browserBundleBytes": 3774
+  },
+  "nativeRegression": {
+    "passed": true,
+    "requestsPerRun": 33,
+    "numericObservationsPerRun": 150608,
+    "zeroTrackedLeaks": true,
+    "scope": "Existing original/installed full-attack course through the C, C++ and .NET experiment. Binding initialization is covered; dedicated native status-delivery replay and stable engine-package acceptance remain open."
+  },
+  "timing": {
+    "hardware": {
+      "node": "v24.9.0",
+      "platform": "win32",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "logicalCpus": 20
+    },
+    "plan": {
+      "schemaVersion": 1,
+      "seed": 29729,
+      "populations": [
+        8,
+        64,
+        256
+      ],
+      "workloads": [
+        "siphon",
+        "recall-cached",
+        "recall-tree"
+      ],
+      "auditCasts": 3,
+      "rounds": 12,
+      "order": [
+        [
+          "original",
+          "previous",
+          "current"
+        ],
+        [
+          "current",
+          "previous",
+          "original"
+        ],
+        [
+          "previous",
+          "original",
+          "current"
+        ],
+        [
+          "current",
+          "original",
+          "previous"
+        ],
+        [
+          "original",
+          "current",
+          "previous"
+        ],
+        [
+          "previous",
+          "current",
+          "original"
+        ]
+      ],
+      "scope": "Warm whole executeSkill with native status re-application on every cycle, siphon healing or stored-damage recall, actual spear creation and selective retirement. Equal native resets and read-only counts are timed. Snapshots, IPC and explicit GC are outside timing. Fixed clock; no projectile travel, per-frame/world update or physical-device claim. Retained heap is not allocation volume."
+    },
+    "rows": [
+      {
+        "workload": "siphon",
+        "population": 8,
+        "initial": 0.853805151247188,
+        "repeat": 0.8843631922957256,
+        "control": 0.9839012192306038,
+        "initialMsPerCast": 0.024928767123284373,
+        "repeatMsPerCast": 0.022926712328769586,
+        "initialLowerRounds": 10,
+        "repeatLowerRounds": 10
+      },
+      {
+        "workload": "recall-cached",
+        "population": 8,
+        "initial": 0.9908943680926219,
+        "repeat": 0.9797208624750718,
+        "control": 0.9706364600220726,
+        "initialMsPerCast": 0.11516917808219111,
+        "repeatMsPerCast": 0.11142876712328996,
+        "initialLowerRounds": 9,
+        "repeatLowerRounds": 7
+      },
+      {
+        "workload": "recall-tree",
+        "population": 8,
+        "initial": 0.8753455496994771,
+        "repeat": 0.9357258961469007,
+        "control": 1.1472286009673907,
+        "initialMsPerCast": 0.0770808219178048,
+        "repeatMsPerCast": 0.08764383561644025,
+        "initialLowerRounds": 10,
+        "repeatLowerRounds": 8
+      },
+      {
+        "workload": "siphon",
+        "population": 64,
+        "initial": 0.915618407994317,
+        "repeat": 0.7794598367160936,
+        "control": 0.9457633243002588,
+        "initialMsPerCast": 0.11282499999998663,
+        "repeatMsPerCast": 0.10968124999999418,
+        "initialLowerRounds": 11,
+        "repeatLowerRounds": 10
+      },
+      {
+        "workload": "recall-cached",
+        "population": 64,
+        "initial": 0.9395792891454495,
+        "repeat": 0.9284457611882441,
+        "control": 1.0841646272080858,
+        "initialMsPerCast": 0.723162499999944,
+        "repeatMsPerCast": 0.7059937499999478,
+        "initialLowerRounds": 10,
+        "repeatLowerRounds": 10
+      },
+      {
+        "workload": "recall-tree",
+        "population": 64,
+        "initial": 0.7539042096976385,
+        "repeat": 0.8153235232063798,
+        "control": 1.0580978483192915,
+        "initialMsPerCast": 0.43611250000003565,
+        "repeatMsPerCast": 0.4582625000000462,
+        "initialLowerRounds": 11,
+        "repeatLowerRounds": 11
+      },
+      {
+        "workload": "siphon",
+        "population": 256,
+        "initial": 0.894365787512346,
+        "repeat": 0.7707955675109321,
+        "control": 0.9800341658679605,
+        "initialMsPerCast": 0.3573749999999336,
+        "repeatMsPerCast": 0.38104375000000346,
+        "initialLowerRounds": 10,
+        "repeatLowerRounds": 11
+      },
+      {
+        "workload": "recall-cached",
+        "population": 256,
+        "initial": 0.9489604262669784,
+        "repeat": 0.9759579210625945,
+        "control": 1.0114551634788995,
+        "initialMsPerCast": 2.851043749999917,
+        "repeatMsPerCast": 3.1336000000000013,
+        "initialLowerRounds": 7,
+        "repeatLowerRounds": 8
+      },
+      {
+        "workload": "recall-tree",
+        "population": 256,
+        "initial": 0.8172866071740942,
+        "repeat": 0.8324289409105743,
+        "control": 1.0203045374858215,
+        "initialMsPerCast": 1.860924999999952,
+        "repeatMsPerCast": 1.7410625000002256,
+        "initialLowerRounds": 10,
+        "repeatLowerRounds": 12
+      }
+    ],
+    "lowerMediansInBoth": 9,
+    "controlRatioRange": [
+      0.9457633243002588,
+      1.1472286009673907
+    ],
+    "interpretation": "All nine medians are lower in both comparisons. The same-version control varies by about -5% to +15%, so smaller differences do not establish a speedup. All series are retained; no best-run selection, general engine speedup or physical-device claim.",
+    "coreBenchmarkPassed": true,
+    "retainedHeapIsNotAllocationVolume": true
+  },
+  "preservation": {
+    "observedFiles": 4146,
+    "originalGameWrites": false,
+    "existingWorkUnchanged": true,
+    "sourceCapsuleVerified": true
+  },
+  "discoveries": [
+    "Construct breakability is a truthy authored payload, so the borrowed field accepts unknown rather than only boolean.",
+    "Source transformation removes instanceTreeOver only when its final use was extracted and retains unrelated uses.",
+    "An invalid mutation preflight and an insufficient assertion were corrected before accepting the full 52-fault sweep."
+  ],
+  "ciExtension": {
+    "file": ".github/workflows/verify.yml",
+    "beforeSha256": "3b293a06da9dd82dd9e51a28955a99f7c5e4e7d3256657a1b6cd03aaa010e8fb",
+    "afterSha256": "c6a4e1ec894db25110e96a4c12bb10362412b1e1440e8d36d6a690a8a7eb9187",
+    "onlyAddsVerifiedBenchmarkCommandsAndEvidencePaths": true
+  },
+  "remaining": [
+    "Exact-commit hosted runtime acceptance",
+    "Dedicated native status-delivery replay",
+    "Complete Unity/Godot/Unreal packages",
+    "Physical Steam Deck/older-mobile measurements and further measured optimization"
+  ],
+  "raw": {
+    "path": "evidence/status-delivery/runtime-windows-raw.json.gz",
+    "entries": 90,
+    "bytes": 277985,
+    "sha256": "0ef60fd32aeb61f9de08043e121b5a003c7112b4c0898d7825dc63437c594dd9",
+    "uncompressedSha256": "3f9c47f06d072e5e23e209f05e4cf25f628900791822cb71eaad16ccf7cd7cbd"
+  }
+}
