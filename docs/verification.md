@@ -913,3 +913,11 @@ compares the installed archive with all 88 frozen original courses, and
 across runtime, binding and World forwarding. The fault runner restores and
 checks the installation's full source and package maps. See the
 [status-delivery boundary](status-delivery-boundary.md) for ownership and limits.
+
+The dedicated native status runner is `node scripts/test-native-status-delivery.mjs
+--location <installed-location> --amalgam-dir <pinned-source>`. It runs all 88
+frozen courses through C, C++ and .NET, checks exact observations and disposal,
+and requires two behavioral faults to reach their specific wrong outcomes in
+every consumer. Node reconstruction must first match the original frozen bytes.
+The embedded-host workflow runs this separately from full-attack replay and
+retains execution metrics, outputs, build commands and managed build logs.

@@ -103,8 +103,42 @@ and an orphaned import; their corrections and failed discovery receipts are
 retained alongside the accepted checks.
 
 The native full-attack regression initializes this binding; it is not a dedicated
-native replay of all 88 status-delivery courses. Dedicated native delivery,
-complete Unity/Godot/Unreal packages and physical-device acceptance remain open.
+native replay of all 88 status-delivery courses. The dedicated replay below
+establishes that separate local boundary. Complete Unity/Godot/Unreal packages
+and physical-device acceptance remain open.
+
+## Dedicated native replay
+
+`node scripts/test-native-status-delivery.mjs --location <installed-location>
+--amalgam-dir <pinned-QuickJS-source>` builds independent C, C++ and .NET consumers.
+The test-only entry runs each frozen original course intact, yielding between
+courses. It retains the original recursive observer, accumulated observations,
+random restoration and final authored-data capture. Both original and installed
+Node reconstructions must equal the frozen bytes before native replay starts.
+Every reached compatibility clone is also compared with Node's built-in clone.
+
+The [local Windows evidence](../evidence/status-delivery/native-windows.json)
+records 90 requests per consumer: 88 course results, terminal metadata and service
+observations. Each positive path compares 71,291 numeric observations exactly,
+including the three real returning-projectile courses. No numerical tolerance
+was introduced. Original and installed native results also match each other.
+All tracked allocations are released on disposal; this does not measure total
+process memory or an optimized production workload.
+
+Two deliberate runtime faults travel through all three consumers. Replacing
+the explicit zero spear share with a default produces a 50-point payload;
+registering a returned spear against itself prevents selective retirement.
+Each must produce its specific wrong result, complete every request, preserve
+the expected callback-error sequence and release tracked allocations. A crash,
+missing response or unrelated exception cannot count as detecting these faults.
+The mutations affect only disposable bundles; source and installed package
+hashes remain unchanged.
+
+This is a full-game development replay, including the original World, authored
+content, headless services and retained test observations. It adds no production
+API or engine package. The existing 256 KiB QuickJS stack guard and 256 MiB
+tracked-heap limit are unchanged. Hosted Windows/Linux execution remains a
+separate acceptance step.
 
 ## Active desktop measurements
 
