@@ -1,10 +1,22 @@
 # Hit aftermath
 
-The next boundary covers the entire remaining continuation of an admitted hit:
+This boundary covers the entire remaining continuation of an admitted hit:
 the damaging-only phase after hit reactions, followed by the common continuation
 through final melee-trigger dispatch. The original behavior is frozen in
-`baseline/hit-aftermath`; the production package is unchanged at this checkpoint.
-The portable implementation and game binding require separate acceptance.
+`baseline/hit-aftermath` before implementation. The optional
+`@hollow-wake/engine/combat/hit-aftermath` entry now implements this policy with
+`createHitAftermath(ports)`, and the isolated game adapter binds it once per World.
+The baseline evidence remains a separate, immutable checkpoint.
+
+The implementation passes 35 independent contracts, 102 runtime
+fault controls, 101 source-transformation controls, and a clean package consumer
+with host-defined position, direction, status, frame and team types. Its installed
+game binding type-checks and matches all 260 original courses exactly. The full
+SDK passes 1,300 tests, the original-reference verifier and 22 broader game checks,
+including 25 smoke episodes. Seventeen installed faults are detected across two
+hash-verified runs; the invalid whole-phase fault and its repair are retained.
+Node 22 and native replay pass. These results do not establish physical-device
+performance or expose a new native-host API.
 
 The raw source is the pinned original `World.resolveHit`. Its damaging block has
 16 remaining statements, followed by 36 top-level statements. The installed
@@ -137,8 +149,16 @@ wound shared between the minions. Two original captures and the installed
 predecessor agree, and the complete sweep detects all 101 faults. Both failed
 development sweeps are retained in the [baseline evidence](../evidence/hit-aftermath/baseline-windows.json).
 
-This work establishes no throughput, allocation, physical-device or native-host
-API guarantee. It does not put a database in the per-hit path. Storage layout and
-runtime changes must be judged against representative active workloads and the
-borrowed-state contract, with Steam Deck and older mobile acceptance measured
-separately.
+The maintained `benchmark:hit-aftermath` command exercises native damage sharing,
+status spread, splash and their combination at 8, 64 and 256 actors. Independent
+assertions check actual hit counts, damage, recovery and status recipients before
+timing. `test:hit-aftermath-benchmark-observer` rejects six deliberate native faults,
+including disabled mechanics, skipped hits and stale status state. Identical-build
+controls accompany comparisons with the original and immediate predecessor.
+See [measured workloads](hit-aftermath-performance.md) and the
+[runtime evidence](../evidence/hit-aftermath/runtime-windows.json).
+
+This work establishes no allocation, physical-device or native-host API guarantee.
+It does not put a database in the per-hit path. Storage layout and runtime changes
+must respect the borrowed-state contract, with Steam Deck and older mobile
+acceptance measured separately.

@@ -121,9 +121,10 @@ const hitPreparationJsBytes = packed.files.filter(file => /^dist\/hit-preparatio
 const hitLandingJsBytes = packed.files.filter(file => /^dist\/hit-landing(?:-types)?\.js$/.test(file.path)).reduce((sum,file)=>sum+file.size,0);
 const hitSustainJsBytes = packed.files.filter(file => /^dist\/hit-sustain(?:-types)?\.js$/.test(file.path)).reduce((sum,file)=>sum+file.size,0);
 const hitReactionsJsBytes = packed.files.filter(file => /^dist\/hit-reactions(?:-types)?\.js$/.test(file.path)).reduce((sum,file)=>sum+file.size,0);
+const hitAftermathJsBytes = packed.files.filter(file => /^dist\/hit-aftermath(?:-types)?\.js$/.test(file.path)).reduce((sum,file)=>sum+file.size,0);
 // Preserve historical component budgets and the unchanged whole-package cap.
 // The optional reaction capability has its own bound, like the sustain entry.
-const predecessorJsBytes = jsBytes - hitSustainJsBytes - hitReactionsJsBytes;
+const predecessorJsBytes = jsBytes - hitSustainJsBytes - hitReactionsJsBytes - hitAftermathJsBytes;
 const tagContextJsBytes = packed.files.filter(file => file.path === 'dist/tag-context-cache.js').reduce((sum,file)=>sum+file.size,0);
 // The new cache has its own growth bound. Count it in the retained core and
 // whole-package limits; historical component bounds exclude only this new file.
@@ -133,6 +134,7 @@ const contentBytes = packed.files.filter(file => file.path.startsWith('content/'
 assert.ok(coreJsBytes <= 96 * 1024, 'Core runtime exceeded the retained 96 KiB unminified JS budget');
 assert.ok(hitSustainJsBytes > 0 && hitSustainJsBytes <= 4 * 1024, 'Optional hit sustain exceeded its separate 4 KiB budget or is missing');
 assert.ok(hitReactionsJsBytes > 0 && hitReactionsJsBytes <= 8 * 1024, 'Optional hit reactions exceeded its separate 8 KiB budget or is missing');
+assert.ok(hitAftermathJsBytes > 0 && hitAftermathJsBytes <= 22 * 1024, 'Optional hit aftermath exceeded its separate 22 KiB budget or is missing');
 assert.ok(tagContextJsBytes > 0 && tagContextJsBytes <= 3 * 1024, 'Stat context cache exceeded its separate 3 KiB budget or is missing');
 assert.ok(itemJsBytes <= 64 * 1024, 'Optional item entry exceeded its 64 KiB unminified JS budget');
 assert.ok(passiveJsBytes <= 32 * 1024, 'Optional passive entry exceeded its 32 KiB unminified JS budget');
@@ -194,7 +196,7 @@ assert.ok(hitLandingJsBytes > 0 && hitLandingJsBytes <= 8 * 1024, 'Optional hit 
 assert.ok(jsBytes <= 674 * 1024, 'Combined runtime exceeded the explicit 666 + 8 KiB budget');
 assert.ok(contentBytes <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
-  runtimeJsBytes: jsBytes, hitSustainJsBytes, hitReactionsJsBytes, predecessorJsBytes, tagContextJsBytes, hitLandingJsBytes, hitPreparationJsBytes, previousJsBytes, damageJsBytes, statusJsBytes, statusEffectsJsBytes, hitStatusJsBytes, hitEffectsJsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, equipmentJsBytes, progressionJsBytes, skillJsBytes, supportJsBytes, resourceJsBytes, chargedCastJsBytes, interactiveCastJsBytes, ammunitionJsBytes, channelCastJsBytes, guardCastJsBytes, paymentJsBytes, admissionJsBytes, intentJsBytes, requestJsBytes, dispatchJsBytes, continuationJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
+  runtimeJsBytes: jsBytes, hitAftermathJsBytes, hitSustainJsBytes, hitReactionsJsBytes, predecessorJsBytes, tagContextJsBytes, hitLandingJsBytes, hitPreparationJsBytes, previousJsBytes, damageJsBytes, statusJsBytes, statusEffectsJsBytes, hitStatusJsBytes, hitEffectsJsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, equipmentJsBytes, progressionJsBytes, skillJsBytes, supportJsBytes, resourceJsBytes, chargedCastJsBytes, interactiveCastJsBytes, ammunitionJsBytes, channelCastJsBytes, guardCastJsBytes, paymentJsBytes, admissionJsBytes, intentJsBytes, requestJsBytes, dispatchJsBytes, continuationJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
   bankJsBytes, actorGaugeJsBytes, actorConditionJsBytes, procJsBytes, procEffectJsBytes, delayedJsBytes, buffJsBytes, cooldownJsBytes, cooldownLifecycleJsBytes, readyBankJsBytes, sequenceRecoveryJsBytes, attackSequenceJsBytes, isolatedConsumer: JSON.parse(result), node: process.version,
 }, null, 2) + '\n');
 console.log(result.trim());

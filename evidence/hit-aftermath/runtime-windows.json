@@ -1,0 +1,2533 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "8b5a3e39a17bb93a01e916cf9cc297cb595113fb",
+  "scope": "Complete remaining damaging phase and common hit continuation, composing existing status/effect/proc/sequence modules. Local correctness and measured desktop workloads; no physical-device acceptance or new native-host API.",
+  "baseline": {
+    "path": "baseline/hit-aftermath/acceptance.json",
+    "sha256": "f832830b81e4ff4196313d414ee67b351a3b17980b1c5296c0efa88dfe8e8128",
+    "observationsSha256": "8a9e1b423a7015c16b525818d30c77ff9bab2b56d75237591431edaa2e198a9c",
+    "frozenBeforeRuntime": true,
+    "rewritten": false
+  },
+  "runtime": {
+    "compiledFiles": 288,
+    "predecessorFilesUnchanged": 282,
+    "addedFiles": [
+      "hit-aftermath-types.d.ts",
+      "hit-aftermath-types.js",
+      "hit-aftermath-types.js.map",
+      "hit-aftermath.d.ts",
+      "hit-aftermath.js",
+      "hit-aftermath.js.map"
+    ],
+    "mapSha256": "73aaccc230ccdb5b6cf37cc418bd5c0ff451b4d2446fa9044389d54e0e786136",
+    "sourceMapSha256": "675c32dfa64caf8808372e059534ee1f01ec8ff1295ca71a5fd6f19091899326",
+    "moduleJsBytes": 21402,
+    "moduleGrowthLimitBytes": 22528,
+    "runtimeJsBytes": 689889,
+    "wholePackageLimitBytes": 690176,
+    "wholePackageLimitChanged": false
+  },
+  "validation": {
+    "sdkTests": 1300,
+    "focusedTests": 35,
+    "referenceVerify": true,
+    "originalCourses": 260,
+    "runtimeFaults": 102,
+    "sourceControls": 101,
+    "installedFaults": 17,
+    "installedFaultAcceptance": "Composite: 16 earlier valid detections plus repaired forwarding fault with fresh control; invalid observer error not counted.",
+    "gameChecks": 22,
+    "smokeEpisodes": 25,
+    "node22FocusedAndInstalled": true,
+    "consumer": {
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\hit-aftermath-package-9wTl0d",
+      "consumer": "C:\\Users\\John\\AppData\\Local\\Temp\\hollow-hit-aftermath-bXnDqG",
+      "tests": 35,
+      "typesPassed": true,
+      "browserBytes": 15977,
+      "archiveSha256": "e81aec78f71f8b3b183e84472f17d057c65b17a4c0d5ab5490daa086caf0a789",
+      "independentInstallation": true
+    },
+    "nativeOriginalAndInstalledNumbers": 150608,
+    "nativeOriginalAndInstalledExact": true,
+    "crossRuntimeGeometryTolerance": 1e-12,
+    "activeBenchmarkCases": 12,
+    "benchmarkObserverFaults": 6
+  },
+  "checks": {
+    "sdk": {
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\hit-aftermath-sdk-checks-s0mI2L",
+      "results": [
+        {
+          "command": "verify",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-aftermath-sdk-checks-s0mI2L\\verify.txt",
+          "sha256": "1e8fc505cae1ed80738fc8a9a34dc76127f8ea361b7ef73275eb1da4461df650"
+        },
+        {
+          "command": "reference:verify",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-aftermath-sdk-checks-s0mI2L\\reference-verify.txt",
+          "sha256": "ed9449e747fdb1f57570cdcc3c0c46a363a0e3720d661dd8df1026f2e66fb987"
+        }
+      ],
+      "sourceMapSha256": "675c32dfa64caf8808372e059534ee1f01ec8ff1295ca71a5fd6f19091899326",
+      "baselineUnchanged": true,
+      "runtimeMapSha256": "73aaccc230ccdb5b6cf37cc418bd5c0ff451b4d2446fa9044389d54e0e786136",
+      "compiledFiles": 288
+    },
+    "hosts": {
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\hit-aftermath-host-checks-ucZnZH",
+      "location": "<sdk>\\.artifacts\\hit-aftermath-reproduction-hXv4Vo\\location.json",
+      "previous": "<sdk>\\.artifacts\\hit-reactions-reproduction-oXLNFf\\location.json",
+      "results": [
+        {
+          "label": "node22-unit",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-aftermath-host-checks-ucZnZH\\node22-unit.txt",
+          "logSha256": "9a899604ecf9f1b7fc6e0d2092008784ea086e43019330f31ccbd88a2decfada"
+        },
+        {
+          "label": "node22-installed",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-aftermath-host-checks-ucZnZH\\node22-installed.txt",
+          "logSha256": "2c9b86e292a720b3f4020bd9ad5b744b0b194ed006934295ffe02bc1df3cbc09"
+        },
+        {
+          "label": "native-attack",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-aftermath-host-checks-ucZnZH\\native-attack.txt",
+          "logSha256": "e4ea6875289aa50ab696e8d3e75b31bc7af310cb3fb0f22b11abeaaa7023fae3"
+        },
+        {
+          "label": "core-benchmark",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-aftermath-host-checks-ucZnZH\\core-benchmark.txt",
+          "logSha256": "10bda79d60812fb3535ba078662e66a32af6d82569003c471d4c13035a07134d"
+        },
+        {
+          "label": "paired-control",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-aftermath-host-checks-ucZnZH\\paired-control.txt",
+          "logSha256": "c9d77857dc09efa7d92db3965ea48b35af52fa77e9ce375cbb75c9975024c5ff"
+        },
+        {
+          "label": "paired-current",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-aftermath-host-checks-ucZnZH\\paired-current.txt",
+          "logSha256": "031e4b3f0ca49f1263fb684a18257cc10cd046bb595b10b95129fe6b059bf64a"
+        },
+        {
+          "label": "active-control",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-aftermath-host-checks-ucZnZH\\active-control.txt",
+          "logSha256": "c0f8dc6613662a4bc802e65490ade9acb62f20389596b5fd47e8353a10ddc7ee"
+        },
+        {
+          "label": "active-current",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-aftermath-host-checks-ucZnZH\\active-current.txt",
+          "logSha256": "48435ed9f357a0701df763b888f8c9f735be03dba6fc7f03d0061a0f6af3ee86"
+        }
+      ],
+      "runtimeMapSha256": "73aaccc230ccdb5b6cf37cc418bd5c0ff451b4d2446fa9044389d54e0e786136",
+      "runtimeUnchanged": true,
+      "performanceAcceptance": false
+    },
+    "game": {
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\hit-aftermath-game-gates-24M9Oa",
+      "game": "<sdk>\\.artifacts\\hit-aftermath-reproduction-hXv4Vo\\game",
+      "location": "<sdk>\\.artifacts\\hit-aftermath-reproduction-hXv4Vo\\location.json",
+      "results": [
+        {
+          "label": "hit-reactions-reference",
+          "passed": true
+        },
+        {
+          "label": "hit-sustain-reference",
+          "passed": true
+        },
+        {
+          "label": "stat-context-reference",
+          "passed": true
+        },
+        {
+          "label": "hit-landing-reference",
+          "passed": true
+        },
+        {
+          "label": "hit-preparation-reference",
+          "passed": true
+        },
+        {
+          "label": "types",
+          "passed": true
+        },
+        {
+          "label": "hit-effects-reference",
+          "passed": true
+        },
+        {
+          "label": "hit-status-reference",
+          "passed": true
+        },
+        {
+          "label": "passive-grants",
+          "passed": true
+        },
+        {
+          "label": "status-effects-reference",
+          "passed": true
+        },
+        {
+          "label": "status-reference",
+          "passed": true
+        },
+        {
+          "label": "damage-reference",
+          "passed": true
+        },
+        {
+          "label": "attack-sequences",
+          "passed": true
+        },
+        {
+          "label": "probe-feedingcues",
+          "passed": true
+        },
+        {
+          "label": "probe-resourcevisuals",
+          "passed": true
+        },
+        {
+          "label": "probe-statusvoice",
+          "passed": true
+        },
+        {
+          "label": "probe-defenses",
+          "passed": true
+        },
+        {
+          "label": "probe-defensecues",
+          "passed": true
+        },
+        {
+          "label": "probe-talents",
+          "passed": true
+        },
+        {
+          "label": "probe-anatomy",
+          "passed": true
+        },
+        {
+          "label": "probe-throngcombat",
+          "passed": true
+        },
+        {
+          "label": "smoke",
+          "passed": true
+        }
+      ],
+      "sourceMapSha256": "47cf5f3acb25d46912ae7623948055f9b8d58c86b3a6e50865f6c85e1727e585",
+      "packageMapSha256": "866edc71c2d50d09acacdac060abc05792ff0434aeffbbd0d5dd4cdbb7dfe28f"
+    },
+    "integration": {
+      "passed": true,
+      "sourceControls": {
+        "passed": true,
+        "directory": "<sdk>\\.artifacts\\hit-aftermath-overlay-onk6Ww",
+        "faults": 101,
+        "results": [
+          "original-damaging-0",
+          "original-damaging-1",
+          "original-damaging-2",
+          "original-damaging-3",
+          "original-damaging-4",
+          "original-damaging-5",
+          "original-damaging-6",
+          "original-damaging-7",
+          "original-damaging-8",
+          "original-damaging-9",
+          "original-damaging-10",
+          "original-damaging-11",
+          "original-damaging-12",
+          "original-damaging-13",
+          "original-damaging-14",
+          "original-damaging-15",
+          "original-common-0",
+          "original-common-1",
+          "original-common-2",
+          "original-common-3",
+          "original-common-4",
+          "original-common-5",
+          "original-common-6",
+          "original-common-7",
+          "original-common-8",
+          "original-common-9",
+          "original-common-10",
+          "original-common-11",
+          "original-common-12",
+          "original-common-13",
+          "original-common-14",
+          "original-common-15",
+          "original-common-16",
+          "original-common-17",
+          "original-common-18",
+          "original-common-19",
+          "original-common-20",
+          "original-common-21",
+          "original-common-22",
+          "original-common-23",
+          "original-common-24",
+          "original-common-25",
+          "original-common-26",
+          "original-common-27",
+          "original-common-28",
+          "original-common-29",
+          "original-common-30",
+          "original-common-31",
+          "original-common-32",
+          "original-common-33",
+          "original-common-34",
+          "original-common-35",
+          "original-signature",
+          "installed-damaging-0",
+          "installed-damaging-1",
+          "installed-damaging-2",
+          "installed-damaging-3",
+          "installed-damaging-4",
+          "installed-damaging-5",
+          "installed-damaging-6",
+          "installed-damaging-7",
+          "installed-damaging-8",
+          "installed-damaging-9",
+          "installed-damaging-10",
+          "installed-damaging-11",
+          "installed-damaging-12",
+          "installed-damaging-13",
+          "installed-damaging-14",
+          "installed-damaging-15",
+          "installed-common-0",
+          "installed-common-1",
+          "installed-common-2",
+          "installed-common-3",
+          "installed-common-4",
+          "installed-common-5",
+          "installed-common-6",
+          "installed-common-7",
+          "installed-common-8",
+          "installed-common-9",
+          "installed-common-10",
+          "installed-common-11",
+          "installed-common-12",
+          "installed-common-13",
+          "installed-common-14",
+          "installed-common-15",
+          "installed-common-16",
+          "installed-common-17",
+          "installed-common-18",
+          "installed-common-19",
+          "installed-common-20",
+          "installed-common-21",
+          "installed-common-22",
+          "installed-common-23",
+          "installed-common-24",
+          "installed-common-25",
+          "installed-common-26",
+          "installed-signature",
+          "engineHitAftermath-collision",
+          "bindHitAftermath-collision",
+          "failed-preflight-preserves-files",
+          "binding-file-collision"
+        ],
+        "lfCrlfEquivalent": true,
+        "repeatedInstallRejected": true,
+        "earlierSustainAndReactionTextUnchanged": true
+      },
+      "cleanPackage": {
+        "passed": true,
+        "directory": "<sdk>\\.artifacts\\hit-aftermath-package-5nPCC2",
+        "consumer": "C:\\Users\\John\\AppData\\Local\\Temp\\hollow-hit-aftermath-tshzyZ",
+        "tests": 35,
+        "typesPassed": true,
+        "browserBytes": 15977,
+        "archiveSha256": "99a2ec024f03590e03ee7f204ca5306b76da147444aae4ba7ff8596859372db8",
+        "independentInstallation": true
+      },
+      "installedComparison": {
+        "passed": true,
+        "directory": "<sdk>\\.artifacts\\game-hit-aftermath-D2IOvn",
+        "game": "<sdk>\\.artifacts\\hit-aftermath-reproduction-hXv4Vo\\game",
+        "reference": {
+          "passed": true,
+          "game": "<sdk>\\.artifacts\\hit-aftermath-reproduction-hXv4Vo\\game",
+          "output": "<sdk>\\.artifacts\\reference-hit-aftermath-kCGb83",
+          "courses": 260,
+          "acceptanceSha256": "f832830b81e4ff4196313d414ee67b351a3b17980b1c5296c0efa88dfe8e8128",
+          "sourceMapSha256": "47cf5f3acb25d46912ae7623948055f9b8d58c86b3a6e50865f6c85e1727e585",
+          "expectedFilesRewritten": false,
+          "scope": "Remaining damaging aftermath and complete common continuation, composing existing status, effect and proc capabilities. Runtime extraction and physical-device performance remain separate.",
+          "observationsSha256": "8a9e1b423a7015c16b525818d30c77ff9bab2b56d75237591431edaa2e198a9c"
+        },
+        "archiveSha256": "58141e1889e9fb340cf09b0e544b6a905acd21b52e5e85ac5198502394b576a3",
+        "sourceMapSha256": "47cf5f3acb25d46912ae7623948055f9b8d58c86b3a6e50865f6c85e1727e585",
+        "packageMapSha256": "866edc71c2d50d09acacdac060abc05792ff0434aeffbbd0d5dd4cdbb7dfe28f",
+        "sourceAndPackageUnchanged": true
+      },
+      "installedFaults": {
+        "passed": true,
+        "composite": true,
+        "count": 17,
+        "controls": 2,
+        "prior": ".artifacts/hit-aftermath-installed-first-failed.json",
+        "priorSha256": "72f8c63409621bd1642e8ee71dfa42852aac9843ba002d6cef4b8e5948663f73",
+        "forwarding": ".artifacts/game-hit-aftermath-forwarding-verification.json",
+        "forwardingSha256": "4cbd0837d32bc0eeb59689591f39ca3c2492ca8219d9164976f4131ddb70480e",
+        "firstSixteenSelectorsUnchanged": true,
+        "oldRunner": ".artifacts/hit-aftermath-installed-first-failed-runner.mjs",
+        "oldRunnerSha256": "2f4e10d82e3e98e43e01f4082fcede375764c175c3c27fe654cba216e9fc1801",
+        "currentRunner": "scripts/test-game-hit-aftermath-faults.mjs",
+        "currentRunnerSha256": "4f91aeec3368156e078f2c82b995d0f66c29fff06cce2cd45582e99d9ddb4d7b",
+        "sourceMapSha256": "47cf5f3acb25d46912ae7623948055f9b8d58c86b3a6e50865f6c85e1727e585",
+        "packageMapSha256": "866edc71c2d50d09acacdac060abc05792ff0434aeffbbd0d5dd4cdbb7dfe28f",
+        "repair": "The original final fault disabled the whole damaging phase, leaving the observer cache-identity fixture without its required instance and causing a WeakMap error. It is not counted. A targeted World damage-multiplier forwarding fault and fresh control pass; the sixteen earlier behavioral detections are retained and hash-verified. Accepted observations and production code are unchanged."
+      },
+      "priorValidation": ".artifacts/hit-aftermath-integration-validation.json",
+      "priorValidationSha256": "a9da43981edc03963a3c6a0d2f2bfe2b1e2778ea5ed4c5e283ef924c4eafe316",
+      "game": "<sdk>\\.artifacts\\hit-aftermath-reproduction-hXv4Vo\\game"
+    },
+    "mutations": {
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\hit-aftermath-mutations-Uow0oh",
+      "tests": 35,
+      "sourceSha256": "d7080188f534cacf9e39de47b57828b02bc574fecfbdc91829a20f26ef529128",
+      "testSha256": "5e3a74e0d148f1576f559a7c9b9734a8cfa50237e92ee1a39e9b9666e064ef41",
+      "faults": 102,
+      "results": [
+        {
+          "name": "volatile-life",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "4779b81bd89c02998fe782ec10576a8c8b5095957da2bef580530b4648d61638",
+          "outputSha256": "53981a921de0099f0e2bdf22b49dab5f844fdfd7dbdcdf6463b273b48a68b964"
+        },
+        {
+          "name": "volatile-dead",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "d37ba3e5313d0bba03084c8e76631cb8fe9a42af58d4453ed0864476e3eab885",
+          "outputSha256": "8bd294356c2974d6979367227969601dc1e93a62d9fc9d9f54a4fcffcead3da1"
+        },
+        {
+          "name": "volatile-hidden",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "c7f9028a6999749ca9f58250056129ca57af3efa83096b97a2697abc696b0fd6",
+          "outputSha256": "ee8f83eddd844341bcee9c5ec85736f5874397e6d89800bf7b4280735e6ead46"
+        },
+        {
+          "name": "volatile-ready",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "8fc2eaa93ce2c78089817f60169081c611effdc426ed6fde1a182ae251313d77",
+          "outputSha256": "10157d71b0019e51dd5a2f879b86d3061521f1fffd2fd502bd8450dcb9499023"
+        },
+        {
+          "name": "volatile-chance",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "84849078cc3b9e03b2a87274c22bf9304be2b4e67fe7ad600a3dca3caf50b482",
+          "outputSha256": "40433e8036c07c3a2c7aa70eba2ac5d0d1f7424d6b70c227c6e00833dcc68d29"
+        },
+        {
+          "name": "volatile-zero-icd",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "f782ddbdc084b67f2ce2e78af78a733bc2a36993c4303c692700585ca8755400",
+          "outputSha256": "8c445cf78f10e402ba8875555321e1ac701bb7f87dbac3119f43ce418e1207d7"
+        },
+        {
+          "name": "volatile-cache",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "d86cb04cbf8e31c40dfd084e5230111aec41ed391dd26e39c2141c5d0292b551",
+          "outputSha256": "0e13186c1b75ebe69acc57a85ee04dc5585193e4d5e533a8d0dcc1e18f728bf7"
+        },
+        {
+          "name": "volatile-round-level",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "2652deda9bc12f70aa15b20b40390446874dc0b72638340f35f4d80af8f356af",
+          "outputSha256": "ef5d043eee98cc838864cf60cef2605dbfd88806c453f3af61b98826c586c9f7"
+        },
+        {
+          "name": "volatile-quiet",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "46aac4a2b7d779d2435209343e47b8df5b8fbd3666f743ea6fe6c66ddf73076d",
+          "outputSha256": "5dc5f72e54180818130c3f46c3d061c182a524f2881b68dd02f33dddd75b343c"
+        },
+        {
+          "name": "volatile-aim",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "b1a6a261a6b6b352226ce33e9bede4d7c957331c4e3576129e14c38bfac1ba9c",
+          "outputSha256": "a26e094acba3680d692eae112e9fb1936bec31d7dc65d3145c86f867a59f1152"
+        },
+        {
+          "name": "volatile-zero-scale",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "e552cfca3e386a4c6e932d00bd19adf64222c0d10838aa848fef600c018d496b",
+          "outputSha256": "52196a733574bf8a4811ecb0a478f780cf8f5065323cc4f1c7d24432e0951972"
+        },
+        {
+          "name": "element-ready",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "9980da27c10422c7811f9980f77a14f477676979989e2fd87b155434b2ded97e",
+          "outputSha256": "28762d6c2cfcde2ff8f00acf153abb482d86466d23a222cb2c6351b680a2a820"
+        },
+        {
+          "name": "element-zero-icd",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "1eda7bb355d3f7de9ec867dd309f484dffcdc3fe6e965fcc855b5dce8001f8e2",
+          "outputSha256": "bb0d73e5bc637846f29bf3eb5828027510305194a67244599830d11feeb536d6"
+        },
+        {
+          "name": "element-zero-chance",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "318900cabe71ea3f73b867ae6031c55d5512403b99f120fb378493c0355bca7e",
+          "outputSha256": "b3317cc4e88e2c0c808b71b1f9310291af4be22f508c68285c8a7978f6e69a10"
+        },
+        {
+          "name": "element-packet-type",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "113d9bcc62d5dbc9716a329a8f0350f01ce8d23d39d91d649f5b31726d91a9a5",
+          "outputSha256": "3dc2119148ba6ea765367a51e52f5625a8af034d41c0cff89e14ffba3df3bfe2"
+        },
+        {
+          "name": "element-first-row",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "4a3e12d39adf27fbc4b5de9b5f68a2911e65c29739b556361c60f876a4a2f2e8",
+          "outputSha256": "7dd898e7555d14efab5b5fcfadfe50acfd06994a2e1b1ee57c5689047989b704"
+        },
+        {
+          "name": "element-cache",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "0f2142b922abde7070d97ad700759a74a99a9a598d3a347f90af0d9705705117",
+          "outputSha256": "ef31f9d81678d75c61d74d438ff79dc58fa9f240038df3da996f1bb107558801"
+        },
+        {
+          "name": "fixture-wound",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "7ed5c70b1be534e66b7830341e352acceb05bc2c696ec1db2600b99643d895b2",
+          "outputSha256": "7fa84ff897ab30c22f6c7b67e7a8764ceb98c544a5ffd49ba2cdeb09b447a8cf"
+        },
+        {
+          "name": "contagion-generation",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "c6c87d14b8bd61783ab98068d4d9e7d265223b33a2bd360b4d249692de8a5af3",
+          "outputSha256": "d1b0a9a15f1248573b7e159c59f7b3026ee39b48bcc7d7a6987a05d2ad785328"
+        },
+        {
+          "name": "contagion-ready",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "78a77e316404ebf9a1fd6faffb3ac339e8ac96cbca8f6d0f34dab88d7a607f75",
+          "outputSha256": "aea1898ea1cc5c6c8fd3449d234fd151cf23edf5bbe712899f66f4d925bad21c"
+        },
+        {
+          "name": "contagion-seen-gate",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "9a873fc0ac3f04b7084ef97b38e1f0a1e549626db5f19c5672dc797bfc31442f",
+          "outputSha256": "92e808e0ef778daa98d8a3442441a8a9feb1c7eeefffa038c283aa419d4be8b0"
+        },
+        {
+          "name": "contagion-decay-zero",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "08dd990ee8c3c1d0f03fde1b61d9f2efbb7b32dd643f13b0c670632b447e43ea",
+          "outputSha256": "f67738b3e8651ba323e97c5b9d82c72c23a85906ef3e50a15142171facffbceb"
+        },
+        {
+          "name": "contagion-shared-set",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "cc2e592b217d50ade0fa8de58dfdf62ff15145014d91c0de92fc286bdd39c79c",
+          "outputSha256": "3366d17de4e3f6dc969be262287023e42776f85cc9e908bd8d272b4caee9a9b4"
+        },
+        {
+          "name": "contagion-next-generation",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "d1c25e5a42837612e99eb010226a2ec834a0caa7ded215a1006e7596b24acdf6",
+          "outputSha256": "3c27a3ed1a97b3298237d9ff395f15597d8970385099aa71d4ea70aad25b710c"
+        },
+        {
+          "name": "contagion-delay-zero",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "bd24c96e9e2c90c8502df2c690998807f772fc24ecdfbdc94c13ae86a1728cfd",
+          "outputSha256": "36e0714735e3555dd74854da480296eb07ac787b934ef8b4de65d9c73091825b"
+        },
+        {
+          "name": "contagion-zero-scale",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "2c3b3eb04dae8c0b3b585a4b18ab198d4da63a896937fafd9ef445e18dd32c87",
+          "outputSha256": "400c084a1bf766f32f3ff76bdb983834df7cb0ee5fb03961f9b9e84c709956f4"
+        },
+        {
+          "name": "spread-story",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "4929950ba446383b4c702beecbd701216d4d6ee721b6998f9527746fee7492c3",
+          "outputSha256": "e1126626de5f8206a2daddf47abcfb8567a73922a2e6281fc97c108b72efc368"
+        },
+        {
+          "name": "spread-existing-status",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "3bcef0f1063e6cd3853bd9b0e17531b43dfda41dc301795f138da492922ec9db",
+          "outputSha256": "8d4a52a8a1b4f582774c074c7e6ec96f6d845da5b96251a79fb60435010e66bf"
+        },
+        {
+          "name": "spread-tie",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "662dc4ee47c44e8676bf9ec126bf143a5b008e5b4e61dde4f97f364e3fc5c2f4",
+          "outputSha256": "52da5b9c167f17b3f40f180dfe2035ab3cb5a08bb768b3762192846b82f94417"
+        },
+        {
+          "name": "curse-self-instance",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "982705489540dc039f63b04034c0b9ead19719acac3aede58bf827baa291c2a5",
+          "outputSha256": "d1374b67b8ffe6c87a42ec7472c5da150198fe9d47d1cbdb41d5a9c6e92171a9"
+        },
+        {
+          "name": "curse-live-map",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "de679299420a2c275363e857c86754db8eea94a4176983e34b9ac0b119550768",
+          "outputSha256": "a30e10f65d38776b25e570780c3029141fab855cbc0a3e73b8748a7667b30ecd"
+        },
+        {
+          "name": "curse-dead",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "d2fef6275c5836806f7b4ecb5b01c19a2f455e26c9db822b1c8567004c09f537",
+          "outputSha256": "4d5a562e12f52c957c576cf54dc65c8c8eac07b5f0bcebee320596471e24e36f"
+        },
+        {
+          "name": "curse-depth",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "51cc59787aa8ed729dc4d3d3c374327dfd16643fb29d799f4e3646aa3e05bb36",
+          "outputSha256": "d34d3b567680ca37707b1f40f05cdac6f5056246baa30c23a2f00ff425a1223f"
+        },
+        {
+          "name": "discharge-composition",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "ef217a854fd8fc585087fe0db1f88eddd686f983230b259b9b56c308e436f2d9",
+          "outputSha256": "ac414238e7723e5bf812b8122d9ac8b4fe3bf2583757dea50d1725fc5cb9ed04"
+        },
+        {
+          "name": "assault-plant-composition",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "734d122c45dccda42d5af1d28a1ab6c8a6bfcc5a0233a2fa6f8c50aae1b043ca",
+          "outputSha256": "b320e4a0f33b3c40942fbc0f77a12252badc0cff7bbe8c59afe966c88f75a73f"
+        },
+        {
+          "name": "impale-composition",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "4fbdefad0cabe319cfa277c9de6ea7bf7f759281c4e2bc47ef50f40b54714d00",
+          "outputSha256": "310808ea28494738fc9750c7732e9cedb02c84611b0f9733387583b2ec960886"
+        },
+        {
+          "name": "echo-magnitude",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "4a696a9209dd2d39cb41b9a51345ac2b64d67f8500ed01829966da8a3685c1e9",
+          "outputSha256": "d652805fc3e49db557817da76827a385487817d36b209a404141e81784dd094a"
+        },
+        {
+          "name": "echo-depth",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "ff86993c18a103ffdffbbf808cd82355a7275fb95e206baa2112909e855f6a37",
+          "outputSha256": "b44aabdf610221225da042166ac2879f791d9b5755d342d09caa489f27203148"
+        },
+        {
+          "name": "dominate-cap",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "1bfde908b2a38246ec3d3cde6db0c369439cac45de56dfcd363c4f30cbed8317",
+          "outputSha256": "fad905eabc48822a6f1802082e950f25e996e9de990ed181fb666854fe9edc2e"
+        },
+        {
+          "name": "dominate-boss",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "37731258874a81a926753377345bcb910739b951a86102718c2205b351512383",
+          "outputSha256": "cc4c750590e1bb7ace24093dbfa5eb6051dbf93bebb045465f0ac65f005ad774"
+        },
+        {
+          "name": "dominate-minion",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "b78495100aa71a4ce2752c2a542ea8f8a36463715326c5d1efceb7be6eeea53a",
+          "outputSha256": "bdf0e0ad60aadcc2d4adc031f2ea15e08543d04c2d8b1ff9b72345750e417aa7"
+        },
+        {
+          "name": "grip-owner",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "a7097379a0bb2f08e9652780fca4ac1b5434280e45266443d2cfd0ece861a63e",
+          "outputSha256": "e80bc88d1614fff4524ed94ec8764c9b2cf4675b405588a5f3c50119d12d0609"
+        },
+        {
+          "name": "grip-arithmetic",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "287c0f2952a5d14c23a4806f9ed0dd43cc7137922b77b720c6b8eb87b20fb34f",
+          "outputSha256": "b37cc88cda80dfe1a61338f1e370df6880fbb6490fd2df9fd775dc6260c1eef2"
+        },
+        {
+          "name": "thorns-damage",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "78297bdbdfcd9055dcd3afe22084465beaf92a01a3d10c7f63828fca6e8f2778",
+          "outputSha256": "d33cc24231a4fa918183fff7aa756ae878f6332f6ec617fb2fe2c97aa1e750e6"
+        },
+        {
+          "name": "iron-expiry",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "4f381710383676b53e0b8f5fd4412320392dc92b5a4d5c3e78a75d2c424bd4b5",
+          "outputSha256": "c0df01d87253a2e5f4bbb04534633d78fbc5b28b786586ffc22b51f5c8c5c225"
+        },
+        {
+          "name": "iron-cap",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "294d7cc874002bf0039aca2908aafd78a85f1fc00e4d277394f200ab458534b9",
+          "outputSha256": "17874be1658541c987b8977d2cc6cc39b10e7da3140816fba5550a3b5af0a01d"
+        },
+        {
+          "name": "share-depth",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "b93a8ff416ecc5cde45f2389ad7bcf6730dea809d7004444489d97304015e123",
+          "outputSha256": "49bd13a70c3d2391b20419231f6752948fa652cfb6e06b0aee1f34164a885dbe"
+        },
+        {
+          "name": "share-construct",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "5479d5edb8e949317740a739cff463595c046e8a3af0afd9c7e9d35549dbb7c6",
+          "outputSha256": "65e39ef88a92e0d0bd9c4b8cf42631d838c2e2a060125f21e994860cdb815c57"
+        },
+        {
+          "name": "share-hidden",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "b5245975311b3327e6167b6bf844df4b4dadc9228468dbd556d2f598d495bad9",
+          "outputSha256": "4b18c0f1d9798fa8d2131d036e8975193249c68d6440e9acf56f738168c5dde2"
+        },
+        {
+          "name": "share-ceiling",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "985258f3af6abc8916129456dce3f94342111a2326a265dd6be4112093546c60",
+          "outputSha256": "27496c8b68b721d80d09d52f09c45e60a5329ff57287b65f1521bbaa10d267b3"
+        },
+        {
+          "name": "share-fixed-recipients",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "cd865ca1c34bc9d245f42f104961fca3151d3293773bb59f8ed3ee52c6d33f72",
+          "outputSha256": "b8be8d07035c14d5290ff2dcc69fe28026287197cf07fa48aba458e74c6f801b"
+        },
+        {
+          "name": "share-division",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "8fc5cb4d3facf0030bcfd39d7d8ec24ee1b9338193a0324418d5ad905ff95f9c",
+          "outputSha256": "6684f3aaf534c338d90777b2ab7165d976a5f38e323ae8c48980e558306c3b94"
+        },
+        {
+          "name": "retaliate-charge",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "d42b38395964720a195b56f395574ec5c6288582a63003d9d73c60252afa75b0",
+          "outputSha256": "9430888782c6821a413fca1170680b7412143c35371db131b6ed87edc538cbb7"
+        },
+        {
+          "name": "retaliate-cap",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "046be6427f8265f561c7d2202bcb95fc5603300acdc6351667cd58e153e7f9e6",
+          "outputSha256": "b1ab400959f84bc2c0453eecdbd1c25fa740d58346f3710c611027916deaf760"
+        },
+        {
+          "name": "retaliate-spending",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "5c734a06505f6c2c9112ad89bb46ad365872b0ee6808670af667195051567969",
+          "outputSha256": "2c30ff80321e7bf50820b0fcd3a1be3438702387f3adcbbadff0a5c926bdeb86"
+        },
+        {
+          "name": "retaliate-first",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "968fc003556e76cb462080783173cd098b4a251f33eff288cfa16748a025951c",
+          "outputSha256": "a4026070e16565c5676ab7dc55b810fda8476ae0e1fa7359de2e2a7d192d09fe"
+        },
+        {
+          "name": "displacement-melee",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "38738a2ad66e1d6405bb732df7b1a5b15fd7284a05d9df6453457958bfab60d7",
+          "outputSha256": "597f3a6b8cfa18ef7b6bd6c567cfc8ac9506928ae85f1c274f03fd16537665fa"
+        },
+        {
+          "name": "displacement-buffet",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "cb8f806a8df41ae2a4c7ff9c7099cd4dfcfade49c5b4879cfdda0361b0622846",
+          "outputSha256": "442896e5607559d9bd11131fb933177d6e2622186afc3f59a5e26b984e44d2ee"
+        },
+        {
+          "name": "displacement-sign",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "d7ac6f8308c0f8ce501e3f23a7d196614d78815f4efa8a14be2a56b51a3ba7db",
+          "outputSha256": "8f61faa1dab133595b6d6573423fb7402051ab56626b6440707d9cc7db852b69"
+        },
+        {
+          "name": "current-life-nonlethal",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "ca2d047d675cea7b039f824e520c36531f567e5ec31537627ac98514ee13008f",
+          "outputSha256": "9ad64c64656b189c9d63a65eb018fc0ca67d272234834a8a9a1d60383873d9b7"
+        },
+        {
+          "name": "current-life-resistance",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "3cbfe99590338cc814c6a843832e7fa1b6e0a799172bcf7046137dbdca54d6d1",
+          "outputSha256": "a817a8cd862e25551f4c897d8a607ddb8df46d9bf029594c0044630aedb0810c"
+        },
+        {
+          "name": "status-frame-carry",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "4b0238fbbb85b3337d8898a067ba0d63dd5b23d0afe5b23ee61f570ac60b86fd",
+          "outputSha256": "cd14cb03dde591d2bcd13c7e5105fd38544dc58fb20adba1f8a8abbe5fed8c83"
+        },
+        {
+          "name": "status-context-composition",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "dfc87d71e560d321172f2f0f6d50d7e8dbaaa1c7a3c1d3187d3fabb7fd0ce762",
+          "outputSha256": "82733d00f359cf37c770bfe42025d3ac90b1ff0f8a5c03ad5c5237b5e60a986a"
+        },
+        {
+          "name": "rider-composition",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "4bc33230d136dab27553bc251adb569af5856f386b8c024b33c19f6976718b08",
+          "outputSha256": "3348d4ed3d3b5989d750d09988221834bfb1b3fc912abd751762e0793ecbe503"
+        },
+        {
+          "name": "before-effects-composition",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "4d019123419b22693036c3e9fb582d30f608d9eb4e95d3cecc879b21e4567155",
+          "outputSha256": "ebea232c9061af71295e36ad6cb182ceed7ab0929a321f1aa9e697862fbe1134"
+        },
+        {
+          "name": "authored-effects-composition",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "8ad241dc82eff22b7393479019d75642442cfa66589cfe44d632043d0db31bfd",
+          "outputSha256": "7b1bf534da36e4f0652876b318a49cda5b05790adcffe42eb06df939d8416b24"
+        },
+        {
+          "name": "granted-status-composition",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "7272093f7df66eeafcd6ce8dcd6fc088ae69c65b5d06283e130e4075e6801a3f",
+          "outputSha256": "bc7f278a9001590f19f39eb6a6a64bb1bf69d72e57cc06d6b7fe0eaaae86c6fb"
+        },
+        {
+          "name": "splash-story",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "91da18886ddc8a39be8ea23d5a0b2e6a0dd182e16ad4ccb46d0297e3d8d8ce95",
+          "outputSha256": "82d5f4a5499911886c85a0486d426476f7bb70ecd59cb4fe0f9cd034186caa20"
+        },
+        {
+          "name": "splash-radius-edge",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "7dce194307d2e877b3f3f4e1b40ecec6ba4fac8cf3da21d6132c273b155aad72",
+          "outputSha256": "7d672ce0051ebc965db576de2cceb2aebe8719c365b32baaf69ea0d658ecc54b"
+        },
+        {
+          "name": "splash-magnitude",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "4913170029dff6c21d04383989504fa68cb6ec6a7cab9d1f0c2270e306a87467",
+          "outputSha256": "d99312305d1f21896ebedcbee8ef1243f65eb90fc0348ed69e64f062ebb7a043"
+        },
+        {
+          "name": "hit-orb-cap",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "6ade6968915fdcb927993dec93cbf8f74bd825a609725b44f92d1043202b8aed",
+          "outputSha256": "b8019fc14440806dc95a73901df5c4453680e93dbc7129d49e20bbe247c8e317"
+        },
+        {
+          "name": "hit-orb-rate",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "6488cfbb5025d64c02731c975f520071df286765921435134133b0f9fbc68abc",
+          "outputSha256": "04cd5bb89f8d6180722ffeee65a20a36f2be1cfeb088a61069f10d91f437154b"
+        },
+        {
+          "name": "hit-orb-enumeration",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "7ff55a672f937c369b00b2846021e32a83e5d420b19b61f2445ee7aff50d9a12",
+          "outputSha256": "7c169b0e52a64de2d716610255ab1c6febe0d13cc9a5635858e1a70e15c99a21"
+        },
+        {
+          "name": "remnant-cap",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "008c6683b17a981c6d483303302b9fca528737887171fd7123b730e175be1b08",
+          "outputSha256": "982d6f3deede413cb4dd7c7ac34c0e0811ba8cdb4fefc7248abb46901a4151cf"
+        },
+        {
+          "name": "remnant-chance-cap",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "f964db114c50f241177845c5ba760cdbe31c464059b9087fb089cfb84c5691c3",
+          "outputSha256": "adec0a6c083c4ce9054b797164039e0d1a35c6017d5b395dd52a7ec5a713b9a7"
+        },
+        {
+          "name": "remnant-rolled-element",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "ed95555be480ef8338f2b41245ce1e5c8ebd78ce92985e7ef21116e1c6c62ff5",
+          "outputSha256": "e6ef16370d98f0387456d9737b4fd25887cdc18f3fad4b8cc06b5e9f1f39ef64"
+        },
+        {
+          "name": "bell-admission",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "f29c2b0d57be7e9608529736a574ecce7ba319677279d0508fa4479fba0fa9db",
+          "outputSha256": "61905995f49785f0ffa5fdc4e658c2033d7c303001c95673f55aff1f0d9da8df"
+        },
+        {
+          "name": "lethal-capture",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "f1a7d644380ebd5a96a9c3458b38679146821b14107484d95151a4fd66de0924",
+          "outputSha256": "e6d17f82b5aa5fe2c34640e0188829fc041731d35e5839f65c79de0a4cbdea40"
+        },
+        {
+          "name": "kill-life",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "02904a13ae89f7f3f2d7ee31c06ca8941b2a65aa21e3c0ac7d61b4fcc2f1ebaa",
+          "outputSha256": "46eeaafa28b8ccaf4d54381e79864003aeacdd30824d1c97254677bc4e8a0f09"
+        },
+        {
+          "name": "kill-mana-cap",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "ccbdfd23255f93235fc44aae583ad50d52f0559e5067ff0a3ece30567526797b",
+          "outputSha256": "f7afc8dca5664f1081146f08a78fdda5f37cc8433cfe11fbd72f724ad28c36ca"
+        },
+        {
+          "name": "kill-shield-cap",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "c8013e5a302abb9dd60a4b2c5fcaabde5f0a91275e71987181662d598ed88f71",
+          "outputSha256": "d1984bb8f2bd7d38b04f9b4eda37a72a7a5950e9a9c33d9a30d119544d14b046"
+        },
+        {
+          "name": "throng-hit-composition",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "549a440b3c93ff405d7aec5e907f088e79d80578ff2c70140277bf7373786c31",
+          "outputSha256": "77784107266ec59ed57330f3d5eec4805cc84618565f0252178aab7e244cd950"
+        },
+        {
+          "name": "throng-attack",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "a0eb54e04653e32939eac6b5a19a31365ae6e2e2e71d8fa57e4b981c1afdf47a",
+          "outputSha256": "8911e2acbc6e1062affa84c91f48048753a6205bcdb61f68bbde96424e52f42a"
+        },
+        {
+          "name": "throng-magnitude",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "f1c5a47c15acd79b22938688f5e146f958a223ed56677a216aed6a9f07e87a90",
+          "outputSha256": "192f081ff3803d43c9df4c3cccbb767364f0c278dedf6d405200b009f2bd779f"
+        },
+        {
+          "name": "spawn-due",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "3bd014cfa34d16d59c8d40a4ffa6b18e732e2f551b7aecdcca72ebd526b3bc5e",
+          "outputSha256": "6da67df6c0dcd10053ec93f6f819fc09f7227224f31e2a84771a520530ab11f5"
+        },
+        {
+          "name": "spawn-reset",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "9683101ddd89a04d6545e1c314ce986b32a72f309801311ea546879b818c3e08",
+          "outputSha256": "882dc10a6fbc712f756b12a163fa1adba11f31b97e5544dc7aa4d50f56fdd15a"
+        },
+        {
+          "name": "spawn-chance",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "cc0c61c54b38f98af756ffa1566d84c4a783f1dbd75a1f77097ae3f2b3b8c6c6",
+          "outputSha256": "12b7c3a904b755b425f66aa15f0ccb8d78bc362ee2b83616be6071673fbd3960"
+        },
+        {
+          "name": "elite-rarity",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "357b8e19f64aff5605cc7d352ebc38be1a0ed5e2e779df7be05867a355e9ed22",
+          "outputSha256": "95ad25b810201380155f9e4abfbd23f0d52fd25749cabce361de942f60e47416"
+        },
+        {
+          "name": "ordinary-proc-composition",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "999a1ade5287b4ef1956e41359c31da0a1affe2e09d58f34fc18ce4bfef8d681",
+          "outputSha256": "a56e0e60dc8a3e36585db36b665af87c47a56e3f6a7bfcc16dd60bfa841c3818"
+        },
+        {
+          "name": "carry-owner-gate",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "3a152f35b11696fb01ca6f537e1bac36aa66ba2ca29a3d016f863d336f24f0ef",
+          "outputSha256": "768ab93d9d05839cfca4324ef7347e07a7414264a85b6fc4431eb2ca7209ac70"
+        },
+        {
+          "name": "carry-kill-chance",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "39fe80d8c5f2243151c223b170337f1f1d672959504e49e4d0f53fa0f994ad4e",
+          "outputSha256": "e3290961ffe83cdb2ce409e596f297c07dd91dd97ff7adff362f6f3dba2e0ea1"
+        },
+        {
+          "name": "assault-after-composition",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "7bc89e193286bb4e7b99310a1c474b0d166ccf59db94f7d88ebb8b0eb4648e9a",
+          "outputSha256": "63f3e1b6c7f0f6ed40fc4d146d67614b292d9bbdf75b7178953b933c5b5f5f94"
+        },
+        {
+          "name": "doom-composition",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "077514cdda80978fed43a47a665433f139e57fd89f537ad2182165c42fa9d0f2",
+          "outputSha256": "763725dc358423021fce6d80019ea58ad98359e946b7a5e50ab5260929897d89"
+        },
+        {
+          "name": "challenge-after-composition",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "fef6a4a41d69d3f8f9241f79fb550d065344db728dc45de474bde7d88eab0990",
+          "outputSha256": "a86a7ebd5271fb3c8ff2b252c6d1baae6af591834f32a448bad10381b1d923a3"
+        },
+        {
+          "name": "sequence-physical",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "805cce391ae854261f4ecd507413db79836c89dd740821f884ebddf342ca64b2",
+          "outputSha256": "7fd4cd90b69754260f6e6bda4a623d7220c51956df615474e3a1d3e5dce4c454"
+        },
+        {
+          "name": "spent-live-context",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "c48190fca2cf9637ccbd705e1ed1d4cdad79b4defbb328dbccce53f83b4e21b7",
+          "outputSha256": "966a6cfb88aa0a78eb37f74e294a2891b5f517634d0c8335fad055445544bacc"
+        },
+        {
+          "name": "spent-stride",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "af4e868ffca44d58c21b20655bf37e3ff9d1e5676702fe7e76f8ea76df6ca417",
+          "outputSha256": "5320fb600585bbdbb23c745033555a50ba60f04f44b01286a22833a1700cbc0e"
+        },
+        {
+          "name": "final-death-live",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "7e0615f0edca3824205213bc8265da6eb9f0b4822332ec5007ac1f5c5be112c9",
+          "outputSha256": "a67ace250315ff49bebeb2780d20b1c36addf240add981c2cfd366be57821e6c"
+        },
+        {
+          "name": "kill-trigger-composition",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "85750e09dfd2b3a34bdb73ff5abd4288b9ae3067f60c0e0309f123ee513c6609",
+          "outputSha256": "a01b79ded46a7bec7382fb3da45994487a554ced2f952b196612560ad7f6c03f"
+        },
+        {
+          "name": "melee-trigger-depth",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "017decc773c8a2c2b463a3b8c36676073393a34602be58a1081df55d7fc77fd3",
+          "outputSha256": "68e8953aa69bb3844617d7b8c2934af8c5a5c380775751bc7dac47320466b694"
+        },
+        {
+          "name": "melee-trigger-stamp",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "fd97066a26472abb7b20bde7eb7eb6f1c25f33ffc168e3eb6779b3398c102c21",
+          "outputSha256": "a6171140ef83a0cf0b8ea5483cd33edf8a58df26f07d74f58fed2fd6dd4f13ad"
+        },
+        {
+          "name": "melee-trigger-spec",
+          "detected": true,
+          "exitStatus": 1,
+          "sourceSha256": "55476503692ed2ff7000b076407dadba6f5c5749e540b27ac4144ee0b3fc633d",
+          "outputSha256": "b1dfecba53cef205feb15606d8ccb17ccd1a0fd09f699632e015fdb309bf5e06"
+        }
+      ],
+      "runtimeUnchanged": true
+    },
+    "overlay": {
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\hit-aftermath-overlay-onk6Ww",
+      "faults": 101,
+      "results": [
+        "original-damaging-0",
+        "original-damaging-1",
+        "original-damaging-2",
+        "original-damaging-3",
+        "original-damaging-4",
+        "original-damaging-5",
+        "original-damaging-6",
+        "original-damaging-7",
+        "original-damaging-8",
+        "original-damaging-9",
+        "original-damaging-10",
+        "original-damaging-11",
+        "original-damaging-12",
+        "original-damaging-13",
+        "original-damaging-14",
+        "original-damaging-15",
+        "original-common-0",
+        "original-common-1",
+        "original-common-2",
+        "original-common-3",
+        "original-common-4",
+        "original-common-5",
+        "original-common-6",
+        "original-common-7",
+        "original-common-8",
+        "original-common-9",
+        "original-common-10",
+        "original-common-11",
+        "original-common-12",
+        "original-common-13",
+        "original-common-14",
+        "original-common-15",
+        "original-common-16",
+        "original-common-17",
+        "original-common-18",
+        "original-common-19",
+        "original-common-20",
+        "original-common-21",
+        "original-common-22",
+        "original-common-23",
+        "original-common-24",
+        "original-common-25",
+        "original-common-26",
+        "original-common-27",
+        "original-common-28",
+        "original-common-29",
+        "original-common-30",
+        "original-common-31",
+        "original-common-32",
+        "original-common-33",
+        "original-common-34",
+        "original-common-35",
+        "original-signature",
+        "installed-damaging-0",
+        "installed-damaging-1",
+        "installed-damaging-2",
+        "installed-damaging-3",
+        "installed-damaging-4",
+        "installed-damaging-5",
+        "installed-damaging-6",
+        "installed-damaging-7",
+        "installed-damaging-8",
+        "installed-damaging-9",
+        "installed-damaging-10",
+        "installed-damaging-11",
+        "installed-damaging-12",
+        "installed-damaging-13",
+        "installed-damaging-14",
+        "installed-damaging-15",
+        "installed-common-0",
+        "installed-common-1",
+        "installed-common-2",
+        "installed-common-3",
+        "installed-common-4",
+        "installed-common-5",
+        "installed-common-6",
+        "installed-common-7",
+        "installed-common-8",
+        "installed-common-9",
+        "installed-common-10",
+        "installed-common-11",
+        "installed-common-12",
+        "installed-common-13",
+        "installed-common-14",
+        "installed-common-15",
+        "installed-common-16",
+        "installed-common-17",
+        "installed-common-18",
+        "installed-common-19",
+        "installed-common-20",
+        "installed-common-21",
+        "installed-common-22",
+        "installed-common-23",
+        "installed-common-24",
+        "installed-common-25",
+        "installed-common-26",
+        "installed-signature",
+        "engineHitAftermath-collision",
+        "bindHitAftermath-collision",
+        "failed-preflight-preserves-files",
+        "binding-file-collision"
+      ],
+      "lfCrlfEquivalent": true,
+      "repeatedInstallRejected": true,
+      "earlierSustainAndReactionTextUnchanged": true
+    },
+    "native": {
+      "schemaVersion": 1,
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\native-attack-course-LVViX0",
+      "commit": "8b5a3e39a17bb93a01e916cf9cc297cb595113fb",
+      "node": "v24.9.0",
+      "bundlerVersion": "0.28.2",
+      "platform": "win32",
+      "arch": "x64",
+      "sourceHashes": {
+        "scripts/native-attack-comparison.mjs": "9737e1b0922f779716c58ee48cd07f2c4ff2aef6dea9914fcb6e78fa92751711",
+        "scripts/native-attack-observer.mjs": "c14f2b378623e79862f0619bebb03e49b5a998b766d34335f1aa4721a9339417",
+        "scripts/test-native-attack-course.mjs": "42d9032419599276e851835d6437af51625f825209324a28987f0ebeb76ea9d2",
+        "experiments/embedded-js/course-services.mjs": "422972288c57172b6316ef7df5db27b3f29ffdd97e8a1cde4cef33c6985c430a",
+        "experiments/embedded-js/session-host.c": "d4e4decec9ba2f3c9bf22ad5b5040c80bb06fb8da46d34ae4f0c8edf0d9dc5f9",
+        "experiments/embedded-js/host-support.h": "3a0c476def580a963a866d103d4a61cc3942b89ddb826d140e0d0dae734d9aad",
+        "experiments/embedded-js/tracked-allocator.h": "5c8e5cbf6412a3b9edf93826e190524221dc0cecc77f903690352f2a8c01ac0f",
+        "scripts/embedded-native-tools.mjs": "c92fbe1e1af2d563fd6b58b3fd8ee152a1ba5a9c6200e4d75ba6cf9be745ecf5",
+        "scripts/native-tools.mjs": "80671f3913e94caaecc8d18ab0c87d95aa3cb978201f38896291a4b823db5b89",
+        "baseline/attack-sequences/acceptance.json": "9c6717606b0c9f4820e868afd492e078589e0a10c7c20a0000a8bd6bb94fcd79",
+        "reference/export-attack-sequences.ts": "36f5b3fa6078bd3e77295671feac5ce5d6b947dfab7912d1eb39f2772b5cf1c5",
+        "baseline/attack-sequences/observations.json.gz": "df7ae067399ce626330693cf7e294920942618874e2676a51396ccdba6b1ea77",
+        "experiments/embedded-js/native/consumer.cpp": "d46fe4c20255167b85a2cfb9afa96cad10bb7871182b2ee9d873eda106c438a0",
+        "experiments/embedded-js/native/dotnet/Consumer.csproj": "5752c7f35a5b6b7f286e0e9fe3fc1ae94e4935873e07179a729777e0b79804cc",
+        "experiments/embedded-js/native/dotnet/Embedded.cs": "c6cea31a4ca20ed3373fdc53159477e9db38f77512c135d6209a8c057ea35000",
+        "experiments/embedded-js/native/dotnet/NuGet.Config": "2142cfb2dfa2c7feefbe40fabcc68b0dfecadafa99a1db9b70239d977cf2a7ef",
+        "experiments/embedded-js/native/dotnet/Program.cs": "ea866913c81e6f6be8d72da91e193e132bc94790bbe8a44b555347d5e22a861c",
+        "experiments/embedded-js/native/hwe_embedded.c": "382b4c0a404b7219feeb35742aaff0b2136c8df65c1cf93e634a9ee9e33f155a",
+        "experiments/embedded-js/native/hwe_embedded.h": "29fb4f208074cd4d6407482900479322cbd21d1e722851cf5617b732aac72978"
+      },
+      "originalSourceMapSha256": "384db880fa4ce06031caba166b17155bafc2e61f71ee32f8960b0e35add54ee9",
+      "gameSourceMapSha256": "47cf5f3acb25d46912ae7623948055f9b8d58c86b3a6e50865f6c85e1727e585",
+      "installedPackageMapSha256": "866edc71c2d50d09acacdac060abc05792ff0434aeffbbd0d5dd4cdbb7dfe28f",
+      "runtimeMapSha256": "73aaccc230ccdb5b6cf37cc418bd5c0ff451b4d2446fa9044389d54e0e786136",
+      "referenceSha256": "7b20c2c208f9f6f5ab26a7432e00afaeca97562415f2ce0ce4f0f3d027b3843a",
+      "runtimeVersion": "0.17.0",
+      "scope": "Full original/installed-game Cleave course in a development native driver. Includes original World, content, headless shims and test observation storage. No new engine API, stable package, performance or device acceptance.",
+      "runs": [
+        {
+          "label": "original",
+          "passed": true,
+          "bundleBytes": 13563103,
+          "bundleSha256": "1287deab8bde8a693e4657d4ac2cabdfaa8ed759a57d81ed6a4b5c3596c167b9",
+          "cloneChecks": 931,
+          "metrics": {
+            "code": 0,
+            "completedRequests": 33,
+            "peakRequestedBytes": 157112357,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 304429
+          },
+          "nodeExact": true,
+          "comparison": {
+            "numbers": 150608,
+            "differences": [
+              {
+                "path": "$/19/value/rows/2/worlds/0/actors/2/facing",
+                "actual": 2.0067420640161253,
+                "expected": 2.0067420640161258,
+                "absoluteError": 4.440892098500626e-16,
+                "kind": "facing"
+              },
+              {
+                "path": "$/19/value/rows/3/worlds/0/actors/2/facing",
+                "actual": 2.0067420640161253,
+                "expected": 2.0067420640161258,
+                "absoluteError": 4.440892098500626e-16,
+                "kind": "facing"
+              }
+            ]
+          },
+          "libraryComparison": {
+            "numbers": 150608,
+            "differences": []
+          },
+          "libraryMetrics": {
+            "passed": true,
+            "requests": 33,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 157112357,
+            "bufferOwnership": true,
+            "threadMigration": true,
+            "concurrentCancellation": true,
+            "unloadReload": true
+          }
+        },
+        {
+          "label": "installed",
+          "passed": true,
+          "bundleBytes": 13889685,
+          "bundleSha256": "d2c6565df8277e0ed5d70706e78687ca50272b715e60fa406d3d297338735a29",
+          "cloneChecks": 931,
+          "metrics": {
+            "code": 0,
+            "completedRequests": 33,
+            "peakRequestedBytes": 199931643,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 299205
+          },
+          "nodeExact": true,
+          "comparison": {
+            "numbers": 150608,
+            "differences": [
+              {
+                "path": "$/19/value/rows/2/worlds/0/actors/2/facing",
+                "actual": 2.0067420640161253,
+                "expected": 2.0067420640161258,
+                "absoluteError": 4.440892098500626e-16,
+                "kind": "facing"
+              },
+              {
+                "path": "$/19/value/rows/3/worlds/0/actors/2/facing",
+                "actual": 2.0067420640161253,
+                "expected": 2.0067420640161258,
+                "absoluteError": 4.440892098500626e-16,
+                "kind": "facing"
+              }
+            ]
+          },
+          "libraryComparison": {
+            "numbers": 150608,
+            "differences": []
+          },
+          "libraryMetrics": {
+            "passed": true,
+            "requests": 33,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 199931643,
+            "bufferOwnership": true,
+            "threadMigration": true,
+            "concurrentCancellation": true,
+            "unloadReload": true
+          }
+        },
+        {
+          "label": "early-freeze-fault",
+          "passed": true,
+          "bundleBytes": 13889667,
+          "bundleSha256": "d97a49d7bf151a5c08bfd1a75ecd46490aab95679eaff8c7c5c5ec0f474ad1df",
+          "cloneChecks": 931,
+          "metrics": {
+            "code": 2,
+            "completedRequests": 0,
+            "peakRequestedBytes": 101329664,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 125824
+          },
+          "nodeExact": true,
+          "detected": true
+        }
+      ],
+      "compilerBanner": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.38.33133 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+      "buildCommands": [
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/O2",
+            "/std:c11",
+            "/fp:strict",
+            "/MT",
+            "/experimental:c11atomics",
+            "/I<sdk>\\.artifacts\\quickjs-source-v017",
+            "/W4",
+            "/WX",
+            "/c",
+            "<sdk>\\experiments\\embedded-js\\session-host.c",
+            "/Fo:<sdk>\\.artifacts\\native-attack-course-LVViX0\\native\\course-host.obj"
+          ]
+        },
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/O2",
+            "/std:c11",
+            "/fp:strict",
+            "/MT",
+            "/experimental:c11atomics",
+            "/I<sdk>\\.artifacts\\quickjs-source-v017",
+            "/c",
+            "<sdk>\\.artifacts\\quickjs-source-v017\\quickjs-amalgam.c",
+            "/Fo:<sdk>\\.artifacts\\native-attack-course-LVViX0\\native\\quickjs-amalgam.obj"
+          ]
+        },
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/MT",
+            "<sdk>\\.artifacts\\native-attack-course-LVViX0\\native\\course-host.obj",
+            "<sdk>\\.artifacts\\native-attack-course-LVViX0\\native\\quickjs-amalgam.obj",
+            "/Fe:<sdk>\\.artifacts\\native-attack-course-LVViX0\\native\\course-host.exe"
+          ]
+        }
+      ],
+      "binarySha256": "85c1038b3fef9633b0f13af7984f3be582954321052c3517fb9eb1c2c2720585",
+      "library": {
+        "compilerBanner": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.38.33133 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+        "buildCommands": [
+          {
+            "command": "cl.exe",
+            "args": [
+              "/nologo",
+              "/O2",
+              "/std:c11",
+              "/fp:strict",
+              "/MT",
+              "/experimental:c11atomics",
+              "/I<sdk>\\.artifacts\\quickjs-source-v017",
+              "/W4",
+              "/WX",
+              "/DHWE_JS_BUILD_SHARED",
+              "/c",
+              "<sdk>\\experiments\\embedded-js\\native\\hwe_embedded.c",
+              "/Fo:<sdk>\\.artifacts\\native-attack-course-LVViX0\\library\\hwe_embedded.obj"
+            ]
+          },
+          {
+            "command": "cl.exe",
+            "args": [
+              "/nologo",
+              "/O2",
+              "/std:c11",
+              "/fp:strict",
+              "/MT",
+              "/experimental:c11atomics",
+              "/I<sdk>\\.artifacts\\quickjs-source-v017",
+              "/c",
+              "<sdk>\\.artifacts\\quickjs-source-v017\\quickjs-amalgam.c",
+              "/Fo:<sdk>\\.artifacts\\native-attack-course-LVViX0\\library\\quickjs-amalgam.obj"
+            ]
+          },
+          {
+            "command": "cl.exe",
+            "args": [
+              "/nologo",
+              "/MT",
+              "/LD",
+              "<sdk>\\.artifacts\\native-attack-course-LVViX0\\library\\hwe_embedded.obj",
+              "<sdk>\\.artifacts\\native-attack-course-LVViX0\\library\\quickjs-amalgam.obj",
+              "/Fe:<sdk>\\.artifacts\\native-attack-course-LVViX0\\library\\hwe_embedded.dll"
+            ]
+          },
+          {
+            "command": "cl.exe",
+            "args": [
+              "/nologo",
+              "/O2",
+              "/W4",
+              "/WX",
+              "/std:c++17",
+              "/utf-8",
+              "/EHsc",
+              "/MT",
+              "<sdk>\\experiments\\embedded-js\\native\\consumer.cpp",
+              "/Fo:<sdk>\\.artifacts\\native-attack-course-LVViX0\\library\\consumer.obj",
+              "/Fe:<sdk>\\.artifacts\\native-attack-course-LVViX0\\library\\consumer.exe",
+              "/link",
+              "/STACK:2097152"
+            ]
+          }
+        ],
+        "librarySha256": "aeae4f2811e2d7f49ee2006f68b6217d916e3dd0edcd7268b81293c36a1220f8",
+        "consumerSha256": "1d22eaeb6d180f9fec398614a62b9e46c3d7b2ba71d6ffc45573792150b6e66c"
+      },
+      "originalAndInstalledNative": {
+        "numbers": 150608,
+        "differences": []
+      },
+      "inputsUnchanged": true
+    },
+    "node22": {
+      "passed": true,
+      "game": "<sdk>\\.artifacts\\hit-aftermath-reproduction-hXv4Vo\\game",
+      "output": "<sdk>\\.artifacts\\reference-hit-aftermath-rYJKPw",
+      "courses": 260,
+      "acceptanceSha256": "f832830b81e4ff4196313d414ee67b351a3b17980b1c5296c0efa88dfe8e8128",
+      "sourceMapSha256": "47cf5f3acb25d46912ae7623948055f9b8d58c86b3a6e50865f6c85e1727e585",
+      "expectedFilesRewritten": false,
+      "scope": "Remaining damaging aftermath and complete common continuation, composing existing status, effect and proc capabilities. Runtime extraction and physical-device performance remain separate.",
+      "observationsSha256": "8a9e1b423a7015c16b525818d30c77ff9bab2b56d75237591431edaa2e198a9c"
+    },
+    "observer": {
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\hit-aftermath-benchmark-observer-UDgd2v",
+      "game": "<sdk>\\.reference",
+      "sourceUnchanged": true,
+      "benchmarkVerification": "<sdk>\\.artifacts\\hit-aftermath-benchmark-verification.json",
+      "benchmarkVerificationSha256": "f129b8272a53dd94a1df9191ef09353b28d674d7dfe2b0aa0151df132fa5b5bd",
+      "helperSha256": "ad0ab38f6c1a60d4b604fc057b4a16eb583e154d291783397f1fd4faf044db6e",
+      "checksSha256": "12998b114a2a9e77d6caf15a1d4108562e9c20db461e66aa8117f6a6a13f8290",
+      "runnerSha256": "2c9ff33842370dfc77ed5b8e186ce3f959e5c220ca7c5c31dedef9fb3120c3a3",
+      "faults": 6,
+      "results": [
+        {
+          "name": "control",
+          "detected": false,
+          "helperSha256": "ad0ab38f6c1a60d4b604fc057b4a16eb583e154d291783397f1fd4faf044db6e",
+          "observationsSha256": "7e24d8d27a02f277699310f5c4bbae4603d73891f2ce42409c785a2974c637f4",
+          "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+        },
+        {
+          "name": "inactive-sharing",
+          "detected": true,
+          "helperSha256": "52d8aca4812572f9a201ad2be166eb51506c4f24da2f494bd4eb2efabc818faf",
+          "observationsSha256": "464b0ca264c546812825b5df427f7e251c829f85ca56ba05d378cb176608547b",
+          "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+        },
+        {
+          "name": "inactive-spread",
+          "detected": true,
+          "helperSha256": "3342ca403692faf9da2f55a9129983b76928a1b3c7f87700138ac5cf3575871e",
+          "observationsSha256": "1a38fd9f9a42a74035c8c1f5fd8f090f34c2f30b419943c6a55b91c4076d6f0d",
+          "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+        },
+        {
+          "name": "inactive-splash",
+          "detected": true,
+          "helperSha256": "6f423c93837ca29bccfafa20a4622fa6097ee100164e196257d919bf2551df50",
+          "observationsSha256": "5509b966846a8691bea0de9215093f9b2a6bcbeca01e008b256e2c6db317333d",
+          "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+        },
+        {
+          "name": "false-root-count",
+          "detected": true,
+          "helperSha256": "8e8698a601dab942d0d2a5424c7c6cdc4d4c01f44f0749f9986552660c543454",
+          "observationsSha256": "c42706fd73c9f775a97839d50e23934b906d5bd07d121049b2c855e2c6700131",
+          "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+        },
+        {
+          "name": "skipped-hit",
+          "detected": true,
+          "helperSha256": "32f4235757f35ffd9e529f0c26084b19962fabf9c89ae6212375ff286c87af28",
+          "observationsSha256": "612658df6b9a20aca282c639a7a491225f71944acbe2ce1cbbf551501bab65c5",
+          "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+        },
+        {
+          "name": "missing-status-reset",
+          "detected": true,
+          "helperSha256": "9d5f1b437596c2dea4c0d53f33efdfc9d1929e7b4512c7217e2d409e95405120",
+          "observationsSha256": "9b30b13e9da914e056879f679d6782cc2998909a8e5d4e21a6d87f813ef9f88c",
+          "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+        }
+      ]
+    },
+    "auditSeal": {
+      "file": "<sdk>\\.artifacts\\hit-aftermath-benchmark-eVinYo\\verification.json",
+      "sha256": "f129b8272a53dd94a1df9191ef09353b28d674d7dfe2b0aa0151df132fa5b5bd",
+      "observer": ".artifacts/hit-aftermath-benchmark-observer-verification.json",
+      "observerSha256": "4f4f3d7b78013009ffaacebe09ef7d76c22ef6baeae8f1175c8825e0f561fb7b"
+    }
+  },
+  "timing": {
+    "hardware": {
+      "node": "v24.9.0",
+      "platform": "win32",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "logicalCpus": 20
+    },
+    "plan": {
+      "schemaVersion": 1,
+      "seed": 20904,
+      "populations": [
+        8,
+        64,
+        256
+      ],
+      "workloads": [
+        "sharing",
+        "spread",
+        "splash",
+        "combined"
+      ],
+      "auditHits": 3,
+      "rounds": 12,
+      "order": [
+        [
+          "original",
+          "previous",
+          "current"
+        ],
+        [
+          "current",
+          "previous",
+          "original"
+        ],
+        [
+          "previous",
+          "original",
+          "current"
+        ],
+        [
+          "current",
+          "original",
+          "previous"
+        ],
+        [
+          "original",
+          "current",
+          "previous"
+        ],
+        [
+          "previous",
+          "current",
+          "original"
+        ]
+      ],
+      "scope": "Warm whole resolver with active native damage sharing, status transplantation, splash and their combination. Actor life/status/text reset and read-only hit/RNG counters are timed equally. Snapshots, IPC and explicit GC are outside timing. Fixed simulation clock; no per-frame/world update or physical-device claim. Retained heap is not allocation volume."
+    },
+    "pairedControl": [
+      {
+        "workload": "plain",
+        "medianPairedRatio": 0.9946380020733017,
+        "range": [
+          0.7243713898494605,
+          1.2332396828737264
+        ],
+        "currentLower": 7,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": 129880
+          },
+          "current": {
+            "retainedHeapDelta": 52984
+          }
+        }
+      },
+      {
+        "workload": "authored",
+        "medianPairedRatio": 0.9787548538720696,
+        "range": [
+          0.8978647675148038,
+          1.1183859758890784
+        ],
+        "currentLower": 9,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": 155320
+          },
+          "current": {
+            "retainedHeapDelta": 123880
+          }
+        }
+      },
+      {
+        "workload": "stat",
+        "medianPairedRatio": 0.9903904840026353,
+        "range": [
+          0.9111313271550414,
+          1.0734902505370498
+        ],
+        "currentLower": 7,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": -38584
+          },
+          "current": {
+            "retainedHeapDelta": -37920
+          }
+        }
+      },
+      {
+        "workload": "rider",
+        "medianPairedRatio": 0.9771701425065322,
+        "range": [
+          0.8881207110980256,
+          1.1659338198220808
+        ],
+        "currentLower": 7,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": -258680
+          },
+          "current": {
+            "retainedHeapDelta": 127320
+          }
+        }
+      },
+      {
+        "workload": "impale",
+        "medianPairedRatio": 0.923189010838803,
+        "range": [
+          0.784226583166572,
+          1.0587435228680258
+        ],
+        "currentLower": 11,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": 55856
+          },
+          "current": {
+            "retainedHeapDelta": 61672
+          }
+        }
+      }
+    ],
+    "pairedCurrent": [
+      {
+        "workload": "plain",
+        "medianPairedRatio": 0.9910329773440938,
+        "range": [
+          0.8564596347144883,
+          1.1777241627019948
+        ],
+        "currentLower": 7,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": 124072
+          },
+          "current": {
+            "retainedHeapDelta": 68648
+          }
+        }
+      },
+      {
+        "workload": "authored",
+        "medianPairedRatio": 1.0327540490997238,
+        "range": [
+          0.9226070475753797,
+          1.0756464549766662
+        ],
+        "currentLower": 4,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": 162040
+          },
+          "current": {
+            "retainedHeapDelta": 140464
+          }
+        }
+      },
+      {
+        "workload": "stat",
+        "medianPairedRatio": 0.9977396307596325,
+        "range": [
+          0.9035164891387047,
+          1.385836370664882
+        ],
+        "currentLower": 6,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": -41344
+          },
+          "current": {
+            "retainedHeapDelta": -25904
+          }
+        }
+      },
+      {
+        "workload": "rider",
+        "medianPairedRatio": 0.9641631650735438,
+        "range": [
+          0.8414521237801551,
+          1.1238388888217854
+        ],
+        "currentLower": 9,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": -248712
+          },
+          "current": {
+            "retainedHeapDelta": 90768
+          }
+        }
+      },
+      {
+        "workload": "impale",
+        "medianPairedRatio": 1.052168785000117,
+        "range": [
+          0.8542974565108638,
+          1.1597787460701805
+        ],
+        "currentLower": 3,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": 48632
+          },
+          "current": {
+            "retainedHeapDelta": 7136
+          }
+        }
+      }
+    ],
+    "activeControl": [
+      {
+        "workload": "sharing",
+        "population": 8,
+        "batchSize": 1000,
+        "medianCurrentOverPrevious": 0.9736077442580151,
+        "medianCurrentOverOriginal": 0.9922616015582418,
+        "currentLowerThanPrevious": 9,
+        "medianMs": {
+          "original": 67.54355000000032,
+          "previous": 70.72399999999925,
+          "current": 67.53585000000021
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": 125056
+          },
+          "previous": {
+            "retainedHeapDelta": 47416
+          },
+          "current": {
+            "retainedHeapDelta": 49400
+          }
+        }
+      },
+      {
+        "workload": "spread",
+        "population": 8,
+        "batchSize": 1000,
+        "medianCurrentOverPrevious": 1.037434051088036,
+        "medianCurrentOverOriginal": 1.029471297339271,
+        "currentLowerThanPrevious": 4,
+        "medianMs": {
+          "original": 87.61054999999942,
+          "previous": 88.11044999999922,
+          "current": 89.17480000000069
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": 280024
+          },
+          "previous": {
+            "retainedHeapDelta": 286856
+          },
+          "current": {
+            "retainedHeapDelta": 286992
+          }
+        }
+      },
+      {
+        "workload": "splash",
+        "population": 8,
+        "batchSize": 292,
+        "medianCurrentOverPrevious": 0.9909914254692985,
+        "medianCurrentOverOriginal": 1.0074653624980399,
+        "currentLowerThanPrevious": 8,
+        "medianMs": {
+          "original": 81.4351000000006,
+          "previous": 82.47695000000022,
+          "current": 81.8421500000004
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": 151088
+          },
+          "previous": {
+            "retainedHeapDelta": 131576
+          },
+          "current": {
+            "retainedHeapDelta": 136624
+          }
+        }
+      },
+      {
+        "workload": "combined",
+        "population": 8,
+        "batchSize": 292,
+        "medianCurrentOverPrevious": 1.0194205494285402,
+        "medianCurrentOverOriginal": 1.025734867284691,
+        "currentLowerThanPrevious": 3,
+        "medianMs": {
+          "original": 115.67374999999993,
+          "previous": 116.97225000000071,
+          "current": 119.1548500000008
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": 124912
+          },
+          "previous": {
+            "retainedHeapDelta": 40824
+          },
+          "current": {
+            "retainedHeapDelta": 52408
+          }
+        }
+      },
+      {
+        "workload": "sharing",
+        "population": 64,
+        "batchSize": 1000,
+        "medianCurrentOverPrevious": 1.0209585562595862,
+        "medianCurrentOverOriginal": 1.0532674203376742,
+        "currentLowerThanPrevious": 5,
+        "medianMs": {
+          "original": 70.23675000000003,
+          "previous": 70.82859999999891,
+          "current": 74.52404999999999
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": 11040
+          },
+          "previous": {
+            "retainedHeapDelta": 12432
+          },
+          "current": {
+            "retainedHeapDelta": 12432
+          }
+        }
+      },
+      {
+        "workload": "spread",
+        "population": 64,
+        "batchSize": 1000,
+        "medianCurrentOverPrevious": 1.0427535138751973,
+        "medianCurrentOverOriginal": 1.108488375268141,
+        "currentLowerThanPrevious": 5,
+        "medianMs": {
+          "original": 95.06784999999945,
+          "previous": 102.77149999999892,
+          "current": 104.31845000000067
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": 17352
+          },
+          "previous": {
+            "retainedHeapDelta": 18400
+          },
+          "current": {
+            "retainedHeapDelta": 8112
+          }
+        }
+      },
+      {
+        "workload": "splash",
+        "population": 64,
+        "batchSize": 32,
+        "medianCurrentOverPrevious": 0.9851108057211406,
+        "medianCurrentOverOriginal": 1.0785393292976742,
+        "currentLowerThanPrevious": 7,
+        "medianMs": {
+          "original": 76.67194999999992,
+          "previous": 78.97434999999678,
+          "current": 80.87700000000223
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": -10416
+          },
+          "previous": {
+            "retainedHeapDelta": -4056
+          },
+          "current": {
+            "retainedHeapDelta": -4056
+          }
+        }
+      },
+      {
+        "workload": "combined",
+        "population": 64,
+        "batchSize": 32,
+        "medianCurrentOverPrevious": 1.0353294239995023,
+        "medianCurrentOverOriginal": 1.0228033457172652,
+        "currentLowerThanPrevious": 4,
+        "medianMs": {
+          "original": 130.46020000000135,
+          "previous": 162.4857000000011,
+          "current": 169.44770000000062
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": -8848
+          },
+          "previous": {
+            "retainedHeapDelta": -19736
+          },
+          "current": {
+            "retainedHeapDelta": -25576
+          }
+        }
+      },
+      {
+        "workload": "sharing",
+        "population": 256,
+        "batchSize": 1000,
+        "medianCurrentOverPrevious": 1.0470062250946355,
+        "medianCurrentOverOriginal": 1.0016287695118078,
+        "currentLowerThanPrevious": 3,
+        "medianMs": {
+          "original": 188.099549999999,
+          "previous": 185.53419999999824,
+          "current": 191.7621500000023
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": 28344
+          },
+          "previous": {
+            "retainedHeapDelta": 25536
+          },
+          "current": {
+            "retainedHeapDelta": 28368
+          }
+        }
+      },
+      {
+        "workload": "spread",
+        "population": 256,
+        "batchSize": 1000,
+        "medianCurrentOverPrevious": 0.9729255170811039,
+        "medianCurrentOverOriginal": 0.9599816517543287,
+        "currentLowerThanPrevious": 9,
+        "medianMs": {
+          "original": 238.71549999999843,
+          "previous": 228.03050000000076,
+          "current": 224.97059999999692
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": 8424
+          },
+          "previous": {
+            "retainedHeapDelta": -9576
+          },
+          "current": {
+            "retainedHeapDelta": -12176
+          }
+        }
+      },
+      {
+        "workload": "splash",
+        "population": 256,
+        "batchSize": 16,
+        "medianCurrentOverPrevious": 1.0188790874412303,
+        "medianCurrentOverOriginal": 1.0286931940847404,
+        "currentLowerThanPrevious": 2,
+        "medianMs": {
+          "original": 167.9213000000018,
+          "previous": 167.76029999999446,
+          "current": 174.29295000001002
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": -33112
+          },
+          "previous": {
+            "retainedHeapDelta": -4912
+          },
+          "current": {
+            "retainedHeapDelta": -1624
+          }
+        }
+      },
+      {
+        "workload": "combined",
+        "population": 256,
+        "batchSize": 16,
+        "medianCurrentOverPrevious": 1.0118677052788594,
+        "medianCurrentOverOriginal": 1.0446619841007412,
+        "currentLowerThanPrevious": 4,
+        "medianMs": {
+          "original": 200.77649999999994,
+          "previous": 208.13274999999703,
+          "current": 209.55395000000135
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": -7112
+          },
+          "previous": {
+            "retainedHeapDelta": -48
+          },
+          "current": {
+            "retainedHeapDelta": 5080
+          }
+        }
+      }
+    ],
+    "activeCurrent": [
+      {
+        "workload": "sharing",
+        "population": 8,
+        "batchSize": 1000,
+        "medianCurrentOverPrevious": 0.9792002268755973,
+        "medianCurrentOverOriginal": 0.6380272381973313,
+        "currentLowerThanPrevious": 10,
+        "medianMs": {
+          "original": 102.13330000000497,
+          "previous": 66.73905000000013,
+          "current": 64.32450000000017
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": 129160
+          },
+          "previous": {
+            "retainedHeapDelta": 102120
+          },
+          "current": {
+            "retainedHeapDelta": 48920
+          }
+        }
+      },
+      {
+        "workload": "spread",
+        "population": 8,
+        "batchSize": 1000,
+        "medianCurrentOverPrevious": 0.9904507708547685,
+        "medianCurrentOverOriginal": 0.8006819160042538,
+        "currentLowerThanPrevious": 7,
+        "medianMs": {
+          "original": 110.31890000000203,
+          "previous": 86.25680000000102,
+          "current": 86.76295000000027
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": 71384
+          },
+          "previous": {
+            "retainedHeapDelta": 246912
+          },
+          "current": {
+            "retainedHeapDelta": 292096
+          }
+        }
+      },
+      {
+        "workload": "splash",
+        "population": 8,
+        "batchSize": 292,
+        "medianCurrentOverPrevious": 1.036204129587389,
+        "medianCurrentOverOriginal": 0.6198392678930973,
+        "currentLowerThanPrevious": 4,
+        "medianMs": {
+          "original": 132.87605000000258,
+          "previous": 80.20290000000023,
+          "current": 82.88385000000017
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": 39552
+          },
+          "previous": {
+            "retainedHeapDelta": 136016
+          },
+          "current": {
+            "retainedHeapDelta": 132472
+          }
+        }
+      },
+      {
+        "workload": "combined",
+        "population": 8,
+        "batchSize": 292,
+        "medianCurrentOverPrevious": 1.0098535831515103,
+        "medianCurrentOverOriginal": 0.7794214588549697,
+        "currentLowerThanPrevious": 4,
+        "medianMs": {
+          "original": 144.85955000000104,
+          "previous": 110.29865000000063,
+          "current": 112.92500000000109
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": 26536
+          },
+          "previous": {
+            "retainedHeapDelta": 32296
+          },
+          "current": {
+            "retainedHeapDelta": 52408
+          }
+        }
+      },
+      {
+        "workload": "sharing",
+        "population": 64,
+        "batchSize": 1000,
+        "medianCurrentOverPrevious": 0.9877954576879753,
+        "medianCurrentOverOriginal": 0.6757145265040762,
+        "currentLowerThanPrevious": 7,
+        "medianMs": {
+          "original": 102.05059999999867,
+          "previous": 70.98834999999599,
+          "current": 68.76760000000104
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": 73512
+          },
+          "previous": {
+            "retainedHeapDelta": 21120
+          },
+          "current": {
+            "retainedHeapDelta": 12360
+          }
+        }
+      },
+      {
+        "workload": "spread",
+        "population": 64,
+        "batchSize": 1000,
+        "medianCurrentOverPrevious": 1.0303205279671523,
+        "medianCurrentOverOriginal": 0.856784790296564,
+        "currentLowerThanPrevious": 3,
+        "medianMs": {
+          "original": 111.72479999999632,
+          "previous": 95.73460000000341,
+          "current": 98.47670000000107
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": -2440
+          },
+          "previous": {
+            "retainedHeapDelta": 19456
+          },
+          "current": {
+            "retainedHeapDelta": 18400
+          }
+        }
+      },
+      {
+        "workload": "splash",
+        "population": 64,
+        "batchSize": 32,
+        "medianCurrentOverPrevious": 1.0536914247804159,
+        "medianCurrentOverOriginal": 0.6106780078212195,
+        "currentLowerThanPrevious": 0,
+        "medianMs": {
+          "original": 118.13264999999228,
+          "previous": 68.5924500000001,
+          "current": 72.54589999999735
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": 14088
+          },
+          "previous": {
+            "retainedHeapDelta": -10584
+          },
+          "current": {
+            "retainedHeapDelta": -1320
+          }
+        }
+      },
+      {
+        "workload": "combined",
+        "population": 64,
+        "batchSize": 32,
+        "medianCurrentOverPrevious": 1.027535885748212,
+        "medianCurrentOverOriginal": 0.7691295197884143,
+        "currentLowerThanPrevious": 2,
+        "medianMs": {
+          "original": 127.09859999999753,
+          "previous": 94.9858499999973,
+          "current": 97.68749999999636
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": -20136
+          },
+          "previous": {
+            "retainedHeapDelta": -12336
+          },
+          "current": {
+            "retainedHeapDelta": -14424
+          }
+        }
+      },
+      {
+        "workload": "sharing",
+        "population": 256,
+        "batchSize": 1000,
+        "medianCurrentOverPrevious": 0.9588281086703808,
+        "medianCurrentOverOriginal": 0.7643301316380153,
+        "currentLowerThanPrevious": 7,
+        "medianMs": {
+          "original": 132.8446499999991,
+          "previous": 106.80635000000257,
+          "current": 101.55755000000136
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": 10136
+          },
+          "previous": {
+            "retainedHeapDelta": 31312
+          },
+          "current": {
+            "retainedHeapDelta": 31584
+          }
+        }
+      },
+      {
+        "workload": "spread",
+        "population": 256,
+        "batchSize": 1000,
+        "medianCurrentOverPrevious": 1.004035524136568,
+        "medianCurrentOverOriginal": 0.9270437806897271,
+        "currentLowerThanPrevious": 5,
+        "medianMs": {
+          "original": 153.51180000000022,
+          "previous": 141.79799999999523,
+          "current": 142.46104999999807
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": -5816
+          },
+          "previous": {
+            "retainedHeapDelta": -20864
+          },
+          "current": {
+            "retainedHeapDelta": -10032
+          }
+        }
+      },
+      {
+        "workload": "splash",
+        "population": 256,
+        "batchSize": 16,
+        "medianCurrentOverPrevious": 1.0329527331197101,
+        "medianCurrentOverOriginal": 0.597126752989124,
+        "currentLowerThanPrevious": 4,
+        "medianMs": {
+          "original": 253.6232999999993,
+          "previous": 146.47644999999466,
+          "current": 151.87365000000136
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": -7656
+          },
+          "previous": {
+            "retainedHeapDelta": 472
+          },
+          "current": {
+            "retainedHeapDelta": -3528
+          }
+        }
+      },
+      {
+        "workload": "combined",
+        "population": 256,
+        "batchSize": 16,
+        "medianCurrentOverPrevious": 1.0157638971728948,
+        "medianCurrentOverOriginal": 0.7787964549792916,
+        "currentLowerThanPrevious": 5,
+        "medianMs": {
+          "original": 266.27470000000176,
+          "previous": 204.55359999999928,
+          "current": 206.8744000000006
+        },
+        "retained": {
+          "original": {
+            "retainedHeapDelta": -10680
+          },
+          "previous": {
+            "retainedHeapDelta": 9432
+          },
+          "current": {
+            "retainedHeapDelta": 6352
+          }
+        }
+      }
+    ],
+    "interpretation": {
+      "passed": true,
+      "kind": "Measured desktop characterization; optimization acceptance remains open",
+      "inputs": {
+        "control": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\hit-aftermath-host-checks-ucZnZH\\active-control-verification.json",
+        "controlSha256": "45576f818017607ba65f3e4810b19f2df482359eaa36498724a96a9b67be23bb",
+        "current": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\hit-aftermath-host-checks-ucZnZH\\active-current-verification.json",
+        "currentSha256": "f0e1fc8b07275ac6c23c92613e58b1252331838d2c9a775996d2baa22f0384cd"
+      },
+      "currentVersusPredecessorMedianDeltaPercent": [
+        -4.117189132961919,
+        5.369142478041589
+      ],
+      "identicalBuildControlMedianDeltaPercent": [
+        -2.7074482918896137,
+        4.700622509463548
+      ],
+      "cumulativeCurrentOverOriginalRatioRange": [
+        0.597126752989124,
+        0.9270437806897271
+      ],
+      "interpretation": "The new boundary has mixed active-workload medians, from 4.12% faster to 5.37% slower than the immediate predecessor. Identical current-build controls range from 2.71% faster to 4.70% slower between worker slots. These controls demonstrate variation, not a confidence interval or a correction factor. Splash at 64 actors is slower in all twelve rounds, making it a specific follow-up concern. No causal speedup, allocation reduction, whole-frame or target-device improvement is claimed.",
+      "followUp": {
+        "workload": "splash",
+        "population": 64,
+        "slowerRounds": 12,
+        "totalRounds": 12,
+        "medianPairedOverheadPercent": 5.369142478041589,
+        "previousMedianBatchMs": 68.5924500000001,
+        "currentMedianBatchMs": 72.54589999999735,
+        "rootsPerBatch": 32,
+        "next": "Confirm the splash cost in an isolated repeat, profile original/predecessor/current active resolver paths and allocation sites, then accept a refactor only if behavior and comparative measurements remain sound."
+      },
+      "acceptance": {
+        "runtimeCorrectness": true,
+        "performanceOptimization": false,
+        "allocationReduction": false,
+        "physicalDevices": false
+      },
+      "limitations": [
+        "Single desktop comparison and separate identical-input control, no cross-run confidence model",
+        "Warm fixed-clock resolver with timed resets and observation counters",
+        "Retained heap is not allocation volume",
+        "Cumulative original comparison includes all prior SDK extractions and cannot attribute improvement to this boundary",
+        "Native replay is behavioral evidence, not a new Unity/Godot/Unreal capability"
+      ]
+    },
+    "performanceAcceptance": false
+  },
+  "preserved": {
+    "originalStableFiles": 4089,
+    "reviewedConcurrentPaths": 49,
+    "originalWrites": false,
+    "sdkMainUnchanged": true,
+    "managedGameUnchanged": true,
+    "previousInstalledRuntimeUnchanged": true
+  },
+  "repairs": [
+    {
+      "kind": "adapter-import",
+      "description": "Retired SUPPORTBASE_CFG from the installed World import after native type checking caught it unused. Only the disposable adapter copy was repaired; rendering matches the sealed predecessor.",
+      "failedReceipt": ".artifacts/reference-hit-aftermath-YUrn2g/verification.json"
+    },
+    {
+      "kind": "runtime-fault-observer",
+      "description": "Added an explicit volatile-cache assertion before identity use. The runner then learned to recognize strict-assert diagnostics wrapped as ERR_TEST_FAILURE by Node when actor values contain functions; unrelated exceptions remain rejected.",
+      "failedDirectories": [
+        "hit-aftermath-mutations-2TUXT6",
+        "hit-aftermath-mutations-QN9Izx"
+      ]
+    },
+    {
+      "kind": "installed-fault-selector",
+      "description": "Narrowed an ambiguous status-carry selector to its full call before running the installed faults.",
+      "failedReceipt": ".artifacts/hit-aftermath-integration-validation.json"
+    },
+    {
+      "kind": "installed-fault-observer",
+      "description": "The original final fault disabled the whole damaging phase, leaving the observer cache-identity fixture without its required instance and causing a WeakMap error. It is not counted. A targeted World damage-multiplier forwarding fault and fresh control pass; the sixteen earlier behavioral detections are retained and hash-verified. Accepted observations and production code are unchanged.",
+      "failedReceipt": ".artifacts/hit-aftermath-installed-first-failed.json"
+    }
+  ],
+  "sources": {
+    ".github/workflows/verify.yml": "4cf00ae44a26efc755ea76e02696d2f42b0deab0be73379974904bf9f739774a",
+    "adapters/hollow-wake/hitAftermath.ts": "abd16e99adaef85d88922b887175ca2c33ae2e34e9a2d4db86846cba6bfaa748",
+    "adapters/hollow-wake/integrate-hit-aftermath.mjs": "a0dbdb39ff7afb7d7e393c2b21d52bd56a3121860df2af04fa9c6029d90411ba",
+    "docs/boundary-contract.md": "12d3e459d5725b196e14a8fa4d4d24ab03825d4d8ebe0abeb3010b50d4acae7a",
+    "docs/completion.json": "3786fec173935231100d094757ee8b24c3ed53473ffd786b9fee847b04b1bedb",
+    "docs/hit-aftermath-boundary.md": "a11135cced493a2927800aa79ae0b43b80723b42bc493533f10ea781dc15792d",
+    "docs/hit-aftermath-performance.md": "84d4f45af373ff8a19fe48bc63b1d8c4899165f010776585f7b92be8ccd37661",
+    "docs/verification.md": "0678b9bb2cb8a902dffcbe7c885f9d1a1f065e6f395951318e829847bfb79387",
+    "package.json": "32cdbac5c44911deff84062d3ec2ed5567f095793276265d5d0f20aedaee1863",
+    "reference/benchmark-hit-aftermath-worker.ts": "ad0ab38f6c1a60d4b604fc057b4a16eb583e154d291783397f1fd4faf044db6e",
+    "scripts/benchmark-hit-aftermath.mjs": "3d11ee62d11157e0ee8e8c628de4370561d9fe84167dbc0db003f03515c5bbc1",
+    "scripts/check-boundaries.mjs": "98fff2cccb669792064e8f519057d0098fd920207a7d44510005159dccf2123b",
+    "scripts/hit-aftermath-benchmark-checks.mjs": "12998b114a2a9e77d6caf15a1d4108562e9c20db461e66aa8117f6a6a13f8290",
+    "scripts/prepare-game-adapter.mjs": "f16620b4ebf17a75c743aa0059590e499ac31cb08206f37f2af690a5f4c2cddf",
+    "scripts/test-game-hit-aftermath-faults.mjs": "4f91aeec3368156e078f2c82b995d0f66c29fff06cce2cd45582e99d9ddb4d7b",
+    "scripts/test-game-hit-aftermath.mjs": "b5e938ef05ccbcdbc22d9e09eba85e560ad9bc3ed4dbfd394b513d269d1e1b02",
+    "scripts/test-hit-aftermath-benchmark-observer.mjs": "2c9ff33842370dfc77ed5b8e186ce3f959e5c220ca7c5c31dedef9fb3120c3a3",
+    "scripts/test-hit-aftermath-mutations.mjs": "79a6f8ff8c61a49d122a261fd917ee0df5fb2c8f1044215d0590c857d06c727d",
+    "scripts/test-hit-aftermath-overlay.mjs": "1f294e26533b291fddd0bf5119e9fa02b2211ab2e565fd9dad562d940b94fbff",
+    "scripts/test-hit-aftermath-package.mjs": "72edd0f62b9d3e24dea43d08ea46c3aab04304ff08de0139402fde7f02efaa5c",
+    "scripts/test-package.mjs": "509b0787a6abf8cdc4d3c1d2ef9053d4add696adafec66cc17c7a9d833ccc8ce",
+    "src/hit-aftermath-types.ts": "9ed247f65017a7d9294ac065dac3b7b51ebc88dc480084d4f7f0f6c1b7b4cadf",
+    "src/hit-aftermath.ts": "78d0ac3182dec842aebd626555e99ab81af28ad6e1310b01c908001bca287ea9",
+    "test/hit-aftermath.test.mjs": "5e3a74e0d148f1576f559a7c9b9734a8cfa50237e92ee1a39e9b9666e064ef41"
+  },
+  "raw": {
+    "path": "evidence/hit-aftermath/runtime-windows-raw.json.gz",
+    "bytes": 650471,
+    "sha256": "58904815e8092dc2ddcfefed2194e19ccfd7f73d77cec43885e0ef1e1fd329ae",
+    "uncompressedSha256": "4a75b05a75bccc7b65f87f1c1676c5169568063d4c95913307549a295c0d57c9"
+  },
+  "acceptance": {
+    "localRuntimeAndAdapter": true,
+    "activeWorkloadCorrectness": true,
+    "physicalDevices": false,
+    "allocationOptimization": false,
+    "newNativeApi": false,
+    "completeSdk": false
+  }
+}

@@ -69,7 +69,7 @@ The optional [hit-preparation service](hit-preparation-boundary.md) owns fuse
 admission, contextual packet modifiers, tone/affliction capture and ordered
 interception admission through explicit synchronous host ports. Its continuation
 retains borrowed identities without a per-hit result wrapper. Fuse execution,
-native guard/shell implementations and remaining hit aftermath remain host-owned.
+native guard/shell implementations and spatial delivery remain host-owned.
 
 The optional [hit-landing service](hit-landing-boundary.md) owns damage admission
 and ordered outcome reactions through pool feeding. A synchronous continuation
@@ -91,8 +91,11 @@ presentation services retain host ownership; device acceptance remains separate.
 
 The [hit-aftermath boundary](hit-aftermath-boundary.md) covers the remaining
 damaging phase and the complete common continuation through final melee triggers.
-Its 260-course original baseline and 101 source-fault controls are accepted;
-runtime and game-adapter extraction remain separate. Existing status, effect, proc and sequence
+Its 260-course original baseline and 101 source-fault controls are accepted.
+The optional `combat/hit-aftermath` implementation and isolated adapter match
+those courses. Full SDK and broader game checks pass; device measurements and
+native-host API exposure remain separate acceptance work.
+Existing status, effect, proc and sequence
 capabilities compose at their established points; spatial and actual delivery,
 presentation and death services retain host ownership.
 

@@ -10,8 +10,28 @@ native recovery interaction is part of the accepted trace. Normal verification
 does not rewrite accepted fixtures; source faults use a disposable copy.
 See the [aftermath contract](hit-aftermath-boundary.md) and
 [baseline evidence](../evidence/hit-aftermath/baseline-windows.json) for scope,
-reproduction and retained failures. Runtime extraction and device acceptance
-remain separate.
+reproduction and retained failures. The runtime has separate
+`test:hit-aftermath-package`, `test:hit-aftermath-mutations`,
+`adapter:hit-aftermath-source`, `adapter:hit-aftermath` and
+`adapter:hit-aftermath-faults` checks. The package and runtime faults also run
+under `verify`. The installed runtime comparison matches all 260 courses;
+1,300 SDK tests, 22 broader game checks, Node 22 and native replay pass. The
+17 installed fault detections are a documented composite of 16 valid detections
+and a repaired World-forwarding fault with a fresh control. The original broad
+phase-disable fault raised an unrelated observer error and is not counted.
+
+`benchmark:hit-aftermath -- --previous <previous-location> --location <current-location>`
+compares 12 active sharing/spread/splash workloads, including independently checked
+hit counts, damage and status state. Add `--verify-only` for an untimed audit or
+`--control` to run the current game in all three worker slots. Run an audit before
+`test:hit-aftermath-benchmark-observer`, which requires all six deliberate native
+helper faults to violate the outcome assertions. Each run retains its own receipt;
+the root verification filenames are only latest-run pointers. Timings exclude
+snapshots, IPC and explicit GC, but include equal state reset and observation
+counters. Retained heap does not measure allocation volume or a device budget.
+The [measurement contract](hit-aftermath-performance.md) documents the workload
+and interpretation limits; [runtime evidence](../evidence/hit-aftermath/runtime-windows.json)
+retains checks, timings, controls and development failures.
 
 `reference:hit-reactions` checks 136 original full-resolver courses covering the
 29-statement reaction phase after sustain. `test:hit-reactions-observer` checks

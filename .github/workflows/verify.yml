@@ -167,6 +167,7 @@ jobs:
       - run: npm run adapter:hit-landing-source
       - run: npm run adapter:hit-sustain-source
       - run: npm run adapter:hit-reactions-source
+      - run: npm run adapter:hit-aftermath-source
       - run: npm run adapter:hit-effects-source
       - run: node scripts/test-status-overlay.mjs
       - run: npm run reference:damage
@@ -243,6 +244,10 @@ jobs:
       - run: npm run adapter:hit-sustain-faults
       - run: npm run adapter:hit-reactions
       - run: npm run adapter:hit-reactions-faults
+      - run: npm run adapter:hit-aftermath
+      - run: npm run adapter:hit-aftermath-faults
+      - run: npm run benchmark:hit-aftermath -- --previous .artifacts/adapter-location.json --location .artifacts/adapter-location.json --verify-only
+      - run: npm run test:hit-aftermath-benchmark-observer
       - run: npm run benchmark:hit-sustain -- --previous .artifacts/adapter-location.json --location .artifacts/adapter-location.json --verify-only
       - run: npm run test:hit-sustain-benchmark-observer -- --location .artifacts/adapter-location.json
       - run: npm run adapter:stat-context
@@ -396,6 +401,23 @@ jobs:
             .artifacts/hit-aftermath-observer-faults-*/verification.json
             .artifacts/hit-aftermath-observer-faults-*/progress.json
             .artifacts/hit-aftermath-observer-faults-*/*.txt
+            .artifacts/hit-aftermath-overlay-verification.json
+            .artifacts/game-hit-aftermath-verification.json
+            .artifacts/game-hit-aftermath-fault-verification.json
+            .artifacts/hit-aftermath-overlay-*/verification.json
+            .artifacts/game-hit-aftermath-*/*.txt
+            .artifacts/game-hit-aftermath-faults-*/verification.json
+            .artifacts/game-hit-aftermath-faults-*/progress.json
+            .artifacts/game-hit-aftermath-faults-*/*.txt
+            .artifacts/hit-aftermath-benchmark-verification.json
+            .artifacts/hit-aftermath-benchmark-observer-verification.json
+            .artifacts/hit-aftermath-benchmark-*/verification.json
+            .artifacts/hit-aftermath-benchmark-*/*-audit.json
+            .artifacts/hit-aftermath-benchmark-*/*-last.json
+            .artifacts/hit-aftermath-benchmark-*/*.txt
+            .artifacts/hit-aftermath-benchmark-observer-*/verification.json
+            .artifacts/hit-aftermath-benchmark-observer-*/*.json
+            .artifacts/hit-aftermath-benchmark-observer-*/*.txt
             .artifacts/reference-hit-status-*/*.json
             .artifacts/reference-hit-status-*/*.txt
             .artifacts/hit-status-observer-*/*.json
