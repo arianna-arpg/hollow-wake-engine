@@ -76,6 +76,10 @@ and ordered outcome reactions through pool feeding. A synchronous continuation
 carries separate scalar captures and the borrowed result into the remaining hit
 path. Live account authority, mimic policy and underlying host verbs stay separate.
 
+The [hit-sustain boundary](hit-sustain-boundary.md) freezes 98 original courses
+for the following siphon, sharing, life-bond and tree-storage statements.
+Its runtime extraction is pending; the installed game still owns that phase.
+
 The primary Hollow Wake checkout retains authority. The isolated game adapter
 delegates the extracted transitions to the actual installed package while keeping
 its existing actor/status records and advanced host behavior.

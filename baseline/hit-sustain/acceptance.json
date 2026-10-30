@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "courses": 98,
+  "statements": 3,
+  "helper": "reference/export-hit-sustain.ts",
+  "helperSha256": "58f7b2251840e48bd3dd3a47d636fdcccc851df2f765a3ae001b60a1ae595f48",
+  "sourceBoundarySha256": "df93c99015fa6a278c29f233380d78180a20e867f1f7ba1c059896a019e771a8",
+  "observations": "baseline/hit-sustain/observations.json.gz",
+  "observationsSha256": "46f3416b2748f939c3e61dbea0e5036eb49542fbdf3dcb04462f1f430498b653",
+  "compressedSha256": "d98352a0e204260658b5d068365d821956c7b702209621788b0f1788783cee03",
+  "capturedBeforeImplementation": true,
+  "originalRuns": 2,
+  "predecessorMatches": true,
+  "node22Matches": true,
+  "observerFaults": 38,
+  "positiveAssertions": "scripts/hit-sustain-observation-checks.mjs",
+  "positiveAssertionsSha256": "2e110a05bfcc34648f4b6201a93a94c5a596deecb2b1491d00b311a28a920bf5",
+  "scope": "Original hit siphon, nearby sharing, life bonds and tree damage storage, after pool feeding and before combat-recency stamping.",
+  "observerRepairs": [
+    "Negative input depth was normalized by the resolver until the skill causal-depth floor was also set.",
+    "Original stat overrides masked the extra-modifier example until the test supplied tag-scoped overrides with observable numeric effects.",
+    "A deliberate modifier-copy fault exposed missing prepared-array identity tracking. Prepared and packet modifier arrays are now observed separately, with separate controlled mutation courses."
+  ],
+  "limits": [
+    "Borrowed legacy state; this baseline does not define validated public content schemas.",
+    "The zero-cap synthetic tree retains its observed non-finite radius.",
+    "No runtime extraction or device performance acceptance in this checkpoint."
+  ]
+}

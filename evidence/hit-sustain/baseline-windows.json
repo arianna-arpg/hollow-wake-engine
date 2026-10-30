@@ -1,0 +1,754 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "57dcb023f5b72cda40754c8077c1f1dccbec3746",
+  "scope": "Original hit siphon, nearby sharing, life bonds and tree damage storage, after pool feeding and before combat-recency stamping.",
+  "baseline": {
+    "schemaVersion": 1,
+    "courses": 98,
+    "statements": 3,
+    "helper": "reference/export-hit-sustain.ts",
+    "helperSha256": "58f7b2251840e48bd3dd3a47d636fdcccc851df2f765a3ae001b60a1ae595f48",
+    "sourceBoundarySha256": "df93c99015fa6a278c29f233380d78180a20e867f1f7ba1c059896a019e771a8",
+    "observations": "baseline/hit-sustain/observations.json.gz",
+    "observationsSha256": "46f3416b2748f939c3e61dbea0e5036eb49542fbdf3dcb04462f1f430498b653",
+    "compressedSha256": "d98352a0e204260658b5d068365d821956c7b702209621788b0f1788783cee03",
+    "capturedBeforeImplementation": true,
+    "originalRuns": 2,
+    "predecessorMatches": true,
+    "node22Matches": true,
+    "observerFaults": 38,
+    "positiveAssertions": "scripts/hit-sustain-observation-checks.mjs",
+    "positiveAssertionsSha256": "2e110a05bfcc34648f4b6201a93a94c5a596deecb2b1491d00b311a28a920bf5",
+    "scope": "Original hit siphon, nearby sharing, life bonds and tree damage storage, after pool feeding and before combat-recency stamping.",
+    "observerRepairs": [
+      "Negative input depth was normalized by the resolver until the skill causal-depth floor was also set.",
+      "Original stat overrides masked the extra-modifier example until the test supplied tag-scoped overrides with observable numeric effects.",
+      "A deliberate modifier-copy fault exposed missing prepared-array identity tracking. Prepared and packet modifier arrays are now observed separately, with separate controlled mutation courses."
+    ],
+    "limits": [
+      "Borrowed legacy state; this baseline does not define validated public content schemas.",
+      "The zero-cap synthetic tree retains its observed non-finite radius.",
+      "No runtime extraction or device performance acceptance in this checkpoint."
+    ]
+  },
+  "validation": {
+    "originalCaptures": 2,
+    "installedPredecessor": true,
+    "node22": true,
+    "sourceFaults": 38,
+    "permanentCommandsPassed": true,
+    "referenceVerify": true,
+    "gameLauncherSimulationTypes": true,
+    "boundaries": true
+  },
+  "runtimeChanged": false,
+  "runtimeMapSha256": "95e877f51a3577329d9925e422c8a06c36da3160b3420802021d39cd4ca69519",
+  "compiledFilesUnchanged": 270,
+  "sourceFaultControls": {
+    "passed": true,
+    "directory": "<sdk>\\.artifacts\\hit-sustain-observer-faults-Go8b6m",
+    "game": "<sdk>\\.artifacts\\hit-sustain-observer-faults-Go8b6m\\game",
+    "originalRestored": true,
+    "expectedFilesRewritten": false,
+    "acceptanceSha256": "bcdba9bea9faf79cc931d2132eda7cab9b71555344287864e199265c3f0c9767",
+    "courses": 98,
+    "helperSha256": "58f7b2251840e48bd3dd3a47d636fdcccc851df2f765a3ae001b60a1ae595f48",
+    "expectedSha256": "46f3416b2748f939c3e61dbea0e5036eb49542fbdf3dcb04462f1f430498b653",
+    "faults": 38,
+    "results": [
+      {
+        "name": "control",
+        "detected": false,
+        "observationsSha256": "46f3416b2748f939c3e61dbea0e5036eb49542fbdf3dcb04462f1f430498b653",
+        "compressedSha256": "d98352a0e204260658b5d068365d821956c7b702209621788b0f1788783cee03",
+        "matches": true
+      },
+      {
+        "name": "siphon-zero-gate",
+        "detected": true,
+        "observationsSha256": "fd70bb5dbbb139717b56c75690f27df4a109f6903c3c370e4999da4459a10499",
+        "compressedSha256": "1121299fb7699384b9c2e76935df0dcdb6c48bec0bd3a8e58a1040da5cf894d5",
+        "matches": false
+      },
+      {
+        "name": "siphon-truthiness",
+        "detected": true,
+        "observationsSha256": "f8dfbf5c5a512bb9d185b5b8fffee626678aca0e2d77d445cb7ded52647dc43d",
+        "compressedSha256": "f3376d154652c30f13c0946bd862688d99a36057270fa478c7aea7ffaeeeda82",
+        "matches": false
+      },
+      {
+        "name": "siphon-dead",
+        "detected": true,
+        "observationsSha256": "9f6047140336a3ee2cef595f8715df09a06026dfc55fe985f1c6ae2ed3de66d7",
+        "compressedSha256": "c290980eeb32a1b422e4e70d515dd101c348cee3f6c0a60a20588db2b42e3ffa",
+        "matches": false
+      },
+      {
+        "name": "siphon-depth",
+        "detected": true,
+        "observationsSha256": "1f9e563f08b303f9ce43ccebd7af8dcb90cf512583369b222f1901e813041276",
+        "compressedSha256": "bf301f88436a8c4f602f89b02cffee46b13801d61c81b1bec24845bf58e9a338",
+        "matches": false
+      },
+      {
+        "name": "siphon-power",
+        "detected": true,
+        "observationsSha256": "ec164cca699d10635de00448ee3ba0fbf03eea5802ec85f384f4e5df11ba40ab",
+        "compressedSha256": "afc138c2a577832e4912f9d6cf06810676e4d82ce80f9d3923550e13848278f4",
+        "matches": false
+      },
+      {
+        "name": "siphon-extra-identity",
+        "detected": true,
+        "observationsSha256": "d366518bc0766b2f360522e4dc5c781ae19d1c63fb46bbebeb8456c2c15fe97f",
+        "compressedSha256": "61b35a3ce07c9b16400dbbd8e4acc61805d2f45944662a52dfc145f04d38e5a2",
+        "matches": false
+      },
+      {
+        "name": "siphon-flow-measured",
+        "detected": true,
+        "observationsSha256": "a9d1b26ee04dedeb08b3e792e3c1aa0ee4db37cb821125bc4a5b58570d22e7db",
+        "compressedSha256": "a90bbc3d2aae15bde2ed67b98ad25d4a6d930f9d7a403919147d57e8bf1a24c6",
+        "matches": false
+      },
+      {
+        "name": "siphon-flow-cue",
+        "detected": true,
+        "observationsSha256": "28cafa6e8d4259d11a680cb32c224eaf4aec4dc4d475248840c4d8ee66e8b911",
+        "compressedSha256": "6d8ac8664044383440342a71494dfeb390b9fb6e88c0b6f46e2c46afde5215a3",
+        "matches": false
+      },
+      {
+        "name": "sharing-depth",
+        "detected": true,
+        "observationsSha256": "10f288618cb984825000f220cbc59f6c90e1d87d4ef999608447d0343804cdb3",
+        "compressedSha256": "661c4dd79d00bf1303bee3a92e4d2ca00b7768e1a015626058d8e7850b1a9fd0",
+        "matches": false
+      },
+      {
+        "name": "sharing-dead-caster",
+        "detected": true,
+        "observationsSha256": "857865bc224329dde8089e95a69995625ebf6698be4e68107d0de0d2b00553a4",
+        "compressedSha256": "dd4f99293459dcaadfe0aeabec802f8e8861a5367657e2eb9e4e0719b883a9dd",
+        "matches": false
+      },
+      {
+        "name": "sharing-zero-gate",
+        "detected": true,
+        "observationsSha256": "6b8cd61f7baea1f904dca913567590938b73d79e90d26c12396573efb3b0bcb4",
+        "compressedSha256": "65a8a1b796f9af186a702272d6a944df84a6b124d5111723e3b181933696cc90",
+        "matches": false
+      },
+      {
+        "name": "sharing-story",
+        "detected": true,
+        "observationsSha256": "059398cd2fad2f4c049762d2c07d36a9c23551663f59c92effb1d215759f9e42",
+        "compressedSha256": "95823abe08069d5e84f12b3c88e1dd36eab7a5c9c7448eb07d703bf170c80479",
+        "matches": false
+      },
+      {
+        "name": "sharing-dead-ally",
+        "detected": true,
+        "observationsSha256": "6a0a80e27652b8bbe3f1138e9668386c4ff518739b929601f0f6a171b4954016",
+        "compressedSha256": "a45423502f407906a1c2022c71dc3251d72e982ad120f935a2aa0fbdb5dd1a7a",
+        "matches": false
+      },
+      {
+        "name": "sharing-team",
+        "detected": true,
+        "observationsSha256": "bc7a38ac29c6953707570575161f8c555ffbd95042882ab40a08062dbdf41827",
+        "compressedSha256": "985f1e175038936bde9361667ee9242230ecd0133231bab05f538ad67c13c3ce",
+        "matches": false
+      },
+      {
+        "name": "sharing-self",
+        "detected": true,
+        "observationsSha256": "78cd48f6e062fa047d2f94edd0803e074e11c16a2ae85fa19d56df515be029bf",
+        "compressedSha256": "1fe732e673dacabd3318737f1a2f42af65fad513cc219f8e439a5e564aa67eea",
+        "matches": false
+      },
+      {
+        "name": "sharing-radius",
+        "detected": true,
+        "observationsSha256": "d53dd04f087cde386ee082b27b6cb04666a51698c29a74e2aa79006ac6b1af62",
+        "compressedSha256": "b7b93816dbab46950332e7568912210ef083ecb6eddc118c83dff938084ad007",
+        "matches": false
+      },
+      {
+        "name": "sharing-distance-origin",
+        "detected": true,
+        "observationsSha256": "53d639b79fd3784653c622c5ee1c1f4850b59ae6a4cd8be0dd0ee6a7226c1a37",
+        "compressedSha256": "1f4266358b422f4d479b1d6a9a7252b9661c708accd69cc2284f7697c85a6208",
+        "matches": false
+      },
+      {
+        "name": "sharing-iterator-snapshot",
+        "detected": true,
+        "observationsSha256": "203de33b2e8069a6ac769afb66cbffa8b036633f53b24e191f95d7db11792f90",
+        "compressedSha256": "27b1cfd04335f4beeb4a1e9b29c519eb58d5bcece54167c2fb9309c5a452ecbc",
+        "matches": false
+      },
+      {
+        "name": "sharing-flow-measured",
+        "detected": true,
+        "observationsSha256": "5779fe524883decece38cedda2314b12f534baa62a485eebab0ab722aba60fb2",
+        "compressedSha256": "bdea68a6555d7dd9d189ae21bcb26eb348bcaf1e1dfbcb98afc7475194ca649e",
+        "matches": false
+      },
+      {
+        "name": "sharing-flow-cue",
+        "detected": true,
+        "observationsSha256": "790bc2c7b39da660256e5804b7f1361391aa8f9dbd29fd6cf7e2846fa53013db",
+        "compressedSha256": "8751d66c9cdb39c14272b035a4c545ec4c6dfa9317d4bd5d20880d0085a814f5",
+        "matches": false
+      },
+      {
+        "name": "sharing-text-threshold",
+        "detected": true,
+        "observationsSha256": "81c618007da005532d9a6e40652ee756b75a69923f603a2723837438ebf19e9a",
+        "compressedSha256": "0f317b55b7e5d028c799005e1d37cb45d798c71808cd5ecf5f67f63ecd2f4e07",
+        "matches": false
+      },
+      {
+        "name": "bond-lookup-order",
+        "detected": true,
+        "observationsSha256": "2f551f7c2de867fba010a1bb4292c3678e3d206ce7f4ec4f1f43bc46d14f56dd",
+        "compressedSha256": "f15ad08c6c0880611bded2501ea44ac85f269df8246110937e44134983670ab2",
+        "matches": false
+      },
+      {
+        "name": "bond-dead-target",
+        "detected": true,
+        "observationsSha256": "7756ae1aa0dd75b0e9aca1784188389adea0d24402ce9a474a59f979223ddacd",
+        "compressedSha256": "085e2229e9a2319aaefab4c91b8067e214e2a9c61b40b8e6560e346a17c1ad2f",
+        "matches": false
+      },
+      {
+        "name": "bond-buff",
+        "detected": true,
+        "observationsSha256": "15cc1870bd6848b4acf02fd740a1ef6be0515db8b0a14ef90c1292e39472aad4",
+        "compressedSha256": "fab5c40e097950a2e8d2e38878641cc13622f2db7d27007014929ca6e871d2a7",
+        "matches": false
+      },
+      {
+        "name": "bond-clear",
+        "detected": true,
+        "observationsSha256": "13225196274007347287294c23694993cf4d425ceeec60c210afe6c839a16bcf",
+        "compressedSha256": "77af2ac858ecff3cdabefe6efbca94f6b51db245e45c6912a2fad6afd83b461e",
+        "matches": false
+      },
+      {
+        "name": "bond-share-positive",
+        "detected": true,
+        "observationsSha256": "06fa70ab8bb4f3369e60f25ef5d04eb8e0ad6221bee9c47bb021d2205bf40d10",
+        "compressedSha256": "e5e1903d0b94a2443a59966b7742e66eb710a5bcfbc7a5b89ac175bf8a4e7d38",
+        "matches": false
+      },
+      {
+        "name": "bond-feed-default",
+        "detected": true,
+        "observationsSha256": "06da2f2d7ed3d2cb9125e9d6181a0fc7689900f48bb89d23da927e32a711db19",
+        "compressedSha256": "1f4410cef762633bc984fcda57e5ecb7ee85c8093dd9d42a89f53b5db247b2c2",
+        "matches": false
+      },
+      {
+        "name": "bond-text-threshold",
+        "detected": true,
+        "observationsSha256": "e895d7bfbc11596ec3c71ba7cf3a0c1e5faf5bd4836ecc37035772670c31d9d9",
+        "compressedSha256": "6561e669c84f8083231ce266aec4b893d800ac45b616ae765250030a69f1a00e",
+        "matches": false
+      },
+      {
+        "name": "tree-depth",
+        "detected": true,
+        "observationsSha256": "8883a33912f9b60b92312766de3c4dba64a4fb9591fd435cc7a4f7464ff40185",
+        "compressedSha256": "f934facf518d9411bc5dc4a3c87a77932a46d720703c09b689c0c7cb8dca1a2e",
+        "matches": false
+      },
+      {
+        "name": "tree-caster-dead",
+        "detected": true,
+        "observationsSha256": "6207d1a75a9197359699c5fb0c1eb63c6af7b3d584ec0cc78c057b7f667113b1",
+        "compressedSha256": "6c2b595f964a1ee913b4cba22e10a6433c43dc41c7681a0c7c743a7dec42c7ed",
+        "matches": false
+      },
+      {
+        "name": "tree-story-origin",
+        "detected": true,
+        "observationsSha256": "595b37768c8e5c5181f98878667eef7e93163f780c77dcd7a6d0f9383505b4d1",
+        "compressedSha256": "bb2f1253001de427c455c810d107f1c14767703e9526c8d1c04f4ff029f76f68",
+        "matches": false
+      },
+      {
+        "name": "tree-dead",
+        "detected": true,
+        "observationsSha256": "6dd9e3802c8ab57ad9fb329a103f06fbe05a6b3bd375041e40c22851d04f8f1d",
+        "compressedSha256": "d1a05a3e69812bd561ef86c049774da6ce8e4e9c3e21d013721b586d7d8ea837",
+        "matches": false
+      },
+      {
+        "name": "tree-team",
+        "detected": true,
+        "observationsSha256": "ace1915add423eb358b984c3d500ae44213a0c44b9104b8ab3c2e1fa6d988284",
+        "compressedSha256": "02a63b52cf559dfe2b4ab58cbf27c8686cfe1a9c9c826db9bce9fde7649429c0",
+        "matches": false
+      },
+      {
+        "name": "tree-radius",
+        "detected": true,
+        "observationsSha256": "a193ed3cc37190c445aa5e6e880934b47e53d605630932dbc906a887984a792e",
+        "compressedSha256": "860ae4d3792844c1fab0fbcd0832e73f72c091dee5d56610572b4b15e1798b82",
+        "matches": false
+      },
+      {
+        "name": "tree-cap",
+        "detected": true,
+        "observationsSha256": "5f8708ad3e993d9bb9600c2f134cb247426797719ddbf1690ad450751f201a08",
+        "compressedSha256": "1b47c2d4483a252e03eb9c7b30fb923720c518d33292ed929d7b80e31569f56f",
+        "matches": false
+      },
+      {
+        "name": "tree-store-add",
+        "detected": true,
+        "observationsSha256": "4ca9872089b26a32ef0ffa68acaac5fc3866e44d090adf3b9fbd14c11d9a9996",
+        "compressedSha256": "c8be0297fd1252046c1e8c47b78ad23423a16369ec6c6886c009a8ceb68dfca5",
+        "matches": false
+      },
+      {
+        "name": "tree-base-default",
+        "detected": true,
+        "observationsSha256": "69e169cce857e240dc3e781eb835aa7c8558405b017f6fc06dcfec54236347d8",
+        "compressedSha256": "b1940562faeaee03be24ac80532d9f6fbab2a7d356a7df1259b94638e8f3f0c7",
+        "matches": false
+      },
+      {
+        "name": "tree-growth",
+        "detected": true,
+        "observationsSha256": "5da5ab61e6e8f77a8e3c78a17a9cdc8b0ede02234b678059b7841fd891838a03",
+        "compressedSha256": "f8e23a227a9abbe35d6dae9a36e650d3bd004d86b81fe7730121b368ea448184",
+        "matches": false
+      }
+    ]
+  },
+  "captureMatrix": {
+    "passed": true,
+    "directory": "<sdk>\\.artifacts\\hit-sustain-matrix-ZKook0",
+    "results": [
+      {
+        "label": "original-one",
+        "passed": true,
+        "game": "<sdk>\\.reference",
+        "directory": "<sdk>\\.artifacts\\hit-sustain-capture-Z1HJB0",
+        "node": "v24.9.0",
+        "helperSha256": "58f7b2251840e48bd3dd3a47d636fdcccc851df2f765a3ae001b60a1ae595f48",
+        "sourceMapSha256": "384db880fa4ce06031caba166b17155bafc2e61f71ee32f8960b0e35add54ee9",
+        "accepted": false,
+        "observationsSha256": "46f3416b2748f939c3e61dbea0e5036eb49542fbdf3dcb04462f1f430498b653",
+        "courses": 98,
+        "bytes": 12527136,
+        "errors": [
+          [
+            "siphon-callback-failure",
+            {
+              "name": "Error",
+              "message": "siphon callback fault"
+            }
+          ],
+          [
+            "share-callback-failure",
+            {
+              "name": "Error",
+              "message": "share callback fault"
+            }
+          ],
+          [
+            "bond-callback-failure",
+            {
+              "name": "Error",
+              "message": "bond callback fault"
+            }
+          ],
+          [
+            "share-text-failure",
+            {
+              "name": "Error",
+              "message": "share text fault"
+            }
+          ],
+          [
+            "tree-write-failure",
+            {
+              "name": "Error",
+              "message": "tree write fault"
+            }
+          ]
+        ]
+      },
+      {
+        "label": "original-two",
+        "passed": true,
+        "game": "<sdk>\\.reference",
+        "directory": "<sdk>\\.artifacts\\hit-sustain-capture-YBgkiK",
+        "node": "v24.9.0",
+        "helperSha256": "58f7b2251840e48bd3dd3a47d636fdcccc851df2f765a3ae001b60a1ae595f48",
+        "sourceMapSha256": "384db880fa4ce06031caba166b17155bafc2e61f71ee32f8960b0e35add54ee9",
+        "accepted": false,
+        "observationsSha256": "46f3416b2748f939c3e61dbea0e5036eb49542fbdf3dcb04462f1f430498b653",
+        "courses": 98,
+        "bytes": 12527136,
+        "errors": [
+          [
+            "siphon-callback-failure",
+            {
+              "name": "Error",
+              "message": "siphon callback fault"
+            }
+          ],
+          [
+            "share-callback-failure",
+            {
+              "name": "Error",
+              "message": "share callback fault"
+            }
+          ],
+          [
+            "bond-callback-failure",
+            {
+              "name": "Error",
+              "message": "bond callback fault"
+            }
+          ],
+          [
+            "share-text-failure",
+            {
+              "name": "Error",
+              "message": "share text fault"
+            }
+          ],
+          [
+            "tree-write-failure",
+            {
+              "name": "Error",
+              "message": "tree write fault"
+            }
+          ]
+        ]
+      },
+      {
+        "label": "installed-predecessor",
+        "passed": true,
+        "game": "<sdk>\\.artifacts\\stat-context-reproduction-9SyicE\\game",
+        "directory": "<sdk>\\.artifacts\\hit-sustain-capture-yHubsi",
+        "node": "v24.9.0",
+        "helperSha256": "58f7b2251840e48bd3dd3a47d636fdcccc851df2f765a3ae001b60a1ae595f48",
+        "sourceMapSha256": "f1f4a09f5d1e5234cb18acb8875e3d24a0e0739c8db84e752bba4d7705286510",
+        "accepted": false,
+        "observationsSha256": "46f3416b2748f939c3e61dbea0e5036eb49542fbdf3dcb04462f1f430498b653",
+        "courses": 98,
+        "bytes": 12527136,
+        "errors": [
+          [
+            "siphon-callback-failure",
+            {
+              "name": "Error",
+              "message": "siphon callback fault"
+            }
+          ],
+          [
+            "share-callback-failure",
+            {
+              "name": "Error",
+              "message": "share callback fault"
+            }
+          ],
+          [
+            "bond-callback-failure",
+            {
+              "name": "Error",
+              "message": "bond callback fault"
+            }
+          ],
+          [
+            "share-text-failure",
+            {
+              "name": "Error",
+              "message": "share text fault"
+            }
+          ],
+          [
+            "tree-write-failure",
+            {
+              "name": "Error",
+              "message": "tree write fault"
+            }
+          ]
+        ]
+      },
+      {
+        "label": "original-node22",
+        "passed": true,
+        "game": "<sdk>\\.reference",
+        "directory": "<sdk>\\.artifacts\\hit-sustain-capture-wT5Jfs",
+        "node": "v22.23.4",
+        "helperSha256": "58f7b2251840e48bd3dd3a47d636fdcccc851df2f765a3ae001b60a1ae595f48",
+        "sourceMapSha256": "384db880fa4ce06031caba166b17155bafc2e61f71ee32f8960b0e35add54ee9",
+        "accepted": false,
+        "observationsSha256": "46f3416b2748f939c3e61dbea0e5036eb49542fbdf3dcb04462f1f430498b653",
+        "courses": 98,
+        "bytes": 12527136,
+        "errors": [
+          [
+            "siphon-callback-failure",
+            {
+              "name": "Error",
+              "message": "siphon callback fault"
+            }
+          ],
+          [
+            "share-callback-failure",
+            {
+              "name": "Error",
+              "message": "share callback fault"
+            }
+          ],
+          [
+            "bond-callback-failure",
+            {
+              "name": "Error",
+              "message": "bond callback fault"
+            }
+          ],
+          [
+            "share-text-failure",
+            {
+              "name": "Error",
+              "message": "share text fault"
+            }
+          ],
+          [
+            "tree-write-failure",
+            {
+              "name": "Error",
+              "message": "tree write fault"
+            }
+          ]
+        ]
+      }
+    ],
+    "courses": 98,
+    "helperSha256": "58f7b2251840e48bd3dd3a47d636fdcccc851df2f765a3ae001b60a1ae595f48",
+    "observationsSha256": "46f3416b2748f939c3e61dbea0e5036eb49542fbdf3dcb04462f1f430498b653",
+    "accepted": false
+  },
+  "checks": {
+    "passed": true,
+    "directory": "<sdk>\\.artifacts\\hit-sustain-final-checks-YPm0Y4",
+    "results": [
+      {
+        "name": "original",
+        "passed": true,
+        "log": "<sdk>\\.artifacts\\hit-sustain-final-checks-YPm0Y4\\original.txt",
+        "sha256": "b1d2528aa978b7f0898b6eb6a6ad129020396b908411d575b38e7aae68fc4ee4"
+      },
+      {
+        "name": "installed",
+        "passed": true,
+        "log": "<sdk>\\.artifacts\\hit-sustain-final-checks-YPm0Y4\\installed.txt",
+        "sha256": "0dbaf7700d02f42f5792f1c8d7296e34fff0492b7d729a7ad010ac6e139a18db"
+      },
+      {
+        "name": "faults",
+        "passed": true,
+        "log": "<sdk>\\.artifacts\\hit-sustain-final-checks-YPm0Y4\\faults.txt",
+        "sha256": "74941b4bc96408b49ee83046be55b799984e161faad07ded87e2c910e061c836"
+      },
+      {
+        "name": "reference",
+        "passed": true,
+        "log": "<sdk>\\.artifacts\\hit-sustain-final-checks-YPm0Y4\\reference.txt",
+        "sha256": "1bb67435e9c3b979fbea65e7d252a912a271616b8c00a506f9eaf8a66bfdb407"
+      },
+      {
+        "name": "game-types",
+        "passed": true,
+        "log": "<sdk>\\.artifacts\\hit-sustain-final-checks-YPm0Y4\\game-types.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "launcher-types",
+        "passed": true,
+        "log": "<sdk>\\.artifacts\\hit-sustain-final-checks-YPm0Y4\\launcher-types.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "simulation-types",
+        "passed": true,
+        "log": "<sdk>\\.artifacts\\hit-sustain-final-checks-YPm0Y4\\simulation-types.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "boundaries",
+        "passed": true,
+        "log": "<sdk>\\.artifacts\\hit-sustain-final-checks-YPm0Y4\\boundaries.txt",
+        "sha256": "fb81c6575e675795884acae0b7a6ee7234ff04153cfac89d09ff932c99e73a25"
+      }
+    ],
+    "runtimeMapSha256": "95e877f51a3577329d9925e422c8a06c36da3160b3420802021d39cd4ca69519",
+    "compiledFilesUnchanged": 270
+  },
+  "predecessorHosted": {
+    "recordedAt": "2026-10-30T03:58:06.178Z",
+    "runs": [
+      {
+        "conclusion": "success",
+        "databaseId": 40997518144,
+        "headSha": "57dcb023f5b72cda40754c8077c1f1dccbec3746",
+        "jobs": [
+          {
+            "name": "host (ubuntu-24.04)",
+            "status": "completed",
+            "conclusion": "success",
+            "active": []
+          },
+          {
+            "name": "host (windows-2025)",
+            "status": "completed",
+            "conclusion": "success",
+            "active": []
+          }
+        ],
+        "name": "Verify embedded host experiment",
+        "status": "completed",
+        "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40997518144"
+      },
+      {
+        "conclusion": "",
+        "databaseId": 40997518179,
+        "headSha": "57dcb023f5b72cda40754c8077c1f1dccbec3746",
+        "jobs": [
+          {
+            "name": "reference",
+            "status": "in_progress",
+            "conclusion": "",
+            "active": [
+              "Run npm run test:hit-landing-observer"
+            ]
+          },
+          {
+            "name": "package (ubuntu-24.04, 24)",
+            "status": "completed",
+            "conclusion": "success",
+            "active": []
+          },
+          {
+            "name": "package (windows-2025, 24)",
+            "status": "completed",
+            "conclusion": "success",
+            "active": []
+          },
+          {
+            "name": "package (ubuntu-24.04, 22)",
+            "status": "completed",
+            "conclusion": "success",
+            "active": []
+          },
+          {
+            "name": "native (windows-2025)",
+            "status": "completed",
+            "conclusion": "success",
+            "active": []
+          },
+          {
+            "name": "native (ubuntu-24.04)",
+            "status": "completed",
+            "conclusion": "success",
+            "active": []
+          },
+          {
+            "name": "package (windows-2025, 22)",
+            "status": "completed",
+            "conclusion": "success",
+            "active": []
+          }
+        ],
+        "name": "Verify engine",
+        "status": "in_progress",
+        "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40997518179"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 40997518158,
+        "headSha": "57dcb023f5b72cda40754c8077c1f1dccbec3746",
+        "jobs": [
+          {
+            "name": "native (windows-2025, windows)",
+            "status": "completed",
+            "conclusion": "success",
+            "active": []
+          },
+          {
+            "name": "native (ubuntu-24.04, linux)",
+            "status": "completed",
+            "conclusion": "success",
+            "active": []
+          }
+        ],
+        "name": "Verify Godot native addon experiment",
+        "status": "completed",
+        "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40997518158"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 40997518148,
+        "headSha": "57dcb023f5b72cda40754c8077c1f1dccbec3746",
+        "jobs": [
+          {
+            "name": "steamrt4",
+            "status": "completed",
+            "conclusion": "success",
+            "active": []
+          }
+        ],
+        "name": "Verify Steam Runtime Godot experiment",
+        "status": "completed",
+        "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40997518148"
+      }
+    ]
+  },
+  "preserved": {
+    "originalStableFiles": 4104,
+    "reviewedConcurrentUiPaths": 20,
+    "originalWrites": false,
+    "sdkMainUnchanged": true,
+    "managedGameUnchanged": true
+  },
+  "sources": {
+    ".github/workflows/verify.yml": "92b2a3bb4a950c4b01d1d1992d2945c6f66ec4b164eb9566a72145b54e47912c",
+    "baseline/hit-sustain/acceptance.json": "bcdba9bea9faf79cc931d2132eda7cab9b71555344287864e199265c3f0c9767",
+    "baseline/hit-sustain/observations.json.gz": "d98352a0e204260658b5d068365d821956c7b702209621788b0f1788783cee03",
+    "baseline/hit-sustain/source-boundary.json": "df93c99015fa6a278c29f233380d78180a20e867f1f7ba1c059896a019e771a8",
+    "docs/boundary-contract.md": "d37b014fc1771454aac0dc2c3d286d43f91e88be3651a4061bb3937fcdc56456",
+    "docs/hit-sustain-boundary.md": "6bc6a822d8434cfc7bf54056d7336f92f08adb344f1c9cc652f674e78979a3d2",
+    "docs/verification.md": "9472ea6c6465d6e0e42b3bab0b071460170531c1d6dc2444212aa687b3c94c8a",
+    "package.json": "53703f694cc6028102aba801f36ef7d46afa3072f5c53037ff747287660bf70d",
+    "reference/export-hit-sustain.ts": "58f7b2251840e48bd3dd3a47d636fdcccc851df2f765a3ae001b60a1ae595f48",
+    "scripts/hit-sustain-observation-checks.mjs": "2e110a05bfcc34648f4b6201a93a94c5a596deecb2b1491d00b311a28a920bf5",
+    "scripts/hit-sustain-observer-faults.mjs": "5addd6dfc2308baf0a165147ee6f08023404e2f65bd47a744d4a7c2cf147e226",
+    "scripts/run-hit-sustain-reference.mjs": "06799f9ece90031af1f35fced8cd49190aa25175ccb739ceebbfe5937de05c6d",
+    "scripts/test-hit-sustain-observer.mjs": "dc4136dbbddfa8b13ffbd3cb8720dcb74e99fb163efb035417e80161751d34d4"
+  },
+  "raw": {
+    "path": "evidence/hit-sustain/baseline-windows-raw.json.gz",
+    "bytes": 24568,
+    "sha256": "e4bfe0cfea4e4f8c4c622168214cf3f125183840e4116495dd6c1bd4b1151f1f",
+    "uncompressedSha256": "06992a8bdd65b61ea14dc5b5a3abfe1cd25d83abc7ebe53b5ddb12c8a09c16e7"
+  },
+  "acceptance": {
+    "frozenBeforeImplementation": true,
+    "runtimeExtracted": false,
+    "physicalDevices": false,
+    "completeSdk": false
+  }
+}

@@ -1,5 +1,11 @@
 # Verification and reproduction
 
+`reference:hit-sustain` checks 98 frozen original courses covering siphon,
+nearby sharing, life bonds and tree storage. Two original runs, the installed
+predecessor and Node 22 agree. `test:hit-sustain-observer` checks 38 deliberate
+source faults, including borrowed modifier identity and live recipient changes.
+This baseline predates runtime extraction; see the [sustain boundary](hit-sustain-boundary.md).
+
 The [stat context cache](stat-context-cache.md) adds 74 frozen original courses,
 18 independent tests, 22 runtime faults, eight original-observer faults, 12 source
 controls, and four installed-game faults. `reference:stat-context`,

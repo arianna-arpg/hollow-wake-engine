@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "source": "src/engine/world.ts",
+  "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "method": "resolveHit",
+  "damagingBranchStatement": 26,
+  "statements": [
+    {
+      "index": 18,
+      "line": 43577,
+      "sha256": "6c6d0334dbb286caffe5bee4a641319dab1776b1fcd9c0d201ce42900e6af97a",
+      "text": "if (dealt > 0 && def.siphon && !caster.dead) {\n        const gained = caster.healBy(dealt * def.siphon\n          * caster.sheet.get('healPower', skillContextTags(def), extra));\n        noteResourceFlow(caster, target, 'life', gained, def.feedingCue);\n      }"
+    },
+    {
+      "index": 19,
+      "line": 43585,
+      "sha256": "c5b3a0d0dbf8c4caed84451cd4d934d252c4baf93ef757f6c1adcc7bc453d2b8",
+      "text": "if (dealt > 0 && depth === 0 && !caster.dead) {\n        const vamp = caster.sheet.get('vampiricShare', skillContextTags(def), extra);\n        if (vamp > 0) {\n          const heal = dealt * vamp\n            * caster.sheet.get('healPower', skillContextTags(def), extra);\n          for (const ally of this.actors) {\n            if (!sameStory(ally, caster)) continue; // the vampiric share reaches its own story (the sovereignty gate)\n            if (ally.dead || ally.team !== caster.team || ally === caster) continue;\n            if (dist(caster.pos, ally.pos) > DEFENSE_CFG.sustain.vampiricRadius) continue;\n            const got = ally.healBy(heal);\n            noteResourceFlow(ally, target, 'life', got, def.feedingCue);\n            if (got > 0.5) this.text(ally.pos, '+' + Math.round(got), '#8ae0a8', 10);\n          }\n        }\n        // LIFE BOND (the Chloromancer shape): the caster's damage feeds the\n        // bonded ally — bondShare × the skill's bondFeed × healPower. The\n        // bond lapses with its buff (or its bearer).\n        if (caster.bond) {\n          const bonded = this.actors.find(a => a.id === caster.bond!.targetId);\n          if (!bonded || bonded.dead || !bonded.buffs.has(caster.bond.buffId)) {\n            caster.bond = undefined;\n          } else {\n            const share = caster.sheet.get('bondShare', skillContextTags(def), extra);\n            if (share > 0) {\n              const got = bonded.healBy(dealt * share * (def.bondFeed ?? 1)\n                * caster.sheet.get('healPower', skillContextTags(def), extra));\n              if (got > 0.5) this.text(bonded.pos, '+' + Math.round(got), '#7ee0b8', 11);\n            }\n          }\n        }\n      }"
+    },
+    {
+      "index": 20,
+      "line": 43618,
+      "sha256": "cd1af8035d7306903e465e7c4afada18af2fdf91ec410f64b553fcc8b0b6a5f4",
+      "text": "if (dealt > 0 && depth === 0) {\n        for (const t of this.actors) {\n          if (!sameStory(t, target)) continue; // a relic gathers from its own story (the sovereignty gate)\n          const hb = t.construct?.healBurst;\n          if (!hb || t.dead || t.team !== caster.team) continue;\n          if (dist(t.pos, target.pos) > t.construct!.range) continue;\n          t.construct!.stored = Math.min(hb.cap, (t.construct!.stored ?? 0) + dealt);\n          t.radius = (t.construct!.baseRadius ?? t.radius)\n            * (1 + 0.6 * (t.construct!.stored / hb.cap));\n        }\n      }"
+    }
+  ],
+  "nextStatement": "caster.lastCombatAt = this.time;",
+  "requiredObservations": [
+    "Positive captured damage, siphon truthiness and caster-death admission; healPower context tags and borrowed extra modifiers; exact returned healing and feeding cue.",
+    "Depth exactly zero for sharing/bond/trees, but siphon at other depths; dead caster suppresses sharing/bond while trees remain independently eligible.",
+    "Sharing checks story before dead/team/self/radius, includes exact radius, follows live actor iteration and identity; each healing callback can mutate later eligibility, death, positions, tags, definitions and actor list.",
+    "Bond lookup reads live caster bond and actor ids, validates target/buff, clears invalid bond, defaults only nullish bondFeed, honors zero share/feed and strict visual threshold above 0.5.",
+    "Tree story compares recipient to struck target, team to caster; checks healBurst before dead/team/range, uses live construct values, caps stored damage, defaults nullish stored/baseRadius and preserves exact radius formula.",
+    "Nested hits and host callback errors retain already committed heals, bond clearing and tree writes; continuation occurs once with original borrowed inputs and captures.",
+    "Whole original resolver executes with native damage; SIM_TAP remains observation-only. Freeze original expectations before implementing runtime."
+  ],
+  "optimizationConstraints": [
+    "No actor indexing or iterator snapshot until baseline proves observable mutation behavior and measurements justify a semantics decision.",
+    "Keep authoring storage outside the per-hit path.",
+    "No zero-allocation, physical-device or complete-native-package claim."
+  ],
+  "scope": "Original hit siphon, nearby sharing, life bonds and tree damage storage, after pool feeding and before combat-recency stamping."
+}
