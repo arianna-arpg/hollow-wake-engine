@@ -30,8 +30,8 @@ coordinates in `sequence.flight` before-call observations, alongside the earlier
 facing tolerance. Dedicated negative controls reject damage, time, RNG, unrelated
 coordinate changes and larger drift. Original-versus-installed native comparisons
 still require exact equality everywhere. This corrects a diagnostic comparison;
-it changes no runtime arithmetic. The Linux installed replay must pass hosted
-verification before that platform's full-course checkpoint is accepted.
+it changes no runtime arithmetic. The later [Windows/Linux acceptance](native-stack-investigation.md#managed-replay-coverage-correction)
+passes the installed full course, including the .NET consumer, with this policy.
 
 The real Hollow Wake adapter now completes the frozen Cleave course in the
 pinned QuickJS-NG 0.17.0 development driver on local Windows x64. The original
@@ -43,7 +43,10 @@ The original and installed courses also pass through the shared native library's
 C interface and its independent C++ consumer. Both library replays match the
 development driver exactly, dispose all tracked allocations, and pass the
 existing buffer ownership, thread migration, cancellation and unload/reload
-checks. This course has not yet been replayed through Godot, C# or another engine.
+checks. The later [managed replay](native-stack-investigation.md#managed-replay-coverage-correction)
+also executes the entire course through the .NET 8 C# consumer, comparing all
+responses exactly with the C driver. This is a development consumer, not a
+Godot, Unity or Unreal full-course integration.
 
 Both bundled Node replays exactly match the existing original fixture. Each
 native replay differs from Node only in two observations of the same facing

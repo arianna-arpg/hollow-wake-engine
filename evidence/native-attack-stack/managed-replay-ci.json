@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "observedAt": "2026-10-30T23:11:20.799Z",
+  "revision": "3a434fb0cf8d15c47022a193ee35f438d881bf83",
+  "workflow": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/41141534339",
+  "workflowPassed": true,
+  "results": [
+    {
+      "platform": "Linux",
+      "passed": true,
+      "compilerBanner": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+      "dotnetSdk": "8.0.427",
+      "runtimeMapSha256": "dcca24efe79e5487f6449e95377612eebc7aede6f430f82fea47015bed9872da",
+      "gameSourceMapSha256": "7c4877939424ae7f21e5c60d73250b372b387beaec56c8d355be6b59a11f8e9b",
+      "cases": [
+        {
+          "label": "original",
+          "requests": 33,
+          "exactNumericObservations": 150608,
+          "dotnetMetrics": {
+            "passed": true,
+            "requests": 33,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 157112339,
+            "managedOwnership": true,
+            "threadMigration": true,
+            "libraryLease": true,
+            "failedConstructionLease": true,
+            "finalizerUnload": true,
+            "unloadReload": true,
+            "residencyProbe": "glibc RTLD_NOLOAD | RTLD_LAZY"
+          },
+          "cppMetrics": {
+            "passed": true,
+            "requests": 33,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 157112339,
+            "bufferOwnership": true,
+            "threadMigration": true,
+            "concurrentCancellation": true,
+            "unloadReload": true
+          },
+          "exactManagedVsC": true
+        },
+        {
+          "label": "installed",
+          "requests": 33,
+          "exactNumericObservations": 150608,
+          "dotnetMetrics": {
+            "passed": true,
+            "requests": 33,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 200059973,
+            "managedOwnership": true,
+            "threadMigration": true,
+            "libraryLease": true,
+            "failedConstructionLease": true,
+            "finalizerUnload": true,
+            "unloadReload": true,
+            "residencyProbe": "glibc RTLD_NOLOAD | RTLD_LAZY"
+          },
+          "cppMetrics": {
+            "passed": true,
+            "requests": 33,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 200059973,
+            "bufferOwnership": true,
+            "threadMigration": true,
+            "concurrentCancellation": true,
+            "unloadReload": true
+          },
+          "exactManagedVsC": true
+        }
+      ],
+      "libraryRegression": {
+        "passed": true,
+        "requests": 60,
+        "dotnet": {
+          "passed": true,
+          "requests": 60,
+          "liveBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "peakTrackedBytes": 66361576,
+          "managedOwnership": true,
+          "threadMigration": true,
+          "libraryLease": true,
+          "failedConstructionLease": true,
+          "finalizerUnload": true,
+          "unloadReload": true,
+          "residencyProbe": "glibc RTLD_NOLOAD | RTLD_LAZY"
+        }
+      },
+      "constructorNegativeControlDetected": true
+    },
+    {
+      "platform": "Windows",
+      "passed": true,
+      "compilerBanner": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.51.36260 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+      "dotnetSdk": "8.0.427",
+      "runtimeMapSha256": "dcca24efe79e5487f6449e95377612eebc7aede6f430f82fea47015bed9872da",
+      "gameSourceMapSha256": "7c4877939424ae7f21e5c60d73250b372b387beaec56c8d355be6b59a11f8e9b",
+      "cases": [
+        {
+          "label": "original",
+          "requests": 33,
+          "exactNumericObservations": 150608,
+          "dotnetMetrics": {
+            "passed": true,
+            "requests": 33,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 157112357,
+            "managedOwnership": true,
+            "threadMigration": true,
+            "libraryLease": true,
+            "failedConstructionLease": true,
+            "finalizerUnload": true,
+            "unloadReload": true,
+            "residencyProbe": "GetModuleHandleW"
+          },
+          "cppMetrics": {
+            "passed": true,
+            "requests": 33,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 157112357,
+            "bufferOwnership": true,
+            "threadMigration": true,
+            "concurrentCancellation": true,
+            "unloadReload": true
+          },
+          "exactManagedVsC": true
+        },
+        {
+          "label": "installed",
+          "requests": 33,
+          "exactNumericObservations": 150608,
+          "dotnetMetrics": {
+            "passed": true,
+            "requests": 33,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 200059991,
+            "managedOwnership": true,
+            "threadMigration": true,
+            "libraryLease": true,
+            "failedConstructionLease": true,
+            "finalizerUnload": true,
+            "unloadReload": true,
+            "residencyProbe": "GetModuleHandleW"
+          },
+          "cppMetrics": {
+            "passed": true,
+            "requests": 33,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 200059991,
+            "bufferOwnership": true,
+            "threadMigration": true,
+            "concurrentCancellation": true,
+            "unloadReload": true
+          },
+          "exactManagedVsC": true
+        }
+      ],
+      "libraryRegression": {
+        "passed": true,
+        "requests": 60,
+        "dotnet": {
+          "passed": true,
+          "requests": 60,
+          "liveBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "peakTrackedBytes": 66361592,
+          "managedOwnership": true,
+          "threadMigration": true,
+          "libraryLease": true,
+          "failedConstructionLease": true,
+          "finalizerUnload": true,
+          "unloadReload": true,
+          "residencyProbe": "GetModuleHandleW"
+        }
+      },
+      "constructorNegativeControlDetected": true
+    }
+  ],
+  "productionStackLimitBytes": 262144,
+  "productionLimitsChanged": false,
+  "scope": "Exact-commit Windows/Linux original and installed full-attack execution through C, C++ and .NET. Historical C/C++ receipts remain unchanged. No engine-package or physical-device acceptance.",
+  "raw": {
+    "path": "evidence/native-attack-stack/managed-replay-ci-raw.json.gz",
+    "entries": 35,
+    "bytes": 2546865,
+    "sha256": "7bc2a7e0929a97506f7f3697eb6b3ac42a7e68bae9600043904cbe83f5f50bfa",
+    "uncompressedSha256": "a6ea29bb6e74d5df00b516f136e1770ae6a03dcad911f1352101e89216cd8870"
+  }
+}

@@ -1,0 +1,641 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "observedAt": "2026-10-30T23:20:03.340Z",
+  "revision": "7ce9c394d89555654e915ce05503f92febfdd5fb",
+  "workflow": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/41142430473",
+  "workflowPassed": true,
+  "courses": 88,
+  "requestsPerConsumer": 90,
+  "exactNumericObservationsPerPositiveRun": 71291,
+  "behavioralFaults": 2,
+  "consumersPerCase": 3,
+  "results": [
+    {
+      "platform": "Linux",
+      "passed": true,
+      "compilerBanner": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+      "dotnetSdk": "8.0.427",
+      "runtimeMapSha256": "dcca24efe79e5487f6449e95377612eebc7aede6f430f82fea47015bed9872da",
+      "gameSourceMapSha256": "7c4877939424ae7f21e5c60d73250b372b387beaec56c8d355be6b59a11f8e9b",
+      "cases": [
+        {
+          "label": "original",
+          "passed": true,
+          "nodeMatchesFrozen": true,
+          "cloneChecks": 919,
+          "consumers": [
+            {
+              "host": "c",
+              "passed": true,
+              "metrics": {
+                "code": 0,
+                "completedRequests": 90,
+                "peakRequestedBytes": 100279904,
+                "liveRequestedBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "allocationRequests": 187554
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": false,
+              "outputSha256": "a448017da94dd50f223ed63076c7e44f49b1b359d0181e90d5029d70b71f86c4",
+              "logSha256": "426a5846150a379f35725827df651629ef2b8d714f0a57a06d9ced9634eb75d6"
+            },
+            {
+              "host": "cpp",
+              "passed": true,
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 100279904,
+                "bufferOwnership": true,
+                "threadMigration": true,
+                "concurrentCancellation": true,
+                "unloadReload": true
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": false,
+              "outputSha256": "a448017da94dd50f223ed63076c7e44f49b1b359d0181e90d5029d70b71f86c4",
+              "logSha256": "2f00f65680987ee00d145415c50903e089bf7e13b8c091a0fe43efdd1e4e457d"
+            },
+            {
+              "host": "dotnet",
+              "passed": true,
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 100279904,
+                "managedOwnership": true,
+                "threadMigration": true,
+                "libraryLease": true,
+                "failedConstructionLease": true,
+                "finalizerUnload": true,
+                "unloadReload": true,
+                "residencyProbe": "glibc RTLD_NOLOAD | RTLD_LAZY"
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": false,
+              "outputSha256": "a448017da94dd50f223ed63076c7e44f49b1b359d0181e90d5029d70b71f86c4",
+              "logSha256": "4af1a46b3f069703ba2311db84b5c2d0ecef84fc3c7e4321f44a3b49f7d7775f"
+            }
+          ]
+        },
+        {
+          "label": "installed",
+          "passed": true,
+          "nodeMatchesFrozen": true,
+          "cloneChecks": 919,
+          "consumers": [
+            {
+              "host": "c",
+              "passed": true,
+              "metrics": {
+                "code": 0,
+                "completedRequests": 90,
+                "peakRequestedBytes": 138020859,
+                "liveRequestedBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "allocationRequests": 268580
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": false,
+              "outputSha256": "a448017da94dd50f223ed63076c7e44f49b1b359d0181e90d5029d70b71f86c4",
+              "logSha256": "77198497936e81a74fe1bfb5f3d21bd602efad2eaab8bd28d5c3ec805766791c"
+            },
+            {
+              "host": "cpp",
+              "passed": true,
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138020859,
+                "bufferOwnership": true,
+                "threadMigration": true,
+                "concurrentCancellation": true,
+                "unloadReload": true
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": false,
+              "outputSha256": "a448017da94dd50f223ed63076c7e44f49b1b359d0181e90d5029d70b71f86c4",
+              "logSha256": "b0fb9239ea6e7d24238b774bea737554cfab6d8bb4a98def376c248f8db7257c"
+            },
+            {
+              "host": "dotnet",
+              "passed": true,
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138020859,
+                "managedOwnership": true,
+                "threadMigration": true,
+                "libraryLease": true,
+                "failedConstructionLease": true,
+                "finalizerUnload": true,
+                "unloadReload": true,
+                "residencyProbe": "glibc RTLD_NOLOAD | RTLD_LAZY"
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": false,
+              "outputSha256": "a448017da94dd50f223ed63076c7e44f49b1b359d0181e90d5029d70b71f86c4",
+              "logSha256": "aeae8064711c112ca32148888fdf6a01d2ab82d2609737e1fdfbd2f6d99f3868"
+            }
+          ]
+        },
+        {
+          "label": "zero-share-fault",
+          "passed": true,
+          "nodeMatchesFrozen": false,
+          "cloneChecks": 919,
+          "consumers": [
+            {
+              "host": "c",
+              "passed": true,
+              "metrics": {
+                "code": 0,
+                "completedRequests": 90,
+                "peakRequestedBytes": 138020858,
+                "liveRequestedBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "allocationRequests": 268580
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": true,
+              "outputSha256": "06c230b57266feebf710eadf9c59ed5255b4830ef1b6386c2debbdecbf1f687c",
+              "logSha256": "a75adfa2d0dbb11fd52b24f6098d1c3341ac8a7ee8f12a4c4e4f152d48423e00"
+            },
+            {
+              "host": "cpp",
+              "passed": true,
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138020858,
+                "bufferOwnership": true,
+                "threadMigration": true,
+                "concurrentCancellation": true,
+                "unloadReload": true
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": true,
+              "outputSha256": "06c230b57266feebf710eadf9c59ed5255b4830ef1b6386c2debbdecbf1f687c",
+              "logSha256": "e3ae2145460ca70b9823567a85237afc9a3dae2a96696788d5fe8a81830114f7"
+            },
+            {
+              "host": "dotnet",
+              "passed": true,
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138020858,
+                "managedOwnership": true,
+                "threadMigration": true,
+                "libraryLease": true,
+                "failedConstructionLease": true,
+                "finalizerUnload": true,
+                "unloadReload": true,
+                "residencyProbe": "glibc RTLD_NOLOAD | RTLD_LAZY"
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": true,
+              "outputSha256": "06c230b57266feebf710eadf9c59ed5255b4830ef1b6386c2debbdecbf1f687c",
+              "logSha256": "ccd3d3a6f9a0a763b0448a43ff386cbe837efa6f8332b48422d64dfac8726bf3"
+            }
+          ]
+        },
+        {
+          "label": "source-identity-fault",
+          "passed": true,
+          "nodeMatchesFrozen": false,
+          "cloneChecks": 919,
+          "consumers": [
+            {
+              "host": "c",
+              "passed": true,
+              "metrics": {
+                "code": 0,
+                "completedRequests": 90,
+                "peakRequestedBytes": 138020863,
+                "liveRequestedBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "allocationRequests": 280382
+              },
+              "comparison": {
+                "numbers": 71419,
+                "exact": true
+              },
+              "faultDetected": true,
+              "outputSha256": "0a0cf9a7a36a747fbd6d49293c2f605de21086aa064d71c57dbdab8ecdd44537",
+              "logSha256": "31eab2be21389cf9a5e43ee6e85128b13663bf41befefb3298e6bd5400a40e86"
+            },
+            {
+              "host": "cpp",
+              "passed": true,
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138020863,
+                "bufferOwnership": true,
+                "threadMigration": true,
+                "concurrentCancellation": true,
+                "unloadReload": true
+              },
+              "comparison": {
+                "numbers": 71419,
+                "exact": true
+              },
+              "faultDetected": true,
+              "outputSha256": "0a0cf9a7a36a747fbd6d49293c2f605de21086aa064d71c57dbdab8ecdd44537",
+              "logSha256": "f7482efcfa5c9ad21e4ab79a66c641fcf31ebf2ab5f7d605c5a92c0999de07c7"
+            },
+            {
+              "host": "dotnet",
+              "passed": true,
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138020863,
+                "managedOwnership": true,
+                "threadMigration": true,
+                "libraryLease": true,
+                "failedConstructionLease": true,
+                "finalizerUnload": true,
+                "unloadReload": true,
+                "residencyProbe": "glibc RTLD_NOLOAD | RTLD_LAZY"
+              },
+              "comparison": {
+                "numbers": 71419,
+                "exact": true
+              },
+              "faultDetected": true,
+              "outputSha256": "0a0cf9a7a36a747fbd6d49293c2f605de21086aa064d71c57dbdab8ecdd44537",
+              "logSha256": "373b3e9e7cec0cac3973254e0cf72c85deedf8900994bd662629755bee35d325"
+            }
+          ]
+        }
+      ],
+      "exactOriginalVsInstalled": true
+    },
+    {
+      "platform": "Windows",
+      "passed": true,
+      "compilerBanner": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.51.36260 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+      "dotnetSdk": "8.0.427",
+      "runtimeMapSha256": "dcca24efe79e5487f6449e95377612eebc7aede6f430f82fea47015bed9872da",
+      "gameSourceMapSha256": "7c4877939424ae7f21e5c60d73250b372b387beaec56c8d355be6b59a11f8e9b",
+      "cases": [
+        {
+          "label": "original",
+          "passed": true,
+          "nodeMatchesFrozen": true,
+          "cloneChecks": 919,
+          "consumers": [
+            {
+              "host": "c",
+              "passed": true,
+              "metrics": {
+                "code": 0,
+                "completedRequests": 90,
+                "peakRequestedBytes": 100279920,
+                "liveRequestedBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "allocationRequests": 187554
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": false,
+              "outputSha256": "9f241125ce9c0c8b354a2c92046d8139d9fe588ada448906cdd08e189013838c",
+              "logSha256": "0eab82c933a030aa4b2a31dc7b4f0726a55dfc463f5f011edcb65c8c55f2ba88"
+            },
+            {
+              "host": "cpp",
+              "passed": true,
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 100279920,
+                "bufferOwnership": true,
+                "threadMigration": true,
+                "concurrentCancellation": true,
+                "unloadReload": true
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": false,
+              "outputSha256": "a448017da94dd50f223ed63076c7e44f49b1b359d0181e90d5029d70b71f86c4",
+              "logSha256": "13fcefe0cc80aa6af29b9ff867e09681c5872d137e32cb54a913abc568f7ffe8"
+            },
+            {
+              "host": "dotnet",
+              "passed": true,
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 100279920,
+                "managedOwnership": true,
+                "threadMigration": true,
+                "libraryLease": true,
+                "failedConstructionLease": true,
+                "finalizerUnload": true,
+                "unloadReload": true,
+                "residencyProbe": "GetModuleHandleW"
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": false,
+              "outputSha256": "9f241125ce9c0c8b354a2c92046d8139d9fe588ada448906cdd08e189013838c",
+              "logSha256": "ae0579920b52191fc4fb57d134efdf8aaec6c015a2f0150fbb4428623aa314a0"
+            }
+          ]
+        },
+        {
+          "label": "installed",
+          "passed": true,
+          "nodeMatchesFrozen": true,
+          "cloneChecks": 919,
+          "consumers": [
+            {
+              "host": "c",
+              "passed": true,
+              "metrics": {
+                "code": 0,
+                "completedRequests": 90,
+                "peakRequestedBytes": 138020875,
+                "liveRequestedBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "allocationRequests": 268580
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": false,
+              "outputSha256": "9f241125ce9c0c8b354a2c92046d8139d9fe588ada448906cdd08e189013838c",
+              "logSha256": "40e2b3c8e967470c46da79d8f2129583b42ef8e248b98255a02aa6a29e115f88"
+            },
+            {
+              "host": "cpp",
+              "passed": true,
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138020875,
+                "bufferOwnership": true,
+                "threadMigration": true,
+                "concurrentCancellation": true,
+                "unloadReload": true
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": false,
+              "outputSha256": "a448017da94dd50f223ed63076c7e44f49b1b359d0181e90d5029d70b71f86c4",
+              "logSha256": "208b65180c53d5498ad27336e34cc5619cd761ded14627de4779aabfbd8a1e5a"
+            },
+            {
+              "host": "dotnet",
+              "passed": true,
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138020875,
+                "managedOwnership": true,
+                "threadMigration": true,
+                "libraryLease": true,
+                "failedConstructionLease": true,
+                "finalizerUnload": true,
+                "unloadReload": true,
+                "residencyProbe": "GetModuleHandleW"
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": false,
+              "outputSha256": "9f241125ce9c0c8b354a2c92046d8139d9fe588ada448906cdd08e189013838c",
+              "logSha256": "3e3d663a62a11faea8700061cc714f2fd872ed2ceaa15d9b2890b5ac25ab2499"
+            }
+          ]
+        },
+        {
+          "label": "zero-share-fault",
+          "passed": true,
+          "nodeMatchesFrozen": false,
+          "cloneChecks": 919,
+          "consumers": [
+            {
+              "host": "c",
+              "passed": true,
+              "metrics": {
+                "code": 0,
+                "completedRequests": 90,
+                "peakRequestedBytes": 138020874,
+                "liveRequestedBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "allocationRequests": 268580
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": true,
+              "outputSha256": "ac8a9400181557e52bdfd1a7ea3fe6f8ac41a4f7a8b108cc2f46a25bf7d195af",
+              "logSha256": "41aa40948978d5ce95311620d54aef8d9f75678eefa38df0a3c27602dee6105a"
+            },
+            {
+              "host": "cpp",
+              "passed": true,
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138020874,
+                "bufferOwnership": true,
+                "threadMigration": true,
+                "concurrentCancellation": true,
+                "unloadReload": true
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": true,
+              "outputSha256": "06c230b57266feebf710eadf9c59ed5255b4830ef1b6386c2debbdecbf1f687c",
+              "logSha256": "8e9497a1e8dcbd333ee3dccb0e1e77d1388242e8736a6ea88f4e53f5427edae1"
+            },
+            {
+              "host": "dotnet",
+              "passed": true,
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138020874,
+                "managedOwnership": true,
+                "threadMigration": true,
+                "libraryLease": true,
+                "failedConstructionLease": true,
+                "finalizerUnload": true,
+                "unloadReload": true,
+                "residencyProbe": "GetModuleHandleW"
+              },
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "faultDetected": true,
+              "outputSha256": "ac8a9400181557e52bdfd1a7ea3fe6f8ac41a4f7a8b108cc2f46a25bf7d195af",
+              "logSha256": "9a436c73f6f973562381b281adbba66c978676e62a227411f612023c6e773e29"
+            }
+          ]
+        },
+        {
+          "label": "source-identity-fault",
+          "passed": true,
+          "nodeMatchesFrozen": false,
+          "cloneChecks": 919,
+          "consumers": [
+            {
+              "host": "c",
+              "passed": true,
+              "metrics": {
+                "code": 0,
+                "completedRequests": 90,
+                "peakRequestedBytes": 138020879,
+                "liveRequestedBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "allocationRequests": 280382
+              },
+              "comparison": {
+                "numbers": 71419,
+                "exact": true
+              },
+              "faultDetected": true,
+              "outputSha256": "605bbd2058ccc4b50998976ea029f91ab2d334e62893cab79c847dfa95f300d1",
+              "logSha256": "ea745163654ecdc64c0eb9f56a11dff6cd2d7c693e99554a4277126ad0303e3e"
+            },
+            {
+              "host": "cpp",
+              "passed": true,
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138020879,
+                "bufferOwnership": true,
+                "threadMigration": true,
+                "concurrentCancellation": true,
+                "unloadReload": true
+              },
+              "comparison": {
+                "numbers": 71419,
+                "exact": true
+              },
+              "faultDetected": true,
+              "outputSha256": "0a0cf9a7a36a747fbd6d49293c2f605de21086aa064d71c57dbdab8ecdd44537",
+              "logSha256": "8da96f8f80d4a73fba1bd3d9581c41d36e1cd561aded680bf510e63b13503fa4"
+            },
+            {
+              "host": "dotnet",
+              "passed": true,
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138020879,
+                "managedOwnership": true,
+                "threadMigration": true,
+                "libraryLease": true,
+                "failedConstructionLease": true,
+                "finalizerUnload": true,
+                "unloadReload": true,
+                "residencyProbe": "GetModuleHandleW"
+              },
+              "comparison": {
+                "numbers": 71419,
+                "exact": true
+              },
+              "faultDetected": true,
+              "outputSha256": "605bbd2058ccc4b50998976ea029f91ab2d334e62893cab79c847dfa95f300d1",
+              "logSha256": "25b79ff8653ba42f0e710c11373fa0b38c779f2157d60a7f0622a7ae4eca63a9"
+            }
+          ]
+        }
+      ],
+      "exactOriginalVsInstalled": true
+    }
+  ],
+  "productionStackLimitBytes": 262144,
+  "productionTrackedHeapLimitBytes": 268435456,
+  "productionLimitsChanged": false,
+  "numericalToleranceIntroduced": false,
+  "scope": "Exact-commit Windows/Linux development replay of all 88 original/installed status-delivery courses through C, C++ and .NET. Includes full World, content and test observations. No stable standalone package, performance or physical-device acceptance.",
+  "raw": {
+    "path": "evidence/status-delivery/native-ci-raw.json.gz",
+    "entries": 85,
+    "bytes": 1536945,
+    "sha256": "7831046cd168aae5f59d2345760f762c4590d634893ebd139c64233208a0bf7d",
+    "uncompressedSha256": "a0db6a728cab6fece5e7b3568b675f79f734fe3976c9dcd6349495965e20d67d"
+  }
+}

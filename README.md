@@ -39,7 +39,7 @@ death effects, complete native APIs and device measurements remain separate work
 
 The optional [status delivery](docs/status-delivery-boundary.md) handles status
 siphoning, Impale recall and returned-spear source identity. All 88 original
-courses match through the installed adapter. Dedicated local C, C++ and .NET
+courses match through the installed adapter. Dedicated Windows/Linux C, C++ and .NET
 replay covers actual returning-projectile travel and selective retirement,
 with behavioral fault controls. This remains development-host evidence;
 complete engine packages and physical-device acceptance are separate.

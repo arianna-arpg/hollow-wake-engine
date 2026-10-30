@@ -138,7 +138,14 @@ This is a full-game development replay, including the original World, authored
 content, headless services and retained test observations. It adds no production
 API or engine package. The existing 256 KiB QuickJS stack guard and 256 MiB
 tracked-heap limit are unchanged. Hosted Windows/Linux execution remains a
-separate acceptance step.
+separate acceptance step, now passed in the [exact-commit run for 7ce9c39](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/41142430473).
+The [retained hosted evidence](../evidence/status-delivery/native-ci.json)
+checks the published source hashes and every raw response on both platforms.
+Each C, C++ and .NET consumer completes both positive replays and both fault
+replays, preserves the expected callback errors and releases tracked allocations.
+All 71,291 numeric observations per positive replay match exactly; original and
+installed results match each other. No stack/heap limit or comparison tolerance
+was changed for hosted acceptance.
 
 ## Active desktop measurements
 

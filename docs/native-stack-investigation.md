@@ -107,5 +107,11 @@ managed ownership, library lease, thread migration and unload/reload checks.
 The shared builder also passes the separate 60-request library regression.
 
 This adds full-course .NET execution coverage. It changes no SDK runtime,
-content, comparison tolerance or native stack limit. Hosted Windows/Linux
-acceptance for this runner change remains separate from the earlier C/C++ runs.
+content, comparison tolerance or native stack limit. The [exact-commit hosted
+run for 3a434fb](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/41141534339)
+now passes on Windows and Linux. The [retained managed acceptance](../evidence/native-attack-stack/managed-replay-ci.json)
+checks actual .NET execution metrics and all raw responses against C and C++:
+33 requests and 150,608 exact numeric observations per positive path, with zero
+tracked allocations after disposal. Separate 60-request library checks also
+pass. These results are distinct from the earlier C/C++-only receipts and do
+not establish full engine packages or physical-device acceptance.
