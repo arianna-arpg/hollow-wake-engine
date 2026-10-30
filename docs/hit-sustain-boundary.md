@@ -3,15 +3,18 @@
 This boundary covers the three original damaging-hit statements after pool
 feeding and before combat-recency stamping: skill siphon, nearby ally sharing
 and life bonds, and Tree of Life damage storage. The baseline runs the complete
-original resolver with native damage and native healing. Extraction is pending;
-the current installed game still executes these statements itself.
+original resolver with native damage and native healing. The optional
+`combat/hit-sustain` entry now supplies `createHitSustain`. The development game
+adapter delegates these statements to the installed package; its complete
+98-course comparison matches the frozen baseline. Local package, game and native
+replay checks pass. Dedicated sustain performance and device acceptance remain open.
 
 ## Ownership and order
 
-The SDK service will receive the already captured damage amount, causal depth,
+The SDK service receives the already captured damage amount, causal depth,
 caster, struck target, borrowed skill definition and prepared modifier list.
-It will own eligibility, ordered recipient traversal, healing amounts, bond
-invalidation, and tree storage/radius writes. The host will retain actors, stat
+It owns eligibility, ordered recipient traversal, healing amounts, bond
+invalidation, and tree storage/radius writes. The host retains actors, stat
 sheets, actual life recovery, story and distance observations, resource-flow
 cues, text presentation and the continuation of the hit.
 
@@ -19,6 +22,19 @@ The integration point is inside the damaging branch of `continueLandedHit`.
 Non-damaging hits and refused contacts must not acquire a new sustain phase.
 The subsequent combat stamps and hit effects retain their existing order. The
 service is synchronous; it must not queue effects or convert them into a batch.
+
+`createHitSustain(ports).apply(caster, target, definition, modifiers, dealt, depth)`
+returns `void`. Bind one reusable service to each host world or equivalent actor
+registry. The host supplies `actors`, `tags`, `sameStory`, `distance`,
+`sharingRadius`, `resourceFlow`, `sharedHealingCue` and `bondedHealingCue`.
+Positions, modifier payloads, tags and cue payloads retain the host's types.
+Actual healing remains `actor.healBy`; its return value is the measured gain.
+There is no engine object, renderer, ambient random stream, timer or database
+dependency in the optional entry.
+
+The caller admits damaging hits and normalizes causal depth before invoking this
+phase. Inputs are trusted borrowed records, not a content-import format. The
+service deliberately does not clone or normalize them on every hit.
 
 1. Siphon requires positive captured damage, a truthy siphon coefficient and a
    living caster. It can run at nonzero depth. Its native healing return value
@@ -77,6 +93,34 @@ creates an isolated source copy and checks the 38 deliberate faults. Both
 commands verify accepted input hashes and preserve source files. The ordinary
 CI reference job runs both commands.
 
+The development implementation also has 24 independent contract tests and 14
+source-overlay controls. Package, runtime-fault and installed-fault commands are
+`test:hit-sustain-package`, `test:hit-sustain-mutations` and
+`adapter:hit-sustain-faults`. `adapter:hit-sustain` checks archive/install identity
+and the frozen trace. `adapter:hit-sustain-source` verifies original and installed
+boundaries, collisions, repeated installation, newline handling and unchanged
+prefix/continuation text.
+
+The [runtime checkpoint](../evidence/hit-sustain/runtime-windows.json) records
+1,233 passing SDK tests, original-reference verification, the 24 focused contract
+tests, 38 detected runtime faults, 14 source controls and six detected installed
+faults. An independent packed consumer passes types and browser bundling (2,362
+bytes). Node 22 repeats the focused tests and installed original trace.
+
+All 21 game checks pass, including the feeding/resource cues, combat probes,
+game/launcher/simulation types and 25 smoke episodes. The native driver and shared
+library replay match the original exactly across 150,608 numeric observations;
+two facing-angle values differ from Node by less than `5e-16`. That diagnostic
+uses the complete game and observation storage, not a new native SDK API.
+
+All 270 predecessor compiled files remain byte-identical. The optional entry
+adds 3,023 bytes of unminified JavaScript and six compiled outputs. The separate
+4 KiB module budget leaves the whole-package 674 KiB limit unchanged. The first
+independent test draft miscalculated three tree-growth expectations; only those
+test expectations were corrected. The accepted original trace was not rewritten.
+The first reproduction setup stopped because its source directory had not been
+materialized; the corrected setup verifies the source capsule before integration.
+
 The [Windows checkpoint evidence](../evidence/hit-sustain/baseline-windows.json)
 retains completed verification receipts and the earlier rejected draft reports.
 
@@ -97,5 +141,15 @@ should be validated and loaded before combat; actor state and prepared modifiers
 are already available in memory. The extraction should reuse service bindings
 and avoid a per-hit wrapper, recipient copies or shared mutable scratch state.
 Further indexing or allocation changes require behavior checks and measured
-workloads. This baseline makes no Steam Deck, mobile, zero-allocation or native
-package completeness claim.
+workloads.
+
+The Windows desktop checkpoint compares five established whole-hit workloads
+with 12 alternating pairs of 1,000 hits after warmup. Current/predecessor median
+ratios are 1.038 (plain), 1.044 (authored status), 0.968 (stat status), 0.938
+(next-hit rider) and 1.027 (Impale). The separate identical-input control spans
+0.975–1.100 across workload medians. These noisy observations do not establish
+either an improvement or a regression caused by this extraction. All gameplay
+comparisons pass. This existing workload set does not exercise sustained active
+healing at scale. Retained heap is not allocation volume; the general core
+benchmark is a separate selected-content workload. No Steam Deck, mobile,
+zero-allocation or native package completeness claim follows.

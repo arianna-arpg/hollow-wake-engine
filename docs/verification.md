@@ -6,6 +6,16 @@ predecessor and Node 22 agree. `test:hit-sustain-observer` checks 38 deliberate
 source faults, including borrowed modifier identity and live recipient changes.
 This baseline predates runtime extraction; see the [sustain boundary](hit-sustain-boundary.md).
 
+The optional sustain runtime passes 1,233 SDK tests, 24 independent contract
+tests, 38 runtime faults, 14 source controls, six installed faults and the same
+98-course frozen trace. `adapter:hit-sustain`, `adapter:hit-sustain-source` and
+`adapter:hit-sustain-faults` reproduce the integration; the full SDK verifier
+includes its clean consumer and runtime mutations. All 21 game checks and the
+native full-game replay pass. The [runtime evidence](../evidence/hit-sustain/runtime-windows.json)
+retains raw logs, Node 22 checks and both identical-input and predecessor timing
+runs. Timing is inconclusive; dedicated active-sustain and device workloads
+remain open.
+
 The [stat context cache](stat-context-cache.md) adds 74 frozen original courses,
 18 independent tests, 22 runtime faults, eight original-observer faults, 12 source
 controls, and four installed-game faults. `reference:stat-context`,

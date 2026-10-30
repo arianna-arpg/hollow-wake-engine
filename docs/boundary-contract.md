@@ -78,7 +78,10 @@ path. Live account authority, mimic policy and underlying host verbs stay separa
 
 The [hit-sustain boundary](hit-sustain-boundary.md) freezes 98 original courses
 for the following siphon, sharing, life-bond and tree-storage statements.
-Its runtime extraction is pending; the installed game still owns that phase.
+Its optional `combat/hit-sustain` service now delegates that phase through the
+installed game adapter, matching the frozen trace. Independent package checks,
+game probes and the native full-game replay pass; dedicated sustain performance
+and device acceptance remain open.
 
 The primary Hollow Wake checkout retains authority. The isolated game adapter
 delegates the extracted transitions to the actual installed package while keeping

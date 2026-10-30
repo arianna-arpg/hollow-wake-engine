@@ -119,13 +119,16 @@ const hitStatusJsBytes = packed.files.filter(file => /^dist\/hit-status(?:-types
 const hitEffectsJsBytes = packed.files.filter(file => /^dist\/hit-effects(?:-types)?\.js$/.test(file.path)).reduce((sum,file)=>sum+file.size,0);
 const hitPreparationJsBytes = packed.files.filter(file => /^dist\/hit-preparation(?:-types)?\.js$/.test(file.path)).reduce((sum,file)=>sum+file.size,0);
 const hitLandingJsBytes = packed.files.filter(file => /^dist\/hit-landing(?:-types)?\.js$/.test(file.path)).reduce((sum,file)=>sum+file.size,0);
+const hitSustainJsBytes = packed.files.filter(file => /^dist\/hit-sustain(?:-types)?\.js$/.test(file.path)).reduce((sum,file)=>sum+file.size,0);
+const predecessorJsBytes = jsBytes - hitSustainJsBytes;
 const tagContextJsBytes = packed.files.filter(file => file.path === 'dist/tag-context-cache.js').reduce((sum,file)=>sum+file.size,0);
 // The new cache has its own growth bound. Count it in the retained core and
 // whole-package limits; historical component bounds exclude only this new file.
-const previousJsBytes = jsBytes - tagContextJsBytes - hitLandingJsBytes - hitPreparationJsBytes - damageJsBytes - statusJsBytes - statusEffectsJsBytes - hitStatusJsBytes - hitEffectsJsBytes;
+const previousJsBytes = predecessorJsBytes - tagContextJsBytes - hitLandingJsBytes - hitPreparationJsBytes - damageJsBytes - statusJsBytes - statusEffectsJsBytes - hitStatusJsBytes - hitEffectsJsBytes;
 const coreJsBytes = previousJsBytes + tagContextJsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes - stashJsBytes - containerJsBytes - relicJsBytes - actionJsBytes - equipmentJsBytes - progressionJsBytes - skillJsBytes - supportJsBytes - resourceJsBytes - chargedCastJsBytes - interactiveCastJsBytes - ammunitionJsBytes - channelCastJsBytes - guardCastJsBytes - paymentJsBytes - admissionJsBytes - intentJsBytes - requestJsBytes - dispatchJsBytes - continuationJsBytes - bankJsBytes - actorGaugeJsBytes - actorConditionJsBytes - procJsBytes - procEffectJsBytes - delayedJsBytes - buffJsBytes - cooldownJsBytes - cooldownLifecycleJsBytes - readyBankJsBytes - sequenceRecoveryJsBytes - attackSequenceJsBytes;
 const contentBytes = packed.files.filter(file => file.path.startsWith('content/') && file.path.endsWith('.json')).reduce((sum, file) => sum + file.size, 0);
 assert.ok(coreJsBytes <= 96 * 1024, 'Core runtime exceeded the retained 96 KiB unminified JS budget');
+assert.ok(hitSustainJsBytes > 0 && hitSustainJsBytes <= 4 * 1024, 'Optional hit sustain exceeded its separate 4 KiB budget or is missing');
 assert.ok(tagContextJsBytes > 0 && tagContextJsBytes <= 3 * 1024, 'Stat context cache exceeded its separate 3 KiB budget or is missing');
 assert.ok(itemJsBytes <= 64 * 1024, 'Optional item entry exceeded its 64 KiB unminified JS budget');
 assert.ok(passiveJsBytes <= 32 * 1024, 'Optional passive entry exceeded its 32 KiB unminified JS budget');
@@ -172,22 +175,22 @@ assert.ok(previousJsBytes <= 567 * 1024, 'Combined runtime exceeded its explicit
 // Initial measured output is 32,770 bytes including the generated type-only
 // module. This new growth guard does not change any predecessor budget.
 assert.ok(damageJsBytes > 0 && damageJsBytes <= 33 * 1024, 'Optional shared damage exceeded its separate 33 KiB budget');
-assert.ok(jsBytes - hitLandingJsBytes - hitPreparationJsBytes - statusJsBytes - statusEffectsJsBytes - hitStatusJsBytes - hitEffectsJsBytes <= 600 * 1024, 'Previous runtime exceeded the retained 600 KiB budget');
+assert.ok(predecessorJsBytes - hitLandingJsBytes - hitPreparationJsBytes - statusJsBytes - statusEffectsJsBytes - hitStatusJsBytes - hitEffectsJsBytes <= 600 * 1024, 'Previous runtime exceeded the retained 600 KiB budget');
 assert.ok(statusJsBytes > 0 && statusJsBytes <= 16 * 1024, 'Optional statuses exceeded the separate 16 KiB budget');
-assert.ok(jsBytes - hitLandingJsBytes - hitPreparationJsBytes - statusEffectsJsBytes - hitStatusJsBytes - hitEffectsJsBytes <= 616 * 1024, 'Previous runtime exceeded the retained 616 KiB budget');
+assert.ok(predecessorJsBytes - hitLandingJsBytes - hitPreparationJsBytes - statusEffectsJsBytes - hitStatusJsBytes - hitEffectsJsBytes <= 616 * 1024, 'Previous runtime exceeded the retained 616 KiB budget');
 assert.ok(statusEffectsJsBytes > 0 && statusEffectsJsBytes <= 16 * 1024, 'Optional status effects exceeded the separate 16 KiB budget');
-assert.ok(jsBytes - hitLandingJsBytes - hitPreparationJsBytes - hitStatusJsBytes - hitEffectsJsBytes <= 632 * 1024, 'Previous runtime exceeded the retained 632 KiB budget');
+assert.ok(predecessorJsBytes - hitLandingJsBytes - hitPreparationJsBytes - hitStatusJsBytes - hitEffectsJsBytes <= 632 * 1024, 'Previous runtime exceeded the retained 632 KiB budget');
 assert.ok(hitStatusJsBytes > 0 && hitStatusJsBytes <= 16 * 1024, 'Optional hit/status policy exceeded the separate 16 KiB budget');
-assert.ok(jsBytes - hitLandingJsBytes - hitPreparationJsBytes - hitEffectsJsBytes <= 648 * 1024, 'Previous runtime exceeded the retained 648 KiB budget');
+assert.ok(predecessorJsBytes - hitLandingJsBytes - hitPreparationJsBytes - hitEffectsJsBytes <= 648 * 1024, 'Previous runtime exceeded the retained 648 KiB budget');
 assert.ok(hitEffectsJsBytes > 0 && hitEffectsJsBytes <= 10 * 1024, 'Optional hit-effect dispatch exceeded its separate 10 KiB budget');
-assert.ok(jsBytes - hitLandingJsBytes - hitPreparationJsBytes <= 658 * 1024, 'Previous runtime exceeded the retained 658 KiB budget');
+assert.ok(predecessorJsBytes - hitLandingJsBytes - hitPreparationJsBytes <= 658 * 1024, 'Previous runtime exceeded the retained 658 KiB budget');
 assert.ok(hitPreparationJsBytes > 0 && hitPreparationJsBytes <= 8 * 1024, 'Optional hit preparation exceeded its separate 8 KiB budget');
-assert.ok(jsBytes - hitLandingJsBytes <= 666 * 1024, 'Previous runtime exceeded the retained 666 KiB budget');
+assert.ok(predecessorJsBytes - hitLandingJsBytes <= 666 * 1024, 'Previous runtime exceeded the retained 666 KiB budget');
 assert.ok(hitLandingJsBytes > 0 && hitLandingJsBytes <= 8 * 1024, 'Optional hit landing exceeded its separate 8 KiB budget');
 assert.ok(jsBytes <= 674 * 1024, 'Combined runtime exceeded the explicit 666 + 8 KiB budget');
 assert.ok(contentBytes <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
-  runtimeJsBytes: jsBytes, tagContextJsBytes, hitLandingJsBytes, hitPreparationJsBytes, previousJsBytes, damageJsBytes, statusJsBytes, statusEffectsJsBytes, hitStatusJsBytes, hitEffectsJsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, equipmentJsBytes, progressionJsBytes, skillJsBytes, supportJsBytes, resourceJsBytes, chargedCastJsBytes, interactiveCastJsBytes, ammunitionJsBytes, channelCastJsBytes, guardCastJsBytes, paymentJsBytes, admissionJsBytes, intentJsBytes, requestJsBytes, dispatchJsBytes, continuationJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
+  runtimeJsBytes: jsBytes, hitSustainJsBytes, predecessorJsBytes, tagContextJsBytes, hitLandingJsBytes, hitPreparationJsBytes, previousJsBytes, damageJsBytes, statusJsBytes, statusEffectsJsBytes, hitStatusJsBytes, hitEffectsJsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, equipmentJsBytes, progressionJsBytes, skillJsBytes, supportJsBytes, resourceJsBytes, chargedCastJsBytes, interactiveCastJsBytes, ammunitionJsBytes, channelCastJsBytes, guardCastJsBytes, paymentJsBytes, admissionJsBytes, intentJsBytes, requestJsBytes, dispatchJsBytes, continuationJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
   bankJsBytes, actorGaugeJsBytes, actorConditionJsBytes, procJsBytes, procEffectJsBytes, delayedJsBytes, buffJsBytes, cooldownJsBytes, cooldownLifecycleJsBytes, readyBankJsBytes, sequenceRecoveryJsBytes, attackSequenceJsBytes, isolatedConsumer: JSON.parse(result), node: process.version,
 }, null, 2) + '\n');
 console.log(result.trim());

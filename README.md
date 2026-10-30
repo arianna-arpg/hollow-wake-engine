@@ -63,6 +63,13 @@ admission, refusal reactions, mimic occurrence and pool feeding. Its 112 origina
 scenarios were frozen before extraction. A synchronous continuation retains the
 borrowed damage result and separate critical/damage captures across nested hits.
 
+The optional [hit-sustain service](docs/hit-sustain-boundary.md) delegates siphon,
+nearby healing shares, life bonds and Tree of Life storage. Its game adapter
+matches 98 frozen original scenarios, preserving live recipients, measured
+healing, callback order and partial failures. Package checks, game probes and
+the native full-game replay pass. Dedicated sustain performance and physical-device
+measurements remain open.
+
 The v0.38 development candidate adds [resource restoration](docs/resource-restoration.md):
 shield/poise gain gates, immediate restore events, reserved-mana proc restoration
 and strict content compilers. Its separately committed native baseline is reproduced
