@@ -155,6 +155,7 @@ jobs:
       - run: npm run adapter:status-effects-source
       - run: npm run adapter:hit-status-source
       - run: npm run adapter:hit-preparation-source
+      - run: npm run adapter:hit-landing-source
       - run: npm run adapter:hit-effects-source
       - run: node scripts/test-status-overlay.mjs
       - run: npm run reference:damage
@@ -225,6 +226,8 @@ jobs:
       - run: npm run adapter:hit-effects-faults
       - run: npm run adapter:hit-preparation
       - run: npm run adapter:hit-preparation-faults
+      - run: npm run adapter:hit-landing
+      - run: npm run adapter:hit-landing-faults
       - run: node scripts/test-game-status-effects-faults.mjs --location .artifacts/adapter-location.json
       - run: node scripts/test-status-effects-diagnostics.mjs --location .artifacts/adapter-location.json
       - run: node scripts/test-game-status-faults.mjs --location .artifacts/adapter-location.json
@@ -379,6 +382,11 @@ jobs:
             .artifacts/game-hit-effects-fault-verification.json
             .artifacts/hit-effects-overlay-verification.json
             .artifacts/hit-preparation-overlay-verification.json
+            .artifacts/hit-landing-overlay-verification.json
+            .artifacts/game-hit-landing-verification.json
+            .artifacts/game-hit-landing-fault-verification.json
+            .artifacts/game-hit-landing-faults-*/*.txt
+            .artifacts/game-hit-landing-faults-*/verification.json
             .artifacts/game-hit-preparation-verification.json
             .artifacts/game-hit-preparation-fault-verification.json
             .artifacts/game-hit-preparation-faults-*/*.txt

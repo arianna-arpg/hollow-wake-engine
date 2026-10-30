@@ -1,10 +1,11 @@
-# Hit landing baseline
+# Hit landing
 
-This checkpoint freezes damage admission and the first eighteen statements of the
-damaging-hit branch in the original `World.resolveHit`, ending after damage-pool
-feeding. It precedes extraction of this orchestration. The installed game still
-owns these statements in `continuePreparedHit`; the SDK already supplies the
-underlying damage, preparation, status and effect-dispatch capabilities.
+The optional `@hollow-wake/engine/combat/hit-landing` service owns damage admission
+and the first eighteen statements of the damaging-hit branch in the original
+`World.resolveHit`, ending after damage-pool feeding. The original baseline was
+frozen before this extraction. The game adapter composes the service after hit
+preparation and retains the remaining hit body in `continueLandedHit`. Underlying
+damage, status and effect-dispatch capabilities retain their separate contracts.
 
 ## Source and observations
 
@@ -61,13 +62,33 @@ handling. The existing watch/capture implementation retains its own content,
 study, capacity and deduplication policy. This boundary owns the occurrence and
 ordering of that call, not a replacement mimic implementation.
 
-The eventual portable service must use explicit synchronous ports, borrowed
+## Portable contract
+
+`createHitLanding(ports).land(...)` accepts the same fifteen arguments as the
+preparation service's continuation. It uses explicit synchronous ports, borrowed
 records and invocation-local state. Active player identity and time remain live
 host reads. Host callbacks can reenter, change state or throw; already committed
-changes remain. Shared scratch frames and delayed callback batching would violate
-this contract. A continuation may carry scalar results into the remaining hit
-path without an additional result wrapper; that design still requires independent
-tests and measurement when implemented.
+changes remain. Actor kind may be absent; only the explicit player kind admits
+mimic watching. Positions are host-defined and need no coordinate fields.
+
+Successful landing calls `ports.continue` with the fifteen prepared arguments,
+damage-admission flag, captured damage, captured critical state and the borrowed
+native result, in that order. Non-damaging hits continue with false, zero, false
+and an absent result. Evaded, blocked and immune hits terminate without calling
+the continuation. Its return value is forwarded. The native result is not copied:
+its later fields may differ from the earlier scalar captures.
+
+The continuation adds no per-hit result wrapper, argument array or closure.
+Existing deed/proc records and entry snapshots still allocate as in the source;
+this is not a zero-allocation claim. The game binding retains cue construction,
+live tracker/max-life/config evaluation, trigger aiming, mimic policy and pool
+banking as host operations. Source guards pin all moved statements and both
+remaining hit sections, including their exact text after the move. They also
+guard the damage import and retirement of the now-unused concealment import.
+
+The module is optional and does not enter the eager core graph. Its separate
+8 KiB unminified JavaScript limit preserves every predecessor package budget.
+This packaging limit is not a physical-device performance result.
 
 ## Observer repairs before acceptance
 
@@ -95,14 +116,71 @@ The reference runner also accepts `--game <path>` for an installed game copy.
 The observer checks full native outcomes before comparing immutable trace bytes.
 CI runs both commands and retains reports and diagnostic logs.
 
-The [checkpoint evidence](../evidence/hit-landing/baseline-windows.json) records
-completed checks, draft failures, source/runtime preservation and raw receipts.
-This checkpoint changes no runtime or game adapter. Its validation is the new
-original-source baseline and unchanged compiled output, not a new performance
-measurement. The existing package/native results remain predecessor evidence.
+The [baseline evidence](../evidence/hit-landing/baseline-windows.json) records
+the separately published pre-extraction observations, draft failures and source
+preservation. `adapter:hit-landing` checks the installed archive and repeats the
+same original observations. `adapter:hit-landing-source` checks source guards;
+`adapter:hit-landing-faults` tests changes in a disposable installed runtime.
+The full SDK verifier includes independent contract tests, runtime faults and a
+clean package consumer with type and browser checks. Runtime acceptance also
+requires the broader game gates, native course and whole-hit measurements.
 
 The remaining hit path, sustain, threat, world reactions, delivery, death,
 underlying host verbs and complete Unity/Godot/Unreal packages are separate work.
 Physical Steam Deck and older-mobile acceptance remains open. Content authoring
 can use the [storage pipeline](content-storage.md); database queries do not belong
-inside this per-hit phase. No storage or hot-path optimization is claimed here.
+inside this per-hit phase. This extraction changes no storage format.
+
+## Extraction acceptance
+
+The [runtime evidence](../evidence/hit-landing/runtime-windows.json) records
+1,186 passing SDK tests, the 112 installed landing courses, 27 independent tests
+on Node 22 and 24, all 41 runtime faults on both versions, 31 source controls,
+eight installed faults and a clean package/type/browser consumer. All seventeen
+game verification groups pass, including the earlier preparation/effects/damage/
+status/attack comparisons, six rule probes and 25 smoke episodes. Pinned reference
+verification passes without changing accepted expectations.
+
+The optional entry contributes 5,967 JavaScript bytes. All 261 predecessor
+compiled files remain byte-identical. The native full-attack comparison matches
+original and installed execution in QuickJS-NG; its previously accepted small
+facing-angle differences from Node remain separately bounded. This experiment
+does not establish complete Unity, Godot or Unreal package support.
+
+### Timing remains open
+
+Desktop measurements cover the complete warmed hit resolver, with equal reset/
+setup costs, 1,500 warmups and nine batches of 1,000 hits. The initial sequence
+and its identical repeat use previous/current/current/previous order (ABBA).
+The third sequence reverses that order (BAAB). Each ratio divides the median of
+the current run medians by the median of the previous run medians. A ratio above
+one means higher measured time. Every series is retained; no best run is selected.
+
+| Workload | Initial ABBA | Repeated ABBA | Reversed BAAB |
+| --- | ---: | ---: | ---: |
+| plain | 1.164 | 1.033 | 1.000 |
+| authored | 1.351 | 1.119 | 1.021 |
+| stat | 1.319 | 1.022 | 0.978 |
+| rider | 1.236 | 1.062 | 0.999 |
+| impale | 1.234 | 0.979 | 0.801 |
+
+The initial 16–35% increase prompted the extra measurements. Substantial variation
+in the unchanged predecessor and sensitivity to process order prevent a stable
+regression or parity conclusion. Timing acceptance remains open. These results
+do not establish the absence of a regression. All runtime and game inputs stayed
+unchanged during the investigation.
+
+A separate diagnostic profile used 45 batches for the authored-status workload
+after the same warmup. The existing host StatSheet.compute accounted for about
+63% of previous and 62% of current sampled self time. The new landing module and
+its binding together accounted for about 2.1% of current sampled self time.
+Those samples identify where to investigate; they neither measure causal overhead
+nor replace the unprofiled comparisons. Full profiles and instrumentation are
+retained in the raw evidence. The host stat evaluator is the next measured
+optimization candidate and remains distinct from the SDK's standalone stat engine.
+
+Machine: Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz, win32/x64.
+No physical Steam Deck/mobile acceptance or general speedup is claimed. Retained
+heap after forced GC is recorded and does not measure total allocation volume.
+Core benchmarks passed separately. The verification sequence completed its heavier
+checks before measurement; the focused profile ran after all timing series.
