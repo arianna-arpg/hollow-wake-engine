@@ -657,7 +657,11 @@
         "scripts/benchmark-content-index.mjs",
         "scripts/profile-content-index.mjs",
         "docs/item-bitmap-experiment.md",
-        "evidence/item-index/windows-bitmap-index.json"
+        "evidence/item-index/windows-bitmap-index.json",
+        "scripts/benchmark-hit-sustain.mjs",
+        "scripts/test-hit-sustain-benchmark-observer.mjs",
+        "docs/hit-sustain-performance.md",
+        "evidence/hit-sustain/performance-windows.json"
       ],
       "remaining": [
         "Steam Deck measurements",
@@ -669,7 +673,8 @@
         "Actor-condition sampling overhead against v0.31: 13–15% stable and 6–7% changing in two desktop runs; no whole-world speedup established",
         "Proc query and talent/pulse overhead versus v0.32; native ward frames remain 4.5–5.3% slower in two desktop runs",
         "Effect folding retains 0.073–0.398 ms overhead versus v0.33 per 75,776 desktop calls; device and allocation profiling remain open",
-        "Recovery throughput and allocation work: notification-layout experiment rejected; no whole-world or target-device speedup established"
+        "Recovery throughput and allocation work: notification-layout experiment rejected; no whole-world or target-device speedup established",
+        "Active hit-sustain overhead versus the immediate predecessor: up to 13.44% in the extended desktop run; shared-method adapter prototype deferred after a 5.17% tree-storage regression in confirmation. Whole-frame, allocation and device measurements remain open"
       ]
     }
   ]

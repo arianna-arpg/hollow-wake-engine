@@ -16,6 +16,14 @@ retains raw logs, Node 22 checks and both identical-input and predecessor timing
 runs. Timing is inconclusive; dedicated active-sustain and device workloads
 remain open.
 
+`benchmark:hit-sustain -- --previous <location.json> --location <location.json>`
+adds 21 real-game sustain workloads with native healing and independent arithmetic
+checks. Use `--verify-only` to check outcomes, `--control` for identical inputs,
+and `test:hit-sustain-benchmark-observer -- --location <location.json>` to check
+four deliberate common-worker faults. The reference CI job runs the outcome and
+fault checks, not timing thresholds. See the [measurement contract](hit-sustain-performance.md)
+for warmup, timing inclusions, preserved trials and the unadopted binding prototype.
+
 The [stat context cache](stat-context-cache.md) adds 74 frozen original courses,
 18 independent tests, 22 runtime faults, eight original-observer faults, 12 source
 controls, and four installed-game faults. `reference:stat-context`,

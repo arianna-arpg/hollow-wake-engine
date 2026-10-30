@@ -236,6 +236,8 @@ jobs:
       - run: npm run adapter:hit-landing-faults
       - run: npm run adapter:hit-sustain
       - run: npm run adapter:hit-sustain-faults
+      - run: npm run benchmark:hit-sustain -- --previous .artifacts/adapter-location.json --location .artifacts/adapter-location.json --verify-only
+      - run: npm run test:hit-sustain-benchmark-observer -- --location .artifacts/adapter-location.json
       - run: npm run adapter:stat-context
       - run: npm run adapter:stat-context-faults
       - run: node scripts/test-game-status-effects-faults.mjs --location .artifacts/adapter-location.json

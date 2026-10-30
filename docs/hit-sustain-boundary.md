@@ -153,3 +153,10 @@ comparisons pass. This existing workload set does not exercise sustained active
 healing at scale. Retained heap is not allocation volume; the general core
 benchmark is a separate selected-content workload. No Steam Deck, mobile,
 zero-allocation or native package completeness claim follows.
+
+The subsequent [active-sustain workload](hit-sustain-performance.md) covers seven
+patterns at 8, 64 and 256 actors. Longer original/predecessor/current comparisons
+expose remaining sustain overhead. A shared-method adapter experiment preserves
+behavior and improves many cases, but its confirmation run exceeds a recorded
+slowdown gate in the largest tree case, so it remains isolated. The maintained
+runtime and adapter have not been changed by that performance experiment.

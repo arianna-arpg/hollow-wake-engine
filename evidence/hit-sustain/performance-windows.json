@@ -1,0 +1,2731 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "e7171d9666602f30114545f107554a3357c86352",
+  "scope": "Reproducible active-sustain correctness workload and desktop diagnostic measurements. Production runtime and maintained adapter unchanged; no accepted optimization or physical-device claim.",
+  "runtime": {
+    "unchanged": true,
+    "compiledFiles": 276,
+    "mapSha256": "ca91cd1f7d29ad67b3bcc116b9d3a6f252072718864ba73b5f8ab0e4da1363a8",
+    "maintainedBindingUnchanged": true,
+    "baselineUnchanged": true
+  },
+  "validation": {
+    "workloads": 7,
+    "populations": [
+      8,
+      64,
+      256
+    ],
+    "cases": 21,
+    "independentFaults": 4,
+    "node24": true,
+    "node22": true,
+    "typeCheck": true,
+    "boundaryCheck": true,
+    "coreBenchmark": true,
+    "fullSdkNotRerun": "No production changes; prior published revision passed 1,233 local SDK tests and all four hosted workflows.",
+    "priorPublishedHosted": [
+      {
+        "databaseId": 41004332666,
+        "headSha": "e7171d9666602f30114545f107554a3357c86352",
+        "conclusion": "success"
+      },
+      {
+        "databaseId": 41004332661,
+        "headSha": "e7171d9666602f30114545f107554a3357c86352",
+        "conclusion": "success"
+      },
+      {
+        "databaseId": 41004332706,
+        "headSha": "e7171d9666602f30114545f107554a3357c86352",
+        "conclusion": "success"
+      },
+      {
+        "databaseId": 41004332702,
+        "headSha": "e7171d9666602f30114545f107554a3357c86352",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "measurements": {
+    "initial-control": {
+      "hardware": {
+        "node": "v24.9.0",
+        "platform": "win32",
+        "arch": "x64",
+        "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+        "logicalCpus": 20
+      },
+      "plan": {
+        "schemaVersion": 1,
+        "seed": 20904,
+        "populations": [
+          8,
+          64,
+          256
+        ],
+        "workloads": [
+          "idle",
+          "siphon",
+          "share",
+          "sparse",
+          "bond",
+          "trees",
+          "combined"
+        ],
+        "auditHits": 3,
+        "warmup": 300,
+        "batch": 200,
+        "rounds": 12,
+        "order": [
+          [
+            "original",
+            "previous",
+            "current"
+          ],
+          [
+            "current",
+            "previous",
+            "original"
+          ],
+          [
+            "previous",
+            "original",
+            "current"
+          ],
+          [
+            "current",
+            "original",
+            "previous"
+          ],
+          [
+            "original",
+            "current",
+            "previous"
+          ],
+          [
+            "previous",
+            "current",
+            "original"
+          ]
+        ],
+        "scope": "Warm full resolver with native healing, cues and equal per-hit life/tree/text resets. Read-only hit/heal counters and RNG counting remain inside timing. IPC, snapshot creation, assertions on snapshots and explicit GC are outside timing. Three isolated workers; six orders repeated twice. Coalesced cues persist, simulation time is fixed. Retained heap is not allocation volume. Not whole-frame or device acceptance."
+      },
+      "inputs": {
+        "original": {
+          "source": "e953efe60c79f195169f2e7899fb3a59860b65707fc11a95ac7d9fa320ea3ec3",
+          "package": "8921a6a0df90bc9d015b673953be93bf0aaf338b37995ad088e007be1ec2b203"
+        },
+        "previous": {
+          "source": "e953efe60c79f195169f2e7899fb3a59860b65707fc11a95ac7d9fa320ea3ec3",
+          "package": "8921a6a0df90bc9d015b673953be93bf0aaf338b37995ad088e007be1ec2b203"
+        },
+        "current": {
+          "source": "e953efe60c79f195169f2e7899fb3a59860b65707fc11a95ac7d9fa320ea3ec3",
+          "package": "8921a6a0df90bc9d015b673953be93bf0aaf338b37995ad088e007be1ec2b203"
+        }
+      },
+      "control": true,
+      "results": [
+        {
+          "workload": "idle",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0046116477073306,
+          "medianCurrentOverOriginal": 0.9994841794524625,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 14.621549999999843,
+            "previous": 14.508049999999457,
+            "current": 14.186400000000049
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.970680658276108,
+          "medianCurrentOverOriginal": 1.0201050786664365,
+          "currentLowerThanPrevious": 10,
+          "medianMs": {
+            "original": 15.873700000000099,
+            "previous": 16.401600000000144,
+            "current": 15.983000000000175
+          }
+        },
+        {
+          "workload": "share",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0028911246263168,
+          "medianCurrentOverOriginal": 1.0121685603568098,
+          "currentLowerThanPrevious": 6,
+          "medianMs": {
+            "original": 16.66214999999829,
+            "previous": 17.31655000000046,
+            "current": 17.27509999999984
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.987216882767763,
+          "medianCurrentOverOriginal": 1.0034952306327631,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 14.487049999999726,
+            "previous": 14.99159999999938,
+            "current": 14.914749999999913
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9883381568621142,
+          "medianCurrentOverOriginal": 0.9609544466588071,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 16.399100000000544,
+            "previous": 15.817250000000058,
+            "current": 15.292350000000624
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9628971984882295,
+          "medianCurrentOverOriginal": 0.9686004768692373,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "original": 14.317250000000058,
+            "previous": 14.454349999999977,
+            "current": 13.988149999999223
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0189306444921846,
+          "medianCurrentOverOriginal": 0.9893015406201797,
+          "currentLowerThanPrevious": 4,
+          "medianMs": {
+            "original": 16.554000000000087,
+            "previous": 16.304650000000947,
+            "current": 16.150400000000445
+          }
+        },
+        {
+          "workload": "idle",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.016266080247413,
+          "medianCurrentOverOriginal": 0.9859661574678911,
+          "currentLowerThanPrevious": 3,
+          "medianMs": {
+            "original": 15.372199999999793,
+            "previous": 14.728900000000067,
+            "current": 15.147700000000441
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.983182102645465,
+          "medianCurrentOverOriginal": 0.9599176233622629,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "original": 15.069100000000617,
+            "previous": 15.651350000000093,
+            "current": 14.815799999999399
+          }
+        },
+        {
+          "workload": "share",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0323547291632895,
+          "medianCurrentOverOriginal": 0.9822971234319726,
+          "currentLowerThanPrevious": 4,
+          "medianMs": {
+            "original": 22.462000000001353,
+            "previous": 21.55685000000085,
+            "current": 22.542700000000877
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.122242146803853,
+          "medianCurrentOverOriginal": 1.1532637589881323,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 15.95470000000023,
+            "previous": 16.80609999999797,
+            "current": 18.558750000001055
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9599785397951611,
+          "medianCurrentOverOriginal": 0.9682868951481631,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 15.648199999999633,
+            "previous": 15.427749999998923,
+            "current": 16.093399999999747
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0179440989370274,
+          "medianCurrentOverOriginal": 0.911007899315432,
+          "currentLowerThanPrevious": 6,
+          "medianMs": {
+            "original": 17.104999999999563,
+            "previous": 15.84965000000011,
+            "current": 16.130049999999756
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9718765807897697,
+          "medianCurrentOverOriginal": 1.0278571506736016,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 22.378850000000966,
+            "previous": 23.107750000001033,
+            "current": 22.879550000001473
+          }
+        },
+        {
+          "workload": "idle",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.98023942434608,
+          "medianCurrentOverOriginal": 0.9599457703905541,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "original": 16.80175000000054,
+            "previous": 16.915250000000015,
+            "current": 16.38184999999976
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9374854718810091,
+          "medianCurrentOverOriginal": 0.8719220720232718,
+          "currentLowerThanPrevious": 8,
+          "medianMs": {
+            "original": 19.72375000000102,
+            "previous": 18.26065000000017,
+            "current": 17.99079999999958
+          }
+        },
+        {
+          "workload": "share",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9868499120566736,
+          "medianCurrentOverOriginal": 0.9608014512125205,
+          "currentLowerThanPrevious": 8,
+          "medianMs": {
+            "original": 48.557849999997416,
+            "previous": 46.530149999998685,
+            "current": 45.649749999998676
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9730354598449422,
+          "medianCurrentOverOriginal": 0.9823146760731012,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "original": 21.90154999999868,
+            "previous": 22.370600000000195,
+            "current": 21.51824999999917
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9797264601184414,
+          "medianCurrentOverOriginal": 1.001301652551764,
+          "currentLowerThanPrevious": 8,
+          "medianMs": {
+            "original": 17.479950000000827,
+            "previous": 18.002549999999246,
+            "current": 17.464700000000448
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0138734574355843,
+          "medianCurrentOverOriginal": 1.0178719894103958,
+          "currentLowerThanPrevious": 2,
+          "medianMs": {
+            "original": 20.293249999998807,
+            "previous": 20.27534999999989,
+            "current": 20.702049999998053
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.999798802654289,
+          "medianCurrentOverOriginal": 1.0062727686671837,
+          "currentLowerThanPrevious": 6,
+          "medianMs": {
+            "original": 49.450049999999464,
+            "previous": 49.607050000002346,
+            "current": 49.74255000000085
+          }
+        }
+      ]
+    },
+    "initial-comparison": {
+      "hardware": {
+        "node": "v24.9.0",
+        "platform": "win32",
+        "arch": "x64",
+        "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+        "logicalCpus": 20
+      },
+      "plan": {
+        "schemaVersion": 1,
+        "seed": 20904,
+        "populations": [
+          8,
+          64,
+          256
+        ],
+        "workloads": [
+          "idle",
+          "siphon",
+          "share",
+          "sparse",
+          "bond",
+          "trees",
+          "combined"
+        ],
+        "auditHits": 3,
+        "warmup": 300,
+        "batch": 200,
+        "rounds": 12,
+        "order": [
+          [
+            "original",
+            "previous",
+            "current"
+          ],
+          [
+            "current",
+            "previous",
+            "original"
+          ],
+          [
+            "previous",
+            "original",
+            "current"
+          ],
+          [
+            "current",
+            "original",
+            "previous"
+          ],
+          [
+            "original",
+            "current",
+            "previous"
+          ],
+          [
+            "previous",
+            "current",
+            "original"
+          ]
+        ],
+        "scope": "Warm full resolver with native healing, cues and equal per-hit life/tree/text resets. Read-only hit/heal counters and RNG counting remain inside timing. IPC, snapshot creation, assertions on snapshots and explicit GC are outside timing. Three isolated workers; six orders repeated twice. Coalesced cues persist, simulation time is fixed. Retained heap is not allocation volume. Not whole-frame or device acceptance."
+      },
+      "inputs": {
+        "original": {
+          "source": "384db880fa4ce06031caba166b17155bafc2e61f71ee32f8960b0e35add54ee9",
+          "package": null
+        },
+        "previous": {
+          "source": "f1f4a09f5d1e5234cb18acb8875e3d24a0e0739c8db84e752bba4d7705286510",
+          "package": "bcd5488238da5016f07822925bd6d8b73416c06354144d092369f5249f5803fd"
+        },
+        "current": {
+          "source": "e953efe60c79f195169f2e7899fb3a59860b65707fc11a95ac7d9fa320ea3ec3",
+          "package": "8921a6a0df90bc9d015b673953be93bf0aaf338b37995ad088e007be1ec2b203"
+        }
+      },
+      "control": false,
+      "results": [
+        {
+          "workload": "idle",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9584544480654907,
+          "medianCurrentOverOriginal": 0.6012999527605617,
+          "currentLowerThanPrevious": 12,
+          "medianMs": {
+            "original": 23.614150000001246,
+            "previous": 14.768000000000029,
+            "current": 14.288050000000112
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9626385592992426,
+          "medianCurrentOverOriginal": 0.6658608772799534,
+          "currentLowerThanPrevious": 8,
+          "medianMs": {
+            "original": 23.948049999999057,
+            "previous": 16.388150000000678,
+            "current": 15.659300000000258
+          }
+        },
+        {
+          "workload": "share",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9464067678635817,
+          "medianCurrentOverOriginal": 0.7274461484964689,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "original": 23.375850000000355,
+            "previous": 17.964399999998932,
+            "current": 17.170849999999973
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0323499161843035,
+          "medianCurrentOverOriginal": 0.6496129196948981,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 22.768899999995483,
+            "previous": 15.72189999999864,
+            "current": 15.92700000000059
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0471680486824724,
+          "medianCurrentOverOriginal": 0.672806786638984,
+          "currentLowerThanPrevious": 1,
+          "medianMs": {
+            "original": 22.837400000000343,
+            "previous": 15.038650000002235,
+            "current": 15.37985000000026
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0536225313132217,
+          "medianCurrentOverOriginal": 0.6882396681107841,
+          "currentLowerThanPrevious": 4,
+          "medianMs": {
+            "original": 20.737300000004325,
+            "previous": 13.55134999999973,
+            "current": 14.072949999999764
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0315710582592414,
+          "medianCurrentOverOriginal": 0.7020517549462693,
+          "currentLowerThanPrevious": 4,
+          "medianMs": {
+            "original": 23.64669999999751,
+            "previous": 16.074749999999767,
+            "current": 16.609300000000985
+          }
+        },
+        {
+          "workload": "idle",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0157732675791484,
+          "medianCurrentOverOriginal": 0.70788037022732,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 20.719849999997678,
+            "previous": 14.47544999999991,
+            "current": 14.52809999999954
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0219842191172805,
+          "medianCurrentOverOriginal": 0.6994798990375133,
+          "currentLowerThanPrevious": 3,
+          "medianMs": {
+            "original": 21.362449999996898,
+            "previous": 14.579250000000684,
+            "current": 14.74579999999969
+          }
+        },
+        {
+          "workload": "share",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0213638642382465,
+          "medianCurrentOverOriginal": 0.7757576922303286,
+          "currentLowerThanPrevious": 3,
+          "medianMs": {
+            "original": 28.455200000000332,
+            "previous": 21.61015000000043,
+            "current": 22.145000000000437
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0530673384056901,
+          "medianCurrentOverOriginal": 0.7371473539822744,
+          "currentLowerThanPrevious": 1,
+          "medianMs": {
+            "original": 21.95260000000053,
+            "previous": 15.324499999998807,
+            "current": 16.058500000000095
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9913272453684827,
+          "medianCurrentOverOriginal": 0.7086478115448425,
+          "currentLowerThanPrevious": 8,
+          "medianMs": {
+            "original": 21.037900000002992,
+            "previous": 15.29479999999603,
+            "current": 14.847700000000259
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0501770071817504,
+          "medianCurrentOverOriginal": 0.7211827863358689,
+          "currentLowerThanPrevious": 0,
+          "medianMs": {
+            "original": 21.230549999996583,
+            "previous": 14.586849999999686,
+            "current": 15.343549999999595
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0453209793209208,
+          "medianCurrentOverOriginal": 0.7942925254533547,
+          "currentLowerThanPrevious": 2,
+          "medianMs": {
+            "original": 28.34324999999808,
+            "previous": 21.583800000003976,
+            "current": 22.577950000000783
+          }
+        },
+        {
+          "workload": "idle",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0798089520207812,
+          "medianCurrentOverOriginal": 0.7601780949519111,
+          "currentLowerThanPrevious": 0,
+          "medianMs": {
+            "original": 22.354550000000017,
+            "previous": 15.876699999997072,
+            "current": 17.06370000000061
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.140882170210769,
+          "medianCurrentOverOriginal": 0.8014620164011825,
+          "currentLowerThanPrevious": 0,
+          "medianMs": {
+            "original": 22.979350000001432,
+            "previous": 16.269400000001042,
+            "current": 19.35230000000047
+          }
+        },
+        {
+          "workload": "share",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0015806163061662,
+          "medianCurrentOverOriginal": 0.8673023143408986,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 53.58944999999949,
+            "previous": 46.48279999999795,
+            "current": 46.831200000000536
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.1230962872404233,
+          "medianCurrentOverOriginal": 0.8123063453175365,
+          "currentLowerThanPrevious": 0,
+          "medianMs": {
+            "original": 27.254199999995762,
+            "previous": 19.634500000000116,
+            "current": 22.225799999998344
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.035995298514599,
+          "medianCurrentOverOriginal": 0.7626693514798938,
+          "currentLowerThanPrevious": 1,
+          "medianMs": {
+            "original": 23.288100000001577,
+            "previous": 17.1134499999971,
+            "current": 17.73750000000109
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0150329753006953,
+          "medianCurrentOverOriginal": 0.772886061073229,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 27.02770000000237,
+            "previous": 20.3975500000015,
+            "current": 20.04464999999982
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0269195111069889,
+          "medianCurrentOverOriginal": 0.9499429828204131,
+          "currentLowerThanPrevious": 0,
+          "medianMs": {
+            "original": 52.775299999997515,
+            "previous": 48.88720000000103,
+            "current": 50.27759999999944
+          }
+        }
+      ]
+    },
+    "extended-control": {
+      "hardware": {
+        "node": "v24.9.0",
+        "platform": "win32",
+        "arch": "x64",
+        "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+        "logicalCpus": 20
+      },
+      "plan": {
+        "schemaVersion": 2,
+        "seed": 20904,
+        "populations": [
+          8,
+          64,
+          256
+        ],
+        "workloads": [
+          "idle",
+          "siphon",
+          "share",
+          "sparse",
+          "bond",
+          "trees",
+          "combined"
+        ],
+        "auditHits": 3,
+        "warmup": 1500,
+        "batch": 2000,
+        "rounds": 12,
+        "order": [
+          [
+            "original",
+            "previous",
+            "current"
+          ],
+          [
+            "current",
+            "previous",
+            "original"
+          ],
+          [
+            "previous",
+            "original",
+            "current"
+          ],
+          [
+            "current",
+            "original",
+            "previous"
+          ],
+          [
+            "original",
+            "current",
+            "previous"
+          ],
+          [
+            "previous",
+            "current",
+            "original"
+          ]
+        ],
+        "scope": "Warm full resolver with native healing, cues and equal per-hit life/tree/text resets. Read-only hit/heal counters and RNG counting remain inside timing. IPC, snapshot creation, assertions on snapshots and explicit GC are outside timing. Three isolated workers; six orders repeated twice. Coalesced cues persist, simulation time is fixed. Retained heap is not allocation volume. Not whole-frame or device acceptance."
+      },
+      "inputs": {
+        "original": {
+          "source": "e953efe60c79f195169f2e7899fb3a59860b65707fc11a95ac7d9fa320ea3ec3",
+          "package": "8921a6a0df90bc9d015b673953be93bf0aaf338b37995ad088e007be1ec2b203"
+        },
+        "previous": {
+          "source": "e953efe60c79f195169f2e7899fb3a59860b65707fc11a95ac7d9fa320ea3ec3",
+          "package": "8921a6a0df90bc9d015b673953be93bf0aaf338b37995ad088e007be1ec2b203"
+        },
+        "current": {
+          "source": "e953efe60c79f195169f2e7899fb3a59860b65707fc11a95ac7d9fa320ea3ec3",
+          "package": "8921a6a0df90bc9d015b673953be93bf0aaf338b37995ad088e007be1ec2b203"
+        }
+      },
+      "control": true,
+      "results": [
+        {
+          "workload": "idle",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0236574383749735,
+          "medianCurrentOverOriginal": 1.0102659286795357,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 149.3192999999992,
+            "previous": 150.6840999999995,
+            "current": 147.2816499999999
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9993665814239738,
+          "medianCurrentOverOriginal": 1.0094156345293905,
+          "currentLowerThanPrevious": 6,
+          "medianMs": {
+            "original": 156.01525000000038,
+            "previous": 162.82775000000038,
+            "current": 169.4646499999999
+          }
+        },
+        {
+          "workload": "share",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9650502766615158,
+          "medianCurrentOverOriginal": 0.9854592290572048,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "original": 156.422700000001,
+            "previous": 158.4602500000001,
+            "current": 149.81850000000122
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9462847169099544,
+          "medianCurrentOverOriginal": 0.9703684106561132,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "original": 149.27395000000251,
+            "previous": 147.77814999999828,
+            "current": 147.61269999999968
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9756844159349178,
+          "medianCurrentOverOriginal": 0.9963152873098463,
+          "currentLowerThanPrevious": 10,
+          "medianMs": {
+            "original": 137.89574999999604,
+            "previous": 140.19844999999987,
+            "current": 139.88519999999698
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9976752937899278,
+          "medianCurrentOverOriginal": 0.985856502251193,
+          "currentLowerThanPrevious": 6,
+          "medianMs": {
+            "original": 127.1913999999997,
+            "previous": 125.22689999999784,
+            "current": 123.65785000000324
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9871570010197173,
+          "medianCurrentOverOriginal": 1.0040300742404362,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 143.09735,
+            "previous": 146.21770000000106,
+            "current": 143.0477000000028
+          }
+        },
+        {
+          "workload": "idle",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0073729907175086,
+          "medianCurrentOverOriginal": 0.9994572484438351,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 134.34619999999995,
+            "previous": 134.62955000000147,
+            "current": 134.05984999999782
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0181378566870287,
+          "medianCurrentOverOriginal": 1.0224686635439224,
+          "currentLowerThanPrevious": 4,
+          "medianMs": {
+            "original": 147.77670000000217,
+            "previous": 144.50185000000056,
+            "current": 145.02780000000348
+          }
+        },
+        {
+          "workload": "share",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9947189196753852,
+          "medianCurrentOverOriginal": 0.9930008460554938,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 223.54699999999139,
+            "previous": 230.8570000000036,
+            "current": 223.6729000000014
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9905183661455768,
+          "medianCurrentOverOriginal": 0.9985333131376825,
+          "currentLowerThanPrevious": 10,
+          "medianMs": {
+            "original": 144.38734999999724,
+            "previous": 144.4368500000055,
+            "current": 143.72170000000187
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9894965638340318,
+          "medianCurrentOverOriginal": 0.9856707597277682,
+          "currentLowerThanPrevious": 8,
+          "medianMs": {
+            "original": 135.77004999999917,
+            "previous": 141.36760000000504,
+            "current": 136.00920000000042
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.991534770487989,
+          "medianCurrentOverOriginal": 1.0074038701800592,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "original": 137.92145000000164,
+            "previous": 138.68264999998792,
+            "current": 138.46085000000312
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.986902319412904,
+          "medianCurrentOverOriginal": 1.016554517876303,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "original": 217.89364999999816,
+            "previous": 224.67004999999335,
+            "current": 218.79875000000175
+          }
+        },
+        {
+          "workload": "idle",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9990204041819448,
+          "medianCurrentOverOriginal": 1.0040928699175513,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 141.8029999999926,
+            "previous": 142.01755000000412,
+            "current": 141.17239999999583
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9805449011261601,
+          "medianCurrentOverOriginal": 1.0046083647629205,
+          "currentLowerThanPrevious": 12,
+          "medianMs": {
+            "original": 147.98860000000423,
+            "previous": 153.1024000000034,
+            "current": 147.89919999999984
+          }
+        },
+        {
+          "workload": "share",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9839288780376108,
+          "medianCurrentOverOriginal": 0.9650684368956379,
+          "currentLowerThanPrevious": 11,
+          "medianMs": {
+            "original": 486.5823500000042,
+            "previous": 478.27824999999575,
+            "current": 468.1877999999997
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0100517972893863,
+          "medianCurrentOverOriginal": 1.0035588391955974,
+          "currentLowerThanPrevious": 3,
+          "medianMs": {
+            "original": 215.02660000001197,
+            "previous": 217.23700000000827,
+            "current": 220.262450000002
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0004372568434075,
+          "medianCurrentOverOriginal": 1.012097701298057,
+          "currentLowerThanPrevious": 6,
+          "medianMs": {
+            "original": 143.70689999999013,
+            "previous": 146.07924999999523,
+            "current": 147.47824999998556
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9926424409927893,
+          "medianCurrentOverOriginal": 0.9238878346102872,
+          "currentLowerThanPrevious": 8,
+          "medianMs": {
+            "original": 186.2237499999901,
+            "previous": 178.56745000000228,
+            "current": 172.34424999999464
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9823555568715786,
+          "medianCurrentOverOriginal": 0.9633935646360914,
+          "currentLowerThanPrevious": 8,
+          "medianMs": {
+            "original": 500.577649999992,
+            "previous": 489.4383000000089,
+            "current": 481.8524000000034
+          }
+        }
+      ]
+    },
+    "extended-comparison": {
+      "hardware": {
+        "node": "v24.9.0",
+        "platform": "win32",
+        "arch": "x64",
+        "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+        "logicalCpus": 20
+      },
+      "plan": {
+        "schemaVersion": 2,
+        "seed": 20904,
+        "populations": [
+          8,
+          64,
+          256
+        ],
+        "workloads": [
+          "idle",
+          "siphon",
+          "share",
+          "sparse",
+          "bond",
+          "trees",
+          "combined"
+        ],
+        "auditHits": 3,
+        "warmup": 1500,
+        "batch": 2000,
+        "rounds": 12,
+        "order": [
+          [
+            "original",
+            "previous",
+            "current"
+          ],
+          [
+            "current",
+            "previous",
+            "original"
+          ],
+          [
+            "previous",
+            "original",
+            "current"
+          ],
+          [
+            "current",
+            "original",
+            "previous"
+          ],
+          [
+            "original",
+            "current",
+            "previous"
+          ],
+          [
+            "previous",
+            "current",
+            "original"
+          ]
+        ],
+        "scope": "Warm full resolver with native healing, cues and equal per-hit life/tree/text resets. Read-only hit/heal counters and RNG counting remain inside timing. IPC, snapshot creation, assertions on snapshots and explicit GC are outside timing. Three isolated workers; six orders repeated twice. Coalesced cues persist, simulation time is fixed. Retained heap is not allocation volume. Not whole-frame or device acceptance."
+      },
+      "inputs": {
+        "original": {
+          "source": "384db880fa4ce06031caba166b17155bafc2e61f71ee32f8960b0e35add54ee9",
+          "package": null
+        },
+        "previous": {
+          "source": "f1f4a09f5d1e5234cb18acb8875e3d24a0e0739c8db84e752bba4d7705286510",
+          "package": "bcd5488238da5016f07822925bd6d8b73416c06354144d092369f5249f5803fd"
+        },
+        "current": {
+          "source": "e953efe60c79f195169f2e7899fb3a59860b65707fc11a95ac7d9fa320ea3ec3",
+          "package": "8921a6a0df90bc9d015b673953be93bf0aaf338b37995ad088e007be1ec2b203"
+        }
+      },
+      "control": false,
+      "results": [
+        {
+          "workload": "idle",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0037733970688367,
+          "medianCurrentOverOriginal": 0.6227726909556903,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 197.6015499999994,
+            "previous": 121.76595000000088,
+            "current": 126.17929999999978
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9983441566535642,
+          "medianCurrentOverOriginal": 0.646785791475494,
+          "currentLowerThanPrevious": 6,
+          "medianMs": {
+            "original": 196.7983499999973,
+            "previous": 126.25775000000067,
+            "current": 127.15915000000041
+          }
+        },
+        {
+          "workload": "share",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0099671576062583,
+          "medianCurrentOverOriginal": 0.6555966549116311,
+          "currentLowerThanPrevious": 3,
+          "medianMs": {
+            "original": 202.83220000000438,
+            "previous": 131.13740000000325,
+            "current": 134.768799999998
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0308876184348605,
+          "medianCurrentOverOriginal": 0.6567805097000361,
+          "currentLowerThanPrevious": 1,
+          "medianMs": {
+            "original": 191.45134999999937,
+            "previous": 122.24864999999772,
+            "current": 125.1060499999985
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0196994810758095,
+          "medianCurrentOverOriginal": 0.6434110677336864,
+          "currentLowerThanPrevious": 0,
+          "medianMs": {
+            "original": 195.94775000000664,
+            "previous": 123.67380000000412,
+            "current": 125.79539999999906
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9958171635226407,
+          "medianCurrentOverOriginal": 0.6443162327188797,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 194.03975000000355,
+            "previous": 125.2777500000011,
+            "current": 125.14794999999503
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.00368268655401,
+          "medianCurrentOverOriginal": 0.6621630564753704,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 212.16619999999966,
+            "previous": 139.81744999999864,
+            "current": 139.43179999999847
+          }
+        },
+        {
+          "workload": "idle",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.03620557501307,
+          "medianCurrentOverOriginal": 0.6459647581362677,
+          "currentLowerThanPrevious": 3,
+          "medianMs": {
+            "original": 210.7995499999961,
+            "previous": 130.87464999999793,
+            "current": 137.7909000000036
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0498931642508733,
+          "medianCurrentOverOriginal": 0.669172635268488,
+          "currentLowerThanPrevious": 3,
+          "medianMs": {
+            "original": 206.61264999999548,
+            "previous": 132.88814999999158,
+            "current": 142.96250000000146
+          }
+        },
+        {
+          "workload": "share",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0907862080363353,
+          "medianCurrentOverOriginal": 0.8158009205053022,
+          "currentLowerThanPrevious": 0,
+          "medianMs": {
+            "original": 269.3848500000022,
+            "previous": 203.34184999999707,
+            "current": 220.28404999999475
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0858994140426634,
+          "medianCurrentOverOriginal": 0.7149253713995375,
+          "currentLowerThanPrevious": 0,
+          "medianMs": {
+            "original": 228.04505000000063,
+            "previous": 149.07039999999688,
+            "current": 163.4334000000017
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0143334473807348,
+          "medianCurrentOverOriginal": 0.6734245230402842,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 208.91674999999668,
+            "previous": 135.47795000000042,
+            "current": 136.43964999999298
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0341779107581783,
+          "medianCurrentOverOriginal": 0.661008849944638,
+          "currentLowerThanPrevious": 3,
+          "medianMs": {
+            "original": 211.62144999999873,
+            "previous": 138.6516000000047,
+            "current": 143.8443499999994
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0520828621854523,
+          "medianCurrentOverOriginal": 0.8144778116801319,
+          "currentLowerThanPrevious": 1,
+          "medianMs": {
+            "original": 283.2214000000022,
+            "previous": 219.21804999999586,
+            "current": 231.37324999999691
+          }
+        },
+        {
+          "workload": "idle",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0373803798704757,
+          "medianCurrentOverOriginal": 0.6717922106238269,
+          "currentLowerThanPrevious": 1,
+          "medianMs": {
+            "original": 206.85709999997925,
+            "previous": 133.7690500000026,
+            "current": 138.42005000000063
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0258807942586614,
+          "medianCurrentOverOriginal": 0.691079269600259,
+          "currentLowerThanPrevious": 2,
+          "medianMs": {
+            "original": 210.70470000000205,
+            "previous": 139.6189000000013,
+            "current": 143.8095500000054
+          }
+        },
+        {
+          "workload": "share",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0891311835530322,
+          "medianCurrentOverOriginal": 0.9523299205570588,
+          "currentLowerThanPrevious": 1,
+          "medianMs": {
+            "original": 542.7733499999886,
+            "previous": 480.4117000000115,
+            "current": 519.4404500000019
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.1207288346244844,
+          "medianCurrentOverOriginal": 0.792455752210554,
+          "currentLowerThanPrevious": 0,
+          "medianMs": {
+            "original": 310.1853500000143,
+            "previous": 211.59034999999858,
+            "current": 237.84514999999374
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0100172653207666,
+          "medianCurrentOverOriginal": 0.6696231726484138,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 239.8758999999991,
+            "previous": 158.24665000000095,
+            "current": 162.0124000000069
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.1344353866566088,
+          "medianCurrentOverOriginal": 0.7951543235165733,
+          "currentLowerThanPrevious": 0,
+          "medianMs": {
+            "original": 280.3921999999875,
+            "previous": 192.355349999998,
+            "current": 218.19130000000587
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0385678790932573,
+          "medianCurrentOverOriginal": 0.9390335517908217,
+          "currentLowerThanPrevious": 3,
+          "medianMs": {
+            "original": 555.5436999999802,
+            "previous": 483.160349999991,
+            "current": 505.2673500000092
+          }
+        }
+      ]
+    },
+    "ports-control": {
+      "hardware": {
+        "node": "v24.9.0",
+        "platform": "win32",
+        "arch": "x64",
+        "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+        "logicalCpus": 20
+      },
+      "plan": {
+        "schemaVersion": 2,
+        "seed": 20904,
+        "populations": [
+          8,
+          64,
+          256
+        ],
+        "workloads": [
+          "idle",
+          "siphon",
+          "share",
+          "sparse",
+          "bond",
+          "trees",
+          "combined"
+        ],
+        "auditHits": 3,
+        "warmup": 1500,
+        "batch": 2000,
+        "rounds": 12,
+        "order": [
+          [
+            "original",
+            "previous",
+            "current"
+          ],
+          [
+            "current",
+            "previous",
+            "original"
+          ],
+          [
+            "previous",
+            "original",
+            "current"
+          ],
+          [
+            "current",
+            "original",
+            "previous"
+          ],
+          [
+            "original",
+            "current",
+            "previous"
+          ],
+          [
+            "previous",
+            "current",
+            "original"
+          ]
+        ],
+        "scope": "Warm full resolver with native healing, cues and equal per-hit life/tree/text resets. Read-only hit/heal counters and RNG counting remain inside timing. IPC, snapshot creation, assertions on snapshots and explicit GC are outside timing. Three isolated workers; six orders repeated twice. Coalesced cues persist, simulation time is fixed. Retained heap is not allocation volume. Not whole-frame or device acceptance."
+      },
+      "inputs": {
+        "original": {
+          "source": "4927edd48c1dc9e72e1be115e4e414309d3ae1f49f3041651e132a49e1a6d758",
+          "package": "8921a6a0df90bc9d015b673953be93bf0aaf338b37995ad088e007be1ec2b203"
+        },
+        "previous": {
+          "source": "4927edd48c1dc9e72e1be115e4e414309d3ae1f49f3041651e132a49e1a6d758",
+          "package": "8921a6a0df90bc9d015b673953be93bf0aaf338b37995ad088e007be1ec2b203"
+        },
+        "current": {
+          "source": "4927edd48c1dc9e72e1be115e4e414309d3ae1f49f3041651e132a49e1a6d758",
+          "package": "8921a6a0df90bc9d015b673953be93bf0aaf338b37995ad088e007be1ec2b203"
+        }
+      },
+      "control": true,
+      "results": [
+        {
+          "workload": "idle",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0154204306244494,
+          "medianCurrentOverOriginal": 0.9515161760755334,
+          "currentLowerThanPrevious": 4,
+          "medianMs": {
+            "original": 147.25535000000127,
+            "previous": 142.16839999999956,
+            "current": 146.96544999999924
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0437228516717822,
+          "medianCurrentOverOriginal": 0.9885507900422265,
+          "currentLowerThanPrevious": 3,
+          "medianMs": {
+            "original": 159.42224999999962,
+            "previous": 147.06925000000047,
+            "current": 152.8843999999999
+          }
+        },
+        {
+          "workload": "share",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9730855106570944,
+          "medianCurrentOverOriginal": 1.0018999145156666,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 162.77989999999954,
+            "previous": 166.33649999999943,
+            "current": 160.28340000000026
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0907527075933332,
+          "medianCurrentOverOriginal": 1.0716875232635235,
+          "currentLowerThanPrevious": 4,
+          "medianMs": {
+            "original": 152.84189999999944,
+            "previous": 152.91939999999886,
+            "current": 164.12314999999944
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9869132556120115,
+          "medianCurrentOverOriginal": 1.0372323742903482,
+          "currentLowerThanPrevious": 6,
+          "medianMs": {
+            "original": 155.33009999999922,
+            "previous": 159.31849999999758,
+            "current": 156.30695000000196
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.021518467291267,
+          "medianCurrentOverOriginal": 0.9905958404552195,
+          "currentLowerThanPrevious": 4,
+          "medianMs": {
+            "original": 158.444150000003,
+            "previous": 144.96390000000247,
+            "current": 152.91089999999895
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9814998476816663,
+          "medianCurrentOverOriginal": 0.9699159540214739,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 178.9517999999989,
+            "previous": 177.03060000000187,
+            "current": 173.96390000000247
+          }
+        },
+        {
+          "workload": "idle",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9978961928619856,
+          "medianCurrentOverOriginal": 0.9487800929890955,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 162.40559999999823,
+            "previous": 155.8247999999985,
+            "current": 154.6491500000011
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0465079852606123,
+          "medianCurrentOverOriginal": 1.0581385152850538,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 165.11765000000014,
+            "previous": 165.78195000000414,
+            "current": 168.60879999999452
+          }
+        },
+        {
+          "workload": "share",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0403785760157895,
+          "medianCurrentOverOriginal": 1.0375083815408481,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 254.1044000000038,
+            "previous": 246.5650999999998,
+            "current": 260.6047499999986
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0103522176991675,
+          "medianCurrentOverOriginal": 1.1111597587628377,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 180.90140000000247,
+            "previous": 194.7422499999957,
+            "current": 195.58420000000478
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0201344595043684,
+          "medianCurrentOverOriginal": 0.9949623048413156,
+          "currentLowerThanPrevious": 6,
+          "medianMs": {
+            "original": 172.2245999999941,
+            "previous": 167.5928500000009,
+            "current": 170.97785000000295
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9641681877531032,
+          "medianCurrentOverOriginal": 0.9798903303049067,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "original": 181.74229999999807,
+            "previous": 191.89425000000483,
+            "current": 185.37500000000728
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9755745028733327,
+          "medianCurrentOverOriginal": 1.0305914935129634,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 249.1874500000049,
+            "previous": 263.3464499999973,
+            "current": 259.01574999999866
+          }
+        },
+        {
+          "workload": "idle",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0384029215363977,
+          "medianCurrentOverOriginal": 1.035465836882268,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 170.96349999999802,
+            "previous": 169.5746500000023,
+            "current": 175.95640000000276
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9989872407921407,
+          "medianCurrentOverOriginal": 1.019380756713136,
+          "currentLowerThanPrevious": 6,
+          "medianMs": {
+            "original": 172.0248500000016,
+            "previous": 177.05739999999787,
+            "current": 171.8047499999957
+          }
+        },
+        {
+          "workload": "share",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.043758765588737,
+          "medianCurrentOverOriginal": 1.0348959479766031,
+          "currentLowerThanPrevious": 2,
+          "medianMs": {
+            "original": 546.0735500000155,
+            "previous": 536.4388000000035,
+            "current": 551.1397999999972
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0319911235175985,
+          "medianCurrentOverOriginal": 0.9844274743976673,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 234.18150000000605,
+            "previous": 228.58844999999565,
+            "current": 229.49049999999988
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.990908886408031,
+          "medianCurrentOverOriginal": 1.0132607667368543,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 163.58484999998473,
+            "previous": 164.72310000001744,
+            "current": 164.41375000000698
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0399142618050832,
+          "medianCurrentOverOriginal": 0.9938651583351887,
+          "currentLowerThanPrevious": 2,
+          "medianMs": {
+            "original": 198.59084999999322,
+            "previous": 189.11119999999937,
+            "current": 200.3076999999903
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.032293028152123,
+          "medianCurrentOverOriginal": 1.003901999246369,
+          "currentLowerThanPrevious": 3,
+          "medianMs": {
+            "original": 575.3571499999962,
+            "previous": 542.4888500000088,
+            "current": 563.1459999999934
+          }
+        }
+      ]
+    },
+    "ports-comparison": {
+      "hardware": {
+        "node": "v24.9.0",
+        "platform": "win32",
+        "arch": "x64",
+        "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+        "logicalCpus": 20
+      },
+      "plan": {
+        "schemaVersion": 2,
+        "seed": 20904,
+        "populations": [
+          8,
+          64,
+          256
+        ],
+        "workloads": [
+          "idle",
+          "siphon",
+          "share",
+          "sparse",
+          "bond",
+          "trees",
+          "combined"
+        ],
+        "auditHits": 3,
+        "warmup": 1500,
+        "batch": 2000,
+        "rounds": 12,
+        "order": [
+          [
+            "original",
+            "previous",
+            "current"
+          ],
+          [
+            "current",
+            "previous",
+            "original"
+          ],
+          [
+            "previous",
+            "original",
+            "current"
+          ],
+          [
+            "current",
+            "original",
+            "previous"
+          ],
+          [
+            "original",
+            "current",
+            "previous"
+          ],
+          [
+            "previous",
+            "current",
+            "original"
+          ]
+        ],
+        "scope": "Warm full resolver with native healing, cues and equal per-hit life/tree/text resets. Read-only hit/heal counters and RNG counting remain inside timing. IPC, snapshot creation, assertions on snapshots and explicit GC are outside timing. Three isolated workers; six orders repeated twice. Coalesced cues persist, simulation time is fixed. Retained heap is not allocation volume. Not whole-frame or device acceptance."
+      },
+      "inputs": {
+        "original": {
+          "source": "384db880fa4ce06031caba166b17155bafc2e61f71ee32f8960b0e35add54ee9",
+          "package": null
+        },
+        "previous": {
+          "source": "e953efe60c79f195169f2e7899fb3a59860b65707fc11a95ac7d9fa320ea3ec3",
+          "package": "8921a6a0df90bc9d015b673953be93bf0aaf338b37995ad088e007be1ec2b203"
+        },
+        "current": {
+          "source": "4927edd48c1dc9e72e1be115e4e414309d3ae1f49f3041651e132a49e1a6d758",
+          "package": "8921a6a0df90bc9d015b673953be93bf0aaf338b37995ad088e007be1ec2b203"
+        }
+      },
+      "control": false,
+      "results": [
+        {
+          "workload": "idle",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9757576586306432,
+          "medianCurrentOverOriginal": 0.6166415070502553,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 236.99395000000004,
+            "previous": 143.27120000000104,
+            "current": 146.8732
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.994096849914536,
+          "medianCurrentOverOriginal": 0.6334836757804702,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 258.9527000000053,
+            "previous": 164.1002499999995,
+            "current": 165.79199999999946
+          }
+        },
+        {
+          "workload": "share",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9418554374752623,
+          "medianCurrentOverOriginal": 0.614183636999718,
+          "currentLowerThanPrevious": 10,
+          "medianMs": {
+            "original": 256.6137500000041,
+            "previous": 165.45490000000063,
+            "current": 155.33714999999938
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0083423799571407,
+          "medianCurrentOverOriginal": 0.6873777114283308,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 243.56129999999393,
+            "previous": 164.05799999999726,
+            "current": 159.34430000000066
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9793431671375609,
+          "medianCurrentOverOriginal": 0.62126760666421,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "original": 260.47329999999783,
+            "previous": 163.09815000000162,
+            "current": 157.36189999999988
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9820788296585883,
+          "medianCurrentOverOriginal": 0.600443874753982,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 251.88760000000184,
+            "previous": 159.17039999999542,
+            "current": 151.33124999999927
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9839162711596168,
+          "medianCurrentOverOriginal": 0.6779090645107078,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 247.35805000000255,
+            "previous": 166.21330000000307,
+            "current": 156.4859499999984
+          }
+        },
+        {
+          "workload": "idle",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.983636189823387,
+          "medianCurrentOverOriginal": 0.6089680419369881,
+          "currentLowerThanPrevious": 8,
+          "medianMs": {
+            "original": 224.43280000000232,
+            "previous": 139.37724999999773,
+            "current": 143.27479999999923
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.926159337997629,
+          "medianCurrentOverOriginal": 0.6348957775904988,
+          "currentLowerThanPrevious": 11,
+          "medianMs": {
+            "original": 214.71304999999847,
+            "previous": 141.4985499999966,
+            "current": 133.7877499999886
+          }
+        },
+        {
+          "workload": "share",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9813626715867432,
+          "medianCurrentOverOriginal": 0.7594374889553799,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 304.0341999999946,
+            "previous": 238.31485000000248,
+            "current": 232.5867500000022
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9865780151739716,
+          "medianCurrentOverOriginal": 0.6781939911096311,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "original": 244.74474999999802,
+            "previous": 162.44140000000334,
+            "current": 165.41709999999875
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9940147838880578,
+          "medianCurrentOverOriginal": 0.66460285441222,
+          "currentLowerThanPrevious": 6,
+          "medianMs": {
+            "original": 212.25274999999965,
+            "previous": 140.83524999999645,
+            "current": 136.27040000000125
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9660995371791363,
+          "medianCurrentOverOriginal": 0.6804258555571651,
+          "currentLowerThanPrevious": 10,
+          "medianMs": {
+            "original": 206.33140000001004,
+            "previous": 145.5624500000049,
+            "current": 138.39489999999932
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 64,
+          "medianCurrentOverPrevious": 1.0014266713719397,
+          "medianCurrentOverOriginal": 0.7488379148186854,
+          "currentLowerThanPrevious": 6,
+          "medianMs": {
+            "original": 297.6387999999861,
+            "previous": 223.63379999999597,
+            "current": 226.39939999999478
+          }
+        },
+        {
+          "workload": "idle",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9619977303077953,
+          "medianCurrentOverOriginal": 0.6490001248890842,
+          "currentLowerThanPrevious": 10,
+          "medianMs": {
+            "original": 215.75334999999905,
+            "previous": 142.13145000000077,
+            "current": 133.2792499999996
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0215174622831988,
+          "medianCurrentOverOriginal": 0.6886871356595643,
+          "currentLowerThanPrevious": 5,
+          "medianMs": {
+            "original": 225.46495000000868,
+            "previous": 154.52714999999444,
+            "current": 152.34015000000363
+          }
+        },
+        {
+          "workload": "share",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9657364888051261,
+          "medianCurrentOverOriginal": 0.8621934714259236,
+          "currentLowerThanPrevious": 10,
+          "medianMs": {
+            "original": 545.0175500000041,
+            "previous": 487.3957999999984,
+            "current": 461.91735000000335
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9567827498993626,
+          "medianCurrentOverOriginal": 0.7438386029495359,
+          "currentLowerThanPrevious": 8,
+          "medianMs": {
+            "original": 262.9060999999929,
+            "previous": 205.80214999998861,
+            "current": 199.74770000000717
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9793835768618787,
+          "medianCurrentOverOriginal": 0.6731430522524816,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "original": 218.3551499999885,
+            "previous": 148.4198000000033,
+            "current": 150.6577499999985
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9771448149217167,
+          "medianCurrentOverOriginal": 0.7112769757547265,
+          "currentLowerThanPrevious": 8,
+          "medianMs": {
+            "original": 247.47080000001006,
+            "previous": 182.22819999999774,
+            "current": 179.9539999999979
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.920586638999219,
+          "medianCurrentOverOriginal": 0.8602827931721915,
+          "currentLowerThanPrevious": 12,
+          "medianMs": {
+            "original": 563.0302499999962,
+            "previous": 536.489149999994,
+            "current": 485.35289999999804
+          }
+        }
+      ]
+    },
+    "ports-repeat": {
+      "hardware": {
+        "node": "v24.9.0",
+        "platform": "win32",
+        "arch": "x64",
+        "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+        "logicalCpus": 20
+      },
+      "plan": {
+        "schemaVersion": 2,
+        "seed": 20904,
+        "populations": [
+          8,
+          64,
+          256
+        ],
+        "workloads": [
+          "idle",
+          "siphon",
+          "share",
+          "sparse",
+          "bond",
+          "trees",
+          "combined"
+        ],
+        "auditHits": 3,
+        "warmup": 1500,
+        "batch": 2000,
+        "rounds": 12,
+        "order": [
+          [
+            "original",
+            "previous",
+            "current"
+          ],
+          [
+            "current",
+            "previous",
+            "original"
+          ],
+          [
+            "previous",
+            "original",
+            "current"
+          ],
+          [
+            "current",
+            "original",
+            "previous"
+          ],
+          [
+            "original",
+            "current",
+            "previous"
+          ],
+          [
+            "previous",
+            "current",
+            "original"
+          ]
+        ],
+        "scope": "Warm full resolver with native healing, cues and equal per-hit life/tree/text resets. Read-only hit/heal counters and RNG counting remain inside timing. IPC, snapshot creation, assertions on snapshots and explicit GC are outside timing. Three isolated workers; six orders repeated twice. Coalesced cues persist, simulation time is fixed. Retained heap is not allocation volume. Not whole-frame or device acceptance."
+      },
+      "inputs": {
+        "original": {
+          "source": "384db880fa4ce06031caba166b17155bafc2e61f71ee32f8960b0e35add54ee9",
+          "package": null
+        },
+        "previous": {
+          "source": "e953efe60c79f195169f2e7899fb3a59860b65707fc11a95ac7d9fa320ea3ec3",
+          "package": "8921a6a0df90bc9d015b673953be93bf0aaf338b37995ad088e007be1ec2b203"
+        },
+        "current": {
+          "source": "4927edd48c1dc9e72e1be115e4e414309d3ae1f49f3041651e132a49e1a6d758",
+          "package": "8921a6a0df90bc9d015b673953be93bf0aaf338b37995ad088e007be1ec2b203"
+        }
+      },
+      "control": false,
+      "results": [
+        {
+          "workload": "idle",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9519774123697804,
+          "medianCurrentOverOriginal": 0.6337480317243236,
+          "currentLowerThanPrevious": 10,
+          "medianMs": {
+            "current": 133.08834999999817,
+            "previous": 143.483949999998,
+            "original": 207.57085000000006
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.0312000853580399,
+          "medianCurrentOverOriginal": 0.6664638207072975,
+          "currentLowerThanPrevious": 3,
+          "medianMs": {
+            "current": 181.34289999999964,
+            "previous": 171.69044999999824,
+            "original": 267.39014999999927
+          }
+        },
+        {
+          "workload": "share",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9668975032846168,
+          "medianCurrentOverOriginal": 0.6299501936682602,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "current": 144.16310000000158,
+            "previous": 152.6482999999971,
+            "original": 236.30884999999944
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9557226047740999,
+          "medianCurrentOverOriginal": 0.6268356788662186,
+          "currentLowerThanPrevious": 8,
+          "medianMs": {
+            "current": 136.3680500000046,
+            "previous": 136.8890500000016,
+            "original": 214.19514999999956
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9624229805564541,
+          "medianCurrentOverOriginal": 0.6450619705598362,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "current": 138.98114999999234,
+            "previous": 146.8952999999965,
+            "original": 205.30210000000443
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 8,
+          "medianCurrentOverPrevious": 1.036210930188164,
+          "medianCurrentOverOriginal": 0.6802687874132977,
+          "currentLowerThanPrevious": 3,
+          "medianMs": {
+            "current": 149.33295000000362,
+            "previous": 139.10320000000138,
+            "original": 215.709350000001
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 8,
+          "medianCurrentOverPrevious": 0.9868598746829149,
+          "medianCurrentOverOriginal": 0.6793710624565719,
+          "currentLowerThanPrevious": 7,
+          "medianMs": {
+            "current": 166.29509999999573,
+            "previous": 167.2755499999912,
+            "original": 242.94635000000198
+          }
+        },
+        {
+          "workload": "idle",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.962332615175161,
+          "medianCurrentOverOriginal": 0.6369428435327786,
+          "currentLowerThanPrevious": 8,
+          "medianMs": {
+            "current": 143.35655000000406,
+            "previous": 151.40734999999404,
+            "original": 225.23859999999695
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9774378232902405,
+          "medianCurrentOverOriginal": 0.6450881649322464,
+          "currentLowerThanPrevious": 10,
+          "medianMs": {
+            "current": 143.6747500000056,
+            "previous": 145.973699999995,
+            "original": 223.17169999999896
+          }
+        },
+        {
+          "workload": "share",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9243845694611922,
+          "medianCurrentOverOriginal": 0.69699087683405,
+          "currentLowerThanPrevious": 10,
+          "medianMs": {
+            "current": 214.5931999999957,
+            "previous": 238.20389999999315,
+            "original": 305.2021500000046
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9467837892510365,
+          "medianCurrentOverOriginal": 0.651182231577621,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "current": 149.6302499999947,
+            "previous": 156.173649999997,
+            "original": 232.91154999999708
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9477980148131224,
+          "medianCurrentOverOriginal": 0.6130531253813444,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "current": 138.0610499999966,
+            "previous": 142.8614000000016,
+            "original": 225.0815500000026
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9646178096030986,
+          "medianCurrentOverOriginal": 0.6438640793030427,
+          "currentLowerThanPrevious": 10,
+          "medianMs": {
+            "current": 140.63044999999693,
+            "previous": 141.1327999999994,
+            "original": 217.15789999999834
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 64,
+          "medianCurrentOverPrevious": 0.9841594437500755,
+          "medianCurrentOverOriginal": 0.7413712961641461,
+          "currentLowerThanPrevious": 9,
+          "medianMs": {
+            "current": 218.65640000000712,
+            "previous": 217.11699999999837,
+            "original": 297.44894999999815
+          }
+        },
+        {
+          "workload": "idle",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9367690586288349,
+          "medianCurrentOverOriginal": 0.6111135052852956,
+          "currentLowerThanPrevious": 12,
+          "medianMs": {
+            "current": 132.81134999998903,
+            "previous": 144.6975000000093,
+            "original": 218.86854999999196
+          }
+        },
+        {
+          "workload": "siphon",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9862084925510461,
+          "medianCurrentOverOriginal": 0.6738791214977864,
+          "currentLowerThanPrevious": 8,
+          "medianMs": {
+            "current": 162.56339999998454,
+            "previous": 163.46499999998196,
+            "original": 234.2577500000043
+          }
+        },
+        {
+          "workload": "share",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9156936932892012,
+          "medianCurrentOverOriginal": 0.7799455029723421,
+          "currentLowerThanPrevious": 12,
+          "medianMs": {
+            "current": 435.3418500000116,
+            "previous": 476.82684999999765,
+            "original": 551.7985999999946
+          }
+        },
+        {
+          "workload": "sparse",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9427122642826103,
+          "medianCurrentOverOriginal": 0.7099782456578296,
+          "currentLowerThanPrevious": 11,
+          "medianMs": {
+            "current": 208.05494999999064,
+            "previous": 216.48429999998189,
+            "original": 291.284799999994
+          }
+        },
+        {
+          "workload": "bond",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.9554279914338667,
+          "medianCurrentOverOriginal": 0.6265344876029385,
+          "currentLowerThanPrevious": 10,
+          "medianMs": {
+            "current": 149.0205500000011,
+            "previous": 159.34379999998782,
+            "original": 230.89095000000088
+          }
+        },
+        {
+          "workload": "trees",
+          "population": 256,
+          "medianCurrentOverPrevious": 1.0517051144128342,
+          "medianCurrentOverOriginal": 0.7379790174842293,
+          "currentLowerThanPrevious": 2,
+          "medianMs": {
+            "current": 197.03144999999495,
+            "previous": 190.66475000001083,
+            "original": 268.1046500000084
+          }
+        },
+        {
+          "workload": "combined",
+          "population": 256,
+          "medianCurrentOverPrevious": 0.926326833090545,
+          "medianCurrentOverOriginal": 0.7757187153641156,
+          "currentLowerThanPrevious": 10,
+          "medianMs": {
+            "current": 460.4453499999945,
+            "previous": 491.5685000000085,
+            "original": 589.1871000000101
+          }
+        }
+      ]
+    }
+  },
+  "prototype": {
+    "adopted": false,
+    "sourceSha256": "78f058a9a1241c4bc273b6981c4e4ea8210bb662e8b2b7e7588d94375748be04",
+    "changedGameFiles": [
+      "src/engine/hitSustain.ts"
+    ],
+    "originalCourses": 98,
+    "originalCourseMatched": true,
+    "constructionDiagnostic": {
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\hit-sustain-port-shapes-ZE3Tmg",
+      "node": "v24.9.0",
+      "sourceHashes": {
+        "original": "aed2023341b397e697ba81d97ca8fc6bd82773eaebbbf31d2949059b315a9815",
+        "prototype": "78f058a9a1241c4bc273b6981c4e4ea8210bb662e8b2b7e7588d94375748be04"
+      },
+      "result": {
+        "scope": "Isolated inspection of adapter port construction with the kernel factory replaced by identity. No timing or gameplay execution. Internal V8 properties are diagnostic only.",
+        "groups": {
+          "original": {
+            "instances": 20,
+            "ownRadiusGetter": true,
+            "distinctFunctions": {
+              "actors": 20,
+              "resourceFlow": 20,
+              "sharedHealingCue": 20,
+              "bondedHealingCue": 20
+            },
+            "distinctRadiusGetters": 20,
+            "v8": {
+              "fastProperties": [
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+              ],
+              "sameMapAsFirst": [
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true
+              ]
+            }
+          },
+          "prototype": {
+            "instances": 20,
+            "ownRadiusGetter": false,
+            "distinctFunctions": {
+              "actors": 1,
+              "resourceFlow": 1,
+              "sharedHealingCue": 1,
+              "bondedHealingCue": 1
+            },
+            "distinctRadiusGetters": 1,
+            "v8": {
+              "fastProperties": [
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true
+              ],
+              "sameMapAsFirst": [
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true
+              ]
+            }
+          }
+        }
+      }
+    },
+    "decision": {
+      "performanceCriteriaMet": false,
+      "criteria": {
+        "recordedAt": "2026-10-30T15:54:00.214Z",
+        "scope": "Development decision for the shared-method game adapter; not device or complete SDK performance acceptance.",
+        "recordedBeforeReadingRepeatResults": true,
+        "required": {
+          "bothComparisonsPassed": true,
+          "eachComparisonLowerMedianCasesAtLeast": 15,
+          "eachComparisonCases": 21,
+          "maximumMedianSlowdown": 1.05,
+          "combined256MedianAtMost": 0.95,
+          "combined256LowerRoundsAtLeast": 10,
+          "frozenOriginalCourses": 98,
+          "fullSdkAndRelevantGameChecks": true
+        },
+        "reason": "The exploratory result suggests a useful gain in the largest combined case. Require confirmation and no material measured regression before changing the maintained adapter."
+      },
+      "rows": [
+        {
+          "directory": "<sdk>\\.artifacts\\hit-sustain-benchmark-eAfjG4",
+          "passed": true,
+          "lowerCases": 18,
+          "maxRatio": 1.0215174622831988,
+          "combinedRatio": 0.920586638999219,
+          "combinedLowerRounds": 12
+        },
+        {
+          "directory": "<sdk>\\.artifacts\\hit-sustain-benchmark-ofd5M2",
+          "passed": true,
+          "lowerCases": 18,
+          "maxRatio": 1.0517051144128342,
+          "combinedRatio": 0.926326833090545,
+          "combinedLowerRounds": 10
+        }
+      ],
+      "repeat": [
+        {
+          "workload": "idle",
+          "population": 8,
+          "ratio": 0.9519774123697804,
+          "lower": 10
+        },
+        {
+          "workload": "siphon",
+          "population": 8,
+          "ratio": 1.0312000853580399,
+          "lower": 3
+        },
+        {
+          "workload": "share",
+          "population": 8,
+          "ratio": 0.9668975032846168,
+          "lower": 9
+        },
+        {
+          "workload": "sparse",
+          "population": 8,
+          "ratio": 0.9557226047740999,
+          "lower": 8
+        },
+        {
+          "workload": "bond",
+          "population": 8,
+          "ratio": 0.9624229805564541,
+          "lower": 9
+        },
+        {
+          "workload": "trees",
+          "population": 8,
+          "ratio": 1.036210930188164,
+          "lower": 3
+        },
+        {
+          "workload": "combined",
+          "population": 8,
+          "ratio": 0.9868598746829149,
+          "lower": 7
+        },
+        {
+          "workload": "idle",
+          "population": 64,
+          "ratio": 0.962332615175161,
+          "lower": 8
+        },
+        {
+          "workload": "siphon",
+          "population": 64,
+          "ratio": 0.9774378232902405,
+          "lower": 10
+        },
+        {
+          "workload": "share",
+          "population": 64,
+          "ratio": 0.9243845694611922,
+          "lower": 10
+        },
+        {
+          "workload": "sparse",
+          "population": 64,
+          "ratio": 0.9467837892510365,
+          "lower": 9
+        },
+        {
+          "workload": "bond",
+          "population": 64,
+          "ratio": 0.9477980148131224,
+          "lower": 9
+        },
+        {
+          "workload": "trees",
+          "population": 64,
+          "ratio": 0.9646178096030986,
+          "lower": 10
+        },
+        {
+          "workload": "combined",
+          "population": 64,
+          "ratio": 0.9841594437500755,
+          "lower": 9
+        },
+        {
+          "workload": "idle",
+          "population": 256,
+          "ratio": 0.9367690586288349,
+          "lower": 12
+        },
+        {
+          "workload": "siphon",
+          "population": 256,
+          "ratio": 0.9862084925510461,
+          "lower": 8
+        },
+        {
+          "workload": "share",
+          "population": 256,
+          "ratio": 0.9156936932892012,
+          "lower": 12
+        },
+        {
+          "workload": "sparse",
+          "population": 256,
+          "ratio": 0.9427122642826103,
+          "lower": 11
+        },
+        {
+          "workload": "bond",
+          "population": 256,
+          "ratio": 0.9554279914338667,
+          "lower": 10
+        },
+        {
+          "workload": "trees",
+          "population": 256,
+          "ratio": 1.0517051144128342,
+          "lower": 2
+        },
+        {
+          "workload": "combined",
+          "population": 256,
+          "ratio": 0.926326833090545,
+          "lower": 10
+        }
+      ]
+    },
+    "interpretation": "Both comparisons improve 18 of 21 medians and the combined 256-actor case by roughly 7–8%; the reversed-startup confirmation exceeds the predeclared 5% slowdown limit for trees at 256 actors (5.1705%). Preserve the prototype for profiling; do not promote it."
+  },
+  "preserved": {
+    "originalStableFiles": 4100,
+    "explicitConcurrentPaths": 28,
+    "originalWrites": false,
+    "sourceCapsuleVerified": true,
+    "sdkMainUnchanged": true,
+    "managedGameUnchanged": true,
+    "previousInstalledRuntimeUnchanged": true,
+    "scope": "Read-only review identifies concurrent save-and-exit lifecycle/UI/launcher tests and documentation, including replacement of the performance-only preload. The observed main entry also imports an existing bounty passage module. These paths remain owned by game development. No original files or index are written. The frozen extraction capsule is unchanged; no all-file identity claim is made."
+  },
+  "limitations": [
+    "Desktop full-resolver workload includes equal resets and read-only observation costs; not whole-frame or target-device measurement.",
+    "Fixed-time warm repeated hits retain coalesced cue rows; cold cue, allocation volume and actor update costs are not isolated.",
+    "Original comparisons include preceding SDK/stat-cache changes and cannot isolate sustain performance.",
+    "The initial untimed development audit is retained but excluded: helpers changed while it executed; later immutable runs and fault controls provide acceptance.",
+    "The initial short timing plan is retained; longer warmup/batches improve measurement quality without changing workload arithmetic.",
+    "Full SDK completion, physical Steam Deck/mobile acceptance and remaining native package integration are open."
+  ],
+  "sources": {
+    ".github/workflows/verify.yml": "3e0e052b75dee291dbf97750264a34b89d6deb5c2464a6659c0314688740866b",
+    "docs/completion.json": "7fd44df62d5770eafacf7f5e2842491f3e6ef34b9ba74c38cfb3f1ecaf7d5a1e",
+    "docs/hit-sustain-boundary.md": "36a0ec80f4f46b6711846eb72e1ae2fcc07bfb204ef2fb975723166fd3441ec6",
+    "docs/hit-sustain-performance.md": "de8b90109d3a835b8613e25b70b509a72fa4a45953ddb8660217251fea287ec1",
+    "docs/verification.md": "4c543c499fb18b7f8d559dc9eed7f4804173be96e086e3917bcebc7545619c55",
+    "package.json": "a511f134def32dfb0f50e5a83e0105b2bc394882e0d63490b881e597fd5a12ea",
+    "reference/benchmark-hit-sustain-worker.ts": "471251ea755b0ea98478ce1367d6fc2cf465a3164b5959a50c521b525cd84c1c",
+    "scripts/benchmark-hit-sustain.mjs": "e2931f0745a3a9a5528ea026e4e14a0d9b4fb7daa47a4aed0b9fa093b89ac53f",
+    "scripts/hit-sustain-benchmark-checks.mjs": "22f641f0c3edaf7a215758ad825c1c549feed4bae3728ebbb00f3b4953522143",
+    "scripts/test-hit-sustain-benchmark-observer.mjs": "bd1c46ee0588029554c1ac86c7418b92122f9f1333beef53ec353404ab968182"
+  },
+  "raw": {
+    "path": "evidence/hit-sustain/performance-windows-raw.json.gz",
+    "entries": 697,
+    "bytes": 2810795,
+    "sha256": "9c8b878cfd50c84744438e831f8a78ffe204b95fd47316d2669a7ea05cfbe0e1",
+    "uncompressedSha256": "3bbf8e0b4046d746b4f388d452f3e96795b758c1924fd4b9c149df6b84a8bcca"
+  },
+  "acceptance": {
+    "benchmarkCorrectness": true,
+    "optimization": false,
+    "physicalDevices": false,
+    "allocationVolume": false,
+    "completeSdk": false
+  }
+}
