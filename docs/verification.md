@@ -1,5 +1,12 @@
 # Verification and reproduction
 
+`reference:hit-landing` checks 112 original courses with positive assertions for
+native outcomes, state and callback effects. `test:hit-landing-observer` checks
+48 deliberate source faults without accepting unrelated exceptions. Two original
+captures, the installed predecessor and Node 22 agree. This is a baseline-only
+checkpoint; see [hit landing](hit-landing-boundary.md) for observer repairs and
+the still-unextracted orchestration boundary.
+
 `reference:hit-preparation` checks 122 original courses from fuse admission
 through shell interception. `test:hit-preparation-observer` verifies 37 deliberate
 source faults, including definition capture, borrowed payloads, partial writes,

@@ -54,6 +54,11 @@ Its 122 original-game courses preserve the distinction between the incoming skil
 definition and a target-specific instance. A synchronous continuation carries
 borrowed records into the remaining hit logic without a per-hit result wrapper.
 
+The [hit-landing baseline](docs/hit-landing-boundary.md) freezes 112 original
+scenarios from damage admission through refusal reactions, mimic occurrence and
+pool feeding. Forty-eight deliberate source faults and positive native-outcome
+checks guard the next extraction. This checkpoint adds no runtime behavior.
+
 The v0.38 development candidate adds [resource restoration](docs/resource-restoration.md):
 shield/poise gain gates, immediate restore events, reserved-mana proc restoration
 and strict content compilers. Its separately committed native baseline is reproduced

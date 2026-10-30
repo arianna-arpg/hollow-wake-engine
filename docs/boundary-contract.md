@@ -71,6 +71,11 @@ interception admission through explicit synchronous host ports. Its continuation
 retains borrowed identities without a per-hit result wrapper. Fuse execution,
 native guard/shell implementations and remaining hit aftermath remain host-owned.
 
+The [hit-landing boundary](hit-landing-boundary.md) now has a frozen original
+baseline for damage admission and ordered outcome reactions through pool feeding.
+Its orchestration remains in the game pending extraction; live account authority,
+mimic policy, underlying host verbs and the remaining hit path stay separate.
+
 The primary Hollow Wake checkout retains authority. The isolated game adapter
 delegates the extracted transitions to the actual installed package while keeping
 its existing actor/status records and advanced host behavior.

@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "source": "src/engine/world.ts",
+  "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "method": "World.resolveHit",
+  "methodSha256": "632cffc3c91e4598ed586fae0f666650892e07a8eb520f7be48460e9990d4bed",
+  "admission": [
+    {
+      "label": "damage-admission",
+      "index": 23,
+      "line": 43458,
+      "endLine": 43458,
+      "sha256": "e822fcd4638762910baa57ee3237a91e5a2d1291704980aba1831eae4ca09745",
+      "text": "const hasDamage = forceDamage || def.effects.some(e => e.type === 'damage');"
+    },
+    {
+      "label": "dealt-init",
+      "index": 24,
+      "line": 43459,
+      "endLine": 43459,
+      "sha256": "dd5679fe09376c9f296d1fce09256d743ae25f63d1369446bc0025a429598071",
+      "text": "let dealt = 0;"
+    },
+    {
+      "label": "crit-init",
+      "index": 25,
+      "line": 43460,
+      "endLine": 43460,
+      "sha256": "21b75696f56c4b16cbd23e6033012f79e4c56a58b0e0376bb9b1f57cbc2ed016",
+      "text": "let wasCrit = false;"
+    }
+  ],
+  "statements": [
+    {
+      "label": "bind-deeds",
+      "index": 0,
+      "line": 43463,
+      "endLine": 43463,
+      "sha256": "cb1aaa84e7f344747ec5937a0b0fbd1ed3aa837f26af558e3e4aa5a75645a0fa",
+      "text": "if (target === this.player) this.bindCombatDeeds();"
+    },
+    {
+      "label": "life-snapshot",
+      "index": 1,
+      "line": 43464,
+      "endLine": 43464,
+      "sha256": "edd60f5268958e54e10f2e789b673a880eb4799a1bf6c3d943667f939ebe7621",
+      "text": "const deedLifeBefore = target.life;"
+    },
+    {
+      "label": "hidden-snapshot",
+      "index": 2,
+      "line": 43465,
+      "endLine": 43465,
+      "sha256": "0bcf49de68d77448c958a781dcdd6e870084f8580ff6cec76a259422dff18b47",
+      "text": "const deedHidden = caster === this.player && (caster.sheet.get('invisible') > 0 || concealmentActive(caster, this.time) || caster.sheet.get('detectability') < 1);"
+    },
+    {
+      "label": "panic-snapshot",
+      "index": 3,
+      "line": 43466,
+      "endLine": 43466,
+      "sha256": "a270b2c3cabbfffc080b4a058d1494c84f6b0e1f5c4e59f7f9e6c449be173bdf",
+      "text": "const deedPanicked = caster === this.player && target.isPanicked();"
+    },
+    {
+      "label": "assault-packet",
+      "index": 4,
+      "line": 43467,
+      "endLine": 43467,
+      "sha256": "589981495548bc56aeb7ca2a83e674a59c57e45a4c06290b3d134543c143f487",
+      "text": "this.assaults.packet(caster, packet, depth);"
+    },
+    {
+      "label": "apply-hit",
+      "index": 5,
+      "line": 43468,
+      "endLine": 43468,
+      "sha256": "5cd27598475d6b8c48e918dfe8ea4ceba18c3f68529a0790d2d7d63e9f12292d",
+      "text": "const result = applyHit(caster, target, packet);"
+    },
+    {
+      "label": "self-damage",
+      "index": 6,
+      "line": 43469,
+      "endLine": 43471,
+      "sha256": "8fed1841ba0872922b2db55202a4a3d57a27b6baf104749b9f06c9869a1ac966",
+      "text": "if (caster === this.player && target === caster) {\n        this.recordSelfDamage(caster, Math.max(0, deedLifeBefore - Math.max(0, target.life)));\n      }"
+    },
+    {
+      "label": "crit-capture",
+      "index": 7,
+      "line": 43472,
+      "endLine": 43472,
+      "sha256": "0c8c49741fdb5716aadb502305e50f75eb2f54bbf3ad79c5d4a21d83670d8dd5",
+      "text": "wasCrit = result.crit;"
+    },
+    {
+      "label": "deeds",
+      "index": 8,
+      "line": 43473,
+      "endLine": 43492,
+      "sha256": "798b8bafbc5257b279f1b0d9708bc9c759ce0c50708e96912e284e57f8feebb2",
+      "text": "if (this.metaProgressionActive()) {\n        if (target === this.player && this.deedEnemy(caster)) {\n          if (result.evaded) this.recordDeed({ kind: 'evade' });\n          if (result.blocked && (result.blockedAmount ?? 0) > 0) this.recordDeed({ kind: 'block', value: result.blockedAmount });\n          const lost = this.combatDeeds.hurt(deedLifeBefore, target.life, target.maxLife(), DEED_CFG.crisisEnter);\n          if (lost > 0) this.recordDeed({ kind: 'hurt', value: lost });\n        }\n        if (deedLifeBefore > 0 && this.deedEnemy(target) && this.deedOwned(caster)) {\n          // Every break feeds lifetime totals; only surviving targets can\n          // advance a same-enemy streak. The rule owns that distinction.\n          if (result.poiseBroke) this.recordDeed({ kind: 'poise', subject: target,\n            flags: target.life > 0 ? ['surviving'] : [] });\n          if (caster === this.player && result.total > 0 && !result.blocked && !result.immune && !result.evaded) {\n            const elements = ['fire', 'cold', 'lightning'].filter(t => (result.receivedAmounts ?? packet.amounts)[t as DamageType]! > 0);\n            this.recordDeed({ kind: 'hit', tags: [...packet.tags], distance: dist(caster.pos, target.pos), keys: elements,\n              flags: [...elements, ...(wasCrit ? ['crit'] : []), ...(target.life <= 0 ? ['lethal'] : []),\n                ...(deedHidden ? ['hidden'] : []), ...(deedPanicked ? ['panicked'] : [])] });\n          }\n        }\n      }"
+    },
+    {
+      "label": "evade",
+      "index": 9,
+      "line": 43493,
+      "endLine": 43507,
+      "sha256": "bd52597d45badca53b348815ba80f52ee78b36711e9abf2919ee0ee58271c51e",
+      "text": "if (result.evaded) {\n        this.flashes.push(combatCueFlash(target.pos, 'evade', target.radius, angleTo(target.pos, caster.pos)));\n        // The evader's rewards: the deterministic lifeOnEvade floor plus\n        // their own 'evade' procs (global sheet — golden rule 3).\n        const mend = target.sheet.get('lifeOnEvade');\n        if (mend > 0) target.healBy(mend);\n        // THE RECENCY LEDGER + the consumable spend ('evade'), then the\n        // evader's own procs and the striker's 'miss' procs (the\n        // after-they-dodge opener — the refused body is its target).\n        target.noteRecent('evade');\n        target.spendBuffs('evade');\n        this.rollOwnProcs(target, 'evade', { depth });\n        this.rollOwnProcs(caster, 'miss', { tags: packet.tags, extra, inst, target, depth });\n        return; // an evaded attack applies nothing\n      }"
+    },
+    {
+      "label": "block",
+      "index": 10,
+      "line": 43508,
+      "endLine": 43529,
+      "sha256": "1c56b58a986e23c0c4790a9368cd1b917f9e479b5a0ed1fa775c5ee4f9d965a8",
+      "text": "if (result.blocked) {\n        this.flashes.push(defenseCueFlash(target, 'guard', 'impact', '#8ab8d8',\n          { facing: angleTo(target.pos, caster.pos), arc: 0.85 }));\n        this.applyThorns(target, caster);\n        if (depth === 0) this.tapCharges(target, 'block');\n        const mend = target.sheet.get('lifeOnBlock');\n        if (mend > 0) target.healBy(mend);\n        target.noteRecent('block');\n        target.spendBuffs('block');\n        this.rollOwnProcs(target, 'block', { depth });\n        // The striker's 'foiled' procs: the blow was turned (the blocker\n        // is the target).\n        this.rollOwnProcs(caster, 'foiled', { tags: packet.tags, extra, inst, target, depth });\n        // CAST-ON-BLOCK trigger gems: the made block is the event, aimed\n        // back at whoever swung (passive block; guard blocks fire from\n        // tryGuardBlock).\n        this.rollTriggers(target, 'block', { aim: vec(caster.pos.x, caster.pos.y) });\n        // A seeping block leaks its excess through (result.total) — the guard\n        // law's chip can finish a wounded blocker.\n        if (target.life <= 0 && !target.dead) this.kill(target, false, caster);\n        return; // a passively blocked hit applies nothing either\n      }"
+    },
+    {
+      "label": "immune",
+      "index": 11,
+      "line": 43530,
+      "endLine": 43538,
+      "sha256": "734c85ebd700211d119aaef66fd94c6538ca2ea3694ceb8f72c0cd685739ae82",
+      "text": "if (result.immune) {\n        this.flashes.push(combatCueFlash(target.pos, 'immune', target.radius + 8, angleTo(target.pos, caster.pos)));\n        // THE KNOCK LAW: the blow CONNECTED — invulnerability zeroed the\n        // wound, not the contact — so enrolled fixtures still ring and\n        // tunable bodies still take the color (the bell needn't bleed).\n        // Evades and blocks stayed refusals above: those never landed.\n        this.knockFixtures(caster, target, struckTone, false, inst);\n        return;\n      }"
+    },
+    {
+      "label": "mimic",
+      "index": 12,
+      "line": 43543,
+      "endLine": 43548,
+      "sha256": "70e70a39a4a39d564a75e9d28c935e2c56753c363c1ed5166de56d7ea4354e2a",
+      "text": "if (target.kind === 'player' && caster.team === 'enemy') {\n        mimicRefreshWatch(target, this.time);\n        if (target.mimicWatch && mimicCapture(this, target, caster, def)) {\n          this.notice(`ART CAPTURED: ${def.name}`, '#c8a0e8', 14, 'world'); // off the head, onto the feed\n        }\n      }"
+    },
+    {
+      "label": "dealt-capture",
+      "index": 13,
+      "line": 43549,
+      "endLine": 43549,
+      "sha256": "fcd4bd688da2ec9ad586712ea13628d854c3398bb4f618d83581b5eb2a29e8cd",
+      "text": "dealt = result.total;"
+    },
+    {
+      "label": "rear-cue",
+      "index": 14,
+      "line": 43550,
+      "endLine": 43553,
+      "sha256": "cdb61247d0531f95ba1aa94cd4b5c3b6fadca65ece40a31214a4bba7eb07d6d6",
+      "text": "if (rearHit && dealt > 0 && def.backstabCue !== false) {\n        this.flashes.push(combatCueFlash(target.pos, def.backstabCue ?? 'rear_hit', target.radius,\n          angleTo(target.pos, caster.pos)));\n      }"
+    },
+    {
+      "label": "struck-procs",
+      "index": 15,
+      "line": 43554,
+      "endLine": 43556,
+      "sha256": "de8e3d4d84206c65684241e9870e1112ea4e62e32953bec4bb847694bd210527",
+      "text": "if (result.receivedAmounts) this.rollOwnProcs(target, 'struck', {\n        depth, target: caster, crit: wasCrit, receivedAmounts: result.receivedAmounts,\n      });"
+    },
+    {
+      "label": "recency-hurt",
+      "index": 16,
+      "line": 43557,
+      "endLine": 43567,
+      "sha256": "2450fcb3a640ce8c58e67d8786f600cbffd1ad5f8531121002bfee38d54d5323",
+      "text": "if (dealt > 0) {\n        // THE RECENCY LEDGER (engine/recency.ts): the blow landed — both\n        // sides stamp it (DoT ticks never reach here: a burn is not a blow).\n        caster.noteRecent('hit');\n        target.noteRecent('hurt');\n        if (wasCrit) { caster.noteRecent('crit'); target.noteRecent('critHurt'); }\n        // 'hurt' procs — the victim's OWN sheet answers (sheet-only, golden\n        // rule 3); the striker is the proc's target, so a status, an arc\n        // or a shove lands on the hand that struck.\n        this.rollOwnProcs(target, 'hurt', { depth, target: caster, crit: wasCrit, receivedAmounts: result.receivedAmounts });\n      }"
+    },
+    {
+      "label": "damage-pools",
+      "index": 17,
+      "line": 43570,
+      "endLine": 43574,
+      "sha256": "1edd363f7bd5dee726963dd81e6c5633d0361a872152877a998920849609de38",
+      "text": "if (dealt > 0) {\n        for (const [ty, amt] of Object.entries(packet.amounts)) {\n          this.bankPools(caster, { type: ty as DamageType }, amt ?? 0);\n        }\n      }"
+    }
+  ],
+  "nextStatementSha256": "6c6d0334dbb286caffe5bee4a641319dab1776b1fcd9c0d201ce42900e6af97a",
+  "scope": "Damage admission and the first eighteen damaging-hit statements, through damage-pool feeding. Remaining sustain, threat, world reactions, delivery, death and later status/effect dispatch retain separate boundaries.",
+  "observations": "Invoke the original complete resolver. The native sim tap observes without mutating packets/results. Record native results, live host calls, stat queries, RNG, actor state, account deeds, pool/mimic state, cues and partial failures. Explicit host-callback courses exercise mutation, nesting and exceptions without replacing applyHit.",
+  "hostBoundary": [
+    "Live active player identity and account progression authority",
+    "Original shared applyHit damage service",
+    "Assault packet mutation",
+    "Deed recording/tracking and classification",
+    "Spatial cue construction, trigger targeting and fixture contact",
+    "Underlying healing, buff consumption, thorns, charges and proc execution",
+    "Mimic watch/capture policy and content",
+    "Pool banking implementation",
+    "Remaining hit continuation"
+  ],
+  "expectedSemantics": [
+    "Only the captured authored definition or force flag admits damage; delivery effects do not independently admit it.",
+    "Player deeds capture life, hidden state and panic before assault packet mutation and damage. Self-damage uses actual life loss with an overkill floor.",
+    "Evasion and passive block end the whole hit after their ordered rewards and reactions. A seeping block may kill, but healing and triggers precede the lethal check.",
+    "An immune contact still knocks fixtures with the captured tone and a false wounding flag, then stops.",
+    "Landed results capture critical state and total at distinct points; received amounts are borrowed into struck/hurt reactions. Zero-damage contacts can differ from refusals.",
+    "Positive damage stamps both sides, then critical stamps and hurt reactions, before feeding pools from a snapshot of packet entries.",
+    "Mimic capture is a separate live host policy; its landing occurrence follows refusals and precedes dealt capture and rear feedback.",
+    "Host callbacks may nest hits, change live state or fail; no rollback or shared scratch frame is implied."
+  ]
+}
