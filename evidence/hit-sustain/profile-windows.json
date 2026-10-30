@@ -1,0 +1,1212 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "a518694c92bc64b8208e37e03d8103ec1b1a4b36",
+  "scope": "CPU sampling diagnosis of the unadopted shared-method sustain binding. No production runtime, maintained binding, benchmark or frozen-baseline changes.",
+  "runtime": {
+    "compiledFiles": 276,
+    "mapSha256": "ca91cd1f7d29ad67b3bcc116b9d3a6f252072718864ba73b5f8ab0e4da1363a8",
+    "unchanged": true
+  },
+  "validation": {
+    "isolatedProfiles": 8,
+    "scheduledProfiles": 72,
+    "fullScheduleCases": 21,
+    "isolatedHitsPerProfile": 50000,
+    "scheduledHitsPerProfile": 2000,
+    "independentOutcomesAndExactPeerStates": true,
+    "generatedHelpersTypeChecked": true,
+    "sdkTypeCheck": true,
+    "boundaries": true,
+    "fullSdkNotRerun": "No runtime change; parent hosted package jobs pass on Windows/Linux Node 22/24, and both native jobs pass. Parent reference job is still in progress at the retained observation."
+  },
+  "hardware": {
+    "node": "v24.9.0",
+    "platform": "win32",
+    "arch": "x64",
+    "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+    "logicalCpus": 20
+  },
+  "plans": {
+    "isolated": {
+      "seed": 20904,
+      "population": 256,
+      "workloads": [
+        "trees",
+        "combined"
+      ],
+      "warmup": 5000,
+      "hits": 50000,
+      "auditHits": 3,
+      "samplingIntervalUs": 1000,
+      "orders": [
+        [
+          "previous",
+          "current"
+        ],
+        [
+          "current",
+          "previous"
+        ]
+      ],
+      "scope": "Diagnostic CPU sampling in eight fresh processes, one selected workload per process. Equal native hits and resets with outcome checks. Sampling covers the hit loop, excluding audit, warmup, explicit collection, snapshots and file writes. This is a different JIT history from the 21-case throughput run, and is not an adoption gate, allocation measurement or device result."
+    },
+    "schedule": {
+      "schemaVersion": 2,
+      "seed": 20904,
+      "populations": [
+        8,
+        64,
+        256
+      ],
+      "workloads": [
+        "idle",
+        "siphon",
+        "share",
+        "sparse",
+        "bond",
+        "trees",
+        "combined"
+      ],
+      "auditHits": 3,
+      "warmup": 1500,
+      "batch": 2000,
+      "rounds": 12,
+      "order": [
+        [
+          "original",
+          "previous",
+          "current"
+        ],
+        [
+          "current",
+          "previous",
+          "original"
+        ],
+        [
+          "previous",
+          "original",
+          "current"
+        ],
+        [
+          "current",
+          "original",
+          "previous"
+        ],
+        [
+          "original",
+          "current",
+          "previous"
+        ],
+        [
+          "previous",
+          "current",
+          "original"
+        ]
+      ],
+      "scope": "Warm full resolver with native healing, cues and equal per-hit life/tree/text resets. Read-only hit/heal counters and RNG counting remain inside timing. IPC, snapshot creation, assertions on snapshots and explicit GC are outside timing. Three isolated workers; six orders repeated twice. Coalesced cues persist, simulation time is fixed. Retained heap is not allocation volume. Not whole-frame or device acceptance."
+    }
+  },
+  "groups": [
+    {
+      "kind": "isolated",
+      "workload": "trees",
+      "lane": "previous",
+      "profiles": 2,
+      "samples": 6121,
+      "totalUs": 9555909,
+      "selected": {
+        "sustainSelfUs": 1619015,
+        "sustainInclusiveUs": 1776819,
+        "statComputeSelfUs": 3309230,
+        "contextCacheSelfUs": 592241,
+        "gcSelfUs": 36140,
+        "inspectorSelfUs": 243943
+      },
+      "topSelfFrames": [
+        {
+          "name": "compute",
+          "file": "game/engine/stats.ts",
+          "line": 1,
+          "selfUs": 3309230,
+          "inclusiveUs": 3899972
+        },
+        {
+          "name": "apply",
+          "file": "sdk/hit-sustain.js",
+          "line": 4,
+          "selfUs": 1619015,
+          "inclusiveUs": 1776819
+        },
+        {
+          "name": "get",
+          "file": "sdk/tag-context-cache.js",
+          "line": 23,
+          "selfUs": 592241,
+          "inclusiveUs": 592241
+        },
+        {
+          "name": "profile",
+          "file": "observer.ts",
+          "line": 1,
+          "selfUs": 474945,
+          "inclusiveUs": 9488320
+        },
+        {
+          "name": "continueLandedHit",
+          "file": "game/engine/world.ts",
+          "line": 1,
+          "selfUs": 371434,
+          "inclusiveUs": 5084141
+        },
+        {
+          "name": "hit",
+          "file": "sdk/proc-runtime.js",
+          "line": 223,
+          "selfUs": 363494,
+          "inclusiveUs": 1808050
+        },
+        {
+          "name": "#hitRows",
+          "file": "sdk/proc-runtime.js",
+          "line": 196,
+          "selfUs": 351330,
+          "inclusiveUs": 1440062
+        },
+        {
+          "name": "skillContextTags",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 326592,
+          "inclusiveUs": 729157
+        },
+        {
+          "name": "post",
+          "file": "node:inspector",
+          "line": 115,
+          "selfUs": 243943,
+          "inclusiveUs": 245384
+        },
+        {
+          "name": "instanceBaseTags",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 226683,
+          "inclusiveUs": 279321
+        },
+        {
+          "name": "",
+          "file": "observer.ts",
+          "line": 1,
+          "selfUs": 145738,
+          "inclusiveUs": 8767991
+        },
+        {
+          "name": "gates",
+          "file": "sdk/proc-runtime.js",
+          "line": 44,
+          "selfUs": 127087,
+          "inclusiveUs": 274067
+        }
+      ]
+    },
+    {
+      "kind": "isolated",
+      "workload": "trees",
+      "lane": "current",
+      "profiles": 2,
+      "samples": 5528,
+      "totalUs": 8653787,
+      "selected": {
+        "sustainSelfUs": 1073846,
+        "sustainInclusiveUs": 1240243,
+        "statComputeSelfUs": 3400432,
+        "contextCacheSelfUs": 644300,
+        "gcSelfUs": 43376,
+        "inspectorSelfUs": 251090
+      },
+      "topSelfFrames": [
+        {
+          "name": "compute",
+          "file": "game/engine/stats.ts",
+          "line": 1,
+          "selfUs": 3400432,
+          "inclusiveUs": 4038681
+        },
+        {
+          "name": "apply",
+          "file": "sdk/hit-sustain.js",
+          "line": 4,
+          "selfUs": 1073846,
+          "inclusiveUs": 1240243
+        },
+        {
+          "name": "get",
+          "file": "sdk/tag-context-cache.js",
+          "line": 23,
+          "selfUs": 644300,
+          "inclusiveUs": 644300
+        },
+        {
+          "name": "profile",
+          "file": "observer.ts",
+          "line": 1,
+          "selfUs": 379869,
+          "inclusiveUs": 8577525
+        },
+        {
+          "name": "#hitRows",
+          "file": "sdk/proc-runtime.js",
+          "line": 196,
+          "selfUs": 369068,
+          "inclusiveUs": 1415421
+        },
+        {
+          "name": "hit",
+          "file": "sdk/proc-runtime.js",
+          "line": 223,
+          "selfUs": 304476,
+          "inclusiveUs": 1725871
+        },
+        {
+          "name": "skillContextTags",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 278917,
+          "inclusiveUs": 628057
+        },
+        {
+          "name": "post",
+          "file": "node:inspector",
+          "line": 115,
+          "selfUs": 251090,
+          "inclusiveUs": 252995
+        },
+        {
+          "name": "continueLandedHit",
+          "file": "game/engine/world.ts",
+          "line": 1,
+          "selfUs": 241937,
+          "inclusiveUs": 4362854
+        },
+        {
+          "name": "instanceBaseTags",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 200376,
+          "inclusiveUs": 257442
+        },
+        {
+          "name": "",
+          "file": "observer.ts",
+          "line": 1,
+          "selfUs": 160087,
+          "inclusiveUs": 7944661
+        },
+        {
+          "name": "foldSkillDamage",
+          "file": "sdk/damage-pipeline.js",
+          "line": 99,
+          "selfUs": 103635,
+          "inclusiveUs": 1851924
+        }
+      ]
+    },
+    {
+      "kind": "isolated",
+      "workload": "combined",
+      "lane": "previous",
+      "profiles": 2,
+      "samples": 14137,
+      "totalUs": 21841729,
+      "selected": {
+        "sustainSelfUs": 2861978,
+        "sustainInclusiveUs": 13142787,
+        "statComputeSelfUs": 5706955,
+        "contextCacheSelfUs": 655720,
+        "gcSelfUs": 163275,
+        "inspectorSelfUs": 235630
+      },
+      "topSelfFrames": [
+        {
+          "name": "compute",
+          "file": "game/engine/stats.ts",
+          "line": 1,
+          "selfUs": 5706955,
+          "inclusiveUs": 6362675
+        },
+        {
+          "name": "noteResourceFlow",
+          "file": "game/engine/feedingCues.ts",
+          "line": 1,
+          "selfUs": 4474297,
+          "inclusiveUs": 5406613
+        },
+        {
+          "name": "apply",
+          "file": "sdk/hit-sustain.js",
+          "line": 4,
+          "selfUs": 2861978,
+          "inclusiveUs": 13142787
+        },
+        {
+          "name": "continueLandedHit",
+          "file": "game/engine/world.ts",
+          "line": 1,
+          "selfUs": 1253494,
+          "inclusiveUs": 17407280
+        },
+        {
+          "name": "healLife",
+          "file": "sdk/life-recovery.js",
+          "line": 3,
+          "selfUs": 1131757,
+          "inclusiveUs": 3290519
+        },
+        {
+          "name": "get",
+          "file": "sdk/tag-context-cache.js",
+          "line": 23,
+          "selfUs": 655720,
+          "inclusiveUs": 655720
+        },
+        {
+          "name": "skillContextTags",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 398663,
+          "inclusiveUs": 765063
+        },
+        {
+          "name": "Math.random",
+          "file": "observer.ts",
+          "line": 1,
+          "selfUs": 387263,
+          "inclusiveUs": 387263
+        },
+        {
+          "name": "dist",
+          "file": "game/core/math.ts",
+          "line": 1,
+          "selfUs": 386665,
+          "inclusiveUs": 386665
+        },
+        {
+          "name": "#hitRows",
+          "file": "sdk/proc-runtime.js",
+          "line": 196,
+          "selfUs": 376353,
+          "inclusiveUs": 1436866
+        },
+        {
+          "name": "hit",
+          "file": "sdk/proc-runtime.js",
+          "line": 223,
+          "selfUs": 367883,
+          "inclusiveUs": 1812282
+        },
+        {
+          "name": "lifeCeiling",
+          "file": "game/engine/actor.ts",
+          "line": 1,
+          "selfUs": 354041,
+          "inclusiveUs": 1662025
+        }
+      ]
+    },
+    {
+      "kind": "isolated",
+      "workload": "combined",
+      "lane": "current",
+      "profiles": 2,
+      "samples": 13936,
+      "totalUs": 21493441,
+      "selected": {
+        "sustainSelfUs": 2416562,
+        "sustainInclusiveUs": 12644424,
+        "statComputeSelfUs": 5688900,
+        "contextCacheSelfUs": 654751,
+        "gcSelfUs": 669021,
+        "inspectorSelfUs": 240569
+      },
+      "topSelfFrames": [
+        {
+          "name": "compute",
+          "file": "game/engine/stats.ts",
+          "line": 1,
+          "selfUs": 5688900,
+          "inclusiveUs": 6342149
+        },
+        {
+          "name": "noteResourceFlow",
+          "file": "game/engine/feedingCues.ts",
+          "line": 1,
+          "selfUs": 4604582,
+          "inclusiveUs": 5599426
+        },
+        {
+          "name": "apply",
+          "file": "sdk/hit-sustain.js",
+          "line": 4,
+          "selfUs": 2416562,
+          "inclusiveUs": 12644424
+        },
+        {
+          "name": "healLife",
+          "file": "sdk/life-recovery.js",
+          "line": 3,
+          "selfUs": 873358,
+          "inclusiveUs": 2969869
+        },
+        {
+          "name": "continueLandedHit",
+          "file": "game/engine/world.ts",
+          "line": 1,
+          "selfUs": 802196,
+          "inclusiveUs": 16516579
+        },
+        {
+          "name": "(garbage collector)",
+          "file": "",
+          "line": 0,
+          "selfUs": 669021,
+          "inclusiveUs": 669021
+        },
+        {
+          "name": "get",
+          "file": "sdk/tag-context-cache.js",
+          "line": 23,
+          "selfUs": 654751,
+          "inclusiveUs": 654751
+        },
+        {
+          "name": "Math.random",
+          "file": "observer.ts",
+          "line": 1,
+          "selfUs": 425626,
+          "inclusiveUs": 425626
+        },
+        {
+          "name": "lifeCeiling",
+          "file": "game/engine/actor.ts",
+          "line": 1,
+          "selfUs": 395172,
+          "inclusiveUs": 1631376
+        },
+        {
+          "name": "skillContextTags",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 381380,
+          "inclusiveUs": 757487
+        },
+        {
+          "name": "#hitRows",
+          "file": "sdk/proc-runtime.js",
+          "line": 196,
+          "selfUs": 379129,
+          "inclusiveUs": 1465483
+        },
+        {
+          "name": "dist",
+          "file": "game/core/math.ts",
+          "line": 1,
+          "selfUs": 372145,
+          "inclusiveUs": 372145
+        }
+      ]
+    },
+    {
+      "kind": "schedule",
+      "workload": "trees",
+      "lane": "original",
+      "profiles": 12,
+      "samples": 2275,
+      "totalUs": 4772724,
+      "selected": {
+        "sustainSelfUs": 0,
+        "sustainInclusiveUs": 0,
+        "statComputeSelfUs": 1605067,
+        "contextCacheSelfUs": 0,
+        "gcSelfUs": 29843,
+        "inspectorSelfUs": 1326837
+      },
+      "topSelfFrames": [
+        {
+          "name": "compute",
+          "file": "game/engine/stats.ts",
+          "line": 1,
+          "selfUs": 1605067,
+          "inclusiveUs": 1605067
+        },
+        {
+          "name": "post",
+          "file": "node:inspector",
+          "line": 115,
+          "selfUs": 1326837,
+          "inclusiveUs": 1344986
+        },
+        {
+          "name": "resolveHit",
+          "file": "game/engine/world.ts",
+          "line": 1,
+          "selfUs": 518145,
+          "inclusiveUs": 3076332
+        },
+        {
+          "name": "",
+          "file": "observer.ts",
+          "line": 1,
+          "selfUs": 300708,
+          "inclusiveUs": 3380037
+        },
+        {
+          "name": "instanceBaseTags",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 217097,
+          "inclusiveUs": 269650
+        },
+        {
+          "name": "hostSockets",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 146909,
+          "inclusiveUs": 353717
+        },
+        {
+          "name": "skillContextTags",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 100490,
+          "inclusiveUs": 368366
+        },
+        {
+          "name": "dist",
+          "file": "game/core/math.ts",
+          "line": 1,
+          "selfUs": 52491,
+          "inclusiveUs": 52491
+        },
+        {
+          "name": "get",
+          "file": "game/engine/stats.ts",
+          "line": 1,
+          "selfUs": 43448,
+          "inclusiveUs": 1582525
+        },
+        {
+          "name": "attackSequenceOf",
+          "file": "game/engine/attackSequenceSpec.ts",
+          "line": 1,
+          "selfUs": 33063,
+          "inclusiveUs": 33063
+        },
+        {
+          "name": "set filename",
+          "file": "",
+          "line": 0,
+          "selfUs": 31549,
+          "inclusiveUs": 31549
+        },
+        {
+          "name": "(garbage collector)",
+          "file": "",
+          "line": 0,
+          "selfUs": 29843,
+          "inclusiveUs": 29843
+        }
+      ]
+    },
+    {
+      "kind": "schedule",
+      "workload": "trees",
+      "lane": "previous",
+      "profiles": 12,
+      "samples": 1583,
+      "totalUs": 3966544,
+      "selected": {
+        "sustainSelfUs": 272833,
+        "sustainInclusiveUs": 334176,
+        "statComputeSelfUs": 880648,
+        "contextCacheSelfUs": 169234,
+        "gcSelfUs": 23704,
+        "inspectorSelfUs": 1577156
+      },
+      "topSelfFrames": [
+        {
+          "name": "post",
+          "file": "node:inspector",
+          "line": 115,
+          "selfUs": 1577156,
+          "inclusiveUs": 1595242
+        },
+        {
+          "name": "compute",
+          "file": "game/engine/stats.ts",
+          "line": 1,
+          "selfUs": 880648,
+          "inclusiveUs": 1049882
+        },
+        {
+          "name": "apply",
+          "file": "sdk/hit-sustain.js",
+          "line": 4,
+          "selfUs": 272833,
+          "inclusiveUs": 334176
+        },
+        {
+          "name": "get",
+          "file": "sdk/tag-context-cache.js",
+          "line": 23,
+          "selfUs": 169234,
+          "inclusiveUs": 169234
+        },
+        {
+          "name": "",
+          "file": "observer.ts",
+          "line": 1,
+          "selfUs": 145046,
+          "inclusiveUs": 2332662
+        },
+        {
+          "name": "continueLandedHit",
+          "file": "game/engine/world.ts",
+          "line": 1,
+          "selfUs": 110734,
+          "inclusiveUs": 1245447
+        },
+        {
+          "name": "hit",
+          "file": "sdk/proc-runtime.js",
+          "line": 223,
+          "selfUs": 89941,
+          "inclusiveUs": 499442
+        },
+        {
+          "name": "skillContextTags",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 76226,
+          "inclusiveUs": 169987
+        },
+        {
+          "name": "#hitRows",
+          "file": "sdk/proc-runtime.js",
+          "line": 196,
+          "selfUs": 71865,
+          "inclusiveUs": 408029
+        },
+        {
+          "name": "instanceBaseTags",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 50649,
+          "inclusiveUs": 66838
+        },
+        {
+          "name": "dist",
+          "file": "game/core/math.ts",
+          "line": 1,
+          "selfUs": 49446,
+          "inclusiveUs": 49446
+        },
+        {
+          "name": "",
+          "file": "game/engine/hitLanding.ts",
+          "line": 1,
+          "selfUs": 47895,
+          "inclusiveUs": 1317205
+        }
+      ]
+    },
+    {
+      "kind": "schedule",
+      "workload": "trees",
+      "lane": "current",
+      "profiles": 12,
+      "samples": 1538,
+      "totalUs": 4168212,
+      "selected": {
+        "sustainSelfUs": 268655,
+        "sustainInclusiveUs": 330563,
+        "statComputeSelfUs": 875038,
+        "contextCacheSelfUs": 154628,
+        "gcSelfUs": 8976,
+        "inspectorSelfUs": 1842661
+      },
+      "topSelfFrames": [
+        {
+          "name": "post",
+          "file": "node:inspector",
+          "line": 115,
+          "selfUs": 1842661,
+          "inclusiveUs": 1862152
+        },
+        {
+          "name": "compute",
+          "file": "game/engine/stats.ts",
+          "line": 1,
+          "selfUs": 875038,
+          "inclusiveUs": 1029666
+        },
+        {
+          "name": "apply",
+          "file": "sdk/hit-sustain.js",
+          "line": 4,
+          "selfUs": 268655,
+          "inclusiveUs": 330563
+        },
+        {
+          "name": "",
+          "file": "observer.ts",
+          "line": 1,
+          "selfUs": 173229,
+          "inclusiveUs": 2285130
+        },
+        {
+          "name": "get",
+          "file": "sdk/tag-context-cache.js",
+          "line": 23,
+          "selfUs": 154628,
+          "inclusiveUs": 154628
+        },
+        {
+          "name": "continueLandedHit",
+          "file": "game/engine/world.ts",
+          "line": 1,
+          "selfUs": 74625,
+          "inclusiveUs": 1216129
+        },
+        {
+          "name": "skillContextTags",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 72108,
+          "inclusiveUs": 157287
+        },
+        {
+          "name": "hit",
+          "file": "sdk/proc-runtime.js",
+          "line": 223,
+          "selfUs": 67742,
+          "inclusiveUs": 510613
+        },
+        {
+          "name": "#hitRows",
+          "file": "sdk/proc-runtime.js",
+          "line": 196,
+          "selfUs": 64389,
+          "inclusiveUs": 439864
+        },
+        {
+          "name": "instanceBaseTags",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 59714,
+          "inclusiveUs": 65708
+        },
+        {
+          "name": "dist",
+          "file": "game/core/math.ts",
+          "line": 1,
+          "selfUs": 43887,
+          "inclusiveUs": 43887
+        },
+        {
+          "name": "",
+          "file": "game/engine/hitLanding.ts",
+          "line": 1,
+          "selfUs": 43451,
+          "inclusiveUs": 1278680
+        }
+      ]
+    },
+    {
+      "kind": "schedule",
+      "workload": "combined",
+      "lane": "original",
+      "profiles": 12,
+      "samples": 4661,
+      "totalUs": 8140682,
+      "selected": {
+        "sustainSelfUs": 0,
+        "sustainInclusiveUs": 0,
+        "statComputeSelfUs": 2228095,
+        "contextCacheSelfUs": 0,
+        "gcSelfUs": 67218,
+        "inspectorSelfUs": 1045415
+      },
+      "topSelfFrames": [
+        {
+          "name": "compute",
+          "file": "game/engine/stats.ts",
+          "line": 1,
+          "selfUs": 2228095,
+          "inclusiveUs": 2228095
+        },
+        {
+          "name": "post",
+          "file": "node:inspector",
+          "line": 115,
+          "selfUs": 1045415,
+          "inclusiveUs": 1063378
+        },
+        {
+          "name": "resolveHit",
+          "file": "game/engine/world.ts",
+          "line": 1,
+          "selfUs": 1043577,
+          "inclusiveUs": 6654690
+        },
+        {
+          "name": "noteResourceFlow",
+          "file": "game/engine/feedingCues.ts",
+          "line": 1,
+          "selfUs": 894733,
+          "inclusiveUs": 1662330
+        },
+        {
+          "name": "noteRestoreGain",
+          "file": "game/engine/feedingCues.ts",
+          "line": 1,
+          "selfUs": 554509,
+          "inclusiveUs": 672920
+        },
+        {
+          "name": "",
+          "file": "observer.ts",
+          "line": 1,
+          "selfUs": 391579,
+          "inclusiveUs": 6980238
+        },
+        {
+          "name": "healBy",
+          "file": "game/engine/actor.ts",
+          "line": 1,
+          "selfUs": 288057,
+          "inclusiveUs": 1042956
+        },
+        {
+          "name": "instanceBaseTags",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 191687,
+          "inclusiveUs": 233628
+        },
+        {
+          "name": "Math.random",
+          "file": "observer.ts",
+          "line": 1,
+          "selfUs": 165964,
+          "inclusiveUs": 165964
+        },
+        {
+          "name": "hostSockets",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 160098,
+          "inclusiveUs": 329563
+        },
+        {
+          "name": "skillContextTags",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 109174,
+          "inclusiveUs": 385905
+        },
+        {
+          "name": "dist",
+          "file": "game/core/math.ts",
+          "line": 1,
+          "selfUs": 103703,
+          "inclusiveUs": 103703
+        }
+      ]
+    },
+    {
+      "kind": "schedule",
+      "workload": "combined",
+      "lane": "previous",
+      "profiles": 12,
+      "samples": 4298,
+      "totalUs": 8235002,
+      "selected": {
+        "sustainSelfUs": 763111,
+        "sustainInclusiveUs": 4227001,
+        "statComputeSelfUs": 1673796,
+        "contextCacheSelfUs": 181556,
+        "gcSelfUs": 37430,
+        "inspectorSelfUs": 1633972
+      },
+      "topSelfFrames": [
+        {
+          "name": "compute",
+          "file": "game/engine/stats.ts",
+          "line": 1,
+          "selfUs": 1673796,
+          "inclusiveUs": 1855352
+        },
+        {
+          "name": "post",
+          "file": "node:inspector",
+          "line": 115,
+          "selfUs": 1633972,
+          "inclusiveUs": 1655069
+        },
+        {
+          "name": "noteResourceFlow",
+          "file": "game/engine/feedingCues.ts",
+          "line": 1,
+          "selfUs": 876064,
+          "inclusiveUs": 1658195
+        },
+        {
+          "name": "apply",
+          "file": "sdk/hit-sustain.js",
+          "line": 4,
+          "selfUs": 763111,
+          "inclusiveUs": 4227001
+        },
+        {
+          "name": "noteRestoreGain",
+          "file": "game/engine/feedingCues.ts",
+          "line": 1,
+          "selfUs": 486003,
+          "inclusiveUs": 655184
+        },
+        {
+          "name": "continueLandedHit",
+          "file": "game/engine/world.ts",
+          "line": 1,
+          "selfUs": 313785,
+          "inclusiveUs": 5479790
+        },
+        {
+          "name": "healLife",
+          "file": "sdk/life-recovery.js",
+          "line": 3,
+          "selfUs": 306083,
+          "inclusiveUs": 1235780
+        },
+        {
+          "name": "get",
+          "file": "sdk/tag-context-cache.js",
+          "line": 23,
+          "selfUs": 181556,
+          "inclusiveUs": 181556
+        },
+        {
+          "name": "Math.random",
+          "file": "observer.ts",
+          "line": 1,
+          "selfUs": 175004,
+          "inclusiveUs": 175004
+        },
+        {
+          "name": "dist",
+          "file": "game/core/math.ts",
+          "line": 1,
+          "selfUs": 121631,
+          "inclusiveUs": 121631
+        },
+        {
+          "name": "skillContextTags",
+          "file": "game/engine/skills.ts",
+          "line": 1,
+          "selfUs": 108110,
+          "inclusiveUs": 196171
+        },
+        {
+          "name": "hit",
+          "file": "sdk/proc-runtime.js",
+          "line": 223,
+          "selfUs": 106497,
+          "inclusiveUs": 612399
+        }
+      ]
+    },
+    {
+      "kind": "schedule",
+      "workload": "combined",
+      "lane": "current",
+      "profiles": 12,
+      "samples": 3943,
+      "totalUs": 7739077,
+      "selected": {
+        "sustainSelfUs": 561691,
+        "sustainInclusiveUs": 3804218,
+        "statComputeSelfUs": 1581171,
+        "contextCacheSelfUs": 211736,
+        "gcSelfUs": 53877,
+        "inspectorSelfUs": 1698621
+      },
+      "topSelfFrames": [
+        {
+          "name": "post",
+          "file": "node:inspector",
+          "line": 115,
+          "selfUs": 1698621,
+          "inclusiveUs": 1716745
+        },
+        {
+          "name": "compute",
+          "file": "game/engine/stats.ts",
+          "line": 1,
+          "selfUs": 1581171,
+          "inclusiveUs": 1792907
+        },
+        {
+          "name": "noteResourceFlow",
+          "file": "game/engine/feedingCues.ts",
+          "line": 1,
+          "selfUs": 955300,
+          "inclusiveUs": 1692751
+        },
+        {
+          "name": "apply",
+          "file": "sdk/hit-sustain.js",
+          "line": 4,
+          "selfUs": 561691,
+          "inclusiveUs": 3804218
+        },
+        {
+          "name": "noteRestoreGain",
+          "file": "game/engine/feedingCues.ts",
+          "line": 1,
+          "selfUs": 491274,
+          "inclusiveUs": 645725
+        },
+        {
+          "name": "healLife",
+          "file": "sdk/life-recovery.js",
+          "line": 3,
+          "selfUs": 281053,
+          "inclusiveUs": 1092007
+        },
+        {
+          "name": "continueLandedHit",
+          "file": "game/engine/world.ts",
+          "line": 1,
+          "selfUs": 237043,
+          "inclusiveUs": 4856299
+        },
+        {
+          "name": "get",
+          "file": "sdk/tag-context-cache.js",
+          "line": 23,
+          "selfUs": 211736,
+          "inclusiveUs": 211736
+        },
+        {
+          "name": "Math.random",
+          "file": "observer.ts",
+          "line": 1,
+          "selfUs": 150386,
+          "inclusiveUs": 151884
+        },
+        {
+          "name": "",
+          "file": "observer.ts",
+          "line": 1,
+          "selfUs": 123075,
+          "inclusiveUs": 5922208
+        },
+        {
+          "name": "dist",
+          "file": "game/core/math.ts",
+          "line": 1,
+          "selfUs": 90026,
+          "inclusiveUs": 90026
+        },
+        {
+          "name": "recent",
+          "file": "game/engine/lifeRecoveryAdapter.ts",
+          "line": 1,
+          "selfUs": 83962,
+          "inclusiveUs": 152679
+        }
+      ]
+    }
+  ],
+  "decision": {
+    "prototypeAdopted": false,
+    "priorPerformanceGateStillFailed": true,
+    "causeOfPriorTreeRegressionEstablished": false,
+    "explanation": "Fresh-process tree apply samples favor the prototype; the full schedule gives very similar tree apply samples. Combined apply samples remain lower. Inspector boundary time is substantial in short sampled batches. These diagnostics do not justify overruling the previous 5.17% regression or repeatedly timing the unchanged candidate until it passes.",
+    "next": "Continue the complete landed-contact reaction extraction. Revisit optimization through a distinct change and the existing behavior/performance gates."
+  },
+  "nextBoundary": {
+    "candidateOnly": true,
+    "matchedOriginalAndInstalledStatements": 29,
+    "evidenceCaptureEscapes": false,
+    "acceptedBehaviorBaseline": false,
+    "runtimeExtracted": false,
+    "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c"
+  },
+  "correction": {
+    "initialAnalysisRetained": true,
+    "description": "The initial analysis normalized installed game sources but not the original .reference/src prefix, so its selected original stat-compute counter read zero. Version two corrects grouping and separately reports inspector self time. No profiles, observations or measured runs changed."
+  },
+  "preserved": {
+    "originalWrites": false,
+    "stableOriginalFiles": 4100,
+    "explicitConcurrentPaths": 28,
+    "sourceCapsuleVerified": true,
+    "sdkMainUnchanged": true,
+    "managedGameUnchanged": true
+  },
+  "hostedParent": [
+    {
+      "databaseId": 41087400829,
+      "status": "in_progress",
+      "conclusion": "",
+      "headSha": "a518694c92bc64b8208e37e03d8103ec1b1a4b36"
+    },
+    {
+      "databaseId": 41087400845,
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "a518694c92bc64b8208e37e03d8103ec1b1a4b36"
+    },
+    {
+      "databaseId": 41087400815,
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "a518694c92bc64b8208e37e03d8103ec1b1a4b36"
+    },
+    {
+      "databaseId": 41087401087,
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "a518694c92bc64b8208e37e03d8103ec1b1a4b36"
+    }
+  ],
+  "limitations": [
+    "Sampling diagnostics, not throughput acceptance.",
+    "Isolated profiles have one workload per fresh process; schedule profiles preserve all 21 cases, 12 rounds and the preceding warmup/measurement history.",
+    "Profiler overhead and compilation effects can perturb execution; sampled time does not prove causation or allocation volume.",
+    "Previously failed prototype adoption gate remains authoritative; no production promotion follows from these profiles."
+  ],
+  "sources": {
+    "docs/completion.json": "fe62f8d343b879403837e1f487e9a0bb91b315d012012ea556f120b8e45c3910",
+    "docs/hit-sustain-performance.md": "a3169dc24d24bb67a29aaece60863f47a13be49d15aaa66a46f93ae9516ab121",
+    "docs/hit-sustain-profiling.md": "7c43ad0d5d6dd3317fc734f2558e68bc4d1f047a267f8dda0ec5c99b1281c05e",
+    "package.json": "5c93963f49578e49039e52dc86a9999bceb1f8826e6db1ced6a7a2790876acbc",
+    "scripts/profile-hit-sustain.mjs": "c89293564a1796e700f3874b83d87685ea7e2a6fb9fd9d444cb2e5dbab39898d"
+  },
+  "raw": {
+    "path": "evidence/hit-sustain/profile-windows-raw.json.gz",
+    "entries": 201,
+    "bytes": 1077951,
+    "sha256": "ce74b295da4f5c83e56a0181d8b0cbbd71eb98c25319216f8227e65c4cd0eb40",
+    "uncompressedSha256": "5e918e03db432638e28e5eba732fcd577be745b852403834b594cb7e0f528f6a"
+  },
+  "acceptance": {
+    "profilingToolAndOutcomeChecks": true,
+    "optimization": false,
+    "physicalDevices": false,
+    "allocationVolume": false,
+    "completeSdk": false
+  }
+}

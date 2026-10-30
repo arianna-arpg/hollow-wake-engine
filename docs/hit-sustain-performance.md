@@ -115,3 +115,7 @@ The first untimed development audit predates the helper immutability guard: its
 controller/checker were edited while it ran, so its final hashes cannot attest
 the executed code. It is retained but excluded from acceptance. Subsequent
 fault-control and measurement runs require unchanged helpers throughout.
+
+The subsequent [CPU profiling checkpoint](hit-sustain-profiling.md) retains eight
+isolated profiles and 72 profiles within the original workload schedule. It does
+not explain away the failed gate or promote the prototype.
