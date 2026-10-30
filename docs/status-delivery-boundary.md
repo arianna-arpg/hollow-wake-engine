@@ -93,7 +93,7 @@ tests, 25 independent delivery contracts and 52 runtime faults on Node 22 and 24
 55 source controls, and fifteen installed runtime/binding/forwarding faults.
 Game, launcher and simulation types pass. Earlier status lifecycle, status-effect,
 damage, hit-aftermath and attack-sequence comparisons pass, as do the original
-reference check, game smoke simulation and local C/C++/.NET full-attack regression.
+reference check, game smoke simulation and local C/C++ full-attack regression.
 
 The clean consumer verifies the public types and browser bundle. The optional
 entry contributes 4,697 unminified JavaScript bytes, and all 288 predecessor

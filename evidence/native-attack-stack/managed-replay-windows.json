@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "6bea5b86c22e426149af0b7170611dc4e00a5e91",
+  "observedAt": "2026-10-30T22:57:38.722Z",
+  "platform": "win32",
+  "arch": "x64",
+  "node": "v24.9.0",
+  "sources": {
+    "scripts/embedded-native-tools.mjs": "7f3449f03ecc580801571519328374fcf57dfe8138bf273bcff443333bfe306d",
+    "scripts/test-embedded-library.mjs": "3e9f9619ae61ba3378f354314d40fec8494f5a996af8f80c02dcb565468be86f",
+    "scripts/test-native-attack-course.mjs": "5ac924d3fea351d67d9df06e9a5b7a13d78c072f63a07a4f56406d3ed4676e1e",
+    ".github/workflows/embedded-host.yml": "b311775862fada78471256929dd53897fb1b0eb8cf86972872d694219cab11da"
+  },
+  "runtimeMapSha256": "dcca24efe79e5487f6449e95377612eebc7aede6f430f82fea47015bed9872da",
+  "runtimeUnchanged": true,
+  "dotnetSdk": "8.0.421",
+  "cases": [
+    {
+      "label": "original",
+      "passed": true,
+      "requests": 33,
+      "numericObservations": 150608,
+      "dotnetMetrics": {
+        "passed": true,
+        "requests": 33,
+        "liveBytesAfterDispose": 0,
+        "liveBlocksAfterDispose": 0,
+        "peakTrackedBytes": 157112357,
+        "managedOwnership": true,
+        "threadMigration": true,
+        "libraryLease": true,
+        "failedConstructionLease": true,
+        "finalizerUnload": true,
+        "unloadReload": true,
+        "residencyProbe": "GetModuleHandleW"
+      },
+      "exactManagedVsC": true,
+      "exactCppVsC": true
+    },
+    {
+      "label": "installed",
+      "passed": true,
+      "requests": 33,
+      "numericObservations": 150608,
+      "dotnetMetrics": {
+        "passed": true,
+        "requests": 33,
+        "liveBytesAfterDispose": 0,
+        "liveBlocksAfterDispose": 0,
+        "peakTrackedBytes": 200059991,
+        "managedOwnership": true,
+        "threadMigration": true,
+        "libraryLease": true,
+        "failedConstructionLease": true,
+        "finalizerUnload": true,
+        "unloadReload": true,
+        "residencyProbe": "GetModuleHandleW"
+      },
+      "exactManagedVsC": true,
+      "exactCppVsC": true
+    }
+  ],
+  "libraryRegression": {
+    "passed": true,
+    "requestsPerConsumer": 60,
+    "exactNumbersPerConsumer": 609,
+    "cpp": {
+      "passed": true,
+      "requests": 60,
+      "liveBytesAfterDispose": 0,
+      "liveBlocksAfterDispose": 0,
+      "peakTrackedBytes": 66361592,
+      "bufferOwnership": true,
+      "threadMigration": true,
+      "concurrentCancellation": true,
+      "unloadReload": true
+    },
+    "dotnet": {
+      "passed": true,
+      "requests": 60,
+      "liveBytesAfterDispose": 0,
+      "liveBlocksAfterDispose": 0,
+      "peakTrackedBytes": 66361592,
+      "managedOwnership": true,
+      "threadMigration": true,
+      "libraryLease": true,
+      "failedConstructionLease": true,
+      "finalizerUnload": true,
+      "unloadReload": true,
+      "residencyProbe": "GetModuleHandleW"
+    }
+  },
+  "productionStackLimitBytes": 262144,
+  "productionLimitsChanged": false,
+  "priorCoverageCorrection": "Earlier full-attack evidence executed C and C++ only. Recorded C# source hashes were not execution evidence. Separate .NET library tests used a smaller session fixture; historical raw receipts remain unchanged.",
+  "scope": "Local Windows x64 full-attack replay through C, C++ and .NET using the existing experimental host. No dedicated 88-course native status replay, stable engine package, physical-device measurement or general performance claim.",
+  "preservation": {
+    "originalGameWrites": false,
+    "observedFiles": 4146,
+    "existingWorkUnchanged": true
+  },
+  "remaining": [
+    "Exact-commit hosted Windows/Linux acceptance for managed full-attack replay",
+    "Dedicated native status-delivery replay",
+    "Complete engine packages and physical-device acceptance"
+  ],
+  "raw": {
+    "path": "evidence/native-attack-stack/managed-replay-windows-raw.json.gz",
+    "entries": 28,
+    "bytes": 1272428,
+    "sha256": "eb1356f251ec1652d45a3ef1751ba2ad1204a2f95c66da46d3784e4350e38961",
+    "uncompressedSha256": "7b64ce1934e5130415d75d6802d827ec69b3c7b85084512c278b2e7c11be8880"
+  }
+}

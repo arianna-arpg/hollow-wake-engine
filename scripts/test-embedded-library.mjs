@@ -3,7 +3,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import {execFileSync, spawnSync} from 'node:child_process';
 import {root, git, sha256, listFiles, writeJSON} from './reference-utils.mjs';
-import {buildEmbeddedLibrary} from './embedded-native-tools.mjs';
+import {buildEmbeddedLibrary, buildEmbeddedManagedConsumer} from './embedded-native-tools.mjs';
 
 assert(['win32', 'linux'].includes(process.platform), 'Only Windows and Linux proof builds are configured');
 assert.equal(process.arch, 'x64');
@@ -43,25 +43,11 @@ const report = {schemaVersion: 1, passed: false, status: 'started', commit: git(
 try {
   const built = buildEmbeddedLibrary(directory, upstream);
   const {env, library, native} = built;
-  const source = path.join(root, 'experiments/embedded-js/native');
   report.compilerBanner = built.compilerBanner; report.cppCompilerBanner = built.cppCompilerBanner;
   report.buildCommands = built.commands;
   report.librarySha256 = sha256(fs.readFileSync(library)); report.libraryBytes = fs.statSync(library).size; report.exportedFunctions = built.exportedFunctions;
-  const managed = path.join(directory, 'managed'), intermediate = path.join(directory, 'managed-obj') + path.sep;
-  const managedEnv = {...process.env, DOTNET_CLI_TELEMETRY_OPTOUT: '1', DOTNET_NOLOGO: '1', DOTNET_SKIP_FIRST_TIME_EXPERIENCE: '1', DOTNET_CLI_HOME: path.join(directory, 'dotnet-home')};
-  const sdk = execFileSync('dotnet', ['--list-sdks'], {cwd: directory, env: managedEnv, windowsHide: true, encoding: 'utf8'})
-    .split(/\r?\n/).map(line => line.split(' ')[0]).filter(version => /^8\.\d+\.\d+$/.test(version))
-    .sort((a, b) => Number(a.split('.')[2]) - Number(b.split('.')[2])).at(-1);
-  assert(sdk, 'Install the .NET 8 SDK, including its offline targeting packs');
-  writeJSON(path.join(directory, 'global.json'), {sdk: {version: sdk, rollForward: 'disable'}});
-  const buildLog = fs.openSync(path.join(directory, 'dotnet-build.txt'), 'wx');
-  try {
-    execFileSync('dotnet', ['build', path.join(source, 'dotnet/Consumer.csproj'), '-c', 'Release', '-o', managed,
-      '-p:BaseIntermediateOutputPath=' + intermediate, '-p:MSBuildProjectExtensionsPath=' + intermediate,
-      '-p:NuGetAudit=false', '-p:UseSharedCompilation=false', '--disable-build-servers', '--configfile', path.join(source, 'dotnet/NuGet.Config')],
-      {cwd: directory, env: managedEnv, windowsHide: true, stdio: ['ignore', buildLog, buildLog], timeout: 120000});
-  } finally { fs.closeSync(buildLog); }
-  report.dotnetSdk = execFileSync('dotnet', ['--version'], {cwd: directory, env: managedEnv, windowsHide: true, encoding: 'utf8'}).trim();
+  const managed = buildEmbeddedManagedConsumer(directory);
+  report.dotnetSdk = managed.sdk;
   const expected = fs.readFileSync(path.join(fixture, 'node-original.jsonl'), 'utf8').trim().split(/\r?\n/).map(line => JSON.parse(line));
   const consumer = (label, command, prefix, environment, selectedLibrary = library) => {
     const out = fs.openSync(path.join(directory, label + '.txt'), 'wx');
@@ -81,7 +67,7 @@ try {
     return stats;
   };
   report.cpp = consumer('cpp', native, [], env);
-  report.dotnet = consumer('dotnet', 'dotnet', [path.join(managed, 'Consumer.dll')], managedEnv);
+  report.dotnet = consumer('dotnet', 'dotnet', [managed.dll], managed.env);
   if (process.platform === 'linux') {
     const sanitizedDirectory = path.join(directory, 'sanitized'); fs.mkdirSync(sanitizedDirectory);
     const sanitized = buildEmbeddedLibrary(sanitizedDirectory, upstream, {sanitize: true});

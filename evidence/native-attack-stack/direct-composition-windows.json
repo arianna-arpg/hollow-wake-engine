@@ -94,9 +94,10 @@
   "native": {
     "requestsPerRun": 33,
     "numericObservationsPerRun": 150608,
-    "cCppDotNetPassed": true,
     "geometryOnlyNumericalPolicyUnchanged": true,
-    "zeroTrackedLeaks": true
+    "zeroTrackedLeaks": true,
+    "cAndCppPassed": true,
+    "dotNetFullAttackReplayCovered": false
   },
   "diagnostic": {
     "compiler": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.38.33133 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
@@ -160,5 +161,9 @@
     "bytes": 56110,
     "sha256": "6d2798fe9d1005be491049d19fc2b7094ad62e1273361225da527bc6231627dc",
     "uncompressedSha256": "827b7bd1e5f2fe792d5a384e231283f1ae7ad7edc55a9cc4f653988729b5e194"
+  },
+  "coverageCorrection": {
+    "reason": "The original full-attack receipt executes C and C++ only. It fingerprints managed consumer source files, but does not execute that consumer. Separate .NET library tests existed; they were not the full attack course. Correct the coverage description and track the added managed replay separately. Original raw receipts remain unchanged.",
+    "rawReceiptsUnchanged": true
   }
 }

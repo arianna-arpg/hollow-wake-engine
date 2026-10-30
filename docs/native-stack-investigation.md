@@ -65,7 +65,7 @@ claim. Initialization remained the local overall peak, so the maintained
 whole-run diagnostic cannot expose that request-only reduction.
 
 The [local candidate evidence](../evidence/native-attack-stack/direct-composition-windows.json)
-retains the experiment and checks. The candidate passes C, C++ and .NET
+retains the experiment and checks. The candidate passes C and C++
 full-attack replay, all six preparation, landing, sustain, reaction, aftermath
 and attack-sequence comparisons, all 1,300 SDK tests and original reference
 verification.
@@ -88,3 +88,24 @@ spans include initialization and are not uninstrumented worst-case guarantees.
 This closes the reproduced nested-attack failure. It does not establish a bound
 for every possible authored content composition, complete engine packages or
 physical Steam Deck/mobile acceptance.
+
+## Managed replay coverage correction
+
+The full-attack runner used for the preceding evidence executed C and C++.
+It recorded C# source hashes, but did not execute the .NET consumer. Separate
+library tests exercised .NET against a smaller session fixture. The local
+stack-repair and status-delivery summaries have been corrected; their raw
+historical receipts remain unchanged.
+
+The runner now builds the existing .NET 8 consumer in a private output directory
+and executes the same original and installed bundles and all 33 requests.
+It requires actual managed execution metrics, exact agreement with the C driver,
+matching clone/log observations and zero tracked allocations after disposal.
+The [Windows managed replay evidence](../evidence/native-attack-stack/managed-replay-windows.json)
+records 150,608 matching numeric observations on each path and the existing
+managed ownership, library lease, thread migration and unload/reload checks.
+The shared builder also passes the separate 60-request library regression.
+
+This adds full-course .NET execution coverage. It changes no SDK runtime,
+content, comparison tolerance or native stack limit. Hosted Windows/Linux
+acceptance for this runner change remains separate from the earlier C/C++ runs.

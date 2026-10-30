@@ -70,3 +70,24 @@ export function buildEmbeddedLibrary(directory, upstream, {sanitize = false} = {
   return {library, native, env: t.env, compilerBanner: t.banner(t.cc), cppCompilerBanner: t.banner(t.cxx),
     commands: t.commands, compilerFlags: t.flags, exportedFunctions: names, sanitize};
 }
+
+/** Build the shared managed consumer in a private output tree. */
+export function buildEmbeddedManagedConsumer(directory) {
+  const source = path.join(root, 'experiments/embedded-js/native/dotnet');
+  const managed = path.join(directory, 'managed'), intermediate = path.join(directory, 'managed-obj') + path.sep;
+  const env = {...process.env, DOTNET_CLI_TELEMETRY_OPTOUT: '1', DOTNET_NOLOGO: '1', DOTNET_SKIP_FIRST_TIME_EXPERIENCE: '1', DOTNET_CLI_HOME: path.join(directory, 'dotnet-home')};
+  const sdk = execFileSync('dotnet', ['--list-sdks'], {cwd: directory, env, windowsHide: true, encoding: 'utf8'})
+    .split(/\r?\n/).map(line => line.split(' ')[0]).filter(version => /^8\.\d+\.\d+$/.test(version))
+    .sort((a, b) => {const aa = a.split('.').map(Number), bb = b.split('.').map(Number); return aa[1] - bb[1] || aa[2] - bb[2];}).at(-1);
+  assert(sdk, 'Install the .NET 8 SDK, including its offline targeting packs');
+  assert(!fs.existsSync(path.join(directory, 'global.json')), 'Managed consumer needs a fresh build directory');
+  writeJSON(path.join(directory, 'global.json'), {sdk: {version: sdk, rollForward: 'disable'}});
+  const args = ['build', path.join(source, 'Consumer.csproj'), '-c', 'Release', '-o', managed,
+    '-p:BaseIntermediateOutputPath=' + intermediate, '-p:MSBuildProjectExtensionsPath=' + intermediate,
+    '-p:NuGetAudit=false', '-p:UseSharedCompilation=false', '--disable-build-servers', '--configfile', path.join(source, 'NuGet.Config')];
+  const log = path.join(directory, 'dotnet-build.txt'), fd = fs.openSync(log, 'wx');
+  try {execFileSync('dotnet', args, {cwd: directory, env, windowsHide: true, stdio: ['ignore', fd, fd], timeout: 120000});}
+  finally {fs.closeSync(fd);}
+  assert.equal(execFileSync('dotnet', ['--version'], {cwd: directory, env, windowsHide: true, encoding: 'utf8'}).trim(), sdk);
+  return {dll: path.join(managed, 'Consumer.dll'), env, sdk, args, log};
+}

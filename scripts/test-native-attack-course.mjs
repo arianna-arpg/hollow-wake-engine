@@ -7,7 +7,7 @@ import {gunzipSync} from 'node:zlib';
 import {spawnSync} from 'node:child_process';
 import {build, version as bundlerVersion} from '../.reference/node_modules/esbuild/lib/main.js';
 import {root, git, sha256, listFiles, verifyReference, writeJSON} from './reference-utils.mjs';
-import {buildEmbeddedExecutable, buildEmbeddedLibrary} from './embedded-native-tools.mjs';
+import {buildEmbeddedExecutable, buildEmbeddedLibrary, buildEmbeddedManagedConsumer} from './embedded-native-tools.mjs';
 import {installCourseServices} from '../experiments/embedded-js/course-services.mjs';
 import {createNativeAttackCapturePack} from './native-attack-observer.mjs';
 
@@ -84,6 +84,8 @@ try {
   const libraryDir=path.join(directory,'library');fs.mkdirSync(libraryDir);
   const library=buildEmbeddedLibrary(libraryDir,upstream);
   report.library={compilerBanner:library.compilerBanner,buildCommands:library.commands,librarySha256:sha256(fs.readFileSync(library.library)),consumerSha256:sha256(fs.readFileSync(library.native))};
+  const managed=buildEmbeddedManagedConsumer(directory);
+  report.managed={sdk:managed.sdk,dllSha256:sha256(fs.readFileSync(managed.dll)),buildArgs:managed.args,buildLogSha256:sha256(fs.readFileSync(managed.log))};
   const content = path.join(directory, 'input.json'), requests = path.join(directory, 'requests.jsonl');
   fs.writeFileSync(content, '{}', {flag:'wx'});
   fs.writeFileSync(requests, [...Array(32).fill({op:'next'}), {op:'services'}].map(v=>JSON.stringify(v)).join('\n')+'\n', {flag:'wx'});
@@ -139,11 +141,20 @@ try {
       const libraryValues=fs.readFileSync(consumerOutput,'utf8').trim().split(/\r?\n/).map(JSON.parse);
       assert.equal(libraryValues.length,33);run.libraryComparison=compare(libraryValues.slice(0,32),native.slice(0,32));
       assert.equal(libraryValues[32].clones,cloneChecks);assert.deepEqual(libraryValues[32].logs,services.logs);run.libraryMetrics=libraryMetrics;
+      const managedOutput=path.join(out,'dotnet.jsonl'),managedLog=fs.openSync(path.join(out,'dotnet.txt'),'wx');let managedReplay;
+      try{managedReplay=spawnSync('dotnet',[managed.dll,library.library,bundle,content,requests,managedOutput],{cwd:directory,env:managed.env,windowsHide:true,stdio:['ignore',managedLog,managedLog],timeout:180000});}finally{fs.closeSync(managedLog);}
+      assert(!managedReplay.error,managedReplay.error?.message);assert.equal(managedReplay.signal,null);assert.equal(managedReplay.status,0,'Managed library replay: '+label);
+      const dotnetMetrics=JSON.parse(fs.readFileSync(path.join(out,'dotnet.txt'),'utf8').trim().split(/\r?\n/).at(-1));
+      assert(dotnetMetrics.passed);assert.equal(dotnetMetrics.requests,33);assert.equal(dotnetMetrics.liveBytesAfterDispose,0);assert.equal(dotnetMetrics.liveBlocksAfterDispose,0);
+      const managedValues=fs.readFileSync(managedOutput,'utf8').trim().split(/\r?\n/).map(JSON.parse);assert.equal(managedValues.length,33);
+      run.dotnetComparison=compare(managedValues.slice(0,32),native.slice(0,32));
+      assert.equal(managedValues[32].clones,cloneChecks);assert.deepEqual(managedValues[32].logs,services.logs);run.dotnetMetrics=dotnetMetrics;
       nativeResults.push(native.slice(0,32));
     }
     run.passed=true;writeJSON(path.join(out,'verification.json'),run);
   }
   report.originalAndInstalledNative=compare(nativeResults[1],nativeResults[0]);
+  assert(report.runs.filter(run=>run.label!=='early-freeze-fault').every(run=>run.libraryMetrics?.passed&&run.dotnetMetrics?.passed));
   report.passed=true;
 }catch(error){report.error={message:error.message,stack:error.stack};throw error;}
 finally {

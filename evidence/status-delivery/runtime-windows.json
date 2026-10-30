@@ -130,7 +130,8 @@
     "requestsPerRun": 33,
     "numericObservationsPerRun": 150608,
     "zeroTrackedLeaks": true,
-    "scope": "Existing original/installed full-attack course through the C, C++ and .NET experiment. Binding initialization is covered; dedicated native status-delivery replay and stable engine-package acceptance remain open."
+    "scope": "Existing original/installed full-attack course through the C and C++ experiment. Binding initialization is covered; dedicated native status-delivery replay and stable engine-package acceptance remain open.",
+    "dotNetFullAttackReplayCovered": false
   },
   "timing": {
     "hardware": {
@@ -328,5 +329,9 @@
     "bytes": 277985,
     "sha256": "0ef60fd32aeb61f9de08043e121b5a003c7112b4c0898d7825dc63437c594dd9",
     "uncompressedSha256": "3f9c47f06d072e5e23e209f05e4cf25f628900791822cb71eaad16ccf7cd7cbd"
+  },
+  "coverageCorrection": {
+    "reason": "The original full-attack receipt executes C and C++ only. It fingerprints managed consumer source files, but does not execute that consumer. Separate .NET library tests existed; they were not the full attack course. Correct the coverage description and track the added managed replay separately. Original raw receipts remain unchanged.",
+    "rawReceiptsUnchanged": true
   }
 }
