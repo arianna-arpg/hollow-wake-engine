@@ -1,4 +1,4 @@
-import {createHitPreparation} from '@hollow-wake/engine/combat/hit-preparation';
+import {createHitPreparation,type PreparedHitContinuation} from '@hollow-wake/engine/combat/hit-preparation';
 import type {Actor} from './actor';
 import type {World} from './world';
 import {instanceFuse,instanceMods,grantedTags,skillContextTags,type SkillDef,type SkillInstance,type SkillEffect} from './skills';
@@ -10,7 +10,8 @@ import {toneOfAmounts} from './tuning';
 import {DEFENSE_CFG} from './defense';
 import {angleDiff,angleTo,dist,vec,type Vec2} from '../core/math';
 
-export function bindHitPreparation(w:World) {
+type ContinueHit = PreparedHitContinuation<Actor,SkillInstance,SkillDef,Vec2,Modifier,DamagePacket,DamageType,SkillEffect,void>;
+export function bindHitPreparation(w:World,continueHit?:ContinueHit) {
   return createHitPreparation<Actor,SkillInstance,SkillDef,Vec2,Modifier,SkillTag,DamagePacket,DamageType,SkillEffect,void>({
     time:()=>w.time,fuse:instanceFuse,instanceTags:inst=>skillContextTags(inst,grantedTags(inst)),
     definitionTags:skillContextTags,modifiers:instanceMods,copyPosition:pos=>({...pos}),
@@ -40,7 +41,9 @@ export function bindHitPreparation(w:World) {
     roll:rollSkillDamage,tone:toneOfAmounts,
     guard:(target,caster,origin,raw)=>w['tryGuardBlock'](target,caster,origin,raw),
     shell:(target,origin,packet,caster)=>w['tryShellBlock'](target,origin,packet,caster),
-    continue:(caster,inst,target,mult,depth,force,effects,origin,tier,def,extra,packet,rear,tone,carry)=>
-      w['continuePreparedHit'](caster,inst,target,mult,depth,force,effects,origin,tier,def,extra,packet,rear,tone,carry),
+    // A fully installed landing capability supplies its stable closure directly.
+    // The fallback supports the earlier preparation-only extraction boundary.
+    continue:continueHit??((caster,inst,target,mult,depth,force,effects,origin,tier,def,extra,packet,rear,tone,carry)=>
+      w['continuePreparedHit'](caster,inst,target,mult,depth,force,effects,origin,tier,def,extra,packet,rear,tone,carry)),
   });
 }

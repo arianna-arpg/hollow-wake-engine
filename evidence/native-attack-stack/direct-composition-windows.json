@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "localCandidatePassed": true,
+  "hostedRepairVerified": false,
+  "parentRevision": "9b1e4695ef713b958f2b96e2fb113173192cce73",
+  "node": "v24.9.0",
+  "platform": "win32",
+  "arch": "x64",
+  "inputs": {
+    "adapters/hollow-wake/hitPreparation.ts": "51578e272835b247ad9679755219c688e4b391a04a1a4db5fd3b3d2f7dcab7c8",
+    "adapters/hollow-wake/integrate-hit-landing.mjs": "3efd0941dc7eceef0f7b55998c57f2fdbba30aaf0a5d21abb5c5d62b86013f50",
+    "scripts/test-hit-landing-overlay.mjs": "73b79afbd5ea654cba5905d255e85883a106ab33a5078c77b1acfb6f1bd5e2a5"
+  },
+  "runtimeMapSha256": "73aaccc230ccdb5b6cf37cc418bd5c0ff451b4d2446fa9044389d54e0e786136",
+  "unchangedCompiledFiles": 288,
+  "gameSourceMapSha256": "e965877637fee7b10a5f2cd0013bb58013bb0e3e735af5c64addb6b9959a7304",
+  "packageMapSha256": "80aec30f60e97aea0bd1415dac2d23601449a97e101c1512ec674918e2ef8d10",
+  "sdkTests": 1300,
+  "sourceControls": 33,
+  "checks": [
+    {
+      "name": "build",
+      "passed": true
+    },
+    {
+      "name": "prepare",
+      "passed": true
+    },
+    {
+      "name": "game-types",
+      "passed": true
+    },
+    {
+      "name": "launcher-types",
+      "passed": true
+    },
+    {
+      "name": "simulation-types",
+      "passed": true
+    },
+    {
+      "name": "hit-preparation",
+      "passed": true
+    },
+    {
+      "name": "hit-landing",
+      "passed": true
+    },
+    {
+      "name": "hit-sustain",
+      "passed": true
+    },
+    {
+      "name": "hit-reactions",
+      "passed": true
+    },
+    {
+      "name": "hit-aftermath",
+      "passed": true
+    },
+    {
+      "name": "attack-sequences",
+      "passed": true
+    },
+    {
+      "name": "native-attack",
+      "passed": true
+    },
+    {
+      "name": "native-stack",
+      "passed": true
+    },
+    {
+      "name": "sdk-verify",
+      "passed": true
+    },
+    {
+      "name": "original-reference",
+      "passed": true
+    },
+    {
+      "name": "node22-source-controls",
+      "passed": true
+    },
+    {
+      "name": "game-simulation",
+      "passed": true
+    },
+    {
+      "name": "core-benchmark",
+      "passed": true
+    }
+  ],
+  "native": {
+    "requestsPerRun": 33,
+    "numericObservationsPerRun": 150608,
+    "cCppDotNetPassed": true,
+    "geometryOnlyNumericalPolicyUnchanged": true,
+    "zeroTrackedLeaks": true
+  },
+  "diagnostic": {
+    "compiler": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.38.33133 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+    "productionLimitsChanged": false,
+    "runs": [
+      {
+        "label": "original",
+        "limitBytes": 262144,
+        "status": 0,
+        "checkedStackBytes": 206848
+      },
+      {
+        "label": "original",
+        "limitBytes": 524288,
+        "status": 0,
+        "checkedStackBytes": 206848
+      },
+      {
+        "label": "original",
+        "limitBytes": 65536,
+        "status": 2,
+        "checkedStackBytes": 150344
+      },
+      {
+        "label": "installed",
+        "limitBytes": 262144,
+        "status": 0,
+        "checkedStackBytes": 218048
+      },
+      {
+        "label": "installed",
+        "limitBytes": 524288,
+        "status": 0,
+        "checkedStackBytes": 218048
+      }
+    ]
+  },
+  "requestOnlyProbe": {
+    "spansBytes": {
+      "original": 141792,
+      "installed": 214448,
+      "direct-landing": 198160
+    },
+    "installedReductionBytes": 16288,
+    "initializationDiagnosticLimit": 524288,
+    "requestLimit": 262144,
+    "scope": "Private local bundle experiment; checked spans are instrumented estimates. Initialization is measured separately. Not a hosted or device performance claim."
+  },
+  "preservation": {
+    "observedFiles": 4146,
+    "originalWrites": false,
+    "concurrentChanges": 0
+  },
+  "remaining": [
+    "Exact-commit hosted Windows full-attack replay at unchanged 256 KiB guard",
+    "Complete engine package and physical-device acceptance"
+  ],
+  "raw": {
+    "path": "evidence/native-attack-stack/direct-composition-windows-raw.json.gz",
+    "entries": 37,
+    "bytes": 56110,
+    "sha256": "6d2798fe9d1005be491049d19fc2b7094ad62e1273361225da527bc6231627dc",
+    "uncompressedSha256": "827b7bd1e5f2fe792d5a384e231283f1ae7ad7edc55a9cc4f653988729b5e194"
+  }
+}

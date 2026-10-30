@@ -13,6 +13,13 @@ assert.equal(renderHitLanding(original,true),original);
 const normal=renderHitLanding(source);assert.equal(renderHitLanding(source.replaceAll('\n','\r\n')).replaceAll('\r\n','\n'),normal);
 assert(normal.includes('this.engineHitLanding.land(caster, inst, target, dmgMult, depth, forceDamage, hitEffects, hitOrigin, hitTier, def, extra, packet, rearHit, struckTone, afflictionCarry);'));
 assert(normal.includes('private continueLandedHit('));assert.throws(()=>renderHitLanding(normal));
+assert(normal.includes('private readonly engineHitPreparation = bindHitPreparation(this, this.engineHitLanding.land);'));
+assert(normal.indexOf('private readonly engineHitLanding')<normal.indexOf('private readonly engineHitPreparation'));
+for(const replacement of ['bindHitPreparation(this, undefined)','bindHitPreparation(otherWorld)']) {
+ assert(source.includes('bindHitPreparation(this);'));
+ assert.throws(()=>renderHitLanding(source.replace('bindHitPreparation(this);',replacement+';')),/Unreviewed hit preparation binding/);
+ faults.push('preparation-binding-'+replacement);
+}
 for(const[label,nodes]of [['admission',t.admission],['landing',t.landing.slice(0,18)]])for(let i=0;i<nodes.length;i++){
  const node=nodes[i],text=node.getText(t.ast),space=text.indexOf(' ');assert(space>=0);
  const altered=text.slice(0,space)+' /* changed */'+text.slice(space),input=source.slice(0,node.getStart(t.ast))+altered+source.slice(node.end);

@@ -15,6 +15,10 @@ export function renderHitLanding(source,preflight=false) {
   for(let i=0;i<3;i++)assert.equal(sha256(admission[i].getText(ast)),boundary.admission[i],'Unreviewed damage admission '+i);
   for(let i=0;i<18;i++)assert.equal(sha256(landing[i].getText(ast)),boundary.landing[i],'Unreviewed landing statement '+i);
   if(preflight)return source;
+  const preparations=world.members.filter(n=>n.name?.getText(ast)==='engineHitPreparation');
+  assert.equal(preparations.length,1,'Expected one preparation binding');
+  const preparation=preparations[0];assert(ts.isPropertyDeclaration(preparation)&&preparation.initializer);
+  assert.equal(preparation.getText(ast),'private readonly engineHitPreparation = bindHitPreparation(this);','Unreviewed hit preparation binding');
   const continuation=`private continueLandedHit(
     caster: Actor, inst: SkillInstance, target: Actor, dmgMult: number, depth: number,
     forceDamage: boolean, hitEffects: SkillEffect[] | undefined,
@@ -30,6 +34,7 @@ export function renderHitLanding(source,preflight=false) {
   const perceptionBindings=perceptionImport.importClause?.namedBindings;assert(perceptionBindings&&ts.isNamedImports(perceptionBindings));assert.equal(perceptionBindings.elements.filter(n=>n.name.text==='concealmentActive').length,1);
   const retainedPerception=perceptionBindings.elements.filter(n=>n.name.text!=='concealmentActive');
   const edits=[
+    {start:preparation.initializer.getStart(ast),end:preparation.initializer.end,text:'bindHitPreparation(this, this.engineHitLanding.land)'},
     {start:hit.getStart(ast),end:hit.end,text:replacement},
     {start:world.members.pos,end:world.members.pos,text:'\n  private readonly engineHitLanding = bindHitLanding(this);\n'},
     {start:imports.at(-1).end,end:imports.at(-1).end,text:"\nimport {bindHitLanding} from './hitLanding';"},
@@ -38,7 +43,11 @@ export function renderHitLanding(source,preflight=false) {
   ];
   let output=input;for(const e of edits.sort((a,b)=>b.start-a.start))output=output.slice(0,e.start)+e.text+output.slice(e.end);
   const parsed=ts.createSourceFile('world.ts',output,ts.ScriptTarget.Latest,true);assert.equal(parsed.parseDiagnostics.length,0);
-  const method=parsed.statements.find(n=>ts.isClassDeclaration(n)&&n.name?.text==='World').members.find(n=>n.name?.getText(parsed)==='continueLandedHit');
+  const members=parsed.statements.find(n=>ts.isClassDeclaration(n)&&n.name?.text==='World').members;
+  const landingIndex=members.findIndex(n=>n.name?.getText(parsed)==='engineHitLanding'),preparationIndex=members.findIndex(n=>n.name?.getText(parsed)==='engineHitPreparation');
+  assert(landingIndex>=0&&landingIndex<preparationIndex,'Landing must initialize before its closure is captured');
+  assert.equal(members[preparationIndex].initializer.getText(parsed),'bindHitPreparation(this, this.engineHitLanding.land)');
+  const method=members.find(n=>n.name?.getText(parsed)==='continueLandedHit');
   const block=method.body.statements[0];assert(ts.isIfStatement(block));
   assert.equal(output.slice(block.thenStatement.statements[1].getFullStart(),block.thenStatement.end),damageTail,'Damaging-hit continuation changed');
   assert.equal(output.slice(method.body.statements[1].getFullStart(),method.body.end),afterTail,'Post-damage continuation changed');

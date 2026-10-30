@@ -37,6 +37,37 @@ and the small-stack control fails as expected. Both completed paths compare
 diagnostic after full attack replay, including when replay fails; a diagnostic
 success does not turn a failed production replay into a passing job.
 
-The next step is to compare the hosted results and verify a targeted repair
-against original behavior. Native portability remains open while that
-investigation proceeds.
+## Hosted reproduction and direct composition
+
+The [diagnostic run for 9b1e469](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/41129937148)
+reproduces the Windows failure. Its [retained evidence](../evidence/native-attack-stack/ci-20261030.json)
+records MSVC 19.51.36260 completing original replay at a checked span of 224,672
+bytes. Installed replay exceeds the 256 KiB guard after three requests; at the
+larger diagnostic guard it completes all 33 requests with a checked span of
+268,352 bytes. Linux GCC 13.3 completes both paths at 256 KiB, with checked spans
+of 156,784 and 168,000 bytes. All completed observations obey the existing
+geometry-only numerical policy, and all runs release their tracked allocations.
+
+The longer Windows trace reaches a supported, triggered attack nested inside
+another hit. Each hit retains a preparation callback and a World forwarding
+method while landing executes. The full game adapter now passes the already
+initialized landing closure directly to preparation. This removes those two
+forwarding frames per hit. Preparation-only installation keeps its original
+continuation, and the source transform guards both the exact binding and field
+initialization order. No SDK runtime, authored content, production stack guard
+or accepted observation changes.
+
+A private local bundle experiment separated initialization from request stack
+measurement. The installed request span fell from 214,448 to 198,160 bytes;
+original replay measured 141,792 bytes. All 33 requests still matched. These are
+instrumented local estimates, not hosted measurements or a general performance
+claim. Initialization remained the local overall peak, so the maintained
+whole-run diagnostic cannot expose that request-only reduction.
+
+The [local candidate evidence](../evidence/native-attack-stack/direct-composition-windows.json)
+retains the experiment and checks. The candidate passes C, C++ and .NET
+full-attack replay, all six preparation, landing, sustain, reaction, aftermath
+and attack-sequence comparisons, all 1,300 SDK tests and original reference
+verification. Exact-commit hosted Windows acceptance at the unchanged 256 KiB
+guard is still required. Native portability and physical-device budgets remain
+open while that check proceeds.

@@ -125,6 +125,13 @@ The full SDK verifier includes independent contract tests, runtime faults and a
 clean package consumer with type and browser checks. Runtime acceptance also
 requires the broader game gates, native course and whole-hit measurements.
 
+The full game adapter captures the landing closure directly when binding hit
+preparation. Landing initializes first, and the guarded source transform rejects
+an unreviewed preparation initializer. This avoids two forwarding frames during
+nested hits while retaining the preparation-only continuation. See the
+[native stack investigation](native-stack-investigation.md) for the reproduced
+hosted failure, candidate repair and remaining acceptance.
+
 The remaining hit path, sustain, threat, world reactions, delivery, death,
 underlying host verbs and complete Unity/Godot/Unreal packages are separate work.
 Physical Steam Deck and older-mobile acceptance remains open. Content authoring
