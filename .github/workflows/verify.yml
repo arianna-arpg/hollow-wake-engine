@@ -152,6 +152,9 @@ jobs:
       - run: npm run test:hit-preparation-observer
       - run: npm run reference:hit-landing
       - run: npm run test:hit-landing-observer
+      - run: npm run reference:stat-context
+      - run: npm run test:stat-context-observer
+      - run: npm run adapter:stat-context-source
       - run: npm run adapter:status-effects-source
       - run: npm run adapter:hit-status-source
       - run: npm run adapter:hit-preparation-source
@@ -228,6 +231,8 @@ jobs:
       - run: npm run adapter:hit-preparation-faults
       - run: npm run adapter:hit-landing
       - run: npm run adapter:hit-landing-faults
+      - run: npm run adapter:stat-context
+      - run: npm run adapter:stat-context-faults
       - run: node scripts/test-game-status-effects-faults.mjs --location .artifacts/adapter-location.json
       - run: node scripts/test-status-effects-diagnostics.mjs --location .artifacts/adapter-location.json
       - run: node scripts/test-game-status-faults.mjs --location .artifacts/adapter-location.json
@@ -530,3 +535,6 @@ jobs:
             .artifacts/equipment-actions-overlay-verification.json
             .artifacts/game-progression-verification.json
             .artifacts/progression-overlay-verification.json
+            .artifacts/*stat-context*verification.json
+            .artifacts/*stat-context-*/*.json
+            .artifacts/*stat-context-*/*.txt

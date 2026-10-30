@@ -9,6 +9,10 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
+The [bounded stat context cache](docs/stat-context-cache.md) avoids repeated tag
+sorting for common combat queries while checking live set membership. Its game
+adapter preserves original stat behavior and its SDK API keeps collision-free keys.
+
 An experimental [Godot native addon](docs/godot-native.md) now packages a selected
 character, inventory and combat capability without a Node.js or .NET dependency
 in the game. Independent Windows/Linux editor and relocated release runs each

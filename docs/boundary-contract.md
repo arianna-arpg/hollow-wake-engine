@@ -187,6 +187,12 @@ obligations, callback ordering, content revisions and reentrancy limits.
 
 ## Portability decision
 
+The optional [stat context cache](stat-context-cache.md) owns sorted tag snapshots
+and a bounded set of pure encodings. It never retains caller sets or assumes that
+readonly sets are immutable. SDK stat keys remain collision-free; the game adapter
+preserves the original comma-key aliases and value-cache semantics. Context entry
+bounds do not establish a byte or total-allocation budget.
+
 Optional skill graph/progression/grant/action entries have separate owned-content
 and borrowed-host contracts. Ordered ranks, original restore-versus-purchase gates,
 legendary keeper/donor investment and host callback order are explicit. Strict

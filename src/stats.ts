@@ -2,14 +2,20 @@
 // Refactors: instance rules, indexed trades, owned modifier arrays, collision-free cache keys.
 import { StatRules, modReadsVictim, validateModifier, type Modifier, type SkillTag, type ConditionId, type ArmedFamily } from './stat-rules.js';
 import { copy, finite, freeze, integer } from './validation.js';
+import { TagContextCache } from './tag-context-cache.js';
+
+const encodeContext = (tags: readonly string[]) => JSON.stringify(tags);
 
 export class StatSheet {
-    constructor(private readonly rules: StatRules, private readonly maxCacheEntries = 256) {
+    constructor(private readonly rules: StatRules, private readonly maxCacheEntries = 256, private readonly maxContextCacheEntries = 16) {
         integer(maxCacheEntries, 0, 'stat cache bound');
+        integer(maxContextCacheEntries, 0, 'stat context cache bound');
     }
     private generation = 0;
     get revision(): number { return this.generation; }
     get cacheEntries(): number { return this.cache.size; }
+    get contextCacheEntries(): number { return this.contextKeys?.size ?? 0; }
+    private contextKeys: TagContextCache<string> | undefined;
     private sources = new Map<string, Modifier[]>();
     private modsByStat: Map<string, Modifier[]> | null = null;
     private baseOverrides = new Map<string, number>();
@@ -187,7 +193,12 @@ export class StatSheet {
         const cacheable = this.maxCacheEntries > 0 && (!extra || !extra.length) && baseValue === undefined;
         let key = '';
         if (cacheable) {
-            key = JSON.stringify([noLinks, stat, contextTags ? [...contextTags].sort() : []]);
+            const context = contextTags && contextTags.size
+                ? (this.contextKeys ??= new TagContextCache(encodeContext, this.maxContextCacheEntries)).get(contextTags)
+                : '[]';
+            // Length-prefixed stat id and canonical JSON tags cannot alias even
+            // when ids contain separators, quotes or surrogate pairs.
+            key = (noLinks ? '1:' : '0:') + stat.length + ':' + stat + context;
             const cached = this.cache.get(key);
             if (cached !== undefined)
                 return cached;

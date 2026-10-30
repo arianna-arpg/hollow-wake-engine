@@ -1,5 +1,13 @@
 # Verification and reproduction
 
+The [stat context cache](stat-context-cache.md) adds 74 frozen original courses,
+18 independent tests, 22 runtime faults, eight original-observer faults, 12 source
+controls, and four installed-game faults. `reference:stat-context`,
+`test:stat-context-observer`, `adapter:stat-context-source`, `adapter:stat-context`
+and `adapter:stat-context-faults` reproduce the boundary. `verify` includes its
+clean package, types/browser checks and runtime mutations. Paired hit timing has
+an identical-input control and an independent established gameplay observer.
+
 `reference:hit-landing` checks 112 original courses with positive assertions for
 native outcomes, state and callback effects. `test:hit-landing-observer` checks
 48 deliberate source faults without accepting unrelated exceptions. Two original

@@ -1,5 +1,25 @@
 # Native full-game attack course
 
+## Diagnostic stack repair
+
+Hosted Windows verification of `1960ca3` exposed a stack overflow in the recursive
+test recorder during an installed-game callback. The original replay passed;
+the installed replay stopped after two requests. The hosted MSVC 19.51 build
+failed where the local MSVC 19.38 build had passed. The retained failure is part
+of the [stat-context evidence](../evidence/stat-context/runtime-windows.json).
+
+The native harness now uses an explicit stack of generator frames for this
+recorder. Depth-first traversal, alias paths, identity assignment, getter order,
+sparse arrays, and skill projections match the frozen recursive observer. Five
+independent tests include generated mixed graphs and a 5,000-level input. The
+complete original and installed course must still match the existing fixture;
+neither that fixture nor the 256 KiB VM stack limit is changed. This adaptation
+is confined to diagnostic code and makes no gameplay performance claim. Hosted
+acceptance of the new compiler build is tracked separately from local success.
+
+The measurements below describe earlier recorded native-course checkpoints;
+each newer evidence report records its own bundle and memory measurements.
+
 The first Linux run of this course exposed ten original-game geometry
 differences from Node: two actor facing values and eight projectile `pos.x` /
 `anchor.x` observations, with maximum absolute difference

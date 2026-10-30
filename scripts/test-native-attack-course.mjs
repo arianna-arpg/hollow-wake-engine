@@ -9,6 +9,7 @@ import {build, version as bundlerVersion} from '../.reference/node_modules/esbui
 import {root, git, sha256, listFiles, verifyReference, writeJSON} from './reference-utils.mjs';
 import {buildEmbeddedExecutable, buildEmbeddedLibrary} from './embedded-native-tools.mjs';
 import {installCourseServices} from '../experiments/embedded-js/course-services.mjs';
+import {createNativeAttackCapturePack} from './native-attack-observer.mjs';
 
 const args = process.argv.slice(2);
 assert.equal(args.length, 4); assert.equal(args[0], '--location'); assert.equal(args[2], '--amalgam-dir');
@@ -28,7 +29,7 @@ const expected = JSON.parse(expectedBytes), helper = fs.readFileSync(path.join(r
 assert.equal(sha256(helper), accepted.helperSha256);
 const lock = JSON.parse(fs.readFileSync(path.join(root, 'experiments/embedded-js/host-source-lock.json')));
 for (const [file, hash] of Object.entries(lock.files)) assert.equal(sha256(fs.readFileSync(path.join(upstream, file))), hash);
-const owned = ['scripts/native-attack-comparison.mjs', 'scripts/test-native-attack-course.mjs', 'experiments/embedded-js/course-services.mjs',
+const owned = ['scripts/native-attack-comparison.mjs', 'scripts/native-attack-observer.mjs', 'scripts/test-native-attack-course.mjs', 'experiments/embedded-js/course-services.mjs',
   'experiments/embedded-js/session-host.c', 'experiments/embedded-js/host-support.h', 'experiments/embedded-js/tracked-allocator.h',
   'scripts/embedded-native-tools.mjs', 'scripts/native-tools.mjs', 'baseline/attack-sequences/acceptance.json', accepted.helper, accepted.observations];
 owned.push(...listFiles(path.join(root,'experiments/embedded-js/native')).map(file=>'experiments/embedded-js/native/'+file));
@@ -43,11 +44,15 @@ const report = {schemaVersion: 1, passed: false, directory, commit: git(root, ['
   scope: 'Full original/installed-game Cleave course in a development native driver. Includes original World, content, headless shims and test observation storage. No new engine API, stable package, performance or device acceptance.', runs: []};
 
 // Preserve every calculation and observation in the accepted helper. Only the
-// file/assert boundary and yields between the 31 completed groups are replaced.
+// file/assert boundary, yields between groups, and diagnostic traversal strategy
+// are replaced. The iterative observer must match every frozen observation.
 function entry(sourceRoot) {
   const imports = [];
   let body = helper.replace(/^import .*?;\r?\n/gm, line => {if (!line.includes("'node:")) imports.push(line); return '';});
   assert(!body.includes("from 'node:"));
+  const packStart=body.indexOf('function capturePack('),packEnd=body.indexOf('function captureActor(');
+  assert(packStart>=0&&packEnd>packStart);
+  body=body.slice(0,packStart)+`const capturePack=(${createNativeAttackCapturePack.toString()})(CaptureActor,captureActorRef,captureId);\n`+body.slice(packEnd);
   const groups = [...body.matchAll(/captureBeginGroup\((\d+)\);/g)].map(match => Number(match[1]));
   assert.deepEqual(groups, Array.from({length: 31}, (_, i) => i + 1));
   body = body.replace(/captureBeginGroup\((\d+)\);/g, (_all, n) => `if(captureGroup)yield captureDrain();captureBeginGroup(${n});`);

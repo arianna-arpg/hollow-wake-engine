@@ -1,0 +1,17 @@
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {pathToFileURL} from 'node:url';import {gunzipSync} from 'node:zlib';
+import {root,listFiles,sha256,verifyReference,writeJSON} from './reference-utils.mjs';import {assertStatContextObservations} from './stat-context-observation-checks.mjs';
+const args=process.argv.slice(2);assert(args.length===0||(args.length===2&&args[0]==='--game'));
+const game=fs.realpathSync(path.resolve(root,args[1]??'.reference')),accepted=JSON.parse(fs.readFileSync(path.join(root,'baseline/stat-context/acceptance.json')));
+const helper=fs.readFileSync(path.join(root,accepted.helper),'utf8'),compressed=fs.readFileSync(path.join(root,accepted.observations));assert.equal(sha256(helper),accepted.helperSha256);assert.equal(sha256(compressed),accepted.compressedSha256);
+const expected=gunzipSync(compressed);assert.equal(sha256(expected),accepted.observationsSha256);assertStatContextObservations(JSON.parse(expected));
+const boundaryBytes=fs.readFileSync(path.join(root,'baseline/stat-context/source-boundary.json'));assert.equal(sha256(boundaryBytes),accepted.sourceBoundarySha256);assert.equal(sha256(fs.readFileSync(path.join(root,'baseline/source-lock.json'))),JSON.parse(boundaryBytes).sourceLockSha256);
+if(!args.length)verifyReference(game,JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json'))));
+const snapshot=()=>Object.fromEntries(listFiles(path.join(game,'src')).map(f=>[f,sha256(fs.readFileSync(path.join(game,'src',f)))])),before=snapshot(),directory=fs.mkdtempSync(path.join(root,'.artifacts/reference-stat-context-'));
+const runtime=path.join(directory,'capture.ts'),typed=path.join(directory,'capture.typed.ts'),out=path.join(directory,'observations.json'),config=path.join(directory,'tsconfig.json');
+fs.writeFileSync(runtime,helper.replace(/(['"])\.\.\/src\/([^'"]+)\1/g,(_a,_q,f)=>JSON.stringify(pathToFileURL(path.join(game,'src',f+'.ts')).href)));
+fs.writeFileSync(typed,helper.replace(/(['"])\.\.\/src\/([^'"]+)\1/g,(_a,_q,f)=>JSON.stringify(path.relative(directory,path.join(game,'src',f)).replaceAll('\\','/'))));
+writeJSON(config,{extends:path.join(game,'tsconfig.sim.json'),compilerOptions:{typeRoots:[path.join(game,'node_modules/@types')]},include:[typed],exclude:[]});let passed=false;
+try{for(const[name,command]of [['types',[path.join(game,'node_modules/typescript/bin/tsc'),'-p',config]],['capture',['--import',pathToFileURL(path.join(game,'node_modules/tsx/dist/loader.mjs')).href,runtime,out]]]){
+ const fd=fs.openSync(path.join(directory,name+'.txt'),'wx');try{execFileSync(process.execPath,command,{cwd:game,stdio:['ignore',fd,fd],timeout:180000,windowsHide:true});}finally{fs.closeSync(fd);}}
+ const actual=fs.readFileSync(out);assertStatContextObservations(JSON.parse(actual));assert(actual.equals(expected),'Stat context observations differ');passed=true;
+}finally{assert.deepEqual(snapshot(),before);const report={passed,directory,game,courses:74,sourceMapSha256:sha256(JSON.stringify(before)),helperSha256:sha256(helper),observationsSha256:fs.existsSync(out)?sha256(fs.readFileSync(out)):null,expectedFilesRewritten:false};writeJSON(path.join(directory,'verification.json'),report);writeJSON(path.join(root,'.artifacts/stat-context-reference-verification.json'),report);console.log({passed,directory,courses:74});}
