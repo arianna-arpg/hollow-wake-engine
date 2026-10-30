@@ -567,10 +567,14 @@
         "docs/steam-runtime.md",
         "evidence/godot/steam-runtime-ci.json",
         "docs/native-attack-course.md",
-        "evidence/native-attack-course/windows.json"
+        "evidence/native-attack-course/windows.json",
+        "docs/native-stack-investigation.md",
+        "scripts/diagnose-native-attack-stack.mjs",
+        "evidence/native-attack-stack/windows.json"
       ],
       "remaining": [
         "Full-runtime native versus embedding decision; lifecycle leaves and selected embedded-session paths proven",
+        "Hosted Windows full-attack replay fails at the 256 KiB stack guard at 69729a1; original replay and hosted Linux pass. Collect compiler-specific stack diagnostics and verify a repair before closing native portability acceptance",
         "Unity sample",
         "Expand the verified Windows/Linux Godot sample beyond the selected session capability",
         "Unreal sample",

@@ -21,6 +21,22 @@ The initial local script then attempted to replay a downloaded hosted bundle
 that the workflow had not uploaded; that attempt failed without invalidating
 the preceding local measurements. Its partial receipts are retained.
 
-The next step is to collect comparable stack diagnostics and longer failure
-traces with the hosted compiler, then verify a targeted repair against original
-behavior. Native portability remains open while that investigation proceeds.
+The maintained `scripts/diagnose-native-attack-stack.mjs` accepts
+`--amalgam-dir <pinned-source>` and optionally `--course <recorded-course>`.
+It verifies bundle hashes and the pinned source, builds a private instrumented
+copy, and checks 256 and 512 KiB diagnostic limits. A 64 KiB negative control
+must report the stack guard. Successful runs must match every recorded Node
+observation under the existing geometry-only numerical policy and release all
+tracked allocations. Failure traces retain up to 64 frames. None of these
+diagnostic limits changes the production driver or native library.
+
+The [local diagnostic evidence](../evidence/native-attack-stack/windows.json)
+contains all five runs: original and installed complete at both larger limits,
+and the small-stack control fails as expected. Both completed paths compare
+150,608 numeric observations each. The hosted workflow now collects the same
+diagnostic after full attack replay, including when replay fails; a diagnostic
+success does not turn a failed production replay into a passing job.
+
+The next step is to compare the hosted results and verify a targeted repair
+against original behavior. Native portability remains open while that
+investigation proceeds.

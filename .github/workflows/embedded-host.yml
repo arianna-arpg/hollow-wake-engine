@@ -10,6 +10,7 @@ on:
       - 'scripts/test-embedded-session.mjs'
       - 'scripts/test-embedded-library.mjs'
       - 'scripts/test-native-attack-course.mjs'
+      - 'scripts/diagnose-native-attack-stack.mjs'
       - 'scripts/native-attack-comparison.mjs'
       - 'scripts/native-attack-observer.mjs'
       - 'adapters/hollow-wake/**'
@@ -122,7 +123,11 @@ jobs:
       - name: Prepare the complete installed game adapter
         run: npm run adapter:prepare
       - name: Compare original and installed full attack course in the native runtime
+        id: attack-course
         run: node scripts/test-native-attack-course.mjs --location .artifacts/adapter-location.json --amalgam-dir .artifacts/embedded-host-upstream
+      - name: Diagnose native attack stack limits without changing production caps
+        if: ${{ !cancelled() && (steps.attack-course.outcome == 'success' || steps.attack-course.outcome == 'failure') }}
+        run: node scripts/diagnose-native-attack-stack.mjs --amalgam-dir .artifacts/embedded-host-upstream
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
@@ -130,6 +135,12 @@ jobs:
           include-hidden-files: true
           if-no-files-found: error
           path: |
+            .artifacts/native-attack-stack-latest.json
+            .artifacts/native-attack-stack-*/verification.json
+            .artifacts/native-attack-stack-*/driver.c
+            .artifacts/native-attack-stack-*/build/build-commands.json
+            .artifacts/native-attack-stack-*/build/build.txt
+            .artifacts/native-attack-stack-*/*.txt
             .artifacts/native-attack-course-latest.json
             .artifacts/native-attack-course-*/verification.json
             .artifacts/native-attack-course-*/requests.jsonl
