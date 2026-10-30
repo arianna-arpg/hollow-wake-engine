@@ -1,0 +1,1320 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "c6fa52c03c7e60c539f83194d396991ae2adfaeb",
+  "scope": "Complete 29-statement landed-hit reaction phase over borrowed state and synchronous host services. Local correctness acceptance with common-hit desktop timing; no dedicated active-reaction, physical-device or new native-host API acceptance.",
+  "baseline": {
+    "path": "baseline/hit-reactions/acceptance.json",
+    "sha256": "d2310a8d34ec2823612d0fd16776e3ebe9b1b16e7c5b15e484ed3da43074c6e2",
+    "observationsSha256": "450b3ab14d7d63f1e4371cd4646fb243880449497b651a96af61e2684b2ec83b",
+    "frozenBeforeRuntime": true,
+    "rewritten": false
+  },
+  "runtime": {
+    "compiledFiles": 282,
+    "predecessorFilesUnchanged": 276,
+    "addedFiles": [
+      "hit-reactions-types.d.ts",
+      "hit-reactions-types.js",
+      "hit-reactions-types.js.map",
+      "hit-reactions.d.ts",
+      "hit-reactions.js",
+      "hit-reactions.js.map"
+    ],
+    "mapSha256": "b00f930a921478d3f0a5489d9b2e0c27e2c7b0385c93fc8aeef35faf907d32ea",
+    "sourceMapSha256": "cb504c8d2d1bba7e0d988c2282b465139479ed3b0c585da105db02a69c7410c3",
+    "moduleJsBytes": 6035,
+    "moduleGrowthLimitBytes": 8192,
+    "runtimeJsBytes": 668487,
+    "wholePackageLimitBytes": 690176,
+    "wholePackageLimitChanged": false
+  },
+  "validation": {
+    "sdkTests": 1265,
+    "focusedTests": 32,
+    "referenceVerify": true,
+    "originalCourses": 136,
+    "runtimeFaults": 54,
+    "sourceControls": 66,
+    "installedFaults": 10,
+    "gameChecks": 22,
+    "smokeEpisodes": 25,
+    "node22FocusedAndInstalled": true,
+    "consumer": {
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\hit-reactions-package-zRJaP9",
+      "consumer": "C:\\Users\\John\\AppData\\Local\\Temp\\hollow-hit-reactions-k8okMi",
+      "tests": 32,
+      "typesPassed": true,
+      "browserBytes": 5137,
+      "archiveSha256": "dc86006189e3280d42dd91dc6cf5b671793d2ae6df893d25b765cdc131229a5c",
+      "independentInstallation": true
+    },
+    "nativeOriginalAndInstalledNumbers": 150608,
+    "nativeOriginalAndInstalledExact": true,
+    "crossRuntimeGeometryTolerance": 1e-12
+  },
+  "checks": {
+    "sdk": {
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\hit-reactions-sdk-checks-au9Kgk",
+      "results": [
+        {
+          "command": "verify",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-reactions-sdk-checks-au9Kgk\\verify.txt",
+          "sha256": "b9ecc1c2315f45930e393a690602213a846c4ca13a04e7f90e9916df2ad4283d"
+        },
+        {
+          "command": "reference:verify",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-reactions-sdk-checks-au9Kgk\\reference-verify.txt",
+          "sha256": "ed9449e747fdb1f57570cdcc3c0c46a363a0e3720d661dd8df1026f2e66fb987"
+        }
+      ],
+      "sourceMapSha256": "cb504c8d2d1bba7e0d988c2282b465139479ed3b0c585da105db02a69c7410c3",
+      "baselineUnchanged": true,
+      "runtimeMapSha256": "b00f930a921478d3f0a5489d9b2e0c27e2c7b0385c93fc8aeef35faf907d32ea",
+      "compiledFiles": 282
+    },
+    "integration": {
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\hit-reactions-integration-checks-bFKdhX",
+      "location": "<sdk>\\.artifacts\\hit-reactions-reproduction-oXLNFf\\location.json",
+      "previous": "<sdk>\\.artifacts\\hit-sustain-reproduction-HivZeR\\location.json",
+      "results": [
+        {
+          "label": "game",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-reactions-integration-checks-bFKdhX\\game.txt",
+          "logSha256": "b4e8ea9ecc1f5414d83ff9072cb3d3b4372e1f57686d04da43c4e9b27886bddb"
+        },
+        {
+          "label": "installed-faults",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-reactions-integration-checks-bFKdhX\\installed-faults.txt",
+          "logSha256": "941e64dbfda2811a752585e0b85559a90b7904b8e4e154faaf2aa0889f94953d"
+        },
+        {
+          "label": "native-attack",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-reactions-integration-checks-bFKdhX\\native-attack.txt",
+          "logSha256": "1bda8ef643469e323b5c2dc026543aeaed6fef15554d8329f40d837ae4800f34"
+        },
+        {
+          "label": "paired-control",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-reactions-integration-checks-bFKdhX\\paired-control.txt",
+          "logSha256": "f9f431c9d89a5895cb5e9a44a6a1ddda25086760c4d1041bcc9d261cfad723eb"
+        },
+        {
+          "label": "paired-current",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-reactions-integration-checks-bFKdhX\\paired-current.txt",
+          "logSha256": "3114d692f98dd6aa532b0f8556dd6ea4c83231eb6f6c37f98752a6b8c17329a0"
+        },
+        {
+          "label": "core-benchmark",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-reactions-integration-checks-bFKdhX\\core-benchmark.txt",
+          "logSha256": "1bc32d568e327b307663b13f36afb69cb0964415cc80a72c1ae3322a2251d8cb"
+        },
+        {
+          "label": "node22-unit",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-reactions-integration-checks-bFKdhX\\node22-unit.txt",
+          "logSha256": "d46d3642019ea5bac2f7a047b57f19279ab80e0521fae2de3c8613ddd2c3e55b"
+        },
+        {
+          "label": "node22-installed",
+          "passed": true,
+          "log": "<sdk>\\.artifacts\\hit-reactions-integration-checks-bFKdhX\\node22-installed.txt",
+          "logSha256": "cba1aac91b1862ccd382725c840b717f6fcd1cc6cffe1e6245b37d5f75edfc0e"
+        }
+      ],
+      "runtimeMapSha256": "b00f930a921478d3f0a5489d9b2e0c27e2c7b0385c93fc8aeef35faf907d32ea",
+      "runtimeUnchanged": true
+    },
+    "game": {
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\hit-reactions-game-gates-OlTPIx",
+      "game": "<sdk>\\.artifacts\\hit-reactions-reproduction-oXLNFf\\game",
+      "location": "<sdk>\\.artifacts\\hit-reactions-reproduction-oXLNFf\\location.json",
+      "results": [
+        {
+          "label": "hit-reactions-reference",
+          "passed": true
+        },
+        {
+          "label": "hit-sustain-reference",
+          "passed": true
+        },
+        {
+          "label": "stat-context-reference",
+          "passed": true
+        },
+        {
+          "label": "hit-landing-reference",
+          "passed": true
+        },
+        {
+          "label": "hit-preparation-reference",
+          "passed": true
+        },
+        {
+          "label": "types",
+          "passed": true
+        },
+        {
+          "label": "hit-effects-reference",
+          "passed": true
+        },
+        {
+          "label": "hit-status-reference",
+          "passed": true
+        },
+        {
+          "label": "passive-grants",
+          "passed": true
+        },
+        {
+          "label": "status-effects-reference",
+          "passed": true
+        },
+        {
+          "label": "status-reference",
+          "passed": true
+        },
+        {
+          "label": "damage-reference",
+          "passed": true
+        },
+        {
+          "label": "attack-sequences",
+          "passed": true
+        },
+        {
+          "label": "probe-feedingcues",
+          "passed": true
+        },
+        {
+          "label": "probe-resourcevisuals",
+          "passed": true
+        },
+        {
+          "label": "probe-statusvoice",
+          "passed": true
+        },
+        {
+          "label": "probe-defenses",
+          "passed": true
+        },
+        {
+          "label": "probe-defensecues",
+          "passed": true
+        },
+        {
+          "label": "probe-talents",
+          "passed": true
+        },
+        {
+          "label": "probe-anatomy",
+          "passed": true
+        },
+        {
+          "label": "probe-throngcombat",
+          "passed": true
+        },
+        {
+          "label": "smoke",
+          "passed": true
+        }
+      ],
+      "sourceMapSha256": "ad7cfb003f7a8ad82f257afd7b4259bb659c9e3a7b70b13542d4a139f94504d7",
+      "packageMapSha256": "befd3e897c109c34710b8ec6326653e9c4a1c8a1c6cc2acb04549bb581cc9d94"
+    },
+    "installed": {
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\game-hit-reactions-36rBGO",
+      "game": "<sdk>\\.artifacts\\hit-reactions-reproduction-oXLNFf\\game",
+      "reference": {
+        "passed": true,
+        "game": "<sdk>\\.artifacts\\hit-reactions-reproduction-oXLNFf\\game",
+        "output": "<sdk>\\.artifacts\\reference-hit-reactions-Fbwyku",
+        "courses": 136,
+        "acceptanceSha256": "d2310a8d34ec2823612d0fd16776e3ebe9b1b16e7c5b15e484ed3da43074c6e2",
+        "sourceMapSha256": "ad7cfb003f7a8ad82f257afd7b4259bb659c9e3a7b70b13542d4a139f94504d7",
+        "expectedFilesRewritten": false,
+        "scope": "Original landed-contact reactions after hit sustain and before volatile retaliation. Runtime extraction and physical-device performance remain separate.",
+        "observationsSha256": "450b3ab14d7d63f1e4371cd4646fb243880449497b651a96af61e2684b2ec83b"
+      },
+      "archiveSha256": "e382378551dcb01f8fe8509dcb0b70df8b1266f41c78505a239837fe828e854d",
+      "sourceMapSha256": "ad7cfb003f7a8ad82f257afd7b4259bb659c9e3a7b70b13542d4a139f94504d7",
+      "packageMapSha256": "befd3e897c109c34710b8ec6326653e9c4a1c8a1c6cc2acb04549bb581cc9d94",
+      "sourceAndPackageUnchanged": true
+    },
+    "mutations": {
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\hit-reactions-mutations-eUmjyu",
+      "tests": 32,
+      "sourceSha256": "e143d149cd191b90fb753215149f971088c999c5223004036e455f7b114aaa16",
+      "faults": 54,
+      "results": [
+        {
+          "name": "author-clock",
+          "detected": true,
+          "sourceSha256": "36986fb04e0c341ff99230bfa2d59327f8693c342acd475f4856f2fd6d201fca",
+          "outputSha256": "63c75cdb30733dbd61cefab16ccc16b3ae6062e525e03dca9350302112d13216"
+        },
+        {
+          "name": "victim-clock",
+          "detected": true,
+          "sourceSha256": "af8e415402d13dc25e136b1e1a9cc4c429f20a28f54f949b944b05975c800266",
+          "outputSha256": "788439adc656592f7167026f7bc3c5a52a6706ae8b5eb40c574914815a4c3e70"
+        },
+        {
+          "name": "strike-clock",
+          "detected": true,
+          "sourceSha256": "56241d98a096e1513868d75b60fc9577205503806e323ac997e27f98a83061e5",
+          "outputSha256": "2488ef74a9fb1c4d243c5537580d668213e20f50d2be1711cc59e371026b8e11"
+        },
+        {
+          "name": "strike-author",
+          "detected": true,
+          "sourceSha256": "9819a2aa7e4136068f0f5b32b0d3b775e34463d04c0c27945a3461ddd510c7b2",
+          "outputSha256": "a0d1a77b2f30821bd6f5dbbd695d45cf469e1bfdb0097a762616c797720283a1"
+        },
+        {
+          "name": "explicit-origin",
+          "detected": true,
+          "sourceSha256": "52fdf2314cc3f0f08b738bc7c06e2c97afcbcd09f11fa9fd793397e1dc9de191",
+          "outputSha256": "10ea2be1fd37ca586a62cb6af41579e8bdea80f23f2ef5a491dddefc97746dc4"
+        },
+        {
+          "name": "nested-origin",
+          "detected": true,
+          "sourceSha256": "aa96a277e267337714fc1a55a31b2d19083d515b68182d5c745187ea3fb39319",
+          "outputSha256": "891424d4605541a3855e7aa2bcb1b2f6f25f556b43355ac5934c801ee65b0442"
+        },
+        {
+          "name": "hostility",
+          "detected": true,
+          "sourceSha256": "b24b08af4fe0f9cffa500aea97c920b5d1c9f6900153f338b357604f3f9116ce",
+          "outputSha256": "c990450de94497564b9f8c8d40548628eef3ac7cca6707cef1757bd4558d8543"
+        },
+        {
+          "name": "alert-max",
+          "detected": true,
+          "sourceSha256": "6efa17277b5dc496df60da6f3e4199fc5155cb9845a50eac981bf8b6202550c5",
+          "outputSha256": "24e6e5586c1aad4bd4509c4e62c7369f317e5737246a331e96e3796d141766ed"
+        },
+        {
+          "name": "alert-scale",
+          "detected": true,
+          "sourceSha256": "5f8bb3bb66f926d576583df9c4c01673ee747712beedb78a53dc613cc7c5b08e",
+          "outputSha256": "994b504b441da356da4897b1f43a3ec7e2b34b31ff6945cc54821e00d6e281b2"
+        },
+        {
+          "name": "zero-tier",
+          "detected": true,
+          "sourceSha256": "970004513a895b7c2204f487d754885fd5add0e1f125a37a5ea5f19051be5c95",
+          "outputSha256": "289027082cf2fa6e167587a60d0980d4fd5143928222e3f1a47cdf4dbde9bcb8"
+        },
+        {
+          "name": "foe-team",
+          "detected": true,
+          "sourceSha256": "23c3e71723a2e3ff46420f714600891d7fb326db8317f67d24a40335db6e38d2",
+          "outputSha256": "1e96c3cd828e9f414a6993348ae9b5bbaa75033675d54dc43de0184e68ed0d05"
+        },
+        {
+          "name": "victim-drive",
+          "detected": true,
+          "sourceSha256": "ef3183d573d246a0b1e1fc9a155711e642b9420d86d269dc9bfb7b4fffb447fb",
+          "outputSha256": "9b576ea6dd611fa48106dbfca405bf2566d3229505da76ab708da69bbbd2f17d"
+        },
+        {
+          "name": "author-drive",
+          "detected": true,
+          "sourceSha256": "fc07308eea7703953cd8ea4c5bd78f5f6670ec49b71d3c7643d446c56b4915da",
+          "outputSha256": "53b017de7dce67d9c42d0fa49773f5613fff34165b38e98458c6dc5a3eaddc39"
+        },
+        {
+          "name": "loot-cadence",
+          "detected": true,
+          "sourceSha256": "34a27e24bfe9d4e5b3a8f7e58cc3a91830a38894d0ffe67ce69fcb4507eb2411",
+          "outputSha256": "b419487cca69902a07918b7fcbab3e4c2b38c7205bcce596c38d0f85e67ce791"
+        },
+        {
+          "name": "loot-order",
+          "detected": true,
+          "sourceSha256": "b25f1ff35e272096235932ab717ff92920762066318850df999673a0fd9751b8",
+          "outputSha256": "685ad15eab1caf2ee793820b7011f3a4771fe1aa65f951f5b5532da986fcb276"
+        },
+        {
+          "name": "loot-stamp",
+          "detected": true,
+          "sourceSha256": "17b17b4ec1bad98293e16f683427bfbf064d12bd230aa27988c9ad7c4178c89c",
+          "outputSha256": "bf1f39baf0af326fd5a15e068e571f0eca874311045eacdfcada5c67ba91a7e9"
+        },
+        {
+          "name": "loot-identity",
+          "detected": true,
+          "sourceSha256": "7cfed2a04eedb3e5376012d82315fc3bab6b3b1a45d693d2666825c15ad815ce",
+          "outputSha256": "cd91375b7999dfedac3b8e98b7e6b78acf90d74dc83bb43ec46f5f047c0db14c"
+        },
+        {
+          "name": "essence-positive",
+          "detected": true,
+          "sourceSha256": "ed29d74e4aa43f972b4154e87efafc2253454081f2442cec03e0752f4eed18b0",
+          "outputSha256": "d3415977470f23307a76fa451fe144f0d01c39b25f4185478d6977ac52af95b1"
+        },
+        {
+          "name": "wound-reset",
+          "detected": true,
+          "sourceSha256": "34991c6e5a82915cbfa96fb9df2c6199af44a195911e1566c7b6f91d5ac6bac4",
+          "outputSha256": "3cb383d3b1373fb1c3fc20d7f27ab60a0f3263dc2dde0e413bac0ba143d11f7f"
+        },
+        {
+          "name": "threat-zero",
+          "detected": true,
+          "sourceSha256": "5d788eec00bc25acac0e930c2adccbe5e86685708d657e8187f2fc3a9486da14",
+          "outputSha256": "1c4b16920c5f1eccf0f44d7513e469973b90a334d655be761dac7726bce30e1f"
+        },
+        {
+          "name": "threat-weight",
+          "detected": true,
+          "sourceSha256": "00d19367d7904d0fd2ab6e0036a4b04efd6d72fb85b902fa5cdf561e2da9245c",
+          "outputSha256": "7f99e7dcab58c972f9bd71488dc7bbdbddeb225e496fb6f8fce8a1543dff7c67"
+        },
+        {
+          "name": "threat-live-mods",
+          "detected": true,
+          "sourceSha256": "ad98867047a90dfe7aa8ecd62077808c4758332fdab5618c83e65d81fd9aa8ea",
+          "outputSha256": "a92023d8cec7848648a1c8c0a71d461db7d141989be14a23a5220f8d21297507"
+        },
+        {
+          "name": "threat-tags",
+          "detected": true,
+          "sourceSha256": "3f941da265d152eb5abf92716523b7d39cca5c5d3e76b1fd8e8debbdc2a1efde",
+          "outputSha256": "67ff8993eb7b822a955e346107b479e93e4227edbbf605e58b411ab1cc42ceb7"
+        },
+        {
+          "name": "fragile-gate",
+          "detected": true,
+          "sourceSha256": "180472b038491d7d4307aac90b81670f6ef66012da418860691fbca9a534a25d",
+          "outputSha256": "2a87c1e9dbcb246c9ce039524c997c7488b5ce5e32c92389f63b9565abd98cad"
+        },
+        {
+          "name": "fragile-iteration",
+          "detected": true,
+          "sourceSha256": "ec2d564ef8e39c03ae216fbd30b52fb27b8a97a078f36efe7b5d027d332e9c69",
+          "outputSha256": "7441326789979a983397acb407bb8b119967e7751f86693cf58201160de7cfeb"
+        },
+        {
+          "name": "charge-depth",
+          "detected": true,
+          "sourceSha256": "5127830fde884ac53a62c9a750e0cd7f430717e99c9d935f5e1d413c756d1984",
+          "outputSha256": "5d587d9e2f105e0d55ff300b784da453028b3bca55d932aea8302ad99a2b1585"
+        },
+        {
+          "name": "charge-counterpart",
+          "detected": true,
+          "sourceSha256": "943690eb3cfe490c3d1f64847a01f25acecc1c1f010bdf7682f194de7ad94638",
+          "outputSha256": "56107ec8b748156029e755996a244754cb90682ed71c6ad0c4f8a09ead6369c6"
+        },
+        {
+          "name": "orb-cap",
+          "detected": true,
+          "sourceSha256": "e5fdf703229daf6d825d261ee7a03903f4ecd47c5623f22d2ef3d4a37621c0ac",
+          "outputSha256": "ecb7428c81cc6d2e72b679ae0234907796ab94990d7c85d9a18a4abc4d43cd3a"
+        },
+        {
+          "name": "orb-construct",
+          "detected": true,
+          "sourceSha256": "a1dc6a8bb9e3f98c12b1235461c24e0cbacba79bd86cdcdbaf20225080256822",
+          "outputSha256": "54b6f8c87e1f79302afeac904c51b90231b23eb4b41cc5123adbfb957c4d375f"
+        },
+        {
+          "name": "orb-chance",
+          "detected": true,
+          "sourceSha256": "18ceae04415b985ea45fd8e671c2ae54e32d4011f02712150ffc0191e813a093",
+          "outputSha256": "a22e91aed72265a325822056252f7aba8b3eebe72a074ff875d9024088dfb6f1"
+        },
+        {
+          "name": "orb-keys",
+          "detected": true,
+          "sourceSha256": "0103afe8ceba360737b2bae64ddbf88ba784ebb10a59f15b994c097b8c943da4",
+          "outputSha256": "4ec46b61c6d4ccf2bff58777c1af08995302212d1eab13307a5897b76474c73a"
+        },
+        {
+          "name": "spool",
+          "detected": true,
+          "sourceSha256": "75c6c724780a4b259f5f57474aa4594515e001f7c8a33d1689e6cc6ec91995e2",
+          "outputSha256": "bdf89ccde6bc9ce7b3a03a49ee4a3189528f1efef13522973ff3a07a2875a5a2"
+        },
+        {
+          "name": "rouse",
+          "detected": true,
+          "sourceSha256": "8d0d97743bd0fd4be2ce95f405689198149d108e5a7d9c6e26ec707be486efd0",
+          "outputSha256": "4916a69d560e5a915c322bd2933e50afabaf89484fad015f4137d2a9221b0d1b"
+        },
+        {
+          "name": "ambush",
+          "detected": true,
+          "sourceSha256": "e21e0edf7d9adde0a76cfcbce2f6f0055dd902975c4a85d4f9cd9591f97b78a1",
+          "outputSha256": "056e2a131123eb14ec83d7218ee9697453104efef0572b547d0221a0a19f84c7"
+        },
+        {
+          "name": "stealth-radius",
+          "detected": true,
+          "sourceSha256": "04b715903c53541d184c8a60f636146092ed5299e8fa1cdc724a24c5023fcc74",
+          "outputSha256": "95161088b931549f5736be7f41e6e58b4595ed7471e551413fdd66da93e2489f"
+        },
+        {
+          "name": "stealth-tier",
+          "detected": true,
+          "sourceSha256": "5f00e28a515d3f1c8a9bf5af53a549949a51326091f196992c1dfbe2b2b45e2f",
+          "outputSha256": "ecf63507c1ba3f4d23ea3435a8dac16c8124674074defb4c77edf1abf8eb860e"
+        },
+        {
+          "name": "stealth-origin",
+          "detected": true,
+          "sourceSha256": "9842c33e99e303e3e2928637fcbf76cd3d8ae7e1b4d5276936e3535e3d98e244",
+          "outputSha256": "d6cb54acefe96928a52ca8b53c3c2e3d566dfff4880c7123fe2d20e9a82c7af9"
+        },
+        {
+          "name": "stealth-iteration",
+          "detected": true,
+          "sourceSha256": "91442af1a7c032c861158e498f983419ed782387d031aee2993926d4e49d2be4",
+          "outputSha256": "b4d2bdc530a064c74f37ae4a145216b2066fe69e90cd03a850c622949f100c07"
+        },
+        {
+          "name": "watch-aggro",
+          "detected": true,
+          "sourceSha256": "22a5d3be7296887574d27a6aad373ef0ca471d62eab35ca232c0b75c417ebec3",
+          "outputSha256": "fbbb5590f167363be623180c65bb51a7a0dd2ea7038f2b33fc5796641eccc216"
+        },
+        {
+          "name": "watch-point",
+          "detected": true,
+          "sourceSha256": "5569f1379e03440069700e6f210c19df67568853c30a8a11cfca37502df0c0bb",
+          "outputSha256": "a717cd1df4da9422b2f90064873b498080cb09ef3e69f1dfe0c4e67efb43bb21"
+        },
+        {
+          "name": "watch-rung",
+          "detected": true,
+          "sourceSha256": "56033a12a3b5ed7fb713530b816aba4f8bbab07eb566d492d238044325e38c68",
+          "outputSha256": "f04986ece6c84d9d816a3ca0cd7d8fb584aedd74dbfdf978c2d9720a5b741a59"
+        },
+        {
+          "name": "low-life",
+          "detected": true,
+          "sourceSha256": "2f4fb91215d9d1c88961ad169212cdf89da29c5e86fb353dfa4ba530dc93ab97",
+          "outputSha256": "6a62d873e4709d97788cf57c3a824458092170d61d69372282065881c57c3def"
+        },
+        {
+          "name": "borrowed-result",
+          "detected": true,
+          "sourceSha256": "b02cbf8543a51962431c60488b7d066432f597603407d566388c7baaff8bc846",
+          "outputSha256": "f9c6b924ffd8b3113d9228421beb1ac3aa25ae3331fc0ce103a52e7ddedf31e1"
+        },
+        {
+          "name": "cull",
+          "detected": true,
+          "sourceSha256": "6a9e202f2d6a3137c17e8ed156a1ba25ffb0c6286d77e146fa8a02fb90de0670",
+          "outputSha256": "68e08c2ef77ef2d8e1a93f4d17b971e4b86f78a7f89d772ef408a95036118eb3"
+        },
+        {
+          "name": "clamp",
+          "detected": true,
+          "sourceSha256": "9be8f1e7f7b2f83d50b77c85e2bcdbc4e1e5238ea635fd51ef4a16ef322279ae",
+          "outputSha256": "b119cfada5b7da9022a3768c6c8441e3400fc77fc1d91b1bc4ee1401149894a1"
+        },
+        {
+          "name": "poise",
+          "detected": true,
+          "sourceSha256": "43a4c531b5cdc1275f4b08fc6aa137791e20de453c717922c164f34e57e06bc7",
+          "outputSha256": "35f04da34a063fc7af3039be8ca09fb4d8bca108419124896f675b69f10c1300"
+        },
+        {
+          "name": "shield-clear",
+          "detected": true,
+          "sourceSha256": "640a4f4d51aded3d7b590b7df7453c0f36986def82bbcb3709e39d2b50230e07",
+          "outputSha256": "e9e7b8fa26e5d2f06eaa807e597e75f33495d4787768d3890d8db7c93fd3de38"
+        },
+        {
+          "name": "defense-depth",
+          "detected": true,
+          "sourceSha256": "5eab59f1eb0c0a4d81a7c61a4915e6bea5f87048cc86288738f82028d76cd053",
+          "outputSha256": "f0d4e86a09c776852b9b37623bc31b5ccc10ec49dc000ee92de86fda978c621a"
+        },
+        {
+          "name": "captured-critical",
+          "detected": true,
+          "sourceSha256": "329e658da28d3f3e3e55f96a32b354eda14e11a6e744708bfeb295f44e31f6c6",
+          "outputSha256": "a8b93a66f6d9020a3fdf599bf50ee05befa28b76f474e577f0e6b42e7f14d211"
+        },
+        {
+          "name": "trigger-depth",
+          "detected": true,
+          "sourceSha256": "d5979d6a9bf56c0f61ce584d766de9b0684f345897452824bc3d56ec29773f2b",
+          "outputSha256": "32d40078fc820600c23e5a17a4b0ad777d89caf81f843d6563a2fe5e24edd130"
+        },
+        {
+          "name": "trigger-aim",
+          "detected": true,
+          "sourceSha256": "58a7c2dcffd9f611f4b2186d7f979e73977a7e34bc69ba0139cf07bd4279540d",
+          "outputSha256": "daa10234992ac74c878784da883cda8795ca6d5bccf612699082f5d4cc46a0c3"
+        },
+        {
+          "name": "zero-roll",
+          "detected": true,
+          "sourceSha256": "445c8cdf12e6e502527cd5eda04c4be7ece07d848f10570448da3b6fa24d55da",
+          "outputSha256": "0d8c1c0d98a6c6d6d1c7ac6ce820bbf57855a5a67c516085c99042bf5a3e4832"
+        },
+        {
+          "name": "roll-fraction",
+          "detected": true,
+          "sourceSha256": "a0ba33f97cd7b23f53975b429ae2c17af5105f8e8d138b2331d0b1ccfb125ae3",
+          "outputSha256": "430893a29b5b6c4af5e9b9f99d392aac128da726e52f41ba99d966913f00b0ac"
+        },
+        {
+          "name": "captured-damage",
+          "detected": true,
+          "sourceSha256": "8c2ea318f5cdff142d9f8bcb78197fb8cc18c77762b819a9966757ef0b2305b5",
+          "outputSha256": "57c5ccceec2ab38ad9d298616b51fa698fd27f5b6452ce9ee158f75f309fff32"
+        }
+      ],
+      "runtimeUnchanged": true
+    },
+    "faults": {
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\game-hit-reactions-faults-13tpit",
+      "game": "<sdk>\\.artifacts\\hit-reactions-reproduction-oXLNFf\\game",
+      "faults": 10,
+      "results": [
+        {
+          "name": "control",
+          "kind": null,
+          "detected": false,
+          "sha256": "450b3ab14d7d63f1e4371cd4646fb243880449497b651a96af61e2684b2ec83b",
+          "compressedSha256": "cb2f3c4d8e13a4771cb28be4c2695c359d994fd98a0d4128f161be76ca301da5",
+          "matches": true
+        },
+        {
+          "name": "threat-live-modifiers",
+          "kind": "runtime",
+          "detected": true,
+          "sha256": "f16f0c78c6cbe8faa2472361ba9b655b8d0cd89e20a41e0d3f8b10a4d3104a0b",
+          "compressedSha256": "2a8aae1a37d2b359450b08698015b520bb1a057344c528834bf5f2c5caca4f47",
+          "matches": false
+        },
+        {
+          "name": "fragile-live-map",
+          "kind": "runtime",
+          "detected": true,
+          "sha256": "0676bc706585453e23985612f36838f6a80932a5af8f591704a69fd0c44934aa",
+          "compressedSha256": "b64be6dff991da840c6f3f90e642641a1da3457410009f49a5aaa342e9003064",
+          "matches": false
+        },
+        {
+          "name": "orb-chance-cap",
+          "kind": "runtime",
+          "detected": true,
+          "sha256": "077dbd16d29747b1e51a93627bfdf22a050cf06c7df9a4d7546abd6c2f7879ec",
+          "compressedSha256": "f6b248e2f4572603311b6c2b29defc96cdacad16bbce847808a450a7f6e4a81b",
+          "matches": false
+        },
+        {
+          "name": "stealth-live-list",
+          "kind": "runtime",
+          "detected": true,
+          "sha256": "46ceb3cfd07213b44d2af0a63113eec927fac73c5d3ea9ee7e1ba09adc7ee18d",
+          "compressedSha256": "a9cac52446be825acfdbda91a1a789ceb4bfc4e3b7d281e1c64eeb744abb431d",
+          "matches": false
+        },
+        {
+          "name": "watch-point-identity",
+          "kind": "runtime",
+          "detected": true,
+          "sha256": "c572c5ac7d74f1a2c38d2e4eb4c22427fa1866f4bcf59aaf36e85e782ddcfb33",
+          "compressedSha256": "c5be96c4d7b6c3b18d803f15e72ebfe14f7ba78efc6c7d19b43c930309928e57",
+          "matches": false
+        },
+        {
+          "name": "captured-critical",
+          "kind": "runtime",
+          "detected": true,
+          "sha256": "90e794f1a77337db8e42437ea46828636f5c775e33d6d763f60d7907f31568a5",
+          "compressedSha256": "e18ad95442c59c8064a33015a3e516b47002a7de9d29f33a3721a7f33c98b740",
+          "matches": false
+        },
+        {
+          "name": "zero-roll-event",
+          "kind": "runtime",
+          "detected": true,
+          "sha256": "61592084e9c45462668933501e6ccb5b1ee05ad0e7fd0955fd1f198ac45de765",
+          "compressedSha256": "f27205b21d0a6a79c028f43d43d0d816f6f718ca465ceced0380328d39896ae0",
+          "matches": false
+        },
+        {
+          "name": "captured-damage-bank",
+          "kind": "runtime",
+          "detected": true,
+          "sha256": "911cb4572647197c9d4f1098fa5c76b8bcb4483e6d6f1459d9d5629e88a1bccc",
+          "compressedSha256": "197def6a7866736532731983c772cc81778a6c497ff934320f585a3cf5667e8d",
+          "matches": false
+        },
+        {
+          "name": "damage-rounding",
+          "kind": "binding",
+          "detected": true,
+          "sha256": "8a9b982becac28ff5c914b71a176a2d0f8fd1e955645445a1e56f9bce6fe8260",
+          "compressedSha256": "57d5b978b58e43b2fda57a330a50756ccd4796faa254acf18f4469865399eb95",
+          "matches": false
+        },
+        {
+          "name": "damage-critical-size",
+          "kind": "binding",
+          "detected": true,
+          "sha256": "095e1e34c964f332efdc3ba2b2114c740684e827c828c609ab0b96d72210e4c3",
+          "compressedSha256": "307c1f279a574509bfc9d866dc8cd54af3863a6aec321142e34ad3b89ff661cf",
+          "matches": false
+        }
+      ],
+      "sourceAndPackageRestored": true,
+      "expectedFilesRewritten": false,
+      "sourceMapSha256": "ad7cfb003f7a8ad82f257afd7b4259bb659c9e3a7b70b13542d4a139f94504d7",
+      "packageMapSha256": "befd3e897c109c34710b8ec6326653e9c4a1c8a1c6cc2acb04549bb581cc9d94"
+    },
+    "overlay": {
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\hit-reactions-overlay-YnQ0Hh",
+      "faults": 66,
+      "results": [
+        "original-statement-0",
+        "original-statement-1",
+        "original-statement-2",
+        "original-statement-3",
+        "original-statement-4",
+        "original-statement-5",
+        "original-statement-6",
+        "original-statement-7",
+        "original-statement-8",
+        "original-statement-9",
+        "original-statement-10",
+        "original-statement-11",
+        "original-statement-12",
+        "original-statement-13",
+        "original-statement-14",
+        "original-statement-15",
+        "original-statement-16",
+        "original-statement-17",
+        "original-statement-18",
+        "original-statement-19",
+        "original-statement-20",
+        "original-statement-21",
+        "original-statement-22",
+        "original-statement-23",
+        "original-statement-24",
+        "original-statement-25",
+        "original-statement-26",
+        "original-statement-27",
+        "original-statement-28",
+        "original-prefix",
+        "original-continuation",
+        "installed-statement-0",
+        "installed-statement-1",
+        "installed-statement-2",
+        "installed-statement-3",
+        "installed-statement-4",
+        "installed-statement-5",
+        "installed-statement-6",
+        "installed-statement-7",
+        "installed-statement-8",
+        "installed-statement-9",
+        "installed-statement-10",
+        "installed-statement-11",
+        "installed-statement-12",
+        "installed-statement-13",
+        "installed-statement-14",
+        "installed-statement-15",
+        "installed-statement-16",
+        "installed-statement-17",
+        "installed-statement-18",
+        "installed-statement-19",
+        "installed-statement-20",
+        "installed-statement-21",
+        "installed-statement-22",
+        "installed-statement-23",
+        "installed-statement-24",
+        "installed-statement-25",
+        "installed-statement-26",
+        "installed-statement-27",
+        "installed-statement-28",
+        "installed-prefix",
+        "installed-continuation",
+        "engineHitReactions-collision",
+        "bindHitReactions-collision",
+        "atomic-preflight",
+        "binding-collision"
+      ],
+      "lfCrlfEquivalent": true,
+      "repeatedInstallRejected": true,
+      "prefixAndContinuationTextUnchanged": true
+    },
+    "native": {
+      "schemaVersion": 1,
+      "passed": true,
+      "directory": "<sdk>\\.artifacts\\native-attack-course-wIm7EW",
+      "commit": "c6fa52c03c7e60c539f83194d396991ae2adfaeb",
+      "node": "v24.9.0",
+      "bundlerVersion": "0.28.2",
+      "platform": "win32",
+      "arch": "x64",
+      "sourceHashes": {
+        "scripts/native-attack-comparison.mjs": "9737e1b0922f779716c58ee48cd07f2c4ff2aef6dea9914fcb6e78fa92751711",
+        "scripts/native-attack-observer.mjs": "c14f2b378623e79862f0619bebb03e49b5a998b766d34335f1aa4721a9339417",
+        "scripts/test-native-attack-course.mjs": "42d9032419599276e851835d6437af51625f825209324a28987f0ebeb76ea9d2",
+        "experiments/embedded-js/course-services.mjs": "422972288c57172b6316ef7df5db27b3f29ffdd97e8a1cde4cef33c6985c430a",
+        "experiments/embedded-js/session-host.c": "d4e4decec9ba2f3c9bf22ad5b5040c80bb06fb8da46d34ae4f0c8edf0d9dc5f9",
+        "experiments/embedded-js/host-support.h": "3a0c476def580a963a866d103d4a61cc3942b89ddb826d140e0d0dae734d9aad",
+        "experiments/embedded-js/tracked-allocator.h": "5c8e5cbf6412a3b9edf93826e190524221dc0cecc77f903690352f2a8c01ac0f",
+        "scripts/embedded-native-tools.mjs": "c92fbe1e1af2d563fd6b58b3fd8ee152a1ba5a9c6200e4d75ba6cf9be745ecf5",
+        "scripts/native-tools.mjs": "80671f3913e94caaecc8d18ab0c87d95aa3cb978201f38896291a4b823db5b89",
+        "baseline/attack-sequences/acceptance.json": "9c6717606b0c9f4820e868afd492e078589e0a10c7c20a0000a8bd6bb94fcd79",
+        "reference/export-attack-sequences.ts": "36f5b3fa6078bd3e77295671feac5ce5d6b947dfab7912d1eb39f2772b5cf1c5",
+        "baseline/attack-sequences/observations.json.gz": "df7ae067399ce626330693cf7e294920942618874e2676a51396ccdba6b1ea77",
+        "experiments/embedded-js/native/consumer.cpp": "d46fe4c20255167b85a2cfb9afa96cad10bb7871182b2ee9d873eda106c438a0",
+        "experiments/embedded-js/native/dotnet/Consumer.csproj": "5752c7f35a5b6b7f286e0e9fe3fc1ae94e4935873e07179a729777e0b79804cc",
+        "experiments/embedded-js/native/dotnet/Embedded.cs": "c6cea31a4ca20ed3373fdc53159477e9db38f77512c135d6209a8c057ea35000",
+        "experiments/embedded-js/native/dotnet/NuGet.Config": "2142cfb2dfa2c7feefbe40fabcc68b0dfecadafa99a1db9b70239d977cf2a7ef",
+        "experiments/embedded-js/native/dotnet/Program.cs": "ea866913c81e6f6be8d72da91e193e132bc94790bbe8a44b555347d5e22a861c",
+        "experiments/embedded-js/native/hwe_embedded.c": "382b4c0a404b7219feeb35742aaff0b2136c8df65c1cf93e634a9ee9e33f155a",
+        "experiments/embedded-js/native/hwe_embedded.h": "29fb4f208074cd4d6407482900479322cbd21d1e722851cf5617b732aac72978"
+      },
+      "originalSourceMapSha256": "384db880fa4ce06031caba166b17155bafc2e61f71ee32f8960b0e35add54ee9",
+      "gameSourceMapSha256": "ad7cfb003f7a8ad82f257afd7b4259bb659c9e3a7b70b13542d4a139f94504d7",
+      "installedPackageMapSha256": "befd3e897c109c34710b8ec6326653e9c4a1c8a1c6cc2acb04549bb581cc9d94",
+      "runtimeMapSha256": "b00f930a921478d3f0a5489d9b2e0c27e2c7b0385c93fc8aeef35faf907d32ea",
+      "referenceSha256": "7b20c2c208f9f6f5ab26a7432e00afaeca97562415f2ce0ce4f0f3d027b3843a",
+      "runtimeVersion": "0.17.0",
+      "scope": "Full original/installed-game Cleave course in a development native driver. Includes original World, content, headless shims and test observation storage. No new engine API, stable package, performance or device acceptance.",
+      "runs": [
+        {
+          "label": "original",
+          "passed": true,
+          "bundleBytes": 13563103,
+          "bundleSha256": "64bb1c24e74f48829bd1587cf535bb2768483f2b205a9be73d3a19f138e6f77c",
+          "cloneChecks": 931,
+          "metrics": {
+            "code": 0,
+            "completedRequests": 33,
+            "peakRequestedBytes": 157112357,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 304429
+          },
+          "nodeExact": true,
+          "comparison": {
+            "numbers": 150608,
+            "differences": [
+              {
+                "path": "$/19/value/rows/2/worlds/0/actors/2/facing",
+                "actual": 2.0067420640161253,
+                "expected": 2.0067420640161258,
+                "absoluteError": 4.440892098500626e-16,
+                "kind": "facing"
+              },
+              {
+                "path": "$/19/value/rows/3/worlds/0/actors/2/facing",
+                "actual": 2.0067420640161253,
+                "expected": 2.0067420640161258,
+                "absoluteError": 4.440892098500626e-16,
+                "kind": "facing"
+              }
+            ]
+          },
+          "libraryComparison": {
+            "numbers": 150608,
+            "differences": []
+          },
+          "libraryMetrics": {
+            "passed": true,
+            "requests": 33,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 157112357,
+            "bufferOwnership": true,
+            "threadMigration": true,
+            "concurrentCancellation": true,
+            "unloadReload": true
+          }
+        },
+        {
+          "label": "installed",
+          "passed": true,
+          "bundleBytes": 13880000,
+          "bundleSha256": "e77a595ca74807b5889dbd5b265370911f42206d8436565b8becc57e9cfb3a9e",
+          "cloneChecks": 931,
+          "metrics": {
+            "code": 0,
+            "completedRequests": 33,
+            "peakRequestedBytes": 199394478,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 348468
+          },
+          "nodeExact": true,
+          "comparison": {
+            "numbers": 150608,
+            "differences": [
+              {
+                "path": "$/19/value/rows/2/worlds/0/actors/2/facing",
+                "actual": 2.0067420640161253,
+                "expected": 2.0067420640161258,
+                "absoluteError": 4.440892098500626e-16,
+                "kind": "facing"
+              },
+              {
+                "path": "$/19/value/rows/3/worlds/0/actors/2/facing",
+                "actual": 2.0067420640161253,
+                "expected": 2.0067420640161258,
+                "absoluteError": 4.440892098500626e-16,
+                "kind": "facing"
+              }
+            ]
+          },
+          "libraryComparison": {
+            "numbers": 150608,
+            "differences": []
+          },
+          "libraryMetrics": {
+            "passed": true,
+            "requests": 33,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 199394478,
+            "bufferOwnership": true,
+            "threadMigration": true,
+            "concurrentCancellation": true,
+            "unloadReload": true
+          }
+        },
+        {
+          "label": "early-freeze-fault",
+          "passed": true,
+          "bundleBytes": 13879982,
+          "bundleSha256": "f8af1bda57349577f4906a78b4580418ea1a5fc5d4f2abd9ff2767bc587c5cfc",
+          "cloneChecks": 931,
+          "metrics": {
+            "code": 2,
+            "completedRequests": 0,
+            "peakRequestedBytes": 101288363,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 192109
+          },
+          "nodeExact": true,
+          "detected": true
+        }
+      ],
+      "compilerBanner": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.38.33133 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+      "buildCommands": [
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/O2",
+            "/std:c11",
+            "/fp:strict",
+            "/MT",
+            "/experimental:c11atomics",
+            "/I<sdk>\\.artifacts\\quickjs-source-v017",
+            "/W4",
+            "/WX",
+            "/c",
+            "<sdk>\\experiments\\embedded-js\\session-host.c",
+            "/Fo:<sdk>\\.artifacts\\native-attack-course-wIm7EW\\native\\course-host.obj"
+          ]
+        },
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/O2",
+            "/std:c11",
+            "/fp:strict",
+            "/MT",
+            "/experimental:c11atomics",
+            "/I<sdk>\\.artifacts\\quickjs-source-v017",
+            "/c",
+            "<sdk>\\.artifacts\\quickjs-source-v017\\quickjs-amalgam.c",
+            "/Fo:<sdk>\\.artifacts\\native-attack-course-wIm7EW\\native\\quickjs-amalgam.obj"
+          ]
+        },
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/MT",
+            "<sdk>\\.artifacts\\native-attack-course-wIm7EW\\native\\course-host.obj",
+            "<sdk>\\.artifacts\\native-attack-course-wIm7EW\\native\\quickjs-amalgam.obj",
+            "/Fe:<sdk>\\.artifacts\\native-attack-course-wIm7EW\\native\\course-host.exe"
+          ]
+        }
+      ],
+      "binarySha256": "51b38d0d9b30c4aa111c22ca5df5d74ca8a6f10d87a1e98703da165a4ed3431b",
+      "library": {
+        "compilerBanner": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.38.33133 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+        "buildCommands": [
+          {
+            "command": "cl.exe",
+            "args": [
+              "/nologo",
+              "/O2",
+              "/std:c11",
+              "/fp:strict",
+              "/MT",
+              "/experimental:c11atomics",
+              "/I<sdk>\\.artifacts\\quickjs-source-v017",
+              "/W4",
+              "/WX",
+              "/DHWE_JS_BUILD_SHARED",
+              "/c",
+              "<sdk>\\experiments\\embedded-js\\native\\hwe_embedded.c",
+              "/Fo:<sdk>\\.artifacts\\native-attack-course-wIm7EW\\library\\hwe_embedded.obj"
+            ]
+          },
+          {
+            "command": "cl.exe",
+            "args": [
+              "/nologo",
+              "/O2",
+              "/std:c11",
+              "/fp:strict",
+              "/MT",
+              "/experimental:c11atomics",
+              "/I<sdk>\\.artifacts\\quickjs-source-v017",
+              "/c",
+              "<sdk>\\.artifacts\\quickjs-source-v017\\quickjs-amalgam.c",
+              "/Fo:<sdk>\\.artifacts\\native-attack-course-wIm7EW\\library\\quickjs-amalgam.obj"
+            ]
+          },
+          {
+            "command": "cl.exe",
+            "args": [
+              "/nologo",
+              "/MT",
+              "/LD",
+              "<sdk>\\.artifacts\\native-attack-course-wIm7EW\\library\\hwe_embedded.obj",
+              "<sdk>\\.artifacts\\native-attack-course-wIm7EW\\library\\quickjs-amalgam.obj",
+              "/Fe:<sdk>\\.artifacts\\native-attack-course-wIm7EW\\library\\hwe_embedded.dll"
+            ]
+          },
+          {
+            "command": "cl.exe",
+            "args": [
+              "/nologo",
+              "/O2",
+              "/W4",
+              "/WX",
+              "/std:c++17",
+              "/utf-8",
+              "/EHsc",
+              "/MT",
+              "<sdk>\\experiments\\embedded-js\\native\\consumer.cpp",
+              "/Fo:<sdk>\\.artifacts\\native-attack-course-wIm7EW\\library\\consumer.obj",
+              "/Fe:<sdk>\\.artifacts\\native-attack-course-wIm7EW\\library\\consumer.exe",
+              "/link",
+              "/STACK:2097152"
+            ]
+          }
+        ],
+        "librarySha256": "339f5ed4c6ddd1c848278fedfbaae6cedf5e0d1f929a0d7f151795e39fd3221f",
+        "consumerSha256": "64c492990b7a17d384db69f790f896d054281d98da7b15e95c1836d655ea6703"
+      },
+      "originalAndInstalledNative": {
+        "numbers": 150608,
+        "differences": []
+      },
+      "inputsUnchanged": true
+    },
+    "node22": {
+      "passed": true,
+      "game": "<sdk>\\.artifacts\\hit-reactions-reproduction-oXLNFf\\game",
+      "output": "<sdk>\\.artifacts\\reference-hit-reactions-C0mZWn",
+      "courses": 136,
+      "acceptanceSha256": "d2310a8d34ec2823612d0fd16776e3ebe9b1b16e7c5b15e484ed3da43074c6e2",
+      "sourceMapSha256": "ad7cfb003f7a8ad82f257afd7b4259bb659c9e3a7b70b13542d4a139f94504d7",
+      "expectedFilesRewritten": false,
+      "scope": "Original landed-contact reactions after hit sustain and before volatile retaliation. Runtime extraction and physical-device performance remain separate.",
+      "observationsSha256": "450b3ab14d7d63f1e4371cd4646fb243880449497b651a96af61e2684b2ec83b"
+    }
+  },
+  "timing": {
+    "hardware": {
+      "platform": "win32",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "logicalCpus": 20
+    },
+    "plan": {
+      "schemaVersion": 1,
+      "seed": 20904,
+      "workloads": [
+        "plain",
+        "authored",
+        "stat",
+        "rider",
+        "impale"
+      ],
+      "warmup": 1500,
+      "batch": 1000,
+      "pairs": 12,
+      "order": "Previous/current on even pairs, current/previous on odd pairs; workers idle between commands.",
+      "scope": "Warm whole resolver with equal resets and rider setup. Each worker has its own process, world and random state. Timing excludes IPC, cross-worker comparisons and forced GC; the existing per-hit alive assertion remains inside both paths. Retained heap is not allocation volume. Desktop observations are not device acceptance."
+    },
+    "control": [
+      {
+        "workload": "plain",
+        "medianPairedRatio": 0.9875048260161845,
+        "range": [
+          0.7702897113589745,
+          1.0717990790853815
+        ],
+        "currentLower": 7,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": 126144
+          },
+          "current": {
+            "retainedHeapDelta": 38208
+          }
+        }
+      },
+      {
+        "workload": "authored",
+        "medianPairedRatio": 1.0067210144807768,
+        "range": [
+          0.962218239944742,
+          1.0649881284733633
+        ],
+        "currentLower": 4,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": 193528
+          },
+          "current": {
+            "retainedHeapDelta": 155704
+          }
+        }
+      },
+      {
+        "workload": "stat",
+        "medianPairedRatio": 0.9648255926836024,
+        "range": [
+          0.8719688033186609,
+          1.0355079944302825
+        ],
+        "currentLower": 9,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": -39912
+          },
+          "current": {
+            "retainedHeapDelta": -33504
+          }
+        }
+      },
+      {
+        "workload": "rider",
+        "medianPairedRatio": 0.9879846112850024,
+        "range": [
+          0.9006084410552601,
+          1.0525276650450355
+        ],
+        "currentLower": 7,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": -221336
+          },
+          "current": {
+            "retainedHeapDelta": 171456
+          }
+        }
+      },
+      {
+        "workload": "impale",
+        "medianPairedRatio": 1.0085941776413099,
+        "range": [
+          0.896485385521957,
+          1.1720421905154046
+        ],
+        "currentLower": 4,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": 20240
+          },
+          "current": {
+            "retainedHeapDelta": 12424
+          }
+        }
+      }
+    ],
+    "current": [
+      {
+        "workload": "plain",
+        "medianPairedRatio": 0.982782056456426,
+        "range": [
+          0.9098518550613158,
+          1.0651509201252862
+        ],
+        "currentLower": 9,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": 129064
+          },
+          "current": {
+            "retainedHeapDelta": 53456
+          }
+        }
+      },
+      {
+        "workload": "authored",
+        "medianPairedRatio": 1.01346177381431,
+        "range": [
+          0.9319334242086668,
+          1.1970812285759573
+        ],
+        "currentLower": 5,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": 195344
+          },
+          "current": {
+            "retainedHeapDelta": 126024
+          }
+        }
+      },
+      {
+        "workload": "stat",
+        "medianPairedRatio": 0.9881968533535637,
+        "range": [
+          0.9148312959145479,
+          1.0946940450349456
+        ],
+        "currentLower": 8,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": -41048
+          },
+          "current": {
+            "retainedHeapDelta": -37912
+          }
+        }
+      },
+      {
+        "workload": "rider",
+        "medianPairedRatio": 1.0066652438862198,
+        "range": [
+          0.8721276791513032,
+          1.1564453011458617
+        ],
+        "currentLower": 6,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": -221136
+          },
+          "current": {
+            "retainedHeapDelta": 129096
+          }
+        }
+      },
+      {
+        "workload": "impale",
+        "medianPairedRatio": 1.0174336179137933,
+        "range": [
+          0.8378431906256434,
+          1.1665347295205957
+        ],
+        "currentLower": 5,
+        "retained": {
+          "previous": {
+            "retainedHeapDelta": 21344
+          },
+          "current": {
+            "retainedHeapDelta": 52592
+          }
+        }
+      }
+    ],
+    "interpretation": "No improvement or causal regression established. The common-hit workload has broad pair variation and does not isolate every active reaction path. General core benchmark is separate; retained heap is not allocation volume. Native full-game memory metrics include headless shims, content and observer storage and are not an SDK/device memory budget.",
+    "performanceAcceptance": false
+  },
+  "preserved": {
+    "originalStableFiles": 4100,
+    "reviewedConcurrentPaths": 28,
+    "originalWrites": false,
+    "sdkMainUnchanged": true,
+    "managedGameUnchanged": true,
+    "previousInstalledRuntimeUnchanged": true
+  },
+  "repairs": [
+    {
+      "kind": "fault-observer",
+      "description": "A missing critical trigger caused an unrelated TypeError in the independent test. Added an explicit dispatch assertion before inspecting arguments. Runtime and frozen fixture unchanged.",
+      "failedReceipt": ".artifacts/hit-reactions-mutation-initial-failed.json"
+    },
+    {
+      "kind": "source-control-harness",
+      "description": "Corrected a copied mixed-case helper import and a no-op whitespace fault selector; the selector now asserts it changes each statement. Final 66 source controls pass.",
+      "rawFailureLogAvailable": false
+    },
+    {
+      "kind": "host-type-compatibility",
+      "description": "The initial installed observer type-check exposed nullable original AI tuning records. Public types now accept null at each tuning level and independent tests include nested null values. Runtime JavaScript and frozen trace unchanged.",
+      "failedReceipt": ".artifacts/hit-reactions-game-initial-types-failed.json"
+    },
+    {
+      "kind": "package-accounting",
+      "description": "The initial full verifier counted the new optional module against the historical component pool. Added a separate 8 KiB reaction cap and excluded it from that earlier pool, consistently with other optional modules. No previous component or total 674 KiB limit raised. Full verification then passed.",
+      "failedReceipt": ".artifacts/hit-reactions-sdk-checks.json"
+    }
+  ],
+  "sources": {
+    ".github/workflows/verify.yml": "95dda5dacb52a7b91012dedc577e4bd62af19b181cf6b25aed0f376fbc393aac",
+    "adapters/hollow-wake/hit-reactions-boundary.json": "481fc130eee93d773dba1cb38a2e8b97d95d57df25bf5465244903818bb40d0e",
+    "adapters/hollow-wake/hitReactions.ts": "50a1c915ebe338789cc5445b88039445871e15899988c95a7f9b4a52e9267f6c",
+    "adapters/hollow-wake/integrate-hit-reactions.mjs": "db4de0e66caa305ed80c350a2f07f0df78fea07044b894c6123128618cb8a147",
+    "docs/boundary-contract.md": "216623349e027e4707ae6c22c06370a92f72e68107c378d6caa4590d3d469b03",
+    "docs/completion.json": "13227888d6c719f86f4a6122631b947dc7bd10bd14b4e997107c65e7801ac382",
+    "docs/hit-reactions-boundary.md": "9eb2e645a6e98fd3b2171a2679395f0ab1e5f2bbaacedf9df88a7011640b2d70",
+    "docs/verification.md": "bc98665b378c8b1fef02a6eaf60f2e0393365d7c0fb77657266ff2f9a0a99dd9",
+    "package.json": "1a0bd552e6e25827ea7988ac9191a6477bfb47fba1e640768f0ecde3c7a0023b",
+    "scripts/check-boundaries.mjs": "62685e99aa6b6006f49f7e121325c9be3cbeb2f0f1cf0087d5296fba440670d6",
+    "scripts/prepare-game-adapter.mjs": "33a7fb46be55d1a17f19cb30613e4d0f6930775e663abd570653c0d410265d3a",
+    "scripts/test-game-hit-reactions-faults.mjs": "7b56e0f786074bd760d828cdb4c4cc44c8146454781af86331720008fef0449d",
+    "scripts/test-game-hit-reactions.mjs": "c510503abe2d4f2eeae1c0547db361a4271acddf27df3cf95abab037f45c7fea",
+    "scripts/test-hit-reactions-mutations.mjs": "7c5e68784ea13680621072c7e472f05337702f9e1217451919491b7d2ed6cdc9",
+    "scripts/test-hit-reactions-overlay.mjs": "721c813ebfaaf37a095e8a645a295ce16e21dcd3f8aa0138d17cf352425bdb61",
+    "scripts/test-hit-reactions-package.mjs": "e05deb3030093bc5d378ba21237543733b79334279cb8bd9760a67c95199e788",
+    "scripts/test-package.mjs": "a4edd2d43b2999e17e4e4e62f7e9061580adbd90a951e347d1cfcbbc87474c2c",
+    "src/hit-reactions-types.ts": "deb44b308a3c8b4031aa1c7424128f24592c128ef1b94a8e5ab9e57e92c8ffba",
+    "src/hit-reactions.ts": "3f31f26db8c00c38b1eaaf07a62bb74fb5090bc92a816ba29fe7506f092964c2",
+    "test/hit-reactions.test.mjs": "c1d0a901b2a00a7b3c5d4050725d4519bcf176d4716feb7446e98ee95ed65e75"
+  },
+  "raw": {
+    "path": "evidence/hit-reactions/runtime-windows-raw.json.gz",
+    "bytes": 172456,
+    "sha256": "2300ca85d9f25f0dc64e607b75bdabb6712af8303bb2fdff69b69f70939e5c88",
+    "uncompressedSha256": "644bef81bca6b0798bbfbf84c14f839298606722f3efbe5aa5995cb40f9a069f"
+  },
+  "acceptance": {
+    "localRuntimeAndAdapter": true,
+    "physicalDevices": false,
+    "dedicatedActiveReactionPerformance": false,
+    "newNativeApi": false,
+    "completeSdk": false
+  }
+}

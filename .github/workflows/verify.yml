@@ -164,6 +164,7 @@ jobs:
       - run: npm run adapter:hit-preparation-source
       - run: npm run adapter:hit-landing-source
       - run: npm run adapter:hit-sustain-source
+      - run: npm run adapter:hit-reactions-source
       - run: npm run adapter:hit-effects-source
       - run: node scripts/test-status-overlay.mjs
       - run: npm run reference:damage
@@ -238,6 +239,8 @@ jobs:
       - run: npm run adapter:hit-landing-faults
       - run: npm run adapter:hit-sustain
       - run: npm run adapter:hit-sustain-faults
+      - run: npm run adapter:hit-reactions
+      - run: npm run adapter:hit-reactions-faults
       - run: npm run benchmark:hit-sustain -- --previous .artifacts/adapter-location.json --location .artifacts/adapter-location.json --verify-only
       - run: npm run test:hit-sustain-benchmark-observer -- --location .artifacts/adapter-location.json
       - run: npm run adapter:stat-context

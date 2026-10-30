@@ -6,7 +6,21 @@
 zero-tuning defaults, captured versus live hit values, nested hits and partial
 callback failures. The original and installed predecessor agree before runtime
 replacement. See [landed-hit reactions](hit-reactions-boundary.md) for ownership,
-observer repairs and remaining extraction work.
+observer repairs and remaining integration scope.
+
+The optional reaction runtime is covered by 32 independent tests, 54 runtime
+faults and 66 source integration controls. `test:hit-reactions-package` verifies
+an independent installation, generic host types and a browser build;
+`test:hit-reactions-mutations` is part of the full SDK verifier. The installed
+`adapter:hit-reactions` check matches the 136-course frozen trace.
+`adapter:hit-reactions-source` rejects changed source boundaries and collisions;
+`adapter:hit-reactions-faults` requires ten installed runtime/binding faults to
+change observations without unrelated exceptions or rewriting expectations.
+The [runtime evidence](../evidence/hit-reactions/runtime-windows.json) records
+1,265 passing SDK tests, all 22 game checks, Node 22 independent/installed checks
+and exact native original-versus-installed replay. Raw logs retain the initial
+type and package-accounting failures and their repairs. Paired timings include
+an identical-input control; they do not establish a performance improvement.
 
 `reference:hit-sustain` checks 98 frozen original courses covering siphon,
 nearby sharing, life bonds and tree storage. Two original runs, the installed
