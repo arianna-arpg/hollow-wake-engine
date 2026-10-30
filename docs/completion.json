@@ -687,7 +687,8 @@
         "scripts/benchmark-hit-aftermath.mjs",
         "scripts/test-hit-aftermath-benchmark-observer.mjs",
         "evidence/hit-aftermath/runtime-windows.json",
-        "docs/hit-aftermath-performance.md"
+        "docs/hit-aftermath-performance.md",
+        "evidence/hit-aftermath/splash-confirmation-windows.json"
       ],
       "remaining": [
         "Steam Deck measurements",
@@ -701,7 +702,7 @@
         "Effect folding retains 0.073–0.398 ms overhead versus v0.33 per 75,776 desktop calls; device and allocation profiling remain open",
         "Recovery throughput and allocation work: notification-layout experiment rejected; no whole-world or target-device speedup established",
         "Active hit-sustain overhead versus the immediate predecessor: up to 13.44% in the extended desktop run; shared-method adapter prototype deferred after a 5.17% tree-storage regression in confirmation. Whole-frame, allocation and device measurements remain open",
-        "Hit aftermath splash at 64 actors: 5.37% median overhead versus the immediate predecessor, slower in all 12 desktop rounds. Confirm and profile before accepting a performance refactor; other active cases span -4.12% to +5.37%, with separate identical-build controls spanning -2.71% to +4.70%."
+        "Hit aftermath causal CPU/allocation and whole-frame/device costs: initial 64-actor splash overhead of 5.37% did not reproduce in 48-round confirmation (median paired ratio 0.96586; identical-build control 0.99695). No stable regression or optimization benefit established; further refactors require profiling and repeatable evidence."
       ]
     }
   ]

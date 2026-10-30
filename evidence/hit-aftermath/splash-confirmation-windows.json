@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "69729a1e2dcad9bcd3dac7fc07bd51d68acdf5e3",
+  "scope": "Focused 64-actor splash confirmation; published runtime, helper, checker and benchmark runner unchanged.",
+  "initialEvidence": {
+    "path": "evidence/hit-aftermath/runtime-windows.json",
+    "sha256": "91209e50b3e47833ee91cb84dd70ac8dbe04b15995b6a5637329c6d49c112d33",
+    "initialMedianOverheadPercent": 5.369142478041589,
+    "slowerRounds": 12,
+    "rounds": 12,
+    "rewritten": false
+  },
+  "confirmation": {
+    "passed": true,
+    "directory": "<sdk>\\.artifacts\\hit-aftermath-splash-confirmation-S0j7Un",
+    "head": "69729a1e2dcad9bcd3dac7fc07bd51d68acdf5e3",
+    "results": [
+      {
+        "label": "control",
+        "passed": true,
+        "log": "<sdk>\\.artifacts\\hit-aftermath-splash-confirmation-S0j7Un\\control.txt",
+        "logSha256": "75f3aeae8ccd9d5a183464fd25498398c8949dfac7a5bf52bc80ecdd354bfa24",
+        "receipt": "<sdk>\\.artifacts\\hit-aftermath-benchmark-IyXuLO\\verification.json",
+        "receiptSha256": "d0c7331388ce6bccf88dbbe980bc1615215f6ee8c0b12638aa3ef6c7b8a9e39a",
+        "summary": {
+          "medianCurrentOverPrevious": 0.996946559975943,
+          "currentLowerThanPrevious": 25,
+          "medianMs": {
+            "original": 97.70069999999942,
+            "previous": 97.86849999999868,
+            "current": 99.85464999999931
+          }
+        }
+      },
+      {
+        "label": "current",
+        "passed": true,
+        "log": "<sdk>\\.artifacts\\hit-aftermath-splash-confirmation-S0j7Un\\current.txt",
+        "logSha256": "c9345f9fbc2278f38201ef290121d474a3d1e81b24469d5168eaf038af9e3f98",
+        "receipt": "<sdk>\\.artifacts\\hit-aftermath-benchmark-n14ylB\\verification.json",
+        "receiptSha256": "8a7d350b854879e67f79bfda3b76bd6e23e92c278d76b1f8de6a5e3a4c1e9e17",
+        "summary": {
+          "medianCurrentOverPrevious": 0.9658627703779223,
+          "currentLowerThanPrevious": 28,
+          "medianMs": {
+            "original": 172.16650000000664,
+            "previous": 99.78759999999966,
+            "current": 98.9932000000008
+          }
+        }
+      }
+    ],
+    "sources": {
+      ".artifacts/run-hit-aftermath-splash-confirmation.mjs": "a4318fe4fbf8a575b4b64cb425a952b08079aeed657fece14570cb2e0ba7f385",
+      "scripts/benchmark-hit-aftermath.mjs": "3d11ee62d11157e0ee8e8c628de4370561d9fe84167dbc0db003f03515c5bbc1",
+      "scripts/hit-aftermath-benchmark-checks.mjs": "12998b114a2a9e77d6caf15a1d4108562e9c20db461e66aa8117f6a6a13f8290",
+      "reference/benchmark-hit-aftermath-worker.ts": "ad0ab38f6c1a60d4b604fc057b4a16eb583e154d291783397f1fd4faf044db6e"
+    },
+    "sourceUnchanged": true,
+    "performanceAcceptance": false
+  },
+  "plan": {
+    "schemaVersion": 1,
+    "seed": 20904,
+    "populations": [
+      64
+    ],
+    "workloads": [
+      "splash"
+    ],
+    "auditHits": 3,
+    "rounds": 48,
+    "order": [
+      [
+        "original",
+        "previous",
+        "current"
+      ],
+      [
+        "current",
+        "previous",
+        "original"
+      ],
+      [
+        "previous",
+        "original",
+        "current"
+      ],
+      [
+        "current",
+        "original",
+        "previous"
+      ],
+      [
+        "original",
+        "current",
+        "previous"
+      ],
+      [
+        "previous",
+        "current",
+        "original"
+      ]
+    ],
+    "scope": "Warm whole resolver with active native damage sharing, status transplantation, splash and their combination. Actor life/status/text reset and read-only hit/RNG counters are timed equally. Snapshots, IPC and explicit GC are outside timing. Fixed simulation clock; no per-frame/world update or physical-device claim. Retained heap is not allocation volume. Focused confirmation: splash at 64 actors, 48 rounds, unchanged batch size and all six worker orders repeated eight times."
+  },
+  "hardware": {
+    "node": "v24.9.0",
+    "platform": "win32",
+    "arch": "x64",
+    "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+    "logicalCpus": 20
+  },
+  "control": {
+    "medianPairedRatio": 0.996946559975943,
+    "medianDeltaPercent": -0.30534400240570525,
+    "lowerRounds": 25,
+    "rounds": 48,
+    "ratioRange": [
+      0.7902930328286485,
+      1.4785594985110262
+    ],
+    "medianMs": {
+      "original": 97.70069999999942,
+      "previous": 97.86849999999868,
+      "current": 99.85464999999931
+    },
+    "rootsPerBatch": 32
+  },
+  "current": {
+    "medianPairedRatio": 0.9658627703779223,
+    "medianDeltaPercent": -3.413722962207766,
+    "lowerRounds": 28,
+    "rounds": 48,
+    "ratioRange": [
+      0.7490883531900594,
+      1.316768251172384
+    ],
+    "medianMs": {
+      "original": 172.16650000000664,
+      "previous": 99.78759999999966,
+      "current": 98.9932000000008
+    },
+    "rootsPerBatch": 32
+  },
+  "interpretation": "The 48-round confirmation does not reproduce the initial splash slowdown: the current implementation has a 0.96586 median paired ratio, with lower elapsed time in 28 of 48 rounds. The identical-build control has a 0.99695 median ratio. The difference in direction between runs leaves the causal cost unresolved. No stable regression or optimization benefit is established; do not rewrite the runtime on this evidence alone.",
+  "runtimeMapSha256": "73aaccc230ccdb5b6cf37cc418bd5c0ff451b4d2446fa9044389d54e0e786136",
+  "productionChanges": false,
+  "originalWrites": false,
+  "next": "Retain the complete boundary and continue remaining mechanics. Use CPU/allocation profiles and repeated representative whole-frame/device measurements to choose subsequent optimizations. The prepared CPU-profile draft was not run because the focused timing did not confirm the proposed regression.",
+  "raw": {
+    "path": "evidence/hit-aftermath/splash-confirmation-windows-raw.json.gz",
+    "bytes": 70478,
+    "sha256": "f550b01afe084f72d717b0cfce9c5c32a3d9f54287042cef7850ffabf5f28da4",
+    "uncompressedSha256": "ba4c6c3f1d068938a64e4ff0a54bbac383b030003186438f324c0c5d67e4edaa"
+  },
+  "acceptance": {
+    "focusedBehavior": true,
+    "performanceOptimization": false,
+    "physicalDevices": false,
+    "completeSdk": false
+  }
+}

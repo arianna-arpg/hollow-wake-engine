@@ -65,6 +65,26 @@ This is the next profiling target. The five common-hit workloads ranged from
 3.58% faster to 5.22% slower; their identical-input control also varied, including
 a 7.68% apparent improvement on Impale. No optimization claim is accepted here.
 
+## Focused confirmation
+
+A follow-up retained the same helper, checker, runtime and 32-root splash batch,
+but isolated 64 actors and increased the comparison to 48 rounds. All six worker
+orders ran eight times. A separate identical-current-build control used the same
+plan. Both runs preserved source/package hashes and matched all outcome checks.
+
+| Comparison | Median paired ratio | Current faster in |
+| --- | ---: | ---: |
+| Identical-build control | 0.99695 | 25/48 rounds |
+| Current versus predecessor | 0.96586 | 28/48 rounds |
+
+The initial 5.37% slowdown did not reproduce. The new comparison's median paired
+time is 3.41% lower, while the control differs by 0.31%. These are observations,
+not a stable improvement or a confidence bound. The changed direction leaves
+causal overhead unresolved, so no runtime rewrite was accepted. The diagnostic
+CPU-profile draft was prepared but not run. The original evidence above remains
+unchanged; [confirmation evidence](../evidence/hit-aftermath/splash-confirmation-windows.json)
+retains the exact diagnostic plan, raw rounds and receipts.
+
 ## Interpretation boundaries
 
 This is a warm resolver benchmark at a fixed simulation clock. It includes
