@@ -1,0 +1,344 @@
+{
+  "schemaVersion": 1,
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "originalFileSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+  "originalMethodSha256": "632cffc3c91e4598ed586fae0f666650892e07a8eb520f7be48460e9990d4bed",
+  "installedFileSha256": "cffda3ebc884f0546f2ecfe0823137fc4572d6bdcc8d6cf73cfe7ab141eeef7f",
+  "installedMethodSha256": "2ff831bf7969f1a474556da5656bb3f00d4a69cd5986e30720fb4c4399e6c4cd",
+  "scope": "Remaining damaging phase from volatile retaliation through charge retaliation, followed by the complete common continuation through final melee-trigger dispatch. Existing status/effect/proc capabilities remain composed at their current phase.",
+  "statements": [
+    {
+      "section": "inner",
+      "index": 50,
+      "sha256": "a956b1a18c527b6f3bd1357f028a9a3f9c338558ec0a5d9c1e9e6dd169ea237b",
+      "preview": "if (dealt > 0 && target.volatile && target.life > 0 && !target.dead\n        && !target.untargetable && this.time >= target.volatileReadyAt\n        && chance(target.volatile.chance)"
+    },
+    {
+      "section": "inner",
+      "index": 51,
+      "sha256": "e019f9651a2a81b3dc39caf0312a1a4b6b01960f03f0fe25a5fd709383bcdd80",
+      "preview": "if (dealt > 0 && target.onHitByType && target.life > 0 && !target.dead\n        && !target.untargetable && this.time >= target.onHitTypeReadyAt) {\n        for (const [dtype, row] of"
+    },
+    {
+      "section": "inner",
+      "index": 52,
+      "sha256": "3e2969c08d7b32556ab700e60f185447b4638e75b7d40403268fb069672ddaa5",
+      "preview": "this.knockFixtures(caster, target, struckTone, dealt > 0, inst);"
+    },
+    {
+      "section": "inner",
+      "index": 53,
+      "sha256": "db546b058926eb4eae9ae4b663557c6cb4e69f36139244faa1d58046dc11ac8e",
+      "preview": "{\n        const cg = instanceContagion(inst);\n        if (cg && dealt > 0 && !caster.dead) {\n          const chain = inst.state?.contagion;\n          const gen = chain?.gen ?? 0;\n "
+    },
+    {
+      "section": "inner",
+      "index": 54,
+      "sha256": "48d09493715981cfc2d2db880dfad45314cdeb31f104b21da420339b952a4069",
+      "preview": "if (dealt > 0 && depth === 0 && target.statuses.length) {\n        const strain = socketSpec(inst, 'spreadOnHit');\n        if (strain && chance(strain.chance)) {\n          const s ="
+    },
+    {
+      "section": "inner",
+      "index": 55,
+      "sha256": "ca93bd3845593dc2c2ebb28bb82c96b6d3005ce86f5d182349f773afc5f704da",
+      "preview": "if (dealt > 0 && depth === 0 && caster.hexToggles.size && !target.dead) {\n        for (const hex of caster.hexToggles.values()) {\n          if (hex.inst === inst) continue;\n       "
+    },
+    {
+      "section": "inner",
+      "index": 56,
+      "sha256": "1d1f53a0e0a0b3f59dad9ec87bc6b862c18e16970f2176243b6c35c60ccbd180",
+      "preview": "if (dealt > 0 && depth === 0 && !target.dead) {\n        for (let si = target.statuses.length - 1; si >= 0; si--) {\n          const s = target.statuses[si];\n          if (s.holdDisc"
+    },
+    {
+      "section": "inner",
+      "index": 57,
+      "sha256": "54c77e56f662cb1146a01f0ca6ab3c83140d2a27d2f176fa2cdbdd3fd0f18a40",
+      "preview": "this.assaults.plant(caster, target, packet, depth, dealt);"
+    },
+    {
+      "section": "inner",
+      "index": 58,
+      "sha256": "f234c953752e408a8771e1809f17b50dcbcf56a78eb94e6807e152820ff4c774",
+      "preview": "if (dealt > 0 && depth === 0 && !target.dead) {\n        const ip = caster.sheet.get('impalePower', packet.tags, extra);\n        const phys = packet.amounts.physical ?? 0;\n        i"
+    },
+    {
+      "section": "inner",
+      "index": 59,
+      "sha256": "db63fec0b4ee6ca7704d2387f06f42512464b3d8b99792f91de00564fed188d1",
+      "preview": "if (dealt > 0 && depth === 0) {\n        const echo = caster.sheet.get('echoMight', packet.tags, extra);\n        if (echo > 0) {\n          caster.addBuff({\n            type: 'buff',"
+    },
+    {
+      "section": "inner",
+      "index": 60,
+      "sha256": "290d88867674976f85ece738207ac76fc1490d2db54dd045affe6b34fad847c7",
+      "preview": "if (target.life <= 0 && !target.dead && depth === 0) {\n        const dom = socketSpec(inst, 'dominate');\n        if (dom && target.defId && !target.isMinion() && MONSTERS[target.de"
+    },
+    {
+      "section": "inner",
+      "index": 61,
+      "sha256": "6f5da8d67dc4affde577cdbc9f495f607c1bbbc4c0646319c488916062800e81",
+      "preview": "if (target.gripping && dealt > 0 && caster.id !== target.gripping.id) {\n        target.gripping.severed += dealt / target.maxLife();\n      }"
+    },
+    {
+      "section": "inner",
+      "index": 62,
+      "sha256": "19289c31476daac8093f0a5e4300fc95d1756fdcb4d8a578e0db3df34341582d",
+      "preview": "this.applyThorns(target, caster, dealt);"
+    },
+    {
+      "section": "inner",
+      "index": 63,
+      "sha256": "138f4f894d4f93b56bc0822743737ea1cf155215fb60dfb9136fb545cca3981f",
+      "preview": "if (target.ironWard && this.time < target.ironWard.until) {\n        target.ironWard.stored = Math.min(target.ironWard.cap,\n          target.ironWard.stored + dealt);\n      }"
+    },
+    {
+      "section": "inner",
+      "index": 64,
+      "sha256": "d25d60fcfa2c91ef8a0afbcd14f1484ea78cd373bb419dcd89f63d23ab0bcd32",
+      "preview": "if (dealt > 0 && depth === 0) {\n        const share = target.sheet.get('minionShare');\n        if (share > 0) {\n          const pack = this.actors.filter(m =>\n            m.owner ="
+    },
+    {
+      "section": "inner",
+      "index": 65,
+      "sha256": "02e7f89bee1a7ac301d1fb53fc95c4b66057c1fdab7b0530072862fbe09d3940",
+      "preview": "if (depth === 0) {\n        for (const inst2 of target.skills) {\n          const rt = inst2?.def.retaliate;\n          if (!rt || (target.charges.get(rt.charge) ?? 0) < 1) continue;\n"
+    },
+    {
+      "section": "top",
+      "index": 27,
+      "sha256": "59113dd16fb1f4b05a0fd80042fc6ad0e4bc5dedb69702fde4063a1cd72eee47",
+      "preview": "if (dealt > 0) {\n      {\n        const kb = caster.sheet.get('knockback', packet.tags, extra);\n        if (kb > 0) {\n          const auth = packet.tags.has('melee') ? 1\n           "
+    },
+    {
+      "section": "top",
+      "index": 28,
+      "sha256": "8b752ec88b74f7d46b4f2a8f27b5b39e5f50fe751ceccb1c7f1dd383541b288e",
+      "preview": "if (def.currentLifeDamage && !target.invulnerable && target.life > 1) {\n      const elem = (['lightning', 'fire', 'cold', 'chaos'] as const)\n        .find(e => def.tags.includes(e)"
+    },
+    {
+      "section": "top",
+      "index": 29,
+      "sha256": "11b45f39bfa62f6967c6b83f93774fbbb3cd4aea940a904dc98b2b6a1a1c3603",
+      "preview": "const tags = skillContextTags(def);"
+    },
+    {
+      "section": "top",
+      "index": 30,
+      "sha256": "8369416d64250a580f1663e42f36561cc1fe00e62a23e615ccbd12e51c619f6c",
+      "preview": "const durScale = caster.sheet.get('effectDuration', tags, extra);"
+    },
+    {
+      "section": "top",
+      "index": 31,
+      "sha256": "098b805b3da5e021a323606770ff35bf7d4eca6f5ade20e3374f5508dddaf5ee",
+      "preview": "const bonusChance = caster.sheet.get('statusChance', tags, extra);"
+    },
+    {
+      "section": "top",
+      "index": 32,
+      "sha256": "ddf16384b04618e6a954d6061e4349c915e1755c3af7acb67a10cfc09a8731ca",
+      "preview": "let hexLink = 0;"
+    },
+    {
+      "section": "top",
+      "index": 33,
+      "sha256": "633606349f6cf807e30abbdcfd25742e734bbb770e83b90652833f8705ece2c1",
+      "preview": "if (def.linkedHexes && dealt > 0) {\n      for (const other of caster.skills) {\n        if (!other || other.def.id === def.id || !other.def.tags.includes('curse')) continue;\n       "
+    },
+    {
+      "section": "top",
+      "index": 34,
+      "sha256": "26c2369b224ee2a9188f09061a431657fd4208ec668df12b66225c34ea79e30a",
+      "preview": "const hexDmg = 1 + (def.linkedHexes?.dmgPerHex ?? 0) * hexLink;"
+    },
+    {
+      "section": "top",
+      "index": 35,
+      "sha256": "b5a034b0982f393f5b305403f6249dfda4a3021cb4016c88b4a99f3884b0a954",
+      "preview": "const hexDur = 1 + (def.linkedHexes?.durPerHex ?? 0) * hexLink;"
+    },
+    {
+      "section": "top",
+      "index": 36,
+      "sha256": "6d69ee2a4449c13610c26d07ccd32af5aa6cecdf05fc45fce6c1ff02a0aa088a",
+      "preview": "const potencyFor = (sid: string): number => {\n      const dt = STATUS_DEFS[sid]?.dotType;\n      return caster.sheet.get('statusMagnitude', dt ? skillContextTags(def, [dt]) : tags, "
+    },
+    {
+      "section": "top",
+      "index": 37,
+      "sha256": "a7a52f0c314ee5fec38be30f431c952268201f342dc09277060feea709460700",
+      "preview": "const stacksBonusFor = (sid: string): number => {\n      const sdef = STATUS_DEFS[sid];\n      if (!sdef?.stacking) return 0;\n      const dt = sdef.dotType;\n      return Math.round(c"
+    },
+    {
+      "section": "top",
+      "index": 38,
+      "sha256": "6ff05b67c358bc50094af428bcd3593593540b66fd8ea26ad8c69a13ee18ec10",
+      "preview": "if (dealt > 0 && depth === 0 && caster.buffs.size) {\n      for (const [bid, b] of [...caster.buffs]) {\n        const rider = b.def.nextHit;\n        if (!rider) continue;\n        if"
+    },
+    {
+      "section": "top",
+      "index": 39,
+      "sha256": "5f4295807b6b6183f2c9af05d6524ce1077eb36f1cebf4dda03fb922871a19c3",
+      "preview": "this.challenges.beforeEffects(caster, inst, target, dealt, depth);"
+    },
+    {
+      "section": "top",
+      "index": 40,
+      "sha256": "e4bba3efd0ef61f43a3772dd24ba782fe6945a9d38f1de04f0e19f0e2e1efc9b",
+      "preview": "const effects = instanceEffects(inst);"
+    },
+    {
+      "section": "top",
+      "index": 41,
+      "sha256": "7521ab5a5285f51a3fb0c088d558537272616a9cd05cf573502a13435f82dc14",
+      "preview": "for (const fx of hitEffects?.length ? [...effects, ...hitEffects] : effects) {\n      if (fx.type === 'heal') {\n        // Ally-resolving deliveries (blessing novas, curseAllies edg"
+    },
+    {
+      "section": "top",
+      "index": 42,
+      "sha256": "ca5d7a3bcc3eda07b3cc59cc93fb50cb09bbfec0a72f6eade5cc549f227d13bb",
+      "preview": "const wetHere = dealt > 0 && target.isWet();"
+    },
+    {
+      "section": "top",
+      "index": 43,
+      "sha256": "55cc218f66d71dfb504fe2eb852dfcaade39e627036f65f304a74dda81c039c8",
+      "preview": "if (dealt > 0) {\n      const wetArmed = wetHere\n        ? caster.sheet.armedFamily('applyWet_', STATUS_IDS, extra) : [];\n      const applyArmed = caster.sheet.armedFamily('apply_',"
+    },
+    {
+      "section": "top",
+      "index": 44,
+      "sha256": "33b67f18739dbf3b14560393d2bc1bc99f33798918708ed338983369f90de4b4",
+      "preview": "if (dealt > 0 && depth === 0) {\n      const splash = caster.sheet.get('splashRadius', tags, extra)\n        * caster.sheet.get('aoeRadius', tags, extra);\n      if (splash > 0) {\n   "
+    },
+    {
+      "section": "top",
+      "index": 45,
+      "sha256": "950ed754d997616d72d0e039c7086f9ef0e8724d93dbd765cb23f2e8c702e260",
+      "preview": "if (dealt > 0 && depth === 0 && this.orbs.length < ORB_CAP) {\n      const rate = caster.sheet.get('orbShedRate', tags, extra);\n      for (const id of Object.keys(ORB_DEFS)) {\n     "
+    },
+    {
+      "section": "top",
+      "index": 46,
+      "sha256": "6116ff979c74d77690535c745d398a8a7d4d6ab3ff44701f22e24c0d52659449",
+      "preview": "if (dealt > 0 && depth === 0 && this.remnants.length < 14) {\n      const rc = caster.sheet.get('remnantChance', tags, extra);\n      if (rc > 0 && chance(Math.min(0.4, rc))) {\n     "
+    },
+    {
+      "section": "top",
+      "index": 47,
+      "sha256": "860ac81376ae4630e1200b64d755246a21280c6d3515b1217e4750c441f11bea",
+      "preview": "if (dealt > 0 && target.construct?.castOnStruck && !target.dead) {\n      this.ringBell(target);\n    }"
+    },
+    {
+      "section": "top",
+      "index": 48,
+      "sha256": "824abff643a09469379ae09ff363c3770de761267f36864954f9dd71bacea41f",
+      "preview": "const lethal = target.life <= 0 && !target.dead;"
+    },
+    {
+      "section": "top",
+      "index": 49,
+      "sha256": "95cc9c24ef5fb7a40279171f6895d06a8157424b365fbe27a5e85d09f8a4126e",
+      "preview": "if (lethal && dealt > 0 && !caster.dead) {\n      const lk = caster.sheet.get('lifeOnKill', tags, extra);\n      if (lk > 0) caster.healBy(lk);\n      const mk = caster.sheet.get('man"
+    },
+    {
+      "section": "top",
+      "index": 50,
+      "sha256": "17527ca073deca42a8377db87f2c1d8654d9b671ac038416306f3db154caa898",
+      "preview": "if (dealt > 0 && depth === 0) this.throngOnHit(caster, target, wasCrit, lethal);"
+    },
+    {
+      "section": "top",
+      "index": 51,
+      "sha256": "74ce33058461c3fbd23bf0cf5c40429f604e57cca7c62351de76d91c648ed2ca",
+      "preview": "if (dealt > 0 && depth === 0 && caster.summonInst?.def.throng) {\n      const splash = throngEvolution(caster.summonInst).splashScale;\n      if (splash && tags.has('attack')) this.t"
+    },
+    {
+      "section": "top",
+      "index": 52,
+      "sha256": "77a84788e7a09bd7b1323843982ef45d8b95c09806e029f1b342187470e55d17",
+      "preview": "if (dealt > 0 && depth === 0 && !caster.dead) {\n      for (const s of hostSockets(inst)) {\n        const base = s.def.rollBase;\n        if (!base) continue;\n        const spec = sp"
+    },
+    {
+      "section": "top",
+      "index": 53,
+      "sha256": "37b9660f3ad3209b24f845093570a23f752a9b0058f588745662f4854893db46",
+      "preview": "const elite = target.rarity === 'rare' || target.rarity === 'champion'\n      || target.rarity === 'crowned'\n      || !!(target.defId && MONSTERS[target.defId]?.boss);"
+    },
+    {
+      "section": "top",
+      "index": 54,
+      "sha256": "1090aae444ebe2a7c953cc0f47b5dd58cf0d4e8047d583283a0c0f552f7284c2",
+      "preview": "if (dealt > 0 && depth < this.procDepthAllowed(caster)) {\n      const eliteFactor = elite\n        ? caster.sheet.get('killProcOnHit', tags, extra) : 0;\n      for (const proc of PRO"
+    },
+    {
+      "section": "top",
+      "index": 55,
+      "sha256": "25198b505ae7706ece6989b56b725ff8d5845fbc1726452868d180bba603e573",
+      "preview": "if (dealt > 0 && caster.owner && !caster.owner.dead) {\n      const owner = caster.owner;\n      const carryInst = caster.summonInst\n        ?? owner.skills.find(s => s?.def.id === c"
+    },
+    {
+      "section": "top",
+      "index": 56,
+      "sha256": "5d1af05b722f5b246246626b7153137e095a7e43a932e1514b9b2d48dfd8ff48",
+      "preview": "this.assaults.afterHit(caster, target, dealt, depth, hasDamage);"
+    },
+    {
+      "section": "top",
+      "index": 57,
+      "sha256": "49620ac3d3dd67003a2c1338b488da6f61b3eb1d0910de4c2d75e979d9d16d4d",
+      "preview": "this.assaultDoomCull(target);"
+    },
+    {
+      "section": "top",
+      "index": 58,
+      "sha256": "92bed9189f1396a6b02f930e4cae569d1297c000dd708886db08c103c6fde007",
+      "preview": "this.challenges.afterHit(caster, inst, target, dealt, depth, dmgMult);"
+    },
+    {
+      "section": "top",
+      "index": 59,
+      "sha256": "473a20ebc3ab06b434d0246001755957f86fb580d5524f999eb9ac3c422e5e78",
+      "preview": "this.attackSequences.landed(caster, inst, target, dealt, packet.amounts.physical ?? 0, depth);"
+    },
+    {
+      "section": "top",
+      "index": 60,
+      "sha256": "e9e5e8e965a350b26c90ef55b1864d92611c217c47345d3bace3d0b439b209a9",
+      "preview": "if (dealt > 0) {\n      if (depth === 0) this.companionBonds.onHit(caster, inst, target);\n      const spentContext = [...skillContextTags(inst)];\n      caster.spendBuffs('hit', spen"
+    },
+    {
+      "section": "top",
+      "index": 61,
+      "sha256": "51b489ad1eb95521b474424248a07244996266e6d20596849100ee6931bca62b",
+      "preview": "if (target.life <= 0 && !target.dead) {\n      // Kill-fed taps + fragment sheds ride the killing HIT: support-granted\n      // remnantDrop stats live in the skill's extra mods and "
+    },
+    {
+      "section": "top",
+      "index": 62,
+      "sha256": "f4f3855598a72654442587cc5bdcd7c566c75eb422785a90ccaed7222323702b",
+      "preview": "if (dealt > 0 && depth === 0 && !inst.state?.trigDepth\n      && !instanceTrigger(inst) && packet.tags.has('attack') && packet.tags.has('melee')) {\n      this.rollTriggers(caster, '"
+    }
+  ],
+  "ownership": {
+    "damagingOriginalStatements": 16,
+    "commonOriginalStatements": 36,
+    "damagingInstalledStatements": 16,
+    "commonInstalledStatements": 27,
+    "existingPolicyInternals": [
+      "hit statuses",
+      "hit effects",
+      "proc selection",
+      "attack sequences"
+    ],
+    "hostServices": [
+      "geometry",
+      "content access",
+      "randomness",
+      "actual skill and summon delivery",
+      "fixtures and surfaces",
+      "presentation",
+      "death lifecycle"
+    ]
+  }
+}

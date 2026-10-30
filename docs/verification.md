@@ -1,5 +1,18 @@
 # Verification and reproduction
 
+The `reference:hit-aftermath` and `test:hit-aftermath-observer` commands
+cover the remaining damaging phase and the complete common continuation of a
+hit. Two original captures and the installed predecessor agree across 260
+courses, with independent outcome/order/identity assertions and detection of all
+101 deliberate source faults. Earlier sweeps exposed a masked story-filter case
+and a sharing-ceiling case constrained by the native stat cap. The repaired
+native recovery interaction is part of the accepted trace. Normal verification
+does not rewrite accepted fixtures; source faults use a disposable copy.
+See the [aftermath contract](hit-aftermath-boundary.md) and
+[baseline evidence](../evidence/hit-aftermath/baseline-windows.json) for scope,
+reproduction and retained failures. Runtime extraction and device acceptance
+remain separate.
+
 `reference:hit-reactions` checks 136 original full-resolver courses covering the
 29-statement reaction phase after sustain. `test:hit-reactions-observer` checks
 55 deliberate source faults, including live buff/actor iteration, zero-tier and

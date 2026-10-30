@@ -89,6 +89,13 @@ installed adapter matches the 136-course original baseline, including live
 callback mutation and partial failures. Underlying spatial, AI, loot and
 presentation services retain host ownership; device acceptance remains separate.
 
+The [hit-aftermath boundary](hit-aftermath-boundary.md) covers the remaining
+damaging phase and the complete common continuation through final melee triggers.
+Its 260-course original baseline and 101 source-fault controls are accepted;
+runtime and game-adapter extraction remain separate. Existing status, effect, proc and sequence
+capabilities compose at their established points; spatial and actual delivery,
+presentation and death services retain host ownership.
+
 The primary Hollow Wake checkout retains authority. The isolated game adapter
 delegates the extracted transitions to the actual installed package while keeping
 its existing actor/status records and advanced host behavior.
