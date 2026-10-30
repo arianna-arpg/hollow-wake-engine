@@ -68,6 +68,23 @@ The [local candidate evidence](../evidence/native-attack-stack/direct-compositio
 retains the experiment and checks. The candidate passes C, C++ and .NET
 full-attack replay, all six preparation, landing, sustain, reaction, aftermath
 and attack-sequence comparisons, all 1,300 SDK tests and original reference
-verification. Exact-commit hosted Windows acceptance at the unchanged 256 KiB
-guard is still required. Native portability and physical-device budgets remain
-open while that check proceeds.
+verification.
+
+## Hosted acceptance
+
+The [exact-commit hosted run for ce96794](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/41135483710)
+passes both original and installed full-attack replay on Windows and Linux.
+The production guard remains 256 KiB. The [retained acceptance evidence](../evidence/native-attack-stack/ci-direct-composition.json)
+includes both native replay receipts, stack diagnostics and the workflow result.
+All 33 requests complete, the 150,608 numeric observations follow the unchanged
+geometry-only policy, and tracked allocations are released. The deliberately
+small 64 KiB guard still fails as expected.
+
+Hosted Windows now measures a checked installed span of 247,584 bytes, compared
+with 268,352 before direct composition. Original remains 224,672 bytes. Linux
+remains at 156,784 original and 168,000 installed. These instrumented whole-run
+spans include initialization and are not uninstrumented worst-case guarantees.
+
+This closes the reproduced nested-attack failure. It does not establish a bound
+for every possible authored content composition, complete engine packages or
+physical Steam Deck/mobile acceptance.
