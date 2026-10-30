@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "maps": {
+    "original": {
+      "file": ".reference/src/engine/world.ts",
+      "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+      "branches": {
+        "siphonStatus": {
+          "method": "executeSkill",
+          "line": 38136,
+          "sha256": "3e05738a987a38778644e274bdcdd8f8984faa016bd3e965155553f8131b577e",
+          "text": "if (fx.type === 'siphonStatus') {\n        const radius = fx.radius * aoeScale;\n        let drawn = 0;\n        for (const a of this.actors) {\n          if (a === caster || a.dead || a.untargetable || a.construct) continue;\n          const ally = a.team === caster.team;\n          if (fx.from === 'allies' && !ally) continue;\n          if (fx.from === 'enemies' && ally) continue;\n          if (dist(caster.pos, a.pos) - a.radius > radius) continue;\n          for (let i = a.statuses.length - 1; i >= 0; i--) {\n            const s = a.statuses[i];\n            if (fx.statuses && !fx.statuses.includes(s.id)) continue;\n            this.transplantStatus(caster, s, def.name, { duration: 'remaining' });\n            a.statuses.splice(i, 1);\n            a.sheet.removeSource('status:' + s.id);\n            drawn++;\n            if (fx.healPer) {\n              caster.healBy(fx.healPer * caster.sheet.get('healPower', tags, extra));\n            }\n          }\n        }\n        if (drawn > 0) {\n          this.text(vec(caster.pos.x, caster.pos.y - 22), drawn + ' drawn', def.color, 13);\n          this.flashes.push({\n            pos: vec(caster.pos.x, caster.pos.y), radius,\n            color: cosmeticColor, life: 0.3, maxLife: 0.3,\n          });\n        } else {\n          this.failNote(caster, def.id + ':nothing', 'nothing to draw');\n        }\n      }",
+          "statements": [
+            {
+              "index": 0,
+              "sha256": "fa3d148a25f58417fb501b7a865475393d582b88a032744f2c79cefba0bb2d06",
+              "text": "const radius = fx.radius * aoeScale;"
+            },
+            {
+              "index": 1,
+              "sha256": "c26a08ff81e24de93c0e7c0c2f1243616d048a01790da1a8bf8c7b0b1926cfe7",
+              "text": "let drawn = 0;"
+            },
+            {
+              "index": 2,
+              "sha256": "971bb25cecf05aded6826661c4e51f569f7f75d09cd95929956e1e98448052c8",
+              "text": "for (const a of this.actors) {\n          if (a === caster || a.dead || a.untargetable || a.construct) continue;\n          const ally = a.team === caster.team;\n          if (fx.from === 'allies' && !ally) continue;\n          if (fx.from === 'enemies' && ally) continue;\n          if (dist(caster.pos, a.pos) - a.radius > radius) continue;\n          for (let i = a.statuses.length - 1; i >= 0; i--) {\n            const s = a.statuses[i];\n            if (fx.statuses && !fx.statuses.includes(s.id)) continue;\n            this.transplantStatus(caster, s, def.name, { duration: 'remaining' });\n            a.statuses.splice(i, 1);\n            a.sheet.removeSource('status:' + s.id);\n            drawn++;\n            if (fx.healPer) {\n              caster.healBy(fx.healPer * caster.sheet.get('healPower', tags, extra));\n            }\n          }\n        }"
+            },
+            {
+              "index": 3,
+              "sha256": "2b8fd3518b081ac8d5219d9489a9436ca68b6c025c4ad45c3a69e59bfd2ea633",
+              "text": "if (drawn > 0) {\n          this.text(vec(caster.pos.x, caster.pos.y - 22), drawn + ' drawn', def.color, 13);\n          this.flashes.push({\n            pos: vec(caster.pos.x, caster.pos.y), radius,\n            color: cosmeticColor, life: 0.3, maxLife: 0.3,\n          });\n        } else {\n          this.failNote(caster, def.id + ':nothing', 'nothing to draw');\n        }"
+            }
+          ]
+        },
+        "recallImpales": {
+          "method": "executeSkill",
+          "line": 38171,
+          "sha256": "eedd7d0a86ab936d9a2b885cef4c4dd1d109469e02d0be313b105f4f2f17bb9a",
+          "text": "if (fx.type === 'recallImpales') {\n        const radius = fx.radius * aoeScale;\n        let wrenched = 0;\n        for (const e of this.enemiesOf(caster)) {\n          if (e.construct?.breakable) continue;\n          if (dist(caster.pos, e.pos) - e.radius > radius) continue;\n          for (let si = e.statuses.length - 1; si >= 0; si--) {\n            const s = e.statuses[si];\n            if (!STATUS_DEFS[s.id]?.dischargeOnHit || !s.rupture || s.rupture <= 0) continue;\n            e.statuses.splice(si, 1);\n            e.sheet.removeSource('status:' + s.id);\n            const bank = s.rupture;\n            const burst: Partial<Record<DamageType, number>> = {\n              [s.ruptureType ?? 'physical']: bank * (fx.damageScale ?? 1),\n            };\n            const taken = mitigateTyped(e, burst);\n            if (taken > 0) {\n              e.life -= taken;\n              e.hitFlash = 0.12;\n              e.hitFlashType = s.ruptureType ?? 'physical';\n              this.text(e.pos, Math.round(taken).toString(), STATUS_DEFS[s.id]?.color ?? '#c8ccd8', 12);\n              if (e.life <= 0 && !e.dead) this.kill(e, false, caster);\n            }\n            // The spear itself carries the bank share homeward. Native recalls\n            // share a cached payload; tree recalls track their exact source.\n            if (SKILLS.impale_spear) {\n              const recallImpalesTree = instanceTreeOver(inst)?.recallImpales;\n              let spear = recallImpalesTree ? undefined : caster.metaInsts.get('__impale_spear');\n              if (!spear || spear.level !== effectiveSkillLevel(inst)) {\n                spear = makeSkillInstance(SKILLS.impale_spear, effectiveSkillLevel(inst));\n                if (recallImpalesTree) this.recallTreeSpears.set(spear, inst);\n                else caster.metaInsts.set('__impale_spear', spear);\n              }\n              this.spawnProjectile(caster, spear, vec(e.pos.x, e.pos.y),\n                angleTo(e.pos, caster.pos),\n                { flat: { physical: bank * (fx.spearShare ?? 0.5) } });\n            }\n            wrenched++;\n          }\n        }\n        if (wrenched > 0) {\n          this.text(vec(caster.pos.x, caster.pos.y - 22), wrenched + ' wrenched free!', def.color, 13);\n        } else {\n          this.failNote(caster, def.id + ':nospears', 'nothing lodged');\n        }\n      }",
+          "statements": [
+            {
+              "index": 0,
+              "sha256": "fa3d148a25f58417fb501b7a865475393d582b88a032744f2c79cefba0bb2d06",
+              "text": "const radius = fx.radius * aoeScale;"
+            },
+            {
+              "index": 1,
+              "sha256": "f2d23bd037d33db69969950a8cd9cfa820e5e471888f1acbaaf6fd33a85c50ac",
+              "text": "let wrenched = 0;"
+            },
+            {
+              "index": 2,
+              "sha256": "146272cf27dc5bfe10df577668cd5a3ad5f86e2d09e6eb7077aeb159334a72f4",
+              "text": "for (const e of this.enemiesOf(caster)) {\n          if (e.construct?.breakable) continue;\n          if (dist(caster.pos, e.pos) - e.radius > radius) continue;\n          for (let si = e.statuses.length - 1; si >= 0; si--) {\n            const s = e.statuses[si];\n            if (!STATUS_DEFS[s.id]?.dischargeOnHit || !s.rupture || s.rupture <= 0) continue;\n            e.statuses.splice(si, 1);\n            e.sheet.removeSource('status:' + s.id);\n            const bank = s.rupture;\n            const burst: Partial<Record<DamageType, number>> = {\n              [s.ruptureType ?? 'physical']: bank * (fx.damageScale ?? 1),\n            };\n            const taken = mitigateTyped(e, burst);\n            if (taken > 0) {\n              e.life -= taken;\n              e.hitFlash = 0.12;\n              e.hitFlashType = s.ruptureType ?? 'physical';\n              this.text(e.pos, Math.round(taken).toString(), STATUS_DEFS[s.id]?.color ?? '#c8ccd8', 12);\n              if (e.life <= 0 && !e.dead) this.kill(e, false, caster);\n            }\n            // The spear itself carries the bank share homeward. Native recalls\n            // share a cached payload; tree recalls track their exact source.\n            if (SKILLS.impale_spear) {\n              const recallImpalesTree = instanceTreeOver(inst)?.recallImpales;\n              let spear = recallImpalesTree ? undefined : caster.metaInsts.get('__impale_spear');\n              if (!spear || spear.level !== effectiveSkillLevel(inst)) {\n                spear = makeSkillInstance(SKILLS.impale_spear, effectiveSkillLevel(inst));\n                if (recallImpalesTree) this.recallTreeSpears.set(spear, inst);\n                else caster.metaInsts.set('__impale_spear', spear);\n              }\n              this.spawnProjectile(caster, spear, vec(e.pos.x, e.pos.y),\n                angleTo(e.pos, caster.pos),\n                { flat: { physical: bank * (fx.spearShare ?? 0.5) } });\n            }\n            wrenched++;\n          }\n        }"
+            },
+            {
+              "index": 3,
+              "sha256": "709d204a090c10c5e7146a52898947089d88c1b25944ddc3a72aa0926749540a",
+              "text": "if (wrenched > 0) {\n          this.text(vec(caster.pos.x, caster.pos.y - 22), wrenched + ' wrenched free!', def.color, 13);\n        } else {\n          this.failNote(caster, def.id + ':nospears', 'nothing lodged');\n        }"
+            }
+          ]
+        }
+      },
+      "recallIdentity": {
+        "field": "private recallTreeSpears = new WeakMap<SkillInstance, SkillInstance>();",
+        "fieldSha256": "0210534fd6f6450aaca531db2b2b54cb0b94f2f02860603202769fa5b28876e5",
+        "retirement": "this.projectiles = this.projectiles.filter(p => p.caster !== caster || (!ownsTreePayload(p.inst) && this.recallTreeSpears.get(p.inst) !== inst));",
+        "retirementSha256": "57dfdd3f9f4addb8b4e6da9e869048540477092d1997c79957052633f7e6ef22"
+      }
+    },
+    "installed": {
+      "file": ".artifacts/hit-aftermath-reproduction-hXv4Vo/game/src/engine/world.ts",
+      "sourceSha256": "f6e662324aea009e224f38d9609c97d1f5cd8885ec8b9f61d25ce13031ac4475",
+      "branches": {
+        "siphonStatus": {
+          "method": "executeSkill",
+          "line": 36933,
+          "sha256": "3e05738a987a38778644e274bdcdd8f8984faa016bd3e965155553f8131b577e",
+          "text": "if (fx.type === 'siphonStatus') {\n        const radius = fx.radius * aoeScale;\n        let drawn = 0;\n        for (const a of this.actors) {\n          if (a === caster || a.dead || a.untargetable || a.construct) continue;\n          const ally = a.team === caster.team;\n          if (fx.from === 'allies' && !ally) continue;\n          if (fx.from === 'enemies' && ally) continue;\n          if (dist(caster.pos, a.pos) - a.radius > radius) continue;\n          for (let i = a.statuses.length - 1; i >= 0; i--) {\n            const s = a.statuses[i];\n            if (fx.statuses && !fx.statuses.includes(s.id)) continue;\n            this.transplantStatus(caster, s, def.name, { duration: 'remaining' });\n            a.statuses.splice(i, 1);\n            a.sheet.removeSource('status:' + s.id);\n            drawn++;\n            if (fx.healPer) {\n              caster.healBy(fx.healPer * caster.sheet.get('healPower', tags, extra));\n            }\n          }\n        }\n        if (drawn > 0) {\n          this.text(vec(caster.pos.x, caster.pos.y - 22), drawn + ' drawn', def.color, 13);\n          this.flashes.push({\n            pos: vec(caster.pos.x, caster.pos.y), radius,\n            color: cosmeticColor, life: 0.3, maxLife: 0.3,\n          });\n        } else {\n          this.failNote(caster, def.id + ':nothing', 'nothing to draw');\n        }\n      }",
+          "statements": [
+            {
+              "index": 0,
+              "sha256": "fa3d148a25f58417fb501b7a865475393d582b88a032744f2c79cefba0bb2d06",
+              "text": "const radius = fx.radius * aoeScale;"
+            },
+            {
+              "index": 1,
+              "sha256": "c26a08ff81e24de93c0e7c0c2f1243616d048a01790da1a8bf8c7b0b1926cfe7",
+              "text": "let drawn = 0;"
+            },
+            {
+              "index": 2,
+              "sha256": "971bb25cecf05aded6826661c4e51f569f7f75d09cd95929956e1e98448052c8",
+              "text": "for (const a of this.actors) {\n          if (a === caster || a.dead || a.untargetable || a.construct) continue;\n          const ally = a.team === caster.team;\n          if (fx.from === 'allies' && !ally) continue;\n          if (fx.from === 'enemies' && ally) continue;\n          if (dist(caster.pos, a.pos) - a.radius > radius) continue;\n          for (let i = a.statuses.length - 1; i >= 0; i--) {\n            const s = a.statuses[i];\n            if (fx.statuses && !fx.statuses.includes(s.id)) continue;\n            this.transplantStatus(caster, s, def.name, { duration: 'remaining' });\n            a.statuses.splice(i, 1);\n            a.sheet.removeSource('status:' + s.id);\n            drawn++;\n            if (fx.healPer) {\n              caster.healBy(fx.healPer * caster.sheet.get('healPower', tags, extra));\n            }\n          }\n        }"
+            },
+            {
+              "index": 3,
+              "sha256": "2b8fd3518b081ac8d5219d9489a9436ca68b6c025c4ad45c3a69e59bfd2ea633",
+              "text": "if (drawn > 0) {\n          this.text(vec(caster.pos.x, caster.pos.y - 22), drawn + ' drawn', def.color, 13);\n          this.flashes.push({\n            pos: vec(caster.pos.x, caster.pos.y), radius,\n            color: cosmeticColor, life: 0.3, maxLife: 0.3,\n          });\n        } else {\n          this.failNote(caster, def.id + ':nothing', 'nothing to draw');\n        }"
+            }
+          ]
+        },
+        "recallImpales": {
+          "method": "executeSkill",
+          "line": 36968,
+          "sha256": "eedd7d0a86ab936d9a2b885cef4c4dd1d109469e02d0be313b105f4f2f17bb9a",
+          "text": "if (fx.type === 'recallImpales') {\n        const radius = fx.radius * aoeScale;\n        let wrenched = 0;\n        for (const e of this.enemiesOf(caster)) {\n          if (e.construct?.breakable) continue;\n          if (dist(caster.pos, e.pos) - e.radius > radius) continue;\n          for (let si = e.statuses.length - 1; si >= 0; si--) {\n            const s = e.statuses[si];\n            if (!STATUS_DEFS[s.id]?.dischargeOnHit || !s.rupture || s.rupture <= 0) continue;\n            e.statuses.splice(si, 1);\n            e.sheet.removeSource('status:' + s.id);\n            const bank = s.rupture;\n            const burst: Partial<Record<DamageType, number>> = {\n              [s.ruptureType ?? 'physical']: bank * (fx.damageScale ?? 1),\n            };\n            const taken = mitigateTyped(e, burst);\n            if (taken > 0) {\n              e.life -= taken;\n              e.hitFlash = 0.12;\n              e.hitFlashType = s.ruptureType ?? 'physical';\n              this.text(e.pos, Math.round(taken).toString(), STATUS_DEFS[s.id]?.color ?? '#c8ccd8', 12);\n              if (e.life <= 0 && !e.dead) this.kill(e, false, caster);\n            }\n            // The spear itself carries the bank share homeward. Native recalls\n            // share a cached payload; tree recalls track their exact source.\n            if (SKILLS.impale_spear) {\n              const recallImpalesTree = instanceTreeOver(inst)?.recallImpales;\n              let spear = recallImpalesTree ? undefined : caster.metaInsts.get('__impale_spear');\n              if (!spear || spear.level !== effectiveSkillLevel(inst)) {\n                spear = makeSkillInstance(SKILLS.impale_spear, effectiveSkillLevel(inst));\n                if (recallImpalesTree) this.recallTreeSpears.set(spear, inst);\n                else caster.metaInsts.set('__impale_spear', spear);\n              }\n              this.spawnProjectile(caster, spear, vec(e.pos.x, e.pos.y),\n                angleTo(e.pos, caster.pos),\n                { flat: { physical: bank * (fx.spearShare ?? 0.5) } });\n            }\n            wrenched++;\n          }\n        }\n        if (wrenched > 0) {\n          this.text(vec(caster.pos.x, caster.pos.y - 22), wrenched + ' wrenched free!', def.color, 13);\n        } else {\n          this.failNote(caster, def.id + ':nospears', 'nothing lodged');\n        }\n      }",
+          "statements": [
+            {
+              "index": 0,
+              "sha256": "fa3d148a25f58417fb501b7a865475393d582b88a032744f2c79cefba0bb2d06",
+              "text": "const radius = fx.radius * aoeScale;"
+            },
+            {
+              "index": 1,
+              "sha256": "f2d23bd037d33db69969950a8cd9cfa820e5e471888f1acbaaf6fd33a85c50ac",
+              "text": "let wrenched = 0;"
+            },
+            {
+              "index": 2,
+              "sha256": "146272cf27dc5bfe10df577668cd5a3ad5f86e2d09e6eb7077aeb159334a72f4",
+              "text": "for (const e of this.enemiesOf(caster)) {\n          if (e.construct?.breakable) continue;\n          if (dist(caster.pos, e.pos) - e.radius > radius) continue;\n          for (let si = e.statuses.length - 1; si >= 0; si--) {\n            const s = e.statuses[si];\n            if (!STATUS_DEFS[s.id]?.dischargeOnHit || !s.rupture || s.rupture <= 0) continue;\n            e.statuses.splice(si, 1);\n            e.sheet.removeSource('status:' + s.id);\n            const bank = s.rupture;\n            const burst: Partial<Record<DamageType, number>> = {\n              [s.ruptureType ?? 'physical']: bank * (fx.damageScale ?? 1),\n            };\n            const taken = mitigateTyped(e, burst);\n            if (taken > 0) {\n              e.life -= taken;\n              e.hitFlash = 0.12;\n              e.hitFlashType = s.ruptureType ?? 'physical';\n              this.text(e.pos, Math.round(taken).toString(), STATUS_DEFS[s.id]?.color ?? '#c8ccd8', 12);\n              if (e.life <= 0 && !e.dead) this.kill(e, false, caster);\n            }\n            // The spear itself carries the bank share homeward. Native recalls\n            // share a cached payload; tree recalls track their exact source.\n            if (SKILLS.impale_spear) {\n              const recallImpalesTree = instanceTreeOver(inst)?.recallImpales;\n              let spear = recallImpalesTree ? undefined : caster.metaInsts.get('__impale_spear');\n              if (!spear || spear.level !== effectiveSkillLevel(inst)) {\n                spear = makeSkillInstance(SKILLS.impale_spear, effectiveSkillLevel(inst));\n                if (recallImpalesTree) this.recallTreeSpears.set(spear, inst);\n                else caster.metaInsts.set('__impale_spear', spear);\n              }\n              this.spawnProjectile(caster, spear, vec(e.pos.x, e.pos.y),\n                angleTo(e.pos, caster.pos),\n                { flat: { physical: bank * (fx.spearShare ?? 0.5) } });\n            }\n            wrenched++;\n          }\n        }"
+            },
+            {
+              "index": 3,
+              "sha256": "709d204a090c10c5e7146a52898947089d88c1b25944ddc3a72aa0926749540a",
+              "text": "if (wrenched > 0) {\n          this.text(vec(caster.pos.x, caster.pos.y - 22), wrenched + ' wrenched free!', def.color, 13);\n        } else {\n          this.failNote(caster, def.id + ':nospears', 'nothing lodged');\n        }"
+            }
+          ]
+        }
+      },
+      "recallIdentity": {
+        "field": "private recallTreeSpears = new WeakMap<SkillInstance, SkillInstance>();",
+        "fieldSha256": "0210534fd6f6450aaca531db2b2b54cb0b94f2f02860603202769fa5b28876e5",
+        "retirement": "this.projectiles = this.projectiles.filter(p => p.caster !== caster || (!ownsTreePayload(p.inst) && this.recallTreeSpears.get(p.inst) !== inst));",
+        "retirementSha256": "57dfdd3f9f4addb8b4e6da9e869048540477092d1997c79957052633f7e6ef22"
+      }
+    }
+  },
+  "contentHashes": {
+    ".reference/src/engine/skills.ts": "6beb81a4c53666d076732b64078f2337b6e2125972f985f0bdf17e2531a2285e",
+    ".reference/src/engine/status.ts": "fd296c4779426d85ffed7465af580862d5dbe3532997c25957d44ef709c99b77",
+    ".reference/src/data/skills.ts": "1e03c12f1b0bc7b61a5c0e6154eab010fc3debba86bd7261d311cb458bcf0b71",
+    ".reference/src/data/impactStarterTrees.ts": "1dffc9912869eff83a4b59e865db6191417aed4a097c7580d444499058080b0f"
+  },
+  "scope": "Complete caster-side siphonStatus and recallImpales policy, native cached versus exact-tree-instance spear identity, and selective retirement behavior. Actual projectile flight/geometry, mitigation, transplantation and broad respec lifecycle compose existing host or SDK services.",
+  "constraints": [
+    "Freeze complete native execution, emitted real projectiles and selective respec outcomes before runtime implementation.",
+    "Siphon uses live actor iteration and reverse status iteration; removing a status is not conditional on transplantation succeeding.",
+    "Recall removes status and modifiers before mitigation; direct burst and physical returning payload use separate scalars.",
+    "Native spears reuse a per-caster cache by effective level; tree spears retain their exact source instance for retirement.",
+    "Preserve synchronous callback mutation, reentry and partial completion.",
+    "No production code or original game writes are authorized by this read-only candidate itself; this is not yet an accepted baseline."
+  ]
+}

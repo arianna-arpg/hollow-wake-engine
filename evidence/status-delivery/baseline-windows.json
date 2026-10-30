@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "7e6c8ddbc56c924f2471729a72094a14bb11c7fc",
+  "scope": "Native caster-side status siphoning and Impale recall, including actual projectile travel and exact-instance respec retirement.",
+  "runtime": {
+    "extracted": false,
+    "unchanged": true,
+    "mapSha256": "73aaccc230ccdb5b6cf37cc418bd5c0ff451b4d2446fa9044389d54e0e786136"
+  },
+  "validation": {
+    "courses": 88,
+    "originalRuns": 2,
+    "predecessorMatches": true,
+    "maintainedOriginalRunner": true,
+    "maintainedInstalledRunner": true,
+    "node22Original": true,
+    "observerFaults": 52,
+    "positiveControl": true,
+    "independentAssertions": true,
+    "deliberateCallbackErrors": 9,
+    "actualFlightCourses": 3,
+    "observerTypeChecked": true,
+    "sdkTypes": true,
+    "boundaries": true,
+    "originalReference": true,
+    "expectedFilesRewritten": false,
+    "fullSdkNotRerun": "No production change; focused original/installed comparisons, source faults, types, boundaries and original-reference checks cover this baseline."
+  },
+  "acceptance": {
+    "file": "baseline/status-delivery/acceptance.json",
+    "sha256": "c6462cae70197fe1afaa2d0e12e181773ab2dc65aafeecec0a85d52922e398ad",
+    "candidateSha256": "28844b46a8383a6ed5d87e9a8e3a2b9e3b3982e1d2b09e07b80023cea059d560",
+    "observationsSha256": "7f0679127df981dd8c0e81dff3ad8b6b613578ec906794b83c888edca21210cd",
+    "compressedSha256": "d9a0db2f68b50ec19f5a7158c334faa255206d81d3e392d6a84bb80455449148"
+  },
+  "observerRepairs": [
+    "Corrected the observer type import and native projectile hits field before captures; original source stayed unchanged.",
+    "Expanded independent checks for zero shares, live callbacks, returned-spear damage and selective tree retirement before freezing.",
+    "Used an actual positive Doom bank to distinguish the dischargeOnHit definition gate, and added a fire-resisted victim to distinguish elemental burst damage from the physical returning spear."
+  ],
+  "preserved": {
+    "originalWrites": false,
+    "observedFiles": 4146,
+    "stableAgainstPrior": 4130,
+    "reviewedConcurrentChanges": 16,
+    "review": "Concurrent game work adds world-anchored desert ambience and pointer click/pan intent for trees, with authoring types, render wiring, tests and documentation. Read-only preservation review; no claim to validate those game features.",
+    "initialAuditFailureRetained": true,
+    "resumedOnlyRemainingCheck": true,
+    "sourceCapsuleVerified": true,
+    "otherRepositories": [
+      {
+        "location": "D:/Games/Claude/hollow-wake-engine",
+        "head": "56f6974bd91499f6655272962696cac273dadb83",
+        "clean": true
+      },
+      {
+        "location": "C:/Users/John/.codex/worktrees/engine-casting-adapter/ARPG Game - World",
+        "head": "80c52f9206bc6acc0b6a34475ca68a08829d0456",
+        "clean": true
+      }
+    ]
+  },
+  "limitations": [
+    "Original behavior baseline only; reusable runtime and adapter extraction remain separate.",
+    "Trusted native records; no external content validation or persistence contract.",
+    "No device, performance or native package acceptance.",
+    "Hosted Windows full-attack replay at 69729a1 has an independent open stack-guard failure; see docs/native-stack-investigation.md."
+  ],
+  "sources": {
+    ".github/workflows/verify.yml": "49c6b9cbc70f3d51eab462750856f7816c6d8f89a06925181cdc1c2c6db3691c",
+    "adapters/hollow-wake/status-delivery-tree.mjs": "bca0d2ea4c7ad04d938b896e475a3186561b3e3febf59070f8cba0b0b6141220",
+    "baseline/status-delivery/acceptance.json": "c6462cae70197fe1afaa2d0e12e181773ab2dc65aafeecec0a85d52922e398ad",
+    "baseline/status-delivery/observations.json.gz": "d9a0db2f68b50ec19f5a7158c334faa255206d81d3e392d6a84bb80455449148",
+    "baseline/status-delivery/source-boundary.json": "73decab718fb03b9436a1df7cedd3b89654e15c5fb58ce2ba65f2fb1eb37e2be",
+    "docs/completion.json": "191488efe87973151c01cfb92196ca9fd8fcc01f16db098c8f35d98180e2742e",
+    "docs/hit-aftermath-boundary.md": "5c7d07fdb39238b557a9beb37bba1ed69547f9f86e4274c490bfc07875e6e7cd",
+    "docs/native-stack-investigation.md": "e4860cd092e8371a5c27c693f724f0b0a3ea7d5b6e734be70ebde282bbede14f",
+    "docs/status-delivery-boundary.md": "f4611a5600d9dcc0a3526210aacc469ecb4028f5972151285482ec463486c0ab",
+    "docs/verification.md": "3ca6f6ca5d06df8d1d531ae6b5163111a1cca8b33e6fdb5ef1722a24531c8255",
+    "package.json": "b2bc9819a468799be78ebbeee33eee3f993d51c59d6b19c1db9cc813287426e1",
+    "reference/export-status-delivery.ts": "1ef72731e81c1f3743333a26a70bb942977c2d9136a78a9a60e4bd47334717df",
+    "scripts/status-delivery-observation-checks.mjs": "69739db0edaa49e0c0d48995efd2d97ddd141c39a42e3bb1f4bcde80c94a8201",
+    "scripts/status-delivery-observer-faults.mjs": "5de60247ebe6670edf6adcc1bab843e89c6a0d9899f9aa08fff2dc946e9daaa4",
+    "scripts/run-status-delivery-reference.mjs": "41a2e5f9062664a05389a9d9b0981772a4cab791936a21ac038f3fa5acc3e00e",
+    "scripts/test-status-delivery-observer.mjs": "00b764799d0bf32ddbb4829e9f47dbc6b6c41eeb460e971953d7749ef9203a82"
+  },
+  "raw": {
+    "path": "evidence/status-delivery/baseline-windows-raw.json.gz",
+    "entries": 90,
+    "sha256": "b15b8de826219e396d21cb0b33283cdc5bd98f54814c469b78873585a05413c2",
+    "uncompressedSha256": "a7f84a3293f2d1eb78168b34341cbb8e618bca861646397701d214f4cb6d14cf",
+    "bytes": 13723
+  }
+}

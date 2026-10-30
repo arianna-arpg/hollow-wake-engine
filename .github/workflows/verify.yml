@@ -158,6 +158,8 @@ jobs:
       - run: npm run test:hit-reactions-observer
       - run: npm run reference:hit-aftermath
       - run: npm run test:hit-aftermath-observer
+      - run: npm run reference:status-delivery
+      - run: npm run test:status-delivery-observer
       - run: npm run reference:stat-context
       - run: npm run test:stat-context-observer
       - run: npm run adapter:stat-context-source
@@ -394,6 +396,13 @@ jobs:
             .artifacts/reference-hit-landing-*/*.txt
             .artifacts/hit-landing-observer-faults-*/verification.json
             .artifacts/hit-landing-observer-faults-*/*.txt
+            .artifacts/status-delivery-reference-verification.json
+            .artifacts/status-delivery-observer-verification.json
+            .artifacts/reference-status-delivery-*/verification.json
+            .artifacts/reference-status-delivery-*/*.txt
+            .artifacts/status-delivery-observer-faults-*/verification.json
+            .artifacts/status-delivery-observer-faults-*/progress.json
+            .artifacts/status-delivery-observer-faults-*/*.txt
             .artifacts/hit-aftermath-reference-verification.json
             .artifacts/hit-aftermath-observer-verification.json
             .artifacts/reference-hit-aftermath-*/verification.json

@@ -1,5 +1,18 @@
 # Verification and reproduction
 
+The `reference:status-delivery` and `test:status-delivery-observer` commands
+freeze caster-side siphoning and Impale recall before extraction. Two original
+captures and the installed predecessor match all 88 courses; 52 source faults
+are detected. Real returned-spear travel, exact-instance retirement and nine
+callback interruptions are included. See the [boundary](status-delivery-boundary.md)
+and [evidence](../evidence/status-delivery/baseline-windows.json).
+
+Hosted Windows native replay at `69729a1` fails at the experimental 256 KiB
+stack guard, although local Windows and hosted Linux replay pass. The native
+package therefore has an open portability failure. See the
+[investigation](native-stack-investigation.md); local replay is not evidence
+that the hosted configuration passes.
+
 The `reference:hit-aftermath` and `test:hit-aftermath-observer` commands
 cover the remaining damaging phase and the complete common continuation of a
 hit. Two original captures and the installed predecessor agree across 260

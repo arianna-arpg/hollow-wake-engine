@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "courses": 88,
+  "helper": "reference/export-status-delivery.ts",
+  "helperSha256": "1ef72731e81c1f3743333a26a70bb942977c2d9136a78a9a60e4bd47334717df",
+  "positiveAssertions": "scripts/status-delivery-observation-checks.mjs",
+  "positiveAssertionsSha256": "69739db0edaa49e0c0d48995efd2d97ddd141c39a42e3bb1f4bcde80c94a8201",
+  "sourceBoundary": "baseline/status-delivery/source-boundary.json",
+  "sourceBoundarySha256": "73decab718fb03b9436a1df7cedd3b89654e15c5fb58ce2ba65f2fb1eb37e2be",
+  "observations": "baseline/status-delivery/observations.json.gz",
+  "compressedSha256": "d9a0db2f68b50ec19f5a7158c334faa255206d81d3e392d6a84bb80455449148",
+  "observationsSha256": "7f0679127df981dd8c0e81dff3ad8b6b613578ec906794b83c888edca21210cd",
+  "scope": "Native caster-side status siphoning and Impale recall, including actual projectile travel and exact-instance respec retirement.",
+  "capturedBeforeImplementation": true,
+  "originalRuns": 2,
+  "predecessorMatches": true,
+  "observerFaults": 52,
+  "deliberateCallbackErrors": 9,
+  "observerRepairs": [
+    "Corrected the observer type import and native projectile hits field before captures; original source stayed unchanged.",
+    "Expanded independent checks for zero shares, live callbacks, returned-spear damage and selective tree retirement before freezing.",
+    "Used an actual positive Doom bank to distinguish the dischargeOnHit definition gate, and added a fire-resisted victim to distinguish elemental burst damage from the physical returning spear."
+  ],
+  "limits": [
+    "Original behavior baseline only; reusable runtime and adapter extraction remain separate.",
+    "Trusted native records; no external content validation or persistence contract.",
+    "No device, performance or native package acceptance."
+  ]
+}

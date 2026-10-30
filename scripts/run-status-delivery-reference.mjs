@@ -1,0 +1,86 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {pathToFileURL} from 'node:url';
+import {gunzipSync} from 'node:zlib';
+import {root, sha256, listFiles, verifyReference, writeJSON} from './reference-utils.mjs';
+
+import {assertStatusDeliveryObservations} from './status-delivery-observation-checks.mjs';
+
+const args = process.argv.slice(2);
+assert(args.length === 0 || (args.length === 2 && args[0] === '--game'));
+const game = fs.realpathSync(path.resolve(root, args[1] ?? '.reference'));
+const acceptanceFile = path.join(root, 'baseline/status-delivery/acceptance.json');
+const acceptedBytes = fs.readFileSync(acceptanceFile);
+const accepted = JSON.parse(acceptedBytes);
+assert.equal(accepted.schemaVersion, 1);
+assert.equal(accepted.courses, 88);
+const inputs = new Map([[acceptanceFile, sha256(acceptedBytes)]]);
+for (const [file, hash] of [
+  [accepted.helper, accepted.helperSha256],
+  [accepted.positiveAssertions, accepted.positiveAssertionsSha256],
+  [accepted.sourceBoundary, accepted.sourceBoundarySha256],
+  [accepted.observations, accepted.compressedSha256],
+]) {
+  const absolute = path.join(root, file);
+  assert.equal(sha256(fs.readFileSync(absolute)), hash, file);
+  inputs.set(absolute, hash);
+}
+const boundary = JSON.parse(fs.readFileSync(path.join(root, accepted.sourceBoundary)));
+const lockFile = path.join(root, 'baseline/source-lock.json');
+assert.equal(sha256(fs.readFileSync(lockFile)), boundary.sourceLockSha256);
+inputs.set(lockFile, boundary.sourceLockSha256);
+const expected = gunzipSync(fs.readFileSync(path.join(root, accepted.observations)));
+assert.equal(sha256(expected), accepted.observationsSha256);
+assertStatusDeliveryObservations(JSON.parse(expected));
+if (!args.length) verifyReference(game, JSON.parse(fs.readFileSync(lockFile)));
+
+const snapshot = dir => Object.fromEntries(listFiles(dir).map(file =>
+  [file, sha256(fs.readFileSync(path.join(dir, file)))]));
+const before = snapshot(path.join(game, 'src'));
+const output = fs.mkdtempSync(path.join(root, '.artifacts/reference-status-delivery-'));
+const helper = fs.readFileSync(path.join(root, accepted.helper), 'utf8');
+const imports = /(['"])\.\.\/src\/([^'"]+)\1/g;
+const runtime = path.join(output, 'capture.ts');
+const typed = path.join(output, 'capture.typed.ts');
+const observation = path.join(output, 'observations.json');
+fs.writeFileSync(runtime, helper.replace(imports, (_a, _q, file) =>
+  JSON.stringify(pathToFileURL(path.join(game, 'src', file + '.ts')).href)), {flag: 'wx'});
+fs.writeFileSync(typed, helper.replace(imports, (_a, _q, file) =>
+  JSON.stringify(path.relative(output, path.join(game, 'src', file)).replaceAll('\\', '/'))), {flag: 'wx'});
+writeJSON(path.join(output, 'tsconfig.json'), {
+  extends: path.join(game, 'tsconfig.sim.json'),
+  compilerOptions: {typeRoots: [path.join(game, 'node_modules/@types')]},
+  include: [typed], exclude: [],
+});
+const report = {
+  passed: false, game, output, courses: 88,
+  acceptanceSha256: sha256(acceptedBytes),
+  sourceMapSha256: sha256(JSON.stringify(before)), expectedFilesRewritten: false,
+  scope: 'Native status siphoning and Impale recall, with real returned-spear travel and selective tree retirement. Runtime extraction and physical-device performance remain separate.',
+};
+try {
+  for (const [name, command] of [
+    ['types', [path.join(game, 'node_modules/typescript/bin/tsc'), '-p', path.join(output, 'tsconfig.json')]],
+    ['capture', ['--import', pathToFileURL(path.join(game, 'node_modules/tsx/dist/loader.mjs')).href, runtime, observation]],
+  ]) {
+    const log = fs.openSync(path.join(output, name + '.txt'), 'wx');
+    try {
+      execFileSync(process.execPath, command, {
+        cwd: game, windowsHide: true, stdio: ['ignore', log, log], timeout: 180000,
+      });
+    } finally { fs.closeSync(log); }
+  }
+  const bytes = fs.readFileSync(observation);
+  report.observationsSha256 = sha256(bytes);
+  assertStatusDeliveryObservations(JSON.parse(bytes));
+  assert(bytes.equals(expected), 'Status delivery trace differs from accepted original');
+  report.passed = true;
+} finally {
+  assert.deepEqual(snapshot(path.join(game, 'src')), before);
+  for (const [file, hash] of inputs) assert.equal(sha256(fs.readFileSync(file)), hash, file);
+  writeJSON(path.join(output, 'verification.json'), report);
+  writeJSON(path.join(root, '.artifacts/status-delivery-reference-verification.json'), report);
+  console.log(report);
+}

@@ -15,7 +15,9 @@ game binding type-checks and matches all 260 original courses exactly. The full
 SDK passes 1,300 tests, the original-reference verifier and 22 broader game checks,
 including 25 smoke episodes. Seventeen installed faults are detected across two
 hash-verified runs; the invalid whole-phase fault and its repair are retained.
-Node 22 and native replay pass. These results do not establish physical-device
+Node 22 and local native replay pass. Hosted Windows native replay subsequently
+failed at the stack guard; see the [open investigation](native-stack-investigation.md).
+These results do not establish physical-device
 performance or expose a new native-host API.
 
 The raw source is the pinned original `World.resolveHit`. Its damaging block has
