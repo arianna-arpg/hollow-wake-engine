@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "source": "src/engine/world.ts",
+  "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "method": "resolveHit",
+  "damagingBranchStatement": 26,
+  "statements": [
+    {
+      "index": 21,
+      "line": 43632,
+      "sha256": "bf1eb8f958f7f9e6ce7c2462327f97b3d4c817cd333bbc7b37ae046206d521d7",
+      "text": "caster.lastCombatAt = this.time;"
+    },
+    {
+      "index": 22,
+      "line": 43633,
+      "sha256": "a5857b7e0f7a4ac7e2cf8769a27e02763abebd6b5ad320784928dacb0976a077",
+      "text": "target.lastCombatAt = this.time;"
+    },
+    {
+      "index": 23,
+      "line": 43638,
+      "sha256": "4d3c0957b1e8ac6b4b12f0a782b24b05ec3bf47898fa88f45ece7574406a1e1e",
+      "text": "target.aiHitAt = this.time;"
+    },
+    {
+      "index": 24,
+      "line": 43639,
+      "sha256": "ffe665b5b025113cf725524f819e5f3cbb32859deaf31d0b6fb7a6cd5efcb53f",
+      "text": "target.aiHitById = caster.id;"
+    },
+    {
+      "index": 25,
+      "line": 43642,
+      "sha256": "0f0e38e71e4a127ad80c48f12fa806db30bb3852e5f2f72aa19889d87f193158",
+      "text": "const evidence = hitOrigin ?? (depth > 0 ? target.pos : caster.pos);"
+    },
+    {
+      "index": 26,
+      "line": 43643,
+      "sha256": "c75b54014f5a4fa01eb27cc47b02e9859aee8f0bc3035c840acafa122ef8d75d",
+      "text": "if (this.hostileTo(target, caster)) {\n        target.alertUntil = Math.max(target.alertUntil,\n          this.time + PERCEPTION_CFG.woundSearchSec * alertScale(target));\n        target.alertFrom = vec(evidence.x, evidence.y);\n        target.alertTier = hitTier ?? caster.tier;\n      }"
+    },
+    {
+      "index": 27,
+      "line": 43652,
+      "sha256": "41746c06ba3a15435085ef427349c728856d66c7db86a478a06719a3fdeb7eb2",
+      "text": "if (target.team !== caster.team) {\n        caster.lastFoeAt = this.time;\n        caster.lastFoeId = target.id;\n      }"
+    },
+    {
+      "index": 28,
+      "line": 43659,
+      "sha256": "f7eb64ccdd9f5b866e6492f8baf6abc795a717f132dd1d8f6a637e0ca72645c3",
+      "text": "this.bumpDrives(target, 'onHurt');"
+    },
+    {
+      "index": 29,
+      "line": 43660,
+      "sha256": "40c5399af61650a495e7f50fdd3484ced6189f93536aae65c52e3c560eac76b1",
+      "text": "this.bumpDrives(caster, 'onDealt');"
+    },
+    {
+      "index": 30,
+      "line": 43663,
+      "sha256": "1a5219490aefae18e3702c2076ad8c6ea64bfe2de30e247e4d704dcb9c64f45b",
+      "text": "if (target.lootSack?.length && this.time - target.lastSpillAt > 0.4) {\n        target.lastSpillAt = this.time;\n        const item = target.lootSack.pop()!;\n        this.drops.push({\n          pos: vec(target.pos.x + rand(-20, 20), target.pos.y + rand(-20, 20)),\n          item, bob: rand(0, Math.PI * 2),\n          tier: target.tier, // THE SPOILS STORY: shaken loose where the sack stands\n        });\n        }"
+    },
+    {
+      "index": 31,
+      "line": 43674,
+      "sha256": "5ea8ed23295b0716eca949ff5b316c49c4dc844a0b26f525d2b13d844e84946a",
+      "text": "if (dealt > 0 && target.defId) {\n        const spill = MONSTERS[target.defId]?.essenceSpill;\n        if (spill) this.bankEssenceSpill(target, spill, dealt);\n      }"
+    },
+    {
+      "index": 32,
+      "line": 43680,
+      "sha256": "2b8f9bb4136eb3fb77bf95b6f916c4fef7cbfcd1b6aeeef849a248b4ec5fbc8d",
+      "text": "if (dealt > 0) {\n        target.recentHurt = 0;\n        // THE PRIMED POUR answers the first wound (pourPrime).\n        this.releasePrimedPours(target);\n      }"
+    },
+    {
+      "index": 33,
+      "line": 43691,
+      "sha256": "6f48bb289f6dd73c301f4e8eaf99e5b97ec28ac425ef9a7ddf96a35a84915432",
+      "text": "if (target.brain && dealt > 0) {\n        const tw = target.aiTuning?.target?.threat?.damage\n          ?? normalizeBrain(target.brain).base.target?.threat?.damage ?? 1;\n        if (tw > 0) {\n          // threatGen folds with the SKILL's context (tags + socketed gems),\n          // so Clamor makes one skill loud and Quiet Hand makes one quiet.\n          const gen = caster.sheet.get('threatGen', skillContextTags(def), instanceMods(inst));\n          if (gen > 0) target.addThreat(caster.id, dealt * tw * gen);\n        }\n      }"
+    },
+    {
+      "index": 34,
+      "line": 43704,
+      "sha256": "bf5c47da6002e5407d21c6a9acc9930da8a7c0e746ca5a96113bb12602f55fe5",
+      "text": "for (const [bid, b] of target.buffs) {\n        if ((b.def as { clearOnHit?: boolean }).clearOnHit) target.removeBuff(bid);\n      }"
+    },
+    {
+      "index": 35,
+      "line": 43711,
+      "sha256": "ca3af8e544615baba8abebab5917a30ab38e6b14a95b7aaa3164507be50f0530",
+      "text": "if (depth === 0) {\n        this.tapCharges(caster, 'hit', undefined, undefined, target);\n        this.tapCharges(target, 'takeHit', undefined, undefined, caster);\n        // BRUISED-LOOSE orbs (orbOnHurt_<id>): a landed blow TAKEN can shake\n        // a registry orb out of the victim's own gear — the defensive shed\n        // valve (no skill context; the wound is the roll).\n        if (this.orbs.length < ORB_CAP && !target.construct) {\n          for (const id of Object.keys(ORB_DEFS)) {\n            const c = target.sheet.get(orbOnHurtStat(id)) * target.sheet.get('orbShedRate');\n            if (c > 0 && chance(Math.min(0.5, c))) {\n              this.shedOrb(id, target.pos, { scatter: 24, tier: target.tier });\n            }\n          }\n        }\n        // Blood-spooling (channelHitSpool): landed hits during an unbroken\n        // channel bank toward bonus projectiles on the coming pulses.\n        if (caster.casting?.mode === 'channel') {\n          caster.casting.hitSpool = (caster.casting.hitSpool ?? 0) + 1;\n        }\n      }"
+    },
+    {
+      "index": 36,
+      "line": 43734,
+      "sha256": "d7688f175ca8f2b60b88de0ac2fb16c9ea1006ac0358e0ce077ebcb08c31107a",
+      "text": "this.rouseOnWound(target);"
+    },
+    {
+      "index": 37,
+      "line": 43738,
+      "sha256": "d66c69ed8cd904dcb17719da0b466b7c886248bd2c2bf65426e7ff3739e26f5a",
+      "text": "if (target.ambushArmed) this.springAmbush(target);"
+    },
+    {
+      "index": 38,
+      "line": 43743,
+      "sha256": "9dea6fe0e57b53c89c5e61bd7e1278c18f81e11dcefd62e1b8c604c55eefc043",
+      "text": "if (isStealthed(caster) && target.team !== caster.team) {\n        // Each victim's brain scales how long the alarm GRIPS it\n        // (perception.alertMul — a dull shambler forgets the wound the\n        // moment you vanish; a sentry seethes for the full six).\n        target.alertUntil = Math.max(target.alertUntil, this.time + 6 * alertScale(target));\n        target.alertFrom = vec(evidence.x, evidence.y); target.alertTier = hitTier ?? caster.tier;\n        for (const a of this.actors) {\n          if (a.dead || a.team !== target.team || a === target) continue;\n          if (dist(a.pos, target.pos) > 320) continue;\n          a.alertUntil = Math.max(a.alertUntil, this.time + 4 * alertScale(a));\n          if (!a.alertFrom) { a.alertFrom = vec(evidence.x, evidence.y); a.alertTier = hitTier ?? caster.tier; }\n        }\n      }"
+    },
+    {
+      "index": 39,
+      "line": 43762,
+      "sha256": "939ab27ec79f3ff520424aae0ddcc8407411f2295fafd21c1c95d07c197eeef2",
+      "text": "if (target.watch && target.team !== caster.team && !target.aggroed\n        && target !== caster) {\n        target.alertUntil = Math.max(target.alertUntil, this.time + 5 * alertScale(target));\n        target.alertFrom = vec(evidence.x, evidence.y); target.alertTier = hitTier ?? caster.tier;\n        feedWatch(target, target.watch, this.time, 1, WATCH_CFG.rungs.search);\n        if (target.watchAt) { target.watchAt.x = evidence.x; target.watchAt.y = evidence.y; }\n        else target.watchAt = vec(evidence.x, evidence.y);\n        target.watchRung = Math.max(target.watchRung,\n          watchRungOf(watchValueOf(target, target.watch, this.time)));\n      }"
+    },
+    {
+      "index": 40,
+      "line": 43775,
+      "sha256": "2f2e98df88bf62cd26bb5329bdb44ca2ddf1ef0a9aa3a2cf80d1fec9edb9724d",
+      "text": "if (target === this.player && this.player.life > 0\n        && this.player.life < this.player.maxLife() * this.player.lowLifeLine()) {\n        this.lowLifeHitFlash = LOW_LIFE_FLASH_SEC;\n      }"
+    },
+    {
+      "index": 41,
+      "line": 43779,
+      "sha256": "6cb37ecf99ba422a4caf3828840b98ef0835663d89a3b44ca324dea9a98ce5b4",
+      "text": "this.text(target.pos, Math.round(dealt).toString(),\n        result.crit ? '#ffd24a' : '#ffffff', result.crit ? 18 : 13, 'dmg');"
+    },
+    {
+      "index": 42,
+      "line": 43782,
+      "sha256": "5f5d08eef6dd66198e57a930d2a1736f6aee7c908160da2c2d26304becb09225",
+      "text": "if (result.culled) {\n        this.showCombatOutcome(target, 'culled', evidence);\n      }"
+    },
+    {
+      "index": 43,
+      "line": 43787,
+      "sha256": "461761298b18863e0951e85c9180522a942bbe702777750188bb07406a937ea6",
+      "text": "if (result.clamped) {\n        this.showCombatOutcome(target, 'hit_cap', evidence);\n      }"
+    },
+    {
+      "index": 44,
+      "line": 43795,
+      "sha256": "4f21c2a9eed157630997cc562b9d212bbd05ca154567f84b777f606bd3e030fc",
+      "text": "if (result.poiseBroke) {\n        this.rollOwnProcs(caster, 'poiseBreakDealt', { tags: packet.tags, extra, inst, target, depth });\n      }"
+    },
+    {
+      "index": 45,
+      "line": 43799,
+      "sha256": "4497f74972ea9a34bad2bff0bea90f9c3cb8e6a134027f989e15e3c95de2dd9a",
+      "text": "if (target.esBroke) {\n        target.esBroke = false;\n        this.rollOwnProcs(target, 'esBreak', { depth });\n      }"
+    },
+    {
+      "index": 46,
+      "line": 43806,
+      "sha256": "ec57e22fad2702850b665a0a8ac4e9116611eceed71cefb847f11a3d32b36f04",
+      "text": "this.sweepDefenseEvents(target, depth);"
+    },
+    {
+      "index": 47,
+      "line": 43812,
+      "sha256": "335cc9cb6c21a8a2f18cff9d38b70bd22b7a8d695f6fef45af5abab03ae957e8",
+      "text": "if (wasCrit) {\n        this.rollTriggers(caster, 'crit', {\n          depth: inst.state?.trigDepth ?? 0,\n          aim: vec(target.pos.x, target.pos.y), sourceInst: inst,\n        });\n      }"
+    },
+    {
+      "index": 48,
+      "line": 43822,
+      "sha256": "4eeb0bcd3fb17457cf95727e9f948d057c7b97d8c0ede984c5de65368ab6493b",
+      "text": "if (packet.rollT !== undefined) {\n        this.rollTriggers(caster, 'highRoll', {\n          depth: inst.state?.trigDepth ?? 0,\n          aim: vec(target.pos.x, target.pos.y), sourceInst: inst,\n          rollT: packet.rollT,\n        });\n      }"
+    },
+    {
+      "index": 49,
+      "line": 43829,
+      "sha256": "dc2a64842d995237195142881fe59b5caf94049ee72a8a863703e6234ecf0d9b",
+      "text": "if (dealt > 0) this.bankDamageTakenTriggers(target, dealt, caster);"
+    }
+  ],
+  "nextStatement": "if (dealt > 0 && target.volatile && target.life > 0 && !target.dead\n        && !target.untargetable && this.time >= target.volatileReadyAt\n        && chance(target.volatile.chance)) {\n        const vdef = SKILLS[target.volatile.skillId];\n        if (vdef) {\n          target.volatileReadyAt = this.time + (target.volatile.icd ?? 1.5);\n          target.volatileInst ??= makeSkillInstance(vdef, Math.max(1, Math.round(target.level)));\n          if (target.volatile.cue !== false) this.showCombatOutcome(target, 'volatile_release', caster.pos, vdef.color);\n          this.executeSkill(target, target.volatileInst, vec(caster.pos.x, caster.pos.y), {\n            dmgMult: target.volatile.dmgMult ?? 1,\n            noCooldown: true, noRepeat: true, keepFacing: true,\n          });\n        }\n      }",
+  "requiredObservations": [
+    "Execute the full native resolver. Landed zero, ward and shield-soaked hits reach this phase; evade/block/immune/no-damage admission remains distinct.",
+    "Preserve synchronous callback order, repeated live clock reads, hit-origin identity, zero tier, hostility and independent foe-team gates.",
+    "Preserve loot cadence/pop/random order, positive-damage essence/wound/threat gates, nullish tuning and fresh skill-context modifiers.",
+    "Borrow live buff maps and actor lists. Callback insertion/removal/replacement, positions, teams and retained alert-origin identity are observable.",
+    "Charges/orbs/spooling require exactly depth zero; orb keys are enumerated per hit, cap is checked before iteration and native shedding still enforces its own cap.",
+    "Observe native rouse/ambush/watch and low-life publication, captured damage/critical flags versus live result/packet/instance fields, trigger identity and aim.",
+    "Nested hits and eight deliberate callback failures preserve earlier writes and stop subsequent delivery."
+  ],
+  "optimizationConstraints": [
+    "Preserve synchronous host callback ordering, live time/actor/config/content reads, reentrancy and partial writes on exceptions.",
+    "Keep authored threat/perception/orb content distinct from world delivery services.",
+    "No copied per-hit state or result wrapper solely for extraction.",
+    "Native full-resolver observations and independent invariants must precede runtime replacement.",
+    "Do not infer zero damage, depth or friendly-team admission from comments; observe executable branches."
+  ],
+  "scope": "Complete landed-contact reaction phase after hit sustain and before volatile retaliation: evidence, alert/drive/loot/essence reactions, threat, fragile buffs, charges/orbs/spooling, rouse/ambush/stealth/watch, cues and defense/critical/high-roll/damage-taken dispatch."
+}

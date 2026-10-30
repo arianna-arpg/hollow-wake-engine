@@ -1,5 +1,13 @@
 # Verification and reproduction
 
+`reference:hit-reactions` checks 136 original full-resolver courses covering the
+29-statement reaction phase after sustain. `test:hit-reactions-observer` checks
+55 deliberate source faults, including live buff/actor iteration, zero-tier and
+zero-tuning defaults, captured versus live hit values, nested hits and partial
+callback failures. The original and installed predecessor agree before runtime
+replacement. See [landed-hit reactions](hit-reactions-boundary.md) for ownership,
+observer repairs and remaining extraction work.
+
 `reference:hit-sustain` checks 98 frozen original courses covering siphon,
 nearby sharing, life bonds and tree storage. Two original runs, the installed
 predecessor and Node 22 agree. `test:hit-sustain-observer` checks 38 deliberate

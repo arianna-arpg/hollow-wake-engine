@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "courses": 136,
+  "statements": 29,
+  "helper": "reference/export-hit-reactions.ts",
+  "helperSha256": "565bc8865714cf94b25fb9a132025e4a14f7d22676b1074bd6e12ca261c9f81f",
+  "sourceBoundary": "baseline/hit-reactions/source-boundary.json",
+  "sourceBoundarySha256": "5c1eff2422227679c867313b0bb446c692659d60e351de04cfb2b85c15c7065f",
+  "observations": "baseline/hit-reactions/observations.json.gz",
+  "observationsSha256": "450b3ab14d7d63f1e4371cd4646fb243880449497b651a96af61e2684b2ec83b",
+  "compressedSha256": "cb2f3c4d8e13a4771cb28be4c2695c359d994fd98a0d4128f161be76ca301da5",
+  "positiveAssertions": "scripts/hit-reactions-observation-checks.mjs",
+  "positiveAssertionsSha256": "4e5ea07460a4513381c1596c70c90eb8f21a4182ad000f06824f8d03d106e565",
+  "capturedBeforeImplementation": true,
+  "originalRuns": 2,
+  "predecessorMatches": true,
+  "scope": "Complete landed-contact reaction phase after hit sustain and before volatile retaliation: evidence, alert/drive/loot/essence reactions, threat, fragile buffs, charges/orbs/spooling, rouse/ambush/stealth/watch, cues and defense/critical/high-roll/damage-taken dispatch.",
+  "observerFaults": 55,
+  "observerRepairs": [
+    "The initial helper did not type-check; unused imports, optional casting state, private rouse access and required ambush radius were corrected before captures.",
+    "Fixed damage ranges did not produce high-roll events. Independent positive assertions rejected the early courses; genuine ranged damage now produces a measured fraction.",
+    "Unique skill/definition origins and nonzero caster tier distinguish callback skill identity and explicit hit tier zero.",
+    "The clock course changes time via the first stamp write; observing time does not itself mutate the clock.",
+    "Actor-list removal and append courses were added before fault execution and acceptance; stable observer actor registration retains removed actors without changing the live native iterator."
+  ],
+  "limits": [
+    "Original native behavior baseline; the reaction runtime and adapter are not yet extracted.",
+    "Trusted borrowed records, not a validated content-import schema.",
+    "No physical-device, zero-allocation or performance acceptance."
+  ]
+}

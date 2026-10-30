@@ -83,6 +83,12 @@ installed game adapter, matching the frozen trace. Independent package checks,
 game probes and the native full-game replay pass; dedicated sustain performance
 and device acceptance remain open.
 
+The [landed-hit reaction boundary](hit-reactions-boundary.md) establishes the
+next complete 29-statement phase through damage-taken trigger dispatch. Its
+136-course original baseline covers live callback mutation and partial failures;
+runtime extraction remains pending. Underlying spatial, AI, loot and presentation
+services retain host ownership.
+
 The primary Hollow Wake checkout retains authority. The isolated game adapter
 delegates the extracted transitions to the actual installed package while keeping
 its existing actor/status records and advanced host behavior.

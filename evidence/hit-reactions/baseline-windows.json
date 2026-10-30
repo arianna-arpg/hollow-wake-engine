@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "6fbbfc19331af0fdd91b7319af18aa5f076528bc",
+  "scope": "Complete landed-contact reaction phase after hit sustain and before volatile retaliation: evidence, alert/drive/loot/essence reactions, threat, fragile buffs, charges/orbs/spooling, rouse/ambush/stealth/watch, cues and defense/critical/high-roll/damage-taken dispatch.",
+  "runtime": {
+    "extracted": false,
+    "compiledFiles": 276,
+    "mapSha256": "ca91cd1f7d29ad67b3bcc116b9d3a6f252072718864ba73b5f8ab0e4da1363a8",
+    "unchanged": true
+  },
+  "validation": {
+    "originalRuns": 2,
+    "installedPredecessorMatches": true,
+    "node22OriginalMatches": true,
+    "maintainedInstalledRunnerMatches": true,
+    "courses": 136,
+    "statements": 29,
+    "sourceFaults": 55,
+    "positiveControl": true,
+    "independentAssertions": true,
+    "observerTypeChecked": true,
+    "sdkTypeCheck": true,
+    "boundaries": true,
+    "originalReference": true,
+    "expectedFilesRewritten": false,
+    "fullSdkNotRerun": "No production runtime change; dedicated original/installed captures, fault controls, types, boundary and original-reference checks cover this checkpoint."
+  },
+  "acceptance": {
+    "file": "baseline/hit-reactions/acceptance.json",
+    "sha256": "d2310a8d34ec2823612d0fd16776e3ebe9b1b16e7c5b15e484ed3da43074c6e2",
+    "candidateSha256": "9ff8bc923cdd609db5e6179488008c6c7e1e68fd60da4c9ac0604781d2bd0b62",
+    "observationsSha256": "450b3ab14d7d63f1e4371cd4646fb243880449497b651a96af61e2684b2ec83b",
+    "compressedSha256": "cb2f3c4d8e13a4771cb28be4c2695c359d994fd98a0d4128f161be76ca301da5"
+  },
+  "observerRepairs": [
+    "The initial helper did not type-check; unused imports, optional casting state, private rouse access and required ambush radius were corrected before captures.",
+    "Fixed damage ranges did not produce high-roll events. Independent positive assertions rejected the early courses; genuine ranged damage now produces a measured fraction.",
+    "Unique skill/definition origins and nonzero caster tier distinguish callback skill identity and explicit hit tier zero.",
+    "The clock course changes time via the first stamp write; observing time does not itself mutate the clock.",
+    "Actor-list removal and append courses were added before fault execution and acceptance; stable observer actor registration retains removed actors without changing the live native iterator."
+  ],
+  "deliberateCallbackErrors": 8,
+  "preserved": {
+    "originalWrites": false,
+    "stableOriginalFiles": 4100,
+    "explicitConcurrentPaths": 28,
+    "sourceCapsuleVerified": true,
+    "sdkMainUnchanged": true,
+    "managedGameUnchanged": true
+  },
+  "limitations": [
+    "Original native behavior baseline; the reaction runtime and adapter are not yet extracted.",
+    "Trusted borrowed records, not a validated content-import schema.",
+    "No physical-device, zero-allocation or performance acceptance."
+  ],
+  "next": "Extract the complete 29-statement reaction phase through reusable synchronous ports; verify independent contracts, packed consumer, installed trace and deliberate faults before measuring active workloads.",
+  "sources": {
+    ".github/workflows/verify.yml": "ad9d1d424c218ae8ff90840e20f5f3571da88ab3f1e2997b02470a11a734bc80",
+    "adapters/hollow-wake/hit-reactions-tree.mjs": "af406795ef4a0df89274de4983752cf36af7376cc47ea2bf3c491e3532b4a2ce",
+    "baseline/hit-reactions/acceptance.json": "d2310a8d34ec2823612d0fd16776e3ebe9b1b16e7c5b15e484ed3da43074c6e2",
+    "baseline/hit-reactions/observations.json.gz": "cb2f3c4d8e13a4771cb28be4c2695c359d994fd98a0d4128f161be76ca301da5",
+    "baseline/hit-reactions/source-boundary.json": "5c1eff2422227679c867313b0bb446c692659d60e351de04cfb2b85c15c7065f",
+    "docs/boundary-contract.md": "b13fff3cc5033a7ecd8f15f8d683ed54cfb1780780de4c2b75e2dac3e4e0d9ef",
+    "docs/completion.json": "1c7da0ae2d3c6d9265e0c48d8df42406ad62d9b7848994a2b0fd4c1acb3da106",
+    "docs/hit-reactions-boundary.md": "d6516210e7040e140f95288fc2b8206ef35be84039d9338f9a6229ad9ed299c1",
+    "docs/verification.md": "e9f07922e40b8f7d2bb660662ec6677c2a13993d14855e3f103bf903bce878b2",
+    "package.json": "7743b26194d878c234bfd756e6b2c7f14a042332dab4bdf53d28ef751ffe4f09",
+    "reference/export-hit-reactions.ts": "565bc8865714cf94b25fb9a132025e4a14f7d22676b1074bd6e12ca261c9f81f",
+    "scripts/hit-reactions-observation-checks.mjs": "4e5ea07460a4513381c1596c70c90eb8f21a4182ad000f06824f8d03d106e565",
+    "scripts/hit-reactions-observer-faults.mjs": "4f9bfe52cf9066a60bf633a17256044711525d1f6596998eacc82c4f8c5f0fb0",
+    "scripts/run-hit-reactions-reference.mjs": "bef4873b1801dd1a1c2eb45e1c5ec19cba3341744fdd6f6f76d26cebee8d1eb2",
+    "scripts/test-hit-reactions-observer.mjs": "ef8c40a60a9ba4befed0688363afdb546148ae926c88bc212c6d93334d7e3811"
+  },
+  "raw": {
+    "path": "evidence/hit-reactions/baseline-windows-raw.json.gz",
+    "entries": 164,
+    "bytes": 79658,
+    "sha256": "4862d0facfcc07648a058d03cdf483de0f9e4aaf1549bc1ff1ee8745816d113f",
+    "uncompressedSha256": "5ba19527b1d4db0f2f22640391b73891f7accf5a457753a2721af66fa50d2fa4"
+  }
+}

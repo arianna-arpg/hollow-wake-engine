@@ -1,0 +1,67 @@
+import assert from 'node:assert/strict';
+
+// Index is relative to the 29-statement landed-contact reaction phase.
+export const reactionFaults=[
+  ['author-clock',0,'this.time','this.time + 1'],
+  ['victim-clock',1,'this.time','this.time + 1'],
+  ['strike-clock',2,'this.time','this.time + 1'],
+  ['strike-author',3,'caster.id','target.id'],
+  ['explicit-origin',4,'hitOrigin ?? (depth > 0 ? target.pos : caster.pos)','(depth > 0 ? target.pos : caster.pos)'],
+  ['nested-origin',4,'depth > 0','depth >= 0'],
+  ['hostility-admission',5,'this.hostileTo(target, caster)','false'],
+  ['alert-extension',5,'Math.max','Math.min'],
+  ['alert-scale',5,'* alertScale(target)','* 1'],
+  ['zero-hit-tier',5,'hitTier ?? caster.tier','hitTier || caster.tier'],
+  ['foe-team',6,'target.team !== caster.team','target.team === caster.team'],
+  ['victim-drive',7,'target,','caster,'],
+  ['author-drive',8,'caster,','target,'],
+  ['loot-cadence',9,'> 0.4','>= 0.4'],
+  ['loot-order',9,'.pop()!','.shift()!'],
+  ['loot-stamp',9,'target.lastSpillAt = this.time;','target.lastSpillAt = this.time + 1;'],
+  ['essence-positive',10,'dealt > 0 && target.defId','target.defId'],
+  ['wound-clock',11,'target.recentHurt = 0;','target.recentHurt = 1;'],
+  ['wound-reset',11,'target.recentHurt = 0;',''],
+  ['threat-tuning-zero',12,'?? normalizeBrain(target.brain).base.target?.threat?.damage ?? 1','|| (normalizeBrain(target.brain).base.target?.threat?.damage ?? 1)'],
+  ['threat-weight',12,'dealt * tw * gen','dealt * gen'],
+  ['threat-live-extra',12,'instanceMods(inst)','extra'],
+  ['threat-context',12,'skillContextTags(def)','new Set()'],
+  ['fragile-filter',13,'if ((b.def as { clearOnHit?: boolean }).clearOnHit)','if (true)'],
+  ['fragile-live-iteration',13,'of target.buffs','of [...target.buffs]'],
+  ['charge-depth',14,'depth === 0','depth >= 0'],
+  ['charge-counterpart',14,"this.tapCharges(caster, 'hit', undefined, undefined, target)","this.tapCharges(caster, 'hit', undefined, undefined, caster)"],
+  ['orb-cap',14,'this.orbs.length < ORB_CAP','this.orbs.length <= ORB_CAP'],
+  ['orb-construct',14,'&& !target.construct',''],
+  ['orb-chance-limit',14,'Math.min(0.5, c)','Math.min(1, c)'],
+  ['orb-enumeration',14,'Object.keys(ORB_DEFS)',"['life']"],
+  ['channel-spool',14,'(caster.casting.hitSpool ?? 0) + 1','(caster.casting.hitSpool ?? 0) + 2'],
+  ['rouse-call',15,'this.rouseOnWound(target);','void target;'],
+  ['ambush-admission',16,'target.ambushArmed','false'],
+  ['stealth-radius',17,'> 320','>= 320'],
+  ['stealth-story',17,'if (a.dead ||','if (!sameStory(a, target) || a.dead ||'],
+  ['stealth-existing-origin',17,'if (!a.alertFrom)','if (true)'],
+  ['stealth-live-iteration',17,'of this.actors','of [...this.actors]'],
+  ['watch-aggro',18,'&& !target.aggroed',''],
+  ['watch-point-identity',18,'if (target.watchAt)','if (false)'],
+  ['watch-rung-max',18,'Math.max(target.watchRung,','Math.min(target.watchRung,'],
+  ['low-life-gate',19,'this.player.life < this.player.maxLife()','this.player.life > this.player.maxLife()'],
+  ['damage-rounding',20,'Math.round(dealt)','Math.floor(dealt)'],
+  ['damage-critical-size',20,'result.crit ? 18 : 13','13'],
+  ['cull-cue',21,'result.culled','false'],
+  ['clamp-cue',22,'result.clamped','false'],
+  ['poise-capture',23,'result.poiseBroke','false'],
+  ['shield-clear',24,'target.esBroke = false','target.esBroke = true'],
+  ['defense-depth',25,'target, depth','target, 0'],
+  ['captured-critical',26,'if (wasCrit)','if (result.crit)'],
+  ['trigger-depth',26,'inst.state?.trigDepth ?? 0','0'],
+  ['trigger-target-aim',26,'vec(target.pos.x, target.pos.y)','vec(caster.pos.x, caster.pos.y)'],
+  ['zero-roll-event',27,'packet.rollT !== undefined','packet.rollT'],
+  ['roll-fraction',27,'rollT: packet.rollT','rollT: (packet.rollT ?? 0) + 0.1'],
+  ['captured-damage-bank',28,'target, dealt, caster','target, result.total, caster'],
+];
+
+export function applyReactionFault(source,ast,reactions,fault){
+  const[name,index,needle,replacement]=fault,node=reactions[index];assert(node,name);
+  const text=node.getText(ast);assert.equal(text.split(needle).length,2,name+' selector');
+  const changed=text.replace(needle,replacement);assert.notEqual(changed,text,name);
+  return source.slice(0,node.getStart(ast))+changed+source.slice(node.end);
+}
