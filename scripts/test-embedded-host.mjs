@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import {pathToFileURL} from 'node:url';
 import {root, git, sha256, listFiles, writeJSON} from './reference-utils.mjs';
 import {buildEmbeddedExecutable} from './embedded-native-tools.mjs';
+import {embeddedProbeCases,verifyEmbeddedHostCase} from './embedded-host-case.mjs';
 import {itemPack} from './compile-item-content.mjs';
 import {passivePack} from './compile-passive-content.mjs';
 import {build, version as bundlerVersion} from '../.reference/node_modules/esbuild/lib/main.js';
@@ -30,7 +31,7 @@ const support = path.join(root, 'experiments/embedded-js/host-support.h');
 const supportBytes = fs.readFileSync(support);
 const allocationSource = path.join(root, 'experiments/embedded-js/tracked-allocator.h');
 const allocationBytes = fs.readFileSync(allocationSource);
-const toolSources = Object.fromEntries(['scripts/test-embedded-host.mjs', 'scripts/embedded-native-tools.mjs', 'scripts/native-tools.mjs']
+const toolSources = Object.fromEntries(['scripts/test-embedded-host.mjs', 'scripts/embedded-host-case.mjs', 'scripts/embedded-native-tools.mjs', 'scripts/native-tools.mjs']
   .map(file => [file, sha256(fs.readFileSync(path.join(root, file)))]));
 const directory = fs.mkdtempSync(path.join(root, '.artifacts/embedded-host-'));
 const receipt = path.join(directory, 'verification.json');
@@ -94,27 +95,10 @@ try {
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(directory, 'allocator.jsonl'))), {allocatorChecksPassed: true});
   report.allocatorChecksPassed = true;
 
-  const cases = [ ['success', 0, null], ['invalid-json', 2, /SyntaxError:/],
-    ['sdk-error', 2, /TypeError:/], ['interrupt', 2, /InternalError: interrupted/],
-    ['memory', 2, /InternalError: out of memory/], ['startup-memory', 3, null],
-    ['stack', 2, /RangeError: Maximum call stack size exceeded/] ];
-  for (const [mode, expectedCode, errorPattern] of cases) {
-    assert.equal(run(mode, binary, [bundle, input, mode]), expectedCode, mode);
-    const lines = fs.readFileSync(path.join(directory, mode + '.txt'), 'utf8').trim().split(/\r?\n/);
-    const stats = lines.filter(line => line.startsWith('{')).map(line => JSON.parse(line));
-    assert.equal(stats.length, 3, mode);
-    const errors = lines.filter(line => line.startsWith('exception:'));
-    assert.equal(errors.length, errorPattern ? 3 : 0, mode);
-    for (const error of errors) assert.match(error, errorPattern);
-    for (const [iteration, entry] of stats.entries()) {
-      assert.equal(entry.mode, mode); assert.equal(entry.iteration, iteration); assert.equal(entry.code, expectedCode);
-      assert.equal(entry.liveRequestedBytesAfterDispose, 0); assert.equal(entry.liveBlocksAfterDispose, 0);
-      assert(entry.peakRequestedBytes > 0 && entry.allocationRequests > 0);
-      assert.equal(entry.interruptCalls, mode === 'interrupt' ? 2 : 0);
-      if (mode === 'memory') assert(entry.peakRequestedBytes <= 1024 * 1024);
-      if (mode === 'startup-memory') assert(entry.peakRequestedBytes <= 32768);
-    }
+  for (const [mode] of embeddedProbeCases) {
+    const exitCode=run(mode,binary,[bundle,input,mode]);
     const output = fs.readFileSync(path.join(directory, mode + '.jsonl'), 'utf8');
+    const {stats,errors}=verifyEmbeddedHostCase({mode,exitCode,stderr:fs.readFileSync(path.join(directory,mode+'.txt'),'utf8'),stdout:output});
     if (mode === 'success') {
       const results = output.trim().split(/\r?\n/).map(line => JSON.parse(line));
       assert.equal(results.length, 3);
@@ -130,12 +114,16 @@ try {
       report.exactNumericComparisons = numbers * results.length;
       report.peakTrackedVmRequestedBytes = Math.max(...stats.map(entry => entry.peakRequestedBytes));
     } else assert.equal(output, '');
-    report.cases.push({mode, stats});
+    // load-memory repeats the exact bundle proven valid above, with only its
+    // heap budget reduced. Parser failure text can vary under allocation
+    // pressure; the stage, budget, exit code, empty output and cleanup are exact.
+    // The separate direct allocation case still requires the precise OOM error.
+    report.cases.push({mode, stats, errors});
     console.log({mode, runtimeCycles: stats.length, trackedAllocationsAfterDispose: 0});
   }
   report.raw = Object.fromEntries(fs.readdirSync(directory).filter(file => /\.(jsonl|txt)$/.test(file))
     .map(file => [file, sha256(fs.readFileSync(path.join(directory, file)))]));
-  report.runtimeCycles = 21;
+  report.runtimeCycles = 24;
   report.passed = true;
   report.status = 'completed';
 } catch (error) { report.status = 'failed'; throw error; }

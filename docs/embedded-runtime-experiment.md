@@ -71,6 +71,25 @@ each match all 5,153 numbers exactly, as well as structure, strings and ordering
 The unbundled and bundled Node observations agree. Error checks verify the actual
 runtime exceptions; original gameplay fixtures remain unchanged.
 
+A later Linux check at `4f017c5` exposed a fragile assumption in the memory case:
+the valid SDK bundle exhausted a 1 MiB parser budget but the VM reported a syntax
+error. The current host separates direct allocation failure from constrained
+bundle loading. A direct 2 MiB request under a 1 MiB limit must produce the exact
+out-of-memory error. The same bundle that passes normal execution must also fail
+under the constrained load budget, specifically during bundle evaluation, with
+empty output and complete cleanup. Its parser diagnostic is retained, rather
+than used to classify allocation pressure. Startup failure must occur during
+runtime or context construction. Every case records its stage and byte budget.
+
+The revised check runs 24 fresh runtime cycles. Three native fault variants
+disable the limit, throw an unrelated error, or skip bundle evaluation; each must
+be rejected. Run `node scripts/test-embedded-memory-controls.mjs` after the host
+check to repeat those controls using its existing pinned runtime object. The
+[repair evidence](../evidence/embedded-js/memory-probe-repair.json) retains the
+hosted failure, local results and rejected validation drafts. Production SDK
+modules, the native library ABI, upstream runtime and accepted gameplay fixtures
+are unchanged. Historical measurements below retain their original scope.
+
 The observed peak is 70,950,514 bytes (about 67.7 MiB) requested through the VM
 allocator, including parsed content and test observations. It excludes allocation
 prefixes, allocator overhead, native input buffers, executable memory and other

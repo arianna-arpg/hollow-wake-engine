@@ -1,0 +1,1261 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "4f017c527e2d844fe31542e712decdfd04078ad9",
+  "scope": "Development native-host memory diagnostics only. No SDK runtime, native library ABI, upstream VM, game source or accepted gameplay fixture changes.",
+  "runtimeMapSha256": "95e877f51a3577329d9925e422c8a06c36da3160b3420802021d39cd4ca69519",
+  "compiledFilesUnchanged": 270,
+  "verification": {
+    "runtimeCycles": 24,
+    "exactNumbersPerRuntime": 5153,
+    "exactNumericComparisons": 15459,
+    "faults": 3,
+    "allTrackedAllocationsDisposed": true
+  },
+  "cause": "A valid SDK bundle failed inside a 1 MiB parser budget on hosted Linux with a syntax error rather than an out-of-memory diagnostic. The same bundle passed normal native and both Node executions.",
+  "change": "A direct 2 MiB allocation under a 1 MiB limit now separately requires the exact VM out-of-memory exception. Constrained loading still rejects the same valid bundle at the bundle-evaluation stage, with exact budget, empty output and clean disposal; its diagnostic is retained without classifying it from error text. Runtime/context construction failures are explicitly distinguished. Native fault variants exercise the same verifier as CI.",
+  "local": {
+    "schemaVersion": 1,
+    "passed": true,
+    "status": "completed",
+    "runtime": "QuickJS-NG",
+    "version": "0.17.0",
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v24.9.0",
+    "bundlerVersion": "0.28.2",
+    "commit": "4f017c527e2d844fe31542e712decdfd04078ad9",
+    "hostSourceSha256": "0efa9793a1c6b77bbd5cf4ddad43c4b9f6c07bddca64475eb599021435c7d9ff",
+    "supportSourceSha256": "3a0c476def580a963a866d103d4a61cc3942b89ddb826d140e0d0dae734d9aad",
+    "allocationSourceSha256": "5c8e5cbf6412a3b9edf93826e190524221dc0cecc77f903690352f2a8c01ac0f",
+    "observationSourceSha256": "aa54e6a5ac16b388dcfe5416a4fa274b2beeac60f6cea1e5e52c34450a617555",
+    "sourceLockSha256": "f920648cfa2b7b8ca35597106d94d3a990360f0b8441c9039a72e74706da6ffa",
+    "upstreamFiles": {
+      "quickjs-amalgam.c": "7c853a67ce7b6db463018e44f1425cd019d9f004a012ca013f47e415eb43446c",
+      "quickjs.h": "747a77444ff04a910b57ca51dd998d7ee46895b1b9592d7d6051fd180317c44d"
+    },
+    "runtimeOutputs": 270,
+    "runtimeMapSha256": "95e877f51a3577329d9925e422c8a06c36da3160b3420802021d39cd4ca69519",
+    "inputSha256": "c5ea6f2b6ccc1f3147e79e92967675d592b7433063685034a02691b5e60d5ea9",
+    "toolSources": {
+      "scripts/test-embedded-host.mjs": "1ac237d56cfb394cfd85a1cb3b97449ec1aca859f0fd6dcc22dc2965f846ef41",
+      "scripts/embedded-host-case.mjs": "ad731f4941e0084e8d614850e8dbbb158cea3497e360b3f155282393a1688d40",
+      "scripts/embedded-native-tools.mjs": "c92fbe1e1af2d563fd6b58b3fd8ee152a1ba5a9c6200e4d75ba6cf9be745ecf5",
+      "scripts/native-tools.mjs": "80671f3913e94caaecc8d18ab0c87d95aa3cb978201f38896291a4b823db5b89"
+    },
+    "inputBytes": 12660289,
+    "cases": [
+      {
+        "mode": "success",
+        "stats": [
+          {
+            "mode": "success",
+            "iteration": 0,
+            "code": 0,
+            "phase": "encode",
+            "heapLimitBytes": 268435456,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 70963217,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 34604,
+            "reallocationRequests": 4072,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "success",
+            "iteration": 1,
+            "code": 0,
+            "phase": "encode",
+            "heapLimitBytes": 268435456,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 70963217,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 34604,
+            "reallocationRequests": 4072,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "success",
+            "iteration": 2,
+            "code": 0,
+            "phase": "encode",
+            "heapLimitBytes": 268435456,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 70963217,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 34604,
+            "reallocationRequests": 4072,
+            "interruptCalls": 0
+          }
+        ],
+        "errors": []
+      },
+      {
+        "mode": "invalid-json",
+        "stats": [
+          {
+            "mode": "invalid-json",
+            "iteration": 0,
+            "code": 2,
+            "phase": "input",
+            "heapLimitBytes": 268435456,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 1191433,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 1557,
+            "reallocationRequests": 435,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "invalid-json",
+            "iteration": 1,
+            "code": 2,
+            "phase": "input",
+            "heapLimitBytes": 268435456,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 1191433,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 1557,
+            "reallocationRequests": 435,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "invalid-json",
+            "iteration": 2,
+            "code": 2,
+            "phase": "input",
+            "heapLimitBytes": 268435456,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 1191433,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 1557,
+            "reallocationRequests": 435,
+            "interruptCalls": 0
+          }
+        ],
+        "errors": [
+          "exception: SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)",
+          "exception: SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)",
+          "exception: SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+        ]
+      },
+      {
+        "mode": "sdk-error",
+        "stats": [
+          {
+            "mode": "sdk-error",
+            "iteration": 0,
+            "code": 2,
+            "phase": "observe",
+            "heapLimitBytes": 268435456,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 32841720,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 15543,
+            "reallocationRequests": 542,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "sdk-error",
+            "iteration": 1,
+            "code": 2,
+            "phase": "observe",
+            "heapLimitBytes": 268435456,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 32841720,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 15543,
+            "reallocationRequests": 542,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "sdk-error",
+            "iteration": 2,
+            "code": 2,
+            "phase": "observe",
+            "heapLimitBytes": 268435456,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 32841720,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 15543,
+            "reallocationRequests": 542,
+            "interruptCalls": 0
+          }
+        ],
+        "errors": [
+          "exception: TypeError: cannot read property 'schemaVersion' of null",
+          "exception: TypeError: cannot read property 'schemaVersion' of null",
+          "exception: TypeError: cannot read property 'schemaVersion' of null"
+        ]
+      },
+      {
+        "mode": "interrupt",
+        "stats": [
+          {
+            "mode": "interrupt",
+            "iteration": 0,
+            "code": 2,
+            "phase": "interrupt",
+            "heapLimitBytes": 268435456,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 1191433,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 1558,
+            "reallocationRequests": 435,
+            "interruptCalls": 2
+          },
+          {
+            "mode": "interrupt",
+            "iteration": 1,
+            "code": 2,
+            "phase": "interrupt",
+            "heapLimitBytes": 268435456,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 1191433,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 1558,
+            "reallocationRequests": 435,
+            "interruptCalls": 2
+          },
+          {
+            "mode": "interrupt",
+            "iteration": 2,
+            "code": 2,
+            "phase": "interrupt",
+            "heapLimitBytes": 268435456,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 1191433,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 1558,
+            "reallocationRequests": 435,
+            "interruptCalls": 2
+          }
+        ],
+        "errors": [
+          "exception: InternalError: interrupted",
+          "exception: InternalError: interrupted",
+          "exception: InternalError: interrupted"
+        ]
+      },
+      {
+        "mode": "memory",
+        "stats": [
+          {
+            "mode": "memory",
+            "iteration": 0,
+            "code": 2,
+            "phase": "allocation",
+            "heapLimitBytes": 1048576,
+            "allocationProbeBytes": 2097152,
+            "peakRequestedBytes": 167544,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 66,
+            "reallocationRequests": 3,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "memory",
+            "iteration": 1,
+            "code": 2,
+            "phase": "allocation",
+            "heapLimitBytes": 1048576,
+            "allocationProbeBytes": 2097152,
+            "peakRequestedBytes": 167544,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 66,
+            "reallocationRequests": 3,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "memory",
+            "iteration": 2,
+            "code": 2,
+            "phase": "allocation",
+            "heapLimitBytes": 1048576,
+            "allocationProbeBytes": 2097152,
+            "peakRequestedBytes": 167544,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 66,
+            "reallocationRequests": 3,
+            "interruptCalls": 0
+          }
+        ],
+        "errors": [
+          "exception: InternalError: out of memory",
+          "exception: InternalError: out of memory",
+          "exception: InternalError: out of memory"
+        ]
+      },
+      {
+        "mode": "load-memory",
+        "stats": [
+          {
+            "mode": "load-memory",
+            "iteration": 0,
+            "code": 2,
+            "phase": "bundle",
+            "heapLimitBytes": 1048576,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 1048554,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 1166,
+            "reallocationRequests": 244,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "load-memory",
+            "iteration": 1,
+            "code": 2,
+            "phase": "bundle",
+            "heapLimitBytes": 1048576,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 1048554,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 1166,
+            "reallocationRequests": 244,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "load-memory",
+            "iteration": 2,
+            "code": 2,
+            "phase": "bundle",
+            "heapLimitBytes": 1048576,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 1048554,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 1166,
+            "reallocationRequests": 244,
+            "interruptCalls": 0
+          }
+        ],
+        "errors": [
+          "exception: InternalError: out of memory",
+          "exception: InternalError: out of memory",
+          "exception: InternalError: out of memory"
+        ]
+      },
+      {
+        "mode": "startup-memory",
+        "stats": [
+          {
+            "mode": "startup-memory",
+            "iteration": 0,
+            "code": 3,
+            "phase": "runtime",
+            "heapLimitBytes": 32768,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 31664,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 8,
+            "reallocationRequests": 0,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "startup-memory",
+            "iteration": 1,
+            "code": 3,
+            "phase": "runtime",
+            "heapLimitBytes": 32768,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 31664,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 8,
+            "reallocationRequests": 0,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "startup-memory",
+            "iteration": 2,
+            "code": 3,
+            "phase": "runtime",
+            "heapLimitBytes": 32768,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 31664,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 8,
+            "reallocationRequests": 0,
+            "interruptCalls": 0
+          }
+        ],
+        "errors": []
+      },
+      {
+        "mode": "stack",
+        "stats": [
+          {
+            "mode": "stack",
+            "iteration": 0,
+            "code": 2,
+            "phase": "stack",
+            "heapLimitBytes": 268435456,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 1191433,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 1559,
+            "reallocationRequests": 435,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "stack",
+            "iteration": 1,
+            "code": 2,
+            "phase": "stack",
+            "heapLimitBytes": 268435456,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 1191433,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 1559,
+            "reallocationRequests": 435,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "stack",
+            "iteration": 2,
+            "code": 2,
+            "phase": "stack",
+            "heapLimitBytes": 268435456,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 1191433,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 1559,
+            "reallocationRequests": 435,
+            "interruptCalls": 0
+          }
+        ],
+        "errors": [
+          "exception: RangeError: Maximum call stack size exceeded",
+          "exception: RangeError: Maximum call stack size exceeded",
+          "exception: RangeError: Maximum call stack size exceeded"
+        ]
+      }
+    ],
+    "scope": "Development executable with three fresh runtimes per case. No reusable native ABI, persistent-context, timing, engine-package or device result.",
+    "compilerBanner": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.38.33133 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+    "compilerFlags": [
+      "/nologo",
+      "/O2",
+      "/std:c11",
+      "/fp:strict",
+      "/MT",
+      "/experimental:c11atomics",
+      "/I<sdk>\\.artifacts\\quickjs-source-v017"
+    ],
+    "buildCommands": [
+      {
+        "command": "cl.exe",
+        "args": [
+          "/nologo",
+          "/O2",
+          "/std:c11",
+          "/fp:strict",
+          "/MT",
+          "/experimental:c11atomics",
+          "/I<sdk>\\.artifacts\\quickjs-source-v017",
+          "/W4",
+          "/WX",
+          "/c",
+          "<sdk>\\experiments\\embedded-js\\host.c",
+          "/Fo:<sdk>\\.artifacts\\embedded-host-GbogEJ\\host.obj"
+        ]
+      },
+      {
+        "command": "cl.exe",
+        "args": [
+          "/nologo",
+          "/O2",
+          "/std:c11",
+          "/fp:strict",
+          "/MT",
+          "/experimental:c11atomics",
+          "/I<sdk>\\.artifacts\\quickjs-source-v017",
+          "/c",
+          "<sdk>\\.artifacts\\quickjs-source-v017\\quickjs-amalgam.c",
+          "/Fo:<sdk>\\.artifacts\\embedded-host-GbogEJ\\quickjs-amalgam.obj"
+        ]
+      },
+      {
+        "command": "cl.exe",
+        "args": [
+          "/nologo",
+          "/MT",
+          "<sdk>\\.artifacts\\embedded-host-GbogEJ\\host.obj",
+          "<sdk>\\.artifacts\\embedded-host-GbogEJ\\quickjs-amalgam.obj",
+          "/Fe:<sdk>\\.artifacts\\embedded-host-GbogEJ\\host.exe"
+        ]
+      }
+    ],
+    "hostWarningsAsErrors": true,
+    "binarySha256": "4cc7ec870f3cf1d2339ff110e8da7fe3d4243e0f2e2e1aa5d47c6a1a4b5c4b9b",
+    "binaryBytes": 1291264,
+    "bundleSha256": "3620e50a4b005c281fa4da96db2e0828d786138c70ea1002c5d023b32589cd59",
+    "bundleBytes": 128133,
+    "nodeSourceAndBundleEqual": true,
+    "allocatorChecksPassed": true,
+    "exactNumbersPerRuntime": 5153,
+    "exactNumericComparisons": 15459,
+    "peakTrackedVmRequestedBytes": 70963217,
+    "raw": {
+      "allocator.jsonl": "e4283126360f43fad199d1b56554dff4a2738ef0a73bd04f7be4a82b47839005",
+      "allocator.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "build.txt": "2df511a86ad6ba1f6472bb9a533bd6fe6f6b71b7fced430773566cd523cf1eb7",
+      "interrupt.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "interrupt.txt": "d68634021d2af3cc21531022994e06ed3c0aec387a86ede5af893ecefa0a91ae",
+      "invalid-json.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "invalid-json.txt": "959ae8dec89305d9ea0352bf2c9dc3cc4efa35054d5e21d023217d867d007735",
+      "load-memory.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "load-memory.txt": "5c0500d00a62e78a18af3bf3a973586a6ae69d294da4a6a59bfa024310bba93a",
+      "memory.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "memory.txt": "ab993833a4cc8ab358d2861e8a13071a3abf08cffe0188a699950390ee4c387d",
+      "node-bundled.jsonl": "c9a9916962f49771acf298152e97a1944d02ec0762915bd052f144be9569f860",
+      "node-bundled.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "node-original.jsonl": "c9a9916962f49771acf298152e97a1944d02ec0762915bd052f144be9569f860",
+      "node-original.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sdk-error.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sdk-error.txt": "022224cd0b570025a6053b30a5186e7ef01c8d98d2fde97933be5bbb54253635",
+      "stack.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stack.txt": "67743a609fc3062349cbc33ce80d85aac55def6e3ab84691207747903937f367",
+      "startup-memory.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "startup-memory.txt": "c1a1ccf37e14922be361d9f0090d99d72811fb5b09c3f8fb21c7dfeb1318193e",
+      "success.jsonl": "8d1f30e54b05477a3aa3fa7125af8e591253af14ce55fe5bb2e8f7f9e010bd61",
+      "success.txt": "5336d47d9bbfd382c21ffe5182cd3bf97ca20a0396bf8607efae0f767d4ebe5b"
+    },
+    "runtimeCycles": 24,
+    "inputsUnchanged": true
+  },
+  "faultControls": {
+    "passed": true,
+    "directory": "<sdk>\\.artifacts\\memory-probe-faults-hW2KBT",
+    "control": "<sdk>\\.artifacts\\embedded-host-GbogEJ\\verification.json",
+    "hostSourceSha256": "0efa9793a1c6b77bbd5cf4ddad43c4b9f6c07bddca64475eb599021435c7d9ff",
+    "verifierSha256": "ad731f4941e0084e8d614850e8dbbb158cea3497e360b3f155282393a1688d40",
+    "runtimeMapSha256": "95e877f51a3577329d9925e422c8a06c36da3160b3420802021d39cd4ca69519",
+    "results": [
+      {
+        "name": "disabled-limit",
+        "detected": true,
+        "exitCode": 4,
+        "stats": [
+          {
+            "mode": "memory",
+            "iteration": 0,
+            "code": 4,
+            "phase": "allocation",
+            "heapLimitBytes": 268435456,
+            "allocationProbeBytes": 2097152,
+            "peakRequestedBytes": 2264704,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 67,
+            "reallocationRequests": 3,
+            "interruptCalls": 0
+          }
+        ],
+        "mutatedSourceSha256": "0a81a41ddf3590f1136151abd2a3d6f0e63f783f0920f40e911fde723f7105f7"
+      },
+      {
+        "name": "wrong-exception",
+        "detected": true,
+        "exitCode": 2,
+        "stats": [
+          {
+            "mode": "memory",
+            "iteration": 0,
+            "code": 2,
+            "phase": "allocation",
+            "heapLimitBytes": 1048576,
+            "allocationProbeBytes": 2097152,
+            "peakRequestedBytes": 167544,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 66,
+            "reallocationRequests": 3,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "memory",
+            "iteration": 1,
+            "code": 2,
+            "phase": "allocation",
+            "heapLimitBytes": 1048576,
+            "allocationProbeBytes": 2097152,
+            "peakRequestedBytes": 167544,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 66,
+            "reallocationRequests": 3,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "memory",
+            "iteration": 2,
+            "code": 2,
+            "phase": "allocation",
+            "heapLimitBytes": 1048576,
+            "allocationProbeBytes": 2097152,
+            "peakRequestedBytes": 167544,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 66,
+            "reallocationRequests": 3,
+            "interruptCalls": 0
+          }
+        ],
+        "mutatedSourceSha256": "514ff4355a9be63b103a9f3d1e91309399c94dfb8a59843fe3e70a040206d244"
+      },
+      {
+        "name": "wrong-stage",
+        "detected": true,
+        "exitCode": 2,
+        "stats": [
+          {
+            "mode": "load-memory",
+            "iteration": 0,
+            "code": 2,
+            "phase": "input",
+            "heapLimitBytes": 1048576,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 1048264,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 490,
+            "reallocationRequests": 17,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "load-memory",
+            "iteration": 1,
+            "code": 2,
+            "phase": "input",
+            "heapLimitBytes": 1048576,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 1048264,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 490,
+            "reallocationRequests": 17,
+            "interruptCalls": 0
+          },
+          {
+            "mode": "load-memory",
+            "iteration": 2,
+            "code": 2,
+            "phase": "input",
+            "heapLimitBytes": 1048576,
+            "allocationProbeBytes": 0,
+            "peakRequestedBytes": 1048264,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 490,
+            "reallocationRequests": 17,
+            "interruptCalls": 0
+          }
+        ],
+        "mutatedSourceSha256": "c7dc663ab57dfab3fec67da10f87c142b4e19b2b761749425505763feec8e9e3"
+      }
+    ],
+    "inputsUnchanged": true
+  },
+  "hostedPredecessor": {
+    "run": 40995470993,
+    "linuxFailure": {
+      "schemaVersion": 1,
+      "passed": false,
+      "status": "failed",
+      "runtime": "QuickJS-NG",
+      "version": "0.17.0",
+      "platform": "linux",
+      "arch": "x64",
+      "node": "v24.9.0",
+      "bundlerVersion": "0.28.2",
+      "commit": "4f017c527e2d844fe31542e712decdfd04078ad9",
+      "hostSourceSha256": "71f0be6842db0da8d1e4f099c0542d078ff625db1c861d4e9647720d624c0a56",
+      "supportSourceSha256": "3a0c476def580a963a866d103d4a61cc3942b89ddb826d140e0d0dae734d9aad",
+      "allocationSourceSha256": "5c8e5cbf6412a3b9edf93826e190524221dc0cecc77f903690352f2a8c01ac0f",
+      "observationSourceSha256": "aa54e6a5ac16b388dcfe5416a4fa274b2beeac60f6cea1e5e52c34450a617555",
+      "sourceLockSha256": "f920648cfa2b7b8ca35597106d94d3a990360f0b8441c9039a72e74706da6ffa",
+      "upstreamFiles": {
+        "quickjs-amalgam.c": "7c853a67ce7b6db463018e44f1425cd019d9f004a012ca013f47e415eb43446c",
+        "quickjs.h": "747a77444ff04a910b57ca51dd998d7ee46895b1b9592d7d6051fd180317c44d"
+      },
+      "runtimeOutputs": 270,
+      "runtimeMapSha256": "95e877f51a3577329d9925e422c8a06c36da3160b3420802021d39cd4ca69519",
+      "inputSha256": "c5ea6f2b6ccc1f3147e79e92967675d592b7433063685034a02691b5e60d5ea9",
+      "toolSources": {
+        "scripts/test-embedded-host.mjs": "317f78d16db4a705bb640caaa176c937604157fd687e3371303254f9d3be10bc",
+        "scripts/embedded-native-tools.mjs": "c92fbe1e1af2d563fd6b58b3fd8ee152a1ba5a9c6200e4d75ba6cf9be745ecf5",
+        "scripts/native-tools.mjs": "80671f3913e94caaecc8d18ab0c87d95aa3cb978201f38896291a4b823db5b89"
+      },
+      "inputBytes": 12660289,
+      "cases": [
+        {
+          "mode": "success",
+          "stats": [
+            {
+              "mode": "success",
+              "iteration": 0,
+              "code": 0,
+              "peakRequestedBytes": 70963201,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 38279,
+              "reallocationRequests": 4072,
+              "interruptCalls": 0
+            },
+            {
+              "mode": "success",
+              "iteration": 1,
+              "code": 0,
+              "peakRequestedBytes": 70963201,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 38279,
+              "reallocationRequests": 4072,
+              "interruptCalls": 0
+            },
+            {
+              "mode": "success",
+              "iteration": 2,
+              "code": 0,
+              "peakRequestedBytes": 70963201,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 38279,
+              "reallocationRequests": 4072,
+              "interruptCalls": 0
+            }
+          ]
+        },
+        {
+          "mode": "invalid-json",
+          "stats": [
+            {
+              "mode": "invalid-json",
+              "iteration": 0,
+              "code": 2,
+              "peakRequestedBytes": 1188721,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 1552,
+              "reallocationRequests": 435,
+              "interruptCalls": 0
+            },
+            {
+              "mode": "invalid-json",
+              "iteration": 1,
+              "code": 2,
+              "peakRequestedBytes": 1188721,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 1552,
+              "reallocationRequests": 435,
+              "interruptCalls": 0
+            },
+            {
+              "mode": "invalid-json",
+              "iteration": 2,
+              "code": 2,
+              "peakRequestedBytes": 1188721,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 1552,
+              "reallocationRequests": 435,
+              "interruptCalls": 0
+            }
+          ]
+        },
+        {
+          "mode": "sdk-error",
+          "stats": [
+            {
+              "mode": "sdk-error",
+              "iteration": 0,
+              "code": 2,
+              "peakRequestedBytes": 32841704,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 19403,
+              "reallocationRequests": 542,
+              "interruptCalls": 0
+            },
+            {
+              "mode": "sdk-error",
+              "iteration": 1,
+              "code": 2,
+              "peakRequestedBytes": 32841704,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 19403,
+              "reallocationRequests": 542,
+              "interruptCalls": 0
+            },
+            {
+              "mode": "sdk-error",
+              "iteration": 2,
+              "code": 2,
+              "peakRequestedBytes": 32841704,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 19403,
+              "reallocationRequests": 542,
+              "interruptCalls": 0
+            }
+          ]
+        },
+        {
+          "mode": "interrupt",
+          "stats": [
+            {
+              "mode": "interrupt",
+              "iteration": 0,
+              "code": 2,
+              "peakRequestedBytes": 1188721,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 1553,
+              "reallocationRequests": 435,
+              "interruptCalls": 2
+            },
+            {
+              "mode": "interrupt",
+              "iteration": 1,
+              "code": 2,
+              "peakRequestedBytes": 1188721,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 1553,
+              "reallocationRequests": 435,
+              "interruptCalls": 2
+            },
+            {
+              "mode": "interrupt",
+              "iteration": 2,
+              "code": 2,
+              "peakRequestedBytes": 1188721,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 1553,
+              "reallocationRequests": 435,
+              "interruptCalls": 2
+            }
+          ]
+        }
+      ],
+      "scope": "Development executable with three fresh runtimes per case. No reusable native ABI, persistent-context, timing, engine-package or device result.",
+      "compilerBanner": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+      "compilerFlags": [
+        "-std=gnu11",
+        "-O2",
+        "-D_GNU_SOURCE",
+        "-funsigned-char",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fvisibility=hidden",
+        "-fPIC",
+        "-pthread",
+        "-isystem",
+        "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/embedded-host-upstream"
+      ],
+      "buildCommands": [
+        {
+          "command": "cc",
+          "args": [
+            "-std=gnu11",
+            "-O2",
+            "-D_GNU_SOURCE",
+            "-funsigned-char",
+            "-fno-fast-math",
+            "-ffp-contract=off",
+            "-fvisibility=hidden",
+            "-fPIC",
+            "-pthread",
+            "-isystem",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/embedded-host-upstream",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-c",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/experiments/embedded-js/host.c",
+            "-o",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/embedded-host-GI0bKS/host.o"
+          ]
+        },
+        {
+          "command": "cc",
+          "args": [
+            "-std=gnu11",
+            "-O2",
+            "-D_GNU_SOURCE",
+            "-funsigned-char",
+            "-fno-fast-math",
+            "-ffp-contract=off",
+            "-fvisibility=hidden",
+            "-fPIC",
+            "-pthread",
+            "-isystem",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/embedded-host-upstream",
+            "-c",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/embedded-host-upstream/quickjs-amalgam.c",
+            "-o",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/embedded-host-GI0bKS/quickjs-amalgam.o"
+          ]
+        },
+        {
+          "command": "cc",
+          "args": [
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/embedded-host-GI0bKS/host.o",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/embedded-host-GI0bKS/quickjs-amalgam.o",
+            "-lm",
+            "-ldl",
+            "-pthread",
+            "-o",
+            "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/embedded-host-GI0bKS/host"
+          ]
+        }
+      ],
+      "hostWarningsAsErrors": true,
+      "binarySha256": "f22e590a17f97d3ca61f12a76adc8022a248a7bb61b04de32aaf74c28a9da83c",
+      "binaryBytes": 1243440,
+      "bundleSha256": "3620e50a4b005c281fa4da96db2e0828d786138c70ea1002c5d023b32589cd59",
+      "bundleBytes": 128133,
+      "nodeSourceAndBundleEqual": true,
+      "allocatorChecksPassed": true,
+      "exactNumbersPerRuntime": 5153,
+      "exactNumericComparisons": 15459,
+      "peakTrackedVmRequestedBytes": 70963201,
+      "inputsUnchanged": true
+    },
+    "windowsAttackReplay": {
+      "schemaVersion": 1,
+      "passed": true,
+      "directory": "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\native-attack-course-or7Q57",
+      "commit": "4f017c527e2d844fe31542e712decdfd04078ad9",
+      "node": "v24.9.0",
+      "bundlerVersion": "0.28.2",
+      "platform": "win32",
+      "arch": "x64",
+      "sourceHashes": {
+        "scripts/native-attack-comparison.mjs": "9737e1b0922f779716c58ee48cd07f2c4ff2aef6dea9914fcb6e78fa92751711",
+        "scripts/native-attack-observer.mjs": "c14f2b378623e79862f0619bebb03e49b5a998b766d34335f1aa4721a9339417",
+        "scripts/test-native-attack-course.mjs": "42d9032419599276e851835d6437af51625f825209324a28987f0ebeb76ea9d2",
+        "experiments/embedded-js/course-services.mjs": "422972288c57172b6316ef7df5db27b3f29ffdd97e8a1cde4cef33c6985c430a",
+        "experiments/embedded-js/session-host.c": "d4e4decec9ba2f3c9bf22ad5b5040c80bb06fb8da46d34ae4f0c8edf0d9dc5f9",
+        "experiments/embedded-js/host-support.h": "3a0c476def580a963a866d103d4a61cc3942b89ddb826d140e0d0dae734d9aad",
+        "experiments/embedded-js/tracked-allocator.h": "5c8e5cbf6412a3b9edf93826e190524221dc0cecc77f903690352f2a8c01ac0f",
+        "scripts/embedded-native-tools.mjs": "c92fbe1e1af2d563fd6b58b3fd8ee152a1ba5a9c6200e4d75ba6cf9be745ecf5",
+        "scripts/native-tools.mjs": "80671f3913e94caaecc8d18ab0c87d95aa3cb978201f38896291a4b823db5b89",
+        "baseline/attack-sequences/acceptance.json": "9c6717606b0c9f4820e868afd492e078589e0a10c7c20a0000a8bd6bb94fcd79",
+        "reference/export-attack-sequences.ts": "36f5b3fa6078bd3e77295671feac5ce5d6b947dfab7912d1eb39f2772b5cf1c5",
+        "baseline/attack-sequences/observations.json.gz": "df7ae067399ce626330693cf7e294920942618874e2676a51396ccdba6b1ea77",
+        "experiments/embedded-js/native/consumer.cpp": "d46fe4c20255167b85a2cfb9afa96cad10bb7871182b2ee9d873eda106c438a0",
+        "experiments/embedded-js/native/dotnet/Consumer.csproj": "5752c7f35a5b6b7f286e0e9fe3fc1ae94e4935873e07179a729777e0b79804cc",
+        "experiments/embedded-js/native/dotnet/Embedded.cs": "c6cea31a4ca20ed3373fdc53159477e9db38f77512c135d6209a8c057ea35000",
+        "experiments/embedded-js/native/dotnet/NuGet.Config": "2142cfb2dfa2c7feefbe40fabcc68b0dfecadafa99a1db9b70239d977cf2a7ef",
+        "experiments/embedded-js/native/dotnet/Program.cs": "ea866913c81e6f6be8d72da91e193e132bc94790bbe8a44b555347d5e22a861c",
+        "experiments/embedded-js/native/hwe_embedded.c": "382b4c0a404b7219feeb35742aaff0b2136c8df65c1cf93e634a9ee9e33f155a",
+        "experiments/embedded-js/native/hwe_embedded.h": "29fb4f208074cd4d6407482900479322cbd21d1e722851cf5617b732aac72978"
+      },
+      "originalSourceMapSha256": "384db880fa4ce06031caba166b17155bafc2e61f71ee32f8960b0e35add54ee9",
+      "gameSourceMapSha256": "f1f4a09f5d1e5234cb18acb8875e3d24a0e0739c8db84e752bba4d7705286510",
+      "installedPackageMapSha256": "c74788e5775c8edfe1532b0e25370eac08b52568e6b097d404363576b7090222",
+      "runtimeMapSha256": "95e877f51a3577329d9925e422c8a06c36da3160b3420802021d39cd4ca69519",
+      "referenceSha256": "7b20c2c208f9f6f5ab26a7432e00afaeca97562415f2ce0ce4f0f3d027b3843a",
+      "runtimeVersion": "0.17.0",
+      "scope": "Full original/installed-game Cleave course in a development native driver. Includes original World, content, headless shims and test observation storage. No new engine API, stable package, performance or device acceptance.",
+      "runs": [
+        {
+          "label": "original",
+          "passed": true,
+          "bundleBytes": 13563103,
+          "bundleSha256": "768d84448ce70431d05955b9f5962da55671633c6d7c3c816d32f2fddba297a9",
+          "cloneChecks": 931,
+          "metrics": {
+            "code": 0,
+            "completedRequests": 33,
+            "peakRequestedBytes": 157112357,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 304536
+          },
+          "nodeExact": true,
+          "comparison": {
+            "numbers": 150608,
+            "differences": [
+              {
+                "path": "$/19/value/rows/2/worlds/0/actors/2/facing",
+                "actual": 2.0067420640161253,
+                "expected": 2.0067420640161258,
+                "absoluteError": 4.440892098500626e-16,
+                "kind": "facing"
+              },
+              {
+                "path": "$/19/value/rows/3/worlds/0/actors/2/facing",
+                "actual": 2.0067420640161253,
+                "expected": 2.0067420640161258,
+                "absoluteError": 4.440892098500626e-16,
+                "kind": "facing"
+              }
+            ]
+          },
+          "libraryComparison": {
+            "numbers": 150608,
+            "differences": []
+          },
+          "libraryMetrics": {
+            "passed": true,
+            "requests": 33,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 157112357,
+            "bufferOwnership": true,
+            "threadMigration": true,
+            "concurrentCancellation": true,
+            "unloadReload": true
+          }
+        },
+        {
+          "label": "installed",
+          "passed": true,
+          "bundleBytes": 13855801,
+          "bundleSha256": "0b57ec70f616445d0cb54e28b6e6a78747804a8905bbab356da1634f5bf5c86e",
+          "cloneChecks": 931,
+          "metrics": {
+            "code": 0,
+            "completedRequests": 33,
+            "peakRequestedBytes": 199061891,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 365483
+          },
+          "nodeExact": true,
+          "comparison": {
+            "numbers": 150608,
+            "differences": [
+              {
+                "path": "$/19/value/rows/2/worlds/0/actors/2/facing",
+                "actual": 2.0067420640161253,
+                "expected": 2.0067420640161258,
+                "absoluteError": 4.440892098500626e-16,
+                "kind": "facing"
+              },
+              {
+                "path": "$/19/value/rows/3/worlds/0/actors/2/facing",
+                "actual": 2.0067420640161253,
+                "expected": 2.0067420640161258,
+                "absoluteError": 4.440892098500626e-16,
+                "kind": "facing"
+              }
+            ]
+          },
+          "libraryComparison": {
+            "numbers": 150608,
+            "differences": []
+          },
+          "libraryMetrics": {
+            "passed": true,
+            "requests": 33,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 199061891,
+            "bufferOwnership": true,
+            "threadMigration": true,
+            "concurrentCancellation": true,
+            "unloadReload": true
+          }
+        },
+        {
+          "label": "early-freeze-fault",
+          "passed": true,
+          "bundleBytes": 13855783,
+          "bundleSha256": "0d80d6f4d628ee2292088ea224ab097aae633a2ba4a83b4a01d743f1b0e96d6d",
+          "cloneChecks": 931,
+          "metrics": {
+            "code": 2,
+            "completedRequests": 0,
+            "peakRequestedBytes": 101235872,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 162677
+          },
+          "nodeExact": true,
+          "detected": true
+        }
+      ],
+      "compilerBanner": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.51.36260 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+      "buildCommands": [
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/O2",
+            "/std:c11",
+            "/fp:strict",
+            "/MT",
+            "/experimental:c11atomics",
+            "/ID:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\embedded-host-upstream",
+            "/W4",
+            "/WX",
+            "/c",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\experiments\\embedded-js\\session-host.c",
+            "/Fo:D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\native-attack-course-or7Q57\\native\\course-host.obj"
+          ]
+        },
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/O2",
+            "/std:c11",
+            "/fp:strict",
+            "/MT",
+            "/experimental:c11atomics",
+            "/ID:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\embedded-host-upstream",
+            "/c",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\embedded-host-upstream\\quickjs-amalgam.c",
+            "/Fo:D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\native-attack-course-or7Q57\\native\\quickjs-amalgam.obj"
+          ]
+        },
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/MT",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\native-attack-course-or7Q57\\native\\course-host.obj",
+            "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\native-attack-course-or7Q57\\native\\quickjs-amalgam.obj",
+            "/Fe:D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\native-attack-course-or7Q57\\native\\course-host.exe"
+          ]
+        }
+      ],
+      "binarySha256": "e7626afae38896e698b128a804ceaea85142360a5d30a295972acb7ad1918fa8",
+      "library": {
+        "compilerBanner": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.51.36260 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+        "buildCommands": [
+          {
+            "command": "cl.exe",
+            "args": [
+              "/nologo",
+              "/O2",
+              "/std:c11",
+              "/fp:strict",
+              "/MT",
+              "/experimental:c11atomics",
+              "/ID:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\embedded-host-upstream",
+              "/W4",
+              "/WX",
+              "/DHWE_JS_BUILD_SHARED",
+              "/c",
+              "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\experiments\\embedded-js\\native\\hwe_embedded.c",
+              "/Fo:D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\native-attack-course-or7Q57\\library\\hwe_embedded.obj"
+            ]
+          },
+          {
+            "command": "cl.exe",
+            "args": [
+              "/nologo",
+              "/O2",
+              "/std:c11",
+              "/fp:strict",
+              "/MT",
+              "/experimental:c11atomics",
+              "/ID:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\embedded-host-upstream",
+              "/c",
+              "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\embedded-host-upstream\\quickjs-amalgam.c",
+              "/Fo:D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\native-attack-course-or7Q57\\library\\quickjs-amalgam.obj"
+            ]
+          },
+          {
+            "command": "cl.exe",
+            "args": [
+              "/nologo",
+              "/MT",
+              "/LD",
+              "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\native-attack-course-or7Q57\\library\\hwe_embedded.obj",
+              "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\native-attack-course-or7Q57\\library\\quickjs-amalgam.obj",
+              "/Fe:D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\native-attack-course-or7Q57\\library\\hwe_embedded.dll"
+            ]
+          },
+          {
+            "command": "cl.exe",
+            "args": [
+              "/nologo",
+              "/O2",
+              "/W4",
+              "/WX",
+              "/std:c++17",
+              "/utf-8",
+              "/EHsc",
+              "/MT",
+              "D:\\a\\hollow-wake-engine\\hollow-wake-engine\\experiments\\embedded-js\\native\\consumer.cpp",
+              "/Fo:D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\native-attack-course-or7Q57\\library\\consumer.obj",
+              "/Fe:D:\\a\\hollow-wake-engine\\hollow-wake-engine\\.artifacts\\native-attack-course-or7Q57\\library\\consumer.exe",
+              "/link",
+              "/STACK:2097152"
+            ]
+          }
+        ],
+        "librarySha256": "82da77ef4de01312b793008f1db08715a8b3cd9416c7ad3adbfc2be8964a671e",
+        "consumerSha256": "f4707e526f7d57ab32d95f2114d413eda369e4f79fcc3d5ae7471e28e194a4e3"
+      },
+      "originalAndInstalledNative": {
+        "numbers": 150608,
+        "differences": []
+      },
+      "inputsUnchanged": true
+    }
+  },
+  "draftRepairs": [
+    "The first stage assertion assumed the 32 KiB startup failure reached context creation; Windows correctly rejected runtime construction earlier. Both construction stages are now accepted, and the rejected report is retained.",
+    "The first fault runner read the build directory from the verification body instead of its location receipt. It failed before compiling or running a fault; the error is retained."
+  ],
+  "preserved": {
+    "originalStableFiles": 4104,
+    "reviewedConcurrentUiPaths": 20,
+    "originalWrites": false,
+    "sdkMainUnchanged": true,
+    "managedGameUnchanged": true
+  },
+  "sources": {
+    ".github/workflows/embedded-host.yml": "a7cb4bb676445bd20375eb2a4031dcc4e24ed0577e6998cbead98651e708847c",
+    "docs/embedded-runtime-experiment.md": "840c802ee35bdd41456279538bfd172f8f1173938cff72920e9031695377eb2d",
+    "experiments/embedded-js/host.c": "0efa9793a1c6b77bbd5cf4ddad43c4b9f6c07bddca64475eb599021435c7d9ff",
+    "scripts/embedded-host-case.mjs": "ad731f4941e0084e8d614850e8dbbb158cea3497e360b3f155282393a1688d40",
+    "scripts/test-embedded-host.mjs": "1ac237d56cfb394cfd85a1cb3b97449ec1aca859f0fd6dcc22dc2965f846ef41",
+    "scripts/test-embedded-memory-controls.mjs": "536a9040472aa110bc350e10c14bb6d14e92743015009b1631c41028b1982e1e"
+  },
+  "raw": {
+    "path": "evidence/embedded-js/memory-probe-repair-raw.json.gz",
+    "bytes": 138366,
+    "sha256": "8f3e4657ef585c8e259f5224c57d612e95f7bc957e5c78f8578bb107686c9338",
+    "uncompressedSha256": "ab74641bbb4fad553676dc10614beb72b3838d72b2b5c33bfe006e1f5914fc00"
+  },
+  "acceptance": {
+    "localNativeDiagnostics": true,
+    "newHostedLinux": false,
+    "physicalDevices": false,
+    "completeSdk": false
+  }
+}

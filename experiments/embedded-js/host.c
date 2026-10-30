@@ -5,9 +5,11 @@ static int run_once(const char *bundle, size_t bundle_size, const char *input,
                     size_t input_size, const char *mode, unsigned iteration) {
     int code = 0;
     size_t json_size = 0;
+    size_t allocation_probe_bytes = 0;
+    const char *phase = "runtime";
     Heap heap = {0};
     heap.limit = 256 * 1024 * 1024;
-    if (!strcmp(mode, "memory")) heap.limit = 1024 * 1024;
+    if (!strcmp(mode, "memory") || !strcmp(mode, "load-memory")) heap.limit = 1024 * 1024;
     if (!strcmp(mode, "startup-memory")) heap.limit = 32768;
     JSRuntime *runtime = NULL;
     JSContext *context = NULL;
@@ -22,22 +24,38 @@ static int run_once(const char *bundle, size_t bundle_size, const char *input,
     JS_SetMemoryLimit(runtime, heap.limit);
     /* Leave headroom below this probe executable's native thread stack. */
     JS_SetMaxStackSize(runtime, 256 * 1024);
+    phase = "context";
     context = JS_NewContext(runtime);
     if (!context) { code = 3; goto cleanup; }
+    if (!strcmp(mode, "memory")) {
+        /* Exercise allocation failure directly, independently of where a
+         * changing SDK bundle exhausts the parser's budget. js_malloc installs
+         * the VM's out-of-memory exception; unexpected success must fail. */
+        phase = "allocation";
+        allocation_probe_bytes = 2 * 1024 * 1024;
+        void *probe = js_malloc(context, allocation_probe_bytes);
+        code = probe ? 4 : 2;
+        if (probe) js_free(context, probe);
+        goto cleanup;
+    }
+    phase = "bundle";
     evaluated = JS_Eval(context, bundle, bundle_size, "sdk-bundle.js", JS_EVAL_TYPE_GLOBAL);
     if (JS_IsException(evaluated)) { code = 2; goto cleanup; }
     if (!strcmp(mode, "interrupt")) {
+        phase = "interrupt";
         JS_SetInterruptHandler(runtime, interrupt, &polling);
         result = JS_Eval(context, "for (;;) {}", 11, "interrupt-test.js", JS_EVAL_TYPE_GLOBAL);
         code = JS_IsException(result) ? 2 : 4;
         goto cleanup;
     }
     if (!strcmp(mode, "stack")) {
+        phase = "stack";
         const char *recursive = "function recurse() { return 1 + recurse(); } recurse();";
         result = JS_Eval(context, recursive, strlen(recursive), "stack-test.js", JS_EVAL_TYPE_GLOBAL);
         code = JS_IsException(result) ? 2 : 4;
         goto cleanup;
     }
+    phase = "input";
     value = !strcmp(mode, "invalid-json")
         ? JS_ParseJSON(context, "{", 1, "bad.json")
         : JS_ParseJSON(context, input, input_size, "input.json");
@@ -52,10 +70,12 @@ static int run_once(const char *bundle, size_t bundle_size, const char *input,
     function = JS_GetPropertyStr(context, exports, "observe");
     if (JS_IsException(function)) { code = 2; goto cleanup; }
     if (!JS_IsFunction(context, function)) { code = 4; goto cleanup; }
+    phase = "observe";
     result = JS_Call(context, function, JS_UNDEFINED, 1, &value);
     if (JS_IsException(result)) { code = 2; goto cleanup; }
     /* This probe has a synchronous contract; silently discarding jobs is invalid. */
     if (JS_IsJobPending(runtime)) { code = 4; goto cleanup; }
+    phase = "encode";
     encoded = JS_JSONStringify(context, result, JS_UNDEFINED, JS_UNDEFINED);
     if (JS_IsException(encoded)) { code = 2; goto cleanup; }
     json = JS_ToCStringLen(context, &json_size, encoded);
@@ -79,10 +99,11 @@ cleanup:
     if (runtime) JS_FreeRuntime(runtime);
     if (heap.live || heap.blocks) code = 9;
     fprintf(stderr, "{\"mode\":\"%s\",\"iteration\":%u,\"code\":%d,"
+        "\"phase\":\"%s\",\"heapLimitBytes\":%zu,\"allocationProbeBytes\":%zu,"
         "\"peakRequestedBytes\":%zu,\"liveRequestedBytesAfterDispose\":%zu,"
         "\"liveBlocksAfterDispose\":%zu,\"allocationRequests\":%zu,"
         "\"reallocationRequests\":%zu,\"interruptCalls\":%u}\n",
-        mode, iteration, code, heap.peak, heap.live, heap.blocks,
+        mode, iteration, code, phase, heap.limit, allocation_probe_bytes, heap.peak, heap.live, heap.blocks,
         heap.allocations, heap.reallocations, polling.calls);
     return code;
 }
@@ -96,7 +117,7 @@ int main(int argc, char **argv) {
     const char *mode = argv[3];
     if (strcmp(mode, "success") && strcmp(mode, "invalid-json") &&
         strcmp(mode, "sdk-error") && strcmp(mode, "interrupt") &&
-        strcmp(mode, "memory") && strcmp(mode, "startup-memory") && strcmp(mode, "stack")) return 5;
+        strcmp(mode, "memory") && strcmp(mode, "load-memory") && strcmp(mode, "startup-memory") && strcmp(mode, "stack")) return 5;
     size_t bundle_size = 0, input_size = 0;
     char *bundle = read_file(argv[1], &bundle_size);
     char *input = read_file(argv[2], &input_size);

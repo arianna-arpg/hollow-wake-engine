@@ -5,10 +5,13 @@ on:
       - '.github/workflows/embedded-host.yml'
       - 'experiments/embedded-js/**'
       - 'scripts/test-embedded-host.mjs'
+      - 'scripts/test-embedded-memory-controls.mjs'
+      - 'scripts/embedded-host-case.mjs'
       - 'scripts/test-embedded-session.mjs'
       - 'scripts/test-embedded-library.mjs'
       - 'scripts/test-native-attack-course.mjs'
       - 'scripts/native-attack-comparison.mjs'
+      - 'scripts/native-attack-observer.mjs'
       - 'adapters/hollow-wake/**'
       - 'scripts/benchmark-embedded-library.mjs'
       - 'experiments/item-index/**'
@@ -77,6 +80,8 @@ jobs:
           } finally { $archive.Dispose() }
       - name: Verify compatibility, limits and disposal
         run: node scripts/test-embedded-host.mjs --amalgam-dir .artifacts/embedded-host-upstream
+      - name: Reject disabled memory limits and unrelated failures
+        run: node scripts/test-embedded-memory-controls.mjs
       - name: Verify persistent sessions and batched calls
         run: node scripts/test-embedded-session.mjs --amalgam-dir .artifacts/embedded-host-upstream
       - name: Verify library ownership and independent consumers
@@ -142,6 +147,12 @@ jobs:
             .artifacts/native-attack-course-*/*/native.txt
             .artifacts/native-attack-course-*/*/library.txt
             .artifacts/embedded-host-latest.json
+            .artifacts/memory-probe-fault-verification.json
+            .artifacts/memory-probe-faults-*/verification.json
+            .artifacts/memory-probe-faults-*/*/build.txt
+            .artifacts/memory-probe-faults-*/*/commands.json
+            .artifacts/memory-probe-faults-*/*/host.c
+            .artifacts/memory-probe-faults-*/*/stderr.txt
             .artifacts/embedded-host-*/verification.json
             .artifacts/embedded-host-*/input.json
             .artifacts/embedded-host-*/build-commands.json
