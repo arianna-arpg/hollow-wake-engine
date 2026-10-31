@@ -42,6 +42,18 @@ retains those receipts and the unchanged source/runtime maps. The dedicated
 Windows/Linux workflow is a separate hosted gate; this local record does not
 claim its result in advance.
 
+The first hosted run at `3edec57` exposed a clean-start defect in the verification
+commands: the missing `.artifacts` parent stopped temporary-directory creation
+before either platform reached gameplay capture. The commands now create their
+own output parent. Replay and fault testing run in separate fresh jobs on each
+platform so one command cannot hide the other's setup dependency. Frozen fixture
+bytes and gameplay behavior are unchanged. The
+[clean-start verification](../evidence/proc-delivery/cold-start-windows.json)
+runs both commands in separate empty workspaces and reproduces each exact
+old-code failure. Acceptance requires all 118 focused control/fault outputs to
+match the earlier recorded bytes. The original acceptance receipt is retained
+unchanged.
+
 This boundary does not claim runtime extraction, performance improvement,
 renderer acceptance or native engine-package support.
 

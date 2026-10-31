@@ -31,6 +31,7 @@ const expected = JSON.parse(expectedBytes); assertProcDeliveryObservations(expec
 assert.equal(procDeliveryFaults.length, 63);
 assert.equal(new Set(procDeliveryFaults.map(f => f[0])).size, procDeliveryFaults.length);
 const expectedRows = new Map(expected.rows.map(r => [r.name, r]));
+fs.mkdirSync(path.join(root, '.artifacts'), {recursive: true});
 const directory = fs.mkdtempSync(path.join(root, '.artifacts/proc-delivery-observer-faults-'));
 const game = path.join(directory, 'game');
 writeJSON('.artifacts/proc-delivery-observer-running.json', {directory});

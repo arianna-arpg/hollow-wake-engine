@@ -932,8 +932,8 @@ accepted files, and the reference runner also checks source, compiled runtime
 and any installed package maps for changes. See the
 [proc-delivery boundary](proc-delivery-boundary.md).
 
-The `Verify proc delivery baseline` workflow runs these checks independently on
-Windows and Linux with Node 24, using the pinned source capsule and reference
-tool versions. It retains observations, logs, fault traces and verification
+The `Verify proc delivery baseline` workflow runs each command in its own fresh
+job on Windows and Linux with Node 24, using the pinned source capsule and
+reference tool versions. It retains observations, logs, fault traces and verification
 receipts. This is an original-behavior gate, not evidence that a new proc runtime,
 native extension or physical-device performance target has been accepted.

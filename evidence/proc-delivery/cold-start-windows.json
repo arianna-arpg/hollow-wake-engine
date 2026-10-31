@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "3edec57e600059fef6c3f440f0edd803ec9fcffa",
+  "observedAt": "2026-10-31T00:22:56.572Z",
+  "problem": "The new standalone checks assumed an existing .artifacts directory and failed in clean hosted jobs before gameplay capture.",
+  "repair": "Each command creates its own output parent. The hosted matrix runs each command in a separate fresh job on Windows and Linux.",
+  "failedHostedRun": {
+    "id": 41148274522,
+    "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/41148274522",
+    "revision": "3edec57e600059fef6c3f440f0edd803ec9fcffa",
+    "platforms": [
+      {
+        "name": "original (ubuntu-24.04)",
+        "conclusion": "failure"
+      },
+      {
+        "name": "original (windows-2025)",
+        "conclusion": "failure"
+      }
+    ]
+  },
+  "validation": {
+    "independentColdWorkspaces": 2,
+    "exactOldCodeControls": 2,
+    "originalCourses": 328,
+    "observerFaults": 63,
+    "focusedPositiveControls": 55,
+    "all118FocusedOutputsMatchEarlierBytes": true,
+    "acceptedFilesUnchanged": true,
+    "compiledRuntimeUnchanged": true
+  },
+  "coldStartDriver": {
+    "path": ".artifacts/test-proc-delivery-cold-start.mjs",
+    "retainedInRaw": true,
+    "sha256": "c55da698387968aa7b38ec6ddd33f0a6a4097cee6f7452dc412e95c8e7a7835e"
+  },
+  "sources": {
+    "scripts/run-proc-delivery-reference.mjs": "0997b296342c05e2bf6fc48f0b2a65aa6e52d9ea3da14d1b20008e0030f57ff8",
+    "scripts/test-proc-delivery-observer.mjs": "87d11d9a7b3ba61fb7c4d7eda066ab5a1cadec4c6897fd25162034b146da83fe",
+    ".github/workflows/proc-delivery-baseline.yml": "90907c2bc3cd7414798451a529c03249bd7f72a113ef6fa8165fa29cd26227f9",
+    "docs/proc-delivery-boundary.md": "55d7408321d3f69a28368a46e4a5b1e31776c949049a179dfe5915575b0306fe",
+    "docs/verification.md": "07da2a1ed36a3d387dcf19da002376366d8a940886e366b62a2665d6b31a9915"
+  },
+  "raw": {
+    "path": "evidence/proc-delivery/cold-start-windows-raw.json.gz",
+    "entries": 10,
+    "sha256": "9c06a6b5e53f57ac938c39ebee0870feaab8f45ffddd202376a092937ce6c9e8",
+    "uncompressedSha256": "c181b9d7957ebab2ee97b52afca133d5672d801f308cbab1408be15e445e8d0d",
+    "bytes": 26704
+  },
+  "limitations": [
+    "Verification setup repair only; no gameplay/runtime extraction or device performance change.",
+    "Hosted acceptance at the repaired commit is recorded separately after publication."
+  ]
+}

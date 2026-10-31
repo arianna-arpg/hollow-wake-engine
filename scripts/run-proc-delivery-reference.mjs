@@ -32,6 +32,7 @@ const before = snapshot(path.join(game, 'src'));
 const runtimeDirectory = path.join(root, 'dist'), runtime = fs.existsSync(runtimeDirectory) ? snapshot(runtimeDirectory) : null;
 const packageDirectory = path.join(game, 'node_modules/@hollow-wake/engine');
 const installed = fs.existsSync(packageDirectory) ? snapshot(packageDirectory) : null;
+fs.mkdirSync(path.join(root, '.artifacts'), {recursive: true});
 const output = fs.mkdtempSync(path.join(root, '.artifacts/reference-proc-delivery-'));
 writeJSON('.artifacts/proc-delivery-reference-running.json', {output, game});
 const helper = fs.readFileSync(path.join(root, accepted.helper), 'utf8');
