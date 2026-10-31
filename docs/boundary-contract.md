@@ -72,6 +72,13 @@ interception admission through explicit synchronous host ports. Its continuation
 retains borrowed identities without a per-hit result wrapper. Fuse execution,
 native guard/shell implementations and spatial delivery remain host-owned.
 
+The [proc-delivery boundary](proc-delivery-boundary.md) records the complete
+original proc dispatcher, cast payload and held-skill lookup before their next
+extraction. Its 328 courses include all 147 authored procs and all 22 branches,
+live callbacks, identity, causal depth and actual projectile travel. Existing
+proc/resource/status capabilities remain composed by the game until this new
+dispatcher has separate runtime and adapter acceptance.
+
 The optional [hit-landing service](hit-landing-boundary.md) owns damage admission
 and ordered outcome reactions through pool feeding. A synchronous continuation
 carries separate scalar captures and the borrowed result into the remaining hit

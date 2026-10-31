@@ -1,0 +1,59 @@
+name: Verify proc delivery baseline
+on:
+  push:
+    paths:
+      - '.github/workflows/proc-delivery-baseline.yml'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'baseline/source-lock.json'
+      - 'baseline/source.tar.gz'
+      - 'baseline/overlay/**'
+      - 'baseline/proc-delivery/**'
+      - 'reference/export-proc-delivery.ts'
+      - 'reference/tooling/package*.json'
+      - 'adapters/hollow-wake/proc-delivery-tree.mjs'
+      - 'scripts/*proc-delivery*.mjs'
+      - 'scripts/reference-utils.mjs'
+      - 'scripts/prepare-reference.mjs'
+      - 'scripts/install-reference-tools.mjs'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run reference:prepare
+      - run: npm run reference:install
+      - run: npm run reference:proc-delivery
+      - run: npm run test:proc-delivery-observer
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: proc-delivery-baseline-${{ matrix.os }}
+          include-hidden-files: true
+          if-no-files-found: error
+          path: |
+            .artifacts/proc-delivery-reference-verification.json
+            .artifacts/proc-delivery-observer-verification.json
+            .artifacts/reference-proc-delivery-*/verification.json
+            .artifacts/reference-proc-delivery-*/observations.json
+            .artifacts/reference-proc-delivery-*/*.txt
+            .artifacts/proc-delivery-observer-faults-*/verification.json
+            .artifacts/proc-delivery-observer-faults-*/progress.json
+            .artifacts/proc-delivery-observer-faults-*/*.json.gz
+            .artifacts/proc-delivery-observer-faults-*/*.txt

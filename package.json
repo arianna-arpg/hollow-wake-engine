@@ -622,7 +622,9 @@
     "test:status-delivery-mutations": "node scripts/test-status-delivery-mutations.mjs",
     "adapter:status-delivery-source": "node scripts/test-status-delivery-overlay.mjs",
     "adapter:status-delivery": "node scripts/test-game-status-delivery.mjs",
-    "adapter:status-delivery-faults": "node scripts/test-game-status-delivery-faults.mjs --location .artifacts/adapter-location.json"
+    "adapter:status-delivery-faults": "node scripts/test-game-status-delivery-faults.mjs --location .artifacts/adapter-location.json",
+    "reference:proc-delivery": "node scripts/run-proc-delivery-reference.mjs",
+    "test:proc-delivery-observer": "node scripts/test-proc-delivery-observer.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12",

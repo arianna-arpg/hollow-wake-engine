@@ -921,3 +921,19 @@ and requires two behavioral faults to reach their specific wrong outcomes in
 every consumer. Node reconstruction must first match the original frozen bytes.
 The embedded-host workflow runs this separately from full-attack replay and
 retains execution metrics, outputs, build commands and managed build logs.
+
+The complete proc dispatcher/payload boundary has two separate checks:
+`npm run reference:proc-delivery` type-checks and replays the real original game
+against frozen observations; `npm run test:proc-delivery-observer` applies
+63 scoped source faults in a disposable original copy. Every focused positive
+control must first match its row in the complete 328-course capture. Syntax
+failures and new exceptions do not count as detection. Both commands preserve
+accepted files, and the reference runner also checks source, compiled runtime
+and any installed package maps for changes. See the
+[proc-delivery boundary](proc-delivery-boundary.md).
+
+The `Verify proc delivery baseline` workflow runs these checks independently on
+Windows and Linux with Node 24, using the pinned source capsule and reference
+tool versions. It retains observations, logs, fault traces and verification
+receipts. This is an original-behavior gate, not evidence that a new proc runtime,
+native extension or physical-device performance target has been accepted.
