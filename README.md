@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The optional [triggered effect dispatcher](docs/proc-delivery.md) runs all 22
+Hollow Wake proc effect shapes and their ordered riders. The [Desperate Ward
+example](examples/proc-delivery.mjs) connects an authored talent, actor stats,
+cooldown and presentation callback using only public package imports.
+
 The JavaScript/TypeScript package works outside the game and has no production
 dependencies. The Hollow Wake adapter consumes the installed package and compares
 its behavior with the preserved original. This is an alpha extraction: the broader
@@ -158,8 +163,8 @@ records 520 SDK tests, 13 renderer checks and ten managed-game checks.
 Four controlled desktop comparisons show waiting-queue drains improving 9–14%
 over the initial extraction, with remaining overhead against v0.34. Other
 workload rankings vary. These results do not establish device speed or FPS gains.
-Twenty other native proc effect branches remain to extract; all eleven partial
-system families remain partial.
+At v0.35 twenty other proc effect branches remained in the game. The current
+dispatcher delegates their execution through the host services described above.
 
 Version 0.34 added optional [effect scaling and ward gain](docs/proc-effects.md).
 The first complete proc-effect path composes scaling, native resource access,

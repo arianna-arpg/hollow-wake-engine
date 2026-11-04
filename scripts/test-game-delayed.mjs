@@ -53,6 +53,7 @@ const results=[];for(const row of acceptance.fixtures){
 }
 assert.equal(results.reduce((n,r)=>n+r.courses,0),48);assert.equal(adaptations.length,contract.helperAssertions.length);
 const targets={runtime:path.join(installed,'delayed-bursts.js'),binding:path.join(game,'src/engine/delayedBurstAdapter.ts'),world:path.join(game,'src/engine/world.ts')},faults=[];
+if(location.procDeliveryDecision)targets.dispatch=path.join(installed,'proc-delivery.js');
 if(inject)for(const [name,target,before,after,fixture]of [
  ['nested-advance-admitted','runtime','if (this.active)','if (false)','delayed-ordering'],
  ['queue-replacement-ignored','runtime','generation !== this.generation || queue !== this.ports.queue(host)','generation !== this.generation','delayed-ordering'],
@@ -62,7 +63,8 @@ if(inject)for(const [name,target,before,after,fixture]of [
  ['flash-cancellation-omitted','runtime','ports.flash(host, burst);\n                if (this.cancelled(host, queue, generation))\n                    return;','ports.flash(host, burst);','host'],
  ['heal-cancellation-omitted','runtime','const healed = ports.heal(host, actor, burst.fx.healAllies.base + burst.fx.healAllies.perLevel * level);\n                            if (this.cancelled(host, queue, generation))\n                                return;','const healed = ports.heal(host, actor, burst.fx.healAllies.base + burst.fx.healAllies.perLevel * level);','host'],
  ['native-reset-bypasses-sdk','world','this.delayedBurstEngine.reset(this)','this.pendingBursts = []','host'],
- ['schedule-omitted','world','this.delayedBurstEngine.schedule(this, caster, fx, proc.color, depth, target);','void this;','delayed-ordering'],
+ targets.dispatch ? ['schedule-omitted','dispatch','ports.delayed(caster, fx, proc.color, depth, target);','void caster;','delayed-ordering']
+   : ['schedule-omitted','world','this.delayedBurstEngine.schedule(this, caster, fx, proc.color, depth, target);','void this;','delayed-ordering'],
  ['drain-omitted','world','this.delayedBurstEngine.advance(this);','void this;','delayed-ordering'],
  ['warning-shape-changed','binding','edgeFrac:0.94','edgeFrac:0.8','host'],
  ['impact-lifetime-changed','binding','life:0.3,maxLife:0.3','life:0.4,maxLife:0.4','host'],

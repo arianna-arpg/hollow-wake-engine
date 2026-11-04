@@ -53,7 +53,8 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | Ordered hit-effect dispatch, recipient gates, spread and transfusion selection/cleanup | Optional `combat/hit-effects` | Sixteen branches over the borrowed per-hit frame with explicit spatial and verb ports. The 107-course original baseline predates extraction. Underlying heal/grab/possession/birth and other host verbs, complete hit/death/delivery and device acceptance remain separate; see [hit-effect dispatch](hit-effects-boundary.md) |
 | Strongest-wins Burning and raw typed ticks | `TimedDamage`, per bearer/effect | Earlier standalone capability remains available; the game adapter now uses the complete status lifecycle |
 | Proc eligibility, ordering, probability, cooldowns, causal depth and riders | Optional `ProcContent`, `BorrowedProcRegistry` and `ProcRuntime` / `combat/procs` | Extracted and delegated through explicit host ports; 147 proc records and one rider retain their order. Host event production and all 22 native effect branches remain outside this capability; see proc contract |
-| Triggered skill payloads and held-skill identity | Optional `combat/proc-casting` | Development candidate replaces complete cast/held methods, retaining live owned instances, fresh synthetic payloads and random consumption. Host supplies generic geometry and actual delivery. The full proc effect dispatcher remains host-owned; see [proc casting](proc-casting.md) |
+| Triggered skill payloads and held-skill identity | Optional `combat/proc-casting` | Published development entry retains live owned instances, fresh synthetic payloads and random consumption. Host supplies generic geometry and actual delivery. See [proc casting](proc-casting.md) |
+| Triggered effect execution and rider completion | Optional `combat/proc-delivery` | The development candidate delegates all 22 dispatcher branches through live host services. The complete frozen game replay matches across 328 courses. See [proc delivery](proc-delivery.md) |
 | Proc magnitude folding, ward resource arithmetic and ward effect gain | Optional `scaleProcEffect`, `gainWard`, `applyWardEffect` / `combat/effects` | Guarded delegation over borrowed state and shared ports preserves lazy queries, nested updates and native cue/rider order; see effect contract. Minimum arithmetic fields are not a complete serialized effect schema |
 | Delayed burst scheduling, reverse-order delivery and zone-reset cancellation | Optional `DelayedBursts`, `compileDelayedBurstEffect` / `combat/delayed` | Borrowed host queue and actor state with explicit synchronous ports. Scheduling, delivery ordering and generation cancellation are extracted; native healing/mitigation, defense/death callbacks and presentation remain host services. Six original diagnostic courses have separately accepted repairs; see delayed effects contract |
 | Buff grants, clocks, modifier publication, event-gated consumption and expiry | Optional `BuffRuntime`, `compileBuffDefinition` / `combat/buffs` and `combat/buff-content` | Borrowed actor state and synchronous host ports; explicit independent-consumption correction. Next-hit payload execution is in `statuses/hits`; recipient/spatial selection and power resolution remain host services; see buff contract |
@@ -64,7 +65,7 @@ See [casting-contract.md](casting-contract.md) for time, resource and adapter ow
 | Ready-only refund credit, command spending and numeric publication | Optional `combat/ready-cooldown-bank` | Borrowed credit and clock stores, reusable eligibility/price/limit ports, synchronous publication. The original 35-course boundary is frozen; see [ready-cooldown-bank.md](ready-cooldown-bank.md). Court lifetime, formations, wards and delivery remain host-owned |
 | Recoverable-attack holds, active-cast settlement and miss release | Optional `combat/sequence-recovery` | Borrowed locks/clocks/casts and synchronous flight, queue, pickup and catch-publication ports. The original 49-course boundary is frozen; see [sequence-recovery.md](sequence-recovery.md). The complete controller below composes this settlement service |
 | Attack cycles, component content, wounds, catches, rain, independent strikes and retirement | Optional `combat/attack-sequences` and `combat/attack-sequence-content` | Instance-owned controller state, generic host positions, explicit RNG/time and synchronous spatial, shared skill/status/damage, delivery and presentation services. The original 114-check trace records 7,264 events and 2,733 random draws; see [attack-sequences.md](attack-sequences.md). Dedicated renderer, native-host and device performance acceptance remain open |
-| World status effects, remaining proc effect branches, other timed delivery, summons, specialized defenses and death lifecycle | Future combat modules | Partial; Actor status lifecycle, damage, restoration and cooldown delegation have separate boundaries. Remaining native-only branches and specialized lifecycle ownership still require extraction and acceptance |
+| World status effects, other timed delivery, summons, specialized defenses and death lifecycle | Future combat modules | Actor status, damage and proc delivery have separate contracts. The host still owns summon creation and retirement, specialized defenses and death processing. |
 | Rendering, sound, input, storage, UI, world streaming, networking | Host and optional adapters | Outside the core runtime |
 
 The optional [hit-preparation service](hit-preparation-boundary.md) owns fuse
@@ -74,11 +75,11 @@ retains borrowed identities without a per-hit result wrapper. Fuse execution,
 native guard/shell implementations and spatial delivery remain host-owned.
 
 The [proc-delivery boundary](proc-delivery-boundary.md) records the complete
-original proc dispatcher, cast payload and held-skill lookup before their next
-extraction. Its 328 courses include all 147 authored procs and all 22 branches,
-live callbacks, identity, causal depth and actual projectile travel. Existing
-proc/resource/status capabilities remain composed by the game until this new
-dispatcher has separate runtime and adapter acceptance.
+original proc dispatcher, cast payload and held-skill lookup before extraction.
+Its 328 courses include all 147 authored procs and all 22 branches, live
+callbacks, identity, causal depth and actual projectile travel. The installed
+dispatcher composes the existing resource, status, delayed-burst and casting
+services through the Hollow Wake binding.
 
 The optional [hit-landing service](hit-landing-boundary.md) owns damage admission
 and ordered outcome reactions through pool feeding. A synchronous continuation

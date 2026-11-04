@@ -1,3 +1,4 @@
+import {procServiceSite} from './proc-service-site.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';import {pathToFileURL} from 'node:url';
 import {root,listFiles,sha256,writeJSON} from './reference-utils.mjs';
@@ -49,6 +50,8 @@ function run(name,fixture){
 }
 for(const row of rows)assert(run('control-'+row.name,row.name).equal,'Disposable copy changed: '+row.name);
 const targets={runtime:path.join(ownPackage,'dist/resource-restoration.js'),actor:path.join(game,'src/engine/actor.ts'),binding:path.join(game,'src/engine/resourceRestorationAdapter.ts'),world:path.join(game,'src/engine/world.ts')};
+if(location.procDeliveryDecision)targets.dispatch=path.join(ownPackage,'dist/proc-delivery.js');
+const restoreSite=targets.dispatch?procServiceSite(targets.dispatch,'restore'):null;
 for(const file of Object.values(targets)){
   const actual=fs.realpathSync(file),relative=path.relative(fs.realpathSync(game),actual),stat=fs.lstatSync(file);
   assert(relative&&!relative.startsWith('..')&&!path.isAbsolute(relative));assert(stat.isFile()&&!stat.isSymbolicLink()&&stat.nlink===1,'Linked mutation target');
@@ -73,7 +76,8 @@ const faults=[
   ['actor-shield-path-disconnected','actor','return engineGainEnergyShield(this, amount, resourceRestorationPorts);','return 0;','world'],
   ['actor-poise-blocks-broken','actor','return engineGainPoise(this, amount, resourceRestorationPorts);','if (this.poiseBroken) return 0; return engineGainPoise(this, amount, resourceRestorationPorts);','restoration'],
   ['instant-options-lost','world','(target, fx, resourceRestorationPorts, opts);','(target, fx, resourceRestorationPorts);','partial-failure'],
-  ['proc-gain-cue-lost','world',"if (engineApplyProcRestoration(caster, fx, resourceRestorationPorts)) noteProcCue(caster, procCue, 'gain', proc.id);",'engineApplyProcRestoration(caster, fx, resourceRestorationPorts);','restoration'],
+  restoreSite ? ['proc-gain-cue-lost','dispatch',restoreSite.statement,restoreSite.call+';','restoration'] :
+    ['proc-gain-cue-lost','world',"if (engineApplyProcRestoration(caster, fx, resourceRestorationPorts)) noteProcCue(caster, procCue, 'gain', proc.id);",'engineApplyProcRestoration(caster, fx, resourceRestorationPorts);','restoration'],
 ];
 const results=[];
 for(const[name,target,before,after,fixture,method]of faults){

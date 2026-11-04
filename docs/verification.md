@@ -946,3 +946,18 @@ source methods. `adapter:proc-casting -- --location <location>` replays all 328
 frozen courses through an installed archive, while `adapter:proc-casting-faults`
 checks eight runtime/binding/forwarding faults and restores the installation.
 See [proc casting](proc-casting.md) for exact ownership and remaining scope.
+
+The optional `combat/proc-delivery` entry runs the whole admitted effect and
+rider sequence. `adapter:proc-delivery` compares all 328 courses with the frozen
+original. `test:proc-delivery-package` exercises the installed browser and typed
+consumers. `test:proc-delivery-mutations` checks 54 runtime faults and
+`adapter:proc-delivery-faults` checks 14 installed faults with 12 focused
+controls. `adapter:proc-delivery-source` checks source guards, failed writes
+and retry behavior. The proc content package check also runs the authored ward
+example with two independent actors sharing one set of definitions.
+
+The [native replay](../scripts/test-native-proc-delivery.mjs) runs every course
+through C, C++ and .NET and records response hashes and allocator counters.
+The [summon census benchmark](../scripts/benchmark-proc-census.mjs) compares
+identical answer sets across six roster sizes and densities. The embedded
+version uses the verified native replay driver. See [proc delivery](proc-delivery.md).

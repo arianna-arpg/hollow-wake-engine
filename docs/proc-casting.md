@@ -2,8 +2,8 @@
 
 `@hollow-wake/engine/combat/proc-casting` provides `createProcCasting` and
 `heldProcSkill`. This is the complete triggered-payload and held-copy policy
-from the frozen proc boundary. The larger `executeProc` effect dispatcher still
-belongs to the game; this extraction does not claim to finish that dispatcher.
+from the frozen proc boundary. The optional [effect dispatcher](proc-delivery.md)
+uses this service for the cast effect.
 
 The caller has already admitted the proc or rider. `cast` selects its definition,
 captures its site, draws its count, resolves ownership and delivers each payload.
@@ -69,7 +69,7 @@ ports may execute gameplay, reenter the service or throw.
 The Hollow Wake adapter replaces only `castProcPayload` and `heldSkillInst`,
 preserving their observable World forwarding methods. Replacement checks the
 complete frozen method hashes before writing. It refuses symbol collisions and
-repeat installation. The existing `executeProc` dispatcher is unchanged.
+repeat installation. The two capabilities have separately guarded source methods.
 
 The original behavior was frozen before this runtime existed: 328 courses cover
 147 authored procs, all 22 effect shapes, actual projectile travel, live changes
@@ -91,6 +91,9 @@ faults exercised the installed runtime and its game adapter. The existing native
 full-attack replay also matched all 150,608 numeric observations between the
 original and installed games through C, C++ and .NET. The separate browser
 import measured 2,485 bytes. [Windows validation](../evidence/proc-casting/runtime-windows.json)
+
+The casting installation and its fault checks also passed on Windows and Linux
+at the published extraction commit. [Hosted casting verification](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/41859576909)
 
 Dedicated native casting APIs, measured frame workloads and physical Steam Deck
 and mobile measurements remain open.

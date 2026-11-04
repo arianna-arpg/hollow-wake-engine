@@ -32,7 +32,12 @@ assert.equal(sha256(server), acceptance.serverSha256);
 const snapshot = directory => Object.fromEntries(listFiles(directory).map(f => [f, sha256(fs.readFileSync(path.join(directory, f)))]));
 const runtimeDir = path.join(game, 'node_modules/@hollow-wake/engine/dist'), packageDir = path.dirname(runtimeDir);
 assert(fs.existsSync(path.join(runtimeDir, 'cooldowns.js')), 'Cooldown runtime must be installed');
-assert(fs.readFileSync(path.join(game, "src/engine/world.ts"), "utf8").includes("engineApplyProcCooldown(caster, fx, inst)"), "Cooldown delegation missing");
+const worldSource=fs.readFileSync(path.join(game,'src/engine/world.ts'),'utf8');
+const deliveryBinding=path.join(game,'src/engine/procDelivery.ts');
+if(fs.existsSync(deliveryBinding)){
+  assert(worldSource.includes('this.engineProcDelivery.execute('),'Proc dispatcher delegation missing');
+  assert(fs.readFileSync(deliveryBinding,'utf8').includes('cooldown: applyProcCooldown'),'Cooldown dispatch binding missing');
+}else assert(worldSource.includes('engineApplyProcCooldown(caster, fx, inst)'),'Cooldown delegation missing');
 const inputs = {source: snapshot(path.join(game, 'src')), runtime: snapshot(runtimeDir), package: snapshot(packageDir)};
 const buildFile = path.join(dist, 'sdk-build.json'), buildBytes = fs.readFileSync(buildFile), build = JSON.parse(buildBytes);
 const outputs = () => Object.fromEntries(listFiles(dist).filter(f => f !== 'sdk-build.json').map(f => [f, sha256(fs.readFileSync(path.join(dist, f)))]));

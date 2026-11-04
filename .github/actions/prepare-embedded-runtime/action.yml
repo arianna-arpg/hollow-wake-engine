@@ -1,0 +1,32 @@
+name: Prepare pinned embedded runtime
+description: Verify and unpack the two development runtime source files
+runs:
+  using: composite
+  steps:
+    - shell: pwsh
+      run: |
+        $ErrorActionPreference = 'Stop'
+        $lock = Get-Content experiments/embedded-js/host-source-lock.json -Raw | ConvertFrom-Json
+        $sourceDirectory = Join-Path $PWD '.artifacts/embedded-host-upstream'
+        if (Test-Path -LiteralPath $sourceDirectory) { throw 'Runtime source directory already exists' }
+        New-Item -ItemType Directory -Path $sourceDirectory | Out-Null
+        $archivePath = Join-Path $sourceDirectory $lock.archive.name
+        $download = 'https://github.com/quickjs-ng/quickjs/releases/download/v' + $lock.version + '/' + $lock.archive.name
+        Invoke-WebRequest -Uri $download -OutFile $archivePath
+        if ((Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $lock.archive.sha256) {
+          throw 'Runtime archive hash differs from the pinned release'
+        }
+        $archive = [System.IO.Compression.ZipFile]::OpenRead($archivePath)
+        try {
+          foreach ($file in $lock.files.PSObject.Properties) {
+            $entry = $archive.GetEntry($file.Name)
+            if ($null -eq $entry -or $entry.FullName -notin @('quickjs-amalgam.c', 'quickjs.h')) {
+              throw 'Unexpected runtime source archive layout'
+            }
+            $path = Join-Path $sourceDirectory $file.Name
+            [System.IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $path, $false)
+            if ((Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant() -ne $file.Value) {
+              throw 'Extracted file differs from the pinned runtime source'
+            }
+          }
+        } finally { $archive.Dispose() }

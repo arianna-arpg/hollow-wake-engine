@@ -1,5 +1,6 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {gunzipSync} from 'node:zlib';import {execFileSync} from 'node:child_process';import {pathToFileURL} from 'node:url';
 import {root,listFiles,sha256,verifyReference,writeJSON} from './reference-utils.mjs';
+import {procServiceSite} from './proc-service-site.mjs';
 const artifacts=path.join(root,'.artifacts'),arg=process.argv.indexOf('--location'),location=JSON.parse(fs.readFileSync(arg<0?path.join(artifacts,'adapter-location.json'):path.resolve(process.argv[arg+1])));
 assert.equal(location.procEffectAdapterDecision,'proc-ward-game-adapter/v1','Requires the guarded ward adapter');
 const readOnly=process.argv.includes('--read-only'),game=location.game,installed=path.join(location.tooling,'node_modules/@hollow-wake/engine/dist'),canonical=p=>fs.realpathSync(p).toLowerCase();
@@ -41,6 +42,8 @@ for(const row of fixtures){
   results.push({name:row.name,courses:row.courses,byteEqual:true,sha256:sha256(actual)});console.log('PASS installed '+row.name);
 }
 const targets={runtime:path.join(installed,'proc-effects.js'),binding:path.join(game,'src/engine/procEffectAdapter.ts'),world:path.join(game,'src/engine/world.ts')},faults=[];
+if(location.procDeliveryDecision)targets.dispatch=path.join(installed,'proc-delivery.js');
+const wardSite=targets.dispatch&&!readOnly?procServiceSite(targets.dispatch,'ward'):null;
 if(!readOnly)for(const [name,target,before,after,fixture]of [
   ['zero-power-clears','runtime','pw === 1 || !(pw > 0)','pw === 1 || pw < 0','proc-effects-scaling'],
   ['ward-percent-unscaled','runtime','pctMaxLife: fx.pctMaxLife === undefined ? undefined : fx.pctMaxLife * pw','pctMaxLife: fx.pctMaxLife','proc-effects-scaling'],
@@ -54,9 +57,15 @@ if(!readOnly)for(const [name,target,before,after,fixture]of [
   ['native-gain-bypassed','binding','gain:(actor:Actor,amount:number)=>actor.gainWard(amount),','gain:(actor:Actor,amount:number)=>{actor.ward+=amount;return amount;},','proc-effects-edges'],
   ['native-rate-bypassed','binding',"rate:(actor:Actor)=>actor.sheet.get('wardGain'),",'rate:(_actor:Actor)=>1,','proc-ward-resource'],
   ['native-life-bypassed','binding','maximumLife:(actor:Actor)=>actor.maxLife(),','maximumLife:(_actor:Actor)=>0,','ward-host'],
+  ...(wardSite ? [
+    ['cue-unconditional','dispatch',wardSite.statement,wardSite.call+'; '+wardSite.cue,'ward-host'],
+    ['cue-omitted','dispatch',wardSite.statement,wardSite.call+';','ward-host'],
+    ['rider-tail-bypassed','dispatch','ports.riders(proc, caster, instance, target, depth);','void depth;','ward-host'],
+  ] : [
   ['cue-unconditional','world','if (engineApplyWardEffect(caster, fx, wardEffectPorts))','if ((engineApplyWardEffect(caster, fx, wardEffectPorts), true))','ward-host'],
   ['cue-omitted','world',"if (engineApplyWardEffect(caster, fx, wardEffectPorts)) noteProcCue(caster, procCue, 'gain', proc.id);",'engineApplyWardEffect(caster, fx, wardEffectPorts);','ward-host'],
   ['rider-tail-bypassed','world','this.fireProcRiders(proc, caster, inst, target, depth);','void depth;','ward-host'],
+  ]),
 ]){
   const file=targets[target],source=fs.readFileSync(file,'utf8');assert.equal(source.split(before).length,2,'Fault anchor changed or ambiguous: '+name);
   const row=fixtures.find(r=>r.name===fixture),helper=row?helpers.get(row.helper):host.runtime,destination=path.join(output,'fault-'+name+'.json');let detected=false;

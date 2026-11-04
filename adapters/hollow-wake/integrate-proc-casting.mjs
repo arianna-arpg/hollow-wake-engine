@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import ts from 'typescript';
 import {root, sha256} from '../../scripts/reference-utils.mjs';
 import {procDeliveryTree} from './proc-delivery-tree.mjs';
+import {installWorldBinding} from './install-world-binding.mjs';
 
 const accepted = JSON.parse(fs.readFileSync(path.join(root, 'baseline/proc-delivery/acceptance.json')));
 const bytes = fs.readFileSync(path.join(root, accepted.sourceBoundary));
@@ -35,11 +36,10 @@ export const procCastingDecision = 'Delegate proc payload casting and held-skill
 export function integrateProcCasting(game, write = true) {
   const target = 'src/engine/procCasting.ts';
   assert(!fs.existsSync(path.join(game, target)), 'Proc casting binding already exists');
-  const output = renderProcCasting(fs.readFileSync(path.join(game, 'src/engine/world.ts'), 'utf8'), !write);
+  const world = path.join(game, 'src/engine/world.ts');
+  const source = fs.readFileSync(world, 'utf8');
+  const output = renderProcCasting(source, !write);
   const binding = fs.readFileSync(path.join(root, 'adapters/hollow-wake/procCasting.ts'));
-  if (write) {
-    fs.writeFileSync(path.join(game, 'src/engine/world.ts'), output);
-    fs.writeFileSync(path.join(game, target), binding, {flag: 'wx'});
-  }
+  if (write) installWorldBinding(game, world, source, output, path.join(game, target), binding);
   return {files: ['src/engine/world.ts', target], decision: procCastingDecision};
 }

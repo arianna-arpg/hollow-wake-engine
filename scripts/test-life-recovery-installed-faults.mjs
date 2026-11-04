@@ -1,3 +1,4 @@
+import {procServiceSite} from './proc-service-site.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';import {pathToFileURL} from 'node:url';
 import {root,listFiles,sha256,writeJSON} from './reference-utils.mjs';
@@ -47,6 +48,11 @@ function run(name,fixture){
 }
 for(const row of rows)assert(run('control-'+row.name,row.name).equal,'Disposable copy changed: '+row.name);
 const targets={runtime:path.join(ownPackage,'dist/life-recovery.js'),actor:path.join(game,'src/engine/actor.ts'),binding:path.join(game,'src/engine/lifeRecoveryAdapter.ts'),world:path.join(game,'src/engine/world.ts')};
+if(location.procDeliveryDecision){
+  targets.dispatch=path.join(ownPackage,'dist/proc-delivery.js');
+  targets.deliveryBinding=path.join(game,'src/engine/procDelivery.ts');
+}
+const healSite=targets.dispatch?procServiceSite(targets.dispatch,'heal'):null;
 for(const file of Object.values(targets)){
   const actual=fs.realpathSync(file),relative=path.relative(fs.realpathSync(game),actual),stat=fs.lstatSync(file);
   assert(relative&&!relative.startsWith('..')&&!path.isAbsolute(relative));assert(stat.isFile()&&!stat.isSymbolicLink()&&stat.nlink===1,'Linked mutation target');
@@ -68,9 +74,15 @@ const faults=[
   ['recency-omitted','binding',"actor.noteRecent('heal');",'void actor;','life-recovery'],
   ['actor-loses-silent','actor','engineHealLife(this, amount, lifeRecoveryPorts, silent)','engineHealLife(this, amount, lifeRecoveryPorts, false)','life-recovery'],
   ['refill-uses-healing-gates','actor','engineRefillLife(this, lifeRecoveryPorts)','engineHealLife(this, 1000, lifeRecoveryPorts, false)','life-recovery'],
+  ...(healSite ? [
+    ['heal-cue-omitted','dispatch',healSite.statement,healSite.call+';','heal-cues'],
+    ['method-selected-too-late','deliveryBinding','lifeRecoveryPorts, actor.healBy)','lifeRecoveryPorts, amount => actor.healBy(amount))','heal-method-resolution'],
+    ['riders-omitted','dispatch','ports.riders(proc, caster, instance, target, depth);','void proc;','heal-procs'],
+  ] : [
   ['heal-cue-omitted','world',"if (engineApplyProcHeal(caster, fx, lifeRecoveryPorts, caster.healBy)) noteProcCue(caster, procCue, 'gain', proc.id);",'engineApplyProcHeal(caster, fx, lifeRecoveryPorts, caster.healBy);','heal-cues'],
   ['method-selected-too-late','world','lifeRecoveryPorts, caster.healBy)','lifeRecoveryPorts, amount => caster.healBy(amount))','heal-method-resolution'],
   ['riders-omitted','world','this.fireProcRiders(proc, caster, inst, target, depth);','void proc;','heal-procs'],
+  ]),
 ];
 const results=[];
 for(const[name,target,before,after,fixture]of faults){

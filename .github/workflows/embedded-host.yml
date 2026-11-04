@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/embedded-host.yml'
+      - '.github/actions/prepare-embedded-runtime/**'
       - 'experiments/embedded-js/**'
       - 'scripts/test-embedded-host.mjs'
       - 'scripts/test-embedded-memory-controls.mjs'
@@ -11,6 +12,8 @@ on:
       - 'scripts/test-embedded-library.mjs'
       - 'scripts/test-native-attack-course.mjs'
       - 'scripts/test-native-status-delivery.mjs'
+      - 'scripts/run-native-delivery-course.mjs'
+      - 'scripts/native-delivery-comparison.mjs'
       - 'scripts/native-status-delivery-entry.mjs'
       - 'scripts/native-status-delivery-checks.mjs'
       - 'scripts/diagnose-native-attack-stack.mjs'
@@ -59,29 +62,7 @@ jobs:
       - run: npm run build
       - run: npm run reference:prepare
       - run: npm run reference:install
-      - name: Fetch pinned development runtime source
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $lock = Get-Content experiments/embedded-js/host-source-lock.json -Raw | ConvertFrom-Json
-          $sourceDirectory = Join-Path $PWD '.artifacts/embedded-host-upstream'
-          New-Item -ItemType Directory -Path $sourceDirectory | Out-Null
-          $archivePath = Join-Path $sourceDirectory $lock.archive.name
-          $download = 'https://github.com/quickjs-ng/quickjs/releases/download/v0.17.0/' + $lock.archive.name
-          Invoke-WebRequest -Uri $download -OutFile $archivePath
-          if ((Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $lock.archive.sha256) {
-            throw 'Runtime archive hash differs from the pinned release'
-          }
-          $archive = [System.IO.Compression.ZipFile]::OpenRead($archivePath)
-          try {
-            foreach ($file in $lock.files.PSObject.Properties) {
-              $entry = $archive.GetEntry($file.Name)
-              if ($null -eq $entry -or $entry.FullName -notin @('quickjs-amalgam.c', 'quickjs.h')) {
-                throw 'Unexpected runtime source archive layout'
-              }
-              [System.IO.Compression.ZipFileExtensions]::ExtractToFile($entry, (Join-Path $sourceDirectory $file.Name), $false)
-            }
-          } finally { $archive.Dispose() }
+      - uses: ./.github/actions/prepare-embedded-runtime
       - name: Verify compatibility, limits and disposal
         run: node scripts/test-embedded-host.mjs --amalgam-dir .artifacts/embedded-host-upstream
       - name: Reject disabled memory limits and unrelated failures

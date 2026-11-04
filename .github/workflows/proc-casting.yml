@@ -1,12 +1,25 @@
-name: Verify proc casting extraction
+name: Verify proc casting and delivery
 on:
   push:
     paths:
       - '.github/workflows/proc-casting.yml'
+      - '.github/actions/prepare-embedded-runtime/**'
+      - 'experiments/embedded-js/**'
       - 'src/**'
+      - 'test/proc-casting.test.mjs'
+      - 'test/proc-delivery.test.mjs'
+      - 'examples/proc-delivery.mjs'
+      - 'scripts/test-proc-package.mjs'
+      - 'scripts/compile-proc-content.mjs'
       - 'adapters/hollow-wake/**'
       - 'scripts/*proc-casting*.mjs'
       - 'scripts/*proc-delivery*.mjs'
+      - 'scripts/verify-installed-proc-*.mjs'
+      - 'scripts/proc-package-consumer.mjs'
+      - 'scripts/proc-service-site.mjs'
+      - 'scripts/run-native-delivery-course.mjs'
+      - 'scripts/native-delivery-comparison.mjs'
+      - 'scripts/embedded-native-tools.mjs'
       - 'scripts/prepare-game-adapter.mjs'
       - 'scripts/reference-utils.mjs'
       - 'reference/**'
@@ -36,16 +49,26 @@ jobs:
       - run: npm run build
       - run: npm run reference:prepare
       - run: npm run reference:install
+      - run: node scripts/test-proc-package.mjs
       - run: npm run test:proc-casting-package
       - run: npm run test:proc-casting-mutations
       - run: npm run adapter:proc-casting-source
+      - run: npm run test:proc-delivery-package
+      - run: npm run test:proc-delivery-mutations
+      - run: npm run adapter:proc-delivery-source
       - run: npm run adapter:prepare
-      - run: npm run adapter:proc-casting
+      - run: npm run adapter:proc-delivery
       - run: npm run adapter:proc-casting-faults
+      - run: npm run adapter:proc-delivery-faults
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 8.0.x
+      - uses: ./.github/actions/prepare-embedded-runtime
+      - run: node scripts/test-native-proc-delivery.mjs --location .artifacts/adapter-location.json --amalgam-dir .artifacts/embedded-host-upstream
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
-          name: proc-casting-${{ matrix.os }}
+          name: proc-runtime-${{ matrix.os }}
           include-hidden-files: true
           if-no-files-found: error
           path: |
@@ -65,3 +88,25 @@ jobs:
             .artifacts/reference-proc-delivery-*/verification.json
             .artifacts/reference-proc-delivery-*/observations.json
             .artifacts/reference-proc-delivery-*/*.txt
+            .artifacts/proc-delivery-package-*/verification.json
+            .artifacts/proc-delivery-package-*/*.txt
+            .artifacts/proc-delivery-package-*/browser.mjs
+            .artifacts/proc-delivery-mutations-*/verification.json
+            .artifacts/proc-delivery-mutations-*/*.txt
+            .artifacts/proc-delivery-overlay-*/verification.json
+            .artifacts/game-proc-delivery-verification.json
+            .artifacts/game-proc-delivery-*/verification.json
+            .artifacts/game-proc-delivery-*/*.txt
+            .artifacts/game-proc-delivery-faults-*/progress.json
+            .artifacts/game-proc-delivery-faults-*/*.json.gz
+            .artifacts/native-proc-delivery-*/verification.json
+            .artifacts/native-proc-delivery-*/progress.json
+            .artifacts/native-proc-delivery-*/requests.jsonl
+            .artifacts/native-proc-delivery-*/dotnet-build.txt
+            .artifacts/native-proc-delivery-*/native/build*.*
+            .artifacts/native-proc-delivery-*/library/build*.*
+            .artifacts/native-proc-delivery-*/*/verification.json
+            .artifacts/native-proc-delivery-*/*/entry.ts
+            .artifacts/native-proc-delivery-*/*/metafile.json
+            .artifacts/native-proc-delivery-*/*/*.jsonl
+            .artifacts/native-proc-delivery-*/*/*.txt

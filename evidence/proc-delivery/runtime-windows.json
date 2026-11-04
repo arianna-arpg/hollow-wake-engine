@@ -1,0 +1,1758 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "ebc9c90e0d6c50a8670594f07a65fcefe3b6989d",
+  "observedAt": "2026-11-04T17:19:51.048Z",
+  "scope": "Complete execution of all 22 triggered effect shapes and ordered riders over live game state.",
+  "sources": {
+    ".github/actions/prepare-embedded-runtime/action.yml": "45b5f061ed1e942c5b015a8d4be5f736422324c903b72321d534f98903bfc91a",
+    "adapters/hollow-wake/install-world-binding.mjs": "fc422a00be99a5bb9fb03aaed3590c597095f5118cc19b66f6f6371fc7e54d01",
+    "adapters/hollow-wake/integrate-proc-delivery.mjs": "3a4f200fe2be14744fb04d117e34f0a41e18914cb0cd4827870a6f36ff8bbc79",
+    "adapters/hollow-wake/procDelivery.ts": "4926965ed646744ef8c8521e643d8888fad46900c23265898c17c934a9e24110",
+    "docs/proc-delivery.md": "a068b4e4873ea0d82f2e23ae7dd4a3fde12c7d0ac43d1e1d09a05d77d2b4ef90",
+    "experiments/proc-census/native-entry.mjs": "b20131528a89e91ff28d43768aa10f4788f09aa9ef184cd316b18a2ebd6c71c3",
+    "experiments/proc-census/workload.mjs": "6431de2d215e45b79706ba27ccb6a7a588a56a6cd80643405b559dce694e7dfe",
+    "scripts/benchmark-native-proc-census.mjs": "ef3ff227f2e061222109c6d70fc84d09b0aedff672bcc7590431aae3ba49fdb8",
+    "scripts/benchmark-proc-census.mjs": "f5b9569ff7bd458ffea8c2152ad47aee373084ef6ea5933bc341dcb40fe7f7f4",
+    "scripts/native-delivery-comparison.mjs": "00bbe9fab5d819590bdbc8d60940a6f80d955be0da761a29ab3a92385e2b2c63",
+    "scripts/native-proc-delivery-checks.mjs": "78a936f9171f1ff557aa4ea83be8f1f463afa3f67c94d98f6043826075237e42",
+    "scripts/native-proc-delivery-entry.mjs": "1ad40ca7c9074ae0024a26ebe361a9d236628c389c7928ad4a971d9664307b14",
+    "scripts/proc-census-plan.mjs": "9e929923cfbcbb5c36bff5e20918091eb73d24f92fe64caae35af2b6adf9cd22",
+    "scripts/proc-package-consumer.mjs": "4eabeacc6deddfa59bb839be61aa801f15cf13993843ff6d347a75178e3ad54b",
+    "scripts/proc-service-site.mjs": "7bd105afe7fd3616066fa72c0e7867f0eb321d05ecd11572a9e79135cb2020de",
+    "scripts/run-native-delivery-course.mjs": "2e35bb956a8c70b96f9ad531da6465ee4258f9fe968596a3889e75ed258710d9",
+    "scripts/test-game-proc-delivery-faults.mjs": "af30e29fe4f8abb5cb53fbf37b2553e33ab5406f49c7b48aa6306040c52a9d7e",
+    "scripts/test-game-proc-delivery.mjs": "83d528bd783980efee4e217724841b15aac044f52bb9df236d6ec90fb0b9a3e5",
+    "scripts/test-native-proc-delivery.mjs": "82b32bf86b641ce45d4969cad6a8a7e19185a8b64d75e09a81f368eaf1b0bea3",
+    "scripts/test-proc-delivery-mutations.mjs": "f8329a5b2a68cb178e5ce59543354e09a29e91b006a0ed8aa93a079a6d3ff9c4",
+    "scripts/test-proc-delivery-overlay.mjs": "e760c52a5c745f1a1f732b6329c4d7703fd2518c75774d93d32c08ad386ef016",
+    "scripts/test-proc-delivery-package.mjs": "e8e6cec3b22fb8ac3abd49db8aefd6e9161cf574e379cc52806f002c4d1f2e07",
+    "scripts/verify-installed-proc-faults.mjs": "a844b16767d925134beff371a2c1876e99eeec1ae81443fa89b45b3c50122d9c",
+    "scripts/verify-installed-proc-replay.mjs": "6ddaaf97207c85f29a455631eef51ff25dff664494a70cba8105fdf46cc8679b",
+    "src/proc-delivery-types.ts": "8568b64adcbfafd0ded8f6f3467623761a7a2dc7569b8586eda238b4ac488229",
+    "src/proc-delivery.ts": "650e0f156bbb4374eb6a122358b315d1ea5f0cd0641d9675044d022385001e0c",
+    "test/proc-delivery.test.mjs": "f04ec46c7f52f3acac7bb5be726ed3c4148eb952bae5334b107e29d5eb36c086",
+    "examples/proc-delivery.mjs": "8de7bba7cab895ea6ac77f95adaa18a0dd8f3e9513dd68774ef44c1b48117b2d",
+    "scripts/measure-native-proc-delivery.mjs": "afecd6982d2d22b490f6f2175c0d09a06f17ec8050344ff98384fd1ed06c12a3",
+    ".github/workflows/embedded-host.yml": "d011e09bac269d2fbff15760afb894121fd70670c1be638d6bcfc2f4b015f492",
+    ".github/workflows/proc-casting.yml": "63800bbc48173fabb6dd57fd97a4b5c8a61d83cfbb7c4f5c3e6f145b1180175d",
+    "adapters/hollow-wake/integrate-proc-casting.mjs": "b400d33d0f91012324dfc9a1593ec1ce2243dd256b985ed9924bea8453a7fe36",
+    "docs/boundary-contract.md": "6d9559304f63be7000454db9ca504a9c3b75e29b60dd9dfba9956464141d8eff",
+    "docs/completion.json": "8594c0a253d5a1d9430530ea230b1c2d882f672307b5e4c5d76afe310ea602b1",
+    "docs/proc-casting.md": "68a5a5622eac942bbf8f156d43caddd0288cfc04e317e6bc22416787eb58bf70",
+    "docs/verification.md": "a94bac6663c40f88e46d2f17dc6bfdb2bc846d98273b032b60fb2f00b410760f",
+    "package.json": "579ab747f93403efb3a2238ddf88869a62eecf700a36e840143f7d9b60a040dc",
+    "scripts/check-boundaries.mjs": "d3c6ebbd2059730392256931cda764119d7fc31e41db789a30eb7110961fb54c",
+    "scripts/native-status-delivery-checks.mjs": "8fc8502eeaca016efa1eaf346b9476226e7ecbad2e082954ccc44a100687b856",
+    "scripts/prepare-game-adapter.mjs": "0ce371d7f471b9234eb4dc0c92cb9f155b1d9662433c0f83ca9c0a446859eb3d",
+    "scripts/test-cooldown-installed-faults.mjs": "b745b4c14dc18ab254cdcf2579043c52f555f08bb20f90ad1708d7a7f1bc3c96",
+    "scripts/test-cooldown-ui.mjs": "2cb8ed6c2684e72c19f9dc1454b23aaef59a84100da41fed1fd266f6e348f909",
+    "scripts/test-game-delayed.mjs": "d57e9f5053a798b19c6a33634aeafa328043f4c3ad5fd1f15fe922e18f3e1489",
+    "scripts/test-game-proc-casting-faults.mjs": "750344c4d19d236696acec3691802a85f97f098331b91a1b494b06478b3ea824",
+    "scripts/test-game-proc-casting.mjs": "0e4683acab9a59ac25e07e68e167aa2b9f021e3b72a3cd0602e0460bb76ea7c8",
+    "scripts/test-game-proc-effects.mjs": "06783bf3db52a3a022d972c0a86ae9e4be811b0b682be5193c67ea6c20592f83",
+    "scripts/test-life-recovery-installed-faults.mjs": "d3d97fd55500945380f8a46b089aaeec4cc70e481402f5df8ba3008b775d60c3",
+    "scripts/test-native-status-delivery.mjs": "83b85c8496a1cfd798d4468af91e9ac3f13910b3a447da399f6fbaf0becada64",
+    "scripts/test-package.mjs": "298cbbd44df53c02d2e3f5f71de261dd88b8a26c047dbda87197c9f6a4c62ef3",
+    "scripts/test-proc-casting-package.mjs": "d261f913ab6ed3985e4cfddf3fa7a54e74b4aec7da6b95b3f1d5639f572cd5bb",
+    "scripts/test-restoration-installed-faults.mjs": "8949a47fd463e37f665612c140c2f754c36f8e1f012cf850ea7758a0c01a1bcf",
+    "README.md": "cc16104404aba8bc003aa4198edae998d470377e9a76b616e5dd122ca663ae16",
+    "scripts/test-proc-package.mjs": "d5b831f70205548e5e593f184bb13347f96e6910e6ecc36e5a83140498747850",
+    "baseline/proc-delivery/acceptance.json": "7b74af9eb23e3fff01ed0e630e970d65e3aad2f11dd448b1b733b85bf14e1dc7",
+    "reference/export-proc-delivery.ts": "6420be572c645dfc9a32cd45bcb89c145362be98dad4095e11ae757b25a59b7e",
+    "scripts/proc-delivery-observation-checks.mjs": "9a013651b6c739b2fcbc2dafa05ce047671a2ab77c2969ab19e06de23259dc52",
+    "baseline/proc-delivery/source-boundary.json": "df64559dc5b8fcbbc067814845b4be6f4095409281f2b1ad505495b53da1c24c",
+    "baseline/proc-delivery/observations.json.gz": "f3696fb880d66d8d77bcd51c1d425616177f500dd95a0af834ee46fecc7c47e3"
+  },
+  "runtime": {
+    "added": [
+      "proc-delivery-types.d.ts",
+      "proc-delivery-types.js",
+      "proc-delivery-types.js.map",
+      "proc-delivery.d.ts",
+      "proc-delivery.js",
+      "proc-delivery.js.map"
+    ],
+    "unchangedPredecessorFiles": 297,
+    "mapSha256": "2b99521d2a676d41ff3a5add274ac544d871e0aee61ca709b0e4b14a307f1529",
+    "archiveSha256": "0ebac6434d106a0929c59b43ff0b86a03c69554c0ca4a46002384c7cfbe5db3d",
+    "javascriptBytes": 10120,
+    "budgetBytes": 10240,
+    "browserBytes": 9602,
+    "browserInputs": [
+      "browser.mjs",
+      "node_modules/@hollow-wake/engine/dist/proc-delivery.js",
+      "node_modules/@hollow-wake/engine/dist/proc-effects.js"
+    ],
+    "declarationCorrectionChanged": [
+      "proc-delivery-types.d.ts",
+      "proc-delivery.d.ts",
+      "proc-delivery.js.map"
+    ],
+    "executableBytesUnchangedByTypeCorrection": true
+  },
+  "validation": {
+    "sdkTests": 1372,
+    "independentTests": 20,
+    "runtimeFaults": 54,
+    "sourceGuards": 49,
+    "installedFaults": 14,
+    "installedControls": 12,
+    "castingFaults": 8,
+    "courses": 328,
+    "authoredProcs": 147,
+    "effectShapes": 22,
+    "authoredRiders": 1,
+    "deliberateCallbackErrors": 28,
+    "originalSourceFaults": 63,
+    "originalObservationsSha256": "d69e82406f306f3546ada012624fdb0ab2f8840ebc7b19b43aa97ccb73f44bf5",
+    "general": [
+      {
+        "name": "verify",
+        "passed": true,
+        "logSha256": "e95eabb672bd2928639081a7f9d22ad01e11c79018fd57697e76c51191e3fe96"
+      },
+      {
+        "name": "reference",
+        "passed": true,
+        "logSha256": "ed9449e747fdb1f57570cdcc3c0c46a363a0e3720d661dd8df1026f2e66fb987"
+      },
+      {
+        "name": "game-types",
+        "passed": true,
+        "logSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+      },
+      {
+        "name": "game-smoke",
+        "passed": true,
+        "logSha256": "8015f0e0c7421ba2027d9a606324fc67a703437f41f5e61035b519f11aa1d1a5"
+      },
+      {
+        "name": "procs",
+        "passed": true,
+        "logSha256": "12498efc313d5190b3d1aece9c48c0645f41c879281e63381fbb47c4637a80eb"
+      },
+      {
+        "name": "ward",
+        "passed": true,
+        "logSha256": "3593e7f1a96ce9745f19e86b617705ed362baf2d604b8a4c6a2abe7a8a89d391"
+      },
+      {
+        "name": "delayed",
+        "passed": true,
+        "logSha256": "b9919cdf44a0d52a2964021b96c2a030e545fb371d464ab9fda872a1abd5f14c"
+      },
+      {
+        "name": "heal",
+        "passed": true,
+        "logSha256": "3788ee3781c3c0efe597f2fcf7f52f5f75fde88ce958a736d1e1f53cf20e5f10"
+      },
+      {
+        "name": "heal-faults",
+        "passed": true,
+        "logSha256": "22a16e06f15dd5c63a16d7b4f760462be66f9f16afb1cfdbc21215cef57cff3e"
+      },
+      {
+        "name": "restore",
+        "passed": true,
+        "logSha256": "d6e7f2b97f4758c03dd05cf9418e9717aa9ba81184347c080345bf04b891fa7d"
+      },
+      {
+        "name": "restore-faults",
+        "passed": true,
+        "logSha256": "8e4047ce0b289d8d4921f4df8c8a2492944f689ffcb12bcaec0f53d33591e035"
+      },
+      {
+        "name": "cooldown",
+        "passed": true,
+        "logSha256": "ec72ceef078f96a3d150817d88ba247dc9ec709265388661f6ee24afbd4a87c1"
+      },
+      {
+        "name": "cooldown-faults",
+        "passed": true,
+        "logSha256": "2d43729cce4e316793f2b6e7f798c117e05e377aa9a5a504fda17902198643b1"
+      },
+      {
+        "name": "status-effects",
+        "passed": true,
+        "logSha256": "704826a3d0d1cd2da14645f969a3f7c852429a6b4d3659fbca48b81a981a96a1"
+      },
+      {
+        "name": "casting-faults",
+        "passed": true,
+        "logSha256": "ba492a55d0ca0659f3609e67580383d3d5db9a7315529b6cd02dcf20dfc338a8"
+      },
+      {
+        "name": "renderer-prepare",
+        "passed": true,
+        "logSha256": "04fca7fe781af3bb08d743e59c83f332b52caaa7d9b06939d533b9e074170c9b"
+      },
+      {
+        "name": "renderer-build",
+        "passed": true,
+        "logSha256": "8c4d74d3fe07edef5a4b3189981bb5861964ef158b44ce8d033861578ce7985e"
+      },
+      {
+        "name": "renderer-boot",
+        "passed": true,
+        "logSha256": "1a6feb208fd0bcf96c316f544b30821a7c01130d56bf059b2f8ff4cd96715306"
+      },
+      {
+        "name": "renderer-cooldown",
+        "passed": true,
+        "logSha256": "4a823b3711c25c0813d3bca90f5431e4d264b32498f3f74d6958a473e45d1a32"
+      },
+      {
+        "name": "renderer-delay",
+        "passed": true,
+        "logSha256": "2bff329be8f29612a6a6241b2e18285d821c0ba470b97588157df496218267f9"
+      },
+      {
+        "name": "renderer-heal",
+        "passed": true,
+        "logSha256": "d409ea89f4688b3eab73af768044307a4121fa4d455063cb8fde7bc8220ebd44"
+      },
+      {
+        "name": "renderer-restore",
+        "passed": true,
+        "logSha256": "e35bd1a4e2b03084bd338e8083efd7245f8999ae93389085675691ab8fedf383"
+      }
+    ],
+    "final": [
+      {
+        "name": "build",
+        "passed": true,
+        "logSha256": "3f462d1498248a75baae00aa14101107491dc094013b0e391446881d1cfe276f"
+      },
+      {
+        "name": "archive",
+        "passed": true,
+        "logSha256": "16a52c324031b083cd9fe0951adeec8dd83c98d59ef2b6054f0901890af5006d"
+      },
+      {
+        "name": "types",
+        "passed": true,
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "installed",
+        "passed": true,
+        "logSha256": "ab8654f60771753d3af7b203c4eac2f0728769c7887710a85484f45f85d156fa"
+      },
+      {
+        "name": "installer",
+        "passed": true,
+        "logSha256": "613c46c7afe86d820a034bff92c5ad49af6a20b0f7939c8f86829ccb6358b77b"
+      },
+      {
+        "name": "casting-installer",
+        "passed": true,
+        "logSha256": "94f88caa790ee74eac33bb8052d437d79cb335f7066eeff07a0826d213a4f214"
+      },
+      {
+        "name": "installed-faults",
+        "passed": true,
+        "logSha256": "43b155fbe6df7448382d596e095675669f7567232fc7d695315ade43772daf41"
+      },
+      {
+        "name": "native-proc",
+        "passed": true,
+        "logSha256": "36d3decc8a7424aea7d6f8627e079ef317c14a256828291a2adfca8cee7e06d6"
+      },
+      {
+        "name": "native-status",
+        "passed": true,
+        "logSha256": "e56684fe8547c755e7d9ed13822c93627ed262d9250066681039bd04de82e860"
+      },
+      {
+        "name": "verify",
+        "passed": false,
+        "logSha256": "829854570da3328f65f2f1810c169a61191d94172a5e9c34a3b04160394f5409"
+      },
+      {
+        "name": "verify",
+        "passed": true,
+        "logSha256": "465df113091b85f06efa38fb23f8d283d4212cccb5bf037fc7fa22bd62ebde70"
+      },
+      {
+        "name": "reference",
+        "passed": true,
+        "logSha256": "ed9449e747fdb1f57570cdcc3c0c46a363a0e3720d661dd8df1026f2e66fb987"
+      },
+      {
+        "name": "game-types",
+        "passed": true,
+        "logSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+      },
+      {
+        "name": "benchmark",
+        "passed": true,
+        "logSha256": "b094174e6f43e37168924cd3003fdae56f2bfd96e71349521fae955bdd230d68"
+      },
+      {
+        "name": "census-node",
+        "passed": true,
+        "logSha256": "1c878d351bcd21d291dcf11b58072ffacbc550ef57898070c37f1a162353e7c5"
+      },
+      {
+        "name": "census-native",
+        "passed": true,
+        "logSha256": "4e678cde4094641076b01e9ed1e34042999ff56659497a5a8686071702c96edf"
+      }
+    ],
+    "nativeProc": {
+      "reference": "d69e82406f306f3546ada012624fdb0ab2f8840ebc7b19b43aa97ccb73f44bf5",
+      "vm": "0.17.0",
+      "comparison": {
+        "numbers": 379857,
+        "exact": true
+      },
+      "runs": [
+        {
+          "label": "original",
+          "passed": true,
+          "cloneChecks": 919,
+          "consumers": [
+            {
+              "host": "c",
+              "comparison": {
+                "numbers": 379857,
+                "exact": true
+              },
+              "metrics": {
+                "code": 0,
+                "completedRequests": 330,
+                "peakRequestedBytes": 93480039,
+                "liveRequestedBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "allocationRequests": 685156
+              },
+              "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3"
+            },
+            {
+              "host": "cpp",
+              "comparison": {
+                "numbers": 379857,
+                "exact": true
+              },
+              "metrics": {
+                "passed": true,
+                "requests": 330,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 93480039,
+                "bufferOwnership": true,
+                "threadMigration": true,
+                "concurrentCancellation": true,
+                "unloadReload": true
+              },
+              "outputSha256": "e15e94c395e81dd02b3537d4751a254f2888b5eee2aefaf7fe0990befdb94ad5"
+            },
+            {
+              "host": "dotnet",
+              "comparison": {
+                "numbers": 379857,
+                "exact": true
+              },
+              "metrics": {
+                "passed": true,
+                "requests": 330,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 93480039,
+                "managedOwnership": true,
+                "threadMigration": true,
+                "libraryLease": true,
+                "failedConstructionLease": true,
+                "finalizerUnload": true,
+                "unloadReload": true,
+                "residencyProbe": "GetModuleHandleW"
+              },
+              "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3"
+            }
+          ]
+        },
+        {
+          "label": "installed",
+          "passed": true,
+          "cloneChecks": 919,
+          "consumers": [
+            {
+              "host": "c",
+              "comparison": {
+                "numbers": 379857,
+                "exact": true
+              },
+              "metrics": {
+                "code": 0,
+                "completedRequests": 330,
+                "peakRequestedBytes": 147446697,
+                "liveRequestedBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "allocationRequests": 741322
+              },
+              "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3"
+            },
+            {
+              "host": "cpp",
+              "comparison": {
+                "numbers": 379857,
+                "exact": true
+              },
+              "metrics": {
+                "passed": true,
+                "requests": 330,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 147446697,
+                "bufferOwnership": true,
+                "threadMigration": true,
+                "concurrentCancellation": true,
+                "unloadReload": true
+              },
+              "outputSha256": "e15e94c395e81dd02b3537d4751a254f2888b5eee2aefaf7fe0990befdb94ad5"
+            },
+            {
+              "host": "dotnet",
+              "comparison": {
+                "numbers": 379857,
+                "exact": true
+              },
+              "metrics": {
+                "passed": true,
+                "requests": 330,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 147446697,
+                "managedOwnership": true,
+                "threadMigration": true,
+                "libraryLease": true,
+                "failedConstructionLease": true,
+                "finalizerUnload": true,
+                "unloadReload": true,
+                "residencyProbe": "GetModuleHandleW"
+              },
+              "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3"
+            }
+          ]
+        },
+        {
+          "label": "arc-strict-tie-fault",
+          "passed": true,
+          "cloneChecks": 919,
+          "consumers": [
+            {
+              "host": "c",
+              "comparison": {
+                "numbers": 380056,
+                "exact": true
+              },
+              "metrics": {
+                "code": 0,
+                "completedRequests": 330,
+                "peakRequestedBytes": 147558755,
+                "liveRequestedBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "allocationRequests": 749156
+              },
+              "outputSha256": "bfce1683a5443af1f8b91ad9b7376243f4fcbe3b58386aaa89f691fb1956fe00"
+            },
+            {
+              "host": "cpp",
+              "comparison": {
+                "numbers": 380056,
+                "exact": true
+              },
+              "metrics": {
+                "passed": true,
+                "requests": 330,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 147558755,
+                "bufferOwnership": true,
+                "threadMigration": true,
+                "concurrentCancellation": true,
+                "unloadReload": true
+              },
+              "outputSha256": "c2c676c575cbc64d743ed7b73feb9e8e805a07d0601ddb7f7696435d2ab638e9"
+            },
+            {
+              "host": "dotnet",
+              "comparison": {
+                "numbers": 380056,
+                "exact": true
+              },
+              "metrics": {
+                "passed": true,
+                "requests": 330,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 147558755,
+                "managedOwnership": true,
+                "threadMigration": true,
+                "libraryLease": true,
+                "failedConstructionLease": true,
+                "finalizerUnload": true,
+                "unloadReload": true,
+                "residencyProbe": "GetModuleHandleW"
+              },
+              "outputSha256": "bfce1683a5443af1f8b91ad9b7376243f4fcbe3b58386aaa89f691fb1956fe00"
+            }
+          ]
+        },
+        {
+          "label": "rider-depth-fault",
+          "passed": true,
+          "cloneChecks": 919,
+          "consumers": [
+            {
+              "host": "c",
+              "comparison": {
+                "numbers": 379857,
+                "exact": true
+              },
+              "metrics": {
+                "code": 0,
+                "completedRequests": 330,
+                "peakRequestedBytes": 147446709,
+                "liveRequestedBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "allocationRequests": 741322
+              },
+              "outputSha256": "806bc33c109a04424d723742da520a85e13bfec58c624d1c5507e3245cd5b37b"
+            },
+            {
+              "host": "cpp",
+              "comparison": {
+                "numbers": 379857,
+                "exact": true
+              },
+              "metrics": {
+                "passed": true,
+                "requests": 330,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 147446709,
+                "bufferOwnership": true,
+                "threadMigration": true,
+                "concurrentCancellation": true,
+                "unloadReload": true
+              },
+              "outputSha256": "a197ae8635234cc1b69bc003e95a0bff284ef579506904eab9aa52aa301b4cab"
+            },
+            {
+              "host": "dotnet",
+              "comparison": {
+                "numbers": 379857,
+                "exact": true
+              },
+              "metrics": {
+                "passed": true,
+                "requests": 330,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 147446709,
+                "managedOwnership": true,
+                "threadMigration": true,
+                "libraryLease": true,
+                "failedConstructionLease": true,
+                "finalizerUnload": true,
+                "unloadReload": true,
+                "residencyProbe": "GetModuleHandleW"
+              },
+              "outputSha256": "806bc33c109a04424d723742da520a85e13bfec58c624d1c5507e3245cd5b37b"
+            }
+          ]
+        }
+      ]
+    },
+    "nativeStatus": {
+      "reference": "7f0679127df981dd8c0e81dff3ad8b6b613578ec906794b83c888edca21210cd",
+      "vm": "0.17.0",
+      "comparison": {
+        "numbers": 71291,
+        "exact": true
+      },
+      "runs": [
+        {
+          "label": "original",
+          "passed": true,
+          "cloneChecks": 919,
+          "consumers": [
+            {
+              "host": "c",
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "metrics": {
+                "code": 0,
+                "completedRequests": 90,
+                "peakRequestedBytes": 100279920,
+                "liveRequestedBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "allocationRequests": 186145
+              },
+              "outputSha256": "9f241125ce9c0c8b354a2c92046d8139d9fe588ada448906cdd08e189013838c"
+            },
+            {
+              "host": "cpp",
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 100279920,
+                "bufferOwnership": true,
+                "threadMigration": true,
+                "concurrentCancellation": true,
+                "unloadReload": true
+              },
+              "outputSha256": "a448017da94dd50f223ed63076c7e44f49b1b359d0181e90d5029d70b71f86c4"
+            },
+            {
+              "host": "dotnet",
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 100279920,
+                "managedOwnership": true,
+                "threadMigration": true,
+                "libraryLease": true,
+                "failedConstructionLease": true,
+                "finalizerUnload": true,
+                "unloadReload": true,
+                "residencyProbe": "GetModuleHandleW"
+              },
+              "outputSha256": "9f241125ce9c0c8b354a2c92046d8139d9fe588ada448906cdd08e189013838c"
+            }
+          ]
+        },
+        {
+          "label": "installed",
+          "passed": true,
+          "cloneChecks": 919,
+          "consumers": [
+            {
+              "host": "c",
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "metrics": {
+                "code": 0,
+                "completedRequests": 90,
+                "peakRequestedBytes": 138153955,
+                "liveRequestedBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "allocationRequests": 215087
+              },
+              "outputSha256": "9f241125ce9c0c8b354a2c92046d8139d9fe588ada448906cdd08e189013838c"
+            },
+            {
+              "host": "cpp",
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138153955,
+                "bufferOwnership": true,
+                "threadMigration": true,
+                "concurrentCancellation": true,
+                "unloadReload": true
+              },
+              "outputSha256": "a448017da94dd50f223ed63076c7e44f49b1b359d0181e90d5029d70b71f86c4"
+            },
+            {
+              "host": "dotnet",
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138153955,
+                "managedOwnership": true,
+                "threadMigration": true,
+                "libraryLease": true,
+                "failedConstructionLease": true,
+                "finalizerUnload": true,
+                "unloadReload": true,
+                "residencyProbe": "GetModuleHandleW"
+              },
+              "outputSha256": "9f241125ce9c0c8b354a2c92046d8139d9fe588ada448906cdd08e189013838c"
+            }
+          ]
+        },
+        {
+          "label": "zero-share-fault",
+          "passed": true,
+          "cloneChecks": 919,
+          "consumers": [
+            {
+              "host": "c",
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "metrics": {
+                "code": 0,
+                "completedRequests": 90,
+                "peakRequestedBytes": 138153954,
+                "liveRequestedBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "allocationRequests": 215087
+              },
+              "outputSha256": "ac8a9400181557e52bdfd1a7ea3fe6f8ac41a4f7a8b108cc2f46a25bf7d195af"
+            },
+            {
+              "host": "cpp",
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138153954,
+                "bufferOwnership": true,
+                "threadMigration": true,
+                "concurrentCancellation": true,
+                "unloadReload": true
+              },
+              "outputSha256": "06c230b57266feebf710eadf9c59ed5255b4830ef1b6386c2debbdecbf1f687c"
+            },
+            {
+              "host": "dotnet",
+              "comparison": {
+                "numbers": 71291,
+                "exact": true
+              },
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138153954,
+                "managedOwnership": true,
+                "threadMigration": true,
+                "libraryLease": true,
+                "failedConstructionLease": true,
+                "finalizerUnload": true,
+                "unloadReload": true,
+                "residencyProbe": "GetModuleHandleW"
+              },
+              "outputSha256": "ac8a9400181557e52bdfd1a7ea3fe6f8ac41a4f7a8b108cc2f46a25bf7d195af"
+            }
+          ]
+        },
+        {
+          "label": "source-identity-fault",
+          "passed": true,
+          "cloneChecks": 919,
+          "consumers": [
+            {
+              "host": "c",
+              "comparison": {
+                "numbers": 71419,
+                "exact": true
+              },
+              "metrics": {
+                "code": 0,
+                "completedRequests": 90,
+                "peakRequestedBytes": 138153959,
+                "liveRequestedBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "allocationRequests": 217815
+              },
+              "outputSha256": "605bbd2058ccc4b50998976ea029f91ab2d334e62893cab79c847dfa95f300d1"
+            },
+            {
+              "host": "cpp",
+              "comparison": {
+                "numbers": 71419,
+                "exact": true
+              },
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138153959,
+                "bufferOwnership": true,
+                "threadMigration": true,
+                "concurrentCancellation": true,
+                "unloadReload": true
+              },
+              "outputSha256": "0a0cf9a7a36a747fbd6d49293c2f605de21086aa064d71c57dbdab8ecdd44537"
+            },
+            {
+              "host": "dotnet",
+              "comparison": {
+                "numbers": 71419,
+                "exact": true
+              },
+              "metrics": {
+                "passed": true,
+                "requests": 90,
+                "liveBytesAfterDispose": 0,
+                "liveBlocksAfterDispose": 0,
+                "peakTrackedBytes": 138153959,
+                "managedOwnership": true,
+                "threadMigration": true,
+                "libraryLease": true,
+                "failedConstructionLease": true,
+                "finalizerUnload": true,
+                "unloadReload": true,
+                "residencyProbe": "GetModuleHandleW"
+              },
+              "outputSha256": "605bbd2058ccc4b50998976ea029f91ab2d334e62893cab79c847dfa95f300d1"
+            }
+          ]
+        }
+      ]
+    },
+    "nativeAttack": {
+      "numbers": 150608,
+      "differences": []
+    }
+  },
+  "installedExample": {
+    "draws": 3,
+    "cues": [
+      {
+        "time": 0,
+        "phase": "gain",
+        "id": "desperate_ward",
+        "color": "#8ae0b8",
+        "ward": 30
+      },
+      {
+        "time": 20,
+        "phase": "gain",
+        "id": "desperate_ward",
+        "color": "#8ae0b8",
+        "ward": 60
+      }
+    ]
+  },
+  "performance": {
+    "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+    "node": "v24.9.0",
+    "embeddedRuntime": "0.17.0",
+    "workloads": 6,
+    "nodeSummary": [
+      {
+        "size": 32,
+        "density": "sparse",
+        "originalMsPerThousand": 0.08739930080559356,
+        "scanMsPerThousand": 0.05774713802289579,
+        "scanOverOriginal": 0.660727688787185,
+        "pairedScanOverOriginal": [
+          0.5481483772686145,
+          0.6609141578999997,
+          0.644015635225243,
+          0.679291184032289,
+          0.7272459648766628,
+          0.7382487435115762
+        ],
+        "identicalControlRatios": [
+          1.0820472307648892,
+          0.9883337001981087,
+          0.9801713720751405,
+          0.9916571707634713,
+          1.0567552100054436,
+          1.0209818501415993
+        ]
+      },
+      {
+        "size": 32,
+        "density": "crowded",
+        "originalMsPerThousand": 0.1089487284101727,
+        "scanMsPerThousand": 0.07620379036967706,
+        "scanOverOriginal": 0.6994463495047254,
+        "pairedScanOverOriginal": [
+          0.6721293877697065,
+          0.7098892482603165,
+          0.7607108194296819,
+          0.9364588367971642,
+          0.5002405304218697,
+          0.7237768908492898
+        ],
+        "identicalControlRatios": [
+          1.0129045996592845,
+          1.006690810225256,
+          0.9909576030053555,
+          0.66875408595121,
+          3.205711418656186,
+          1.0218149995255321
+        ]
+      },
+      {
+        "size": 128,
+        "density": "sparse",
+        "originalMsPerThousand": 0.42574303356048254,
+        "scanMsPerThousand": 0.29957609495473014,
+        "scanOverOriginal": 0.7036547197246653,
+        "pairedScanOverOriginal": [
+          0.6576906521018131,
+          0.6776509799659453,
+          0.7304286993086948,
+          0.5874545836711412,
+          0.7373271179258006,
+          0.7110212811139597
+        ],
+        "identicalControlRatios": [
+          1.110008368919122,
+          1.020710818382055,
+          0.9571992049515458,
+          1.2289536904518488,
+          0.8474094509582644,
+          1.0014506511930537
+        ]
+      },
+      {
+        "size": 128,
+        "density": "crowded",
+        "originalMsPerThousand": 0.46056083437310036,
+        "scanMsPerThousand": 0.30585468854976505,
+        "scanOverOriginal": 0.664091832658945,
+        "pairedScanOverOriginal": [
+          0.5947898874635074,
+          0.6679634747927089,
+          0.4719240095428053,
+          0.5756248139919575,
+          0.6674940041273925,
+          0.6697378793850998
+        ],
+        "identicalControlRatios": [
+          1.0412724921334824,
+          1.0419329157151538,
+          0.9867713631607855,
+          1.147857348980376,
+          0.8485899310632933,
+          1.0057382476274561
+        ]
+      },
+      {
+        "size": 512,
+        "density": "sparse",
+        "originalMsPerThousand": 1.9745237181946047,
+        "scanMsPerThousand": 1.2406597621787498,
+        "scanOverOriginal": 0.6283336840912402,
+        "pairedScanOverOriginal": [
+          0.5246787413789482,
+          0.6541205298623971,
+          0.650043967527749,
+          0.5048610791134871,
+          0.6197912184659792,
+          0.5887689038559512
+        ],
+        "identicalControlRatios": [
+          1.0601308495230488,
+          0.944866269233868,
+          0.9305879585154977,
+          1.3262493643984936,
+          0.8381074441952351,
+          1.0320388349514549
+        ]
+      },
+      {
+        "size": 512,
+        "density": "crowded",
+        "originalMsPerThousand": 2.1834100498657456,
+        "scanMsPerThousand": 1.25073520010229,
+        "scanOverOriginal": 0.5728356889166081,
+        "pairedScanOverOriginal": [
+          0.36627938229037904,
+          0.6177286982852891,
+          0.4497624205792936,
+          0.5162263145464581,
+          0.5649796637664932,
+          0.5833039492242598
+        ],
+        "identicalControlRatios": [
+          1.0812088557172204,
+          0.9560379707438532,
+          0.9745901639344255,
+          1.147596368158035,
+          1.256847758727534,
+          0.9747922019041854
+        ]
+      }
+    ],
+    "nativeSummary": [
+      {
+        "size": 32,
+        "density": "sparse",
+        "originalMsPerThousand": 3.3275740705189736,
+        "scanMsPerThousand": 3.7221902263176982,
+        "scanOverOriginal": 1.1185897435897436,
+        "pairedScanOverOriginal": [
+          1.09375,
+          1.0880503144654088,
+          1.093167701863354,
+          1.1513157894736843,
+          1.1045751633986929,
+          1.144736842105263
+        ],
+        "identicalControlRatios": [
+          0.9657142857142857,
+          1.1445086705202312,
+          0.9886363636363636,
+          1.0114285714285713,
+          1.047337278106509,
+          0.9712643678160919
+        ],
+        "originalAllocationRequests": 146,
+        "scanAllocationRequests": 146,
+        "originalPeakRequestedBytes": 219379,
+        "scanPeakRequestedBytes": 219379
+      },
+      {
+        "size": 32,
+        "density": "crowded",
+        "originalMsPerThousand": 3.5408801006804462,
+        "scanMsPerThousand": 3.7008596233015507,
+        "scanOverOriginal": 1.0451807228915662,
+        "pairedScanOverOriginal": [
+          1.0662650602409638,
+          1.036144578313253,
+          1.017751479289941,
+          1.0679012345679013,
+          1.0674846625766872,
+          1.072289156626506
+        ],
+        "identicalControlRatios": [
+          0.9943502824858758,
+          1,
+          1.0465116279069768,
+          1,
+          1.0114942528735633,
+          1.0280898876404494
+        ],
+        "originalAllocationRequests": 146,
+        "scanAllocationRequests": 146,
+        "originalPeakRequestedBytes": 219379,
+        "scanPeakRequestedBytes": 219379
+      },
+      {
+        "size": 128,
+        "density": "sparse",
+        "originalMsPerThousand": 11.213439072226485,
+        "scanMsPerThousand": 13.984821352434553,
+        "scanOverOriginal": 1.247148288973384,
+        "pairedScanOverOriginal": [
+          1.2366412213740459,
+          1.2222222222222223,
+          1.300751879699248,
+          1.2803030303030303,
+          1.2538461538461538,
+          1.2442748091603053
+        ],
+        "identicalControlRatios": [
+          1.0061728395061729,
+          0.9939393939393939,
+          0.9421965317919075,
+          0.9940828402366864,
+          1,
+          1.0061349693251533
+        ],
+        "originalAllocationRequests": 150,
+        "scanAllocationRequests": 150,
+        "originalPeakRequestedBytes": 225626,
+        "scanPeakRequestedBytes": 225626
+      },
+      {
+        "size": 128,
+        "density": "crowded",
+        "originalMsPerThousand": 12.194082032915494,
+        "scanMsPerThousand": 14.496461158011428,
+        "scanOverOriginal": 1.188811188811189,
+        "pairedScanOverOriginal": [
+          1.2198581560283688,
+          1.1901408450704225,
+          1.1875,
+          1.1958041958041958,
+          1.167832167832168,
+          1.1506849315068493
+        ],
+        "identicalControlRatios": [
+          1.005813953488372,
+          0.9940828402366864,
+          0.9824561403508771,
+          0.9883040935672515,
+          1.0119760479041917,
+          1.0178571428571428
+        ],
+        "originalAllocationRequests": 151,
+        "scanAllocationRequests": 151,
+        "originalPeakRequestedBytes": 225626,
+        "scanPeakRequestedBytes": 225626
+      },
+      {
+        "size": 512,
+        "density": "sparse",
+        "originalMsPerThousand": 44.648943421949554,
+        "scanMsPerThousand": 56.407634628493525,
+        "scanOverOriginal": 1.2633587786259544,
+        "pairedScanOverOriginal": [
+          1.2790697674418605,
+          1.1714285714285715,
+          1.296875,
+          1.2615384615384615,
+          1.3333333333333333,
+          1.356060606060606
+        ],
+        "identicalControlRatios": [
+          0.9939393939393939,
+          1.0060975609756098,
+          1.0060240963855422,
+          1,
+          0.9602272727272727,
+          0.9497206703910615
+        ],
+        "originalAllocationRequests": 3107,
+        "scanAllocationRequests": 173,
+        "originalPeakRequestedBytes": 287426,
+        "scanPeakRequestedBytes": 287426
+      },
+      {
+        "size": 512,
+        "density": "crowded",
+        "originalMsPerThousand": 46.52351738241309,
+        "scanMsPerThousand": 57.089297886843895,
+        "scanOverOriginal": 1.227106227106227,
+        "pairedScanOverOriginal": [
+          1.2269503546099292,
+          1.2462686567164178,
+          1.2279411764705883,
+          1.2647058823529411,
+          1.2262773722627738,
+          1.1956521739130435
+        ],
+        "identicalControlRatios": [
+          0.9595375722543352,
+          1.0059880239520957,
+          1.0119760479041917,
+          0.9767441860465116,
+          1,
+          1.0121212121212122
+        ],
+        "originalAllocationRequests": 5554,
+        "scanAllocationRequests": 184,
+        "originalPeakRequestedBytes": 288938,
+        "scanPeakRequestedBytes": 288938
+      }
+    ],
+    "fullGameReplayMemory": {
+      "bundles": {
+        "original": {
+          "bytes": 13515639,
+          "sha256": "64edac39e7aca48fbd56c4aef3bdbdc9aade0f66b86849281054f03ceecc9f51"
+        },
+        "predecessor": {
+          "bytes": 13845065,
+          "sha256": "c828948c31786a99996c8f0bad7953c4e5a71b510b8d27ca5302b73a799feb17"
+        },
+        "installed": {
+          "bytes": 13847597,
+          "sha256": "776cf313613c4862d463317c4cb5153ae8aa764d848533000178f975a94c1bec"
+        }
+      },
+      "runs": [
+        {
+          "scope": "startup",
+          "label": "original",
+          "requestCount": 1,
+          "outputSha256": "50f3272799e89fd16b8c1db3054da141f257e13ef47798180c454dfd16f2bc9f",
+          "metrics": {
+            "code": 0,
+            "completedRequests": 1,
+            "peakRequestedBytes": 77635098,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 92309
+          }
+        },
+        {
+          "scope": "startup",
+          "label": "predecessor",
+          "requestCount": 1,
+          "outputSha256": "50f3272799e89fd16b8c1db3054da141f257e13ef47798180c454dfd16f2bc9f",
+          "metrics": {
+            "code": 0,
+            "completedRequests": 1,
+            "peakRequestedBytes": 79457397,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 83704
+          }
+        },
+        {
+          "scope": "startup",
+          "label": "installed",
+          "requestCount": 1,
+          "outputSha256": "50f3272799e89fd16b8c1db3054da141f257e13ef47798180c454dfd16f2bc9f",
+          "metrics": {
+            "code": 0,
+            "completedRequests": 1,
+            "peakRequestedBytes": 79466197,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 89409
+          }
+        },
+        {
+          "scope": "first-course",
+          "label": "original",
+          "requestCount": 2,
+          "outputSha256": "84c54b319900f714a5c4594277e40ecee35e14e6ba4c562805162525ea449b5c",
+          "metrics": {
+            "code": 0,
+            "completedRequests": 2,
+            "peakRequestedBytes": 77635098,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 109025
+          }
+        },
+        {
+          "scope": "first-course",
+          "label": "predecessor",
+          "requestCount": 2,
+          "outputSha256": "84c54b319900f714a5c4594277e40ecee35e14e6ba4c562805162525ea449b5c",
+          "metrics": {
+            "code": 0,
+            "completedRequests": 2,
+            "peakRequestedBytes": 101481708,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 134245
+          }
+        },
+        {
+          "scope": "first-course",
+          "label": "installed",
+          "requestCount": 2,
+          "outputSha256": "84c54b319900f714a5c4594277e40ecee35e14e6ba4c562805162525ea449b5c",
+          "metrics": {
+            "code": 0,
+            "completedRequests": 2,
+            "peakRequestedBytes": 101489219,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 115925
+          }
+        },
+        {
+          "scope": "complete",
+          "label": "original",
+          "requestCount": 330,
+          "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3",
+          "metrics": {
+            "code": 0,
+            "completedRequests": 330,
+            "peakRequestedBytes": 93480039,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 685156
+          }
+        },
+        {
+          "scope": "complete",
+          "label": "predecessor",
+          "requestCount": 330,
+          "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3",
+          "metrics": {
+            "code": 0,
+            "completedRequests": 330,
+            "peakRequestedBytes": 147900698,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 706941
+          }
+        },
+        {
+          "scope": "complete",
+          "label": "installed",
+          "requestCount": 330,
+          "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3",
+          "metrics": {
+            "code": 0,
+            "completedRequests": 330,
+            "peakRequestedBytes": 147446697,
+            "liveRequestedBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "allocationRequests": 741322
+          }
+        }
+      ],
+      "scope": "Fresh processes on the same C driver. Peak requested bytes include parsing the full test bundle, initialization, gameplay, observer serialization and disposal. Allocation request counts include reallocations. Live gameplay memory and whole-process RSS require separate measurements."
+    },
+    "visitorExperiments": {
+      "intrinsicCall": [
+        {
+          "vm": "node",
+          "size": 32,
+          "density": "sparse",
+          "ratios": {
+            "original": 1,
+            "scan": 0.7337616999252963,
+            "each": 3.1257366619630993,
+            "reduce": 3.208359984180384,
+            "each-control": 3.1169723986738886,
+            "scan-control": 0.7366082545200653
+          }
+        },
+        {
+          "vm": "node",
+          "size": 32,
+          "density": "crowded",
+          "ratios": {
+            "original": 1,
+            "scan": 0.6872395739303118,
+            "each": 2.1774508033941142,
+            "reduce": 2.249398808449178,
+            "each-control": 2.175883733525906,
+            "scan-control": 0.6987217909369922
+          }
+        },
+        {
+          "vm": "node",
+          "size": 128,
+          "density": "sparse",
+          "ratios": {
+            "original": 1,
+            "scan": 0.7004475348596367,
+            "each": 2.2169730369493656,
+            "reduce": 2.375452158153642,
+            "each-control": 2.199903835484706,
+            "scan-control": 0.7020564411732073
+          }
+        },
+        {
+          "vm": "node",
+          "size": 128,
+          "density": "crowded",
+          "ratios": {
+            "original": 1,
+            "scan": 0.6723672743751525,
+            "each": 1.9470840450378228,
+            "reduce": 2.2154773939415078,
+            "each-control": 1.9120054380032783,
+            "scan-control": 0.687698260536131
+          }
+        },
+        {
+          "vm": "node",
+          "size": 512,
+          "density": "sparse",
+          "ratios": {
+            "original": 1,
+            "scan": 0.6174818725353005,
+            "each": 1.8815926726879526,
+            "reduce": 1.943792138404781,
+            "each-control": 1.9041279735402603,
+            "scan-control": 0.6145687571555779
+          }
+        },
+        {
+          "vm": "node",
+          "size": 512,
+          "density": "crowded",
+          "ratios": {
+            "original": 1,
+            "scan": 0.5845339717322104,
+            "each": 1.6118639674509772,
+            "reduce": 1.6527774137273226,
+            "each-control": 1.5899801665312403,
+            "scan-control": 0.578298515547866
+          }
+        },
+        {
+          "vm": "embedded",
+          "size": 32,
+          "density": "sparse",
+          "ratios": {
+            "original": 1,
+            "scan": 1.1193548387096774,
+            "each": 0.9580645161290322,
+            "reduce": 0.9451612903225807,
+            "each-control": 0.9387096774193548,
+            "scan-control": 1.1096774193548387
+          },
+          "allocations": {
+            "original": 153,
+            "scan": 153,
+            "each": 153,
+            "reduce": 153,
+            "each-control": 153,
+            "scan-control": 153
+          }
+        },
+        {
+          "vm": "embedded",
+          "size": 32,
+          "density": "crowded",
+          "ratios": {
+            "original": 1,
+            "scan": 1.0656716417910448,
+            "each": 0.9253731343283582,
+            "reduce": 0.9582089552238806,
+            "each-control": 0.8895522388059701,
+            "scan-control": 1.0805970149253732
+          },
+          "allocations": {
+            "original": 21309,
+            "scan": 153,
+            "each": 153,
+            "reduce": 153,
+            "each-control": 153,
+            "scan-control": 153
+          }
+        },
+        {
+          "vm": "embedded",
+          "size": 128,
+          "density": "sparse",
+          "ratios": {
+            "original": 1,
+            "scan": 1.2851851851851852,
+            "each": 0.9962962962962963,
+            "reduce": 0.9888888888888889,
+            "each-control": 0.9925925925925926,
+            "scan-control": 1.2555555555555555
+          },
+          "allocations": {
+            "original": 157,
+            "scan": 157,
+            "each": 157,
+            "reduce": 157,
+            "each-control": 157,
+            "scan-control": 157
+          }
+        },
+        {
+          "vm": "embedded",
+          "size": 128,
+          "density": "crowded",
+          "ratios": {
+            "original": 1,
+            "scan": 1.1538461538461537,
+            "each": 0.9230769230769231,
+            "reduce": 0.919732441471572,
+            "each-control": 0.8996655518394648,
+            "scan-control": 1.1471571906354514
+          },
+          "allocations": {
+            "original": 8457,
+            "scan": 159,
+            "each": 159,
+            "reduce": 159,
+            "each-control": 159,
+            "scan-control": 159
+          }
+        },
+        {
+          "vm": "embedded",
+          "size": 512,
+          "density": "sparse",
+          "ratios": {
+            "original": 1,
+            "scan": 1.2593984962406015,
+            "each": 1.056390977443609,
+            "reduce": 0.9586466165413534,
+            "each-control": 0.9511278195488722,
+            "scan-control": 1.2669172932330828
+          },
+          "allocations": {
+            "original": 2607,
+            "scan": 171,
+            "each": 171,
+            "reduce": 171,
+            "each-control": 171,
+            "scan-control": 171
+          }
+        },
+        {
+          "vm": "embedded",
+          "size": 512,
+          "density": "crowded",
+          "ratios": {
+            "original": 1,
+            "scan": 1.2482014388489209,
+            "each": 0.9568345323741008,
+            "reduce": 0.9640287769784173,
+            "each-control": 0.9532374100719424,
+            "scan-control": 1.2589928057553956
+          },
+          "allocations": {
+            "original": 5054,
+            "scan": 182,
+            "each": 182,
+            "reduce": 182,
+            "each-control": 182,
+            "scan-control": 182
+          }
+        }
+      ],
+      "ordinaryArray": [
+        {
+          "vm": "node",
+          "size": 32,
+          "density": "sparse",
+          "ratios": {
+            "original": 1,
+            "scan": 0.7431382678260197,
+            "each": 0.8617225180686255,
+            "reduce": 0.690383194851468,
+            "each-control": 0.8529935739908366,
+            "scan-control": 0.7314063352435939
+          }
+        },
+        {
+          "vm": "node",
+          "size": 32,
+          "density": "crowded",
+          "ratios": {
+            "original": 1,
+            "scan": 0.7396177455461769,
+            "each": 0.8274755231906287,
+            "reduce": 0.7570805569200655,
+            "each-control": 0.9088049017365321,
+            "scan-control": 0.709904342641583
+          }
+        },
+        {
+          "vm": "node",
+          "size": 128,
+          "density": "sparse",
+          "ratios": {
+            "original": 1,
+            "scan": 0.7393175102109957,
+            "each": 0.7161136102693443,
+            "reduce": 0.8207005590167328,
+            "each-control": 0.7001524591089608,
+            "scan-control": 0.721835532383444
+          }
+        },
+        {
+          "vm": "node",
+          "size": 128,
+          "density": "crowded",
+          "ratios": {
+            "original": 1,
+            "scan": 0.6803537781987786,
+            "each": 0.6898674876187922,
+            "reduce": 0.7853512213035705,
+            "each-control": 0.6832813374106373,
+            "scan-control": 0.6589204754109049
+          }
+        },
+        {
+          "vm": "node",
+          "size": 512,
+          "density": "sparse",
+          "ratios": {
+            "original": 1,
+            "scan": 0.6198320955150579,
+            "each": 0.569552518409053,
+            "reduce": 0.8648283456693227,
+            "each-control": 0.5511102391357322,
+            "scan-control": 0.6147405328261812
+          }
+        },
+        {
+          "vm": "node",
+          "size": 512,
+          "density": "crowded",
+          "ratios": {
+            "original": 1,
+            "scan": 0.6365062903825628,
+            "each": 0.5979022987636932,
+            "reduce": 0.8061818390714237,
+            "each-control": 0.5761240600708105,
+            "scan-control": 0.6030392177612225
+          }
+        },
+        {
+          "vm": "embedded",
+          "size": 32,
+          "density": "sparse",
+          "ratios": {
+            "original": 1,
+            "scan": 1.1114649681528663,
+            "each": 0.9267515923566879,
+            "reduce": 0.9267515923566879,
+            "each-control": 0.9171974522292994,
+            "scan-control": 1.105095541401274
+          },
+          "allocations": {
+            "original": 153,
+            "scan": 153,
+            "each": 153,
+            "reduce": 153,
+            "each-control": 153,
+            "scan-control": 153
+          }
+        },
+        {
+          "vm": "embedded",
+          "size": 32,
+          "density": "crowded",
+          "ratios": {
+            "original": 1,
+            "scan": 1.0710059171597632,
+            "each": 0.8727810650887574,
+            "reduce": 0.893491124260355,
+            "each-control": 0.8875739644970414,
+            "scan-control": 1.032544378698225
+          },
+          "allocations": {
+            "original": 21309,
+            "scan": 153,
+            "each": 153,
+            "reduce": 153,
+            "each-control": 153,
+            "scan-control": 153
+          }
+        },
+        {
+          "vm": "embedded",
+          "size": 128,
+          "density": "sparse",
+          "ratios": {
+            "original": 1,
+            "scan": 1.221818181818182,
+            "each": 0.9345454545454546,
+            "reduce": 0.9418181818181818,
+            "each-control": 0.9418181818181818,
+            "scan-control": 1.210909090909091
+          },
+          "allocations": {
+            "original": 157,
+            "scan": 157,
+            "each": 157,
+            "reduce": 157,
+            "each-control": 157,
+            "scan-control": 157
+          }
+        },
+        {
+          "vm": "embedded",
+          "size": 128,
+          "density": "crowded",
+          "ratios": {
+            "original": 1,
+            "scan": 1.1523178807947019,
+            "each": 0.8741721854304636,
+            "reduce": 0.9006622516556292,
+            "each-control": 0.8675496688741722,
+            "scan-control": 1.1225165562913908
+          },
+          "allocations": {
+            "original": 8457,
+            "scan": 159,
+            "each": 159,
+            "reduce": 159,
+            "each-control": 159,
+            "scan-control": 159
+          }
+        },
+        {
+          "vm": "embedded",
+          "size": 512,
+          "density": "sparse",
+          "ratios": {
+            "original": 1,
+            "scan": 1.2659176029962547,
+            "each": 0.9400749063670412,
+            "reduce": 0.9325842696629213,
+            "each-control": 0.9325842696629213,
+            "scan-control": 1.2359550561797752
+          },
+          "allocations": {
+            "original": 2607,
+            "scan": 171,
+            "each": 171,
+            "reduce": 171,
+            "each-control": 171,
+            "scan-control": 171
+          }
+        },
+        {
+          "vm": "embedded",
+          "size": 512,
+          "density": "crowded",
+          "ratios": {
+            "original": 1,
+            "scan": 1.2357142857142858,
+            "each": 0.925,
+            "reduce": 0.9178571428571428,
+            "each-control": 0.9285714285714286,
+            "scan-control": 1.2178571428571427
+          },
+          "allocations": {
+            "original": 5054,
+            "scan": 182,
+            "each": 182,
+            "reduce": 182,
+            "each-control": 182,
+            "scan-control": 182
+          }
+        }
+      ]
+    },
+    "scope": "Fixed summon-cap queries on sparse and crowded synthetic rosters. Embedded allocations cover the whole VM lifecycle. Target-device and game-frame measurements remain open."
+  },
+  "preservation": {
+    "originalFiles": 4149,
+    "initialSnapshot": "2026-11-04T15:32:53.016Z",
+    "observedAt": "2026-11-04T17:19:49.475Z",
+    "originalHead": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "indexEmpty": true,
+    "differences": 0,
+    "otherRepositoriesClean": true,
+    "lockedReferenceVerified": true
+  },
+  "discoveries": [
+    "Cue ordering and hard-control cleansing initially escaped weak independent assertions. The corrected cases detect both faults.",
+    "A focused installed cleanse control had listed the status explicitly. An authored record that selects by status class detects the injected fault.",
+    "The initial public declarations collapsed two discriminators and restricted summon ownership to actor objects. Typed consumers now select either hit variant and accept numeric owner zero.",
+    "The adapter installer retains another writer’s truncated or replaced binding after a failed World replacement. It removes only the bytes it wrote on its own failed installation."
+  ],
+  "limitations": [
+    "The game continues to own geometry, physics, real hit delivery and actor construction. The extracted dispatcher orchestrates those services.",
+    "Replay through C/C++/.NET is an embedded development proof. A drop-in bridge for this capability in other engines is still open.",
+    "The trusted effect grammar does not validate third-party packs. Physical Steam Deck/mobile and whole-game frame performance remain unmeasured."
+  ],
+  "raw": {
+    "path": "evidence/proc-delivery/runtime-windows-raw.json.gz",
+    "entries": 261,
+    "sha256": "042c253a9d8472e8e749e2eede78163340a2afa3c638a4215fcca20680a25216",
+    "decodedSha256": "ede6f0ad64b7b71c40c15c85341e9b9d0f502118112424822e2333d43fd60ba3",
+    "bytes": 655835,
+    "contents": "Verification receipts, per-command logs, focused fault observations, native metrics and benchmark distributions. Large repeated native outputs are represented by verified content hashes."
+  }
+}
