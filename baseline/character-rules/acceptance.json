@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "fixtures": {
+    "identity": {
+      "file": "baseline/character-rules/identity.json.gz",
+      "sha256": "e338276eb42ef0a23d252cb62bc043d47181e231638b16d5a877fdad79ad819d",
+      "compressedSha256": "82b5408a6355171257eb9d18ce1e32af07197745c656f3ed58f9de7f4da20b4e",
+      "helper": "reference/export-character-identity.ts",
+      "helperSha256": "c4da8f931441433aaee5feb1a9590989c020f88094c227f631c8df797fc6e655",
+      "observedAt": "2026-11-04T20:07:56.708Z",
+      "scope": "Normal create and resume through the pinned simulation for all 39 registered classes, selected save/restore fields and discovery/selection authority. Excludes filesystem persistence, complete migration semantics and class-specific combat behavior.",
+      "methods": {
+        "engine/world.ts#makePlayerSeat": "299a21b9e211b9e0cfdd9f64ef26455ad62fc9ea867802a1cf105ae26bdb3246",
+        "engine/world.ts#createPlayer": "70afe323e3c0fb42fcc9e2b8580552099c37def3fbc2d7016209a229c4584369",
+        "engine/world.ts#adoptSavedMeta": "258ea677cd2bf1843f3188abbe67b56b1dd2963b0d2ec96a24ea2490e287bd56",
+        "meta/character.ts#serializeCharacter": "160e8072fef8b1fb220d867d37d3f2df836c9c34d246c63705ae1131c70d3451",
+        "meta/character.ts#rebuildSavedMeta": "be97e7dbd6185aafdc35a7e7821c26aca36eef3d3283f6ad2be5109291462a33",
+        "meta/character.ts#applySavedCharacter": "abb58ae76f1c74014b18a30ca572d6013599aa647b4bd3c96ae64a7dd48c0d0e",
+        "meta/account.ts#isClassDiscovered": "bb1321ce5a047f138928201909fcdea6ce0adee702ae857bc64407da52f78ebe",
+        "meta/account.ts#isClassUnlocked": "e392b06f587286c9e7694e02e0aa50d2fa932ee23fed15533b2e4f0332431b7e",
+        "meta/account.ts#unlockedClassCount": "0e10d4df61a03454bb8f7551b3b236c8596bd7ce5590b32287504d3c98c96be3"
+      },
+      "faults": [
+        {
+          "name": "pending-selection",
+          "sha256": "f983a6549026f5d4b6b8f4d378d326e8a86c2595cbd82654c918da96501f831e"
+        },
+        {
+          "name": "registered-count",
+          "sha256": "e51ec9e8f0a701fe083048d07fbdb3355696af7bf09efb2c983c9bd7cba2dd29"
+        },
+        {
+          "name": "owned-opening",
+          "sha256": "e887ab421846815bfafa1b1664247a36e91fb2a7597cf2352b14d6c267c09446"
+        },
+        {
+          "name": "saved-attribute-alias",
+          "sha256": "bb7104a807459c796bb377a7870ba919f1202bd2d54a7326033f9f493ebf728e"
+        },
+        {
+          "name": "saved-opening",
+          "sha256": "14769058e4a7ad1374ff4c9939d13b7b03e36a9d047f1e184ade41feb8491e6f"
+        },
+        {
+          "name": "saved-name",
+          "sha256": "49f5b62ceae9d84c541e4e8acef093230763d82afd763605aa82d3f5ae105f1a"
+        },
+        {
+          "name": "mode-stage",
+          "sha256": "a191332338cdc552513bdbe3d591084e9662a91e07e56c8f0450d5833a87b590"
+        },
+        {
+          "name": "retired-class",
+          "sha256": "cf6e1ebaf9373b0dc43906dfb42dde460eb307512086109135a1e7861622faa6"
+        }
+      ]
+    },
+    "kits": {
+      "file": "baseline/character-rules/kits.json.gz",
+      "sha256": "8f73f4547fa4b594413f29744acf5d5ce65b4f295e55636c9e50fdea8aea5bef",
+      "compressedSha256": "32e1a5a6b2c0d93fe852c847081a61df45d8585b13bdcfcdb00ef72a364e4412",
+      "helper": "reference/export-character-kits.ts",
+      "helperSha256": "3d9d2559bda8261f7716e12469ff18637e402a4936a5d6f8289565fb5f1838ea",
+      "observedAt": "2026-11-04T20:32:12.215Z",
+      "scope": "Class-kit tier ownership, HUD chooser projections, remembered and explicit picks, grants, real hero starting bars, serialization and rebuild, and an independent default ally opening. Class-unlock reward settlement and remote network messages are separate.",
+      "methods": {
+        "meta/classkit.ts#classTierOwned": "1fa70b757a066af627e385ad2217ef188ed08a9dc3fc123c1f3cf330b01d9b67",
+        "meta/classkit.ts#ownedKitRungs": "98818dabaa392d33f847640b63627f4a1a14ded5ba6507febf7ff32adee15082",
+        "meta/classkit.ts#kitChoicesFor": "6f3cc12bf1879d4335e0c1753240a123ca36694212fd5c7f07014cb842bf4a7c",
+        "meta/classkit.ts#resolveClassKit": "bcfb99680e42b1490d62e9fdbe32f1494bab39903284ff47622dafcd51e5d72f",
+        "meta/classkit.ts#rememberKitPicks": "9babbc8e6b11cd57121ca844cc97fe7bd1afde18eb9b5cb2989dc5742dafabd8",
+        "meta/classkit.ts#kitHasOptions": "0729f78f7afc13c655d50e01ded3836a6ff5a0bd1677649456f69ec386a46229",
+        "meta/classkit.ts#kitRungOf": "f2b7ea2cd00cb74ecbe4b64297fa74214a2bef5c06e5a106251537e620e67684"
+      },
+      "faults": [
+        {
+          "name": "unowned-rung",
+          "sha256": "3623522b7fadd5d966a1c65a13a3e4d40df6a9afcd56932c80fa2c569f6fcfaa"
+        },
+        {
+          "name": "replacement-slot",
+          "sha256": "73a04e40d02842316c7f47c296b589fc2fa1d3009af6472c9c394ece480f39b9"
+        },
+        {
+          "name": "explicit-pick",
+          "sha256": "8b8a7f764e58ac4e06b63f2220d3ef4890daf9a399ccc5aa3f4cb424b69f2322"
+        },
+        {
+          "name": "unseated-grant",
+          "sha256": "b0a3846007000bb96f2f7fbfe55685e74c989687d272d141c8c8a417db67d359"
+        },
+        {
+          "name": "stale-memory",
+          "sha256": "95451eb5f5aee01a2f81944a0859fe5f2922da298f437fa89f3882ccd93642b9"
+        },
+        {
+          "name": "lose-resolved-opening",
+          "sha256": "d54f4929143769b480878d03c87fad1a92b673a3b4a65d97d5da78cf0348b1b3"
+        }
+      ]
+    },
+    "claims": {
+      "file": "baseline/character-rules/claims.json.gz",
+      "sha256": "d62141233185979429d9a58829aaff9c3f64eb59e0b4f4a7d1c75316369918e9",
+      "compressedSha256": "53b3741b6a373c2c1433a31cf08c6e949cf8a3a8a7a88085c02310dc9f778a59",
+      "helper": "reference/export-character-claims.ts",
+      "helperSha256": "e861a06bd1e1c8f05e53052b00692457595b7cfbf07f0a35a6b18c61ebecb369",
+      "observedAt": "2026-11-04T20:41:38.349Z",
+      "scope": "Real earned class catalogue, local and merged ledgers, investment removal, skill/support pool grants, selection activation and chained settlement. Other catalogue purchases and world acquisition of the qualifying deeds are separate.",
+      "methods": {
+        "meta/unlocks.ts#pendingClassUnlocks": "0f12f3e3b40259edc1b1e25abaf6db3c3ecf1c13519a789e7f489c0dc94b0a49",
+        "meta/unlocks.ts#acknowledgeClassUnlock": "cb75555fe3387e17c131d71ab3d3589a3686f3158579782498dbb2f1019b9794",
+        "meta/unlocks.ts#claimClassUnlock": "da090152c004eee573986ff7a7c1dfb0ab7ca7e94d2e052a727fb0bbe07a0d4d",
+        "meta/unlocks.ts#settleClassUnlocks": "b09ab9a23ddb726c10443e2412f22d4e2c0c0581666d40101031c8162e6eec9f",
+        "meta/unlocks.ts#grantUnlock": "2fc86557bb56bd594a0e5c20351c58277637f868fbacdec1d2753925304cd106",
+        "meta/unlocks.ts#isUnlockOwned": "d0bac55ff595b710d4f8630e5c18a4004c187a308cf61c898228c0ffdbd0a438",
+        "meta/unlocks.ts#isUnlockVisible": "0d6948439ad419b67e91bb260193a3fce5e6ea482cf1b167efa496e4172a48a2"
+      },
+      "faults": [
+        {
+          "name": "merged-ledger",
+          "sha256": "9124de8edbdd4c6c63e0d4e7a608e1e478ba822c0a9292966722bdff9c0e891b"
+        },
+        {
+          "name": "investment-clear",
+          "sha256": "8ab93bdbe4836c83a151d4bda8811d871860b27a2ae8f8cdee3b660672f03eeb"
+        },
+        {
+          "name": "pending-grant",
+          "sha256": "1566f183d7c109ece9337adc9fd93d0e5c6cdc19f74567f9c5778cffb2b4e933"
+        },
+        {
+          "name": "acknowledgment",
+          "sha256": "5f8e0d2fecab136a55549615a2717e51f9f5d44766e18555466fada1d082e5a6"
+        },
+        {
+          "name": "gem-support-grant",
+          "sha256": "d07b4379985b6996d8d3f58a1ab5ac373b9af3a8c918c49ddc53916e0915e5c3"
+        },
+        {
+          "name": "chained-settlement",
+          "sha256": "fea1c792a4098d8f988f3b934a1f6be7831389dfd44c1e1fdd74cbc407e7b026"
+        }
+      ]
+    }
+  }
+}
