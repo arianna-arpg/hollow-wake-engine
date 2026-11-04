@@ -41,6 +41,7 @@ function entryGraph(file) {
   }
 }
 entryGraph(path.join(root,'src/index.ts'));
+assert.ok([...reachable].every(file => path.basename(file) !== 'proc-casting.ts'), 'Optional proc casting became an eager core import');
 assert.ok([...reachable].every(file => !path.basename(file).startsWith('item-')), 'Optional item implementation became an eager core import');
 assert.ok([...reachable].every(file => !path.basename(file).startsWith('passive-')), 'Optional passive policy became an eager core import');
 assert.ok([...reachable].every(file => path.basename(file)!=='inventory-host.ts'), 'Optional live inventory host became an eager core import');

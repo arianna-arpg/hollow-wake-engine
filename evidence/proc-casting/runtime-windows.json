@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentRevision": "87a3928ab2c37db0b66bde621af070cada392c0e",
+  "observedAt": "2026-11-04T15:33:52.888Z",
+  "scope": "Complete triggered skill casting and held-instance selection. The larger proc effect dispatcher remains in the host.",
+  "sources": {
+    ".github/workflows/proc-casting.yml": "6ba6177ec5832b46e8c92d3c670d9f660d30ad37e5980dd5092114ab8ac9447f",
+    "src/proc-casting.ts": "cd214c61d7d463d1c8eb958888af2d9fd20aae20bf648e311ecdd52a37095be5",
+    "adapters/hollow-wake/procCasting.ts": "439bbe39b3e24db43097420eca562f1a510dc47c37401f67ca8a4a537b8f6faf",
+    "adapters/hollow-wake/integrate-proc-casting.mjs": "53b30b2675115e4bbb761452988d6fd9a3f140b92f16a98311932bdc094aa6dd",
+    "test/proc-casting.test.mjs": "57842f4ad1705b11bfa7e19f7940fae75ca6eb18049489dd19374c9e871766cc",
+    "scripts/test-proc-casting-package.mjs": "1546289ab16a0652e104e9acc1e5e0c9d8625839f1cae570dd76a75b57bd45d2",
+    "scripts/test-proc-casting-mutations.mjs": "88348b77cf1b4537b11f83e854d8f19413d16256361c159ab1ad7f4a5aa2407a",
+    "scripts/test-proc-casting-overlay.mjs": "8442216253703c26015c9da4cd20a76bfd0db64a2a392086dc5d06ac16b5fbf8",
+    "scripts/test-game-proc-casting.mjs": "ccaf0f9df4125d518fdffcf81bff14d22079690a8b1aa05be7fcdeeb7adb3183",
+    "scripts/test-game-proc-casting-faults.mjs": "8cccea3de8d598fd19e8e3f015083067e15dbe4d37a215ec7922d0045e6c134d",
+    "scripts/check-boundaries.mjs": "34749633eae84d4d4c1892221dcde6b4c1acd24957af5e2523ffa95aae5a8844",
+    "scripts/test-package.mjs": "c13f67a35b0e45323656355aa57dea14ea77cce7b976c8e5f919330faf7b8fbc",
+    "scripts/prepare-game-adapter.mjs": "e8bb48ce8591b91e20a7ebedb21f985d4a0dc447ffb9346d64cd21342e2f0c3a",
+    "package.json": "7729b0c7e3be959b156fd727e6e667dd5833d40023635907c68f241cbebc25a3",
+    "docs/proc-casting.md": "38ff3b147cbd467dc32df35c5662b2425b677e2a0fabbbe0a1d413417b89f9ba",
+    "docs/boundary-contract.md": "3de44f1fe233c1962b0b853efad5aad59800c360192618ccca8686f4c60098e6",
+    "docs/verification.md": "742d2a869f3a4f2850657c1a91f33010413737c2697a735ba4920eab46920e1e",
+    "docs/completion.json": "9bc087643d9d1a7519dee43d5f0279c3340268773cdc57aadc77452e471e13a9",
+    "baseline/proc-delivery/acceptance.json": "7b74af9eb23e3fff01ed0e630e970d65e3aad2f11dd448b1b733b85bf14e1dc7",
+    "reference/export-proc-delivery.ts": "6420be572c645dfc9a32cd45bcb89c145362be98dad4095e11ae757b25a59b7e",
+    "scripts/proc-delivery-observation-checks.mjs": "9a013651b6c739b2fcbc2dafa05ce047671a2ab77c2969ab19e06de23259dc52",
+    "baseline/proc-delivery/source-boundary.json": "df64559dc5b8fcbbc067814845b4be6f4095409281f2b1ad505495b53da1c24c",
+    "baseline/proc-delivery/observations.json.gz": "f3696fb880d66d8d77bcd51c1d425616177f500dd95a0af834ee46fecc7c47e3"
+  },
+  "runtime": {
+    "added": [
+      "proc-casting.d.ts",
+      "proc-casting.js",
+      "proc-casting.js.map"
+    ],
+    "unchangedPredecessorFiles": 294,
+    "mapSha256": "630c78d081059a1f5e71c0444c302c338a05ae18767ab510707678001ffc070f",
+    "javascriptBytes": 3163,
+    "budgetBytes": 4096,
+    "browserBytes": 2485
+  },
+  "validation": {
+    "sdkTests": 1352,
+    "independentTests": 27,
+    "runtimeFaults": 32,
+    "installedFaults": 8,
+    "installedControls": 7,
+    "originalCourses": 328,
+    "exactOriginalObservations": "d69e82406f306f3546ada012624fdb0ab2f8840ebc7b19b43aa97ccb73f44bf5",
+    "publicTypes": [
+      "3D position",
+      "scalar position including zero",
+      "quaternion direction",
+      "class instance",
+      "numeric instance handle including zero"
+    ],
+    "sourceGuards": 4,
+    "commands": [
+      {
+        "name": "installed-faults",
+        "passed": true,
+        "logSha256": "0a5ea8e10e93229fb327a0996699d9097ccdbac486fcc5093fa8827db7542831"
+      },
+      {
+        "name": "verify",
+        "passed": true,
+        "logSha256": "2879dceb3ca427f9cc373c9a1df6ed8dd4006084212ecc8951567831a8950dfb"
+      },
+      {
+        "name": "reference",
+        "passed": true,
+        "logSha256": "ed9449e747fdb1f57570cdcc3c0c46a363a0e3720d661dd8df1026f2e66fb987"
+      },
+      {
+        "name": "game-types",
+        "passed": true,
+        "logSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+      },
+      {
+        "name": "game-smoke",
+        "passed": true,
+        "logSha256": "04346c851c80e8b8b94f18a6d122838bf37b92e82dc06dc410e51ba84b142fdb"
+      },
+      {
+        "name": "native-attack",
+        "passed": true,
+        "logSha256": "d325a5cbfd9474996cfe9226c424642d8d4a99d36042f640b69983f76b87486e"
+      }
+    ],
+    "native": [
+      {
+        "label": "original",
+        "passed": true,
+        "metrics": {
+          "code": 0,
+          "completedRequests": 33,
+          "peakRequestedBytes": 157112357,
+          "liveRequestedBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "allocationRequests": 304429
+        },
+        "comparison": {
+          "numbers": 150608,
+          "differences": [
+            {
+              "path": "$/19/value/rows/2/worlds/0/actors/2/facing",
+              "actual": 2.0067420640161253,
+              "expected": 2.0067420640161258,
+              "absoluteError": 4.440892098500626e-16,
+              "kind": "facing"
+            },
+            {
+              "path": "$/19/value/rows/3/worlds/0/actors/2/facing",
+              "actual": 2.0067420640161253,
+              "expected": 2.0067420640161258,
+              "absoluteError": 4.440892098500626e-16,
+              "kind": "facing"
+            }
+          ]
+        },
+        "libraryComparison": {
+          "numbers": 150608,
+          "differences": []
+        },
+        "dotnetComparison": {
+          "numbers": 150608,
+          "differences": []
+        }
+      },
+      {
+        "label": "installed",
+        "passed": true,
+        "metrics": {
+          "code": 0,
+          "completedRequests": 33,
+          "peakRequestedBytes": 200188640,
+          "liveRequestedBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "allocationRequests": 268330
+        },
+        "comparison": {
+          "numbers": 150608,
+          "differences": [
+            {
+              "path": "$/19/value/rows/2/worlds/0/actors/2/facing",
+              "actual": 2.0067420640161253,
+              "expected": 2.0067420640161258,
+              "absoluteError": 4.440892098500626e-16,
+              "kind": "facing"
+            },
+            {
+              "path": "$/19/value/rows/3/worlds/0/actors/2/facing",
+              "actual": 2.0067420640161253,
+              "expected": 2.0067420640161258,
+              "absoluteError": 4.440892098500626e-16,
+              "kind": "facing"
+            }
+          ]
+        },
+        "libraryComparison": {
+          "numbers": 150608,
+          "differences": []
+        },
+        "dotnetComparison": {
+          "numbers": 150608,
+          "differences": []
+        }
+      },
+      {
+        "label": "early-freeze-fault",
+        "passed": true,
+        "metrics": {
+          "code": 2,
+          "completedRequests": 0,
+          "peakRequestedBytes": 101344501,
+          "liveRequestedBytesAfterDispose": 0,
+          "liveBlocksAfterDispose": 0,
+          "allocationRequests": 123029
+        }
+      }
+    ],
+    "originalVersusInstalledNative": {
+      "numbers": 150608,
+      "differences": []
+    },
+    "previousRuntimeBytesUnchanged": true,
+    "originalGamePreservation": {
+      "passed": true,
+      "initialAudit": "2026-10-31T00:44:45.687Z",
+      "initialFilesMatched": 4146,
+      "finalAudit": "2026-11-04T15:32:53.016Z",
+      "finalFilesObserved": 4149,
+      "finalSnapshotExactlyMatchesInitial": false,
+      "changedAfterValidation": 17,
+      "addedAfterValidation": 3,
+      "firstLaterEdit": "2026-11-02T21:29:41.484Z",
+      "lastLaterEdit": "2026-11-02T21:38:14.960Z",
+      "validationCompleted": "2026-10-31T01:21:25.090Z",
+      "sourceCapsuleVerified": true,
+      "originalHead": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+      "originalIndexEmpty": true,
+      "privateFinalAuditSha256": "4e7f129d7693573988ea30bb929b655c7dc720204479bbd98a2746c463c64fa8",
+      "interpretation": "The initial preservation audit matched the game snapshot. All differences observed at publication were written after the final validation report. The publication review only read those files."
+    }
+  },
+  "discoveries": [
+    "The older proc-prefix package accounting included the new optional entry. Separate 4 KiB accounting now preserves all prior component and aggregate bounds.",
+    "Review identified that spreading a generic host instance would erase prototype/private state and numeric handles. Construction now belongs to the host; explicit class and numeric-handle controls distinguish the old implementation.",
+    "Nullish checks preserve zero-valued instance/seat handles and scalar aims, which were outside the original game’s object-only representation. Four deliberate truthiness faults are detected."
+  ],
+  "raw": {
+    "path": "evidence/proc-casting/runtime-windows-raw.json.gz",
+    "entries": 114,
+    "sha256": "6a7a2605c8379580295387001e1a6f01ee09140a70a289475c04059fe617f29a",
+    "decodedSha256": "36ee9cff3aa1dfb590a9b848ee5987ea3dcd81f6b868687a9e1dd8b7d05f7562",
+    "bytes": 1573389
+  },
+  "limitations": [
+    "The complete effect dispatcher is still host-owned.",
+    "Native replay exercises existing full combat courses, not a complete public casting API for Unity, Godot or Unreal.",
+    "No physical Steam Deck/mobile, frame-time, allocation-volume or general performance acceptance is claimed.",
+    "Hosted acceptance of this implementation is recorded after publication."
+  ]
+}

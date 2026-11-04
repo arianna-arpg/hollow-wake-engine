@@ -103,7 +103,7 @@ const ammunitionJsBytes = packed.files.filter(file => file.path === 'dist/ammuni
 const channelCastJsBytes = packed.files.filter(file => file.path === 'dist/channel-casting.js').reduce((sum, file) => sum + file.size, 0);
 const guardCastJsBytes = packed.files.filter(file => file.path === 'dist/guard-casting.js').reduce((sum, file) => sum + file.size, 0);
 const paymentJsBytes = packed.files.filter(file => file.path === 'dist/resource-payment.js').reduce((sum, file) => sum + file.size, 0);
-const procJsBytes = packed.files.filter(file => /^dist\/proc-.*\.js$/.test(file.path) && file.path !== 'dist/proc-effects.js').reduce((sum, file) => sum + file.size, 0);
+const procJsBytes = packed.files.filter(file => /^dist\/proc-.*\.js$/.test(file.path) && !['dist/proc-effects.js', 'dist/proc-casting.js'].includes(file.path)).reduce((sum, file) => sum + file.size, 0);
 const procEffectJsBytes = packed.files.filter(file => file.path === 'dist/proc-effects.js').reduce((sum, file) => sum + file.size, 0);
 const delayedJsBytes = packed.files.filter(file => file.path === 'dist/delayed-bursts.js').reduce((sum, file) => sum + file.size, 0);
 const buffJsBytes = packed.files.filter(file => /^dist\/(buffs|buff-content)\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
@@ -123,9 +123,10 @@ const hitSustainJsBytes = packed.files.filter(file => /^dist\/hit-sustain(?:-typ
 const hitReactionsJsBytes = packed.files.filter(file => /^dist\/hit-reactions(?:-types)?\.js$/.test(file.path)).reduce((sum,file)=>sum+file.size,0);
 const hitAftermathJsBytes = packed.files.filter(file => /^dist\/hit-aftermath(?:-types)?\.js$/.test(file.path)).reduce((sum,file)=>sum+file.size,0);
 const statusDeliveryJsBytes = packed.files.filter(file => /^dist\/status-delivery(?:-types)?\.js$/.test(file.path)).reduce((sum,file)=>sum+file.size,0);
+const procCastingJsBytes = packed.files.filter(file => file.path === 'dist/proc-casting.js').reduce((sum,file)=>sum+file.size,0);
 // Preserve every historical component budget. The optional delivery capability
 // adds at most 5 KiB and remains outside the eager core graph.
-const predecessorJsBytes = jsBytes - hitSustainJsBytes - hitReactionsJsBytes - hitAftermathJsBytes - statusDeliveryJsBytes;
+const predecessorJsBytes = jsBytes - hitSustainJsBytes - hitReactionsJsBytes - hitAftermathJsBytes - statusDeliveryJsBytes - procCastingJsBytes;
 const tagContextJsBytes = packed.files.filter(file => file.path === 'dist/tag-context-cache.js').reduce((sum,file)=>sum+file.size,0);
 // The new cache has its own growth bound. Count it in the retained core and
 // whole-package limits; historical component bounds exclude only this new file.
@@ -195,11 +196,13 @@ assert.ok(predecessorJsBytes - hitLandingJsBytes - hitPreparationJsBytes <= 658 
 assert.ok(hitPreparationJsBytes > 0 && hitPreparationJsBytes <= 8 * 1024, 'Optional hit preparation exceeded its separate 8 KiB budget');
 assert.ok(predecessorJsBytes - hitLandingJsBytes <= 666 * 1024, 'Previous runtime exceeded the retained 666 KiB budget');
 assert.ok(hitLandingJsBytes > 0 && hitLandingJsBytes <= 8 * 1024, 'Optional hit landing exceeded its separate 8 KiB budget');
-assert.ok(jsBytes - statusDeliveryJsBytes <= 674 * 1024, 'Previous runtime exceeded the retained 674 KiB budget');
-assert.ok(jsBytes <= 679 * 1024, 'Combined runtime exceeded the explicit 674 + 5 KiB budget');
+assert.ok(jsBytes - statusDeliveryJsBytes - procCastingJsBytes <= 674 * 1024, 'Previous runtime exceeded the retained 674 KiB budget');
+assert.ok(jsBytes - procCastingJsBytes <= 679 * 1024, 'Previous runtime exceeded the retained 679 KiB budget');
+assert.ok(procCastingJsBytes > 0 && procCastingJsBytes <= 4 * 1024, 'Optional proc casting exceeded its separate 4 KiB budget or is missing');
+assert.ok(jsBytes <= 683 * 1024, 'Combined runtime exceeded the explicit 679 + 4 KiB budget');
 assert.ok(contentBytes <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
-  runtimeJsBytes: jsBytes, statusDeliveryJsBytes, hitAftermathJsBytes, hitSustainJsBytes, hitReactionsJsBytes, predecessorJsBytes, tagContextJsBytes, hitLandingJsBytes, hitPreparationJsBytes, previousJsBytes, damageJsBytes, statusJsBytes, statusEffectsJsBytes, hitStatusJsBytes, hitEffectsJsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, equipmentJsBytes, progressionJsBytes, skillJsBytes, supportJsBytes, resourceJsBytes, chargedCastJsBytes, interactiveCastJsBytes, ammunitionJsBytes, channelCastJsBytes, guardCastJsBytes, paymentJsBytes, admissionJsBytes, intentJsBytes, requestJsBytes, dispatchJsBytes, continuationJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
+  runtimeJsBytes: jsBytes, procCastingJsBytes, statusDeliveryJsBytes, hitAftermathJsBytes, hitSustainJsBytes, hitReactionsJsBytes, predecessorJsBytes, tagContextJsBytes, hitLandingJsBytes, hitPreparationJsBytes, previousJsBytes, damageJsBytes, statusJsBytes, statusEffectsJsBytes, hitStatusJsBytes, hitEffectsJsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, equipmentJsBytes, progressionJsBytes, skillJsBytes, supportJsBytes, resourceJsBytes, chargedCastJsBytes, interactiveCastJsBytes, ammunitionJsBytes, channelCastJsBytes, guardCastJsBytes, paymentJsBytes, admissionJsBytes, intentJsBytes, requestJsBytes, dispatchJsBytes, continuationJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
   bankJsBytes, actorGaugeJsBytes, actorConditionJsBytes, procJsBytes, procEffectJsBytes, delayedJsBytes, buffJsBytes, cooldownJsBytes, cooldownLifecycleJsBytes, readyBankJsBytes, sequenceRecoveryJsBytes, attackSequenceJsBytes, isolatedConsumer: JSON.parse(result), node: process.version,
 }, null, 2) + '\n');
 console.log(result.trim());

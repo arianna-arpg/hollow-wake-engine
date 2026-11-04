@@ -937,3 +937,12 @@ job on Windows and Linux with Node 24, using the pinned source capsule and
 reference tool versions. It retains observations, logs, fault traces and verification
 receipts. This is an original-behavior gate, not evidence that a new proc runtime,
 native extension or physical-device performance target has been accepted.
+
+The optional `combat/proc-casting` candidate extracts payload casting and held
+selection from that boundary. Its 27 independent tests and 32 runtime faults
+join `verify`; its packed consumer also checks public 3D/quaternion types and a
+standalone browser build. `adapter:proc-casting-source` guards both complete
+source methods. `adapter:proc-casting -- --location <location>` replays all 328
+frozen courses through an installed archive, while `adapter:proc-casting-faults`
+checks eight runtime/binding/forwarding faults and restores the installation.
+See [proc casting](proc-casting.md) for exact ownership and remaining scope.
