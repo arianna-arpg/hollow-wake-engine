@@ -8,6 +8,12 @@ Hollow Wake proc effect shapes and their ordered riders. The [Desperate Ward
 example](examples/proc-delivery.mjs) connects an authored talent, actor stats,
 cooldown and presentation callback using only public package imports.
 
+The [Godot ward addon](adapters/godot/ward-example/README.md) exposes that talent
+as a GDScript service with a `ward_gained` signal. One addon ZIP contains the
+native host, the compiled SDK example and its selected content. A fresh
+Windows x64 editor project and its relocated release export exercised the same
+64-actor course.
+
 The JavaScript/TypeScript package works outside the game and has no production
 dependencies. The Hollow Wake adapter consumes the installed package and compares
 its behavior with the preserved original. This is an alpha extraction: the broader

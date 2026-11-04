@@ -80,8 +80,13 @@ runtime limits. All 379,857 numeric observations matched exactly between the
 original and installed games and against Node. Each host detected both the
 changed arc tie-break and the incorrect rider depth. Every run released all
 tracked allocations at disposal. The broader native attack comparison separately
-matched 150,608 numbers. Engine-editor exposure for this capability and
+matched 150,608 numbers. Full engine-editor coverage for this capability and
 physical-device measurements remain open.
+
+The [Godot ward addon](../adapters/godot/ward-example/README.md) now exercises
+one authored effect through a real engine and its exported game. It selects
+Desperate Ward and four stat definitions for its actor API. The other effect
+shapes retain their independent runtime and game-adapter contracts.
 
 ## Measured costs
 

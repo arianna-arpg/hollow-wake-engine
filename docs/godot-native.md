@@ -1,5 +1,32 @@
 # Experimental Godot native addon
 
+## Authored ward example
+
+The optional ward addon extends the verified native addon archive. It preserves
+every file in the base addon and adds the GDScript service, its bundled
+JavaScript and one talent with four stat definitions. The game sends a low-life
+event with an actor ID and simulation time. The service emits a presentation
+signal after the ward changes. A single host serves up to 64 equipped actors.
+[Install and use the ward addon](../adapters/godot/ward-example/README.md)
+
+After building the base Godot addon with the pinned tools, run these commands
+from the SDK checkout. The first command prints the ZIP path and records a
+package receipt. The second installs that ZIP in a fresh project, checks
+independent actor state, exhausts and reuses actor slots, and runs the same
+course in a relocated release export.
+
+```text
+npm run godot:proc-package -- --base <verified-base-addon-directory> --tools <tools.json>
+npm run godot:proc-replay -- --package <package-receipt.json> --tools <tools.json>
+```
+
+The Windows course uses a 4 MiB embedded heap limit. Physical Steam Deck and
+mobile performance, additional effects through GDScript, and Unity and Unreal
+packages remain open. The [Windows evidence](../evidence/godot/proc-ward-windows.json)
+records the exact package, editor and release results.
+
+## Base addon
+
 The SDK now has a reproducible Windows x64 and Ubuntu 24.04 x86_64 Godot 4.7.2
 addon experiment. It builds an archive containing the native bridge, embedded
 SDK runtime, selected content,

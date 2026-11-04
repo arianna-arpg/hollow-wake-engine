@@ -88,3 +88,10 @@ process-level observation. These workloads have different residency strategies.
 They support loading selected data for repeated runtime reads and keeping SQLite
 for tooling/on-demand access. They do not prove one universal storage winner.
 Raw per-run evidence is recorded separately; target-device work remains pending.
+
+The [Godot ward example](../adapters/godot/ward-example/README.md) applies this
+split to a packaged addon. Its builder reads the installed, hash-checked 147-proc
+catalogue and selects Desperate Ward, its riders and four required stat rows.
+The current selection has no riders and occupies 1,126 bytes of JSON. Each
+embedded host loads the selection once and shares the immutable definitions
+across up to 64 separately seeded actors.
