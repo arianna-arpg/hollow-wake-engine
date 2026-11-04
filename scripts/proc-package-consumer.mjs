@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import {npmCli} from './npm-cli.mjs';
 import os from 'node:os';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -12,7 +13,7 @@ export async function verifyProcConsumer({name, exports, types, count, modules =
   fs.mkdirSync(artifacts,{recursive:true});
   const directory = fs.mkdtempSync(path.join(artifacts,name+'-package-'));
   const consumer = fs.mkdtempSync(path.join(os.tmpdir(),'hollow-'+name+'-'));
-  const npm = process.env.npm_execpath ?? path.join(path.dirname(process.execPath),'node_modules/npm/bin/npm-cli.js');
+  const npm = npmCli();
   const [packed] = JSON.parse(execFileSync(process.execPath,[npm,'pack','--json','--pack-destination',directory,'--cache',path.join(artifacts,'npm-cache')],
     {cwd:root,encoding:'utf8',windowsHide:true}));
   writeJSON(path.join(consumer,'package.json'),{private:true,type:'module'});

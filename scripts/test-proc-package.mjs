@@ -1,7 +1,9 @@
 import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
 import {gunzipSync} from 'node:zlib';
+import {npmCli} from './npm-cli.mjs';
 import {root,writeJSON,sha256} from './reference-utils.mjs';import {buildProcContent,procPack} from './compile-proc-content.mjs';
-const artifacts=path.join(root,'.artifacts'),npm=process.env.npm_execpath??path.join(path.dirname(process.execPath),'node_modules/npm/bin/npm-cli.js');
+const artifacts=path.join(root,'.artifacts'),npm=npmCli();
+fs.mkdirSync(artifacts,{recursive:true});
 const contentPath=fs.mkdtempSync(path.join(artifacts,'proc-content-package-')),built=buildProcContent(contentPath);assert.deepEqual(built,procPack(),'Content compilation must repeat exactly');
 const accepted=JSON.parse(fs.readFileSync(path.join(root,'baseline/proc-delivery/acceptance.json')));
 const observations=gunzipSync(fs.readFileSync(path.join(root,accepted.observations)));
