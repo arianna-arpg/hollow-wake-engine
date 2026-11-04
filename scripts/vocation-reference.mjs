@@ -6,13 +6,13 @@ import {gunzipSync} from 'node:zlib';
 import {root,sha256,writeJSON} from './reference-utils.mjs';
 
 export const accepted = JSON.parse(fs.readFileSync(path.join(root,'baseline/vocation-progression/acceptance.json')));
-export function readVocationFixture(name) {
-  const fixture=accepted.fixtures[name],compressed=fs.readFileSync(path.join(root,fixture.file));
+export function readVocationFixture(name, fixtures=accepted.fixtures) {
+  const fixture=fixtures[name],compressed=fs.readFileSync(path.join(root,fixture.file));
   assert.equal(sha256(compressed),fixture.compressedSha256);
   const bytes=gunzipSync(compressed);assert.equal(sha256(bytes),fixture.sha256);return bytes;
 }
-export function prepareVocationObserver(name, game, directory) {
-  const fixture=accepted.fixtures[name],template=fs.readFileSync(path.join(root,fixture.helper),'utf8');
+export function prepareVocationObserver(name, game, directory, fixtures=accepted.fixtures) {
+  const fixture=fixtures[name],template=fs.readFileSync(path.join(root,fixture.helper),'utf8');
   assert.equal(sha256(template),fixture.helperSha256);
   const entry=path.join(directory,name+'.ts');
   const source=template.replace(/(['"])\.\.\/src\/([^'"]+)\1/g,(_,quote,file)=>{

@@ -10,6 +10,7 @@ on:
       - 'scripts/prepare-game-adapter.mjs'
       - 'package*.json'
       - 'baseline/vocation-progression/**'
+      - 'baseline/vocation-sites/**'
       - 'baseline/source-lock.json'
       - 'baseline/source.tar.gz'
       - 'baseline/overlay/**'
@@ -43,10 +44,13 @@ jobs:
       - run: npm run reference:install
       - run: node scripts/test-reference-vocations.mjs
       - run: node scripts/test-vocation-source-faults.mjs
+      - run: node scripts/test-reference-vocation-sites.mjs
+      - run: node scripts/test-vocation-site-source-faults.mjs
       - run: npm run test:vocation-package
       - run: node scripts/test-vocation-overlay.mjs
       - run: npm run adapter:prepare
       - run: npm run adapter:vocations
+      - run: node scripts/test-reference-vocation-sites.mjs --location .artifacts/adapter-location.json
       - run: node scripts/test-installed-vocation-faults.mjs --location .artifacts/adapter-location.json
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
@@ -58,6 +62,8 @@ jobs:
           path: |
             .artifacts/reference-vocations-*/verification.json
             .artifacts/vocation-source-faults-*/verification.json
+            .artifacts/reference-vocation-sites-*/verification.json
+            .artifacts/vocation-site-source-faults-*/verification.json
             .artifacts/installed-vocation-faults-*/verification.json
             .artifacts/vocation-overlay-*/verification.json
             .artifacts/vocation-package-*/verification.json

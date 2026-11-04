@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "capturedBeforeSiteImplementation": true,
+  "observedAt": "2026-11-04T19:22:49.056Z",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "methodHashes": {
+    "zoneMatchesSiteFilter": "42123072fc2a0d978d5495b40a0189f0938300d1a801f7a2b7f75d5088a93689",
+    "placeVocationSites": "0ba6e2bc0439ca2518954343ce3dbce592b715174a0f5e99705186e7c43fb5cc",
+    "spawnVocationSite": "37137e7c7531cae40e50dee32291541ed59d6174ed5ce25699679587be950467",
+    "updateVocationSites": "6a25744d8e810a979d1855fa1068773bbca79a16b1330e8953ba7a064ad72c7a",
+    "devForceVocationSite": "99f3b56b22799c96598b98fbbcd93ae1adad7d6680c23afa7d31aa8ef599d88b",
+    "resolveHoldDefense": "ee0f01cbc2317a145f94ac32580e5730c02816c51b9565692bc0508f7da70995"
+  },
+  "fixtures": {
+    "sites": {
+      "helper": "reference/export-vocation-sites.ts",
+      "helperSha256": "986a5d0c2185f70592be033c15869f273cbbdff33c38027c9f47695604b90428",
+      "file": "baseline/vocation-sites/observations.json.gz",
+      "compressedSha256": "bec7802adea7f5a7dc6c618470423ffcc97726cdd53628eb765435ed53a7382d",
+      "sha256": "ec00bb727f5819a6b92e0f7b863e3908efb1ee87602915538b4e071979c73231"
+    }
+  },
+  "cases": {
+    "definitions": 8,
+    "filterDecisions": 160,
+    "controlledFilterDecisions": 5760,
+    "zoneSeedInputs": 80,
+    "withShrines": 46,
+    "normalZoneReloads": 4,
+    "completedHarborDefenses": 2
+  },
+  "faults": [
+    "safe-ground",
+    "level-threshold",
+    "unowned-territory",
+    "radius-edge",
+    "repeated-silence",
+    "seed-salt",
+    "dressing-angle"
+  ],
+  "scope": "All eight authored secret-site definitions; radius discovery, source order, stable seed identity, seeded zone generation, load/revisit and the original completed siege reward. The hold fixture supplies a completed siege. Actor assembly, geometry and encounter combat remain host services.",
+  "captureHelperSha256": "b103974483bae172521431276fb5bf5803194b69314792bf806a9a9191cbde84"
+}
