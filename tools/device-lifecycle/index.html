@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Hollow Wake · device benchmark</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#10161a;color:#edf0ec;font:1rem/1.55 system-ui,sans-serif}main{max-width:43rem;margin:auto;padding:clamp(1.25rem,5vw,3.5rem)}h1{margin:.35rem 0;font:600 clamp(2rem,6vw,3rem)/1.08 Georgia,serif}h2{font-size:1.08rem}p{margin:.65rem 0 1rem}.meta{color:#a9c1b6;font-size:.875rem}label{display:block;margin:1rem 0 .3rem}input,select,button,a.action{font:inherit;min-height:2.85rem;border:1px solid #7c9088;border-radius:.4rem;padding:.45rem .75rem}input,select{display:block;width:100%;background:#182128;color:#edf0ec}button,a.action{background:#dfc18b;color:#162021;border:0;text-decoration:none;cursor:pointer}button:disabled{opacity:.55;cursor:wait}section{border-top:1px solid #46565a;margin:1.5rem 0;padding-top:.5rem}.actions{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;margin:1.1rem 0}progress{width:100%;height:.65rem;accent-color:#ebbe73}dl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.35rem 1rem}dt,dd{margin:0}dd{font-weight:600}textarea{width:100%;min-height:7rem;color:inherit;background:#172027;border:1px solid #56666b}summary{cursor:pointer}.action[hidden],[hidden]{display:none!important}:focus-visible{outline:3px solid #82d2ec;outline-offset:2px}
+</style>
+</head>
+<body><main>
+<p class="meta" id="version">Hollow Wake SDK</p>
+<h1>Casting and timed effects</h1>
+<p>Measure the simulation cost of sustained casts against a fixed set of targets. Each run warms up for 300 updates, measures 1,200, and checks the outcomes against the recorded workload.</p>
+<section aria-labelledby="setup"><h2 id="setup">Run on this device</h2>
+<label for="device">Device and test conditions <span class="meta">(optional)</span></label>
+<input id="device" maxlength="120" placeholder="e.g. Steam Deck LCD, 10 W, plugged in">
+<label for="actors">Simulated actors</label>
+<select id="actors"><option value="100">100</option><option value="500">500</option><option value="1000">1,000</option></select>
+<p class="meta">Keep this page in the foreground. The report stays on this device until you choose to share it.</p>
+<div class="actions"><button type="button" id="start">Run benchmark</button><a id="download" class="action" hidden>Save JSON report</a></div>
+<progress id="progress" value="0" max="1500" aria-label="Simulation updates completed"></progress>
+<p id="status" role="status">Ready.</p></section>
+<section id="metrics" hidden aria-labelledby="results"><h2 id="results">Simulation results</h2>
+<dl><dt>Median batch mean per update</dt><dd id="median"></dd><dt>95th percentile batch mean per update</dt><dd id="p95"></dd></dl>
+<p id="counts"></p><details><summary>Report contents</summary><textarea id="report" readonly aria-label="JSON report"></textarea></details></section>
+<p class="meta">Each timing sample averages 20 fixed-step updates. The course excludes rendering, input, audio, save I/O and engine-bridge costs. Browser timer precision is recorded with the result.</p>
+<details><summary>License and required notice</summary><pre style="white-space:pre-wrap;font:inherit" id="license">__LICENSE__</pre></details></main><script id="course-data" type="application/json">__COURSE_DATA__</script>
+<script>__COURSE_SCRIPT__</script></body></html>

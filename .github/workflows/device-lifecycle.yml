@@ -1,0 +1,66 @@
+name: Verify portable device benchmark
+on:
+  push:
+    paths:
+      - '.github/workflows/device-lifecycle.yml'
+      - 'tools/device-lifecycle/**'
+      - 'scripts/build-device-lifecycle.mjs'
+      - 'scripts/test-device-lifecycle.mjs'
+      - 'scripts/benchmark-lifecycle.mjs'
+      - 'scripts/reference-utils.mjs'
+      - 'reference/tooling/package*.json'
+      - 'baseline/milestone-two/authored.json'
+      - 'evidence/milestone-two/lifecycle-performance.json'
+      - 'evidence/device-lifecycle/**'
+      - 'content/milestone-one.json'
+      - 'src/**'
+      - 'package*.json'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  portable:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: node --expose-gc scripts/benchmark-lifecycle.mjs
+      - run: node scripts/build-device-lifecycle.mjs --output .artifacts/hollow-wake-device-benchmark.html
+      - run: node tools/device-lifecycle/check-outcomes.mjs .artifacts/hollow-wake-device-benchmark.html .artifacts/lifecycle-performance.json
+      - name: Install the pinned desktop runtime
+        if: runner.os == 'Windows'
+        run: |
+          npm ci --prefix reference/tooling --ignore-scripts --no-audit --no-fund
+          node reference/tooling/node_modules/electron/install.js
+      - name: Replay the single file offline and check its actual downloads
+        if: runner.os == 'Windows'
+        run: node scripts/test-device-lifecycle.mjs --html .artifacts/hollow-wake-device-benchmark.html
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: success()
+        with:
+          name: device-lifecycle-${{ runner.os }}
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+          path: |
+            .artifacts/hollow-wake-device-benchmark.html
+            .artifacts/device-lifecycle-*/verification.json
+            .artifacts/device-acceptance-*/verification.json
+            .artifacts/device-acceptance-*/controls.json
+            .artifacts/device-acceptance-*/observed.json
+            .artifacts/device-acceptance-*/100.json
+            .artifacts/device-acceptance-*/500.json
+            .artifacts/device-acceptance-*/1000.json

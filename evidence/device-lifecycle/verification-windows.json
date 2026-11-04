@@ -1,0 +1,62 @@
+{
+  "passed": true,
+  "observedAt": "2026-11-04T22:05:41.947Z",
+  "sdkRevision": "51be4718f7c83aa26a5e2955e81817ffdfb56595",
+  "sdkVersion": "0.41.0",
+  "sdkSha256": "4e3ecad47eef0ebeff9bce8290736e3d35b71bde29b22b74dd980c779313e11d",
+  "htmlSha256": "9571f58a479da319bfaebe100987a447859d3dcdf14f78fbe1cf106b5b715097",
+  "bytes": 63526,
+  "inputSha256": {
+    ".github/workflows/device-lifecycle.yml": "9a8c3449efc865413bddbacc2dd8480ce1613c7817bf5e3882dc7240d9f731d6",
+    "scripts/build-device-lifecycle.mjs": "ffc0a9ec6b1c0839fa0a8640da9e33b753c92edbfee8c377ca6be8206a7ae2c9",
+    "scripts/test-device-lifecycle.mjs": "32011d95914463250bb749dbda34784d99d4e463960e261cbb8eb0d1e173849c",
+    "scripts/benchmark-lifecycle.mjs": "2681393d9160bb1f462da41768f207fc7b6221f7a83b5802fe29a5761e29c70c",
+    "tools/device-lifecycle/README.md": "f51de972d3dc5ecd54104065396fc67e715534de73c1391d415b7d7f0f838654",
+    "tools/device-lifecycle/workload.mjs": "74a6d84d07a6912bd40bdc1db02f2846d85554b52379a4498705a8dd9069e1d0",
+    "tools/device-lifecycle/browser.mjs": "db57a45e29ba07c8af5a1745d2e1fc637ec68d8a6283ec2bd6e9469ee6ed5463",
+    "tools/device-lifecycle/index.html": "4223fe3b9df426d863056efa5b2518e81556e2b03d6834ae6f50780fae57d5b9",
+    "tools/device-lifecycle/check.cjs": "89a4ce87447d2d82a247d28767413e69dd971de84acd98a501b92b724fd590fd",
+    "tools/device-lifecycle/check-outcomes.mjs": "219da560f3b5a028d25bba1f06b38108d2479347a4df2aa1ef04d60f1d2f43b6",
+    "evidence/device-lifecycle/acceptance.json": "33d8e8b8354aaa06f16c42cd3a11eaf5e5a8656c16c81cd68b6190bc621007c4"
+  },
+  "nodeOutcomes": [
+    {
+      "actors": 100,
+      "completedCasts": 2380,
+      "effectUpdates": 134220,
+      "checksum": 55700.109745272595,
+      "planBuilds": 100
+    },
+    {
+      "actors": 500,
+      "completedCasts": 11900,
+      "effectUpdates": 671100,
+      "checksum": 278622.8598956505,
+      "planBuilds": 500
+    },
+    {
+      "actors": 1000,
+      "completedCasts": 23800,
+      "effectUpdates": 1342200,
+      "checksum": 557448.3259514961,
+      "planBuilds": 1000
+    }
+  ],
+  "controls": {
+    "cancelled": {
+      "ready": true,
+      "empty": true,
+      "status": "Run interrupted. Keep this page visible and start a fresh run."
+    },
+    "wrongExpectedCountRejected": true,
+    "coarseTimerDetected": true,
+    "narrow": true,
+    "noHttpRequests": true
+  },
+  "existingSdkTests": 1400,
+  "gamePreservation": {
+    "files": 4149,
+    "changes": 0
+  },
+  "scope": "Three complete offline browser workloads and downloaded reports. The Node and browser workers use the same simulation frame and independently match the historical outcomes. No physical handheld timings."
+}
