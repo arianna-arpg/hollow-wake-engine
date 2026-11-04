@@ -1,0 +1,578 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "observedAt": "2026-11-04T18:26:13.760Z",
+  "parentRevision": "4ed9f1702726420b8f192fa9e7f4757504af2fb3",
+  "scope": "Triggered casting stack repair and World-specific summon census. SDK JavaScript and declarations are byte-identical to the preceding game installation.",
+  "sources": {
+    ".github/workflows/proc-casting.yml": "9310345b86784b798b5d8618d80f279a828b883617bc89cdd4b0e0ecba2d982a",
+    "adapters/hollow-wake/integrate-proc-casting.mjs": "b4e39a45d7d12a17af7cd61b815fc12d45d7272e2f6a3f0ffb7d088102151563",
+    "adapters/hollow-wake/integrate-proc-delivery.mjs": "fd695533d907d2a815c0869d591c4a8fc2b41d7905d28935b658935b2015150e",
+    "adapters/hollow-wake/procDelivery.ts": "ebe7b508c4358746502fbe2cd4752271dce9a4473ed2c86856b2898a070e81c5",
+    "docs/godot-native.md": "eef46c9a1874ce8300dec174efc8ddb690f4ac1a6a4cd43538d599c101a363c7",
+    "docs/proc-delivery.md": "a0550340789113e74483882cf1940cd5fb4de31f6cc034c7f98d4fc0943457b2",
+    "docs/verification.md": "a9f029881f0709c0fddd4f4baed1f4d225dcc2e0a585fcb82c52827cf4ba0c9f",
+    "docs/completion.json": "80e9b247097f4c5266b6be588493e513711fddafdad2c669c6c20d35d879efc5",
+    "experiments/proc-census/native-entry.mjs": "deb1dfff4a22688f8505b783e09e9be24d1c70d07a1140dc0987068050f73381",
+    "experiments/proc-census/workload.mjs": "ce1ad02c79adc2a0b412c6a64965d3d09dc56a85b4700c516c657139f1724b59",
+    "scripts/benchmark-native-proc-census.mjs": "688314dacf5c2d5572cf382ae110485ff76471bbefcd4cae8758efb5c0ddc6c1",
+    "scripts/benchmark-proc-census.mjs": "5122b0be6d195a4987de57403cda1eeaef8de4c05cf68db15613286c0e19c068",
+    "scripts/native-proc-delivery-entry.mjs": "96a49516c43193d20a0459fa58b6d2a2eb616384f3e893f93d1af0870727f1de",
+    "scripts/proc-census-plan.mjs": "6aa4b01d13b34ef85e229642ae380bc6a59e5acc1c462872f701ff3f62a75371",
+    "scripts/test-cooldown-ui.mjs": "49aae0bcded54a6449f2485299896465922b7cb6ca4a53b94353f62c45d0c329",
+    "scripts/test-game-proc-casting-faults.mjs": "56a6edc20cf83609fc9449b8faf909e72f088700875d61d2fe16035ba79c6d5c",
+    "scripts/test-game-proc-delivery-faults.mjs": "a7a262c8f4dc74eeaf3cd922366d4f52b0adf7251fb89bd2524f3351924b3563",
+    "scripts/test-proc-delivery-overlay.mjs": "997218e1928f6ee7ecaf56c96c94174e6f8562d6600dc2728f1068119a567f6f",
+    "scripts/verify-installed-proc-faults.mjs": "722c2832dc6f10badf7c877052cdee52e45573673e07189299daa8e6cf7bffe6",
+    "docs/proc-native-stack.md": "08482f445ae8576846a4ecce515c56b89f28f220e2d99bb2c8a2507f73b6d0a9",
+    "scripts/compare-native-proc-stack.mjs": "3ea8dadaf2bf3dc822cd166b0d9349d7c660673275fe2cdfa8b365bb7d3089ae",
+    "baseline/proc-delivery/acceptance.json": "7b74af9eb23e3fff01ed0e630e970d65e3aad2f11dd448b1b733b85bf14e1dc7"
+  },
+  "hostedPreceding": {
+    "revision": "e532b117481ccd75f317997402d7c8109eea7f94",
+    "run": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/41877481838",
+    "windowsPassed": false,
+    "windowsArtifact": 13348207157,
+    "linuxPassed": true,
+    "linuxArtifact": 13347733341,
+    "failures": [
+      {
+        "request": 21,
+        "name": "authored-answering_gale",
+        "step": "execute",
+        "error": "Maximum call stack size exceeded"
+      },
+      {
+        "request": 72,
+        "name": "authored-rimewake_release",
+        "step": "execute",
+        "error": "Maximum call stack size exceeded"
+      },
+      {
+        "request": 75,
+        "name": "authored-lattice_discharge",
+        "step": "execute",
+        "error": "Maximum call stack size exceeded"
+      },
+      {
+        "request": 79,
+        "name": "authored-breach_bell",
+        "step": "execute",
+        "error": "Maximum call stack size exceeded"
+      },
+      {
+        "request": 172,
+        "name": "cast-missing-instance",
+        "step": "execute",
+        "error": "Maximum call stack size exceeded"
+      },
+      {
+        "request": 173,
+        "name": "cast-missing-target",
+        "step": "execute",
+        "error": "Maximum call stack size exceeded"
+      },
+      {
+        "request": 201,
+        "name": "cast-power-0",
+        "step": "execute",
+        "error": "Maximum call stack size exceeded"
+      },
+      {
+        "request": 202,
+        "name": "cast-power--1",
+        "step": "execute",
+        "error": "Maximum call stack size exceeded"
+      },
+      {
+        "request": 203,
+        "name": "cast-power-0.5",
+        "step": "execute",
+        "error": "Maximum call stack size exceeded"
+      }
+    ]
+  },
+  "validation": {
+    "originalCourses": 328,
+    "observationsSha256": "d69e82406f306f3546ada012624fdb0ab2f8840ebc7b19b43aa97ccb73f44bf5",
+    "independentSdkTests": 1372,
+    "nativeFaults": [
+      "arc-strict-tie-fault",
+      "rider-depth-fault"
+    ],
+    "comparison": {
+      "numbers": 379857,
+      "exact": true
+    },
+    "sourceGuards": 49,
+    "castingForwarderGuarded": true,
+    "initializationOrderGuarded": true,
+    "installedFaults": 17,
+    "installedControls": 15,
+    "castingFaults": 8,
+    "castingControls": 7,
+    "gameSourceChangeBeyondRoster": "engine/world.ts",
+    "unchangedGameSourceFilesBeyondRoster": 1009,
+    "previousSdkDistUnchanged": true,
+    "native": [
+      {
+        "label": "original",
+        "consumers": [
+          {
+            "host": "c",
+            "passed": true,
+            "requests": 330,
+            "metrics": {
+              "code": 0,
+              "completedRequests": 330,
+              "peakRequestedBytes": 93476238,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 710991
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            }
+          },
+          {
+            "host": "cpp",
+            "passed": true,
+            "requests": 330,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 93476238,
+              "bufferOwnership": true,
+              "threadMigration": true,
+              "concurrentCancellation": true,
+              "unloadReload": true
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            }
+          },
+          {
+            "host": "dotnet",
+            "passed": true,
+            "requests": 330,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 93476238,
+              "managedOwnership": true,
+              "threadMigration": true,
+              "libraryLease": true,
+              "failedConstructionLease": true,
+              "finalizerUnload": true,
+              "unloadReload": true,
+              "residencyProbe": "GetModuleHandleW"
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            }
+          }
+        ]
+      },
+      {
+        "label": "installed",
+        "consumers": [
+          {
+            "host": "c",
+            "passed": true,
+            "requests": 330,
+            "metrics": {
+              "code": 0,
+              "completedRequests": 330,
+              "peakRequestedBytes": 147482813,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 777633
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            }
+          },
+          {
+            "host": "cpp",
+            "passed": true,
+            "requests": 330,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 147482813,
+              "bufferOwnership": true,
+              "threadMigration": true,
+              "concurrentCancellation": true,
+              "unloadReload": true
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            }
+          },
+          {
+            "host": "dotnet",
+            "passed": true,
+            "requests": 330,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 147482813,
+              "managedOwnership": true,
+              "threadMigration": true,
+              "libraryLease": true,
+              "failedConstructionLease": true,
+              "finalizerUnload": true,
+              "unloadReload": true,
+              "residencyProbe": "GetModuleHandleW"
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            }
+          }
+        ]
+      },
+      {
+        "label": "arc-strict-tie-fault",
+        "consumers": [
+          {
+            "host": "c",
+            "passed": true,
+            "requests": 330,
+            "metrics": {
+              "code": 0,
+              "completedRequests": 330,
+              "peakRequestedBytes": 147595399,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 778076
+            },
+            "comparison": {
+              "numbers": 380056,
+              "exact": true
+            }
+          },
+          {
+            "host": "cpp",
+            "passed": true,
+            "requests": 330,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 147595399,
+              "bufferOwnership": true,
+              "threadMigration": true,
+              "concurrentCancellation": true,
+              "unloadReload": true
+            },
+            "comparison": {
+              "numbers": 380056,
+              "exact": true
+            }
+          },
+          {
+            "host": "dotnet",
+            "passed": true,
+            "requests": 330,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 147595399,
+              "managedOwnership": true,
+              "threadMigration": true,
+              "libraryLease": true,
+              "failedConstructionLease": true,
+              "finalizerUnload": true,
+              "unloadReload": true,
+              "residencyProbe": "GetModuleHandleW"
+            },
+            "comparison": {
+              "numbers": 380056,
+              "exact": true
+            }
+          }
+        ]
+      },
+      {
+        "label": "rider-depth-fault",
+        "consumers": [
+          {
+            "host": "c",
+            "passed": true,
+            "requests": 330,
+            "metrics": {
+              "code": 0,
+              "completedRequests": 330,
+              "peakRequestedBytes": 147482825,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 777633
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            }
+          },
+          {
+            "host": "cpp",
+            "passed": true,
+            "requests": 330,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 147482825,
+              "bufferOwnership": true,
+              "threadMigration": true,
+              "concurrentCancellation": true,
+              "unloadReload": true
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            }
+          },
+          {
+            "host": "dotnet",
+            "passed": true,
+            "requests": 330,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 147482825,
+              "managedOwnership": true,
+              "threadMigration": true,
+              "libraryLease": true,
+              "failedConstructionLease": true,
+              "finalizerUnload": true,
+              "unloadReload": true,
+              "residencyProbe": "GetModuleHandleW"
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            }
+          }
+        ]
+      }
+    ],
+    "commands": [
+      {
+        "name": "prepare",
+        "logSha256": "1e976c7cfd45f70be904feb8645d69a42307b0d3b385002f704adf83c8bf79ae"
+      },
+      {
+        "name": "types",
+        "logSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+      },
+      {
+        "name": "native",
+        "logSha256": "500ec2176bf58e931b7bb17fcdaaf83278daae56825d74806019c0ebfa9eecda"
+      },
+      {
+        "name": "installed",
+        "logSha256": "30733c89c3601d87764ef4a96e79f02c5705a42054b8ff91155d4d6863933952"
+      },
+      {
+        "name": "faults",
+        "logSha256": "729df3628fc683e14d1cd2b3b2937ade0e6c2c8e865d6a1eaf6169427da6c8a8"
+      },
+      {
+        "name": "casting-faults",
+        "logSha256": "ba492a55d0ca0659f3609e67580383d3d5db9a7315529b6cd02dcf20dfc338a8"
+      },
+      {
+        "name": "verify",
+        "logSha256": "b817dd2fe02a6a2ff114c126728adf2b4bb590b9a1b3e5640e75df825590d5dc"
+      },
+      {
+        "name": "reference",
+        "logSha256": "ed9449e747fdb1f57570cdcc3c0c46a363a0e3720d661dd8df1026f2e66fb987"
+      },
+      {
+        "name": "smoke",
+        "logSha256": "2fd9df19a9ee2bff8628775cc5b77537ac8c16b03ccf504e6b9da32fb2429b85"
+      },
+      {
+        "name": "installer",
+        "logSha256": "49046de732eea95e55f045bda06570635a8612c31ded15fd60e5e24b3a891379"
+      },
+      {
+        "name": "casting-installer",
+        "logSha256": "9ddd8cc58e6ee26325b88b0c87db004af788e190fb40ad8639cbcfd2b4e91d09"
+      }
+    ]
+  },
+  "diagnostic": {
+    "productionLimitBytes": 262144,
+    "measurementLimitBytes": 524288,
+    "negativeControlLimitBytes": 216728,
+    "previouslyFailing": [
+      {
+        "name": "authored-answering_gale",
+        "beforeBytes": 224736,
+        "afterBytes": 208720
+      },
+      {
+        "name": "authored-rimewake_release",
+        "beforeBytes": 224736,
+        "afterBytes": 208720
+      },
+      {
+        "name": "authored-lattice_discharge",
+        "beforeBytes": 224736,
+        "afterBytes": 208720
+      },
+      {
+        "name": "authored-breach_bell",
+        "beforeBytes": 218608,
+        "afterBytes": 202592
+      },
+      {
+        "name": "cast-missing-instance",
+        "beforeBytes": 224672,
+        "afterBytes": 208656
+      },
+      {
+        "name": "cast-missing-target",
+        "beforeBytes": 224672,
+        "afterBytes": 208656
+      },
+      {
+        "name": "cast-power-0",
+        "beforeBytes": 224672,
+        "afterBytes": 208656
+      },
+      {
+        "name": "cast-power--1",
+        "beforeBytes": 224672,
+        "afterBytes": 208656
+      },
+      {
+        "name": "cast-power-0.5",
+        "beforeBytes": 224672,
+        "afterBytes": 208656
+      }
+    ],
+    "negativeControlRecovered": true,
+    "compiler": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.38.33133 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+    "factors": [
+      {
+        "name": "authored-answering_gale",
+        "before": 224736,
+        "directEntries": 216768,
+        "cachedCallbacks": 217152,
+        "directScheduling": 216688,
+        "both": 208720
+      },
+      {
+        "name": "authored-rimewake_release",
+        "before": 224736,
+        "directEntries": 216768,
+        "cachedCallbacks": 217152,
+        "directScheduling": 216688,
+        "both": 208720
+      },
+      {
+        "name": "authored-lattice_discharge",
+        "before": 224736,
+        "directEntries": 216768,
+        "cachedCallbacks": 217152,
+        "directScheduling": 216688,
+        "both": 208720
+      },
+      {
+        "name": "authored-breach_bell",
+        "before": 218608,
+        "directEntries": 210640,
+        "cachedCallbacks": 211024,
+        "directScheduling": 210560,
+        "both": 202592
+      },
+      {
+        "name": "cast-missing-instance",
+        "before": 224672,
+        "directEntries": 216704,
+        "cachedCallbacks": 217088,
+        "directScheduling": 216624,
+        "both": 208656
+      },
+      {
+        "name": "cast-missing-target",
+        "before": 224672,
+        "directEntries": 216704,
+        "cachedCallbacks": 217088,
+        "directScheduling": 216624,
+        "both": 208656
+      },
+      {
+        "name": "cast-power-0",
+        "before": 224672,
+        "directEntries": 216704,
+        "cachedCallbacks": 217088,
+        "directScheduling": 216624,
+        "both": 208656
+      },
+      {
+        "name": "cast-power--1",
+        "before": 224672,
+        "directEntries": 216704,
+        "cachedCallbacks": 217088,
+        "directScheduling": 216624,
+        "both": 208656
+      },
+      {
+        "name": "cast-power-0.5",
+        "before": 224672,
+        "directEntries": 216704,
+        "cachedCallbacks": 217088,
+        "directScheduling": 216624,
+        "both": 208656
+      }
+    ]
+  },
+  "summon": {
+    "storage": "Ordinary array owned by the Hollow Wake World. Original filter and candidate traversal visit the same live entries and capture initial length.",
+    "benchmarkSourceVerified": true,
+    "publishedComparison": "evidence/proc-delivery/runtime-windows.json"
+  },
+  "preservation": {
+    "observedAt": "2026-11-04T18:26:13.009Z",
+    "files": 4149,
+    "differences": 0,
+    "indexEmpty": true,
+    "originalHead": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "otherRepositoriesClean": true
+  },
+  "raw": {
+    "path": "evidence/proc-native-stack/repair-windows-raw.json.gz",
+    "sha256": "96bcbd75963bd1790afd5c7b0c5e7df81144864f03e2ffa1cf55599e6fbfb792",
+    "decodedSha256": "56956d5848eac68e3408ba08557516bd3046f6cf5fcdf852b938801fdc91ffa0",
+    "entries": 29,
+    "bytes": 344152
+  },
+  "limitations": [
+    "Local Windows acceptance and controlled stack measurements. Hosted Windows/Linux acceptance of the repair is recorded separately after publication.",
+    "Instrumented spans depend on compiler layout and are distinct from the uninstrumented production check. Physical-device and frame-time acceptance remain open."
+  ]
+}

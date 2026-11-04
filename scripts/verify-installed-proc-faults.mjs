@@ -32,7 +32,8 @@ export function verifyInstalledProcFaults({label,decisionKey,decision,binding,fa
   const helper=fs.readFileSync(path.join(root,accepted.helper),'utf8');assert.equal(sha256(helper),accepted.helperSha256);
   const directory=fs.mkdtempSync(path.join(root,'.artifacts/game-'+label+'-faults-')),capture=path.join(directory,'capture.ts');
   fs.writeFileSync(capture,helper.replace(/(['"])\.\.\/src\/([^'"]+)\1/g,(_a,_q,f)=>JSON.stringify(pathToFileURL(path.join(game,'src',f+'.ts')).href)));
-  for(const [name,kind,needle,,course,count=1] of faults) {
+  const selectedFaults=typeof faults==='function'?faults(originals.get('world').toString()):faults;
+  for(const [name,kind,needle,,course,count=1] of selectedFaults) {
     assert(Number.isInteger(count)&&count>0,name+' empty mutation');
     assert.equal(originals.get(kind).toString().split(needle).length-1,count,name);
     assert(expectedRows.has(course),course);
@@ -61,7 +62,7 @@ export function verifyInstalledProcFaults({label,decisionKey,decision,binding,fa
   }
   let passed=false;
   try {
-    for(const fault of faults) {
+    for(const fault of selectedFaults) {
       const course=fault[4];
       if(!controlled.has(course)){run('control-'+course,course);controlled.add(course);}
       run(fault[0],course,fault);
@@ -69,7 +70,7 @@ export function verifyInstalledProcFaults({label,decisionKey,decision,binding,fa
     passed=true;
   } finally {
     assert.deepEqual(snapshot(path.join(game,'src')),sourceBefore);assert.deepEqual(snapshot(installed),packageBefore);
-    const report={passed,directory,game,faults:faults.length,controls:controlled.size,results,sourceAndPackageRestored:true,expectedSha256:accepted.observationsSha256};
+    const report={passed,directory,game,faults:selectedFaults.length,controls:controlled.size,results,sourceAndPackageRestored:true,expectedSha256:accepted.observationsSha256};
     writeJSON(path.join(directory,'verification.json'),report);
     writeJSON(path.join(root,'.artifacts/game-'+label+'-fault-verification.json'),report);
   }

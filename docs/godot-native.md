@@ -25,6 +25,9 @@ platform emitted 66 cues in both the editor and the relocated release.
 Peak tracked bytes were 1,202,943 on Windows and 1,202,927 on Linux.
 Both hosts released every tracked block at disposal. The development workflow
 retains each verified addon ZIP for 14 days under its platform artifact.
+Choose the matching Windows or Linux x64 artifact and extract the inner ZIP
+into your project. [Verified platform downloads](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/41883368892)
+and [subsequent Godot builds](https://github.com/arianna-arpg/hollow-wake-engine/actions/workflows/godot-native.yml)
 Physical Steam Deck and mobile performance, additional effects through GDScript,
 and Unity and Unreal packages remain open. [Local Windows evidence](../evidence/godot/proc-ward-windows.json)
 and [hosted Windows and Linux evidence](../evidence/godot/proc-ward-ci.json)

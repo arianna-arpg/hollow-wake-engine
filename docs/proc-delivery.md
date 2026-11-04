@@ -83,6 +83,11 @@ tracked allocations at disposal. The broader native attack comparison separately
 matched 150,608 numbers. Full engine-editor coverage for this capability and
 physical-device measurements remain open.
 
+The full-game Windows hosted replay exposed a stack difference in nine
+triggered casts. The [repair and diagnostic](proc-native-stack.md) distinguish
+the game bindings from the native test scheduler and describe the unchanged
+production limits.
+
 The [Godot ward addon](../adapters/godot/ward-example/README.md) now exercises
 one authored effect through a real engine and its exported game. It selects
 Desperate Ward and four stat definitions for its actor API. The other effect
@@ -108,8 +113,11 @@ Calling an ordinary array's `forEach` directly took 0.57–0.86 times the origin
 filter time on Node and 0.87–0.94 times that time in the embedded runtime.
 Invoking the same visitor through `Array.prototype.forEach.call` took 1.61–3.13
 times the original time on Node. The host can supply its own `summonCount`
-service. Hosts that own ordinary arrays can use the direct visitor and count
-matching live actors without collecting them into a temporary array.
+service. Hollow Wake owns an ordinary World roster and uses the direct
+visitor to count matching live actors. The package's indexed scan remains
+available for other array-backed hosts. Pass `--world` to either census
+benchmark to measure the implementation used by the game. The benchmark
+checks that the measured function body matches the game adapter source.
 
 The full-game replay also compared three builds with the same C driver, requests and byte-identical output. The predecessor already contained triggered casting. Only the World forwarding method and its new binding differ in the installed game source.
 

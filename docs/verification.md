@@ -951,7 +951,7 @@ The optional `combat/proc-delivery` entry runs the whole admitted effect and
 rider sequence. `adapter:proc-delivery` compares all 328 courses with the frozen
 original. `test:proc-delivery-package` exercises the installed browser and typed
 consumers. `test:proc-delivery-mutations` checks 54 runtime faults and
-`adapter:proc-delivery-faults` checks 14 installed faults with 12 focused
+`adapter:proc-delivery-faults` checks 17 installed faults with 15 focused
 controls. `adapter:proc-delivery-source` checks source guards, failed writes
 and retry behavior. The proc content package check also runs the authored ward
 example with two independent actors sharing one set of definitions.
@@ -961,3 +961,8 @@ through C, C++ and .NET and records response hashes and allocator counters.
 The [summon census benchmark](../scripts/benchmark-proc-census.mjs) compares
 identical answer sets across six roster sizes and densities. The embedded
 version uses the verified native replay driver. See [proc delivery](proc-delivery.md).
+
+Pass `--world` to either census benchmark to measure the ordinary array visitor
+in the Hollow Wake binding. The [native stack comparison](proc-native-stack.md)
+checks all original observations and exercises the first formerly failing cast
+at a controlled diagnostic limit.

@@ -5,6 +5,7 @@ import ts from 'typescript';
 import {root, sha256, writeJSON} from './reference-utils.mjs';
 import {procDeliveryTree} from '../adapters/hollow-wake/proc-delivery-tree.mjs';
 import {integrateProcDelivery, renderProcDelivery} from '../adapters/hollow-wake/integrate-proc-delivery.mjs';
+import {renderProcCasting} from '../adapters/hollow-wake/integrate-proc-casting.mjs';
 import {installWorldBinding} from '../adapters/hollow-wake/install-world-binding.mjs';
 import {procDeliveryFaults, applyProcDeliveryFault} from './proc-delivery-observer-faults.mjs';
 
@@ -17,10 +18,15 @@ const boundary = JSON.parse(fs.readFileSync(path.join(root,accepted.sourceBounda
 // Only the acquired dispatcher differs between these two guard fixtures. The
 // installed game replay separately verifies the complete real predecessor.
 const method = tree.methods.executeProc;
-const predecessor = original.slice(0,method.getStart(tree.ast)) + boundary.maps.predecessor.methods.executeProc.text + original.slice(method.end);
+const acquired = original.slice(0,method.getStart(tree.ast)) + boundary.maps.predecessor.methods.executeProc.text + original.slice(method.end);
+const predecessor = renderProcCasting(acquired);
 assert.equal(renderProcDelivery(original,true),original);
 assert.throws(()=>renderProcDelivery(original),/Unreviewed proc dispatcher/);
 const rendered = renderProcDelivery(predecessor);
+assert(rendered.includes('private executeProc = this.engineProcDelivery.execute;'));
+assert(rendered.includes('private castProcPayload = this.engineProcCasting.cast;'));
+assert.throws(()=>renderProcDelivery(acquired),/Unreviewed casting forwarder/);
+assert.throws(()=>renderProcDelivery(predecessor.replace('engineProcCasting = bindProcCasting(this)','engineProcCasting = otherBinding(this)')),/initialize before its entry/);
 assert.equal(renderProcDelivery(predecessor.replaceAll('\n','\r\n')).replaceAll('\r\n','\n'),rendered);
 assert(!rendered.includes('procPowerStat'), 'Last dispatcher use should retire its import');
 const retained = ts.createSourceFile('world.ts',renderProcDelivery(predecessor+'\nvoid procPowerStat;\n'),ts.ScriptTarget.Latest,true);
@@ -85,6 +91,6 @@ assert.throws(()=>installWorldBinding(game,retry,'old','new',name,'binding'),/es
 assert.throws(()=>installWorldBinding(directory,retry,'stale','new',name,'binding'),/World changed/);
 installWorldBinding(directory,retry,'old','new',name,'binding');assert.equal(fs.readFileSync(retry,'utf8'),'new');
 assert.equal(sha256(fs.readFileSync(sourceFile,'utf8').replaceAll('\r\n','\n')),sha256(original));
-const report = {passed:true,directory,guarded,sourceUnchanged:true,preflightWrites:false,repeatRefused:true,failedInstallRestored:true,concurrentBindingPreserved:true};
+const report = {passed:true,directory,guarded,sourceUnchanged:true,preflightWrites:false,repeatRefused:true,failedInstallRestored:true,concurrentBindingPreserved:true,castingForwarderGuarded:true,bindingInitializationGuarded:true};
 writeJSON(path.join(directory,'verification.json'),report);writeJSON('.artifacts/proc-delivery-overlay-verification.json',report);
 console.log({passed:true,directory,guards:guarded.length});

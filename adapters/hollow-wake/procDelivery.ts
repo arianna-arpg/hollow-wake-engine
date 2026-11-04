@@ -1,4 +1,4 @@
-import {countProcSummons, createProcDelivery} from '@hollow-wake/engine/combat/proc-delivery';
+import {createProcDelivery} from '@hollow-wake/engine/combat/proc-delivery';
 import {applyWardEffect} from '@hollow-wake/engine/combat/effects';
 import {applyProcHeal} from '@hollow-wake/engine/combat/recovery';
 import {applyProcRestoration} from '@hollow-wake/engine/combat/restoration';
@@ -17,6 +17,16 @@ import type {DamageType} from './stats';
 import {STATUS_DEFS} from './status';
 import {sameStory} from './tiers';
 import type {World} from './world';
+
+// World owns an ordinary array. Native array visitation keeps the captured
+// length and skips holes without collecting matches in a second array.
+function countWorldSummons(actors: readonly Actor[], owner: Actor, key: string): number {
+  let count = 0;
+  actors.forEach(actor => {
+    if (actor.owner === owner && !actor.dead && actor.sourceSkillId === key) count++;
+  });
+  return count;
+}
 
 export function bindProcDelivery(w: World) {
   return createProcDelivery<SkillInstance, Vec2, number, BuffEffect, BirthEffect, DamageType, number, Actor, ProcDef>({
@@ -45,7 +55,7 @@ export function bindProcDelivery(w: World) {
     shieldBreak: (target, depth) => w['rollOwnProcs'](target, 'esBreak', {depth}),
     sweepDefenses: (target, depth) => w['sweepDefenseEvents'](target, depth), kill: target => w.kill(target),
     push: (target, direction, force) => w['pushActor'](target, direction, force),
-    summonCount: (owner, key) => countProcSummons(w.actors, owner, key),
+    summonCount: (owner, key) => countWorldSummons(w.actors, owner, key),
     createMonster: (id, owner) => w['createMonster'](id, owner.level, owner.team, owner),
     lifeline: owner => w['conjurationLifeline'](owner),
     forwardSockets: (inst, summon) => w['forwardSummonSockets'](inst, summon.skills),

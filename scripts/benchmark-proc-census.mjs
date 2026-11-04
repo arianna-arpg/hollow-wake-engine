@@ -5,13 +5,18 @@ import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {performance} from 'node:perf_hooks';
-import {countProcSummons, originalCount, censusFixture, censusSample} from '../experiments/proc-census/workload.mjs';
+import {countProcSummons, countWorldSummons, originalCount, censusFixture, censusSample} from '../experiments/proc-census/workload.mjs';
 import {root, sha256, writeJSON} from './reference-utils.mjs';
-import {cases, orders, median, verifyOriginalCensus} from './proc-census-plan.mjs';
+import {cases, orders, median, verifyOriginalCensus, verifyWorldCensus} from './proc-census-plan.mjs';
 
 const originalBoundarySha256=verifyOriginalCensus();
+const args=process.argv.slice(2);
+const world=args[0]==='--world';
+if(world)args.shift();
+const bindingSha256=world?verifyWorldCensus():undefined;
+const label=world?'proc-world-census':'proc-census';
 function runMethod(method) {
-  const count=method==='original'?originalCount:countProcSummons;
+  const count=method==='original'?originalCount:world?countWorldSummons:countProcSummons;
   return cases.map(({size,density})=>{
     const fixture=censusFixture(size,density), {queries,expected}=fixture;
     const cycles=Math.ceil(4_000_000/(size*queries.length)),reads=cycles*queries.length;
@@ -24,7 +29,6 @@ function runMethod(method) {
   });
 }
 
-const args=process.argv.slice(2);
 if(args[0]==='--worker') {
   assert(args.length===2&&['original','scan','scan-control'].includes(args[1]));
   console.log(JSON.stringify(runMethod(args[1])));
@@ -34,10 +38,10 @@ if(args[0]==='--worker') {
 } else {
   assert.equal(args.length,0);
   fs.mkdirSync(path.join(root,'.artifacts'),{recursive:true});
-  const directory=fs.mkdtempSync(path.join(root,'.artifacts/proc-census-benchmark-'));
+  const directory=fs.mkdtempSync(path.join(root,'.artifacts/'+label+'-benchmark-'));
   const runs=[];
   for(const [round,order] of orders.entries())for(const method of order) {
-    const bytes=execFileSync(process.execPath,['--expose-gc',fileURLToPath(import.meta.url),'--worker',method],{cwd:root,windowsHide:true,timeout:120000});
+    const bytes=execFileSync(process.execPath,['--expose-gc',fileURLToPath(import.meta.url),...(world?['--world']:[]),'--worker',method],{cwd:root,windowsHide:true,timeout:120000});
     fs.writeFileSync(path.join(directory,'round-'+round+'-'+method+'.json'),bytes,{flag:'wx'});
     runs.push({round,method,cases:JSON.parse(bytes),sha256:sha256(bytes)});
   }
@@ -51,10 +55,10 @@ if(args[0]==='--worker') {
       identicalControlRatios:control.map((v,i)=>v/scan[i])};
   });
   const report={passed:true,directory,node:process.version,platform:process.platform,arch:process.arch,cpu:os.cpus()[0]?.model,
-    originalBoundarySha256,benchmarkSha256:sha256(fs.readFileSync(fileURLToPath(import.meta.url))),planSha256:sha256(fs.readFileSync(path.join(root,'scripts/proc-census-plan.mjs'))),
+    originalBoundarySha256,implementation:world?'Hollow Wake array visitor':'SDK indexed scan',bindingSha256,benchmarkSha256:sha256(fs.readFileSync(fileURLToPath(import.meta.url))),planSha256:sha256(fs.readFileSync(path.join(root,'scripts/proc-census-plan.mjs'))),
     workloadSha256:sha256(fs.readFileSync(path.join(root,'experiments/proc-census/workload.mjs'))),
     runtimeSha256:sha256(fs.readFileSync(path.join(root,'dist/proc-delivery.js'))),rounds:orders.length,summary,runs,
     scope:'Isolated summon census on fixed synthetic rosters. Timings exclude construction, warmup and explicit GC. Whole frames, memory allocation volume and device targets require separate measurements.'};
-  writeJSON(path.join(directory,'verification.json'),report);writeJSON('.artifacts/proc-census-benchmark-verification.json',report);
+  writeJSON(path.join(directory,'verification.json'),report);writeJSON('.artifacts/'+label+'-benchmark-verification.json',report);
   console.log({passed:true,directory,summary:summary.map(r=>({size:r.size,density:r.density,scanOverOriginal:r.scanOverOriginal}))});
 }

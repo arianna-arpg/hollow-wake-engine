@@ -5,6 +5,14 @@ export function originalCount(actors, owner, key) {
   return actors.filter(m => m.owner === owner && !m.dead && m.sourceSkillId === key).length;
 }
 
+export function countWorldSummons(actors, owner, key) {
+  let count = 0;
+  actors.forEach(actor => {
+    if (actor.owner === owner && !actor.dead && actor.sourceSkillId === key) count++;
+  });
+  return count;
+}
+
 /** Identical deterministic rosters and queries for the Node and embedded hosts. */
 export function censusFixture(size, density) {
   const owners=[{id:1},{id:2},{id:3}], keys=['__proc:forge','__proc:spark','__proc:missing'];
@@ -18,7 +26,7 @@ export function censusFixture(size, density) {
   }
   const expected=queries.map(({owner,key})=>counts.get(owner.id+'/'+key)??0);
   for(let i=0;i<queries.length;i++) {
-    for(const fn of [originalCount,countProcSummons]) {
+    for(const fn of [originalCount,countProcSummons,countWorldSummons]) {
       if(fn(actors,queries[i].owner,queries[i].key)!==expected[i])throw Error('Incorrect summon count');
     }
   }

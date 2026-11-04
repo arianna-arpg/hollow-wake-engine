@@ -22,24 +22,31 @@ export function nativeProcDeliveryEntry(helper, sourceRoot) {
   return prefix+`
 function assert(value,message){if(!value)throw new Error(message);}
 assert.equal=(actual,expected,label)=>{if(!Object.is(actual,expected))throw new Error(String(label??'Equality')+' '+String(actual)+' != '+String(expected));};
-function* replay(){
+function prepare(){
   const schedule=[];
   function course(name,run,seed){schedule.push([name,run,seed]);}
   ${definitions}
   assert.equal(schedule.length,328,'Registered proc courses');
-  let completed=0;
-  for(const [name,run,seed] of schedule){
-    runCourse(name,run,seed);assert.equal(rows.length,1,'One emitted course');completed++;
-    yield rows.pop();
-  }
-  ${marker}
-  return {schemaVersion:1,courses:completed,authored};
+  return {schedule,rows,runCourse,finish(){${marker}return {schemaVersion:1,courses:schedule.length,authored};}};
 }
-export function create(){return replay();}
+export function create(){return {index:0,replay:null,done:false};}
 export function dispatch(controller,request){
   if(request.op==='services')return globalThis.courseServiceReport();
   if(request.op!=='next')throw new Error('Unsupported proc replay request');
-  try{return controller.next();}catch(error){throw new Error(String(error)+'\\n'+error.stack);}
+  if(controller.done)return {value:undefined,done:true};
+  try{
+    const replay=controller.replay??=prepare();
+    if(controller.index===replay.schedule.length){
+      controller.done=true;controller.replay=null;
+      return {value:replay.finish(),done:true};
+    }
+    const [name,run,seed]=replay.schedule[controller.index++];
+    replay.runCourse(name,run,seed);assert.equal(replay.rows.length,1,'One emitted course');
+    return {value:replay.rows.pop(),done:false};
+  }catch(error){
+    controller.done=true;controller.replay=null;
+    throw new Error(String(error)+'\\n'+error.stack);
+  }
 }
 `;
 }

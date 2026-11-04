@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import ts from 'typescript';
 import {root, sha256} from '../../scripts/reference-utils.mjs';
 import {procDeliveryTree} from './proc-delivery-tree.mjs';
+import {castForwardBody} from './integrate-proc-casting.mjs';
 import {installWorldBinding} from './install-world-binding.mjs';
 
 const acceptance = JSON.parse(fs.readFileSync(path.join(root, 'baseline/proc-delivery/acceptance.json')));
@@ -17,18 +18,23 @@ export function renderProcDelivery(source, preflight = false) {
   const method = methods.executeProc;
   assert.equal(sha256(method.getText(ast)), boundary.maps[preflight ? 'original' : 'predecessor'].methods.executeProc.sha256, 'Unreviewed proc dispatcher');
   if (preflight) return source;
+  const cast = methods.castProcPayload;
+  const acquired = boundary.maps.predecessor.methods.castProcPayload.text;
+  assert.equal(cast.getText(ast),acquired.slice(0,acquired.indexOf('{'))+castForwardBody,'Unreviewed casting forwarder');
+  const castingField = cast.parent.members.find(member=>ts.isPropertyDeclaration(member)&&member.name.getText(ast)==='engineProcCasting');
+  assert(castingField?.initializer?.getText(ast)==='bindProcCasting(this)'&&castingField.end<=cast.getStart(ast),'Casting binding must initialize before its entry');
   const imports = ast.statements.filter(ts.isImportDeclaration);
   const edits = [
     {start: imports.at(-1).end, end: imports.at(-1).end, text: "\nimport {bindProcDelivery} from './procDelivery';"},
-    {start: method.getStart(ast), end: method.getStart(ast), text: 'private readonly engineProcDelivery = bindProcDelivery(this);\n  '},
-    {start: method.body.getStart(ast), end: method.body.end, text: '{\n    this.engineProcDelivery.execute(proc, caster, inst, target, depth, aim);\n  }'},
+    {start: method.getStart(ast), end: method.end, text: 'private readonly engineProcDelivery = bindProcDelivery(this);\n  private executeProc = this.engineProcDelivery.execute;'},
+    {start: cast.getStart(ast), end: cast.end, text: 'private castProcPayload = this.engineProcCasting.cast;'},
   ];
   // Remove only imports whose last use was inside this exact method. Count
   // import identifiers and outside uses once, preserving unrelated imports.
   const inside = new Set(), outside = new Map();
   function visit(node) {
     if (ts.isIdentifier(node)) {
-      if (node.pos >= method.body.pos && node.end <= method.body.end) inside.add(node.text);
+      if ((node.pos >= method.pos && node.end <= method.end) || (node.pos >= cast.pos && node.end <= cast.end)) inside.add(node.text);
       else outside.set(node.text, (outside.get(node.text) ?? 0) + 1);
     }
     ts.forEachChild(node, visit);

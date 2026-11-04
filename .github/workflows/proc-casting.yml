@@ -18,6 +18,9 @@ on:
       - 'scripts/proc-package-consumer.mjs'
       - 'scripts/npm-cli.mjs'
       - 'scripts/proc-service-site.mjs'
+      - 'scripts/proc-census-plan.mjs'
+      - 'scripts/benchmark-proc-census.mjs'
+      - 'experiments/proc-census/**'
       - 'scripts/run-native-delivery-course.mjs'
       - 'scripts/native-delivery-comparison.mjs'
       - 'scripts/embedded-native-tools.mjs'
@@ -51,6 +54,7 @@ jobs:
       - run: npm run reference:prepare
       - run: npm run reference:install
       - run: node scripts/test-proc-package.mjs
+      - run: node scripts/benchmark-proc-census.mjs --world --verify-only
       - run: npm run test:proc-casting-package
       - run: npm run test:proc-casting-mutations
       - run: npm run adapter:proc-casting-source

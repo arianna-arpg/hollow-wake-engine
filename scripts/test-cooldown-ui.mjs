@@ -35,7 +35,7 @@ assert(fs.existsSync(path.join(runtimeDir, 'cooldowns.js')), 'Cooldown runtime m
 const worldSource=fs.readFileSync(path.join(game,'src/engine/world.ts'),'utf8');
 const deliveryBinding=path.join(game,'src/engine/procDelivery.ts');
 if(fs.existsSync(deliveryBinding)){
-  assert(worldSource.includes('this.engineProcDelivery.execute('),'Proc dispatcher delegation missing');
+  assert(worldSource.includes('private executeProc = this.engineProcDelivery.execute;') || worldSource.includes('this.engineProcDelivery.execute('),'Proc dispatcher delegation missing');
   assert(fs.readFileSync(deliveryBinding,'utf8').includes('cooldown: applyProcCooldown'),'Cooldown dispatch binding missing');
 }else assert(worldSource.includes('engineApplyProcCooldown(caster, fx, inst)'),'Cooldown delegation missing');
 const inputs = {source: snapshot(path.join(game, 'src')), runtime: snapshot(runtimeDir), package: snapshot(packageDir)};

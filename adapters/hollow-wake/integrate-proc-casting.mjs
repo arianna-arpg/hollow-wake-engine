@@ -10,6 +10,7 @@ const accepted = JSON.parse(fs.readFileSync(path.join(root, 'baseline/proc-deliv
 const bytes = fs.readFileSync(path.join(root, accepted.sourceBoundary));
 assert.equal(sha256(bytes), accepted.sourceBoundarySha256);
 const boundary = JSON.parse(bytes);
+export const castForwardBody = '{\n    return this.engineProcCasting.cast(caster, inst, target, depth, cast, aim);\n  }';
 export function renderProcCasting(source, preflight = false) {
   const {input, ast, methods} = procDeliveryTree(source);
   assert(!/\b(?:engineProcCasting|bindProcCasting)\b/.test(input), 'Proc casting binding collision');
@@ -23,7 +24,7 @@ export function renderProcCasting(source, preflight = false) {
     {start: imports.at(-1).end, end: imports.at(-1).end, text: "\nimport {bindProcCasting} from './procCasting';"},
     {start: methods.castProcPayload.getStart(ast), end: methods.castProcPayload.getStart(ast), text: 'private readonly engineProcCasting = bindProcCasting(this);\n  '},
     {start: methods.castProcPayload.body.getStart(ast), end: methods.castProcPayload.body.end,
-      text: '{\n    return this.engineProcCasting.cast(caster, inst, target, depth, cast, aim);\n  }'},
+      text: castForwardBody},
     {start: methods.heldSkillInst.body.getStart(ast), end: methods.heldSkillInst.body.end,
       text: '{\n    return this.engineProcCasting.held(actor, skillId);\n  }'},
   ].sort((a, b) => a.start - b.start);
