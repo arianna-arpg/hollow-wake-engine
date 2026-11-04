@@ -1,0 +1,179 @@
+{
+  "schemaVersion": 1,
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "fixtures": {
+    "rewards": {
+      "file": "baseline/character-continuity/rewards.json.gz",
+      "sha256": "813a9c2f75e6b38a7958afbc7f2fab22e83eb797c45ae0742e193333e4acde90",
+      "compressedSha256": "1de211d30f816c768fbc48eaddee94363281159255ff063b48a748bab6c29a64",
+      "helper": "reference/export-continuity-rewards.ts",
+      "helperSha256": "eab4e0890557a3a0235ddacee03e667076d318601aee9b75afa29cc2250f1cdb",
+      "methods": {
+        "meta/unlocks.ts#reconcileClassBundleGems": "21adeebdbd6eb54cd0318d3b8fe3603bbbac3eeee6efafc48bc443a387baf08d",
+        "meta/unlocks.ts#isSkillUnlockedForSelection": "1457050b9c9dc70541b744c3f7c1be9335ace2ccb1ceb6151f3887f3bcdb82e2",
+        "meta/unlocks.ts#investedToward": "3872c6406edbbefa4902c73adbcd3bdf5e9a5c8769cc2af39bfac32796380478",
+        "engine/questRewardChoices.ts#questRewardChoices": "0093501e9e068edee85b42f9ba75058da236ba6ea6c3650dfb8ccaaaebf61dcd"
+      },
+      "observedAt": "2026-11-04T21:21:34.510Z",
+      "capturedBeforeImplementation": true,
+      "scope": "Original pool availability, deliberate Oracle award selection and legacy gem-investment migration. The shared-owner edge lends one real skill to a second authored class in a disposable process, restores the list, and checks both reward and selection results.",
+      "faults": [
+        {
+          "name": "explicit-alternative",
+          "sha256": "23b28043235c55e2e0b1d178b2814750dfca6a9bc5429d463f518f6fc4407894"
+        },
+        {
+          "name": "pending-only",
+          "sha256": "e013b185c40f2334bb9d8624f2d597eca596f28ee28f3a12d31a7e6736ebd48d"
+        },
+        {
+          "name": "shared-active",
+          "sha256": "928e903baffab6ed5496158a6c4099b1242a417216223be9e0abd11aba380219"
+        },
+        {
+          "name": "missing-skill",
+          "sha256": "aaa9ac1eef0f2d764e19dda0d94845716e897899f8b9924550e8fa306e0fd981"
+        },
+        {
+          "name": "support-drop",
+          "sha256": "6021791fa0351bcf55f47fd6c23c83af8b1cf1a9c514ec372dbd9276dff672b7"
+        },
+        {
+          "name": "investment-transfer",
+          "sha256": "e0f3143abf503199bd004251c17593591a5f27e908b454427e45afc3aa7186dc"
+        },
+        {
+          "name": "legacy-mode",
+          "sha256": "c162643c88fd304cd0c5eb4c4eb5eec06de956307682c5d86a999edc0546a22e"
+        }
+      ]
+    },
+    "mercs": {
+      "file": "baseline/character-continuity/mercs.json.gz",
+      "sha256": "0f1a35bbee6ca5d57e7b03d51c4fb19ba577025798f18b7b16a4fd6cc35be6e5",
+      "compressedSha256": "ced9f4022f129e7fad3ff900416b3a18830c26fa18e2c34f37c27bb1ed1790c3",
+      "helper": "reference/export-continuity-mercs.ts",
+      "helperSha256": "e4dff0078f1156a9124aa02e5348dbe84fcf99ed96b3910f93fc0c89f7ee57fb",
+      "methods": {
+        "engine/world.ts#normalizeMercMeta": "4bd61b1ed327eebd9680f170048c92e83e4701104b25dd038334f39070f8f659",
+        "engine/world.ts#trimAllocated": "439b3b2b155226b19188f2814429a52cbc5fbcce8e4ec4ed0551d631b3bf4863",
+        "engine/world.ts#applyMercNormalization": "16447ecf0b8e4e28cf80450e6398ed5bbeec5fc0e6961978aaa44427e09bda7d",
+        "engine/world.ts#resyncMercenary": "58c85ef9e484f0bb5c2c9683bcaa9a24004585ccec07074027341303c047b7c9",
+        "engine/world.ts#spawnMercSeat": "eb4fc0584ed63035849ac233cc89dc9e5e679938cc4bd9b47dd86b8b34ee41f0",
+        "engine/world.ts#restoreHiredMerc": "5ec88ae94752509dd5fb35983e05cc639c331b7724bb5d840dc4cafb133ebae5",
+        "meta/character.ts#serializeCharacter": "160e8072fef8b1fb220d867d37d3f2df836c9c34d246c63705ae1131c70d3451",
+        "meta/character.ts#applySavedCharacter": "abb58ae76f1c74014b18a30ca572d6013599aa647b4bd3c96ae64a7dd48c0d0e"
+      },
+      "observedAt": "2026-11-04T21:35:33.186Z",
+      "capturedBeforeImplementation": true,
+      "scope": "Character materialization of company saves, class/passive/sample gem normalization and life fraction on resync. Uses a constructed level-28 snapshot per real class and a real level-12 patron resync. Hiring prices and how the veteran acquired the snapshot remain separate.",
+      "faults": [
+        {
+          "name": "borrowed-opening",
+          "sha256": "edb52324807da14891660aea70e4c6e1c10ed9694d6b4642c0dcb69ac5ec729d"
+        },
+        {
+          "name": "snapshot-attributes",
+          "sha256": "edb52324807da14891660aea70e4c6e1c10ed9694d6b4642c0dcb69ac5ec729d"
+        },
+        {
+          "name": "numerical-gem-cap",
+          "sha256": "991f5838d62cf1b53a70c72eb2968de34bb907ac9827b3e3ebc1a720a663ef85"
+        },
+        {
+          "name": "support-cap",
+          "sha256": "286886d56fb8965e03d0eccf60915625ded8a1c1b42815bd5fee7f6bf6051668"
+        },
+        {
+          "name": "vocation-seed",
+          "sha256": "592799e1d4515eed46d82f4a2717c69f067f26ea585e9db93000bfe445c578f4"
+        },
+        {
+          "name": "given-name",
+          "sha256": "e376fc5a14c104a33fd7be61cfcca2407cbab1a97a10bd72b9aa470606fd220e"
+        },
+        {
+          "name": "resync-life",
+          "sha256": "e64195dae5e682dfd734980182ab2133f696f309b74c517504a7a12500beb233"
+        },
+        {
+          "name": "single-legacy",
+          "sha256": "e26d1870e0ae1e4aa5a2adb58a1807fd358f5ea9bd2bac5e8afc758841a28447"
+        },
+        {
+          "name": "plural-precedence",
+          "sha256": "387d564cd61d467fbf8f1bb446eda049def1a6993518427209ee028afbd974c7"
+        }
+      ]
+    },
+    "account": {
+      "file": "baseline/character-continuity/account.json.gz",
+      "sha256": "864284ad907037b575b946f9d38e6ff7abc04342db7cba4c91326634daf367b1",
+      "compressedSha256": "730d151387350fdcb264dab7f7083ae7b178b64dd486ec32ad192b2618112ad2",
+      "helper": "reference/export-continuity-account.ts",
+      "helperSha256": "bbc9566b8ea04644a344db043e9c2e2f68aae0af075c504036cc75b8411c69bb",
+      "methods": {
+        "meta/account.ts#makeAccount": "258270992b5785a9a5cbd6977f6618cf5848f3ef69c31b5e48f16406db36e95b",
+        "meta/account.ts#serializeAccount": "ace7e15edfa27addf95f10899bd23516cbe32165d732a7b386e01a793049d90d",
+        "meta/account.ts#deserializeAccount": "f71dfb0908b19ad9515733ac189f814a046c061a86268f7ed6dd066246e906e6"
+      },
+      "observedAt": "2026-11-04T22:14:14.813Z",
+      "capturedBeforeImplementation": true,
+      "scope": "Original account class, pending class, tier, kit and gem-pool fields through makeAccount, serializeAccount and deserializeAccount. Preserves unknown discoveries, pending membership filters, string-only picks, rejected account version, supported malformed values and unrelated credit/ledger data. Full economics, rosters and disk transactions are separate.",
+      "faults": [
+        {
+          "name": "starter-seed",
+          "sha256": "872a67d0f5a0d5e58600b57e2aec92dfe11af755c58ca146d4b886e2f025a292"
+        },
+        {
+          "name": "pending-retired",
+          "sha256": "d650aee1a0ce808d54f7c15602080773d7b3f17f30a5b1e6d616abe7b7cd59bf"
+        },
+        {
+          "name": "pending-starters",
+          "sha256": "b57cd9db3da23fb5d0f2b22ce6e6035f06f73e34cdedbdf22928c9a2dd3399c5"
+        },
+        {
+          "name": "pending-undiscovered",
+          "sha256": "526eb78ebc3fa3dd878e168700c91e482913b60caaf2994d8521619a7dae5136"
+        },
+        {
+          "name": "tier-strings",
+          "sha256": "449ae24c8132f5a6e3baeb5710629a6fd7fd293df282744691d05cbef208ce41"
+        },
+        {
+          "name": "kit-pick-strings",
+          "sha256": "4e69643ebb981085658a5f929c8ca0187f1c8d9fed522d18b31ac7cc5c8f1d29"
+        },
+        {
+          "name": "explicit-grants",
+          "sha256": "41e9ee44f5edfa561a569cd5aa4cd8d281d0de87295ffc37485db98a39340fbf"
+        },
+        {
+          "name": "kit-snapshot-alias",
+          "sha256": "2a19219f0083db1f6e402ee0d5329939411c9fc6c05663454b4805eff90a5280"
+        },
+        {
+          "name": "support-pool",
+          "sha256": "8b9d1edaf16060f47766ddf831207221f3188dbc85b449afb56703fdab67e5b2"
+        }
+      ]
+    },
+    "oracle": {
+      "file": "baseline/character-continuity/oracle.json.gz",
+      "sha256": "1f0df718e1f893ed86cd13fba05ad0f60ccad9d687a7241c9b4caa71cfe2a21a",
+      "compressedSha256": "aff0bafd1db4dac59f2209be2369dfc3e16698035f5d44975787c5f0edc287dc",
+      "helper": "reference/export-continuity-oracle.ts",
+      "helperSha256": "7299c4a5b0a65e86e18196df7e7c8eedc4e710bec4546239e8f542a280983f01",
+      "methods": {
+        "engine/world.ts#questRewardOffers": "b917fb28bddf5e8d8cde2f8105864316d25fbb098c7972ba409fbcbe8b24e555",
+        "engine/world.ts#claimQuestReward": "c18382165f8d6078aa703f558dad8d630b063402a70b5890666d75c25af18f5c",
+        "engine/world.ts#questRewardItem": "990d940457bd3c1fb2d53da911b5b30d51894ad7f8413f93300ed4f6c73834cd",
+        "engine/questRewardChoices.ts#questRewardChoices": "0093501e9e068edee85b42f9ba75058da236ba6ea6c3650dfb8ccaaaebf61dcd"
+      },
+      "capturedBeforeImplementation": false,
+      "scope": "Additional original-game end-to-end control after private prototypes. A fresh account earns Ranger, rejects the pending class skill and a guest or distant caller, activates the class, mints one real magic skill gem and rejects a repeated quest award. Field completion and proximity are supplied.",
+      "faults": []
+    }
+  }
+}
