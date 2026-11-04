@@ -1,22 +1,13 @@
 import fs from 'node:fs';
-import os from 'node:os';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {build} from 'esbuild';
 import {root,sha256,writeJSON} from './reference-utils.mjs';
-import {buildCatalogue} from './catalogue-tools.mjs';
-import {npmCli} from './npm-cli.mjs';
+import {installVocationPackages} from './vocation-package-tools.mjs';
 import {readVocationFixture} from './vocation-reference.mjs';
 
-fs.mkdirSync(path.join(root,'.artifacts'),{recursive:true});
-const directory=fs.mkdtempSync(path.join(root,'.artifacts/vocation-package-')),catalogue=path.join(directory,'catalogue');
-buildCatalogue(catalogue);
-const npm=(cwd,args)=>execFileSync(process.execPath,[npmCli(),...args,'--cache',path.join(root,'.artifacts/npm-cache')],{cwd,encoding:'utf8',windowsHide:true});
-const pack=cwd=>JSON.parse(npm(cwd,['pack','--json','--ignore-scripts','--pack-destination',directory]))[0];
-const sdk=pack(root),content=pack(catalogue),consumer=fs.mkdtempSync(path.join(os.tmpdir(),'hollow-vocations-'));
-writeJSON(path.join(consumer,'package.json'),{private:true,type:'module'});
-npm(consumer,['install',path.join(directory,sdk.filename),path.join(directory,content.filename),'--offline','--ignore-scripts','--no-audit','--no-fund']);
+const {directory,consumer,sdk,content}=installVocationPackages('vocation-package-');
 fs.writeFileSync(path.join(consumer,'original.json'),readVocationFixture('survey'));
 const tests=fs.readFileSync(path.join(root,'test/vocations.test.mjs'),'utf8');
 fs.writeFileSync(path.join(consumer,'contracts.mjs'),tests.replace("'../dist/vocations.js'","'@hollow-wake/engine/progression/vocations'"));
@@ -72,7 +63,7 @@ const runTypes=execFileSync(process.execPath,[path.join(root,'node_modules/types
 fs.writeFileSync(path.join(consumer,'browser.mjs'),"export {createVocationQuests,grantVocation} from '@hollow-wake/engine/progression/vocations';");
 const bundle=path.join(directory,'browser.mjs');
 const built=await build({absWorkingDir:consumer,entryPoints:['browser.mjs'],bundle:true,minify:true,platform:'browser',format:'esm',outfile:bundle,metafile:true});
-assert.deepEqual(Object.keys(built.metafile.inputs).sort(),['browser.mjs','node_modules/@hollow-wake/engine/dist/vocation-grants.js','node_modules/@hollow-wake/engine/dist/vocations.js'].sort());
+assert.deepEqual(Object.keys(built.metafile.inputs).sort(),['browser.mjs','node_modules/@hollow-wake/engine/dist/vocation-grants.js','node_modules/@hollow-wake/engine/dist/vocation-keys.js','node_modules/@hollow-wake/engine/dist/vocations.js'].sort());
 const bytes=fs.statSync(bundle).size;assert(bytes>0&&bytes<=4096);
 const report={passed:true,directory,consumer,contracts:10,browserBytes:bytes,types:true,...result,archiveSha256:sha256(fs.readFileSync(path.join(directory,sdk.filename))),catalogueSha256:sha256(fs.readFileSync(path.join(directory,content.filename)))};
 const archives=[sdk,content].map(p=>({name:p.name,version:p.version,file:p.filename,bytes:fs.statSync(path.join(directory,p.filename)).size,sha256:sha256(fs.readFileSync(path.join(directory,p.filename)))}));

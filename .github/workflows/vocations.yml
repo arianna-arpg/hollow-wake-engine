@@ -5,6 +5,7 @@ on:
       - '.github/workflows/vocations.yml'
       - 'src/vocation*.ts'
       - 'test/vocations.test.mjs'
+      - 'test/vocation-sites.test.mjs'
       - 'adapters/hollow-wake/*vocation*.mjs'
       - 'adapters/hollow-wake/vocation*.ts'
       - 'scripts/prepare-game-adapter.mjs'
@@ -47,11 +48,14 @@ jobs:
       - run: node scripts/test-reference-vocation-sites.mjs
       - run: node scripts/test-vocation-site-source-faults.mjs
       - run: npm run test:vocation-package
+      - run: npm run test:vocation-site-package
       - run: node scripts/test-vocation-overlay.mjs
+      - run: node scripts/test-vocation-site-overlay.mjs
       - run: npm run adapter:prepare
       - run: npm run adapter:vocations
       - run: node scripts/test-reference-vocation-sites.mjs --location .artifacts/adapter-location.json
       - run: node scripts/test-installed-vocation-faults.mjs --location .artifacts/adapter-location.json
+      - run: node scripts/test-installed-vocation-site-faults.mjs --location .artifacts/adapter-location.json
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
         with:
@@ -66,6 +70,9 @@ jobs:
             .artifacts/vocation-site-source-faults-*/verification.json
             .artifacts/installed-vocation-faults-*/verification.json
             .artifacts/vocation-overlay-*/verification.json
+            .artifacts/vocation-site-overlay-*/verification.json
+            .artifacts/installed-vocation-site-faults-*/verification.json
+            .artifacts/vocation-site-package-*/verification.json
             .artifacts/vocation-package-*/verification.json
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: success() && github.event_name == 'push' && github.ref == 'refs/heads/codex/resource-restoration' && runner.os == 'Linux'

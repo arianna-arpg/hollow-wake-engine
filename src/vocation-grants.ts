@@ -1,3 +1,6 @@
+import {vocationUnlockKey} from './vocation-keys.js';
+export {vocationUnlockKey};
+
 /** Character and account state are borrowed for the duration of a grant. */
 export interface VocationGrantCharacter {
   readonly vocations: {readonly length: number; includes(id: string): boolean; push(id: string): unknown};
@@ -17,7 +20,6 @@ export interface VocationGrantPorts<Seat, Definition> {
   announceTree(seat: Seat): void;
 }
 
-export function vocationUnlockKey(id: string): string { return 'vocation_unlocked_' + id; }
 export function vocationRootId(id: string): string { return 'voc_' + id + '_root'; }
 
 /** A repeated grant is refused after the first character write, even during

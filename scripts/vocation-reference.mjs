@@ -37,3 +37,12 @@ export function captureVocationObserver(entry,directory,label) {
   const bytes=fs.readFileSync(output);
   return {label,output,sha256:sha256(bytes),logSha256:sha256(fs.readFileSync(log)),bytes};
 }
+
+/** Probe the selected spawn callback and its receiver across position draws. */
+export function prepareSiteOrderObserver(game,directory){
+  const order=JSON.parse(fs.readFileSync(path.join(root,'baseline/vocation-sites/spawn-order-acceptance.json')));
+  const bytes=fs.readFileSync(path.join(root,order.observations));
+  assert.equal(sha256(bytes),order.observationsSha256);
+  const entry=prepareVocationObserver('order',game,directory,{order:{helper:order.source,helperSha256:order.helperSha256}});
+  return {entry,bytes};
+}

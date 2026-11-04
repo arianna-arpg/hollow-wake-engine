@@ -33,3 +33,5 @@ node scripts/test-vocation-site-source-faults.mjs
 npm run adapter:prepare
 node scripts/test-reference-vocation-sites.mjs --location .artifacts/adapter-location.json
 ```
+
+A later diagnostic changed the vocation id and replaced the World spawn method during the X position draw. The original captured its id, method and receiver before that draw. The independently recorded [callback-order case](spawn-order.json) distinguishes the corrected implementation from the initial candidate.

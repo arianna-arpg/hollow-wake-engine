@@ -125,8 +125,10 @@ const hitAftermathJsBytes = packed.files.filter(file => /^dist\/hit-aftermath(?:
 const statusDeliveryJsBytes = packed.files.filter(file => /^dist\/status-delivery(?:-types)?\.js$/.test(file.path)).reduce((sum,file)=>sum+file.size,0);
 const procCastingJsBytes = packed.files.filter(file => file.path === 'dist/proc-casting.js').reduce((sum,file)=>sum+file.size,0);
 const procDeliveryJsBytes = packed.files.filter(file => /^dist\/proc-delivery(?:-types)?\.js$/.test(file.path)).reduce((sum,file)=>sum+file.size,0);
-const vocationJsBytes = packed.files.filter(file => ['dist/vocations.js','dist/vocation-grants.js'].includes(file.path)).reduce((sum,file)=>sum+file.size,0);
-const preVocationJsBytes = jsBytes - vocationJsBytes;
+const vocationJsBytes = packed.files.filter(file => ['dist/vocations.js','dist/vocation-grants.js','dist/vocation-keys.js'].includes(file.path)).reduce((sum,file)=>sum+file.size,0);
+const siteJsBytes = packed.files.filter(file => ['dist/vocation-sites.js','dist/vocation-site-placement.js'].includes(file.path)).reduce((sum,file)=>sum+file.size,0);
+const preSiteJsBytes = jsBytes - siteJsBytes;
+const preVocationJsBytes = preSiteJsBytes - vocationJsBytes;
 const preProcDeliveryJsBytes = preVocationJsBytes - procDeliveryJsBytes;
 // Preserve every historical component budget. The optional delivery capability
 // adds at most 5 KiB and remains outside the eager core graph.
@@ -207,10 +209,12 @@ assert.ok(preProcDeliveryJsBytes <= 683 * 1024, 'Previous runtime exceeded the r
 assert.ok(procDeliveryJsBytes > 0 && procDeliveryJsBytes <= 10 * 1024, 'Optional proc delivery exceeded its separate 10 KiB budget or is missing');
 assert.ok(preVocationJsBytes <= 693 * 1024, 'Previous runtime exceeded the retained 693 KiB budget');
 assert.ok(vocationJsBytes > 0 && vocationJsBytes <= 4 * 1024, 'Optional vocation runtime exceeded its separate 4 KiB budget or is missing');
-assert.ok(jsBytes <= 697 * 1024, 'Combined runtime exceeded the explicit 693 + 4 KiB budget');
+assert.ok(preSiteJsBytes <= 697 * 1024, 'Previous runtime exceeded its retained 697 KiB budget');
+assert.ok(siteJsBytes > 0 && siteJsBytes <= 6 * 1024, 'Optional site runtime exceeded its separate 6 KiB budget or is missing');
+assert.ok(jsBytes <= 703 * 1024, 'Combined runtime exceeded the explicit 697 + 6 KiB budget');
 assert.ok(contentBytes <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
-  vocationJsBytes, preVocationJsBytes, procDeliveryJsBytes, preProcDeliveryJsBytes,
+  siteJsBytes, preSiteJsBytes, vocationJsBytes, preVocationJsBytes, procDeliveryJsBytes, preProcDeliveryJsBytes,
   runtimeJsBytes: jsBytes, procCastingJsBytes, statusDeliveryJsBytes, hitAftermathJsBytes, hitSustainJsBytes, hitReactionsJsBytes, predecessorJsBytes, tagContextJsBytes, hitLandingJsBytes, hitPreparationJsBytes, previousJsBytes, damageJsBytes, statusJsBytes, statusEffectsJsBytes, hitStatusJsBytes, hitEffectsJsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, equipmentJsBytes, progressionJsBytes, skillJsBytes, supportJsBytes, resourceJsBytes, chargedCastJsBytes, interactiveCastJsBytes, ammunitionJsBytes, channelCastJsBytes, guardCastJsBytes, paymentJsBytes, admissionJsBytes, intentJsBytes, requestJsBytes, dispatchJsBytes, continuationJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
   bankJsBytes, actorGaugeJsBytes, actorConditionJsBytes, procJsBytes, procEffectJsBytes, delayedJsBytes, buffJsBytes, cooldownJsBytes, cooldownLifecycleJsBytes, readyBankJsBytes, sequenceRecoveryJsBytes, attackSequenceJsBytes, isolatedConsumer: JSON.parse(result), node: process.version,
 }, null, 2) + '\n');

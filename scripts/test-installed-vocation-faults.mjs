@@ -1,24 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-import {root,sha256,listFiles,writeJSON} from './reference-utils.mjs';
+import {prepareVocationFaultGame} from './vocation-installed-fault-tools.mjs';
+import {root,writeJSON} from './reference-utils.mjs';
 import {readVocationFixture,prepareVocationObserver,captureVocationObserver} from './vocation-reference.mjs';
 
 const [flag,file]=process.argv.slice(2);
 assert.equal(flag,'--location');const location=JSON.parse(fs.readFileSync(path.resolve(root,file)));
-const source=fs.realpathSync(location.game),sdk=fs.realpathSync(path.join(source,'node_modules/@hollow-wake/engine'));
-assert.notEqual(source,fs.realpathSync(path.join(root,'.reference')));
-fs.mkdirSync(path.join(root,'.artifacts'),{recursive:true});
-const directory=fs.mkdtempSync(path.join(root,'.artifacts/installed-vocation-faults-'));
-const game=path.join(directory,'game'),modules=path.join(game,'node_modules'),scope=path.join(modules,'@hollow-wake'),copy=path.join(scope,'engine');
-fs.cpSync(path.join(source,'src'),path.join(game,'src'),{recursive:true});
-fs.mkdirSync(scope,{recursive:true});fs.cpSync(sdk,copy,{recursive:true});
-fs.copyFileSync(path.join(source,'package.json'),path.join(game,'package.json'));
-for(const entry of fs.readdirSync(path.join(source,'node_modules'))){
-  if(entry.startsWith('.')||entry==='@hollow-wake')continue;
-  const target=path.join(source,'node_modules',entry);
-  if(fs.statSync(target).isDirectory())fs.symlinkSync(fs.realpathSync(target),path.join(modules,entry),process.platform==='win32'?'junction':'dir');
-}
+const {directory,game,copy,verifyUnchanged}=prepareVocationFaultGame(location,'installed-vocation-faults-');
 const paths={quest:path.join(copy,'dist/vocations.js'),grant:path.join(copy,'dist/vocation-grants.js'),world:path.join(game,'src/engine/world.ts'),binding:path.join(game,'src/engine/vocationGrantAdapter.ts')};
 const originals=Object.fromEntries(Object.entries(paths).map(([key,f])=>[key,fs.readFileSync(f,'utf8')]));
 const expectedBytes=readVocationFixture('survey'),expected=JSON.parse(expectedBytes);
@@ -51,8 +40,7 @@ try{
   }
   passed=true;
 }finally{
-  for(const [a,b] of [[path.join(game,'src'),path.join(source,'src')],[copy,sdk]])
-    for(const f of listFiles(a))assert.equal(sha256(fs.readFileSync(path.join(a,f))),sha256(fs.readFileSync(path.join(b,f))),f);
+  verifyUnchanged();
   writeJSON(path.join(directory,'verification.json'),{passed,directory,results,controlSha256:control.sha256,inputsUnchanged:true});
   console.log({passed,directory,detected:results.length});
 }

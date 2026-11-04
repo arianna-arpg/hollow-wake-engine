@@ -1,0 +1,889 @@
+{
+  "passed": true,
+  "parentRevision": "4310ac7d7222566e4facfd2eb2f95af1d481d378",
+  "observedAt": "2026-11-04T20:22:49.232Z",
+  "version": "0.40.0",
+  "inputs": {
+    ".github/workflows/vocations.yml": "d45cfa07b196f7c20e784abe1f59de7b4b44e77e289291d5c43f41ead581fe77",
+    "README.md": "ac58ea233a4d51a12a9a86670ef60c96efb26aba5a9d76e1da6f457ed59a4574",
+    "adapters/hollow-wake/integrate-vocation-sites.mjs": "e3b7a0980dd09c5e601f93ab40f4dc658544c575a06e5fe54510d49365a4a594",
+    "adapters/hollow-wake/vocationSiteAdapter.ts": "22c46e82657f32f16317cc7dd5b96ab6bed485c9e8d53cad5dfd62225b146760",
+    "baseline/vocation-sites/README.md": "0bc8f9f2dbe31efdd019706fd86a96290470f694d0248e1b47b85b8cf279da68",
+    "baseline/vocation-sites/spawn-order-acceptance.json": "ec17cfa66aadf756c6c3d78014965b9290d06e532219a23df6d3ba558a3820ad",
+    "baseline/vocation-sites/spawn-order.json": "41120876f307df2f2573a0e628dc24aa403724f8ed880ad56ec9136ae0c92b1f",
+    "docs/completion.json": "31ca5900fec1cfa70ca4f165894898e88da31e3d8f2479746f4c55f1de4b22cc",
+    "docs/vocation-sites.md": "cfaa174cd4ecdb475717fc76edf9b45084db57e54cc28d09a684c3de61d1b931",
+    "package-lock.json": "f8ef6ce64b20fc53a92c3b21a299a33752459e548c5a550696a358e96db8e95f",
+    "package.json": "4755b728358c7576aab8dea94d3f6c79253bb39cde26d0a70ce2d1325e336bb7",
+    "reference/benchmark-vocation-sites.ts": "0a2cfc594bce33431907ba67b4f2dd01dceaaf9f003b9c42164f623006f32a99",
+    "reference/export-vocation-site-order.ts": "565bbee13b4e374684bbe44d3c25cd99a50453d8f9e7c138673900cf3466b9f8",
+    "scripts/benchmark-vocation-sites.mjs": "d5e39d7cb7f4e44aa98e9ba090fd19bb8a717af14c84d66ede8c61994ef955f2",
+    "scripts/check-boundaries.mjs": "89f3d4aae2c28c2a11f28bd24067e8c4b91e3e228cf412a71cbe24c6ca4ef674",
+    "scripts/prepare-game-adapter.mjs": "295f5ec21627238d4757b887074d54dd2185de4e6c2f806932573d64b0732451",
+    "scripts/test-installed-vocation-faults.mjs": "61fc3b287a9fc2c0bddd572c2db6b291a6bda97234f72a3ebaf49e299e889236",
+    "scripts/test-installed-vocation-site-faults.mjs": "fb3c868f657b9051cc22bc765ed79acdabe20a2efdba18b71ad56924ee252dff",
+    "scripts/test-package.mjs": "29957c42b19133a8a992765a83ae41c1240dbb5f77e494c639be2592ffe43216",
+    "scripts/test-reference-vocation-sites.mjs": "6633e22057952c65dca17c0a8dd6b52710b0b44e766680a17e512da983d31499",
+    "scripts/test-vocation-package.mjs": "7cc85624b4d01eaea3af6a76a3f77583d08f42d4f4f67735e4e402706b0460e5",
+    "scripts/test-vocation-site-overlay.mjs": "4f350d41742baaa8a02ee5b6623eec21640cac887f18bf7147293a392a27b4a8",
+    "scripts/test-vocation-site-package.mjs": "0d4117cd8db42b9d054861a54df066d2b5cc254610f89b087579452a67f20a69",
+    "scripts/vocation-installed-fault-tools.mjs": "21bb5e95105c081d5faaa0982c4ab927e0e6f36f73bed6abf1aba3b87e40e449",
+    "scripts/vocation-package-tools.mjs": "f40c25e54ddc2bdca114b4295def6a250428ffd879b84bb0aeaf6ab1ce1a404d",
+    "scripts/vocation-reference.mjs": "2161bd25a472e8eb816bc3f1119d78f5015dd02d48f04b91eab520a652220349",
+    "src/vocation-grants.ts": "137d5a40a72dcd65de9bc5b9667394a763b92ece46073fe6437ce2b47adf954f",
+    "src/vocation-keys.ts": "a8132266c131b1d68f8b8ee012d602f4962fd8a9912749338ff5901526d3e407",
+    "src/vocation-site-placement.ts": "eea1695e298fbd961e267a0b924c971f51a7042d79041854031e338b349fcd35",
+    "src/vocation-sites.ts": "7c265b8a440e22142a6d7c9d5663e36f64e82b79f9ebad30127fcd81b783711f",
+    "src/vocations.ts": "3aa3c947fbba87dd2b0c016b331aa6b3086b79f8645534907e3b38a3ec3bb5f2",
+    "test/vocation-sites.test.mjs": "c1f9bd8c5bb570214b909c0330f623be2d886871ed2a7704a6f0f05ac13c2ac1"
+  },
+  "original": {
+    "helper": "reference/export-vocation-sites.ts",
+    "helperSha256": "986a5d0c2185f70592be033c15869f273cbbdff33c38027c9f47695604b90428",
+    "file": "baseline/vocation-sites/observations.json.gz",
+    "compressedSha256": "bec7802adea7f5a7dc6c618470423ffcc97726cdd53628eb765435ed53a7382d",
+    "sha256": "ec00bb727f5819a6b92e0f7b863e3908efb1ee87602915538b4e071979c73231"
+  },
+  "cases": {
+    "definitions": 8,
+    "filterDecisions": 160,
+    "controlledFilterDecisions": 5760,
+    "zoneSeedInputs": 80,
+    "withShrines": 46,
+    "normalZoneReloads": 4,
+    "completedHarborDefenses": 2
+  },
+  "order": {
+    "originalSha256": "41120876f307df2f2573a0e628dc24aa403724f8ed880ad56ec9136ae0c92b1f",
+    "original": [
+      [
+        "first",
+        "harborwarden",
+        true,
+        488.2894261181354,
+        649.3277579918503
+      ]
+    ],
+    "initialCandidate": [
+      [
+        "late",
+        "changed-during-position-draw",
+        true,
+        488.2894261181354,
+        649.3277579918503
+      ]
+    ],
+    "correctedSha256": "41120876f307df2f2573a0e628dc24aa403724f8ed880ad56ec9136ae0c92b1f"
+  },
+  "originalHosted": {
+    "run": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/41899017712",
+    "platforms": {
+      "windows-2025": {
+        "controls": [
+          {
+            "input": "original",
+            "sha256": "9c56362d101fbd87d199ec2f1e8b6d2f7455b2492e922834c632c130f2cc6135"
+          },
+          {
+            "input": "installed v0.39.0",
+            "sha256": "292a5a84244b7376dc84713b8351470852073eb44a6a1364dfa191519950f293"
+          }
+        ],
+        "faultsSha256": "2fca77baf75c061508036ba078b0a2188ee67945dc402f589c3f7f2a27eedd54"
+      },
+      "ubuntu-24.04": {
+        "controls": [
+          {
+            "input": "original",
+            "sha256": "3c80ee79c28e968ce7ca1a84964b88b15574fed0d5beb837c86c7a272e96cf35"
+          },
+          {
+            "input": "installed v0.39.0",
+            "sha256": "943113f5dd06079a4bf7aa1cd6f2541424ed0ac232903539d745de9cc17af5b4"
+          }
+        ],
+        "faultsSha256": "1d3a09230f6c737106fab677caea024891c70faefb4c9daadae495c1497c1c19"
+      }
+    }
+  },
+  "package": {
+    "archives": [
+      {
+        "name": "@hollow-wake/engine",
+        "version": "0.40.0",
+        "file": "hollow-wake-engine-0.40.0.tgz",
+        "bytes": 709251,
+        "sha256": "8de129bab61df46af7a26f3e9bafa1675f65d7457a24ba65763b9fea12880638"
+      },
+      {
+        "name": "@hollow-wake/catalogue",
+        "version": "0.1.0",
+        "file": "hollow-wake-catalogue-0.1.0.tgz",
+        "bytes": 924047,
+        "sha256": "2783988ca60e0ce0a0ab3043da94b9289af33d8c37bd05de5884775556731d9b"
+      }
+    ],
+    "installedSha256": "8de129bab61df46af7a26f3e9bafa1675f65d7457a24ba65763b9fea12880638",
+    "contracts": 7,
+    "packagedAuthoredSites": [
+      {
+        "id": "greenwarden",
+        "npc": "heartwood_warden",
+        "count": 9
+      },
+      {
+        "id": "stonewrought",
+        "npc": "stonefather_menhir",
+        "count": 9
+      },
+      {
+        "id": "packwarden",
+        "npc": "pack_stone",
+        "count": 0
+      },
+      {
+        "id": "swordsaint",
+        "npc": "barrow_stone",
+        "count": 0
+      },
+      {
+        "id": "enginewright",
+        "npc": "gearwright_wreck",
+        "count": 0
+      },
+      {
+        "id": "stillmind",
+        "npc": "stillwater_basin",
+        "count": 0
+      },
+      {
+        "id": "swarmlord",
+        "npc": "brood_heart",
+        "count": 0
+      },
+      {
+        "id": "harborwarden",
+        "npc": "mooring_stone",
+        "count": 5
+      }
+    ],
+    "browserBytes": 2131,
+    "unminifiedSiteBytes": 4395,
+    "unminifiedQuestAndKeysBytes": 4087,
+    "standaloneReceiptSha256": "a6c7cbccda5081d83d917c6a51e978406953a5723a119639be19fbd99929180a",
+    "priorVocationBrowserBytes": 1818
+  },
+  "installation": {
+    "checks": [
+      {
+        "name": "build",
+        "logSha256": "96116e2b43ded8712a861c330b86a8a4de25cfa460fafb2aa05a28801746373c"
+      },
+      {
+        "name": "site-overlay",
+        "logSha256": "77b3f18553871d5b0bb114e55342aab47e330b5193d6d868089d8a51327c62d9"
+      },
+      {
+        "name": "prepare",
+        "logSha256": "9b06df06e552ff41e4f3c85af266a12bb035f7494b78b0ff7bbc93d626e7caae"
+      },
+      {
+        "name": "game-types",
+        "logSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+      },
+      {
+        "name": "game-smoke",
+        "logSha256": "7e8a6d9acb79df5211afb4077b6548a4044712400f43cc27ebc7ec787126af70"
+      },
+      {
+        "name": "site-installed",
+        "logSha256": "3670d3593bf814afc68f30e5d8a8f95c960dacc7b96ed7309fdcd6161ffbe6dc"
+      },
+      {
+        "name": "site-faults",
+        "logSha256": "fa2cd32764fa24d57c9a1a5e589022404b9505b65f6342df3a5a4df041bef779"
+      },
+      {
+        "name": "vocations",
+        "logSha256": "6c9d99079042ee8293c6b360d37aeef04b2e5d1d8c983455f4e799064ffc16e6"
+      },
+      {
+        "name": "vocation-faults",
+        "logSha256": "ca728096e1c1e6378e6f8299c2bb49a06cdd5e7004d1280605e5397f1b5b7e38"
+      },
+      {
+        "name": "proc-delivery",
+        "logSha256": "0463c8a456218d8a3394059213104750162508a1eaa57fb9f2eac2dd7487cbb5"
+      },
+      {
+        "name": "native",
+        "logSha256": "df9fe1e853c711df515e1a983ee3c7bbe498716b1e501de150254e13333ced4c"
+      },
+      {
+        "name": "renderer-prepare",
+        "logSha256": "180a9b5ce3e196ee3ca870543c87c3cf83afe0be41e058bcbd92ea9d037b3c9c"
+      },
+      {
+        "name": "renderer-build",
+        "logSha256": "7cdad4c8dc1722e4fb485b89d52c82bf9d350fe08f819a1f095b8d5dd9a7488f"
+      },
+      {
+        "name": "renderer-boot",
+        "logSha256": "33c77ef29cf6e0a956ed4eaf5bb04f69ec83962f01e86a4c59e983e0abda0f8b"
+      },
+      {
+        "name": "renderer-vocation",
+        "logSha256": "45a617c24a04aea3e8f5d80d0aecbed1633681470d0340650474341207530ea1"
+      },
+      {
+        "name": "verify",
+        "logSha256": "a6140a7f4ee1997683e86523fcb5f1b4414b7e572f1b0b6328e5a8b0ab43ac8f"
+      },
+      {
+        "name": "reference",
+        "logSha256": "e34075f89d269823730442b4d0a5014a44ca29c23c352e49abfe9235b1e42f66"
+      },
+      {
+        "name": "preservation",
+        "logSha256": "1a2c3dd506d9b3d8863e20c7bd52656706cd48c24f0e9e68f8491e41954bcb82"
+      }
+    ],
+    "independentSdkTests": 1391,
+    "changedGameFiles": [
+      "engine/vocationSiteAdapter.ts",
+      "engine/world.ts"
+    ],
+    "identicalPreviousSdkOutputs": 303,
+    "updatedPreviousSdkOutputs": [
+      "vocation-grants.d.ts",
+      "vocation-grants.js",
+      "vocation-grants.js.map",
+      "vocations.d.ts",
+      "vocations.js",
+      "vocations.js.map"
+    ],
+    "siteReceiptSha256": "72c47434c5afdd7dff74fe1392a1c50ab4578c2fd64ae850f450316ba1be4543",
+    "installedFaults": [
+      {
+        "name": "safe-ground",
+        "sha256": "80eae7c4bce78eeaabe3603ad92eaa191154c7569c04196c254212fa8a53b7d0",
+        "logSha256": "bb17568bc494d0aa4a1f4618658da3da98158926ab9227604920dde43ebc2a97"
+      },
+      {
+        "name": "level-threshold",
+        "sha256": "6e2e2db66031a64871d012bb2a4d1c1df3300af803d8b5671a74f12819313b98",
+        "logSha256": "bb17568bc494d0aa4a1f4618658da3da98158926ab9227604920dde43ebc2a97"
+      },
+      {
+        "name": "unowned-territory",
+        "sha256": "65074cb1804349e76f593d18f42913319aebc781f334acf2c1f092aec88f2424",
+        "logSha256": "bb17568bc494d0aa4a1f4618658da3da98158926ab9227604920dde43ebc2a97"
+      },
+      {
+        "name": "radius-edge",
+        "sha256": "031e2ae82295b76f1472f53882049d047ead3b187cd5afb5f3ce6cc3b54de865",
+        "logSha256": "bb17568bc494d0aa4a1f4618658da3da98158926ab9227604920dde43ebc2a97"
+      },
+      {
+        "name": "repeated-silence",
+        "sha256": "1e0b18d4ec345b43a0aa1046b35206b98a4a4e674fd3e89f03a29804f2877be3",
+        "logSha256": "bb17568bc494d0aa4a1f4618658da3da98158926ab9227604920dde43ebc2a97"
+      },
+      {
+        "name": "seed-salt",
+        "sha256": "d4d322cbd0d9d8a498c2430a4f467970c1c99c333fc26ca98fd0824b35e31eb5",
+        "logSha256": "b77d41af4248685e960b1eaaba04432a849e981ebab0564aa50ca041691dee9b"
+      },
+      {
+        "name": "dressing-angle",
+        "sha256": "80d64ebe086d0a31914bdd261ee0d1c6f68a41dc3b9772d01159931618c0686e",
+        "logSha256": "bb17568bc494d0aa4a1f4618658da3da98158926ab9227604920dde43ebc2a97"
+      },
+      {
+        "name": "dirty-notification",
+        "sha256": "af2a823da16302399748254a723b311ab1caaea1ed438c89d4604b1cdf207705",
+        "logSha256": "bb17568bc494d0aa4a1f4618658da3da98158926ab9227604920dde43ebc2a97"
+      },
+      {
+        "name": "host-radial-geometry",
+        "sha256": "08a35f442e74ad19ac3b738bcc8672c62f8f4d9e00c0c3a41e3781055acf4463",
+        "logSha256": "bb17568bc494d0aa4a1f4618658da3da98158926ab9227604920dde43ebc2a97"
+      },
+      {
+        "name": "world-zone-filter",
+        "sha256": "ed7337b3fb90fb265e7cc42ea9d58dc632306f02a387c6e8965389d841a5176b",
+        "logSha256": "bb17568bc494d0aa4a1f4618658da3da98158926ab9227604920dde43ebc2a97"
+      },
+      {
+        "name": "selection-after-draw",
+        "sha256": "91bd3433110f53f3fcb320a47ba63e78f6046af026cd6a1a324345a9df1f9650",
+        "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+      },
+      {
+        "name": "late-world-method",
+        "sha256": "3c9f5fcf930fe2daa9534c37754f99e17910f9fd3e2922ad60282b7643cf0fbb",
+        "logSha256": "098da0b978a1e3cc30c0f39650d6eb017dc4feb5694487f89315389c0508f6d5"
+      }
+    ],
+    "installedFaultReceiptSha256": "570f05652f8368995b4a8261dcb90bfa51681dbf6b0e90e367721c0f32ca6b99",
+    "rendererSha256": "71c671159b3845a72c4f36fe51008ad9b36a87e1151bce5f02ecd117211011fd",
+    "nativeReceiptSha256": "dabca3f19874d39e7d3527c44a8e8b742f9cdbcd17a6e7df6073190827b9ed03",
+    "nativeOutcomes": [
+      {
+        "label": "original",
+        "consumers": [
+          {
+            "host": "c",
+            "requests": 330,
+            "numbers": 379857,
+            "faultDetected": false,
+            "zeroTrackedAtDispose": true,
+            "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3"
+          },
+          {
+            "host": "cpp",
+            "requests": 330,
+            "numbers": 379857,
+            "faultDetected": false,
+            "zeroTrackedAtDispose": true,
+            "outputSha256": "e15e94c395e81dd02b3537d4751a254f2888b5eee2aefaf7fe0990befdb94ad5"
+          },
+          {
+            "host": "dotnet",
+            "requests": 330,
+            "numbers": 379857,
+            "faultDetected": false,
+            "zeroTrackedAtDispose": true,
+            "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3"
+          }
+        ]
+      },
+      {
+        "label": "installed",
+        "consumers": [
+          {
+            "host": "c",
+            "requests": 330,
+            "numbers": 379857,
+            "faultDetected": false,
+            "zeroTrackedAtDispose": true,
+            "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3"
+          },
+          {
+            "host": "cpp",
+            "requests": 330,
+            "numbers": 379857,
+            "faultDetected": false,
+            "zeroTrackedAtDispose": true,
+            "outputSha256": "e15e94c395e81dd02b3537d4751a254f2888b5eee2aefaf7fe0990befdb94ad5"
+          },
+          {
+            "host": "dotnet",
+            "requests": 330,
+            "numbers": 379857,
+            "faultDetected": false,
+            "zeroTrackedAtDispose": true,
+            "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3"
+          }
+        ]
+      },
+      {
+        "label": "arc-strict-tie-fault",
+        "consumers": [
+          {
+            "host": "c",
+            "requests": 330,
+            "numbers": 380056,
+            "faultDetected": true,
+            "zeroTrackedAtDispose": true,
+            "outputSha256": "bfce1683a5443af1f8b91ad9b7376243f4fcbe3b58386aaa89f691fb1956fe00"
+          },
+          {
+            "host": "cpp",
+            "requests": 330,
+            "numbers": 380056,
+            "faultDetected": true,
+            "zeroTrackedAtDispose": true,
+            "outputSha256": "c2c676c575cbc64d743ed7b73feb9e8e805a07d0601ddb7f7696435d2ab638e9"
+          },
+          {
+            "host": "dotnet",
+            "requests": 330,
+            "numbers": 380056,
+            "faultDetected": true,
+            "zeroTrackedAtDispose": true,
+            "outputSha256": "bfce1683a5443af1f8b91ad9b7376243f4fcbe3b58386aaa89f691fb1956fe00"
+          }
+        ]
+      },
+      {
+        "label": "rider-depth-fault",
+        "consumers": [
+          {
+            "host": "c",
+            "requests": 330,
+            "numbers": 379857,
+            "faultDetected": true,
+            "zeroTrackedAtDispose": true,
+            "outputSha256": "806bc33c109a04424d723742da520a85e13bfec58c624d1c5507e3245cd5b37b"
+          },
+          {
+            "host": "cpp",
+            "requests": 330,
+            "numbers": 379857,
+            "faultDetected": true,
+            "zeroTrackedAtDispose": true,
+            "outputSha256": "a197ae8635234cc1b69bc003e95a0bff284ef579506904eab9aa52aa301b4cab"
+          },
+          {
+            "host": "dotnet",
+            "requests": 330,
+            "numbers": 379857,
+            "faultDetected": true,
+            "zeroTrackedAtDispose": true,
+            "outputSha256": "806bc33c109a04424d723742da520a85e13bfec58c624d1c5507e3245cd5b37b"
+          }
+        ]
+      }
+    ]
+  },
+  "performance": {
+    "scope": "Desktop Node wall-clock time for a single World proximity update on unchanged state. Initialization is excluded. This does not measure a complete frame, an in-engine/native host or a physical handheld.",
+    "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+    "node": "v24.9.0",
+    "callsPerRound": 250000,
+    "summary": [
+      {
+        "name": "empty",
+        "originalNs": 12.2384,
+        "installedNs": 13.8084,
+        "differenceNs": 1.5700000000000003
+      },
+      {
+        "name": "one-outside",
+        "originalNs": 131.812,
+        "installedNs": 139.3784,
+        "differenceNs": 7.566399999999987
+      },
+      {
+        "name": "one-discovered",
+        "originalNs": 93.6528,
+        "installedNs": 95.2952,
+        "differenceNs": 1.642399999999995
+      },
+      {
+        "name": "eight-outside",
+        "originalNs": 1202.6668,
+        "installedNs": 1130.4848,
+        "differenceNs": -72.18200000000002
+      },
+      {
+        "name": "eight-discovered",
+        "originalNs": 877.1872,
+        "installedNs": 838.1056,
+        "differenceNs": -39.08159999999998
+      }
+    ],
+    "rounds": [
+      {
+        "original": [
+          {
+            "name": "empty",
+            "calls": 250000,
+            "nanoseconds": 2808600
+          },
+          {
+            "name": "one-outside",
+            "calls": 250000,
+            "nanoseconds": 32702900
+          },
+          {
+            "name": "one-discovered",
+            "calls": 250000,
+            "nanoseconds": 22842200
+          },
+          {
+            "name": "eight-outside",
+            "calls": 250000,
+            "nanoseconds": 293143500
+          },
+          {
+            "name": "eight-discovered",
+            "calls": 250000,
+            "nanoseconds": 213046000
+          }
+        ],
+        "installed": [
+          {
+            "name": "empty",
+            "calls": 250000,
+            "nanoseconds": 3343400
+          },
+          {
+            "name": "one-outside",
+            "calls": 250000,
+            "nanoseconds": 36112300
+          },
+          {
+            "name": "one-discovered",
+            "calls": 250000,
+            "nanoseconds": 23177500
+          },
+          {
+            "name": "eight-outside",
+            "calls": 250000,
+            "nanoseconds": 282621200
+          },
+          {
+            "name": "eight-discovered",
+            "calls": 250000,
+            "nanoseconds": 208489400
+          }
+        ]
+      },
+      {
+        "installed": [
+          {
+            "name": "empty",
+            "calls": 250000,
+            "nanoseconds": 3363400
+          },
+          {
+            "name": "one-outside",
+            "calls": 250000,
+            "nanoseconds": 33391000
+          },
+          {
+            "name": "one-discovered",
+            "calls": 250000,
+            "nanoseconds": 27055600
+          },
+          {
+            "name": "eight-outside",
+            "calls": 250000,
+            "nanoseconds": 277596700
+          },
+          {
+            "name": "eight-discovered",
+            "calls": 250000,
+            "nanoseconds": 205723900
+          }
+        ],
+        "original": [
+          {
+            "name": "empty",
+            "calls": 250000,
+            "nanoseconds": 3059600
+          },
+          {
+            "name": "one-outside",
+            "calls": 250000,
+            "nanoseconds": 37223600
+          },
+          {
+            "name": "one-discovered",
+            "calls": 250000,
+            "nanoseconds": 24855500
+          },
+          {
+            "name": "eight-outside",
+            "calls": 250000,
+            "nanoseconds": 309095000
+          },
+          {
+            "name": "eight-discovered",
+            "calls": 250000,
+            "nanoseconds": 219351800
+          }
+        ]
+      },
+      {
+        "original": [
+          {
+            "name": "empty",
+            "calls": 250000,
+            "nanoseconds": 3039800
+          },
+          {
+            "name": "one-outside",
+            "calls": 250000,
+            "nanoseconds": 33394600
+          },
+          {
+            "name": "one-discovered",
+            "calls": 250000,
+            "nanoseconds": 26410600
+          },
+          {
+            "name": "eight-outside",
+            "calls": 250000,
+            "nanoseconds": 313771500
+          },
+          {
+            "name": "eight-discovered",
+            "calls": 250000,
+            "nanoseconds": 219296800
+          }
+        ],
+        "installed": [
+          {
+            "name": "empty",
+            "calls": 250000,
+            "nanoseconds": 8621700
+          },
+          {
+            "name": "one-outside",
+            "calls": 250000,
+            "nanoseconds": 32821800
+          },
+          {
+            "name": "one-discovered",
+            "calls": 250000,
+            "nanoseconds": 23329600
+          },
+          {
+            "name": "eight-outside",
+            "calls": 250000,
+            "nanoseconds": 295027800
+          },
+          {
+            "name": "eight-discovered",
+            "calls": 250000,
+            "nanoseconds": 209526400
+          }
+        ]
+      },
+      {
+        "installed": [
+          {
+            "name": "empty",
+            "calls": 250000,
+            "nanoseconds": 3452100
+          },
+          {
+            "name": "one-outside",
+            "calls": 250000,
+            "nanoseconds": 33275300
+          },
+          {
+            "name": "one-discovered",
+            "calls": 250000,
+            "nanoseconds": 23312100
+          },
+          {
+            "name": "eight-outside",
+            "calls": 250000,
+            "nanoseconds": 282066000
+          },
+          {
+            "name": "eight-discovered",
+            "calls": 250000,
+            "nanoseconds": 211013800
+          }
+        ],
+        "original": [
+          {
+            "name": "empty",
+            "calls": 250000,
+            "nanoseconds": 3375400
+          },
+          {
+            "name": "one-outside",
+            "calls": 250000,
+            "nanoseconds": 49263900
+          },
+          {
+            "name": "one-discovered",
+            "calls": 250000,
+            "nanoseconds": 30260200
+          },
+          {
+            "name": "eight-outside",
+            "calls": 250000,
+            "nanoseconds": 300666700
+          },
+          {
+            "name": "eight-discovered",
+            "calls": 250000,
+            "nanoseconds": 230850800
+          }
+        ]
+      },
+      {
+        "original": [
+          {
+            "name": "empty",
+            "calls": 250000,
+            "nanoseconds": 2885500
+          },
+          {
+            "name": "one-outside",
+            "calls": 250000,
+            "nanoseconds": 31686700
+          },
+          {
+            "name": "one-discovered",
+            "calls": 250000,
+            "nanoseconds": 22399900
+          },
+          {
+            "name": "eight-outside",
+            "calls": 250000,
+            "nanoseconds": 287827300
+          },
+          {
+            "name": "eight-discovered",
+            "calls": 250000,
+            "nanoseconds": 214395500
+          }
+        ],
+        "installed": [
+          {
+            "name": "empty",
+            "calls": 250000,
+            "nanoseconds": 3326700
+          },
+          {
+            "name": "one-outside",
+            "calls": 250000,
+            "nanoseconds": 38416100
+          },
+          {
+            "name": "one-discovered",
+            "calls": 250000,
+            "nanoseconds": 23823800
+          },
+          {
+            "name": "eight-outside",
+            "calls": 250000,
+            "nanoseconds": 299127400
+          },
+          {
+            "name": "eight-discovered",
+            "calls": 250000,
+            "nanoseconds": 212588200
+          }
+        ]
+      },
+      {
+        "installed": [
+          {
+            "name": "empty",
+            "calls": 250000,
+            "nanoseconds": 4333900
+          },
+          {
+            "name": "one-outside",
+            "calls": 250000,
+            "nanoseconds": 41860900
+          },
+          {
+            "name": "one-discovered",
+            "calls": 250000,
+            "nanoseconds": 28581400
+          },
+          {
+            "name": "eight-outside",
+            "calls": 250000,
+            "nanoseconds": 278753600
+          },
+          {
+            "name": "eight-discovered",
+            "calls": 250000,
+            "nanoseconds": 203344500
+          }
+        ],
+        "original": [
+          {
+            "name": "empty",
+            "calls": 250000,
+            "nanoseconds": 3104700
+          },
+          {
+            "name": "one-outside",
+            "calls": 250000,
+            "nanoseconds": 31504200
+          },
+          {
+            "name": "one-discovered",
+            "calls": 250000,
+            "nanoseconds": 22767500
+          },
+          {
+            "name": "eight-outside",
+            "calls": 250000,
+            "nanoseconds": 307341100
+          },
+          {
+            "name": "eight-discovered",
+            "calls": 250000,
+            "nanoseconds": 223206100
+          }
+        ]
+      },
+      {
+        "original": [
+          {
+            "name": "empty",
+            "calls": 250000,
+            "nanoseconds": 3140900
+          },
+          {
+            "name": "one-outside",
+            "calls": 250000,
+            "nanoseconds": 32953000
+          },
+          {
+            "name": "one-discovered",
+            "calls": 250000,
+            "nanoseconds": 23413200
+          },
+          {
+            "name": "eight-outside",
+            "calls": 250000,
+            "nanoseconds": 299811800
+          },
+          {
+            "name": "eight-discovered",
+            "calls": 250000,
+            "nanoseconds": 216519200
+          }
+        ],
+        "installed": [
+          {
+            "name": "empty",
+            "calls": 250000,
+            "nanoseconds": 3453200
+          },
+          {
+            "name": "one-outside",
+            "calls": 250000,
+            "nanoseconds": 34844600
+          },
+          {
+            "name": "one-discovered",
+            "calls": 250000,
+            "nanoseconds": 27727800
+          },
+          {
+            "name": "eight-outside",
+            "calls": 250000,
+            "nanoseconds": 293727700
+          },
+          {
+            "name": "eight-discovered",
+            "calls": 250000,
+            "nanoseconds": 212635700
+          }
+        ]
+      }
+    ],
+    "receiptSha256": "d4d52a50b242f1cbb0407d43249b09f824af313442d3e1316d8836c2d4e983f9"
+  },
+  "preserved": {
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "files": 4149,
+    "changes": 0
+  },
+  "scope": "The seed, ordering, discovery and publication rules are portable. The actual game supplies its terrain, host-owned actor storage and cues. The measured desktop Node update workload is distinct from a full frame or a physical device."
+}

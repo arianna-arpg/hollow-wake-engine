@@ -3,7 +3,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import ts from 'typescript';
 import {root,sha256,listFiles,verifyReference,writeJSON} from './reference-utils.mjs';
-import {readVocationFixture,prepareVocationObserver,checkVocationObserverTypes,captureVocationObserver} from './vocation-reference.mjs';
+import {readVocationFixture,prepareVocationObserver,prepareSiteOrderObserver,checkVocationObserverTypes,captureVocationObserver} from './vocation-reference.mjs';
 
 const accepted=JSON.parse(fs.readFileSync(path.join(root,'baseline/vocation-sites/acceptance.json')));
 const lockFile=path.join(root,'baseline/source-lock.json'),ref=path.join(root,'.reference');
@@ -24,9 +24,10 @@ for(const [name,digest]of Object.entries(accepted.methodHashes)){
 fs.mkdirSync(path.join(root,'.artifacts'),{recursive:true});
 const directory=fs.mkdtempSync(path.join(root,'.artifacts/reference-vocation-sites-'));
 const entry=prepareVocationObserver('sites',game,directory,accepted.fixtures);
-let passed=false,types,run;
+const order=prepareSiteOrderObserver(game,directory);
+let passed=false,types,run,orderRun;
 try{
-  types=checkVocationObserverTypes(directory,[entry]);
+  types=checkVocationObserverTypes(directory,[entry,order.entry]);
   run=captureVocationObserver(entry,directory,'observations');
   assert(run.bytes.equals(readVocationFixture('sites',accepted.fixtures)),'Vocation-site observations differ from the frozen game');
   const record=JSON.parse(run.bytes),expected=accepted.cases;
@@ -35,9 +36,11 @@ try{
   assert.equal(record.natural.filter(z=>z.sites.length).length,expected.withShrines);assert.equal(record.loaded.length,expected.normalZoneReloads);
   assert.equal(record.harbors.length,expected.completedHarborDefenses);
   assert(record.harbors.every(h=>h.before.stone.length===0&&h.won.stone.length===1&&h.heard.credit===1&&h.revisit.stone.length===1));
+  orderRun=captureVocationObserver(order.entry,directory,'spawn-order');
+  assert(orderRun.bytes.equals(order.bytes),'Changed selection or receiver during a position draw');
   passed=true;
 }finally{
   observed.forEach((dir,i)=>assert.deepEqual(snapshot(dir),before[i]));verifyReference(ref,lock);
-  writeJSON(path.join(directory,'verification.json'),{passed,directory,game,typesLogSha256:types,observationsSha256:run?.sha256,logSha256:run?.logSha256,inputsUnchanged:true});
+  writeJSON(path.join(directory,'verification.json'),{passed,directory,game,typesLogSha256:types,observationsSha256:run?.sha256,spawnOrderSha256:orderRun?.sha256,logSha256:run?.logSha256,inputsUnchanged:true});
   console.log({passed,directory,game,observationsSha256:run?.sha256});
 }

@@ -1,5 +1,6 @@
-import {vocationUnlockKey} from './vocation-grants.js';
-export {grantVocation, vocationRootId, vocationUnlockKey, type VocationGrantCharacter, type VocationGrantPorts} from './vocation-grants.js';
+import {vocationDiscoveryKey,vocationUnlockKey} from './vocation-keys.js';
+export {vocationDiscoveryKey, vocationUnlockKey};
+export {grantVocation, vocationRootId, type VocationGrantCharacter, type VocationGrantPorts} from './vocation-grants.js';
 
 type Ledger = Readonly<Record<string, number | undefined>>;
 export interface VocationGateState<L extends Ledger = Ledger> {
@@ -51,7 +52,6 @@ export interface VocationQuest<Zone, L extends Ledger = Ledger> {
 
 export function vocationStepQuestId(id: string, step: number): string {return `voc_${id}_${step}`;}
 export function vocationStepKey(id: string, step: number): string {return `voc_${id}_step_${step}`;}
-export function vocationDiscoveryKey(id: string): string {return 'vocation_discovered_' + id;}
 
 /** Compile the ordered chain at content load. Gates borrow the definition and
  * config and read current run and account state on every offer. */
