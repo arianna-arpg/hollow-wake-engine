@@ -85,6 +85,15 @@ jobs:
           $receipt = (Get-Content .artifacts/godot-proc-addon-latest.json -Raw | ConvertFrom-Json).receipt
           node scripts/test-godot-proc-example.mjs --package $receipt --tools $toolsFile
           if ($LASTEXITCODE -ne 0) { throw 'Ward editor or relocated release failed' }
+      - name: Retain verified drop-in addon
+        if: success() && github.ref == 'refs/heads/codex/resource-restoration'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: hollow-wake-godot-procs-${{ matrix.platform }}-x64
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+          path: .artifacts/godot-proc-addon-*/hollow-wake-godot-procs-*.zip
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:

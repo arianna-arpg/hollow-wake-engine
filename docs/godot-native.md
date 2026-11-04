@@ -20,10 +20,14 @@ npm run godot:proc-package -- --base <verified-base-addon-directory> --tools <to
 npm run godot:proc-replay -- --package <package-receipt.json> --tools <tools.json>
 ```
 
-The Windows course uses a 4 MiB embedded heap limit. Physical Steam Deck and
-mobile performance, additional effects through GDScript, and Unity and Unreal
-packages remain open. The [Windows evidence](../evidence/godot/proc-ward-windows.json)
-records the exact package, editor and release results.
+The Windows and Linux x64 courses use a 4 MiB embedded heap limit. Each
+platform emitted 66 cues in both the editor and the relocated release.
+Peak tracked bytes were 1,202,943 on Windows and 1,202,927 on Linux.
+Both hosts released every tracked block at disposal. The development workflow
+retains each verified addon ZIP for 14 days under its platform artifact.
+Physical Steam Deck and mobile performance, additional effects through GDScript,
+and Unity and Unreal packages remain open. [Local Windows evidence](../evidence/godot/proc-ward-windows.json)
+and [hosted Windows and Linux evidence](../evidence/godot/proc-ward-ci.json)
 
 ## Base addon
 
@@ -37,8 +41,8 @@ export. Node.js and .NET are build/test tools, not dependencies of that game.
 See the [installation, API and reproduction guide](../experiments/godot-native/README.md)
 and the [local verification record](../evidence/godot/windows-native-addon.json).
 The [CI workflow](../.github/workflows/godot-native.yml) repeats this path on
-separate Windows and Linux machines and uploads observations rather than native
-binaries.
+separate Windows and Linux machines and retains their observations. The verified
+ward addon has its own downloadable artifact on the development branch.
 The [corrected hosted run](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/40780494509)
 passed at `cb60183`. Its [inspected evidence](../evidence/godot/windows-ci.json)
 matches all 60 local/independent responses and passes the same 98 checks in both

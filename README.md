@@ -12,7 +12,7 @@ The [Godot ward addon](adapters/godot/ward-example/README.md) exposes that talen
 as a GDScript service with a `ward_gained` signal. One addon ZIP contains the
 native host, the compiled SDK example and its selected content. A fresh
 Windows x64 editor project and its relocated release export exercised the same
-64-actor course.
+64-actor course as the hosted Linux x64 build. [Hosted verification](evidence/godot/proc-ward-ci.json)
 
 The JavaScript/TypeScript package works outside the game and has no production
 dependencies. The Hollow Wake adapter consumes the installed package and compares
