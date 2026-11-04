@@ -68,3 +68,11 @@ At 216,728 diagnostic bytes the old Answering Gale course overflowed and the
 repaired course matched the frozen row. Each of the nine formerly failing
 requests used 16,016 fewer checked bytes in the local comparison. [Windows
 repair evidence](../evidence/proc-native-stack/repair-windows.json)
+
+## Nested status observations
+
+The next [hosted Windows run](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/41887459985) recovered Breach Bell. Eight triggered-cast observations still overflowed. Linux passed that revision. Answering Gale reached damage, knockback and status application before the recorder lost the outcome.
+
+The native recorder now projects array entries and ordinary object properties with loops. Its earlier per-level map callbacks remained on the stack during live combat. This change keeps object getter order, sparse array holes, cycles, shared identities and literal keys such as `__proto__`. The original game observer still generates the independent expected bytes. The game and shipped runtime contain neither recording loop.
+
+On the local diagnostic build, Answering Gale fell from 208,720 to 174,256 checked bytes. Original and installed games matched the full 328-course reference through C, C++ and .NET at the production limit. The two deliberately altered games were still detected. The separate full attack replay, game boot, renderer checks and package suite also passed locally. [Local measurements and preceding hosted failures](../evidence/proc-native-stack/snapshot-windows.json)

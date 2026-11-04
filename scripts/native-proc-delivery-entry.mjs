@@ -1,12 +1,36 @@
 import path from 'node:path';
 import assert from 'node:assert/strict';
 
+/** Snapshot projection runs inside every observed game callback. Array.map
+ * retains a callback frame for every nested record in this test-only path.
+ * Keep the frozen observer's read order, holes and own-property semantics. */
+export function lowerProcSnapshotStack(helper) {
+  const edits = [
+    ["if(Array.isArray(v))return v.map((x,i)=>pack(x,seen,at+'/'+i));",
+      `if(Array.isArray(v)){
+        const length=v.length, result=new Array(length);
+        for(let i=0;i<length;i++)if(i in v)result[i]=pack(v[i],seen,at+'/'+i);
+        return result;
+      }`],
+    ["return {...origin,...Object.fromEntries(Object.entries(v).map(([k,x])=>[k,pack(x,seen,at+'/'+k)]))};",
+      `const result={...origin};
+      for(const [key,value] of Object.entries(v))
+        Object.defineProperty(result,key,{value:pack(value,seen,at+'/'+key),writable:true,enumerable:true,configurable:true});
+      return result;`],
+  ];
+  for(const [source,replacement] of edits){
+    assert.equal(helper.split(source).length,2,'Unreviewed proc observation projection');
+    helper=helper.replace(source,replacement);
+  }
+  return helper;
+}
+
 /** Adapt only test scheduling and output. Each original course runs intact.
  * Release the observer's emitted row between requests so the test log does
  * not accumulate inside the embedded game heap. */
 export function nativeProcDeliveryEntry(helper, sourceRoot) {
   const imports=[];
-  let body=helper.replace(/^import .*?;\r?\n/gm,line=>{
+  let body=lowerProcSnapshotStack(helper).replace(/^import .*?;\r?\n/gm,line=>{
     if(!line.includes("'node:"))imports.push(line);
     return '';
   });

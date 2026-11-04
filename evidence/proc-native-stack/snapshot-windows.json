@@ -1,0 +1,492 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parent": "77a58ee99d0886554458f18f5b9395a147d81b44",
+  "observedAt": "2026-11-04T18:57:04.146Z",
+  "referenceSha256": "d69e82406f306f3546ada012624fdb0ab2f8840ebc7b19b43aa97ccb73f44bf5",
+  "priorHostedAttempt": {
+    "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/41887459985",
+    "jobs": {
+      "windows-2025": {
+        "passed": false,
+        "verificationSha256": "b5fe702a9bd1e541aaa45057551e18932d3c329191831d167c6742ab9aa0bf59",
+        "compiler": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.51.36260 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+        "outputSha256": [
+          "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3",
+          "71217ffa0746babcbe3e84646b4d1da32f4000eb74c89535f3dc7a8d41ead714"
+        ],
+        "differentCourses": [
+          "authored-answering_gale",
+          "authored-rimewake_release",
+          "authored-lattice_discharge",
+          "cast-missing-instance",
+          "cast-missing-target",
+          "cast-power-0",
+          "cast-power--1",
+          "cast-power-0.5"
+        ]
+      },
+      "ubuntu-24.04": {
+        "passed": true,
+        "verificationSha256": "94a5f263f1eede250b37ac51352f0f022b8a93df01c6ae762b0b6ef4a7243373",
+        "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+        "outputSha256": [
+          "e15e94c395e81dd02b3537d4751a254f2888b5eee2aefaf7fe0990befdb94ad5",
+          "e15e94c395e81dd02b3537d4751a254f2888b5eee2aefaf7fe0990befdb94ad5"
+        ],
+        "differentCourses": []
+      }
+    }
+  },
+  "local": {
+    "platform": "win32",
+    "arch": "x64",
+    "nativeReceiptSha256": "73977400f6b37751c641404435e6e0df92d78cee457a7639eaccc19086e87807",
+    "diagnosticReceiptSha256": "720a9c5d01d4c2b09c56abf0d8f69755f7ce88a4623c0ed7ed8b0e2ddf67ac92",
+    "independentSdkTests": 1374,
+    "testsLogSha256": "519b40f380dd122e4c4ef06aa6df9ff69018623a27f79e59ccc2f4784a5b64ed",
+    "nativeLogSha256": "c08c597591055ba5961c74e4671f376cc1a3052e75abd2b66f108e6db5cd1ea3",
+    "diagnosticLogSha256": "99ad3e67c1a449680edd535ed90b52d5166979edb695aa620d02f655c41fdad7",
+    "originalAndInstalled": {
+      "numbers": 379857,
+      "exact": true
+    },
+    "cases": [
+      {
+        "name": "authored-answering_gale",
+        "beforeBytes": 208720,
+        "afterBytes": 174256,
+        "reduction": 34464
+      },
+      {
+        "name": "authored-rimewake_release",
+        "beforeBytes": 208720,
+        "afterBytes": 174256,
+        "reduction": 34464
+      },
+      {
+        "name": "authored-lattice_discharge",
+        "beforeBytes": 208720,
+        "afterBytes": 174256,
+        "reduction": 34464
+      },
+      {
+        "name": "authored-breach_bell",
+        "beforeBytes": 202592,
+        "afterBytes": 144608,
+        "reduction": 57984
+      },
+      {
+        "name": "cast-missing-instance",
+        "beforeBytes": 208656,
+        "afterBytes": 174192,
+        "reduction": 34464
+      },
+      {
+        "name": "cast-missing-target",
+        "beforeBytes": 208656,
+        "afterBytes": 174192,
+        "reduction": 34464
+      },
+      {
+        "name": "cast-power-0",
+        "beforeBytes": 208656,
+        "afterBytes": 174192,
+        "reduction": 34464
+      },
+      {
+        "name": "cast-power--1",
+        "beforeBytes": 208656,
+        "afterBytes": 174192,
+        "reduction": 34464
+      },
+      {
+        "name": "cast-power-0.5",
+        "beforeBytes": 208656,
+        "afterBytes": 174192,
+        "reduction": 34464
+      }
+    ],
+    "constrainedLimit": 191488,
+    "runs": [
+      {
+        "label": "original",
+        "consumers": [
+          {
+            "host": "c",
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "metrics": {
+              "code": 0,
+              "completedRequests": 330,
+              "peakRequestedBytes": 93477029,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 680243
+            },
+            "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3"
+          },
+          {
+            "host": "cpp",
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 93477029,
+              "bufferOwnership": true,
+              "threadMigration": true,
+              "concurrentCancellation": true,
+              "unloadReload": true
+            },
+            "outputSha256": "e15e94c395e81dd02b3537d4751a254f2888b5eee2aefaf7fe0990befdb94ad5"
+          },
+          {
+            "host": "dotnet",
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 93477029,
+              "managedOwnership": true,
+              "threadMigration": true,
+              "libraryLease": true,
+              "failedConstructionLease": true,
+              "finalizerUnload": true,
+              "unloadReload": true,
+              "residencyProbe": "GetModuleHandleW"
+            },
+            "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3"
+          }
+        ]
+      },
+      {
+        "label": "installed",
+        "consumers": [
+          {
+            "host": "c",
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "metrics": {
+              "code": 0,
+              "completedRequests": 330,
+              "peakRequestedBytes": 147496104,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 727737
+            },
+            "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3"
+          },
+          {
+            "host": "cpp",
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 147491544,
+              "bufferOwnership": true,
+              "threadMigration": true,
+              "concurrentCancellation": true,
+              "unloadReload": true
+            },
+            "outputSha256": "e15e94c395e81dd02b3537d4751a254f2888b5eee2aefaf7fe0990befdb94ad5"
+          },
+          {
+            "host": "dotnet",
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 147491544,
+              "managedOwnership": true,
+              "threadMigration": true,
+              "libraryLease": true,
+              "failedConstructionLease": true,
+              "finalizerUnload": true,
+              "unloadReload": true,
+              "residencyProbe": "GetModuleHandleW"
+            },
+            "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3"
+          }
+        ]
+      },
+      {
+        "label": "arc-strict-tie-fault",
+        "consumers": [
+          {
+            "host": "c",
+            "comparison": {
+              "numbers": 380056,
+              "exact": true
+            },
+            "faultDetected": true,
+            "metrics": {
+              "code": 0,
+              "completedRequests": 330,
+              "peakRequestedBytes": 147604366,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 730440
+            },
+            "outputSha256": "bfce1683a5443af1f8b91ad9b7376243f4fcbe3b58386aaa89f691fb1956fe00"
+          },
+          {
+            "host": "cpp",
+            "comparison": {
+              "numbers": 380056,
+              "exact": true
+            },
+            "faultDetected": true,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 147604366,
+              "bufferOwnership": true,
+              "threadMigration": true,
+              "concurrentCancellation": true,
+              "unloadReload": true
+            },
+            "outputSha256": "c2c676c575cbc64d743ed7b73feb9e8e805a07d0601ddb7f7696435d2ab638e9"
+          },
+          {
+            "host": "dotnet",
+            "comparison": {
+              "numbers": 380056,
+              "exact": true
+            },
+            "faultDetected": true,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 147604366,
+              "managedOwnership": true,
+              "threadMigration": true,
+              "libraryLease": true,
+              "failedConstructionLease": true,
+              "finalizerUnload": true,
+              "unloadReload": true,
+              "residencyProbe": "GetModuleHandleW"
+            },
+            "outputSha256": "bfce1683a5443af1f8b91ad9b7376243f4fcbe3b58386aaa89f691fb1956fe00"
+          }
+        ]
+      },
+      {
+        "label": "rider-depth-fault",
+        "consumers": [
+          {
+            "host": "c",
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": true,
+            "metrics": {
+              "code": 0,
+              "completedRequests": 330,
+              "peakRequestedBytes": 147496116,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 727737
+            },
+            "outputSha256": "806bc33c109a04424d723742da520a85e13bfec58c624d1c5507e3245cd5b37b"
+          },
+          {
+            "host": "cpp",
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": true,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 147496116,
+              "bufferOwnership": true,
+              "threadMigration": true,
+              "concurrentCancellation": true,
+              "unloadReload": true
+            },
+            "outputSha256": "a197ae8635234cc1b69bc003e95a0bff284ef579506904eab9aa52aa301b4cab"
+          },
+          {
+            "host": "dotnet",
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": true,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 147496116,
+              "managedOwnership": true,
+              "threadMigration": true,
+              "libraryLease": true,
+              "failedConstructionLease": true,
+              "finalizerUnload": true,
+              "unloadReload": true,
+              "residencyProbe": "GetModuleHandleW"
+            },
+            "outputSha256": "806bc33c109a04424d723742da520a85e13bfec58c624d1c5507e3245cd5b37b"
+          }
+        ]
+      }
+    ],
+    "broaderChecks": [
+      {
+        "name": "prepare",
+        "logSha256": "1e976c7cfd45f70be904feb8645d69a42307b0d3b385002f704adf83c8bf79ae"
+      },
+      {
+        "name": "types",
+        "logSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+      },
+      {
+        "name": "native",
+        "logSha256": "500ec2176bf58e931b7bb17fcdaaf83278daae56825d74806019c0ebfa9eecda"
+      },
+      {
+        "name": "installed",
+        "logSha256": "30733c89c3601d87764ef4a96e79f02c5705a42054b8ff91155d4d6863933952"
+      },
+      {
+        "name": "faults",
+        "logSha256": "729df3628fc683e14d1cd2b3b2937ade0e6c2c8e865d6a1eaf6169427da6c8a8"
+      },
+      {
+        "name": "casting-faults",
+        "logSha256": "ba492a55d0ca0659f3609e67580383d3d5db9a7315529b6cd02dcf20dfc338a8"
+      },
+      {
+        "name": "verify",
+        "logSha256": "b817dd2fe02a6a2ff114c126728adf2b4bb590b9a1b3e5640e75df825590d5dc"
+      },
+      {
+        "name": "reference",
+        "logSha256": "ed9449e747fdb1f57570cdcc3c0c46a363a0e3720d661dd8df1026f2e66fb987"
+      },
+      {
+        "name": "smoke",
+        "logSha256": "2fd9df19a9ee2bff8628775cc5b77537ac8c16b03ccf504e6b9da32fb2429b85"
+      },
+      {
+        "name": "installer",
+        "logSha256": "49046de732eea95e55f045bda06570635a8612c31ded15fd60e5e24b3a891379"
+      },
+      {
+        "name": "casting-installer",
+        "logSha256": "9ddd8cc58e6ee26325b88b0c87db004af788e190fb40ad8639cbcfd2b4e91d09"
+      },
+      {
+        "name": "attack",
+        "logSha256": "2f25e7bb0119096c7b1024ccec40ba25e2d9fdb3dac0d0632f9a59015c0b40fe"
+      },
+      {
+        "name": "ward",
+        "logSha256": "3593e7f1a96ce9745f19e86b617705ed362baf2d604b8a4c6a2abe7a8a89d391"
+      },
+      {
+        "name": "delayed",
+        "logSha256": "b9919cdf44a0d52a2964021b96c2a030e545fb371d464ab9fda872a1abd5f14c"
+      },
+      {
+        "name": "heal-faults",
+        "logSha256": "22a16e06f15dd5c63a16d7b4f760462be66f9f16afb1cfdbc21215cef57cff3e"
+      },
+      {
+        "name": "heal",
+        "logSha256": "3788ee3781c3c0efe597f2fcf7f52f5f75fde88ce958a736d1e1f53cf20e5f10"
+      },
+      {
+        "name": "restore",
+        "logSha256": "d6e7f2b97f4758c03dd05cf9418e9717aa9ba81184347c080345bf04b891fa7d"
+      },
+      {
+        "name": "restore-faults",
+        "logSha256": "8e4047ce0b289d8d4921f4df8c8a2492944f689ffcb12bcaec0f53d33591e035"
+      },
+      {
+        "name": "cooldown",
+        "logSha256": "ec72ceef078f96a3d150817d88ba247dc9ec709265388661f6ee24afbd4a87c1"
+      },
+      {
+        "name": "cooldown-faults",
+        "logSha256": "2d43729cce4e316793f2b6e7f798c117e05e377aa9a5a504fda17902198643b1"
+      },
+      {
+        "name": "renderer-prepare",
+        "logSha256": "b7e8d399a22454f4416641bff58009f501789316c93dfbc9e6733939775dc57e"
+      },
+      {
+        "name": "renderer-build",
+        "logSha256": "da1bb822a9cfc936731955f048209758a60705ab7312ebfaf528dfbe0687f386"
+      },
+      {
+        "name": "renderer-boot",
+        "logSha256": "a600656bccd0b10156bb0c1406b4ceb92d5ebd5a8181519408a054980e337a06"
+      },
+      {
+        "name": "renderer-cooldown",
+        "logSha256": "e8d4d32f40d130793789a0be19a7b08988a2a92780f036f7ea9d98752a7a1678"
+      },
+      {
+        "name": "benchmark",
+        "logSha256": "c5712a04daa6263adc3113fc89e5752350fe81bb765d2167b4678b0a82276d88"
+      },
+      {
+        "name": "node-census",
+        "logSha256": "7e7603c5d27249e07343f2bfc180a40c177db5658d31eaf0ac0f57b1da0afb0c"
+      },
+      {
+        "name": "native-census",
+        "logSha256": "5c7f3857b0717d71a38b3862de496980a41a5f480de757c4ae0ee4fdf01c80b2"
+      }
+    ],
+    "originalGame": {
+      "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+      "files": 4149,
+      "changes": 0,
+      "index": "",
+      "lockedSourceVerified": true
+    }
+  },
+  "scope": "The two recording loops are development-only. Measurements include observation overhead on this compiler. All gameplay callbacks, order, numerical comparisons and production stack and heap limits are unchanged."
+}
