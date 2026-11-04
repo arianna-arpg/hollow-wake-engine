@@ -1,0 +1,431 @@
+{
+  "passed": true,
+  "parentRevision": "0b825db239aaa82a29cf3bd8e2b4ad09de30c28d",
+  "version": "0.41.0",
+  "observedAt": "2026-11-04T22:00:36.672Z",
+  "inputSha256": {
+    ".github/workflows/character-rules.yml": "221e1acaaf3276fa879fa3772e9a12223458d18709c42a7bdbb4db946d8f30a0",
+    "README.md": "ac9604b186c5d005a22c2e1a310fcdd77f73039a57daf65b2683470b08cadd8e",
+    "adapters/hollow-wake/install-character-sources.mjs": "d786bd93d1efb9dac3ff44fcef2e62acbf7867dae4c6fd4e4ebca318afe83a95",
+    "adapters/hollow-wake/integrate-character-rules.mjs": "6dbba588fd26aa4a2b053d6242f3724471e59ca8de8ac8f6f9223bef3829919a",
+    "docs/character-rules.md": "03ff0e1e47873598b1cc10b8f167071d28166b054c24f12071e318cceef92f47",
+    "docs/completion.json": "eade5341af80ba5004a38c075c54e169f784d79c3807c1e4f34266e7a0544300",
+    "package-lock.json": "6793ec41c97e0709953527f9ba8b58907c14f538d85373b8f184389339610848",
+    "package.json": "ebef1808b36b516c2fc6b9d447b0af9769f663da305510cb4b1143e00db98552",
+    "reference/benchmark-character-rules.ts": "6d3f97089b6beecc09e4198d637d821bf2780ecd9c0606839469deec96ff07a6",
+    "reference/profile-character-kits.ts": "7dc11e0ea0ec0a303ecb9899d53a1eb50d6f24306af64c2282ae012d8969b14e",
+    "scripts/benchmark-character-rules.mjs": "cd07f456d960c0de4fe54677c927b6ace8d60984027f5556e3bdda444acacb26",
+    "scripts/check-boundaries.mjs": "eddd383c903ebad4b49ce09c14b3dd0a0e5ed766505501f8f954e20051be48f6",
+    "scripts/prepare-game-adapter.mjs": "45285d711c2b4ea24d27ca61b4eab62adc262f9579fde2e1b627d178ad7058c4",
+    "scripts/profile-character-kits.mjs": "b69286193786a786702e6f423e114cb31c5521702bbd6285c71e15f3959eacc0",
+    "scripts/test-character-rules-overlay.mjs": "72e91ad72dda48c43c6abe41cd5c704006d9badc53fb4953fedc69edfd0b2442",
+    "scripts/test-character-rules-package.mjs": "fdf1b46519686d2a9297922e569956487eddbd70c983d7f97ca94f117ad6be20",
+    "scripts/test-installed-character-rules.mjs": "530bc5a1c4c65e380340d36ac2766d28bbe339718d010f7d3f813f9414c64dd4",
+    "scripts/test-installed-character-screen.mjs": "c11db5fda92fcfb7a0597f1398a8e470a016c7b77766fc305b5e544584a74e04",
+    "scripts/test-package.mjs": "04e9b778c46f73062393ce6e97b475ce5d2e5bf3ca8054aee63e6703d013ff53",
+    "src/character-identity.ts": "52d3f7e3c731f2aa828f277729179ea64db41474ad2b4db1ae9f2e7e4ce33641",
+    "src/class-claims.ts": "c5995ab7d3bf2f79a60a8ca1921eeb88bf585913e3c8dfa9ffbf23b364dfb6d6",
+    "src/class-kits.ts": "72a487a88a252915344acea7d7577f746286cc901029684dac556fa4bc0e0d1f",
+    "test/character-rules.test.mjs": "0ae1680b4e0aa6a70ba5cd29b05800c07232a9843e7a01dff869f0cdb9f20d58"
+  },
+  "originalHosted": [
+    {
+      "passed": true,
+      "platform": "Windows",
+      "head": "0b825db239aaa82a29cf3bd8e2b4ad09de30c28d",
+      "run": 41913454927,
+      "sourceOutcomes": {
+        "identity": "e338276eb42ef0a23d252cb62bc043d47181e231638b16d5a877fdad79ad819d",
+        "kits": "8f73f4547fa4b594413f29744acf5d5ce65b4f295e55636c9e50fdea8aea5bef",
+        "claims": "d62141233185979429d9a58829aaff9c3f64eb59e0b4f4a7d1c75316369918e9"
+      },
+      "rejected": 20,
+      "rendererSha256": "72b5e9164adcf9bca61a2bb82e4ec094bee487fe8d9706164f94ae28695cf04f"
+    },
+    {
+      "passed": true,
+      "platform": "Linux",
+      "head": "0b825db239aaa82a29cf3bd8e2b4ad09de30c28d",
+      "run": 41913454927,
+      "sourceOutcomes": {
+        "identity": "e338276eb42ef0a23d252cb62bc043d47181e231638b16d5a877fdad79ad819d",
+        "kits": "8f73f4547fa4b594413f29744acf5d5ce65b4f295e55636c9e50fdea8aea5bef",
+        "claims": "d62141233185979429d9a58829aaff9c3f64eb59e0b4f4a7d1c75316369918e9"
+      },
+      "rejected": 20
+    }
+  ],
+  "package": {
+    "sdkSha256": "4e3ecad47eef0ebeff9bce8290736e3d35b71bde29b22b74dd980c779313e11d",
+    "sdkBytes": 715607,
+    "catalogueSha256": "2783988ca60e0ce0a0ab3043da94b9289af33d8c37bd05de5884775556731d9b",
+    "browserBytes": {
+      "identity": 771,
+      "kits": 1471,
+      "claims": 914
+    },
+    "externalContracts": 9,
+    "registeredClasses": 39,
+    "previousCompiledOutputsIdentical": 318
+  },
+  "verification": {
+    "checks": [
+      {
+        "name": "build",
+        "logSha256": "260ec2b160110bfb3a34686aa10b4ff661d4f4e46a8b861a6ca00412b155d88d"
+      },
+      {
+        "name": "overlay",
+        "logSha256": "fb257f507c1ca985ee9fac546282f9a8e668cdb8a29cccded83ee1034d78d0b7"
+      },
+      {
+        "name": "prepare",
+        "logSha256": "9359e8037ecf8a4fb81a24314653cf4d2b3086489c1a9c3b536f0aa91e1eba31"
+      },
+      {
+        "name": "game-types",
+        "logSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+      },
+      {
+        "name": "game-smoke",
+        "logSha256": "46a3f8ab5c3d545848468de447c243cb84f0e9286b3e83b2410ee66d28a8946a"
+      },
+      {
+        "name": "character-faults",
+        "logSha256": "8a6d67943a439f54fef77a8811387a3aa3e54db981c1a9afff89131913b13ae2"
+      },
+      {
+        "name": "sites",
+        "logSha256": "07b28cca48a45aaff62cb71716c6c71f03791f886bd611e731fe13b38788e588"
+      },
+      {
+        "name": "vocations",
+        "logSha256": "632daad1f6f5bc35b0b1b2764de9aa5784bec5d8a0031d6eab730041ac86430b"
+      },
+      {
+        "name": "proc",
+        "logSha256": "6c1efe0013e690030112be9af0e87a72fc629179c8fe639164bd57220e49d693"
+      },
+      {
+        "name": "native",
+        "logSha256": "a6efb3d362db02628772585c80cfd9db9f9a52603d8d3426534057889b274ecc"
+      },
+      {
+        "name": "renderer-prepare",
+        "logSha256": "6ccf26dc3886ed5ba41b3ca32af09765dfc9620830a0efe7a2767bb167bcc439"
+      },
+      {
+        "name": "renderer-build",
+        "logSha256": "14bb6520b5bcd4e541406ee87a1c9d5c0ce1d777edb65e65af85df2746cc1968"
+      },
+      {
+        "name": "boot",
+        "logSha256": "1eca8b5c62de5905a04490a44e68a4a73051c630a5d1ba0ef424e8e6056c8dc9"
+      },
+      {
+        "name": "screen",
+        "logSha256": "c8b42b3d4b5f1c39f1c4a2a18a5b18eb8b1e87dc1870f6ede68cedc00ca0ccc6"
+      },
+      {
+        "name": "vocation-ui",
+        "logSha256": "4953a3422095e42c4e6fbaf92c82bd6f7e556a0287c99e1b76c875ed1152a276"
+      },
+      {
+        "name": "reference",
+        "logSha256": "505ef268dc82e31c3af72aeb7621180fb82bf294d5325f6a9f1be41c1a7fe69a"
+      },
+      {
+        "name": "preservation",
+        "logSha256": "b56ed04dc226ce731cad8e9ec50f8aa313b448c21840dcac195882ccbbee3085"
+      },
+      {
+        "name": "verify",
+        "logSha256": "a08d8b1862581715d5db8fdce00a38ecf79bf3d6c82c3011cfe3f13e70807493"
+      }
+    ],
+    "sdkTests": 1400,
+    "changedGameFiles": [
+      "engine/world.ts",
+      "meta/account.ts",
+      "meta/character.ts",
+      "meta/classkit.ts",
+      "meta/unlocks.ts"
+    ],
+    "originalCases": {
+      "registeredClasses": 39,
+      "accountDiscoveryAndSelection": 160,
+      "savedIdentityVariations": 4,
+      "kitStates": 636,
+      "wakesAndIndependentAllySeats": 39,
+      "earnedClasses": 36,
+      "claimCases": 216,
+      "settledInCatalogueOrder": 36,
+      "settledInReverseOrder": 36
+    },
+    "installedFaults": [
+      {
+        "name": "identity",
+        "fault": "pending-selection",
+        "sha256": "f983a6549026f5d4b6b8f4d378d326e8a86c2595cbd82654c918da96501f831e",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "identity",
+        "fault": "registered-count",
+        "sha256": "e51ec9e8f0a701fe083048d07fbdb3355696af7bf09efb2c983c9bd7cba2dd29",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "identity",
+        "fault": "owned-opening",
+        "sha256": "e887ab421846815bfafa1b1664247a36e91fb2a7597cf2352b14d6c267c09446",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "identity",
+        "fault": "saved-attribute-alias",
+        "sha256": "bb7104a807459c796bb377a7870ba919f1202bd2d54a7326033f9f493ebf728e",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "identity",
+        "fault": "saved-opening",
+        "sha256": "14769058e4a7ad1374ff4c9939d13b7b03e36a9d047f1e184ade41feb8491e6f",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "identity",
+        "fault": "saved-name",
+        "sha256": "49f5b62ceae9d84c541e4e8acef093230763d82afd763605aa82d3f5ae105f1a",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "identity",
+        "fault": "mode-stage",
+        "sha256": "a191332338cdc552513bdbe3d591084e9662a91e07e56c8f0450d5833a87b590",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "identity",
+        "fault": "retired-class",
+        "sha256": "cf6e1ebaf9373b0dc43906dfb42dde460eb307512086109135a1e7861622faa6",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "kits",
+        "fault": "unowned-rung",
+        "sha256": "7808a6caedd0f9057196c31a559485dd4f1ab77a62d90f3c2b84fa0c98b09238",
+        "matchedOriginalFault": false
+      },
+      {
+        "name": "kits",
+        "fault": "replacement-slot",
+        "sha256": "73a04e40d02842316c7f47c296b589fc2fa1d3009af6472c9c394ece480f39b9",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "kits",
+        "fault": "explicit-pick",
+        "sha256": "8b8a7f764e58ac4e06b63f2220d3ef4890daf9a399ccc5aa3f4cb424b69f2322",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "kits",
+        "fault": "unseated-grant",
+        "sha256": "b0a3846007000bb96f2f7fbfe55685e74c989687d272d141c8c8a417db67d359",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "kits",
+        "fault": "stale-memory",
+        "sha256": "95451eb5f5aee01a2f81944a0859fe5f2922da298f437fa89f3882ccd93642b9",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "kits",
+        "fault": "lose-resolved-opening",
+        "sha256": "d54f4929143769b480878d03c87fad1a92b673a3b4a65d97d5da78cf0348b1b3",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "kits",
+        "fault": "host-starting-opening",
+        "sha256": "38bafdbce438dcfc9eb929af635a5cc0db293d9baeaca0391cc8090a65864229",
+        "matchedOriginalFault": null
+      },
+      {
+        "name": "claims",
+        "fault": "merged-ledger",
+        "sha256": "9124de8edbdd4c6c63e0d4e7a608e1e478ba822c0a9292966722bdff9c0e891b",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "claims",
+        "fault": "investment-clear",
+        "sha256": "8ab93bdbe4836c83a151d4bda8811d871860b27a2ae8f8cdee3b660672f03eeb",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "claims",
+        "fault": "pending-grant",
+        "sha256": "1566f183d7c109ece9337adc9fd93d0e5c6cdc19f74567f9c5778cffb2b4e933",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "claims",
+        "fault": "acknowledgment",
+        "sha256": "5f8e0d2fecab136a55549615a2717e51f9f5d44766e18555466fada1d082e5a6",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "claims",
+        "fault": "gem-support-grant",
+        "sha256": "d07b4379985b6996d8d3f58a1ab5ac373b9af3a8c918c49ddc53916e0915e5c3",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "claims",
+        "fault": "chained-settlement",
+        "sha256": "fea1c792a4098d8f988f3b934a1f6be7831389dfd44c1e1fdd74cbc407e7b026",
+        "matchedOriginalFault": true
+      }
+    ],
+    "firstHostOpeningControl": "The original mutation changes both the persistent opening and the actor skills, whereas changing only the SDK argument leaves the actor skills intact. Test the original fault at its real locus and keep the host-binding fault as a separate negative control.",
+    "rendererSha256": "72b5e9164adcf9bca61a2bb82e4ec094bee487fe8d9706164f94ae28695cf04f",
+    "archiveCheck": {
+      "onlyChangedMember": "package/docs/character-rules.md",
+      "comparedFiles": 457,
+      "excludedVariant": "4fb7fa6cd253e1b0df55e79462d8ca584a06aa37152f9410c63f2ad82ad37ab5",
+      "exactRepeatLogSha256": "a08d8b1862581715d5db8fdce00a38ecf79bf3d6c82c3011cfe3f13e70807493"
+    },
+    "nativeComparison": {
+      "numbers": 379857,
+      "exact": true
+    },
+    "nativeOutcomes": [
+      {
+        "label": "original",
+        "consumers": [
+          {
+            "host": "c",
+            "requests": 330,
+            "peakRequestedBytes": 93477029,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "faultDetected": false
+          },
+          {
+            "host": "cpp",
+            "requests": 330,
+            "peakRequestedBytes": 93477029,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "faultDetected": false
+          },
+          {
+            "host": "dotnet",
+            "requests": 330,
+            "peakRequestedBytes": 93477029,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "faultDetected": false
+          }
+        ]
+      },
+      {
+        "label": "installed",
+        "consumers": [
+          {
+            "host": "c",
+            "requests": 330,
+            "peakRequestedBytes": 148078785,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "faultDetected": false
+          },
+          {
+            "host": "cpp",
+            "requests": 330,
+            "peakRequestedBytes": 148078785,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "faultDetected": false
+          },
+          {
+            "host": "dotnet",
+            "requests": 330,
+            "peakRequestedBytes": 148078785,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "faultDetected": false
+          }
+        ]
+      },
+      {
+        "label": "arc-strict-tie-fault",
+        "consumers": [
+          {
+            "host": "c",
+            "requests": 330,
+            "peakRequestedBytes": 148096583,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "faultDetected": true
+          },
+          {
+            "host": "cpp",
+            "requests": 330,
+            "peakRequestedBytes": 148096583,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "faultDetected": true
+          },
+          {
+            "host": "dotnet",
+            "requests": 330,
+            "peakRequestedBytes": 148096583,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "faultDetected": true
+          }
+        ]
+      },
+      {
+        "label": "rider-depth-fault",
+        "consumers": [
+          {
+            "host": "c",
+            "requests": 330,
+            "peakRequestedBytes": 148078797,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "faultDetected": true
+          },
+          {
+            "host": "cpp",
+            "requests": 330,
+            "peakRequestedBytes": 148078797,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "faultDetected": true
+          },
+          {
+            "host": "dotnet",
+            "requests": 330,
+            "peakRequestedBytes": 148078797,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "faultDetected": true
+          }
+        ]
+      }
+    ]
+  },
+  "performance": "performance-windows.json",
+  "preservation": {
+    "files": 4149,
+    "changes": 0,
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d"
+  },
+  "scope": "JavaScript/TypeScript class identity, mastery kits and settlement; C/C++/.NET replay covers existing combat hosts. Physical hardware, full editor plugins, and the remaining account and mercenary paths are tracked separately."
+}

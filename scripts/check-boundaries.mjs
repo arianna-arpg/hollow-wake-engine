@@ -42,6 +42,7 @@ function entryGraph(file) {
 }
 entryGraph(path.join(root,'src/index.ts'));
 assert.ok([...reachable].every(file => !['vocations.ts','vocation-grants.ts','vocation-keys.ts','vocation-sites.ts','vocation-site-placement.ts'].includes(path.basename(file))), 'Optional vocation runtime became an eager core import');
+assert.ok([...reachable].every(file => !['character-identity.ts','class-kits.ts','class-claims.ts'].includes(path.basename(file))), 'Optional character rules became an eager core import');
 assert.ok([...reachable].every(file => path.basename(file) !== 'proc-casting.ts'), 'Optional proc casting became an eager core import');
 assert.ok([...reachable].every(file => !['proc-delivery.ts', 'proc-delivery-types.ts'].includes(path.basename(file))), 'Optional proc delivery became an eager core import');
 assert.ok([...reachable].every(file => !path.basename(file).startsWith('item-')), 'Optional item implementation became an eager core import');

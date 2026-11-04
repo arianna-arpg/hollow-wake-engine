@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.40.0",
+  "version": "0.41.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -337,13 +337,25 @@
     "./progression/vocation-sites": {
       "types": "./dist/vocation-sites.d.ts",
       "import": "./dist/vocation-sites.js"
+    },
+    "./character/identity": {
+      "types": "./dist/character-identity.d.ts",
+      "import": "./dist/character-identity.js"
+    },
+    "./character/kits": {
+      "types": "./dist/class-kits.d.ts",
+      "import": "./dist/class-kits.js"
+    },
+    "./character/claims": {
+      "types": "./dist/class-claims.d.ts",
+      "import": "./dist/class-claims.js"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs && node scripts/test-skill-admission-package.mjs && node scripts/test-skill-intent-package.mjs && node scripts/test-skill-request-package.mjs && node scripts/test-skill-dispatch-package.mjs && node scripts/test-casting-continuation-package.mjs && node scripts/test-channel-bank-package.mjs && node scripts/test-actor-condition-mutations.mjs && node scripts/test-actor-condition-package.mjs && node scripts/test-proc-mutations.mjs && node scripts/test-proc-package.mjs && node scripts/test-proc-effects-mutations.mjs && node scripts/test-proc-effects-package.mjs && node scripts/test-delayed-mutations.mjs && node scripts/test-delayed-package.mjs && node scripts/test-buff-mutations.mjs && node scripts/test-buff-package.mjs && npm run test:life-recovery-package && npm run test:life-recovery-mutations && npm run test:restoration-package && npm run test:restoration-mutations && npm run test:cooldown-package && npm run test:cooldown-mutations && npm run test:cooldown-lifecycle-package && npm run test:cooldown-lifecycle-mutations && npm run test:ready-bank-package && npm run test:ready-bank-mutations && npm run test:sequence-recovery-package && npm run test:sequence-recovery-mutations && npm run test:attack-sequences-package && npm run test:attack-sequences-mutations && npm run test:damage-package && npm run test:damage-mutations && npm run test:status-package && npm run test:status-mutations && npm run test:status-effects-package && npm run test:status-effects-mutations && npm run test:hit-status-package && npm run test:hit-status-mutations && npm run test:hit-effects-package && npm run test:hit-effects-mutations && npm run test:hit-preparation-package && npm run test:hit-preparation-mutations && npm run test:hit-landing-package && npm run test:hit-landing-mutations && npm run test:tag-context-package && npm run test:tag-context-mutations && npm run test:hit-sustain-package && npm run test:hit-sustain-mutations && npm run test:hit-reactions-package && npm run test:hit-reactions-mutations && npm run test:hit-aftermath-package && npm run test:hit-aftermath-mutations && npm run test:status-delivery-package && npm run test:status-delivery-mutations && npm run test:proc-casting-package && npm run test:proc-casting-mutations && npm run test:proc-delivery-package && npm run test:proc-delivery-mutations && npm run test:vocation-package && npm run test:vocation-site-package",
+    "verify": "npm run test && node scripts/check-boundaries.mjs && node scripts/test-boundary-controls.mjs && node scripts/test-mutations.mjs && node scripts/test-package.mjs && node scripts/test-catalogue-package.mjs && node scripts/check-completion.mjs && node scripts/test-item-package.mjs && node scripts/test-passive-package.mjs && node scripts/test-passive-grant-package.mjs && node scripts/test-container-package.mjs && node scripts/test-progression-package.mjs && node scripts/test-skill-progression-package.mjs && node scripts/test-support-package.mjs && node scripts/test-resource-package.mjs && node scripts/test-resource-event-package.mjs && node scripts/test-charged-casting-package.mjs && node scripts/test-interactive-casting-package.mjs && node scripts/test-ammunition-package.mjs && node scripts/test-channel-casting-package.mjs && node scripts/test-guard-casting-package.mjs && node scripts/test-resource-payment-package.mjs && node scripts/test-skill-admission-package.mjs && node scripts/test-skill-intent-package.mjs && node scripts/test-skill-request-package.mjs && node scripts/test-skill-dispatch-package.mjs && node scripts/test-casting-continuation-package.mjs && node scripts/test-channel-bank-package.mjs && node scripts/test-actor-condition-mutations.mjs && node scripts/test-actor-condition-package.mjs && node scripts/test-proc-mutations.mjs && node scripts/test-proc-package.mjs && node scripts/test-proc-effects-mutations.mjs && node scripts/test-proc-effects-package.mjs && node scripts/test-delayed-mutations.mjs && node scripts/test-delayed-package.mjs && node scripts/test-buff-mutations.mjs && node scripts/test-buff-package.mjs && npm run test:life-recovery-package && npm run test:life-recovery-mutations && npm run test:restoration-package && npm run test:restoration-mutations && npm run test:cooldown-package && npm run test:cooldown-mutations && npm run test:cooldown-lifecycle-package && npm run test:cooldown-lifecycle-mutations && npm run test:ready-bank-package && npm run test:ready-bank-mutations && npm run test:sequence-recovery-package && npm run test:sequence-recovery-mutations && npm run test:attack-sequences-package && npm run test:attack-sequences-mutations && npm run test:damage-package && npm run test:damage-mutations && npm run test:status-package && npm run test:status-mutations && npm run test:status-effects-package && npm run test:status-effects-mutations && npm run test:hit-status-package && npm run test:hit-status-mutations && npm run test:hit-effects-package && npm run test:hit-effects-mutations && npm run test:hit-preparation-package && npm run test:hit-preparation-mutations && npm run test:hit-landing-package && npm run test:hit-landing-mutations && npm run test:tag-context-package && npm run test:tag-context-mutations && npm run test:hit-sustain-package && npm run test:hit-sustain-mutations && npm run test:hit-reactions-package && npm run test:hit-reactions-mutations && npm run test:hit-aftermath-package && npm run test:hit-aftermath-mutations && npm run test:status-delivery-package && npm run test:status-delivery-mutations && npm run test:proc-casting-package && npm run test:proc-casting-mutations && npm run test:proc-delivery-package && npm run test:proc-delivery-mutations && npm run test:vocation-package && npm run test:vocation-site-package && npm run test:character-rules-package",
     "example": "npm run build && node examples/first-path.mjs",
     "benchmark": "npm run build && node scripts/benchmark.mjs",
     "reference:prepare": "node scripts/prepare-reference.mjs",
@@ -659,7 +671,8 @@
     "godot:proc-replay": "node scripts/test-godot-proc-example.mjs",
     "test:vocation-package": "node scripts/test-vocation-package.mjs",
     "adapter:vocations": "node scripts/test-reference-vocations.mjs --location .artifacts/adapter-location.json",
-    "test:vocation-site-package": "node scripts/test-vocation-site-package.mjs"
+    "test:vocation-site-package": "node scripts/test-vocation-site-package.mjs",
+    "test:character-rules-package": "node scripts/test-character-rules-package.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12",

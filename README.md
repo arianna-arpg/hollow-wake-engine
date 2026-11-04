@@ -3,6 +3,8 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The [character rules](docs/character-rules.md) package creation and save identity, mastery kit choices, and earned class activation as three independent imports. The reference includes all 39 classes and the real Vault, disk save, and Continue path.
+
 The optional [triggered effect dispatcher](docs/proc-delivery.md) runs all 22
 Hollow Wake proc effect shapes and their ordered riders. The [Desperate Ward
 example](examples/proc-delivery.mjs) connects an authored talent, actor stats,

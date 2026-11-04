@@ -4,6 +4,14 @@ on:
     paths:
       - '.github/workflows/character-rules.yml'
       - 'baseline/character-rules/**'
+      - 'package*.json'
+      - 'src/character-identity.ts'
+      - 'src/class-*.ts'
+      - 'test/character-rules.test.mjs'
+      - 'adapters/hollow-wake/*character*.mjs'
+      - 'scripts/test-character-rules*.mjs'
+      - 'scripts/test-installed-character*.mjs'
+      - 'scripts/prepare-game-adapter.mjs'
       - 'baseline/renderer-shell.json*'
       - 'adapters/hollow-wake/character-rules-ui.cjs'
       - 'scripts/test-renderer-course.mjs'
@@ -43,12 +51,21 @@ jobs:
       - run: npm run reference:install
       - run: node scripts/test-reference-character-rules.mjs
       - run: node scripts/test-character-rule-source-faults.mjs
+      - run: npm run build
+      - run: node scripts/test-character-rules-package.mjs
+      - run: node scripts/test-character-rules-overlay.mjs
+      - run: npm run adapter:prepare
+      - name: Replay installed character rules and altered installed behavior
+        run: node scripts/test-installed-character-rules.mjs --location .artifacts/adapter-location.json
       - name: Install pinned desktop runtime
         if: runner.os == 'Windows'
         run: node .reference/node_modules/electron/install.js
       - name: Rebuild original and replay character selection, Vault and Continue
         if: runner.os == 'Windows'
         run: node scripts/test-reference-character-screen.mjs
+      - name: Rebuild the installed game and replay its character screen
+        if: runner.os == 'Windows'
+        run: node scripts/test-installed-character-screen.mjs --location .artifacts/adapter-location.json
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
         with:
@@ -61,3 +78,6 @@ jobs:
             .artifacts/character-rule-source-faults-*/verification.json
             .artifacts/character-rules-ui-*/verification.json
             .artifacts/character-rules-ui-*/observations.json
+            .artifacts/character-rules-package-*/verification.json
+            .artifacts/character-rules-overlay-*/verification.json
+            .artifacts/installed-character-rules-*/verification.json
