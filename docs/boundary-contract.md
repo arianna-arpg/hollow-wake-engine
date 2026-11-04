@@ -264,8 +264,13 @@ The data and snapshot contracts are portable specifications; the broad implement
 still needs a JavaScript runtime. The leaf C ABI proves seven transitions from
 independent C#/C++ callers. The separate [embedded library](embedded-native-library.md)
 exercises selected persistent gameplay paths through C++ and .NET callers using
-the shared JavaScript implementation. Unity, Godot, Unreal, mobile
-and WebAssembly compatibility remain unproven. The full-runtime language decision
+the shared JavaScript implementation. The [Godot proof](godot-native.md) covers
+the tested desktop editor and exported game paths. Unity, Unreal, mobile, WebAssembly
+and other Godot configurations need their own host runs. The full-runtime language decision
 still requires comparing embedding versus a native kernel on representative content,
 call overhead, memory, debugging and distribution targets. Node consumer checks alone
 never establish a native-engine integration.
+
+## Vocation offers and grants
+
+The pinned game defines the offer gates, character root allocation and account authority. The host owns current run and account ledgers, seat selection, recalculation and presentation. The original reference covers each authored offer and follows a mortal and sealed Warbringer through the real quartermaster. Secret site placement has a separate boundary. [Vocation progression](vocation-progression.md)

@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "capturedBeforeVocationImplementation": true,
+  "observedAt": "2026-11-04T18:20:30.233Z",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "vocations": 31,
+  "steps": 92,
+  "labeledGateInputs": 23552,
+  "grantCases": 14,
+  "fullChains": 2,
+  "turnIns": 6,
+  "fixtures": {
+    "survey": {
+      "file": "baseline/vocation-progression/survey.json.gz",
+      "helper": "reference/export-vocation-progression.ts",
+      "helperSha256": "61b158fcac84f1d1424a8eda2800251aa67bdb6373526000d9bafc65871d02c0",
+      "sha256": "bc410678edb652ca4eb3e0a87f905d60dd2781ea086b05b1d9c8754a84b2a52a",
+      "compressedSha256": "5d3a49ad85a130827fd90f3b8fe7a832d922aac4674adbf95ed6b4aff521f99c"
+    },
+    "chain": {
+      "file": "baseline/vocation-progression/chain.json.gz",
+      "helper": "reference/export-vocation-chains.ts",
+      "helperSha256": "e1dd702ce3d898efd92026c9967398cec9c3df8e3654ec16948991ebb3bc835f",
+      "sha256": "1d12624f8eee7be30c3f6b3358be88bc15d5bd01e87a3ba118209e1d5cfcb1b6",
+      "compressedSha256": "ca7d60f21e125b2c15c4c522cf7b1675a088b0e179e81d9d40afc5a5c01f6fae"
+    }
+  },
+  "sources": {
+    "quests/vocations.ts": "ece05a5be066f75b56997cc20a47fae116f3e73db85b07b64e209e2dc9df3bdb",
+    "quests/types.ts": "e73762478be5bafbe1e3f14ee18922fc97c726f1c735d1e630438dd005e70f8f",
+    "quests/defs.ts": "883e38c8c90c37cb278033b222957068a1adc376b763e246ddb7ed8d52bf1db1",
+    "data/vocations.ts": "1ffbd7d530cbbb2b29fa771c398f1f1384d433a023f1be5bf8e7bb8a32baf53f",
+    "data/powerProgression.ts": "b5354642364d4953cec5dffd05deb89841cd873a557d9ad6db1cf302fbe656d7",
+    "meta/account.ts": "c466e35f260aeab3ff6c24ee4725fd5afea635337868a348c9bca3f64902867b",
+    "meta/modes.ts": "d945f386cc034e2e51d5984b03eaf0174da22964dc0e3c9d1b5df01384542590",
+    "packages/ledger.ts": "1f00ae629319f78f26d234a8c1aff7d538f631d82219b3753f49803e5962fcbd",
+    "engine/world.ts": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+  },
+  "methods": {
+    "vocationEngaged": {
+      "bytes": 208,
+      "sha256": "d63e8951bb327003ba32fafe8f33e0b7481f91e67cfa0742beccf5b7627b6471"
+    },
+    "isVocationChoice": {
+      "bytes": 126,
+      "sha256": "bde2ab1d696cf20c02ae2190c6afd3214924d6b9b3278e36ee1f12916370202c"
+    },
+    "vocationChoiceOffers": {
+      "bytes": 122,
+      "sha256": "2af371043a1b31d38fc7b0145e63772275b5252a1c436149d3e69d196bc2e70f"
+    },
+    "vocationMenuOffers": {
+      "bytes": 710,
+      "sha256": "61bae482f78e2ccf87c0906cb43f2d566d813d9e1f2db0745da1fa06b3b55585"
+    },
+    "acceptVocationQuest": {
+      "bytes": 284,
+      "sha256": "a92fa45f03315c2b163e8fbacce4dbc7aecdc5ae3da98106dae8ca8aeaf19ad5"
+    },
+    "declineVocationOffer": {
+      "bytes": 67,
+      "sha256": "e86237e0b746acd117a621ee21c410a022053dcebaacdb6391ab1705fa281d1e"
+    },
+    "grantVocation": {
+      "bytes": 1204,
+      "sha256": "8bd9e1933da381615a1ba84fa7e524d5dc78c97c2c7ae07b9a444264c8f920ed"
+    },
+    "updateQuestGiver": {
+      "bytes": 1186,
+      "sha256": "3c7e98f98f8dc97f82c1a6742b568d0c74bd7703028e53261763d4784c8386da"
+    },
+    "onQuestZoneCleared": {
+      "bytes": 6238,
+      "sha256": "c959f7ef0d31e3495e974a21387cf23343698ef01395a1035d83747f9edf1a42"
+    }
+  },
+  "faults": [
+    "odyssey-authority",
+    "duplicate-with-spare-cap",
+    "character-cap",
+    "unlock-authority",
+    "secret-discovery-ledger",
+    "foreign-class",
+    "previous-step-ledger",
+    "wrong-final-grant",
+    "detached-zone",
+    "detached-giver",
+    "undying-unlock",
+    "increment-account",
+    "run-completion-omitted",
+    "dirty-before-recalc",
+    "wrong-root",
+    "second-cue-anchor"
+  ],
+  "scope": "All generated original steps and their vocation-specific gates; grant and account authority; one ordinary three-step chain through the real quartermaster in mortal and sealed modes. The completed field objective is injected. Physical secret-site placement and other quest reward systems are outside this fixture."
+}
