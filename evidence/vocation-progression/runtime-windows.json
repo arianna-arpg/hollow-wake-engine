@@ -1,0 +1,227 @@
+{
+  "passed": true,
+  "parentRevision": "e0e0c3d0d6bb1a27130b4e70834962bfddb877b3",
+  "observedAt": "2026-11-04T19:26:02.822Z",
+  "version": "0.39.0",
+  "sourceMap": {
+    ".github/workflows/vocations.yml": "a6dbf6981e2f3764f43ea4b1d45d9f09bed56acc827cbef7cd27d21433b7564c",
+    "README.md": "3e76ef16662f4ddd870c5898ff922975b1ac2bf23dde30a72848248a02e7f7e5",
+    "adapters/hollow-wake/integrate-vocations.mjs": "f10066c107fde3d2b70663992be7217c18afa3900ace155244e96bf34ff8425b",
+    "adapters/hollow-wake/vocation-ui.cjs": "324ce0738b8ec76877f176563100674e05c07cd046ede68b60b28cfadb44a6b4",
+    "adapters/hollow-wake/vocationGrantAdapter.ts": "065bdb041999f48c0067ea9180df2abe2ce4842eb3d0dd5ed6da465017145d73",
+    "adapters/hollow-wake/vocationQuests.ts": "dde87b28095cb5dddffd12825170561b0204aef8b7febed84df975ac1dce5ece",
+    "docs/completion.json": "6e6f92f7f84b6971d4920840cd1df04eeaea256d4443b2282a7eef35aaf80cb6",
+    "docs/vocation-progression.md": "86d0a10f4de5000814390e49f33f2ca10f3b6b8d877221671ca05d325cd631fe",
+    "package-lock.json": "dc4e86ee163f1fe9a40ea68e5b9255e7d98c5670aec78015679361ee013ddc98",
+    "package.json": "861ff34742d4318f1f6ec2d5a30fe4bf3b00897dfc07fb6224871765a2506319",
+    "scripts/check-boundaries.mjs": "68bb92d9da6a342d5b7a4242a2630c31904ac8d9ccaa493d29abb22c98135d0f",
+    "scripts/prepare-game-adapter.mjs": "fde3f720626e55c10aa169e75324b548fc9b1cb1cea131a1d994e09b6658faa0",
+    "scripts/test-installed-vocation-faults.mjs": "1e89c5509122df047ee312b26f585e798fe4263e58532d397b9daff905a497e9",
+    "scripts/test-package.mjs": "279d0399badb2d05f3b5a49b555c199b88f2ee20ce9f8d118bffab8d708c5977",
+    "scripts/test-vocation-overlay.mjs": "f30c34d512fb9868a57c222eaef34ddd7a2243d1af61f7d0b8944d53b5e463bc",
+    "scripts/test-vocation-package.mjs": "0b81259cf184246c15ecaa8d411af58a7a3749ee4af14cd365f4476b7a93b634",
+    "scripts/test-vocation-ui.mjs": "6344b1ac86230c6d598d41cecccc866ae4e6baf3a412469918ec41d581dc5711",
+    "src/vocation-grants.ts": "6a925e196b4ca2387821bb1f9efcb5bb4a3751d561da1baa693d7bffcaffe307",
+    "src/vocations.ts": "0839081734ca116dcb78f1c4d7d1abe041cb225af399bd085a2483a653619bc1",
+    "test/vocations.test.mjs": "d2c147185bc433bb59b0cd28649c3e64f843cbc874d79798095e0dc5fbfffb2c"
+  },
+  "reference": {
+    "survey": {
+      "file": "baseline/vocation-progression/survey.json.gz",
+      "helper": "reference/export-vocation-progression.ts",
+      "helperSha256": "61b158fcac84f1d1424a8eda2800251aa67bdb6373526000d9bafc65871d02c0",
+      "sha256": "bc410678edb652ca4eb3e0a87f905d60dd2781ea086b05b1d9c8754a84b2a52a",
+      "compressedSha256": "5d3a49ad85a130827fd90f3b8fe7a832d922aac4674adbf95ed6b4aff521f99c"
+    },
+    "chain": {
+      "file": "baseline/vocation-progression/chain.json.gz",
+      "helper": "reference/export-vocation-chains.ts",
+      "helperSha256": "e1dd702ce3d898efd92026c9967398cec9c3df8e3654ec16948991ebb3bc835f",
+      "sha256": "1d12624f8eee7be30c3f6b3358be88bc15d5bd01e87a3ba118209e1d5cfcb1b6",
+      "compressedSha256": "ca7d60f21e125b2c15c4c522cf7b1675a088b0e179e81d9d40afc5a5c01f6fae"
+    }
+  },
+  "hostedOriginal": {
+    "run": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/41893084040",
+    "jobs": {
+      "windows-2025": {
+        "referenceSha256": "e3b3c5200c8ffc9de266a7b9f1b64e4e155fc936d3b509121618e9258094a957",
+        "faultsSha256": "e73c0669a57b7c8aa6b47a93620466876f007593851828cbecd230df48879c2f",
+        "faults": 16
+      },
+      "ubuntu-24.04": {
+        "referenceSha256": "3cdf6766ed1c9eed846bf365cc61169c315a505255f1746e9fd3b32141e255d5",
+        "faultsSha256": "65ceeb0292aeb6acb87f216c35e6d938b585f9ad0b3fd0ee89d0bc717869d9e2",
+        "faults": 16
+      }
+    }
+  },
+  "package": {
+    "archives": [
+      {
+        "name": "@hollow-wake/engine",
+        "version": "0.39.0",
+        "file": "hollow-wake-engine-0.39.0.tgz",
+        "bytes": 704637,
+        "sha256": "d2c22f400b1ca1c638222058dbdf5ab259f5068188458dddcac7e05003f483c1"
+      },
+      {
+        "name": "@hollow-wake/catalogue",
+        "version": "0.1.0",
+        "file": "hollow-wake-catalogue-0.1.0.tgz",
+        "bytes": 924047,
+        "sha256": "2783988ca60e0ce0a0ab3043da94b9289af33d8c37bd05de5884775556731d9b"
+      }
+    ],
+    "installedSha256": "d2c22f400b1ca1c638222058dbdf5ab259f5068188458dddcac7e05003f483c1",
+    "verifiedStandaloneSha256": "e3acc1fa44a00379c1e364d174e65b66eb2d9d110337b1f9a6231bb53229ff56",
+    "runtimeJsBytes": 3879,
+    "browserJsBytes": 1818,
+    "browserBudgetBytes": 4096,
+    "independentContracts": 10,
+    "tsConsumer": true
+  },
+  "installation": {
+    "independentSdkTests": 1384,
+    "changedGameFiles": [
+      "engine/vocationGrantAdapter.ts",
+      "engine/world.ts",
+      "quests/vocations.ts"
+    ],
+    "retainedSdkOutputs": 303,
+    "standaloneGateDecisions": 23552,
+    "originalAndInstalledFixtureSha256": [
+      "bc410678edb652ca4eb3e0a87f905d60dd2781ea086b05b1d9c8754a84b2a52a",
+      "1d12624f8eee7be30c3f6b3358be88bc15d5bd01e87a3ba118209e1d5cfcb1b6"
+    ],
+    "installedReceiptSha256": "0f4047bfae7b3ce074b5eb96eb4228a74d5b9308b0e5b9a8154261b20ee27c56",
+    "installedFaults": [
+      {
+        "name": "progression-ledger",
+        "sha256": "529cea6c94e0e7904ce0114700a926ef4e33e5150bc673d882b6672705368468"
+      },
+      {
+        "name": "previous-step-ledger",
+        "sha256": "1166388dd4ebcb768dd1d497b491238ef152ddde74daab7ff763ae588623b600"
+      },
+      {
+        "name": "detached-zone",
+        "sha256": "a41a7ae1edd10220b93db0ecb812a82c84a99e8b1631fdd1688623b473e88050"
+      },
+      {
+        "name": "root-allocation",
+        "sha256": "fe160958be56fd127c949cbd7470e6ed24f09a7bf511d058de9203049529e758"
+      },
+      {
+        "name": "account-overwrite",
+        "sha256": "53c2002aa59396930e705f275917f0340a41bc3d9eb5c3dfc75e09895528d67b"
+      },
+      {
+        "name": "account-authority",
+        "sha256": "92584327dab1a8b5a751b322e8d43fcdfcd91244da93b65f18029f9b32edcacf"
+      },
+      {
+        "name": "recipient-seat",
+        "sha256": "39fd5705fe1e3c0cf1685f2d85949db49a47b298296acaa484bd7e187e8a1517"
+      }
+    ],
+    "installedFaultReceiptSha256": "32f5b40ac681cfcb2ce6b9072ac96b6f57a98e29dbe07d7ca798d7928e214586",
+    "checks": [
+      {
+        "name": "verify",
+        "logSha256": "be8ed53466e28b6974ae7d0d5d93b786d874717cd3185679c0ff7ed05b80acc4"
+      },
+      {
+        "name": "reference",
+        "logSha256": "71bb3ac752c7a74bf691986a75b970e8f55b1bb141a4e146a9e2b48e9db5c6e1"
+      },
+      {
+        "name": "prepare",
+        "logSha256": "245dc32e2de39e56b3c72712574c5f4407ef58832ebd6780b93d03b8daec654b"
+      },
+      {
+        "name": "game-types",
+        "logSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+      },
+      {
+        "name": "game-smoke",
+        "logSha256": "c622e82534c7abbb457b451db82d9d2c1b3221af481c5c5613013ac8599ccd46"
+      },
+      {
+        "name": "source",
+        "logSha256": "87af24959f5a92b39fea7e8324390e6379accc2b42ec37c6ebad961cedf78a08"
+      },
+      {
+        "name": "installed",
+        "logSha256": "664a8b21d1691615e85106edfede9cf82c604d0f3df249282e234ccae3f83e16"
+      },
+      {
+        "name": "installed-faults",
+        "logSha256": "e46a1af8f47f305ec6f3bfd9d573d4869aca5dee48282ff52936d38224751caf"
+      },
+      {
+        "name": "vocation-overlay",
+        "logSha256": "b5e589c6a2f438bb8b61d523009b0aa8476ae12621231797e20f42ef74a3b016"
+      },
+      {
+        "name": "proc-delivery",
+        "logSha256": "5950535556a658567428ba7d9da2134765c0b1d4f47620523c4b33b248e8bdf2"
+      },
+      {
+        "name": "passive-policy",
+        "logSha256": "67a5f411fdbd82dcf763cb7f14cda9653a15ccbee391b1811897cece1daf4e28"
+      },
+      {
+        "name": "renderer-prepare",
+        "logSha256": "e9887fe65054b44adb02a0a9f7d94330a32b73064357e3985f27c834305dd652"
+      },
+      {
+        "name": "renderer-build",
+        "logSha256": "5becf43a76399522a82ab95004e7051a391fdcc56d001759752c25cedff0449f"
+      },
+      {
+        "name": "renderer-boot",
+        "logSha256": "e432ad28463094721a5689e157ea7b7804e99cd2a1ec5512c8dc804399a4fd66"
+      },
+      {
+        "name": "renderer-passives",
+        "logSha256": "1968c8eceb4bcb63ef792b71988dedf330a6a0c083d8b8d19fe44a6849519e2c"
+      },
+      {
+        "name": "preservation",
+        "logSha256": "b9c35d0a1a79d9071b2bdb1175d2564ee9d6de6c9d222d76e8a88213e63c8301"
+      }
+    ]
+  },
+  "renderer": {
+    "courseSha256": "324ce0738b8ec76877f176563100674e05c07cd046ede68b60b28cfadb44a6b4",
+    "observations": {
+      "before": true,
+      "label": "Undertake",
+      "title": "Warbringer\n            · Warrior's calling (your class)",
+      "active": 1,
+      "closed": true,
+      "granted": true,
+      "second": false,
+      "treeNode": "voc_warbringer_root",
+      "allocated": true,
+      "character": [
+        "warbringer"
+      ],
+      "run": 1,
+      "account": 1,
+      "fatal": null
+    },
+    "frozenBeforeSha256": "71c671159b3845a72c4f36fe51008ad9b36a87e1151bce5f02ecd117211011fd",
+    "installedSha256": "71c671159b3845a72c4f36fe51008ad9b36a87e1151bce5f02ecd117211011fd",
+    "finalReceiptSha256": "92f68823e3975dc604f5aec6a92d681dadf059a64da5e8ee864cbf6c887eaa72",
+    "scope": "The actual UI starts a quest through the quartermaster button and opens the passive tree through Inventory. The real grant is invoked directly in this UI fixture. Separate original and installed World fixtures exercise all three turn-ins."
+  },
+  "preserved": {
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "files": 4149,
+    "changed": 0,
+    "committedGameIndexEntries": 0
+  },
+  "scope": "31 vocations and 92 quest steps. Physical secret-site placement, general quest rewards and device-specific execution are separate acceptance boundaries."
+}

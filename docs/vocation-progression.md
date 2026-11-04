@@ -50,3 +50,37 @@ The sixteen source fault controls change individual gates, identity, durable
 credit, root selection or callback order. They must change the expected
 observation for the intended reason. The stored game fixtures are the
 authority for both the standalone package and the game adapter.
+
+## Install and call the optional module
+
+Build and pack this checkout with `npm run build` and `npm pack`. Install the resulting `.tgz` in the host application. The vocation entry point accepts typed host objects and has no production dependency. Only applications using it load these rules.
+
+```js
+import {createVocationQuests, grantVocation} from '@hollow-wake/engine/progression/vocations';
+
+// Build once from the host’s ordered definitions and live configuration.
+const steps = createVocationQuests(definitions, config, account => account.odyssey_stage_1 >= 1);
+const canOffer = steps[0].gate({classId, vocations, runLedger, accountLedger});
+
+// After the host validates a final turn-in, use the recipient’s seat.
+const granted = grantVocation(vocationId, seat, ports);
+```
+
+Use the SDK’s separate catalogue archive for the original authored definitions. Read `tables/vocations.json` and reconstruct insertion order from `registry-order.json`. Keep the compiled steps in memory. The Hollow Wake adapter delegates its actual quest generator and grant method to these entry points. The host continues to own generic level and ledger requirements, persistent storage, geometry, recalculation and presentation.
+
+`npm run test:vocation-package` installs both archives into a separate project, checks type declarations and tests all 31 definitions and 92 steps against the frozen game.
+
+The public branch’s **Verify vocation progression** workflow also offers the two tested tarballs together. Download `hollow-wake-sdk-and-catalogue` from a successful run, extract it and compare the tarball SHA-256 values with `archive-index.json`. Install the two local archives with your host’s package manager. Workflow downloads have a 14-day lifetime.
+
+## Verify the visible path
+
+Build a renderer from a prepared game. Run the same smoke check against a preceding installation and the new one.
+
+```text
+node scripts/test-vocation-ui.mjs --game <renderer-game> --dist <renderer-dist> --electron <electron-executable>
+node scripts/test-vocation-ui.mjs --game <new-renderer-game> --dist <new-renderer-dist> --electron <electron-executable> --compare <first-report>/observations.json
+```
+
+The check clicks the quartermaster’s **Undertake** button, verifies that the chosen quest is active and uses the Inventory passive-tree button to inspect Warbringer’s root before and after a real grant. The grant is invoked directly in this UI check. The separate chain fixture exercises all three turn-ins through the game’s reward path.
+
+[Windows installation and UI results](../evidence/vocation-progression/runtime-windows.json) include the standalone and installed package checksums.

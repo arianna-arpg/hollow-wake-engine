@@ -273,6 +273,8 @@ lazy ammunition creation and existing resource validation. It builds on v0.25's
 [resource payment](docs/resource-payment.md) and v0.24's
 [guard casting](docs/guard-casting.md).
 
+The optional [vocation module](docs/vocation-progression.md) builds ordered quest steps and grants character roots with separate run and account authority.
+
 ## Start here
 
 From this repository, with Node 22 or newer:
