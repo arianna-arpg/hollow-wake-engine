@@ -1,0 +1,178 @@
+{
+  "passed": true,
+  "parentRevision": "e1301637847d11e29393052a8cd2d19ec1ac42e4",
+  "observedAt": "2026-11-05T00:37:37.442Z",
+  "sdkArchiveSha256": "01cddcaeaa0adada9ebef64842f409de24c1de764271b27ade4029c959bc945d",
+  "hostedRun": 41938458271,
+  "hostedPlatforms": [
+    {
+      "platform": "ubuntu-24.04",
+      "characterChecks": true,
+      "installedFaults": 25,
+      "archives": {
+        "sdk": {
+          "file": "hollow-wake-engine-0.42.0.tgz",
+          "sha256": "01cddcaeaa0adada9ebef64842f409de24c1de764271b27ade4029c959bc945d",
+          "bytes": 723392
+        },
+        "catalogue": {
+          "file": "hollow-wake-catalogue-0.1.0.tgz",
+          "sha256": "2783988ca60e0ce0a0ab3043da94b9289af33d8c37bd05de5884775556731d9b",
+          "bytes": 924047
+        },
+        "character": {
+          "file": "hollow-wake-character-continuity-0.1.0.tgz",
+          "sha256": "0c925a7337391c509c6ff57dad9238fd936349c17d888a1260aab40f8c0892a3",
+          "bytes": 5798
+        }
+      },
+      "workerShutdown": [
+        {
+          "mode": "cooperative",
+          "forced": false,
+          "reaped": true,
+          "repeatedClose": true
+        },
+        {
+          "mode": "stubborn",
+          "forced": true,
+          "reaped": true,
+          "repeatedClose": true
+        }
+      ],
+      "sustainObserver": {
+        "passed": false,
+        "faults": 3,
+        "results": [
+          "control",
+          "skip-hit",
+          "missing-heal",
+          "healing-order"
+        ]
+      }
+    },
+    {
+      "platform": "windows-2025",
+      "characterChecks": true,
+      "installedFaults": 25,
+      "archives": {
+        "sdk": {
+          "file": "hollow-wake-engine-0.42.0.tgz",
+          "sha256": "01cddcaeaa0adada9ebef64842f409de24c1de764271b27ade4029c959bc945d",
+          "bytes": 723392
+        },
+        "catalogue": {
+          "file": "hollow-wake-catalogue-0.1.0.tgz",
+          "sha256": "2783988ca60e0ce0a0ab3043da94b9289af33d8c37bd05de5884775556731d9b",
+          "bytes": 924047
+        },
+        "character": {
+          "file": "hollow-wake-character-continuity-0.1.0.tgz",
+          "sha256": "0c925a7337391c509c6ff57dad9238fd936349c17d888a1260aab40f8c0892a3",
+          "bytes": 5798
+        }
+      },
+      "workerShutdown": [
+        {
+          "mode": "cooperative",
+          "forced": false,
+          "reaped": true,
+          "repeatedClose": true
+        },
+        {
+          "mode": "stubborn",
+          "forced": true,
+          "reaped": true,
+          "repeatedClose": true
+        }
+      ],
+      "sustainObserver": {
+        "passed": true,
+        "faults": 4,
+        "results": [
+          "control",
+          "skip-hit",
+          "missing-heal",
+          "healing-order",
+          "extra-draw"
+        ]
+      }
+    }
+  ],
+  "linuxFailure": {
+    "case": "extra-draw",
+    "logSha256": "77dea9e47e0199abf57eab229dde9d6e418c75f929c8e25f338e684d879c5c9f",
+    "expectedAssertionPresent": true,
+    "verificationWritten": true,
+    "outerError": "ETIMEDOUT after 480 seconds"
+  },
+  "diagnosis": "Inherited output-descriptor completion is consistent with the retained expected assertion, completed verification receipt and Node synchronous-process implementation. Hosted confirmation of file-backed capture follows this commit.",
+  "sources": [
+    "https://github.com/nodejs/node/blob/v24.x/src/spawn_sync.cc",
+    "https://github.com/nodejs/node/issues/67197"
+  ],
+  "localProcesses": [
+    {
+      "name": "control",
+      "status": 0,
+      "signal": null,
+      "elapsedMs": 48165,
+      "outputSha256": "d78c54bd5162db57b0b0fd415def3953b0e448848dc4156ce57645eb42d868f7",
+      "proofSha256": "542fb184a80c07400fbadab762375c59e02b5ef8b5daa2602058ac2d7a9d333e"
+    },
+    {
+      "name": "skip-hit",
+      "status": 1,
+      "signal": null,
+      "elapsedMs": 49617,
+      "outputSha256": "e10c0278d9c9bb068613be06a98fb8c16e220c190c8f9abcb69511db919951e9",
+      "proofSha256": "3407cf05c291564c397e0296b460122d0e837db3f0cefaaee97051aafb1d8ddc"
+    },
+    {
+      "name": "missing-heal",
+      "status": 1,
+      "signal": null,
+      "elapsedMs": 56872,
+      "outputSha256": "5fb28f941be8d1aa3f70a6b259214d035c2a26ea97f9cb3481326bade79e025c",
+      "proofSha256": "8a63a555c4468c460794281313debbf03ee2261723786b35a2dbf1a982da0f42"
+    },
+    {
+      "name": "healing-order",
+      "status": 1,
+      "signal": null,
+      "elapsedMs": 47675,
+      "outputSha256": "65fe479a86fed02a48ac3a0349ee7ed21235a5396c0d7ef93b376f4c19558130",
+      "proofSha256": "9cee44216ad534f497153c38e2a43039e8d70dd7390dc4315fc338f7f789d7a6"
+    },
+    {
+      "name": "extra-draw",
+      "status": 1,
+      "signal": null,
+      "elapsedMs": 43363,
+      "outputSha256": "63ba8cbff8bf09c607dfb77b10307653c4ebca216d06a4bf655d9132b5c61598",
+      "proofSha256": "e375c331cce71b8e6a1f22d95e9e3cf53e95eb436cdb02eb2418a2e55f901e4f"
+    }
+  ],
+  "localCaptureGuards": [
+    {
+      "name": "success",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "name": "failure",
+      "status": 7,
+      "signal": null
+    },
+    {
+      "name": "timeout",
+      "status": null,
+      "signal": "SIGTERM",
+      "error": "ETIMEDOUT"
+    }
+  ],
+  "inputs": {
+    "scripts/test-hit-sustain-benchmark-observer.mjs": "c647796e3bc0647f61f99e7e41b612b8bf73a16b7c21bedef217d1bf0f9daed4",
+    "evidence/character-continuity/log-recovery.md": "673a8831e5e3a6128668572c9bce0d48c84186f9909551624b251103e93407e3"
+  }
+}

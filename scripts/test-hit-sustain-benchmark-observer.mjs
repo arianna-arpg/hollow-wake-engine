@@ -21,8 +21,16 @@ try {
     source=source.replace("'.artifacts/hit-sustain-benchmark-verification.json'",JSON.stringify(proofPath));
     source=source.replace("'.artifacts/hit-sustain-benchmark-latest.json'",JSON.stringify(path.join(directory,name+'-latest.json')));
     fs.writeFileSync(script,source,{flag:'wx'});
-    const result=spawnSync(process.execPath,[script,'--previous',location,'--location',location,'--control','--verify-only'],{cwd:root,encoding:'utf8',timeout:480000,windowsHide:true,maxBuffer:8*1024*1024});
-    const output=(result.stdout??'')+(result.stderr??'');fs.writeFileSync(path.join(directory,name+'.txt'),output);
+    const log=path.join(directory,name+'.txt'),fd=fs.openSync(log,'wx');
+    let result;
+    const started=Date.now();
+    try {
+      // File-backed output keeps descendant descriptors outside the parent's
+      // pipe-completion wait after the runner exits.
+      result=spawnSync(process.execPath,[script,'--previous',location,'--location',location,'--control','--verify-only'],{cwd:root,stdio:['ignore',fd,fd],timeout:480000,windowsHide:true});
+    } finally { fs.closeSync(fd); }
+    const output=fs.readFileSync(log,'utf8');
+    writeJSON(path.join(directory,name+'-process.json'),{status:result.status,signal:result.signal,error:result.error?.code,elapsedMs:Date.now()-started});
     assert(!result.error,result.error?.message);assert.equal(result.signal,null);
     const proof=JSON.parse(fs.readFileSync(proofPath));assert(proof.inputsUnchanged&&proof.control&&proof.verifyOnly);
     if(name==='control'){assert.equal(result.status,0);assert(proof.passed);assert.equal(proof.results.length,21);}
