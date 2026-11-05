@@ -1,0 +1,507 @@
+{
+  "passed": true,
+  "observedAt": "2026-11-05T06:21:36.010Z",
+  "platform": "win32",
+  "node": "v24.9.0",
+  "parent": "a4853b4f8d7e828bcf360ffe847ea7d240ce1d53",
+  "acceptance": "baseline/unlock-lifecycle/acceptance.json",
+  "fixtures": {
+    "policy": {
+      "sha256": "7b9880ac71ca20073b2224f9447aac9771be1fdfcabda3c6572371b749cfcfc0",
+      "helperSha256": "6edb278dad6dca75c0dd39ffd15bd4872d8c22aa56ad027c942b26d79e5ca27f",
+      "counts": {
+        "profiles": 46,
+        "staticEntries": 190,
+        "packageEntries": 107
+      },
+      "capturedBeforeImplementation": true
+    },
+    "transactions": {
+      "sha256": "37c351519370c9556f53b4aa50782b95af22db6b390e48459dec5944766dad46",
+      "helperSha256": "af6b1e01d5e9a83dd25eb87449b2fbf07682ee42c57d718a02797721c1e72968",
+      "counts": {
+        "courses": 17,
+        "traces": 508,
+        "masteryRungs": 32
+      },
+      "capturedBeforeImplementation": true
+    },
+    "memory": {
+      "sha256": "ec6f57f6bed5314843b0b8a4f2685c8622f443cabc9215474567e0b0e76bbf00",
+      "helperSha256": "a071ef3a437ed4db602e70eb099c6dd3214fb9aac7eb751f4d40d9d3c9298210",
+      "counts": {
+        "profiles": 108,
+        "draws": 2645,
+        "drops": 216,
+        "skillRows": 948,
+        "supportRows": 457,
+        "catalogBoundaryCases": 5,
+        "randomCallbackCases": 4
+      },
+      "capturedBeforeImplementation": true
+    }
+  },
+  "originalRepeatedCaptures": true,
+  "predecessor": {
+    "version": "0.43.0",
+    "archiveSha256": "affc19911e9ce2e608949bfa78802a292229d54f448a09a3255879e5c255843a",
+    "allThreeFixturesExact": true
+  },
+  "sourceFaults": {
+    "passed": true,
+    "count": 72,
+    "results": [
+      {
+        "name": "class-lookup",
+        "fixture": "policy",
+        "method": "classUnlockFor",
+        "sha256": "c3c162160c7a32c3bf9f0d66df23dc0673674856349fe9bed7e133e320c31dca"
+      },
+      {
+        "name": "shroud-ownership",
+        "fixture": "policy",
+        "method": "shroudedClassUnlocks",
+        "sha256": "4761affd16ededd34a9a567378e67cbaf895f858349515598ff7211ed4fb42bf"
+      },
+      {
+        "name": "merged-view",
+        "fixture": "policy",
+        "method": "classUnlockProgress",
+        "sha256": "e1a19ae9d309c18bb8caab2d85ff8fb363bc40af8e8b4ab15eafcb66bd51dc31"
+      },
+      {
+        "name": "reveal-boundary",
+        "fixture": "policy",
+        "method": "classUnlockProgress",
+        "sha256": "7ac69ad177eaac633a61a84794cc2d4c119ad9226f1ea82c8238a346246ce078"
+      },
+      {
+        "name": "best-avenue",
+        "fixture": "policy",
+        "method": "classUnlockProgress",
+        "sha256": "2c797309db36277af4979409971fa5be8cedfc5ff9475af9e38390aa3defd913"
+      },
+      {
+        "name": "hidden-label",
+        "fixture": "policy",
+        "method": "classRumorRead",
+        "sha256": "e1305704b20e22c0d5a8c602523f3062202c6f4fab7dd77d667ef16533e80596"
+      },
+      {
+        "name": "hint-all-objectives",
+        "fixture": "policy",
+        "method": "classRumorRead",
+        "sha256": "1afd832067329300acd8792787f7084ddc68046d0553c1eb58792db9b4388166"
+      },
+      {
+        "name": "objective-maximum",
+        "fixture": "policy",
+        "method": "classObjectiveNeeds",
+        "sha256": "dab8add37e39a8ec9c3c7aaa81df90a7700ea0bac680378c2a3d984bb6d0c192"
+      },
+      {
+        "name": "milestone-order",
+        "fixture": "policy",
+        "method": "catalogClassLevelMilestones",
+        "sha256": "bbfb76d761a1870d5f266d33a286b3ef8878f0c522035521c7a3bdaedfd58ea2"
+      },
+      {
+        "name": "power-ownership",
+        "fixture": "policy",
+        "method": "isUnlockOwned",
+        "sha256": "c1fe13f6a1c3b12b932a6075dc6eddb84f4f8f6233fe9827595475bb9153d1fd"
+      },
+      {
+        "name": "pending-discovery-owned",
+        "fixture": "policy",
+        "method": "isUnlockOwned",
+        "sha256": "90e346d99d2887d8323d513ed119d7d98c239e4522937f6752bf18bfa80486e8"
+      },
+      {
+        "name": "skill-bundle-all",
+        "fixture": "policy",
+        "method": "isUnlockOwned",
+        "sha256": "3afcee00450036ec8e18d4e803d0bb253a5322d0d9696af33295e3fce35d29ee"
+      },
+      {
+        "name": "support-bundle-all",
+        "fixture": "policy",
+        "method": "isUnlockOwned",
+        "sha256": "b38d3e850a9e65cbcbdf5b7746b4315035d9a13d185bde8ae2b4df60f70e9348"
+      },
+      {
+        "name": "legacy-hidden",
+        "fixture": "policy",
+        "method": "isUnlockVisible",
+        "sha256": "b8486fe0c3f191dfab347cef1a88bb708c6bbb39cfacb1d709d3e6401e8b8dfd"
+      },
+      {
+        "name": "debug-hidden",
+        "fixture": "policy",
+        "method": "isUnlockVisible",
+        "sha256": "68eeaa2eb2435adec0a4137a5e22e0ba24d51e2a336d5e40dfbf80bc30e221fb"
+      },
+      {
+        "name": "empty-memory-pool",
+        "fixture": "policy",
+        "method": "isUnlockVisible",
+        "sha256": "1e6cebf09fb5883855be11503dade6bf3ca79c12128abc1253a7a8251b09c5b2"
+      },
+      {
+        "name": "armed-graft",
+        "fixture": "policy",
+        "method": "isUnlockVisible",
+        "sha256": "3d3ed535d5bc4932df02e46be65f6e535d6c3762e05ed461f87cb584ae3544e9"
+      },
+      {
+        "name": "stale-resurrection",
+        "fixture": "transactions",
+        "method": "isUnlockVisible",
+        "sha256": "2b3e6a57fe2c45e94763796087e86589323397f93462ad207cc68fb35a9e8284"
+      },
+      {
+        "name": "account-level-boundary",
+        "fixture": "policy",
+        "method": "staticGateMet",
+        "sha256": "bf5725b3606130f5954aeebc31dcf2906b2d3e4c3fda633a0be274eff201f1bf"
+      },
+      {
+        "name": "ledger-presence-boundary",
+        "fixture": "policy",
+        "method": "staticGateMet",
+        "sha256": "9fd275f827ec92bb14de2d507ebe482d64f148b61358d143d09ca6adfe0cb396"
+      },
+      {
+        "name": "ledger-count-boundary",
+        "fixture": "policy",
+        "method": "staticGateMet",
+        "sha256": "e50ef0a3deeeb6a0d4da2c8e8ff5d9a1099218bf3074901388d8cff95891ed59"
+      },
+      {
+        "name": "active-class-pool",
+        "fixture": "policy",
+        "method": "staticGateMet",
+        "sha256": "fb7f87da96ee726cd18cc031a8ee4c18af1e2920646fe001979692ab136174c1"
+      },
+      {
+        "name": "static-parent-ownership",
+        "fixture": "policy",
+        "method": "staticGateMet",
+        "sha256": "dadd55e44d2ae58fb8857de839e20d64fb2616516539dde1e3b2e4a2d5101a77"
+      },
+      {
+        "name": "structural-parent-ownership",
+        "fixture": "policy",
+        "method": "structuralPrereqsMet",
+        "sha256": "357e41183abafa1ad1e11f60b69839eeff29a2e94edfe0e19f93397c7e5d558f"
+      },
+      {
+        "name": "sealed-includes-owned",
+        "fixture": "policy",
+        "method": "sealedUnlocks",
+        "sha256": "ac20ed6b7f866c9e5866cbe2e9c09c0ce969121ab505437b33c9c3d008094f69"
+      },
+      {
+        "name": "earned-is-stock",
+        "fixture": "policy",
+        "method": "availableUnlocks",
+        "sha256": "7539b4546ab294762baa65b4baa30cecc9a3c1cc28b0b6691d02321870547a77"
+      },
+      {
+        "name": "memory-sequence",
+        "fixture": "transactions",
+        "method": "unlockCompleted",
+        "sha256": "fc98baebf590088f5af8d80cf98ced3480903d824074e7852654284393960f1d"
+      },
+      {
+        "name": "graft-completion",
+        "fixture": "transactions",
+        "method": "unlockCompleted",
+        "sha256": "7edf78f345778f837d5b0de8df9eb4c0a80628a929a9bd207c7d31d54b5b54e4"
+      },
+      {
+        "name": "resurrection-completion",
+        "fixture": "transactions",
+        "method": "unlockCompleted",
+        "sha256": "3417f8ff13a70308d391614691b09c7874d732f4c3407ab283e0ad39317859ad"
+      },
+      {
+        "name": "investment-remainder",
+        "fixture": "transactions",
+        "method": "remainingCost",
+        "sha256": "a4281ab005ef7849585a893cb1f14ae72cad2d92092486280c0d0c05b13fc8c3"
+      },
+      {
+        "name": "memory-finite-amount",
+        "fixture": "transactions",
+        "method": "investUnlock",
+        "sha256": "5e760241dcd5521f0a6104359d028ee7c588225268f6a2acdba72cb542133d74"
+      },
+      {
+        "name": "ordinary-fractional-amount",
+        "fixture": "transactions",
+        "method": "investUnlock",
+        "sha256": "4c8f98495eb1855dba04ccf160d36e130c9fe724c13b7d7a2f3ea4c100b44d81"
+      },
+      {
+        "name": "catalog-no-drop",
+        "fixture": "memory",
+        "method": "memoryCatalog",
+        "sha256": "4cc3aec01c40f99606d9c254850a67495e7eeb43f47a41d524c6047897a86f5a"
+      },
+      {
+        "name": "catalog-support-weight",
+        "fixture": "memory",
+        "method": "memoryCatalog",
+        "sha256": "8b71adcff4ad66738241c1379d9c27bb490845c87394a08be11ab3b04860bd9f"
+      },
+      {
+        "name": "catalog-exclusion",
+        "fixture": "memory",
+        "method": "memoryCatalog",
+        "sha256": "9477d9076668cd4eb303bc7a36984c358e3dfe29fe03a2333ce859908e48fb37"
+      },
+      {
+        "name": "skill-discovery",
+        "fixture": "memory",
+        "method": "memoryDiscovered",
+        "sha256": "d3cc106903b07b3ac36892ddec14952659739790362efaa75e1215095fb7ccc3"
+      },
+      {
+        "name": "support-discovery",
+        "fixture": "memory",
+        "method": "memoryDiscovered",
+        "sha256": "3ad7386e3bf762ced8554314f3b99f58b42f22d9cdc9056da3a5bf12e25174fe"
+      },
+      {
+        "name": "dormant-secondary",
+        "fixture": "memory",
+        "method": "memorySecondaryOwned",
+        "sha256": "7cffbb06cc82217dc26559128d822d72d08781aeaea8eacd359728c8dbff6bc6"
+      },
+      {
+        "name": "secondary-debug-bypass",
+        "fixture": "memory",
+        "method": "memorySecondaryOwned",
+        "sha256": "188227c3d3720e9fa7e3d98072055ed516b2480a0aecbabfa2e17fac3566e118"
+      },
+      {
+        "name": "progression-milestone",
+        "fixture": "memory",
+        "method": "memoryProgressionOpen",
+        "sha256": "720a9142aadc9d214b7bb1759e02674a74cb8ad0b7f012c9d29d34708739351b"
+      },
+      {
+        "name": "progression-debug-bypass",
+        "fixture": "memory",
+        "method": "memoryProgressionOpen",
+        "sha256": "f011a985b0dfe30ebcacfb3385a76b77810fae73061c65f2557dfd2673a1864d"
+      },
+      {
+        "name": "secondary-progression",
+        "fixture": "memory",
+        "method": "memorySecondaryOpen",
+        "sha256": "4f410f5ff7ea40414079c7703c1eef0c372ed95fb3b5734221aaf2fa347e0e14"
+      },
+      {
+        "name": "secondary-kinds",
+        "fixture": "memory",
+        "method": "memorySecondaryOpen",
+        "sha256": "21ec9e668112b021355ff87e648dc21fccf1fb9bd5d42d86cbb2c063a5133421"
+      },
+      {
+        "name": "secondary-mechanic",
+        "fixture": "memory",
+        "method": "memorySecondaryOpen",
+        "sha256": "47243880b954f7df9f48b6cdb38e2d9aafa58fc8ab1831b52601e82767482d12"
+      },
+      {
+        "name": "commission-discovery",
+        "fixture": "memory",
+        "method": "memoryCommissionReady",
+        "sha256": "82487ad51aa396af5ff843679f62c4ad8c823fcfcd2a086a9bf0aa433f038ce2"
+      },
+      {
+        "name": "commission-progression",
+        "fixture": "memory",
+        "method": "memoryCommissionReady",
+        "sha256": "7427c15da55164c7a02b41ee1a38f35406cb38bba372e905a5d74d649804f35c"
+      },
+      {
+        "name": "commission-count",
+        "fixture": "memory",
+        "method": "memoryCommissionReady",
+        "sha256": "ed2a662a61556c96f5bc125638c040c9affdbe464681267a8c5a1dea544d5622"
+      },
+      {
+        "name": "commission-mechanic",
+        "fixture": "memory",
+        "method": "memoryCommissionReady",
+        "sha256": "c1747f3f1876bfc0d337e6804398211252300f8b5fbb0a2363e628cbdf47fea9"
+      },
+      {
+        "name": "secondary-vault",
+        "fixture": "memory",
+        "method": "memoryUnlockCandidates",
+        "sha256": "7924fcc49a75882660ffe056286f27be6bc5dedc41ddd132a7983cc0a149b3ac"
+      },
+      {
+        "name": "secondary-eligibility",
+        "fixture": "memory",
+        "method": "memoryUnlockCandidates",
+        "sha256": "97a8814f3f8054e32be8563400af03d38db8b50232c919264748c02090dcd4c6"
+      },
+      {
+        "name": "pool-drop-weighting",
+        "fixture": "memory",
+        "method": "memoryUnlockCandidates",
+        "sha256": "f9f7b6568a804226f7866ee8dd82a4e47b38bca8f96ccf16d9467d8827cc51a2"
+      },
+      {
+        "name": "pool-overrides",
+        "fixture": "memory",
+        "method": "memoryUnlockCandidates",
+        "sha256": "c124d35ca1810878696c28b03f58a4441fd8f6fa08249daad0ca4a41549e3939"
+      },
+      {
+        "name": "pool-positive",
+        "fixture": "memory",
+        "method": "memoryUnlockCandidates",
+        "sha256": "d300858778d6794037095154e5140bc4f66827bd22dcf23989521777cfc08265"
+      },
+      {
+        "name": "pool-finite",
+        "fixture": "memory",
+        "method": "memoryUnlockCandidates",
+        "sha256": "bde3d87e2a81a5dc8cbe3db5d8214abf45aa16933933835ccc8fe4dfb16748ec"
+      },
+      {
+        "name": "draw-lower-bound",
+        "fixture": "memory",
+        "method": "grantMemoryUnlock",
+        "sha256": "fd76fbf7e5ee29d432496173756e0c4c2d143a1af132d0c5b33e7fcaf427166a"
+      },
+      {
+        "name": "draw-upper-bound",
+        "fixture": "memory",
+        "method": "grantMemoryUnlock",
+        "sha256": "43958975180afe602f6ef011927b5bb13b96fcf974e813c79ccd79df1d6aeb95"
+      },
+      {
+        "name": "draw-finite",
+        "fixture": "memory",
+        "method": "grantMemoryUnlock",
+        "sha256": "d7be24b93059d15b8979507974566028007d54266913cf4a5697350a2d9d5037"
+      },
+      {
+        "name": "draw-weight-boundary",
+        "fixture": "memory",
+        "method": "grantMemoryUnlock",
+        "sha256": "85b262396f8720bb85627e13e855593933f963e814dc3923edb9b24d986ed2d7"
+      },
+      {
+        "name": "draw-skill-grant",
+        "fixture": "memory",
+        "method": "grantMemoryUnlock",
+        "sha256": "1e78f7dbfed5855526cc6064ca56c5fcfc9d01f88a04151441bf62e20d31f8cc"
+      },
+      {
+        "name": "draw-explicit-skill",
+        "fixture": "memory",
+        "method": "grantMemoryUnlock",
+        "sha256": "05bf7511ff5a1aabfbe24a1fe557077f2966cfaef906fd29e9d894533316592c"
+      },
+      {
+        "name": "draw-secondary-grant",
+        "fixture": "memory",
+        "method": "grantMemoryUnlock",
+        "sha256": "ce2fe7ad33c68fdfd67ca2dd39b8c154f792f15ef4b9716946016e7273c8a192"
+      },
+      {
+        "name": "receipt-sequence",
+        "fixture": "memory",
+        "method": "grantMemoryUnlock",
+        "sha256": "7964e893c765c8b57c740d88fb7a12ec38f6ae1ccc7da67e9015933a7ef63325"
+      },
+      {
+        "name": "receipt-storage",
+        "fixture": "memory",
+        "method": "grantMemoryUnlock",
+        "sha256": "1a9bc9e10d7fa01d5b18f8eb3796ab461537ba81f9baf27fe09e66e7e62bd06e"
+      },
+      {
+        "name": "drop-legendary-switch",
+        "fixture": "memory",
+        "method": "awakenMemoryFromDrop",
+        "sha256": "20dee2476158374916fc1ae1a26bebc3cac7d51b6159a441dd831cddbc95486f"
+      },
+      {
+        "name": "drop-kind",
+        "fixture": "memory",
+        "method": "awakenMemoryFromDrop",
+        "sha256": "56a40539c75165f86812c9be3631ec8fc02fa4914202bd34fef4caab129c2894"
+      },
+      {
+        "name": "drop-rarity",
+        "fixture": "memory",
+        "method": "awakenMemoryFromDrop",
+        "sha256": "915c4c1d008a4ef68319724dfc75ab480c9de07ac74f2b110fc817eb3b52e4d2"
+      },
+      {
+        "name": "drop-no-drop",
+        "fixture": "memory",
+        "method": "awakenMemoryFromDrop",
+        "sha256": "e7d6a31072e0a277e17942a974cddbb4afbdc6ed9ed01ab93ce2ac9314558633"
+      },
+      {
+        "name": "drop-deduplication",
+        "fixture": "memory",
+        "method": "awakenMemoryFromDrop",
+        "sha256": "26d72f190c37994b2c2fc9d3420488120a44634f95ec955c09feb988e9cce827"
+      },
+      {
+        "name": "drop-discovery",
+        "fixture": "memory",
+        "method": "awakenMemoryFromDrop",
+        "sha256": "64f32ea6b2f091e691dec3d60c02afa77df83a2e702b1f29f90aa3d09cbaeea2"
+      },
+      {
+        "name": "access-kind",
+        "fixture": "memory",
+        "method": "memoryAccessView",
+        "sha256": "00210479e3a07dc4c79e03155b3ac29bb03012cf20ec344992ef0e4493faa747"
+      },
+      {
+        "name": "access-progression",
+        "fixture": "memory",
+        "method": "memoryAccessView",
+        "sha256": "24ae2c5a309a8e7feeebe045698b6f498ad11df3180bb094584bd02ae674f49d"
+      },
+      {
+        "name": "access-secondary-kind",
+        "fixture": "memory",
+        "method": "memoryAccessView",
+        "sha256": "c7e43645203a4d81159a5b841edfe5f72d67e6e949c00ffdf6d19105f3bde3f8"
+      }
+    ],
+    "positiveAndRestoredControls": true
+  },
+  "referenceVerification": {
+    "passed": true,
+    "logSha256": "a49a02ec6d871f522b8e02db78a2677106d1101651e8d1d49b6a30bf7b2adf83"
+  },
+  "originalGame": {
+    "passed": true,
+    "files": 4149,
+    "changed": 0,
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d"
+  },
+  "developmentFindings": [
+    "Five policy controls initially survived. Focused split-objective, mixed-bundle, debug-visibility and active-class-count inputs now detect them.",
+    "The first split-objective input used the class lookup under mutation and crashed that observer. It was replaced with direct authored input selection. The crash is excluded from the final detections.",
+    "The debug visibility control initially retained an unmet account-level gate. Its final account meets that separate prerequisite.",
+    "Two memory controls initially survived. Zero-weight synthetic catalogue rows and a debug-enabled account at the awakening milestone now detect them."
+  ],
+  "compatibilityDecision": "docs/unlock-lifecycle-boundary.md",
+  "scope": "Original behavior baseline and explicit repair decisions. Runtime extraction and device measurements have separate acceptance."
+}
