@@ -1,0 +1,498 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "baseCommit": "9490c99c8b17a069d564d78dad79bc3ecd7f987a",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "scope": "Immutable original crafting/salvage baseline captured before extraction. No production runtime, game adapter, engine package or performance claim.",
+  "sources": {
+    "baseline/crafting/acceptance.json": "b09f1510b12dcd9554ce40fb32d2eadbc1d14128197c64a8529f1a4319f72da0",
+    "baseline/crafting/actions.json.gz": "5b52ba82d503f0dc85fc6203f421182231cb5ad333d4d405142789c0f573fd0a",
+    "baseline/crafting/policy.json.gz": "dbeca85824e755bcc3871274a7d16218449340c2017ede93c1380a0f5e97921b",
+    "docs/boundary-contract.md": "8f2a421d9d76652220f3c8c441ba7f3a9318ab9fa59f7bed314ff876cf072b1c",
+    "docs/completion.json": "2454cd9a3365df42bc85079a53c9ccebb805892a2bd2a0fc137d8aad1e0f9160",
+    "docs/crafting-boundary.md": "fddc0a2bb084947dc2939920bbf1d77a3b3ce71aea75cd55529b9eb71265232a",
+    "docs/verification.md": "7e6ea24fa60bdc3c31ff5775d359e147b5c125b5cab8bb5d2dcac4a785591700",
+    "package.json": "236d8d1d326400b76d9b1274694eb36a6e9a3540eeaaa9f71ebb83e70a201d6a",
+    "reference/export-crafting-actions.ts": "522da6e055a5471e57f7f374e2081f462e529e939cb4cb9bb8c8b547b086c0c7",
+    "reference/export-crafting-policy.ts": "5bbb6249b2973b0d3168d48ca4b77643d461e0e6c605dda4ca1954e90233ea75",
+    "scripts/crafting-reference.mjs": "cc4408fdded1e0cd55d9e89f50c2e941cd4ee763e93079f6e20616a822da1dd4",
+    "scripts/crafting-source-faults.mjs": "19520f77ff552a339735296e3a11d47e238d7d98670a0f444d8b4cf188c2cc14",
+    "scripts/test-crafting-observer.mjs": "a90f8f04a049beb769644b1e1cac6c10e17f7b58cb918026fa6bd2d210341e27",
+    "scripts/test-reference-crafting.mjs": "9274561344fa7f2cd8fd9dd85cbe099ff8df534e3d6dd85ab7992b94d6a39d3f"
+  },
+  "counts": {
+    "policy": {
+      "affixes": 3929,
+      "bases": 79,
+      "descending": 2,
+      "exquisite": 3912,
+      "shared": 2,
+      "noNormalTiers": 3,
+      "gear": 108,
+      "gems": 24,
+      "memory": 10,
+      "rolls": 23906,
+      "studies": 16042,
+      "options": 79,
+      "malformed": 3
+    },
+    "actions": {
+      "courses": 70
+    }
+  },
+  "originalCaptures": {
+    "passed": true,
+    "directory": ".artifacts/crafting-observation-2FXpAZ",
+    "fixtures": {
+      "policy": {
+        "helper": "reference/export-crafting-policy.ts",
+        "helperSha256": "5bbb6249b2973b0d3168d48ca4b77643d461e0e6c605dda4ca1954e90233ea75"
+      },
+      "actions": {
+        "helper": "reference/export-crafting-actions.ts",
+        "helperSha256": "522da6e055a5471e57f7f374e2081f462e529e939cb4cb9bb8c8b547b086c0c7"
+      }
+    },
+    "typesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runs": {
+      "policy": {
+        "label": "policy-first",
+        "output": ".artifacts/crafting-observation-2FXpAZ/policy-first.json",
+        "sha256": "2d2fbb836f91502f02c4d11210c3615e435bab4426d79d7154e684a2e2846d95",
+        "logSha256": "b32981dc08080632114c4a4081dc3629aae67b9445732f4b08fb3b88a08bb236",
+        "secondSha256": "2d2fbb836f91502f02c4d11210c3615e435bab4426d79d7154e684a2e2846d95",
+        "secondLogSha256": "b32981dc08080632114c4a4081dc3629aae67b9445732f4b08fb3b88a08bb236",
+        "methods": {
+          "engine/crafting.ts#CRAFT_CFG": "71d637b8a85652137d18fe133ce6d0234c8ed7ea63ee99220f77d84761a88498",
+          "engine/crafting.ts#baseRollT": "f6b27b7a3f3aac16f9da5ddc907926ea3ad70d4eec898396a3a02d871cf0d855",
+          "engine/crafting.ts#liftT": "9b22e8b8045d6bddee7bbf811538f4e33b677f99a196bda4f271f002f5264561",
+          "engine/crafting.ts#normalTiers": "9776282ff7be318cdaf7421910c890c1743105d7938faecb68195c3f52608b6d",
+          "engine/crafting.ts#tierQuality": "fa58b342ff725fff9d396640c12b3dfa6cbbaa53d4e9f07f2d5496c4bdfab10f",
+          "engine/crafting.ts#itemQuality": "80307b9866055addb0b39256855590e2e9c9a0f95bbc64e21ac873bdd740a803",
+          "engine/crafting.ts#gemQuality": "27d261618fc22ad254e33cf9fce56432cbdd8c2cd805017719a53c859d5338be",
+          "engine/crafting.ts#salvageItemYield": "114cceb859f0b1f31bd0ea21811c22d46eee02a9a5a1136cf51d07f59786ae70",
+          "engine/crafting.ts#salvageSkillYield": "834968fb7e6b8a2fb19a1c54d48a98bcc237b67ea8ae968f56bd2e58dbe31650",
+          "engine/crafting.ts#salvageSupportYield": "94aaa0010ca0e5d1c5184aaf6774167b576bf2c19c742bbbe1735fdbdbd1ce60",
+          "engine/crafting.ts#sellItemYield": "d398393a42e7ab061fc610db923634dbcf9732a7cf10a296a6232ba49e00e4b0",
+          "engine/crafting.ts#sellSkillYield": "481d00d6056551a388ec1d066c79d3f4e61c87ba8d9728b705875f7b4fa48a78",
+          "engine/crafting.ts#sellSupportYield": "a8369df7c2a6bff7dce2c2b338501616391670910ac38b61c36ad6806cc01eba",
+          "engine/crafting.ts#sellMemoryYield": "8088ea5b0b74103be0442791b3f98f7d04f725279b443f6a6cc4f9ad0d3dcadb",
+          "engine/crafting.ts#vendorItemPrice": "d478b03e1eda5824778fa533dde5706cf6266b2a53652ed8f9311294e5312f13",
+          "engine/crafting.ts#expertiseRank": "523c672a41afea4ea22bd61327636026c04e1f232455eee2460f79dd3a24bbd5",
+          "engine/crafting.ts#expertiseProgress": "56431e16017e307372337d47e06bd62489037c67db9718e609bdd43ad6103ca2",
+          "engine/crafting.ts#maxRankFor": "9f5f2221e7a247ed7257ed622611f2516ec6de21eaf4488ac6898447552148cf",
+          "engine/crafting.ts#studySalvage": "e50e040457fd1fa3e89f9f2821bd369637898349062bf6204a521986efd9b9a0",
+          "engine/crafting.ts#bestUnlockedTier": "dada70b4193814deb9f97f3a0ec6413876212c32a8ef9ffbd33aef9dd64816e2",
+          "engine/crafting.ts#craftableAffixesFor": "6fae29beeebf4bdee97b29404ee4d12d4628cfa20b3e9c98d720a4dbbcb201a9",
+          "engine/crafting.ts#craftedCount": "4a4d5f0aad1ffd2ed25351e0bed06397558d36bc66e4e1130f9a14430cb15f84",
+          "engine/crafting.ts#rollIntoSpan": "61e53ffeb39413a03b5aa5d491467f74455d85d86489e606b5d69264a629171b",
+          "engine/crafting.ts#rollCraftedAffix": "c6c72148f01b17ea9c553df0f69c959022066d5328c645e14df3d68e440abd37",
+          "engine/crafting.ts#rollRerolledAffix": "3ee9a2acce16e4e9f59841e26022b02a2d60259189fe6843f1429e62487d0f03",
+          "data/essences.ts#SALVAGE_CFG": "f338a5f247a9f04c6f316232172d48c47ba82f94e82a4f07994982bce466c2be",
+          "data/essences.ts#SELL_CFG": "64c4f4ec97645c6110cd145387ef1b23b28e579ae3c7d0ee30ffc13e2dcc9011",
+          "data/essences.ts#VENDOR_ITEM_CFG": "85910f8ea136622f7301987f738beb808aca00ef857a6841b047948670795944",
+          "data/essences.ts#ESSENCE_OF_RARITY": "de1aa88394530197549978aaae7a85fdd0127b971b68238d4c5c61393d350943",
+          "data/essences.ts#ESSENCE_OF_GEM": "422537304c29191f700c15e4fd1521cf31886faffdfba737e122584566447458",
+          "data/essences.ts#oracleRerollCost": "c821ad119a9c43609108f1ba511bfaacd2d676e79b648828964fa2ca4cae5ca4",
+          "engine/itemgen.ts#affixPoolsFor": "d4407a1b807093f148217c87fd3bb7d5e117dfaa8549ccc4b87376a25b6fcc87"
+        }
+      },
+      "actions": {
+        "label": "actions-first",
+        "output": ".artifacts/crafting-observation-2FXpAZ/actions-first.json",
+        "sha256": "69a42e244a9835f7900d8c68d54a6dec5f6adbe5b207aff48de7a1af20c5121d",
+        "logSha256": "acaf6ffb64c2f9f88d6e99ab1a5eedda7d989c037e0d711a4088521195b6fb3d",
+        "secondSha256": "69a42e244a9835f7900d8c68d54a6dec5f6adbe5b207aff48de7a1af20c5121d",
+        "secondLogSha256": "acaf6ffb64c2f9f88d6e99ab1a5eedda7d989c037e0d711a4088521195b6fb3d",
+        "methods": {
+          "engine/world.ts#craftSocket": "a19f02bf0e9f22318688e3872591827dc5cd0ec5bc29e518d102f7b7396b4d5b",
+          "engine/world.ts#salvageLane": "27292432745b2a593be55c4cd2a4bd47312840180eef97be2fae16f34964038b",
+          "engine/world.ts#lockedRefusal": "e81c93b69a2493947d2598e45599516d582cab1ab0c604f26b5f224e46cf9e02",
+          "engine/world.ts#breakOneItem": "b177cee97faba7c296bfb9ab829305be60b4719b8f5739c4ebe1afcfeeead342",
+          "engine/world.ts#breakOneGemItem": "9d3c7f082824255126f60e746ac855f0e7d34dea6a91e7f56473db3fe9b92308",
+          "engine/world.ts#salvageItem": "a770e7fe773e7e5a73098c444e14ed10266d3c69f48705831e35cf20a72cfadc",
+          "engine/world.ts#salvageBulk": "04cd383d05d732733906ba490aad67f661b43a9c2ac9e26ebfae56139fd7e0bb",
+          "engine/world.ts#salvageLockSet": "cfad14dfca21738352f3604b9c996afb66ccf8c142d33eb78c09f1dbb988cc00",
+          "engine/world.ts#craftSlots": "f811afc66d275256632046d306b8ea3c6a7bf749b7e04b0a6c9bf0d1732027ac",
+          "engine/world.ts#craftAffix": "42739d776184d50e52f56f848cc9fb69287707b4b300a8073445ba5cf84a251c",
+          "engine/world.ts#rerollAffix": "368244a29bad0517bd9a72758aa0e4980a751ca6d28079ffaf580561fec836a7",
+          "engine/world.ts#spendEssence": "b0c2f3471dec022441d93775f0dcb412c591f76851af9f1738f18b78244092ce",
+          "engine/world.ts#grantEssence": "f85279bbfe551c55d2807858d14a6f89e9b8c05baa93a7f7258dbd2766d56bbf"
+        }
+      }
+    }
+  },
+  "sourceFaults": {
+    "passed": true,
+    "directory": ".artifacts/crafting-source-faults-37yCsl",
+    "controlSha256": "1e94f238e161ffc98993b2b8dd5d9752975638bf2cf7ce208365850b5b5c5889",
+    "runs": [
+      {
+        "name": "quality-unique",
+        "fixture": "policy",
+        "method": "itemQuality",
+        "sourceSha256": "0c660e2820233adbc055eaa1e4d376e2f7d2d5a31a4f2d610aed4a11150dec3a",
+        "exitCode": 0,
+        "detection": "changed-observation",
+        "observationSha256": "33f0cb6d01e31b6e073b28f0a14e43b5da46868d14d00f4169f525f2a90bc52f",
+        "logSha256": "b32981dc08080632114c4a4081dc3629aae67b9445732f4b08fb3b88a08bb236"
+      },
+      {
+        "name": "crafted-socket-budget",
+        "fixture": "policy",
+        "method": "craftedCount",
+        "sourceSha256": "7d0eecaa6c3fb65dba1f34e77f11b00f06a40e86cdd2f50d32948b690b098039",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "a0746f9fb971e7f08f784c8354d2d0c244a05de62334e05280854cc6882ab15d"
+      },
+      {
+        "name": "inverse-random-draw",
+        "fixture": "policy",
+        "method": "baseRollT",
+        "sourceSha256": "0c7b198f64c63f5634999ac53f96224178504f89ab62fe9b54aac5510083c465",
+        "exitCode": 0,
+        "detection": "changed-observation",
+        "observationSha256": "c177a17cdb78336a15b1dabb82d5cf3177d0312ebae7087b54521663b4577e55",
+        "logSha256": "b32981dc08080632114c4a4081dc3629aae67b9445732f4b08fb3b88a08bb236"
+      },
+      {
+        "name": "minigame-lift",
+        "fixture": "policy",
+        "method": "liftT",
+        "sourceSha256": "8bc24bdbca7b72912b087d433784a0c84e8b34b62ba33065d1e21b343167ab76",
+        "exitCode": 0,
+        "detection": "changed-observation",
+        "observationSha256": "fb92f3797f363f92c63653569b4b21212ed10aabb426d8d52b73a528d336e695",
+        "logSha256": "b32981dc08080632114c4a4081dc3629aae67b9445732f4b08fb3b88a08bb236"
+      },
+      {
+        "name": "descending-ladder",
+        "fixture": "policy",
+        "method": "rollIntoSpan",
+        "sourceSha256": "80589031f23a758472980dbad0da8e6068d6ab3107430d9f56fc1e794263e889",
+        "exitCode": 0,
+        "detection": "changed-observation",
+        "observationSha256": "61c62d50f1b6af5e02ae4efbf71cd9310cac8e887ac55f3fc67d17a776b59aba",
+        "logSha256": "b32981dc08080632114c4a4081dc3629aae67b9445732f4b08fb3b88a08bb236"
+      },
+      {
+        "name": "shared-roll",
+        "fixture": "policy",
+        "method": "rollIntoSpan",
+        "sourceSha256": "5d5126ae010c9563bd4e8b66ac7a6651cbc44623054359d09560e4ffa9c7c912",
+        "exitCode": 0,
+        "detection": "changed-observation",
+        "observationSha256": "eb5122ce7346016e42d57f7ed98b03f078f66b85150876cc75ea97859ef9bb83",
+        "logSha256": "b32981dc08080632114c4a4081dc3629aae67b9445732f4b08fb3b88a08bb236"
+      },
+      {
+        "name": "crafted-study",
+        "fixture": "policy",
+        "method": "studySalvage",
+        "sourceSha256": "0cfd6f2b80f06e2e08e6139b752455abb1aecfd9ad0ab78784c3075a1413f84b",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "31285cd1896888086ae2098b97cbb2fe4f1a11058eff0db9b9461d58976d923d"
+      },
+      {
+        "name": "expertise-ceiling",
+        "fixture": "policy",
+        "method": "studySalvage",
+        "sourceSha256": "56805c2e09d38dfa2499543834c0da5080bbe4116c355f97362d9c74e041c47e",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "e9b8ef61567d9a2d2386f51fd17654bdf2072b9fca86a3c397dfe825e825729f"
+      },
+      {
+        "name": "weak-study",
+        "fixture": "actions",
+        "method": "studySalvage",
+        "sourceSha256": "b1e029446c79c4af375b6a70f27613a0e377b10dfd0ea949df22c36e9b0b3614",
+        "exitCode": 0,
+        "detection": "changed-observation",
+        "observationSha256": "76382285e705a53c2bc7a7ea6813e433be7ffcaa612fca143cd58ab575e1b448",
+        "logSha256": "acaf6ffb64c2f9f88d6e99ab1a5eedda7d989c037e0d711a4088521195b6fb3d"
+      },
+      {
+        "name": "family-duplicate",
+        "fixture": "policy",
+        "method": "craftableAffixesFor",
+        "sourceSha256": "e35957d93dc6e3a4d45b924bc60959f5aebe92b93d2012f4f60d14b0959130ae",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "87ea055151aba2ad0b75b955d28b826f3231ac63b476017867b34792f2d33f56"
+      },
+      {
+        "name": "reroll-level",
+        "fixture": "policy",
+        "method": "rollRerolledAffix",
+        "sourceSha256": "2d8e853e6d0deb5a3df39c0dfd81f93c8f5101f6be35f3727cc820a37af137b9",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "a29d89eeb5883dbf4f3b9919dfedb714f0a32b956faddd375fdf01cb4ccd9674"
+      },
+      {
+        "name": "reroll-exquisite",
+        "fixture": "policy",
+        "method": "rollRerolledAffix",
+        "sourceSha256": "e6b70c22978af75d46c3f3e088d09eb4ebbfb86294882aac8d55f62acd8c6a02",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "e3b11bf6a83dc1124de10a44952d69eb0ca2e9fa10eb5af38521d5f63d708579"
+      },
+      {
+        "name": "granted-gem-value",
+        "fixture": "policy",
+        "method": "salvageSkillYield",
+        "sourceSha256": "fd08b817eeaf9023e00d6c9c8c706bd7d39421ebd809a77faec7988be0835622",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "3713a0a4b34565d181c76c22e8c577ef56fe189b020d600658056ec98d06b722"
+      },
+      {
+        "name": "station-authority",
+        "fixture": "actions",
+        "method": "craftAffix",
+        "sourceSha256": "ed9742052bb36001a6ea5ac0f4a021c10fa68c9899094ca5d595e51bc4da82a9",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "390f6c78b505351c217a31ca356d708014863369b91ec29466e36df56a0762ae"
+      },
+      {
+        "name": "craft-payment",
+        "fixture": "actions",
+        "method": "craftAffix",
+        "sourceSha256": "2498e9f57e2f28561bc571ad843548bbe76df9ca5d599a8a5bee6c4accf46563",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "1fb8766ada9c274926fb54ce4da7a1e065f88297d6dd347448284bdcdd4ce2b5"
+      },
+      {
+        "name": "worn-recalculation",
+        "fixture": "actions",
+        "method": "craftAffix",
+        "sourceSha256": "13475cc35ba96cdafb5bf482a08343f9d2f84fb594b6ff689a8e6ed796b7edb7",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "72d11b327f8116fc0d9eb363f6294ccf1b194faf8c73fdd44d7cb1ff21df04fb"
+      },
+      {
+        "name": "oracle-payment",
+        "fixture": "actions",
+        "method": "rerollAffix",
+        "sourceSha256": "86c49985f32f690285a08d26578095bc413963f83059d19915c8b6d799d76528",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "0419181ee4d5694a9ccc12fb3b13a80a21d872b1142988ac7073c60844f9f8b1"
+      },
+      {
+        "name": "oracle-prepayment-order",
+        "fixture": "actions",
+        "method": "rerollAffix",
+        "sourceSha256": "7a2710648a1f5ed28687673f93340ccacecfdd900d8451bae9cd03acddf40478",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "d01bee009c2bbc6cfe9de5e8e5656de3dac4d2f01655a4fe6cf437f0486b0bef"
+      },
+      {
+        "name": "socket-budget",
+        "fixture": "actions",
+        "method": "craftSocket",
+        "sourceSha256": "1ed0885f13faa1d80797254e863073ba4dd24b6de8034abfd02ed6eeb2b55786",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "408e104f36969234e0275ecadf5bafa0042d34fceb2fe96e444ab0b729166b67"
+      },
+      {
+        "name": "salvage-lock",
+        "fixture": "actions",
+        "method": "salvageItem",
+        "sourceSha256": "27c6af7b85bb0ca9fc0fc57bb139a146c993e67d997b7fa8fc28fa5eed4a56b3",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "66ee17967f05f326f82c35b8ce717b4ef276e78b7606ab4e6fed51677ed53395"
+      },
+      {
+        "name": "salvage-relic",
+        "fixture": "actions",
+        "method": "salvageItem",
+        "sourceSha256": "46dbafc4fcc253e644139c906d09a30c95fca1322eb119064866df780a970a5d",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "4b85981fce05407abf37d85ce141dc91fe44ffac7aaa9b4e35a98b91d9f40729"
+      },
+      {
+        "name": "memory-lane",
+        "fixture": "actions",
+        "method": "salvageItem",
+        "sourceSha256": "ad6feb921f61c8ca9c7c5419849b9d8974d319be554b0dcef7603743dcdf91d1",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "a8b4b147c0a56e3d3ee67f2deafd78b1ae0477cfa1f36c981ee6273372c30873"
+      },
+      {
+        "name": "salvage-removal",
+        "fixture": "actions",
+        "method": "breakOneItem",
+        "sourceSha256": "8918b2f68460c4abe760d8222a0886617b02c09f347ca947984950cc343f94ab",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "f21ce54ed9b251ce4d9f18daad4530498f9841bcc3078c6645f93d64cdc3483a"
+      },
+      {
+        "name": "account-progression",
+        "fixture": "actions",
+        "method": "breakOneItem",
+        "sourceSha256": "b8c04cd8c31bd7d43ca721a5a7e437190c000c1d0b6857b0f863fe8f3e8f8a22",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "5268a40299c96a95c0fde941a5b0ac2ffbba94c097e1bab29a117dfee29f0034"
+      },
+      {
+        "name": "craft-discovery",
+        "fixture": "actions",
+        "method": "breakOneItem",
+        "sourceSha256": "01650bb9cbef3244980bc398ad383360072706824d043ad878b77f9207d0dc59",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "77afa4baa3c7072149d4d8a0f9735e67707e165198b8c400f79f7a17e1679904"
+      },
+      {
+        "name": "socket-recovery",
+        "fixture": "actions",
+        "method": "breakOneGemItem",
+        "sourceSha256": "f816fc523c4dbe3dfe9a62db181da71db3adf45b834b958ca39fb51a30145197",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "8357b8b0d54b69764963520ca720713b73a00a8c4b7a85295095ed65859b2322"
+      },
+      {
+        "name": "bulk-protected-gear",
+        "fixture": "actions",
+        "method": "salvageBulk",
+        "sourceSha256": "c758bce48492f9c788848ebea747b5602ca451b06d8e57c192bb2e6614ef6749",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "2f160a7ea6e9ef092fd7e20e43c1ebc96b6a4cd9c8dfe89b12eeee09cbeb9611"
+      },
+      {
+        "name": "bulk-granted-gem",
+        "fixture": "actions",
+        "method": "salvageBulk",
+        "sourceSha256": "7bb1ab4a230ab0349c72967fe0fb06d44b0bce2332ee719b5fe6a6bc02417c4b",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "88bc2d644ac4d50f3c1e04632c5022c35b9bc32097138d5a6b586d905eb9c969"
+      },
+      {
+        "name": "bulk-account-save",
+        "fixture": "actions",
+        "method": "salvageBulk",
+        "sourceSha256": "a8fcc08344d12a5ffe105a5924c17291516d3e6e89a2e2a40fef05e546891df4",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "23df516c1c1371f8347f6c0e4a79d7151d5ea8b4965da91f0e20ab889f41ffe6"
+      },
+      {
+        "name": "unlock-property",
+        "fixture": "actions",
+        "method": "salvageLockSet",
+        "sourceSha256": "534baf20e7721024cfcc4c3e3669725396d421b46b1d984cca45839c2a20b157",
+        "exitCode": 1,
+        "detection": "independent-assertion",
+        "observationSha256": null,
+        "logSha256": "cc685f39048a7529d5ce014135a785b9a43284725202040f5f14b0eee7c3519f"
+      }
+    ],
+    "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "scripts": {
+      "scripts/test-crafting-observer.mjs": "a90f8f04a049beb769644b1e1cac6c10e17f7b58cb918026fa6bd2d210341e27",
+      "scripts/crafting-source-faults.mjs": "19520f77ff552a339735296e3a11d47e238d7d98670a0f444d8b4cf188c2cc14",
+      "scripts/crafting-reference.mjs": "cc4408fdded1e0cd55d9e89f50c2e941cd4ee763e93079f6e20616a822da1dd4"
+    }
+  },
+  "failuresRetained": [
+    {
+      "file": ".artifacts/crafting-observation-Zz6HuU/policy-first.txt",
+      "sha256": "ba3416d6902dcbad36b3d2b29738c04cb59bd22311c4a976ffb8893be71b76f9",
+      "reason": "The initial observer assumed every authored affix has craftable non-exquisite tiers; three have none and the original correctly returns null. Recorded these outcomes and zero draws explicitly."
+    },
+    {
+      "file": ".artifacts/crafting-observation-OUftBT/actions-first.txt",
+      "sha256": "f32f32c95fcc06794ffbda278e7e772b8c346400cfbd27c4203d9e49abac6468",
+      "reason": "The initial action observer counted presentation randomness as rule randomness. Record all draws with callback context and assert rule draw counts separately."
+    },
+    {
+      "file": ".artifacts/crafting-observation-UGA81N/actions-first.txt",
+      "sha256": "159eeccaa9b4fa128da1c8bbf03e00c0352e4f020649e07c048a55e5ad14d77e",
+      "reason": "The positive socket course used a ring, whose authored capacity is zero. Moved the positive course to a helmet and retained capacity refusal coverage."
+    },
+    {
+      "file": ".artifacts/crafting-observation-Dc5nJg/actions-first.txt",
+      "sha256": "b52dccfad8462343ac484f26efa9eb2166393b7775853491d0c29ccadbbc2964",
+      "reason": "The overflow assertion expected a gear-wrapper drop; the original returns a support drop. Observe native support identity, level, rolled fields, lock and placement."
+    },
+    {
+      "file": ".artifacts/crafting-source-faults-bVdC1H/verification.json",
+      "sha256": "feadf76d957a6fd4093fe571e6f85c7843617b28b89913b3b14488893b35c4bd",
+      "reason": "Removing granted-gem protection escaped the rarity-filtered sweep. Added an unfiltered sweep with multiple eligible gems, a granted gem and a locked gem. All 30 faults were rerun against fresh controls."
+    }
+  ],
+  "checks": {
+    "fullReference": {
+      "command": "npm run reference:verify",
+      "exitCode": 0,
+      "log": ".artifacts/crafting-baseline-reference-verify.txt",
+      "sha256": "ed5f16e7d4004270bef5648eb40c208f7eea161be643571fb4c5664feb98bcbe"
+    },
+    "productionSourceUnchanged": true,
+    "packageExportsUnchanged": true,
+    "versionUnchanged": true
+  },
+  "preservation": {
+    "receipt": ".artifacts/proc-dispatch-preservation-KX369q/verification.json",
+    "sha256": "482562bd61f34f549c167afef8985cd8d49cbbf4fd7fab4dfafbe37547ef1b33",
+    "files": 4149,
+    "changes": [],
+    "index": "",
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "sourceCapsuleVerified": true
+  },
+  "publication": {
+    "localOnly": true,
+    "intendedRepositoryVisibility": "public",
+    "pendingBaseline": "56e15167e498519d639c7f7e2ab47040c7bb586b",
+    "reason": "Earlier automatic approval review rejected public publication of the original authored unlock/reward definitions and traces; the specific source-content approval is still pending."
+  },
+  "remaining": [
+    "Validated crafting content and runtime extraction",
+    "Isolated installed game delegation",
+    "Native/editor crafting exposure",
+    "Realistic measured workloads and physical-device acceptance",
+    "Vendor buying, quest forge writs and vestige inlay"
+  ]
+}

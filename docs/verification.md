@@ -995,3 +995,12 @@ hosts. `godot:progression-package` and `godot:progression-replay` reproduce that
 path; both target jobs are wired into the existing Godot workflow. Local Windows
 acceptance does not stand in for hosted Linux/Windows or physical-device runs.
 See the [session contract](progression-session.md) and retained evidence.
+
+## Crafting and salvage baseline
+
+`reference:crafting` reproduces the immutable original policy and real-World action
+observations, verifies helper/declaration hashes and type-checks the observers.
+`test:crafting-observer` checks deliberate source faults in a disposable copy,
+after fresh unchanged controls match both fixtures. The production SDK remains
+unchanged. See [the extraction boundary](crafting-boundary.md) for ownership,
+coverage and the remaining implementation gates.

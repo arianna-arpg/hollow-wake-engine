@@ -288,3 +288,9 @@ JSON profiles over these services. Mutations commit account state and RNG togeth
 after validation; content stays shared. The Godot adapter packages this control
 interface and the native host for desktop editor/export use. Host authority,
 durable I/O, content migrations and live item transfers remain outside the session.
+
+The [crafting and salvage boundary](crafting-boundary.md) records original pricing,
+expertise, affix/socket/reroll rules and complete single/bulk inventory actions
+before extraction. Wallets, item identity, RNG order, account study and callback
+failures are observed independently of their UI descriptions. This baseline does
+not yet add a production crafting capability.

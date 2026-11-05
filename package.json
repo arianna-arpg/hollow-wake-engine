@@ -413,7 +413,7 @@
     "reference:prepare": "node scripts/prepare-reference.mjs",
     "reference:install": "node scripts/install-reference-tools.mjs",
     "diagnose:restoration": "node scripts/run-restoration-diagnosis-ci.mjs",
-    "reference:verify": "node scripts/run-reference.mjs && node scripts/test-reference-unlock-lifecycle.mjs && npm run reference:unlock-content",
+    "reference:verify": "node scripts/run-reference.mjs && node scripts/test-reference-unlock-lifecycle.mjs && npm run reference:unlock-content && npm run reference:crafting",
     "reference:lifecycle": "node scripts/run-lifecycle-reference.mjs",
     "adapter:prepare": "npm run build && node scripts/prepare-game-adapter.mjs",
     "adapter:verify": "node scripts/test-game-adapter.mjs",
@@ -739,7 +739,9 @@
     "native:unlocks": "node scripts/test-native-unlocks.mjs",
     "benchmark:unlock-content": "node scripts/benchmark-unlock-content-load.mjs",
     "godot:progression-package": "node scripts/build-godot-progression.mjs",
-    "godot:progression-replay": "node scripts/test-godot-progression.mjs"
+    "godot:progression-replay": "node scripts/test-godot-progression.mjs",
+    "reference:crafting": "node scripts/test-reference-crafting.mjs",
+    "test:crafting-observer": "node scripts/test-crafting-observer.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12",
