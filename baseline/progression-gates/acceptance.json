@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "fixtures": {
+    "gates": {
+      "file": "baseline/progression-gates/gates.json.gz",
+      "sha256": "a9814d84caa2c72c93a18d98444a0e30fe36ce0129a11fb95aaaf649cd09161e",
+      "compressedSha256": "4fa56d3b0295560713a85c8f92e8e7b909b47f46df01818b389b9a0327ced9f4",
+      "helper": "reference/export-progression-gates.ts",
+      "helperSha256": "b4c636e0cd4a87dfab67692fc0b5365ba428eeb354f8ac515197b76f7752ac12",
+      "methods": {
+        "meta/gates.ts#ledgerPrefixHeld": "a3c1ef72d94fea7db55295b9ed3a2d1c9bd60a9a213771c0c29c9c58a1cde34a",
+        "meta/gates.ts#gateRowMet": "b8a0c41ae98a8bff75e93a9df5f6ecf2d711c96a8bae02a7b7f5f72b4d21d1f7",
+        "meta/gates.ts#gateRowLabel": "cbfb81062af5ab454ac9c61382b9255c58ef99676c41abb59a161ae3b2f8f44a",
+        "meta/gates.ts#gateMet": "a276f2222e924981ab824c621d909aa9c18ac7ecc4f5be9a6e4bb11eea20a651",
+        "meta/gates.ts#gateLevelNeeds": "621eac059d6891ff50c7d0349be71e1607b9710967de344c5b0413224845a3f5",
+        "meta/gates.ts#gateClassLevelNeeds": "7ad5022765ed31bbe03c9f9663bf37c745c4c617eb114d82a9b63a8410f74c81",
+        "meta/gates.ts#highestStampedLevel": "d262c7606e1351b7a5790f5ef1f6105bb4824cd0c45ca09b976e52cf3f8fccc7",
+        "meta/gates.ts#gateRowProgress": "d521b5d0fd1d12637d8c1577ad88125b81617b164acbadfb5f9106ff9c1455e5"
+      },
+      "observedAt": "2026-11-05T00:11:23.337Z",
+      "capturedBeforeImplementation": true,
+      "counts": {
+        "accounts": 30,
+        "rows": 37,
+        "authoredEntries": 88,
+        "compositions": 360
+      },
+      "scope": "Original gate membership, labels, progress, ordered any/all composition and milestone derivation. Includes alias ownership, sparse derivation rows, live ownership callbacks, legacy quest counters and explicit nonfinite-number encoding.",
+      "faults": [
+        {
+          "name": "prefix-match",
+          "method": "ledgerPrefixHeld",
+          "sha256": "a08a8e587db1f83a7c420659320c6e9cf607ec2e4b46993da4d1265149b64b5c"
+        },
+        {
+          "name": "prefix-threshold",
+          "method": "ledgerPrefixHeld",
+          "sha256": "013c629b1f863ed51d7a163d06b6536ddf9aab8a5a866ad99ad4542686d292e5"
+        },
+        {
+          "name": "zero-threshold",
+          "method": "gateRowMet",
+          "sha256": "deeeb241d968da807c501b2775f3f1454002d44f081a1ffb30d3aa4825d4998d"
+        },
+        {
+          "name": "ledger-threshold",
+          "method": "gateRowMet",
+          "sha256": "e3404e8393be3d8ada9f295ee39adecec33a1f55c9b6b9fe75eee60217394963"
+        },
+        {
+          "name": "ownership-callback",
+          "method": "gateRowMet",
+          "sha256": "cf290bce70174d7a37b32985ed000def0375d6070bf0fcf713a4a06835186233"
+        },
+        {
+          "name": "feature-membership",
+          "method": "gateRowMet",
+          "sha256": "269703887a0498e38add6ba56eafd720b4e2d41ce5b8375b7deabb81ba3749bb"
+        },
+        {
+          "name": "level-presence",
+          "method": "gateRowMet",
+          "sha256": "14c3b072a171c0c4a39fc392f30aee9f88d26db42e205f575dda7680d6669048"
+        },
+        {
+          "name": "class-level-namespace",
+          "method": "gateRowMet",
+          "sha256": "3a4adc5ac5ecac9e2c9e3d027fdaf9fdb2f2959a335feb57f96708e33cfa2538"
+        },
+        {
+          "name": "vocation-namespace",
+          "method": "gateRowMet",
+          "sha256": "ab8f08f5e460e85b76bec2ca9b820e848ed3b629e773cab9e7b283d54bb62d91"
+        },
+        {
+          "name": "legacy-quest-counter",
+          "method": "gateRowMet",
+          "sha256": "f169935f0e32563b38a13a2166e88b3c6d1b48ac50ab5c8afa2e8f5859203056"
+        },
+        {
+          "name": "quest-identity",
+          "method": "gateRowMet",
+          "sha256": "9a893b6a079959009fae6a0b521ad3ab343fb4fb6e8ec46a57cd27fb88d91381"
+        },
+        {
+          "name": "empty-row",
+          "method": "gateRowMet",
+          "sha256": "334aab6cf0237be4f601ed966f10e9d4adedf94ada5f2dd652337da94cdefd66"
+        },
+        {
+          "name": "precedence",
+          "method": "gateRowMet",
+          "sha256": "f024a0473a5f221354de3bb163676db6860906f80f107fec8e27cebe3f5a22f3"
+        },
+        {
+          "name": "label-override",
+          "method": "gateRowLabel",
+          "sha256": "a23cd9559c50e5f32352d4aa105c2fea85a98cf617d96fc883d7a96d41a57425"
+        },
+        {
+          "name": "retired-class-label",
+          "method": "gateRowLabel",
+          "sha256": "3a80e2aaa3e18270206825c57af1d0fd28412026aae3d9ea59d69890d1760c77"
+        },
+        {
+          "name": "single-count-label",
+          "method": "gateRowLabel",
+          "sha256": "e867eac7eb18601b765ad3e77e892931ce73d1b5c8de17b4752024f4dcc17756"
+        },
+        {
+          "name": "empty-gate",
+          "method": "gateMet",
+          "sha256": "8aaff49aa4a39c2bc6798a01647ea3d1b8c458de4681b2dfb182d58e561788e6"
+        },
+        {
+          "name": "any-composition",
+          "method": "gateMet",
+          "sha256": "67f099026b18e4d171c8633d5ffe8cd25007ade1b76236afabfce609628cdcf3"
+        },
+        {
+          "name": "all-composition",
+          "method": "gateMet",
+          "sha256": "f8a4960237487788c065c7d573d9107d9543151f60f1700974d2ae43198423fe"
+        },
+        {
+          "name": "zero-level-derivation",
+          "method": "gateLevelNeeds",
+          "sha256": "b021cdb76bf63bb1b1b12e8922c96e546e53a0f98a72f520465d23ef2302e7d6"
+        },
+        {
+          "name": "class-level-alias",
+          "method": "gateClassLevelNeeds",
+          "sha256": "9e812885d18ee1d9d96efc2efe5b702cb376d2425cfd50bd54e2a462122b5390"
+        },
+        {
+          "name": "stamp-presence",
+          "method": "highestStampedLevel",
+          "sha256": "782391aceccf61f498edc475d27bd0c215f756eed458e41c3364842b260cf018"
+        },
+        {
+          "name": "stamp-upper-bound",
+          "method": "highestStampedLevel",
+          "sha256": "296508fb9d5f637fc3f93fca48f28253bfc38bb5abb15960a2edb109dd60e565"
+        },
+        {
+          "name": "fractional-stamp",
+          "method": "highestStampedLevel",
+          "sha256": "e72b8a3a13b995e7c048e557ad32096704fd731d1c07fe299e50f7f1ddc210bd"
+        },
+        {
+          "name": "stamp-parser",
+          "method": "highestStampedLevel",
+          "sha256": "85d5efe8bcfbb3d0e5885cd1b20da49d9c0b94e2e2f6a18ae61126d09764008e"
+        },
+        {
+          "name": "held-progress",
+          "method": "gateRowProgress",
+          "sha256": "cc3b2f399056a5138f3bc13c15579993b915158a56091a6c6176641cf407ab02"
+        },
+        {
+          "name": "progress-denominator",
+          "method": "gateRowProgress",
+          "sha256": "4fbf55578d7efa08fc991f3472f9377b92b84e6b1a6cd86320b80d82d3015541"
+        },
+        {
+          "name": "prefix-progress",
+          "method": "gateRowProgress",
+          "sha256": "b821e70c6f419164b1daff2a85def7f79300bfa8d2072589af154f2d1666f819"
+        },
+        {
+          "name": "negative-progress",
+          "method": "gateRowProgress",
+          "sha256": "6de1bd6c600cdc89b15fd40ff5f99344401efc77444b64b6a5f88fc7c5c4a449"
+        },
+        {
+          "name": "binary-progress",
+          "method": "gateRowProgress",
+          "sha256": "63c3f44c5f83a0e5d0cea5c4b586c6a11b26fae465f977822ba61d0d69f4c277"
+        },
+        {
+          "name": "class-progress-namespace",
+          "method": "gateRowProgress",
+          "sha256": "b2e29675f08368383c07144fa23b168682f4c581c7c12cc1e5ebeb49dacc7895"
+        }
+      ]
+    }
+  }
+}
