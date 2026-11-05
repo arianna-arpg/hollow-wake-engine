@@ -1016,7 +1016,7 @@ consumers with shared validated definitions, explicit random values and checksum
 controls. It records load costs, retained heap after GC and price/roll/menu batches.
 It is desktop evidence; it does not establish a speedup or a device budget.
 
-## Gem residence and item restoration baseline
+## Gem residence and item restoration candidate
 
 `reference:gem-residence` compares the original pack/unpack, grant restoration,
 bag queries and item migration with the immutable pre-extraction observations.
@@ -1025,4 +1025,9 @@ source, with clean before/after controls and copied-versus-borrowed identity
 assertions. The source helper also refuses ambient random draws after boot.
 See [the persistence boundary](gem-residence-boundary.md) for the distinct loose
 and granted-skill rules, native UID ordering and the remaining owned-session
-work. No new production runtime or device acceptance is claimed by this baseline.
+work. The 0.47 runtime adds an isolated consumer with 12 contract tests, the same
+contracts through a browser bundle under hostile globals, public TypeScript
+checks, 30 runtime faults and guarded two-file installation to `verify`.
+`adapter:gem-residence` compares the actual installed game with the frozen trace;
+`adapter:gem-residence-faults` checks eight broken installed behaviors and restores
+the clean package afterward. Native/session and device acceptance remain open.

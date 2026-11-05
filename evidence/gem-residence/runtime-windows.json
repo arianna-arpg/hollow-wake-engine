@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "parentCommit": "cab9e1d4ec45a8f81146c38151ce338923482a22",
+  "version": "0.47.0-candidate.0",
+  "observedAt": "2026-11-05T22:45:40.207Z",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "inputSha256": {
+    ".github/workflows/gem-residence.yml": "39e41ea83ea8874b9692be22bba48e7982c9efb6a7604e714bd13bdddfb8ac58",
+    "README.md": "cff601af364ff5483c7c0ddf576273ad19c00382d510071c4e19d2aadd42a480",
+    "adapters/hollow-wake/integrate-gem-residence.mjs": "d01325618ca5eb4d9588d1b877c10fbba9d1dcef05e49d836c21ba7f0a974e0e",
+    "docs/boundary-contract.md": "d5e4cb11d74a3324839ce69667ec3eb023547190c16afb94bda75ac72939ed7d",
+    "docs/completion.json": "96e346a2d84e8b015b40555393b6aca14c87d1fcc37ce364b9e414c732832a68",
+    "docs/gem-residence-boundary.md": "26a232031c0b66c149357bb2159a3e82dd65fe82f5f06ca3a86e9aecf1913fea",
+    "docs/verification.md": "3f8fafe4b1d87ab622df590e08c2cdd721d05e9d19cc6398842e4dde3a4afaae",
+    "package-lock.json": "ca6b66b5c59a3f7edb718d39c5b729636ea58df308861133d8eaa47e04ae17f8",
+    "package.json": "8faa050772fba16135820c336ae7a59303a530e0d6e9cd087081e04123e0a64e",
+    "scripts/check-boundaries.mjs": "074239e27b9ac4858bb263a12983fcb5729c845ef4455947fdc7d66ad815d1bc",
+    "scripts/prepare-game-adapter.mjs": "48504b942537b5454cc5dd76e52c6f74a906008e11c13411398bc660d3f332ea",
+    "scripts/prepare-gem-residence-adapter.mjs": "1330b7ff6de8ee24bfb8055bbf033effe6b5df9283fddc2327d01ac32d864d92",
+    "scripts/gem-residence-runtime-faults.mjs": "94649eb75b3a385a71ca3b26e0a37e6777b75558396aee6b27868e1130440305",
+    "scripts/test-game-gem-residence.mjs": "85db94180a413a4b8c903df082c52505e50a53aacbc3deb8474cc7093b1ba0b8",
+    "scripts/test-gem-residence-installed-faults.mjs": "3a7c74f2501e31a31c0b35c87aea625485afb76b6dd56fbf9c60ebf4b5ab5b80",
+    "scripts/test-gem-residence-mutations.mjs": "076e22129e6a339d874c1d6ce06b77787a1bc49b6a1502c88e286ddca63aba1d",
+    "scripts/test-gem-residence-overlay.mjs": "c17830f4b48718bd45e4322cdccf141f57d865e5788c65e8d64d1072045b66db",
+    "scripts/test-gem-residence-package.mjs": "769838e0862deb78f2fee51a68354850453f956d4599b13c778884ab92292024",
+    "scripts/test-package.mjs": "5cb827dbfc0c300a35dfea07629a3341647c87f95f480eeee75e6da7296d6fa0",
+    "src/gem-residence.ts": "33448c19e941a6a9672c60d97069e7fa2b4dcad751d58665e591b02c809f13ec",
+    "src/item-restoration.ts": "9d23130bb03270fc0ba98f095f00c71ebde4f977d241716e695accc7455456ed",
+    "test/gem-residence.test.mjs": "0ed7eae37f0e48686e82da825df2f65e0820b3217fe3dbc7bfb3c2c047e16bd7"
+  },
+  "sourceAcceptanceSha256": "0f212248fee0c9500d3040c791c532bd57501b8eb9fd560ee3334bc68bb489d3",
+  "observationSha256": "58b1c43f67e6142076d8c8c1ea0bcefa06cbbd522a13dce12bb6d0a1923687f5",
+  "counts": {
+    "skills": 954,
+    "supports": 457,
+    "trees": 132,
+    "empoweredTrees": 132,
+    "bases": 79,
+    "choiceUniques": 6,
+    "courses": 3847,
+    "unitTests": 1514,
+    "installedContracts": 12,
+    "browserContracts": 12,
+    "runtimeFaults": 30,
+    "installedGameFaults": 8,
+    "guardedDeclarations": 23,
+    "installerScenarios": 12,
+    "smokeEpisodes": 25
+  },
+  "raw": {
+    "file": "evidence/gem-residence/runtime-windows-raw.json.gz",
+    "sha256": "97b67705987046085ec8dd0ea51bf47bc4a89e624879f891b5dba283c9495f4f"
+  },
+  "checks": {
+    "sdk": {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "log": ".artifacts/gem-residence-runtime-verify.txt",
+      "logSha256": "42d4089db562c661f1e1072f9ee3065e29ae37165d7cba4fdb36d18f5faecca4"
+    },
+    "reference": {
+      "log": ".artifacts/gem-residence-runtime-reference-verify.txt",
+      "exitCode": 0,
+      "command": "npm run reference:verify",
+      "logSha256": "e9d975d20db2ef75b39b853431f5ac154d84bf0e4248216b70eced7feab4a95c"
+    },
+    "preparedReplay": {
+      "command": "node scripts/test-game-gem-residence.mjs --location <fresh-preparation>",
+      "exitCode": 0,
+      "log": ".artifacts/gem-residence-prepared-replay.txt",
+      "logSha256": "eb7ffc06e6a1bb9eb34b09ca130ff10bb3db5d0171bb3aaf798982d45e6ca4ff"
+    },
+    "game": {
+      "smoke": 0,
+      "check": 0,
+      "game": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\gem-residence-game-5gR9Ib\\game",
+      "typeLogSha256": "0ca3c7b488da8f23c1a273555a674b354758d2ea08c00810c3fe420c7c28c14f",
+      "smokeLogSha256": "5ee8c4bfd71aee9812a3fe70799c1676792902b08a00d9617aa80e1d0bac8418"
+    }
+  },
+  "package": {
+    "archives": [
+      {
+        "filename": "hollow-wake-engine-0.47.0-candidate.0.tgz",
+        "sha256": "0f6126c4452f9cad76061f79abdc5490065feceb9a3d2e06c317e79a956d311a",
+        "size": 812838
+      }
+    ],
+    "browserBytes": 5428,
+    "modules": {
+      "gem-residence": 7599,
+      "item-restoration": 1286
+    },
+    "productionDependencies": 0
+  },
+  "preservation": {
+    "receipt": ".artifacts/proc-dispatch-preservation-dWSGZ8/verification.json",
+    "sha256": "202d355b8d37055801cd5e9485780b67f882981e75141eb8d1675287c83bb224",
+    "files": 4149,
+    "changes": [],
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "predecessorPreserved": true,
+    "oldAdapterPointerPreserved": true
+  },
+  "developmentCorrections": [
+    "Final review switched the convenience preparer to the existing cross-platform npm locator. Direct preparation, replay and game type/smoke checks were repeated on Windows; no Linux execution is claimed."
+  ],
+  "limitations": [
+    "Trusted borrowed-state policies; bounded owned crafting transactions and JSON admission are not implemented here.",
+    "No native/editor crafting package or renderer interaction acceptance.",
+    "No throughput, peak-memory, allocation or physical Steam Deck/older-mobile claim.",
+    "Windows evidence only; prepared hosted Windows/Linux workflow not yet run."
+  ],
+  "publication": {
+    "localOnly": true,
+    "intendedVisibility": "public",
+    "pendingBaseline": "56e15167e498519d639c7f7e2ab47040c7bb586b",
+    "reason": "Earlier automatic approval review rejected publication of original authored unlock/reward definitions and traces; specific source-content approval remains pending."
+  }
+}

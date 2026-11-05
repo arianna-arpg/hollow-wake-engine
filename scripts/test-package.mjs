@@ -77,7 +77,7 @@ const result = execFileSync(process.execPath, ['run.mjs'], {
   cwd: consumer, encoding: 'utf8', env: { ...process.env, NODE_PATH: '' },
 });
 const jsBytes = packed.files.filter(file => file.path.endsWith('.js')).reduce((sum, file) => sum + file.size, 0);
-const itemJsBytes = packed.files.filter(file => /^dist\/item-.*\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
+const itemJsBytes = packed.files.filter(file => /^dist\/item-.*\.js$/.test(file.path) && file.path !== 'dist/item-restoration.js').reduce((sum, file) => sum + file.size, 0);
 const passiveJsBytes = packed.files.filter(file => /^dist\/passive-.*\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
 const inventoryHostJsBytes = packed.files.filter(file => file.path === 'dist/inventory-host.js').reduce((sum, file) => sum + file.size, 0);
 const stashJsBytes = packed.files.filter(file => file.path === 'dist/stash-policy.js').reduce((sum, file) => sum + file.size, 0);
@@ -148,7 +148,12 @@ const craftingModuleBytes = Object.fromEntries(Object.entries({crafting:12,'craf
   const matches=packed.files.filter(file=>file.path===`dist/${name}.js`);assert.equal(matches.length,1);
   assert.ok(matches[0].size>0&&matches[0].size<=kib*1024,`${name} exceeded its separate ${kib} KiB budget`);return [name,matches[0].size];
 }));
-const craftingJsBytes=Object.values(craftingModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingJsBytes=jsBytes-craftingJsBytes;
+const residenceModuleBytes = Object.fromEntries(Object.entries({'gem-residence':10,'item-restoration':3}).map(([name,kib])=>{
+  const matches=packed.files.filter(file=>file.path===`dist/${name}.js`);assert.equal(matches.length,1);
+  assert.ok(matches[0].size>0&&matches[0].size<=kib*1024,`${name} exceeded its separate ${kib} KiB budget`);return [name,matches[0].size];
+}));
+const residenceJsBytes=Object.values(residenceModuleBytes).reduce((sum,size)=>sum+size,0),preResidenceJsBytes=jsBytes-residenceJsBytes;
+const craftingJsBytes=Object.values(craftingModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingJsBytes=preResidenceJsBytes-craftingJsBytes;
 assert.ok(progressionSessionJsBytes > 0 && progressionSessionJsBytes <= 20 * 1024, 'Optional progression session exceeds its separate 20 KiB budget or is missing');
 const preSessionJsBytes = preCraftingJsBytes - progressionSessionJsBytes;
 const preUnlockJsBytes = preSessionJsBytes - unlockJsBytes;
@@ -251,7 +256,7 @@ assert.ok(preCraftingJsBytes <= (732 + 70 + 20) * 1024, 'Previous runtime exceed
 assert.ok(jsBytes <= (732 + 70 + 20 + 38) * 1024, 'Combined runtime exceeded the explicit 732 + 70 + 20 + 38 KiB budget');
 assert.ok(contentBytes <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
-  craftingModuleBytes,craftingJsBytes,preCraftingJsBytes,progressionSessionJsBytes, preSessionJsBytes, unlockModuleBytes, unlockJsBytes, preUnlockJsBytes, gateJsBytes, preGateJsBytes, continuityJsBytes, preContinuityJsBytes, characterJsBytes, preCharacterJsBytes, siteJsBytes, preSiteJsBytes, vocationJsBytes, preVocationJsBytes, procDeliveryJsBytes, preProcDeliveryJsBytes,
+  residenceModuleBytes,residenceJsBytes,preResidenceJsBytes,craftingModuleBytes,craftingJsBytes,preCraftingJsBytes,progressionSessionJsBytes, preSessionJsBytes, unlockModuleBytes, unlockJsBytes, preUnlockJsBytes, gateJsBytes, preGateJsBytes, continuityJsBytes, preContinuityJsBytes, characterJsBytes, preCharacterJsBytes, siteJsBytes, preSiteJsBytes, vocationJsBytes, preVocationJsBytes, procDeliveryJsBytes, preProcDeliveryJsBytes,
   runtimeJsBytes: jsBytes, procCastingJsBytes, statusDeliveryJsBytes, hitAftermathJsBytes, hitSustainJsBytes, hitReactionsJsBytes, predecessorJsBytes, tagContextJsBytes, hitLandingJsBytes, hitPreparationJsBytes, previousJsBytes, damageJsBytes, statusJsBytes, statusEffectsJsBytes, hitStatusJsBytes, hitEffectsJsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, equipmentJsBytes, progressionJsBytes, skillJsBytes, supportJsBytes, resourceJsBytes, chargedCastJsBytes, interactiveCastJsBytes, ammunitionJsBytes, channelCastJsBytes, guardCastJsBytes, paymentJsBytes, admissionJsBytes, intentJsBytes, requestJsBytes, dispatchJsBytes, continuationJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
   bankJsBytes, actorGaugeJsBytes, actorConditionJsBytes, procJsBytes, procEffectJsBytes, delayedJsBytes, buffJsBytes, cooldownJsBytes, cooldownLifecycleJsBytes, readyBankJsBytes, sequenceRecoveryJsBytes, attackSequenceJsBytes, isolatedConsumer: JSON.parse(result), node: process.version,
 }, null, 2) + '\n');

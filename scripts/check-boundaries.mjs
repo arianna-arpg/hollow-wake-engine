@@ -41,6 +41,7 @@ function entryGraph(file) {
   }
 }
 entryGraph(path.join(root,'src/index.ts'));
+assert.ok([...reachable].every(file => !['gem-residence.ts','item-restoration.ts'].includes(path.basename(file))), 'Optional gem/item restoration became an eager core import');
 assert.ok([...reachable].every(file => !/^crafting(?:-actions|-content)?\.ts$/.test(path.basename(file))), 'Optional crafting became an eager core import');
 assert.ok([...reachable].every(file => path.basename(file) !== 'progression-session.ts'), 'Optional progression sessions became an eager core import');
 assert.ok([...reachable].every(file => !['memory-rewards.ts','memory-reward-content.ts','unlock-lifecycle.ts','unlock-content.ts','unlock-predicates.ts','rune-script.ts'].includes(path.basename(file))), 'Optional unlock and memory capabilities became an eager core import');

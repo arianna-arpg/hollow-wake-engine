@@ -296,4 +296,6 @@ before extraction. Wallets, item identity, RNG order, account study and callback
 failures are observed independently of their UI descriptions. The optional
 crafting runtime and game adapter now reproduce this baseline. The
 [gem residence and item restoration baseline](gem-residence-boundary.md) records
-the remaining saved-cargo seam before extraction into an owned crafting session.
+the saved-cargo seam before extraction. Optional `inventory/gems` and
+`items/restoration` now delegate that seam through explicit content, identity and
+geometry services. A bounded owned crafting session remains the next layer.

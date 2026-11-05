@@ -1,0 +1,45 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {build} from 'esbuild';
+import {root,sha256,writeJSON} from './reference-utils.mjs';
+import {npmCli} from './npm-cli.mjs';
+const directory=fs.mkdtempSync(path.join(root,'.artifacts/gem-residence-package-')),consumer=path.join(directory,'consumer');fs.mkdirSync(consumer);
+const run=(cwd,args)=>execFileSync(process.execPath,args,{cwd,encoding:'utf8',windowsHide:true,timeout:240000,maxBuffer:8*1024*1024});
+const npm=(cwd,args)=>run(cwd,[npmCli(),...args,'--cache',path.join(root,'.artifacts/npm-cache')]);
+const packed=JSON.parse(npm(root,['pack','--json','--ignore-scripts','--pack-destination',directory]))[0];
+assert(packed.files.every(file=>!/^(baseline|reference|scripts|test|src|\.reference|node_modules)\//.test(file.path)));
+const archive=path.join(directory,packed.filename),archives=[{filename:packed.filename,sha256:sha256(fs.readFileSync(archive)),size:packed.size}];
+writeJSON(path.join(consumer,'package.json'),{private:true,type:'module'});
+npm(consumer,['install',archive,'--offline','--ignore-scripts','--no-audit','--no-fund']);
+const source=fs.readFileSync(path.join(root,'test/gem-residence.test.mjs'),'utf8');
+const installed=source.replaceAll("'../dist/gem-residence.js'","'@hollow-wake/engine/inventory/gems'")
+ .replaceAll("'../dist/item-restoration.js'","'@hollow-wake/engine/items/restoration'");
+assert(!installed.includes('../dist/'));fs.writeFileSync(path.join(consumer,'gem-residence.test.mjs'),installed);
+const contracts=run(consumer,['--test','gem-residence.test.mjs']);assert(/(?:#|ℹ) pass 12\b/.test(contracts));fs.writeFileSync(path.join(directory,'contracts.txt'),contracts);
+const entry=path.join(consumer,'browser.mjs');fs.writeFileSync(entry,"export * from '@hollow-wake/engine/inventory/gems'; export * from '@hollow-wake/engine/items/restoration';");
+const bundle=await build({entryPoints:[entry],bundle:true,platform:'browser',format:'esm',write:false,metafile:true,minify:true});
+assert(!Object.keys(bundle.metafile.inputs).some(file=>/item-(?:rules|core)|\.reference|\/content\//.test(file)),'Residence loaded an item catalogue or compiler');
+assert(bundle.outputFiles[0].contents.length<=9000,'Residence browser bundle exceeded 9 KB');
+fs.writeFileSync(path.join(consumer,'browser-built.mjs'),bundle.outputFiles[0].contents);
+fs.writeFileSync(path.join(consumer,'browser-contracts.mjs'),source.replaceAll("'../dist/gem-residence.js'","'./browser-built.mjs'").replaceAll("'../dist/item-restoration.js'","'./browser-built.mjs'"));
+fs.writeFileSync(path.join(consumer,'hostile.mjs'),`Math.random=()=>{throw new Error('ambient random')};globalThis.fetch=()=>{throw new Error('network')};
+for(const key of ['window','document','localStorage'])Object.defineProperty(globalThis,key,{get(){throw new Error(key)}});
+await import('./browser-contracts.mjs');`);
+const hostile=run(consumer,['hostile.mjs']);assert(/(?:#|ℹ) pass 12\b/.test(hostile));fs.writeFileSync(path.join(directory,'hostile.txt'),hostile);
+fs.writeFileSync(path.join(consumer,'types.ts'),`import {createGemResidence,type GemSkill,type GemDefinition} from '@hollow-wake/engine/inventory/gems';
+import {createItemRestoration,type ItemRestorationPorts} from '@hollow-wake/engine/items/restoration';
+import type {ItemInstance} from '@hollow-wake/engine/items';
+type NativeSkill=GemSkill & {position:{x:number;y:number;z:number}};
+type NativeItem=ItemInstance & {owner:string};
+declare const itemPorts:ItemRestorationPorts<NativeItem>,definition:GemDefinition,saved:NativeItem;
+const restore=createItemRestoration(itemPorts);
+const rules=createGemResidence({skill:()=>definition,support:()=>definition,hasOwnSupport:()=>true,hasForm:()=>true,
+ makeSkill:(def:GemDefinition,level:number,sockets:number):NativeSkill=>({def,level,sockets:Array(sockets).fill(null),position:{x:0,y:0,z:0}}),
+ validTreeNodes:()=>undefined,nextUid:()=>1,rebuildItem:restore.rebuildItem,bagWidth:()=>3,bagHeight:()=>2,itemGridSize:()=>({w:1,h:1})});
+const live:NativeSkill|null=rules.skillOfGemItem(saved);const item:NativeItem|null=rules.rebuildAnyItem(saved);void live;void item;
+`);
+fs.writeFileSync(path.join(directory,'types.txt'),run(consumer,[path.join(root,'node_modules/typescript/bin/tsc'),'--noEmit','--strict','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','types.ts']));
+const report={passed:true,directory,consumer,archives,contracts:12,browserContracts:12,browserBytes:bundle.outputFiles[0].contents.length,browserInputs:Object.keys(bundle.metafile.inputs),types:true,hostileGlobals:true};
+writeJSON(path.join(directory,'verification.json'),report);writeJSON(path.join(root,'.artifacts/gem-residence-package-latest.json'),report);console.log({passed:true,directory,contracts:12,browserBytes:report.browserBytes});

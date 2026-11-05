@@ -1,10 +1,10 @@
 # Gem residence and item restoration
 
-This is the pre-extraction baseline for the persistence seam needed by the owned
-crafting session. It records the pinned original game, without adding a new
-production capability or changing an accepted fixture. Crafting currently uses
-host-provided gem reconstruction and recovery; this seam must become portable
-before a complete crafting session can be packaged for another engine.
+Version 0.47 adds optional `inventory/gems` and `items/restoration` entries for
+the persistence seam needed by the owned crafting session. Their isolated game
+adapter matches the immutable pre-extraction baseline below. They supply portable
+policies over explicit host services; a complete owned crafting session and its
+native engine package remain separate work.
 
 ## Observed contract
 
@@ -54,11 +54,29 @@ objects, cycles, inherited registry keys in every helper, or unbounded data.
 
 ## Extraction boundary
 
-The low-level compatibility layer will accept explicit definition, instance,
-tree-validation, identity and geometry services. It must preserve borrowed
-identity and the order of writes where the original game relies on them. Shared
-registries and process-global UID or bag state are not permitted in the portable
-implementation.
+`createGemResidence` accepts explicit definition, instance, tree-validation,
+identity, item-restoration and geometry services. `createItemRestoration` supplies
+the common envelope policy through live base/affix/unique/vestige, socket-cap,
+identity-floor and choice-repair services. Existing skill-tree and item-choice
+policies can provide those services; no duplicate catalogue is loaded here.
+Neither entry is imported by the core runtime. The policies retain their port
+objects, so callers own their lifetime and any live authoring changes.
+
+Packing helpers are also standalone exports. The game adapter replaces 19 public
+gem helpers and common item restoration after checking 23 original declaration
+hashes, including constants and the removed private socket helper. Both files
+are preflighted before installation; rollback preserves concurrent host edits.
+Unrelated imports, host extensions and line endings are retained.
+
+These services operate on well-shaped records with side-effect-free field reads.
+Definitions and factories must
+return coherent identities and supported rarity/level shapes. Ports are
+synchronous. Minted wrapper IDs must be positive safe integers; invalid allocator
+results throw after that allocation attempt. The implementation has no process-
+global registries, random stream, UID counter or bag source. Its callbacks retain
+the original lookup and write ordering. A thrown callback leaves earlier affix or
+payload mutations and consumed identities in place. No durable transaction is
+implied by this borrowed-state interface.
 
 The owned session must validate and detach external input before invoking that
 layer. It will own item identity, wallet/account state, saved support cargo and
@@ -97,7 +115,32 @@ verification only compares them. The baseline and evidence are recorded in
 `baseline/gem-residence/acceptance.json` and
 `evidence/gem-residence/baseline-windows.json`.
 
-Remaining work: portable runtime and installed-game delegation; strict owned
-crafting save/restore and recovery; native/editor package exposure; renderer
-interaction; bounded resource tests and physical Steam Deck/older mobile
-measurements. Windows reference evidence is not native or device acceptance.
+The installed package matches all 3,847 courses. Twelve independent contracts
+check identity, live lookups, failure effects and isolation in a fresh package
+consumer. Thirty deliberate runtime faults and eight installed-game faults are
+detected, with restored controls. Twelve installer scenarios and all 23 guarded
+declarations are checked. The Windows/Linux workflow also reproduces these paths;
+hosted results are a separate gate.
+
+```text
+npm run test:gem-residence-package
+npm run test:gem-residence-mutations
+npm run adapter:gem-residence-source
+node scripts/prepare-gem-residence-adapter.mjs --location <predecessor-location.json>
+npm run adapter:gem-residence
+npm run adapter:gem-residence-faults
+```
+
+The optional files are 7,599 and 1,286 bytes of unminified JavaScript, with separate
+10 KiB and 3 KiB growth limits. Earlier module budgets are unchanged. The browser
+bundle is 5,428 bytes and runs the same 12 contracts with ambient RNG and host APIs
+disabled. These are package-size and correctness checks, not throughput, peak
+memory, native-engine or physical-device measurements.
+
+Remaining work: strict owned crafting save/restore and recovery; native/editor
+package exposure; renderer interaction; bounded session resource tests and
+physical Steam Deck/older mobile measurements.
+
+The [runtime evidence](../evidence/gem-residence/runtime-windows.json) records
+the installed traces, package contracts, faults, fresh preparation, full checks
+and preservation receipts. Earlier original observations are unchanged.

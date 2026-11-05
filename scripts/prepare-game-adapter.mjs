@@ -4,6 +4,7 @@ import {integrateCharacterContinuity} from '../adapters/hollow-wake/integrate-ch
 import {integrateProgressionGates} from '../adapters/hollow-wake/integrate-progression-gates.mjs';
 import {integrateUnlockLifecycle} from '../adapters/hollow-wake/integrate-unlock-lifecycle.mjs';
 import {integrateCrafting} from '../adapters/hollow-wake/integrate-crafting.mjs';
+import {integrateGemResidence} from '../adapters/hollow-wake/integrate-gem-residence.mjs';
 import {integrateCharacterRules} from '../adapters/hollow-wake/integrate-character-rules.mjs';
 import {integrateVocationSites} from '../adapters/hollow-wake/integrate-vocation-sites.mjs';
 import {integrateVocations} from '../adapters/hollow-wake/integrate-vocations.mjs';
@@ -128,6 +129,7 @@ integrateCharacterContinuity(game, false);
 integrateProgressionGates(game, false);
 integrateUnlockLifecycle(game, false);
 integrateCrafting(game, false);
+integrateGemResidence(game, false);
 integrateStatContext(game, false);
 renderHitEffects(renderHitStatus(fs.readFileSync(path.join(game,'src/engine/world.ts'),'utf8')));
 // A distinct tool environment: never install into the frozen reference or another checkout's junction.
@@ -309,6 +311,9 @@ changes.unlockDecision = unlocks.decision;
 const crafting = integrateCrafting(game);
 changes.files.push(...crafting.files);
 changes.craftingDecision = crafting.decision;
+const gemResidence = integrateGemResidence(game);
+changes.files.push(...gemResidence.files);
+changes.gemResidenceDecision = gemResidence.decision;
 const statContext = integrateStatContext(game);
 changes.files.push(...statContext.files);
 changes.statContextDecision = statContext.decision;

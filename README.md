@@ -3,6 +3,8 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The 0.47 candidate adds optional [gem residence and item restoration](docs/gem-residence-boundary.md): portable saved-cargo packing, socket/grant recovery and tolerant item migration through explicit content and identity services. The installed game matches all 3,847 frozen courses. A bounded owned crafting session and its native package remain separate work.
+
 The 0.46 candidate adds optional [crafting and salvage](docs/crafting-boundary.md): validated shared content, expertise, affix rolls, socket chiseling, Oracle rerolls and ordered single/bulk salvage through explicit host services. The isolated game adapter preserves the frozen policy and all 70 original action courses. Native crafting packaging and device measurements remain separate work.
 
 The 0.45 candidate adds [persistent account sessions](docs/progression-session.md) and an experimental [Godot progression package](adapters/godot/progression/README.md): purchases, class claims, memory rewards, relic storage and validated save/RNG continuation through a GDScript API. Windows x64 editor and relocated release checks pass; other targets remain separate acceptance work.
@@ -331,7 +333,8 @@ Importing an authored definition does not establish that its mechanics execute.
 Remaining work includes World input authority and delivery, guard interception,
 loan aura installation/teardown, advanced defenses, other
 statuses and procs, summons, downstream execution of tree payloads, vocation
-progression, crafting/trading, durable account services and later UI integration.
+progression, owned crafting sessions and trading, durable account services and
+later UI integration.
 The primary game checkout and its unfinished work remain preserved.
 
 See [verification and reproduction](docs/verification.md), the
