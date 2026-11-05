@@ -1,0 +1,31 @@
+private readonly sdkCrafting = new CraftingActions<Seat, ItemInstance, SkillInstance, SupportInstance, Account>(sdkCraftingRules, {
+    carry: seat => seat.meta, account: () => this.account,
+    hasFeature: id => featureEnabled(this.account, id), progression: () => this.metaProgressionActive(),
+    reach: (seat, station) => this.stationReach(station, seat), nearBench: seat => this.nearSalvage(seat), nearCounter: seat => this.nearScrapVendor(seat),
+    bagItem: (seat, uid) => this.bagItem(seat, uid), findCarried: (seat, uid) => findCarried(seat.meta, uid)?.item, remove: removeFromBag,
+    spend: (seat, cost, key) => this.spendEssence(seat, cost as EssenceCost, key), grant: (seat, gain) => this.grantEssence(seat, gain as EssenceCost),
+    random: () => Math.random(), recalc: seat => this.recalcSeat(seat), dirty: seat => this.markMetaDirty(seat), save: saveAccount,
+    refuse: (seat, reason, key) => this.failNote(seat.actor, key, {
+      relic: 'Account Relics belong in your stash or Reliquary.', quest: 'Bring this back to its quest giver.',
+      capacity: 'this piece holds no more craft', 'socket-capacity': 'this piece can hold no more sockets',
+      'reroll-locked': 'the stone has spoken on this line', 'reroll-crafted': 'the stone will not touch bench-work', 'reroll-ineligible': 'the runes refuse this line',
+    }[reason]),
+    cue: (seat, cue) => {
+      switch (cue.kind) {
+        case 'locked': this.text(vec(seat.actor.pos.x, seat.actor.pos.y - 26), 'locked — the hammer passes it by', '#8a8678', 12); break;
+        case 'memory-refused': this.text(seat.actor.pos, MEMORY_CFG.strings.noSalvage, '#c08a68', 12); break;
+        case 'memory-sold': this.text(vec(seat.actor.pos.x, seat.actor.pos.y - 26), `${cue.count} ${MEMORY_CFG.strings.sold}`, MEMORY_KINDS[cue.memory as keyof typeof MEMORY_KINDS].color, 12); break;
+        case 'granted-broken': this.text(seat.actor.pos, 'the granted spark breaks into nothing', '#8a8678', 12); break;
+        case 'expertise': this.text(vec(seat.actor.pos.x, seat.actor.pos.y - (cue.bulk ? 40 : 26)), `craft expertise deepens: ${cue.family}`, '#c8a84b', 12); break;
+        case 'crafted': this.text(seat.actor.pos, `crafted: ${cue.name}`, '#b06bd4', 13); break;
+        case 'socket': this.text(seat.actor.pos, 'a socket opens in the steel', '#b06bd4', 13); break;
+        case 'rerolled': this.text(seat.actor.pos, 'the stone reshapes it — and seals it', '#b06bd4', 13); break;
+        case 'bulk': {
+          const chips = cue.gains.map(g => `${g.count}${ESSENCES[g.essence as EssenceId].glyph}`).join(' ');
+          this.text(vec(seat.actor.pos.x, seat.actor.pos.y - 26), `the hammer falls: ${cue.count} broken → ${chips || 'nothing'}`, '#c8a84b', 12); break;
+        }
+      }
+    },
+    skill: skillOfGemItem, support: supportOfGemItem, skillPayload: skillGemPayloadOf,
+    grantSupport: (seat, support) => { this.grantSupportGemItem(seat, support, true); }, memoryKind: memoryKindOf,
+  });

@@ -674,5 +674,5 @@ function compileItemMods(item: ItemInstance): Modifier[] {
   }
   return out;
 }
-return { rollItem, forgeItem, compileItemMods, foldOwnStats, resolveUniqueChoices, tierForIlvl };
+return { rollItem, forgeItem, compileItemMods, foldOwnStats, resolveUniqueChoices, tierForIlvl, affixPoolsFor };
 }

@@ -996,11 +996,22 @@ path; both target jobs are wired into the existing Godot workflow. Local Windows
 acceptance does not stand in for hosted Linux/Windows or physical-device runs.
 See the [session contract](progression-session.md) and retained evidence.
 
-## Crafting and salvage baseline
+## Crafting and salvage candidate
 
 `reference:crafting` reproduces the immutable original policy and real-World action
 observations, verifies helper/declaration hashes and type-checks the observers.
 `test:crafting-observer` checks deliberate source faults in a disposable copy,
-after fresh unchanged controls match both fixtures. The production SDK remains
-unchanged. See [the extraction boundary](crafting-boundary.md) for ownership,
-coverage and the remaining implementation gates.
+after fresh unchanged controls match both fixtures. The 0.46 verifier additionally
+installs the runtime, item and crafting archives in a fresh consumer, checks
+numeric/action/ownership contracts, public types and browser bundling, applies
+deliberate runtime faults, and exercises guarded two-file adapter installation.
+`adapter:crafting` replays both original fixtures against a selected installed
+game. `test-crafting-installed-faults.mjs --location <location.json>` checks that
+the actual game path detects deliberately broken installed rules and actions,
+then restores the package and repeats clean controls. See
+[the extraction boundary](crafting-boundary.md) for composition and remaining gates.
+
+After correctness checks, `benchmark:crafting` runs five isolated installed
+consumers with shared validated definitions, explicit random values and checksum
+controls. It records load costs, retained heap after GC and price/roll/menu batches.
+It is desktop evidence; it does not establish a speedup or a device budget.

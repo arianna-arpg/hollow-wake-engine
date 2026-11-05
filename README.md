@@ -3,6 +3,8 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The 0.46 candidate adds optional [crafting and salvage](docs/crafting-boundary.md): validated shared content, expertise, affix rolls, socket chiseling, Oracle rerolls and ordered single/bulk salvage through explicit host services. The isolated game adapter preserves the frozen policy and all 70 original action courses. Native crafting packaging and device measurements remain separate work.
+
 The 0.45 candidate adds [persistent account sessions](docs/progression-session.md) and an experimental [Godot progression package](adapters/godot/progression/README.md): purchases, class claims, memory rewards, relic storage and validated save/RNG continuation through a GDScript API. Windows x64 editor and relocated release checks pass; other targets remain separate acceptance work.
 
 The 0.44 candidate added optional unlock and memory reward rules, validated content packs and a guarded game adapter. See [unlocks and memory rewards](docs/unlock-lifecycle.md) for composition, compatibility repairs and acceptance scope.

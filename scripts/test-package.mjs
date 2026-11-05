@@ -144,8 +144,13 @@ const unlockModuleBytes = Object.fromEntries(Object.entries(unlockModuleBudgets)
 }));
 const unlockJsBytes = Object.values(unlockModuleBytes).reduce((sum, size) => sum + size, 0);
 const progressionSessionJsBytes = packed.files.filter(file => file.path === 'dist/progression-session.js').reduce((sum,file)=>sum+file.size,0);
+const craftingModuleBytes = Object.fromEntries(Object.entries({crafting:12,'crafting-content':12,'crafting-actions':14}).map(([name,kib])=>{
+  const matches=packed.files.filter(file=>file.path===`dist/${name}.js`);assert.equal(matches.length,1);
+  assert.ok(matches[0].size>0&&matches[0].size<=kib*1024,`${name} exceeded its separate ${kib} KiB budget`);return [name,matches[0].size];
+}));
+const craftingJsBytes=Object.values(craftingModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingJsBytes=jsBytes-craftingJsBytes;
 assert.ok(progressionSessionJsBytes > 0 && progressionSessionJsBytes <= 20 * 1024, 'Optional progression session exceeds its separate 20 KiB budget or is missing');
-const preSessionJsBytes = jsBytes - progressionSessionJsBytes;
+const preSessionJsBytes = preCraftingJsBytes - progressionSessionJsBytes;
 const preUnlockJsBytes = preSessionJsBytes - unlockJsBytes;
 const preGateJsBytes = preUnlockJsBytes - gateJsBytes;
 const preContinuityJsBytes = preGateJsBytes - continuityJsBytes;
@@ -242,10 +247,11 @@ assert.ok(preGateJsBytes <= 720 * 1024, 'Previous runtime exceeded its retained 
 assert.ok(gateJsBytes > 0 && gateJsBytes <= 12 * 1024, 'Optional gate runtime and content exceeded their separate 12 KiB budget');
 assert.ok(preUnlockJsBytes <= 732 * 1024, 'Previous runtime exceeded the retained 732 KiB budget');
 assert.ok(preSessionJsBytes <= (732 + 70) * 1024, 'Previous runtime exceeded the retained 732 + 70 KiB budget');
-assert.ok(jsBytes <= (732 + 70 + 20) * 1024, 'Combined runtime exceeded the explicit 732 + 70 + 20 KiB budget');
+assert.ok(preCraftingJsBytes <= (732 + 70 + 20) * 1024, 'Previous runtime exceeded its retained 732 + 70 + 20 KiB budget');
+assert.ok(jsBytes <= (732 + 70 + 20 + 38) * 1024, 'Combined runtime exceeded the explicit 732 + 70 + 20 + 38 KiB budget');
 assert.ok(contentBytes <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
-  progressionSessionJsBytes, preSessionJsBytes, unlockModuleBytes, unlockJsBytes, preUnlockJsBytes, gateJsBytes, preGateJsBytes, continuityJsBytes, preContinuityJsBytes, characterJsBytes, preCharacterJsBytes, siteJsBytes, preSiteJsBytes, vocationJsBytes, preVocationJsBytes, procDeliveryJsBytes, preProcDeliveryJsBytes,
+  craftingModuleBytes,craftingJsBytes,preCraftingJsBytes,progressionSessionJsBytes, preSessionJsBytes, unlockModuleBytes, unlockJsBytes, preUnlockJsBytes, gateJsBytes, preGateJsBytes, continuityJsBytes, preContinuityJsBytes, characterJsBytes, preCharacterJsBytes, siteJsBytes, preSiteJsBytes, vocationJsBytes, preVocationJsBytes, procDeliveryJsBytes, preProcDeliveryJsBytes,
   runtimeJsBytes: jsBytes, procCastingJsBytes, statusDeliveryJsBytes, hitAftermathJsBytes, hitSustainJsBytes, hitReactionsJsBytes, predecessorJsBytes, tagContextJsBytes, hitLandingJsBytes, hitPreparationJsBytes, previousJsBytes, damageJsBytes, statusJsBytes, statusEffectsJsBytes, hitStatusJsBytes, hitEffectsJsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, equipmentJsBytes, progressionJsBytes, skillJsBytes, supportJsBytes, resourceJsBytes, chargedCastJsBytes, interactiveCastJsBytes, ammunitionJsBytes, channelCastJsBytes, guardCastJsBytes, paymentJsBytes, admissionJsBytes, intentJsBytes, requestJsBytes, dispatchJsBytes, continuationJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
   bankJsBytes, actorGaugeJsBytes, actorConditionJsBytes, procJsBytes, procEffectJsBytes, delayedJsBytes, buffJsBytes, cooldownJsBytes, cooldownLifecycleJsBytes, readyBankJsBytes, sequenceRecoveryJsBytes, attackSequenceJsBytes, isolatedConsumer: JSON.parse(result), node: process.version,
 }, null, 2) + '\n');

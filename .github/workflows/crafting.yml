@@ -1,0 +1,68 @@
+name: Verify crafting and salvage
+on:
+  push:
+    paths:
+      - '.github/workflows/crafting.yml'
+      - 'src/crafting*.ts'
+      - 'src/item-*.ts'
+      - 'package*.json'
+      - 'baseline/crafting/**'
+      - 'baseline/source*'
+      - 'baseline/overlay/**'
+      - 'reference/export-crafting*.ts'
+      - 'reference/tooling/package*.json'
+      - 'test/crafting*.mjs'
+      - 'scripts/*crafting*.mjs'
+      - 'scripts/prepare-game-adapter.mjs'
+      - 'scripts/character-reference.mjs'
+      - 'scripts/vocation-reference.mjs'
+      - 'scripts/reference-utils.mjs'
+      - 'adapters/hollow-wake/*crafting*'
+      - 'adapters/hollow-wake/install-character-sources.mjs'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  crafting:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run reference:prepare
+      - run: npm run reference:install
+      - run: npm run reference:crafting
+      - run: npm run test:crafting-observer
+      - run: npm run build
+      - run: npm run test:crafting-package
+      - run: npm run test:crafting-mutations
+      - run: npm run adapter:crafting-source
+      - run: npm run adapter:prepare
+      - run: node scripts/test-game-crafting.mjs --location .artifacts/adapter-location.json
+      - run: node scripts/test-crafting-installed-faults.mjs --location .artifacts/adapter-location.json
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: crafting-${{ matrix.os }}
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+          path: |
+            .artifacts/reference-crafting-*/verification.json
+            .artifacts/crafting-source-faults-*/verification.json
+            .artifacts/crafting-package-*/verification.json
+            .artifacts/crafting-mutations-*/verification.json
+            .artifacts/crafting-overlay-*/verification.json
+            .artifacts/installed-crafting-*/verification.json
+            .artifacts/crafting-installed-faults-*/verification.json

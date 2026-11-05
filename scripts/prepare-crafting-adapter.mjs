@@ -1,0 +1,32 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {root,sha256,listFiles,writeJSON} from './reference-utils.mjs';
+import {integrateCrafting} from '../adapters/hollow-wake/integrate-crafting.mjs';
+const [flag,file]=process.argv.slice(2);assert.equal(flag,'--location');assert(file);
+const location=JSON.parse(fs.readFileSync(path.resolve(file))),source=fs.realpathSync(location.game);
+assert(!source.includes(path.sep+'.reference'),'Use a verified predecessor adapter');
+const snapshot=dir=>Object.fromEntries(listFiles(dir).map(file=>[file,sha256(fs.readFileSync(path.join(dir,file)))]));
+const before=snapshot(path.join(source,'src')),packageBefore=snapshot(fs.realpathSync(path.join(source,'node_modules/@hollow-wake/engine')));
+const directory=fs.mkdtempSync(path.join(root,'.artifacts/crafting-game-')),game=path.join(directory,'game');
+fs.cpSync(source,game,{recursive:true,filter:file=>!path.relative(source,file).split(path.sep).some(part=>['.git','node_modules','dist','saves','release','.cache'].includes(part))});
+assert.deepEqual(snapshot(path.join(game,'src')),before);
+const decision=integrateCrafting(game);
+const npmCli=process.env.npm_execpath??path.join(path.dirname(process.execPath),'node_modules/npm/bin/npm-cli.js');
+const npm=(args,cwd)=>execFileSync(process.execPath,[npmCli,...args,'--cache',path.join(root,'.artifacts/npm-cache')],{cwd,encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe']});
+const [packed]=JSON.parse(npm(['pack','--json','--pack-destination',directory],root)),archive=path.join(directory,packed.filename),consumer=path.join(directory,'consumer');
+fs.mkdirSync(consumer);writeJSON(path.join(consumer,'package.json'),{private:true,type:'module'});
+npm(['install',archive,'--ignore-scripts','--offline','--no-audit','--no-fund'],consumer);
+const modules=path.join(game,'node_modules');fs.mkdirSync(modules);
+for(const name of fs.readdirSync(path.join(source,'node_modules'))){
+ if(name==='@hollow-wake'||name==='.package-lock.json')continue;
+ const target=fs.realpathSync(path.join(source,'node_modules',name));if(!fs.statSync(target).isDirectory())continue;
+ fs.symlinkSync(target,path.join(modules,name),process.platform==='win32'?'junction':'dir');
+}
+fs.mkdirSync(path.join(modules,'@hollow-wake'));
+fs.symlinkSync(path.join(consumer,'node_modules/@hollow-wake/engine'),path.join(modules,'@hollow-wake/engine'),process.platform==='win32'?'junction':'dir');
+assert.deepEqual(snapshot(path.join(source,'src')),before);assert.deepEqual(snapshot(fs.realpathSync(path.join(source,'node_modules/@hollow-wake/engine'))),packageBefore);
+const report={...location,game,archive,package:packed.filename,integrity:packed.integrity,craftingDecision:decision,predecessor:source,predecessorPreserved:true};
+writeJSON(path.join(directory,'location.json'),report);writeJSON(path.join(root,'.artifacts/crafting-adapter-latest.json'),report);
+console.log({game,location:path.join(directory,'location.json'),predecessorPreserved:true});

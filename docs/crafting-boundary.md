@@ -1,9 +1,9 @@
 # Crafting and salvage extraction boundary
 
-This is an accepted original-behavior boundary, captured before a crafting SDK
-implementation. The production runtime is unchanged. Item generation and modifier
-compilation already live in the SDK; the following account/character operations
-are the next complete extraction path. Its acceptance record is
+The 0.46 candidate implements crafting policy, immutable content and ordered
+crafting/salvage actions. The accepted original-behavior boundary was captured
+before implementation; its fixtures remain unchanged. Item generation and modifier
+compilation share the existing SDK item definitions. The acceptance record is
 [`baseline/crafting/acceptance.json`](../baseline/crafting/acceptance.json).
 
 ## Raw material and ownership
@@ -101,23 +101,96 @@ removal of the granted-spark protection. The observer now exercises an unfiltere
 skill sweep with multiple eligible gems, a granted gem and a locked gem as well.
 The escaped fault and the corrected sweep are retained separately.
 
-## Next implementation and completion gates
+## Public composition
 
-1. Compile the recorded tuning into validated immutable data, using the existing
-   immutable item pack as an explicit dependency. Do not evaluate captured source
-   text or duplicate the full item catalogue per character.
-2. Extract policy and action orchestration behind explicit state, random,
-   authority, presentation and persistence ports. Keep eligible affix pools bounded
-   by authored bases and retain source order.
-3. Install the package into an isolated game adapter and replay these exact
-   observations, plus independent invalid-input/ownership tests and deliberately
-   broken installed implementations.
-4. Expose a complete engine-facing path with item and wallet continuity, then
-   measure real workloads before claiming an optimization. Physical Steam Deck
-   and named older mobile acceptance remain required separately.
+The optional entries are `@hollow-wake/engine/crafting` (numeric policy),
+`@hollow-wake/engine/crafting/content` (validated definitions), and
+`@hollow-wake/engine/crafting/actions` (ordered commands). They are absent from
+the eager core import. Production code has no external dependencies or host APIs.
+
+Construct one `ItemContent`, then `new CraftingContent(craftingPack, items)`.
+The crafting pack declares the exact item content identifier. It owns a frozen
+copy of tuning, essence definitions and prices while sharing the immutable item
+catalogue; lazy eligibility pools preserve base order. `content.rules` supplies
+all price, study, eligibility and roll operations. `content:crafting` builds a
+separate `@hollow-wake/crafting` archive with a manifest and content hashes. The
+compiler verifies accepted observations and a reviewed cost expression without
+evaluating source strings. Smith/rune tuning remains metadata for a host UI.
+
+An existing authoring host may instead call `createCraftingRules(ports)` with
+trusted live definitions. The Hollow Wake adapter uses this route so existing
+authoring mutations remain visible. This route does not validate or own content;
+imported packs should use `CraftingContent`.
+
+`new CraftingActions(rules, ports)` binds reusable host callbacks and can serve
+multiple characters sharing its account binding. Bind a separate action service
+for each account; immutable rules and content can still be shared. Its commands
+are `craftAffix`, `craftSocket`, `rerollAffix`,
+`salvageItem`, `salvageBulk` and `salvageLockSet`; `craftSlots` is a query.
+The caller supplies the character context on each command. Item bodies, wallets,
+account lore, skill/support instances and ownership remain borrowed. Ports provide
+station/feature authority, explicit random draws, payment/grants, gem recovery,
+recalculation, semantic presentation cues and account saving. No item or account
+copy is retained. Random draws must be finite and in [0, 1); scores must be finite
+when a roll is possible. The host authenticates requests and owns input validation.
+
+Commands reject recursive use of the same action instance and always release the
+guard after an exception. A thrown callback retains preceding payments, removals
+and item changes. Account saves are synchronous notifications, not promises of
+durability; a host must supply its own durable persistence boundary. Bulk salvage
+snapshots targets before mutating the bag and saves account knowledge once.
+
+The game installer verifies every replaced declaration against the accepted
+source hashes before changing either file. It preserves unrelated imports and
+content, refuses private-helper extensions that would be stranded, and uses the
+shared two-file installer with conflict detection and rollback. Preparation and
+fault tests use disposable copies; the original game is never edited.
+
+```text
+npm run test:crafting-package
+npm run test:crafting-mutations
+npm run adapter:crafting-source
+node scripts/prepare-crafting-adapter.mjs --location .artifacts/adapter-location.json
+npm run adapter:crafting
+node scripts/test-crafting-installed-faults.mjs --location .artifacts/crafting-adapter-latest.json
+```
+
+The isolated consumer exercises the entire captured policy plus independent
+action/ownership/content contracts, public TypeScript declarations and a browser
+bundle under hostile globals. Deliberate runtime faults and actual game faults
+must change an observed result or an assertion; unrelated process errors do not
+count. Original observations and helpers are never regenerated by these checks.
+
+## Measured desktop workload
+
+`npm run benchmark:crafting` measures the installed runtime and separate content
+archives in five fresh Node processes, after four warmups and with eleven samples
+per workload. Run it with other CPU-heavy work stopped. On the recorded Windows
+desktop, the median batches were 1.619 ms for 8,192 price operations (each queries
+salvage, sale and vendor prices), 6.616 ms for 8,192 crafted rolls, and 24.099 ms
+for 256 full option-list queries. Every sample retains the same result checksum.
+
+Loading/validating the shared item catalogue took a median 145.627 ms; the
+additional crafting pack took 3.581 ms. Their retained heap increase after explicit
+GC was 12,989,000 bytes. This is not peak memory or allocation volume. These are
+synthetic batches over authored data, with a warm filesystem cache, not a complete
+frame, durable host transaction or hardware acceptance result. No predecessor
+crafting speedup is claimed. The optional policy/action browser bundle is 9,733
+bytes minified; it excludes the item catalogue and content compiler.
+
+See [the retained runtime evidence](../evidence/crafting/runtime-windows.json)
+for source hashes, all observations, package/installer/fault checks and raw samples.
+The Windows/Linux CI workflow is prepared; its hosted runs remain unverified.
+
+## Remaining completion gates
+
+An owned engine-facing crafting session with item/wallet save continuation,
+native editor packaging and renderer interaction acceptance remain separate work.
+Measure complete crafting workloads before claiming an optimization; physical
+Steam Deck and named older mobile acceptance remain required separately.
 
 Vendor stock generation/buying, quest forge-writ work, vestige inlay and broader
 item/account migration are additional extraction work. This baseline does not
-claim those systems, a crafting SDK, an editor package, or a performance gain.
+claim those systems, an editor package, or a performance gain.
 Validated in-memory content remains the runtime boundary; optional database
 authoring/persistence follows [the existing storage decision](content-storage.md).
