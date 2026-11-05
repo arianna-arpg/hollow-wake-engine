@@ -1,0 +1,118 @@
+{
+  "passed": false,
+  "run": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/41943059894",
+  "head": "71aef1546a8b724f40e5938982b8fcd17e1d1ddd",
+  "process": {
+    "status": null,
+    "signal": "SIGTERM",
+    "error": "ETIMEDOUT",
+    "elapsedMs": 480073
+  },
+  "verification": {
+    "passed": false,
+    "directory": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/hit-sustain-benchmark-WdVfgy",
+    "games": {
+      "original": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/game-adapter",
+      "previous": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/game-adapter",
+      "current": "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/game-adapter"
+    },
+    "control": true,
+    "verifyOnly": true,
+    "plan": {
+      "schemaVersion": 2,
+      "seed": 20904,
+      "populations": [
+        8,
+        64,
+        256
+      ],
+      "workloads": [
+        "idle",
+        "siphon",
+        "share",
+        "sparse",
+        "bond",
+        "trees",
+        "combined"
+      ],
+      "auditHits": 3,
+      "warmup": 1500,
+      "batch": 2000,
+      "rounds": 12,
+      "order": [
+        [
+          "original",
+          "previous",
+          "current"
+        ],
+        [
+          "current",
+          "previous",
+          "original"
+        ],
+        [
+          "previous",
+          "original",
+          "current"
+        ],
+        [
+          "current",
+          "original",
+          "previous"
+        ],
+        [
+          "original",
+          "current",
+          "previous"
+        ],
+        [
+          "previous",
+          "current",
+          "original"
+        ]
+      ],
+      "scope": "Warm full resolver with native healing, cues and equal per-hit life/tree/text resets. Read-only hit/heal counters and RNG counting remain inside timing. IPC, snapshot creation, assertions on snapshots and explicit GC are outside timing. Three isolated workers; six orders repeated twice. Coalesced cues persist, simulation time is fixed. Retained heap is not allocation volume. Not whole-frame or device acceptance."
+    },
+    "helperSha256": "6d62a62cb9dd41d310dacf7422a4c73b4efe62548460cdc6b546dd5ee18c0987",
+    "checksSha256": "22f641f0c3edaf7a215758ad825c1c549feed4bae3728ebbb00f3b4953522143",
+    "runnerSha256": "fd252aa2b329979d8408353dc19c3a702a08d4ecabcf5f9c7c3abdfda22a3ddc",
+    "typedGames": [
+      "/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/game-adapter"
+    ],
+    "inputs": {
+      "original": {
+        "source": "f7c0e538537bf774fe99f13ccc9b0311f24fa8bb01c6adcf92ac3086a9614662",
+        "package": "e3fc5c9d412468769fbae7e6dc6d5cf423ee7f1ee10ae8b5e8d882c7ddecaa86"
+      },
+      "previous": {
+        "source": "f7c0e538537bf774fe99f13ccc9b0311f24fa8bb01c6adcf92ac3086a9614662",
+        "package": "e3fc5c9d412468769fbae7e6dc6d5cf423ee7f1ee10ae8b5e8d882c7ddecaa86"
+      },
+      "current": {
+        "source": "f7c0e538537bf774fe99f13ccc9b0311f24fa8bb01c6adcf92ac3086a9614662",
+        "package": "e3fc5c9d412468769fbae7e6dc6d5cf423ee7f1ee10ae8b5e8d882c7ddecaa86"
+      }
+    },
+    "inputsUnchanged": true,
+    "hardware": {
+      "node": "v24.22.2",
+      "platform": "linux",
+      "arch": "x64",
+      "cpu": "AMD EPYC 7763 64-Core Processor",
+      "logicalCpus": 4
+    },
+    "results": [
+      {
+        "workload": "idle",
+        "population": 8,
+        "auditSha256": "518ab7d5b76e790cc9fca1c1a2488d1a713052d548355e97ee7b7f867e11dcca",
+        "rounds": [],
+        "retained": {}
+      }
+    ],
+    "performanceAcceptance": false
+  },
+  "log": "{ workload: 'idle', population: 8, verified: true }\n{\n  passed: false,\n  directory: '/home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/hit-sustain-benchmark-WdVfgy',\n  cases: 1\n}\nnode:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: measured recovery count for 1\n\n0 !== 3\n\n    at checkSustainBenchmark (file:///home/runner/work/hollow-wake-engine/hollow-wake-engine/scripts/hit-sustain-benchmark-checks.mjs:21:58)\n    at file:///home/runner/work/hollow-wake-engine/hollow-wake-engine/.artifacts/hit-sustain-benchmark-observer-Z01Z8A/missing-heal.mjs:65:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: 0,\n  expected: 3,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.22.2\n",
+  "logSha256": "aaf8e3919f8c637b40d8a674284decd48499d27d5d104fe3d0ae3f1307e233dc",
+  "interpretation": "The expected assertion and failed verification receipt completed, but the outer process timed out with a null exit status and SIGTERM. File-backed output alone did not eliminate the Linux failure. The earlier pipe-descriptor hypothesis is insufficient for this run."
+}

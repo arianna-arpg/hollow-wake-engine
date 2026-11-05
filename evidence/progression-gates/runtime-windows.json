@@ -1,0 +1,571 @@
+{
+  "passed": true,
+  "version": "0.43.0",
+  "parent": "e4b1b05c60d7223e9cb970bda36f9d7aac357eb2",
+  "observedAt": "2026-11-05T03:52:59.615Z",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "sourceHashes": {
+    "src/progression-gates.ts": "c27984484bd2af36dde376fdd767423e8768f8ed9a6507a42cefa3723a77194a",
+    "src/progression-gate-content.ts": "df4742e5245ac7c63487a83f9ed9104f30de7543dee3766837bff073caa630dc",
+    "src/validation.ts": "fd6cdf7c727fb144cbb76cbed4461cc069a5fb55347e099ffb689a882f458334",
+    "adapters/hollow-wake/integrate-progression-gates.mjs": "6c75f54fcc4a447ef17617953127f28148dfc03f92488bf91b635d3eab7f721d",
+    "scripts/compile-progression-gates.mjs": "af212fa522f1c5de334255fe8acf02590c0de5fde6acff87154cd92a7bb243d7",
+    "scripts/test-progression-gate-package.mjs": "bacf5a1ffbf508d82a738b6b33d243074bdde64ed45964b11c619ce1918a7a3f",
+    "scripts/test-installed-progression-gates.mjs": "3462afc915ca3e2585ba569725355297cadc3400927e57bd83e8596462b6e2d3"
+  },
+  "baseline": {
+    "gates": {
+      "sha256": "a9814d84caa2c72c93a18d98444a0e30fe36ce0129a11fb95aaaf649cd09161e",
+      "helperSha256": "b4c636e0cd4a87dfab67692fc0b5365ba428eeb354f8ac515197b76f7752ac12",
+      "capturedBeforeImplementation": true
+    },
+    "content": {
+      "sha256": "6d395122a942ab8e50e58de3d983c079b0a229709e061b658fd96b12a4e7bc3d",
+      "helperSha256": "0941638befef2521d7953ca50d3118587380d672c2b6b2fea6fe570c875e036e",
+      "capturedBeforeImplementation": false
+    }
+  },
+  "package": {
+    "archives": {
+      "sdk": {
+        "file": "hollow-wake-engine-0.43.0.tgz",
+        "sha256": "affc19911e9ce2e608949bfa78802a292229d54f448a09a3255879e5c255843a",
+        "bytes": 732933
+      },
+      "catalogue": {
+        "file": "hollow-wake-catalogue-0.1.0.tgz",
+        "sha256": "2783988ca60e0ce0a0ab3043da94b9289af33d8c37bd05de5884775556731d9b",
+        "bytes": 924047
+      },
+      "gates": {
+        "file": "hollow-wake-progression-gates-0.1.0.tgz",
+        "sha256": "a83811a333abd13a030182274850c86f6dca9215f4679bb0433a45f9c2f5982b",
+        "bytes": 5777
+      },
+      "character": {
+        "file": "hollow-wake-character-continuity-0.1.0.tgz",
+        "sha256": "0c925a7337391c509c6ff57dad9238fd936349c17d888a1260aab40f8c0892a3",
+        "bytes": 5798
+      }
+    },
+    "externalContracts": 16,
+    "classes": 39,
+    "requirements": 88,
+    "browserBytes": {
+      "gates": 2527,
+      "gate-content": 3922
+    },
+    "types": true,
+    "optionalRawJsBytes": 11604,
+    "optionalRawJsBudget": 12288
+  },
+  "verification": {
+    "sdkTests": 1433,
+    "gateFaults": 31,
+    "gateInstallerControls": [
+      "install",
+      "crlf",
+      "unreviewed",
+      "collision",
+      "helper-used",
+      "rename-failure",
+      "editor-change",
+      "installer-lock",
+      "retry"
+    ],
+    "previousContinuityFaults": 25,
+    "previousCharacterFaults": 21,
+    "screenSha256": "72b5e9164adcf9bca61a2bb82e4ec094bee487fe8d9706164f94ae28695cf04f",
+    "changedGameFiles": [
+      "meta/gates.ts"
+    ],
+    "retainedSdkOutputs": 339,
+    "newSdkOutputs": [
+      "progression-gate-content.d.ts",
+      "progression-gate-content.js",
+      "progression-gate-content.js.map",
+      "progression-gates.d.ts",
+      "progression-gates.js",
+      "progression-gates.js.map"
+    ],
+    "checks": [
+      {
+        "name": "build",
+        "passed": true,
+        "logSha256": "93087e87565af715ddd489516472759868769549a665b9ec78d4b15477fc3ab6"
+      },
+      {
+        "name": "original-gates",
+        "passed": true,
+        "logSha256": "9657b7416bbdbd448e066a01f6fd69c833178e4e1c6757bebed0f803135af1ec"
+      },
+      {
+        "name": "overlay",
+        "passed": true,
+        "logSha256": "aadb55c786dfa2c977a6540ce158812315073e167544be39ee369387c19e6e7a"
+      },
+      {
+        "name": "shared-installer",
+        "passed": true,
+        "logSha256": "fb2e1144e419857c47b02be4106f4ecfe2097aba0394a8a4c78db550689ceb18"
+      },
+      {
+        "name": "prepare",
+        "passed": true,
+        "logSha256": "5f77e78e0799df3874a78f2566b65b72c24ddd84660b161109e69783a59330b2"
+      },
+      {
+        "name": "game-types",
+        "passed": true,
+        "logSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+      },
+      {
+        "name": "game-smoke",
+        "passed": true,
+        "logSha256": "d25212fa05a5e5d4401c9ea5cbdc2353844d473d0a0a8a156ede229ffe59891d"
+      },
+      {
+        "name": "gate-faults",
+        "passed": true,
+        "logSha256": "c7ddb97fc88982f90dd6ca70ec7274447b310b67be078cb419851268a1265a6b"
+      },
+      {
+        "name": "continuity-faults",
+        "passed": true,
+        "logSha256": "903e47c7576d67a7cd58222b85cfcc1fae3ae81f30609e683dc3aea83525dd43"
+      },
+      {
+        "name": "character-faults",
+        "passed": true,
+        "logSha256": "8b32042a637f7da5c98aee608cdd95fd26681f58bd9bdb11931eefcd4cd44fd4"
+      },
+      {
+        "name": "sites",
+        "passed": true,
+        "logSha256": "aebf47a48ffa3580ae2200a93e950fe29e6efb839f7abc14c6a04cd1725cf6bd"
+      },
+      {
+        "name": "vocations",
+        "passed": true,
+        "logSha256": "5af33c6d20a09519a72554f1a6a78dfd431d7d6832b092a19db5d1511fd3115f"
+      },
+      {
+        "name": "proc",
+        "passed": true,
+        "logSha256": "1f3bd698dbd51cb59ca26a052bea3c681cab6c429bea92db7ea7faf3f88f09c4"
+      },
+      {
+        "name": "native",
+        "passed": true,
+        "logSha256": "595e710964ae01637ede3f46fa200ef88e0564fd317223ff0b89dc010bfca0f7"
+      },
+      {
+        "name": "renderer-prepare",
+        "passed": true,
+        "logSha256": "6354c53a0eff89d70b8eafc3bd3ccb5ff3437f9f2c1a4e272d0ccf20cf7ebd3e"
+      },
+      {
+        "name": "renderer-build",
+        "passed": true,
+        "logSha256": "1af0232e85b4cfdc9d75f8d9f46f24c23c748541f2e3468ab460e4f26a460013"
+      },
+      {
+        "name": "boot",
+        "passed": true,
+        "logSha256": "4bd028406d08336ba17f8e26fb2512714da41db81440703a5de15af397cf6e03"
+      },
+      {
+        "name": "screen",
+        "passed": true,
+        "logSha256": "9c5fa5f0721e6b8a0276aefedc0ca5420daa505b4e17353ed40e92e944b20f9b"
+      },
+      {
+        "name": "verify",
+        "passed": true,
+        "logSha256": "43cbf59882355670dde32c7ca3a7fb22d0f098340c8085ec2a9f3ec3a419747b"
+      },
+      {
+        "name": "reference",
+        "passed": true,
+        "logSha256": "ddc4588ff7b66b8eb701f6421ee5ba39eae9a387f0e54216048057e3dacfe447"
+      },
+      {
+        "name": "preservation",
+        "passed": true,
+        "logSha256": "263c11a84a4622d2784e0065af5c35ba916ac937fedcdb8781d1830fba1dde30"
+      }
+    ],
+    "finalArchiveChecks": [
+      {
+        "name": "game-types",
+        "passed": true,
+        "logSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+      },
+      {
+        "name": "game-smoke",
+        "passed": true,
+        "logSha256": "7c4ab3beac6337deb8fceacf0edf6d1f3c5c2028ef7fa9405d9ffb4fdc55bb5f"
+      },
+      {
+        "name": "gate-faults",
+        "passed": true,
+        "logSha256": "2cbb947b31601528656ff08a52d7ab3aaa729bb41ca03da8d0e83aee1ff92edc"
+      },
+      {
+        "name": "renderer",
+        "passed": true,
+        "logSha256": "831df7cc5499766146eeb15b01541f8f94f95387263e4c09ac7cad751490811e"
+      },
+      {
+        "name": "screen",
+        "passed": true,
+        "logSha256": "2dcb635cda3f09637bbf0b1a5b0ed4970292273fea58b269315d025b503fe020"
+      },
+      {
+        "name": "preservation",
+        "passed": true,
+        "logSha256": "6af5d5031b334e6f26e0515002bfb19aa140269adbf4d5fc6ba2ca0227340bea"
+      }
+    ],
+    "archiveReconciliation": {
+      "initialArchiveSha256": "d330240ee13a78fd6513f29e9b7f3a62ffe0fb3786a2a275e599b7b68edc4e12",
+      "finalArchiveSha256": "affc19911e9ce2e608949bfa78802a292229d54f448a09a3255879e5c255843a",
+      "documentationChanges": [
+        "README.md",
+        "docs/progression-gates.md"
+      ],
+      "runtimeAndContentByteIdentical": true,
+      "recoveredBuildGuard": {
+        "logSha256": "b22919feb1db219e808cab989fc8a491b794f35749e8d77be17e052fe3394f7d",
+        "reason": "A reused UI output path was rejected before writing. The final check uses a fresh folder."
+      }
+    }
+  },
+  "native": {
+    "scope": "Full-game replay diagnostic with C, C++ and .NET consumers. Selected gate import size and whole-frame device performance have separate scopes.",
+    "originalAndInstalledNative": {
+      "numbers": 379857,
+      "exact": true
+    },
+    "runs": [
+      {
+        "label": "original",
+        "passed": true,
+        "bundleSha256": "acc4f959f11bdb7d9de957ab5524aeeca5b661aa1e42a1747b291e2f041184f8",
+        "bundleBytes": 13516376,
+        "nodeMatchesFrozen": true,
+        "nodeFaultDetected": false,
+        "consumers": [
+          {
+            "host": "c",
+            "passed": true,
+            "metrics": {
+              "code": 0,
+              "completedRequests": 330,
+              "peakRequestedBytes": 93477029,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 680243
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3",
+            "logSha256": "85d4398c5691909f899f48cf1e08941a7a45811eda6d43cbf5f174ec03b24a08"
+          },
+          {
+            "host": "cpp",
+            "passed": true,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 93477029,
+              "bufferOwnership": true,
+              "threadMigration": true,
+              "concurrentCancellation": true,
+              "unloadReload": true
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "outputSha256": "e15e94c395e81dd02b3537d4751a254f2888b5eee2aefaf7fe0990befdb94ad5",
+            "logSha256": "b19419cd8de60251c73f3bc6443ad4d0f93e5fc1f97510fceae1b3f44aee4448"
+          },
+          {
+            "host": "dotnet",
+            "passed": true,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 93477029,
+              "managedOwnership": true,
+              "threadMigration": true,
+              "libraryLease": true,
+              "failedConstructionLease": true,
+              "finalizerUnload": true,
+              "unloadReload": true,
+              "residencyProbe": "GetModuleHandleW"
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3",
+            "logSha256": "dda970c6b0bffac5bfb59995bf7d926c31fdf3d29addff3e423a06b2d23beeab"
+          }
+        ]
+      },
+      {
+        "label": "installed",
+        "passed": true,
+        "bundleSha256": "5289f40e4c38465db4f118e16dd313875d0240a904cf500c5f78dc07c67bfdbc",
+        "bundleBytes": 13860312,
+        "nodeMatchesFrozen": true,
+        "nodeFaultDetected": false,
+        "consumers": [
+          {
+            "host": "c",
+            "passed": true,
+            "metrics": {
+              "code": 0,
+              "completedRequests": 330,
+              "peakRequestedBytes": 148324466,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 807160
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3",
+            "logSha256": "0da706e100be9ba3282ad49dd55e19e495940348e8a3873020ea85f36b44b651"
+          },
+          {
+            "host": "cpp",
+            "passed": true,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 148324466,
+              "bufferOwnership": true,
+              "threadMigration": true,
+              "concurrentCancellation": true,
+              "unloadReload": true
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "outputSha256": "e15e94c395e81dd02b3537d4751a254f2888b5eee2aefaf7fe0990befdb94ad5",
+            "logSha256": "d2537b664fde95d7a1a11dfcaf826f1316f1ed10726c6d8a3aed869d9a0c027a"
+          },
+          {
+            "host": "dotnet",
+            "passed": true,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 148324466,
+              "managedOwnership": true,
+              "threadMigration": true,
+              "libraryLease": true,
+              "failedConstructionLease": true,
+              "finalizerUnload": true,
+              "unloadReload": true,
+              "residencyProbe": "GetModuleHandleW"
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "outputSha256": "157598051572cad685476896e651959408ecdb1025791ef75d23b84f7a111ca3",
+            "logSha256": "b101c7878f38b0f80bb0f660fd40e20c69bdae71f24bd13397f79781112e5d63"
+          }
+        ]
+      },
+      {
+        "label": "arc-strict-tie-fault",
+        "passed": true,
+        "bundleSha256": "e736ad19a96be303bef953746960aa831c42c142d9448b5e3a40b77a5c7e9498",
+        "bundleBytes": 13860333,
+        "nodeMatchesFrozen": false,
+        "nodeFaultDetected": true,
+        "consumers": [
+          {
+            "host": "c",
+            "passed": true,
+            "metrics": {
+              "code": 0,
+              "completedRequests": 330,
+              "peakRequestedBytes": 148334168,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 807916
+            },
+            "comparison": {
+              "numbers": 380056,
+              "exact": true
+            },
+            "faultDetected": true,
+            "outputSha256": "bfce1683a5443af1f8b91ad9b7376243f4fcbe3b58386aaa89f691fb1956fe00",
+            "logSha256": "e376e5765923f2c8491533cf89e5fc8e85eae50806a04182567744b119dbcfa1"
+          },
+          {
+            "host": "cpp",
+            "passed": true,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 148334168,
+              "bufferOwnership": true,
+              "threadMigration": true,
+              "concurrentCancellation": true,
+              "unloadReload": true
+            },
+            "comparison": {
+              "numbers": 380056,
+              "exact": true
+            },
+            "faultDetected": true,
+            "outputSha256": "c2c676c575cbc64d743ed7b73feb9e8e805a07d0601ddb7f7696435d2ab638e9",
+            "logSha256": "91384360068cf6396b9164f16a358be903823a0b666dc8da4497e3a3a3fe756d"
+          },
+          {
+            "host": "dotnet",
+            "passed": true,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 148334168,
+              "managedOwnership": true,
+              "threadMigration": true,
+              "libraryLease": true,
+              "failedConstructionLease": true,
+              "finalizerUnload": true,
+              "unloadReload": true,
+              "residencyProbe": "GetModuleHandleW"
+            },
+            "comparison": {
+              "numbers": 380056,
+              "exact": true
+            },
+            "faultDetected": true,
+            "outputSha256": "bfce1683a5443af1f8b91ad9b7376243f4fcbe3b58386aaa89f691fb1956fe00",
+            "logSha256": "e3d557ea1978421fb77ab07f16b9bfefa1ba7a73e3a4c742d4349217c6a67b6f"
+          }
+        ]
+      },
+      {
+        "label": "rider-depth-fault",
+        "passed": true,
+        "bundleSha256": "a2e8f45411684b2520669da3871e2af16b32c0af8fceddaaff04b117781dbcc6",
+        "bundleBytes": 13860332,
+        "nodeMatchesFrozen": false,
+        "nodeFaultDetected": true,
+        "consumers": [
+          {
+            "host": "c",
+            "passed": true,
+            "metrics": {
+              "code": 0,
+              "completedRequests": 330,
+              "peakRequestedBytes": 148324478,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 807160
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": true,
+            "outputSha256": "806bc33c109a04424d723742da520a85e13bfec58c624d1c5507e3245cd5b37b",
+            "logSha256": "7874b3b3ca1fa44a9f8a0b584c845dfa0ee5e7d6803458743a73cbe766a50eeb"
+          },
+          {
+            "host": "cpp",
+            "passed": true,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 148324478,
+              "bufferOwnership": true,
+              "threadMigration": true,
+              "concurrentCancellation": true,
+              "unloadReload": true
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": true,
+            "outputSha256": "a197ae8635234cc1b69bc003e95a0bff284ef579506904eab9aa52aa301b4cab",
+            "logSha256": "c60919993864a99edfd6f9f36a0631476f5eba5e4e40334716409d65e575d1a4"
+          },
+          {
+            "host": "dotnet",
+            "passed": true,
+            "metrics": {
+              "passed": true,
+              "requests": 330,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 148324478,
+              "managedOwnership": true,
+              "threadMigration": true,
+              "libraryLease": true,
+              "failedConstructionLease": true,
+              "finalizerUnload": true,
+              "unloadReload": true,
+              "residencyProbe": "GetModuleHandleW"
+            },
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": true,
+            "outputSha256": "806bc33c109a04424d723742da520a85e13bfec58c624d1c5507e3245cd5b37b",
+            "logSha256": "8366747cd711d1b2f61f11147a1024715a26c5eec6c2621279bcb1785cf46062"
+          }
+        ]
+      }
+    ],
+    "receiptSha256": "ab1ae2a57ab88451a95a77a738df2877f4abd076b7f0ab70064c6a8b18651be8"
+  },
+  "preservation": {
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "files": 4149,
+    "changes": 0,
+    "sourceCapsuleVerified": true,
+    "receiptSha256": "c16d5df1ac13ef7ec8acfede68125ce0190bf77cf0b3c7fa4c1b48909b06159d"
+  },
+  "hosted": "Pending verification of this runtime commit",
+  "remaining": [
+    "Additional static eligibility, class reveal presentation and mastery purchase policies",
+    "Complete Unity and Unreal packages and broader Godot coverage",
+    "Physical Steam Deck and older-mobile performance acceptance"
+  ]
+}

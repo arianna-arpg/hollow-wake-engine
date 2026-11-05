@@ -1,0 +1,375 @@
+{
+  "passed": true,
+  "platform": "win32",
+  "node": "v24.9.0",
+  "runnerSha256": "2e3189f3c2e214802c1c72b43345034e4263358d9aff5b0b50805bcbdfe9465f",
+  "helperSha256": "471251ea755b0ea98478ce1367d6fc2cf465a3164b5959a50c521b525cd84c1c",
+  "cases": [
+    {
+      "name": "control",
+      "process": {
+        "status": 0,
+        "signal": null,
+        "elapsedMs": 55174
+      },
+      "passed": true,
+      "shutdown": [
+        {
+          "name": "original",
+          "pid": 94712,
+          "exitCode": 0,
+          "signalCode": null,
+          "connected": false,
+          "forced": false
+        },
+        {
+          "name": "previous",
+          "pid": 12308,
+          "exitCode": 0,
+          "signalCode": null,
+          "connected": false,
+          "forced": false
+        },
+        {
+          "name": "current",
+          "pid": 70836,
+          "exitCode": 0,
+          "signalCode": null,
+          "connected": false,
+          "forced": false
+        }
+      ],
+      "activeResourcesBeforeDrain": [
+        "ProcessWrap"
+      ],
+      "drained": {
+        "code": 0,
+        "activeResources": [],
+        "workers": [
+          {
+            "name": "original",
+            "pid": 94712,
+            "exitCode": 0,
+            "signalCode": null,
+            "connected": false,
+            "forced": false
+          },
+          {
+            "name": "previous",
+            "pid": 12308,
+            "exitCode": 0,
+            "signalCode": null,
+            "connected": false,
+            "forced": false
+          },
+          {
+            "name": "current",
+            "pid": 70836,
+            "exitCode": 0,
+            "signalCode": null,
+            "connected": false,
+            "forced": false
+          }
+        ]
+      },
+      "proofSha256": "628db07a13bb13f8fe452c083e5b0c9435c6f4fe9146a89b7f13508e51ac0791"
+    },
+    {
+      "name": "skip-hit",
+      "process": {
+        "status": 1,
+        "signal": null,
+        "elapsedMs": 59336
+      },
+      "passed": false,
+      "failure": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "message": "benchmark must execute every hit\n\n2 !== 3\n"
+      },
+      "shutdown": [
+        {
+          "name": "original",
+          "pid": 83536,
+          "exitCode": 0,
+          "signalCode": null,
+          "connected": false,
+          "forced": false
+        },
+        {
+          "name": "previous",
+          "pid": 74704,
+          "exitCode": 0,
+          "signalCode": null,
+          "connected": false,
+          "forced": false
+        },
+        {
+          "name": "current",
+          "pid": 71428,
+          "exitCode": 0,
+          "signalCode": null,
+          "connected": false,
+          "forced": false
+        }
+      ],
+      "activeResourcesBeforeDrain": [
+        "ProcessWrap"
+      ],
+      "drained": {
+        "code": 1,
+        "activeResources": [],
+        "workers": [
+          {
+            "name": "original",
+            "pid": 83536,
+            "exitCode": 0,
+            "signalCode": null,
+            "connected": false,
+            "forced": false
+          },
+          {
+            "name": "previous",
+            "pid": 74704,
+            "exitCode": 0,
+            "signalCode": null,
+            "connected": false,
+            "forced": false
+          },
+          {
+            "name": "current",
+            "pid": 71428,
+            "exitCode": 0,
+            "signalCode": null,
+            "connected": false,
+            "forced": false
+          }
+        ]
+      },
+      "proofSha256": "3ed43fc3a7907223dcb99b3c9ea597b0715886d70a598fd6f89989594a220a90"
+    },
+    {
+      "name": "missing-heal",
+      "process": {
+        "status": 1,
+        "signal": null,
+        "elapsedMs": 63669
+      },
+      "passed": false,
+      "failure": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "message": "measured recovery count for 1\n\n0 !== 3\n"
+      },
+      "shutdown": [
+        {
+          "name": "original",
+          "pid": 55596,
+          "exitCode": 0,
+          "signalCode": null,
+          "connected": false,
+          "forced": false
+        },
+        {
+          "name": "previous",
+          "pid": 24728,
+          "exitCode": 0,
+          "signalCode": null,
+          "connected": false,
+          "forced": false
+        },
+        {
+          "name": "current",
+          "pid": 16380,
+          "exitCode": 0,
+          "signalCode": null,
+          "connected": false,
+          "forced": false
+        }
+      ],
+      "activeResourcesBeforeDrain": [
+        "ProcessWrap"
+      ],
+      "drained": {
+        "code": 1,
+        "activeResources": [],
+        "workers": [
+          {
+            "name": "original",
+            "pid": 55596,
+            "exitCode": 0,
+            "signalCode": null,
+            "connected": false,
+            "forced": false
+          },
+          {
+            "name": "previous",
+            "pid": 24728,
+            "exitCode": 0,
+            "signalCode": null,
+            "connected": false,
+            "forced": false
+          },
+          {
+            "name": "current",
+            "pid": 16380,
+            "exitCode": 0,
+            "signalCode": null,
+            "connected": false,
+            "forced": false
+          }
+        ]
+      },
+      "proofSha256": "eb28c9af773e7400f3269a767da6bf4e408a9a5c852ec92aa30796f1cbeaa692"
+    },
+    {
+      "name": "healing-order",
+      "process": {
+        "status": 1,
+        "signal": null,
+        "elapsedMs": 62896
+      },
+      "passed": false,
+      "failure": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "message": "ordered actual healing\n+ actual - expected\n\n  [\n+   8,\n+   7,\n+   6,\n+   5,\n+   4,\n    3,\n+   8,\n+   7,\n+   6,\n+   5,\n    4,\n+   3,\n+   8,\n+   7,\n+   6,\n    5,\n-   6,\n-   7,\n-   8,\n-   3,\n    4,\n-   5,\n-   6,\n-   7,\n-   8,\n    3,\n-   4,\n-   5,\n-   6,\n-   7,\n-   8\n  ]\n"
+      },
+      "shutdown": [
+        {
+          "name": "original",
+          "pid": 93152,
+          "exitCode": 0,
+          "signalCode": null,
+          "connected": false,
+          "forced": false
+        },
+        {
+          "name": "previous",
+          "pid": 82816,
+          "exitCode": 0,
+          "signalCode": null,
+          "connected": false,
+          "forced": false
+        },
+        {
+          "name": "current",
+          "pid": 29828,
+          "exitCode": 0,
+          "signalCode": null,
+          "connected": false,
+          "forced": false
+        }
+      ],
+      "activeResourcesBeforeDrain": [
+        "ProcessWrap"
+      ],
+      "drained": {
+        "code": 1,
+        "activeResources": [],
+        "workers": [
+          {
+            "name": "original",
+            "pid": 93152,
+            "exitCode": 0,
+            "signalCode": null,
+            "connected": false,
+            "forced": false
+          },
+          {
+            "name": "previous",
+            "pid": 82816,
+            "exitCode": 0,
+            "signalCode": null,
+            "connected": false,
+            "forced": false
+          },
+          {
+            "name": "current",
+            "pid": 29828,
+            "exitCode": 0,
+            "signalCode": null,
+            "connected": false,
+            "forced": false
+          }
+        ]
+      },
+      "proofSha256": "27523a308ee8c1be6926a1f20a2e56209c067440cdc662a7f46b47cd398ee693"
+    },
+    {
+      "name": "extra-draw",
+      "process": {
+        "status": 1,
+        "signal": null,
+        "elapsedMs": 53744
+      },
+      "passed": false,
+      "failure": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "message": "fixed workload random schedule\n\n1 !== 0\n"
+      },
+      "shutdown": [
+        {
+          "name": "original",
+          "pid": 83644,
+          "exitCode": 0,
+          "signalCode": null,
+          "connected": false,
+          "forced": false
+        },
+        {
+          "name": "previous",
+          "pid": 32180,
+          "exitCode": 0,
+          "signalCode": null,
+          "connected": false,
+          "forced": false
+        },
+        {
+          "name": "current",
+          "pid": 14396,
+          "exitCode": 0,
+          "signalCode": null,
+          "connected": false,
+          "forced": false
+        }
+      ],
+      "activeResourcesBeforeDrain": [
+        "ProcessWrap"
+      ],
+      "drained": {
+        "code": 1,
+        "activeResources": [],
+        "workers": [
+          {
+            "name": "original",
+            "pid": 83644,
+            "exitCode": 0,
+            "signalCode": null,
+            "connected": false,
+            "forced": false
+          },
+          {
+            "name": "previous",
+            "pid": 32180,
+            "exitCode": 0,
+            "signalCode": null,
+            "connected": false,
+            "forced": false
+          },
+          {
+            "name": "current",
+            "pid": 14396,
+            "exitCode": 0,
+            "signalCode": null,
+            "connected": false,
+            "forced": false
+          }
+        ]
+      },
+      "proofSha256": "0961a8815118cea95f9ad02d244cab35e8b011d67f3a5f31b7ed1c79f9e30158"
+    }
+  ],
+  "hostedConfirmation": "pending"
+}

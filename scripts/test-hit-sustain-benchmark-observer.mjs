@@ -33,6 +33,10 @@ try {
     writeJSON(path.join(directory,name+'-process.json'),{status:result.status,signal:result.signal,error:result.error?.code,elapsedMs:Date.now()-started});
     assert(!result.error,result.error?.message);assert.equal(result.signal,null);
     const proof=JSON.parse(fs.readFileSync(proofPath));assert(proof.inputsUnchanged&&proof.control&&proof.verifyOnly);
+    const drained=JSON.parse(fs.readFileSync(path.join(proof.directory,'process-drained.json')));
+    assert.equal(drained.code,result.status);
+    assert.equal(drained.workers.length,3);
+    assert(drained.workers.every(worker=>!worker.connected&&(worker.exitCode!==null||worker.signalCode!==null)));
     if(name==='control'){assert.equal(result.status,0);assert(proof.passed);assert.equal(proof.results.length,21);}
     else {assert.notEqual(result.status,0,name+' survived');assert.equal(proof.passed,false);assert.match(output,/ERR_ASSERTION/);assert(output.includes(message));assert.doesNotMatch(output,/SyntaxError|ReferenceError|TypeError|ERR_MODULE_NOT_FOUND/);}
     results.push({name,passed:true,detected:name!=='control',directory:proof.directory,outputSha256:sha256(output),proofSha256:sha256(fs.readFileSync(proofPath))});

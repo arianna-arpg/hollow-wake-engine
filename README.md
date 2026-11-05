@@ -3,6 +3,8 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+Version 0.43 adds optional progression requirement queries and validated content for 88 authored groups. The game adapter preserves live account facts, legacy quest counters and milestone progress. See [progression gates](docs/progression-gates.md).
+
 The [character continuity modules](docs/character-continuity.md) add class save restoration, live reward ownership, companion identity and a separate authored content archive.
 
 The [character rules](docs/character-rules.md) package creation and save identity, mastery kit choices, and earned class activation as three independent imports. The reference includes all 39 classes and the real Vault, disk save, and Continue path.

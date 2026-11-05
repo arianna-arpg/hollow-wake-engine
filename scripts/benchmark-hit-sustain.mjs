@@ -25,7 +25,7 @@ const runnerBefore=fs.readFileSync(import.meta.filename),checksPath=path.join(ro
 const directory=fs.mkdtempSync(path.join(root,'.artifacts/hit-sustain-benchmark-'));
 writeJSON(path.join(directory,'plan.json'),{...plan,control,verifyOnly});
 writeJSON('.artifacts/hit-sustain-benchmark-latest.json',{directory});
-const workers={},results=[],typedGames=new Set();let passed=false;
+const workers={},results=[],typedGames=new Set();let passed=false,failure;
 
 function worker(name,game,runtime) {
   const fd=fs.openSync(path.join(directory,name+'.txt'),'wx');
@@ -93,14 +93,25 @@ try {
   }
   for(const w of Object.values(workers))await w.request('stop');
   passed=true;
+}catch(error){
+  failure={name:error?.name,code:error?.code,message:String(error?.message??error)};
+  console.error(error);
+  process.exitCode=1;
 }finally {
-  await Promise.all(Object.values(workers).map(worker=>stopBenchmarkWorker(worker.child)));
+  const shutdown=await Promise.all(Object.entries(workers).map(async([name,worker])=>{
+    const outcome=await stopBenchmarkWorker(worker.child),child=worker.child;
+    assert(!child.pid||child.exitCode!==null||child.signalCode!==null,'Spawned worker must exit before verification');
+    return {name,pid:child.pid,exitCode:child.exitCode,signalCode:child.signalCode,connected:child.connected,...outcome};
+  }));
   assert.deepEqual(snapshots(),before);assert.equal(fs.readFileSync(helperPath,'utf8'),helper);
   assert(fs.readFileSync(import.meta.filename).equals(runnerBefore),'runner changed during measurement');
   assert(fs.readFileSync(checksPath).equals(checksBefore),'checks changed during measurement');
   verifyReference(path.join(root,'.reference'),read(path.join(root,'baseline/source-lock.json')));
-  const report={passed,directory,games,control,verifyOnly,plan,helperSha256:sha256(helper),checksSha256:sha256(checksBefore),runnerSha256:sha256(runnerBefore),typedGames:[...typedGames],
+  const report={passed,directory,games,control,verifyOnly,plan,failure,shutdown,activeResources:process.getActiveResourcesInfo(),helperSha256:sha256(helper),checksSha256:sha256(checksBefore),runnerSha256:sha256(runnerBefore),typedGames:[...typedGames],
     inputs:Object.fromEntries(Object.entries(before).map(([name,s])=>[name,{source:sha256(JSON.stringify(s.source)),package:s.package?sha256(JSON.stringify(s.package)):null}])),inputsUnchanged:true,
     hardware:{node:process.version,platform:process.platform,arch:process.arch,cpu:os.cpus()[0]?.model,logicalCpus:os.cpus().length},results,performanceAcceptance:false};
   writeJSON(path.join(directory,'verification.json'),report);writeJSON('.artifacts/hit-sustain-benchmark-verification.json',report);console.log({passed,directory,cases:results.length});
+  process.once('beforeExit',code=>writeJSON(path.join(directory,'process-drained.json'),{
+    code,activeResources:process.getActiveResourcesInfo(),workers:shutdown,
+  }));
 }
