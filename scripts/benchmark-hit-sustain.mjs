@@ -6,6 +6,7 @@ import {fork,execFileSync} from 'node:child_process';
 import {pathToFileURL} from 'node:url';
 import {root,listFiles,sha256,writeJSON,verifyReference} from './reference-utils.mjs';
 import {sustainBenchmarkPlan as plan,checkSustainBenchmark} from './hit-sustain-benchmark-checks.mjs';
+import {stopBenchmarkWorker} from './stop-benchmark-worker.mjs';
 
 const args=process.argv.slice(2);
 assert(args.length>=4&&args[0]==='--previous'&&args[2]==='--location');
@@ -93,7 +94,7 @@ try {
   for(const w of Object.values(workers))await w.request('stop');
   passed=true;
 }finally {
-  for(const w of Object.values(workers))if(w.child.exitCode===null)w.child.kill();
+  await Promise.all(Object.values(workers).map(worker=>stopBenchmarkWorker(worker.child)));
   assert.deepEqual(snapshots(),before);assert.equal(fs.readFileSync(helperPath,'utf8'),helper);
   assert(fs.readFileSync(import.meta.filename).equals(runnerBefore),'runner changed during measurement');
   assert(fs.readFileSync(checksPath).equals(checksBefore),'checks changed during measurement');

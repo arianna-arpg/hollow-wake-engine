@@ -21,6 +21,7 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: npm
       - run: npm ci
+      - run: node scripts/test-benchmark-worker-shutdown.mjs
       - run: npm run verify
   native:
     strategy:
@@ -439,6 +440,11 @@ jobs:
             .artifacts/game-hit-aftermath-faults-*/verification.json
             .artifacts/game-hit-aftermath-faults-*/progress.json
             .artifacts/game-hit-aftermath-faults-*/*.txt
+            .artifacts/hit-sustain-benchmark-observer-verification.json
+            .artifacts/hit-sustain-benchmark-observer-*/*.json
+            .artifacts/hit-sustain-benchmark-observer-*/*.txt
+            .artifacts/hit-sustain-benchmark-*/verification.json
+            .artifacts/hit-sustain-benchmark-*/*.txt
             .artifacts/hit-aftermath-benchmark-verification.json
             .artifacts/hit-aftermath-benchmark-observer-verification.json
             .artifacts/hit-aftermath-benchmark-*/verification.json

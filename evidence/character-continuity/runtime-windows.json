@@ -1,0 +1,567 @@
+{
+  "passed": true,
+  "version": "0.42.0",
+  "parentRevision": "779bdfb4f39165f6c0b1f7f35ea1c435c087a3d2",
+  "observedAt": "2026-11-05T00:02:27.624Z",
+  "inputSha256": {
+    ".github/workflows/character-continuity.yml": "fad0e2edf6138c7ce6b5a1e8dfadfb21dbcd4c3085a29fff5adcb3899259516d",
+    ".github/workflows/verify.yml": "1c669a3b7954646fc15527065aa9152149edb8d11cccef49f2d2e71ff54deb21",
+    "README.md": "a324391ddcb7c7cc847b60bdc79fba3c831d1b8e0a9e24652c74c05b9f9f325f",
+    "adapters/hollow-wake/integrate-character-continuity.mjs": "5c81fe9ecec317b3b87fa2822f960fbbb46c70a1bff59772d8202384552aaa5a",
+    "baseline/character-continuity/acceptance.json": "ed05cc2b59b4e980fdd3f650c583f0aefa389e94f771b6bf34b1d534aadf7939",
+    "baseline/character-continuity/content.json.gz": "3ab4d3b059c4160ad2c679c7af5b40d28b7a8e26fbd5cfa87a5de567a86557c0",
+    "docs/character-continuity.md": "99084f28c57ff3106bc52f88405f873ca3ab6160ef9aed260fdaad30d101b488",
+    "docs/completion.json": "346aa29a2745ba47cd7710369e94a524be39642106e25dc153fb1a271aa663c3",
+    "package-lock.json": "e71e84c5e773208d56e83d3a5a11f7d4d97ca965badb7d3015754c9c919fbb93",
+    "package.json": "c8ef129de37598babe23e27cbfe31bd8f4a72436672d273ddd56714556a0f0d6",
+    "reference/benchmark-character-continuity.ts": "6d30faaac4690bde15f2ffe16185ae0dd5e68162e9fbd30060dacc13fdc54c38",
+    "reference/benchmark-class-settlement.ts": "14fed39cf8c6dfaccc3b7d7bf2e21816b64dd4add08d08adb14702ce5cfbad96",
+    "reference/export-continuity-content.ts": "e9799c91484478f34ab864ac8c64feafdd9cc870bb78503aa404f69cd475dda9",
+    "scripts/benchmark-character-rules.mjs": "77aa7b5dba7a2f884c698f69bf05375e78f3a1a18dce069dfce2d0f2c63dea35",
+    "scripts/benchmark-class-settlement.mjs": "608159c170edbe077000f168b4408d846ee3f8b5fa8d714b789ee5ff25b37dd7",
+    "scripts/benchmark-hit-sustain.mjs": "05b4d1c88015a90a0a73172b21abd90153b009bccbd7fdbeb82518532dbda021",
+    "scripts/check-boundaries.mjs": "63bbc17a34e001971b75b1159f520abe36198a8fb949a793c273075b6263eb59",
+    "scripts/compile-character-continuity.mjs": "e32ed6cd23e3ddf0f090a8d645bbce08fd3096a0f3cd1db0a3c1d9dad32dc467",
+    "scripts/prepare-game-adapter.mjs": "967dce7fa2f72d65905d9b9d28b53aa80a3f9c98ff2c55c9f9733365ece46831",
+    "scripts/stop-benchmark-worker.mjs": "6bb96313bceb38dd133ba5078c42284e16319da3b4fb2eeeefe9e7145bf90358",
+    "scripts/test-benchmark-worker-shutdown.mjs": "0662e7cb86c2465dd7c993991202bdb4dd22f9525a1f434e6ab1434e0eb3dee5",
+    "scripts/test-character-continuity-overlay.mjs": "09ca38c6a92f4dcc15d67d860e997d6de7fc32fe2fac4592ffe31104d09c3dd8",
+    "scripts/test-character-continuity-package.mjs": "7ddf90e791e7ae467f8b6273e6a15228eccc9d7c994dcc134cb9c1dca793570d",
+    "scripts/test-hit-sustain-benchmark-observer.mjs": "4c73da62146c0a9b8f7935a6958b9a397e97a0e44a663f4d155ae1bb5631e546",
+    "scripts/test-installed-character-continuity.mjs": "b52730af3184d4138caa8fdcdbb0a5841b1119661d303c7cf3aba1c310d5979c",
+    "scripts/test-package.mjs": "03e4b9b9f6a19aa0e943d68bdba593becab016c123ccf2ab7d91e0651564d6af",
+    "src/character-continuity-content.ts": "13a54fd6601ae51584d2018413e3cff3717841f246739f4ae2039e09dec88879",
+    "src/class-account.ts": "354f62ddb307b4c29353f5496e74ab4dffbfceeabf8628b6449f3d1adb021bc2",
+    "src/class-claims.ts": "4572a12afabe34c64544b00ba7f37820e7cd6d60806b497b69beae59a5d30920",
+    "src/class-rewards.ts": "dc13b20a4f5cec0bf2cbaf8d61ace8621aea12b1c82983179bdd6c5117d2abe7",
+    "src/mercenary-identity.ts": "2d5dcacfc77fbd19c68c2e36cec135fab8a9f330b1e255ba60dbcf0c89daaeab",
+    "test/character-continuity.test.mjs": "426257858c4ef77647edf9f1d97ec2df844365ee294f26dc97717f3492b06918"
+  },
+  "package": {
+    "archives": {
+      "sdk": {
+        "file": "hollow-wake-engine-0.42.0.tgz",
+        "sha256": "01cddcaeaa0adada9ebef64842f409de24c1de764271b27ade4029c959bc945d",
+        "bytes": 723392
+      },
+      "catalogue": {
+        "file": "hollow-wake-catalogue-0.1.0.tgz",
+        "sha256": "2783988ca60e0ce0a0ab3043da94b9289af33d8c37bd05de5884775556731d9b",
+        "bytes": 924047
+      },
+      "character": {
+        "file": "hollow-wake-character-continuity-0.1.0.tgz",
+        "sha256": "0c925a7337391c509c6ff57dad9238fd936349c17d888a1260aab40f8c0892a3",
+        "bytes": 5798
+      }
+    },
+    "browserBytes": {
+      "account": 1447,
+      "rewards": 924,
+      "mercenaries": 704,
+      "content": 3323
+    },
+    "continuityJsBytes": 9763,
+    "externalContracts": 17,
+    "classes": 39,
+    "rewardBundles": 36,
+    "policyLevels": 4096,
+    "previousCompiledOutputsIdentical": 325,
+    "changedPreviousOutputs": [
+      "class-claims.js",
+      "class-claims.js.map"
+    ],
+    "newOutputs": [
+      "character-continuity-content.d.ts",
+      "character-continuity-content.js",
+      "character-continuity-content.js.map",
+      "class-account.d.ts",
+      "class-account.js",
+      "class-account.js.map",
+      "class-rewards.d.ts",
+      "class-rewards.js",
+      "class-rewards.js.map",
+      "mercenary-identity.d.ts",
+      "mercenary-identity.js",
+      "mercenary-identity.js.map"
+    ]
+  },
+  "verification": {
+    "checks": [
+      {
+        "name": "build",
+        "logSha256": "1d81af870ea4657e7e6879640b78c8a5f612b3804a0a2a929d30e630aab34229"
+      },
+      {
+        "name": "overlay",
+        "logSha256": "3131c274af361df48a4e9e2ddd9ca1307762047acaab7d2be6c2ac24d2e4f206"
+      },
+      {
+        "name": "prepare",
+        "logSha256": "9fb08a6dce22248b40b7985290c89c63155a0f4fe9a04edf345a538acfe2fca2"
+      },
+      {
+        "name": "game-types",
+        "logSha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+      },
+      {
+        "name": "game-smoke",
+        "logSha256": "af86241ed3294b24fe76309428de9f86804b2616a10d1bfdf9e2e69d56d1f463"
+      },
+      {
+        "name": "continuity-faults",
+        "logSha256": "4dc7fd094279dd746b59054f78597cc5eaf0c5619cf60c1e6b1ba58e3a0b1c73"
+      },
+      {
+        "name": "character-faults",
+        "logSha256": "6370df63e47870f6074c1a4e5d683a928c0123252c65c256b6887d64569809a4"
+      },
+      {
+        "name": "sites",
+        "logSha256": "af341153dd92680aa54d87db701b70f266138101603045fcfde23d2103f3b0f6"
+      },
+      {
+        "name": "vocations",
+        "logSha256": "f7025fa943854c05171b370a837de2b3f6861d7104aac1badd462218a7b65e6c"
+      },
+      {
+        "name": "proc",
+        "logSha256": "200cb494a98043c2d6ac1acfc21b13f3066d395e07a1f78122d31fc9ce85e84b"
+      },
+      {
+        "name": "native",
+        "logSha256": "fa82386331c3c91c45d73b839fe35597c743e3d97034e5044b69296a2ec6e71a"
+      },
+      {
+        "name": "renderer-prepare",
+        "logSha256": "6dfe6b01b5ab1853ea2abdb0c292ca858e0b2bac19f86950c9840f45a2c67201"
+      },
+      {
+        "name": "renderer-build",
+        "logSha256": "e6bec096ab51a8d73c2b39303c1e7844cf7c37542c53a3affeca99d4774ef6ca"
+      },
+      {
+        "name": "boot",
+        "logSha256": "0294a53ee5d8e98ced5e7938f7c4eafba038f03fa5751514bc9a91ae0ec3054b"
+      },
+      {
+        "name": "screen",
+        "logSha256": "2b9afba4e2d8b59327db3a78b8f5f67356d0c0757a70ed6ceaf208ce333440d2"
+      },
+      {
+        "name": "vocation-ui",
+        "logSha256": "6b03fbf1ca37e19f2a300a49cec44b5d32a47318f3a09450aaea9f0e9dfa1d73"
+      },
+      {
+        "name": "verify",
+        "logSha256": "8a1412e9a77075a047068f464b69b4e2f6bff2c51c01206c84ddd608cfd38caa"
+      },
+      {
+        "name": "reference",
+        "logSha256": "4f35f1b8a1e331a1bdbe3be367b2f39783f2610a1dfe027138b5e69ccc4bbfa4"
+      },
+      {
+        "name": "preservation",
+        "logSha256": "ab81c8ef54fa9c9b46978d9a9b8cada53a1ae5ec81e24cf95958b7e86a6495c4"
+      }
+    ],
+    "sdkTests": 1417,
+    "installedFaults": [
+      {
+        "name": "rewards",
+        "label": "explicit-alternative",
+        "sha256": "23b28043235c55e2e0b1d178b2814750dfca6a9bc5429d463f518f6fc4407894",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "rewards",
+        "label": "pending-only",
+        "sha256": "e013b185c40f2334bb9d8624f2d597eca596f28ee28f3a12d31a7e6736ebd48d",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "rewards",
+        "label": "shared-active",
+        "sha256": "928e903baffab6ed5496158a6c4099b1242a417216223be9e0abd11aba380219",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "rewards",
+        "label": "missing-skill",
+        "sha256": "aaa9ac1eef0f2d764e19dda0d94845716e897899f8b9924550e8fa306e0fd981",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "rewards",
+        "label": "support-drop",
+        "sha256": "6021791fa0351bcf55f47fd6c23c83af8b1cf1a9c514ec372dbd9276dff672b7",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "rewards",
+        "label": "investment-transfer",
+        "sha256": "e0f3143abf503199bd004251c17593591a5f27e908b454427e45afc3aa7186dc",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "rewards",
+        "label": "legacy-mode",
+        "sha256": "c162643c88fd304cd0c5eb4c4eb5eec06de956307682c5d86a999edc0546a22e",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "mercs",
+        "label": "borrowed-opening",
+        "sha256": "edb52324807da14891660aea70e4c6e1c10ed9694d6b4642c0dcb69ac5ec729d",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "mercs",
+        "label": "snapshot-attributes",
+        "sha256": "edb52324807da14891660aea70e4c6e1c10ed9694d6b4642c0dcb69ac5ec729d",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "mercs",
+        "label": "numerical-gem-cap",
+        "sha256": "991f5838d62cf1b53a70c72eb2968de34bb907ac9827b3e3ebc1a720a663ef85",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "mercs",
+        "label": "support-cap",
+        "sha256": "286886d56fb8965e03d0eccf60915625ded8a1c1b42815bd5fee7f6bf6051668",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "mercs",
+        "label": "vocation-seed",
+        "sha256": "592799e1d4515eed46d82f4a2717c69f067f26ea585e9db93000bfe445c578f4",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "mercs",
+        "label": "given-name",
+        "sha256": "e376fc5a14c104a33fd7be61cfcca2407cbab1a97a10bd72b9aa470606fd220e",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "mercs",
+        "label": "resync-life",
+        "sha256": "e64195dae5e682dfd734980182ab2133f696f309b74c517504a7a12500beb233",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "mercs",
+        "label": "single-legacy",
+        "sha256": "e26d1870e0ae1e4aa5a2adb58a1807fd358f5ea9bd2bac5e8afc758841a28447",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "mercs",
+        "label": "plural-precedence",
+        "sha256": "387d564cd61d467fbf8f1bb446eda049def1a6993518427209ee028afbd974c7",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "account",
+        "label": "starter-seed",
+        "sha256": "872a67d0f5a0d5e58600b57e2aec92dfe11af755c58ca146d4b886e2f025a292",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "account",
+        "label": "pending-retired",
+        "sha256": "d650aee1a0ce808d54f7c15602080773d7b3f17f30a5b1e6d616abe7b7cd59bf",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "account",
+        "label": "pending-starters",
+        "sha256": "b57cd9db3da23fb5d0f2b22ce6e6035f06f73e34cdedbdf22928c9a2dd3399c5",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "account",
+        "label": "pending-undiscovered",
+        "sha256": "526eb78ebc3fa3dd878e168700c91e482913b60caaf2994d8521619a7dae5136",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "account",
+        "label": "tier-strings",
+        "sha256": "449ae24c8132f5a6e3baeb5710629a6fd7fd293df282744691d05cbef208ce41",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "account",
+        "label": "kit-pick-strings",
+        "sha256": "4e69643ebb981085658a5f929c8ca0187f1c8d9fed522d18b31ac7cc5c8f1d29",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "account",
+        "label": "explicit-grants",
+        "sha256": "41e9ee44f5edfa561a569cd5aa4cd8d281d0de87295ffc37485db98a39340fbf",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "account",
+        "label": "kit-snapshot-alias",
+        "sha256": "2a19219f0083db1f6e402ee0d5329939411c9fc6c05663454b4805eff90a5280",
+        "matchedOriginalFault": true
+      },
+      {
+        "name": "account",
+        "label": "support-pool",
+        "sha256": "8b9d1edaf16060f47766ddf831207221f3188dbc85b449afb56703fdab67e5b2",
+        "matchedOriginalFault": true
+      }
+    ],
+    "previousCharacterFaults": 21,
+    "installerControls": [
+      "install",
+      "unreviewed-reward",
+      "local-import",
+      "second-file-locked",
+      "editor-during-rollback",
+      "locked-rollback",
+      "retry",
+      "installer-lock"
+    ],
+    "screenSha256": "72b5e9164adcf9bca61a2bb82e4ec094bee487fe8d9706164f94ae28695cf04f",
+    "native": [
+      {
+        "label": "original",
+        "consumers": [
+          {
+            "host": "c",
+            "requests": 330,
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "peakTrackedBytes": 93477029,
+            "liveBytesAfterDispose": 0
+          },
+          {
+            "host": "cpp",
+            "requests": 330,
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "peakTrackedBytes": 93477029,
+            "liveBytesAfterDispose": 0
+          },
+          {
+            "host": "dotnet",
+            "requests": 330,
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "peakTrackedBytes": 93477029,
+            "liveBytesAfterDispose": 0
+          }
+        ]
+      },
+      {
+        "label": "installed",
+        "consumers": [
+          {
+            "host": "c",
+            "requests": 330,
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "peakTrackedBytes": 148177150,
+            "liveBytesAfterDispose": 0
+          },
+          {
+            "host": "cpp",
+            "requests": 330,
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "peakTrackedBytes": 148177150,
+            "liveBytesAfterDispose": 0
+          },
+          {
+            "host": "dotnet",
+            "requests": 330,
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": false,
+            "peakTrackedBytes": 148177150,
+            "liveBytesAfterDispose": 0
+          }
+        ]
+      },
+      {
+        "label": "arc-strict-tie-fault",
+        "consumers": [
+          {
+            "host": "c",
+            "requests": 330,
+            "comparison": {
+              "numbers": 380056,
+              "exact": true
+            },
+            "faultDetected": true,
+            "peakTrackedBytes": 148165428,
+            "liveBytesAfterDispose": 0
+          },
+          {
+            "host": "cpp",
+            "requests": 330,
+            "comparison": {
+              "numbers": 380056,
+              "exact": true
+            },
+            "faultDetected": true,
+            "peakTrackedBytes": 148165428,
+            "liveBytesAfterDispose": 0
+          },
+          {
+            "host": "dotnet",
+            "requests": 330,
+            "comparison": {
+              "numbers": 380056,
+              "exact": true
+            },
+            "faultDetected": true,
+            "peakTrackedBytes": 148165428,
+            "liveBytesAfterDispose": 0
+          }
+        ]
+      },
+      {
+        "label": "rider-depth-fault",
+        "consumers": [
+          {
+            "host": "c",
+            "requests": 330,
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": true,
+            "peakTrackedBytes": 148177162,
+            "liveBytesAfterDispose": 0
+          },
+          {
+            "host": "cpp",
+            "requests": 330,
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": true,
+            "peakTrackedBytes": 148177162,
+            "liveBytesAfterDispose": 0
+          },
+          {
+            "host": "dotnet",
+            "requests": 330,
+            "comparison": {
+              "numbers": 379857,
+              "exact": true
+            },
+            "faultDetected": true,
+            "peakTrackedBytes": 148177162,
+            "liveBytesAfterDispose": 0
+          }
+        ]
+      }
+    ],
+    "nativeScope": "Full existing proc-delivery game replay through C, C++ and .NET. Character-continuity APIs use separate JavaScript package and game-adapter checks.",
+    "workerRecovery": {
+      "symptom": "Three Linux broad reference runs timed out in the first deliberate sustain benchmark fault after their positive control passed.",
+      "affectedRuns": [
+        41908076505,
+        41913454596,
+        41921529814
+      ],
+      "originalLocalRun": true,
+      "repair": "Explicit IPC disconnection, awaited worker process exit, and forced termination after a two-second grace period. Per-worker receipts and logs are retained in hosted runs.",
+      "standalone": [
+        {
+          "mode": "cooperative",
+          "forced": false,
+          "reaped": true,
+          "repeatedClose": true
+        },
+        {
+          "mode": "stubborn",
+          "forced": true,
+          "reaped": true,
+          "repeatedClose": true
+        }
+      ],
+      "freshCheckout": [
+        {
+          "mode": "cooperative",
+          "forced": false,
+          "reaped": true,
+          "repeatedClose": true
+        },
+        {
+          "mode": "stubborn",
+          "forced": true,
+          "reaped": true,
+          "repeatedClose": true
+        }
+      ],
+      "correctedObserver": [
+        {
+          "name": "control",
+          "detected": false,
+          "outputSha256": "03fd9c7f04b7641648c6bc400241af892e19729b89347a1493adf0b93fa3a33d",
+          "proofSha256": "f71da7ff5f205a140ac1867d976ff6b76a3d9b96c4944c264cdc5af230471031"
+        },
+        {
+          "name": "skip-hit",
+          "detected": true,
+          "outputSha256": "03ce9d58c552c53c86ab85c4c6c4b8f092880657fea02aed9b22f2bb363c0d40",
+          "proofSha256": "86c88e7c8d841212d4e94e81387762eb3d69832f75caf9bc8dca16e35f0b3b96"
+        },
+        {
+          "name": "missing-heal",
+          "detected": true,
+          "outputSha256": "ade847a37da511a5a3808a52831c60088046b93da0192758fd864de6fbfe2ac1",
+          "proofSha256": "6e8a95186c902c615cc20cb449f0e24b472a4410a5c269439f64a66f82ad2d6f"
+        },
+        {
+          "name": "healing-order",
+          "detected": true,
+          "outputSha256": "36f41557f09b5b38867d0e08c5a3f9551463ef825c6908f384ba22611f177c73",
+          "proofSha256": "a4d7f941cd907ae5c94a6c81a31b85c9e0e3b33ec2273b21dc05f4a3b2a965ee"
+        },
+        {
+          "name": "extra-draw",
+          "detected": true,
+          "outputSha256": "10dc81d927b3f00c56d276caa73af1a07cf8e218ff1ae06f7b695746ab0dbe01",
+          "proofSha256": "05e8ddc8a99d7398fd56c71e9f64da47645e3f460708e157624ea448cede1e74"
+        }
+      ],
+      "developmentCorrection": "The first shutdown prototype waited for the close event and failed the new regression test with an unsettled top-level await. The final helper waits for process exit and passes both cooperative and unresponsive-worker cases.",
+      "hostedRetest": "Pending at this source commit. The focused Windows/Linux continuity workflow repeats the four actual sustain faults and the shutdown regression."
+    }
+  },
+  "originalGamePreserved": true,
+  "remaining": [
+    "Class gate evaluation and mastery acquisition",
+    "Full Unity and Unreal editor packages and broader Godot coverage",
+    "Physical Steam Deck and older-mobile measurements"
+  ]
+}

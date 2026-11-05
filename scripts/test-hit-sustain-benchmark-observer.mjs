@@ -16,7 +16,7 @@ try {
     if(needle)assert.equal(helper.split(needle).length-1,1,name+' selector');
     fs.writeFileSync(worker,needle?helper.replace(needle,replacement):helper,{flag:'wx'});
     let source=runner;
-    for(const file of ['reference-utils.mjs','hit-sustain-benchmark-checks.mjs'])source=source.replace("from './"+file+"'",'from '+JSON.stringify(pathToFileURL(path.join(root,'scripts',file)).href));
+    for(const file of ['reference-utils.mjs','hit-sustain-benchmark-checks.mjs','stop-benchmark-worker.mjs'])source=source.replace("from './"+file+"'",'from '+JSON.stringify(pathToFileURL(path.join(root,'scripts',file)).href));
     const lookup="path.join(root,'reference/benchmark-hit-sustain-worker.ts')";assert.equal(source.split(lookup).length-1,1);source=source.replace(lookup,JSON.stringify(worker));
     source=source.replace("'.artifacts/hit-sustain-benchmark-verification.json'",JSON.stringify(proofPath));
     source=source.replace("'.artifacts/hit-sustain-benchmark-latest.json'",JSON.stringify(path.join(directory,name+'-latest.json')));

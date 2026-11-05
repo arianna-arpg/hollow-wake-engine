@@ -1,5 +1,6 @@
 import {integrateStatusDelivery} from '../adapters/hollow-wake/integrate-status-delivery.mjs';
 import {integrateProcCasting} from '../adapters/hollow-wake/integrate-proc-casting.mjs';
+import {integrateCharacterContinuity} from '../adapters/hollow-wake/integrate-character-continuity.mjs';
 import {integrateCharacterRules} from '../adapters/hollow-wake/integrate-character-rules.mjs';
 import {integrateVocationSites} from '../adapters/hollow-wake/integrate-vocation-sites.mjs';
 import {integrateVocations} from '../adapters/hollow-wake/integrate-vocations.mjs';
@@ -117,6 +118,7 @@ integrateProcDelivery(game, false);
 integrateVocations(game, false);
 integrateVocationSites(game, false);
 integrateCharacterRules(game, false);
+integrateCharacterContinuity(game, false);
 integrateStatContext(game, false);
 renderHitEffects(renderHitStatus(fs.readFileSync(path.join(game,'src/engine/world.ts'),'utf8')));
 // A distinct tool environment: never install into the frozen reference or another checkout's junction.
@@ -286,6 +288,9 @@ changes.vocationSiteDecision = sites.decision;
 const characterRules = integrateCharacterRules(game);
 changes.files.push(...characterRules.files);
 changes.characterRulesDecision = characterRules.decision;
+const continuity = integrateCharacterContinuity(game);
+changes.files.push(...continuity.files);
+changes.characterContinuityDecision = continuity.decision;
 const statContext = integrateStatContext(game);
 changes.files.push(...statContext.files);
 changes.statContextDecision = statContext.decision;
