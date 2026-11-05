@@ -282,3 +282,9 @@ with existing gate, identity, relic and storage capabilities. The host retains
 authority, ledger event production, durable saving and presentation. The game
 adapter preserves earlier class-claim/reward delegations. See
 [unlocks and memory rewards](unlock-lifecycle.md) for named repairs and acceptance.
+
+The optional [progression session](progression-session.md) adds bounded, owned
+JSON profiles over these services. Mutations commit account state and RNG together
+after validation; content stays shared. The Godot adapter packages this control
+interface and the native host for desktop editor/export use. Host authority,
+durable I/O, content migrations and live item transfers remain outside the session.

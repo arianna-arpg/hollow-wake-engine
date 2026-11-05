@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.44.0-candidate.0",
+  "version": "0.45.0-candidate.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -397,6 +397,10 @@
     "./presentation/runes": {
       "types": "./dist/rune-script.d.ts",
       "import": "./dist/rune-script.js"
+    },
+    "./progression/session": {
+      "types": "./dist/progression-session.d.ts",
+      "import": "./dist/progression-session.js"
     }
   },
   "scripts": {
@@ -733,7 +737,9 @@
     "adapter:unlock-faults": "node scripts/test-unlock-installed-faults.mjs --location .artifacts/adapter-location.json",
     "adapter:unlock-ui": "node scripts/test-installed-unlock-screen.mjs --location .artifacts/adapter-location.json",
     "native:unlocks": "node scripts/test-native-unlocks.mjs",
-    "benchmark:unlock-content": "node scripts/benchmark-unlock-content-load.mjs"
+    "benchmark:unlock-content": "node scripts/benchmark-unlock-content-load.mjs",
+    "godot:progression-package": "node scripts/build-godot-progression.mjs",
+    "godot:progression-replay": "node scripts/test-godot-progression.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12",

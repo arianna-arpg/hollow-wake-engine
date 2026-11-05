@@ -1,0 +1,838 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "version": "0.45.0-candidate.0",
+  "baseCommit": "7a9ce103ed284339dd98930f7e0577f72acd9be1",
+  "scope": "Optional account progression session and experimental Windows x64 Godot package. No whole-game completion, device performance, hosted-platform or Unity/Unreal claim.",
+  "sources": {
+    ".github/workflows/godot-native.yml": "fdee66c7ac62887c880d921afe4317afd98301d926c4d697aa5a9da1e94bf789",
+    "README.md": "272db8812d916f29f29c31b97a8bc9ad54473267b4fadd6ba32ce69378c3d973",
+    "adapters/godot/progression/README.md": "dc37c998be59cfe00baa3bc76af0120bf2c1dc9eaa999aff0ac1cac6cd0a8031",
+    "adapters/godot/progression/progression.gd": "e4e618207cd422c65f9215e4c54ed21dc2f03ad1ee7b9d001d3e7d5efe57449e",
+    "adapters/godot/progression/session.mjs": "f9222b37301edb39706325152d3bcace3b9312f218727be26908e0df71a2bc95",
+    "docs/boundary-contract.md": "3b0ab7da69b2d69d3d4f84f459731a60304b6e46b334f30715d39bfc0e144883",
+    "docs/completion.json": "ab77fc9189d75a6a02d52eea7087ee85aa537df67e81abebc0f15baa19ca302c",
+    "docs/progression-session.md": "cc849fc6cba1aec1e12d2b04401f7cdf7874b52b0f99545b4e8044e476a96de6",
+    "docs/verification.md": "d699d55352baa9fe0af36ca51dfdd99e10ca18e04555c232d4d793bba9214da3",
+    "package-lock.json": "ab156e91525baf0c20f982e3d5c482490dd96a0fc27a0d113ce388a933e2ddee",
+    "package.json": "c4a24b04a6f812e44ef6d0039a24ac380917599929475e19d9e450c57a02da9d",
+    "scripts/benchmark-progression-session.mjs": "1a508554fe6ab70b9dd4306ae2e7f9e95351e5bdaaeaca24b49d485aa418f2e3",
+    "scripts/build-godot-progression.mjs": "d0ebbe961d62ac0242b17680233ee202efc382715896aed97c14f8240d131c64",
+    "scripts/check-boundaries.mjs": "11e4a24118bb7412a41aa3c2742bfd87b3fd7a62104b022077ac1eb0f229264f",
+    "scripts/godot-proc-example-archive.py": "f8aadc009f3c2b70e4c7017f547c4f02a63d173fa4947ade4deb65c29fdfab6c",
+    "scripts/test-godot-progression.mjs": "ff682837b8537fe2ea3fc91b769ce7135c5c9788323e4a8a63423025278f8bfd",
+    "scripts/test-package.mjs": "59f0e46607c22d3dcdf14ff5b27ec55d088e06026106b775a30a93a3b83d9678",
+    "scripts/test-progression-session-faults.mjs": "af8bc1326f5e947af881be42c6605f8521967c6da2fcd8f7cccce7dd66d91f97",
+    "src/progression-session.ts": "f3708f68117b36b26dc8b20cfa2b88c8991694c64228f00925e9e1110fde5d56",
+    "test/godot-addon-archive.py": "58799969344dc4ed34664ddf2a9db8ef7817ffc7ff17995c4217e6877394e2a4",
+    "test/godot-progression/probe.gd": "45c915ec20ca678d92bffc6aefb24dc9206caab42f29e41668c82e37a41a5574",
+    "test/progression-session.test.mjs": "4308e446231434ef6b0c481c0c1e504de00ca9af533e8d5cb29c8e02a4580cfc"
+  },
+  "checks": {
+    "fullVerifier": {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "tests": 1490,
+      "failures": 0,
+      "temporaryFilesInsideWorkspace": true
+    },
+    "frozenReference": {
+      "command": "npm run reference:verify",
+      "exitCode": 0
+    },
+    "coreBenchmark": {
+      "command": "npm run benchmark",
+      "exitCode": 0
+    },
+    "logs": {
+      "verify": {
+        "file": ".artifacts/progression-session-verify-6.txt",
+        "sha256": "45eb8a318bcf8f7f31583e67fc969008cbe03de136dd592e03aab2fc4cd25566"
+      },
+      "reference": {
+        "file": ".artifacts/progression-session-reference-1.txt",
+        "sha256": "2959b67c07f56d71f324cc1a75bfcd36bcd958124c58d8839df5d4023a0dadbb"
+      },
+      "coreBenchmark": {
+        "file": ".artifacts/progression-session-benchmark-core-2.txt",
+        "sha256": "b88fdbc0ccf2a9b6e95b13c8cc3cda7364e389b8e480375a1045b56ca3518625"
+      },
+      "accountBenchmark": {
+        "file": ".artifacts/progression-session-benchmark-account-2.txt",
+        "sha256": "d986662ee0e65a2adc1765195be68276f646925fc22059e6e4df2938d345c601"
+      }
+    }
+  },
+  "package": {
+    "passed": true,
+    "directory": ".artifacts/godot-progression-addon-3lNvEM",
+    "platform": "win32",
+    "arch": "x64",
+    "archive": ".artifacts/godot-progression-addon-3lNvEM/hollow-wake-godot-progression-windows-x64.zip",
+    "archiveSha256": "78ed72b29fa57049650c6603062904f07e4936cc13107c588471575515608073",
+    "archiveBytes": 1299961,
+    "sdkArchive": ".artifacts/godot-progression-addon-3lNvEM/hollow-wake-engine-0.45.0-candidate.0.tgz",
+    "sdkArchiveSha256": "a9417feeb6ca83389997d38f32e585e3d665d53963ab4c78b0d1f68289841e0c",
+    "baseProofSha256": "14bdc47c3125c640e3e1396eb7e0fc4d3e2dcbeb12e910acbdf79df7dc20a317",
+    "libraryProofSha256": "dd26ec11f2bdc8213f2458c6b35647ade54610f194e01791c56744a37273ab4d",
+    "sources": {
+      "src/progression-session.ts": "f3708f68117b36b26dc8b20cfa2b88c8991694c64228f00925e9e1110fde5d56",
+      "test/progression-session.test.mjs": "4308e446231434ef6b0c481c0c1e504de00ca9af533e8d5cb29c8e02a4580cfc",
+      "scripts/build-godot-progression.mjs": "d0ebbe961d62ac0242b17680233ee202efc382715896aed97c14f8240d131c64",
+      "scripts/godot-proc-example-archive.py": "f8aadc009f3c2b70e4c7017f547c4f02a63d173fa4947ade4deb65c29fdfab6c",
+      "test/godot-addon-archive.py": "58799969344dc4ed34664ddf2a9db8ef7817ffc7ff17995c4217e6877394e2a4",
+      "adapters/godot/progression/session.mjs": "f9222b37301edb39706325152d3bcace3b9312f218727be26908e0df71a2bc95",
+      "adapters/godot/progression/progression.gd": "e4e618207cd422c65f9215e4c54ed21dc2f03ad1ee7b9d001d3e7d5efe57449e",
+      "adapters/godot/progression/README.md": "dc37c998be59cfe00baa3bc76af0120bf2c1dc9eaa999aff0ac1cac6cd0a8031"
+    },
+    "files": {
+      "bundle.txt": "d9aa1c8629421409fccc98b6b440d81e7ba0058a4e35a217d09895bbf5cc0a82",
+      "content.json": "c654da838ccfe3203be32e977777df5b65400ff5f8c3038ca8a8c9c2a8106846",
+      "progression.gd": "e4e618207cd422c65f9215e4c54ed21dc2f03ad1ee7b9d001d3e7d5efe57449e",
+      "README.md": "dc37c998be59cfe00baa3bc76af0120bf2c1dc9eaa999aff0ac1cac6cd0a8031"
+    },
+    "bundleBytes": 66827,
+    "contentBytes": 367341,
+    "inputs": [
+      "node_modules/@hollow-wake/engine/dist/validation.js",
+      "node_modules/@hollow-wake/engine/dist/random.js",
+      "node_modules/@hollow-wake/engine/dist/progression-gate-content.js",
+      "node_modules/@hollow-wake/engine/dist/character-identity.js",
+      "node_modules/@hollow-wake/engine/dist/rune-script.js",
+      "node_modules/@hollow-wake/engine/dist/unlock-predicates.js",
+      "node_modules/@hollow-wake/engine/dist/memory-rewards.js",
+      "node_modules/@hollow-wake/engine/dist/unlock-content.js",
+      "node_modules/@hollow-wake/engine/dist/progression-gates.js",
+      "node_modules/@hollow-wake/engine/dist/class-claims.js",
+      "node_modules/@hollow-wake/engine/dist/unlock-lifecycle.js",
+      "node_modules/@hollow-wake/engine/dist/memory-reward-content.js",
+      "node_modules/@hollow-wake/engine/dist/inventory-host.js",
+      "node_modules/@hollow-wake/engine/dist/stash-policy.js",
+      "node_modules/@hollow-wake/engine/dist/relic-custody.js",
+      "node_modules/@hollow-wake/engine/dist/progression-session.js",
+      "session.mjs"
+    ],
+    "commands": [
+      {
+        "name": "runtime-build",
+        "logSha256": "8e29b789615f00edcd1d32a5b6d117eb9e0be23d526116bfd56ea8db14a01974"
+      },
+      {
+        "name": "pack",
+        "logSha256": "759acce1ab02add408b3c35e618fba1ef535a624f168b3fe21b8b2577cc1d607"
+      },
+      {
+        "name": "install",
+        "logSha256": "260b81283a0da65e0d8dfcf98575e940ede1f863ed00bc5c0ec5bd2f838907e1"
+      },
+      {
+        "name": "consumer-contract",
+        "logSha256": "448ce38b9e024b861536834c3d2e689bc9b160df3bcb7d89e61f7b0aa0e9da83"
+      },
+      {
+        "name": "consumer-types",
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "archive-contracts",
+        "logSha256": "c9d047bad127aa88c61269885f9cfa3bc68d1d2c7880f9dcf9bd82a8d0d465ee"
+      },
+      {
+        "name": "assemble",
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "godot": {
+    "passed": true,
+    "directory": ".artifacts/godot-progression-replay-mGwswL",
+    "platform": "win32",
+    "arch": "x64",
+    "archiveSha256": "78ed72b29fa57049650c6603062904f07e4936cc13107c588471575515608073",
+    "packageReceiptSha256": "656d81078e794fc8ecc820ce8d7d40643626c55c2af4fc5263dbd9c80f93082b",
+    "commands": [
+      {
+        "name": "import",
+        "exitCode": 0,
+        "logSha256": "f769dab751ff08a6b48616b77f486cfffa320005612546be37c2c01a27d99c01"
+      },
+      {
+        "name": "editor",
+        "exitCode": 0,
+        "logSha256": "cbd56d618160e3025e3c22617e900627612c04742a728185fecdd318586c259b"
+      },
+      {
+        "name": "export",
+        "exitCode": 0,
+        "logSha256": "13ef6b0ad1c85fd51a884b1fb5c4cfd39968c48a5c299ed17fe642d33b9d664f"
+      },
+      {
+        "name": "release",
+        "exitCode": 0,
+        "logSha256": "cbd56d618160e3025e3c22617e900627612c04742a728185fecdd318586c259b"
+      }
+    ],
+    "sources": {
+      "scripts/test-godot-progression.mjs": "ff682837b8537fe2ea3fc91b769ce7135c5c9788323e4a8a63423025278f8bfd",
+      "test/godot-progression/probe.gd": "45c915ec20ca678d92bffc6aefb24dc9206caab42f29e41668c82e37a41a5574"
+    },
+    "scope": "Account purchases, class claims, storage with opaque items, memory RNG continuation, isolated disk save/restore and eight profiles in Godot. Peak bytes report tracked embedded allocations only; no device claim.",
+    "editor": {
+      "assertions": 87,
+      "catalogue_total": 258,
+      "continuations": [
+        {
+          "id": "mimicry",
+          "kind": "skill",
+          "sequence": 2,
+          "tier": "discovery"
+        },
+        {
+          "id": "vent_hop",
+          "kind": "skill",
+          "sequence": 3,
+          "tier": "discovery"
+        },
+        {
+          "id": "aureate_writ",
+          "kind": "support",
+          "sequence": 4,
+          "tier": "discovery"
+        },
+        {
+          "id": "overflow_reservoir",
+          "kind": "support",
+          "sequence": 5,
+          "tier": "discovery"
+        },
+        {
+          "id": "prismatic_ray",
+          "kind": "skill",
+          "sequence": 6,
+          "tier": "discovery"
+        },
+        {
+          "id": "umbral_focus",
+          "kind": "support",
+          "sequence": 7,
+          "tier": "discovery"
+        },
+        {
+          "id": "capacitor",
+          "kind": "support",
+          "sequence": 8,
+          "tier": "discovery"
+        },
+        {
+          "id": "wandering_spirits",
+          "kind": "skill",
+          "sequence": 9,
+          "tier": "discovery"
+        },
+        {
+          "id": "deaths_door",
+          "kind": "support",
+          "sequence": 10,
+          "tier": "discovery"
+        },
+        {
+          "id": "form_of_the_dire_wolf",
+          "kind": "skill",
+          "sequence": 11,
+          "tier": "discovery"
+        }
+      ],
+      "exact_integer": "9007199254740991",
+      "finished": {
+        "credits": 940,
+        "draws": 0,
+        "ok": true,
+        "result": true,
+        "spent": 43
+      },
+      "first": {
+        "credits": 845,
+        "draws": 1,
+        "ok": true,
+        "receipt": {
+          "id": "volcanic_heart",
+          "kind": "support",
+          "sequence": 1,
+          "tier": "discovery"
+        },
+        "result": true,
+        "spent": 30
+      },
+      "large_profiles": 2,
+      "metrics": {
+        "allocations": 10644,
+        "cancellation_requested": false,
+        "closed": true,
+        "delivery_failed": false,
+        "live_blocks": 0,
+        "live_bytes": 0,
+        "peak_bytes": 3371094,
+        "poisoned": false,
+        "response_pending": false,
+        "status": 0
+      },
+      "partial": {
+        "credits": 983,
+        "draws": 0,
+        "ok": true,
+        "result": 17,
+        "spent": 17
+      },
+      "passed": true,
+      "power": {
+        "credits": 875,
+        "draws": 0,
+        "ok": true,
+        "result": true,
+        "spent": 25
+      },
+      "resumed_metrics": {
+        "allocations": 5098,
+        "cancellation_requested": false,
+        "closed": true,
+        "delivery_failed": false,
+        "live_blocks": 0,
+        "live_bytes": 0,
+        "peak_bytes": 3654036,
+        "poisoned": false,
+        "response_pending": false,
+        "status": 0
+      },
+      "storage": {
+        "credits": 900,
+        "draws": 0,
+        "ok": true,
+        "result": true,
+        "spent": 40
+      }
+    },
+    "release": {
+      "assertions": 87,
+      "catalogue_total": 258,
+      "continuations": [
+        {
+          "id": "mimicry",
+          "kind": "skill",
+          "sequence": 2,
+          "tier": "discovery"
+        },
+        {
+          "id": "vent_hop",
+          "kind": "skill",
+          "sequence": 3,
+          "tier": "discovery"
+        },
+        {
+          "id": "aureate_writ",
+          "kind": "support",
+          "sequence": 4,
+          "tier": "discovery"
+        },
+        {
+          "id": "overflow_reservoir",
+          "kind": "support",
+          "sequence": 5,
+          "tier": "discovery"
+        },
+        {
+          "id": "prismatic_ray",
+          "kind": "skill",
+          "sequence": 6,
+          "tier": "discovery"
+        },
+        {
+          "id": "umbral_focus",
+          "kind": "support",
+          "sequence": 7,
+          "tier": "discovery"
+        },
+        {
+          "id": "capacitor",
+          "kind": "support",
+          "sequence": 8,
+          "tier": "discovery"
+        },
+        {
+          "id": "wandering_spirits",
+          "kind": "skill",
+          "sequence": 9,
+          "tier": "discovery"
+        },
+        {
+          "id": "deaths_door",
+          "kind": "support",
+          "sequence": 10,
+          "tier": "discovery"
+        },
+        {
+          "id": "form_of_the_dire_wolf",
+          "kind": "skill",
+          "sequence": 11,
+          "tier": "discovery"
+        }
+      ],
+      "exact_integer": "9007199254740991",
+      "finished": {
+        "credits": 940,
+        "draws": 0,
+        "ok": true,
+        "result": true,
+        "spent": 43
+      },
+      "first": {
+        "credits": 845,
+        "draws": 1,
+        "ok": true,
+        "receipt": {
+          "id": "volcanic_heart",
+          "kind": "support",
+          "sequence": 1,
+          "tier": "discovery"
+        },
+        "result": true,
+        "spent": 30
+      },
+      "large_profiles": 2,
+      "metrics": {
+        "allocations": 10644,
+        "cancellation_requested": false,
+        "closed": true,
+        "delivery_failed": false,
+        "live_blocks": 0,
+        "live_bytes": 0,
+        "peak_bytes": 3371094,
+        "poisoned": false,
+        "response_pending": false,
+        "status": 0
+      },
+      "partial": {
+        "credits": 983,
+        "draws": 0,
+        "ok": true,
+        "result": 17,
+        "spent": 17
+      },
+      "passed": true,
+      "power": {
+        "credits": 875,
+        "draws": 0,
+        "ok": true,
+        "result": true,
+        "spent": 25
+      },
+      "resumed_metrics": {
+        "allocations": 5098,
+        "cancellation_requested": false,
+        "closed": true,
+        "delivery_failed": false,
+        "live_blocks": 0,
+        "live_bytes": 0,
+        "peak_bytes": 3654036,
+        "poisoned": false,
+        "response_pending": false,
+        "status": 0
+      },
+      "storage": {
+        "credits": 900,
+        "draws": 0,
+        "ok": true,
+        "result": true,
+        "spent": 40
+      }
+    },
+    "releaseWithoutProject": true
+  },
+  "installedFaults": {
+    "passed": true,
+    "directory": ".artifacts/progression-session-faults-ANjGwh",
+    "archiveSha256": "a9417feeb6ca83389997d38f32e585e3d665d53963ab4c78b0d1f68289841e0c",
+    "runs": [
+      {
+        "name": "restore-rng-reset",
+        "test": "seeded rewards continue",
+        "controlPassed": true,
+        "faultDetected": true,
+        "controlLogSha256": "87154e6788bffbad6a425ccea53ba25143177c194fed984f37de9d2447310d35",
+        "faultLogSha256": "b35d613f329fcd0e0f5d1894c4e066b792d54aa95cfc911be091c62f12e23620"
+      },
+      {
+        "name": "lost-investment",
+        "test": "account transactions preserve",
+        "controlPassed": true,
+        "faultDetected": true,
+        "controlLogSha256": "79ab9e056903e2db948c8f8ae0d47d1a116e61e66ce99bb6cce594b76bed4fa1",
+        "faultLogSha256": "f2292853245b3ea4a442b6e815ebd9d6a11dffa9d1085fa6a2f011874d01b3d8"
+      },
+      {
+        "name": "storage-no-reconcile",
+        "test": "storage purchases retain",
+        "controlPassed": true,
+        "faultDetected": true,
+        "controlLogSha256": "bf3293608ead48e06d3625d19e79ed0af9283f48102cecc3c7caf013bfe902ac",
+        "faultLogSha256": "a84ff4a0293d725551353449a3dd8cbfbf1f29ed579c5f587e22f5df4f7c5513"
+      },
+      {
+        "name": "claim-not-retired",
+        "test": "earned class settlement",
+        "controlPassed": true,
+        "faultDetected": true,
+        "controlLogSha256": "c2483bbfa26fe51adee77adbb861f16510a70f8cea153385d4ec5834b44fc314",
+        "faultLogSha256": "3089fba4da1c6b34281b5573c74aaefeeaf35e7feefa9632394a26b12a450a73"
+      }
+    ]
+  },
+  "archiveControl": {
+    "passed": true,
+    "directory": ".artifacts/progression-archive-control-W8DV8G",
+    "controlPassed": true,
+    "windowsRawSeparatorFaultDetected": true,
+    "sourceSha256": "f8aadc009f3c2b70e4c7017f547c4f02a63d173fa4947ade4deb65c29fdfab6c",
+    "controlLogSha256": "ebe80a61c21e9e4cbadb3c2ed19326511871fb5ffdd59ba0f615a51f6956d304",
+    "faultLogSha256": "c8c704606edc114fd2de236a71ce11db28293d852934b6a8d0a8c1c427b20f5a"
+  },
+  "accountBenchmark": {
+    "passed": true,
+    "directory": ".artifacts/progression-session-benchmark-sQ1oQ3",
+    "node": "v24.9.0",
+    "platform": "win32",
+    "arch": "x64",
+    "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+    "sdkArchiveSha256": "a9417feeb6ca83389997d38f32e585e3d665d53963ab4c78b0d1f68289841e0c",
+    "packageReceiptSha256": "656d81078e794fc8ecc820ce8d7d40643626c55c2af4fc5263dbd9c80f93082b",
+    "scriptSha256": "1a508554fe6ab70b9dd4306ae2e7f9e95351e5bdaaeaca24b49d485aa418f2e3",
+    "scope": "Four fresh sequential desktop Node processes; shared content loaded before timing. Each measured cycle includes eleven JSON commands, draft validation, item retention and independent outcome assertions. No device, native-engine, frame-time, allocation-volume or optimization-speedup claim.",
+    "runs": [
+      {
+        "passed": true,
+        "batchesMsPerCycle": [
+          2.05547734375,
+          1.9365515625,
+          2.089709375,
+          2.03666796875,
+          2.02603125,
+          2.0296265625,
+          2.03938203125,
+          2.0039203125,
+          1.9940265625,
+          2.01848046875,
+          1.99030390625,
+          1.9933546875,
+          1.963646875,
+          1.98669375,
+          1.98515234375,
+          2.00404921875
+        ],
+        "cyclesPerBatch": 128,
+        "commandsPerCycle": 11,
+        "warmupCycles": 128,
+        "moduleSha256": "3b68c2a9a7bb30e8da1560ba6d6470dcc5870ccc6982c2b9a78ec2ae9e7b249e",
+        "logSha256": "8226a7a21328ffa884361f63dbc6e37c20cf0fa3c90e857eb32fc404f4ce95d6"
+      },
+      {
+        "passed": true,
+        "batchesMsPerCycle": [
+          2.12931640625,
+          2.10716953125,
+          2.2784984375,
+          2.08677578125,
+          2.17694453125,
+          2.10393125,
+          2.058628125,
+          2.1443390625,
+          2.1291234375,
+          2.20670234375,
+          2.046890625,
+          2.06207265625,
+          2.0662609375,
+          2.10414921875,
+          2.0595859375,
+          2.13372734375
+        ],
+        "cyclesPerBatch": 128,
+        "commandsPerCycle": 11,
+        "warmupCycles": 128,
+        "moduleSha256": "3b68c2a9a7bb30e8da1560ba6d6470dcc5870ccc6982c2b9a78ec2ae9e7b249e",
+        "logSha256": "e1c00e5aadc9e6876d0428ea3a9f668bb3692acedcb3caa3774f50d81b335b06"
+      },
+      {
+        "passed": true,
+        "batchesMsPerCycle": [
+          2.1647328125,
+          2.22273515625,
+          2.17013828125,
+          2.1843609375,
+          2.03670859375,
+          2.09505703125,
+          2.04185625,
+          2.04341796875,
+          2.156084375,
+          1.9943625,
+          1.92577421875,
+          1.935834375,
+          1.916971875,
+          1.82058828125,
+          1.92452421875,
+          1.88996015625
+        ],
+        "cyclesPerBatch": 128,
+        "commandsPerCycle": 11,
+        "warmupCycles": 128,
+        "moduleSha256": "3b68c2a9a7bb30e8da1560ba6d6470dcc5870ccc6982c2b9a78ec2ae9e7b249e",
+        "logSha256": "ab929ed6b9f47829a98ce0e921b95c308a462a4113a4bfbe12b4e07d4cbecf42"
+      },
+      {
+        "passed": true,
+        "batchesMsPerCycle": [
+          2.01118203125,
+          1.97718671875,
+          1.99567734375,
+          2.05403203125,
+          1.93471875,
+          1.9358234375,
+          1.8516875,
+          2.0045609375,
+          2.04324765625,
+          2.01039296875,
+          1.99886875,
+          2.02888671875,
+          1.88118671875,
+          1.87833125,
+          1.845578125,
+          1.83214453125
+        ],
+        "cyclesPerBatch": 128,
+        "commandsPerCycle": 11,
+        "warmupCycles": 128,
+        "moduleSha256": "3b68c2a9a7bb30e8da1560ba6d6470dcc5870ccc6982c2b9a78ec2ae9e7b249e",
+        "logSha256": "53a8066a8159fadc33d892658f647725a24d1f14626b92c4de3effc32007a397"
+      }
+    ],
+    "medianMsPerCycle": 2.029256640625,
+    "minMsPerCycle": 1.82058828125,
+    "maxMsPerCycle": 2.2784984375
+  },
+  "coreBenchmark": {
+    "schemaVersion": 1,
+    "capturedAt": "2026-11-05T20:16:17.094Z",
+    "scope": "Same build and 20,000 resolved spell contacts. Original path includes dormant full-game hooks and presentation bookkeeping; SDK implements the declared smaller capability. This is not a whole-game FPS benchmark.",
+    "environment": {
+      "node": "v24.9.0",
+      "platform": "win32",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "logicalCpus": 20,
+      "memoryGiB": 63.91801834106445
+    },
+    "iterations": 20000,
+    "warmup": 3000,
+    "rounds": 7,
+    "seed": 659918,
+    "compileContentMs": 1.9017000000003463,
+    "samples": [
+      {
+        "round": 0,
+        "first": "original",
+        "original": {
+          "ms": 737.0432000000001,
+          "checksum": 582801.4367201545
+        },
+        "extracted": {
+          "ms": 9.477700000000368,
+          "checksum": 582801.4367201545,
+          "planBuilds": 1,
+          "buildSetupMs": 0.6256999999995969
+        }
+      },
+      {
+        "round": 1,
+        "first": "extracted",
+        "original": {
+          "ms": 722.9721,
+          "checksum": 582801.4367201545
+        },
+        "extracted": {
+          "ms": 7.048899999999776,
+          "checksum": 582801.4367201545,
+          "planBuilds": 1,
+          "buildSetupMs": 0.7196000000003551
+        }
+      },
+      {
+        "round": 2,
+        "first": "original",
+        "original": {
+          "ms": 704.4652999999998,
+          "checksum": 582801.4367201545
+        },
+        "extracted": {
+          "ms": 5.806399999999485,
+          "checksum": 582801.4367201545,
+          "planBuilds": 1,
+          "buildSetupMs": 0.5414000000000669
+        }
+      },
+      {
+        "round": 3,
+        "first": "extracted",
+        "original": {
+          "ms": 715.7921000000006,
+          "checksum": 582801.4367201545
+        },
+        "extracted": {
+          "ms": 7.263100000000122,
+          "checksum": 582801.4367201545,
+          "planBuilds": 1,
+          "buildSetupMs": 0.7620999999999185
+        }
+      },
+      {
+        "round": 4,
+        "first": "original",
+        "original": {
+          "ms": 708.5986000000003,
+          "checksum": 582801.4367201545
+        },
+        "extracted": {
+          "ms": 5.736800000000585,
+          "checksum": 582801.4367201545,
+          "planBuilds": 1,
+          "buildSetupMs": 0.370600000000195
+        }
+      },
+      {
+        "round": 5,
+        "first": "extracted",
+        "original": {
+          "ms": 625.4190000000017,
+          "checksum": 582801.4367201545
+        },
+        "extracted": {
+          "ms": 6.738500000001295,
+          "checksum": 582801.4367201545,
+          "planBuilds": 1,
+          "buildSetupMs": 0.3875000000007276
+        }
+      },
+      {
+        "round": 6,
+        "first": "original",
+        "original": {
+          "ms": 655.5318000000007,
+          "checksum": 582801.4367201545
+        },
+        "extracted": {
+          "ms": 6.155499999998938,
+          "checksum": 582801.4367201545,
+          "planBuilds": 1,
+          "buildSetupMs": 0.5482999999985623
+        }
+      }
+    ],
+    "summary": {
+      "originalMedianMs": 708.5986000000003,
+      "extractedMedianMs": 6.738500000001295,
+      "ratio": 105.15672627437324,
+      "originalMicrosecondsPerHit": 35.42993000000001,
+      "extractedMicrosecondsPerHit": 0.33692500000006476
+    },
+    "limits": [
+      "Steam Deck not measured",
+      "Older phones/tablets not measured",
+      "No renderer, projectile movement, statuses, actors ticking or UI",
+      "Heap deltas are not allocation measurements; no allocation claim is made from timing alone"
+    ]
+  },
+  "supersededMeasurement": {
+    "file": ".artifacts/progression-session-benchmark-B5YFOW/verification.json",
+    "sha256": "4fffec17a96544235198d7b4864450c928014a5218f0762aa93ecc0f7ce370a5",
+    "reason": "Measured before the final reply-atomicity, save-envelope, wire-byte and portable-text fixes; not the accepted final runtime measurement."
+  },
+  "preservation": {
+    "receipt": ".artifacts/proc-dispatch-preservation-EUaK8s/verification.json",
+    "sha256": "1c4b84d7ed36a4c2484b8f1c7504d57c9f03546b7b6b52a43ee4e68591231d37",
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "files": 4149,
+    "changes": [],
+    "index": "",
+    "sourceCapsuleVerified": true
+  },
+  "failuresRetained": [
+    {
+      "file": ".artifacts/progression-byte-boundary-before.txt",
+      "sha256": "80922b73d436934e6d17b6ceaddb11827deeca6a843aaca20641e5d884f33b6e",
+      "reason": "The new transport regression failed by assertion before canonical UTF-8 byte accounting; node/string quotas alone admitted oversized encoded packets."
+    },
+    {
+      "file": ".artifacts/progression-godot-strings-before.txt",
+      "sha256": "4f43f04418ce86b942d74e49928b2ebda752eeaab87b8c015de1909880a03a53",
+      "reason": "The new portable NUL refusal assertion failed against the prior build. The TAP result contains one failure; the surrounding diagnostic shell returned zero after reading its log."
+    },
+    {
+      "file": ".artifacts/godot-progression-replay-lW1u4K/verification.json",
+      "sha256": "f50a2ab15d4f5ae63865d789f8a06f0b83628e6eee0f8d0bad020be06fcbc93c",
+      "reason": "Godot substituted the large NUL test payload before submission, invalidating the expected byte refusal and consuming a profile handle. Replaced with U+0001, excluded NUL in the portable contract, and added actual control/Unicode and safe-integer save/restore checks."
+    },
+    {
+      "file": ".artifacts/progression-json-format/engine.log",
+      "sha256": "d6be3812b6e17078c0bb9a26b2e6885166364b984a86689e2d62b5a300f19085",
+      "reason": "Actual Godot encoder diagnostic retained: some C0 controls were emitted literally. The adapter now escapes raw controls in compact requests; the accepted engine run proves their round trip."
+    },
+    {
+      "file": ".artifacts/progression-json-format/precision-engine.log",
+      "sha256": "ebdb6c0729773b5cad573d5c783ac8b9762f1e18d73271554545b4e60e7b7512",
+      "reason": "Actual Godot precision diagnostic retained. Conversion of the safe integer endpoint and JSON parsing preserve its exact value; the accepted engine run additionally proves full save/restore."
+    },
+    {
+      "file": ".artifacts/progression-response-boundary-before.txt",
+      "sha256": "b824eda399c82399dcca91a7e91cd5093893ac4119c91819a40eb53245790eaa",
+      "reason": "Both new regression tests failed by assertion before repair: oversized class reply committed ownership, and an admitted near-limit profile could not return its save envelope."
+    },
+    {
+      "file": ".artifacts/progression-response-boundary-after.txt",
+      "sha256": "d173c1b952062ed204f955977ca13506c1ffb7feadb37bd0908f0d3156bf7c3d",
+      "reason": "All thirteen session contracts pass after validating replies before commit and checking the complete restore-command envelope."
+    },
+    {
+      "file": ".artifacts/progression-session-verify-1.txt",
+      "sha256": "4f644cf8a0d745a77335a0714f60f3077f1449f5e376311e35be47ec7d105628",
+      "reason": "New optional module initially counted in the historical core budget; separate module accounting preserves every prior budget."
+    },
+    {
+      "file": ".artifacts/progression-session-verify-2.txt",
+      "sha256": "6a1eae30170ee5aa2487560523ba8c49d55f8ce4f39deb88ee16373482120194",
+      "reason": "Existing damage package browser test was denied access to the Windows temporary directory parent; unchanged verifier passed with TEMP/TMP inside the SDK workspace."
+    },
+    {
+      "file": ".artifacts/godot-progression-replay-ZSVf3d/verification.json",
+      "sha256": "8e069f72134fb568f563660907806f8f790d654ee803723fb3eeb4420b9b2f4b",
+      "reason": "Godot dictionary comparison distinguished host integers from JSON-decoded floats. Expected JSON representation normalized, independent payload/identity and numeric-type checks added; gameplay unchanged."
+    },
+    {
+      "file": ".artifacts/godot-progression-addon-k6mIqj/archive-contracts.txt",
+      "sha256": "f636693888fb981f83af530d3d3bac6537bc99d168e3b8af06a1b9907ef566c5",
+      "reason": "Malformed separator fixture was normalized by Python on Windows. Raw fixture and raw-member spelling guard added; the separate guard-removal control demonstrates rejection."
+    },
+    {
+      "directory": ".artifacts/progression-session-faults-byPhHA",
+      "reason": "Fourth deliberate fault initially targeted a nonexistent span in class-claims.js; not counted. Corrected exact target in unlock-lifecycle.js passes fresh control and fails by assertion."
+    }
+  ],
+  "publication": {
+    "localOnly": true,
+    "intendedRepositoryVisibility": "public",
+    "pendingBaseline": "56e15167e498519d639c7f7e2ab47040c7bb586b",
+    "reason": "Earlier automatic approval review rejected public publication of the original authored unlock/reward definitions and traces; the specific source-content approval is still pending."
+  },
+  "remaining": [
+    "Hosted Windows/Linux progression runs",
+    "Steam Deck and named older mobile measurements",
+    "ARM builds",
+    "Complete gameplay facades and Unity/Unreal packages",
+    "Host durable-save orchestration and content-version migrations"
+  ]
+}

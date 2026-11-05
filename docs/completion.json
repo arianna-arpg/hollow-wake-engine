@@ -63,6 +63,10 @@
         "scripts/test-progression-gate-overlay.mjs",
         "scripts/test-installed-progression-gates.mjs",
         "docs/unlock-lifecycle.md",
+        "docs/progression-session.md",
+        "test/progression-session.test.mjs",
+        "test/godot-progression/probe.gd",
+        "evidence/progression-session/runtime-windows.json",
         "baseline/unlock-lifecycle/supplement-acceptance.json",
         "baseline/unlock-lifecycle/repairs/acceptance.json",
         "test/unlock-lifecycle.test.mjs",
@@ -75,7 +79,7 @@
         "scripts/test-native-unlocks.mjs"
       ],
       "remaining": [
-        "Hosted platform checks, editor distribution and physical-device acceptance for unlock/memory flows",
+        "Hosted platform checks and physical-device acceptance for unlock/memory flows; the Windows x64 Godot progression addon now passes local editor and relocated release courses with disk saves and RNG continuation",
         "Account envelope migration and durable save orchestration outside the extracted character fields"
       ]
     },
@@ -639,6 +643,10 @@
         "evidence/embedded-js/portability-windows.json",
         "evidence/embedded-js/portability-ci.json",
         "docs/godot-native.md",
+        "docs/progression-session.md",
+        "scripts/build-godot-progression.mjs",
+        "scripts/test-godot-progression.mjs",
+        "evidence/progression-session/runtime-windows.json",
         "evidence/godot/windows-native-addon.json",
         "evidence/godot/windows-ci.json",
         "evidence/godot/portability-ci.json",
@@ -665,7 +673,7 @@
         "Full-runtime native versus embedding decision; lifecycle leaves and selected embedded-session paths proven",
         "Broader native stack/content-composition acceptance beyond the verified courses; the reproduced nested-attack failure is repaired at the unchanged 256 KiB guard. Original/installed full-attack replay now passes C/C++/.NET on hosted Windows and Linux; dedicated status-delivery replay is separately recorded and does not constitute complete engine-package exposure.",
         "Unity sample",
-        "Broader Godot gameplay coverage beyond the selected session and authored Desperate Ward example. Windows and Linux x64 editor and relocated release runs verify the 64-actor ward addon. ARM builds, full-engine coverage and physical target measurements remain open.",
+        "Broader Godot gameplay coverage beyond the selected combat session, authored Desperate Ward example and account progression facade. Windows and Linux x64 verify the 64-actor ward addon; local Windows x64 also verifies purchases, class claims, relic storage, memory rewards and save/RNG continuation. Hosted progression checks, ARM builds, full-engine coverage and physical target measurements remain open.",
         "Unreal sample",
         "Cross-runtime verification of remaining SDK capabilities",
         "ARM/device builds",

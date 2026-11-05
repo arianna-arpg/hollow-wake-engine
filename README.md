@@ -3,7 +3,9 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
-The 0.44 candidate adds optional unlock and memory reward rules, validated content packs and a guarded game adapter. See [unlocks and memory rewards](docs/unlock-lifecycle.md) for composition, compatibility repairs and acceptance scope.
+The 0.45 candidate adds [persistent account sessions](docs/progression-session.md) and an experimental [Godot progression package](adapters/godot/progression/README.md): purchases, class claims, memory rewards, relic storage and validated save/RNG continuation through a GDScript API. Windows x64 editor and relocated release checks pass; other targets remain separate acceptance work.
+
+The 0.44 candidate added optional unlock and memory reward rules, validated content packs and a guarded game adapter. See [unlocks and memory rewards](docs/unlock-lifecycle.md) for composition, compatibility repairs and acceptance scope.
 
 Version 0.43 added optional progression requirement queries and validated content for 88 authored groups. See [progression gates](docs/progression-gates.md).
 

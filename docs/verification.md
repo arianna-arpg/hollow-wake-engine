@@ -984,3 +984,14 @@ After adapter preparation, the adapter:unlocks command checks actual game delega
 23 save/load transitions and previous class, continuity and gate observations.
 Actual Vault interaction, native/editor packaging and device measurements remain
 separate acceptance gates. See [unlocks and memory rewards](unlock-lifecycle.md).
+
+## Progression session and Godot package
+
+The 0.45 candidate adds fourteen session contracts, an isolated installed consumer,
+strict public types, four installed faults and archive safety/compatibility tests.
+The Godot course exercises the actual wrapper in a fresh editor project and its
+relocated release, including disk persistence and RNG continuation across native
+hosts. `godot:progression-package` and `godot:progression-replay` reproduce that
+path; both target jobs are wired into the existing Godot workflow. Local Windows
+acceptance does not stand in for hosted Linux/Windows or physical-device runs.
+See the [session contract](progression-session.md) and retained evidence.
