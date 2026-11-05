@@ -1,5 +1,13 @@
 # Verification and reproduction
 
+`test:crafting-session-package` runs 14 owned-session contracts against an actual
+offline package installation and a browser bundle with ambient RNG and host
+globals disabled. `test:crafting-session-faults` requires eight injected identity,
+custody, continuation and admission faults to change an assertion, then restores
+both the test installation and its accepted predecessor. Full SDK verification
+includes both checks. See [owned crafting sessions](crafting-session.md);
+native/editor and physical-device acceptance remain separate work.
+
 The `reference:status-delivery` and `test:status-delivery-observer` commands
 freeze caster-side siphoning and Impale recall before extraction. Two original
 captures and the installed predecessor match all 88 courses; 52 source faults

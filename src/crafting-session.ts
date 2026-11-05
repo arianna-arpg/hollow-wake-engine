@@ -1,0 +1,209 @@
+import {CraftingContent} from './crafting-content.js';
+import {CraftingActions, type CraftingCue, type CraftingRefusal, type SalvageLane, type SalvageCategory} from './crafting-actions.js';
+import {SkillProgression} from './skill-progression.js';
+import {createGemResidence, type GemSkill, type GemSupport} from './gem-residence.js';
+import {createItemHost} from './item-host.js';
+import {InventoryHost} from './inventory-host.js';
+import {Random} from './random.js';
+import {CraftingSessionData, type CraftingSessionState, type CraftingSessionDefinitions} from './crafting-session-data.js';
+import type {ItemInstance, ItemRollOptions, ItemForgeOptions} from './item-types.js';
+import {validateMint} from './item-validation.js';
+import {copySessionJSON, SessionInputError, requireSession as need, sessionFields as fields, sessionRecord as record,
+  sessionInteger as integer, sessionText as text, sessionBoolean as bool} from './session-json.js';
+export type {CraftingSessionState, CraftingSessionDefinitions} from './crafting-session-data.js';
+
+type Profile = {state: CraftingSessionState; nextUid: number; random: Random};
+type SkillDef = ReturnType<SkillProgression['skill']>;
+type SupportDef = ReturnType<SkillProgression['support']>;
+type Access = {salvage: boolean; oracle: boolean; bench: boolean; counter: boolean};
+type Event = {kind: 'cue'; cue: CraftingCue} | {kind: 'refused'; reason: CraftingRefusal; noteKey: string}
+  | {kind: 'insufficient'; essence: string; count: number; noteKey: string}
+  | {kind: 'recalculate' | 'dirty' | 'account-save'} | {kind: 'recovered'; uid: number; destination: 'bag' | 'overflow'};
+const refuse = (reason: string) => ({ok: false as const, reason});
+const allItems = (s: CraftingSessionState) => [...s.items,...Object.values(s.equipped),...s.overflow];
+
+/** Bounded owned crafting/UI sessions. Content is shared; each profile owns its
+ * item bodies, wallet, lore, UID and random continuation. Hosts authorize station
+ * observations and persist saves/events. No host callback runs during a command. */
+export class CraftingSession {
+  readonly #defs: CraftingSessionDefinitions;
+  readonly #data: CraftingSessionData;
+  readonly #profiles = new Map<number, Profile>();
+  readonly #identity: unknown[];
+  readonly #maxProfiles: number;
+  readonly #inventory: InventoryHost<ItemInstance>;
+  readonly #skills;
+  readonly #supports;
+  constructor(definitions: CraftingSessionDefinitions, maxProfiles = 8) {
+    need(definitions?.crafting instanceof CraftingContent && definitions?.skills instanceof SkillProgression,'invalid-session-content');
+    integer(maxProfiles,1,64); this.#maxProfiles = maxProfiles;
+    const memoryKinds = copySessionJSON(definitions.memoryKinds); record(memoryKinds);
+    for (const [base,kind] of Object.entries(memoryKinds)) {
+      text(kind); need(Object.hasOwn(definitions.crafting.items.pack.bases,base),'unknown-memory-base');
+      need(Object.hasOwn(definitions.crafting.pack.sell.memoryUnit,kind),'unknown-memory-price');
+    }
+    Object.freeze(memoryKinds);
+    this.#defs = Object.freeze({crafting:definitions.crafting,skills:definitions.skills,memoryKinds:memoryKinds as Record<string,string>});
+    this.#data = new CraftingSessionData(this.#defs);
+    this.#identity = [definitions.crafting.items.id,definitions.crafting.pack.contentId,definitions.skills.pack.contentId,
+      Object.entries(memoryKinds).sort(([a],[b]) => a < b ? -1 : a > b ? 1 : 0)];
+    this.#skills = new Map(definitions.skills.pack.skills.map(row => [row.id,row]));
+    this.#supports = new Map(definitions.skills.pack.supports.map(row => [row.id,row]));
+    this.#inventory = new InventoryHost(item => this.#defs.crafting.items.pack.bases[item.baseId]);
+  }
+  #snapshot(profile: Profile) {
+    const save = {schemaVersion:1,capability:'crafting-session/v1',content:this.#identity,
+      random:profile.random.snapshot(),nextUid:profile.nextUid,state:profile.state};
+    // Reserve the entire restore envelope, not only the smaller save value.
+    return (copySessionJSON({op:'restore',profile:0xffffffff,save}) as {save: ReturnType<typeof copySessionJSON>}).save;
+  }
+  #validate(profile: Profile): void {
+    this.#data.state(profile.state); integer(profile.nextUid,1); integer(profile.random.draws);
+    for (const item of allItems(profile.state)) need(item.uid < profile.nextUid,'uid-floor');
+    this.#snapshot(profile);
+  }
+  #mutate(profile: Profile, work: (draft: Profile, events: Event[]) => unknown): unknown {
+    const draft: Profile = {state:copySessionJSON(profile.state) as unknown as CraftingSessionState,
+      nextUid:profile.nextUid,random:Random.restore(profile.random.snapshot())};
+    const events: Event[] = [], result = work(draft,events);
+    this.#validate(draft);
+    const reply = copySessionJSON({ok:true,result:result ?? null,events,draws:draft.random.draws,nextUid:draft.nextUid});
+    // Only a fully validated state AND reply may replace the owned profile.
+    profile.state = draft.state; profile.random = draft.random; profile.nextUid = draft.nextUid;
+    return reply;
+  }
+  #next(profile: Profile): number {
+    need(profile.nextUid < Number.MAX_SAFE_INTEGER,'uid-exhausted'); return profile.nextUid++;
+  }
+  #random(profile: Profile): number {
+    need(profile.random.draws < Number.MAX_SAFE_INTEGER,'random-exhausted'); return profile.random.next();
+  }
+  #board(state: CraftingSessionState) {
+    const b = state.board;
+    return {w:b.w,h:b.h,...(b.rows ? {open:(x: number,y: number) => b.rows![y][x] === '#'} : {})};
+  }
+  #receive(profile: Profile, item: ItemInstance, events: Event[]): void {
+    const state = profile.state, placed = this.#inventory.autoPlace(state.items,item,this.#board(state));
+    if (!placed) state.overflow.push(item);
+    events.push({kind:'recovered',uid:item.uid,destination:placed ? 'bag' : 'overflow'});
+  }
+  #actions(profile: Profile, access: Access, events: Event[]) {
+    const s = profile.state, skills = this.#defs.skills;
+    const gems = createGemResidence({
+      skill:(id: string) => this.#skills.get(id),support:(id: string) => this.#supports.get(id),hasOwnSupport:(id: string) => this.#supports.has(id),
+      // This session preserves attunement IDs without interpreting world forms.
+      hasForm:() => true,makeSkill:(def,level,sockets): GemSkill<SkillDef,SupportDef> => ({def,level,sockets:Array<GemSupport<SupportDef> | null>(sockets).fill(null)}),
+      validTreeNodes:(def,ids,level,inst) => skills.tree(def.id).restore(ids,level,inst),nextUid:() => this.#next(profile),
+      rebuildItem:(_saved: ItemInstance): never => {throw new Error('Owned crafting uses strict admission, not tolerant restoration');},
+      bagWidth:() => s.board.w,bagHeight:() => s.board.h,itemGridSize:(item: ItemInstance) => this.#defs.crafting.items.pack.bases[item.baseId],
+    });
+    return new CraftingActions(this.#defs.crafting.rules,{
+      carry:() => s,account:() => s.account,hasFeature:id => s.account.features.includes(id),progression:() => s.account.progression,
+      reach:(_ctx: null,station) => access[station],nearBench:() => access.bench,nearCounter:() => access.counter,
+      bagItem:(_ctx: null,uid) => s.items.find(i => i.uid === uid),
+      findCarried:(_ctx: null,uid) => s.items.find(i => i.uid === uid) ?? Object.values(s.equipped).find(i => i.uid === uid),
+      remove:(items,uid) => {this.#inventory.remove(items,uid);},
+      spend:(_ctx: null,cost,noteKey) => {
+        const have = s.essences[cost.essence] ?? 0;
+        if (have < cost.count) {events.push({kind:'insufficient',...cost,noteKey}); return false;}
+        s.essences[cost.essence] = have - cost.count; return true;
+      },
+      grant:(_ctx: null,gain) => {const next = (s.essences[gain.essence] ?? 0) + gain.count; integer(next); s.essences[gain.essence] = next;},
+      random:() => this.#random(profile),recalc:() => events.push({kind:'recalculate'}),dirty:() => events.push({kind:'dirty'}),
+      save:() => events.push({kind:'account-save'}),refuse:(_ctx: null,reason,noteKey) => events.push({kind:'refused',reason,noteKey}),
+      cue:(_ctx: null,cue) => events.push({kind:'cue',cue}),skill:item => gems.skillOfGemItem(item),support:item => gems.supportOfGemItem(item),
+      skillPayload:item => gems.skillGemPayloadOf(item),grantSupport:(_ctx: null,support) => this.#receive(profile,gems.makeSupportGemItem(support),events),
+      memoryKind:item => this.#defs.memoryKinds[item.baseId],
+    });
+  }
+  /** Invalid data and capacity overflows refuse atomically. Unexpected internal
+   * failures throw without committing; hosts must not retry blindly after I/O. */
+  command(input: unknown): unknown {
+    try {return copySessionJSON(this.#command(copySessionJSON(input)));}
+    catch (error) {if (error instanceof SessionInputError) return refuse(error.message); throw error;}
+  }
+  #command(request: unknown): unknown {
+    record(request); text(request.op); integer(request.profile,0,0xffffffff);
+    const profile = this.#profiles.get(request.profile);
+    if (request.op === 'open' || request.op === 'restore') {
+      fields(request,request.op === 'open' ? ['op','profile','seed','nextUid','state'] : ['op','profile','save']);
+      if (profile) return refuse('already-open'); if (this.#profiles.size >= this.#maxProfiles) return refuse('profile-limit');
+      let next: Profile;
+      if (request.op === 'open') {
+        integer(request.seed,0,0xffffffff); const state = this.#data.state(request.state);
+        const floor = allItems(state).reduce((n,i) => Math.max(n,i.uid + 1),1), nextUid = request.nextUid ?? floor;
+        integer(nextUid,1); next = {state,nextUid,random:new Random(request.seed)};
+      } else {
+        const save = request.save; fields(save,['schemaVersion','capability','content','random','nextUid','state']);
+        need(save.schemaVersion === 1 && save.capability === 'crafting-session/v1','unsupported-save');
+        need(JSON.stringify(save.content) === JSON.stringify(this.#identity),'content-mismatch'); integer(save.nextUid,1);
+        const random = save.random; fields(random,['algorithm','state','draws']); need(random.algorithm === 'mulberry32/v1','unsupported-random');
+        integer(random.state,0,0xffffffff); integer(random.draws);
+        next = {state:this.#data.state(save.state),nextUid:save.nextUid,random:Random.restore({algorithm:'mulberry32/v1',state:random.state,draws:random.draws})};
+      }
+      this.#validate(next); this.#profiles.set(request.profile,next); return {ok:true};
+    }
+    if (!profile) return refuse('not-open');
+    const state = profile.state, rules = this.#defs.crafting.rules;
+    if (request.op === 'save') {fields(request,['op','profile']); return {ok:true,save:this.#snapshot(profile)};}
+    if (request.op === 'close') {fields(request,['op','profile']); this.#profiles.delete(request.profile); return {ok:true};}
+    if (request.op === 'options') {
+      fields(request,['op','profile','uid','offset','limit']); integer(request.uid,1); integer(request.offset); integer(request.limit,1,128);
+      const item = state.items.find(i => i.uid === request.uid) ?? Object.values(state.equipped).find(i => i.uid === request.uid);
+      if (!item) return refuse('unknown-item');
+      const rows = rules.craftableAffixesFor(item,state.account.craftLore);
+      return {ok:true,total:rows.length,rows:rows.slice(request.offset,request.offset + request.limit).map(row => ({
+        id:row.def.id,name:row.def.names.at(-1) ?? row.def.id,rank:row.rank,cost:rules.ports.cost(row.rank),
+      })),crafted:rules.craftedCount(item),slots:rules.ports.craft.maxCraftedAffixes + (state.account.features.includes(rules.ports.craft.extraSlotFeature) ? 1 : 0)};
+    }
+    if (request.op === 'recover' || request.op === 'take-overflow') {
+      fields(request,['op','profile','uid']); integer(request.uid,1);
+      return this.#mutate(profile,draft => {
+        const index = draft.state.overflow.findIndex(i => i.uid === request.uid); if (index < 0) return {moved:false};
+        const item = draft.state.overflow[index];
+        if (request.op === 'recover' && !this.#inventory.autoPlace(draft.state.items,item,this.#board(draft.state))) return {moved:false};
+        draft.state.overflow.splice(index,1); return request.op === 'recover' ? {moved:true} : {moved:true,item};
+      });
+    }
+    if (request.op === 'mint') {
+      fields(request,['op','profile','kind','options']); need(request.kind === 'roll' || request.kind === 'forge','unknown-mint'); record(request.options);
+      try {validateMint(request.options as unknown as ItemRollOptions,request.kind === 'forge');} catch {throw new SessionInputError('invalid-mint');}
+      return this.#mutate(profile,(draft,events) => {
+        const host = createItemHost(this.#defs.crafting.items,() => this.#next(draft));
+        const item = request.kind === 'forge' ? host.forge(request.options as unknown as ItemForgeOptions,() => this.#random(draft))
+          : host.roll(request.options as unknown as ItemRollOptions,() => this.#random(draft));
+        if (item) {this.#data.item(item); this.#receive(draft,item,events);} return {uid:item?.uid ?? null};
+      });
+    }
+    const args: Record<string,string[]> = {craft:['uid','affixId','score'],socket:['uid'],reroll:['uid','index','score'],
+      salvage:['uid','lane'],'salvage-bulk':['category','rarity','lane'],lock:['uid','on']};
+    if (!Object.hasOwn(args,request.op)) return refuse('unknown-operation');
+    fields(request,['op','profile','access',...args[request.op]]);
+    const access = request.access; fields(access,['salvage','oracle','bench','counter']);
+    for (const key of ['salvage','oracle','bench','counter']) bool(access[key]);
+    if (request.op !== 'salvage-bulk') integer(request.uid,1);
+    if (request.op === 'craft') text(request.affixId);
+    if (request.op === 'craft' || request.op === 'reroll') need(typeof request.score === 'number' && Number.isFinite(request.score),'invalid-score');
+    if (request.op === 'reroll') integer(request.index);
+    if (request.op === 'lock') bool(request.on);
+    if (request.lane !== undefined) need(request.lane === 'break' || request.lane === 'sell','invalid-lane');
+    if (request.op === 'salvage-bulk') {
+      need(['item','skill','support'].includes(request.category as string),'invalid-category');
+      if (request.rarity !== undefined) {
+        text(request.rarity); const valid = request.category === 'skill' ? Object.keys(rules.ports.gemEssences) : ['common','magic','rare','unique'];
+        need(valid.includes(request.rarity),'invalid-rarity');
+      }
+    }
+    return this.#mutate(profile,(draft,events) => {
+      const actions = this.#actions(draft,access as Access,events), uid = request.uid as number;
+      switch (request.op) {
+        case 'craft': actions.craftAffix(null,uid,request.affixId as string,request.score as number); break;
+        case 'socket': actions.craftSocket(null,uid); break;
+        case 'reroll': actions.rerollAffix(null,uid,request.index as number,request.score as number); break;
+        case 'salvage': actions.salvageItem(null,uid,request.lane as SalvageLane | undefined); break;
+        case 'salvage-bulk': actions.salvageBulk(null,request.category as SalvageCategory,request.rarity as string | undefined,request.lane as SalvageLane | undefined); break;
+        case 'lock': actions.salvageLockSet(null,uid,request.on as boolean); break;
+      }
+    });
+  }
+}

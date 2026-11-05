@@ -3,8 +3,9 @@
 Version 0.47 adds optional `inventory/gems` and `items/restoration` entries for
 the persistence seam needed by the owned crafting session. Their isolated game
 adapter matches the immutable pre-extraction baseline below. They supply portable
-policies over explicit host services; a complete owned crafting session and its
-native engine package remain separate work.
+policies over explicit host services. The [owned crafting session](crafting-session.md)
+now supplies bounded strict admission and command transactions; its native
+engine package remains separate work.
 
 ## Observed contract
 
@@ -78,8 +79,8 @@ the original lookup and write ordering. A thrown callback leaves earlier affix o
 payload mutations and consumed identities in place. No durable transaction is
 implied by this borrowed-state interface.
 
-The owned session must validate and detach external input before invoking that
-layer. It will own item identity, wallet/account state, saved support cargo and
+The owned session validates and detaches external input before invoking that
+layer. It owns item identity, wallet/account state, saved support cargo and
 random continuation together. A failed validated session command must not commit
 partial state or reused IDs. It must explicitly distinguish strict admission
 from tolerant migration against revised content; compatibility changes require
@@ -137,8 +138,8 @@ bundle is 5,428 bytes and runs the same 12 contracts with ambient RNG and host A
 disabled. These are package-size and correctness checks, not throughput, peak
 memory, native-engine or physical-device measurements.
 
-Remaining work: strict owned crafting save/restore and recovery; native/editor
-package exposure; renderer interaction; bounded session resource tests and
+Remaining work: native/editor package exposure; renderer interaction;
+complete session resource measurements and
 physical Steam Deck/older mobile measurements.
 
 The [runtime evidence](../evidence/gem-residence/runtime-windows.json) records
