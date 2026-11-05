@@ -1,0 +1,52 @@
+name: Verify gem residence and item restoration
+on:
+  push:
+    paths:
+      - '.github/workflows/gem-residence.yml'
+      - 'baseline/gem-residence/**'
+      - 'baseline/source*'
+      - 'baseline/overlay/**'
+      - 'reference/export-gem-residence.ts'
+      - 'reference/tooling/package*.json'
+      - 'scripts/*gem-residence*.mjs'
+      - 'scripts/character-reference.mjs'
+      - 'scripts/vocation-reference.mjs'
+      - 'scripts/reference-utils.mjs'
+      - 'package*.json'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  residence:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run reference:prepare
+      - run: npm run reference:install
+      - run: npm run reference:gem-residence
+      - run: npm run test:gem-residence-observer
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: gem-residence-${{ matrix.os }}
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+          path: |
+            .artifacts/reference-gem-residence-*/verification.json
+            .artifacts/reference-gem-residence-*/*.txt
+            .artifacts/gem-residence-source-faults-*/verification.json
+            .artifacts/gem-residence-source-faults-*/*.txt

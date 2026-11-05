@@ -425,7 +425,7 @@
     "reference:prepare": "node scripts/prepare-reference.mjs",
     "reference:install": "node scripts/install-reference-tools.mjs",
     "diagnose:restoration": "node scripts/run-restoration-diagnosis-ci.mjs",
-    "reference:verify": "node scripts/run-reference.mjs && node scripts/test-reference-unlock-lifecycle.mjs && npm run reference:unlock-content && npm run reference:crafting",
+    "reference:verify": "node scripts/run-reference.mjs && node scripts/test-reference-unlock-lifecycle.mjs && npm run reference:unlock-content && npm run reference:crafting && npm run reference:gem-residence",
     "reference:lifecycle": "node scripts/run-lifecycle-reference.mjs",
     "adapter:prepare": "npm run build && node scripts/prepare-game-adapter.mjs",
     "adapter:verify": "node scripts/test-game-adapter.mjs",
@@ -760,7 +760,9 @@
     "adapter:crafting-source": "node scripts/test-crafting-overlay.mjs",
     "adapter:crafting": "node scripts/test-game-crafting.mjs --location .artifacts/crafting-adapter-latest.json",
     "adapter:crafting-faults": "node scripts/test-crafting-installed-faults.mjs --location .artifacts/crafting-adapter-latest.json",
-    "benchmark:crafting": "node scripts/benchmark-crafting.mjs"
+    "benchmark:crafting": "node scripts/benchmark-crafting.mjs",
+    "reference:gem-residence": "node scripts/test-reference-gem-residence.mjs",
+    "test:gem-residence-observer": "node scripts/test-gem-residence-observer.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12",

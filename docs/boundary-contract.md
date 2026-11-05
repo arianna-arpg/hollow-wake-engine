@@ -293,5 +293,7 @@ durable I/O, content migrations and live item transfers remain outside the sessi
 The [crafting and salvage boundary](crafting-boundary.md) records original pricing,
 expertise, affix/socket/reroll rules and complete single/bulk inventory actions
 before extraction. Wallets, item identity, RNG order, account study and callback
-failures are observed independently of their UI descriptions. This baseline does
-not yet add a production crafting capability.
+failures are observed independently of their UI descriptions. The optional
+crafting runtime and game adapter now reproduce this baseline. The
+[gem residence and item restoration baseline](gem-residence-boundary.md) records
+the remaining saved-cargo seam before extraction into an owned crafting session.

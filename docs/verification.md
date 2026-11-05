@@ -1015,3 +1015,14 @@ After correctness checks, `benchmark:crafting` runs five isolated installed
 consumers with shared validated definitions, explicit random values and checksum
 controls. It records load costs, retained heap after GC and price/roll/menu batches.
 It is desktop evidence; it does not establish a speedup or a device budget.
+
+## Gem residence and item restoration baseline
+
+`reference:gem-residence` compares the original pack/unpack, grant restoration,
+bag queries and item migration with the immutable pre-extraction observations.
+`test:gem-residence-observer` checks deliberate faults in disposable original
+source, with clean before/after controls and copied-versus-borrowed identity
+assertions. The source helper also refuses ambient random draws after boot.
+See [the persistence boundary](gem-residence-boundary.md) for the distinct loose
+and granted-skill rules, native UID ordering and the remaining owned-session
+work. No new production runtime or device acceptance is claimed by this baseline.

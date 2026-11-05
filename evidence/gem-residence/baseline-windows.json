@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "baseCommit": "ef55ece2c8ff8f70b934ebfc2296d2d6ae95c685",
+  "observedAt": "2026-11-05T22:09:08.536Z",
+  "scope": "Original gem residence and common item restoration baseline accepted before production extraction; prerequisite for the owned crafting save session.",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "sources": {
+    ".github/workflows/gem-residence.yml": "28a62cf238506d8be36b4b8555eda9eced14aea2ae916bc8018634ff33af7f4a",
+    "baseline/gem-residence/acceptance.json": "0f212248fee0c9500d3040c791c532bd57501b8eb9fd560ee3334bc68bb489d3",
+    "baseline/gem-residence/observations.json.gz": "b0b8855649e3d021b180fbcc73e00012504d7c5a8ac7b651193ca94140d02ace",
+    "docs/boundary-contract.md": "7fffd343e5622669b00554c542629f8126671b4f7b17ca23a906926f86a3be6b",
+    "docs/completion.json": "1372a5518bc6e865b1d298545868265a7765bff297bde0d739074aaddffdf278",
+    "docs/crafting-boundary.md": "f335cd627dd3dd326aa25bcdf6c769b9aa39adb953f7ae8ce4dcd11a9aac3a33",
+    "docs/gem-residence-boundary.md": "f354a5efeb62bce27541721aa3d62ed741e200703d4a4591719146285fbae631",
+    "docs/verification.md": "9370658935eb2e8808a225f4e118f1d149878c1a7ae3ac66b5d8ceffaaf928c5",
+    "package.json": "aeb78a772a305fd0a9d95a01e369c58430a4bf26ca0442da86ba0e9918ca97ef",
+    "reference/export-gem-residence.ts": "5d67355b79453718c5ee401aa5c610bd3f1014ae6d6fa707c89a947963c8b308",
+    "scripts/gem-residence-reference.mjs": "899be5b76a7ad49c97c8df5ba26d4d05257447b95a468aad7c2816b0970a7137",
+    "scripts/gem-residence-source-faults.mjs": "c8181d0728a6361c858c8bdd84b89bbe61db2bdbdea66eb91f32637a731aba15",
+    "scripts/test-gem-residence-observer.mjs": "2cb13bfe7dac9e314675b42144e5f363acbd6896e767f1fe34b29e3370eba52c",
+    "scripts/test-reference-gem-residence.mjs": "33acc523861aa0a4d201f45e2c3a69d3590d816c6c5c494c3abc1fcb22da6488",
+    "evidence/gem-residence/baseline-windows-raw.json.gz": "d627e5b8393117d0848a7eb15de573085b24a848292e3bc58499ae474fecfcab"
+  },
+  "counts": {
+    "skills": 954,
+    "supports": 457,
+    "trees": 132,
+    "empoweredTrees": 132,
+    "bases": 79,
+    "choiceUniques": 6,
+    "courses": 3847
+  },
+  "observationSha256": "58b1c43f67e6142076d8c8c1ea0bcefa06cbbd522a13dce12bb6d0a1923687f5",
+  "sourceFaults": 42,
+  "raw": {
+    "file": "evidence/gem-residence/baseline-windows-raw.json.gz",
+    "sha256": "d627e5b8393117d0848a7eb15de573085b24a848292e3bc58499ae474fecfcab"
+  },
+  "checks": {
+    "fullReference": {
+      "exitCode": 0,
+      "log": ".artifacts/gem-residence-reference-verify.txt",
+      "command": "npm run reference:verify",
+      "logSha256": "683d4047529c67657cd2fe17f03a731bc55ba20998e01f204e6b6912a5c5d94b"
+    },
+    "installedPredecessor": {
+      "log": ".artifacts/gem-residence-predecessor.txt",
+      "command": "node .artifacts/check-gem-residence-predecessor.mjs",
+      "exitCode": 0,
+      "logSha256": "342f004141396a4b8180385cf19708545b4741596ed220dd1e0fcfb812061173"
+    },
+    "productionSourceUnchanged": true,
+    "packageExportsUnchanged": true,
+    "versionUnchanged": true
+  },
+  "environment": {
+    "node": "v24.9.0",
+    "platform": "win32",
+    "arch": "x64",
+    "osRelease": "10.0.19045"
+  },
+  "preservation": {
+    "receipt": ".artifacts/proc-dispatch-preservation-DRmnTt/verification.json",
+    "sha256": "0b6c23387132986e2841a6e8ea8d7a37d049f7a3e0bb2b491fc73351579a0c4f",
+    "files": 4149,
+    "changes": [],
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d"
+  },
+  "developmentCorrections": [
+    {
+      "receipt": ".artifacts/gem-residence-capture-NMTHkA/verification.json",
+      "reason": "The first observer type check found an unused import; removed before successful capture."
+    },
+    {
+      "receipt": ".artifacts/gem-residence-source-faults-P48cnQ/verification.json",
+      "reason": "The initials-length fault escaped the initial three-word-only cases. A four-word case and explicit three-initial assertion were added before acceptance; the final full fault pass succeeds."
+    },
+    {
+      "reason": "A preliminary fault run was stopped after 13 detections to add explicit support transient-state and live-name observations. It is not accepted as a completed verification."
+    }
+  ],
+  "limitations": [
+    "No new production runtime, owned save session or adapter is implemented by this baseline.",
+    "Baseline inputs do not establish arbitrary JSON admission safety.",
+    "Hosted Windows/Linux workflow is prepared but not run.",
+    "No native-engine or physical Steam Deck/older-mobile performance acceptance."
+  ],
+  "publication": {
+    "localOnly": true,
+    "intendedVisibility": "public",
+    "pendingBaseline": "56e15167e498519d639c7f7e2ab47040c7bb586b",
+    "reason": "Earlier automatic approval review rejected publication of original authored unlock/reward definitions and traces; specific source-content approval remains pending."
+  }
+}

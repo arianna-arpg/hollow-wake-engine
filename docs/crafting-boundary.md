@@ -186,6 +186,8 @@ The Windows/Linux CI workflow is prepared; its hosted runs remain unverified.
 
 An owned engine-facing crafting session with item/wallet save continuation,
 native editor packaging and renderer interaction acceptance remain separate work.
+The [gem residence and item restoration baseline](gem-residence-boundary.md)
+freezes the cargo, identity and migration semantics required by that session.
 Measure complete crafting workloads before claiming an optimization; physical
 Steam Deck and named older mobile acceptance remain required separately.
 
