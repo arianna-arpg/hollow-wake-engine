@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "scope": "Separately approved compatibility repairs. Original observations remain immutable. These expectations were observed from the private prototype and independently checked against explicit conservation, refusal, receipt and named-difference rules.",
+  "decisions": {
+    "schemaVersion": 1,
+    "recordedAt": "2026-11-05T15:23:32.027Z",
+    "beforeRuntimeSha256": "777cbf52132f09ab69ad687f5675dbe7620cec832e7c3ef38afef9ef9d4233b3",
+    "originalSupplementSha256": "55b4b4fb53e707e1d5121a205559df2195cdcbf17dd526128e029deece259ec9",
+    "decisions": [
+      "Purchases refuse nonfinite currency, nonfinite investment, nonfinite or negative costs, and NaN requests before any spending.",
+      "Ordinary positive infinity requests retain the original finite clamping. Negative infinity requests retain zero clamping. Memory and relic services retain their own finite-request constraints.",
+      "Investment reads and writes use own properties. Legacy investment migration also uses own destination balances and safe writes.",
+      "Memory completion resolves the authored reward definition and reads its own receipt, independent of the offer ID.",
+      "Outright purchase success requires the requested grant to have completed. An investment return value of zero alone cannot distinguish a free grant from refusal. This applies to memory and relic services as well as ordinary purchases.",
+      "Original source fixtures and the exact parity prototype remain unchanged. Each resulting difference requires a named independent assertion."
+    ]
+  },
+  "fixtures": {
+    "transactions": {
+      "file": "baseline/unlock-lifecycle/repairs/transactions.json.gz",
+      "sha256": "6e27839dbd4b9915e6ce187eb55e2d29af57aaebb516e4d5d27abce099d45707",
+      "compressedSha256": "d1de88f4f85170597f4af43a03059abde692442c50e763f0bf08384481d74dec"
+    },
+    "memory": {
+      "file": "baseline/unlock-lifecycle/repairs/memory.json.gz",
+      "sha256": "aba481dc0fc157759c62ed367ab3d56aa6ebc6f58489a1c516eee5b66d20a366",
+      "compressedSha256": "75b26112dfc8a1701f5fb933a24b6d9a1dc65ef7dabe10f771b67ebf56440372"
+    },
+    "edges": {
+      "file": "baseline/unlock-lifecycle/repairs/edges.json.gz",
+      "sha256": "ed08fa0f1cf026cda2e905318acebbdb60346502dfde53cc672550cc19bb6401",
+      "compressedSha256": "7ba4983d3df4ec639612a323834b0f766756730987e285654b4a74c3dcb7d66a"
+    }
+  }
+}

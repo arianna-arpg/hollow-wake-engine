@@ -966,3 +966,21 @@ Pass `--world` to either census benchmark to measure the ordinary array visitor
 in the Hollow Wake binding. The [native stack comparison](proc-native-stack.md)
 checks all original observations and exercises the first formerly failing cast
 at a controlled diagnostic limit.
+
+## Unlock and memory candidate
+
+The 0.44 candidate adds memory rewards, the unlock lifecycle, validated content,
+package prerequisite data and deterministic rune presentation. The normal tests
+include independent compatibility-repair assertions. The full verifier installs
+the SDK and three content archives into a separate consumer, replays the frozen
+policy/purchase/reward observations, checks public types and browser bundling,
+rejects 68 deliberate faults, and checks guarded adapter installation.
+
+The reference verifier reproduces the original unlock/memory goldens and the
+separately timestamped content, key, initialized-catalogue and repair-edge
+supplements. These raw observations remain separate from approved repairs.
+
+After adapter preparation, the adapter:unlocks command checks actual game delegation,
+23 save/load transitions and previous class, continuity and gate observations.
+Actual Vault interaction, native/editor packaging and device measurements remain
+separate acceptance gates. See [unlocks and memory rewards](unlock-lifecycle.md).

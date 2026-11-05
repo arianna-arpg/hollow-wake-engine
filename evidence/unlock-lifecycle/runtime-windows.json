@@ -1,0 +1,2240 @@
+{
+  "passed": true,
+  "version": "0.44.0-candidate.0",
+  "parentRevision": "56e15167e498519d639c7f7e2ab47040c7bb586b",
+  "observedAt": "2026-11-05T18:07:56.038Z",
+  "platform": "win32",
+  "architecture": "x64",
+  "node": "v24.9.0",
+  "inputSha256": {
+    ".github/workflows/unlock-lifecycle.yml": "6a94d7d4723b7a7e8c4b015646442d60b84240482746090ba7ab66fd695153a7",
+    "README.md": "d55eef08a7603da8a3dedbe30295cd98a065dd8bbd79686f1e16667915404a6e",
+    "adapters/hollow-wake/integrate-memory-rewards.mjs": "a6b1f0a03f0900754257c5f8a3439d4fa21ed9f6d04a70753459324cb5a9bb59",
+    "adapters/hollow-wake/integrate-unlock-lifecycle.mjs": "62dc183a039e276c1565393d2fec6bc0da4c9bb945105514cc3788ada9b89d9c",
+    "adapters/hollow-wake/unlock-context.txt": "c26714800b5a02ad2ca9ebb6dca53d70d6adec5ed2e0833f51d6f328c48b88bd",
+    "baseline/unlock-lifecycle/adapter-source-guards.json": "01a7f96b4bf9adce46be561c99993b52f4b470b1e323c71f8497468952cacd5e",
+    "baseline/unlock-lifecycle/compiled-content.json": "52f5228262f227d67adae865301abd7ebb2cb0417e687067bb9a4604cc4d1125",
+    "baseline/unlock-lifecycle/content.json.gz": "ef75c6460a2b045df8b82227c7aede218ac6f2bd929bb6b524795a1df6f34f85",
+    "baseline/unlock-lifecycle/memoryInitialized.json.gz": "9902ec5b7cd9aeabf631a7bd3c7843984948d0c655d79ab895f4005874f4a59c",
+    "baseline/unlock-lifecycle/memoryKeys.json.gz": "b974d6a2a658a0dc275adf86f04630f38ee8c4d16b331e8784d46c180809a036",
+    "baseline/unlock-lifecycle/repairEdges.json.gz": "eff3a1227fd1827fbd8e97565b0871fa48fef8e81b67638b0294849dc744a4d8",
+    "baseline/unlock-lifecycle/repairs/acceptance.json": "bf53435834fe6e2d9f2fd86fedbfa4b7b62cd17d8723c2d45069ed9ed49b0a38",
+    "baseline/unlock-lifecycle/repairs/custom-identifiers.json": "4b69ec4d4d7a9f078e7d78cc67d1501a4ecbf859625995386a4b1ad29eaa427a",
+    "baseline/unlock-lifecycle/repairs/edges.json.gz": "7ba4983d3df4ec639612a323834b0f766756730987e285654b4a74c3dcb7d66a",
+    "baseline/unlock-lifecycle/repairs/memory.json.gz": "75b26112dfc8a1701f5fb933a24b6d9a1dc65ef7dabe10f771b67ebf56440372",
+    "baseline/unlock-lifecycle/repairs/transactions.json.gz": "d1de88f4f85170597f4af43a03059abde692442c50e763f0bf08384481d74dec",
+    "baseline/unlock-lifecycle/supplement-acceptance.json": "23c26a47a7ff514a739755e6598b3825ca6eada1161205fbe5a343e223e0972d",
+    "docs/boundary-contract.md": "229f798904a3e3203139e13a80cd05f127f0bf813d924b1e6b3be14da43a0dca",
+    "docs/completion.json": "a1724848b25c33e531d7be15281bf3cc6f443287489f8b0251b6061acc8ea80f",
+    "docs/unlock-lifecycle.md": "98fbf57cd36dcc27c53b0c1435b88ada2caea714b755abcaf4873eee50f36db2",
+    "docs/verification.md": "4f77368b27ff86aab31f23c449c092032e35b9c6a0e8e76f06d18b613d2c8acc",
+    "package-lock.json": "e389eb898f635611ce40d9e5cee4a9f0c96afb3f761ac8c419f6a512042ba1f7",
+    "package.json": "3ddb0dd3d4c894b73de0e29a4bc276d58157084f828ed77ebcbfd96a5041ea77",
+    "reference/export-memory-initialized.ts": "5dc3da7778c25ea97faa6d251990d03ac2671298a94728baf0e5966f83f1a535",
+    "reference/export-memory-keys.ts": "aa091ce30ceb3937581ff3fcca66fb281fc0a93e5481a762867b991a5a66613a",
+    "reference/export-unlock-content.ts": "a0a71aef99409ad7a66fd1b1e0e3ec5a034965aa20797e4d5d76a302dc1a7184",
+    "reference/export-unlock-repair-edges.ts": "6519045d8a50674a468e0e9a46c2913f7e6df1e1521b953132140f4714b35b0d",
+    "reference/export-unlock-save-roundtrip.ts": "09a9503d03f76269c49fd8a6d807a33a0f5bacb23f010defb0b00d926274049f",
+    "reference/native-unlock-session.mjs": "c3230c3969206783e2aafb310aad3206433f2f2bb8b99d9029a8116d502f56fd",
+    "scripts/assert-unlock-repairs.mjs": "dd99d758ccb3fb653060df33504b1473decd44aa2ac68bb54e34c791c9caa0f6",
+    "scripts/benchmark-unlock-content-load.mjs": "d5dd83f4b8cca03d2a70e5c7da89597931cb3a3adb7427eb2775c09d00f4bff3",
+    "scripts/check-boundaries.mjs": "95a22a7aafbf6ea52ee98919a9a50d4cc02b9997ee0818876daf81df6740d201",
+    "scripts/check-unlock-package-boundaries.mjs": "77bc365dce6e2437f61c9643ef84f1b18e69ec67bf9af5421ad2c81b3732d395",
+    "scripts/compile-memory-rewards.mjs": "42e14a599a14024281f8df0ec549dc27e42758dc5d2a30c6609cd780f1aa5e48",
+    "scripts/compile-unlock-content.mjs": "f6afda6dd80c3bdbd9d0dcf169f20a8f0507efb01127e21738672a186bb5bf68",
+    "scripts/compile-unlock-predicates.mjs": "3e13ae709d3980db5506e5f4defded0f941bb804757dc43875c59c11bf85aaa3",
+    "scripts/prepare-game-adapter.mjs": "d8c7492f8aad5523ed7b8561c7f6e759ee7fd9cd0674cec95e5b8401eeddb845",
+    "scripts/prepare-unlock-native-inputs.mjs": "2b89fafa100bde396ec1a1f968b126615874bdcb3508edff99a89e1c12bca862",
+    "scripts/test-installed-unlock-screen.mjs": "3879de51603b708eef42df1b348110ca3c98fd36a078a98b33ddab3850c17726",
+    "scripts/test-installed-unlocks.mjs": "97d01b9a3801d0225e1e239a403bee0a33a67ed829e6c74b7170d15220776acc",
+    "scripts/test-native-unlocks.mjs": "1921d0445cfff74ed13faec37ccc0b1fecb9352780c5697416f9a33c09f277af",
+    "scripts/test-package.mjs": "abc67840765abd557665d6f7e82bbf169169a30af350da72571541db32a0e01d",
+    "scripts/test-reference-unlock-content.mjs": "c1f6ba5147cc6ae7546ca17816d8d5ebcbcd8fd9f731fe51ad608ee9b73c81bc",
+    "scripts/test-unlock-installed-faults.mjs": "fb38b649cc2125416b6635c00898d50da3712a35513383eef4da0569facba0b3",
+    "scripts/test-unlock-mutations.mjs": "008ad6e3a6b3cd7650f0cd8399aa4481448a5cebbf9c3ba087ea7b9d6f1bc350",
+    "scripts/test-unlock-overlay.mjs": "eafd6376038f1fde427222b57716d2032064dac088d48a1af637d869458c4970",
+    "scripts/test-unlock-package.mjs": "444c4106a35592e94e0fce0445ce0328c4c2c4967b546331437239d4b6f3a38c",
+    "scripts/test-unlock-ui.mjs": "9c2b04e00e00a62d69252628f82f7ee77739fda6905f38cab981a79051a915e3",
+    "scripts/unlock-runtime-faults.mjs": "dd320062ce688b007e4ecdab92f81507800f9c31e2f232d6ebba8ab9724979fe",
+    "src/memory-reward-content.ts": "3dfbed707b07338d324252edeeb497cff6d9185084c10b3138a12ca5b8b0ded5",
+    "src/memory-rewards.ts": "37a907be0375c9f0d41d4d65af3b83b5097803730eb985abb63571a40b296651",
+    "src/rune-script.ts": "625702e01932b83f62280db1ab9319d1c3f63cffa09b6ad89916d08eb6e4fa7c",
+    "src/unlock-content.ts": "f8105dd56afddaf62f29e16df439ac32a322104a638cc7a53412dbafcba4109e",
+    "src/unlock-lifecycle.ts": "bbadd02f3d3a33f5a340e234760fd40528f2f3ed864635bc8a967aa6e11510a8",
+    "src/unlock-predicates.ts": "e2a7ed689e83ffa4517d8e3f59220f08f68c9f1d4d9c9e4a333353ef93d79956",
+    "test/fixtures/memory-consumer.mjs": "13e16dcc1b3c18f4d8f9d939dafbf813adb84853acb0f7c1fa8f9fdb3a41d4de",
+    "test/fixtures/unlock-consumer.mjs": "49363fb3692c6747f21b014fe90c52bfaaff7ed7c716fe5095dc444a14e10299",
+    "test/memory-rewards.test.mjs": "7c55b95e9740cd2f062aafc6a0ea5e8a74191650268362fe7455d40a38716a7e",
+    "test/unlock-compatibility.test.mjs": "6b04c3fc40e10075bcadfe7b7f6a5a5ad07712083c75cad3927672c4facddc65",
+    "test/unlock-content.test.mjs": "a72ddcadc8b4fd81fe47eb8587b8cba7b172811d828176922707cd4684ef7758",
+    "test/unlock-fixture.mjs": "29f2587e4c635de5cdb2195a9e2a47231e4a6c36e03bac2ce2cd28c0a6051807",
+    "test/unlock-lifecycle.test.mjs": "423edb6ef5441c4e0bf2e8af67f057fca3fde1e5706dc2c3c169c5be06d29fba",
+    "test/unlock-predicate-compiler.test.mjs": "e5469583b6093e7cea2abe3331af305a8f54f75b357a020b82eeeecf62fd73c9"
+  },
+  "package": {
+    "archives": [
+      {
+        "filename": "hollow-wake-engine-0.44.0-candidate.0.tgz",
+        "sha256": "3a126d449c0d3202fe4d1ad0662228258d4bf22fe6e8df7d45ace078b6d144f8",
+        "size": 771710
+      },
+      {
+        "filename": "hollow-wake-memory-rewards-0.1.0.tgz",
+        "sha256": "98f71b7a56da4e8b6840d715c67855789c330c0be34980805b133d46c0b87a42",
+        "size": 23504
+      },
+      {
+        "filename": "hollow-wake-progression-gates-0.1.0.tgz",
+        "sha256": "a83811a333abd13a030182274850c86f6dca9215f4679bb0433a45f9c2f5982b",
+        "size": 5777
+      },
+      {
+        "filename": "hollow-wake-unlocks-0.1.0.tgz",
+        "sha256": "2c04d01be9509a0ac9060cc80e80fb91cfecd556deafea528a7c4f9090f0aeca",
+        "size": 40455
+      }
+    ],
+    "contracts": 39,
+    "observations": {
+      "unlock": {
+        "passed": true,
+        "policyProfiles": 46,
+        "purchaseTraces": 508,
+        "masteryRungs": 32,
+        "steps": 1620,
+        "contentId": "hollow-wake-unlocks:sha256:9e5f06bb5260ba78c8c914e631927c8ba2c748cb28f5b1f3003e5b7516a632ec",
+        "gameImports": 0
+      },
+      "memory": {
+        "passed": true,
+        "validatedProfiles": 99,
+        "rawProfiles": 9,
+        "draws": 2645,
+        "drops": 216,
+        "callbackCases": 4,
+        "catalogBoundaries": 5,
+        "contentId": "hollow-wake-memory-rewards:sha256:e4e133bf451453a25ccc15df9ca02f2f55aa9803ef645210d3b7657a87542292"
+      }
+    },
+    "content": {
+      "unlocks": {
+        "contentId": "hollow-wake-unlocks:sha256:9e5f06bb5260ba78c8c914e631927c8ba2c748cb28f5b1f3003e5b7516a632ec",
+        "sha256": "268aa0bad837e0e5ecfe5ae29733f52d4a562842ceb39094d032c55b8540b34a",
+        "bytes": 199904
+      },
+      "gates": {
+        "contentId": "hollow-wake-progression-gates:sha256:bed92d72beecd13389198ea654e6303716b8aa0cd030ae68319b80fce0857426",
+        "sha256": "48011b83530e848d333877bc622180af981a20490c115bdd2c07339d7d0fe39b",
+        "bytes": 21140
+      },
+      "memories": {
+        "contentId": "hollow-wake-memory-rewards:sha256:e4e133bf451453a25ccc15df9ca02f2f55aa9803ef645210d3b7657a87542292",
+        "sha256": "0e0ce63b623b7c0f8dd18c9aa8a169fee1d0436a343e0eecb3b3be1b196f1fbb",
+        "bytes": 118195
+      }
+    },
+    "publicBoundary": {
+      "passed": true,
+      "typeContractSha256": "9c5504cfcf0f3845510ee888c080a8d41d130b622efb6a651e479d52a96ae423",
+      "browserBytes": 57736,
+      "scope": "Strict installed TypeScript contracts and a standalone browser-targeted bundle evaluated in a VM with explicit randomness. Does not establish physical device or editor support."
+    }
+  },
+  "exactArchiveEvidence": {
+    "nativeAndUiArchiveSha256": "09d9491b1cbc082823861c37dc1dc6bc14c2556cd5fd2bb3c10b397b722e23e7",
+    "finalArchiveSha256": "3a126d449c0d3202fe4d1ad0662228258d4bf22fe6e8df7d45ace078b6d144f8",
+    "differingPackagedFiles": [
+      "docs/completion.json"
+    ],
+    "allOtherPackagedBytesIdentical": true
+  },
+  "runtimeFaults": {
+    "passed": true,
+    "archiveSha256": "3a126d449c0d3202fe4d1ad0662228258d4bf22fe6e8df7d45ace078b6d144f8",
+    "results": [
+      {
+        "group": "memory",
+        "name": "catalog-no-drop",
+        "module": "memory-rewards",
+        "method": "buildMemoryCatalog",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "26463bf2664adec087b08e3ebc692f879cbdd00186a77cdf9f3055867a5cc469",
+        "observationLogSha256": "a110f258b7abc79056b930074991017f42faf5d3d146c09da774c416c51d63fa"
+      },
+      {
+        "group": "memory",
+        "name": "catalog-support-positive",
+        "module": "memory-rewards",
+        "method": "buildMemoryCatalog",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "83b46292b7f822d7efe5e60342e195423f24b59554557a19f5ce0a06dc7fb4d7",
+        "observationLogSha256": "3a6a655f98681f982ed01dfccecb0fec2b9e15baa8b429cb78ed28b63909eb7b"
+      },
+      {
+        "group": "memory",
+        "name": "catalog-skill-exclusions",
+        "module": "memory-rewards",
+        "method": "buildMemoryCatalog",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "9af650fff65dc274c2963908f3947991c59d289d965bc7bd82db600cf1dae509",
+        "observationLogSha256": "3a6a655f98681f982ed01dfccecb0fec2b9e15baa8b429cb78ed28b63909eb7b"
+      },
+      {
+        "group": "memory",
+        "name": "catalog-support-exclusions",
+        "module": "memory-rewards",
+        "method": "buildMemoryCatalog",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "0de61c15675fef7f2070fe1773d96cfbc54d7692c1e55cca2a08d6ed45f92b2f",
+        "observationLogSha256": "3a6a655f98681f982ed01dfccecb0fec2b9e15baa8b429cb78ed28b63909eb7b"
+      },
+      {
+        "group": "memory",
+        "name": "debug-discovery",
+        "module": "memory-rewards",
+        "method": "memoryDiscovered",
+        "contractsStatus": 0,
+        "observationStatus": 1,
+        "contractsLogSha256": "f298324ff5c937720116e753093fc3ae48ee3f314b4a6bbb77adb780891d334b",
+        "observationLogSha256": "773a3f1f86c58ac84c28049674038929fa7a9f70f2781aef8c56b25170e17623"
+      },
+      {
+        "group": "memory",
+        "name": "secondary-debug-bypass",
+        "module": "memory-rewards",
+        "method": "memorySecondaryOwned",
+        "contractsStatus": 0,
+        "observationStatus": 1,
+        "contractsLogSha256": "2cb7a20cb89438f4bfbfbcf7ba68bdbb7f61d52c5741e3be6265cf8cbcc2ebde",
+        "observationLogSha256": "81595b2d9d77484499554f4c813620a227daa56ba8d6ad56d2edd51061985452"
+      },
+      {
+        "group": "memory",
+        "name": "progression-milestone",
+        "module": "memory-rewards",
+        "method": "memoryProgressionOpen",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "f2642df4e3d6d6033cc76351305ee847dc44ea1a8a6f7421fd6cc0b5e8df38eb",
+        "observationLogSha256": "a459e3267215c75ce2e9dc10b522f1ccbd2dd6ef4789954851cbaa24f1496ac6"
+      },
+      {
+        "group": "memory",
+        "name": "secondary-kind",
+        "module": "memory-rewards",
+        "method": "memorySecondaryOpen",
+        "contractsStatus": 0,
+        "observationStatus": 1,
+        "contractsLogSha256": "7cbd39f855563bc0501ca38b65ebbfb87d0d7d0aa60103ba89e45ed331fbf3cb",
+        "observationLogSha256": "8208535d4816fb1c1544fb7689d93a33f90957bdd77d04d4739e40e5b530c7cc"
+      },
+      {
+        "group": "memory",
+        "name": "commission-boundary",
+        "module": "memory-rewards",
+        "method": "memoryCommissionReady",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "1a6d9b8f97a37a1c82ccea6d9f314c4bc285575d5aa2e81cbda5d36c95a7547e",
+        "observationLogSha256": "03b1338173bd907d59b1cb594ed8b12354abaf3e48107f84a2c8f9aed3dcfc83"
+      },
+      {
+        "group": "memory",
+        "name": "pool-secondary-vault",
+        "module": "memory-rewards",
+        "method": "memoryUnlockCandidates",
+        "contractsStatus": 0,
+        "observationStatus": 1,
+        "contractsLogSha256": "ac618a823e1d4d445a29108a187da91278dcd1bc11b540ad6148cba57a199b53",
+        "observationLogSha256": "a09e6f851a04ee30683cdee5db13871155d45091696d5caf8b87524f3d1348cf"
+      },
+      {
+        "group": "memory",
+        "name": "pool-drop-weighting",
+        "module": "memory-rewards",
+        "method": "memoryUnlockCandidates",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "b5c420afa1e054016ca6f8c561d804572d3aee5606be1ef20ad3d92f6133f3e0",
+        "observationLogSha256": "0cf2cf829eb351599c3229e584689049e9d469b0b7da3011fc5314b554f6810b"
+      },
+      {
+        "group": "memory",
+        "name": "pool-finite",
+        "module": "memory-rewards",
+        "method": "memoryUnlockCandidates",
+        "contractsStatus": 0,
+        "observationStatus": 1,
+        "contractsLogSha256": "31e2583ca14eba5e384f54d6bc9f6e0ee1d82031c101f80607f7aedcd05c686d",
+        "observationLogSha256": "513cea99a98fe865ef538ca02e9d932bb69e6ab19f2f634aadff3b735df848ca"
+      },
+      {
+        "group": "memory",
+        "name": "pool-positive",
+        "module": "memory-rewards",
+        "method": "memoryUnlockCandidates",
+        "contractsStatus": 0,
+        "observationStatus": 1,
+        "contractsLogSha256": "f341173b62c02876ce6e7c35a707918cec4ecbe377dd63031729fe6bb309d4b3",
+        "observationLogSha256": "9af77fbc5b6c1d3d84ec94fdf5d14de04b525b2aa29bc0f8511389696c858f7b"
+      },
+      {
+        "group": "memory",
+        "name": "receipt-own-read",
+        "module": "memory-rewards",
+        "method": "nextReceiptSequence",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "75eefa06b2c673c30d931e5afe75828cd93572b5331a0b381bf2225abdfcd3e1",
+        "observationLogSha256": "3a6a655f98681f982ed01dfccecb0fec2b9e15baa8b429cb78ed28b63909eb7b"
+      },
+      {
+        "group": "memory",
+        "name": "receipt-capacity",
+        "module": "memory-rewards",
+        "method": "nextReceiptSequence",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "0ef9aa63a61496ea52e2d1771cee84445717d792317d5f24afcc7b67865e3689",
+        "observationLogSha256": "bf3d71f4cf5774d96729fa7c5d44280628403ad2bed7f88ea128e31fbda05339"
+      },
+      {
+        "group": "memory",
+        "name": "receipt-preflight",
+        "module": "memory-rewards",
+        "method": "grantMemoryUnlock",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "535e05a6ac2687895858ee2f2a1275259ad9ea739a27859d8183982ae27a89f4",
+        "observationLogSha256": "696b239874922c7c65ec7ea0c4b058dfde29a349ee55ef36fcfcbd21c2cb86c0"
+      },
+      {
+        "group": "memory",
+        "name": "receipt-post-random",
+        "module": "memory-rewards",
+        "method": "grantMemoryUnlock",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "092ed8c84249a339544d968b4267ee015ef8017d38579e62f06f12933937b421",
+        "observationLogSha256": "3a6a655f98681f982ed01dfccecb0fec2b9e15baa8b429cb78ed28b63909eb7b"
+      },
+      {
+        "group": "memory",
+        "name": "weight-total-finite",
+        "module": "memory-rewards",
+        "method": "grantMemoryUnlock",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "d612de3988ce0990881e1b8d21c3de4187e01ac8468959a09acf7c0754af3cfc",
+        "observationLogSha256": "67bcb15876cbf24e23651a05a138c1b032a6986df3b07c49280ab17a914a6f59"
+      },
+      {
+        "group": "memory",
+        "name": "random-finite",
+        "module": "memory-rewards",
+        "method": "grantMemoryUnlock",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "e0c6a625f27f43aaadecdee34e1c69473d025264a5e619b2342cb9a04f56835b",
+        "observationLogSha256": "f9a2bb797f2dcddc967115a738ad92bec2e55279cb08ce3cc054ad70ebeb84ae"
+      },
+      {
+        "group": "memory",
+        "name": "random-upper-bound",
+        "module": "memory-rewards",
+        "method": "grantMemoryUnlock",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "6beca1bbc9e1ab07c909af108f6dfed6cbe6bd32860cd38ef352af4f2727c296",
+        "observationLogSha256": "12f3e9c67220515ced4772995523be5e0164e94579aaa60ff8dab1ba8e4395f4"
+      },
+      {
+        "group": "memory",
+        "name": "selection-boundary",
+        "module": "memory-rewards",
+        "method": "grantMemoryUnlock",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "3cf0f943423e5a32fa71a186a216a5180f20a0d841020bf9bf2dd361ef3c993d",
+        "observationLogSha256": "c518aedfab0122271ab52ba56044f6730c01bb2d7922e1acac89d0bac5091843"
+      },
+      {
+        "group": "memory",
+        "name": "explicit-skill-grant",
+        "module": "memory-rewards",
+        "method": "grantMemoryUnlock",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "4e9b6983e6bf7e5b880449aab5d5f05554f04009f9fe1c0b63cd310781bf8ed9",
+        "observationLogSha256": "8b8dd2f0ed93631e00e9bc4dc0222c7ade42215aa19e5f7612dbcc4b7e0f1ab9"
+      },
+      {
+        "group": "memory",
+        "name": "receipt-own-storage",
+        "module": "memory-rewards",
+        "method": "grantMemoryUnlock",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "a3ff02803f3b765fab2a58fb57abe07c2d04a1c504ff078ffbfbd4af134af51b",
+        "observationLogSha256": "50eb2bad9da139555bfb1a6a452f27d9c236d7c4ee2d894ef14745b36c0a1f8d"
+      },
+      {
+        "group": "memory",
+        "name": "legendary-membership",
+        "module": "memory-rewards",
+        "method": "awakenMemoryFromDrop",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "54b4bcea20a023891683ece7f9559e5a1f955929783f7e1334aa2e1e18d0b4c2",
+        "observationLogSha256": "96bc7c8bed9df8828225838b3153eadb09e47a6195a13cdd9744331aa3e68bdd"
+      },
+      {
+        "group": "memory",
+        "name": "legendary-deduplication",
+        "module": "memory-rewards",
+        "method": "awakenMemoryFromDrop",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "53b05d49b94c646ec6c3326d921dd4037ef3a6b6a7d930e2058c393ea9019aa2",
+        "observationLogSha256": "19e0e6532d1be60281de228ca6c3697a40db604e64a18ec7153bda8fead3f8c0"
+      },
+      {
+        "group": "memory",
+        "name": "access-kind",
+        "module": "memory-rewards",
+        "method": "memoryAccessView",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "1aa155108bb2c84af95f537fa2cc799dc2610c5fa60148341c5dec1110995628",
+        "observationLogSha256": "c7b6b15b5d58ef5ff4c1b06b828e2b7e13301e70c70b1f47ecc89b23ce034f20"
+      },
+      {
+        "group": "unlocks",
+        "name": "account-milestone-prefix-ignored",
+        "module": "unlock-lifecycle",
+        "method": "catalogLevelMilestones",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "320396c8c9c29421aad12400d5dda5e6f6b2bd8fc0d6f1a403e1f92d681de617",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "unlocks",
+        "name": "account-milestone-suffix-truncated",
+        "module": "unlock-lifecycle",
+        "method": "catalogLevelMilestones",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "b36e53de0cd4b52e12d90d3b34ed980a10da3961abd711fa258c11986b5128c1",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "unlocks",
+        "name": "objective-inherited-read",
+        "module": "unlock-lifecycle",
+        "method": "classObjectiveNeeds",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "b8c5bcc5bd3ca01a7f3b121bb8e853f4831b20c92f654b1ffc9a909e2f152703",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "unlocks",
+        "name": "class-milestone-prefix-ignored",
+        "module": "unlock-lifecycle",
+        "method": "catalogClassLevelMilestones",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "3911f76b5d0b6705723bcee5ce197ea9a5a5ba003526351dbba20c5db29b7915",
+        "observationLogSha256": "6855abdba5c4b4f4c9da3983235947a12f15e663016fd7f237d7362bd2e5a3fa"
+      },
+      {
+        "group": "unlocks",
+        "name": "class-milestone-suffix-truncated",
+        "module": "unlock-lifecycle",
+        "method": "catalogClassLevelMilestones",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "7ef485e032f01091acc9aea8cbf08fb93b22bdb0ba25fd492d157d7000ee8956",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "unlocks",
+        "name": "investment-inherited-read",
+        "module": "unlock-lifecycle",
+        "method": "ownInvestment",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "38648e4096ceeed6845eb6aee509170025b187d6770217edbd6819bd73ff7eb9",
+        "observationLogSha256": "516ef9f789c746179f84fcfa69be8de8f842ac10d453d216377bbf348c45ae8c"
+      },
+      {
+        "group": "unlocks",
+        "name": "investment-unsafe-write",
+        "module": "unlock-lifecycle",
+        "method": "writeInvestment",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "7517e1ac1511adb02aaa990b446a4ea6c380d1ec615e70e5bae83a8279eccdf5",
+        "observationLogSha256": "b890ca4932d9db0d4237c1e1bcbee386ea3cd5f8a375a85c85b90939c0cf54c8"
+      },
+      {
+        "group": "unlocks",
+        "name": "currency-finite",
+        "module": "unlock-lifecycle",
+        "method": "validPurchase",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "587bc68fd49227d69a05daab8ace9d9dce613ef471d356e20224ccf3eb55c7ee",
+        "observationLogSha256": "e9f99e2961a1a0ff9a43289eccc1ceddeacf498c9b3a7dd1fc9c9f5e42b697cf"
+      },
+      {
+        "group": "unlocks",
+        "name": "investment-finite",
+        "module": "unlock-lifecycle",
+        "method": "validPurchase",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "640647529e190c572c7a95875d9f6672641d9c1f434fa665c25b07d716204956",
+        "observationLogSha256": "6b5dca3218c5730ce31e322e2874431700c4b0ef2e4fd31aaa757cdf765cf81b"
+      },
+      {
+        "group": "unlocks",
+        "name": "price-finite",
+        "module": "unlock-lifecycle",
+        "method": "validPurchase",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "7a41d1ebce9e9d146b7dda70609379a64af1c347ed7dd71e223c83d6882d1ad7",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "unlocks",
+        "name": "price-nonnegative",
+        "module": "unlock-lifecycle",
+        "method": "validPurchase",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "d55fb44bfccd6e45eed4ee4b1b5687f7bdde95ca80b4639fe5132161b43289d7",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "unlocks",
+        "name": "memory-receipt-identity",
+        "module": "unlock-lifecycle",
+        "method": "memorySequence",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "1c18b0fcfe081f2d3971913a20bcd3163d9d2aa7309e6208a1ce096bd3206908",
+        "observationLogSha256": "1db134980c6852218245b28ba6858cdd4a63200baecc2bbfe10e4d27465d0328"
+      },
+      {
+        "group": "unlocks",
+        "name": "investment-request-nan",
+        "module": "unlock-lifecycle",
+        "method": "investUnlock",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "19a566e8bd8b313f780a87c28c122dad7b51a8fc51c7f66e1f89588cf918dec8",
+        "observationLogSha256": "5e6394465f94560b853e0d2bf4ace4427bd6effb5880b9d351284cc9547b2d0f"
+      },
+      {
+        "group": "unlocks",
+        "name": "earned-purchase",
+        "module": "unlock-lifecycle",
+        "method": "investUnlock",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "5f63a8b6f4ae32461541d263ebca60f074de39f5555add523e3a46634a9b3f25",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "unlocks",
+        "name": "request-floor",
+        "module": "unlock-lifecycle",
+        "method": "investUnlock",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "288938a1623c858a8aae38b74fb29d0537a3a8310e3a72d8bd575899b03798f1",
+        "observationLogSha256": "e4e87db6b74dbce50eb60ef244989567403400af922da05a1fe90b47b7096800"
+      },
+      {
+        "group": "unlocks",
+        "name": "ordinary-currency-debit",
+        "module": "unlock-lifecycle",
+        "method": "investUnlock",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "0ae21d162170dd5a665b0cb4e73ed62551c2b86b5046909f7b237ee7f94c5cae",
+        "observationLogSha256": "e61e9b07f9e13cce6e29b7a2a276555dfa1381c5e715c1fd30e7a2cb7e4adaf1"
+      },
+      {
+        "group": "unlocks",
+        "name": "investment-completion-boundary",
+        "module": "unlock-lifecycle",
+        "method": "investUnlock",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "56101e7420ee70d592fdc02a95be65cf71fb939ac4bde4479a8ecd3d5eb86344",
+        "observationLogSha256": "60429e1d8eacd6d270597192359680302ba44386ea00b9730497d4d4ac81d38d"
+      },
+      {
+        "group": "unlocks",
+        "name": "memory-overpayment",
+        "module": "unlock-lifecycle",
+        "method": "investUnlock",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "7c3e7cb39459e0b2bd1470d97195296612f188d2d3bc1a2c377c81ea784d36e0",
+        "observationLogSha256": "2381bb1730b283ed662615e12cff70561df86deeb05cdfab5087fa334e1f8374"
+      },
+      {
+        "group": "unlocks",
+        "name": "purchase-success-receipt",
+        "module": "unlock-lifecycle",
+        "method": "applyUnlock",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "ad21e44d86785e96653f9c67748a81c6b53849e8be4952f816dbe2756bee0c93",
+        "observationLogSha256": "dd0a17c999503af74422e15312619631716d98bcc5bd7b5e3b6cffb99a9d3a61"
+      },
+      {
+        "group": "unlocks",
+        "name": "package-prior-tier",
+        "module": "unlock-lifecycle",
+        "method": "isUnlockVisible",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "cbd1853069bf2a811d8be37faef0efa482df79c4878d933600ed37287ba0ed3d",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "unlocks",
+        "name": "package-base",
+        "module": "unlock-lifecycle",
+        "method": "isUnlockVisible",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "220ecf6b2c9d329f91bec4130b0751872fa2da1fb849c98c5ff945272c5e1b38",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "unlocks",
+        "name": "account-level-gate",
+        "module": "unlock-lifecycle",
+        "method": "staticGateMet",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "1ed60f4bdfd17cc660217f805cc6a8af29750196bae0973c963e4844ba324499",
+        "observationLogSha256": "1f1d9d8146a459a5fe2477704d4e44d344df8cdf4ff3fcefde1ecd7174a7ee6e"
+      },
+      {
+        "group": "unlocks",
+        "name": "owned-feature",
+        "module": "unlock-lifecycle",
+        "method": "isUnlockOwned",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "db7d5ff3c9deb88bcd920526f3459bbcfa4f45c97344c093823124bd83648298",
+        "observationLogSha256": "608c8620c117522f7993bbdcdc0a1f41f652cbdbf94e048f41b8ed9d4da16d93"
+      },
+      {
+        "group": "unlocks",
+        "name": "resurrection-live-state",
+        "module": "unlock-lifecycle",
+        "method": "isUnlockVisible",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "845498df8bb02b65f42f6f051c80a7f0f370a32f1ecc212db74f517b25115ca8",
+        "observationLogSha256": "8fd1214f6ff934c23c96903ecf728e0941f6e3c8a8d78cace4873671c0597729"
+      },
+      {
+        "group": "content",
+        "name": "content-dependencies",
+        "module": "unlock-content",
+        "method": "constructor",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "c35553ddcd87e8d7f8273d5539f1b623af93838561ef4aec682e36a22ed76aac",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "content",
+        "name": "content-memory-dependency",
+        "module": "unlock-content",
+        "method": "constructor",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "25b8c1cf5630e902740a15458a73c2fff7391bf00f9dfacc589338eff77f4c4f",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "content",
+        "name": "content-cycle",
+        "module": "unlock-content",
+        "method": "constructor",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "e4fce2db9940b97a9bfb13115a208ae55e50353a5ef5e1bbbd837ab831f8501e",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "content",
+        "name": "content-classes",
+        "module": "unlock-content",
+        "method": "constructor",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "2c9be6e574a04b910efe5e49b81c78d022386b539b4f3a33a0a4b9503f511c73",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "content",
+        "name": "content-slot-consistency",
+        "module": "unlock-content",
+        "method": "constructor",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "ea5abc2547fc1f94690accc41c0569352e55189a4053b1f66f04fbbf078a25d4",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "content",
+        "name": "content-shelf-threshold",
+        "module": "unlock-content",
+        "method": "constructor",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "17e7cbc65fb577f77d5eba5b44ee0f98823cc9f333a1309fda2b23244ac3e168",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "content",
+        "name": "content-memory-reference",
+        "module": "unlock-content",
+        "method": "constructor",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "a2d0722efc65188d3688c0d4e15962e4e71144b5ac96e0818f2cf4abbb38927c",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "content",
+        "name": "content-tier-identity",
+        "module": "unlock-content",
+        "method": "constructor",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "d2d0fbacd068890ac4bcc0f6178dce094a0cf05d7e867450b685eb1192025e2b",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "content",
+        "name": "content-frozen-data",
+        "module": "unlock-content",
+        "method": "constructor",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "f78730ade49d2a4d26ff78a580ee37c30b27190a8ead335b2c78d1145de2fe5d",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "content",
+        "name": "predicate-comparison",
+        "module": "unlock-predicates",
+        "method": "testUnlockPredicate",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "7dfe518d11b13577747d013100f0ad96344751348d74b71138c6fc2cfeb3553a",
+        "observationLogSha256": "59192cf3b695c130e6f818abc6666a0ae9c934bc2ddb4743ed60a8cf1f968d08"
+      },
+      {
+        "group": "content",
+        "name": "predicate-read-order",
+        "module": "unlock-predicates",
+        "method": "testUnlockPredicate",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "6a92787c395e7bcdfb81f1f828592c6c1dc71301525908f6f66ba6b3c19b8461",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "content",
+        "name": "predicate-group-validation",
+        "module": "unlock-predicates",
+        "method": "validateUnlockPredicate",
+        "contractsStatus": 1,
+        "observationStatus": 0,
+        "contractsLogSha256": "a72728e1e52de75da29c4c7c673ec63bdad4f24bb6164c9aaae2a3b3c16340a7",
+        "observationLogSha256": "78df7ddf0f14b399688aa2aa666fd0597bd56992510b76ac5b6c23e6ae676039"
+      },
+      {
+        "group": "content",
+        "name": "rune-digraphs",
+        "module": "rune-script",
+        "method": "constructor",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "8a8b90a4d1f3fcc5204b74c025349703c6a006bd76b66d8e2a632b6b2aa5dbbe",
+        "observationLogSha256": "5f69beaa7564a42e2b0b0b9aa091a5d9d1cc73fc11a2d3d211cc019378bee0a5"
+      },
+      {
+        "group": "content",
+        "name": "rune-complete-case",
+        "module": "rune-script",
+        "method": "reveal",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "bf26910e4dfcf8d2caebc344530d7b88da6cfba9f336678dad73841b64a372c4",
+        "observationLogSha256": "5f5b0da871bd7a704397b386517e8ed3a6f63bc66add71de0a1236531201cbf1"
+      },
+      {
+        "group": "content",
+        "name": "rune-fnv-seed",
+        "module": "rune-script",
+        "method": "reveal",
+        "contractsStatus": 0,
+        "observationStatus": 1,
+        "contractsLogSha256": "691468469c7f226a38965344ddf968a320da3e2499bbb8cf4dd00c6d1f7ed462",
+        "observationLogSha256": "b419dcedf06c6ce466ed1e4bee01fe43cb054a6f4159464c220ef1e0aba51cc8"
+      },
+      {
+        "group": "content",
+        "name": "rune-reveal-floor",
+        "module": "rune-script",
+        "method": "reveal",
+        "contractsStatus": 0,
+        "observationStatus": 1,
+        "contractsLogSha256": "24f06cce72afc551e23b534395600934d1512684a60bbd72476a6a2f170515d5",
+        "observationLogSha256": "a665542576bd43c3eeec435c1c2531a5290778764bda89c4be0f3dc2c241a24a"
+      },
+      {
+        "group": "content",
+        "name": "rune-reveal-shuffle",
+        "module": "rune-script",
+        "method": "reveal",
+        "contractsStatus": 0,
+        "observationStatus": 1,
+        "contractsLogSha256": "eec5a7be1e0e6002b4a00bfbbf144bf362d46cc572d0cff7fe5e2895b6e4fea8",
+        "observationLogSha256": "57f652beb6f26b6e3a431ac69838794fc61dadc32e0ce0db86e3fc11a244d690"
+      },
+      {
+        "group": "content",
+        "name": "rune-source-case",
+        "module": "rune-script",
+        "method": "encipher",
+        "contractsStatus": 1,
+        "observationStatus": 1,
+        "contractsLogSha256": "0ccf073134fd1b94a996f62a8c8b7a1621ce8286849d769784b36a1491856479",
+        "observationLogSha256": "65be30ba31267fe1861219ad288a8f27aa1eeb93e821fdf422244e2a67bfb043"
+      }
+    ],
+    "sourceRestored": true,
+    "acceptedConsumerPreserved": true
+  },
+  "overlay": {
+    "passed": true,
+    "scenarios": [
+      "original",
+      "classes",
+      "continuity",
+      "both",
+      "crlf",
+      "private-helper",
+      "prior-port",
+      "local-import",
+      "retry",
+      "changed-unlock",
+      "changed-memory",
+      "collision",
+      "second-rename",
+      "second-editor",
+      "installer-lock"
+    ],
+    "guardedMethods": 38,
+    "adapterSha256": "62dc183a039e276c1565393d2fec6bc0da4c9bb945105514cc3788ada9b89d9c"
+  },
+  "native": {
+    "passed": true,
+    "observedAt": "2026-11-05T17:54:34.441Z",
+    "archiveSha256": "09d9491b1cbc082823861c37dc1dc6bc14c2556cd5fd2bb3c10b397b722e23e7",
+    "runtimeVersion": "0.17.0",
+    "requests": 3242,
+    "inputProof": {
+      "passed": true,
+      "requests": 3242,
+      "purchaseOperations": 1620,
+      "predicateCases": 2432,
+      "runeReveals": 2370,
+      "expectedSha256": "79d46c012946b15fdc985225a2664ee33e2a9b97bc71296fd4275978306094a7",
+      "requestSha256": "5dfc103409386696385eb358ee2585dc62eb9a96a37d9b2d541f03e93d89e522",
+      "contentSha256": "c654da838ccfe3203be32e977777df5b65400ff5f8c3038ca8a8c9c2a8106846",
+      "policySha256": "7b9880ac71ca20073b2224f9447aac9771be1fdfcabda3c6572371b749cfcfc0",
+      "transactionSha256": "6e27839dbd4b9915e6ce187eb55e2d29af57aaebb516e4d5d27abce099d45707",
+      "sourceContentSha256": "c83b4a2efe188fd87e145994b766f770e7f3577fe04f8d08f582047b3f20441f",
+      "contentId": "hollow-wake-unlocks:sha256:9e5f06bb5260ba78c8c914e631927c8ba2c748cb28f5b1f3003e5b7516a632ec"
+    },
+    "platform": "win32",
+    "architecture": "x64",
+    "scope": "Selected unlock, memory, progression, relic and storage policies plus compiled data through embedded C, C++ and .NET hosts. Item geometry callbacks are explicitly outside this replay. Physical-device, actual engine-editor, full-frame and total-process memory acceptance remain separate.",
+    "runs": [
+      {
+        "label": "control",
+        "passed": true,
+        "bundleBytes": 114257,
+        "bundleSha256": "76d32db2505401eb8378ea441012e7a7754c28d9af2893b671817c4fee00f55f",
+        "changed": [],
+        "consumers": [
+          {
+            "host": "c",
+            "passed": true,
+            "metrics": {
+              "code": 0,
+              "completedRequests": 3242,
+              "peakRequestedBytes": 9251238,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 349199
+            },
+            "outputSha256": "43a4b06b9581a85e592f17109d8bba028ebd2c7a16abbfa92560b4f565d108c8"
+          },
+          {
+            "host": "cpp",
+            "passed": true,
+            "metrics": {
+              "passed": true,
+              "requests": 3242,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 9251238,
+              "bufferOwnership": true,
+              "threadMigration": true,
+              "concurrentCancellation": true,
+              "unloadReload": true
+            },
+            "outputSha256": "6f9de1e56cd339c61de7c0ca4a6a3d07f44061c5e7e1cdff884dd2aa570120d5"
+          },
+          {
+            "host": "dotnet",
+            "passed": true,
+            "metrics": {
+              "passed": true,
+              "requests": 3242,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 9251238,
+              "managedOwnership": true,
+              "threadMigration": true,
+              "libraryLease": true,
+              "failedConstructionLease": true,
+              "finalizerUnload": true,
+              "unloadReload": true,
+              "residencyProbe": "GetModuleHandleW"
+            },
+            "outputSha256": "43a4b06b9581a85e592f17109d8bba028ebd2c7a16abbfa92560b4f565d108c8"
+          }
+        ]
+      },
+      {
+        "label": "finite-currency",
+        "passed": true,
+        "bundleBytes": 114227,
+        "bundleSha256": "67a43387a7ae281cb7edc6ff659271283deb1c398aff6b8c1b793a4007736be4",
+        "changed": [
+          {
+            "index": 66,
+            "name": "purchase/slot/credits-NaN"
+          },
+          {
+            "index": 67,
+            "name": "purchase/slot/credits-Infinity"
+          },
+          {
+            "index": 95,
+            "name": "purchase/class/credits-NaN"
+          },
+          {
+            "index": 96,
+            "name": "purchase/class/credits-Infinity"
+          },
+          {
+            "index": 124,
+            "name": "purchase/classtier/credits-NaN"
+          },
+          {
+            "index": 125,
+            "name": "purchase/classtier/credits-Infinity"
+          },
+          {
+            "index": 153,
+            "name": "purchase/skill/credits-NaN"
+          },
+          {
+            "index": 154,
+            "name": "purchase/skill/credits-Infinity"
+          },
+          {
+            "index": 182,
+            "name": "purchase/support/credits-NaN"
+          },
+          {
+            "index": 183,
+            "name": "purchase/support/credits-Infinity"
+          },
+          {
+            "index": 211,
+            "name": "purchase/feature/credits-NaN"
+          },
+          {
+            "index": 212,
+            "name": "purchase/feature/credits-Infinity"
+          },
+          {
+            "index": 240,
+            "name": "purchase/graft/credits-NaN"
+          },
+          {
+            "index": 241,
+            "name": "purchase/graft/credits-Infinity"
+          },
+          {
+            "index": 269,
+            "name": "purchase/feature-key-__proto__/credits-NaN"
+          },
+          {
+            "index": 270,
+            "name": "purchase/feature-key-__proto__/credits-Infinity"
+          },
+          {
+            "index": 298,
+            "name": "purchase/feature-key-constructor/credits-NaN"
+          },
+          {
+            "index": 299,
+            "name": "purchase/feature-key-constructor/credits-Infinity"
+          },
+          {
+            "index": 327,
+            "name": "purchase/feature-key-toString/credits-NaN"
+          },
+          {
+            "index": 328,
+            "name": "purchase/feature-key-toString/credits-Infinity"
+          },
+          {
+            "index": 414,
+            "name": "purchase/memory_discovery/credits-NaN"
+          },
+          {
+            "index": 415,
+            "name": "purchase/memory_discovery/credits-Infinity"
+          },
+          {
+            "index": 448,
+            "name": "purchase/memory_secondary/credits-NaN"
+          },
+          {
+            "index": 449,
+            "name": "purchase/memory_secondary/credits-Infinity"
+          },
+          {
+            "index": 482,
+            "name": "purchase/pkg_warbands/credits-NaN"
+          },
+          {
+            "index": 483,
+            "name": "purchase/pkg_warbands/credits-Infinity"
+          },
+          {
+            "index": 511,
+            "name": "purchase/resurrect_fallen/credits-NaN"
+          },
+          {
+            "index": 512,
+            "name": "purchase/resurrect_fallen/credits-Infinity"
+          },
+          {
+            "index": 540,
+            "name": "purchase/memory-offer-alias/credits-NaN"
+          },
+          {
+            "index": 541,
+            "name": "purchase/memory-offer-alias/credits-Infinity"
+          }
+        ],
+        "consumers": [
+          {
+            "host": "c",
+            "passed": true,
+            "metrics": {
+              "code": 0,
+              "completedRequests": 3242,
+              "peakRequestedBytes": 9251208,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 350779
+            },
+            "outputSha256": "26682ae7eb1b32ea1208ab3e863794a42ad6e2d440938538a0f62588e6951cbe"
+          },
+          {
+            "host": "cpp",
+            "passed": true,
+            "metrics": {
+              "passed": true,
+              "requests": 3242,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 9251208,
+              "bufferOwnership": true,
+              "threadMigration": true,
+              "concurrentCancellation": true,
+              "unloadReload": true
+            },
+            "outputSha256": "428a86d425158601cb3bb3fd41c46e6fa0db8c89fae5d33a85ff7b0a5410eb6b"
+          },
+          {
+            "host": "dotnet",
+            "passed": true,
+            "metrics": {
+              "passed": true,
+              "requests": 3242,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 9251208,
+              "managedOwnership": true,
+              "threadMigration": true,
+              "libraryLease": true,
+              "failedConstructionLease": true,
+              "finalizerUnload": true,
+              "unloadReload": true,
+              "residencyProbe": "GetModuleHandleW"
+            },
+            "outputSha256": "26682ae7eb1b32ea1208ab3e863794a42ad6e2d440938538a0f62588e6951cbe"
+          }
+        ]
+      },
+      {
+        "label": "predicate-read-order",
+        "passed": true,
+        "bundleBytes": 114212,
+        "bundleSha256": "be5e7169e889253079d789a035b0d4579a572ec9fd3f80440d2bcdbd6f483f64",
+        "changed": [
+          {
+            "index": 767,
+            "name": "predicate/demon_invasion/demon_dominion/demon_portals_opened=1"
+          },
+          {
+            "index": 768,
+            "name": "predicate/demon_invasion/demon_dominion/demon_portals_opened=2"
+          },
+          {
+            "index": 769,
+            "name": "predicate/demon_invasion/demon_dominion/demon_portals_opened=3"
+          },
+          {
+            "index": 770,
+            "name": "predicate/demon_invasion/demon_dominion/demon_portals_opened=4"
+          },
+          {
+            "index": 771,
+            "name": "predicate/demon_invasion/demon_dominion/demon_portals_opened=5"
+          },
+          {
+            "index": 772,
+            "name": "predicate/demon_invasion/demon_dominion/demon_portals_opened=6"
+          },
+          {
+            "index": 773,
+            "name": "predicate/demon_invasion/demon_dominion/demon_portals_opened=8"
+          },
+          {
+            "index": 774,
+            "name": "predicate/demon_invasion/demon_dominion/demon_portals_opened=10"
+          },
+          {
+            "index": 775,
+            "name": "predicate/demon_invasion/demon_dominion/demon_portals_opened=12"
+          },
+          {
+            "index": 776,
+            "name": "predicate/demon_invasion/demon_dominion/demon_portals_opened=15"
+          },
+          {
+            "index": 777,
+            "name": "predicate/demon_invasion/demon_dominion/demon_portals_opened=20"
+          },
+          {
+            "index": 778,
+            "name": "predicate/demon_invasion/demon_dominion/demon_portals_opened=100"
+          },
+          {
+            "index": 779,
+            "name": "predicate/demon_invasion/demon_dominion/demon_portals_opened=101"
+          },
+          {
+            "index": 780,
+            "name": "predicate/demon_invasion/demon_dominion/demon_portals_opened=Infinity"
+          },
+          {
+            "index": 805,
+            "name": "predicate/demon_invasion/demon_dominion/all=1"
+          },
+          {
+            "index": 806,
+            "name": "predicate/demon_invasion/demon_dominion/all=100"
+          },
+          {
+            "index": 868,
+            "name": "predicate/breach/breach_explore/breaches_closed=15"
+          },
+          {
+            "index": 869,
+            "name": "predicate/breach/breach_explore/breaches_closed=20"
+          },
+          {
+            "index": 870,
+            "name": "predicate/breach/breach_explore/breaches_closed=100"
+          },
+          {
+            "index": 871,
+            "name": "predicate/breach/breach_explore/breaches_closed=101"
+          },
+          {
+            "index": 872,
+            "name": "predicate/breach/breach_explore/breaches_closed=Infinity"
+          },
+          {
+            "index": 898,
+            "name": "predicate/breach/breach_explore/all=100"
+          },
+          {
+            "index": 975,
+            "name": "predicate/crusade/crusade_dominion/crusade_leaders_slain=3"
+          },
+          {
+            "index": 976,
+            "name": "predicate/crusade/crusade_dominion/crusade_leaders_slain=4"
+          },
+          {
+            "index": 977,
+            "name": "predicate/crusade/crusade_dominion/crusade_leaders_slain=5"
+          },
+          {
+            "index": 978,
+            "name": "predicate/crusade/crusade_dominion/crusade_leaders_slain=6"
+          },
+          {
+            "index": 979,
+            "name": "predicate/crusade/crusade_dominion/crusade_leaders_slain=8"
+          },
+          {
+            "index": 980,
+            "name": "predicate/crusade/crusade_dominion/crusade_leaders_slain=10"
+          },
+          {
+            "index": 981,
+            "name": "predicate/crusade/crusade_dominion/crusade_leaders_slain=12"
+          },
+          {
+            "index": 982,
+            "name": "predicate/crusade/crusade_dominion/crusade_leaders_slain=15"
+          },
+          {
+            "index": 983,
+            "name": "predicate/crusade/crusade_dominion/crusade_leaders_slain=20"
+          },
+          {
+            "index": 984,
+            "name": "predicate/crusade/crusade_dominion/crusade_leaders_slain=100"
+          },
+          {
+            "index": 985,
+            "name": "predicate/crusade/crusade_dominion/crusade_leaders_slain=101"
+          },
+          {
+            "index": 986,
+            "name": "predicate/crusade/crusade_dominion/crusade_leaders_slain=Infinity"
+          },
+          {
+            "index": 1012,
+            "name": "predicate/crusade/crusade_dominion/all=100"
+          }
+        ],
+        "consumers": [
+          {
+            "host": "c",
+            "passed": true,
+            "metrics": {
+              "code": 0,
+              "completedRequests": 3242,
+              "peakRequestedBytes": 9251193,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 333643
+            },
+            "outputSha256": "b5af02f8ea0fa5442c5a0bf63ee8ec7f27227e9c3e8272bc82fddae2439dde9d"
+          },
+          {
+            "host": "cpp",
+            "passed": true,
+            "metrics": {
+              "passed": true,
+              "requests": 3242,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 9251193,
+              "bufferOwnership": true,
+              "threadMigration": true,
+              "concurrentCancellation": true,
+              "unloadReload": true
+            },
+            "outputSha256": "ad7c4f5fbb0dd886e420f1b839eeaacedd5e7a75de1a64678ac5a9302fc04a9d"
+          },
+          {
+            "host": "dotnet",
+            "passed": true,
+            "metrics": {
+              "passed": true,
+              "requests": 3242,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 9251193,
+              "managedOwnership": true,
+              "threadMigration": true,
+              "libraryLease": true,
+              "failedConstructionLease": true,
+              "finalizerUnload": true,
+              "unloadReload": true,
+              "residencyProbe": "GetModuleHandleW"
+            },
+            "outputSha256": "b5af02f8ea0fa5442c5a0bf63ee8ec7f27227e9c3e8272bc82fddae2439dde9d"
+          }
+        ]
+      },
+      {
+        "label": "rune-completion",
+        "passed": true,
+        "bundleBytes": 114256,
+        "bundleSha256": "bd9927d6a8f634c3238489037943b2a1c4dd1914d8ef0774532ebd5ce5954b21",
+        "changed": [
+          {
+            "index": 27,
+            "name": "policy/immediate-prose-reveal"
+          },
+          {
+            "index": 3084,
+            "name": "rune/THing AND thunder"
+          },
+          {
+            "index": 3085,
+            "name": "rune/Thing thing 123! ᚦ🙂"
+          },
+          {
+            "index": 3086,
+            "name": "rune/日本語 café AAAAA a-a"
+          },
+          {
+            "index": 3087,
+            "name": "rune/unknown calling"
+          },
+          {
+            "index": 3088,
+            "name": "rune/An unfamiliar calling stirs beyond the veil."
+          },
+          {
+            "index": 3089,
+            "name": "rune/A familiar blade begins to carry a stranger kind of light."
+          },
+          {
+            "index": 3090,
+            "name": "rune/Deliver 300 melee killing blows across your journeys. Ordinary fighting counts; no element or special sequence is required."
+          },
+          {
+            "index": 3091,
+            "name": "rune/The cold lingers where you pass, patient enough to hold the world still."
+          },
+          {
+            "index": 3092,
+            "name": "rune/Land 90 hits dealing cold damage to living enemies. Frost Nova and mixed elemental hits count; lingering damage does not add new hits."
+          },
+          {
+            "index": 3093,
+            "name": "rune/Hands that have learned to mend begin to understand the other use of a dose."
+          },
+          {
+            "index": 3094,
+            "name": "rune/Restore 1,200 life lost to enemy hits through active healing, founts, or life orbs. Ordinary recovery counts; passive regeneration and self-inflicted wounds do not."
+          },
+          {
+            "index": 3095,
+            "name": "rune/Blood runs hot, and every swing carries the fury of the last."
+          },
+          {
+            "index": 3096,
+            "name": "rune/Complete either listed total: melee killing blows, or crises where an enemy hit pushes you from above 30% life to 30% or less and you recover to 60% without dying."
+          },
+          {
+            "index": 3097,
+            "name": "rune/A restless mind bends the forces of the world into ruin."
+          },
+          {
+            "index": 3098,
+            "name": "rune/Land 113 fire hits, 113 cold hits and 113 lightning hits against living enemies. Each element fills one step after 113 hits; skills and lives may differ. A mixed hit can practice each element it deals."
+          },
+          {
+            "index": 3099,
+            "name": "rune/A distant figure watches the wind and waits for a clear shot."
+          },
+          {
+            "index": 3100,
+            "name": "rune/Land 135 projectile hits from at least 160 units away — roughly four body lengths. Keep your distance when the hit lands."
+          },
+          {
+            "index": 3101,
+            "name": "rune/Behind an unyielding shield, the weary find room to breathe."
+          },
+          {
+            "index": 3102,
+            "name": "rune/Turn aside 75 hostile blows with a raised guard or a passive block."
+          },
+          {
+            "index": 3103,
+            "name": "rune/An unseen bond joins two wills, and neither fights alone."
+          },
+          {
+            "index": 3104,
+            "name": "rune/Discover the Necromancer and let creatures you summon or bind deliver 300 killing blows."
+          },
+          {
+            "index": 3105,
+            "name": "rune/Steel flashes with a flourish; danger is another partner in the dance."
+          },
+          {
+            "index": 3106,
+            "name": "rune/Let evasion turn 300 hostile attacks into misses. Movement alone does not count as an evasion."
+          },
+          {
+            "index": 3107,
+            "name": "rune/A heavy tread carries on through the blows that would halt another."
+          },
+          {
+            "index": 3108,
+            "name": "rune/Discover the Guardian and survive a lifetime total of 18,000 life damage from enemy hits. Fatal blows and self-inflicted wounds do not count."
+          },
+          {
+            "index": 3109,
+            "name": "rune/An ember rests in an open palm, hungry for the world beyond it."
+          },
+          {
+            "index": 3110,
+            "name": "rune/Land 1,125 hits that deal fire damage to living enemies. Lingering burns do not count as new hits."
+          },
+          {
+            "index": 3111,
+            "name": "rune/A quiet shadow closes the distance, leaving no time for an answer."
+          },
+          {
+            "index": 3112,
+            "name": "rune/Deliver 113 killing blows while invisible or while your detectability is reduced. Concealment must still hold when the hit lands; critical hits alone do not count."
+          },
+          {
+            "index": 3113,
+            "name": "rune/Among the still and buried, a patient voice gathers company."
+          },
+          {
+            "index": 3114,
+            "name": "rune/Every corpse you leave on the field is a lesson someone can read. Read enough of your own, or put enough of the risen back down, and the lesson turns."
+          },
+          {
+            "index": 3115,
+            "name": "rune/Wild eyes meet a steady gaze, and something like trust takes root."
+          },
+          {
+            "index": 3116,
+            "name": "rune/Every pack answers to a crown. Put one down, and you will know the bond can be claimed."
+          },
+          {
+            "index": 3117,
+            "name": "rune/Gentle hands carry a light that can shelter or sear."
+          },
+          {
+            "index": 3118,
+            "name": "rune/Restore 6,750 life lost to enemy hits using healing skills, founts, or life orbs. Passive regeneration and self-inflicted wounds do not count."
+          },
+          {
+            "index": 3119,
+            "name": "rune/A great weight falls, and the surest footing gives way."
+          },
+          {
+            "index": 3120,
+            "name": "rune/Find a foe sturdy enough to endure 2 poise breaks. Let it recover between breaks and keep it alive. Leaving the zone or reloading ends the attempt; progress shows your best streak."
+          },
+          {
+            "index": 3121,
+            "name": "rune/At the front of the line, a moving shield makes room for those behind."
+          },
+          {
+            "index": 3122,
+            "name": "rune/Meet hostile blows with a raised guard or a passive block. Stop 3,000 damage in all; damage leaking past the guard does not count."
+          },
+          {
+            "index": 3123,
+            "name": "rune/A waiting blade holds a thousand motions in a moment of stillness."
+          },
+          {
+            "index": 3124,
+            "name": "rune/Discover the Berserker and land 113 melee critical hits against living enemies."
+          },
+          {
+            "index": 3125,
+            "name": "rune/Scarred knuckles and a close embrace settle what words cannot."
+          },
+          {
+            "index": 3126,
+            "name": "rune/Something out there will put its hands on you. Survive it, and you will know what hands are for."
+          },
+          {
+            "index": 3127,
+            "name": "rune/An iron watch endures; every reckless blow finds an answer."
+          },
+          {
+            "index": 3128,
+            "name": "rune/Discover the Guardian. Block a hostile blow, then land a melee hit within three seconds. Repeat 90 times. Each block opens one counter; extra hits and repeated blocks cannot stockpile credit."
+          },
+          {
+            "index": 3129,
+            "name": "rune/Long shafts cross the field, each wound a thread waiting to be drawn."
+          },
+          {
+            "index": 3130,
+            "name": "rune/Discover the Ranger and land 450 projectile hits against living enemies."
+          },
+          {
+            "index": 3131,
+            "name": "rune/Careful hands prepare the ground, then leave it waiting in silence."
+          },
+          {
+            "index": 3132,
+            "name": "rune/The floor clicks before it kills. Step wrong once, and live, and the workshop is yours."
+          },
+          {
+            "index": 3133,
+            "name": "rune/A banner rises, and scattered hearts begin to beat as one."
+          },
+          {
+            "index": 3134,
+            "name": "rune/Kill a thing that commands, and its voice goes looking for a new throat."
+          },
+          {
+            "index": 3135,
+            "name": "rune/A voice carries over the clash of steel, giving the battle its rhythm."
+          },
+          {
+            "index": 3136,
+            "name": "rune/Discover the Warlord. Use a warcry within 480 units of a living enemy, then deliver a melee killing blow within six seconds. Repeat 90 times. One kill counts per cry; echoes, triggered repeats and extra cries cannot bank more credit."
+          },
+          {
+            "index": 3137,
+            "name": "rune/A familiar face turns away; its shadow takes a different path."
+          },
+          {
+            "index": 3138,
+            "name": "rune/Accumulate 45,000 actual life damage through your or your companions’ ailments, retaliation and secondary explosions, or through self-inflicted wounds and life costs while a living enemy is within 480 units on the same story. Normal hits, enemy-inflicted wounds, overkill and damage absorbed by shields do not count."
+          },
+          {
+            "index": 3139,
+            "name": "rune/Between one heartbeat and the next, a patient hand finds room to move."
+          },
+          {
+            "index": 3140,
+            "name": "rune/The thing that eats time can die. What spills out can be studied."
+          },
+          {
+            "index": 3141,
+            "name": "rune/A measured breath settles the body, and stillness gathers strength."
+          },
+          {
+            "index": 3142,
+            "name": "rune/Discover the Cleric and restore 13,500 life lost to enemy hits using active healing. Passive regeneration and self-inflicted wounds do not count."
+          },
+          {
+            "index": 3143,
+            "name": "rune/Countless small wings stir together, listening for a single will."
+          },
+          {
+            "index": 3144,
+            "name": "rune/Kill a mother of broods and listen: the humming does not stop. It waits to be told where to go."
+          },
+          {
+            "index": 3145,
+            "name": "rune/Stone rises at a gesture; shelter and ruin share the same hands."
+          },
+          {
+            "index": 3146,
+            "name": "rune/Discover the Breaker and break hostile poise 113 times across your journeys."
+          },
+          {
+            "index": 3147,
+            "name": "rune/A bright flourish invites the rush, then slips beyond its reach."
+          },
+          {
+            "index": 3148,
+            "name": "rune/Discover the Brawler and let evasion turn 750 hostile attacks into misses across your journeys. No follow-up attack is required; movement alone does not count as an evasion."
+          },
+          {
+            "index": 3149,
+            "name": "rune/Beneath old scars, a solemn promise draws strength from suffering."
+          },
+          {
+            "index": 3150,
+            "name": "rune/You have died enough times to notice: something in you keeps the receipts. An order exists that balances them."
+          },
+          {
+            "index": 3151,
+            "name": "rune/A circling shape folds its wings, guided by the hand below."
+          },
+          {
+            "index": 3152,
+            "name": "rune/Discover the Tamer and let your summoned or bound companions deliver 600 killing blows."
+          },
+          {
+            "index": 3153,
+            "name": "rune/A hidden card changes hands; fortune seems to favor the prepared."
+          },
+          {
+            "index": 3154,
+            "name": "rune/Discover the Swashbuckler and land 45 projectile critical hits against living enemies."
+          },
+          {
+            "index": 3155,
+            "name": "rune/A whisper passes through the crowd, and unease becomes an uproar."
+          },
+          {
+            "index": 3156,
+            "name": "rune/Discover the Beguiler and strike panicked enemies 113 times. Fear must already hold when the blow lands."
+          },
+          {
+            "index": 3157,
+            "name": "rune/Patient fingers arrange old signs until their separate voices join."
+          },
+          {
+            "index": 3158,
+            "name": "rune/Use 6 different spell skills 23 times apiece within 480 units of living enemies. Each spell fills one step after 23 casts, across any number of lives. Echoes and triggered repeats do not count."
+          },
+          {
+            "index": 3159,
+            "name": "rune/A clear note lingers in the air, waiting for the chord that follows."
+          },
+          {
+            "index": 3160,
+            "name": "rune/Break a fallen star and listen to the lattice go: everything, struck sincerely, will tell you its note."
+          },
+          {
+            "index": 3161,
+            "name": "rune/finish 300 enemies with melee hits"
+          },
+          {
+            "index": 3162,
+            "name": "rune/land 90 cold hits"
+          },
+          {
+            "index": 3163,
+            "name": "rune/mend 1,200 life lost to hostile hits"
+          },
+          {
+            "index": 3164,
+            "name": "rune/finish 1,875 enemies with melee hits"
+          },
+          {
+            "index": 3165,
+            "name": "rune/survive and recover from 18 low-life crises"
+          },
+          {
+            "index": 3166,
+            "name": "rune/practice 3 elements: land 113 hits with each of fire, cold and lightning"
+          },
+          {
+            "index": 3167,
+            "name": "rune/land 135 projectile hits from at least 160 units away"
+          },
+          {
+            "index": 3168,
+            "name": "rune/block 75 hostile hits"
+          },
+          {
+            "index": 3169,
+            "name": "rune/have your companions slay 300 enemies"
+          },
+          {
+            "index": 3170,
+            "name": "rune/evade 300 hostile attacks"
+          },
+          {
+            "index": 3171,
+            "name": "rune/survive 18,000 life damage from hostile hits"
+          },
+          {
+            "index": 3172,
+            "name": "rune/land 1,125 fire hits"
+          },
+          {
+            "index": 3173,
+            "name": "rune/finish 113 enemies while concealed"
+          },
+          {
+            "index": 3174,
+            "name": "rune/reclaim 15 of your own corpses"
+          },
+          {
+            "index": 3175,
+            "name": "rune/slay 4 bosses of the undead"
+          },
+          {
+            "index": 3176,
+            "name": "rune/put down a Crowned beast"
+          },
+          {
+            "index": 3177,
+            "name": "rune/mend 6,750 life lost to hostile hits"
+          },
+          {
+            "index": 3178,
+            "name": "rune/break the same living enemy’s poise 2 times in one encounter"
+          },
+          {
+            "index": 3179,
+            "name": "rune/stop 3,000 damage with blocks"
+          },
+          {
+            "index": 3180,
+            "name": "rune/land 113 melee critical hits"
+          },
+          {
+            "index": 3181,
+            "name": "rune/be seized by a grip, and live"
+          },
+          {
+            "index": 3182,
+            "name": "rune/answer 90 blocks with a melee hit within 3 seconds"
+          },
+          {
+            "index": 3183,
+            "name": "rune/land 450 projectile hits"
+          },
+          {
+            "index": 3184,
+            "name": "rune/spring a trap with your own feet, and live"
+          },
+          {
+            "index": 3185,
+            "name": "rune/kill a warband's warlord"
+          },
+          {
+            "index": 3186,
+            "name": "rune/follow 90 warcries with a melee kill within 6 seconds"
+          },
+          {
+            "index": 3187,
+            "name": "rune/accumulate 45,000 indirect damage"
+          },
+          {
+            "index": 3188,
+            "name": "rune/slay the Chronophage"
+          },
+          {
+            "index": 3189,
+            "name": "rune/mend 13,500 life lost to hostile hits"
+          },
+          {
+            "index": 3190,
+            "name": "rune/kill a mother of broods"
+          },
+          {
+            "index": 3191,
+            "name": "rune/break enemy poise 113 times"
+          },
+          {
+            "index": 3192,
+            "name": "rune/evade 750 hostile attacks"
+          },
+          {
+            "index": 3193,
+            "name": "rune/die 6 times"
+          },
+          {
+            "index": 3194,
+            "name": "rune/have your companions slay 600 enemies"
+          },
+          {
+            "index": 3195,
+            "name": "rune/land 45 projectile critical hits"
+          },
+          {
+            "index": 3196,
+            "name": "rune/hit panicked enemies 113 times"
+          },
+          {
+            "index": 3197,
+            "name": "rune/rehearse 6 different spells: use each 23 times near enemies"
+          },
+          {
+            "index": 3198,
+            "name": "rune/break a fallen star"
+          },
+          {
+            "index": 3199,
+            "name": "rune/reach level 10 as the Warrior"
+          },
+          {
+            "index": 3200,
+            "name": "rune/reach level 30 as the Warrior"
+          },
+          {
+            "index": 3201,
+            "name": "rune/reach level 60 as the Warrior"
+          },
+          {
+            "index": 3202,
+            "name": "rune/reach level 100 as the Warrior"
+          },
+          {
+            "index": 3203,
+            "name": "rune/reach level 10 as the Magician"
+          },
+          {
+            "index": 3204,
+            "name": "rune/reach level 30 as the Magician"
+          },
+          {
+            "index": 3205,
+            "name": "rune/reach level 60 as the Magician"
+          },
+          {
+            "index": 3206,
+            "name": "rune/reach level 100 as the Magician"
+          },
+          {
+            "index": 3207,
+            "name": "rune/reach level 10 as the Rogue"
+          },
+          {
+            "index": 3208,
+            "name": "rune/reach level 30 as the Rogue"
+          },
+          {
+            "index": 3209,
+            "name": "rune/reach level 60 as the Rogue"
+          },
+          {
+            "index": 3210,
+            "name": "rune/reach level 100 as the Rogue"
+          },
+          {
+            "index": 3211,
+            "name": "rune/reach level 10 as the Summoner"
+          },
+          {
+            "index": 3212,
+            "name": "rune/reach level 30 as the Summoner"
+          },
+          {
+            "index": 3213,
+            "name": "rune/reach level 60 as the Summoner"
+          },
+          {
+            "index": 3214,
+            "name": "rune/reach level 100 as the Summoner"
+          },
+          {
+            "index": 3215,
+            "name": "rune/reach level 10 as the Necromancer"
+          },
+          {
+            "index": 3216,
+            "name": "rune/reach level 30 as the Necromancer"
+          },
+          {
+            "index": 3217,
+            "name": "rune/reach level 60 as the Necromancer"
+          },
+          {
+            "index": 3218,
+            "name": "rune/reach level 100 as the Necromancer"
+          },
+          {
+            "index": 3219,
+            "name": "rune/reach level 10 as the Spellblade"
+          },
+          {
+            "index": 3220,
+            "name": "rune/reach level 30 as the Spellblade"
+          },
+          {
+            "index": 3221,
+            "name": "rune/reach level 60 as the Spellblade"
+          },
+          {
+            "index": 3222,
+            "name": "rune/reach level 100 as the Spellblade"
+          },
+          {
+            "index": 3223,
+            "name": "rune/reach level 10 as the Cryomancer"
+          },
+          {
+            "index": 3224,
+            "name": "rune/reach level 30 as the Cryomancer"
+          },
+          {
+            "index": 3225,
+            "name": "rune/reach level 60 as the Cryomancer"
+          },
+          {
+            "index": 3226,
+            "name": "rune/reach level 100 as the Cryomancer"
+          },
+          {
+            "index": 3227,
+            "name": "rune/reach level 10 as the Apothecary"
+          },
+          {
+            "index": 3228,
+            "name": "rune/reach level 30 as the Apothecary"
+          },
+          {
+            "index": 3229,
+            "name": "rune/reach level 60 as the Apothecary"
+          },
+          {
+            "index": 3230,
+            "name": "rune/reach level 100 as the Apothecary"
+          },
+          {
+            "index": 3231,
+            "name": "rune/great geyser entered"
+          },
+          {
+            "index": 3232,
+            "name": "rune/geysermaw slain"
+          },
+          {
+            "index": 3233,
+            "name": "rune/cistern entered"
+          },
+          {
+            "index": 3234,
+            "name": "rune/own brandt magic wares"
+          },
+          {
+            "index": 3235,
+            "name": "rune/own brandt rare wares"
+          },
+          {
+            "index": 3236,
+            "name": "rune/own vendor wares 5"
+          },
+          {
+            "index": 3237,
+            "name": "rune/own vendor restock 2"
+          },
+          {
+            "index": 3238,
+            "name": "rune/reach level 12"
+          },
+          {
+            "index": 3239,
+            "name": "rune/reach level 25"
+          },
+          {
+            "index": 3240,
+            "name": "rune/reach level 40"
+          }
+        ],
+        "consumers": [
+          {
+            "host": "c",
+            "passed": true,
+            "metrics": {
+              "code": 0,
+              "completedRequests": 3242,
+              "peakRequestedBytes": 9251236,
+              "liveRequestedBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "allocationRequests": 349837
+            },
+            "outputSha256": "90d8387044a2f4d0496ed717eafc3b0a432c887e5bfc2db511c26ac8f1d07092"
+          },
+          {
+            "host": "cpp",
+            "passed": true,
+            "metrics": {
+              "passed": true,
+              "requests": 3242,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 9251236,
+              "bufferOwnership": true,
+              "threadMigration": true,
+              "concurrentCancellation": true,
+              "unloadReload": true
+            },
+            "outputSha256": "4976bca54c624c3af445eb7269c4d8b6b3841361dc95c4d9415939c415bfdae0"
+          },
+          {
+            "host": "dotnet",
+            "passed": true,
+            "metrics": {
+              "passed": true,
+              "requests": 3242,
+              "liveBytesAfterDispose": 0,
+              "liveBlocksAfterDispose": 0,
+              "peakTrackedBytes": 9251236,
+              "managedOwnership": true,
+              "threadMigration": true,
+              "libraryLease": true,
+              "failedConstructionLease": true,
+              "finalizerUnload": true,
+              "unloadReload": true,
+              "residencyProbe": "GetModuleHandleW"
+            },
+            "outputSha256": "90d8387044a2f4d0496ed717eafc3b0a432c887e5bfc2db511c26ac8f1d07092"
+          }
+        ]
+      }
+    ],
+    "binaries": {
+      "c": "d5338af9955ed8140db4ae9ef2bc182c1f980476b39c59e63566e98c440c8a0b",
+      "cpp": "7eb85ba05b992f68854b9e38ecdd34cfe2c6a1d0b123e4c137ebcdc5ab03df04",
+      "library": "3fba3550ee1c725b5509b4eb899fac1ade90e31fca200723c73685eef6b9da56",
+      "managed": "68c452d7acad01b6671395eadd417fd94fb654619b3ee19f85d988a861f18d69",
+      "compiler": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.38.33133 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+      "dotnetSdk": "8.0.421"
+    }
+  },
+  "game": {
+    "passed": true,
+    "results": {
+      "policy": "7b9880ac71ca20073b2224f9447aac9771be1fdfcabda3c6572371b749cfcfc0",
+      "transactions": "6e27839dbd4b9915e6ce187eb55e2d29af57aaebb516e4d5d27abce099d45707",
+      "memory": "aba481dc0fc157759c62ed367ab3d56aa6ebc6f58489a1c516eee5b66d20a366",
+      "edges": "ed08fa0f1cf026cda2e905318acebbdb60346502dfde53cc672550cc19bb6401",
+      "save": "9e1f67ae24e0710f105b0179cee5b7c9fcc821eaf25725f1a88ee142e2451532",
+      "classes": "4db47f208086a9d165300427075d50eee40ab21512d7396cdb0d7ffa82356207",
+      "continuity": "e5ba8d4c1568014013cab884bb49fc8065f239a5b32a27a2562718fd836fad64",
+      "gates": "8f9545757b6ec268a439ee9fca5fc6e7b73062463d4d332848e89075897ea113"
+    },
+    "saves": 23,
+    "sourcePreserved": true,
+    "packagePreserved": true
+  },
+  "ui": {
+    "passed": true,
+    "platform": "win32",
+    "architecture": "x64",
+    "electronSha256": "e85c682e014d84d99efcd2dc18ce40fcb491b5645ce1208f255207a9b21ef614",
+    "buildSha256": "f6a8ac38b219aeb9064d80a99a27df01bb84caa67e36fe9e5a5a78ef520735bb",
+    "courses": [
+      {
+        "name": "vault-progression-ui.cjs",
+        "passed": true,
+        "courseSha256": "9f4d1d927e745479dbd179bbfc99b32371577c8b1edb110b6331ef85ca4a4652",
+        "logSha256": "0ba0b75d593049882b7707c51c8721c4f3dccf017c3b0c4db4e2db0749706e75",
+        "screenshots": []
+      },
+      {
+        "name": "vault-discovery-ui.cjs",
+        "passed": true,
+        "courseSha256": "945418c55b4be51961701d2333dfd3bd8a53ce5f91e2e1c188ae9d38a186c077",
+        "logSha256": "8876736fde5bf3ab5737d6738e2f0be3a67893b3a2a9da52bc42a5c2dfcdc341",
+        "screenshots": [
+          {
+            "file": "vault-early-classes.png",
+            "sha256": "f34a7c97a7c0dd861feca7187e88b629a090c9fe27b6352de6faee64c954e00d"
+          },
+          {
+            "file": "vault-partial.png",
+            "sha256": "b3afa5effcba17498d8ae5c7112fa9ff7f60a379deaa04a01a80e8d200640204"
+          },
+          {
+            "file": "vault-ready.png",
+            "sha256": "4f6bbc49afc901eee83ba6968a1707e54b3d111ed9ed84218141d74aaf27cf8e"
+          }
+        ]
+      },
+      {
+        "name": "memory-unlocks-ui.cjs",
+        "passed": true,
+        "courseSha256": "8cfc75d6d7a5cbbef135da7fcdf0d32909fd813215250e751c048e8b7a510813",
+        "logSha256": "2116e0966e7c7458c7f42fc3a2383b24a112468719114cd55fd50e76aa0a81d3",
+        "screenshots": [
+          {
+            "file": "memory-unlocks.png",
+            "sha256": "90d9770d0aa91a6685d313b79b9b5d6bdb7ccb51a68d429cf7aa4c6e69c272c1"
+          }
+        ]
+      }
+    ],
+    "sourcePreserved": true,
+    "runtimePreserved": true,
+    "buildPreserved": true
+  },
+  "screen": {
+    "passed": true,
+    "steps": [
+      {
+        "name": "prepare",
+        "passed": true,
+        "logSha256": "11f42c706543252f42bc8744403653443ebf768819e078c59752112ad3f25754"
+      },
+      {
+        "name": "build",
+        "passed": true,
+        "logSha256": "b00853f614745cc2c61bf40e2fcace25b2aa1abef8ccddaced9c99de306aac01"
+      },
+      {
+        "name": "vault",
+        "passed": true,
+        "logSha256": "a17bd9ad0292cdd3a88e37be2721a2a34f140b23ebf7a8ba20c58fe5911f8e0d"
+      },
+      {
+        "name": "classes",
+        "passed": true,
+        "logSha256": "2b938ab0cda4ae9117073a3b7bfb0ceb3dc6decaf843f71ad70b780f0bda6a74"
+      }
+    ]
+  },
+  "earlierInstalledChecks": {
+    "archiveSha256": "1de9058db7d8986e5a88368e7ca5012c1b1f2b02fe6bac67861eaad8893e8a85",
+    "steps": [
+      {
+        "name": "types",
+        "sha256": "4cb1dbee86365d80ade7533409a234bf533a3781316e1861528de301a042575d"
+      },
+      {
+        "name": "simulation-smoke",
+        "sha256": "0160168e1e4c018263f16e8da76e1e7a0caeff2893c3a29245332438b44895a4"
+      },
+      {
+        "name": "unlocks",
+        "sha256": "d553d245a87c7d019fc745ea16670da5bdd030921e15ffbd35efdf32f578ff9f"
+      },
+      {
+        "name": "unlock-binding-faults",
+        "sha256": "0f02d1d58a48bc0bea827c6ea4a44a030fb73411c44335f635a3a1ae9236d1c0"
+      },
+      {
+        "name": "retained-class-faults",
+        "sha256": "546a5227af94ac7f0559efb4c03459d424d68327c2694a978c8bd0480eeb2d5f"
+      },
+      {
+        "name": "retained-continuity-faults",
+        "sha256": "d3298e9fadf1f9590568f9f3268bc803b7bc0afd9dcbd61c2ca9c4fcb2b4903e"
+      }
+    ],
+    "finalUpgrade": {
+      "passed": true,
+      "archiveSha256": "09d9491b1cbc082823861c37dc1dc6bc14c2556cd5fd2bb3c10b397b722e23e7",
+      "sourcePreserved": true,
+      "changedCompiledFiles": [
+        "unlock-lifecycle.js",
+        "unlock-lifecycle.js.map"
+      ]
+    },
+    "scope": "Initial full game types, smoke and 21 class/25 continuity faults passed before the two literal-key methods were repaired. Only unlock-lifecycle.js and its map changed. Final types, smoke, complete unlock/save observations, unchanged Vault courses and class-screen comparison were rerun on the repaired archive."
+  },
+  "commands": [
+    {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "log": ".artifacts/unlock-maintained-full-verify-log-5.txt",
+      "logSha256": "6e33c505719c46f66886bb99f16ad4e0df388a0d6da906b550181071764269ed"
+    },
+    {
+      "command": "npm run reference:verify",
+      "exitCode": 0,
+      "log": ".artifacts/unlock-maintained-reference-verify-log.txt",
+      "logSha256": "c93af545deac7737a5a575c2aa650b9aeffd1189ace628eda12c23adbfc67f41"
+    },
+    {
+      "command": "node --test test/unlock-lifecycle.test.mjs test/unlock-compatibility.test.mjs",
+      "exitCode": 0,
+      "log": ".artifacts/unlock-custom-identifiers-tests-2.txt",
+      "logSha256": "f3671c5bb4fe6e8d5cfa6a49ffb2579afe4e03afecd259fda5ebe7f2a2378f57"
+    },
+    {
+      "command": "npm run check (isolated upgraded game)",
+      "exitCode": 0,
+      "log": ".artifacts/unlock-maintained-game-bmRo0v/final-types.txt",
+      "logSha256": "0ca3c7b488da8f23c1a273555a674b354758d2ea08c00810c3fe420c7c28c14f"
+    },
+    {
+      "command": "npm run sim -- run --suite smoke (isolated upgraded game)",
+      "exitCode": 0,
+      "log": ".artifacts/unlock-maintained-game-bmRo0v/final-smoke.txt",
+      "logSha256": "9bda3bc3d7c3ee594987a6f8bd5acfe205e8071cabdf1f6889685798956e94ab"
+    },
+    {
+      "command": "node scripts/test-installed-unlocks.mjs --location <upgraded game>",
+      "exitCode": 0,
+      "log": ".artifacts/unlock-maintained-game-upgraded-observations.txt",
+      "logSha256": "bbd3cc4de355a103d51a52ab1741d41b97ebafc243198a28c9fda3f1b615a602"
+    },
+    {
+      "command": "node scripts/test-native-unlocks.mjs --amalgam-dir <pinned source> --package-verification <tested receipt>",
+      "exitCode": 0,
+      "log": ".artifacts/unlock-maintained-native-log-3.txt",
+      "logSha256": "5aaf89e55bcc358f48b1e28cd95e93e841e63c23a40e145ea10ddc8a8485e21c"
+    },
+    {
+      "command": "node scripts/test-unlock-ui.mjs --game <preserved renderer game> --dist <preserved build> --electron <desktop runtime>",
+      "exitCode": 0,
+      "log": ".artifacts/unlock-screen-completion-XKa1Cw/vault.txt",
+      "logSha256": "a17bd9ad0292cdd3a88e37be2721a2a34f140b23ebf7a8ba20c58fe5911f8e0d"
+    },
+    {
+      "command": "node scripts/test-character-rules-ui.mjs --game <preserved renderer game> --dist <preserved build> --electron <desktop runtime>",
+      "exitCode": 0,
+      "log": ".artifacts/unlock-screen-completion-XKa1Cw/classes.txt",
+      "logSha256": "2b938ab0cda4ae9117073a3b7bfb0ceb3dc6decaf843f71ad70b780f0bda6a74"
+    },
+    {
+      "command": "npm run benchmark (other heavy work finished)",
+      "exitCode": 0,
+      "log": ".artifacts/unlock-maintained-benchmark-log-2.txt",
+      "logSha256": "45c1e5ddcb76afc7e42e3a5fc2e2767d62a594b08c7155b3bfe14d2a8713c4ff"
+    },
+    {
+      "command": "node scripts/benchmark-unlock-content-load.mjs (other heavy work finished)",
+      "exitCode": 0,
+      "log": ".artifacts/unlock-maintained-content-load-log-2.txt",
+      "logSha256": "1ecf0008a96b9fbf35a142b5b2b8f8328a65eb3ed2f053de6df8e7ee82d67709"
+    }
+  ],
+  "originalGame": {
+    "passed": true,
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "files": 4149,
+    "changes": [],
+    "sourceCapsuleVerified": true
+  },
+  "discoveries": [
+    "Initial package-size accounting counted optional modules in the historical core. Every predecessor cap was retained and separate module caps added.",
+    "Custom class/account-level prefixes were interpreted as regular expressions, and objective aggregation read inherited properties. Independent failing regressions preceded literal-key repairs; frozen original observations did not change.",
+    "A parallel native test wrote its entry into the accepted consumer. The preservation check rejected the run. Native tests now use their own distinct package scope and check the complete accepted consumer map.",
+    "The first native relocation resolved the repository self-reference. The import-graph guard rejected it; a distinct consumer package scope fixed resolution without relaxing the guard.",
+    "The source capsule intentionally excludes the renderer shell. UI preparation now uses the existing hash-checked renderer-shell materializer.",
+    "The first restricted Electron GPU subprocess could not start. The same preserved build passed all courses after approved local desktop-runtime access.",
+    "An initial timing run overlapped a file-preservation audit. Both benchmark commands were rerun after other heavy work finished; only that second run supplies the retained measurements."
+  ],
+  "limits": [
+    "The archive remains a local candidate, not a public release acceptance.",
+    "Hosted Linux/Windows workflow runs remain pending publication.",
+    "Selected C/C++/.NET Windows replay is not proof of Unity, Godot, Unreal or mobile editor integration.",
+    "No physical Steam Deck or older-mobile measurement is claimed.",
+    "Tracked native allocator peaks and retained V8 heap are not total process memory or whole-game budgets."
+  ]
+}

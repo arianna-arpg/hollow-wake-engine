@@ -274,3 +274,11 @@ never establish a native-engine integration.
 ## Vocation offers and grants
 
 The pinned game defines the offer gates, character root allocation and account authority. The host owns current run and account ledgers, seat selection, recalculation and presentation. The original reference covers each authored offer and follows a mortal and sealed Warbringer through the real quartermaster. Secret site placement has a separate boundary. [Vocation progression](vocation-progression.md)
+
+The optional unlock and memory candidate owns catalogue policy, purchase and
+reward arithmetic, class reveal/progress, mastery acquisition, shelves, rune
+presentation and memory secondary access. Validated immutable packs compose
+with existing gate, identity, relic and storage capabilities. The host retains
+authority, ledger event production, durable saving and presentation. The game
+adapter preserves earlier class-claim/reward delegations. See
+[unlocks and memory rewards](unlock-lifecycle.md) for named repairs and acceptance.

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "decision": "Treat custom class identifiers and objective ledger keys literally",
+  "scope": "Additional custom-content regression cases; none of the frozen Hollow Wake observations or repaired expectation files are regenerated.",
+  "findings": [
+    "An interpolated regular expression misreads punctuation in class IDs or configured ledger prefixes, can match another class, and can throw for an unmatched parenthesis.",
+    "Objective aggregation reads inherited Object properties and invokes the __proto__ setter, losing literal keys or producing NaN totals."
+  ],
+  "changes": [
+    "Match exact class and account-level ledger prefixes as strings, then accept only complete decimal-digit suffixes.",
+    "Read only own objective totals and define enumerable own properties while retaining the ordinary result object prototype and maximum-requirement behavior."
+  ],
+  "independentAcceptance": [
+    "Class milestone queries distinguish literal punctuation from other class IDs and reject trailing text and negative levels.",
+    "Objective results retain __proto__, constructor and toString through JSON round trips, preserve their numeric maxima and leave the result prototype unchanged."
+  ],
+  "tests": "test/unlock-lifecycle.test.mjs",
+  "faults": ["objective-inherited-read", "class-milestone-prefix-ignored", "class-milestone-suffix-truncated", "account-milestone-prefix-ignored", "account-milestone-suffix-truncated"]
+}

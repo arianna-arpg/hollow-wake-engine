@@ -41,6 +41,7 @@ function entryGraph(file) {
   }
 }
 entryGraph(path.join(root,'src/index.ts'));
+assert.ok([...reachable].every(file => !['memory-rewards.ts','memory-reward-content.ts','unlock-lifecycle.ts','unlock-content.ts','unlock-predicates.ts','rune-script.ts'].includes(path.basename(file))), 'Optional unlock and memory capabilities became an eager core import');
 assert.ok([...reachable].every(file => !['progression-gates.ts','progression-gate-content.ts'].includes(path.basename(file))), 'Optional progression gates became an eager core import');
 assert.ok([...reachable].every(file => !['vocations.ts','vocation-grants.ts','vocation-keys.ts','vocation-sites.ts','vocation-site-placement.ts'].includes(path.basename(file))), 'Optional vocation runtime became an eager core import');
 assert.ok([...reachable].every(file => !['character-identity.ts','class-kits.ts','class-claims.ts','class-account.ts','class-rewards.ts','mercenary-identity.ts','character-continuity-content.ts'].includes(path.basename(file))), 'Optional character rules became an eager core import');

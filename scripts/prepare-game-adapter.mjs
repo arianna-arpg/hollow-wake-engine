@@ -2,6 +2,7 @@ import {integrateStatusDelivery} from '../adapters/hollow-wake/integrate-status-
 import {integrateProcCasting} from '../adapters/hollow-wake/integrate-proc-casting.mjs';
 import {integrateCharacterContinuity} from '../adapters/hollow-wake/integrate-character-continuity.mjs';
 import {integrateProgressionGates} from '../adapters/hollow-wake/integrate-progression-gates.mjs';
+import {integrateUnlockLifecycle} from '../adapters/hollow-wake/integrate-unlock-lifecycle.mjs';
 import {integrateCharacterRules} from '../adapters/hollow-wake/integrate-character-rules.mjs';
 import {integrateVocationSites} from '../adapters/hollow-wake/integrate-vocation-sites.mjs';
 import {integrateVocations} from '../adapters/hollow-wake/integrate-vocations.mjs';
@@ -121,6 +122,7 @@ integrateVocationSites(game, false);
 integrateCharacterRules(game, false);
 integrateCharacterContinuity(game, false);
 integrateProgressionGates(game, false);
+integrateUnlockLifecycle(game, false);
 integrateStatContext(game, false);
 renderHitEffects(renderHitStatus(fs.readFileSync(path.join(game,'src/engine/world.ts'),'utf8')));
 // A distinct tool environment: never install into the frozen reference or another checkout's junction.
@@ -296,6 +298,9 @@ changes.characterContinuityDecision = continuity.decision;
 const gates = integrateProgressionGates(game);
 changes.files.push(...gates.files);
 changes.progressionGateDecision = gates.decision;
+const unlocks = integrateUnlockLifecycle(game);
+changes.files.push(...unlocks.files);
+changes.unlockDecision = unlocks.decision;
 const statContext = integrateStatContext(game);
 changes.files.push(...statContext.files);
 changes.statContextDecision = statContext.decision;

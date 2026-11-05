@@ -1,4 +1,4 @@
-name: Verify unlock lifecycle baseline
+name: Verify unlock lifecycle and rewards
 on:
   push:
     paths:
@@ -9,6 +9,22 @@ on:
       - 'baseline/overlay/**'
       - 'reference/export-unlock-*.ts'
       - 'reference/export-memory-rewards.ts'
+      - 'reference/export-memory-*.ts'
+      - 'reference/native-unlock-session.mjs'
+      - 'src/**'
+      - 'test/*unlock*.mjs'
+      - 'test/memory-rewards.test.mjs'
+      - 'test/fixtures/**'
+      - 'scripts/*unlock*.mjs'
+      - 'scripts/compile-memory-rewards.mjs'
+      - 'scripts/prepare-game-adapter.mjs'
+      - 'scripts/build-game-item-ui.mjs'
+      - 'scripts/embedded-native-tools.mjs'
+      - 'scripts/native-tools.mjs'
+      - 'adapters/hollow-wake/**'
+      - '.github/actions/prepare-embedded-runtime/**'
+      - 'experiments/embedded-js/**'
+      - 'package*.json'
       - 'reference/tooling/package*.json'
       - 'scripts/test-reference-unlock-lifecycle.mjs'
       - 'scripts/test-unlock-lifecycle-source-faults.mjs'
@@ -39,6 +55,7 @@ jobs:
       - run: npm run reference:prepare
       - run: npm run reference:install
       - run: node scripts/test-reference-unlock-lifecycle.mjs
+      - run: node scripts/test-reference-unlock-content.mjs
       - run: node scripts/test-unlock-lifecycle-source-faults.mjs
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
@@ -49,5 +66,79 @@ jobs:
           retention-days: 14
           path: |
             .artifacts/reference-unlock-lifecycle-*/verification.json
+            .artifacts/reference-unlock-content-*/verification.json
             .artifacts/unlock-lifecycle-source-faults-*/verification.json
             .artifacts/unlock-lifecycle-source-faults-*/progress.json
+  installed:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: node --test test/memory-rewards.test.mjs test/unlock-lifecycle.test.mjs test/unlock-content.test.mjs test/unlock-compatibility.test.mjs test/unlock-predicate-compiler.test.mjs
+      - run: node scripts/test-unlock-package.mjs
+      - run: node scripts/test-unlock-mutations.mjs
+      - run: npm run reference:prepare
+      - run: npm run reference:install
+      - run: node scripts/test-unlock-overlay.mjs
+      - run: npm run adapter:prepare
+      - run: node scripts/test-installed-unlocks.mjs --location .artifacts/adapter-location.json
+      - run: node scripts/test-unlock-installed-faults.mjs --location .artifacts/adapter-location.json
+      - run: node scripts/test-installed-character-rules.mjs --location .artifacts/adapter-location.json
+      - run: node scripts/test-installed-character-continuity.mjs --location .artifacts/adapter-location.json
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          dotnet-version: 8.0.x
+      - uses: ./.github/actions/prepare-embedded-runtime
+      - run: node scripts/test-native-unlocks.mjs --amalgam-dir .artifacts/embedded-host-upstream
+      - name: Install pinned desktop runtime
+        if: runner.os == 'Windows'
+        run: node .reference/node_modules/electron/install.js
+      - name: Build the preserved renderer shell and run Vault, memory and class interaction courses
+        if: runner.os == 'Windows'
+        run: node scripts/test-installed-unlock-screen.mjs --location .artifacts/adapter-location.json
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: unlock-runtime-${{ matrix.os }}
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+          path: |
+            .artifacts/unlock-package-*/verification.json
+            .artifacts/unlock-package-*/*.tgz
+            .artifacts/unlock-package-*/*.txt
+            .artifacts/unlock-mutations-*/verification.json
+            .artifacts/unlock-overlay-*/verification.json
+            .artifacts/installed-unlocks-*/verification.json
+            .artifacts/installed-unlocks-*/*.txt
+            .artifacts/unlock-installed-binding-faults-*/verification.json
+            .artifacts/installed-character-rules-*/verification.json
+            .artifacts/installed-character-continuity-*/verification.json
+            .artifacts/unlock-native-inputs-*/*.json*
+            .artifacts/unlock-native-*/verification.json
+            .artifacts/unlock-native-*/progress.json
+            .artifacts/unlock-native-*/dotnet-build.txt
+            .artifacts/unlock-native-*/native/build*.*
+            .artifacts/unlock-native-*/library/build*.*
+            .artifacts/unlock-native-*/*/*.jsonl
+            .artifacts/unlock-native-*/*/*.txt
+            .artifacts/unlock-ui-*/verification.json
+            .artifacts/unlock-ui-*/*/renderer.txt
+            .artifacts/unlock-ui-*/*/balance/reports/*.png
+            .artifacts/installed-unlock-screen-*/verification.json
+            .artifacts/installed-unlock-screen-*/*.txt
+            .artifacts/installed-unlock-screen-*/dist/sdk-build.json
+            .artifacts/character-rules-ui-*/verification.json
+            .artifacts/character-rules-ui-*/observations.json

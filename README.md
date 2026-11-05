@@ -3,7 +3,9 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
-Version 0.43 adds optional progression requirement queries and validated content for 88 authored groups. The game adapter preserves live account facts, legacy quest counters and milestone progress. See [progression gates](docs/progression-gates.md).
+The 0.44 candidate adds optional unlock and memory reward rules, validated content packs and a guarded game adapter. See [unlocks and memory rewards](docs/unlock-lifecycle.md) for composition, compatibility repairs and acceptance scope.
+
+Version 0.43 added optional progression requirement queries and validated content for 88 authored groups. See [progression gates](docs/progression-gates.md).
 
 The [character continuity modules](docs/character-continuity.md) add class save restoration, live reward ownership, companion identity and a separate authored content archive.
 
