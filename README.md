@@ -3,6 +3,8 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The 0.49 candidate adds optional [compiled immutable content](docs/content-tables.md), preserving every authored value while sharing repeated read-only records. The complete crafting course runs in a smaller measured native heap; loading cost and allocation tradeoffs are retained separately. Engine packaging and physical-device acceptance remain open.
+
 The 0.48 candidate adds an [owned crafting session](docs/crafting-session.md): validated saves, item/wallet/lore ownership, seeded continuation, atomic command admission and retained full-bag support recovery. Native/editor packaging and device measurements remain separate work.
 
 The 0.47 candidate adds optional [gem residence and item restoration](docs/gem-residence-boundary.md): portable saved-cargo packing, socket/grant recovery and tolerant item migration through explicit content and identity services. The installed game matches all 3,847 frozen courses.

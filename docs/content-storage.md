@@ -95,3 +95,7 @@ catalogue and selects Desperate Ward, its riders and four required stat rows.
 The current selection has no riders and occupies 1,126 bytes of JSON. Each
 embedded host loads the selection once and shares the immutable definitions
 across up to 64 separately seeded actors.
+
+## Optional shared runtime tables
+
+The 0.49 candidate adds a [versioned immutable table compiler and reader](content-tables.md). It preserves complete ordered definitions while sharing equal child values. The embedded crafting factory releases intermediate representations after validation. This directly addresses the measured native content-ownership cost; the existing SQLite authoring/query comparison remains unchanged. See retained native memory and load-time evidence rather than inferring a general database or binary-format speedup.

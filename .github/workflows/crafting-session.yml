@@ -6,11 +6,13 @@ on:
       - 'src/**'
       - 'baseline/**'
       - 'scripts/*crafting-session*.mjs'
+      - 'scripts/*content-table*.mjs'
       - 'scripts/compile-*.mjs'
       - 'scripts/catalogue-tools.mjs'
       - 'scripts/reference-utils.mjs'
       - 'scripts/npm-cli.mjs'
       - 'test/crafting-session.test.mjs'
+      - 'test/content-table.test.mjs'
       - 'package*.json'
   pull_request:
   workflow_dispatch:
@@ -36,6 +38,8 @@ jobs:
       - run: npm run build
       - run: npm run test:crafting-session-package
       - run: npm run test:crafting-session-faults
+      - run: npm run test:content-table-package
+      - run: npm run test:content-table-faults
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
         with:
@@ -45,3 +49,7 @@ jobs:
             .artifacts/crafting-session-package-*/*.txt
             .artifacts/crafting-session-faults-*/verification.json
             .artifacts/crafting-session-faults-*/*.txt
+            .artifacts/content-table-package-*/verification.json
+            .artifacts/content-table-package-*/*.txt
+            .artifacts/content-table-faults-*/verification.json
+            .artifacts/content-table-faults-*/*.txt

@@ -300,3 +300,7 @@ crafting runtime and game adapter now reproduce this baseline. The
 the saved-cargo seam before extraction. Optional `inventory/gems` and
 `items/restoration` now delegate that seam through explicit content, identity and
 geometry services. A bounded owned crafting session remains the next layer.
+
+## Optional compiled content transport
+
+`content/table/compiler` and `content/table` compile and decode complete ordered plain-data definitions. Decoded values are detached, frozen and may share equal children; capability constructors still validate gameplay schemas. Mutable item/save identity is unchanged. The native crafting factory consumes exclusively owned input to release intermediates. See [content tables](content-tables.md) for limits, the measured native course and remaining engine/device gates.

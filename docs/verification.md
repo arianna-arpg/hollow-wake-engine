@@ -1039,3 +1039,7 @@ checks, 30 runtime faults and guarded two-file installation to `verify`.
 `adapter:gem-residence` compares the actual installed game with the frozen trace;
 `adapter:gem-residence-faults` checks eight broken installed behaviors and restores
 the clean package afterward. Native/session and device acceptance remain open.
+
+## Compiled immutable content
+
+The 0.49 candidate adds nine transport/ownership contracts, all fourteen existing crafting-session contracts using compiled content, a fresh installed consumer, hostile-global browser replay, public types and nine deliberate fault checks. `test:content-table-package` and `test:content-table-faults` are included in `verify`. The separate Windows native replay compares 56 requests with the accepted 0.48 package, including two loaded profiles and complete crafting lore. The paired benchmark records load/course time, tracked bytes and allocation calls. See [the format and reproduction commands](content-tables.md); device and editor acceptance remain separate.

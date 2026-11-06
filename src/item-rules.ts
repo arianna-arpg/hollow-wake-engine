@@ -2,6 +2,7 @@ import { itemOperations } from './item-core.js';
 import { validateItemPack, validateMint, validateItem } from './item-validation.js';
 import { copy, freeze, integer } from './validation.js';
 import { Random } from './random.js';
+import {copySharedContent} from './immutable-content.js';
 import type { RandomState, Modifier } from './types.js';
 import type { ItemRulePack, ItemInstance, ItemRollOptions, ItemForgeOptions, OwnStatFold, UniqueChoiceRoll } from './item-types.js';
 export type { ItemRulePack, ItemInstance, ItemRollOptions, ItemForgeOptions, OwnStatFold, UniqueChoiceRoll } from './item-types.js';
@@ -10,7 +11,8 @@ export type { ItemRulePack, ItemInstance, ItemRollOptions, ItemForgeOptions, Own
 export class ItemContent {
   readonly pack: ItemRulePack;
   constructor(pack: ItemRulePack) {
-    const owned = copy(pack);
+    // Preserve read-only sharing for compiled tables.
+    const owned = Object.isFrozen(pack) ? copySharedContent(pack) : copy(pack);
     validateItemPack(owned);
     // Guard dictionary lookups against inherited names even for rejected mint ids.
     for (const field of ['bases','affixes','uniques','vestiges'] as const) Object.setPrototypeOf(owned[field], null);
