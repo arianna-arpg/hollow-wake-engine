@@ -1,0 +1,17 @@
+# Hollow Wake inventory workshop
+
+Open project.godot in Godot 4.7.2 and play the main scene, or start the
+exported game. The pack starts with four rings and a fifth in overflow.
+Select an overflow item and choose **Move to stash**. To return it to the pack,
+first sell a pack item to free a cell. **Forge ring** uses the SDK's item and
+placement rules. Each completed action saves automatically.
+
+The example includes the verified crafting and progression addon and a separate
+SQLite save extension. Both crafting state and stash state belong to one versioned
+slot in user://inventory.sqlite3. Tabs select the current inventory location.
+Reload reads the latest committed slot, including changes saved by another window.
+
+The example's small pack, stash capacity, starter items and access to a selling
+counter are host choices. The crafting SDK owns item generation, placement,
+protected sales, RNG and UID continuation. A game can supply its own save backend
+through the profile coordinator. Keep both item owners in the same transaction.

@@ -11,6 +11,10 @@ The combined package also runs in Valve's Steam Runtime 4 for Linux x86_64.
 The same exported games form a portable workload for collecting device measurements.
 See the [Linux verification](docs/steam-runtime.md) and [device instructions](docs/steamrt-device-run.md).
 
+The [inventory workshop](docs/inventory-workshop.md) adds a playable screen,
+an importable Godot project and an optional SQLite save extension. A move
+between overflow and stash commits both item owners together.
+
 The 0.49 candidate adds optional [compiled immutable content](docs/content-tables.md), preserving every authored value while sharing repeated read-only records. The complete crafting course runs in a smaller measured native heap; loading cost and allocation tradeoffs are retained separately. Engine packaging and physical-device acceptance remain open.
 
 The 0.48 candidate adds an [owned crafting session](docs/crafting-session.md): validated saves, item/wallet/lore ownership, seeded continuation, atomic command admission and retained full-bag support recovery. Native/editor packaging and device measurements remain separate work.

@@ -1058,3 +1058,8 @@ The [Steam Runtime session verification](steam-runtime.md) builds the two
 capabilities into one Linux addon and exercises both full courses from that
 archive in the SDK and in the matching Platform. The portable device runner
 checks the same exported files and observations before accepting each sample.
+
+The [inventory workshop checks](inventory-workshop.md) exercise that archive
+through rendered controls and process restarts, comparing the database and
+restored game view to the original checkpoint. The runtime-only Linux replay
+also checks the extension paths loaded by the shipped game.

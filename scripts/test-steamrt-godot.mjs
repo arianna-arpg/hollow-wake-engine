@@ -36,6 +36,10 @@ const directory = inside ? fs.realpathSync(args[1]) : fs.mkdtempSync(path.join(r
 assert(/^\.artifacts\/steamrt-godot-[A-Za-z0-9]+(?:\/sdk)?$/.test(path.relative(root, directory).split(path.sep).join('/')));
 const sourceFiles = ['scripts/test-steamrt-godot.mjs','scripts/build-steamrt-sessions.mjs','scripts/replay-steamrt-sessions.mjs','scripts/steamrt-image.mjs',
   'scripts/export-godot-notices.gd','scripts/measure-steamrt-device.py','scripts/package-steamrt-device.py','scripts/test-steamrt-device-kit.sh',
+  'scripts/verify-inventory-workshop.mjs','scripts/record-inventory-workshop.mjs','scripts/build-godot-save-store.mjs',
+  'scripts/package-godot-inventory.mjs','scripts/test-godot-inventory.mjs','scripts/test-inventory-platform.py',
+  ...['adapters/godot/local-save','examples/godot-inventory','test/godot-inventory'].flatMap(folder=>
+    listFiles(path.join(root,folder)).map(file=>folder+'/'+file)),
   'docs/steamrt-device-run.md','.github/workflows/steamrt-godot.yml',
   ...listFiles(lockDirectory).map(file => 'experiments/steamrt-godot/' + file)];
 const sources = Object.fromEntries(sourceFiles.map(file => [file, hash(path.join(root, file))]));
@@ -116,6 +120,12 @@ try {
     run('engine-notices',read(toolsPointer.tools).editor,['--headless','--path',noticeProject,
       '--script',path.join(root,'scripts/export-godot-notices.gd'),'--log-file',path.join(directory,'notices-engine.log'),'--',noticeFile],30000);
     report.noticesSha256=hash(noticeFile);
+    const workshop=path.join(directory,'inventory-workshop');
+    const sessions=read(path.join(sessionExports,'sdk.json'));
+    run('inventory-workshop','xvfb-run',['-a','-s','-screen 0 1280x800x24',process.execPath,'scripts/verify-inventory-workshop.mjs',
+      '--tools',toolsPointer.tools,'--addon',path.join(sessionExports,sessions.archive),'--addon-proof',path.join(sessionExports,'desktop/linux.json'),
+      '--out',workshop,'--render'],1200000);
+    report.workshopReceiptSha256=hash(path.join(workshop,'verification.json'));
   } else {
     for (const name of ['embedded-library', 'embedded-session', 'godot-tools', 'godot-native'])
       assert(!fs.existsSync(path.join(root, '.artifacts/' + name + '-latest.json')), 'Use a fresh checkout; prior experiment artifacts are preserved');
@@ -213,6 +223,25 @@ try {
     assert.equal(kitState.State.ExitCode,0);assert.equal(kitState.HostConfig.NetworkMode,'none');
     assert(read(path.join(kitResults,'measurement.json')).passed);
     report.sessions.deviceKitRunSha256=hash(path.join(kitResults,'measurement.json'));
+    const workshop=path.join(sdkDirectory,'inventory-workshop'),player=path.join(directory,'inventory-platform');
+    assert.equal(hash(path.join(workshop,'verification.json')),sdkProof.workshopReceiptSha256);
+    const workshopReceipt=read(path.join(workshop,'verification.json'));
+    const inventoryInputs=read(path.join(workshop,'player-input/inputs.json'));
+    assert.equal(inventoryInputs.gameSha256,workshopReceipt.archives['hollow-wake-inventory-linux-x64.zip']);
+    assert.equal(inventoryInputs.fixtureSha256,workshopReceipt.originalCheckpointSha256);
+    fs.mkdirSync(player);
+    const inventoryContainer=create('platform',['--network','none','--read-only','--cap-drop','ALL','--security-opt','no-new-privileges',
+      '--tmpfs','/tmp:rw,nosuid,nodev,exec,size=536870912','--volume',path.join(workshop,'player-input')+':/bundle:ro',
+      '--volume',player+':/evidence','--entrypoint','/usr/bin/python3'],['-I','/bundle/test-inventory-platform.py','/bundle','/evidence'],'inventory');
+    run('inventory-player','docker',['start','--attach',inventoryContainer],600000);
+    const inventoryState=JSON.parse(run('inventory-container','docker',['inspect',inventoryContainer]))[0];
+    verifySteamContainer(identities.platform,inventoryState);
+    assert.equal(inventoryState.State.ExitCode,0);assert.equal(inventoryState.HostConfig.NetworkMode,'none');
+    const recovery=read(path.join(player,'platform.json'));
+    assert(recovery.passed && recovery.journalBytes>0 && recovery.uid===13);
+    assert.equal(recovery.gameSha256,inventoryInputs.gameSha256);
+    report.inventory={sdkReceiptSha256:sdkProof.workshopReceiptSha256,platformSha256:hash(path.join(player,'platform.json')),
+      gameSha256:recovery.gameSha256};
   }
   report.passed = true; report.status = 'completed';
 } catch (error) {report.status = 'failed'; report.error = error.message; throw error;}

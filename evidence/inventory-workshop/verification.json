@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "base": "799676dcf92451331056c104ae118f5bb7b5ac8f",
+  "scope": "Example Godot inventory host, optional SQLite store and rendered transfer between SDK-owned overflow and a local stash.",
+  "sqlite": {
+    "version": "3.54.1",
+    "archiveSha3": "92281c86e2957f9b9305890f9ac04204caa7b677cc868dc326d942689df28e30",
+    "source": "https://www.sqlite.org/2026/sqlite-amalgamation-3540100.zip"
+  },
+  "checkpoint": {
+    "frozenCourseSha256": "9670242edfc59118e3aa261a9d426fc104e11a9d59395bd0c50f6a9073388c7c",
+    "sha256": "3399c6ba80c78c3ad76b58a003fb5ede7225f37f6ae157c700a00769ca815f97",
+    "bytes": 200769,
+    "uid": 13,
+    "baseId": "support_gem",
+    "loreFamilies": 3929,
+    "comparisons": "Full canonical save, ordered stash, item bodies, RNG, next UID, ledger, wallet, lore and grid positions."
+  },
+  "checks": {
+    "sdkVerifyExit": 0,
+    "unitTests": 1541,
+    "failures": 0,
+    "sdkVerifyLogSha256": "827970db19244f9950f4f2ff192d2009d585de221fc5dff5125d5fce3e6b37a8"
+  },
+  "platforms": {
+    "windows": {
+      "verification": "windows.json",
+      "sha256": "2e2843ac89f5c6249f8c702cf089d3b19c96f6164dfc6fa75d2a36af809038ef",
+      "render": "windows.png",
+      "renderSha256": "b6269d8e93fa4a866c8115b82dc19e67c85e177cde6c3eaee0536a9aec8fe0c0",
+      "archives": {
+        "hollow-wake-inventory-project-windows-x64.zip": "4ac19975f2a91875d00ae3e9773aa928a7955cb890bcc2a747cc38d54fc2db6d",
+        "hollow-wake-inventory-windows-x64.zip": "e2e8061960f5cb5b16a581fda48751fb7aa827501c0fff12bbb6fe4c4a4c36f9",
+        "hollow-wake-local-save-windows-x64.zip": "3461a2637ce45ff2d97d00b0811dd215707a5eb2eb3fe0c5252aba4d6e7ad62e"
+      },
+      "archiveBytes": {
+        "hollow-wake-inventory-project-windows-x64.zip": 2479384,
+        "hollow-wake-inventory-windows-x64.zip": 40596229,
+        "hollow-wake-local-save-windows-x64.zip": 739526
+      },
+      "crashes": [
+        {
+          "phase": "before-stage",
+          "journalBytes": 0,
+          "terminated": true
+        },
+        {
+          "phase": "after-stage",
+          "journalBytes": 12824,
+          "terminated": true
+        },
+        {
+          "phase": "after-commit",
+          "journalBytes": 0,
+          "terminated": true
+        }
+      ],
+      "nativeLibrarySha256": "3740f4bbbf7591a6d9a684d062d977bd7fe338a5802e3012b5e3eee933c99b07",
+      "gameChecks": 28
+    },
+    "linux": {
+      "verification": "linux.json",
+      "sha256": "4d2dde7783030639a751919f01d6a26974cd7285b9ecc62b69baa6fbc7285c24",
+      "render": "linux.png",
+      "renderSha256": "a57683ef93dcda5a789d6a53ff14a739cfd5f331c1d3c5520041a6116c009570",
+      "archives": {
+        "hollow-wake-inventory-project-linux-x64.zip": "3897deaa3587024686399339d3eea46fb05a57bf6efcc4a714fbd3f8f0acff3b",
+        "hollow-wake-inventory-linux-x64.zip": "a6d2091c879b27f86d4d5256e1b398d159dfe80dae59b2f3c92738b2651c40ea",
+        "hollow-wake-local-save-linux-x64.zip": "e2e868aa4c836fe266a6b64af87625719a4b80ccf71d5863878c08cde2b8ac36"
+      },
+      "archiveBytes": {
+        "hollow-wake-inventory-project-linux-x64.zip": 3836495,
+        "hollow-wake-inventory-linux-x64.zip": 32301948,
+        "hollow-wake-local-save-linux-x64.zip": 1521514
+      },
+      "crashes": [
+        {
+          "phase": "before-stage",
+          "journalBytes": 0,
+          "terminated": true
+        },
+        {
+          "phase": "after-stage",
+          "journalBytes": 12824,
+          "terminated": true
+        },
+        {
+          "phase": "after-commit",
+          "journalBytes": 0,
+          "terminated": true
+        }
+      ],
+      "nativeLibrarySha256": "3a98d2f0ff780ffaf2a583d8743ca2492da8d91ecd1ecd540ed109df9c8b1f9a",
+      "gameChecks": 28
+    }
+  },
+  "steamRuntime": {
+    "sdk": "sha256:53ebc18dfc907e22aadc2cc1394bd90eb9d9e1c2dc2b761277cb2c1c57f4bd34",
+    "platform": "sha256:b740749db0ecbfb6614d5ba84390dedc5802b83635e14e41c8e46d90431b84a8",
+    "shippingGame": {
+      "passed": true,
+      "gameSha256": "a6d2091c879b27f86d4d5256e1b398d159dfe80dae59b2f3c92738b2651c40ea",
+      "checks": [
+        "seed",
+        "interrupt",
+        "shipping-recovery",
+        "inspect-uncommitted",
+        "transfer",
+        "shipping-reopen",
+        "inspect-committed"
+      ],
+      "journalBytes": 12824,
+      "loadedLibraries": [
+        "libhwe_embedded.so",
+        "libhwe_godot.so",
+        "libhwe_slot_store.so"
+      ],
+      "uid": 13
+    },
+    "containerEvidenceSha256": "eb711d55acf2591ce197d04b82975c768b1573387c4aa1a7681f4407fb5aa6e6"
+  },
+  "preservation": {
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "files": 4149,
+    "changes": []
+  },
+  "remaining": [
+    "Physical Steam Deck and mobile testing",
+    "Actual device power loss, storage faults and save latency",
+    "Full item stat and equipment inspection, broader crafting controls and remaining Inventory systems",
+    "Hosted execution of the expanded workflows"
+  ],
+  "publication": {
+    "localOnly": true,
+    "intendedVisibility": "public",
+    "pendingBaseline": "56e15167e498519d639c7f7e2ab47040c7bb586b",
+    "reason": "Earlier automatic approval review rejected publication of original authored unlock/reward definitions and traces; specific source-content approval remains pending."
+  },
+  "sources": {
+    "scripts/build-godot-save-store.mjs": "90858e8a672d88e61aa912162903725566a44aeb64e18e03c6c8246ce28dccb6",
+    "scripts/package-godot-inventory.mjs": "3c536d5770b1d24cdf0c63c0036c859c1e5b0d0b114fabd4400c836a197389ed",
+    "scripts/test-godot-inventory.mjs": "1a89e189170069f8a76caaee995f60baab69b93b92b632fb9acd2ef389f8c4e0",
+    "scripts/test-inventory-platform.py": "f5b7aecf75901431ee8d6900e91820ad7d60019a9792d7e3a1e9aee732926ec4",
+    "scripts/record-inventory-workshop.mjs": "9b16ef3f6fb52a65460a1cf6d48546e3fdeba9d13f304e32863c11de01713f0a",
+    "scripts/verify-inventory-workshop.mjs": "c6924032d0ce8f0ee594e5654e303198a3a0762c0763c4b9341e1119dc6a3445",
+    "adapters/godot/local-save/CMakeLists.txt": "335edead721b87d703aa6fe4bd73a0471ee7f223214b733f73b897368760c386",
+    "adapters/godot/local-save/README.md": "762748b1e386e93de61f5617c7ac481061a3b4c4dda55cb61f5869997cd59a44",
+    "adapters/godot/local-save/sqlite-lock.json": "eda116dd30f0039f93d661e54001ee344d9b8e0f0a9417c26472d60687c2950b",
+    "adapters/godot/local-save/store.cpp": "c87c21034f24d5bd8970cc42dc89c5287ea4faf7170b377378041602803cff77",
+    "adapters/godot/local-save/store.gdextension": "42d394fd7acc048bc425211631715a8ba3916579f8609f03a37144f7d18b0978",
+    "examples/godot-inventory/README.md": "5d19d48325dfe9c8bf083bf3a0534b35367b7ebfe1b2c18090e4545845f927f9",
+    "examples/godot-inventory/inventory.gd": "4fdaaa5041b9f1a8602ee3653a509a48f6893c2a728868247edeca29f37c2eb9",
+    "examples/godot-inventory/inventory.tscn": "c30acf64b6a0aa9e40fde70fe1c810f7320ad78d891a9070f79516156915b7d1",
+    "examples/godot-inventory/profile.gd": "12eb3b2271543966b4b74fcdf4b93e8acd995aac1c23f4395b8cd5de719003c8",
+    "examples/godot-inventory/project.godot": "3d3104128676f6db0ce121b7d961055fd615f685347c376b892e2f2b58be347c",
+    "test/godot-inventory/driver.gd": "2d44a35a58c0145e3d64c0674b32c17227b865002c87b3925eef6fc2e1ad723a"
+  }
+}
