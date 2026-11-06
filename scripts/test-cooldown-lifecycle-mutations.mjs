@@ -1,7 +1,7 @@
-import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';
-import {root,sha256,writeJSON} from './reference-utils.mjs';
-const sourceFile=path.join(root,'dist/cooldown-lifecycle.js'),testFile=path.join(root,'test/cooldown-lifecycle.test.mjs'),source=fs.readFileSync(sourceFile,'utf8'),tests=fs.readFileSync(testFile,'utf8');
-const directory=fs.mkdtempSync(path.join(root,'.artifacts/clock-runtime-faults-'));
+import assert from 'node:assert/strict';
+import {readMutationSource,runMutationFixture} from './mutation-fixture.mjs';
+import {sha256} from './reference-utils.mjs';
+
 const faults=[
  ['snapshot-elapsed','of actor.cooldowns) {','of [...actor.cooldowns]) {'],
  ['repeat-global-read','let rate = global;','let rate = ports.global(actor);'],
@@ -21,13 +21,13 @@ const faults=[
  ['changed-only-notification','visited++;','if (left < remaining) visited++;'],
  ['self-included','if (id === definition.id)','if (false)']
 ];
-const results=[];
-try {for(const[name,before,after]of faults){
-  assert.equal(source.split(before).length,2,'Unique mutation: '+name);
-  const dir=path.join(directory,name);fs.mkdirSync(path.join(dir,'test'),{recursive:true});fs.cpSync(path.join(root,'dist'),path.join(dir,'dist'),{recursive:true});writeJSON(path.join(dir,'package.json'),{type:'module'});
-  fs.writeFileSync(path.join(dir,'dist/cooldown-lifecycle.js'),source.replace(before,after));fs.writeFileSync(path.join(dir,'test/cooldown-lifecycle.test.mjs'),tests);
-  const result=spawnSync(process.execPath,['--test','test/cooldown-lifecycle.test.mjs'],{cwd:dir,encoding:'utf8',windowsHide:true,timeout:30000});const log=(result.stdout??'')+(result.stderr??'');fs.writeFileSync(path.join(dir,'test.txt'),log,{flag:'wx'});
-  assert(!result.error);assert.equal(result.status,1,name);assert(!/SyntaxError|ReferenceError|TypeError|ERR_MODULE_NOT_FOUND/.test(log),name+' failed for an unrelated reason');assert(/(?:ℹ |# )fail [1-9]/.test(log),name);
-  results.push({name,detected:true,logSha256:sha256(log),mutatedSha256:sha256(source.replace(before,after))});
-}}finally{assert.equal(fs.readFileSync(sourceFile,'utf8'),source);assert.equal(fs.readFileSync(testFile,'utf8'),tests);writeJSON(path.join(directory,'verification.json'),{passed:results.length===faults.length,results});}
-writeJSON(path.join(root,'.artifacts/cooldown-lifecycle-mutations.json'),{passed:true,directory,sourceSha256:sha256(source),testSha256:sha256(tests),results});console.log({passed:true,faults:results.length,directory});
+
+const sourceFile='dist/cooldown-lifecycle.js',testFile='test/cooldown-lifecycle.test.mjs';
+const source=readMutationSource(sourceFile);
+const metadata={sourceSha256:sha256(source),testSha256:sha256(readMutationSource(testFile))};
+runMutationFixture({suite:'cooldown-lifecycle',testFile,metadata,hashField:'mutatedSha256'},run=>{
+  for(const [name,before,after] of faults){
+    assert.equal(source.split(before).length,2,name);
+    run(name,sourceFile,source.replace(before,after));
+  }
+});

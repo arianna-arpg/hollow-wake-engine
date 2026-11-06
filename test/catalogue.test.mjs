@@ -1,13 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { readCatalogue, buildCatalogue, buildDatabase, childCollections } from '../scripts/catalogue-tools.mjs';
-import { root, sha256 } from '../scripts/reference-utils.mjs';
-fs.mkdirSync(path.join(root, '.artifacts'), { recursive: true });
+import { sha256 } from '../scripts/reference-utils.mjs';
 
-test('all registry shards preserve source data and identify every executable source rule', () => {
-  const source = readCatalogue(), dir = fs.mkdtempSync(path.join(root, '.artifacts/catalogue-test-'));
+function scratch(t,prefix){
+  const base=fs.realpathSync(os.tmpdir()),dir=fs.mkdtempSync(path.join(base,prefix));
+  t.after(()=>{assert.equal(path.dirname(fs.realpathSync(dir)),base);fs.rmSync(dir,{recursive:true});});
+  return dir;
+}
+
+test('all registry shards preserve source data and identify every executable source rule', t => {
+  const source = readCatalogue(), dir = scratch(t,'hwe-catalogue-');
   const manifest = buildCatalogue(dir);
   let count = 0, marked = [];
   function visit(value) {
@@ -29,9 +35,9 @@ test('all registry shards preserve source data and identify every executable sou
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(dir, 'registry-order.json'))), source.registryOrder);
   assert.deepEqual(source.registryOrder.defenseKinds, ['armor', 'evasion', 'energyShield', 'poise', 'endurance', 'insight']);
 });
-test('SQLite catalogue roundtrips all rows, order, child records and migration evidence', async () => {
+test('SQLite catalogue roundtrips all rows, order, child records and migration evidence', async t => {
   const { DatabaseSync } = await import('node:sqlite');
-  const source = readCatalogue(), directory = fs.mkdtempSync(path.join(root, '.artifacts/sqlite-test-'));
+  const source = readCatalogue(), directory = scratch(t,'hwe-sqlite-');
   const destination = path.join(directory, 'content.sqlite');
   await buildDatabase(destination, source);
   const db = new DatabaseSync(destination, { readOnly: true });

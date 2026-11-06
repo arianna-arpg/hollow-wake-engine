@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "identicalFaultNamesAndSourceHashes": true,
+  "allCapturedLogsVerified": true,
+  "emptyTempAfterSuccessAndFailure": true,
+  "catalogueTests": 2,
+  "suites": [
+    {
+      "suite": "sequence-recovery",
+      "detected": 16,
+      "fixtureFiles": 3,
+      "inputs": [
+        "dist/sequence-recovery.js",
+        "test/sequence-recovery.test.mjs"
+      ]
+    },
+    {
+      "suite": "ready-bank",
+      "detected": 16,
+      "fixtureFiles": 3,
+      "inputs": [
+        "dist/ready-cooldown-bank.js",
+        "test/ready-cooldown-bank.test.mjs"
+      ]
+    },
+    {
+      "suite": "attack-sequences",
+      "detected": 20,
+      "fixtureFiles": 6,
+      "inputs": [
+        "dist/sequence-recovery.js",
+        "dist/attack-sequences.js",
+        "dist/attack-sequence-content.js",
+        "examples/attack-sequences.mjs",
+        "test/attack-sequences.test.mjs"
+      ]
+    },
+    {
+      "suite": "cooldown-lifecycle",
+      "detected": 17,
+      "fixtureFiles": 5,
+      "inputs": [
+        "dist/validation.js",
+        "dist/casting.js",
+        "dist/cooldown-lifecycle.js",
+        "test/cooldown-lifecycle.test.mjs"
+      ]
+    }
+  ]
+}

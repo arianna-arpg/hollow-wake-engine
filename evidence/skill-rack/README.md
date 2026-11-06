@@ -33,3 +33,18 @@ npm run adapter:skill-rack -- --location PREPARED_RECEIPT
 node scripts/test-skill-rack-ui.mjs PREPARED_RECEIPT ELECTRON_EXECUTABLE NEW_UI_REPORT
 node scripts/benchmark-skill-rack.mjs --location PREPARED_RECEIPT NEW_TIMING_REPORT
 ```
+
+## Verification footprint
+
+The attack-sequence, recovery and cooldown fault suites now copy only the
+unbundled modules their tests import. Each suite reuses one private fixture,
+starts a fresh Node process per fault and cleans up even when a fault
+survives. Its receipt retains the full test output in
+`logs.base64` as gzipped UTF-8 JSON. Unzip it to recover the per-fault text
+and compare each entry with `results[].logSha256`.
+
+The four suites exercised the same 69 named source mutations and hashes as
+the prior verified run. The largest scratch fixture held six files. Both
+catalogue tests also remove their generated tables or database in teardown.
+The success and deliberate-failure checks left their temporary directory
+empty. [Verification footprint](test-footprint.json)
