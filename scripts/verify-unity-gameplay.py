@@ -37,9 +37,7 @@ def rows(path):
     return [json.loads(s) for s in path.read_text(encoding="utf-8-sig").splitlines() if s]
 
 
-def check_stage(work, stage, run_id):
-    metrics = json.loads((work / (stage + ".json")).read_text(encoding="utf-8-sig"))
-    assert metrics["stage"] == stage and metrics["run"]==run_id and metrics["unity"] == "2021.3.6f1", metrics
+def check_replays(work, stage):
     combat, expected = rows(work / (stage + "-combat.replies")), rows(work / "combat.expected")
     assert len(combat) == len(expected) == 60
     for idx, (got, want) in enumerate(zip(combat, expected)):
@@ -60,6 +58,12 @@ def check_stage(work, stage, run_id):
         else:
             for key, value in want.items():
                 assert got.get(key) == value, ("view/refusal", idx, key)
+
+
+def check_stage(work, stage, run_id):
+    metrics = json.loads((work / (stage + ".json")).read_text(encoding="utf-8-sig"))
+    assert metrics["stage"] == stage and metrics["run"]==run_id and metrics["unity"] == "2021.3.6f1", metrics
+    check_replays(work, stage)
     assert metrics["liveBytes"] == metrics["liveBlocks"] == 0
     assert all(metrics[k] for k in ("saveContinuation", "isolatedActors", "refusedInvalidRestore", "closedHost", "duplicatePress","catchUpBoundary","stoppedOnDeath","typedPouch"))
     assert len(metrics["catchUpManagedBytes"])==len(metrics["singleStepManagedBytes"])==4

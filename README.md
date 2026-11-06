@@ -3,6 +3,10 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The [Unreal project plugin](adapters/unreal/README.md) exposes casting, contact,
+timed damage, snapshots and memory pouches to C++ and Blueprints. Place the
+included training target in a level to try the Magician build on Windows x64.
+
 The [Unity Package Manager preview](adapters/unity/README.md) runs the
 selected combat and pouch rules in Unity 2021.3 on Windows x64. Import its
 **Casting and Burning** sample and open **Ruin Encounter** to try a
