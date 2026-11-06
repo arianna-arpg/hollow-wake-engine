@@ -24,6 +24,10 @@ if(v.screenshot){
   const png=path.join(v.dir,'inventory.png');assert.equal(hash(png),v.screenshot.sha256);
   fs.copyFileSync(png,path.join(out,'inventory.png'),fs.constants.COPYFILE_EXCL);
 }
+if(v.cargo?.screenshot){
+  const png=path.join(v.dir,'cargo.png');assert.equal(hash(png),v.cargo.screenshot);
+  fs.copyFileSync(png,path.join(out,'cargo.png'),fs.constants.COPYFILE_EXCL);
+}
 if(process.platform==='linux'){
   const staging=path.join(out,'player-input');fs.mkdirSync(staging);
   const game=path.join(out,'hollow-wake-inventory-linux-x64.zip');
@@ -34,11 +38,12 @@ if(process.platform==='linux'){
   fs.copyFileSync(fixture,path.join(staging,'source.json'),fs.constants.COPYFILE_EXCL);
   fs.copyFileSync(path.join(root,'scripts/test-inventory-platform.py'),path.join(staging,'test-inventory-platform.py'));
   const proofFiles=Object.fromEntries(listFiles(path.join(staging,'proof')).map(f=>[f,hash(path.join(staging,'proof',f))]));
-  writeJSON(path.join(staging,'inputs.json'),{gameSha256:hash(game),fixtureSha256:hash(fixture),proofFiles});
+  writeJSON(path.join(staging,'inputs.json'),{gameSha256:hash(game),fixtureSha256:hash(fixture),proofFiles,
+    ...(v.cargo?{cargoRepliesSha256:v.cargo.repliesSha256,cargoQuote:v.cargo.quote,cargoCases:v.cargo.cases}:{})});
 }
 const summary={schemaVersion:1,passed:true,platform:process.platform,arch:process.arch,
   buildSha256:hash(buildFile),verificationSha256:hash(verifiedFile),nativeReceiptSha256:b.nativeReceiptSha256,
   addonSha256:b.addonSha256,saveLibrarySha256:b.librarySha256,archives:b.archives,originalCourseSha256:v.originalCourseSha256,
-  originalCheckpointSha256:v.originalCheckpointSha256,crashes:v.crashes,checks:v.runs,inspection:v.inspection,render:v.screenshot??null};
+  originalCheckpointSha256:v.originalCheckpointSha256,crashes:v.crashes,checks:v.runs,inspection:v.inspection,cargo:v.cargo,render:v.screenshot??null};
 writeJSON(path.join(out,'verification.json'),summary);
 console.log({passed:true,out,packages:Object.keys(b.archives)});

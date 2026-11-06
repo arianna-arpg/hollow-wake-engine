@@ -43,6 +43,21 @@ func _ready() -> void:
 	if mode == "ui":
 		await play_ui()
 		return
+	if mode == "cargo-ui":
+		await play_cargo(db)
+		return
+	if mode == "cargo-corrupt":
+		var cargo_profile := Profile.new()
+		if not check(cargo_profile.start(db,null,true).ok,"open sample with damaged display page"): return
+		var original: Dictionary = cargo_profile.store.read_slot(1)
+		var bad := cargo_profile.api.inspect_cargo(cargo_profile.saved.state.items[1])
+		if not check(not bad.ok and bad.reason == "invalid-cargo-page","reject corrupt Firebolt page"): return
+		var good := cargo_profile.api.inspect_cargo(cargo_profile.saved.state.items[3])
+		if not check(good.ok and good.card.kind == "memory" and original == cargo_profile.store.read_slot(1),"other pages and save survive damage"): return
+		cargo_profile.close()
+		print("HWE_PASS cargo-corrupt")
+		get_tree().quit()
+		return
 	if mode == "seed":
 		var store := HollowWakeSlotStore.new()
 		if not check(store.open_file(db).ok,"open seed database"): return
@@ -138,6 +153,79 @@ func press_key(code: Key) -> void:
 		event.pressed = down
 		get_viewport().push_input(event,true)
 		await get_tree().process_frame
+
+func play_cargo(filename: String) -> void:
+	var screen = preload("res://inventory.tscn").instantiate()
+	screen.save_path = filename
+	screen.sample_cargo = true
+	add_child(screen)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not check(screen.profile.available and screen.list.item_count == 4,"first-run cargo sample"): return
+	if not check(screen.name_label.text == "Preformed Memory" and screen.properties.text.contains("×2 held"),"selected pouch card"): return
+	var backend = screen.profile.api
+	var before: Dictionary = backend.snapshot(1)
+	var durable: Dictionary = screen.profile.store.read_slot(1)
+	var cache_results := {}
+	if not check(not backend.set_cargo_page_limit(0) and not backend.set_cargo_page_limit(5),"bounded display cache options"): return
+	for limit in [1,4]:
+		if not check(backend.set_cargo_page_limit(limit),"configure display cache"): return
+		for item in screen.profile.saved.state.items:
+			if not check(backend.inspect_cargo(item).ok,"warm sample pages"): return
+		var warm: Dictionary = backend.cargo_cache_info()
+		for item in screen.profile.saved.state.items:
+			if not check(backend.inspect_cargo(item).ok,"repeat sample pages"): return
+		var end: Dictionary = backend.cargo_cache_info()
+		cache_results[str(limit)] = {"reads":int(end.pageReads)-int(warm.pageReads),"pages":end.retainedPages,"sourceBytes":end.sourceBytes}
+		if not check(end.retainedPages <= limit and end.sourceBytes <= limit*32768,"cache bound"): return
+	if not check(cache_results["1"].reads > 0 and cache_results["4"].reads == 0,"four sample pages reused without another read"): return
+	var loaded: Dictionary = backend.from_portable_json(FileAccess.get_file_as_string("res://inspection-loaded.json"))
+	if not check(loaded.ok and backend.restore_profile(2,loaded.value).ok,"loaded profile beside cargo cards"): return
+	var parsed: Dictionary = backend.from_portable_json(FileAccess.get_file_as_string("res://cargo-cases.json"))
+	if not check(parsed.ok,"original cargo fixtures"): return
+	var output := FileAccess.open(OS.get_environment("HWE_RESULT"),FileAccess.WRITE)
+	for sample in parsed.value:
+		var reply: Dictionary = backend.inspect_cargo(sample.item,sample.view,sample.fit)
+		var encoded: Dictionary = backend.to_portable_json({"label":sample.label,"reply":reply})
+		if not check(encoded.ok,"encode native cargo card"): return
+		output.store_line(encoded.text)
+	output.close()
+	if not check(before == backend.snapshot(1) and backend.snapshot(2).save == loaded.value and durable == screen.profile.store.read_slot(1),"cargo reads keep snapshots and SQL revision"): return
+	if not check(backend.close_profile(2).ok,"release loaded profile"): return
+	screen.list.grab_focus()
+	await press_key(KEY_DOWN)
+	if not check(screen.name_label.text == "Firebolt II Lv 20" and screen.properties.text.contains("Socketed: Multistrike L2"),"selected skill card attunement"): return
+	await press_key(KEY_DOWN)
+	if not check(screen.name_label.text.begins_with("Multistrike Lv") and screen.properties.text.contains("◈") and screen.properties.text.contains("No equipped skills."),"selected support card and cut"): return
+	var screenshot := OS.get_environment("HWE_SCREENSHOT")
+	if screenshot != "":
+		await RenderingServer.frame_post_draw
+		var pixels := get_viewport().get_texture().get_image()
+		if not check(pixels != null and pixels.save_png(screenshot) == OK,"render cargo sample"): return
+	await press_key(KEY_UP)
+	await press_key(KEY_UP)
+	await click_control(screen.primary)
+	if not check(screen.sale_confirmation.visible and screen.sale_question.text.contains("entire stack") and screen.profile.revision == 1,"whole-stack confirmation precedes payment"): return
+	await press_key(KEY_ENTER)
+	if not check(not screen.sale_confirmation.visible and durable == screen.profile.store.read_slot(1),"cancel keeps exact owners"): return
+	await click_control(screen.primary)
+	var competitor := Profile.new()
+	if not check(competitor.start(filename).ok and competitor.act("forge",0,1).ok,"competing revision"): return
+	competitor.close()
+	await click_control(screen.sell_stack)
+	if not check(screen.profile.revision == 2 and screen.profile.saved.state.items.size() == 4 and screen.profile.saved.state.essences.is_empty(),"stale confirmation cannot sell"): return
+	await click_control(screen.primary)
+	if not check(screen.sale_confirmation.visible,"fresh quote after conflict"): return
+	await click_control(screen.sell_stack)
+	if not check(screen.profile.revision == 3 and screen.profile.saved.state.items.size() == 3,"single accepted sale"): return
+	screen.profile.close()
+	var released: Dictionary = backend.cargo_cache_info()
+	if not check(released.retainedPages == 0 and released.sourceBytes == 0,"close releases Godot-owned display pages"): return
+	var metrics := FileAccess.open(OS.get_environment("HWE_RESULT")+".metrics",FileAccess.WRITE)
+	metrics.store_string(JSON.stringify({"heap":backend.metrics(),"cache":cache_results,"afterClose":released}))
+	metrics.close()
+	print("HWE_PASS cargo-ui")
+	get_tree().quit()
 
 func play_ui() -> void:
 	var screen = preload("res://inventory.tscn").instantiate()

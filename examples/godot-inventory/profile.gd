@@ -11,8 +11,10 @@ var saved: Dictionary = {}
 var stash: Array = []
 var available := false
 var _open_profile := false
+var _starter_cargo := false
 
-func start(filename: String, backend: Variant = null) -> Dictionary:
+func start(filename: String, backend: Variant = null, starter_cargo := false) -> Dictionary:
+	_starter_cargo = starter_cargo
 	store = backend if backend != null else HollowWakeSlotStore.new()
 	var opened: Dictionary = store.open_file(ProjectSettings.globalize_path(filename))
 	if not opened.ok: return opened
@@ -43,9 +45,15 @@ func reload() -> Dictionary:
 	if not row.ok: return row
 	revision = row.revision
 	if revision == 0:
-		var opened := api.open_profile(1, 17, _empty_state())
+		var initial := _empty_state()
+		if _starter_cargo:
+			var sample := api.from_portable_json(FileAccess.get_file_as_string("res://cargo-sample.json"))
+			if not sample.ok or not sample.value is Array: return {"ok":false,"reason":"invalid-record"}
+			initial.items = sample.value
+		var opened := api.open_profile(1, 17, initial)
 		if not opened.ok: return opened
 		_open_profile = true
+		if _starter_cargo: return _save([])
 		# Seed the standalone example through the actual mint and placement rules.
 		for rarity in ["common","magic","rare","magic","rare"]:
 			var minted := api.forge(1, {"baseId":"ring_lapis","ilvl":10,"rarity":rarity,"fillRandom":true})

@@ -3,6 +3,10 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The 0.52 candidate adds [skill gems, support gems and memory-pouch inspection](docs/cargo-cards.md).
+Display data loads by page when a host opens a card. Compatibility uses the
+viewing actor's current equipped skills, summons and support cuts.
+
 The 0.51 candidate adds read-only [equipment inspection](docs/inventory-workshop.md#equipment-inspection).
 Games can show rolled item values, triggered effects and comparisons from a
 detached item body. The Godot inventory workshop loads the display vocabulary

@@ -2,11 +2,24 @@ extends "owned_session.gd"
 
 const DATA := "res://addons/hollow_wake/crafting/"
 var _inspection_ready := false
+const CargoCards = preload("cargo_cards.gd")
+var _cargo_cards := CargoCards.new()
+var _cargo_page_limit := 4
 
 func start(heap_limit_bytes: int = 32 * 1024 * 1024) -> int:
 	var status := start_from(DATA, heap_limit_bytes)
-	if status == 0: _inspection_ready = false
+	if status == 0: _reset_cards()
 	return status
+
+func close() -> int:
+	var status := super.close()
+	if status == 0: _reset_cards()
+	return status
+
+func _reset_cards() -> void:
+	_inspection_ready = false
+	_cargo_cards = CargoCards.new()
+	_cargo_cards.set_page_limit(_cargo_page_limit)
 
 func _load_inspection() -> Dictionary:
 	if _inspection_ready: return {"ok":true}
@@ -24,6 +37,19 @@ func inspect_item(item: Dictionary) -> Dictionary:
 func compare_items(candidate: Dictionary, worn: Dictionary) -> Dictionary:
 	var ready := _load_inspection()
 	return request({"op":"compare-items","candidate":candidate,"worn":worn}) if ready.ok else ready
+
+# fit is the equipped actor's current socket-gate verdict for this exact gem.
+# Passing [] describes a known empty bar. Omitting it leaves the bar unspecified.
+func inspect_cargo(item: Dictionary, view: Dictionary = {}, fit: Variant = null) -> Dictionary:
+	return _cargo_cards.inspect(self,item,view,fit)
+
+func set_cargo_page_limit(pages: int) -> bool:
+	if not _cargo_cards.set_page_limit(pages): return false
+	_cargo_page_limit = pages
+	return true
+
+func cargo_cache_info() -> Dictionary:
+	return _cargo_cards.cache_info()
 
 func open_profile(profile: int, seed_value: int, state: Dictionary, next_uid: Variant = null) -> Dictionary:
 	var command := {"op": "open", "profile": profile, "seed": seed_value, "state": state}

@@ -21,6 +21,14 @@ var forge := Button.new()
 var refresh_button := Button.new()
 var selected_uid := 0
 var displayed_revision := 0
+var sample_cargo := false
+var save_path := "user://inventory.sqlite3"
+var sale_confirmation := VBoxContainer.new()
+var sale_question := Label.new()
+var keep_stack := Button.new()
+var sell_stack := Button.new()
+var _pending_sale := {}
+var _sale_quote := {}
 
 func _box(color: Color, inset: int) -> StyleBoxFlat:
 	var box := StyleBoxFlat.new()
@@ -39,6 +47,9 @@ func _button(node: Button, caption: String, callback: Callable) -> void:
 	node.pressed.connect(callback)
 
 func _ready() -> void:
+	if OS.get_cmdline_user_args().has("--cargo-sample"):
+		sample_cargo = true
+		save_path = "user://inventory-cargo-sample.sqlite3"
 	var t := Theme.new()
 	t.default_font_size = 18
 	t.set_stylebox("normal","Button",_box(Color("#344a43"),12))
@@ -102,6 +113,17 @@ func _ready() -> void:
 	detail_scroll.add_child(properties)
 	_button(primary,"",func(): perform(["sell","store","withdraw"][tabs.current_tab]))
 	detail.add_child(primary)
+	sale_question.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_label(sale_question,17,GOLD)
+	sale_confirmation.add_child(sale_question)
+	var choices := HBoxContainer.new()
+	sale_confirmation.add_child(choices)
+	_button(keep_stack,"Keep stack",_cancel_sale)
+	_button(sell_stack,"Sell stack",_confirm_sale)
+	choices.add_child(keep_stack)
+	choices.add_child(sell_stack)
+	detail.add_child(sale_confirmation)
+	sale_confirmation.hide()
 	_button(recover,"Recover to pack",func(): perform("recover"))
 	detail.add_child(recover)
 	_label(resources,16,MUTED)
@@ -123,7 +145,7 @@ func _ready() -> void:
 func _restart() -> void:
 	profile.close()
 	profile = Profile.new()
-	var reply := profile.start("user://inventory.sqlite3")
+	var reply := profile.start(save_path,null,sample_cargo)
 	selected_uid = 0
 	render(true)
 	status.text = "Inventory ready." if reply.ok else error_text(reply.reason)
@@ -161,6 +183,10 @@ func render(select_first := false) -> void:
 	details()
 
 func details() -> void:
+	_pending_sale = {}
+	sale_confirmation.hide()
+	primary.show()
+	_sale_quote = {}
 	var item: Dictionary = {}
 	for candidate in rows():
 		if candidate.uid == selected_uid: item = candidate; break
@@ -177,6 +203,28 @@ func details() -> void:
 
 func show_item(item: Dictionary) -> void:
 	name_label.text = item.name
+	if item.has("gem") or item.has("mem"):
+		var selling := tabs.current_tab == 0
+		var reply := profile.api.inspect_cargo(item,{"inBag":selling,"lane":"sell" if selling else null,"confirmMemorySale":true},[])
+		if not reply.ok:
+			properties.text = "Item details unavailable."
+			if selling: primary.disabled = true
+			return
+		var cargo: Dictionary = reply.card
+		name_label.text = cargo.title
+		name_label.add_theme_color_override("font_color",Color.from_string(cargo.color,INK))
+		var lines := PackedStringArray(cargo.lines)
+		if cargo.locked: lines.insert(0,"Locked")
+		if cargo.kind == "support" and cargo.compatibility is Array and cargo.compatibility.is_empty():
+			lines.append("No equipped skills.")
+		if cargo.quote is Dictionary:
+			_sale_quote = cargo.quote
+			if cargo.quote.amount is Dictionary:
+				lines.append("Sell for %d %s" % [int(cargo.quote.amount.count),cargo.quote.material.label])
+			elif cargo.quote.get("reason") == "granted":
+				lines.append("Selling removes this granted gem for no essence.")
+		properties.text = "\n".join(lines)
+		return
 	var card := profile.api.inspect_item(item)
 	properties.text = card_text(card) if card.ok else "Item details unavailable."
 	name_label.add_theme_color_override("font_color",RARITIES.get(item.rarity,INK))
@@ -210,7 +258,33 @@ func _scroll_card(event: InputEvent) -> void:
 		detail_scroll.accept_event()
 
 func perform(action: String) -> void:
-	var reply := profile.act(action,selected_uid,displayed_revision)
+	if action == "sell" and _sale_quote.get("confirm",false):
+		_pending_sale = {"uid":selected_uid,"revision":displayed_revision}
+		sale_question.text = "Sell the entire stack for %d %s?" % [int(_sale_quote.amount.count),_sale_quote.material.label]
+		primary.hide()
+		sale_confirmation.show()
+		keep_stack.grab_focus()
+		return
+	_apply_action(action,selected_uid,displayed_revision)
+
+func _cancel_sale() -> void:
+	_pending_sale = {}
+	sale_confirmation.hide()
+	primary.show()
+	primary.grab_focus()
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if sale_confirmation.visible and event.is_action_pressed("ui_cancel"):
+		_cancel_sale()
+		get_viewport().set_input_as_handled()
+
+func _confirm_sale() -> void:
+	var pending := _pending_sale
+	_pending_sale = {}
+	if not pending.is_empty(): _apply_action("sell",pending.uid,pending.revision)
+
+func _apply_action(action: String, uid: int, revision: int) -> void:
+	var reply := profile.act(action,uid,revision)
 	render()
 	if reply.ok:
 		status.text = {"forge":"Ring forged.","store":"Item moved to stash.","withdraw":"Item returned to pack.",

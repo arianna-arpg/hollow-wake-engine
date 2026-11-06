@@ -6,6 +6,8 @@ import {setTimeout as delay} from 'node:timers/promises';
 import {DatabaseSync} from 'node:sqlite';
 import {gunzipSync} from 'node:zlib';
 import {root,sha256,writeJSON,listFiles} from './reference-utils.mjs';
+import {cargoFixtures,workshopCargoCases} from './cargo-card-fixtures.mjs';
+import {verifyFace} from './cargo-card-observer.mjs';
 
 const [buildFlag,buildFile,toolsFlag,toolsFile,renderFlag,...rest]=process.argv.slice(2);
 assert.deepEqual([buildFlag,toolsFlag,rest.length],['--build','--tools',0]);
@@ -97,6 +99,13 @@ try{
   const fixture=path.join(project,'fixture.json');fs.writeFileSync(fixture,JSON.stringify(original));
   const {samples}=read(path.join(root,'baseline/item-inspection/observations.json'));
   fs.writeFileSync(path.join(project,'inspection-fixtures.json'),JSON.stringify(samples));
+  const {rows:originalCargo}=cargoFixtures(),cargoCases=workshopCargoCases(originalCargo);
+  const demo=read(path.join(project,'cargo-sample.json'));
+  for(const [i,label] of ['stack/2/true','skill/firebolt/legendary','cut/multistrike/7','pin/skill/firebolt'].entries())
+    assert.deepEqual(demo[i],{...originalCargo.find(r=>r.label===label).item,x:i%2,y:Math.floor(i/2)});
+  fs.writeFileSync(path.join(project,'cargo-cases.json'),JSON.stringify(cargoCases.map(r=>({label:r.label,item:r.item,
+    view:{inBag:['pack','guest'].includes(r.view.place),attributes:r.view.attrs,lane:r.view.lane,confirmMemorySale:r.view.confirm},
+    fit:r.values?.fit?.map(s=>({slot:s.slot,skillId:s.id,fits:s.fits,sockets:s.sockets,occupied:s.occupied}))??null}))));
   const loaded=course.rows.map(row=>row.expected.save).find(s=>s?.state.items.length===128 && Object.keys(s.state.account.craftLore).length===3929);
   assert(loaded);
   fs.writeFileSync(path.join(project,'inspection-loaded.json'),JSON.stringify(loaded));
@@ -107,6 +116,19 @@ try{
   fs.writeFileSync(projectFile,config.replace('run/main_scene="res://inventory.tscn"','run/main_scene="res://driver.tscn"'));
   fs.appendFileSync(path.join(project,'export_presets.cfg'),'custom_template/debug='+JSON.stringify(tools.exportDebug.replaceAll('\\','/'))+'\ncustom_template/release='+JSON.stringify(tools.exportRelease.replaceAll('\\','/'))+'\n');
   await launch('import',tools.editor,['--headless','--import','--frame-delay','1000','--path',project]);
+  // A one-byte whitespace change leaves valid JSON and matching byte counts.
+  // Only a check of the selected page's digest can detect this fault.
+  const faceDir=path.join(project,'addons/hollow_wake/crafting'),pageFile=path.join(faceDir,'cargo-pages.txt');
+  const originalPages=fs.readFileSync(pageFile),pageIndex=read(path.join(faceDir,'cargo-index.json'));
+  const range=pageIndex.pages.find(r=>Object.hasOwn(JSON.parse(originalPages.subarray(r.offset,r.offset+r.length)).skills,'firebolt'));
+  assert(range&&range!==pageIndex.pages[0]); // The control pouch reads traded provenance on page zero.
+  const fault=Buffer.from(originalPages);assert.equal(fault[range.offset+range.length-1],10);fault[range.offset+range.length-1]=32;
+  try{
+    fs.writeFileSync(pageFile,fault);
+    await launch('cargo-corrupt',tools.editor,['--headless','--path',project,'--quit-after','120'],
+      {HWE_CASE:'cargo-corrupt',HWE_DB:path.join(dir,'corrupt-page.db')});
+  }finally{fs.writeFileSync(pageFile,originalPages);}
+  assert.equal(hash(pageFile),pageIndex.sha256);
   const exported=path.join(dir,'release');fs.mkdirSync(exported);
   exe=path.join(exported,'inventory-proof'+(windows?'.exe':'.x86_64'));
   await launch('export',tools.editor,['--headless','--path',project,'--export-release',windows?'Windows Desktop':'Linux',exe]);
@@ -170,6 +192,10 @@ try{
   const userData=windows?env.APPDATA:env.XDG_DATA_HOME;
   const realSave=path.join(userData,'hollow-wake-inventory-workshop','inventory.sqlite3');
   const fresh=database(realSave);assert.equal(fresh.revision,1);assert.equal(fresh.source.state.items.length,4);assert.equal(fresh.source.state.overflow.length,1);
+  await launch('shipping-cargo-sample',build.executable,['--headless','--quit-after','12','--','--cargo-sample']);
+  const sampleSave=database(path.join(userData,'hollow-wake-inventory-workshop','inventory-cargo-sample.sqlite3'));
+  assert.equal(sampleSave.revision,1);assert.deepEqual(sampleSave.source.state.items,demo);
+  assert.deepEqual(database(realSave),fresh);
   const png=path.join(dir,'inventory.png');
   await launch('screen',exe,[...(renderFlag?['--audio-driver','Dummy']:['--headless']),'--quit-after','240','--log-file',path.join(dir,'screen-engine.log')],
     {HWE_CASE:'ui',HWE_SCREENSHOT:renderFlag?png:''});
@@ -182,6 +208,25 @@ try{
     secondProfileLore:3929,saveUnchanged:true,keyboardScroll,scrollMax,scrollPage,heap:inspectionMetrics};
   assert.equal(last.source.state.overflow.length,1);assert.equal(last.stash.length,0);
   if(renderFlag){const image=fs.readFileSync(png);assert.equal(image.subarray(1,4).toString(),'PNG');report.screenshot={sha256:sha256(image),width:image.readUInt32BE(16),height:image.readUInt32BE(20)};}
+  const cargoDb=path.join(dir,'cargo.db'),cargoOut=path.join(dir,'cargo-replies.jsonl'),cargoPng=path.join(dir,'cargo.png');
+  await launch('cargo-screen',exe,[...(renderFlag?['--audio-driver','Dummy']:['--headless']),'--quit-after','300','--log-file',path.join(dir,'cargo-engine.log')],
+    {HWE_CASE:'cargo-ui',HWE_DB:cargoDb,HWE_RESULT:cargoOut,HWE_SCREENSHOT:renderFlag?cargoPng:''});
+  const replies=fs.readFileSync(cargoOut,'utf8').trimEnd().split('\n').map(JSON.parse);assert.equal(replies.length,cargoCases.length);
+  for(const [i,{label,reply}] of replies.entries()){
+    const r=cargoCases[i];assert.equal(label,r.label);
+    if(!r.card){assert.deepEqual(reply,{ok:false,reason:'unknown-gem'});continue;}
+    assert(reply.ok,label+': '+JSON.stringify(reply));
+    verifyFace(r,reply.card);
+  }
+  const wallet=originalCargo.find(r=>r.label==='stack/2/true').values.sell;
+  const sold=database(cargoDb);assert.equal(sold.revision,3);assert.deepEqual(sold.source.state.essences,{[wallet.essence]:wallet.count});
+  assert.equal(sold.source.state.items.length,3);assert(!sold.source.state.items.some(i=>i.uid===demo[0].uid));
+  const {heap,cache,afterClose}=read(cargoOut+'.metrics');assert(heap.closed&&!heap.poisoned&&!heap.delivery_failed&&heap.peak_bytes<=32*1024*1024&&heap.peak_bytes>0);
+  assert.equal(afterClose.retainedPages,0);assert.equal(afterClose.sourceBytes,0);
+  assert(cache['1'].reads>0&&cache['4'].reads===0&&cache['4'].pages===4&&cache['4'].sourceBytes<=4*32768);
+  assert.equal(heap.live_bytes,0);assert.equal(heap.live_blocks,0);
+  report.cargo={cases:replies.length,heap,cache,afterClose,quote:wallet,staleSaleRefused:true,cancelKeptSave:true,confirmedRevision:sold.revision,
+    repliesSha256:hash(cargoOut),screenshot:renderFlag?hash(cargoPng):null};
   report.passed=true;
   report.originalCourseSha256=frozen.native.courseSha256;report.originalCheckpointSha256=sha256(JSON.stringify(original));
   report.recoveredItemUid=cargo.uid;report.revisionAfterUI=last.revision;report.archives=build.archives;

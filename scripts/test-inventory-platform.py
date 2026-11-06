@@ -54,7 +54,7 @@ def main():
         db = Path(env["XDG_DATA_HOME"]) / "hollow-wake-inventory-workshop" / "inventory.sqlite3"
         def run(exe, label, **settings):
             log = out / (label + ".txt")
-            opts = {**env, **settings, "HWE_DB": str(db)}
+            opts = {**env, "HWE_DB": str(db), **settings}
             if exe == game:
                 opts.update(LD_DEBUG="libs", LD_DEBUG_OUTPUT=str(out / (label + "-loader")))
             with log.open("xb") as stream:
@@ -128,6 +128,23 @@ def main():
         require(card_run["keyboardScroll"] or card_run["scrollMax"] <= card_run["scrollPage"],
                 "overflowing card could not be scrolled")
         report["inspection"] = card_run
+        if "cargoRepliesSha256" in manifest:
+            cargo_file, cargo_db = work / "cargo.jsonl", work / "cargo.sqlite3"
+            run(proof, "cargo-cards", HWE_CASE="cargo-ui", HWE_DB=str(cargo_db), HWE_RESULT=str(cargo_file))
+            require(digest(cargo_file) == manifest["cargoRepliesSha256"], "player cargo replies differ from the SDK")
+            require(len(cargo_file.read_text().splitlines()) == manifest["cargoCases"], "missing cargo replies")
+            cargo_metrics = json.loads(Path(str(cargo_file) + ".metrics").read_bytes())
+            cargo_heap, cache = cargo_metrics["heap"], cargo_metrics["cache"]
+            released = cargo_metrics["afterClose"]
+            require(released["retainedPages"] == 0 and released["sourceBytes"] == 0, "display pages retained after close")
+            require(cache["4"]["reads"] == 0 and cache["1"]["reads"] > 0, "unexpected display page reads")
+            require(cargo_heap["closed"] and not cargo_heap["poisoned"] and cargo_heap["live_bytes"] == 0
+                    and cargo_heap["live_blocks"] == 0 and 0 < cargo_heap["peak_bytes"] <= 32 * 1024 * 1024, "cargo heap")
+            with sqlite3.connect(cargo_db.as_uri() + "?mode=ro", uri=True) as conn:
+                revision, saved = conn.execute("SELECT revision, crafting FROM slots WHERE slot=1").fetchone()
+            quote = manifest["cargoQuote"]
+            require(revision == 3 and json.loads(saved)["state"]["essences"] == {quote["essence"]:quote["count"]}, "cargo sale settlement")
+            report["cargo"] = {"cases":manifest["cargoCases"], "repliesSha256":digest(cargo_file), "heap":cargo_heap, "cache":cache, "afterClose":released, "saleRevision":revision}
         report["uid"] = moved["uid"]
         report["passed"] = True
         (out / "platform.json").write_text(json.dumps(report, indent=2) + "\n")

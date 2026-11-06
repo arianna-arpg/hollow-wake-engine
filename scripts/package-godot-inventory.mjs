@@ -53,13 +53,18 @@ function zip(label,folder,prefix,filename) {
 }
 run('install',tools.python,['-I',path.join(root,'scripts/godot-proc-example-archive.py'),'install',path.resolve(addon),project]);
 assert.equal(hash(path.join(project,'addons/hollow_wake/crafting/inspection.json')),sha256(JSON.stringify(inspectionTerms())+'\n'),'Workshop requires the matching inspection vocabulary');
+const cargoDir=path.join(project,'addons/hollow_wake/crafting');
+const atlas=read(path.join(cargoDir,'cargo-index.json')),cargoBytes=fs.readFileSync(path.join(cargoDir,'cargo-pages.txt'));
+assert.equal(atlas.format,'cargo-display-pages/v1');assert.equal(sha256(cargoBytes),atlas.sha256);
+const ids=read(path.join(cargoDir,'manifest.json')).content;
+assert.deepEqual([atlas.config.craftingContentId,atlas.config.skillContentId],ids.slice(1));
 const store=path.join(project,'addons/hollow_wake_save');fs.mkdirSync(path.join(store,'bin'),{recursive:true});
 for(const f of ['store.gdextension','README.md','sqlite-lock.json'])fs.copyFileSync(path.join(root,'adapters/godot/local-save',f),path.join(store,f));
 for(const f of ['LICENSE.md','NOTICE.md'])fs.copyFileSync(path.join(root,f),path.join(store,f));
 fs.copyFileSync(path.join(root,'experiments/godot-native/notices/godot-cpp-LICENSE.md'),path.join(store,'godot-cpp-LICENSE.md'));
 fs.copyFileSync(lib.library,path.join(store,'bin',path.basename(lib.library)));
 const extension=zip('zip-store',store,'addons/hollow_wake_save/','hollow-wake-local-save-'+platform+'-x64.zip');
-const files=['project.godot','inventory.tscn','inventory.gd','profile.gd','README.md'];
+const files=['project.godot','inventory.tscn','inventory.gd','profile.gd','cargo-sample.json','README.md'];
 for(const f of files)fs.copyFileSync(path.join(root,'examples/godot-inventory',f),path.join(project,f));
 const target=windows?'Windows Desktop':'Linux';
 const preset='[preset.0]\nname='+JSON.stringify(target)+'\nplatform='+JSON.stringify(target)+'\nrunnable=true\nexport_filter="all_resources"\ninclude_filter="*.txt,*.json,*.md"\nexclude_filter=""\n\n[preset.0.options]\nbinary_format/architecture="x86_64"\nbinary_format/embed_pck=false\n'+(windows?'application/modify_resources=false\ncodesign/enable=false\n':'');

@@ -1,18 +1,32 @@
 # Crafting in Godot
-# Equipment inspection
-
-`inspect_item(item)` accepts a saved item from any location. The first query
-loads the packaged display vocabulary. The reply contains the rolled card,
-own defenses, combat modifiers, level requirement and triggered effects.
-`compare_items(candidate, worn)` returns ordered changes for a swap.
-Both operations work without opening a player profile and use no random stream.
-Skill gems, memory pouches and character-dependent prices have separate UI rules.
 
 Copy `addons/hollow_wake` from this platform's archive into a fresh Godot 4.7.2
 project. It contains crafting, progression, their full definitions, one desktop
 native extension and its licenses. Each session starts independently. For exports,
 include the raw assets `*.json,*.txt,*.md` in **Resources → non-resource export
 filter**. Preserve any existing installation or custom files before updating.
+
+## Inspect an inventory item
+
+Call `inspect_item(item)` for rolled equipment and `compare_items(candidate, worn)`
+for an ordered swap comparison. For an item with a gem or pouch payload, call
+`inspect_cargo(item, view, fit_rows)`. All three accept detached item bodies
+and need no open profile. They leave the random stream and item IDs untouched.
+
+```gdscript
+var view := {"inBag":true, "lane":"sell", "confirmMemorySale":true}
+var result := crafting.inspect_cargo(item, view)
+if result.ok:
+    title.text = result.card.title
+    details.text = "\n".join(PackedStringArray(result.card.lines))
+```
+
+Include the viewing hero's `attributes` in the view for requirement verdicts.
+For a support, supply socket-gate rows in equipped-slot order. Each row
+contains `slot`, `skillId`, `fits`, `sockets` and `occupied` for this cut.
+An empty array means an empty bar. Omitting the argument leaves it unspecified.
+The wrapper verifies and reads the necessary display pages. It keeps up to four. Use `set_cargo_page_limit(1)` to minimize retained pages. A sale quote
+describes the whole transaction. The host owns confirmation and settlement.
 
 ```gdscript
 const Crafting = preload("res://addons/hollow_wake/crafting/crafting.gd")

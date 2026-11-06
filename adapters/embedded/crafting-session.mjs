@@ -14,7 +14,7 @@ export function createCraftingContext(table) {
   const crafting = new CraftingContent(craftPack,items); craftPack = null;
   const skills = new SkillProgression(skillPack); skillPack = null;
   const session=new CraftingSession({crafting,skills,memoryKinds:{rough_memory:'rough',preformed_memory:'preformed'}},2);
-  return {session,items};
+  return {session,items,skills,crafting};
 }
 export const create = table => createCraftingContext(table).session;
 export const dispatch = (session,request) => session.command(request);

@@ -1,13 +1,32 @@
 import {createCraftingContext} from './session.mjs';
 import {godotDispatch} from './number-wire.mjs';
 import {ItemInspector,InspectionInputError} from '@hollow-wake/engine/items/inspection';
+import {CargoInspector} from '@hollow-wake/engine/inventory/cargo-cards';
 
-export const create=table=>({...createCraftingContext(table),inspector:null});
+export const create=table=>({...createCraftingContext(table),inspector:null,cargo:null});
 const refuse=reason=>({ok:false,reason});
 export const dispatch=godotDispatch((host,request)=>{
   const op=request?.op;
-  if(op!=='configure-inspection' && op!=='inspect-item' && op!=='compare-items')return host.session.command(request);
+  if(!['configure-inspection','inspect-item','compare-items','configure-cargo','cargo-references','inspect-cargo'].includes(op))return host.session.command(request);
   try{
+    if(op==='configure-cargo'){
+      if(host.cargo)return refuse('already-configured');
+      if(Object.keys(request).length!==2)return refuse('invalid-request');
+      host.cargo=new CargoInspector(host.skills,host.crafting,request.config);
+      return {ok:true};
+    }
+    if(op==='cargo-references'||op==='inspect-cargo'){
+      if(!host.cargo)return refuse('cargo-unavailable');
+      if(op==='cargo-references')return Object.keys(request).length===2?{ok:true,references:host.cargo.references(request.item)}:refuse('invalid-request');
+      if(!Object.keys(request).every(k=>['op','item','view','records','fit'].includes(k)))return refuse('invalid-request');
+      const read=({table,id})=>{
+        const rows=request.records?.[table];
+        if(!rows||typeof rows!=='object'||Array.isArray(rows)||!Object.hasOwn(rows,id))throw new InspectionInputError('missing-cargo-record');
+        return rows[id];
+      };
+      const card=host.cargo.inspect(request.item,request.view,read,request.fit===undefined?undefined:()=>request.fit);
+      return card?{ok:true,card}:refuse('unknown-gem');
+    }
     if(op==='configure-inspection'){
       if(host.inspector)return refuse('already-configured');
       if(Object.keys(request).length!==2 || typeof request.text!=='string' || request.text.length>65536)return refuse('invalid-vocabulary');
