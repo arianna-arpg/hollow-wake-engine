@@ -88,6 +88,7 @@ an isolated installed copy; the clean copy passes before and after the faults.
 
 The 32 MiB default bounds tracked embedded allocations **per started host**. It
 is not the game's memory footprint or a guarantee for arbitrary workloads.
-Windows x64 editor and export results are recorded separately from hosted CI,
-Linux, physical Steam Deck and older mobile hardware. No latency improvement,
-mobile binary, Unity package or Unreal plugin is established by this test.
+The combined addon has Windows x64 editor/export evidence and Linux x86_64
+editor/export and Valve Platform evidence. Physical Steam Deck and older mobile
+hardware, rendered UI, Unity and Unreal remain separate acceptance work.
+See the [Steam Runtime results](steam-runtime.md) and [device test instructions](steamrt-device-run.md).

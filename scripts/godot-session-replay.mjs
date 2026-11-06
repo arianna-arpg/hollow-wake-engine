@@ -13,18 +13,23 @@ assert(pkg.passed&&pkg.platform===process.platform&&pkg.arch==='x64');assert.equ
 const pin=read(path.join(root,'experiments/godot-native/toolchain-lock.json')).platforms[process.platform];
 assert.equal(hash(tools.editor),pin.editor.executableSha256);
 assert.equal(hash(tools.exportDebug),pin.templates.files[pin.templates.debug]);assert.equal(hash(tools.exportRelease),pin.templates.files[pin.templates.release]);
-const directory=fs.realpathSync(fs.mkdtempSync(path.join(root,'.artifacts/godot-'+capability+'-replay-')));
+const combinedProgression=capability==='progression'&&Object.hasOwn(pkg.addon?.files??{},'crafting/manifest.json');
+const replayName=combinedProgression?'combined-progression':capability;
+const directory=fs.realpathSync(fs.mkdtempSync(path.join(root,'.artifacts/godot-'+replayName+'-replay-')));
 const project=path.join(directory,'project'),exported=path.join(directory,'exported'),relocated=path.join(directory,'relocated');fs.mkdirSync(project);
 const report={passed:false,directory,platform:process.platform,arch:process.arch,archiveSha256:pkg.archiveSha256,packageReceiptSha256:hash(receipt),commands:[],
   sources:Object.fromEntries(['scripts/godot-session-replay.mjs',runner,probe,...additionalSources].map(f=>[f,hash(path.join(root,f))])),
   scope};
 const verification=path.join(directory,'verification.json');writeJSON(verification,report);
-writeJSON(path.join(root,'.artifacts/godot-'+capability+'-replay-latest.json'),{directory,receipt:verification});
+writeJSON(path.join(root,'.artifacts/godot-'+replayName+'-replay-latest.json'),{directory,receipt:verification});
 try {
 execFileSync(tools.python,['-I',path.join(root,'scripts/godot-proc-example-archive.py'),'install',pkg.archive,project],{windowsHide:true});
 const addon=path.join(project,'addons/hollow_wake'),data=path.join(addon,capability);
-for(const [file,digest] of Object.entries(pkg.files))assert.equal(hash(path.join(data,file)),digest,file);
 if(pkg.addon){assert.equal(pkg.addon.archiveSha256,pkg.archiveSha256);assert.deepEqual(listFiles(addon).sort(),[...Object.keys(pkg.addon.files),'manifest.json'].sort());for(const [f,digest]of Object.entries(pkg.addon.files))assert.equal(hash(path.join(addon,f)),digest,f);}
+const manifest=read(path.join(data,'manifest.json'));
+assert.equal(manifest.capability,capability+'-session/v1');
+if(!combinedProgression)assert.deepEqual(manifest.files,pkg.files);
+for(const [file,digest] of Object.entries(manifest.files))assert.equal(hash(path.join(data,file)),digest,file);
 if(prepareProject)report.fixture=prepareProject(project,pkg);
 fs.copyFileSync(path.join(root,'experiments/godot-native/project.godot'),path.join(project,'project.godot'));
 const scene=fs.readFileSync(path.join(root,'experiments/godot-native/main.tscn'),'utf8');assert.equal(scene.split('res://replay.gd').length,2);
@@ -62,7 +67,10 @@ for(const folder of [project,exported]){
   const source=fs.realpathSync(folder),destination=path.join(directory,path.basename(folder)+'-unavailable');
   assert.equal(path.dirname(source),directory);assert.equal(path.dirname(destination),directory);assert(!fs.existsSync(destination));fs.renameSync(source,destination);
 }
+const exportHashes=()=>Object.fromEntries(listFiles(relocated).map(file=>[file,hash(path.join(relocated,file))]));
+report.exportedFiles=exportHashes();
 report.release=play('release',path.join(relocated,executable),['--headless','--log-file',path.join(directory,'release-engine.log')],relocated);
+assert.deepEqual(exportHashes(),report.exportedFiles,'Released files changed during replay');
 const gameplay=result=>Object.fromEntries(Object.entries(result).filter(([key])=>!key.endsWith('metrics')));assert.deepEqual(gameplay(report.release),gameplay(report.editor));
 assert.equal(hash(pkg.archive),pkg.archiveSha256);report.releaseWithoutProject=true;report.passed=true;
 console.log({passed:true,directory,editorPeakBytes:report.editor.metrics.peak_bytes,releasePeakBytes:report.release.metrics.peak_bytes});

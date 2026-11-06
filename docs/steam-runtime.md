@@ -1,7 +1,14 @@
 # Steam Runtime package experiment
 
-The selected Godot package passes a build in the pinned Steam Runtime 4 SDK and
-a separate headless replay in its matching Platform image. The
+The combined crafting and progression addon passed in the pinned Steam Runtime
+4 SDK and its matching Platform image. Both exported games used the same
+Linux x86_64 addon archive. Crafting passed 180 assertions and its 56 replies
+matched the original reference and the Windows observation file byte for byte.
+Progression passed 91 assertions, including ten continued reward draws after
+restoring a save. See the [session evidence](../evidence/steamrt-sessions/verification.json).
+
+The earlier combat package passed a build in the same SDK and a separate
+headless replay in the Platform image. The
 [hosted evidence](../evidence/godot/steam-runtime-ci.json) retains the inspected
 logs, receipts, image identities and container configurations. All 850 SDK tests
 pass. The Godot editor, relocated export and Platform replay each pass 98 checks
@@ -45,15 +52,41 @@ there is no retry. Both image identities and container configurations are retain
 Only containers created by this invocation are removed. Existing image caches,
 other containers and prior experiment directories are preserved. A fresh checkout
 is required to prevent prior native/session receipts from being mistaken for this
-run. Logs and receipts are uploaded by CI; binaries and image layers are not.
+run. The workflow retains the Linux addon and device test kit after successful
+Platform playback. It also retains logs and receipts for diagnosis.
 
 Earlier attempts remain available: [missing results parent](../evidence/godot/steam-runtime-startup-failure.json),
 [inaccessible container-owned files](../evidence/godot/steam-runtime-ownership-failure.json),
 and [.NET mutex initialization](../evidence/godot/steam-runtime-mutex-failure.json).
 Their outcomes are preserved separately from the successful run.
 
-This remains the selected embedded-session capability described in the
-[Godot guide](godot-native.md). A headless Platform-container replay does not
-exercise Steam's client, overlay, pressure-vessel integration, graphics/input,
-Steam Deck power limits or older mobile hardware. Those remain separate acceptance
-work, along with the rest of the SDK surface and other engine integrations.
+## Install or measure the combined package
+
+Install the Linux addon using the [Godot crafting guide](godot-crafting.md).
+Each capability starts on demand. Both games reproduced the accepted results in
+separate offline containers with read-only game files. The loader identified
+the embedded runtime and Godot extension inside each exported game.
+
+The [device kit](steamrt-device-run.md) contains both exported games, their
+matched receipts and the Python measurement runner. The archive shares the
+identical engine and libraries through tar hard links. The runner verifies
+the exports, uses fresh save directories and records separate process and
+embedded allocation measurements. The retained local measurements identify
+the Docker Desktop Linux VM. Steam client launch, pressure-vessel integration,
+graphics, input, power and physical device measurements remain open.
+
+The Linux host command above builds the base addon, progression addon and combined
+package, exports both session courses, and plays them in fresh Platform containers.
+For development, the two stages can be run separately. Run the first in the pinned
+Valve SDK with matching library, Godot base and tool receipts. Run the second on a
+Docker host with the pinned Platform image present.
+
+~~~sh
+node scripts/build-steamrt-sessions.mjs --base BASE_DIR --library-proof LIBRARY_DIR --tools TOOLS_JSON --out NEW_EXPORTS_DIR
+node scripts/replay-steamrt-sessions.mjs --bundle NEW_EXPORTS_DIR --out NEW_PLATFORM_DIR
+~~~
+
+The full workflow collects the engine and component notices from the pinned
+Linux Godot editor and includes them alongside the addon notices in the device
+kit. Godot documents these attribution records through its Engine API.
+[Godot Engine license methods](https://docs.godotengine.org/en/stable/classes/class_engine.html#class-engine-method-get-license-info)

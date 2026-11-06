@@ -32,7 +32,9 @@ for(const key of ['LD_LIBRARY_PATH','LD_PRELOAD','LD_AUDIT','LD_DEBUG','LD_DEBUG
 function run(label,args,status,marker){
   const log=path.join(dir,label+'.txt'),fd=fs.openSync(log,'wx');let out;
   try{out=spawnSync(tools.editor,['--headless','--path',project,...args,'--log-file',path.join(dir,label+'-engine.log')],{env,cwd:dir,windowsHide:true,timeout:90000,stdio:['ignore',fd,fd]});}finally{fs.closeSync(fd);}
-  const text=fs.readFileSync(log,'utf8');assert(!out.error&&!out.signal,label);assert.equal(out.status,status,label+': '+text.slice(-800));
+  const text=fs.readFileSync(log,'utf8');
+  if(out.error||out.signal)throw new Error(label+' terminated: '+String(out.error?.message??out.signal));
+  assert.equal(out.status,status,label+': '+text.slice(-800));
   assert(!/SCRIPT ERROR:|Parse Error:/.test(text),label+' script error');
   assert.deepEqual(text.split(/\r?\n/).filter(line=>line.startsWith('HWE_CONTROL_')),marker?[marker]:[]);
   report.runs.push({label,status,marker:marker??null,logSha256:hash(log)});
@@ -45,7 +47,9 @@ try{
   for(const f of ['project.godot','main.tscn'])fs.copyFileSync(path.join(root,'experiments/godot-native',f),path.join(project,f));
   fs.copyFileSync(path.join(root,'test/godot-crafting/faults.gd'),path.join(project,'replay.gd'));
   fs.writeFileSync(path.join(project,'full-bag.json'),JSON.stringify(saved),{flag:'wx'});
-  run('import',['--import'],0);
+  // Use the pinned editor's cold-import shutdown workaround in the isolated
+  // fault project too. A failed first import remains a terminal failure.
+  run('import',['--import','--frame-delay','1000'],0);
   run('control-before',['--quit-after','16'],0,'HWE_CONTROL_PASS');
   const cases=[
     ['item-roll-precision','owned_session.gd','bytes.encode_double(0, n)','bytes.encode_double(0, snappedf(n, 0.00001))'],

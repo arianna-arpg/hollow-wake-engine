@@ -7,6 +7,9 @@ The 0.50 candidate packages [crafting and account progression for Godot](docs/go
 Copy one platform archive into a project, start the sessions the game needs, and
 use ordinary JSON saves across hosts. See the verification record for the exact
 editor, export, content and memory scope.
+The combined package also runs in Valve's Steam Runtime 4 for Linux x86_64.
+The same exported games form a portable workload for collecting device measurements.
+See the [Linux verification](docs/steam-runtime.md) and [device instructions](docs/steamrt-device-run.md).
 
 The 0.49 candidate adds optional [compiled immutable content](docs/content-tables.md), preserving every authored value while sharing repeated read-only records. The complete crafting course runs in a smaller measured native heap; loading cost and allocation tradeoffs are retained separately. Engine packaging and physical-device acceptance remain open.
 

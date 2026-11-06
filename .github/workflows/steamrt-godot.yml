@@ -7,6 +7,21 @@ on:
       - 'experiments/godot-native/**'
       - 'experiments/embedded-js/**'
       - 'scripts/test-steamrt-godot.mjs'
+      - 'scripts/*steamrt-sessions.mjs'
+      - 'scripts/steamrt-image.mjs'
+      - 'scripts/*steamrt-device.py'
+      - 'scripts/export-godot-notices.gd'
+      - 'scripts/test-steamrt-device-kit.sh'
+      - 'test/steamrt-image.test.mjs'
+      - 'docs/steamrt-device-run.md'
+      - 'scripts/godot-proc-example-archive.py'
+      - 'scripts/compile-*.mjs'
+      - 'adapters/godot/**'
+      - 'adapters/embedded/crafting-session.mjs'
+      - 'test/godot-*/**'
+      - 'test/godot-addon-archive.py'
+      - 'evidence/content-tables/**'
+      - 'evidence/godot-crafting/windows.json'
       - 'scripts/*embedded*.mjs'
       - 'scripts/*godot*.mjs'
       - 'scripts/native-tools.mjs'
@@ -23,7 +38,7 @@ permissions:
 jobs:
   steamrt4:
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: 150
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -38,6 +53,24 @@ jobs:
           dotnet-version: 8.0.427
       - name: Build in pinned SDK and replay in runtime-only container
         run: node scripts/test-steamrt-godot.mjs
+      - name: Retain the verified Linux addon
+        if: success()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: hollow-wake-godot-crafting-progression-steamrt4-linux-x64
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+          path: .artifacts/steamrt-godot-*/sdk/session-exports/hollow-wake-godot-crafting-progression-linux-x64.zip
+      - name: Retain the verified device workloads
+        if: success()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: hollow-wake-linux-device-kit
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+          path: .artifacts/steamrt-godot-*/hollow-wake-linux-device-kit.tar.gz
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
@@ -50,6 +83,8 @@ jobs:
             .artifacts/steamrt-godot-*/**/*.txt
             .artifacts/steamrt-godot-*/**/*.log
             .artifacts/steamrt-godot-*/**/*.jsonl
+            .artifacts/steamrt-godot-*/session-platform/*/loader.1
+            .artifacts/steamrt-godot-*/sdk/session-exports/desktop/*-observations.jsonl.gz
             .artifacts/godot-tools-*/preparation.json
             .artifacts/godot-native-*/verification.json
             .artifacts/godot-native-*/*.txt

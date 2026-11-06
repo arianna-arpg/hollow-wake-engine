@@ -1053,3 +1053,8 @@ the frozen reference after each play. The precision vectors additionally read
 the actual Godot double bits, including the smallest subnormal, and format
 independently supplied bits back into portable decimal text. Neither the Linux
 workflow configuration nor a desktop allocator result is device acceptance.
+
+The [Steam Runtime session verification](steam-runtime.md) builds the two
+capabilities into one Linux addon and exercises both full courses from that
+archive in the SDK and in the matching Platform. The portable device runner
+checks the same exported files and observations before accepting each sample.

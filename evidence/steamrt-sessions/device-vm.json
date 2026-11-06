@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "label": "Docker Desktop Linux x86_64",
+  "conditions": "Pinned Valve Platform, desktop VM, headless exports and results on tmpfs. Sequential after verification and benchmark.",
+  "kernel": "6.18.54.1-microsoft-standard-WSL2",
+  "machine": "x86_64",
+  "cpuAffinityCount": 20,
+  "visibleMemoryKiB": 32823164,
+  "dockerMarker": true,
+  "sdkProofSha256": "4f2c3005ae1446395463e6cb1b036ccf428d09dfe3f87bb534ef0e8bfe1625cd",
+  "platformProofSha256": "5154694b4f64182e018a2dda4ed655af76ab7fd0b72ffa26402c5e2c52e7ca9b",
+  "archiveSha256": "170060c795a5983cfbcc38523f8530a0c2a241537a6a8f3c894b0fb69c402737",
+  "warmups": 1,
+  "samples": 3,
+  "runs": [
+    {
+      "phase": "warmup",
+      "pair": 1,
+      "workload": "crafting",
+      "wallNs": 15582059304,
+      "userCpuUs": 15469860,
+      "kernelCpuUs": 52448,
+      "processPeakRssKiB": 172944,
+      "trackedPeakBytes": {
+        "metrics": 31343155,
+        "progression_metrics": 3311320,
+        "resumed_metrics": 30760855
+      },
+      "assertions": 180,
+      "repliesSha256": "e71e7fcdb09e2ae7923dfc5953cdba3be462b272a35f19ebc9c98f78a02640ce"
+    },
+    {
+      "phase": "warmup",
+      "pair": 1,
+      "workload": "progression",
+      "wallNs": 1073164149,
+      "userCpuUs": 1027497,
+      "kernelCpuUs": 20068,
+      "processPeakRssKiB": 87736,
+      "trackedPeakBytes": {
+        "metrics": 3403201,
+        "resumed_metrics": 3689977
+      },
+      "assertions": 91,
+      "repliesSha256": null
+    },
+    {
+      "phase": "sample",
+      "pair": 1,
+      "workload": "crafting",
+      "wallNs": 15955356519,
+      "userCpuUs": 15820666,
+      "kernelCpuUs": 63970,
+      "processPeakRssKiB": 173284,
+      "trackedPeakBytes": {
+        "metrics": 31343155,
+        "progression_metrics": 3311320,
+        "resumed_metrics": 30760855
+      },
+      "assertions": 180,
+      "repliesSha256": "e71e7fcdb09e2ae7923dfc5953cdba3be462b272a35f19ebc9c98f78a02640ce"
+    },
+    {
+      "phase": "sample",
+      "pair": 1,
+      "workload": "progression",
+      "wallNs": 1071100777,
+      "userCpuUs": 1032851,
+      "kernelCpuUs": 35890,
+      "processPeakRssKiB": 87692,
+      "trackedPeakBytes": {
+        "metrics": 3403201,
+        "resumed_metrics": 3689977
+      },
+      "assertions": 91,
+      "repliesSha256": null
+    },
+    {
+      "phase": "sample",
+      "pair": 2,
+      "workload": "progression",
+      "wallNs": 1167066099,
+      "userCpuUs": 1062414,
+      "kernelCpuUs": 23948,
+      "processPeakRssKiB": 87600,
+      "trackedPeakBytes": {
+        "metrics": 3403201,
+        "resumed_metrics": 3689977
+      },
+      "assertions": 91,
+      "repliesSha256": null
+    },
+    {
+      "phase": "sample",
+      "pair": 2,
+      "workload": "crafting",
+      "wallNs": 15489049473,
+      "userCpuUs": 15364285,
+      "kernelCpuUs": 40011,
+      "processPeakRssKiB": 172936,
+      "trackedPeakBytes": {
+        "metrics": 31343155,
+        "progression_metrics": 3311320,
+        "resumed_metrics": 30760855
+      },
+      "assertions": 180,
+      "repliesSha256": "e71e7fcdb09e2ae7923dfc5953cdba3be462b272a35f19ebc9c98f78a02640ce"
+    },
+    {
+      "phase": "sample",
+      "pair": 3,
+      "workload": "crafting",
+      "wallNs": 15585617490,
+      "userCpuUs": 15447443,
+      "kernelCpuUs": 99970,
+      "processPeakRssKiB": 172796,
+      "trackedPeakBytes": {
+        "metrics": 31343155,
+        "progression_metrics": 3311320,
+        "resumed_metrics": 30760855
+      },
+      "assertions": 180,
+      "repliesSha256": "e71e7fcdb09e2ae7923dfc5953cdba3be462b272a35f19ebc9c98f78a02640ce"
+    },
+    {
+      "phase": "sample",
+      "pair": 3,
+      "workload": "progression",
+      "wallNs": 1167058894,
+      "userCpuUs": 1085582,
+      "kernelCpuUs": 12010,
+      "processPeakRssKiB": 87360,
+      "trackedPeakBytes": {
+        "metrics": 3403201,
+        "resumed_metrics": 3689977
+      },
+      "assertions": 91,
+      "repliesSha256": null
+    }
+  ]
+}

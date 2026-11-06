@@ -3,6 +3,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import {spawnSync, execFileSync} from 'node:child_process';
 import {root, git, sha256, listFiles, writeJSON} from './reference-utils.mjs';
+import {verifySteamContainer, verifySteamImage} from './steamrt-image.mjs';
 
 assert.equal(process.platform, 'linux'); assert.equal(process.arch, 'x64');
 const identity = {uid: process.geteuid(), gid: process.getegid()}, sdkHome = '/tmp/hollow-wake-sdk-home';
@@ -33,12 +34,14 @@ assert(inside ? args.length === 2 : args.length === 0, 'Run in a fresh Linux che
 if (!inside) fs.mkdirSync(path.join(root, '.artifacts'), {recursive: true});
 const directory = inside ? fs.realpathSync(args[1]) : fs.mkdtempSync(path.join(root, '.artifacts/steamrt-godot-'));
 assert(/^\.artifacts\/steamrt-godot-[A-Za-z0-9]+(?:\/sdk)?$/.test(path.relative(root, directory).split(path.sep).join('/')));
-const sourceFiles = ['scripts/test-steamrt-godot.mjs', '.github/workflows/steamrt-godot.yml',
+const sourceFiles = ['scripts/test-steamrt-godot.mjs','scripts/build-steamrt-sessions.mjs','scripts/replay-steamrt-sessions.mjs','scripts/steamrt-image.mjs',
+  'scripts/export-godot-notices.gd','scripts/measure-steamrt-device.py','scripts/package-steamrt-device.py','scripts/test-steamrt-device-kit.sh',
+  'docs/steamrt-device-run.md','.github/workflows/steamrt-godot.yml',
   ...listFiles(lockDirectory).map(file => 'experiments/steamrt-godot/' + file)];
 const sources = Object.fromEntries(sourceFiles.map(file => [file, hash(path.join(root, file))]));
 const report = {schemaVersion: 1, passed: false, status: 'started', phase: inside ? 'sdk' : 'host',
   commit: git(root, ['rev-parse', 'HEAD']).trim(), sources, identity, commands: [], images: lock.images,
-  scope: 'Steam Runtime 4 SDK build and runtime-only headless Godot export. Selected capability, not Steam client/device/performance qualification.'};
+  scope: 'Steam Runtime 4 SDK build and Platform playback of the base combat export and both inventory sessions from the combined addon.'};
 const receipt = path.join(directory, 'verification.json');
 if (!inside) writeJSON(path.join(root, '.artifacts/steamrt-godot-latest.json'), {directory, receipt});
 function run(label, command, argv, timeout = 300000) {
@@ -84,9 +87,9 @@ try {
     // Exercise .NET's user-scoped mutex setup before the expensive build.
     run('dotnet-preflight', 'dotnet', ['nuget', 'locals', 'all', '--list']);
     run('npm-install', 'npm', ['ci'], 600000);
-    run('sdk-verification', 'npm', ['run', 'verify'], 1800000);
     run('reference-prepare', 'npm', ['run', 'reference:prepare'], 300000);
     run('reference-install', 'npm', ['run', 'reference:install'], 600000);
+    run('sdk-verification', 'npm', ['run', 'verify'], 3600000);
     const upstream = path.join(directory, 'upstream'); fs.mkdirSync(upstream);
     const runtimeLock = read(path.join(root, 'experiments/embedded-js/host-source-lock.json'));
     const archive = path.join(upstream, runtimeLock.archive.name);
@@ -102,23 +105,32 @@ try {
     run('godot-package', process.execPath, ['scripts/test-godot-native.mjs', '--tools', toolsPointer.tools,
       '--library-proof', localArtifact(pointer('embedded-library')), '--session-proof', localArtifact(pointer('embedded-session'))], 1200000);
     report.generated = Object.fromEntries(['embedded-library', 'embedded-session', 'godot-tools', 'godot-native'].map(name => [name, pointer(name)]));
+    const sessionExports = path.join(directory,'session-exports');
+    run('session-packages',process.execPath,['scripts/build-steamrt-sessions.mjs',
+      '--base',localArtifact(report.generated['godot-native']),'--library-proof',localArtifact(report.generated['embedded-library']),
+      '--tools',toolsPointer.tools,'--out',sessionExports],1200000);
+    report.sessionExportsSha256 = hash(path.join(sessionExports,'sdk.json'));
+    const noticeProject=path.join(directory,'notice-project');
+    fs.mkdirSync(noticeProject);fs.writeFileSync(path.join(noticeProject,'project.godot'),'config_version=5\n',{flag:'wx'});
+    const noticeFile=path.join(sessionExports,'godot-notices.json');
+    run('engine-notices',read(toolsPointer.tools).editor,['--headless','--path',noticeProject,
+      '--script',path.join(root,'scripts/export-godot-notices.gd'),'--log-file',path.join(directory,'notices-engine.log'),'--',noticeFile],30000);
+    report.noticesSha256=hash(noticeFile);
   } else {
     for (const name of ['embedded-library', 'embedded-session', 'godot-tools', 'godot-native'])
       assert(!fs.existsSync(path.join(root, '.artifacts/' + name + '-latest.json')), 'Use a fresh checkout; prior experiment artifacts are preserved');
     assert.equal(run('dotnet-version', 'dotnet', ['--version']), lock.dotnetSdk);
     report.dockerVersion = run('docker-version', 'docker', ['version', '--format', '{{json .}}']);
-    const images = {};
+    const images = {}, identities = {};
     for (const [kind, image] of Object.entries(lock.images)) {
       const ref = image.repository + '@' + image.manifestDigest;
       run(kind + '-pull', 'docker', ['pull', '--platform', 'linux/amd64', ref], 1200000);
       const actual = JSON.parse(run(kind + '-image', 'docker', ['image', 'inspect', ref]))[0];
-      assert.equal(actual.Id, image.configDigest); assert(actual.RepoDigests.includes(ref));
-      assert.equal(actual.Architecture, 'amd64'); assert.equal(actual.Os, 'linux');
-      assert.equal(actual.Config.Labels['os_release.build_id'], image.buildId);
-      assert.equal(actual.Config.Labels['os_release.variant_id'], image.variant); images[kind] = ref;
+      identities[kind]=verifySteamImage(image,actual);
+      images[kind] = ref;
     }
-    const create = (kind, parameters, command) => {
-      const id = run(kind + '-create', 'docker', ['create', '--platform', 'linux/amd64', '--label', 'org.hollow-wake.proof=' + path.basename(directory),
+    const create = (kind, parameters, command, label=kind) => {
+      const id = run(label + '-create', 'docker', ['create', '--platform', 'linux/amd64', '--label', 'org.hollow-wake.proof=' + path.basename(directory),
         '--user', identity.uid + ':' + identity.gid, ...parameters, images[kind], ...command]); assert(/^[0-9a-f]{64}$/.test(id)); containers.push(id); return id;
     };
     const sdkDirectory = path.join(directory, 'sdk'); fs.mkdirSync(sdkDirectory);
@@ -130,11 +142,11 @@ try {
       '--entrypoint', '/tools/node/bin/node'],
       ['/workspace/scripts/test-steamrt-godot.mjs', '--sdk', '/workspace/' + path.relative(root, sdkDirectory).split(path.sep).join('/')]);
     const sdkConfiguration = JSON.parse(run('sdk-container-created', 'docker', ['inspect', sdk]))[0];
-    assert.equal(sdkConfiguration.Image, lock.images.sdk.configDigest);
+    verifySteamContainer(identities.sdk,sdkConfiguration);
     assert.equal(sdkConfiguration.Config.User, identity.uid + ':' + identity.gid);
-    run('sdk-execution', 'docker', ['start', '--attach', sdk], 2700000);
+    run('sdk-execution', 'docker', ['start', '--attach', sdk], 7200000);
     const sdkState = JSON.parse(run('sdk-container', 'docker', ['inspect', sdk]))[0];
-    assert.equal(sdkState.Image, lock.images.sdk.configDigest); assert.equal(sdkState.State.ExitCode, 0); assert.equal(sdkState.State.Status, 'exited');
+    verifySteamContainer(identities.sdk,sdkState); assert.equal(sdkState.State.ExitCode, 0); assert.equal(sdkState.State.Status, 'exited');
     const sdkProof = read(path.join(sdkDirectory, 'verification.json')); assert(sdkProof.passed && sdkProof.inputsUnchanged);
     assert.deepEqual(sdkProof.identity, identity);
     const godotDirectory = localArtifact(sdkProof.generated['godot-native']), godot = read(path.join(godotDirectory, 'verification.json'));
@@ -151,7 +163,7 @@ try {
       ['--headless', '--log-file', '/evidence/platform-engine.log', '--', '/evidence/platform.jsonl']);
     // Keep the exact container configuration before execution, including mounts.
     const configuration = JSON.parse(run('platform-container-created', 'docker', ['inspect', platform]))[0];
-    assert.equal(configuration.Image, lock.images.platform.configDigest); assert.equal(configuration.HostConfig.NetworkMode, 'none');
+    verifySteamContainer(identities.platform,configuration); assert.equal(configuration.HostConfig.NetworkMode, 'none');
     assert.equal(configuration.Config.User, identity.uid + ':' + identity.gid);
     assert.equal(configuration.HostConfig.ReadonlyRootfs, true);
     assert.deepEqual(Object.keys(configuration.HostConfig.Tmpfs), ['/tmp']);
@@ -176,6 +188,31 @@ try {
     report.sdk = {receipt: path.relative(root, path.join(sdkDirectory, 'verification.json')), sha256: hash(path.join(sdkDirectory, 'verification.json')), generated: sdkProof.generated};
     report.platform = {...stats, loadedLibraries: loaded, observationsSha256: hash(path.join(output, 'platform.jsonl')),
       image: lock.images.platform.configDigest, gameFiles: godot.exportedFiles, sourceAndBuildToolsNotMounted: true, networkDisabled: true, packageUnchanged: true};
+    const bundle=path.join(sdkDirectory,'session-exports');
+    assert.equal(hash(path.join(bundle,'sdk.json')),sdkProof.sessionExportsSha256);
+    const sessionOutput=path.join(directory,'session-platform');
+    run('session-platform-execution',process.execPath,['scripts/replay-steamrt-sessions.mjs',
+      '--bundle',bundle,'--out',sessionOutput],600000);
+    const sessions=read(path.join(sessionOutput,'verification.json'));
+    assert(sessions.passed);
+    report.sessions={archiveSha256:sessions.archiveSha256,sdkSha256:sdkProof.sessionExportsSha256,
+      platformSha256:hash(path.join(sessionOutput,'verification.json')),craftingCommands:sessions.replays.crafting.observations.commands};
+    assert.equal(hash(path.join(bundle,'godot-notices.json')),sdkProof.noticesSha256);
+    const kit=path.join(directory,'hollow-wake-linux-device-kit.tar.gz');
+    run('device-kit','python3',['scripts/package-steamrt-device.py','--bundle',bundle,'--platform-proof',
+      path.join(sessionOutput,'verification.json'),'--out',kit]);
+    report.sessions.deviceKitSha256=hash(kit);
+    const kitResults=path.join(directory,'device-kit-results');
+    fs.mkdirSync(kitResults);
+    const kitContainer=create('platform',['--network','none','--read-only','--cap-drop','ALL','--security-opt','no-new-privileges',
+      '--tmpfs','/tmp:rw,nosuid,nodev,exec,size=536870912','--volume',kit+':/kit.tar.gz:ro','--volume',kitResults+':/results',
+      '--volume',path.join(root,'scripts/test-steamrt-device-kit.sh')+':/verify.sh:ro','--entrypoint','/bin/sh'],['/verify.sh'],'device-kit');
+    run('device-kit-playback','docker',['start','--attach',kitContainer],600000);
+    const kitState=JSON.parse(run('device-kit-container','docker',['inspect',kitContainer]))[0];
+    verifySteamContainer(identities.platform,kitState);
+    assert.equal(kitState.State.ExitCode,0);assert.equal(kitState.HostConfig.NetworkMode,'none');
+    assert(read(path.join(kitResults,'measurement.json')).passed);
+    report.sessions.deviceKitRunSha256=hash(path.join(kitResults,'measurement.json'));
   }
   report.passed = true; report.status = 'completed';
 } catch (error) {report.status = 'failed'; report.error = error.message; throw error;}

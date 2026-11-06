@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "version": "0.50.0-candidate.0",
+  "source": "0e3798881b78f59e9829e66ff516df802e2c8b80",
+  "scope": "Local Docker Desktop, Linux x86_64, pinned Steam Runtime 4 SDK and Platform. Both full session courses use the same combined archive.",
+  "package": {
+    "addon": "hollow-wake-godot-crafting-progression-linux-x64.zip",
+    "addonSha256": "170060c795a5983cfbcc38523f8530a0c2a241537a6a8f3c894b0fb69c402737",
+    "addonBytes": 2295288,
+    "kit": "hollow-wake-linux-device-kit.tar.gz",
+    "kitSha256": "8d61f0de7003f6b36b918b6ce5ab7eee6b2fbf68546c8d8d4d8e365d13ed7728",
+    "kitBytes": 31657347,
+    "sameSdkArchiveAndCraftingAssetsAsWindows": true,
+    "sdkArchiveSha256": "6b8e1bba20f86558c45ef165fe34477f55402f8324f57a7772b19b9c8581a89b"
+  },
+  "images": {
+    "sdk": {
+      "id": "sha256:0827d5839550c228b4e454ae2608ce09e0ff023d2bbb6bfceb9812eb5813b742",
+      "reference": "registry.gitlab.steamos.cloud/steamrt/steamrt4/sdk@sha256:0827d5839550c228b4e454ae2608ce09e0ff023d2bbb6bfceb9812eb5813b742",
+      "manifest": "sha256:0827d5839550c228b4e454ae2608ce09e0ff023d2bbb6bfceb9812eb5813b742",
+      "config": "sha256:53ebc18dfc907e22aadc2cc1394bd90eb9d9e1c2dc2b761277cb2c1c57f4bd34",
+      "layers": [
+        "sha256:1a6255f915a5e7fcbfb677f66c4168ccc3cc05305ab68067a637c849ef773076",
+        "sha256:02a054d1fff2724798b89872343dd6ec55f1c91750c1121fa158a8a68fcc6528"
+      ]
+    },
+    "platform": {
+      "id": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+      "reference": "registry.gitlab.steamos.cloud/steamrt/steamrt4/platform@sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+      "manifest": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+      "config": "sha256:b740749db0ecbfb6614d5ba84390dedc5802b83635e14e41c8e46d90431b84a8",
+      "layers": [
+        "sha256:bdd7420ccc360f3e2432e41b64c8713eaed90f8f32ce8ce5bb20dc3bf54d28c8",
+        "sha256:38ab83551d09d795cc3d3ffa9ea98bbadd4302d7565bd47027cba328c42c7461"
+      ]
+    }
+  },
+  "checks": {
+    "sdkVerification": {
+      "exitCode": 0,
+      "tests": 1539,
+      "logSha256": "05fafbde18a8141767717d1256a09c540c78df4522c925b9f980bfa4ddefbb57"
+    },
+    "finalLinuxUnitSweep": {
+      "passed": 1541,
+      "logSha256": "698cddf5e70ba3ef3fdb1db66c74c239b29bf976a2befdd92af37a8123ad34ae"
+    },
+    "referenceCapsuleVerified": true,
+    "coreBenchmarkMatchingChecksums": 7,
+    "coreBenchmarkLogSha256": "51ea0ddee24347b769c83efbeffe0c4990a57a73b54752add4da8aa3346b1186",
+    "nativeRequests": 60,
+    "cppAndDotnetNumericComparisonsPerConsumer": 609,
+    "cppSanitizers": [
+      "address",
+      "undefined behavior",
+      "leaks"
+    ],
+    "standAloneProgressionAndCombinedProgressionPassed": true,
+    "craftingAssertions": 180,
+    "progressionAssertions": 91,
+    "independentCraftingReplies": 56,
+    "rawReplyBytes": 5262634,
+    "windowsCombinedProgressionAssertions": 91,
+    "installedProgressionFaults": [
+      "restore-rng-reset",
+      "lost-investment",
+      "storage-no-reconcile",
+      "claim-not-retired"
+    ],
+    "installedCraftingFaults": [
+      "item-roll-precision",
+      "automatic-sale-lane",
+      "transfer-releases-custody"
+    ],
+    "bothExportsLoadedOnlyPackagedGameplayLibraries": true,
+    "wrappedKitRejected": [
+      "changed PCK before launch",
+      "mismatched replies after launch"
+    ]
+  },
+  "engineNotices": {
+    "commit": "ed1daf0bf001b61586d9930840f2f1394092c079",
+    "sha256": "e5c0f7dfced51a95d11cde8b0d9612c9f5135702177b4323e5aa092bcd258d9c"
+  },
+  "measurements": {
+    "device": "Docker Desktop Linux x86_64",
+    "conditions": "Pinned Valve Platform, desktop VM, headless exports and results on tmpfs. Sequential after verification and benchmark.",
+    "warmupPairs": 1,
+    "measuredPairs": 3,
+    "ranges": {
+      "crafting": {
+        "wallNs": [
+          15489049473,
+          15955356519
+        ],
+        "userCpuUs": [
+          15364285,
+          15820666
+        ],
+        "kernelCpuUs": [
+          40011,
+          99970
+        ],
+        "processPeakRssKiB": [
+          172796,
+          173284
+        ]
+      },
+      "progression": {
+        "wallNs": [
+          1071100777,
+          1167066099
+        ],
+        "userCpuUs": [
+          1032851,
+          1085582
+        ],
+        "kernelCpuUs": [
+          12010,
+          35890
+        ],
+        "processPeakRssKiB": [
+          87360,
+          87692
+        ]
+      }
+    },
+    "embeddedCapPerHost": 33554432,
+    "craftingPrimaryPeakBytes": 31343155
+  },
+  "raw": {
+    "sdk.json": "4f2c3005ae1446395463e6cb1b036ccf428d09dfe3f87bb534ef0e8bfe1625cd",
+    "linux.json": "7aacc2569a4f5490f736140e574450c4775e544ef43431e69bc1db12eef94d66",
+    "linux-observations.jsonl.gz": "6d93b14e6e39f633ad72a2d388dd006b6476434b673b2d4cbdef8bdcb8b8274c",
+    "platform.json": "5154694b4f64182e018a2dda4ed655af76ab7fd0b72ffa26402c5e2c52e7ca9b",
+    "device-vm.json": "e690429c79ef3892a8e46369b892150233e4ed03545bec62ee2c41527e630fe2"
+  },
+  "sources": {
+    "scripts/build-steamrt-sessions.mjs": "01614f62bfa4b2a656c279240ed29f8640fc54f15cacea3ca013729718feb4e2",
+    "scripts/replay-steamrt-sessions.mjs": "5074aa80cd3c8cd73ff02157fc76d14a2e78b23221297db1f4adf343767cf300",
+    "scripts/steamrt-image.mjs": "975b4249b8ecade38d6f24d523b0793c5f2808895f6d013a2ea09dcab0e9f06d",
+    "scripts/measure-steamrt-device.py": "cf03fb1e9eea0c00a125db597792adef9baf9497bdd0444f22f21a0318340958",
+    "scripts/test-steamrt-device-kit.sh": "afd8289fa53b268ca40d8e1b771f9c8c072bfe375c371562b02a8ba576881aa9",
+    "scripts/package-steamrt-device.py": "a6fbf23ca63c761384fae05b66a6a0f9f3da0d5da476e4c9184c850eaec55605",
+    "scripts/export-godot-notices.gd": "10004d2d15d9b1f311e3396f80f623df3d0badd90890a5009de7e26c4e4309cb",
+    "test/steamrt-image.test.mjs": "63ab14dd43c8f683dd8b1158e14d818f17288eadef58b3a0b5f9fc1cd2396d9e"
+  },
+  "development": [
+    "Prepared the pinned source before the suite that reads it.",
+    "The isolated fault project terminated during initial Linux import. Applied the existing pinned-editor cold-import pacing and repeated the complete controls.",
+    "Docker containerd reported a manifest ID. Verified the pinned manifest-to-config relationship, full configured fields and ordered root filesystem layers for both observed Docker stores.",
+    "Collected notices using the pinned Linux editor. The release template launches its game when given an editor script argument.",
+    "Docker Desktop refused the first single-file mount. The verified kit run mounted a directory containing only the archive and its test script."
+  ],
+  "original": {
+    "head": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "comparedFiles": 4149,
+    "changes": []
+  },
+  "remaining": [
+    "Physical Steam Deck and older mobile measurements",
+    "Steam client, pressure-vessel, graphics, input and power coverage",
+    "Hosted execution of the expanded Steam workflow",
+    "Broader inventory/combat engine coverage and durable cross-capability transactions"
+  ],
+  "publication": {
+    "localOnly": true,
+    "intendedVisibility": "public",
+    "pendingBaseline": "56e15167e498519d639c7f7e2ab47040c7bb586b",
+    "reason": "Earlier automatic approval review rejected publication of original authored unlock/reward definitions and traces; specific source-content approval remains pending."
+  }
+}
