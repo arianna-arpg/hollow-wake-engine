@@ -30,6 +30,12 @@ const bytes = read('@hollow-wake/items/items.json'), manifest = JSON.parse(read(
 assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'), manifest.sha256);
 const rules = new ItemRules(new ItemContent(JSON.parse(bytes)), 126);
 const item = rules.forge({baseId:'ring_lapis',ilvl:21,rarity:'rare',quality:1,affixes:[{id:'attr_intelligence'}]});
+const {ItemInspector}=await import('@hollow-wake/engine/items/inspection');
+const display=read('@hollow-wake/items/inspection.json');
+assert.equal(crypto.createHash('sha256').update(display).digest('hex'),manifest.inspectionSha256);
+const inspector=new ItemInspector(rules.content,JSON.parse(display)),sheet=inspector.inspect(item);
+assert(sheet.description.affix.some(line=>line.text.includes('Intelligence')));
+assert(inspector.compare(item,item).every(line=>line.kind==='same'));
 const bag = new core.Inventory({w:2,h:2}); const identity = 'actor-1:'+item.uid;
 bag.insert({id:identity,w:1,h:1,data:item});
 const loaded = core.Inventory.restore(JSON.parse(JSON.stringify(bag.snapshot())));

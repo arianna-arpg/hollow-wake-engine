@@ -11,7 +11,7 @@ PREFIX = "addons/hollow_wake/"
 EXTRAS = {
     "ward": ("bundle.txt", "content.json", "ward.gd", "README.md", "manifest.json"),
     "progression": ("bundle.txt", "content.json", "progression.gd", "owned_session.gd", "README.md", "manifest.json"),
-    "crafting": ("bundle.txt", "content.json", "crafting.gd", "owned_session.gd", "README.md", "manifest.json"),
+    "crafting": ("bundle.txt", "content.json", "inspection.json", "crafting.gd", "owned_session.gd", "README.md", "manifest.json"),
 }
 
 

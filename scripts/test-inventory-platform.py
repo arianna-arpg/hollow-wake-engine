@@ -58,7 +58,8 @@ def main():
             if exe == game:
                 opts.update(LD_DEBUG="libs", LD_DEBUG_OUTPUT=str(out / (label + "-loader")))
             with log.open("xb") as stream:
-                proc = subprocess.Popen([str(exe), "--headless", "--quit-after", "120", "--log-file", str(out / (label + "-engine.log"))],
+                viewport = ["--resolution", "960x600"] if settings.get("HWE_CASE") == "ui" else []
+                proc = subprocess.Popen([str(exe), "--headless", *viewport, "--quit-after", "120", "--log-file", str(out / (label + "-engine.log"))],
                                         env=opts, cwd=exe.parent, stdout=stream, stderr=subprocess.STDOUT)
                 try:
                     if "HWE_MARKER" in settings:
@@ -112,6 +113,21 @@ def main():
         run(proof, "inspect-committed", HWE_CASE="inspect", HWE_RESULT=str(observed))
         require(json.loads(observed.read_bytes()) == {"revision":2,"source":original,"stash":[moved]}, "committed game view differs")
         require(read_owners() == (2,original,[moved]), "committed item did not have one owner")
+        # Exercise the real scene against an independent first-run save in the
+        # player image. Its driver compares original cards and tests scrolling.
+        card_data = work / "equipment-cards"
+        card_data.mkdir()
+        run(proof, "equipment-cards", HWE_CASE="ui", XDG_DATA_HOME=str(card_data))
+        metrics_file = card_data / "hollow-wake-inventory-workshop/inspection-metrics.json"
+        card_run = json.loads(metrics_file.read_bytes())
+        metrics = card_run["heap"]
+        require(metrics["closed"] and not metrics["poisoned"] and not metrics["delivery_failed"],
+                "inspection host failed")
+        require(0 < metrics["peak_bytes"] <= 32 * 1024 * 1024 and metrics["live_bytes"] == 0
+                and metrics["live_blocks"] == 0, "inspection heap exceeded budget or retained allocations")
+        require(card_run["keyboardScroll"] or card_run["scrollMax"] <= card_run["scrollPage"],
+                "overflowing card could not be scrolled")
+        report["inspection"] = card_run
         report["uid"] = moved["uid"]
         report["passed"] = True
         (out / "platform.json").write_text(json.dumps(report, indent=2) + "\n")

@@ -39,6 +39,6 @@ if(process.platform==='linux'){
 const summary={schemaVersion:1,passed:true,platform:process.platform,arch:process.arch,
   buildSha256:hash(buildFile),verificationSha256:hash(verifiedFile),nativeReceiptSha256:b.nativeReceiptSha256,
   addonSha256:b.addonSha256,saveLibrarySha256:b.librarySha256,archives:b.archives,originalCourseSha256:v.originalCourseSha256,
-  originalCheckpointSha256:v.originalCheckpointSha256,crashes:v.crashes,checks:v.runs,render:v.screenshot??null};
+  originalCheckpointSha256:v.originalCheckpointSha256,crashes:v.crashes,checks:v.runs,inspection:v.inspection,render:v.screenshot??null};
 writeJSON(path.join(out,'verification.json'),summary);
 console.log({passed:true,out,packages:Object.keys(b.archives)});

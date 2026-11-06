@@ -1,4 +1,12 @@
 # Crafting in Godot
+# Equipment inspection
+
+`inspect_item(item)` accepts a saved item from any location. The first query
+loads the packaged display vocabulary. The reply contains the rolled card,
+own defenses, combat modifiers, level requirement and triggered effects.
+`compare_items(candidate, worn)` returns ordered changes for a swap.
+Both operations work without opening a player profile and use no random stream.
+Skill gems, memory pouches and character-dependent prices have separate UI rules.
 
 Copy `addons/hollow_wake` from this platform's archive into a fresh Godot 4.7.2
 project. It contains crafting, progression, their full definitions, one desktop

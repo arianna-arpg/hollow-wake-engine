@@ -638,10 +638,10 @@ function foldOwnStats(base: ItemBaseDef, item: ItemInstance): OwnStatFold[] {
   return out;
 }
 
-function compileItemMods(item: ItemInstance): Modifier[] {
+function compileItemMods(item: ItemInstance, ownStats?: OwnStatFold[]): Modifier[] {
   const base = ITEM_BASES[item.baseId];
   if (!base) return [];
-  const out: Modifier[] = foldOwnStats(base, item)
+  const out: Modifier[] = (ownStats ?? foldOwnStats(base, item))
     .map(f => ({ stat: f.stat, kind: 'flat' as const, value: f.value }));
 
   eachItemLine(base, item, (line, value) => {
@@ -674,5 +674,6 @@ function compileItemMods(item: ItemInstance): Modifier[] {
   }
   return out;
 }
-return { rollItem, forgeItem, compileItemMods, foldOwnStats, resolveUniqueChoices, tierForIlvl, affixPoolsFor };
+return { rollItem, forgeItem, compileItemMods, foldOwnStats, resolveUniqueChoices, tierForIlvl, affixPoolsFor,
+  tieredBaseName, baseBonusFor, eachItemLine, epitaphFor };
 }

@@ -1,9 +1,29 @@
 extends "owned_session.gd"
 
 const DATA := "res://addons/hollow_wake/crafting/"
+var _inspection_ready := false
 
 func start(heap_limit_bytes: int = 32 * 1024 * 1024) -> int:
-	return start_from(DATA, heap_limit_bytes)
+	var status := start_from(DATA, heap_limit_bytes)
+	if status == 0: _inspection_ready = false
+	return status
+
+func _load_inspection() -> Dictionary:
+	if _inspection_ready: return {"ok":true}
+	var vocabulary := FileAccess.open(DATA + "inspection.json", FileAccess.READ)
+	if vocabulary == null or vocabulary.get_length() > 65536: return {"ok":false,"reason":"invalid-vocabulary"}
+	var reply := request({"op":"configure-inspection","text":vocabulary.get_as_text()})
+	_inspection_ready = reply.ok or reply.get("reason","") == "already-configured"
+	return {"ok":true} if _inspection_ready else reply
+
+# Accepts a detached body from any location, including a host-owned stash.
+func inspect_item(item: Dictionary) -> Dictionary:
+	var ready := _load_inspection()
+	return request({"op":"inspect-item","item":item}) if ready.ok else ready
+
+func compare_items(candidate: Dictionary, worn: Dictionary) -> Dictionary:
+	var ready := _load_inspection()
+	return request({"op":"compare-items","candidate":candidate,"worn":worn}) if ready.ok else ready
 
 func open_profile(profile: int, seed_value: int, state: Dictionary, next_uid: Variant = null) -> Dictionary:
 	var command := {"op": "open", "profile": profile, "seed": seed_value, "state": state}

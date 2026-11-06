@@ -20,6 +20,55 @@ choices. The game uses the SDK to generate items, fill random affixes, decide
 placement, protect locked items and award sale proceeds. It keeps its save in
 `user://inventory.sqlite3` under its own application directory.
 
+## Equipment inspection
+
+In the workshop, select an item in the pack, overflow or stash. Its detail
+panel displays item-level and equip requirements, folded defenses, rolled
+affixes and tier markers. Uniques, sockets and triggered effects add their
+authored text. Long cards scroll independently of the inventory actions.
+
+For JavaScript hosts, build the data-only item package with `npm run items:build`
+and install it alongside `@hollow-wake/engine`. Supply the same ItemContent
+instance used to mint and equip items. Load the vocabulary once per inventory
+host. A standalone inspection accepts the item body from a save.
+
+```js
+import { ItemInspector } from '@hollow-wake/engine/items/inspection';
+import terms from '@hollow-wake/items/inspection.json' with { type: 'json' };
+
+const inspector = new ItemInspector(items, terms);
+const card = inspector.inspect(candidate);
+const changes = inspector.compare(candidate, worn);
+```
+
+Godot exposes the same results through `inspect_item` and `compare_items` on
+the crafting wrapper. Inspecting requires no open profile. The workshop uses
+the equipment card. Dedicated gem and memory-pouch cards, hero-specific
+eligibility and an equipped-slot comparison selector are separate UI work.
+
+Original-game observations cover 26,407 saved items and candidate/worn pairs.
+Run `npm run test:inspection` after building the SDK to check the frozen
+expectations. `npm run reference:inspection` replays the pinned game. The
+54,540-byte vocabulary encodes repeated graft names once and reconstructs
+all 3,931 reachable stat labels. Save data, combat content and rendering each
+have separate ownership.
+
+The exported Windows and Linux workshops each matched 12 detailed original
+cards and comparisons while a second profile held 128 items and 3,929 lore
+entries. Both exercised keyboard scrolling at 960×600. The embedded runtime
+peaked below 30 MiB on this course and held zero tracked allocations after
+close. These figures cover the rules runtime. Total device memory, frame
+time, controls and battery life need measurements on physical hardware.
+[Windows results](../evidence/item-inspection/windows.json) ·
+[Linux results](../evidence/item-inspection/linux.json) ·
+[Steam Runtime player replay](../evidence/item-inspection/steam-player.json)
+
+To measure a Node host, build the SDK, stop other CPU-heavy work and run
+`node scripts/benchmark-item-inspection.mjs NEW_REPORT.json`. The command
+measures vocabulary setup and then five full passes per query. It reports
+the median and 95th percentile of 64-item batch averages in microseconds per
+item. Keep these numbers separate from native transport and rendering costs.
+
 ## Ownership and recovery
 
 The host holds one published inventory revision. When a player moves an item

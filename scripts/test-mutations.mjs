@@ -41,7 +41,7 @@ for (const folder of ['dist', 'test', 'baseline', 'content']) {
 }
 fs.writeFileSync(path.join(temp, 'package.json'), '{"type":"module"}\n');
 fs.mkdirSync(path.join(temp, 'scripts'));
-for (const file of ['compile-item-content.mjs', 'compile-progression-content.mjs', 'compile-skill-progression.mjs', 'compile-resource-content.mjs', 'catalogue-tools.mjs', 'reference-utils.mjs']) fs.copyFileSync(path.join(root, 'scripts', file), path.join(temp, 'scripts', file));
+for (const file of ['compile-item-content.mjs', 'compile-inspection-terms.mjs', 'compile-progression-content.mjs', 'compile-skill-progression.mjs', 'compile-resource-content.mjs', 'catalogue-tools.mjs', 'reference-utils.mjs']) fs.copyFileSync(path.join(root, 'scripts', file), path.join(temp, 'scripts', file));
 const file = path.join(temp, 'dist/stats.js');
 const original = fs.readFileSync(file, 'utf8');
 const mutants = [

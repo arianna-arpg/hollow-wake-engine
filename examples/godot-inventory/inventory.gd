@@ -12,6 +12,7 @@ var tabs := TabBar.new()
 var list := ItemList.new()
 var name_label := Label.new()
 var properties := Label.new()
+var detail_scroll := ScrollContainer.new()
 var resources := Label.new()
 var status := Label.new()
 var primary := Button.new()
@@ -92,8 +93,13 @@ func _ready() -> void:
 	detail.add_child(name_label)
 	_label(properties,17,MUTED)
 	properties.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	properties.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	detail.add_child(properties)
+	properties.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	detail_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	detail_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	detail_scroll.focus_mode = Control.FOCUS_ALL
+	detail_scroll.gui_input.connect(_scroll_card)
+	detail.add_child(detail_scroll)
+	detail_scroll.add_child(properties)
 	_button(primary,"",func(): perform(["sell","store","withdraw"][tabs.current_tab]))
 	detail.add_child(primary)
 	_button(recover,"Recover to pack",func(): perform("recover"))
@@ -162,12 +168,46 @@ func details() -> void:
 	primary.disabled = item.is_empty() or (tabs.current_tab == 0 and item.get("locked",false))
 	recover.visible = tabs.current_tab == 1
 	recover.disabled = item.is_empty()
+	detail_scroll.scroll_vertical = 0
 	if item.is_empty():
 		name_label.text = "Select an item" if list.item_count else ["Pack is empty","Overflow is empty","Stash is empty"][tabs.current_tab]
 		properties.text = ""
 	else:
-		name_label.text = item.name
-		properties.text = "%s\nItem level  %d\nTier  %d\nAffixes  %d" % [String(item.rarity).capitalize(),int(item.ilvl),int(item.tier),item.affixes.size()]
+		show_item(item)
+
+func show_item(item: Dictionary) -> void:
+	name_label.text = item.name
+	var card := profile.api.inspect_item(item)
+	properties.text = card_text(card) if card.ok else "Item details unavailable."
+	name_label.add_theme_color_override("font_color",RARITIES.get(item.rarity,INK))
+
+func card_text(card: Dictionary) -> String:
+	var d: Dictionary = card.description
+	var lines := PackedStringArray([d.baseLine, d.reqLine])
+	for row in d.defense: lines.append(row.text)
+	lines.append_array(PackedStringArray(d.implicit))
+	for row in d.affix: lines.append(row.tag + "   " + row.text)
+	lines.append_array(PackedStringArray(d.unique))
+	var groups := PackedStringArray(["\n".join(lines)])
+	for socket in d.get("sockets",[]):
+		groups.append(socket.glyph + "  " + socket.name + "\n" + socket.line)
+	if d.has("epitaph"):
+		var word: Dictionary = d.epitaph
+		groups.append(word.name + "\n" + "\n".join(PackedStringArray(word.lines)))
+		if word.has("flavor"): groups.append(word.flavor)
+	if d.has("flavor"): groups.append(d.flavor)
+	for proc in card.procReferences: groups.append(proc.name + "\n" + proc.text)
+	return "\n\n".join(groups)
+
+func _scroll_card(event: InputEvent) -> void:
+	var step := 0
+	if event.is_action_pressed("ui_up",true): step = -28
+	elif event.is_action_pressed("ui_down",true): step = 28
+	elif event.is_action_pressed("ui_page_up",true): step = -int(detail_scroll.size.y)
+	elif event.is_action_pressed("ui_page_down",true): step = int(detail_scroll.size.y)
+	if step != 0:
+		detail_scroll.scroll_vertical += step
+		detail_scroll.accept_event()
 
 func perform(action: String) -> void:
 	var reply := profile.act(action,selected_uid,displayed_revision)

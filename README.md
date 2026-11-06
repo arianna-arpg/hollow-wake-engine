@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The 0.51 candidate adds read-only [equipment inspection](docs/inventory-workshop.md#equipment-inspection).
+Games can show rolled item values, triggered effects and comparisons from a
+detached item body. The Godot inventory workshop loads the display vocabulary
+when the player first inspects an item.
+
 The 0.50 candidate packages [crafting and account progression for Godot](docs/godot-crafting.md).
 Copy one platform archive into a project, start the sessions the game needs, and
 use ordinary JSON saves across hosts. See the verification record for the exact

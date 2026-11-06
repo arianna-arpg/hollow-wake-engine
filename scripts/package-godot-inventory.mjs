@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
+import {inspectionTerms} from './compile-inspection-terms.mjs';
 import {root,sha256,listFiles,writeJSON} from './reference-utils.mjs';
 
 const [toolFlag,toolsFile,libFlag,receipt,zipFlag,addon,...extra]=process.argv.slice(2);
@@ -51,6 +52,7 @@ function zip(label,folder,prefix,filename) {
   return output;
 }
 run('install',tools.python,['-I',path.join(root,'scripts/godot-proc-example-archive.py'),'install',path.resolve(addon),project]);
+assert.equal(hash(path.join(project,'addons/hollow_wake/crafting/inspection.json')),sha256(JSON.stringify(inspectionTerms())+'\n'),'Workshop requires the matching inspection vocabulary');
 const store=path.join(project,'addons/hollow_wake_save');fs.mkdirSync(path.join(store,'bin'),{recursive:true});
 for(const f of ['store.gdextension','README.md','sqlite-lock.json'])fs.copyFileSync(path.join(root,'adapters/godot/local-save',f),path.join(store,f));
 for(const f of ['LICENSE.md','NOTICE.md'])fs.copyFileSync(path.join(root,f),path.join(store,f));

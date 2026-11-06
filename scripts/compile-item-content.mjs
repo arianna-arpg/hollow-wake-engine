@@ -4,6 +4,7 @@ import { gunzipSync } from 'node:zlib';
 import { pathToFileURL } from 'node:url';
 import { root, sha256, writeJSON } from './reference-utils.mjs';
 import { readCatalogue } from './catalogue-tools.mjs';
+import {inspectionTerms} from './compile-inspection-terms.mjs';
 import { EquipmentSlots } from '../dist/equipment-actions.js';
 export function equipmentPack(){
   const catalogue=readCatalogue(),rows=new Map(catalogue.tables.equipSlots.map(row=>[row.id,row.value]));
@@ -25,11 +26,13 @@ export function buildItemContent(destination) {
   const pack = itemPack(), bytes = JSON.stringify(pack) + '\n';
   fs.writeFileSync(path.join(destination, 'items.json'), bytes);
   const equipment=equipmentPack(),equipmentBytes=JSON.stringify(equipment)+'\n';fs.writeFileSync(path.join(destination,'equipment.json'),equipmentBytes);
-  writeJSON(path.join(destination, 'package.json'), { name: '@hollow-wake/items', version: '0.2.0', type: 'module',
-    license: 'PolyForm-Noncommercial-1.0.0', files: ['items.json', 'equipment.json', 'manifest.json', 'LICENSE.md', 'README.md'], exports: { './items.json': './items.json', './equipment.json':'./equipment.json', './manifest.json': './manifest.json' } });
-  writeJSON(path.join(destination, 'manifest.json'), { schemaVersion: 1, contentId: pack.id, sha256: sha256(bytes), bytes: Buffer.byteLength(bytes), capability: pack.capability,equipmentContentId:equipment.contentId,equipmentSha256:sha256(equipmentBytes),equipmentBytes:Buffer.byteLength(equipmentBytes),equipmentCapability:equipment.capability });
+  const inspection=JSON.stringify(inspectionTerms())+'\n';
+  fs.writeFileSync(path.join(destination,'inspection.json'),inspection);
+  writeJSON(path.join(destination, 'package.json'), { name: '@hollow-wake/items', version: '0.3.0', type: 'module',
+    license: 'PolyForm-Noncommercial-1.0.0', files: ['items.json', 'equipment.json', 'inspection.json', 'manifest.json', 'LICENSE.md', 'README.md'], exports: { './inspection.json':'./inspection.json', './items.json': './items.json', './equipment.json':'./equipment.json', './manifest.json': './manifest.json' } });
+  writeJSON(path.join(destination, 'manifest.json'), { schemaVersion: 1, contentId: pack.id, sha256: sha256(bytes), bytes: Buffer.byteLength(bytes), capability: pack.capability,equipmentContentId:equipment.contentId,equipmentSha256:sha256(equipmentBytes),equipmentBytes:Buffer.byteLength(equipmentBytes),equipmentCapability:equipment.capability,inspectionSha256:sha256(inspection),inspectionBytes:Buffer.byteLength(inspection) });
   fs.copyFileSync(path.join(root, 'LICENSE.md'), path.join(destination, 'LICENSE.md'));
-  fs.writeFileSync(path.join(destination, 'README.md'), '# Hollow Wake item content\n\nExplicit content for ItemContent / ItemRules, plus separately loaded ordered equipment.json for EquipmentSlots and EquipmentActions. Includes rolling, forging and modifier derivation definitions. The host binds category exceptions and tier requirements from item config, and owns actor recalculation and displaced-ground delivery. Grants and proc-valued modifiers still require gameplay systems to interpret them. Trade and crafting transactions remain separate. Load once and share immutable content.\n');
+  fs.writeFileSync(path.join(destination, 'README.md'), '# Hollow Wake item content\n\nExplicit content for ItemContent / ItemRules, plus separately loaded ordered equipment.json for EquipmentSlots and EquipmentActions. Includes rolling, forging and modifier derivation definitions. The host binds category exceptions and tier requirements from item config, and owns actor recalculation and displaced-ground delivery. Grants and proc-valued modifiers still require gameplay systems to interpret them. Trade and crafting transactions remain separate. Load once and share immutable content. Load inspection.json on demand for ItemInspector to describe or compare saved equipment.\n');
   return pack;
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

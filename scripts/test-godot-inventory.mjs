@@ -95,6 +95,11 @@ try{
   execFileSync(tools.python,['-I','-c',unpack,packaged,dir],{windowsHide:true});
   assert.deepEqual(Object.fromEntries(listFiles(project).map(f=>[f,hash(path.join(project,f))])),build.pristine);
   const fixture=path.join(project,'fixture.json');fs.writeFileSync(fixture,JSON.stringify(original));
+  const {samples}=read(path.join(root,'baseline/item-inspection/observations.json'));
+  fs.writeFileSync(path.join(project,'inspection-fixtures.json'),JSON.stringify(samples));
+  const loaded=course.rows.map(row=>row.expected.save).find(s=>s?.state.items.length===128 && Object.keys(s.state.account.craftLore).length===3929);
+  assert(loaded);
+  fs.writeFileSync(path.join(project,'inspection-loaded.json'),JSON.stringify(loaded));
   fs.copyFileSync(path.join(root,'test/godot-inventory/driver.gd'),path.join(project,'driver.gd'));
   fs.writeFileSync(path.join(project,'driver.tscn'),'[gd_scene load_steps=2 format=3]\n[ext_resource type="Script" path="res://driver.gd" id="1"]\n[node name="Driver" type="Node"]\nscript = ExtResource("1")\n');
   const projectFile=path.join(project,'project.godot');
@@ -169,6 +174,12 @@ try{
   await launch('screen',exe,[...(renderFlag?['--audio-driver','Dummy']:['--headless']),'--quit-after','240','--log-file',path.join(dir,'screen-engine.log')],
     {HWE_CASE:'ui',HWE_SCREENSHOT:renderFlag?png:''});
   const last=database(realSave);assert.equal(last.revision,5);assert.equal(last.source.state.items.length,4);
+  const {heap:inspectionMetrics,keyboardScroll,scrollMax,scrollPage}=read(path.join(userData,'hollow-wake-inventory-workshop','inspection-metrics.json'));
+  assert(keyboardScroll || (!renderFlag && scrollMax<=scrollPage),'overflowing cards must accept keyboard scrolling');
+  assert(inspectionMetrics.peak_bytes>0 && inspectionMetrics.peak_bytes<=32*1024*1024);
+  assert.equal(inspectionMetrics.live_bytes,0);assert.equal(inspectionMetrics.live_blocks,0);
+  report.inspection={originalCards:samples.length,originalComparisons:samples.length,secondProfileItems:128,
+    secondProfileLore:3929,saveUnchanged:true,keyboardScroll,scrollMax,scrollPage,heap:inspectionMetrics};
   assert.equal(last.source.state.overflow.length,1);assert.equal(last.stash.length,0);
   if(renderFlag){const image=fs.readFileSync(png);assert.equal(image.subarray(1,4).toString(),'PNG');report.screenshot={sha256:sha256(image),width:image.readUInt32BE(16),height:image.readUInt32BE(20)};}
   report.passed=true;

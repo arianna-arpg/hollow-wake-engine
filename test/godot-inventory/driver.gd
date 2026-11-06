@@ -146,6 +146,29 @@ func play_ui() -> void:
 	await get_tree().process_frame
 	if not check(screen.profile.available and screen.list.item_count == 4,"first-run pack"): return
 	if not check(screen.profile.saved.state.items.is_read_only() and screen.profile.saved.state.items[0].is_read_only(),"detached immutable view"): return
+	var before: Dictionary = screen.profile.api.snapshot(1)
+	var slot: Dictionary = screen.profile.store.read_slot(1)
+	var source_text := FileAccess.get_file_as_string("res://inspection-fixtures.json")
+	var loaded: Dictionary = screen.profile.api.from_portable_json(FileAccess.get_file_as_string("res://inspection-loaded.json"))
+	if not check(loaded.ok and screen.profile.api.restore_profile(2,loaded.value).ok,"second loaded profile during card reads"): return
+	var parsed: Dictionary = screen.profile.api.from_portable_json(source_text)
+	if not check(parsed.ok,"decode original inspection cases"): return
+	for sample in parsed.value:
+		var observed: Dictionary = screen.profile.api.inspect_item(sample.item)
+		if not check(observed.get("ok",false),"equipment inspection "+str(observed)): return
+		observed.erase("ok")
+		if not check(observed == sample.observation,"original card "+sample.label): return
+		var comparison: Dictionary = screen.profile.api.compare_items(sample.item,sample.worn)
+		if not check(comparison.get("rows") == sample.comparison,"original comparison "+sample.label): return
+		screen.show_item(sample.item)
+		for row in sample.observation.description.affix:
+			if not check(screen.properties.text.contains(row.tag + "   " + row.text),"visible rolled affix"): return
+		for proc in sample.observation.procReferences:
+			if not check(screen.properties.text.contains(proc.text),"visible triggered effect"): return
+	var bad: Dictionary = screen.profile.api.inspect_item({"name":"bad"})
+	if not check(not bad.ok and before == screen.profile.api.snapshot(1) and slot == screen.profile.store.read_slot(1),"inspection preserves SQL revision, saved items, RNG and next UID"): return
+	if not check(screen.profile.api.snapshot(2).save == loaded.value and screen.profile.api.close_profile(2).ok,"large profile unaffected"): return
+	screen.details()
 	await press_key(KEY_RIGHT)
 	if not check(screen.tabs.current_tab == 1 and screen.list.item_count == 1,"directional overflow tab input"): return
 	var uid: int = screen.selected_uid
@@ -164,6 +187,20 @@ func play_ui() -> void:
 	await press_key(KEY_ENTER)
 	await click_point(screen.tabs.global_position+screen.tabs.get_tab_rect(1).get_center())
 	if not check(screen.list.item_count == 1 and screen.name_label.text == screen.profile.saved.state.overflow[0].name,"actual minted name in view"): return
+	var minted: Dictionary = screen.profile.api.inspect_item(screen.profile.saved.state.overflow[0])
+	if not check(minted.ok and screen.properties.text.contains(minted.description.reqLine),"rendered selected ring level requirement"): return
+	var scroll_verified := false
+	# The dummy display can lay out the complete card with no scroll range.
+	# A rendered run must exercise both directions. Record which path ran.
+	var scrollbar: VScrollBar = screen.detail_scroll.get_v_scroll_bar()
+	var has_overflow: bool = scrollbar.max_value > scrollbar.page
+	if has_overflow or DisplayServer.get_name() != "headless":
+		screen.detail_scroll.grab_focus()
+		await press_key(KEY_PAGEDOWN)
+		if not check(screen.detail_scroll.scroll_vertical > 0,"keyboard scroll (max=%s, page=%s, focus=%s)" % [scrollbar.max_value,scrollbar.page,screen.detail_scroll.has_focus()]): return
+		await press_key(KEY_PAGEUP)
+		if not check(screen.detail_scroll.scroll_vertical == 0,"keyboard returns to card header"): return
+		scroll_verified = true
 	var screenshot := OS.get_environment("HWE_SCREENSHOT")
 	if screenshot != "":
 		await RenderingServer.frame_post_draw
@@ -171,4 +208,7 @@ func play_ui() -> void:
 		if not check(pixels != null and pixels.get_width() >= 800 and pixels.save_png(screenshot) == OK,"rendered viewport saved"): return
 	print("HWE_PASS ui")
 	screen.profile.close()
+	var metrics_file := FileAccess.open("user://inspection-metrics.json", FileAccess.WRITE)
+	metrics_file.store_string(JSON.stringify({"heap":screen.profile.api.metrics(),"keyboardScroll":scroll_verified,"scrollMax":scrollbar.max_value,"scrollPage":scrollbar.page}))
+	metrics_file.close()
 	get_tree().quit()
