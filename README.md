@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The [Unity Package Manager preview](adapters/unity/README.md) runs the
+selected combat and pouch rules in Unity 2021.3 on Windows x64. Import its
+**Casting and Burning** sample and open **Ruin Encounter** to try a
+configured cast and timed damage. [Verification](evidence/unity-gameplay/README.md)
+
 The 0.57 candidate adds [memory pouch recall](docs/pouch-recall.md) to the
 standalone inventory. Choose the source and facet, reveal the gem and reopen
 the same SQLite save with its drop index and discovery receipts.
