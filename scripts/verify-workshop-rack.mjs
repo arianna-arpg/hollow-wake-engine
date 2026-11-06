@@ -8,6 +8,7 @@ import {root,sha256,writeJSON} from './reference-utils.mjs';
 import {npmCli} from './npm-cli.mjs';
 import {workshopBundles,workspaceBridges} from './godot-crafting-bundle.mjs';
 import {writeSupportGate} from './compile-workshop-supports.mjs';
+import {writePouchRecall} from './build-pouch-recall.mjs';
 import {packSupportFit} from './package-workshop-supports.mjs';
 import {exportSupportPlayer} from './export-workshop-support-player.mjs';
 import {compareWorkshopProjects,prepareWorkshopBenchmark} from './benchmark-workshop-projects.mjs';
@@ -54,6 +55,7 @@ try{
   }}];
   const {base,rack,support}=await workshopBundles(path.join(root,'adapters/godot/crafting'),plugins);
   const gate=await writeSupportGate(scratch);
+  const pouch=await writePouchRecall(scratch,path.join(root,'adapters/godot/crafting/pouch-entry.mjs'),plugins);
   const supportPackage=packSupportFit(scratch,gate,pkg.version,run,env);
   const bundle=path.join(scratch,'bundle.txt');fs.writeFileSync(bundle,support.bytes);
   const projectZip=path.join(scratch,'hollow-wake-workshop-'+platform+'-x64.zip');
@@ -77,6 +79,11 @@ try{
   fs.copyFileSync(path.join(root,'test/godot-inventory/workshop-supports.gd'),path.join(project,'socket-test.gd'));
   fs.writeFileSync(path.join(project,'socket-test.tscn'),'[gd_scene load_steps=2 format=3]\n[ext_resource type="Script" path="res://socket-test.gd" id="1"]\n[node name="Sockets" type="Node"]\nscript = ExtResource("1")\n');
   const socketCases=read(path.join(root,'evidence/workshop-supports/native-cases.json'));
+  const oracle=JSON.parse(gunzipSync(fs.readFileSync(path.join(root,'baseline/pouch-recall/observations.json.gz'))));
+  const nativeData=read(path.join(scratch,'pouch-data.json'));
+  fs.writeFileSync(path.join(project,'pouch-control.txt'),JSON.stringify({...nativeData,content:JSON.parse(nativeData.content)}));
+  for(const row of oracle.actions)if(row.mode==='threshold')row.beforeLedger={[oracle.defs.rules.dropPrefix+'firebolt']:oracle.defs.rules.threshold-1};
+  fs.writeFileSync(path.join(project,'pouch-cases.json'),JSON.stringify(oracle.actions));
   fs.writeFileSync(path.join(project,'support-cases.json'),JSON.stringify(socketCases));
   function godot(args){
     const command=steamEditor?'docker':config.editor;
@@ -135,6 +142,23 @@ try{
     assert.equal(loose[0].uid,socketResult.uid);assert.deepEqual(loose[0].gem,{kind:'support',supportId:'teeming_vein',level:2,rolled:{trigger:'chance',brood:'grubs',clutch:'brood4'}});
     socketSaveHash=sha256(row.crafting);
   }finally{socketDb.close();}
+  const recallDb=new DatabaseSync(path.join(path.dirname(database),'recall-course.sqlite3'),{readOnly:true});
+  let recallSaveHash;
+  try{
+    assert.equal(recallDb.prepare('PRAGMA integrity_check').get().integrity_check,'ok');
+    const row=recallDb.prepare('SELECT revision,crafting,stash FROM slots WHERE slot=1').get();
+    const [format,save,memory]=JSON.parse(row.crafting);
+    assert.equal(format,'inventory-workshop/recall-v1');assert.equal(row.revision,4);
+    assert.equal(memory.content,pouch.id);assert.equal(memory.seatLedger[oracle.defs.rules.lesson],1);
+    assert.equal(save.state.account.ledger[oracle.defs.rules.total],2);
+    assert(save.state.items.every(i=>i.baseId!=='preformed_memory'));assert.deepEqual(JSON.parse(row.stash),[]);
+    const portable=new (await import('@hollow-wake/engine/inventory/pouch-recall')).PouchRecall(oracle.defs);
+    const starter=portable.forActor({...oracle.profiles[0],level:10});
+    const gems=[0,1].map(n=>starter.cut({s:n,d:'source_'+n},oracle.defs.facets[n].id).gem);
+    assert.deepEqual(save.state.items.slice(-2).map(i=>i.gem),gems);assert.deepEqual(socketResult.pouch.first,gems[0]);
+    assert.deepEqual(save.state.items.slice(-2).map(i=>[i.x,i.y]),[[1,0],[0,0]]);
+    assert.equal(socketResult.pouch.cases,15);recallSaveHash=sha256(row.crafting);
+  }finally{recallDb.close();}
   const pageFile=path.join(project,'addons/hollow_wake/crafting/support-pages.txt'),bytes=fs.readFileSync(pageFile);
   const range=gate.index.pages[gate.api.fitPage('teeming_vein',128)],damaged=Buffer.from(bytes);
   damaged[range.offset+range.length-1]=32;
@@ -142,7 +166,7 @@ try{
   finally{fs.writeFileSync(pageFile,bytes);}
   if(compare)prepareWorkshopBenchmark(project,course);
   const files=[sdk,supportPackage,projectZip,addonZip];
-  const exported=player?exportSupportPlayer({player,project,saves,scratch,config,env,run,godot,platform,image,container:!!steamEditor,saveHash:socketSaveHash}):undefined;
+  const exported=player?exportSupportPlayer({player,project,saves,scratch,config,env,run,godot,platform,image,container:!!steamEditor,saveHash:socketSaveHash,recallHash:recallSaveHash}):undefined;
   if(exported)files.push(path.join(scratch,exported.archive));
   let portable;
   if(devicePlayer){
@@ -177,6 +201,7 @@ try{
   if(portable)for(const size of ['small','loaded'])assert.equal(portable.saves[size],comparison.runs[0][size].saveSha256);
   const checksums=Object.fromEntries(files.map(f=>[path.basename(f),hash(f)]));
   const report={version:pkg.version,platform,donorSha256:expected,legacyCommands:course.rows.length,originalGearCards:gear.length,
+    recall:{...pouch,...socketResult.pouch,saveSha256:recallSaveHash},
     baseBytes:base.bytes.length,rackBytes:rack.bytes.length-base.bytes.length,socketBytes:support.bytes.length-rack.bytes.length,
     gateBytes:Buffer.byteLength(gate.bundle),gateDataBytes:gate.data.length,nativeHeapPeakBytes:result.peak,
     supports:{nativeQueries:socketResult.cases,revision:socketResult.revision,pageReads:socketResult.metrics.pageReads,bytesRead:socketResult.metrics.bytesRead,heapPeakBytes:socketResult.metrics.heap.peak_bytes,

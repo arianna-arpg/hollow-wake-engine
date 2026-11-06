@@ -134,12 +134,15 @@ export function provenance(id:string,config:CargoDisplayConfig,read:CargoReader)
   }
   return config.sources[config.found];
 }
+export function pouchGroupKey(unit:RoughMemoryUnit):string {
+  return unit.g?unit.d+'|'+unit.g.k+':'+unit.g.id:unit.d;
+}
 /** Count every distinct FIFO address, retaining bodies only for visible rows. */
 export function pouchGroups(units:readonly RoughMemoryUnit[],limit:number) {
   const rows:{key:string;unit:RoughMemoryUnit;count:number}[]=[];
   const seen=new Map<string,number>();
   for(const unit of units){
-    const key=unit.g?unit.d+'|'+unit.g.k+':'+unit.g.id:unit.d;
+    const key=pouchGroupKey(unit);
     const previous=seen.get(key);
     if(previous!==undefined){if(previous<rows.length)rows[previous].count++;continue;}
     const index=seen.size;seen.set(key,index);

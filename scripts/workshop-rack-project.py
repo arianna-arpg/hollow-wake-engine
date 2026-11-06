@@ -19,9 +19,10 @@ def build(donor, expected, sdk_digest, bundle, project_out, addon_out):
     crafting = addon + "crafting/"
     changes = {crafting + "bundle.txt": bundle.read_bytes()}
     extra = {crafting + "support_fit.gd": (root / "adapters/godot/crafting/support_fit.gd").read_bytes()}
-    for name in ("measure_supports.gd", "support-measure.json", "workshop_start.gd", "workshop_start.tscn"):
+    extra[crafting + "pouch_recall.gd"] = (root / "adapters/godot/crafting/pouch_recall.gd").read_bytes()
+    for name in ("measure_supports.gd", "support-measure.json", "measure_pouch.gd", "recall-measure.json", "workshop_start.gd", "workshop_start.tscn"):
         extra[name] = (root / "examples/godot-inventory" / name).read_bytes()
-    for name in ("support-fit.txt", "support-index.json", "support-pages.txt"):
+    for name in ("support-fit.txt", "support-index.json", "support-pages.txt", "pouch-rules.txt", "pouch-data.json"):
         extra[crafting + name] = (bundle.parent / name).read_bytes()
     for name in ("crafting.gd", "cargo_cards.gd", "README.md"):
         changes[crafting + name] = (root / "adapters/godot/crafting" / name).read_bytes()
@@ -34,7 +35,7 @@ def build(donor, expected, sdk_digest, bundle, project_out, addon_out):
             if crafting + name in changes:
                 manifest["files"][name] = digest(changes[crafting + name])
         manifest["files"].update({name.removeprefix(crafting): digest(data) for name, data in extra.items() if name.startswith(crafting)})
-        manifest.update(optional=["crafting-session/v2","workshop-supports/v1"], sdkArchiveSha256=sdk_digest)
+        manifest.update(optional=["crafting-session/v2","workshop-supports/v1","pouch-recall/v1"], sdkArchiveSha256=sdk_digest)
         changes[crafting + "manifest.json"] = (json.dumps(manifest, indent=2) + "\n").encode()
         assert set(prefix + f for f in changes) <= set(source.namelist())
         assert len(source.namelist()) == len(set(source.namelist()))
@@ -65,12 +66,13 @@ def build(donor, expected, sdk_digest, bundle, project_out, addon_out):
 def switch_programs(prior, release, variant, directory):
     # The benchmark reuses immutable content and native programs in place.
     prefix = "inventory-workshop/"
-    changed = {"profile.gd", "inventory.gd", "project.godot", "README.md", "addons/hollow_wake/crafting/bundle.txt", "addons/hollow_wake/crafting/crafting.gd", "addons/hollow_wake/crafting/cargo_cards.gd",
+    changed = {"profile.gd", "inventory.gd", "workshop_start.gd", "project.godot", "README.md", "addons/hollow_wake/crafting/bundle.txt", "addons/hollow_wake/crafting/crafting.gd", "addons/hollow_wake/crafting/cargo_cards.gd",
                "addons/hollow_wake/crafting/manifest.json", "addons/hollow_wake/crafting/README.md"}
     directory = pathlib.Path(directory).resolve(strict=True)
     with zipfile.ZipFile(prior) as old, zipfile.ZipFile(release) as new:
         additions = {prefix+"addons/hollow_wake/crafting/"+name for name in ("support_fit.gd","support-fit.txt","support-index.json","support-pages.txt")}
-        additions.update(prefix+name for name in ("measure_supports.gd","support-measure.json","workshop_start.gd","workshop_start.tscn"))
+        additions.update(prefix+crafting for crafting in ("addons/hollow_wake/crafting/pouch_recall.gd","addons/hollow_wake/crafting/pouch-rules.txt","addons/hollow_wake/crafting/pouch-data.json"))
+        additions.update(prefix+name for name in ("measure_supports.gd","support-measure.json","measure_pouch.gd","recall-measure.json","workshop_start.gd","workshop_start.tscn"))
         assert set(new.namelist()).difference(old.namelist()) <= additions and set(old.namelist()) <= set(new.namelist())
         assert variant in ("previous", "candidate")
         for name in old.namelist():

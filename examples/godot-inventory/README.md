@@ -45,3 +45,7 @@ To measure support checks on Linux, run
 `./Inventory.x86_64 --headless -- --measure-supports > support-result.txt`.
 The same arguments work with `Inventory.exe` on Windows. The measurement
 uses two original-game reference cases and opens no inventory save.
+Choose **Support sample**, learn Firebolt, then select **Preformed Memory**
+and press **Recall memory**. Choose a source and a facet, then confirm.
+After the first reward fills the pack, the last memory can still be recalled
+into its own pouch cell. Reopen the workshop to continue from that save.

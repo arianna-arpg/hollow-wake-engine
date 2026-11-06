@@ -6,11 +6,14 @@ import {gzipSync,gunzipSync} from 'node:zlib';
 import {root,sha256,verifyReference,writeJSON} from './reference-utils.mjs';
 
 const ref=path.join(root,'.reference'),lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json')));
-const dir=path.join(root,'baseline/workshop-supports'),capture=process.argv[2]==='--capture';
+const pouch=process.argv.includes('--pouch-recall');
+const interaction=process.argv.includes('--pouch-interactions');
+const capability=interaction?'pouch-interactions':pouch?'pouch-recall':'workshop-supports';
+const dir=path.join(root,'baseline',capability),capture=process.argv.includes('--capture');
 if(capture)assert(!fs.existsSync(dir),'Capture requires a new baseline');
 verifyReference(ref,lock);
 const parent=fs.realpathSync(path.join(root,'.artifacts')),scratch=fs.mkdtempSync(path.join(parent,'support-reference-'));
-const source=fs.readFileSync(path.join(root,'reference/export-workshop-supports.ts'));
+const source=fs.readFileSync(path.join(root,'reference','export-'+capability+'.ts'));
 const script=path.join(ref,'balance',path.basename(scratch)+'.ts');
 let owned=false;
 try{
@@ -22,8 +25,10 @@ try{
     return fs.readFileSync(output);
   }
   const raw=run('first.json'),rows=JSON.parse(raw);
-  const evidence={sourceCommit:lock.commit,sha256:sha256(raw),bytes:raw.length,skills:rows.courses.length,
-    pairs:rows.courses.reduce((n,r)=>n+r.verdicts.length,0),monsters:Object.keys(rows.monsters).length};
+  const evidence={sourceCommit:lock.commit,sha256:sha256(raw),bytes:raw.length,...(interaction?
+    {cuts:rows.cases.length,profiles:rows.options.length,boss:rows.boss,floor:rows.floor}:pouch?
+    {cuts:rows.cases.length,actions:rows.actions.length,contentSha256:sha256(JSON.stringify(rows.defs))}:
+    {skills:rows.courses.length,pairs:rows.courses.reduce((n,r)=>n+r.verdicts.length,0),monsters:Object.keys(rows.monsters).length})};
   verifyReference(ref,lock);
   if(capture){
     assert(raw.equals(run('repeat.json')));
@@ -38,4 +43,7 @@ try{
 }finally{
   if(owned&&fs.readFileSync(script).equals(source))fs.unlinkSync(script);
   assert.equal(path.dirname(fs.realpathSync(scratch)),parent);fs.rmSync(scratch,{recursive:true,force:true});
+}
+if(pouch&&!capture&&!interaction){
+  execFileSync(process.execPath,[process.argv[1],'--pouch-interactions'],{cwd:root,stdio:'inherit',windowsHide:true});
 }

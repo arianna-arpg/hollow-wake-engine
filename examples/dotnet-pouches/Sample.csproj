@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../HollowWake.Pouches.csproj" Condition="Exists('../HollowWake.Pouches.csproj')" />
+    <ProjectReference Include="../../adapters/dotnet/pouches/HollowWake.Pouches.csproj" Condition="!Exists('../HollowWake.Pouches.csproj')" />
+  </ItemGroup>
+</Project>

@@ -116,3 +116,10 @@ hold to `socket_support`. Use `unsocket_support` with the expected support ID
 and zero-based index. Supply a bag UID for a stored skill. Commit every
 `needsSave` result, including a refused return that consumed an item ID.
 The fit runtime and its verified data pages load on demand.
+## Memory pouch recall
+
+`pouch_request` loads the optional recall runtime and its authenticated
+content on first use. The standalone profile demonstrates group and facet
+selection, validating the caller's save revision, applying the resulting
+bag and mint receipts together, and recovering after a competing write.
+The core JavaScript package also exports these rules for other hosts.

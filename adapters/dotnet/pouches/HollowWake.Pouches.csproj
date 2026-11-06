@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="MemoryPouches.cs" />
+    <Compile Include="Embedded.cs" Condition="Exists('Embedded.cs')" />
+    <Compile Include="../../../experiments/embedded-js/native/dotnet/Embedded.cs" Link="Embedded.cs" Condition="!Exists('Embedded.cs')" />
+    <Content Include="HollowWake.Pouches/**/*" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

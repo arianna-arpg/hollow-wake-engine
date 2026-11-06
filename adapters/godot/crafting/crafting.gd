@@ -8,6 +8,16 @@ var _cargo_cards := CargoCards.new()
 var _cargo_page_limit := 4
 const SupportFit = preload("support_fit.gd")
 var _fit: SupportFit
+const PouchRecall = preload("pouch_recall.gd")
+var _pouch: PouchRecall
+
+func pouch_request(command: Dictionary) -> Dictionary:
+	if _pouch==null: _pouch=PouchRecall.new()
+	var reply:=_pouch.query(command)
+	if not reply.ok and reply.get("reason") in ["recall-data","native-host","invalid-native-response"]:
+		_pouch.close()
+		_pouch=null
+	return reply
 
 func start(heap_limit_bytes: int = 32 * 1024 * 1024) -> int:
 	var status := start_from(DATA, heap_limit_bytes)
@@ -20,6 +30,9 @@ func close() -> int:
 	return status
 
 func _reset_cards() -> void:
+	if _pouch!=null:
+		_pouch.close()
+		_pouch=null
 	if _fit!=null:
 		_fit.close()
 		_fit=null

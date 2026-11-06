@@ -1,6 +1,11 @@
 extends Node
 
 func _ready() -> void:
+	if OS.get_cmdline_user_args().has("--measure-recall"):
+		var measurement:=preload("res://measure_pouch.gd").new().measure()
+		print("HWE_RECALL_MEASURE ",JSON.stringify(measurement))
+		get_tree().quit(0 if measurement.ok else 1)
+		return
 	if not OS.get_cmdline_user_args().has("--measure-supports"):
 		get_tree().call_deferred("change_scene_to_file","res://inventory.tscn")
 		return

@@ -37,6 +37,7 @@ export async function workshopBundles(directory,plugins=[]){
 // consumer. Only the two host-side composition files occupy different paths.
 export function workspaceBridges(root){
   return [{name:'workshop-bridges',setup(builder){
+    builder.onResolve({filter:/^\.\/pouch-session\.mjs$/},()=>({path:path.join(root,'adapters/embedded/pouch-session.mjs')}));
     builder.onResolve({filter:/^\.\/(?:session|number-wire)\.mjs$/},args=>({
       path:path.join(root,'adapters',args.path==='./session.mjs'?'embedded/crafting-session.mjs':'godot/shared/number-wire.mjs')}));
   }}];

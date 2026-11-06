@@ -131,8 +131,12 @@ export class CraftingSessionData {
         if (unit.g !== undefined) {
           const pin = unit.g; fields(pin,['k','id','r','l']); text(pin.id);
           need(pin.k === 'skill' || pin.k === 'support','invalid-memory-pin');
-          if (pin.k === 'skill') this.#skill(pin.id); else this.#support({supportId:pin.id,level:pin.l ?? 1});
-          if (pin.l !== undefined) integer(pin.l,1,pin.k === 'skill' ? this.#defs.skills.skill(pin.id).maxLevel : this.#defs.skills.support(pin.id).maxLevel);
+          if (pin.l !== undefined) {
+            let max: number|undefined;
+            try {max=this.#defs.skills[pin.k](pin.id).maxLevel;}
+            catch { /* A retired promise falls back to the ordinary seeded cut. */ }
+            integer(pin.l,1,max);
+          }
           if (pin.r !== undefined) need(pin.k === 'skill' && this.#rarities.has(pin.r as string),'invalid-memory-rarity');
         }
       }

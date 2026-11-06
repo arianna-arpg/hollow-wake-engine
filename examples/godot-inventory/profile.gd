@@ -22,6 +22,8 @@ var _starter_supports := false
 var _fit_revision := -1
 var _fit_uid := 0
 var _fit_reply: Dictionary = {}
+var _memory: Variant = null
+const RECALL_SAVE := "inventory-workshop/recall-v1"
 
 func start(filename: String, backend: Variant = null, starter_cargo := false, starter_supports := false) -> Dictionary:
 	_starter_cargo = starter_cargo or starter_supports
@@ -51,6 +53,7 @@ func _empty_state() -> Dictionary:
 
 func reload() -> Dictionary:
 	available = false
+	_memory=null
 	_fit_revision=-1
 	_fit_reply={}
 	_close_profile()
@@ -81,6 +84,15 @@ func reload() -> Dictionary:
 			if not minted.ok: return minted
 		return _save([])
 	var source := api.from_portable_json(row.crafting)
+	if source.ok and source.value is Array:
+		var envelope: Array=source.value
+		if envelope.size()!=3 or envelope[0]!=RECALL_SAVE or not envelope[1] is Dictionary or not envelope[2] is Dictionary:
+			return {"ok":false,"reason":"invalid-record"}
+		var valid:=api.pouch_request({"op":"validate","memory":envelope[2]})
+		if not valid.ok: return valid
+		_memory=envelope[2]
+		_freeze(_memory)
+		source={"ok":true,"value":envelope[1]}
 	var destination := api.from_portable_json(row.stash)
 	if not source.ok or not source.value is Dictionary or not destination.ok or not destination.value is Array:
 		return {"ok":false,"reason":"invalid-record"}
@@ -113,7 +125,7 @@ func _valid_stash(source: Dictionary, items: Array) -> bool:
 			if ids.has(int(item.uid)): return false
 	return true
 
-func _save(destination: Array, sold_uid: int = 0) -> Dictionary:
+func _save(destination: Array, sold_uid: int = 0, new_memory: Variant = null) -> Dictionary:
 	var snapshot := api.snapshot(1)
 	if not snapshot.ok: return snapshot
 	if sold_uid and _find(snapshot.save.state.items,sold_uid) >= 0:
@@ -122,13 +134,23 @@ func _save(destination: Array, sold_uid: int = 0) -> Dictionary:
 	if not source_json.ok: return source_json
 	var stash_json := api.to_portable_json(destination)
 	if not stash_json.ok: return stash_json
-	var staged: Dictionary = store.stage_slot(SLOT,revision,source_json.text,stash_json.text)
+	var crafting_text: String = source_json.text
+	var memory: Variant = new_memory if new_memory!=null else _memory
+	if memory!=null:
+		var metadata:=api.to_portable_json(memory)
+		if not metadata.ok: return metadata
+		# Keep the SDK's exact numeric encodings; avoid escaping a save inside
+		# a string. The SQLite size guard covers the entire atomic envelope.
+		crafting_text="["+JSON.stringify(RECALL_SAVE)+","+crafting_text+","+metadata.text+"]"
+	var staged: Dictionary = store.stage_slot(SLOT,revision,crafting_text,stash_json.text)
 	if not staged.ok: return staged
 	var committed: Dictionary = store.commit_slot(staged.token)
 	if not committed.ok: return committed
 	revision += 1
 	saved = snapshot.save
 	stash = destination
+	_memory=memory
+	_freeze(_memory)
 	_freeze(saved)
 	_freeze(stash)
 	available = true
@@ -159,6 +181,36 @@ func compatible_seats(uid: int) -> Dictionary:
 		_fit_uid=uid
 		_fit_reply=reply
 	return reply
+
+func _pouch_command(op: String, uid: int) -> Dictionary:
+	var state: Dictionary=saved.state
+	return {"op":op,"uid":uid,"nextUid":saved.nextUid,"state":{"items":state.items,"board":state.board,"account":{
+		"ledger":state.account.ledger,"features":state.account.features,"progression":state.account.progression}},
+		"memory":_memory,"level":HERO_LEVEL,"sealed":false}
+
+func recall_view(uid: int) -> Dictionary:
+	if not available: return {"ok":false,"reason":"unavailable"}
+	return api.pouch_request(_pouch_command("view",uid))
+
+func recall(uid: int, seen_revision: int, group: String, facet: String) -> Dictionary:
+	if not available: return {"ok":false,"reason":"unavailable"}
+	if seen_revision!=revision: return {"ok":false,"reason":"stale-revision"}
+	var command:=_pouch_command("recall",uid)
+	command.group=group
+	if not facet.is_empty(): command.facet=facet
+	var move:=api.pouch_request(command)
+	if not move.ok: return move
+	var proposed:=saved.duplicate(true)
+	proposed.state.items=move.items
+	proposed.state.account.ledger=move.ledger
+	proposed.nextUid=move.nextUid
+	_close_profile()
+	var change:=api.restore_profile(1,proposed)
+	_open_profile=change.ok
+	if change.ok: change=_save(stash,0,move.memory)
+	if change.ok: return {"ok":true,"result":move.result}
+	var recovered:=reload()
+	return change if recovered.ok else recovered
 
 # A UI action carries the UID and revision the player actually saw. On a failed
 # write, re-read the durable owners before allowing another action.

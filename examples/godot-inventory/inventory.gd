@@ -24,6 +24,13 @@ var seat_choice := OptionButton.new()
 var socket_controls := HBoxContainer.new()
 var socket_choice := OptionButton.new()
 var socket_button := Button.new()
+var recall_button := Button.new()
+var recall_dialog := ConfirmationDialog.new()
+var recall_group := OptionButton.new()
+var recall_facet := OptionButton.new()
+var recall_odds := Label.new()
+var _recall_view := {}
+var _recall_revision := 0
 var compare_button := CheckButton.new()
 var forge := Button.new()
 var sample_button := Button.new()
@@ -139,6 +146,22 @@ func _ready() -> void:
 	_button(socket_button,"",_edit_socket)
 	socket_controls.add_child(socket_button)
 	detail.add_child(socket_controls)
+	_button(recall_button,"Recall memory",_open_recall)
+	detail.add_child(recall_button)
+	recall_dialog.title="Recall memory"
+	recall_dialog.ok_button_text="Recall"
+	recall_dialog.min_size=Vector2i(400,240)
+	add_child(recall_dialog)
+	var selectors:=VBoxContainer.new()
+	recall_dialog.add_child(selectors)
+	for selector in [recall_group,recall_facet]:
+		selector.custom_minimum_size.y=44
+		selector.fit_to_longest_item=false
+		selectors.add_child(selector)
+		selector.item_selected.connect(func(_at): _recall_details())
+	recall_odds.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	selectors.add_child(recall_odds)
+	recall_dialog.confirmed.connect(_confirm_recall)
 	_button(equip_button,"Equip item",func(): perform("equip"))
 	detail.add_child(equip_button)
 	compare_button.text = "Compare with equipped"
@@ -180,6 +203,7 @@ func _switch_sample() -> void:
 	_restart()
 
 func _restart() -> void:
+	recall_dialog.hide()
 	profile.close()
 	profile = Profile.new()
 	var reply := profile.start(save_path,null,sample_cargo,sample_supports)
@@ -249,6 +273,7 @@ func details() -> void:
 	equip_button.hide()
 	learn_controls.hide()
 	socket_controls.hide()
+	recall_button.hide()
 	socket_choice.clear()
 	compare_button.hide()
 	primary.text = ["Sell item","Move to stash","Return to pack","Unequip to pack","Return skill to pack"][tabs.current_tab]
@@ -288,6 +313,7 @@ func show_item(item: Dictionary) -> void:
 			if selling: primary.disabled = true
 			return
 		var cargo: Dictionary = reply.card
+		recall_button.visible = selling and cargo.kind=="memory"
 		learn_controls.visible = selling and cargo.kind == "skill"
 		name_label.text = cargo.title
 		name_label.add_theme_color_override("font_color",Color.from_string(cargo.color,INK))
@@ -430,6 +456,53 @@ func error_text(reason: String) -> String:
 		"payload-size":"This save slot has reached its size limit.",
 		"invalid-record":"This save could not be read. Restore a backup.",
 		"invalid-custody":"This save contains inconsistent item ownership. Restore a backup."}.get(reason,"Could not complete the action. Reload the inventory.")
+
+func _open_recall() -> void:
+	var reply:=profile.recall_view(selected_uid)
+	if not reply.ok:
+		status.text=error_text(reply.reason)
+		return
+	_recall_view=reply.view
+	_recall_revision=displayed_revision
+	recall_group.clear()
+	recall_facet.clear()
+	for row in _recall_view.groups:
+		var title: String=row.name+" ×"+str(int(row.count))
+		if row.has("pin"): title+=" · "+row.pin.name
+		recall_group.add_item(title)
+	recall_facet.visible=not reply.facets.is_empty()
+	if recall_facet.visible:
+		recall_facet.add_item("Choose a facet")
+		for facet in reply.facets:
+			var attrs:=PackedStringArray()
+			for attr in facet.attrs: attrs.append(attr.short)
+			recall_facet.add_item(facet.label+" · "+" / ".join(attrs))
+			recall_facet.set_item_metadata(recall_facet.item_count-1,facet.id)
+	_recall_details()
+	recall_dialog.popup_centered()
+
+func _recall_details() -> void:
+	var row: Dictionary=_recall_view.groups[recall_group.selected]
+	var line: String=""
+	match row.rung:
+		"kit":
+			var names:=PackedStringArray()
+			for chip in row.kit: names.append(chip.name+" ×"+str(chip.mult))
+			line=", ".join(names)
+		"bias": line="Favors "+", ".join(PackedStringArray(row.tags))
+		"pinned": line="Sealed to "+row.pin.name
+	recall_odds.text=_recall_view.refusal if _recall_view.refusal!=null else line
+	recall_dialog.get_ok_button().disabled=_recall_view.refusal!=null or (recall_facet.visible and recall_facet.selected<=0)
+
+func _confirm_recall() -> void:
+	if _recall_view.is_empty() or recall_dialog.get_ok_button().disabled: return
+	var row: Dictionary=_recall_view.groups[recall_group.selected]
+	var facet: String=recall_facet.get_item_metadata(recall_facet.selected) if recall_facet.visible else ""
+	var reply:=profile.recall(int(_recall_view.uid),_recall_revision,row.key,facet)
+	if reply.ok: selected_uid=int(reply.result.itemUid)
+	render()
+	status.text=("Recalled "+reply.result.name+".") if reply.ok else error_text(reply.reason)
+	_recall_view={}
 
 func _exit_tree() -> void:
 	profile.close()

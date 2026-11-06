@@ -67,7 +67,7 @@ def test_player(archive):
         print(json.dumps(json.loads(row[10:])))
 
 
-def test_game(archive, probe, expected_save):
+def test_game(archive, probe, expected_save, recall_save):
     with tempfile.TemporaryDirectory() as scratch:
         work = Path(scratch).resolve()
         unpack(archive, work)
@@ -102,6 +102,9 @@ def test_game(archive, probe, expected_save):
         measured = play("--measure-supports")
         measurement = json.loads(next(s for s in measured.splitlines() if s.startswith("HWE_SUPPORT_MEASURE ")).removeprefix("HWE_SUPPORT_MEASURE "))
         assert measurement["ok"] and measurement["queries"] == 65 and measurement["releasedBytes"] == 0
+        measured_recall = play("--measure-recall")
+        recall_measurement = json.loads(next(s.removeprefix("HWE_RECALL_MEASURE ") for s in measured_recall.splitlines() if s.startswith("HWE_RECALL_MEASURE ")))
+        assert recall_measurement["ok"] and recall_measurement["queries"] == 66 and recall_measurement["releasedBytes"] == 0
         assert not list(data.rglob("*.sqlite3")), "measurement opened a game save"
         play()
         normal = read_slot("inventory.sqlite3")
@@ -119,9 +122,16 @@ def test_game(archive, probe, expected_save):
         final = read_slot("inventory-support-sample.sqlite3")
         assert final[0] == observed["revision"] and hashlib.sha256(final[1].encode()).hexdigest() == expected_save
         assert read_slot("inventory.sqlite3") == normal
+        recall = read_slot("recall-course.sqlite3")
+        assert recall[0] == observed["pouch"]["revision"] == 4
+        assert hashlib.sha256(recall[1].encode()).hexdigest() == recall_save
+        tag, saved, meta = json.loads(recall[1])
+        assert tag == "inventory-workshop/recall-v1" and saved["state"]["account"]["ledger"]["gemdrops_total"] == 2
+        assert meta["seatLedger"]["memory_recall_lived"] == 1 and json.loads(recall[2]) == []
         print(json.dumps(dict(shippingBoot=True, shippingSample=True, exportedSceneQueries=observed["cases"],
                               revision=final[0], saveSha256=expected_save, gatePeakBytes=observed["metrics"]["heap"]["peak_bytes"],
-                              measurement=measurement)))
+                              recallSaveSha256=recall_save, originalRecallActions=observed["pouch"]["cases"],
+                              measurement=measurement, recallMeasurement=recall_measurement)))
 
 
 if __name__ == "__main__":

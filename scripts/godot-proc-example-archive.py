@@ -11,7 +11,7 @@ PREFIX = "addons/hollow_wake/"
 EXTRAS = {
     "ward": ("bundle.txt", "content.json", "ward.gd", "README.md", "manifest.json"),
     "progression": ("bundle.txt", "content.json", "progression.gd", "owned_session.gd", "README.md", "manifest.json"),
-    "crafting": ("bundle.txt", "content.json", "inspection.json", "equipment.json", "cargo-index.json", "cargo-pages.txt", "cargo_cards.gd", "support_fit.gd", "support-fit.txt", "support-index.json", "support-pages.txt", "crafting.gd", "owned_session.gd", "README.md", "manifest.json"),
+    "crafting": ("bundle.txt", "content.json", "inspection.json", "equipment.json", "cargo-index.json", "cargo-pages.txt", "cargo_cards.gd", "support_fit.gd", "support-fit.txt", "support-index.json", "support-pages.txt", "pouch_recall.gd", "pouch-rules.txt", "pouch-data.json", "crafting.gd", "owned_session.gd", "README.md", "manifest.json"),
 }
 
 

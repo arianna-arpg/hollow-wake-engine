@@ -112,6 +112,111 @@ func _run() -> void:
 	if not await click(ui.sample_button): return
 	if not check(ui.profile.saved==old_save and ui.profile.revision==old_revision,"return to original inventory unchanged"): return
 	if not check(metrics.heap.peak_bytes<=8*1024*1024 and gate.metrics().live_bytes==0 and gate.metrics().live_blocks==0,"release support VM"): return
-	print("HWE_SUPPORT ",JSON.stringify({"db":db,"revision":revision,"uid":first+3,"nextUid":first+4,"cases":evidence.size(),"metrics":metrics}))
+	var pouch: Dictionary=await verify_pouches(ui)
+	if pouch.is_empty(): return
+	print("HWE_SUPPORT ",JSON.stringify({"db":db,"revision":revision,"uid":first+3,"nextUid":first+4,"cases":evidence.size(),"metrics":metrics,"pouch":pouch}))
 	ui.free()
 	get_tree().quit()
+
+func verify_pouches(ui: Variant) -> Dictionary:
+	ui.save_path="user://recall-course.sqlite3"
+	ui.sample_cargo=true
+	ui.sample_supports=false
+	ui._restart()
+	var p=ui.profile
+	var pouch: Dictionary=p.saved.state.items[0]
+	var uid:=int(pouch.uid)
+	var rev:=int(p.revision)
+	if not select(ui,0,uid) or not await click(ui.recall_button): return {}
+	if not check(ui.recall_dialog.visible and ui.recall_dialog.get_ok_button().disabled and ui.recall_odds.text=="no room to hold what returns","full pouch dialog"): return {}
+	ui.recall_dialog.hide()
+	if not check(p.revision==rev,"refusal unchanged"): return {}
+	if not select(ui,0,int(p.saved.state.items[1].uid)) or not await click(ui.learn_button): return {}
+	var peer:=Profile.new()
+	if not check(peer.start(ui.save_path).ok,"recall peer"): return {}
+	if not select(ui,0,uid) or not await click(ui.recall_button): return {}
+	if not check(ui.recall_facet.item_count==4 and ui.recall_group.item_count==2 and ui.recall_dialog.get_ok_button().disabled,"facet requires explicit choice"): return {}
+	ui.recall_facet.select(1)
+	ui.recall_facet.item_selected.emit(1)
+	var facet: String=ui.recall_facet.get_item_metadata(1)
+	var group: String=ui._recall_view.groups[0].key
+	var ok: Button=ui.recall_dialog.get_ok_button()
+	if not check(not ok.disabled,"armed recall"): return {}
+	# Submit the focused native dialog button through its usual keyboard path.
+	ok.grab_focus()
+	var press:=InputEventKey.new()
+	press.keycode=KEY_ENTER
+	press.pressed=true
+	ui.recall_dialog.push_input(press,true)
+	var release:=press.duplicate()
+	release.pressed=false
+	ui.recall_dialog.push_input(release,true)
+	await get_tree().process_frame
+	if not check(p.revision==rev+2 and p.saved.state.items.front().mem.size()==1 and p.saved.state.items.back().has("gem"),"atomic UI recall"): return {}
+	var minted: Dictionary=p.saved.state.items.back()
+	var stale:=peer.recall(uid,peer.revision,group,facet)
+	if not check(not stale.ok and stale.reason=="stale-revision" and peer.saved==p.saved,"stale recall rolls back"): return {}
+	peer.close()
+	if not select(ui,0,uid) or not await click(ui.recall_button): return {}
+	ui.recall_facet.select(2)
+	ui.recall_facet.item_selected.emit(2)
+	ui.recall_dialog.get_ok_button().pressed.emit()
+	await get_tree().process_frame
+	if not check(p.revision==rev+3 and p.saved.state.items.size()==4 and p._find(p.saved.state.items,uid)==-1,"last unit reuses pouch cell"): return {}
+	var final_save: Dictionary=p.saved
+	if not check(p.reload().ok and p.saved==final_save and p.saved.state.account.ledger.gemdrops_total==2,"reopened recall receipts"): return {}
+	var native_cases: Variant=JSON.parse_string(FileAccess.get_file_as_string("res://pouch-cases.json"))
+	for a in native_cases:
+		var ledger: Dictionary=a.get("beforeLedger",{})
+		var command: Dictionary={"op":"view","level":1,"memory":null,"uid":a.uid,"state":{"items":a.before,"board":{"w":12,"h":8},
+			"account":{"ledger":ledger,"features":[],"progression":a.mode!="immortal"}},"sealed":a.mode=="sealed"}
+		var view: Dictionary=p.api.pouch_request(command)
+		if not check(view.get("view")==a.view,"original recall panel "+a.mode): return {}
+		command.op="recall"
+		command.group=a.group
+		command.nextUid=a.item.uid if a.item!=null else 150000
+		if a.has("facet"): command.facet=a.facet
+		var move: Dictionary=p.api.pouch_request(command)
+		if not check(move.ok==(a.result!=null),"original recall outcome "+a.mode): return {}
+		if move.ok and not check(move.result==a.result and move.items.back()==a.item and move.ledger==a.ledger and move.memory.seatLedger==a.seatLedger and move.memory.secondary==a.secondary,"original native mint "+a.mode): return {}
+	var runtime=p.api._pouch
+	var peak: int=runtime.metrics().peak_bytes
+	var old:=p.saved.duplicate(true) as Dictionary
+	var retired: Dictionary=pouch.duplicate(true)
+	retired.baseId="rough_memory"
+	retired.name="Rough Memory"
+	retired.mem=[{"d":"crypt_lich","s":22,"g":{"k":"support","id":"retired-cut","l":2}}]
+	old.state.items=[retired]
+	p.close()
+	if not check(runtime.metrics().live_bytes==0 and runtime.metrics().live_blocks==0,"release recall runtime"): return {}
+	var fixture:=Profile.new()
+	if not check(fixture.start("user://retired-pouch.sqlite3").ok,"retired fixture"): return {}
+	var legacy: Dictionary=fixture.store.stage_slot(1,fixture.revision,fixture.api.to_portable_json(old).text,"[]")
+	if not check(legacy.ok and fixture.store.commit_slot(legacy.token).ok and fixture.reload().ok,"legacy retired pin is admitted"): return {}
+	if not check(fixture.recall(uid,fixture.revision,"crypt_lich|support:retired-cut","").ok and fixture.saved.state.items.size()==1,"retired pin falls back and mints"): return {}
+	fixture.close()
+	var heaps:=compare_pouch_load(pouch)
+	if heaps.is_empty(): return {}
+	return {"cases":native_cases.size(),"first":minted.gem,"revision":rev+3,"peakBytes":peak,"closedBytes":0,"loadComparison":heaps}
+
+func compare_pouch_load(pouch: Dictionary) -> Dictionary:
+	var dir:="res://addons/hollow_wake/crafting/"
+	var code:=FileAccess.get_file_as_bytes(dir+"pouch-rules.txt")
+	var encoded:=FileAccess.get_file_as_bytes(dir+"pouch-data.json")
+	var objects:=FileAccess.get_file_as_bytes("res://pouch-control.txt")
+	var command:={"op":"view","level":10,"memory":null,"uid":pouch.uid,"sealed":false,
+		"state":{"items":[pouch],"board":{"w":2,"h":2},"account":{"ledger":{},"features":[],"progression":true}}}
+	var wire:=JSON.stringify(["command",command])
+	var first_response:=""
+	var peaks:={"objects":[],"text":[]}
+	for use_text in [false,true,true,false]:
+		var host:=HollowWakeHost.new()
+		if not check(host.initialize(code,encoded if use_text else objects,12*1024*1024)==0,"matched content load"): return {}
+		var reply:=host.submit_json(wire) as Dictionary
+		if not check(reply.status==0 and JSON.parse_string(reply.response).get("ok")==true,"matched load query"): return {}
+		if first_response.is_empty(): first_response=reply.response
+		if not check(reply.response==first_response,"matched load panel"): return {}
+		peaks["text" if use_text else "objects"].append(host.get_metrics().peak_bytes)
+		host.close()
+		if not check(host.get_metrics().live_bytes==0,"matched load cleanup"): return {}
+	return peaks
