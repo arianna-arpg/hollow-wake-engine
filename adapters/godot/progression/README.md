@@ -18,7 +18,8 @@ func _ready():
     if purchase.ok and purchase.result:
         print(purchase.receipt)
     var saved = progression.snapshot(0)
-    # Persist saved.save using the game's existing atomic save facility.
+    var durable = progression.to_portable_json(saved.save)
+    # If durable.ok, persist durable.text using the game's atomic save facility.
 ```
 
 `open_profile` creates a blank account unless given a complete account object.
@@ -27,6 +28,9 @@ or edit a blank snapshot's account and open it under a fresh profile handle.
 `restore_profile` takes the complete `save` object and refuses occupied handles,
 different content identities or malformed state. Close a profile explicitly
 before replacing it. `close()` releases the embedded runtime; call it when done.
+Use `from_portable_json(text)` on a started instance to read the saved file;
+if successful, pass its `value` to `restore_profile`. These helpers preserve
+fractional binary64 values that Godot's generic JSON conversion can round.
 
 `observe` replaces the host-owned level, funds, lifetime ledger and roster as one
 transaction; it preserves purchased rewards. `update_relics` accepts canonical

@@ -5,6 +5,7 @@ import {execFileSync} from 'node:child_process';
 import {build} from 'esbuild';
 import {root,sha256,writeJSON} from './reference-utils.mjs';
 import {npmCli} from './npm-cli.mjs';
+import {composedAddon} from './godot-addon-inventory.mjs';
 import {unlockContentPack} from './compile-unlock-content.mjs';
 import {memoryRewardPack} from './compile-memory-rewards.mjs';
 import {progressionGatePack} from './compile-progression-gates.mjs';
@@ -61,25 +62,29 @@ fs.writeFileSync(path.join(consumer,'types.ts'),"import {ProgressionSession,type
 writeJSON(path.join(consumer,'tsconfig.json'),{compilerOptions:{strict:true,noEmit:true,target:'ES2022',module:'NodeNext',moduleResolution:'NodeNext',lib:['ES2022'],types:[]},files:['types.ts']});
 run('consumer-types',process.execPath,[path.join(root,'node_modules/typescript/bin/tsc'),'-p','tsconfig.json']);
 const bundle=path.join(extra,'bundle.txt');
-const result=await build({absWorkingDir:consumer,entryPoints:['session.mjs'],bundle:true,format:'iife',platform:'neutral',target:'es2022',
+const bridge=['entry.mjs','number-wire.mjs'];
+for(const f of bridge)fs.copyFileSync(path.join(root,'adapters/godot/shared',f),path.join(consumer,f));
+const result=await build({absWorkingDir:consumer,entryPoints:['entry.mjs'],bundle:true,format:'iife',platform:'neutral',target:'es2022',
   globalName:'HollowWakeSession',minify:true,outfile:bundle,metafile:true,tsconfigRaw:{}});
 const inputs=Object.keys(result.metafile.inputs);assert(inputs.includes('node_modules/@hollow-wake/engine/dist/progression-session.js'));
-assert(inputs.every(f=>f==='session.mjs'||f.startsWith('node_modules/@hollow-wake/engine/dist/')));
+assert(inputs.every(f=>f==='session.mjs'||bridge.includes(f)||f.startsWith('node_modules/@hollow-wake/engine/dist/')));
 assert(Object.values(result.metafile.outputs).every(row=>row.imports.length===0));
 const bundleBytes=fs.statSync(bundle).size,contentBytes=fs.statSync(path.join(extra,'content.json')).size;
 assert(bundleBytes<=96*1024&&contentBytes<=512*1024,'Explicit package asset limit exceeded');
 for(const file of ['progression.gd','README.md'])fs.copyFileSync(path.join(source,file),path.join(extra,file));
-const files=Object.fromEntries(['bundle.txt','content.json','progression.gd','README.md'].map(f=>[f,hash(path.join(extra,f))]));
+fs.copyFileSync(path.join(root,'adapters/godot/shared/owned_session.gd'),path.join(extra,'owned_session.gd'));
+const files=Object.fromEntries(['owned_session.gd','bundle.txt','content.json','progression.gd','README.md'].map(f=>[f,hash(path.join(extra,f))]));
 writeJSON(path.join(extra,'manifest.json'),{schemaVersion:1,capability:'progression-session/v1',experimental:true,
   baseSha256:base.addon.archiveSha256,content:Object.values(content).map(p=>p.contentId),sdkArchiveSha256:hash(archiveSDK),files});
 const archive=path.join(directory,'hollow-wake-godot-progression-'+(process.platform==='win32'?'windows':'linux')+'-x64.zip');
 writeJSON(path.join(directory,'base-files.json'),base.addon);
 run('archive-contracts',tools.python,['-I',path.join(root,'test/godot-addon-archive.py')]);
 run('assemble',tools.python,['-I',path.join(root,'scripts/godot-proc-example-archive.py'),'assemble',archiveBase,path.join(directory,'base-files.json'),extra,archive,'progression']);
-const sourceFiles=['src/progression-session.ts','test/progression-session.test.mjs','scripts/build-godot-progression.mjs','scripts/godot-proc-example-archive.py','test/godot-addon-archive.py',
+const sourceFiles=[...bridge.map(f=>'adapters/godot/shared/'+f),'scripts/godot-addon-inventory.mjs','adapters/godot/shared/owned_session.gd','src/progression-session.ts','test/progression-session.test.mjs','scripts/build-godot-progression.mjs','scripts/godot-proc-example-archive.py','test/godot-addon-archive.py',
   ...['session.mjs','progression.gd','README.md'].map(f=>'adapters/godot/progression/'+f)];
 const report={passed:true,directory,platform:process.platform,arch:process.arch,archive,archiveSha256:hash(archive),archiveBytes:fs.statSync(archive).size,
   sdkArchive:archiveSDK,sdkArchiveSha256:hash(archiveSDK),baseProofSha256:hash(baseFile),libraryProofSha256:hash(libraryFile),
-  sources:Object.fromEntries(sourceFiles.map(f=>[f,hash(path.join(root,f))])),files,bundleBytes,contentBytes,inputs,commands};
+  sources:Object.fromEntries(sourceFiles.map(f=>[f,hash(path.join(root,f))])),files,bundleBytes,contentBytes,inputs,commands,
+  addon:composedAddon(hash(archive),base.addon,'progression',files,hash(path.join(extra,'manifest.json')))};
 writeJSON(path.join(directory,'package.json'),report);writeJSON(path.join(root,'.artifacts/godot-progression-addon-latest.json'),{directory,receipt:path.join(directory,'package.json')});
 console.log({passed:true,archive,bundleBytes,contentBytes});

@@ -163,3 +163,8 @@ cap does not establish the requested optimization.
 [Windows evidence](../evidence/crafting-session/windows.json) retains the full
 SDK checks, independent package contracts, injected faults, native diagnostics,
 development corrections and original-work preservation results.
+
+The subsequent [content-table milestone](content-tables.md) admits the full
+course under a 32 MiB native cap. The [combined Godot addon](godot-crafting.md)
+exercises this representation in an editor and a relocated release, including
+portable disk saves and isolated account progression.

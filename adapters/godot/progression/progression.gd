@@ -1,12 +1,11 @@
-extends RefCounted
+extends "owned_session.gd"
 
 # The game owns authorization and durable writes. One instance shares immutable
 # definitions across at most eight open profiles; each profile has its own RNG.
 const DATA := "res://addons/hollow_wake/progression/"
-var _host := HollowWakeHost.new()
 
 func start(heap_limit_bytes: int = 32 * 1024 * 1024) -> int:
-	return _host.initialize(FileAccess.get_file_as_bytes(DATA + "bundle.txt"), FileAccess.get_file_as_bytes(DATA + "content.json"), heap_limit_bytes)
+	return start_from(DATA, heap_limit_bytes)
 
 func open_profile(profile: int, seed_value: int, account: Variant = null) -> Dictionary:
 	var command := {"op": "open", "profile": profile, "seed": seed_value}
@@ -43,26 +42,3 @@ func update_relics(profile: int, state: Dictionary) -> Dictionary:
 
 func close_profile(profile: int) -> Dictionary:
 	return request({"op": "close", "profile": profile})
-
-func close() -> int:
-	return _host.close()
-
-func metrics() -> Dictionary:
-	return _host.get_metrics()
-
-func request(command: Dictionary) -> Dictionary:
-	# Keep full binary64 precision, especially random continuation and safe integers.
-	var encoded := JSON.stringify(command, "", true, true)
-	# Godot 4.7.2 leaves some C0 controls literal in its JSON output. The compact
-	# form has no structural whitespace; escape those literals before transport.
-	# NUL is excluded by the portable profile format (Godot replaces it on import).
-	for code in range(1, 32):
-		encoded = encoded.replace(String.chr(code), "\\u%04x" % code)
-	var reply := _host.submit_json(encoded)
-	if reply.status != 0:
-		return {"ok": false, "reason": "native-host", "status": reply.status}
-	var decoded: Variant = JSON.parse_string(reply.response)
-	if not decoded is Dictionary or not decoded.get("ok") is bool:
-		_host.close()
-		return {"ok": false, "reason": "invalid-native-response"}
-	return decoded

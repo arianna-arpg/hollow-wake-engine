@@ -304,3 +304,5 @@ geometry services. A bounded owned crafting session remains the next layer.
 ## Optional compiled content transport
 
 `content/table/compiler` and `content/table` compile and decode complete ordered plain-data definitions. Decoded values are detached, frozen and may share equal children; capability constructors still validate gameplay schemas. Mutable item/save identity is unchanged. The native crafting factory consumes exclusively owned input to release intermediates. See [content tables](content-tables.md) for limits, the measured native course and remaining engine/device gates.
+
+The [Godot crafting and progression package](godot-crafting.md) starts each session independently. Handles, wallets, randomness and save ownership are local to each host. Hosts supply station authority and commit transfers and durable writes. The Godot bridge preserves binary64 values privately; public saves remain portable JSON.

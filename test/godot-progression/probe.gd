@@ -59,9 +59,13 @@ func _ready() -> void:
 	var saved: Dictionary = host.snapshot(0).save
 	var file := FileAccess.open("user://progression-checkpoint.json", FileAccess.WRITE)
 	check(file != null, "open isolated save")
-	file.store_string(JSON.stringify(saved, "", true, true))
+	var portable := host.to_portable_json(saved)
+	check(portable.ok, "encode disk checkpoint")
+	file.store_string(portable.text)
 	file.close()
-	var restored: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("user://progression-checkpoint.json"))
+	var loaded := host.from_portable_json(FileAccess.get_file_as_string("user://progression-checkpoint.json"))
+	check(loaded.ok, "decode disk checkpoint")
+	var restored: Dictionary = loaded.value
 	check(restored == saved, "disk round trip")
 	var resumed := Progression.new()
 	check(resumed.start() == 0 and resumed.restore_profile(2, restored).get("ok", false), "restore fresh native host")
@@ -90,6 +94,9 @@ func _ready() -> void:
 	var exact_integer := str(int(resumed.snapshot(3).save.account.credits))
 	check(exact_integer == "9007199254740991" and resumed.close_profile(3).get("ok", false), "large integer continuation exact")
 	check(not resumed.observe(2, 99, 9007199254740992, {}, []).get("ok", true), "unsafe integer rejected")
+	var before_invalid := resumed.snapshot(2)
+	check(resumed.request({"op":"save", "profile":2, "bad":{1:Vector2.ZERO}}).get("reason") == "invalid-json", "unsupported Variant refused")
+	check(before_invalid == resumed.snapshot(2), "lossy data refusal leaves profile unchanged")
 	var admitted_large_profiles := 0
 	for payload_length in [129000, 130000, 131000, 131050]:
 		var large: Dictionary = account.duplicate(true)

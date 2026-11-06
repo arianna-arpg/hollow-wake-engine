@@ -5,6 +5,13 @@ on:
       - '.github/workflows/godot-native.yml'
       - '.github/actions/prepare-embedded-runtime/**'
       - 'adapters/godot/**'
+      - 'adapters/embedded/crafting-session.mjs'
+      - 'scripts/*godot-crafting*'
+      - 'scripts/godot-session-replay.mjs'
+      - 'scripts/godot-addon-inventory.mjs'
+      - 'test/godot-crafting/**'
+      - 'test/godot-number-wire.test.mjs'
+      - 'evidence/content-tables/**'
       - 'examples/proc-delivery.mjs'
       - 'scripts/*godot-proc-example*'
       - 'scripts/*godot-progression*'
@@ -13,6 +20,12 @@ on:
       - 'test/godot-progression/**'
       - 'test/godot-addon-archive.py'
       - 'scripts/compile-proc-content.mjs'
+      - 'scripts/compile-item-content.mjs'
+      - 'scripts/compile-crafting-content.mjs'
+      - 'scripts/compile-skill-progression.mjs'
+      - 'scripts/compile-unlock-content.mjs'
+      - 'scripts/compile-progression-gates.mjs'
+      - 'scripts/compile-memory-rewards.mjs'
       - 'scripts/npm-cli.mjs'
       - 'test/godot-ward-example/**'
       - 'experiments/godot-native/**'
@@ -42,7 +55,7 @@ jobs:
           - os: ubuntu-24.04
             platform: linux
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -104,6 +117,32 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Progression fault controls failed' }
           node scripts/test-godot-progression.mjs --package $receipt --tools $toolsFile
           if ($LASTEXITCODE -ne 0) { throw 'Progression editor or relocated release failed' }
+      - name: Package and replay the combined crafting and progression addon
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $toolsFile = (Get-Content .artifacts/godot-tools-latest.json -Raw | ConvertFrom-Json).tools
+          $progression = (Get-Content .artifacts/godot-progression-addon-latest.json -Raw | ConvertFrom-Json).receipt
+          node --test test/godot-number-wire.test.mjs
+          if ($LASTEXITCODE -ne 0) { throw 'Godot numeric transport controls failed' }
+          node scripts/build-godot-crafting.mjs --progression $progression --tools $toolsFile
+          if ($LASTEXITCODE -ne 0) { throw 'Combined packaging failed' }
+          $receipt = (Get-Content .artifacts/godot-crafting-addon-latest.json -Raw | ConvertFrom-Json).receipt
+          node scripts/test-godot-crafting.mjs --package $receipt --tools $toolsFile
+          if ($LASTEXITCODE -ne 0) { throw 'Combined editor or relocated release failed' }
+          node scripts/test-godot-crafting-faults.mjs --package $receipt --tools $toolsFile
+          if ($LASTEXITCODE -ne 0) { throw 'Combined wrapper controls failed' }
+          node scripts/record-godot-crafting.mjs --out .artifacts/godot-crafting-evidence
+          if ($LASTEXITCODE -ne 0) { throw 'Combined replay evidence does not match' }
+      - name: Retain verified crafting and progression addon
+        if: success() && github.ref == 'refs/heads/codex/resource-restoration'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: hollow-wake-godot-crafting-progression-${{ matrix.platform }}-x64
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+          path: .artifacts/godot-crafting-addon-*/hollow-wake-godot-crafting-progression-*.zip
       - name: Retain verified progression addon
         if: success() && github.ref == 'refs/heads/codex/resource-restoration'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
@@ -129,6 +168,14 @@ jobs:
           include-hidden-files: true
           if-no-files-found: error
           path: |
+            .artifacts/godot-crafting-addon-*/package.json
+            .artifacts/godot-crafting-addon-*/extra/manifest.json
+            .artifacts/godot-crafting-replay-*/verification.json
+            .artifacts/godot-crafting-replay-*/*.txt
+            .artifacts/godot-crafting-replay-*/*.jsonl
+            .artifacts/godot-crafting-evidence/*
+            .artifacts/godot-crafting-faults-*/verification.json
+            .artifacts/godot-crafting-faults-*/*.txt
             .artifacts/godot-progression-addon-*/package.json
             .artifacts/godot-progression-addon-*/extra/manifest.json
             .artifacts/godot-progression-addon-*/*.txt

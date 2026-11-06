@@ -4,12 +4,14 @@ import json
 import pathlib
 import stat
 import sys
+import tempfile
 import zipfile
 
 PREFIX = "addons/hollow_wake/"
 EXTRAS = {
     "ward": ("bundle.txt", "content.json", "ward.gd", "README.md", "manifest.json"),
-    "progression": ("bundle.txt", "content.json", "progression.gd", "README.md", "manifest.json"),
+    "progression": ("bundle.txt", "content.json", "progression.gd", "owned_session.gd", "README.md", "manifest.json"),
+    "crafting": ("bundle.txt", "content.json", "crafting.gd", "owned_session.gd", "README.md", "manifest.json"),
 }
 
 
@@ -65,13 +67,33 @@ def assemble(base, expected_path, extra, output, capability="ward"):
 def install(archive_path, project):
     project = project.resolve()
     with zipfile.ZipFile(archive_path) as archive:
-        for name in sorted(members(archive)):
-            target = project.joinpath(*pathlib.PurePosixPath(name).parts).resolve()
-            if not target.is_relative_to(project):
-                raise ValueError("Addon path escapes the selected project")
-            target.parent.mkdir(parents=True, exist_ok=True)
-            with target.open("xb") as out:
-                out.write(archive.read(name))
+        names = sorted(members(archive))
+        if PREFIX + "manifest.json" not in names:
+            raise ValueError("Missing addon manifest")
+        parent = project / "addons"
+        destination = parent / "hollow_wake"
+        if parent.is_symlink() or not destination.resolve().is_relative_to(project):
+            raise ValueError("Addon path escapes the selected project")
+        if destination.exists() or destination.is_symlink():
+            raise FileExistsError(destination)
+        parent.mkdir(parents=True, exist_ok=True)
+        # CRC/read/write failures never expose a partially installed capability.
+        # The selected project must not be modified concurrently during install.
+        with tempfile.TemporaryDirectory(prefix=".hwe-install-", dir=parent) as temp:
+            stage = pathlib.Path(temp).resolve()
+            if stage.parent != parent.resolve():
+                raise ValueError("Unexpected staging directory")
+            payload = stage / "payload"
+            for name in names:
+                target = payload.joinpath(*pathlib.PurePosixPath(name).parts[2:]).resolve()
+                if not target.is_relative_to(payload):
+                    raise ValueError("Addon member escapes staged payload")
+                target.parent.mkdir(parents=True, exist_ok=True)
+                with target.open("xb") as out:
+                    out.write(archive.read(name))
+            if destination.exists() or destination.is_symlink():
+                raise FileExistsError(destination)
+            payload.rename(destination)
 
 
 if __name__ == "__main__":

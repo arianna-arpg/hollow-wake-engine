@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The 0.50 candidate packages [crafting and account progression for Godot](docs/godot-crafting.md).
+Copy one platform archive into a project, start the sessions the game needs, and
+use ordinary JSON saves across hosts. See the verification record for the exact
+editor, export, content and memory scope.
+
 The 0.49 candidate adds optional [compiled immutable content](docs/content-tables.md), preserving every authored value while sharing repeated read-only records. The complete crafting course runs in a smaller measured native heap; loading cost and allocation tradeoffs are retained separately. Engine packaging and physical-device acceptance remain open.
 
 The 0.48 candidate adds an [owned crafting session](docs/crafting-session.md): validated saves, item/wallet/lore ownership, seeded continuation, atomic command admission and retained full-bag support recovery. Native/editor packaging and device measurements remain separate work.

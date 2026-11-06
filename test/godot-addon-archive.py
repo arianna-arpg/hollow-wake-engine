@@ -17,7 +17,7 @@ spec.loader.exec_module(addon)
 
 
 class ArchiveContract(unittest.TestCase):
-    def test_both_capabilities_preserve_every_base_byte_and_install(self):
+    def test_all_capabilities_preserve_every_base_byte_and_install(self):
         with tempfile.TemporaryDirectory(prefix="hwe-addon-contract-") as temp:
             root = pathlib.Path(temp)
             base = root / "base.zip"
@@ -81,6 +81,26 @@ class ArchiveContract(unittest.TestCase):
             with self.assertRaises(ValueError):
                 addon.assemble(base, receipt, root, output)
             self.assertFalse(output.exists())
+
+    def test_existing_custom_assets_and_corrupt_archive_do_not_leave_partial_install(self):
+        with tempfile.TemporaryDirectory(prefix="hwe-addon-install-") as temp:
+            root = pathlib.Path(temp)
+            archive = root / "addon.zip"
+            with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_STORED) as out:
+                out.writestr(addon.PREFIX + "manifest.json", b"{}")
+                out.writestr(addon.PREFIX + "z.txt", b"bad-crc-fixture")
+            custom = root / "existing/addons/hollow_wake/my-settings.txt"
+            custom.parent.mkdir(parents=True)
+            custom.write_bytes(b"keep")
+            with self.assertRaises(FileExistsError):
+                addon.install(archive, root / "existing")
+            self.assertEqual(list(custom.parent.iterdir()), [custom])
+            self.assertEqual(custom.read_bytes(), b"keep")
+            archive.write_bytes(archive.read_bytes().replace(b"bad-crc-fixture", b"BAD-crc-fixture"))
+            with self.assertRaises(zipfile.BadZipFile):
+                addon.install(archive, root / "new")
+            self.assertFalse((root / "new/addons/hollow_wake").exists())
+            self.assertEqual(list((root / "new/addons").iterdir()), [])
 
 
 if __name__ == "__main__":

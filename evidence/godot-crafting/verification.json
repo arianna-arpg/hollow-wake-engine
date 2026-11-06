@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "version": "0.50.0-candidate.0",
+  "previous": "92fe3c0ed12baa753865577ccd912371e05b2ab6",
+  "engineEvidence": {
+    "path": "evidence/godot-crafting/windows.json",
+    "sha256": "8ae2780d8ad02d2e6e9c55c2ba4ccf5f7bf60bc7f1010a3868b25ac9d6cf3d3a"
+  },
+  "checks": {
+    "sdkVerifyExit": 0,
+    "unitTests": 1539,
+    "unitFailures": 0,
+    "sdkVerifyLogSha256": "3927343adc9b656f93dd81d938459b578f759d52599fab0a88a8ee7ae28368e3",
+    "archiveInstallerTests": 4,
+    "editorCraftingAssertions": 180,
+    "releaseCraftingAssertions": 180,
+    "editorProgressionAssertions": 91,
+    "releaseProgressionAssertions": 91,
+    "detectedInstalledCraftingFaults": 3,
+    "detectedInstalledProgressionFaults": 4,
+    "frozenGameplayRepliesPerMode": 56
+  },
+  "preservation": {
+    "originalHead": "faf1ab3a9b1bd7ddbf7a207d7a244f1e8deb257d",
+    "files": 4149,
+    "changes": [],
+    "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "originalCapsuleVerified": true,
+    "originalSdkRulesUnchanged": true
+  },
+  "developmentFindings": [
+    "Godot dot-assigned dictionary keys are StringNames. Accept them as text, while rejecting lossy non-JSON types and cyclic values without changing a profile.",
+    "Generic full-precision Godot JSON changed a real item baseRoll from 0.011704753153026104 to 0.0117047531530261. The independent cross-engine comparison detected it. The final wrapper exchanges binary64 bits privately and retains ordinary JSON files.",
+    "Existing progression hosts observe numeric values as Godot floats; preserving that representation is a regression check.",
+    "The item definition pack uses id while its crafting and skill peers use contentId. The final manifest checks all three identifiers against the frozen save.",
+    "Untrusted text beyond the adapter limit is refused before VM dispatch: the actual Godot allocator count is unchanged on these calls."
+  ],
+  "unverified": [
+    "Hosted execution of the new package, physical Steam Deck and mobile hardware, renderer/UI acceptance and complete host transactions. No new speed comparison."
+  ],
+  "publication": {
+    "localOnly": true,
+    "intendedVisibility": "public",
+    "pendingBaseline": "56e15167e498519d639c7f7e2ab47040c7bb586b",
+    "reason": "Earlier automatic approval review rejected publication of original authored unlock/reward definitions and traces; specific source-content approval remains pending."
+  }
+}

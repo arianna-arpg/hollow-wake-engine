@@ -1043,3 +1043,13 @@ the clean package afterward. Native/session and device acceptance remain open.
 ## Compiled immutable content
 
 The 0.49 candidate adds nine transport/ownership contracts, all fourteen existing crafting-session contracts using compiled content, a fresh installed consumer, hostile-global browser replay, public types and nine deliberate fault checks. `test:content-table-package` and `test:content-table-faults` are included in `verify`. The separate Windows native replay compares 56 requests with the accepted 0.48 package, including two loaded profiles and complete crafting lore. The paired benchmark records load/course time, tracked bytes and allocation calls. See [the format and reproduction commands](content-tables.md); device and editor acceptance remain separate.
+
+## Godot crafting and progression
+
+See [the installation and reproduction guide](godot-crafting.md). In addition
+to the SDK verifier, run both Godot replays, the installed progression faults
+and the archive controls. Node compares the 56 observed engine replies with
+the frozen reference after each play. The precision vectors additionally read
+the actual Godot double bits, including the smallest subnormal, and format
+independently supplied bits back into portable decimal text. Neither the Linux
+workflow configuration nor a desktop allocator result is device acceptance.
