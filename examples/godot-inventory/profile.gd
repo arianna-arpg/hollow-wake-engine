@@ -18,9 +18,14 @@ var stash: Array = []
 var available := false
 var _open_profile := false
 var _starter_cargo := false
+var _starter_supports := false
+var _fit_revision := -1
+var _fit_uid := 0
+var _fit_reply: Dictionary = {}
 
-func start(filename: String, backend: Variant = null, starter_cargo := false) -> Dictionary:
-	_starter_cargo = starter_cargo
+func start(filename: String, backend: Variant = null, starter_cargo := false, starter_supports := false) -> Dictionary:
+	_starter_cargo = starter_cargo or starter_supports
+	_starter_supports = starter_supports
 	store = backend if backend != null else HollowWakeSlotStore.new()
 	var opened: Dictionary = store.open_file(ProjectSettings.globalize_path(filename))
 	if not opened.ok: return opened
@@ -29,6 +34,8 @@ func start(filename: String, backend: Variant = null, starter_cargo := false) ->
 
 func close() -> void:
 	available = false
+	_fit_reply={}
+	_fit_revision=-1
 	api.close()
 	_open_profile = false
 	if store != null: store.close_file()
@@ -44,6 +51,8 @@ func _empty_state() -> Dictionary:
 
 func reload() -> Dictionary:
 	available = false
+	_fit_revision=-1
+	_fit_reply={}
 	_close_profile()
 	saved = {}
 	stash = []
@@ -56,6 +65,12 @@ func reload() -> Dictionary:
 			var sample := api.from_portable_json(FileAccess.get_file_as_string("res://cargo-sample.json"))
 			if not sample.ok or not sample.value is Array: return {"ok":false,"reason":"invalid-record"}
 			initial.items = sample.value
+			if _starter_supports:
+				for item in initial.items:
+					if item.get("gem",{}).get("kind")=="support":
+						item.name="Teeming Vein"
+						item.locked=true
+						item.gem={"kind":"support","supportId":"teeming_vein","level":2,"rolled":{"trigger":"chance","brood":"grubs","clutch":"brood4"}}
 		var opened := api.open_profile(1, 17, initial)
 		if not opened.ok: return opened
 		_open_profile = true
@@ -132,15 +147,46 @@ func _freeze(value: Variant) -> void:
 		for key in value: _freeze(value[key])
 		value.make_read_only()
 
+func compatible_seats(uid: int) -> Dictionary:
+	if not available: return {"ok":false,"reason":"unavailable"}
+	if revision==_fit_revision and uid==_fit_uid: return _fit_reply
+	var at:=_find(saved.state.items,uid)
+	if at<0 or saved.state.items[at].get("gem",{}).get("kind")!="support": return {"ok":false,"reason":"missing-item"}
+	var reply:=api.support_fit(saved.state.get("rack",[]),saved.state.items[at].gem)
+	if reply.ok:
+		_freeze(reply)
+		_fit_revision=revision
+		_fit_uid=uid
+		_fit_reply=reply
+	return reply
+
 # A UI action carries the UID and revision the player actually saw. On a failed
 # write, re-read the durable owners before allowing another action.
-func act(action: String, uid: int, seen_revision: int, slot := -1, expected_skill := "") -> Dictionary:
+func act(action: String, uid: int, seen_revision: int, slot := -1, expected_skill := "", socket: Dictionary = {}) -> Dictionary:
 	if not available: return {"ok":false,"reason":"unavailable"}
 	if seen_revision != revision: return {"ok":false,"reason":"stale-revision"}
 	var next := stash.duplicate()
 	var change: Dictionary
 	var refusal := ""
 	match action:
+		"socket", "unsocket":
+			var rack: Array = saved.state.get("rack",[])
+			if action=="socket" or uid==0:
+				if slot<0 or slot>=rack.size() or rack[slot]==null or rack[slot].gem.skillId!=expected_skill:
+					return {"ok":false,"reason":"stale-skill"}
+			if action=="socket":
+				var gate := compatible_seats(uid)
+				if not gate.ok: return gate
+				var fits := false
+				for target in gate.rows:
+					if target.slot==slot: fits=target.fits
+				change=api.socket_support(1,uid,expected_skill,fits)
+			else:
+				if not socket.has("index") or not socket.has("supportId"): return {"ok":false,"reason":"stale-socket"}
+				change=api.unsocket_support(1,expected_skill,socket.index,socket.supportId,uid)
+			if change.ok and not change.result.changed:
+				refusal=change.result.get("refusal","cannot-socket")
+				if not change.result.needsSave: return {"ok":false,"reason":refusal}
 		"learn", "unlearn":
 			if action == "learn":
 				var index := _find(saved.state.items,uid)

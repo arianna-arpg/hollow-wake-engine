@@ -88,7 +88,7 @@ func meets(api: RefCounted, item: Dictionary, attributes: Dictionary) -> Diction
 		if attributes.get(key,0) < requirements[key]: return {"ok":true,"meets":false}
 	return {"ok":true,"meets":true}
 
-func inspect(api: RefCounted, item: Dictionary, view: Dictionary, fit: Variant) -> Dictionary:
+func inspect(api: RefCounted, item: Dictionary, view: Dictionary, fit: Variant, socket_names := false) -> Dictionary:
 	var ready := _configure(api)
 	if not ready.ok: return ready
 	var plan: Dictionary = api.request({"op":"cargo-references","item":item})
@@ -105,4 +105,5 @@ func inspect(api: RefCounted, item: Dictionary, view: Dictionary, fit: Variant) 
 			records[ref.table][ref.id] = _cached_rows[ref.table].get(ref.id)
 	var command := {"op":"inspect-cargo","item":item,"view":view,"records":records}
 	if fit != null: command.fit = fit
+	if socket_names: command.socketNames=true
 	return api.request(command)

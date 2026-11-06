@@ -6,6 +6,8 @@ var _equipment_ready := false
 const CargoCards = preload("cargo_cards.gd")
 var _cargo_cards := CargoCards.new()
 var _cargo_page_limit := 4
+const SupportFit = preload("support_fit.gd")
+var _fit: SupportFit
 
 func start(heap_limit_bytes: int = 32 * 1024 * 1024) -> int:
 	var status := start_from(DATA, heap_limit_bytes)
@@ -18,6 +20,9 @@ func close() -> int:
 	return status
 
 func _reset_cards() -> void:
+	if _fit!=null:
+		_fit.close()
+		_fit=null
 	_inspection_ready = false
 	_equipment_ready = false
 	_cargo_cards = CargoCards.new()
@@ -65,8 +70,8 @@ func unequip(profile: int, uid: int, slot: String) -> Dictionary:
 
 # fit is the equipped actor's current socket-gate verdict for this exact gem.
 # Passing [] describes a known empty bar. Omitting it leaves the bar unspecified.
-func inspect_cargo(item: Dictionary, view: Dictionary = {}, fit: Variant = null) -> Dictionary:
-	return _cargo_cards.inspect(self,item,view,fit)
+func inspect_cargo(item: Dictionary, view: Dictionary = {}, fit: Variant = null, socket_names := false) -> Dictionary:
+	return _cargo_cards.inspect(self,item,view,fit,socket_names)
 
 func set_cargo_page_limit(pages: int) -> bool:
 	if not _cargo_cards.set_page_limit(pages): return false
@@ -78,6 +83,26 @@ func cargo_cache_info() -> Dictionary:
 
 func skill_requirements(item: Dictionary, attributes: Dictionary) -> Dictionary:
 	return _cargo_cards.meets(self,item,attributes)
+
+func support_fit(rack: Array, gem: Dictionary) -> Dictionary:
+	if not rack.any(func(row): return row!=null): return {"ok":true,"rows":[]}
+	if _fit==null: _fit=SupportFit.new()
+	var reply:=_fit.fits(rack,gem)
+	if not reply.ok:
+		_fit.close()
+		_fit=null
+	return reply
+
+func support_metrics() -> Dictionary:
+	return {"queries":_fit.queries,"pageReads":_fit.reads,"bytesRead":_fit.bytes_read,"heap":_fit.metrics()} if _fit!=null else {"queries":0,"pageReads":0,"bytesRead":0}
+
+func socket_support(profile: int, uid: int, skill_id: String, fits: bool, hold: Variant = null) -> Dictionary:
+	return request({"op":"socket-support","profile":profile,"uid":uid,"skillId":skill_id,"fits":fits,"hold":hold})
+
+func unsocket_support(profile: int, skill_id: String, index: int, support_id: String, bag_uid := 0, hold: Variant = null) -> Dictionary:
+	var command := {"op":"unsocket-support","profile":profile,"skillId":skill_id,"index":index,"supportId":support_id,"hold":hold}
+	if bag_uid!=0: command.uid=bag_uid
+	return request(command)
 
 func learn_skill(profile: int, uid: int, meets: bool, blocked: Dictionary, slot := -1) -> Dictionary:
 	var command := {"op":"learn-skill","profile":profile,"uid":uid,"meets":meets,"blocked":blocked}

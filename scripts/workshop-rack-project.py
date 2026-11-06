@@ -18,9 +18,14 @@ def build(donor, expected, sdk_digest, bundle, project_out, addon_out):
     addon = "addons/hollow_wake/"
     crafting = addon + "crafting/"
     changes = {crafting + "bundle.txt": bundle.read_bytes()}
+    extra = {crafting + "support_fit.gd": (root / "adapters/godot/crafting/support_fit.gd").read_bytes()}
+    for name in ("measure_supports.gd", "support-measure.json", "workshop_start.gd", "workshop_start.tscn"):
+        extra[name] = (root / "examples/godot-inventory" / name).read_bytes()
+    for name in ("support-fit.txt", "support-index.json", "support-pages.txt"):
+        extra[crafting + name] = (bundle.parent / name).read_bytes()
     for name in ("crafting.gd", "cargo_cards.gd", "README.md"):
         changes[crafting + name] = (root / "adapters/godot/crafting" / name).read_bytes()
-    for name in ("profile.gd", "inventory.gd", "README.md"):
+    for name in ("profile.gd", "inventory.gd", "project.godot", "README.md"):
         changes[name] = (root / "examples/godot-inventory" / name).read_bytes()
     with zipfile.ZipFile(donor) as source:
         manifest = json.loads(source.read(prefix + crafting + "manifest.json"))
@@ -28,7 +33,8 @@ def build(donor, expected, sdk_digest, bundle, project_out, addon_out):
             assert digest(source.read(prefix + crafting + name)) == checksum
             if crafting + name in changes:
                 manifest["files"][name] = digest(changes[crafting + name])
-        manifest.update(optional=["crafting-session/v2"], sdkArchiveSha256=sdk_digest)
+        manifest["files"].update({name.removeprefix(crafting): digest(data) for name, data in extra.items() if name.startswith(crafting)})
+        manifest.update(optional=["crafting-session/v2","workshop-supports/v1"], sdkArchiveSha256=sdk_digest)
         changes[crafting + "manifest.json"] = (json.dumps(manifest, indent=2) + "\n").encode()
         assert set(prefix + f for f in changes) <= set(source.namelist())
         assert len(source.namelist()) == len(set(source.namelist()))
@@ -46,16 +52,26 @@ def build(donor, expected, sdk_digest, bundle, project_out, addon_out):
                     entry.create_system = 3
                     entry.external_attr = member.external_attr
                     target.writestr(entry, data, compress_type=zipfile.ZIP_DEFLATED, compresslevel=6)
+            for rel, data in extra.items():
+                for target, filename in ((project, prefix + rel), (extension, rel)):
+                    if target is extension and not rel.startswith(addon):
+                        continue
+                    entry = zipfile.ZipInfo(filename)
+                    entry.create_system = 3
+                    entry.external_attr = (stat.S_IFREG | 0o644) << 16
+                    target.writestr(entry, data, compress_type=zipfile.ZIP_DEFLATED, compresslevel=6)
 
 
 def switch_programs(prior, release, variant, directory):
     # The benchmark reuses immutable content and native programs in place.
     prefix = "inventory-workshop/"
-    changed = {"profile.gd", "addons/hollow_wake/crafting/bundle.txt", "addons/hollow_wake/crafting/crafting.gd",
+    changed = {"profile.gd", "inventory.gd", "project.godot", "README.md", "addons/hollow_wake/crafting/bundle.txt", "addons/hollow_wake/crafting/crafting.gd", "addons/hollow_wake/crafting/cargo_cards.gd",
                "addons/hollow_wake/crafting/manifest.json", "addons/hollow_wake/crafting/README.md"}
     directory = pathlib.Path(directory).resolve(strict=True)
     with zipfile.ZipFile(prior) as old, zipfile.ZipFile(release) as new:
-        assert set(old.namelist()) == set(new.namelist())
+        additions = {prefix+"addons/hollow_wake/crafting/"+name for name in ("support_fit.gd","support-fit.txt","support-index.json","support-pages.txt")}
+        additions.update(prefix+name for name in ("measure_supports.gd","support-measure.json","workshop_start.gd","workshop_start.tscn"))
+        assert set(new.namelist()).difference(old.namelist()) <= additions and set(old.namelist()) <= set(new.namelist())
         assert variant in ("previous", "candidate")
         for name in old.namelist():
             assert name.startswith(prefix)

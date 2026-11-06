@@ -33,3 +33,15 @@ with its empowerment, locked supports and individual rolls. Reload reopens the
 same seats, bag and stash. The sample hero has 12 Intelligence and zero in the
 other attributes. A game supplies its own hero attributes and current holds on
 unlearning. The workshop runs in a sanctuary with no active holds.
+
+Choose **Support sample** in the inventory header, or launch with
+`-- --support-sample`, for a separate save containing a
+locked, rolled Teeming Vein. Learn Firebolt, select the loose support, and
+choose **Socket support**. Select Firebolt on the Skills tab to remove a
+particular support. You can also return Firebolt to the pack and remove a
+support directly from its gem. A full pack keeps the support in its socket.
+
+To measure support checks on Linux, run
+`./Inventory.x86_64 --headless -- --measure-supports > support-result.txt`.
+The same arguments work with `Inventory.exe` on Windows. The measurement
+uses two original-game reference cases and opens no inventory save.

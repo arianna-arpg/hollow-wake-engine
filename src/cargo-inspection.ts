@@ -119,7 +119,7 @@ export class CargoInspector {
       const points=this.#skills.ability.empowermentPoints(g);
       lines.push(points+' passive-only point'+(points===1?'':'s')+' from empowerment'+(this.#skills.tree(g.skillId).hasPassive()?'':' · banked until this skill has a passive slot'));
     }
-    if(supports.length)lines.push('Socketed: '+supports.map(s=>this.#supportName(s.id)+' L'+s.level).join(' · '));
+    if(supports.length)lines.push('Socketed: '+supports.map(s=>this.supportName(s.id)+' L'+s.level).join(' · '));
     const requirements=Object.entries(face.requirements??{}).map(([id,n])=>({id,label:this.#config.attributes[id]??id,need:n,met:v.attributes?(v.attributes[id]??0)>=n:null}));
     lines.push('Requires: '+(face.requirements?requirements.map(q=>q.label+' '+q.need).join(', '):'none'));
     const lane=v.inBag&&!locked?v.lane:null;
@@ -127,7 +127,7 @@ export class CargoInspector {
     return {kind:'skill',title,color:r.color,meta,lines,locked,requirements,showcase:{skillId:g.skillId,level:g.level,supports},
       gesture:v.inBag&&!v.lane?'learn':null,quote:lane?{action:lane,amount,...(amount?{}:{reason:'granted' as const}),confirm:false}:null};
   }
-  #supportName(id:string):string {
+  supportName(id:string):string {
     try{return this.#skills.support(id).name;}catch{return id;}
   }
   #supportCard(g:SupportGemPayload,v:CargoView,locked:boolean,read:CargoReader,fit?:CargoFitReader):CargoCard|null {
@@ -169,7 +169,7 @@ export class CargoInspector {
       if(g.k==='skill'){
         try{const def=this.#skills.skill(g.id);name=def.name;color=def.color??color;}catch{/* Retired pin keeps its durable name. */}
       }else{
-        const face=supportFace(read,g.id);if(face){name=this.#supportName(g.id);color=face.color;}
+        const face=supportFace(read,g.id);if(face){name=this.supportName(g.id);color=face.color;}
       }
       return {key,source,count,pin:{name,color}};
     });

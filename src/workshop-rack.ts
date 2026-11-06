@@ -1,22 +1,26 @@
 import {SkillRackActions} from './skill-rack.js';
 import {packSkillGemPayload,type GemSkill} from './gem-residence.js';
-import type {ItemInstance} from './item-types.js';
+import type {ItemInstance,GemSocketRow} from './item-types.js';
 import type {CraftingSessionState,CraftingSessionData} from './crafting-session-data.js';
 import type {InventoryHost,LiveInventoryBoard} from './inventory-host.js';
 import {requireSession as need,sessionArray as array,sessionRecord as record,sessionFields as fields,
   sessionText as text,sessionInteger as integer,sessionBoolean as bool} from './session-json.js';
 
-type Residence<S> = {
+export type WorkshopResidence<S> = {
   skillOfGemItem(item: Pick<ItemInstance,'gem'|'locked'>): S|null;
   makeSkillGemItem(skill:S): ItemInstance;
   freeCellCount(items:readonly ItemInstance[]): number;
+  itemOfSocket?(row:GemSocketRow):ItemInstance|null;
 };
+export type WorkshopEvent={kind:'dirty'|'recalculate'}|{kind:'resync-supports';skillId:string};
+export type WorkshopSignal=(event:WorkshopEvent)=>void;
 const seats=8;
 
 /** Optional eight-seat workshop for one actor whose learned book is its bar.
  * The authoritative host supplies the current requirements verdict and holds
  * on departing skills. Commands run entirely on a detached session draft. */
 export class WorkshopRack {
+  declare readonly handles?: (op:string)=>boolean;
   /** Identifies the move implementation that can borrow a frozen account.
    * An override or a structurally compatible provider keeps a writable draft. */
   readonly accountPreservingMove?:WorkshopRack['move']=WorkshopRack.prototype.move;
@@ -32,7 +36,7 @@ export class WorkshopRack {
     }
   }
   move<S extends GemSkill>(request:Record<string,unknown>,state:CraftingSessionState,inventory:InventoryHost<ItemInstance>,
-    board:LiveInventoryBoard,gems:Residence<S>){
+    board:LiveInventoryBoard,gems:WorkshopResidence<S>,_signal?:WorkshopSignal){
     const learn=request.op==='learn-skill';
     fields(request,learn?['op','profile','uid','slot','meets','blocked']:['op','profile','skillId','blocked']);
     if(learn){integer(request.uid,1);bool(request.meets);if(request.slot!==undefined)integer(request.slot,0,seats-1);}

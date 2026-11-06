@@ -5,7 +5,7 @@ import {createGemCargo, type GemSkill, type GemSupport} from './gem-residence.js
 import {createItemHost} from './item-host.js';
 import {InventoryHost} from './inventory-host.js';
 import {EquipmentSlots,equipOnBoard,unequipOnBoard,equipmentTierLevel} from './equipment-actions.js';
-import type {WorkshopRack} from './workshop-rack.js';
+import type {WorkshopRack,WorkshopEvent} from './workshop-rack.js';
 import {Random} from './random.js';
 import {CraftingSessionData, type CraftingSessionState, type CraftingSessionDefinitions} from './crafting-session-data.js';
 import type {ItemInstance, ItemRollOptions, ItemForgeOptions} from './item-types.js';
@@ -18,7 +18,7 @@ type Profile = {state: CraftingSessionState; nextUid: number; random: Random; ac
 type SkillDef = ReturnType<SkillProgression['skill']>;
 type SupportDef = ReturnType<SkillProgression['support']>;
 type Access = {salvage: boolean; oracle: boolean; bench: boolean; counter: boolean};
-type Event = {kind: 'cue'; cue: CraftingCue} | {kind: 'refused'; reason: CraftingRefusal; noteKey: string}
+type Event = WorkshopEvent | {kind: 'cue'; cue: CraftingCue} | {kind: 'refused'; reason: CraftingRefusal; noteKey: string}
   | {kind: 'insufficient'; essence: string; count: number; noteKey: string}
   | {kind: 'recalculate' | 'dirty' | 'account-save'} | {kind: 'recovered'; uid: number; destination: 'bag' | 'overflow'};
 const refuse = (reason: string) => ({ok: false as const, reason});
@@ -184,12 +184,13 @@ export class CraftingSession {
       this.#validate(next); this.#profiles.set(request.profile,next); return {ok:true};
     }
     if (!profile) return refuse('not-open');
-    if(this.#rack && (request.op==='learn-skill'||request.op==='unlearn-skill')){
+    const rack=this.#rack;
+    if(rack && (request.op==='learn-skill'||request.op==='unlearn-skill'||rack.handles?.(request.op))){
       return this.#mutate(profile,(draft,events)=>{
-        const result=this.#rack!.move(request,draft.state,this.#inventory,this.#board(draft.state),this.#gems(draft));
-        if(result.changed)events.push({kind:'recalculate'},{kind:'dirty'});
+        const result=rack.move(request,draft.state,this.#inventory,this.#board(draft.state),this.#gems(draft),event=>events.push(event));
+        if(result.changed&&!events.length)events.push({kind:'recalculate'},{kind:'dirty'});
         return {...result,needsSave:result.needsSave || draft.nextUid!==profile.nextUid};
-      },this.#rack.move!==this.#rack.accountPreservingMove);
+      },rack.move!==rack.accountPreservingMove);
     }
     if(request.op==='equip'||request.op==='unequip'){
       const wear=this.#wear;

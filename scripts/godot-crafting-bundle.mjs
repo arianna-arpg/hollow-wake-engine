@@ -7,12 +7,14 @@ import {build} from 'esbuild';
 const internalMethods=/^(?:skillOfGemItem|supportOfGemItem|skillGemPayloadOf|supportGemPayloadOf|makeSkillGemItem|makeSupportGemItem|hasOwnSupport|validTreeNodes|itemGridSize|bagWidth|bagHeight|craftableAffixesFor|salvageItem|salvageBulk|salvageLockSet|craftSocket|craftAffix|rerollAffix|craftSlots|bagSkillSupport|restoreGrantState|packSkillGemPayload|packSupportGemPayload|writeBackSupportGem|rebuildAnyItem|footprintOpen|canPlace|autoPlace|inspectLoadout|craftedCount|baseBonusFor|eachItemLine|tieredBaseName|compileItemMods|epitaphFor|foldOwnStats|resolveUniqueChoices|firstFit|swapBlocker)$/;
 
 export async function craftingBundle(directory,withRack,plugins=[]){
-  const result=await build({absWorkingDir:directory,entryPoints:[withRack?'rack-entry.mjs':'entry.mjs'],
+  const entry=withRack==='supports'?'support-entry.mjs':withRack?'rack-entry.mjs':'entry.mjs';
+  const result=await build({absWorkingDir:directory,entryPoints:[entry],
     bundle:true,platform:'neutral',format:'iife',globalName:'HollowWakeSession',target:'es2022',
     charset:'utf8',minify:true,mangleProps:internalMethods,tsconfigRaw:{},metafile:true,write:false,plugins});
   const bytes=result.outputFiles[0].contents,inputs=Object.keys(result.metafile.inputs);
   assert(Object.values(result.metafile.outputs).every(o=>o.imports.length===0));
-  assert.equal(inputs.some(f=>f.endsWith('/workshop-rack.js')),withRack);
+  assert.equal(inputs.some(f=>f.endsWith('/workshop-rack.js')),Boolean(withRack));
+  assert.equal(inputs.some(f=>f.endsWith('/workshop-supports.js')),withRack==='supports');
   assert(!inputs.some(f=>f.includes('content-table-compiler')));
   // A quoted port name survives ordinary minification and may be read using
   // ports[name]. Mangle only names confined to static property access.
@@ -26,7 +28,9 @@ export async function workshopBundles(directory,plugins=[]){
   const base=await craftingBundle(directory,false,plugins),rack=await craftingBundle(directory,true,plugins);
   assert(base.bytes.length<=100*1024,'Base workshop exceeds 100 KiB: '+base.bytes.length);
   assert(rack.bytes.length-base.bytes.length<=5*1024,'Optional learned rack exceeds 5 KiB');
-  return {base,rack};
+  const support=await craftingBundle(directory,'supports',plugins);
+  assert(support.bytes.length-rack.bytes.length<=5*1024,'Optional socket custody exceeds 5 KiB');
+  return {base,rack,support};
 }
 
 // Workspace consumption uses the same public package exports as an installed

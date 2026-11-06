@@ -123,7 +123,11 @@ export function createGemCargo<D extends GemDefinition, U extends GemDefinition,
     const def = ports.support(payload.supportId); if (!def) return null;
     return {def, level: payload.level, ...(item.locked ? {locked: true} : {}), ...(payload.rolled ? {rolled: {...payload.rolled}} : {})};
   }
-  return {freeCellCount,restoreGrantState,makeSkillGemItem,makeSupportGemItem,skillOfGemItem,supportOfGemItem,skillGemPayloadOf};
+  function itemOfSocket(row:GemSocketRow):ItemInstance|null {
+    const support=unpackRow(row);
+    return support?makeSupportGemItem(support):null;
+  }
+  return {freeCellCount,restoreGrantState,makeSkillGemItem,makeSupportGemItem,skillOfGemItem,supportOfGemItem,skillGemPayloadOf,itemOfSocket};
 }
 
 /** Full host policy includes saved-item recovery and lookup in stored sockets. */

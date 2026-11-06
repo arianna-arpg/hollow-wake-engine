@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The 0.56 candidate adds support sockets to the standalone inventory. Start the
+Godot workshop and choose **Support sample** to fit a rolled support to Firebolt,
+return it to the pack, and reopen the same character. JavaScript games can use
+the same compatibility rules and transaction code. See [support sockets](docs/workshop-supports.md).
+
 The 0.55 candidate connects the learned skill bar to the Godot inventory.
 Start the workshop with `-- --cargo-sample`, select Firebolt and choose
 **Learn skill**. The pack, eight seats and next item ID save together.

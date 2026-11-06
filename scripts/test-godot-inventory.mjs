@@ -114,8 +114,8 @@ try{
   fs.copyFileSync(path.join(root,'test/godot-inventory/driver.gd'),path.join(project,'driver.gd'));
   fs.writeFileSync(path.join(project,'driver.tscn'),'[gd_scene load_steps=2 format=3]\n[ext_resource type="Script" path="res://driver.gd" id="1"]\n[node name="Driver" type="Node"]\nscript = ExtResource("1")\n');
   const projectFile=path.join(project,'project.godot');
-  const config=fs.readFileSync(projectFile,'utf8');assert(config.includes('run/main_scene="res://inventory.tscn"'));
-  fs.writeFileSync(projectFile,config.replace('run/main_scene="res://inventory.tscn"','run/main_scene="res://driver.tscn"'));
+  const config=fs.readFileSync(projectFile,'utf8'),mainScene=/^run\/main_scene="res:\/\/(?:inventory|workshop_start)\.tscn"$/m;assert(mainScene.test(config));
+  fs.writeFileSync(projectFile,config.replace(mainScene,'run/main_scene="res://driver.tscn"'));
   fs.appendFileSync(path.join(project,'export_presets.cfg'),'custom_template/debug='+JSON.stringify(tools.exportDebug.replaceAll('\\','/'))+'\ncustom_template/release='+JSON.stringify(tools.exportRelease.replaceAll('\\','/'))+'\n');
   await launch('import',tools.editor,['--headless','--import','--frame-delay','1000','--path',project]);
   // A one-byte whitespace change leaves valid JSON and matching byte counts.

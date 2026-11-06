@@ -21,12 +21,18 @@ var equip_button := Button.new()
 var learn_controls := HBoxContainer.new()
 var learn_button := Button.new()
 var seat_choice := OptionButton.new()
+var socket_controls := HBoxContainer.new()
+var socket_choice := OptionButton.new()
+var socket_button := Button.new()
 var compare_button := CheckButton.new()
 var forge := Button.new()
+var sample_button := Button.new()
+var heading := Label.new()
 var refresh_button := Button.new()
 var selected_uid := 0
 var displayed_revision := 0
 var sample_cargo := false
+var sample_supports := false
 var save_path := "user://inventory.sqlite3"
 var sale_confirmation := VBoxContainer.new()
 var sale_question := Label.new()
@@ -55,6 +61,9 @@ func _ready() -> void:
 	if OS.get_cmdline_user_args().has("--cargo-sample"):
 		sample_cargo = true
 		save_path = "user://inventory-cargo-sample.sqlite3"
+	if OS.get_cmdline_user_args().has("--support-sample"):
+		sample_supports=true
+		save_path="user://inventory-support-sample.sqlite3"
 	var t := Theme.new()
 	t.default_font_size = 18
 	t.set_stylebox("normal","Button",_box(Color("#344a43"),12))
@@ -77,11 +86,12 @@ func _ready() -> void:
 	margin.add_child(stack)
 	var header := HBoxContainer.new()
 	stack.add_child(header)
-	var heading := Label.new()
 	heading.text = "Inventory"
 	_label(heading,36,INK)
 	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(heading)
+	_button(sample_button,"Support sample",_switch_sample)
+	header.add_child(sample_button)
 	_button(forge,"Forge ring",func(): perform("forge"))
 	header.add_child(forge)
 	tabs.name = "Locations"
@@ -124,6 +134,11 @@ func _ready() -> void:
 	_button(learn_button,"Learn skill",func(): perform("learn"))
 	learn_controls.add_child(learn_button)
 	detail.add_child(learn_controls)
+	socket_choice.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	socket_controls.add_child(socket_choice)
+	_button(socket_button,"",_edit_socket)
+	socket_controls.add_child(socket_button)
+	detail.add_child(socket_controls)
 	_button(equip_button,"Equip item",func(): perform("equip"))
 	detail.add_child(equip_button)
 	compare_button.text = "Compare with equipped"
@@ -158,10 +173,18 @@ func _ready() -> void:
 	_restart()
 	tabs.grab_focus()
 
+func _switch_sample() -> void:
+	sample_supports=not sample_supports
+	save_path="user://inventory-support-sample.sqlite3" if sample_supports else ("user://inventory-cargo-sample.sqlite3" if sample_cargo else "user://inventory.sqlite3")
+	tabs.current_tab=0
+	_restart()
+
 func _restart() -> void:
 	profile.close()
 	profile = Profile.new()
-	var reply := profile.start(save_path,null,sample_cargo)
+	var reply := profile.start(save_path,null,sample_cargo,sample_supports)
+	heading.text="Support workshop" if sample_supports else "Inventory"
+	sample_button.text=("Back to cargo sample" if sample_cargo else "Back to inventory") if sample_supports else "Support sample"
 	selected_uid = 0
 	render(true)
 	status.text = "Inventory ready." if reply.ok else error_text(reply.reason)
@@ -225,6 +248,8 @@ func details() -> void:
 		if candidate.uid == selected_uid: item = candidate; break
 	equip_button.hide()
 	learn_controls.hide()
+	socket_controls.hide()
+	socket_choice.clear()
 	compare_button.hide()
 	primary.text = ["Sell item","Move to stash","Return to pack","Unequip to pack","Return skill to pack"][tabs.current_tab]
 	primary.disabled = item.is_empty() or (tabs.current_tab == 0 and item.get("locked",false))
@@ -250,8 +275,14 @@ func show_item(item: Dictionary) -> void:
 	name_label.text = item.get("name","")
 	if item.has("gem") or item.has("mem"):
 		var selling := tabs.current_tab == 0
-		var fit: Variant = [] if not profile.saved.state.get("rack",[]).any(func(row): return row != null) else null
-		var reply := profile.api.inspect_cargo(item,{"inBag":selling,"lane":"sell" if selling else null,"confirmMemorySale":true,"attributes":Profile.HERO_ATTRIBUTES},fit)
+		var fit: Variant = null
+		var fit_failed := false
+		if item.get("gem",{}).get("kind")=="support":
+			var gate := profile.compatible_seats(int(item.uid)) if selling else profile.api.support_fit(profile.saved.state.get("rack",[]),item.gem)
+			if gate.ok: fit=gate.rows
+			else: fit_failed=true
+		var edit_skill: bool=item.get("gem",{}).get("kind")=="skill" and (selling or tabs.current_tab==4)
+		var reply := profile.api.inspect_cargo(item,{"inBag":selling,"lane":"sell" if selling else null,"confirmMemorySale":true,"attributes":Profile.HERO_ATTRIBUTES},fit,edit_skill)
 		if not reply.ok:
 			properties.text = "Item details unavailable."
 			if selling: primary.disabled = true
@@ -261,6 +292,24 @@ func show_item(item: Dictionary) -> void:
 		name_label.text = cargo.title
 		name_label.add_theme_color_override("font_color",Color.from_string(cargo.color,INK))
 		var lines := PackedStringArray(cargo.lines)
+		if fit_failed: lines.append("Support compatibility unavailable.")
+		if edit_skill:
+			socket_button.text="Remove support"
+			for at in item.gem.sockets.size():
+				var seated: Variant = item.gem.sockets[at]
+				if seated==null: continue
+				socket_choice.add_item("%d · %s L%d" % [at+1,reply.socketNames[socket_choice.item_count],seated.level])
+				socket_choice.set_item_metadata(socket_choice.item_count-1,{"act":"unsocket","uid":selected_uid if selling else 0,
+					"slot":-1 if selling else selected_uid-1,"skill":item.gem.skillId,"index":at,"supportId":seated.supportId})
+		elif cargo.kind=="support" and selling and cargo.compatibility is Array:
+			socket_button.text="Socket support"
+			for row in cargo.compatibility:
+				if row.fits and row.occupied<row.sockets:
+					socket_choice.add_item("Seat %d · %s" % [row.slot+1,row.name])
+					socket_choice.set_item_metadata(socket_choice.item_count-1,{"act":"socket","uid":selected_uid,"slot":int(row.slot),"skill":row.skillId})
+				else:
+					lines.append("%s · %s" % [row.name,"sockets full" if row.fits else "incompatible"])
+		socket_controls.visible=socket_choice.item_count>0
 		if cargo.locked: lines.insert(0,"Locked")
 		if cargo.kind == "support" and cargo.compatibility is Array and cargo.compatibility.is_empty():
 			lines.append("No equipped skills.")
@@ -329,6 +378,13 @@ func perform(action: String) -> void:
 		return
 	_apply_action(action,selected_uid,displayed_revision)
 
+func _edit_socket() -> void:
+	if socket_choice.selected<0: return
+	var target: Dictionary = socket_choice.get_item_metadata(socket_choice.selected)
+	var reply := profile.act(target.act,target.uid,displayed_revision,target.slot,target.skill,target)
+	render(true)
+	status.text=("Support socketed." if target.act=="socket" else "Support returned to pack.") if reply.ok else error_text(reply.reason)
+
 func _cancel_sale() -> void:
 	_pending_sale = {}
 	sale_confirmation.hide()
@@ -358,6 +414,10 @@ func _apply_action(action: String, uid: int, revision: int) -> void:
 		status.text = error_text(reply.reason)
 
 func error_text(reason: String) -> String:
+	if reason=="inventory full": return "Make room in the pack before removing a support."
+	if reason=="stale-socket": return "That socket has changed. Review the current skill."
+	if reason=="cannot-socket": return "This support needs a compatible skill with a free socket."
+	if reason=="support-data" or reason=="invalid-support-page": return "The support rules could not be read."
 	if reason == "requirements unmet": return "The hero does not meet this skill’s attribute requirements."
 	if reason == "every seat is taken": return "Choose a seat to replace."
 	if reason == "stale-skill": return "That seat has changed. Review the current skill bar."

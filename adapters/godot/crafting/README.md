@@ -107,3 +107,12 @@ changed bag order. Commit the bag, rack and stash at their observed revision.
 For durable storage, `snapshot_text(profile)` returns the committed profile's
 portable JSON in `.text`. Use `snapshot(profile)` for a detached view. The
 inventory workshop reads both in one synchronous save operation.
+
+## Support sockets
+
+`support_fit(rack, loose_gem_payload)` returns current seat verdicts with socket
+and occupied counts. Pass the owning profile's observed verdict and discipline
+hold to `socket_support`. Use `unsocket_support` with the expected support ID
+and zero-based index. Supply a bag UID for a stored skill. Commit every
+`needsSave` result, including a refused return that consumed an item ID.
+The fit runtime and its verified data pages load on demand.

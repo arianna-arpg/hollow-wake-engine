@@ -29,14 +29,14 @@ export const dispatch=godotDispatch((host,request)=>{
     if(op==='cargo-references'||op==='inspect-cargo'){
       if(!host.cargo)return refuse('cargo-unavailable');
       if(op==='cargo-references')return Object.keys(request).length===2?{ok:true,references:host.cargo.references(request.item)}:refuse('invalid-request');
-      if(!Object.keys(request).every(k=>['op','item','view','records','fit'].includes(k)))return refuse('invalid-request');
+      if(!Object.keys(request).every(k=>['op','item','view','records','fit','socketNames'].includes(k)))return refuse('invalid-request');
       const read=({table,id})=>{
         const rows=request.records?.[table];
         if(!rows||typeof rows!=='object'||Array.isArray(rows)||!Object.hasOwn(rows,id))throw new InspectionInputError('missing-cargo-record');
         return rows[id];
       };
       const card=host.cargo.inspect(request.item,request.view,read,request.fit===undefined?undefined:()=>request.fit);
-      return card?{ok:true,card}:refuse('unknown-gem');
+      return card?{ok:true,card,...(request.socketNames===true&&card.showcase?{socketNames:card.showcase.supports.map(s=>host.cargo.supportName(s.id))}:{})}:refuse('unknown-gem');
     }
     if(op==='configure-inspection'){
       if(host.inspector)return refuse('already-configured');
