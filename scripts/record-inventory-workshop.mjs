@@ -39,11 +39,12 @@ if(process.platform==='linux'){
   fs.copyFileSync(path.join(root,'scripts/test-inventory-platform.py'),path.join(staging,'test-inventory-platform.py'));
   const proofFiles=Object.fromEntries(listFiles(path.join(staging,'proof')).map(f=>[f,hash(path.join(staging,'proof',f))]));
   writeJSON(path.join(staging,'inputs.json'),{gameSha256:hash(game),fixtureSha256:hash(fixture),proofFiles,
-    ...(v.cargo?{cargoRepliesSha256:v.cargo.repliesSha256,cargoQuote:v.cargo.quote,cargoCases:v.cargo.cases}:{})});
+    ...(v.cargo?{cargoRepliesSha256:v.cargo.repliesSha256,cargoQuote:v.cargo.quote,cargoCases:v.cargo.cases}:{}),
+    ...(v.loadout?{loadout:v.loadout}:{})});
 }
 const summary={schemaVersion:1,passed:true,platform:process.platform,arch:process.arch,
   buildSha256:hash(buildFile),verificationSha256:hash(verifiedFile),nativeReceiptSha256:b.nativeReceiptSha256,
   addonSha256:b.addonSha256,saveLibrarySha256:b.librarySha256,archives:b.archives,originalCourseSha256:v.originalCourseSha256,
-  originalCheckpointSha256:v.originalCheckpointSha256,crashes:v.crashes,checks:v.runs,inspection:v.inspection,cargo:v.cargo,render:v.screenshot??null};
+  originalCheckpointSha256:v.originalCheckpointSha256,crashes:v.crashes,checks:v.runs,inspection:v.inspection,cargo:v.cargo,loadout:v.loadout,render:v.screenshot??null};
 writeJSON(path.join(out,'verification.json'),summary);
 console.log({passed:true,out,packages:Object.keys(b.archives)});

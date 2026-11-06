@@ -2,6 +2,7 @@ extends "owned_session.gd"
 
 const DATA := "res://addons/hollow_wake/crafting/"
 var _inspection_ready := false
+var _equipment_ready := false
 const CargoCards = preload("cargo_cards.gd")
 var _cargo_cards := CargoCards.new()
 var _cargo_page_limit := 4
@@ -18,6 +19,7 @@ func close() -> int:
 
 func _reset_cards() -> void:
 	_inspection_ready = false
+	_equipment_ready = false
 	_cargo_cards = CargoCards.new()
 	_cargo_cards.set_page_limit(_cargo_page_limit)
 
@@ -37,6 +39,29 @@ func inspect_item(item: Dictionary) -> Dictionary:
 func compare_items(candidate: Dictionary, worn: Dictionary) -> Dictionary:
 	var ready := _load_inspection()
 	return request({"op":"compare-items","candidate":candidate,"worn":worn}) if ready.ok else ready
+
+func _load_equipment() -> Dictionary:
+	if _equipment_ready: return {"ok":true}
+	var file := FileAccess.open(DATA + "equipment.json", FileAccess.READ)
+	if file == null or file.get_length() > 8192: return {"ok":false,"reason":"invalid-equipment-slots"}
+	var reply := request({"op":"configure-equipment","text":file.get_as_text()})
+	_equipment_ready = reply.ok or reply.get("reason","") == "already-configured"
+	return {"ok":true} if _equipment_ready else reply
+
+func inspect_loadout(item: Dictionary, equipped: Dictionary, hero_level: int, detail := "compact") -> Dictionary:
+	var ready := _load_inspection()
+	if ready.ok: ready = _load_equipment()
+	return request({"op":"inspect-loadout","item":item,"equipped":equipped,"heroLevel":hero_level,"detail":detail}) if ready.ok else ready
+
+func equip(profile: int, uid: int, actor_level: int, slot := "") -> Dictionary:
+	var ready := _load_equipment()
+	var command := {"op":"equip","profile":profile,"uid":uid,"actorLevel":actor_level}
+	if not slot.is_empty(): command.slot = slot
+	return request(command) if ready.ok else ready
+
+func unequip(profile: int, uid: int, slot: String) -> Dictionary:
+	var ready := _load_equipment()
+	return request({"op":"unequip","profile":profile,"uid":uid,"slot":slot}) if ready.ok else ready
 
 # fit is the equipped actor's current socket-gate verdict for this exact gem.
 # Passing [] describes a known empty bar. Omitting it leaves the bar unspecified.

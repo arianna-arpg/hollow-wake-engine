@@ -99,6 +99,8 @@ try{
   const fixture=path.join(project,'fixture.json');fs.writeFileSync(fixture,JSON.stringify(original));
   const {samples}=read(path.join(root,'baseline/item-inspection/observations.json'));
   fs.writeFileSync(path.join(project,'inspection-fixtures.json'),JSON.stringify(samples));
+  const loadout=JSON.parse(gunzipSync(fs.readFileSync(path.join(root,'baseline/loadout-cards/observations.json.gz')))).filter(r=>r.expected);
+  fs.writeFileSync(path.join(project,'loadout-cases.json'),JSON.stringify(loadout.map(({label,input})=>({label,input}))));
   const {rows:originalCargo}=cargoFixtures(),cargoCases=workshopCargoCases(originalCargo);
   const demo=read(path.join(project,'cargo-sample.json'));
   for(const [i,label] of ['stack/2/true','skill/firebolt/legendary','cut/multistrike/7','pin/skill/firebolt'].entries())
@@ -227,6 +229,21 @@ try{
   assert.equal(heap.live_bytes,0);assert.equal(heap.live_blocks,0);
   report.cargo={cases:replies.length,heap,cache,afterClose,quote:wallet,staleSaleRefused:true,cancelKeptSave:true,confirmedRevision:sold.revision,
     repliesSha256:hash(cargoOut),screenshot:renderFlag?hash(cargoPng):null};
+  const loadoutDb=path.join(dir,'loadout.db'),loadoutFile=path.join(dir,'loadout.jsonl');
+  await play('loadout','loadout',loadoutDb,{HWE_RESULT:loadoutFile});
+  const loadoutRows=fs.readFileSync(loadoutFile,'utf8').trimEnd().split('\n').map(JSON.parse);
+  assert.equal(loadoutRows.length,loadout.length);
+  for(const [i,observed] of loadoutRows.entries()){
+    const {expected,label}=loadout[i];assert.equal(observed.label,label);
+    assert.deepEqual(observed.targets,expected.targets,label);
+    assert(expected.title.endsWith('>'+observed.title+'</span>'),label);
+    assert.equal('<span style="color:'+(observed.levelMet?'#6fc06f':'#d05050')+'">'+observed.requirement+'</span> · '+observed.rarityLabel,expected.fullMeta,label);
+  }
+  const wearSaved=database(loadoutDb),wearHeap=read(loadoutFile+'.metrics');
+  assert.equal(wearSaved.revision,4);assert.equal(wearSaved.source.state.items.length,3);
+  assert.equal(Object.keys(wearSaved.source.state.equipped).length,1);assert.equal(wearSaved.source.state.overflow.length,1);
+  assert(wearHeap.closed&&wearHeap.peak_bytes>0&&wearHeap.peak_bytes<=32*1024*1024);assert.equal(wearHeap.live_bytes,0);assert.equal(wearHeap.live_blocks,0);
+  report.loadout={cases:loadoutRows.length,sha256:hash(loadoutFile),heap:wearHeap,revision:wearSaved.revision};
   report.passed=true;
   report.originalCourseSha256=frozen.native.courseSha256;report.originalCheckpointSha256=sha256(JSON.stringify(original));
   report.recoveredItemUid=cargo.uid;report.revisionAfterUI=last.revision;report.archives=build.archives;

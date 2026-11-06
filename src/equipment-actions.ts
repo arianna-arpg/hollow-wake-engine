@@ -44,6 +44,68 @@ const own=<T>(record:Partial<Record<string,T>>,key:string):T|undefined=>Object.h
 const put=<T>(record:Partial<Record<string,T>>,key:string,value:T)=>{Object.defineProperty(record,key,{value,enumerable:true,configurable:true,writable:true});};
 type Cell={x:number;y:number};
 
+type WearContext<T>=Omit<EquipmentContext<T>,'carry'>&{carry:Pick<EquipmentCarry<T>,'items'|'equipped'>};
+type WearPorts<T>=Pick<EquipmentPorts<T>,'slots'|'slot'|'level'> & {base(item:T):{category:string}|undefined};
+function land<T extends ContainerItem>(items:T[],item:T,cell:Cell):void{
+  item.x=cell.x;item.y=cell.y;if(!items.some(other=>other.uid===item.uid))items.push(item);
+}
+function dropPort<T>(ctx:WearContext<T>,needed:boolean){
+  if(!needed)return;
+  const port=ctx.drop;
+  if(typeof port!=='function')throw new Error('Displaced equipment requires a host ownership sink');
+  return port.bind(ctx);
+}
+
+/** The synchronous commit shared by live host actions and isolated session
+ * drafts. Ports must be non-reentrant. Plan displacement before moving any UID. */
+export function equipOnBoard<T extends ContainerItem>(grid:InventoryHost<T>,ports:WearPorts<T>,ctx:WearContext<T>,
+  uid:T['uid'],requested?:string):EquipmentActionResult<T>{
+  const {items,equipped}=ctx.carry;
+  const from=Object.keys(equipped).find(id=>equipped[id]?.uid===uid);
+  const item=items.find(other=>other.uid===uid)??(from?own(equipped,from):undefined);
+  if(!item)return unchanged;
+  const base=ports.base(item);if(!base)return unchanged;
+  let slot=requested?ports.slot(requested):undefined;
+  if(!slot?.enabled||!slot.accepts.includes(base.category)){
+    slot=undefined;
+    for(const option of ports.slots()){
+      if(!option.enabled||!option.accepts.includes(base.category))continue;
+      slot??=option;
+      if(!own(equipped,option.id)){slot=option;break;}
+    }
+  }
+  if(!slot||from===slot.id)return unchanged;
+  const required=finite(ports.level(item),'Equipment level requirement');
+  if(finite(ctx.level,'Character level')<required)return refused('equip:'+uid,'requires level '+required);
+  const previous=own(equipped,slot.id);
+  let back:EquipmentSlot|undefined,cell:Cell|null=null;
+  if(previous){
+    const source=from?ports.slot(from):undefined,previousBase=ports.base(previous);
+    if(source?.enabled&&previousBase&&source.accepts.includes(previousBase.category)&&(source.id===from||!own(equipped,source.id)))back=source;
+    else cell=grid.firstFit(from?items:items.filter(other=>other!==item),previous,ctx.bagBoard);
+  }
+  const drop=dropPort(ctx,!!previous&&!back&&!cell);
+  if(from)delete equipped[from];else grid.remove(items,uid);
+  put(equipped,slot.id,item);delete item.x;delete item.y;
+  if(previous){
+    if(back)put(equipped,back.id,previous);
+    else if(cell)land(items,previous,cell);
+    else drop!(previous);
+  }
+  return {changed:true,item};
+}
+
+export function unequipOnBoard<T extends ContainerItem>(grid:InventoryHost<T>,ctx:Pick<WearContext<T>,'carry'|'bagBoard'>,
+  slot:string,x?:number,y?:number):EquipmentActionResult<T>{
+  const carry=ctx.carry;
+  const item=own(carry.equipped,slot);if(!item)return unchanged;
+  const board=ctx.bagBoard;
+  const exact=x!==undefined&&y!==undefined;
+  const cell=exact?(grid.canPlace(carry.items,item,x,y,board)?{x,y}:null):grid.firstFit(carry.items,item,board);
+  if(!cell)return refused('unequip:'+slot,exact?'no room there':'no room in the bag');
+  land(carry.items,item,cell);delete carry.equipped[slot];return {changed:true,item};
+}
+
 /** Live host-owned equipment and container commits. Pure reads plan all
  * geometry before writes; no item payload copies or retained carry records.
  * Original array ordering on refused container operations is intentional. */
@@ -62,33 +124,12 @@ export class EquipmentActions<T extends ContainerItem> {
   #destination(items:readonly T[],item:T,board:LiveInventoryBoard,x?:number,y?:number):Cell|null{
     return x!==undefined&&y!==undefined?(this.#grid.canPlace(items,item,x,y,board)?{x,y}:null):this.#grid.firstFit(items,item,board);
   }
-  #land(items:T[],item:T,cell:Cell):void{item.x=cell.x;item.y=cell.y;if(!items.some(other=>other.uid===item.uid))items.push(item);}
-  #drop(ctx:EquipmentContext<T>,needed:boolean):((item:T)=>void)|undefined{
-    if(!needed)return;const port=ctx.drop;if(typeof port!=='function')throw new Error('Displaced equipment requires a host ownership sink');return port.bind(ctx);
+  equip(ctx:EquipmentContext<T>,uid:T['uid'],requested?:string):EquipmentActionResult<T>{
+    return this.#run(()=>equipOnBoard(this.#grid,this.#ports,ctx,uid,requested));
   }
-  equip(ctx:EquipmentContext<T>,uid:T['uid'],requested?:string):EquipmentActionResult<T>{return this.#run(()=>{
-    const {carry}=ctx,from=Object.keys(carry.equipped).find(id=>carry.equipped[id]?.uid===uid),item=carry.items.find(item=>item.uid===uid)??(from?own(carry.equipped,from):undefined);if(!item)return unchanged;
-    const base=this.#ports.base(item);if(!base)return unchanged;let slot=requested?this.#ports.slot(requested):undefined;
-    if(slot&&(!slot.enabled||!slot.accepts.includes(base.category)))slot=undefined;
-    if(!slot){for(const option of this.#ports.slots())if(option.enabled&&option.accepts.includes(base.category)){slot??=option;if(!own(carry.equipped,option.id)){slot=option;break;}}}
-    if(!slot||from===slot.id)return unchanged;
-    const required=finite(this.#ports.level(item),'Equipment level requirement');if(finite(ctx.level,'Character level')<required)return refused('equip:'+uid,`requires level ${required}`);
-    const previous=own(carry.equipped,slot.id);let back:EquipmentSlot|undefined,cell:Cell|null=null;
-    if(previous){const source=from?this.#ports.slot(from):undefined,previousBase=this.#ports.base(previous);
-      if(source?.enabled&&previousBase&&source.accepts.includes(previousBase.category)&&(source.id===from||!own(carry.equipped,source.id)))back=source;
-      else cell=this.#grid.firstFit(from?carry.items:carry.items.filter(other=>other!==item),previous,ctx.bagBoard);
-    }
-    const drop=this.#drop(ctx,!!previous&&!back&&!cell);
-    if(from)delete carry.equipped[from];else this.#grid.remove(carry.items,uid);
-    put(carry.equipped,slot.id,item);delete item.x;delete item.y;
-    if(previous){if(back)put(carry.equipped,back.id,previous);else if(cell)this.#land(carry.items,previous,cell);else drop!(previous);}
-    return {changed:true,item};
-  });}
-  unequip(ctx:EquipmentContext<T>,slot:string,x?:number,y?:number):EquipmentActionResult<T>{return this.#run(()=>{
-    const item=own(ctx.carry.equipped,slot);if(!item)return unchanged;
-    const cell=this.#destination(ctx.carry.items,item,ctx.bagBoard,x,y);if(!cell)return refused('unequip:'+slot,x!==undefined&&y!==undefined?'no room there':'no room in the bag');
-    this.#land(ctx.carry.items,item,cell);delete ctx.carry.equipped[slot];return {changed:true,item};
-  });}
+  unequip(ctx:EquipmentContext<T>,slot:string,x?:number,y?:number):EquipmentActionResult<T>{
+    return this.#run(()=>unequipOnBoard(this.#grid,ctx,slot,x,y));
+  }
   move(items:T[],uid:T['uid'],board:LiveInventoryBoard,x:number,y:number):boolean{return this.#run(()=>{
     const item=items.find(item=>item.uid===uid);if(!item)return false;
     if(this.#grid.canPlace(items,item,x,y,board)){item.x=x;item.y=y;return true;}
@@ -111,15 +152,15 @@ export class EquipmentActions<T extends ContainerItem> {
       if(!cell){const rest=carry.items.filter(other=>other!==item);restore=from.x!==undefined&&from.y!==undefined?this.#destination(rest,item,ctx.bagBoard,from.x,from.y):null;restore??=this.#grid.firstFit(rest,item,ctx.bagBoard);}
     }
     if(!cell&&!restore)throw new Error('Cannot restore source bag placement');
-    const drop=this.#drop(ctx,!!displaced&&!bagReturn);if(!existing)put(carry.containers,ctx.id,held);this.#grid.remove(carry.items,uid);
-    if(!cell){if(restore)this.#land(carry.items,item,restore);return refused('seat:'+uid,`no open seat in the ${def.label}`);}
-    if(displaced){held.splice(held.indexOf(displaced),1);delete displaced.x;delete displaced.y;if(bagReturn)this.#land(carry.items,displaced,bagReturn);else drop!(displaced);}
-    this.#land(held,item,cell);return {changed:true,item};
+    const drop=dropPort(ctx,!!displaced&&!bagReturn);if(!existing)put(carry.containers,ctx.id,held);this.#grid.remove(carry.items,uid);
+    if(!cell){if(restore)land(carry.items,item,restore);return refused('seat:'+uid,`no open seat in the ${def.label}`);}
+    if(displaced){held.splice(held.indexOf(displaced),1);delete displaced.x;delete displaced.y;if(bagReturn)land(carry.items,displaced,bagReturn);else drop!(displaced);}
+    land(held,item,cell);return {changed:true,item};
   });}
   take(ctx:EquipmentContext<T>,container:string,uid:T['uid'],x?:number,y?:number):EquipmentActionResult<T>{return this.#run(()=>{
     const held=own(ctx.carry.containers,container),item=held?.find(item=>item.uid===uid);if(!held||!item)return unchanged;
     const cell=this.#destination(ctx.carry.items,item,ctx.bagBoard,x,y),index=held.indexOf(item);held.splice(index,1);
     if(!cell){held.push(item);return refused('unseat:'+uid,x!==undefined?'no room there':'no room in the bag');}
-    this.#land(ctx.carry.items,item,cell);if(!held.length)delete ctx.carry.containers[container];return {changed:true,item};
+    land(ctx.carry.items,item,cell);if(!held.length)delete ctx.carry.containers[container];return {changed:true,item};
   });}
 }

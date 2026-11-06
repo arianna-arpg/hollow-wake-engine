@@ -47,6 +47,12 @@ const slots=new EquipmentSlots(JSON.parse(equipmentBytes)),specimen=loaded.get(i
 const actions=new EquipmentActions({slots:()=>slots.slots(),slot:id=>slots.slot(id),footprint:base,base,level:i=>base(i).category==='relic'?1:equipmentTierLevel(i.tier,rules.content.pack.config.tierBreaks),unique:i=>rules.content.pack.uniques[i.uniqueId]});
 specimen.x=0;specimen.y=0;const ctx={carry:{items:[specimen],equipped:{},containers:{}},level:80,bagBoard:{w:2,h:2},drop:i=>ground.push(i)};
 assert(actions.equip(ctx,specimen.uid).changed);assert.equal(ctx.carry.equipped.ring1,specimen);assert.equal(ctx.carry.items.length,0);
+const candidate=rules.forge({baseId:'ring_lapis',ilvl:21,rarity:'magic',quality:.5});
+const loadout=inspector.inspectLoadout(candidate,ctx.carry.equipped,1,slots,'full');
+assert.equal(loadout.levelMet,false);assert.equal(loadout.targets[0].uid,specimen.uid);
+assert.equal(loadout.targets[0].label,'Left Ring');
+assert.deepEqual(loadout.targets[0].rows,inspector.compare(candidate,specimen));
+assert.equal(inspector.inspectLoadout({...specimen},ctx.carry.equipped,1,slots).hasComparison,false);
 hero.equipInstance({id:identity,name:specimen.name,category:base(specimen).category,slots:slots.slots().filter(s=>s.enabled&&s.accepts.includes(base(specimen).category)).map(s=>s.id),mods:rules.compile(specimen)},'ring1');
 assert.ok(hero.attributes.intelligence>before);
 assert.deepEqual(engine.character(JSON.parse(JSON.stringify(hero.snapshot()))).attributes,hero.attributes);
@@ -58,7 +64,8 @@ let nextUid=300,draws=0;
 const host=createItemHost(rules.content,()=>nextUid++);
 assert.equal(host.forge({baseId:'ring_lapis',ilvl:21},()=>{draws++;return .5;}).uid,300);
 assert.ok(draws>0);assert.equal(nextUid,301);
-console.log(JSON.stringify({itemToInventoryToEquipmentToHit:true,explicitHostPorts:true,authorizedEquipmentPolicy:true,equipmentContentId:slots.pack.contentId,contentId:manifest.contentId}));
+console.log(JSON.stringify({itemToInventoryToEquipmentToHit:true,explicitHostPorts:true,authorizedEquipmentPolicy:true,
+  loadoutCardMatched:true,equipmentContentId:slots.pack.contentId,contentId:manifest.contentId}));
 `);
 const result = JSON.parse(execFileSync(process.execPath,['run.mjs'],{cwd:consumer,encoding:'utf8',env:{...process.env,NODE_PATH:''}}));
 writeJSON(path.join(artifacts,'item-package-verification.json'),{...result,engineIntegrity:engine.integrity,itemIntegrity:content.integrity,

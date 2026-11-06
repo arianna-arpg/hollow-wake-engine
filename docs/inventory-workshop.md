@@ -42,9 +42,43 @@ const changes = inspector.compare(candidate, worn);
 ```
 
 Godot exposes the same results through `inspect_item` and `compare_items` on
-the crafting wrapper. Inspecting requires no open profile. The workshop uses
-the equipment card. Dedicated gem and memory-pouch cards, hero-specific
-eligibility and an equipped-slot comparison selector are separate UI work.
+the crafting wrapper. Inspecting requires no open profile. Gems and pouches
+use their [cargo card](cargo-cards.md).
+
+### Comparing and wearing equipment
+
+Select a ring in the pack and choose **Equip item**. Select another ring, then
+**Compare with equipped** to see its changes against each occupied hand.
+The next equip uses the first empty compatible slot. With both hands occupied,
+the default is the first compatible slot in the authored order. The Equipped
+tab lets you return a piece to the pack when it has space.
+
+JavaScript hosts load `equipment.json` from the item package and construct
+`new EquipmentSlots(pack)` from `@hollow-wake/engine/inventory/equipment`.
+Call `inspector.inspectLoadout(item, equipped, heroLevel, slots, 'full')` for
+ordered comparison sections. The default compact mode reports whether a
+comparison is available and skips the worn modifier calculations. A worn
+piece suppresses comparison by UID. The caller resolves the viewing seat and
+ownership before passing item bodies, including shop and stash previews.
+
+Bind the slots to an owned crafting session once with
+`session.configureEquipment(slots)`. Send `{op:'equip',profile,uid,actorLevel}`,
+with an optional `slot` for an explicit destination, or
+`{op:'unequip',profile,uid,slot}`. A successful request returns
+`result.changed`; a level or space refusal carries `result.refusal.reason`.
+The host supplies the acting body's level for the action and the viewing
+hero's level for the card. These can differ during possession. The workshop
+uses level ten for both. Its SQLite save commits each successful transfer
+under the revision the player saw. Displaced gear that cannot fit goes to
+recoverable overflow. The live game can supply its own ground-drop callback.
+
+Godot wraps these calls as `inspect_loadout`, `equip` and `unequip`. Slot
+definitions load once on first use. All card and equipment decisions use
+in-memory definitions. SQLite stores the completed inventory transaction.
+The source observations are in `baseline/loadout-cards`. Reproduce them with
+`npm run reference:loadout` and compare the SDK with `npm run test:loadout`.
+Measure compact and full reads on a host with `npm run benchmark:loadout`.
+The benchmark alternates modes over the same original cards with content loaded.
 
 Original-game observations cover 26,407 saved items and candidate/worn pairs.
 Run `npm run test:inspection` after building the SDK to check the frozen

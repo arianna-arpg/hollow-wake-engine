@@ -3,6 +3,10 @@ extends RefCounted
 const Crafting = preload("res://addons/hollow_wake/crafting/crafting.gd")
 const SLOT := 1
 const STASH_LIMIT := 64
+# The standalone workshop has one level-ten hero who occupies their own body.
+# A game with possession supplies the viewing hero and acting body independently.
+const HERO_LEVEL := 10
+const ACTOR_LEVEL := 10
 const COUNTER := {"salvage":false,"bench":false,"oracle":false,"counter":true}
 var api := Crafting.new()
 var store: Variant
@@ -134,6 +138,18 @@ func act(action: String, uid: int, seen_revision: int) -> Dictionary:
 	var next := stash.duplicate()
 	var change: Dictionary
 	match action:
+		"equip", "unequip":
+			if action == "equip":
+				if _find(saved.state.items,uid) < 0: return {"ok":false,"reason":"missing-item"}
+				change = api.equip(1,uid,ACTOR_LEVEL)
+			else:
+				var slot_id := ""
+				for key in saved.state.equipped:
+					if saved.state.equipped[key].uid == uid: slot_id = key; break
+				if slot_id.is_empty(): return {"ok":false,"reason":"missing-item"}
+				change = api.unequip(1,uid,slot_id)
+			if change.ok and not change.result.changed:
+				return {"ok":false,"reason":change.result.get("refusal",{}).get("reason","cannot-equip")}
 		"forge":
 			change = api.forge(1,{"baseId":"ring_lapis","ilvl":10,"rarity":"rare","fillRandom":true})
 			if change.ok and change.result.uid == null: change = {"ok":false,"reason":"mint-refused"}

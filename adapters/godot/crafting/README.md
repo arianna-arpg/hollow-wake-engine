@@ -81,3 +81,13 @@ The SDK enforces its own state and request limits, including 512 KiB compact JSO
 The default 32 MiB cap applies to tracked embedded allocations per started host;
 it excludes Godot, rendering and process RSS. This is a menu/control API. Desktop
 replay does not establish physical Steam Deck, mobile, Unity or Unreal support.
+
+Use `inspect_loadout(item, equipped, hero_level, "full")` for ordered
+comparisons against worn pieces. Compact mode returns `hasComparison`. Pass
+the viewing hero's level here. Use `equip(profile, uid, actor_level, slot)`
+to commit a change with the acting body's level. Omitting the slot selects
+the first empty compatible slot or the first compatible slot if all are full.
+Use `unequip(profile, uid, slot)` to return a piece to the pack. Check
+`result.changed` before saving and read `result.refusal.reason` when present.
+Slot content loads on demand. Displaced gear that cannot fit in the bag
+transfers to the profile's recoverable overflow.

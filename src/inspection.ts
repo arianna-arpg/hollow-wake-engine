@@ -1,7 +1,8 @@
 import {ItemContent} from './item-rules.js';
 import {itemOperations} from './item-core.js';
 import {validateItem} from './item-validation.js';
-import {copySessionJSON,SessionInputError,requireSession as need,sessionArray,sessionRecord,sessionText} from './session-json.js';
+import {copySessionJSON,SessionInputError,requireSession as need,sessionArray,sessionRecord,sessionText,sessionInteger} from './session-json.js';
+import {EquipmentSlots} from './equipment-actions.js';
 import {InspectionFormat,readTerms} from './inspection-format.js';
 import type {ItemInstance,AffixDef,ModLineDef,RangedLineDef} from './item-types.js';
 import type {Modifier} from './types.js';
@@ -53,7 +54,9 @@ export class ItemInspector {
     this.#ops=itemOperations(content.pack,()=>{throw new Error('Cannot mint during inspection');});
   }
   #item(input: unknown): ItemInstance {
-    const value=copySessionJSON(input);
+    return this.#checkedItem(copySessionJSON(input));
+  }
+  #checkedItem(value: unknown): ItemInstance {
     sessionRecord(value); sessionText(value.name); sessionText(value.baseId);
     sessionArray(value.affixes,128); sessionArray(value.implicitRolls,1024);
     if(value.sockets!==undefined)sessionArray(value.sockets,128);
@@ -70,7 +73,10 @@ export class ItemInspector {
     return item;
   }
   inspect(input: unknown) {
-    const item=this.#item(input), pack=this.#content.pack, base=pack.bases[item.baseId];
+    return this.#inspect(this.#item(input));
+  }
+  #inspect(item: ItemInstance) {
+    const pack=this.#content.pack, base=pack.bases[item.baseId];
     const f=this.#format, terms=f.terms,ops=this.#ops;
     const ownStats=ops.foldOwnStats(base,item);
     const modifiers=ops.compileItemMods(item,ownStats).map(m=>{
@@ -144,7 +150,47 @@ export class ItemInspector {
   }
   compare(candidate: unknown,worn: unknown): ModCompareRow[] {
     const next=fold(this.#ops.compileItemMods(this.#item(candidate)));
-    const current=fold(this.#ops.compileItemMods(this.#item(worn)));
+    return this.#compare(next,this.#item(worn));
+  }
+  /** The host resolves custody and the viewing seat before handing over the
+   * bodies. The hero level is for display, including when occupying another
+   * actor. A hover never authorizes an equipment change. */
+  inspectLoadout(input: unknown, equipped: unknown, heroLevel: number, slots: EquipmentSlots, detail: 'compact'|'full'='compact') {
+    sessionInteger(heroLevel,1);
+    need(slots instanceof EquipmentSlots,'invalid-equipment-slots');
+    need(detail==='compact'||detail==='full','invalid-detail');
+    const worn=copySessionJSON(equipped);
+    sessionRecord(worn);
+    need(Object.keys(worn).length<=128,'invalid-loadout');
+    const item=this.#item(input), card=this.#inspect(item), description=card.description;
+    const ids=new Set<number>();
+    for(const body of Object.values(worn)){
+      if(body===null)continue;
+      sessionRecord(body); sessionInteger(body.uid,1);
+      need(!ids.has(body.uid),'duplicate-worn-uid'); ids.add(body.uid);
+    }
+    const category=this.#content.pack.bases[item.baseId].category;
+    let hasComparison=false, wearable=false;
+    const targets: {slot:string;label:string;uid:number;name:string;color:string;rows:ModCompareRow[]}[]=[];
+    let next: ReturnType<typeof fold>|undefined;
+    for(const slot of slots.slots()){
+      if(!slot.enabled||!slot.accepts.includes(category))continue;
+      wearable=true;
+      if(ids.has(item.uid)||!worn[slot.id])continue;
+      hasComparison=true;
+      if(detail==='compact')break;
+      const body=this.#checkedItem(worn[slot.id]);
+      next??=fold(card.modifiers);
+      targets.push({slot:slot.id,label:slot.label??slot.id,uid:body.uid,name:body.name,
+        color:this.#format.terms.rarities[body.rarity].color,rows:this.#compare(next,body)});
+    }
+    const levelMet=heroLevel>=card.requiredLevel;
+    return {...card,title:(description.epitaph?description.epitaph.name+': ':'')+description.title,
+      rarityLabel:this.#format.terms.rarities[item.rarity].label,levelMet,
+      requirement:description.reqLine+(levelMet?'':' — you are '+heroLevel),wearable,hasComparison,targets};
+  }
+  #compare(next: ReturnType<typeof fold>,worn: ItemInstance): ModCompareRow[] {
+    const current=fold(this.#ops.compileItemMods(worn));
     const rows: Record<ModCompareRow['kind'],ModCompareRow[]>={delta:[],same:[],gain:[],loss:[]};
     for(const [key,{line,value}] of next){
       const before=current.get(key),text=this.#format.line(line,value);

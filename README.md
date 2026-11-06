@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The 0.53 candidate lets the Godot workshop equip and remove items, compare a
+candidate against both worn rings and restore the same loadout after restarting.
+JavaScript hosts can use the same slot pack and pass the viewing hero and acting
+body independently. See [comparing and wearing equipment](docs/inventory-workshop.md#comparing-and-wearing-equipment).
+
 The 0.52 candidate adds [skill gems, support gems and memory-pouch inspection](docs/cargo-cards.md).
 Display data loads by page when a host opens a card. Compatibility uses the
 viewing actor's current equipped skills, summons and support cuts.

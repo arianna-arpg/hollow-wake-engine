@@ -43,6 +43,9 @@ func _ready() -> void:
 	if mode == "ui":
 		await play_ui()
 		return
+	if mode == "loadout":
+		await play_loadout(db)
+		return
 	if mode == "cargo-ui":
 		await play_cargo(db)
 		return
@@ -153,6 +156,58 @@ func press_key(code: Key) -> void:
 		event.pressed = down
 		get_viewport().push_input(event,true)
 		await get_tree().process_frame
+
+func play_loadout(filename: String) -> void:
+	var screen = preload("res://inventory.tscn").instantiate()
+	screen.save_path = filename
+	add_child(screen)
+	await get_tree().process_frame
+	if not check(screen.profile.available and screen.equip_button.visible,"new workshop offers equip"): return
+	var api = screen.profile.api
+	var original: Dictionary = screen.profile.store.read_slot(1)
+	var fixture: Dictionary = api.from_portable_json(FileAccess.get_file_as_string("res://loadout-cases.json"))
+	if not check(fixture.ok,"decode original loadout observations"): return
+	var output := FileAccess.open(OS.get_environment("HWE_RESULT"),FileAccess.WRITE)
+	for row in fixture.value:
+		var input: Dictionary = row.input
+		var card: Dictionary = api.inspect_loadout(input.item,input.equipped,int(input.heroLevel),"full")
+		if not check(card.ok,"loadout card "+row.label): return
+		var compact: Dictionary = api.inspect_loadout(input.item,input.equipped,int(input.heroLevel),"compact")
+		if not check(compact.ok and compact.targets.is_empty() and compact.hasComparison == card.hasComparison,"compact mode "+row.label): return
+		var result: Dictionary = api.to_portable_json({"label":row.label,"targets":card.targets,"title":card.title,
+			"requirement":card.requirement,"levelMet":card.levelMet,"rarityLabel":card.rarityLabel})
+		if not check(result.ok,"encode loadout card"): return
+		output.store_line(result.text)
+	output.close()
+	if not check(original == screen.profile.store.read_slot(1),"viewing gear never writes storage"): return
+	var start: Dictionary = screen.profile.saved
+	await click_control(screen.equip_button)
+	if not check(screen.profile.saved.state.equipped.has("ring1"),"equip first ring by pointer"): return
+	screen.render(true)
+	if not check(screen.compare_button.visible,"left ring comparison offered"): return
+	await click_control(screen.compare_button)
+	if not check(screen.properties.text.contains("vs Left Ring:"),"expanded left ring comparison"): return
+	await click_control(screen.equip_button)
+	screen.render(true)
+	if not check(screen.profile.saved.state.equipped.has("ring2"),"second ring prefers empty right hand"): return
+	if not check(screen.properties.text.find("vs Left Ring:") >= 0 and screen.properties.text.find("vs Right Ring:") > screen.properties.text.find("vs Left Ring:"),"two ordered ring sections"): return
+	var prior_rev: int = screen.profile.revision
+	var uid: int = screen.selected_uid
+	var stale: Dictionary = screen.profile.act("equip",uid,prior_rev-1)
+	if not check(stale.get("reason") == "stale-revision" and screen.profile.revision == prior_rev,"refuse stale equip"): return
+	screen.tabs.current_tab = 3
+	screen.render(true)
+	if not check(not screen.compare_button.visible and screen.primary.text == "Unequip to pack","worn card actions"): return
+	await click_control(screen.primary)
+	if not check(screen.profile.revision == prior_rev+1 and screen.profile.saved.state.equipped.size() == 1,"unequip stores bag ownership"): return
+	var final: Dictionary = screen.profile.saved
+	if not check(start.random == final.random and start.nextUid == final.nextUid and screen.profile.reload().ok and final == screen.profile.saved,"reload preserves custody and continuation"): return
+	screen.profile.close()
+	var metrics := FileAccess.open(OS.get_environment("HWE_RESULT")+".metrics",FileAccess.WRITE)
+	metrics.store_string(JSON.stringify(api.metrics()))
+	metrics.close()
+	print("HWE_PASS loadout")
+	get_tree().quit()
 
 func play_cargo(filename: String) -> void:
 	var screen = preload("res://inventory.tscn").instantiate()

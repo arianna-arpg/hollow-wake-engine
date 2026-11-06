@@ -3,7 +3,7 @@ import {root,sha256,writeJSON,listFiles} from './reference-utils.mjs';import {np
 import {composedAddon} from './godot-addon-inventory.mjs';
 import {inspectionTerms} from './compile-inspection-terms.mjs';
 import {writeCargoAtlas} from './compile-cargo-cards.mjs';
-import {itemPack} from './compile-item-content.mjs';import {craftingPack} from './compile-crafting-content.mjs';import {skillProgressionPack} from './compile-skill-progression.mjs';
+import {itemPack,equipmentPack} from './compile-item-content.mjs';import {craftingPack} from './compile-crafting-content.mjs';import {skillProgressionPack} from './compile-skill-progression.mjs';
 
 // Extend the verified progression package, preserving its native extension,
 // definitions, wrappers and licenses byte for byte. Install exactly its SDK.
@@ -32,13 +32,14 @@ for(const f of bridge)fs.copyFileSync(path.join(root,'adapters/godot',f==='entry
 const inspectionPath=path.join(extra,'inspection.json');
 fs.writeFileSync(inspectionPath,JSON.stringify(inspectionTerms())+'\n');
 assert(fs.statSync(inspectionPath).size<=64*1024);
+fs.writeFileSync(path.join(extra,'equipment.json'),JSON.stringify(equipmentPack())+'\n');
 writeCargoAtlas(extra,packs.skills.contentId,packs.crafting.contentId);
 const bundle=path.join(extra,'bundle.txt');const built=await build({absWorkingDir:consumer,entryPoints:['entry.mjs'],bundle:true,platform:'neutral',format:'iife',globalName:'HollowWakeSession',target:'es2022',minify:true,outfile:bundle,metafile:true,tsconfigRaw:{}});
 const inputs=Object.keys(built.metafile.inputs);assert(inputs.includes('node_modules/@hollow-wake/engine/dist/content-table.js')&&inputs.includes('node_modules/@hollow-wake/engine/dist/crafting-session.js'));
 assert(inputs.every(f=>f==='session.mjs'||bridge.includes(f)||f.startsWith('node_modules/@hollow-wake/engine/dist/')&&!f.includes('content-table-compiler')));assert(Object.values(built.metafile.outputs).every(o=>o.imports.length===0));
 const bundleBytes=fs.statSync(bundle).size,contentBytes=fs.statSync(path.join(extra,'content.json')).size;assert(bundleBytes<=100*1024&&contentBytes<=2*1024*1024);
 for(const f of ['README.md','crafting.gd','cargo_cards.gd'])fs.copyFileSync(path.join(root,'adapters/godot/crafting',f),path.join(extra,f));fs.copyFileSync(path.join(root,'adapters/godot/shared/owned_session.gd'),path.join(extra,'owned_session.gd'));
-const files=Object.fromEntries(['README.md','crafting.gd','owned_session.gd','cargo_cards.gd','content.json','inspection.json','cargo-index.json','cargo-pages.txt','bundle.txt'].map(f=>[f,hash(path.join(extra,f))]));
+const files=Object.fromEntries(['README.md','crafting.gd','owned_session.gd','cargo_cards.gd','content.json','inspection.json','equipment.json','cargo-index.json','cargo-pages.txt','bundle.txt'].map(f=>[f,hash(path.join(extra,f))]));
 const content=[packs.items.id,packs.crafting.contentId,packs.skills.contentId];
 assert.deepEqual(content,retained.course.rows.find(row=>row.expected.save).expected.save.content.slice(0,3));
 writeJSON(path.join(extra,'manifest.json'),{schemaVersion:1,experimental:true,capability:'crafting-session/v1',transport:'content-table/v1',content,parentAddonSha256:previous.archiveSha256,sdkArchiveSha256:previous.sdkArchiveSha256,files});

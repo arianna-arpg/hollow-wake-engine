@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
+import {equipmentPack} from './compile-item-content.mjs';
 import {inspectionTerms} from './compile-inspection-terms.mjs';
 import {root,sha256,listFiles,writeJSON} from './reference-utils.mjs';
 
@@ -54,6 +55,7 @@ function zip(label,folder,prefix,filename) {
 run('install',tools.python,['-I',path.join(root,'scripts/godot-proc-example-archive.py'),'install',path.resolve(addon),project]);
 assert.equal(hash(path.join(project,'addons/hollow_wake/crafting/inspection.json')),sha256(JSON.stringify(inspectionTerms())+'\n'),'Workshop requires the matching inspection vocabulary');
 const cargoDir=path.join(project,'addons/hollow_wake/crafting');
+assert.equal(hash(path.join(cargoDir,'equipment.json')),sha256(JSON.stringify(equipmentPack())+'\n'));
 const atlas=read(path.join(cargoDir,'cargo-index.json')),cargoBytes=fs.readFileSync(path.join(cargoDir,'cargo-pages.txt'));
 assert.equal(atlas.format,'cargo-display-pages/v1');assert.equal(sha256(cargoBytes),atlas.sha256);
 const ids=read(path.join(cargoDir,'manifest.json')).content;

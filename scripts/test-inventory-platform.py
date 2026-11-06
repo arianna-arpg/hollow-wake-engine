@@ -128,6 +128,18 @@ def main():
         require(card_run["keyboardScroll"] or card_run["scrollMax"] <= card_run["scrollPage"],
                 "overflowing card could not be scrolled")
         report["inspection"] = card_run
+        if "loadout" in manifest:
+            result, wear_db = work / "loadout.jsonl", work / "loadout.sqlite3"
+            run(proof, "loadout", HWE_CASE="loadout", HWE_DB=str(wear_db), HWE_RESULT=str(result))
+            require(digest(result) == manifest["loadout"]["sha256"], "equipment comparisons differ")
+            heap = json.loads(Path(str(result) + ".metrics").read_bytes())
+            require(heap["closed"] and not heap["poisoned"] and not heap["delivery_failed"] and
+                    0 < heap["peak_bytes"] <= 32 * 1024 * 1024 and heap["live_bytes"] == heap["live_blocks"] == 0,
+                    "loadout host exceeded budget or leaked allocations")
+            with sqlite3.connect(wear_db) as conn:
+                revision, crafting = conn.execute("SELECT revision,crafting FROM slots WHERE slot=1").fetchone()
+                require(revision == 4 and len(json.loads(crafting)["state"]["equipped"]) == 1, "loadout custody differs")
+            report["loadout"] = {"sha256": digest(result), "revision": revision, "heap": heap}
         if "cargoRepliesSha256" in manifest:
             cargo_file, cargo_db = work / "cargo.jsonl", work / "cargo.sqlite3"
             run(proof, "cargo-cards", HWE_CASE="cargo-ui", HWE_DB=str(cargo_db), HWE_RESULT=str(cargo_file))

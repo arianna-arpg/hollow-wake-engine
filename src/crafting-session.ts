@@ -4,6 +4,7 @@ import {SkillProgression} from './skill-progression.js';
 import {createGemResidence, type GemSkill, type GemSupport} from './gem-residence.js';
 import {createItemHost} from './item-host.js';
 import {InventoryHost} from './inventory-host.js';
+import {EquipmentSlots,equipOnBoard,unequipOnBoard,equipmentTierLevel} from './equipment-actions.js';
 import {Random} from './random.js';
 import {CraftingSessionData, type CraftingSessionState, type CraftingSessionDefinitions} from './crafting-session-data.js';
 import type {ItemInstance, ItemRollOptions, ItemForgeOptions} from './item-types.js';
@@ -34,6 +35,7 @@ export class CraftingSession {
   readonly #inventory: InventoryHost<ItemInstance>;
   readonly #skills;
   readonly #supports;
+  #wear?: Parameters<typeof equipOnBoard<ItemInstance>>[1];
   constructor(definitions: CraftingSessionDefinitions, maxProfiles = 8) {
     need(definitions?.crafting instanceof CraftingContent && definitions?.skills instanceof SkillProgression,'invalid-session-content');
     integer(maxProfiles,1,64); this.#maxProfiles = maxProfiles;
@@ -56,6 +58,15 @@ export class CraftingSession {
       random:profile.random.snapshot(),nextUid:profile.nextUid,state:profile.state};
     // Reserve the entire restore envelope, not only the smaller save value.
     return (copySessionJSON({op:'restore',profile:0xffffffff,save}) as {save: ReturnType<typeof copySessionJSON>}).save;
+  }
+  /** Bind the host's authored slot pack once. Existing profiles retain their
+   * identities and legacy slot keys. Only equip and unequip consume this pack. */
+  configureEquipment(slots: EquipmentSlots): void {
+    need(!this.#wear,'already-configured');
+    need(slots instanceof EquipmentSlots,'invalid-equipment-slots');
+    const pack=this.#defs.crafting.items.pack;
+    this.#wear={slots:()=>slots.slots(),slot:id=>slots.slot(id),base:item=>pack.bases[item.baseId],
+      level:item=>pack.bases[item.baseId].category==='relic'?1:equipmentTierLevel(item.tier,pack.config.tierBreaks)};
   }
   #validate(profile: Profile): void {
     this.#data.state(profile.state); integer(profile.nextUid,1); integer(profile.random.draws);
@@ -144,6 +155,24 @@ export class CraftingSession {
       this.#validate(next); this.#profiles.set(request.profile,next); return {ok:true};
     }
     if (!profile) return refuse('not-open');
+    if(request.op==='equip'||request.op==='unequip'){
+      const wear=this.#wear;
+      if(!wear)return refuse('equipment-unavailable');
+      const equip=request.op==='equip';
+      fields(request,equip?['op','profile','uid','actorLevel','slot']:['op','profile','uid','slot']);
+      const {uid,slot,actorLevel}=request; integer(uid,1);
+      if(equip)integer(actorLevel,1);
+      if(!equip||slot!==undefined)text(slot);
+      return this.#mutate(profile,(draft,events)=>{
+        const state=draft.state,board=this.#board(state);
+        if(!equip&&state.equipped[slot as string]?.uid!==uid)return {changed:false};
+        const action=equip?equipOnBoard(this.#inventory,wear,{carry:state,bagBoard:board,level:actorLevel as number,
+          drop:item=>{state.overflow.push(item);events.push({kind:'recovered',uid:item.uid,destination:'overflow'});}},uid,slot as string|undefined)
+          :unequipOnBoard(this.#inventory,{carry:state,bagBoard:board},slot as string);
+        if(action.changed)events.push({kind:'recalculate'},{kind:'dirty'});
+        return action.refusal?{changed:false,refusal:action.refusal}:{changed:action.changed};
+      });
+    }
     const state = profile.state, rules = this.#defs.crafting.rules;
     if (request.op === 'save') {fields(request,['op','profile']); return {ok:true,save:this.#snapshot(profile)};}
     if (request.op === 'close') {fields(request,['op','profile']); this.#profiles.delete(request.profile); return {ok:true};}

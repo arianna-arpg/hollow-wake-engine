@@ -2,13 +2,23 @@ import {createCraftingContext} from './session.mjs';
 import {godotDispatch} from './number-wire.mjs';
 import {ItemInspector,InspectionInputError} from '@hollow-wake/engine/items/inspection';
 import {CargoInspector} from '@hollow-wake/engine/inventory/cargo-cards';
+import {EquipmentSlots} from '@hollow-wake/engine/inventory/equipment';
 
 export const create=table=>({...createCraftingContext(table),inspector:null,cargo:null});
 const refuse=reason=>({ok:false,reason});
 export const dispatch=godotDispatch((host,request)=>{
   const op=request?.op;
-  if(!['configure-inspection','inspect-item','compare-items','configure-cargo','cargo-references','inspect-cargo'].includes(op))return host.session.command(request);
+  if(!['configure-inspection','inspect-item','compare-items','configure-cargo','cargo-references','inspect-cargo','configure-equipment','inspect-loadout'].includes(op))return host.session.command(request);
   try{
+    if(op==='configure-equipment'){
+      if(host.slots)return refuse('already-configured');
+      if(Object.keys(request).length!==2||typeof request.text!=='string'||request.text.length>8192)return refuse('invalid-equipment-slots');
+      let slots;
+      try{slots=new EquipmentSlots(JSON.parse(request.text));}catch{return refuse('invalid-equipment-slots');}
+      host.session.configureEquipment(slots);
+      host.slots=slots;
+      return {ok:true};
+    }
     if(op==='configure-cargo'){
       if(host.cargo)return refuse('already-configured');
       if(Object.keys(request).length!==2)return refuse('invalid-request');
@@ -36,6 +46,11 @@ export const dispatch=godotDispatch((host,request)=>{
       return {ok:true};
     }
     if(!host.inspector)return refuse('inspection-unavailable');
+    if(op==='inspect-loadout'){
+      if(!host.slots)return refuse('equipment-unavailable');
+      if(!Object.keys(request).every(k=>['op','item','equipped','heroLevel','detail'].includes(k)))return refuse('invalid-request');
+      return {ok:true,...host.inspector.inspectLoadout(request.item,request.equipped,request.heroLevel,host.slots,request.detail)};
+    }
     if(op==='inspect-item' && Object.keys(request).length===2 && Object.hasOwn(request,'item'))return {ok:true,...host.inspector.inspect(request.item)};
     if(op==='compare-items' && Object.keys(request).length===3 && Object.hasOwn(request,'candidate') && Object.hasOwn(request,'worn'))
       return {ok:true,rows:host.inspector.compare(request.candidate,request.worn)};

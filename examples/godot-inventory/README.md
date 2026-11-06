@@ -2,6 +2,10 @@
 
 Open project.godot in Godot 4.7.2 and play the main scene, or start the
 exported game. The pack starts with four rings and a fifth in overflow.
+Select a pack ring and choose **Equip item**. Select another ring and turn on
+**Compare with equipped** to see the differences. A second equip fills the
+empty hand. The **Equipped** tab returns a piece to the pack when space allows.
+The workshop character is level ten.
 Select an overflow item and choose **Move to stash**. To return it to the pack,
 first sell a pack item to free a cell. **Forge ring** uses the SDK's item and
 placement rules. Each completed action saves automatically.
