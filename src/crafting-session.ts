@@ -1,7 +1,7 @@
 import {CraftingContent} from './crafting-content.js';
 import {CraftingActions, type CraftingCue, type CraftingRefusal, type SalvageLane, type SalvageCategory} from './crafting-actions.js';
 import {SkillProgression} from './skill-progression.js';
-import {createGemResidence, type GemSkill, type GemSupport} from './gem-residence.js';
+import {createGemCargo, type GemSkill, type GemSupport} from './gem-residence.js';
 import {createItemHost} from './item-host.js';
 import {InventoryHost} from './inventory-host.js';
 import {EquipmentSlots,equipOnBoard,unequipOnBoard,equipmentTierLevel} from './equipment-actions.js';
@@ -10,11 +10,11 @@ import {Random} from './random.js';
 import {CraftingSessionData, type CraftingSessionState, type CraftingSessionDefinitions} from './crafting-session-data.js';
 import type {ItemInstance, ItemRollOptions, ItemForgeOptions} from './item-types.js';
 import {validateMint} from './item-validation.js';
-import {copySessionJSON, SessionInputError, requireSession as need, sessionFields as fields, sessionRecord as record,
+import {copySessionJSON, cloneOwnedJSON, retainSessionPart, type SessionPart, SessionInputError, requireSession as need, sessionFields as fields, sessionRecord as record,
   sessionInteger as integer, sessionText as text, sessionBoolean as bool} from './session-json.js';
 export type {CraftingSessionState, CraftingSessionDefinitions} from './crafting-session-data.js';
 
-type Profile = {state: CraftingSessionState; nextUid: number; random: Random};
+type Profile = {state: CraftingSessionState; nextUid: number; random: Random; account?:Readonly<SessionPart>};
 type SkillDef = ReturnType<SkillProgression['skill']>;
 type SupportDef = ReturnType<SkillProgression['support']>;
 type Access = {salvage: boolean; oracle: boolean; bench: boolean; counter: boolean};
@@ -61,10 +61,14 @@ export class CraftingSession {
   }
   #snapshot(profile: Profile) {
     const version=profile.state.rack ? 2 : 1;
-    const save = {schemaVersion:version,capability:'crafting-session/v'+version,content:this.#identity,
+    return {schemaVersion:version,capability:'crafting-session/v'+version,content:this.#identity,
       random:profile.random.snapshot(),nextUid:profile.nextUid,state:profile.state};
-    // Reserve the entire restore envelope, not only the smaller save value.
-    return (copySessionJSON({op:'restore',profile:0xffffffff,save}) as {save: ReturnType<typeof copySessionJSON>}).save;
+  }
+  /** Write the committed portable save directly for storage. */
+  snapshotText(id: number) {
+    if(!Number.isSafeInteger(id)||id<0||id>0xffffffff)return refuse('invalid-integer');
+    const profile=this.#profiles.get(id);
+    return profile?{ok:true as const,text:JSON.stringify(this.#snapshot(profile))}:refuse('not-open');
   }
   /** Bind the host's authored slot pack once. Existing profiles retain their
    * identities and legacy slot keys. Only equip and unequip consume this pack. */
@@ -76,18 +80,26 @@ export class CraftingSession {
       level:item=>pack.bases[item.baseId].category==='relic'?1:equipmentTierLevel(item.tier,pack.config.tierBreaks)};
   }
   #validate(profile: Profile): void {
-    this.#data.state(profile.state,this.#rack?.validate); integer(profile.nextUid,1); integer(profile.random.draws);
+    this.#data.state(profile.state,this.#rack?.validate,profile.account?.value); integer(profile.nextUid,1); integer(profile.random.draws);
     for (const item of allItems(profile.state)) need(item.uid < profile.nextUid,'uid-floor');
-    this.#snapshot(profile);
+    if(!Object.is(profile.state.account,profile.account?.value)){
+      profile.account=retainSessionPart(profile.state.account);
+      profile.state.account=profile.account.value as unknown as CraftingSessionState['account'];
+    }
+    // Reserve the whole restore envelope. Keep its checked copy so even a
+    // rack extension that retained its draft cannot reach committed cargo.
+    const checked=copySessionJSON({op:'restore',profile:0xffffffff,save:this.#snapshot(profile)},profile.account);
+    profile.state=(checked as unknown as {save:{state:CraftingSessionState}}).save.state;
   }
-  #mutate(profile: Profile, work: (draft: Profile, events: Event[]) => unknown): unknown {
-    const draft: Profile = {state:copySessionJSON(profile.state) as unknown as CraftingSessionState,
+  #mutate(profile: Profile, work: (draft: Profile, events: Event[]) => unknown, editAccount=false): unknown {
+    const draft: Profile = {state:cloneOwnedJSON(profile.state,editAccount?undefined:profile.account?.value),account:profile.account,
       nextUid:profile.nextUid,random:Random.restore(profile.random.snapshot())};
     const events: Event[] = [], result = work(draft,events);
     this.#validate(draft);
     const reply = copySessionJSON({ok:true,result:result ?? null,events,draws:draft.random.draws,nextUid:draft.nextUid});
     // Only a fully validated state AND reply may replace the owned profile.
     profile.state = draft.state; profile.random = draft.random; profile.nextUid = draft.nextUid;
+    profile.account=draft.account;
     return reply;
   }
   #next(profile: Profile): number {
@@ -107,12 +119,11 @@ export class CraftingSession {
   }
   #gems(profile: Profile) {
     const s = profile.state, skills = this.#defs.skills;
-    return createGemResidence({
-      skill:(id: string) => this.#skills.get(id),support:(id: string) => this.#supports.get(id),hasOwnSupport:(id: string) => this.#supports.has(id),
+    return createGemCargo({
+      skill:(id: string) => this.#skills.get(id),support:(id: string) => this.#supports.get(id),
       // This session preserves attunement IDs without interpreting world forms.
       hasForm:() => true,makeSkill:(def,level,sockets): GemSkill<SkillDef,SupportDef> => ({def,level,sockets:Array<GemSupport<SupportDef> | null>(sockets).fill(null)}),
       validTreeNodes:(def,ids,level,inst) => skills.tree(def.id).restore(ids,level,inst),nextUid:() => this.#next(profile),
-      rebuildItem:(_saved: ItemInstance): never => {throw new Error('Owned crafting uses strict admission, not tolerant restoration');},
       bagWidth:() => s.board.w,bagHeight:() => s.board.h,itemGridSize:(item: ItemInstance) => this.#defs.crafting.items.pack.bases[item.baseId],
     });
   }
@@ -140,7 +151,13 @@ export class CraftingSession {
   /** Invalid data and capacity overflows refuse atomically. Unexpected internal
    * failures throw without committing; hosts must not retry blindly after I/O. */
   command(input: unknown): unknown {
-    try {return copySessionJSON(this.#command(copySessionJSON(input)));}
+    try {
+      const reply=this.#command(copySessionJSON(input));
+      // Each committed profile passed the larger restore envelope. A public
+      // save still gets a detached, mutable copy, including account lore.
+      if(reply && typeof reply==='object' && Object.hasOwn(reply,'save'))return cloneOwnedJSON(reply);
+      return copySessionJSON(reply);
+    }
     catch (error) {if (error instanceof SessionInputError) return refuse(error.message); throw error;}
   }
   #command(request: unknown): unknown {
@@ -172,7 +189,7 @@ export class CraftingSession {
         const result=this.#rack!.move(request,draft.state,this.#inventory,this.#board(draft.state),this.#gems(draft));
         if(result.changed)events.push({kind:'recalculate'},{kind:'dirty'});
         return {...result,needsSave:result.needsSave || draft.nextUid!==profile.nextUid};
-      });
+      },this.#rack.move!==this.#rack.accountPreservingMove);
     }
     if(request.op==='equip'||request.op==='unequip'){
       const wear=this.#wear;
@@ -252,6 +269,6 @@ export class CraftingSession {
         case 'salvage-bulk': actions.salvageBulk(null,request.category as SalvageCategory,request.rarity as string | undefined,request.lane as SalvageLane | undefined); break;
         case 'lock': actions.salvageLockSet(null,uid,request.on as boolean); break;
       }
-    });
+    },request.op==='salvage' || request.op==='salvage-bulk');
   }
 }

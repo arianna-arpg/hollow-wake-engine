@@ -103,3 +103,7 @@ unlearn holds by skill ID. `skill_requirements(item, attributes)` reads the
 authored numeric requirements from a verified page. Commit whenever
 `result.needsSave` is true, including a refused move that consumed an ID or
 changed bag order. Commit the bag, rack and stash at their observed revision.
+
+For durable storage, `snapshot_text(profile)` returns the committed profile's
+portable JSON in `.text`. Use `snapshot(profile)` for a detached view. The
+inventory workshop reads both in one synchronous save operation.

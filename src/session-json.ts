@@ -21,10 +21,34 @@ export function sessionArray(value: unknown, max = 2048): asserts value is unkno
 }
 export function sessionBoolean(value: unknown): asserts value is boolean {requireSession(typeof value === 'boolean', 'invalid-boolean');}
 
+/** A detached, deeply frozen JSON subtree with its exact admission cost. */
+export interface SessionPart {
+  value: SessionJSON; nodes: number; bytes: number; characters: number; depth: number;
+}
+export function retainSessionPart(input: unknown): Readonly<SessionPart> {
+  sessionRecord(input);
+  const part: SessionPart = {value:null,nodes:0,bytes:0,characters:0,depth:0};
+  part.value = visitSessionJSON(input,undefined,part);
+  return Object.freeze(part);
+}
+
+/** Only for state already detached and admitted inside the session. Preserve
+ * negative zero, insertion order and arbitrary own keys in independent copies. */
+export function cloneOwnedJSON<T>(input:T, shared?:SessionJSON):T {
+  if(input===null || typeof input!=='object' || input===shared)return input;
+  if(Array.isArray(input))return input.map(value=>cloneOwnedJSON(value,shared)) as T;
+  const copy=Object.create(null);
+  for(const key of Object.keys(input))copy[key]=cloneOwnedJSON(input[key as keyof T],shared);
+  return copy;
+}
+
 /** Refuses getters, symbols, hidden properties, cycles and non-JSON values.
  * The encoded-byte budget covers compact UTF-8 JSON; no TextEncoder/browser API
  * is needed. Limits bound admitted data, not total VM/process memory. */
-export function copySessionJSON(value: unknown): SessionJSON {
+export function copySessionJSON(value: unknown, shared?:Readonly<SessionPart>): SessionJSON {
+  return visitSessionJSON(value,shared);
+}
+function visitSessionJSON(value: unknown, shared?:Readonly<SessionPart>, capture?:SessionPart): SessionJSON {
   let nodes = 0, characters = 0, bytes = 0;
   const charge = (n: number) => {bytes += n; requireSession(bytes <= 512 * 1024, 'json-byte-limit');};
   const string = (s: string) => {
@@ -43,7 +67,13 @@ export function copySessionJSON(value: unknown): SessionJSON {
     charge(n);
   };
   function visit(row: unknown, depth: number): SessionJSON {
+    if(shared && row===shared.value && nodes+shared.nodes<=32768 && depth+shared.depth<=16
+        && characters+shared.characters<=262144 && bytes+shared.bytes<=512*1024){
+      nodes+=shared.nodes; characters+=shared.characters; bytes+=shared.bytes;
+      return shared.value;
+    }
     requireSession(++nodes <= 32768 && depth <= 16, 'json-limit');
+    if(capture && depth>capture.depth)capture.depth=depth;
     if (row === null || typeof row === 'boolean') {charge(row === false ? 5 : 4); return row;}
     if (typeof row === 'number') {requireSession(Number.isFinite(row), 'invalid-number'); charge(String(row).length); return row;}
     if (typeof row === 'string') {string(row); return row;}
@@ -58,6 +88,7 @@ export function copySessionJSON(value: unknown): SessionJSON {
         const d = Object.getOwnPropertyDescriptor(row, String(i));
         requireSession(d && 'value' in d && d.enumerable, 'invalid-array'); out.push(visit(d.value, depth + 1));
       }
+      if(capture)Object.freeze(out);
       return out;
     }
     requireSession(Object.getPrototypeOf(row) === Object.prototype || Object.getPrototypeOf(row) === null, 'invalid-object');
@@ -67,9 +98,12 @@ export function copySessionJSON(value: unknown): SessionJSON {
       requireSession('value' in d && d.enumerable, 'invalid-property'); string(key); charge(i === 0 ? 1 : 2);
       out[key] = visit(d.value, depth + 1);
     }
+    if(capture)Object.freeze(out);
     return out;
   }
-  return visit(value, 0);
+  const result=visit(value,0);
+  if(capture){capture.nodes=nodes;capture.characters=characters;capture.bytes=bytes;}
+  return result;
 }
 function sessionRecordOrArray(value: unknown): asserts value is object {
   requireSession(value !== null && typeof value === 'object', 'invalid-json');

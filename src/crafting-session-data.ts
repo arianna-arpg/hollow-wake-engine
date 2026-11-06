@@ -140,7 +140,7 @@ export class CraftingSessionData {
     if (input.writ !== undefined) {fields(input.writ,['category','complexity']); text(input.writ.category); integer(input.writ.complexity,1);}
     return input as unknown as ItemInstance;
   }
-  state(input: unknown, validateRack?: (rack:unknown,data:CraftingSessionData)=>void): CraftingSessionState {
+  state(input: unknown, validateRack?: (rack:unknown,data:CraftingSessionData)=>void, admittedAccount?:unknown): CraftingSessionState {
     fields(input,['board','items','equipped','overflow','essences','account','rack']);
     if(input.rack !== undefined){need(validateRack,'rack-unavailable');validateRack(input.rack,this);}
     const board = input.board; fields(board,['w','h','rows']); integer(board.w,1,256); integer(board.h,1,256); need(board.w * board.h <= 4096,'board-limit');
@@ -167,6 +167,7 @@ export class CraftingSessionData {
     Object.keys(input.equipped).forEach(text);
     record(input.essences);
     for (const [id,n] of Object.entries(input.essences)) {need(this.#essences.has(id),'unknown-essence'); integer(n);}
+    if(admittedAccount!==undefined && input.account===admittedAccount)return input as unknown as CraftingSessionState;
     const a = input.account; fields(a,['craftLore','ledger','features','progression']); bool(a.progression); ids(a.features);
     need(new Set(a.features).size === a.features.length,'duplicate-feature'); record(a.craftLore); record(a.ledger);
     for (const [id,n] of Object.entries(a.ledger)) {text(id); integer(n);}

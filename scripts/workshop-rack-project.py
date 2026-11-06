@@ -48,6 +48,26 @@ def build(donor, expected, sdk_digest, bundle, project_out, addon_out):
                     target.writestr(entry, data, compress_type=zipfile.ZIP_DEFLATED, compresslevel=6)
 
 
-if __name__ == "__main__":
+def switch_programs(prior, release, variant, directory):
+    # The benchmark reuses immutable content and native programs in place.
+    prefix = "inventory-workshop/"
+    changed = {"profile.gd", "addons/hollow_wake/crafting/bundle.txt", "addons/hollow_wake/crafting/crafting.gd",
+               "addons/hollow_wake/crafting/manifest.json", "addons/hollow_wake/crafting/README.md"}
+    directory = pathlib.Path(directory).resolve(strict=True)
+    with zipfile.ZipFile(prior) as old, zipfile.ZipFile(release) as new:
+        assert set(old.namelist()) == set(new.namelist())
+        assert variant in ("previous", "candidate")
+        for name in old.namelist():
+            assert name.startswith(prefix)
+            rel = name.removeprefix(prefix)
+            if rel in changed:
+                (directory / rel).write_bytes((old if variant == "previous" else new).read(name))
+            else:
+                assert old.read(name) == new.read(name), "different benchmark inputs: " + rel
+
+
+if __name__ == "__main__" and sys.argv[1] == "switch":
+    switch_programs(*sys.argv[2:])
+elif __name__ == "__main__":
     donor, expected, sdk, bundle, project, addon = sys.argv[1:]
     build(pathlib.Path(donor), expected, sdk, pathlib.Path(bundle), project, addon)

@@ -6,7 +6,9 @@ Authored content is separate from the runtime, and each simulation owns its stat
 The 0.55 candidate connects the learned skill bar to the Godot inventory.
 Start the workshop with `-- --cargo-sample`, select Firebolt and choose
 **Learn skill**. The pack, eight seats and next item ID save together.
-See the [workshop instructions](docs/inventory-workshop.md#learned-skills).
+The second 0.55 candidate reuses validated crafting lore when equipment or
+skills move. Its Linux measurement player times a complete inventory action
+through the SQLite commit. See the [workshop instructions](docs/inventory-workshop.md#learned-skills).
 
 The 0.54 JavaScript candidate moves skill gems between the pack and the
 learned skill bar and restores older bar bindings. The isolated Hollow Wake

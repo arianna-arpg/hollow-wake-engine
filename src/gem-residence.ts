@@ -71,11 +71,9 @@ export interface GemResidencePorts<D extends GemDefinition, U extends GemDefinit
   itemGridSize(item: I): {w: number; h: number};
 }
 
-/** Stateless policy over host-owned identities/cargo. Earlier callback writes and
- * consumed IDs remain on failure; an owned session must supply detached drafts.
- */
-export function createGemResidence<D extends GemDefinition, U extends GemDefinition, S extends GemSkill<D, U>, I extends ItemInstance>(
-  ports: GemResidencePorts<D, U, S, I>,
+/** Conversion between an admitted gem item and its live instance. */
+export function createGemCargo<D extends GemDefinition, U extends GemDefinition, S extends GemSkill<D, U>, I extends ItemInstance>(
+  ports: Omit<GemResidencePorts<D, U, S, I>,'rebuildItem'|'hasOwnSupport'>,
 ) {
   function unpackRow(row: GemSocketRow | null | undefined): GemSupport<U> | null {
     const def = row ? ports.support(row.supportId) : undefined;
@@ -120,6 +118,19 @@ export function createGemResidence<D extends GemDefinition, U extends GemDefinit
     inst.sockets = payload.sockets.map(unpackRow);
     return inst;
   }
+  function supportOfGemItem(item: I): GemSupport<U> | null {
+    const payload = supportGemPayloadOf(item); if (!payload) return null;
+    const def = ports.support(payload.supportId); if (!def) return null;
+    return {def, level: payload.level, ...(item.locked ? {locked: true} : {}), ...(payload.rolled ? {rolled: {...payload.rolled}} : {})};
+  }
+  return {freeCellCount,restoreGrantState,makeSkillGemItem,makeSupportGemItem,skillOfGemItem,supportOfGemItem,skillGemPayloadOf};
+}
+
+/** Full host policy includes saved-item recovery and lookup in stored sockets. */
+export function createGemResidence<D extends GemDefinition, U extends GemDefinition, S extends GemSkill<D, U>, I extends ItemInstance>(
+  ports: GemResidencePorts<D, U, S, I>,
+) {
+  const {freeCellCount,restoreGrantState,makeSkillGemItem,makeSupportGemItem,skillOfGemItem,supportOfGemItem}=createGemCargo<D,U,S,I>(ports);
   function bagSkillSupport(item: I, index: number): GemSupport<U> | null {
     if (!Number.isSafeInteger(index) || index < 0) return null;
     const row = skillGemPayloadOf(item)?.sockets[index];
@@ -127,11 +138,6 @@ export function createGemResidence<D extends GemDefinition, U extends GemDefinit
     // The own-key check and live lookup are separate observations, as in the host.
     return {def: ports.support(row.supportId)!, level: row.level,
       ...(row.locked ? {locked: true} : {}), ...(row.rolled ? {rolled: {...row.rolled}} : {})};
-  }
-  function supportOfGemItem(item: I): GemSupport<U> | null {
-    const payload = supportGemPayloadOf(item); if (!payload) return null;
-    const def = ports.support(payload.supportId); if (!def) return null;
-    return {def, level: payload.level, ...(item.locked ? {locked: true} : {}), ...(payload.rolled ? {rolled: {...payload.rolled}} : {})};
   }
   function rebuildAnyItem(saved: I): I | null {
     const item = ports.rebuildItem(saved); if (!item || !item.gem) return item;

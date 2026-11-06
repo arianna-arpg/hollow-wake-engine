@@ -156,6 +156,14 @@ revision shown in the UI, and reload the winning revision on a conflict.
 The sample rereads the relevant content page to apply its hero's attribute
 requirements at the time of the action.
 
+The session retains one validated, immutable account record per profile.
+Inventory and rack commands can share its crafting lore. Salvage receives a
+mutable copy and commits a new account after validation. All save limits
+include the retained record at its actual nesting depth. Public snapshots are
+detached and mutable. A storage host can call `snapshotText(profile)` in
+JavaScript or `snapshot_text(profile)` in Godot to get the identical portable
+JSON directly from the committed profile.
+
 The data layout follows the access pattern. The original authored skill and
 support definitions are shared by all profiles. Small pages supply descriptions
 and requirements on demand. The workshop updates SQLite at inventory actions.
@@ -177,6 +185,27 @@ offline Steam Runtime Platform image. That run uses the Linux project ZIP.
 npm run build
 node scripts/verify-workshop-rack.mjs TOOLS.json PREVIOUS_PROJECT.zip OUTPUT
 ~~~
+
+Append `--compare RACK_0.55_CANDIDATE_0_PROJECT.zip` to time complete, durable
+skill moves against the verified earlier project. The runner reuses one project
+with identical native libraries and content, alternates the builds across fresh
+Godot processes, and compares the final SQLite rows through an independent
+reader. Both the four-item sample and the 128-item profile with 3,929 crafting
+lore entries are exercised. Run it with other benchmarks and builds stopped.
+
+For a Linux x86_64 device, unzip the separate measurement player and run
+`./measure.sh` from its directory in Desktop Mode. It uses the disk containing
+`XDG_DATA_HOME` (normally `~/.local/share`), creates fresh test saves, and
+removes them after the run. It prints the package hash, processor, per-action
+times and peak embedded memory. Use `./measure.sh > result.txt` to keep the
+measurements. Surface temperature, power profile and storage location matter
+when comparing runs on a handheld.
+
+To rebuild that player, append `--device-player PREVIOUS_LINUX_GAME.zip` after
+the comparison argument in the Steam Runtime run. The builder reuses the
+verified 0.53 Linux executable, native libraries and notices. It runs the
+finished ZIP in the offline Platform image and checks its reopened saves against
+the independent database reader. See the [desktop and Steam Runtime measurements](../evidence/workshop-account).
 
 ## Reproduce
 

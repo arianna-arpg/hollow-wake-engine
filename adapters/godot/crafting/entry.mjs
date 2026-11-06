@@ -8,6 +8,7 @@ export const create=(table,rack)=>({...createCraftingContext(table,rack),inspect
 const refuse=reason=>({ok:false,reason});
 export const dispatch=godotDispatch((host,request)=>{
   const op=request?.op;
+  if(op==='snapshot-text')return Object.keys(request).length===2?host.session.snapshotText(request.profile):refuse('invalid-request');
   if(!['configure-inspection','inspect-item','compare-items','configure-cargo','cargo-references','inspect-cargo','configure-equipment','inspect-loadout'].includes(op))return host.session.command(request);
   try{
     if(op==='configure-equipment'){

@@ -7,11 +7,17 @@ import {DatabaseSync} from 'node:sqlite';
 import {root,sha256,writeJSON} from './reference-utils.mjs';
 import {npmCli} from './npm-cli.mjs';
 import {workshopBundles,workspaceBridges} from './godot-crafting-bundle.mjs';
+import {compareWorkshopProjects,prepareWorkshopBenchmark} from './benchmark-workshop-projects.mjs';
 
 // Build from the installed candidate's actual published JS in memory. The
 // previous native project supplies immutable libraries, templates and data.
-const [toolsFile,donorFile,output,steamEditor]=process.argv.slice(2);
-assert(toolsFile&&donorFile&&output,'Usage: node scripts/verify-workshop-rack.mjs TOOLS.json PREVIOUS_PROJECT.zip OUTPUT [STEAM_LINUX_EDITOR]');
+const args=process.argv.slice(2);
+const devicePlayer=args.at(-2)==='--device-player'?path.resolve(args.splice(-2)[1]):undefined;
+const compare=args.at(-2)==='--compare'?path.resolve(args.splice(-2)[1]):undefined;
+const [toolsFile,donorFile,output,steamEditor]=args;
+assert(args.length===3||args.length===4);
+assert(!devicePlayer||(steamEditor&&compare),'The device player needs a verified Linux comparison');
+assert(toolsFile&&donorFile&&output,'Usage: node scripts/verify-workshop-rack.mjs TOOLS.json PREVIOUS_PROJECT.zip OUTPUT [STEAM_LINUX_EDITOR] [--compare RACK_PROJECT.zip] [--device-player LINUX_GAME.zip]');
 const read=f=>JSON.parse(fs.readFileSync(f)),hash=f=>sha256(fs.readFileSync(f));
 const config=read(toolsFile),win=!steamEditor&&process.platform==='win32',platform=win?'windows':'linux';
 const pin=read(path.join(root,'experiments/godot-native/toolchain-lock.json')).platforms[win?'win32':'linux'];
@@ -102,10 +108,43 @@ try{
     const sample=read(path.join(project,'cargo-sample.json')).find(item=>item.gem?.kind==='skill');
     assert.deepEqual(save.state.items.at(-1).gem,sample.gem);
   }finally{db.close();}
-  const files=[sdk,projectZip,addonZip],checksums=Object.fromEntries(files.map(f=>[path.basename(f),hash(f)]));
+  if(compare)prepareWorkshopBenchmark(project,course);
+  const files=[sdk,projectZip,addonZip];
+  let portable;
+  if(devicePlayer){
+    const configFile=path.join(project,'project.godot'),projectSettings=fs.readFileSync(configFile,'utf8');
+    assert(projectSettings.includes('config/custom_user_dir_name="hollow-wake-inventory-workshop"'));
+    assert(projectSettings.includes('run/main_scene="res://inventory.tscn"'));
+    fs.writeFileSync(configFile,projectSettings.replace('config/custom_user_dir_name="hollow-wake-inventory-workshop"',
+      'config/custom_user_dir_name="hollow-wake-inventory-benchmark"').replace('run/main_scene="res://inventory.tscn"','run/main_scene="res://benchmark-rack.tscn"'));
+    const preset=path.join(project,'export_presets.cfg'),settings=fs.readFileSync(preset,'utf8');
+    assert(settings.includes('exclude_filter=""'));
+    fs.writeFileSync(preset,settings.replace('exclude_filter=""','exclude_filter="legacy-course.txt,gear-cases.json,rack-test.gd"'));
+    godot(['--export-pack','Linux','/saves/Inventory.pck']);
+    fs.writeFileSync(configFile,projectSettings);
+    const file=path.join(scratch,'hollow-wake-workshop-device-benchmark-linux-x64.zip');
+    const tool=path.join(root,'scripts/workshop-device-player.py');
+    run(config.python,['-I',tool,'pack',devicePlayer,path.join(saves,'Inventory.pck'),file],env);
+    const raw=run('docker',['run','--rm','--pull=never','--network=none','--read-only','--cap-drop=ALL','--security-opt=no-new-privileges',
+      '--user','1000:1000','--tmpfs','/tmp:rw,exec,nosuid,size=256m',
+      '--mount','type=bind,source='+tool+',target=/check.py,readonly','--mount','type=bind,source='+file+',target=/player.zip,readonly',
+      '--entrypoint','/usr/bin/python3',image,'-I','/check.py','test','/player.zip'],process.env);
+    const observation=JSON.parse(raw);
+    for(const size of ['small','loaded']){
+      assert.equal(observation[size].actionUs.length,32);
+    }
+    portable={archive:path.basename(file),packSha256:hash(path.join(saves,'Inventory.pck')),tested:'Exported Linux player and launcher in Steam Runtime 4 with temporary storage.',
+      saves:{small:observation.small.saveSha256,loaded:observation.loaded.saveSha256},
+      heapBytes:Math.max(observation.small.peakBytes,observation.loaded.peakBytes)};
+    files.push(file);
+  }
+  const comparison=compare?compareWorkshopProjects({prior:compare,release:projectZip,saveDir:path.dirname(database),godot,platform,
+    install:(prior,release,variant)=>run(config.python,['-I',path.join(root,'scripts/workshop-rack-project.py'),'switch',prior,release,variant,project],env)}):undefined;
+  if(portable)for(const size of ['small','loaded'])assert.equal(portable.saves[size],comparison.runs[0][size].saveSha256);
+  const checksums=Object.fromEntries(files.map(f=>[path.basename(f),hash(f)]));
   const report={version:pkg.version,platform,donorSha256:expected,legacyCommands:course.rows.length,originalGearCards:gear.length,
     baseBytes:base.bytes.length,rackBytes:rack.bytes.length-base.bytes.length,nativeHeapPeakBytes:result.peak,
-    ...(steamEditor?{steamRuntime:image}:{}),
+    ...(steamEditor?{steamRuntime:image}:{}),...(comparison?{comparison}:{}),...(portable?{portable}:{}),
     tested:'Headless Godot scene controls, two SQLite connections, reopened save and independent database reader',checksums};
   fs.mkdirSync(dest,{recursive:true});
   for(const file of files){

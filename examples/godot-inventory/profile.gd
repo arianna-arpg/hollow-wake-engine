@@ -103,7 +103,7 @@ func _save(destination: Array, sold_uid: int = 0) -> Dictionary:
 	if not snapshot.ok: return snapshot
 	if sold_uid and _find(snapshot.save.state.items,sold_uid) >= 0:
 		return {"ok":false,"reason":"protected-item"}
-	var source_json := api.to_portable_json(snapshot.save)
+	var source_json := api.snapshot_text(1)
 	if not source_json.ok: return source_json
 	var stash_json := api.to_portable_json(destination)
 	if not stash_json.ok: return stash_json

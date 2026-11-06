@@ -18,6 +18,61 @@ const fire=sample.find(i=>i.gem?.kind==='skill');
 const state=()=>({board:{w:2,h:2},items:structuredClone(sample),equipped:{},overflow:[],essences:{},
   account:{craftLore:{},ledger:{},features:[],progression:true}});
 const workshop=()=>new CraftingSession(defs,2,new WorkshopRack());
+
+test('account reuse reserves every UTF-8 byte for restore and rolls an oversized removal back',()=>{
+  const seed=workshop();open(seed);assert(learn(seed).result.changed);
+  const full=saved(seed),features=full.state.account.features;
+  const envelope={op:'restore',profile:0xffffffff,save:full};
+  const budget=512*1024, prefix='界'.repeat(490);
+  let remaining=budget-Buffer.byteLength(JSON.stringify(envelope));
+  while(remaining>1600){
+    const feature=prefix+features.length;
+    remaining-=Buffer.byteLength(JSON.stringify(feature))+(features.length?1:0);
+    features.push(feature);
+  }
+  while(remaining>12){
+    const feature='界'.repeat(Math.min(500,Math.floor((remaining-6)/3)))+'x';
+    features.push(feature);remaining-=Buffer.byteLength(JSON.stringify(feature))+1;
+  }
+  assert(Buffer.byteLength(JSON.stringify(envelope))<=budget&&remaining<=12);
+  const sdk=workshop();assert(go(sdk,'restore',{save:full}).ok);
+  assert.deepEqual(unlearn(sdk),{ok:false,reason:'json-byte-limit'});
+  assert.deepEqual(saved(sdk),full);
+  full.state.account.features.pop();
+  assert.notDeepEqual(saved(sdk).state.account.features,full.state.account.features);
+});
+
+test('a retained rack draft cannot change a committed profile after a move',()=>{
+  let held;
+  class ObservedRack extends WorkshopRack {
+    move(request,state,...ports){
+      held=state;
+      state.account.ledger.learned=(state.account.ledger.learned??0)+1;
+      return super.move(request,state,...ports);
+    }
+  }
+  const sdk=new CraftingSession(defs,1,new ObservedRack());open(sdk);assert(learn(sdk).result.changed);
+  const before=saved(sdk);
+  assert.equal(before.state.account.ledger.learned,1);
+  assert(Object.isFrozen(held.account.features));
+  held.rack[0].gem.level=1;held.items.length=0;
+  assert.deepEqual(saved(sdk),before);
+});
+
+test('direct storage text matches the portable save before and after a refused mint',()=>{
+  const sdk=workshop(),s=state();
+  s.rack=[{gem:structuredClone(fire.gem)},...Array(7).fill(null)];
+  s.account.ledger=JSON.parse('{"__proto__":4,"~f0042":2}');
+  assert.equal(sdk.snapshotText(1).reason,'not-open');
+  assert.equal(sdk.snapshotText(1.5).reason,'invalid-integer');
+  open(sdk,s);
+  const bytes=()=>sdk.snapshotText(1).text;
+  assert.equal(bytes(),JSON.stringify(saved(sdk)));
+  const original=bytes();
+  assert.equal(unlearn(sdk).result.refusal,'no room in the bag');
+  assert.notEqual(bytes(),original);assert.equal(bytes(),JSON.stringify(saved(sdk)));
+  assert(go(sdk,'close').ok);assert.equal(sdk.snapshotText(1).reason,'not-open');
+});
 const go=(sdk,op,args={})=>JSON.parse(JSON.stringify(sdk.command({op,profile:1,...args})));
 const saved=sdk=>go(sdk,'save').save;
 const learn=(sdk,args={})=>go(sdk,'learn-skill',{uid:fire.uid,meets:true,blocked:{},...args});

@@ -99,6 +99,9 @@ func restore_profile(profile: int, save: Dictionary) -> Dictionary:
 func snapshot(profile: int) -> Dictionary:
 	return request({"op": "save", "profile": profile})
 
+func snapshot_text(profile: int) -> Dictionary:
+	return request({"op":"snapshot-text","profile":profile})
+
 func close_profile(profile: int) -> Dictionary:
 	return request({"op": "close", "profile": profile})
 

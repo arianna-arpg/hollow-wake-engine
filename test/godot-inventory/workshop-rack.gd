@@ -26,6 +26,10 @@ func _run() -> void:
 		if not check(actual==expected.value,"legacy row %d (%s)" % [rows,request.value.op]):
 			printerr("Received: ",str(actual).left(320))
 			return
+		if request.value.op=="save" and actual.ok:
+			var direct: Dictionary = legacy.snapshot_text(int(request.value.profile))
+			var portable: Dictionary = legacy.to_portable_json(actual.save)
+			if not check(direct.ok and portable.ok and direct.text==portable.text,"storage bytes at row %d" % rows): return
 		var encoded: Dictionary = legacy.to_portable_json(actual)
 		if not check(encoded.ok,"encode legacy reply"): return
 		observed.store_line(encoded.text)

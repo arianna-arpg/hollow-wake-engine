@@ -17,6 +17,9 @@ const seats=8;
  * The authoritative host supplies the current requirements verdict and holds
  * on departing skills. Commands run entirely on a detached session draft. */
 export class WorkshopRack {
+  /** Identifies the move implementation that can borrow a frozen account.
+   * An override or a structurally compatible provider keeps a writable draft. */
+  readonly accountPreservingMove?:WorkshopRack['move']=WorkshopRack.prototype.move;
   validate(input:unknown,data:CraftingSessionData):void {
     array(input,seats);need(input.length===seats,'invalid-rack-size');
     const seen=new Set<string>();
