@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The 0.54 JavaScript candidate moves skill gems between the pack and the
+learned skill bar and restores older bar bindings. The isolated Hollow Wake
+adapter runs the same operations through the original inventory gestures and
+character loader. See [skill learning and removal](docs/skill-rack.md).
+
 The 0.53 candidate lets the Godot workshop equip and remove items, compare a
 candidate against both worn rings and restore the same loadout after restarting.
 JavaScript hosts can use the same slot pack and pass the viewing hero and acting

@@ -12,6 +12,8 @@ const [packed] = JSON.parse(execFileSync(process.execPath, [npmCli, 'pack', '--j
   { cwd: root, encoding: 'utf8' }));
 assert.ok(packed.files.every(file => !/^(baseline|reference|scripts|test|src|\.reference|node_modules)\//.test(file.path)), 'Development or original-game files leaked into package');
 const consumer = fs.mkdtempSync(path.join(os.tmpdir(), 'hollow-wake-consumer-'));
+let result;
+try {
 fs.writeFileSync(path.join(consumer, 'package.json'), JSON.stringify({ private: true, type: 'module' }));
 execFileSync(process.execPath, [npmCli, 'install', path.join(artifacts, packed.filename),
   '--ignore-scripts', '--offline', '--no-audit', '--no-fund', '--cache', path.join(consumer, 'cache')],
@@ -23,6 +25,9 @@ Math.random = () => { throw new Error('ambient RNG called'); };
 globalThis.fetch = () => { throw new Error('network called'); };
 for (const key of ['window', 'document', 'localStorage']) Object.defineProperty(globalThis, key, { get() { throw new Error(key + ' accessed'); } });
 const { Engine, CastRuntime, TimedDamage, Inventory } = await import('@hollow-wake/engine');
+const {SkillRackActions,restoreLearnedSeatIds}=await import('@hollow-wake/engine/skills/rack');
+assert.equal(typeof SkillRackActions,'function');
+assert.deepEqual(restoreLearnedSeatIds(['fireball'],['firebolt','fireball'],3),['fireball','firebolt',null]);
 const bridge = await import('@hollow-wake/engine/hollow-wake');
 const { InventoryHost } = await import('@hollow-wake/engine/inventory/host');
 const { StashPolicy } = await import('@hollow-wake/engine/inventory/stash');
@@ -73,9 +78,13 @@ const left = { uid: 1, x: 0, y: 0, w: 1, h: 1 }, right = { uid: 2, x: 1, y: 0, w
 assert.equal(seats.amplification(caseBoard, [left, right], () => [{ stat: 'seatPower_outward', kind: 'flat', value: .5 }]).get(right), 1.5);
 console.log(JSON.stringify({ installedConsumer: true, damage: result.damage, randomDraws: result.randomDraws }));
 `);
-const result = execFileSync(process.execPath, ['run.mjs'], {
+result = execFileSync(process.execPath, ['run.mjs'], {
   cwd: consumer, encoding: 'utf8', env: { ...process.env, NODE_PATH: '' },
 });
+} finally {
+  assert.equal(path.dirname(fs.realpathSync(consumer)),fs.realpathSync(os.tmpdir()));
+  fs.rmSync(consumer,{recursive:true});
+}
 const jsBytes = packed.files.filter(file => file.path.endsWith('.js')).reduce((sum, file) => sum + file.size, 0);
 const itemJsBytes = packed.files.filter(file => /^dist\/item-.*\.js$/.test(file.path) && file.path !== 'dist/item-restoration.js').reduce((sum, file) => sum + file.size, 0);
 const passiveJsBytes = packed.files.filter(file => /^dist\/passive-.*\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
@@ -167,7 +176,9 @@ const inspectionFiles=['dist/inspection.js','dist/inspection-format.js'].map(nam
 assert(inspectionFiles.every(Boolean),'Missing item inspection module');
 const inspectionJsBytes=inspectionFiles.reduce((sum,f)=>sum+f.size,0);
 assert(inspectionJsBytes<=18*1024,'Optional inspection exceeded its separate 18 KiB budget');
-const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes;
+const rackFile=packed.files.find(f=>f.path==='dist/skill-rack.js');
+assert(rackFile&&rackFile.size<=6*1024,'Optional skill rack exceeded 6 KiB or is missing');
+const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size;
 const craftingSessionJsBytes=Object.values(craftingSessionModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingSessionJsBytes=preContentTableJsBytes-craftingSessionJsBytes;
 const residenceJsBytes=Object.values(residenceModuleBytes).reduce((sum,size)=>sum+size,0),preResidenceJsBytes=preCraftingSessionJsBytes-residenceJsBytes;
 const craftingJsBytes=Object.values(craftingModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingJsBytes=preResidenceJsBytes-craftingJsBytes;
