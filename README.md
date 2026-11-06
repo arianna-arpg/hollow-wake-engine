@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The 0.55 candidate connects the learned skill bar to the Godot inventory.
+Start the workshop with `-- --cargo-sample`, select Firebolt and choose
+**Learn skill**. The pack, eight seats and next item ID save together.
+See the [workshop instructions](docs/inventory-workshop.md#learned-skills).
+
 The 0.54 JavaScript candidate moves skill gems between the pack and the
 learned skill bar and restores older bar bindings. The isolated Hollow Wake
 adapter runs the same operations through the original inventory gestures and

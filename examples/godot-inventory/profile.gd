@@ -7,6 +7,8 @@ const STASH_LIMIT := 64
 # A game with possession supplies the viewing hero and acting body independently.
 const HERO_LEVEL := 10
 const ACTOR_LEVEL := 10
+# This standalone hero can learn Firebolt. The workshop has no active debt or discipline.
+const HERO_ATTRIBUTES := {"intelligence":12}
 const COUNTER := {"salvage":false,"bench":false,"oracle":false,"counter":true}
 var api := Crafting.new()
 var store: Variant
@@ -132,12 +134,28 @@ func _freeze(value: Variant) -> void:
 
 # A UI action carries the UID and revision the player actually saw. On a failed
 # write, re-read the durable owners before allowing another action.
-func act(action: String, uid: int, seen_revision: int) -> Dictionary:
+func act(action: String, uid: int, seen_revision: int, slot := -1, expected_skill := "") -> Dictionary:
 	if not available: return {"ok":false,"reason":"unavailable"}
 	if seen_revision != revision: return {"ok":false,"reason":"stale-revision"}
 	var next := stash.duplicate()
 	var change: Dictionary
+	var refusal := ""
 	match action:
+		"learn", "unlearn":
+			if action == "learn":
+				var index := _find(saved.state.items,uid)
+				if index < 0: return {"ok":false,"reason":"missing-item"}
+				var gate := api.skill_requirements(saved.state.items[index],HERO_ATTRIBUTES)
+				if not gate.ok: return gate
+				change = api.learn_skill(1,uid,gate.meets,{},slot)
+			else:
+				var rack: Array = saved.state.get("rack",[])
+				if slot < 0 or slot >= rack.size() or rack[slot] == null or rack[slot].gem.skillId != expected_skill:
+					return {"ok":false,"reason":"stale-skill"}
+				change = api.unlearn_skill(1,expected_skill,{})
+			if change.ok and not change.result.changed:
+				refusal = change.result.get("refusal","cannot-learn")
+				if not change.result.needsSave: return {"ok":false,"reason":refusal}
 		"equip", "unequip":
 			if action == "equip":
 				if _find(saved.state.items,uid) < 0: return {"ok":false,"reason":"missing-item"}
@@ -179,4 +197,5 @@ func act(action: String, uid: int, seen_revision: int) -> Dictionary:
 	if not change.ok:
 		var recovered := reload()
 		if not recovered.ok: return recovered
+	if change.ok and not refusal.is_empty(): return {"ok":false,"reason":refusal}
 	return change

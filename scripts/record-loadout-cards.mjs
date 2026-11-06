@@ -23,7 +23,8 @@ const run=game.loadout;
 assert.equal(run.cases,source.visible);assert.equal(run.revision,4);
 assert(run.heap.closed&&!run.heap.poisoned&&!run.heap.delivery_failed&&run.heap.peak_bytes>0&&run.heap.peak_bytes<=32*1024*1024);
 assert.equal(run.heap.live_bytes,0);assert.equal(run.heap.live_blocks,0);
-assert(desktop.package.bundleBytes<=100*1024 && desktop.package.contentBytes<=2*1024*1024);
+const {bundleBytes,baseBytes=bundleBytes,rackBytes=0,contentBytes}=desktop.package;
+assert(baseBytes<=100*1024 && rackBytes<=5*1024 && rackBytes>=0 && bundleBytes===baseBytes+rackBytes && contentBytes<=2*1024*1024);
 const report={passed:true,version:desktop.version,platform:game.platform,arch:game.arch,corpus:source,
   loadout:run,addonSha256:game.addonSha256,archives:game.archives,bundleBytes:desktop.package.bundleBytes,
   contentBytes:desktop.package.contentBytes,workshopProofSha256:hash(workshopFile),desktopProofSha256:hash(desktopFile)};

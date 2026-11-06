@@ -26,3 +26,10 @@ sample save. It starts with an empowered Firebolt, a rolled Multistrike support
 and two memory pouches. Select each item to inspect it. Selling the stacked
 Preformed Memory opens a confirmation that names the whole-stack price.
 The standard workshop and the sample each use their own SQLite file.
+
+Select Firebolt, choose an automatic or numbered seat, and press **Learn skill**.
+Open **Skills** to inspect it. **Return skill to pack** creates a fresh gem item
+with its empowerment, locked supports and individual rolls. Reload reopens the
+same seats, bag and stash. The sample hero has 12 Intelligence and zero in the
+other attributes. A game supplies its own hero attributes and current holds on
+unlearning. The workshop runs in a sanctuary with no active holds.

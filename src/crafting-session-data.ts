@@ -1,7 +1,7 @@
 import type {CraftingContent} from './crafting-content.js';
 import type {CraftLore} from './crafting.js';
 import type {SkillProgression} from './skill-progression.js';
-import type {ItemInstance} from './item-types.js';
+import type {ItemInstance,SkillGemPayload} from './item-types.js';
 import type {InventoryBoard} from './inventory.js';
 import {gemItemRarityOf} from './gem-residence.js';
 import {validateItem} from './item-validation.js';
@@ -9,6 +9,7 @@ import {SessionInputError, requireSession as need, sessionFields as fields, sess
   sessionInteger as integer, sessionText as text, sessionArray as array, sessionBoolean as bool} from './session-json.js';
 
 export interface CraftingSessionState {
+  rack?: ({gem:SkillGemPayload;locked?:true}|null)[];
   board: InventoryBoard;
   items: ItemInstance[];
   equipped: Record<string, ItemInstance>;
@@ -59,6 +60,16 @@ export class CraftingSessionData {
     ids(picks); const kept = this.#defs.skills.tree(id).restore(picks,level,investment) ?? [];
     need(kept.length === picks.length && kept.every((v,i) => v === picks[i]), 'invalid-skill-tree');
   }
+  skillPayload(gem: unknown): void {
+    fields(gem,['kind','skillId','level','rarity','sockets','empowermentRank','replenishmentPaused','granted','attunedForm','treeNodes']);
+    need(gem.kind === 'skill','unknown-gem-kind');
+    this.#skill(gem.skillId); integer(gem.level,1,this.#defs.skills.skill(gem.skillId as string).maxLevel);
+    need(this.#rarities.has(gem.rarity as string),'unknown-skill-rarity'); this.#sockets(gem.sockets);
+    optionalBool(gem.granted); optionalText(gem.attunedForm);
+    if (gem.replenishmentPaused !== undefined) need(gem.replenishmentPaused === true,'invalid-pause');
+    if (gem.empowermentRank !== undefined) {integer(gem.empowermentRank,1); need(gem.rarity === 'legendary','invalid-empowerment');}
+    this.#tree(gem.skillId as string,gem.treeNodes,gem.level,gem);
+  }
   item(input: unknown): ItemInstance {
     fields(input,itemFields); const p = this.#defs.crafting.items.pack;
     text(input.name); text(input.baseId); integer(input.uid,1,Number.MAX_SAFE_INTEGER - 1);
@@ -97,13 +108,7 @@ export class CraftingSessionData {
     if (input.gem !== undefined) {
       const gem = input.gem; record(gem);
       if (gem.kind === 'skill') {
-        fields(gem,['kind','skillId','level','rarity','sockets','empowermentRank','replenishmentPaused','granted','attunedForm','treeNodes']);
-        this.#skill(gem.skillId); integer(gem.level,1,this.#defs.skills.skill(gem.skillId as string).maxLevel);
-        need(this.#rarities.has(gem.rarity as string),'unknown-skill-rarity'); this.#sockets(gem.sockets);
-        optionalBool(gem.granted); optionalText(gem.attunedForm);
-        if (gem.replenishmentPaused !== undefined) need(gem.replenishmentPaused === true,'invalid-pause');
-        if (gem.empowermentRank !== undefined) {integer(gem.empowermentRank,1); need(gem.rarity === 'legendary','invalid-empowerment');}
-        this.#tree(gem.skillId as string,gem.treeNodes,gem.level,gem);
+        this.skillPayload(gem);
         need(input.baseId === 'skill_gem','gem-base');
       } else {
         fields(gem,['kind','supportId','level','rolled']); need(gem.kind === 'support','unknown-gem-kind');
@@ -135,8 +140,9 @@ export class CraftingSessionData {
     if (input.writ !== undefined) {fields(input.writ,['category','complexity']); text(input.writ.category); integer(input.writ.complexity,1);}
     return input as unknown as ItemInstance;
   }
-  state(input: unknown): CraftingSessionState {
-    fields(input,['board','items','equipped','overflow','essences','account']);
+  state(input: unknown, validateRack?: (rack:unknown,data:CraftingSessionData)=>void): CraftingSessionState {
+    fields(input,['board','items','equipped','overflow','essences','account','rack']);
+    if(input.rack !== undefined){need(validateRack,'rack-unavailable');validateRack(input.rack,this);}
     const board = input.board; fields(board,['w','h','rows']); integer(board.w,1,256); integer(board.h,1,256); need(board.w * board.h <= 4096,'board-limit');
     const cells = new Uint8Array(board.w * board.h);
     if (board.rows !== undefined) {

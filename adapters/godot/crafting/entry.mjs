@@ -4,7 +4,7 @@ import {ItemInspector,InspectionInputError} from '@hollow-wake/engine/items/insp
 import {CargoInspector} from '@hollow-wake/engine/inventory/cargo-cards';
 import {EquipmentSlots} from '@hollow-wake/engine/inventory/equipment';
 
-export const create=table=>({...createCraftingContext(table),inspector:null,cargo:null});
+export const create=(table,rack)=>({...createCraftingContext(table,rack),inspector:null,cargo:null});
 const refuse=reason=>({ok:false,reason});
 export const dispatch=godotDispatch((host,request)=>{
   const op=request?.op;

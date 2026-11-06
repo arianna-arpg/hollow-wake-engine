@@ -69,6 +69,25 @@ func _load_page(page: int) -> bool:
 	_cached_rows = rows
 	return true
 
+# Admission reads the numeric requirements on the skill's verified data page.
+func meets(api: RefCounted, item: Dictionary, attributes: Dictionary) -> Dictionary:
+	var ready := _configure(api)
+	if not ready.ok: return ready
+	var plan: Dictionary = api.request({"op":"cargo-references","item":item})
+	if not plan.ok: return plan
+	if plan.references.size() != 1: return {"ok":false,"reason":"invalid-skill"}
+	var ref: Dictionary = plan.references[0]
+	if ref.table != "skills" or not _load_page(int(ref.page)): return {"ok":false,"reason":"invalid-cargo-page"}
+	var face: Variant = _cached_rows.skills.get(ref.id)
+	if not face is Dictionary: return {"ok":false,"reason":"unknown-skill"}
+	var requirements: Variant = face.get("requirements",{})
+	if not requirements is Dictionary: return {"ok":false,"reason":"invalid-requirements"}
+	for key in requirements:
+		if not requirements[key] is float or requirements[key] < 0 or floor(requirements[key]) != requirements[key]:
+			return {"ok":false,"reason":"invalid-requirements"}
+		if attributes.get(key,0) < requirements[key]: return {"ok":true,"meets":false}
+	return {"ok":true,"meets":true}
+
 func inspect(api: RefCounted, item: Dictionary, view: Dictionary, fit: Variant) -> Dictionary:
 	var ready := _configure(api)
 	if not ready.ok: return ready

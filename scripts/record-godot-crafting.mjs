@@ -72,6 +72,7 @@ const rawName=stem+'-observations.jsonl.gz';
 const proof={schemaVersion:1,passed:true,version:read(path.join(root,'package.json')).version,platform:process.platform,arch:process.arch,
   scope:'Godot 4.7.2 desktop editor and relocated release; selected crafting and progression capabilities.',
   package:{archiveSha256,archiveBytes,sdkArchiveSha256,progressionArchiveSha256,bundleBytes,contentBytes,files,
+    ...(pkg.data.baseBytes===undefined?{}:{baseBytes:pkg.data.baseBytes,rackBytes:pkg.data.rackBytes}),
     libraries:Object.fromEntries(Object.entries(addon.files).filter(([f])=>f.startsWith('bin/'))),libraryProofSha256,baseProofSha256},
   fixture:replay.data.fixture,capBytesPerHost:32*1024*1024,crafting:{editor:replay.data.editor,release:replay.data.release,releaseWithoutProject:true,
     wrapperControls:wrapperFaults.data.runs},diagnostics,

@@ -91,3 +91,15 @@ Use `unequip(profile, uid, slot)` to return a piece to the pack. Check
 `result.changed` before saving and read `result.refusal.reason` when present.
 Slot content loads on demand. Displaced gear that cannot fit in the bag
 transfers to the profile's recoverable overflow.
+
+## Learned skill rack
+
+The rack-enabled build accepts version-one saves. Learning a bag gem writes
+eight explicit seats in a version-two save. The first successful learn upgrades
+the profile. Both versions share the same content identities and UID sequence.
+Use `learn_skill(profile, uid, meets, blocked, slot)` and
+`unlearn_skill(profile, skill_id, blocked)`. The host provides any current
+unlearn holds by skill ID. `skill_requirements(item, attributes)` reads the
+authored numeric requirements from a verified page. Commit whenever
+`result.needsSave` is true, including a refused move that consumed an ID or
+changed bag order. Commit the bag, rack and stash at their observed revision.

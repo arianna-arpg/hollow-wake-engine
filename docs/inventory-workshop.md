@@ -139,6 +139,45 @@ storage. Live database backups and migrations need their own policy. SQLite
 describes the filesystem and device assumptions for atomic commits.
 [SQLite atomic commit](https://sqlite.org/atomiccommit.html)
 
+## Learned skills
+
+Pass a `WorkshopRack` from `@hollow-wake/engine/skills/workshop-rack` as the
+third argument to `new CraftingSession(definitions, maxProfiles, rack)`.
+The Godot workshop package includes it. A successful first learn upgrades
+a legacy save to version two. The save contains eight nullable skill payloads,
+including socket rolls, empowerment and locks. A learned skill acquires an
+item ID when it returns to the bag. The session rejects duplicate learned IDs
+and incompatible save versions before opening the profile.
+
+On a refused removal, a full pack still advances the next item ID. A refused
+replacement can also move a wrapper to the end of the pack at its previous
+coordinates. Save when the command returns `needsSave`. Commit against the
+revision shown in the UI, and reload the winning revision on a conflict.
+The sample rereads the relevant content page to apply its hero's attribute
+requirements at the time of the action.
+
+The data layout follows the access pattern. The original authored skill and
+support definitions are shared by all profiles. Small pages supply descriptions
+and requirements on demand. The workshop updates SQLite at inventory actions.
+This keeps disk reads outside the combat tick. Blizzard describes normalizing
+repeated spell effects into related records, and Factorio describes separate
+prototype and runtime stages. These examples informed the separation of
+definitions from live character state. Device timing still needs measurement.
+[Blizzard](https://news.blizzard.com/en-us/article/21881587/dev-watercooler-world-of-warcraft-classic)
+and [Factorio](https://lua-api.factorio.com/latest/index.html).
+
+Reproduce the rack check with a pinned Godot tool receipt and the corresponding
+0.53 inventory **project** ZIP. It packages the new SDK, reuses the verified
+native libraries, runs all 56 retained legacy commands, operates the scene
+controls and checks the committed save through an independent SQLite reader.
+An optional fourth argument supplies the Linux Godot executable for the pinned
+offline Steam Runtime Platform image. That run uses the Linux project ZIP.
+
+~~~sh
+npm run build
+node scripts/verify-workshop-rack.mjs TOOLS.json PREVIOUS_PROJECT.zip OUTPUT
+~~~
+
 ## Reproduce
 
 Use the pinned native tool receipt, combined addon archive and desktop acceptance

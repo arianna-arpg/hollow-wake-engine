@@ -76,6 +76,17 @@ func set_cargo_page_limit(pages: int) -> bool:
 func cargo_cache_info() -> Dictionary:
 	return _cargo_cards.cache_info()
 
+func skill_requirements(item: Dictionary, attributes: Dictionary) -> Dictionary:
+	return _cargo_cards.meets(self,item,attributes)
+
+func learn_skill(profile: int, uid: int, meets: bool, blocked: Dictionary, slot := -1) -> Dictionary:
+	var command := {"op":"learn-skill","profile":profile,"uid":uid,"meets":meets,"blocked":blocked}
+	if slot != -1: command.slot = slot
+	return request(command)
+
+func unlearn_skill(profile: int, skill_id: String, blocked: Dictionary) -> Dictionary:
+	return request({"op":"unlearn-skill","profile":profile,"skillId":skill_id,"blocked":blocked})
+
 func open_profile(profile: int, seed_value: int, state: Dictionary, next_uid: Variant = null) -> Dictionary:
 	var command := {"op": "open", "profile": profile, "seed": seed_value, "state": state}
 	if next_uid != null:

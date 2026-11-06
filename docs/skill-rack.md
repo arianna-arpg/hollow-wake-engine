@@ -60,5 +60,7 @@ The negative control changes duplicate learning in a separate process and
 checks that the game detects the change.
 
 The JavaScript package and the original game's adapter expose these functions.
-The downloadable 0.53 Godot workshop covers gear and cargo inspection. Its
-learned-skill editing screen and revisioned skill transactions remain open.
+The 0.55 Godot workshop can learn into a chosen seat and return the skill to
+the pack. The standalone character owns its eight learned seats. Games with
+equipment grants, possession, companions or unlearn holds can use the lower-level
+ports described above. See the [workshop save contract](inventory-workshop.md#learned-skills).

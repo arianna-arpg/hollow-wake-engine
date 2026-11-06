@@ -16,7 +16,7 @@ export interface GemSkill<D extends GemDefinition = GemDefinition, U extends Gem
 export const SKILL_GEM_BASE = 'skill_gem';
 export const SUPPORT_GEM_BASE = 'support_gem';
 export function isGemItem(item: ItemInstance): boolean { return item.gem !== undefined; }
-export function skillGemPayloadOf(item: ItemInstance): SkillGemPayload | null { return item.gem?.kind === 'skill' ? item.gem : null; }
+export function skillGemPayloadOf(item: Pick<ItemInstance,'gem'>): SkillGemPayload | null { return item.gem?.kind === 'skill' ? item.gem : null; }
 export function supportGemPayloadOf(item: ItemInstance): SupportGemPayload | null { return item.gem?.kind === 'support' ? item.gem : null; }
 export function bagGemItems<I extends ItemInstance>(items: readonly I[]): I[] { return items.filter(isGemItem); }
 export function findBagGem<I extends ItemInstance>(items: readonly I[], kind: 'skill' | 'support', id: string): I | undefined {
@@ -106,7 +106,7 @@ export function createGemResidence<D extends GemDefinition, U extends GemDefinit
       rarity: gemItemRarityOf(gem), name: support.def.name, baseRoll: 0, implicitRolls: [], affixes: [],
       ...(support.locked ? {locked: true} : {}), gem};
   }
-  function skillOfGemItem(item: I): S | null {
+  function skillOfGemItem(item: Pick<ItemInstance,'gem'|'locked'>): S | null {
     const payload = skillGemPayloadOf(item); if (!payload) return null;
     const def = ports.skill(payload.skillId); if (!def) return null;
     const inst = ports.makeSkill(def, payload.level, Math.max(1, payload.sockets.length));
