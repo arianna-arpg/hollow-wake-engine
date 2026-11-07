@@ -19,6 +19,26 @@ Each successful commit advances the revision exactly once. A busy or stale
 writer must reload and present the current state before the player acts again.
 
 The store uses SQLite transactions and synchronous EXTRA on local storage.
+For interactive saves, save_slot_async accepts the same arguments as stage_slot
+and returns a ticket. Poll that ticket with poll_save on later frames. A pending
+reply has pending=true; a completed reply has pending=false and the actual
+transaction result. Completion is consumed once. A stale or unknown ticket
+cannot consume another request.
+
+One request or unconsumed result occupies the store. Further submissions and
+synchronous slot/checkpoint calls are refused while it is occupied. Concurrent
+synchronous operations also fail promptly instead of waiting on a store lock.
+The worker sleeps between writes and receives owned UTF-8 documents and numbers;
+gameplay code and Godot objects stay with the host.
+
+cancel_save accepts a ticket until COMMIT is admitted. An accepted cancellation
+prevents that commit; polling reports cancellation or an earlier staging error.
+Once COMMIT is admitted, cancellation returns too-late and the host must observe
+its actual result. close_file cancels earlier work when possible, waits for an
+admitted commit, and invalidates its ticket. Poll before normal scene departure
+to avoid making shutdown wait for storage. Destruction also joins the worker.
+Tickets remain distinct when the same store object is reopened.
+
 Opening a validated slot database selects write-ahead logging. This includes
 older slot databases using rollback journals. The optional second argument to
 open_file accepts "wal" (default), "rollback" or "preserve". The returned journal

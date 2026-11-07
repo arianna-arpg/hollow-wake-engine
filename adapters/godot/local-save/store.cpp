@@ -1,4 +1,5 @@
 #include "sqlite3.h"
+#include "write-worker.hpp"
 #include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/godot.hpp>
@@ -23,6 +24,16 @@ Dictionary failure(int rc) {
     reply["sqlite_code"] = rc;
     return reply;
 }
+hwe_save::WriteResult storage_failure(int rc) {
+    const int base = rc & 255;
+    return {base == SQLITE_BUSY || base == SQLITE_LOCKED ? "busy" : "storage", rc};
+}
+Dictionary write_reply(hwe_save::WriteResult reply) {
+    auto out = result(reply.ok(), reply.reason ? reply.reason : "");
+    if (reply.code) out["sqlite_code"] = reply.code;
+    if (reply.token) out["token"] = reply.token;
+    return out;
+}
 struct Statement {
     sqlite3_stmt *value = nullptr;
     ~Statement() { sqlite3_finalize(value); }
@@ -36,17 +47,16 @@ int scalar(sqlite3 *db, const char *sql, int &out) {
     }
     return rc;
 }
-int bind_text(sqlite3_stmt *stmt, int index, const CharString &text) {
-    return sqlite3_bind_text(stmt, index, text.get_data(), static_cast<int>(text.length()), SQLITE_TRANSIENT);
-}
 }
 
-class HollowWakeSlotStore final : public RefCounted {
+class HollowWakeSlotStore final : public RefCounted, private hwe_save::WriteBackend {
     GDCLASS(HollowWakeSlotStore, RefCounted)
     sqlite3 *db = nullptr;
     std::mutex gate;
+    std::mutex lifecycle;
     int64_t sequence = 0;
     int64_t pending = 0;
+    hwe_save::WriteWorker worker{*this};
     int execute(const char *sql) { return sqlite3_exec(db, sql, nullptr, nullptr, nullptr); }
     void close_locked() {
         if (db) sqlite3_close_v2(db); // All statements are scoped; closing rolls back a staged write.
@@ -72,6 +82,7 @@ class HollowWakeSlotStore final : public RefCounted {
         auto reply = result(true);
         reply["journal"] = mode;
         reply["sqlite_version"] = String::utf8(sqlite3_libversion());
+        worker.reopen();
         return reply;
     }
 protected:
@@ -81,14 +92,20 @@ protected:
         ClassDB::bind_method(D_METHOD("stage_slot", "slot", "expected_revision", "crafting_json", "stash_json"), &HollowWakeSlotStore::stage_slot);
         ClassDB::bind_method(D_METHOD("commit_slot", "token"), &HollowWakeSlotStore::commit_slot);
         ClassDB::bind_method(D_METHOD("cancel_slot", "token"), &HollowWakeSlotStore::cancel_slot);
+        ClassDB::bind_method(D_METHOD("save_slot_async", "slot", "expected_revision", "crafting_json", "stash_json"), &HollowWakeSlotStore::save_slot_async);
+        ClassDB::bind_method(D_METHOD("poll_save", "ticket"), &HollowWakeSlotStore::poll_save);
+        ClassDB::bind_method(D_METHOD("cancel_save", "ticket"), &HollowWakeSlotStore::cancel_save);
         ClassDB::bind_method(D_METHOD("checkpoint"), &HollowWakeSlotStore::checkpoint);
         ClassDB::bind_method(D_METHOD("close_file"), &HollowWakeSlotStore::close_file);
     }
 public:
-    ~HollowWakeSlotStore() override { close_locked(); }
+    ~HollowWakeSlotStore() override { close_file(); }
     Dictionary open_file(const String &absolute_path, const String &journal_policy = "wal") {
-        std::lock_guard<std::mutex> lock(gate);
-        if (db || !absolute_path.is_absolute_path() || absolute_path.contains("://")) return result(false, "invalid-path-or-open");
+        std::unique_lock<std::mutex> owner(lifecycle, std::try_to_lock);
+        std::unique_lock<std::mutex> lock(gate, std::try_to_lock);
+        if (!owner.owns_lock() || !lock.owns_lock()) return result(false, "unavailable");
+        if (db || worker.has_request() || !absolute_path.is_absolute_path() || absolute_path.contains("://"))
+            return result(false, "invalid-path-or-open");
         if (journal_policy != "wal" && journal_policy != "rollback" && journal_policy != "preserve") return result(false, "invalid-journal-policy");
         const auto name = absolute_path.utf8();
         int rc = sqlite3_open_v2(name.get_data(), &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_NOFOLLOW, nullptr);
@@ -122,7 +139,8 @@ public:
         return finish_open(journal_policy);
     }
     Dictionary read_slot(int64_t slot) {
-        std::lock_guard<std::mutex> lock(gate);
+        std::unique_lock<std::mutex> lock(gate, std::try_to_lock);
+        if (!lock.owns_lock() || worker.busy()) return result(false, "unavailable");
         if (!db || pending || slot < 0 || slot > 65535) return result(false, "unavailable");
         Statement q;
         int rc = sqlite3_prepare_v2(db, "SELECT revision,crafting,stash FROM slots WHERE slot=?1", -1, &q.value, nullptr);
@@ -143,14 +161,21 @@ public:
         return reply;
     }
     Dictionary stage_slot(int64_t slot, int64_t expected, const String &crafting, const String &stash) {
-        std::lock_guard<std::mutex> lock(gate);
+        std::unique_lock<std::mutex> lock(gate, std::try_to_lock);
+        if (!lock.owns_lock() || worker.busy()) return result(false, "unavailable");
         if (!db || pending) return result(false, "unavailable");
         if (slot < 0 || slot > 65535 || expected < 0 || expected >= max_revision || sequence >= max_revision) return result(false, "invalid-revision-or-slot");
         if (crafting.is_empty() || stash.is_empty() || crafting.length() > max_bytes || stash.length() > max_bytes) return result(false, "payload-size");
         const auto body = crafting.utf8(), items = stash.utf8();
         if (body.length() > max_bytes || items.length() > max_bytes) return result(false, "payload-size");
+        return write_reply(stage_bytes(slot, expected, body.get_data(), static_cast<int>(body.length()),
+                                       items.get_data(), static_cast<int>(items.length())));
+    }
+private:
+    hwe_save::WriteResult stage_bytes(int64_t slot, int64_t expected, const char *body, int body_size,
+                                      const char *items, int items_size) noexcept {
         int rc = execute("BEGIN IMMEDIATE");
-        if (rc != SQLITE_OK) return failure(rc);
+        if (rc != SQLITE_OK) return storage_failure(rc);
         {
             Statement q;
             const char *sql = expected == 0 ?
@@ -158,33 +183,83 @@ public:
                 "UPDATE slots SET crafting=?2,stash=?3,revision=revision+1 WHERE slot=?1 AND revision=?4";
             rc = sqlite3_prepare_v2(db, sql, -1, &q.value, nullptr);
             if (rc == SQLITE_OK) rc = sqlite3_bind_int64(q.value, 1, slot);
-            if (rc == SQLITE_OK) rc = bind_text(q.value, 2, body);
-            if (rc == SQLITE_OK) rc = bind_text(q.value, 3, items);
+            if (rc == SQLITE_OK) rc = sqlite3_bind_text(q.value, 2, body, body_size, SQLITE_TRANSIENT);
+            if (rc == SQLITE_OK) rc = sqlite3_bind_text(q.value, 3, items, items_size, SQLITE_TRANSIENT);
             if (rc == SQLITE_OK && expected != 0) rc = sqlite3_bind_int64(q.value, 4, expected);
             if (rc == SQLITE_OK) rc = sqlite3_step(q.value);
         }
-        if (rc != SQLITE_DONE) { rollback(); return failure(rc); }
-        if (sqlite3_changes(db) != 1) { rollback(); return result(false, "stale-revision"); }
+        if (rc != SQLITE_DONE) { rollback(); return storage_failure(rc); }
+        if (sqlite3_changes(db) != 1) { rollback(); return {"stale-revision"}; }
         pending = ++sequence;
-        auto reply = result(true);
-        reply["token"] = pending;
-        return reply;
+        return {nullptr, 0, pending};
     }
-    Dictionary commit_slot(int64_t token) {
+    hwe_save::WriteResult stage(const hwe_save::WriteRequest &input) noexcept override {
         std::lock_guard<std::mutex> lock(gate);
-        if (!db || !pending || pending != token) return result(false, "invalid-token");
+        return stage_bytes(input.slot, input.revision, input.body.data(), static_cast<int>(input.body.size()),
+                           input.stash.data(), static_cast<int>(input.stash.size()));
+    }
+    hwe_save::WriteResult commit_bytes(int64_t token) noexcept {
+        if (!db || !pending || pending != token) return {"invalid-token"};
         const int rc = execute("COMMIT");
-        if (rc != SQLITE_OK) { rollback(); return failure(rc); }
+        if (rc != SQLITE_OK) { rollback(); return storage_failure(rc); }
         pending = 0;
-        return result(true);
+        return {};
+    }
+    hwe_save::WriteResult cancel_bytes(int64_t token) noexcept {
+        if (!db || !pending || pending != token) return {"invalid-token"};
+        rollback();
+        return db ? hwe_save::WriteResult{} : hwe_save::WriteResult{"storage"};
+    }
+    hwe_save::WriteResult commit(int64_t token) noexcept override {
+        std::lock_guard<std::mutex> lock(gate);
+        return commit_bytes(token);
+    }
+    hwe_save::WriteResult cancel(int64_t token) noexcept override {
+        std::lock_guard<std::mutex> lock(gate);
+        return cancel_bytes(token);
+    }
+public:
+    Dictionary save_slot_async(int64_t slot, int64_t expected, const String &crafting, const String &stash) {
+        std::unique_lock<std::mutex> lock(gate, std::try_to_lock);
+        if (!lock.owns_lock() || worker.busy() || !db || pending) return result(false, "unavailable");
+        if (slot < 0 || slot > 65535 || expected < 0 || expected >= max_revision || sequence >= max_revision)
+            return result(false, "invalid-revision-or-slot");
+        if (crafting.is_empty() || stash.is_empty() || crafting.length() > max_bytes || stash.length() > max_bytes)
+            return result(false, "payload-size");
+        const auto body = crafting.utf8(), items = stash.utf8();
+        if (body.length() > max_bytes || items.length() > max_bytes) return result(false, "payload-size");
+        auto reply = worker.submit({slot, expected, std::string(body.get_data(), body.length()),
+                                    std::string(items.get_data(), items.length())});
+        auto out = write_reply(reply);
+        if (reply.ok()) { out.erase("token"); out["ticket"] = reply.token; }
+        return out;
+    }
+    Dictionary poll_save(int64_t ticket) {
+        const auto reply = worker.poll(ticket);
+        if (!reply.valid) return result(false, "invalid-ticket");
+        if (!reply.pending) {
+            auto out = write_reply(reply.result);
+            out["pending"] = false;
+            return out;
+        }
+        auto out = result(true);
+        out["pending"] = true;
+        return out;
+    }
+    Dictionary cancel_save(int64_t ticket) { return write_reply(worker.cancel(ticket)); }
+    Dictionary commit_slot(int64_t token) {
+        std::unique_lock<std::mutex> lock(gate, std::try_to_lock);
+        if (!lock.owns_lock() || worker.busy()) return result(false, "unavailable");
+        return write_reply(commit_bytes(token));
     }
     Dictionary cancel_slot(int64_t token) {
-        std::lock_guard<std::mutex> lock(gate);
-        if (!db || !pending || pending != token) return result(false, "invalid-token");
-        rollback(); return db ? result(true) : result(false, "storage");
+        std::unique_lock<std::mutex> lock(gate, std::try_to_lock);
+        if (!lock.owns_lock() || worker.busy()) return result(false, "unavailable");
+        return write_reply(cancel_bytes(token));
     }
     Dictionary checkpoint() {
-        std::lock_guard<std::mutex> lock(gate);
+        std::unique_lock<std::mutex> lock(gate, std::try_to_lock);
+        if (!lock.owns_lock() || worker.busy()) return result(false, "unavailable");
         if (!db || pending) return result(false, "unavailable");
         int frames = -1, copied = -1;
         const int rc = sqlite3_wal_checkpoint_v2(db, "main", SQLITE_CHECKPOINT_PASSIVE, &frames, &copied);
@@ -195,7 +270,12 @@ public:
         reply["complete"] = frames == copied;
         return reply;
     }
-    void close_file() { std::lock_guard<std::mutex> lock(gate); close_locked(); }
+    void close_file() {
+        std::lock_guard<std::mutex> owner(lifecycle);
+        worker.shutdown();
+        std::lock_guard<std::mutex> lock(gate);
+        close_locked();
+    }
 };
 
 static void initialize(ModuleInitializationLevel level) {

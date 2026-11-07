@@ -56,6 +56,11 @@ var keep_stack := Button.new()
 var sell_stack := Button.new()
 var _pending_sale := {}
 var _sale_quote := {}
+var _pending_ui: Dictionary = {}
+var _save_focus: WeakRef
+var _save_elapsed := 0.0
+var _closing := false
+signal save_finished(reply: Dictionary)
 
 func _box(color: Color, inset: int) -> StyleBoxFlat:
 	var box := StyleBoxFlat.new()
@@ -74,6 +79,7 @@ func _button(node: Button, caption: String, callback: Callable) -> void:
 	node.pressed.connect(callback)
 
 func _ready() -> void:
+	get_tree().auto_accept_quit=false
 	if OS.get_cmdline_user_args().has("--cargo-sample"):
 		sample_cargo = true
 		save_path = "user://inventory-cargo-sample.sqlite3"
@@ -229,6 +235,7 @@ func _ready() -> void:
 	tabs.grab_focus()
 
 func _switch_sample() -> void:
+	if profile.is_saving(): return
 	sample_vestiges=false
 	sample_supports=not sample_supports
 	save_path="user://inventory-support-sample.sqlite3" if sample_supports else ("user://inventory-cargo-sample.sqlite3" if sample_cargo else "user://inventory.sqlite3")
@@ -236,6 +243,7 @@ func _switch_sample() -> void:
 	_restart()
 
 func _switch_vestiges() -> void:
+	if profile.is_saving(): return
 	sample_supports=false
 	sample_vestiges=not sample_vestiges
 	save_path="user://inventory-vestiges.sqlite3" if sample_vestiges else ("user://inventory-cargo-sample.sqlite3" if sample_cargo else "user://inventory.sqlite3")
@@ -243,6 +251,7 @@ func _switch_vestiges() -> void:
 	_restart()
 
 func _restart() -> void:
+	if profile.is_saving(): return
 	inlay_dialog.hide()
 	_inlay_item={}
 	recall_dialog.hide()
@@ -271,6 +280,7 @@ func _seat(number: int) -> Variant:
 	return rack[number-1] if number >= 1 and number <= rack.size() else null
 
 func render(select_first := false) -> void:
+	if profile.is_saving(): return
 	displayed_revision = profile.revision
 	list.clear()
 	forge.disabled = not profile.available
@@ -306,6 +316,7 @@ func render(select_first := false) -> void:
 	details()
 
 func details() -> void:
+	if profile.is_saving(): return
 	_pending_sale = {}
 	sale_confirmation.hide()
 	primary.show()
@@ -440,6 +451,7 @@ func _scroll_card(event: InputEvent) -> void:
 		detail_scroll.accept_event()
 
 func perform(action: String) -> void:
+	if profile.is_saving(): return
 	if action == "sell" and _sale_quote.get("confirm",false):
 		_pending_sale = {"uid":selected_uid,"revision":displayed_revision}
 		sale_question.text = "Sell the entire stack for %d %s?" % [int(_sale_quote.amount.count),_sale_quote.material.label]
@@ -450,11 +462,11 @@ func perform(action: String) -> void:
 	_apply_action(action,selected_uid,displayed_revision)
 
 func _edit_socket() -> void:
+	if profile.is_saving(): return
 	if socket_choice.selected<0: return
 	var target: Dictionary = socket_choice.get_item_metadata(socket_choice.selected)
-	var reply := profile.act(target.act,target.uid,displayed_revision,target.slot,target.skill,target)
-	render(true)
-	status.text=("Support socketed." if target.act=="socket" else "Support returned to pack.") if reply.ok else error_text(reply.reason)
+	var reply := profile.begin_action(target.act,target.uid,displayed_revision,target.slot,target.skill,target)
+	_accept_result(reply,{"first":true,"success":"Support socketed." if target.act=="socket" else "Support returned to pack."})
 
 func _cancel_sale() -> void:
 	_pending_sale = {}
@@ -473,18 +485,75 @@ func _confirm_sale() -> void:
 	if not pending.is_empty(): _apply_action("sell",pending.uid,pending.revision)
 
 func _apply_action(action: String, uid: int, revision: int) -> void:
+	if profile.is_saving(): return
 	var slot := seat_choice.selected-1 if action == "learn" else uid-1
 	var row: Variant = _seat(uid) if action == "unlearn" else null
-	var reply := profile.act(action,uid,revision,slot,row.gem.skillId if row != null else "")
-	render()
-	if reply.ok:
-		status.text = {"forge":"Ring forged.","store":"Item moved to stash.","withdraw":"Item returned to pack.",
-			"recover":"Item recovered.","sell":"Item sold.","equip":"Item equipped.","unequip":"Item returned to pack.",
-			"learn":"Skill learned.","unlearn":"Skill returned to pack."}[action]
-	else:
-		status.text = error_text(reply.reason)
+	var reply := profile.begin_action(action,uid,revision,slot,row.gem.skillId if row != null else "")
+	var message: String={"forge":"Ring forged.","store":"Item moved to stash.","withdraw":"Item returned to pack.",
+		"recover":"Item recovered.","sell":"Item sold.","equip":"Item equipped.","unequip":"Item returned to pack.",
+		"learn":"Skill learned.","unlearn":"Skill returned to pack."}.get(action,"Action completed.")
+	_accept_result(reply,{"success":message})
+
+func _accept_result(reply: Dictionary, context: Dictionary) -> void:
+	if reply.get("pending",false):
+		_pending_ui=context
+		_save_elapsed=0.0
+		_set_saving(true)
+		status.text="Saving…"
+		return
+	_complete_action(reply,context)
+
+func _complete_action(reply: Dictionary, context: Dictionary) -> void:
+	var message: String=context.get("success","Saved.")
+	if reply.ok and context.get("recall",false):
+		selected_uid=int(reply.result.itemUid)
+		message="Recalled "+reply.result.name+"."
+	render(context.get("first",false))
+	status.text=message if reply.ok else error_text(reply.reason)
+
+func _set_saving(saving: bool) -> void:
+	if saving:
+		var focused:=get_viewport().gui_get_focus_owner()
+		_save_focus=weakref(focused) if focused!=null else null
+		status.focus_mode=Control.FOCUS_ALL
+		status.grab_focus()
+	for button in [forge,primary,recover,equip_button,learn_button,socket_button,recall_button,inlay_button,
+			 sample_button,vestige_sample_button,refresh_button,sell_stack,keep_stack,compare_button,seat_choice,socket_choice]:
+		button.disabled=saving
+	for i in tabs.tab_count: tabs.set_tab_disabled(i,saving)
+	list.mouse_filter=Control.MOUSE_FILTER_IGNORE if saving else Control.MOUSE_FILTER_STOP
+	list.focus_mode=Control.FOCUS_NONE if saving else Control.FOCUS_ALL
+	if not saving: status.focus_mode=Control.FOCUS_NONE
+
+func _process(delta: float) -> void:
+	if not profile.is_saving(): return
+	var reply:=profile.poll_save()
+	if reply.get("pending",false):
+		_save_elapsed+=delta
+		status.text=("Finishing save" if _closing else "Saving")+".".repeat(1+int(_save_elapsed*4.0)%3)
+		return
+	var context:=_pending_ui
+	_pending_ui={}
+	_set_saving(false)
+	_complete_action(reply,context)
+	var focused: Object=_save_focus.get_ref() if _save_focus!=null else null
+	if focused is Control and focused.is_visible_in_tree() and (not focused is BaseButton or not focused.disabled): focused.grab_focus()
+	else: tabs.grab_focus()
+	_save_focus=null
+	save_finished.emit(reply)
+	if _closing:
+		_closing=false
+		if reply.ok: get_tree().quit()
+
+func _notification(what: int) -> void:
+	if what==NOTIFICATION_WM_CLOSE_REQUEST:
+		if profile.is_saving(): _closing=true;status.text="Finishing save…"
+		else: get_tree().quit()
 
 func error_text(reason: String) -> String:
+	if reason=="background-save-unavailable": return "The save component needs an update."
+	if reason=="save-pending": return "Please wait for the current save."
+	if reason=="cancelled": return "Save cancelled. The previous inventory has been restored."
 	if reason=="inventory full": return "Make room in the pack before removing a support."
 	if reason=="stale-socket": return "That socket has changed. Review the current skill."
 	if reason=="cannot-socket": return "This support needs a compatible skill with a free socket."
@@ -540,13 +609,12 @@ func _recall_details() -> void:
 	recall_dialog.get_ok_button().disabled=_recall_view.refusal!=null or (recall_facet.visible and recall_facet.selected<=0)
 
 func _confirm_recall() -> void:
+	if profile.is_saving(): return
 	if _recall_view.is_empty() or recall_dialog.get_ok_button().disabled: return
 	var row: Dictionary=_recall_view.groups[recall_group.selected]
 	var facet: String=recall_facet.get_item_metadata(recall_facet.selected) if recall_facet.visible else ""
-	var reply:=profile.recall(int(_recall_view.uid),_recall_revision,row.key,facet)
-	if reply.ok: selected_uid=int(reply.result.itemUid)
-	render()
-	status.text=("Recalled "+reply.result.name+".") if reply.ok else error_text(reply.reason)
+	var reply:=profile.begin_recall(int(_recall_view.uid),_recall_revision,row.key,facet)
+	_accept_result(reply,{"recall":true})
 	_recall_view={}
 
 func _open_inlay() -> void:
@@ -584,12 +652,12 @@ func _show_inlay_preview() -> void:
 	inlay_dialog.get_ok_button().disabled=false
 
 func _confirm_inlay() -> void:
+	if profile.is_saving(): return
 	if _inlay_item.is_empty() or inlay_dialog.get_ok_button().disabled:return
 	var id:String=inlay_material.get_item_metadata(inlay_material.selected)
-	var reply:=profile.inlay(_inlay_item.uid,_inlay_revision,id,inlay_socket.selected-1)
+	var reply:=profile.begin_inlay(_inlay_item.uid,_inlay_revision,id,inlay_socket.selected-1)
 	_inlay_item={}
-	render()
-	status.text="Vestige inlaid." if reply.ok else error_text(reply.reason)
+	_accept_result(reply,{"success":"Vestige inlaid."})
 
 func _exit_tree() -> void:
 	profile.close()

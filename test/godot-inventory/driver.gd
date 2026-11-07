@@ -1,5 +1,6 @@
 extends Node
 const Profile = preload("res://profile.gd")
+var _screen: Variant
 
 # Only the acceptance project contains this decorator. It suspends the actual
 # writer at a known boundary until its parent kills the entire game process.
@@ -151,6 +152,7 @@ func click_point(pos: Vector2) -> void:
 		event.pressed = down
 		get_viewport().push_input(event,true)
 		await get_tree().process_frame
+	await settle()
 
 func press_key(code: Key) -> void:
 	for down in [true,false]:
@@ -159,9 +161,17 @@ func press_key(code: Key) -> void:
 		event.pressed = down
 		get_viewport().push_input(event,true)
 		await get_tree().process_frame
+	await settle()
+
+func settle() -> void:
+	var deadline:=Time.get_ticks_msec()+10000
+	while is_instance_valid(_screen) and _screen.profile.is_saving() and Time.get_ticks_msec()<deadline:
+		await get_tree().process_frame
+	check(not is_instance_valid(_screen) or not _screen.profile.is_saving(),"UI save completion")
 
 func play_loadout(filename: String) -> void:
 	var screen = preload("res://inventory.tscn").instantiate()
+	_screen=screen
 	screen.save_path = filename
 	add_child(screen)
 	await get_tree().process_frame
@@ -214,6 +224,7 @@ func play_loadout(filename: String) -> void:
 
 func play_cargo(filename: String) -> void:
 	var screen = preload("res://inventory.tscn").instantiate()
+	_screen=screen
 	screen.save_path = filename
 	screen.sample_cargo = true
 	add_child(screen)
@@ -287,6 +298,7 @@ func play_cargo(filename: String) -> void:
 
 func play_ui() -> void:
 	var screen = preload("res://inventory.tscn").instantiate()
+	_screen=screen
 	add_child(screen)
 	await get_tree().process_frame
 	await get_tree().process_frame

@@ -1,0 +1,53 @@
+{
+  "platform": "win32",
+  "arch": "x64",
+  "passed": true,
+  "barrierPolls": 20000,
+  "boundedAdmission": true,
+  "cancelBoundary": true,
+  "ownedInputs": true,
+  "errorPropagation": true,
+  "singleConsumption": true,
+  "reopenTickets": true,
+  "destructorJoin": true,
+  "mutations": [
+    {
+      "name": "overlap",
+      "detected": true
+    },
+    {
+      "name": "ticket",
+      "detected": true
+    },
+    {
+      "name": "late-cancel",
+      "detected": true
+    },
+    {
+      "name": "lost-cancel",
+      "detected": true
+    },
+    {
+      "name": "rollback",
+      "detected": true
+    },
+    {
+      "name": "consume",
+      "detected": true
+    },
+    {
+      "name": "reopen-alias",
+      "detected": true
+    },
+    {
+      "name": "commit-failure",
+      "detected": true
+    }
+  ],
+  "sources": {
+    "adapters/godot/local-save/write-worker.hpp": "6abf59d297a827ad77ab249be83a72a92322e30b18df209884d97e9f2748006f",
+    "test/local-save-worker.cpp": "ff84b0be02c140efb2b54d6c93e42f3564e41a9aae687edc5c5ffd6a4166ca73",
+    "scripts/test-save-worker.mjs": "10f638489349d062e5ffcc691717154f7ac9758936ae4a5ced75007e8f3ac8a6"
+  },
+  "buildSha256": "bcb1899ec2ea2baf65902794abe5d6707fc13aa1554deeb1fdfec2fcf4b018ce"
+}

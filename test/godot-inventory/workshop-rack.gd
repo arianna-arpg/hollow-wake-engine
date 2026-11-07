@@ -12,6 +12,12 @@ func check(value: bool, label: String) -> bool:
 		quit(1)
 	return value
 
+func settle(ui: Variant) -> bool:
+	var deadline:=Time.get_ticks_msec()+10000
+	while ui.profile.is_saving() and Time.get_ticks_msec()<deadline:
+		await process_frame
+	return check(not ui.profile.is_saving(),"save completion")
+
 func _run() -> void:
 	var legacy = Profile.Crafting.new()
 	if not check(legacy.start()==0,"start native replay"): return
@@ -64,6 +70,7 @@ func _run() -> void:
 	if not check(ui.learn_controls.visible,"learn control"): return
 	ui.seat_choice.select(5)
 	ui.learn_button.pressed.emit()
+	if not await settle(ui): return
 	if not check(p.saved.schemaVersion == 2 and p.saved.state.rack[4].gem == fire.gem,"learn with UI"): return
 	ui.tabs.current_tab = 4
 	ui.list.select(4)
@@ -86,6 +93,7 @@ func _run() -> void:
 	ui.list.select(4)
 	ui.list.item_selected.emit(4)
 	ui.primary.pressed.emit()
+	if not await settle(ui): return
 	if not check(p.saved.state.rack[4] == null and p.saved.state.items.back().gem == fire.gem,"return through UI"): return
 	if not check(p.saved.state.items.back().uid==initial_uid+2 and p.saved.nextUid==initial_uid+3,"identity continuation"): return
 	var accepted: Dictionary = p.saved

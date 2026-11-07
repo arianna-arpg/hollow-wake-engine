@@ -87,7 +87,7 @@ async function launch(label,command,args,settings={},barrier=null) {
   }
 }
 function play(label,mode,db,extra={},barrier=null) {
-  return launch(label,exe,['--headless','--quit-after','120','--log-file',path.join(dir,label+'-engine.log')],
+  return launch(label,exe,['--headless','--log-file',path.join(dir,label+'-engine.log')],
     {HWE_CASE:mode,HWE_DB:db,HWE_RESUME:'',HWE_PHASE:barrier??'',...extra},barrier);
 }
 async function inspect(label,db,expected) {
@@ -205,7 +205,7 @@ try{
   assert.equal(sampleSave.revision,1);assert.deepEqual(sampleSave.source.state.items,demo);
   assert.deepEqual(database(realSave),fresh);
   const png=path.join(dir,'inventory.png');
-  await launch('screen',exe,[...(renderFlag?['--audio-driver','Dummy']:['--headless']),'--quit-after','240','--log-file',path.join(dir,'screen-engine.log')],
+  await launch('screen',exe,[...(renderFlag?['--audio-driver','Dummy']:['--headless']),'--log-file',path.join(dir,'screen-engine.log')],
     {HWE_CASE:'ui',HWE_SCREENSHOT:renderFlag?png:''});
   const last=database(realSave);assert.equal(last.revision,5);assert.equal(last.source.state.items.length,4);
   const {heap:inspectionMetrics,keyboardScroll,scrollMax,scrollPage}=read(path.join(userData,'hollow-wake-inventory-workshop','inspection-metrics.json'));
@@ -217,7 +217,7 @@ try{
   assert.equal(last.source.state.overflow.length,1);assert.equal(last.stash.length,0);
   if(renderFlag){const image=fs.readFileSync(png);assert.equal(image.subarray(1,4).toString(),'PNG');report.screenshot={sha256:sha256(image),width:image.readUInt32BE(16),height:image.readUInt32BE(20)};}
   const cargoDb=path.join(dir,'cargo.db'),cargoOut=path.join(dir,'cargo-replies.jsonl'),cargoPng=path.join(dir,'cargo.png');
-  await launch('cargo-screen',exe,[...(renderFlag?['--audio-driver','Dummy']:['--headless']),'--quit-after','300','--log-file',path.join(dir,'cargo-engine.log')],
+  await launch('cargo-screen',exe,[...(renderFlag?['--audio-driver','Dummy']:['--headless']),'--log-file',path.join(dir,'cargo-engine.log')],
     {HWE_CASE:'cargo-ui',HWE_DB:cargoDb,HWE_RESULT:cargoOut,HWE_SCREENSHOT:renderFlag?cargoPng:''});
   const replies=fs.readFileSync(cargoOut,'utf8').trimEnd().split('\n').map(JSON.parse);assert.equal(replies.length,cargoCases.length);
   for(const [i,{label,reply}] of replies.entries()){

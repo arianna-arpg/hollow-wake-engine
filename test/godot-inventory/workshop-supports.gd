@@ -36,7 +36,16 @@ func click(button: Button) -> bool:
 		event.pressed=down
 		get_viewport().push_input(event,true)
 		await get_tree().process_frame
+	var ui: Node=button
+	while ui!=null and ui.get_script()!=preload("res://inventory.gd"): ui=ui.get_parent()
+	if ui!=null: return await settle(ui)
 	return true
+
+func settle(ui: Variant) -> bool:
+	var deadline:=Time.get_ticks_msec()+10000
+	while ui.profile.is_saving() and Time.get_ticks_msec()<deadline:
+		await get_tree().process_frame
+	return check(not ui.profile.is_saving(),"save completion")
 
 func _run() -> void:
 	if OS.get_cmdline_user_args().has("--corrupt-page"):
@@ -152,6 +161,7 @@ func verify_pouches(ui: Variant) -> Dictionary:
 	release.pressed=false
 	ui.recall_dialog.push_input(release,true)
 	await get_tree().process_frame
+	if not await settle(ui): return {}
 	if not check(p.revision==rev+2 and p.saved.state.items.front().mem.size()==1 and p.saved.state.items.back().has("gem"),"atomic UI recall"): return {}
 	var minted: Dictionary=p.saved.state.items.back()
 	var stale:=peer.recall(uid,peer.revision,group,facet)
@@ -162,6 +172,7 @@ func verify_pouches(ui: Variant) -> Dictionary:
 	ui.recall_facet.item_selected.emit(2)
 	ui.recall_dialog.get_ok_button().pressed.emit()
 	await get_tree().process_frame
+	if not await settle(ui): return {}
 	if not check(p.revision==rev+3 and p.saved.state.items.size()==4 and p._find(p.saved.state.items,uid)==-1,"last unit reuses pouch cell"): return {}
 	var final_save: Dictionary=p.saved
 	if not check(p.reload().ok and p.saved==final_save and p.saved.state.account.ledger.gemdrops_total==2,"reopened recall receipts"): return {}

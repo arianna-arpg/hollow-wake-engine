@@ -1,5 +1,11 @@
 # Verification and reproduction
 
+The [background-save boundary](background-saves.md) adds a bounded native worker
+and asynchronous inventory publication. Its independent barrier/fault tests,
+empty-project SQLite checks, relocated player/restart courses and existing
+inventory workflows are recorded in [the checkpoint](../evidence/background-saves/README.md).
+The standalone addon's evidence is separate from full game content.
+
 `test:crafting-session-package` runs 14 owned-session contracts against an actual
 offline package installation and a browser bundle with ambient RNG and host
 globals disabled. `test:crafting-session-faults` requires eight injected identity,

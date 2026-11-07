@@ -1,0 +1,24 @@
+{
+  "developmentFailures": [
+    {
+      "check": "native driver",
+      "reason": "inferred Variant",
+      "resolution": "explicit Object type; final native checks pass"
+    },
+    {
+      "check": "workflow observer",
+      "reason": "cp1252 decoding",
+      "resolution": "explicit UTF-8; both workflow checks pass"
+    },
+    {
+      "check": "Windows package cleanup",
+      "reason": "WinError145 after all functional checks passed",
+      "resolution": "no owned Godot process alive; 114 files / 281712359 bytes removed; bounded retry added; subsequent workflow cleanup passed"
+    }
+  ],
+  "threadSanitizer": {
+    "exitCode": 66,
+    "diagnostic": "FATAL: ThreadSanitizer: unexpected memory mapping 0x5a9c30115000-0x5a9c30117000",
+    "qualified": false
+  }
+}

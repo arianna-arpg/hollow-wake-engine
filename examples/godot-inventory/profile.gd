@@ -24,9 +24,14 @@ var _fit_revision := -1
 var _fit_uid := 0
 var _fit_reply: Dictionary = {}
 var _memory: Variant = null
+var _background := false
+var _pending_ticket := 0
+var _pending_save: Dictionary = {}
+var _pending_result: Dictionary = {}
 const RECALL_SAVE := "inventory-workshop/recall-v1"
 
 func start(filename: String, backend: Variant = null, starter_cargo := false, starter_supports := false, starter_vestiges := false) -> Dictionary:
+	if is_saving(): return {"ok":false,"reason":"save-pending"}
 	_starter_vestiges=starter_vestiges
 	_starter_cargo = starter_cargo or starter_supports
 	_starter_supports = starter_supports
@@ -43,6 +48,10 @@ func close() -> void:
 	api.close()
 	_open_profile = false
 	if store != null: store.close_file()
+	_pending_ticket=0
+	_pending_save={}
+	_pending_result={}
+	_background=false
 
 func _close_profile() -> void:
 	if _open_profile:
@@ -54,6 +63,7 @@ func _empty_state() -> Dictionary:
 		"account":{"craftLore":{},"ledger":{},"features":[],"progression":true}}
 
 func reload() -> Dictionary:
+	if is_saving(): return {"ok":false,"reason":"save-pending"}
 	available = false
 	_memory=null
 	_fit_revision=-1
@@ -152,19 +162,78 @@ func _save(destination: Array, sold_uid: int = 0, new_memory: Variant = null) ->
 		# Keep the SDK's exact numeric encodings; avoid escaping a save inside
 		# a string. The SQLite size guard covers the entire atomic envelope.
 		crafting_text="["+JSON.stringify(RECALL_SAVE)+","+crafting_text+","+metadata.text+"]"
+	if _background:
+		var queued: Dictionary=store.save_slot_async(SLOT,revision,crafting_text,stash_json.text)
+		if not queued.ok: return queued
+		_pending_ticket=int(queued.ticket)
+		_pending_save={"revision":revision,"snapshot":snapshot.save,"stash":destination,"memory":memory}
+		_freeze(_pending_save)
+		available=false
+		return {"ok":true}
 	var staged: Dictionary = store.stage_slot(SLOT,revision,crafting_text,stash_json.text)
 	if not staged.ok: return staged
 	var committed: Dictionary = store.commit_slot(staged.token)
 	if not committed.ok: return committed
-	revision += 1
-	saved = snapshot.save
-	stash = destination
-	_memory=memory
+	_publish_save({"revision":revision,"snapshot":snapshot.save,"stash":destination,"memory":memory})
+	return {"ok":true}
+
+func _publish_save(proposal: Dictionary) -> void:
+	revision = int(proposal.revision)+1
+	saved = proposal.snapshot
+	stash = proposal.stash
+	_memory=proposal.memory
 	_freeze(_memory)
 	_freeze(saved)
 	_freeze(stash)
 	available = true
-	return {"ok":true}
+
+func is_saving() -> bool:
+	return _pending_ticket!=0
+
+func _begin(command: Callable) -> Dictionary:
+	if is_saving(): return {"ok":false,"reason":"save-pending"}
+	if not available: return {"ok":false,"reason":"unavailable"}
+	if not store.has_method("save_slot_async"): return {"ok":false,"reason":"background-save-unavailable"}
+	_background=true
+	var reply: Dictionary=command.call()
+	_background=false
+	if not is_saving(): return reply
+	_pending_result=reply
+	return {"ok":true,"pending":true}
+
+func begin_action(action: String, uid: int, seen_revision: int, slot := -1, expected_skill := "", socket: Dictionary = {}) -> Dictionary:
+	return _begin(act.bind(action,uid,seen_revision,slot,expected_skill,socket))
+
+func begin_inlay(uid: int, seen_revision: int, id: String, socket := -1) -> Dictionary:
+	return _begin(inlay.bind(uid,seen_revision,id,socket))
+
+func begin_recall(uid: int, seen_revision: int, group: String, facet: String) -> Dictionary:
+	return _begin(recall.bind(uid,seen_revision,group,facet))
+
+func begin_grant_vestige(id: String, count: int, seen_revision: int) -> Dictionary:
+	return _begin(grant_vestige.bind(id,count,seen_revision))
+
+func poll_save() -> Dictionary:
+	if not is_saving(): return {"ok":false,"reason":"invalid-ticket"}
+	var reply: Dictionary=store.poll_save(_pending_ticket)
+	if reply.get("pending",false): return reply
+	var proposal:=_pending_save
+	var completed:=_pending_result
+	_pending_ticket=0
+	_pending_save={}
+	_pending_result={}
+	if reply.ok:
+		_publish_save(proposal)
+		reply=completed
+	else:
+		var recovered:=reload()
+		if not recovered.ok: reply=recovered
+	reply["pending"]=false
+	return reply
+
+func cancel_save() -> Dictionary:
+	if not is_saving(): return {"ok":false,"reason":"invalid-ticket"}
+	return store.cancel_save(_pending_ticket)
 
 func _find(items: Array, uid: int) -> int:
 	for index in items.size():

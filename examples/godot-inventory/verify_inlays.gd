@@ -33,7 +33,13 @@ func confirm(ui: Variant) -> bool:
 	if not check(not ui.inlay_dialog.get_ok_button().disabled,"enabled confirmation"):return false
 	ui.inlay_dialog.get_ok_button().pressed.emit()
 	await get_tree().process_frame
-	return true
+	return await settle(ui)
+
+func settle(ui: Variant) -> bool:
+	var deadline:=Time.get_ticks_msec()+10000
+	while ui.profile.is_saving() and Time.get_ticks_msec()<deadline:
+		await get_tree().process_frame
+	return check(not ui.profile.is_saving(),"save completion")
 
 func _run() -> void:
 	var save_root:=OS.get_environment("HWE_VESTIGE_TEST_ROOT").replace("\\","/").trim_suffix("/")+"/"
@@ -72,6 +78,7 @@ func _run() -> void:
 		other.close()
 		ui.equip_button.pressed.emit()
 		await get_tree().process_frame
+		if not await settle(ui):return
 		if not check(p.revision==3 and not p.saved.state.equipped.is_empty(),"equip"):return
 		ui.tabs.current_tab=3
 		ui.render(true)

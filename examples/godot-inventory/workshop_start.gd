@@ -1,6 +1,9 @@
 extends Node
 
 func _ready() -> void:
+	if OS.get_cmdline_user_args().has("--verify-background"):
+		add_child(preload("res://verify_background.gd").new())
+		return
 	if OS.get_cmdline_user_args().has("--verify-inlays"):
 		add_child(preload("res://verify_inlays.gd").new())
 		return
