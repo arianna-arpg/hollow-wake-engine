@@ -49,8 +49,9 @@ python -I -B scripts/check-background-workflows.py EDITOR DELIVERY_DIRECTORY SCR
 python -I -B scripts/measure-profile-saves.py TOOLS_JSON DONOR_DIRECTORY examples/godot-inventory/profile.gd SCRATCH OUTPUT_JSON --pairs 18 --candidate-addon OVERLAY_DIRECTORY
 ```
 
-Use fresh outputs and stop other heavy work before measuring. Linux currently
-requires the explicit `--direct-registration` option for these complete workshop
-fixtures. Physical Steam Deck/mobile measurements, ARM packages and complete
+Use fresh outputs and stop other heavy work before measuring. The original
+Linux measurements used explicit registration; subsequent [cold-import checks](../evidence/godot-cold-import/README.md)
+verify the same workshop through normal editor import on both desktop platforms.
+Physical Steam Deck/mobile measurements, ARM packages and complete
 rendered-frame budgets remain separate acceptance work. See the retained
 [measurement evidence](../evidence/profile-views/README.md).

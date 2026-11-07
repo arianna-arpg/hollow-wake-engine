@@ -21,15 +21,23 @@ PREFIX = "inventory-workshop/"
 def working_directory(parent):
     """Retry transient Windows release delays; never suppress a cleanup failure."""
     folder = Path(tempfile.mkdtemp(prefix="background-workshop-", dir=parent)).resolve()
+    # Godot's generated editor names can exceed Win32 MAX_PATH even when the
+    # fixture root is short. Use extended absolute paths only for deletion.
+    cleanup = str(folder)
+    if os.name == "nt" and not cleanup.startswith("\\\\?\\"):
+        cleanup = "\\\\?\\UNC\\" + cleanup[2:] if cleanup.startswith("\\\\") else "\\\\?\\" + cleanup
     try:
         yield folder
     finally:
         for attempt in range(9):
             try:
-                shutil.rmtree(folder)
-                assert not folder.exists(), "Temporary fixture was not removed: " + str(folder)
+                shutil.rmtree(cleanup)
+                assert not Path(cleanup).exists(), "Temporary fixture was not removed: " + str(folder)
                 break
             except FileNotFoundError:
+                # A missing child is not proof that the root was removed.
+                if Path(cleanup).exists():
+                    raise
                 break
             except OSError as error:
                 if attempt == 8 or getattr(error, "winerror", None) not in (5, 32, 145):
@@ -39,6 +47,20 @@ def working_directory(parent):
 
 def digest(file):
     return hashlib.sha256(file.read_bytes()).hexdigest()
+
+
+def cold_import(project, launch):
+    """Require the editor to discover every extension in a cache-free project."""
+    cache = project / ".godot"
+    assert not cache.exists(), "Cold import requires a fresh project without .godot"
+    expected = sorted("res://" + file.relative_to(project).as_posix() for file in project.rglob("*.gdextension"))
+    assert expected, "No native extensions to qualify"
+    output = launch()
+    registry = cache / "extension_list.cfg"
+    assert registry.is_file(), "Editor did not create the extension registry"
+    actual = sorted(registry.read_text().splitlines())
+    assert actual == expected, ("Editor did not discover the complete addon", expected, actual)
+    return dict(cacheInitiallyAbsent=True, extensions=actual, logSha256=hashlib.sha256(output.encode()).hexdigest(), output=output)
 
 
 def archive_tree(folder, output, prefix):
@@ -131,13 +153,15 @@ def verify(args, work, delivery):
         assert result.returncode == 0 and not errors, label + "\n" + result.stdout[-5000:]
         return result.stdout
 
+    imported = None
     if args.direct_registration:
         cache = project / ".godot"
         cache.mkdir()
         entries = sorted("res://" + file.relative_to(project).as_posix() for file in project.rglob("*.gdextension"))
         (cache / "extension_list.cfg").write_text("\n".join(entries) + "\n")
     else:
-        launch("editor import", tools["editor"], ["--editor", "--import", "--frame-delay", "1000", "--path", project], editor_env)
+        imported = cold_import(project, lambda: launch("editor import", tools["editor"],
+            ["--editor", "--import", "--frame-delay", "1000", "--path", project], editor_env))
 
     def observations(label, executable, args, env, prefix):
         text = launch(label, executable, args, env)
@@ -190,7 +214,7 @@ def verify(args, work, delivery):
         vestiges.append(observations("relocated inlays", runnable, ["--", "--verify-inlays", "--vestige-sample", *extra],
                                      player_env, "HWE_VESTIGE_OK "))
     assert [row["resumed"] for row in vestiges] == [False, True] and all(row["revision"] == 5 for row in vestiges)
-    return dict(passed=True, platform=platform, native=native, editorImport=not args.direct_registration, craftingAddonHashes=crafting_hashes,
+    return dict(passed=True, platform=platform, native=native, editorImport=not args.direct_registration, coldImport=imported, craftingAddonHashes=crafting_hashes,
                 donorArchives={name: donor["archives"][name] for name in (project_name, player_name)},
                 sources={str((Path("examples/godot-inventory") / name).as_posix()): digest(ROOT / "examples/godot-inventory" / name) for name in source_files},
                 editor=editor, player=shipped, vestiges=vestiges,

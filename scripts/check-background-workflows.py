@@ -56,24 +56,32 @@ def check(args, work):
              TEMP=str(settings), TMP=str(settings), TMPDIR=str(settings))
 
     def launch(extra, marker=None, expected_failure=None):
-        result=subprocess.run([args.editor,"--headless","--path",project,*extra],cwd=project,env=env,
-                              stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,
-                              encoding="utf-8",errors="replace",timeout=120,
-                              creationflags=getattr(subprocess,"CREATE_NO_WINDOW",0))
+        try:
+            result=subprocess.run([args.editor,"--headless","--path",project,*extra],cwd=project,env=env,
+                                  stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,
+                                  encoding="utf-8",errors="replace",timeout=120,
+                                  creationflags=getattr(subprocess,"CREATE_NO_WINDOW",0))
+        except subprocess.TimeoutExpired as error:
+            output=error.stdout or b""
+            if isinstance(output,bytes): output=output.decode("utf-8",errors="replace")
+            raise AssertionError("Godot process timed out; captured output:\n"+output) from error
         errors=[line for line in result.stdout.splitlines() if ("ERROR:" in line or "ObjectDB instances leaked" in line)
                 and "Failed to read the root certificate store." not in line]
         if expected_failure:
             assert result.returncode==1 and not errors and "HWE_VIEW_FAILED "+expected_failure in result.stdout,result.stdout[-5000:]
             return dict(sha256=hashlib.sha256(result.stdout.encode()).hexdigest(),output=result.stdout)
-        assert result.returncode==0 and not errors,result.stdout[-5000:]
+        assert result.returncode==0 and not errors,result.stdout
         if marker:
             return json.loads(next(line[len(marker):] for line in result.stdout.splitlines() if line.startswith(marker)))
+        return result.stdout
 
+    imported = None
     if args.direct_registration:
         (project/".godot").mkdir()
         (project/".godot/extension_list.cfg").write_text("".join("res://"+file.relative_to(project).as_posix()+"\n" for file in sorted(project.rglob("*.gdextension"))))
     else:
-        launch(["--editor","--import","--frame-delay","1000"])
+        imported=runpy.run_path(str(ROOT/"scripts/verify-background-workshop.py"))["cold_import"](
+            project,lambda:launch(["--editor","--import","--frame-delay","1000"]))
     rack=launch(["--script","res://rack-test.gd","--","--cargo-sample"],"HWE_RACK ")
     folder=Path(rack["db"]).parent
     assert folder.resolve().is_relative_to(settings.resolve())
@@ -138,7 +146,7 @@ def check(args, work):
                     assert loose[0]["gem"]==dict(kind="support",supportId="teeming_vein",level=2,rolled=dict(trigger="chance",brood="grubs",clutch="brood4"))
             hashes[name]=hashlib.sha256(body.encode()).hexdigest()
     return dict(passed=True,platform=proof["platform"],archiveSha256=proof["archives"][archive.name],
-                editorImport=not args.direct_registration,legacyCommands=len(observed),gearCards=len(cards),rack=rack,supports=sockets,saveHashes=hashes,profileViews=views)
+                editorImport=not args.direct_registration,coldImport=imported,legacyCommands=len(observed),gearCards=len(cards),rack=rack,supports=sockets,saveHashes=hashes,profileViews=views)
 
 
 if __name__=="__main__":

@@ -37,6 +37,10 @@ registration for that project; its standalone addon passes normal editor import.
 The original 56-command course, 95 gear cards, skill learning, support sockets
 and fifteen memory-recall cases also pass on both platforms.
 
+Follow-up [cold-import qualification](../godot-cold-import/README.md) now verifies
+the complete workshop through normal import on both platforms. The original
+receipts above retain their explicit-registration scope.
+
 The independent C++ backend holds stage/commit barriers while 20,000 polls
 complete. It checks capacity, owned inputs, cancellation, single consumption,
 stale tickets, error propagation and joined destruction. Eight deliberate faults

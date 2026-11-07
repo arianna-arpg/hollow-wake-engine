@@ -1,0 +1,108 @@
+{
+  "passed": true,
+  "parent": "f8cce33b371b30fbd80c748440ed8aefedf135dd",
+  "scope": "Godot 4.7.2 normal cold import and exported headless inventory workflows; no gameplay or native-library changes",
+  "typecheck": {
+    "command": "npm run check",
+    "exitCode": 0
+  },
+  "sourcesAtRetention": {
+    "scripts/verify-background-workshop.py": "1f260efa604cf31a7fd2df6d6972eaf40ee7e4c0f923dd873a689c4de5f4b945",
+    "scripts/check-background-workflows.py": "07469fc20a0bba56ab855810e07f1af36e169f0362660aedac8840fb77e01ca3",
+    "scripts/check-godot-import-faults.py": "7221d6a5a6de7e01e69c6b04129576d340c008bb4e8a0aeeee5f5b74fabf95f3",
+    "scripts/test-workshop-cleanup.py": "a681df0445982c8432dba176c4bcd2191716b9fc7e9d6d9d131e2863e79de528"
+  },
+  "platforms": {
+    "windows": {
+      "workflows": {
+        "file": "evidence/godot-cold-import/windows-workflows.json",
+        "sha256": "d86321ea96d15d858ee339f4126e62d4528a9efd0a2d860c9032e934af84f7bc"
+      },
+      "delivery": {
+        "file": "evidence/godot-cold-import/windows-export.json",
+        "sha256": "c3d715283f8289cb550109b1d5ff7561d6545c09cc3d5c2c2b9f18df1709681b"
+      },
+      "faults": {
+        "file": "evidence/godot-cold-import/windows-faults.json",
+        "sha256": "dbecd7c3876038757c6d3aadf39810463bf63ff1dc4c78e24adf983272b0a3fd"
+      },
+      "scratchEmpty": true,
+      "sourceArchiveContentsUnchanged": true,
+      "sourceArchiveDifferences": [],
+      "cleanupLog": {
+        "file": "evidence/godot-cold-import/windows-cleanup.log.gz",
+        "sha256": "2dc6df0e3a00d297ede279b0394c6395c03eafb86ccec87bff12fa2485a3f53e"
+      },
+      "cleanExportLog": {
+        "file": "evidence/godot-cold-import/windows-export.log.gz",
+        "sha256": "04d5f27022045f982699dd57f730b71358aa20d0280f7566a4cd15ae953b51b9"
+      }
+    },
+    "linux": {
+      "workflows": {
+        "file": "evidence/godot-cold-import/linux-workflows.json",
+        "sha256": "d92fa5b72c5c561e4d1fed68e3c88223d86496a7eb1a214386de8302e8e1ca50"
+      },
+      "delivery": {
+        "file": "evidence/godot-cold-import/linux-export.json",
+        "sha256": "4834f8cad861104648b85666f98a5951688edd45ec732dde5dba9c45b33da122"
+      },
+      "faults": {
+        "file": "evidence/godot-cold-import/linux-faults.json",
+        "sha256": "acc3a5d1ad9aed7235717066932ed396797a7c2a9922ba4cf60a5a6427adcc91"
+      },
+      "scratchEmpty": true,
+      "sourceArchiveContentsUnchanged": true,
+      "sourceArchiveDifferences": [],
+      "cleanupLog": {
+        "file": "evidence/godot-cold-import/linux-cleanup.log.gz",
+        "sha256": "a02724cbc02ba6a67e6312a07285cbd95e90b595c4c9777a74a57499ea2f982f"
+      },
+      "cleanExportLog": {
+        "file": "evidence/godot-cold-import/linux-export.log.gz",
+        "sha256": "333ef281318147a111b1077b75e4e2708ca6007037c32a514aea83806b129f23"
+      }
+    }
+  },
+  "diagnostics": {
+    "import.log": {
+      "file": "evidence/godot-cold-import/import.log.gz",
+      "sha256": "13fc819e9d6774848b0045df10c0736f4e730da8e68d48cfb67ba88917907aa7"
+    },
+    "import.json": {
+      "file": "evidence/godot-cold-import/import.json.gz",
+      "sha256": "c95aeaa99b744ea2fac277fa11b1961a38493609c7bd550f06c2d3e39ffc9052"
+    },
+    "cleanup-diagnosis.json": {
+      "file": "evidence/godot-cold-import/cleanup-diagnosis.json.gz",
+      "sha256": "85a6e8409e5979054621e6dea850652cb1064b58bb88aae5b8553c6fd9908f39"
+    },
+    "cleanup-recovered.json": {
+      "file": "evidence/godot-cold-import/cleanup-recovered.json.gz",
+      "sha256": "de155a6c26900f82a15ea441c397564ea1ea965d102b00c3532dae47fa7b1d93"
+    },
+    "probe.py": {
+      "file": "evidence/godot-cold-import/probe.py.gz",
+      "sha256": "48e32ca49d493a548bed7130d781a3b8a8c036aaf2f6fddc46c4519aaf549bdf"
+    },
+    "qualify.py": {
+      "file": "evidence/godot-cold-import/qualify.py.gz",
+      "sha256": "028473adbf0ee633a44515f6232fda88eff9e073ca84989fbad9ce28f24c5cbe"
+    },
+    "qualify-windows.py": {
+      "file": "evidence/godot-cold-import/qualify-windows.py.gz",
+      "sha256": "2f41e3cd439ed83772274ae091ea3c6189dddbb89267e4d349f1175066122603"
+    },
+    "finish-linux.py": {
+      "file": "evidence/godot-cold-import/finish-linux.py.gz",
+      "sha256": "c026051d67f4644d9a3479059ee3e1e96e19db56bdb8a094fe21da5e05eceffd"
+    }
+  },
+  "unchangedRuntime": {
+    "src/crafting-session.ts": "5df261f9a681c098ec3e3ec3434abf6fe1d22815c483e21e75e2900bb55c1a8e",
+    "adapters/godot/crafting/entry.mjs": "e6aa61df9115dce61d2df27ff0c3967213b94cd14bd0721e52ea95529e043dca",
+    "adapters/godot/crafting/crafting.gd": "5d302bc224aea450d00a3b13521906faa88e728fcba8cc5e7cef193e889a6d18",
+    "adapters/godot/crafting/README.md": "881a9ccb784350fb5c7a237d52fe58376622a9e40c810ce4336c7dbe20c8ded1",
+    "examples/godot-inventory/profile.gd": "a6ae20704090fa36ad8a1ef0cd5deb3c13eac712c453edc82ad0cafea93999b8"
+  }
+}

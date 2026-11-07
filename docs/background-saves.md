@@ -59,12 +59,20 @@ python -I -B scripts/check-background-workflows.py EDITOR DELIVERY_DIRECTORY SCR
 python -I -B scripts/measure-background-store.py EDITOR ADDON_ZIP SCRATCH OUTPUT_JSON
 ```
 
-Use absolute paths and fresh outputs. The full Linux workshop fixture currently
-needs the explicit --direct-registration option; this is not proof of a normal
-Linux workshop editor import. The standalone addon passes normal imports on both
-platforms. The performance runner alternates synchronous/background order,
+Use absolute paths and fresh outputs. Normal imports of the complete workshop
+are verified on Windows and Steam Runtime 4 Linux. The verifier requires no
+existing `.godot` cache and checks the editor-created extension registry. The
+`--direct-registration` option is diagnostic and cannot establish cold-import
+acceptance. See [the cold-import evidence](../evidence/godot-cold-import/README.md).
+The performance runner alternates synchronous/background order,
 retains individual samples and checks committed bytes independently; it measures
 native store calls only. Stop other heavy work before collecting accepted timings.
+
+`scripts/check-godot-import-faults.py EDITOR DELIVERY_DIRECTORY SCRATCH OUTPUT_JSON`
+requires rejection of pre-cached and missing-library installations. Run
+`scripts/test-workshop-cleanup.py SCRATCH` for cleanup after success, failure and
+Windows paths longer than 260 characters. Temporary fixtures are removed even
+when a check fails; a missing child never counts as successful root removal.
 
 SQLite's existing serialized connection mode is retained. Godot's active scene
 tree is not a worker-thread API. [SQLite threading](https://www.sqlite.org/threadsafe.html),

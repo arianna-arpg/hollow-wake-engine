@@ -54,6 +54,10 @@ listed with hashes in [deliveries.json](deliveries.json). These are local gamepl
 candidates, separate from the public local-save addon release. The prior public
 release's main and tag runs have both passed all seven hosted jobs.
 
+Subsequent [cold-import qualification](../godot-cold-import/README.md) passes normal
+editor import for the same complete workshop on both platforms. The Linux
+measurement receipts retain their original explicit-registration scope.
+
 The exploratory directory retains two rejected approaches: snapshot-text reuse
 did not materially improve the workload, and in-place Godot decoding saved only
 a few milliseconds. Exact sources are retained for the decoding and first view

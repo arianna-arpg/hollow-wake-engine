@@ -6,6 +6,12 @@ empty-project SQLite checks, relocated player/restart courses and existing
 inventory workflows are recorded in [the checkpoint](../evidence/background-saves/README.md).
 The standalone addon's evidence is separate from full game content.
 
+The [cold-import qualification](../evidence/godot-cold-import/README.md) verifies
+the full workshop without a supplied editor cache on Windows and Linux. It checks
+automatic extension discovery, existing inventory courses and freshly exported
+players. Cached and missing-library installs must fail. Long-path cleanup has
+success/failure coverage; this does not establish physical-device support.
+
 `test:crafting-session-package` runs 16 owned-session contracts against an actual
 offline package installation and a browser bundle with ambient RNG and host
 globals disabled. `test:crafting-session-faults` requires twelve injected identity,
