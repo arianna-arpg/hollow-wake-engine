@@ -57,20 +57,39 @@ class HollowWakeSlotStore final : public RefCounted {
         if (!sqlite3_get_autocommit(db) && execute("ROLLBACK") != SQLITE_OK) close_locked();
         pending = 0;
     }
+    Dictionary finish_open(const String &policy) {
+        // Only call after identifying or creating our own schema, outside a transaction.
+        const char *sql = policy == "wal" ? "PRAGMA journal_mode=WAL" :
+            policy == "rollback" ? "PRAGMA journal_mode=DELETE" : "PRAGMA journal_mode";
+        Statement query;
+        int rc = sqlite3_prepare_v2(db, sql, -1, &query.value, nullptr);
+        if (rc == SQLITE_OK) rc = sqlite3_step(query.value);
+        if (rc != SQLITE_ROW) { close_locked(); return failure(rc); }
+        const String mode = String::utf8(reinterpret_cast<const char *>(sqlite3_column_text(query.value, 0)));
+        if ((policy == "wal" && mode != "wal") || (policy == "rollback" && mode != "delete")) {
+            close_locked(); return result(false, "journal-unavailable");
+        }
+        auto reply = result(true);
+        reply["journal"] = mode;
+        reply["sqlite_version"] = String::utf8(sqlite3_libversion());
+        return reply;
+    }
 protected:
     static void _bind_methods() {
-        ClassDB::bind_method(D_METHOD("open_file", "absolute_path"), &HollowWakeSlotStore::open_file);
+        ClassDB::bind_method(D_METHOD("open_file", "absolute_path", "journal_policy"), &HollowWakeSlotStore::open_file, DEFVAL(String("wal")));
         ClassDB::bind_method(D_METHOD("read_slot", "slot"), &HollowWakeSlotStore::read_slot);
         ClassDB::bind_method(D_METHOD("stage_slot", "slot", "expected_revision", "crafting_json", "stash_json"), &HollowWakeSlotStore::stage_slot);
         ClassDB::bind_method(D_METHOD("commit_slot", "token"), &HollowWakeSlotStore::commit_slot);
         ClassDB::bind_method(D_METHOD("cancel_slot", "token"), &HollowWakeSlotStore::cancel_slot);
+        ClassDB::bind_method(D_METHOD("checkpoint"), &HollowWakeSlotStore::checkpoint);
         ClassDB::bind_method(D_METHOD("close_file"), &HollowWakeSlotStore::close_file);
     }
 public:
     ~HollowWakeSlotStore() override { close_locked(); }
-    Dictionary open_file(const String &absolute_path) {
+    Dictionary open_file(const String &absolute_path, const String &journal_policy = "wal") {
         std::lock_guard<std::mutex> lock(gate);
         if (db || !absolute_path.is_absolute_path() || absolute_path.contains("://")) return result(false, "invalid-path-or-open");
+        if (journal_policy != "wal" && journal_policy != "rollback" && journal_policy != "preserve") return result(false, "invalid-journal-policy");
         const auto name = absolute_path.utf8();
         int rc = sqlite3_open_v2(name.get_data(), &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_NOFOLLOW, nullptr);
         if (rc != SQLITE_OK) { close_locked(); return failure(rc); }
@@ -81,7 +100,7 @@ public:
         if (rc == SQLITE_OK) rc = scalar(db, "PRAGMA application_id", app);
         if (rc == SQLITE_OK && app == application_id) {
             rc = scalar(db, "PRAGMA user_version", version);
-            if (rc == SQLITE_OK && version == 1) return result(true);
+            if (rc == SQLITE_OK && version == 1) return finish_open(journal_policy);
             close_locked(); return rc == SQLITE_OK ? result(false, "incompatible-database") : failure(rc);
         }
         if (rc == SQLITE_OK && app != 0) { close_locked(); return result(false, "incompatible-database"); }
@@ -100,7 +119,7 @@ public:
         }
         if (rc == SQLITE_OK) rc = execute("COMMIT");
         if (rc != SQLITE_OK) { close_locked(); return failure(rc); }
-        return result(true);
+        return finish_open(journal_policy);
     }
     Dictionary read_slot(int64_t slot) {
         std::lock_guard<std::mutex> lock(gate);
@@ -163,6 +182,18 @@ public:
         std::lock_guard<std::mutex> lock(gate);
         if (!db || !pending || pending != token) return result(false, "invalid-token");
         rollback(); return db ? result(true) : result(false, "storage");
+    }
+    Dictionary checkpoint() {
+        std::lock_guard<std::mutex> lock(gate);
+        if (!db || pending) return result(false, "unavailable");
+        int frames = -1, copied = -1;
+        const int rc = sqlite3_wal_checkpoint_v2(db, "main", SQLITE_CHECKPOINT_PASSIVE, &frames, &copied);
+        if (rc != SQLITE_OK) return failure(rc);
+        auto reply = result(true);
+        reply["frames"] = frames;
+        reply["copied"] = copied;
+        reply["complete"] = frames == copied;
+        return reply;
     }
     void close_file() { std::lock_guard<std::mutex> lock(gate); close_locked(); }
 };

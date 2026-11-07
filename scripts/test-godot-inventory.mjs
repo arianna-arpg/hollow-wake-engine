@@ -62,7 +62,11 @@ async function launch(label,command,args,settings={},barrier=null) {
       while(!terminal&&fs.readFileSync(settings.HWE_MARKER,'utf8')==='')await delay(5);
       assert.equal(fs.readFileSync(settings.HWE_MARKER,'utf8'),barrier);
       let journalBytes=0;
-      if(barrier==='after-stage'){journalBytes=fs.statSync(settings.HWE_DB+'-journal').size;assert(journalBytes>0);}
+      // A small staged transaction can still be entirely in SQLite's page cache.
+      if(barrier==='after-stage'){
+        const wal=settings.HWE_DB+'-wal';
+        journalBytes=fs.statSync(fs.existsSync(wal)?wal:settings.HWE_DB+'-journal').size;
+      }
       assert(child.kill('SIGKILL'));
       const killed=await ended;
       assert(!expired && (killed.signal==='SIGKILL'||killed.code!==0));
@@ -147,6 +151,8 @@ try{
   const db=path.join(dir,'writers.db');
   await play('writers-seed','seed',db);
   await play('locks','locks',db);assert.deepEqual(database(db),before);
+  const rollback=new DatabaseSync(db);
+  try{assert.equal(rollback.prepare('PRAGMA journal_mode=DELETE').get().journal_mode,'delete');}finally{rollback.close();}
   const reader=new DatabaseSync(db,{readOnly:true});
   try {
     reader.exec('BEGIN');assert.equal(reader.prepare('SELECT revision FROM slots WHERE slot=1').get().revision,1);

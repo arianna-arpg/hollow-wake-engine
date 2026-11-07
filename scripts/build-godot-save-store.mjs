@@ -43,7 +43,7 @@ run('configure',tools.cmake,['-S',source,'-B',build,'-G','Ninja','-DCMAKE_BUILD_
 run('compile',tools.cmake,['--build',build,'--parallel','4']);
 const library=path.join(bin,process.platform==='win32'?'hwe_slot_store.dll':'libhwe_slot_store.so');
 const sources=['adapters/godot/local-save/CMakeLists.txt','adapters/godot/local-save/store.cpp','adapters/godot/local-save/store.gdextension',
-  'adapters/godot/local-save/sqlite-lock.json','experiments/godot-native/build-profile.json','scripts/build-godot-save-store.mjs'];
+  'adapters/godot/local-save/sqlite-lock.json','adapters/godot/local-save/build-profile.json','scripts/build-godot-save-store.mjs'];
 const receipt=path.join(dir,'verification.json');
 writeJSON(receipt,{passed:true,platform:process.platform,arch:process.arch,sqlite:pin.version,sqliteArchiveSha3:pin.sha3_256,
   bindings:godot.bindings.commit,library,librarySha256:hash(library),sources:Object.fromEntries(sources.map(f=>[f,hash(path.join(root,f))]))});

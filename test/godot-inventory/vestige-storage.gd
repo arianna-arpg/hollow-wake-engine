@@ -8,7 +8,9 @@ class TimedStore:
 	var commit_us:=0
 	var fault:=""
 	var marker:=""
-	func open_file(file:String)->Dictionary:return store.open_file(file)
+	func open_file(file:String)->Dictionary:
+		if store.has_method("checkpoint"):return store.open_file(file,"preserve")
+		return store.open_file(file)
 	func close_file()->void:store.close_file()
 	func read_slot(slot:int)->Dictionary:return store.read_slot(slot)
 	func stage_slot(slot:int,revision:int,crafting:String,stash:String)->Dictionary:
