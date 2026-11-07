@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.58.0-candidate.0",
+  "version": "0.59.0-candidate.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -25,6 +25,7 @@
     "examples/interactive-casting.mjs",
     "examples/ammunition.mjs",
     "examples/conduits.mjs",
+    "examples/vestiges.mjs",
     "examples/channel-casting.mjs",
     "examples/guard-casting.mjs",
     "examples/resource-payment.mjs",
@@ -202,6 +203,10 @@
       "import": "./dist/conduit-catalogue.js"
     },
     "./content/conduits.json": "./content/conduits.json",
+    "./items/vestiges": {"types":"./dist/vestige-inlays.d.ts","import":"./dist/vestige-inlays.js"},
+    "./items/vestiges/catalogue": {"types":"./dist/vestige-content.d.ts","import":"./dist/vestige-content.js"},
+    "./items/vestiges/workshop": {"types":"./dist/workshop-vestiges.d.ts","import":"./dist/workshop-vestiges.js"},
+    "./content/vestiges.json": "./content/vestiges.json",
     "./casting/channel": {
       "types": "./dist/channel-casting.d.ts",
       "import": "./dist/channel-casting.js"
@@ -481,7 +486,7 @@
     "reference:prepare": "node scripts/prepare-reference.mjs",
     "reference:install": "node scripts/install-reference-tools.mjs",
     "diagnose:restoration": "node scripts/run-restoration-diagnosis-ci.mjs",
-    "reference:verify": "node scripts/run-reference.mjs && node scripts/test-reference-unlock-lifecycle.mjs && npm run reference:unlock-content && npm run reference:crafting && npm run reference:gem-residence && npm run reference:inspection && npm run reference:cargo-cards && npm run reference:loadout && npm run reference:skill-rack && node scripts/reference-workshop-supports.mjs && node scripts/reference-workshop-supports.mjs --pouch-recall && npm run reference:conduits",
+    "reference:verify": "node scripts/run-reference.mjs && node scripts/test-reference-unlock-lifecycle.mjs && npm run reference:unlock-content && npm run reference:crafting && npm run reference:gem-residence && npm run reference:inspection && npm run reference:cargo-cards && npm run reference:loadout && npm run reference:skill-rack && node scripts/reference-workshop-supports.mjs && node scripts/reference-workshop-supports.mjs --pouch-recall && npm run reference:conduits && npm run reference:vestiges",
     "reference:lifecycle": "node scripts/run-lifecycle-reference.mjs",
     "adapter:prepare": "npm run build && node scripts/prepare-game-adapter.mjs",
     "adapter:verify": "node scripts/test-game-adapter.mjs",
@@ -833,6 +838,7 @@
     "test:cargo-sqlite": "node scripts/test-cargo-sqlite.mjs --installed .artifacts/cargo-cards-installed-latest.json",
     "test:skill-rack-overlay": "node scripts/test-skill-rack-overlay.mjs",
     "reference:skill-rack": "node scripts/reference-skill-rack.mjs",
+    "reference:vestiges": "node scripts/reference-vestiges.mjs && node scripts/test-game-vestiges.mjs",
     "reference:conduits": "node scripts/reference-conduits.mjs && node scripts/test-game-conduits.mjs",
     "benchmark:conduits": "node scripts/test-game-conduits.mjs --benchmark",
     "adapter:skill-rack": "node scripts/test-game-skill-rack.mjs",

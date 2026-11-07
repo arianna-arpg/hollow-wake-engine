@@ -20,7 +20,7 @@ def build(donor, expected, sdk_digest, bundle, project_out, addon_out):
     changes = {crafting + "bundle.txt": bundle.read_bytes()}
     extra = {crafting + "support_fit.gd": (root / "adapters/godot/crafting/support_fit.gd").read_bytes()}
     extra[crafting + "pouch_recall.gd"] = (root / "adapters/godot/crafting/pouch_recall.gd").read_bytes()
-    for name in ("measure_supports.gd", "support-measure.json", "measure_pouch.gd", "recall-measure.json", "workshop_start.gd", "workshop_start.tscn"):
+    for name in ("measure_supports.gd", "support-measure.json", "measure_pouch.gd", "recall-measure.json", "measure_inlays.gd", "verify_inlays.gd", "workshop_start.gd", "workshop_start.tscn"):
         extra[name] = (root / "examples/godot-inventory" / name).read_bytes()
     for name in ("support-fit.txt", "support-index.json", "support-pages.txt", "pouch-rules.txt", "pouch-data.json"):
         extra[crafting + name] = (bundle.parent / name).read_bytes()
@@ -35,7 +35,7 @@ def build(donor, expected, sdk_digest, bundle, project_out, addon_out):
             if crafting + name in changes:
                 manifest["files"][name] = digest(changes[crafting + name])
         manifest["files"].update({name.removeprefix(crafting): digest(data) for name, data in extra.items() if name.startswith(crafting)})
-        manifest.update(optional=["crafting-session/v2","workshop-supports/v1","pouch-recall/v1"], sdkArchiveSha256=sdk_digest)
+        manifest.update(optional=["crafting-session/v2","crafting-session/v3","vestige-inlays/v1","workshop-supports/v1","pouch-recall/v1"], sdkArchiveSha256=sdk_digest)
         changes[crafting + "manifest.json"] = (json.dumps(manifest, indent=2) + "\n").encode()
         assert set(prefix + f for f in changes) <= set(source.namelist())
         assert len(source.namelist()) == len(set(source.namelist()))

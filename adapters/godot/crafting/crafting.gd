@@ -19,6 +19,22 @@ func pouch_request(command: Dictionary) -> Dictionary:
 		_pouch=null
 	return reply
 
+func grant_vestige(profile: int, id: String, count: int) -> Dictionary:
+	return request({"op":"grant-vestige","profile":profile,"id":id,"count":count})
+
+func inlay_vestige(profile: int, uid: int, id: String, socket := -1) -> Dictionary:
+	var command := {"op":"inlay-vestige","profile":profile,"uid":uid,"id":id}
+	if socket!=-1: command.socket=socket
+	return request(command)
+
+func view_inlay(item: Dictionary, wallet: Dictionary, id := "", socket := -1) -> Dictionary:
+	var ready:=_load_inspection()
+	if not ready.ok:return ready
+	var command:={"op":"view-inlay","item":{"uid":item.uid,"baseId":item.baseId,"rarity":item.rarity,"sockets":item.get("sockets",[])},"wallet":wallet}
+	if not id.is_empty():command.id=id
+	if socket!=-1:command.socket=socket
+	return request(command)
+
 func start(heap_limit_bytes: int = 32 * 1024 * 1024) -> int:
 	var status := start_from(DATA, heap_limit_bytes)
 	if status == 0: _reset_cards()

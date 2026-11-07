@@ -3,6 +3,10 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The 0.59 candidate adds [vestige inlays](docs/vestige-inlays.md) to the SDK and
+Godot inventory. Fill a socket, preview an overwrite, awaken an epitaph and
+reopen the same saved gear and satchel.
+
 The 0.58 candidate runs [resource conduits](docs/conduits.md) from skills,
 support sockets, passive grafts, invested tree nodes and worn passives. Games
 can connect the seven resource pools to their existing actors and recovery rules.

@@ -53,11 +53,11 @@ try{
     builder.onResolve({filter:/^\./,namespace:'sdk'},arg=>({namespace:'sdk',path:path.posix.join(path.posix.dirname(arg.importer),arg.path)}));
     builder.onLoad({filter:/.*/,namespace:'sdk'},arg=>({contents:embedded[arg.path],loader:'js'}));
   }}];
-  const {base,rack,support}=await workshopBundles(path.join(root,'adapters/godot/crafting'),plugins);
+  const {base,rack,support,vestiges}=await workshopBundles(path.join(root,'adapters/godot/crafting'),plugins);
   const gate=await writeSupportGate(scratch);
   const pouch=await writePouchRecall(scratch,path.join(root,'adapters/godot/crafting/pouch-entry.mjs'),plugins);
   const supportPackage=packSupportFit(scratch,gate,pkg.version,run,env);
-  const bundle=path.join(scratch,'bundle.txt');fs.writeFileSync(bundle,support.bytes);
+  const bundle=path.join(scratch,'bundle.txt');fs.writeFileSync(bundle,vestiges.bytes);
   const projectZip=path.join(scratch,'hollow-wake-workshop-'+platform+'-x64.zip');
   const addonZip=path.join(scratch,'hollow-wake-addon-'+platform+'-x64.zip');
   run(config.python,['-I',path.join(root,'scripts/workshop-rack-project.py'),path.resolve(donorFile),expected,hash(sdk),bundle,projectZip,addonZip],env);

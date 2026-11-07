@@ -7,7 +7,7 @@ import {InventoryHost} from './inventory-host.js';
 import {EquipmentSlots,equipOnBoard,unequipOnBoard,equipmentTierLevel} from './equipment-actions.js';
 import type {WorkshopRack,WorkshopEvent} from './workshop-rack.js';
 import {Random} from './random.js';
-import {CraftingSessionData, type CraftingSessionState, type CraftingSessionDefinitions} from './crafting-session-data.js';
+import {CraftingSessionData, craftingSaveVersion, type CraftingSessionState, type CraftingSessionDefinitions} from './crafting-session-data.js';
 import type {ItemInstance, ItemRollOptions, ItemForgeOptions} from './item-types.js';
 import {validateMint} from './item-validation.js';
 import {copySessionJSON, cloneOwnedJSON, retainSessionPart, type SessionPart, SessionInputError, requireSession as need, sessionFields as fields, sessionRecord as record,
@@ -60,7 +60,7 @@ export class CraftingSession {
     this.#inventory = new InventoryHost(item => this.#defs.crafting.items.pack.bases[item.baseId]);
   }
   #snapshot(profile: Profile) {
-    const version=profile.state.rack ? 2 : 1;
+    const version=craftingSaveVersion(profile.state);
     return {schemaVersion:version,capability:'crafting-session/v'+version,content:this.#identity,
       random:profile.random.snapshot(),nextUid:profile.nextUid,state:profile.state};
   }
@@ -174,7 +174,7 @@ export class CraftingSession {
       } else {
         const save = request.save; fields(save,['schemaVersion','capability','content','random','nextUid','state']);
         record(save.state);
-        const version=Object.hasOwn(save.state,'rack') ? 2 : 1;
+        const version=craftingSaveVersion(save.state);
         need(save.schemaVersion === version && save.capability === 'crafting-session/v'+version,'unsupported-save');
         need(JSON.stringify(save.content) === JSON.stringify(this.#identity),'content-mismatch'); integer(save.nextUid,1);
         const random = save.random; fields(random,['algorithm','state','draws']); need(random.algorithm === 'mulberry32/v1','unsupported-random');

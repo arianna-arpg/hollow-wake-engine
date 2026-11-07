@@ -123,3 +123,10 @@ content on first use. The standalone profile demonstrates group and facet
 selection, validating the caller's save revision, applying the resulting
 bag and mint receipts together, and recovering after a competing write.
 The core JavaScript package also exports these rules for other hosts.
+# Vestige inlays
+
+Use `grant_vestige(profile, id, count)` for a pickup. Use `view_inlay(item, wallet, id, socket)`
+for a read-only preview and `inlay_vestige(profile, uid, id, socket)` to commit. Omit the
+socket for first-empty targeting. Commit the resulting save against the revision seen
+by the player. The workshop example performs the revision check and atomic write.
+

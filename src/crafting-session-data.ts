@@ -9,6 +9,7 @@ import {SessionInputError, requireSession as need, sessionFields as fields, sess
   sessionInteger as integer, sessionText as text, sessionArray as array, sessionBoolean as bool} from './session-json.js';
 
 export interface CraftingSessionState {
+  vestiges?: Record<string,number>;
   rack?: ({gem:SkillGemPayload;locked?:true}|null)[];
   board: InventoryBoard;
   items: ItemInstance[];
@@ -23,6 +24,9 @@ export interface CraftingSessionDefinitions {
   skills: SkillProgression;
   /** Item base ID -> crafting memory price kind. Saved as part of content identity. */
   memoryKinds: Readonly<Record<string, string>>;
+}
+export function craftingSaveVersion(state: {vestiges?:unknown;rack?:unknown}) {
+  return state.vestiges!==undefined ? 3 : state.rack!==undefined ? 2 : 1;
 }
 const itemFields = ['uid','baseId','ilvl','tier','rarity','name','baseRoll','superior','implicitRolls','affixes','uniqueId','uniqueRolls',
   'uniqueChoices','grantState','sockets','craftedSockets','x','y','locked','gem','mem','writ','relicKey','questId'];
@@ -145,7 +149,13 @@ export class CraftingSessionData {
     return input as unknown as ItemInstance;
   }
   state(input: unknown, validateRack?: (rack:unknown,data:CraftingSessionData)=>void, admittedAccount?:unknown): CraftingSessionState {
-    fields(input,['board','items','equipped','overflow','essences','account','rack']);
+    fields(input,['board','items','equipped','overflow','essences','account','rack','vestiges']);
+    if(input.vestiges!==undefined){
+      record(input.vestiges);
+      for(const [id,count] of Object.entries(input.vestiges)){
+        need(Object.hasOwn(this.#defs.crafting.items.pack.vestiges,id),'unknown-vestige');integer(count);
+      }
+    }
     if(input.rack !== undefined){need(validateRack,'rack-unavailable');validateRack(input.rack,this);}
     const board = input.board; fields(board,['w','h','rows']); integer(board.w,1,256); integer(board.h,1,256); need(board.w * board.h <= 4096,'board-limit');
     const cells = new Uint8Array(board.w * board.h);

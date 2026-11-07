@@ -49,3 +49,14 @@ Choose **Support sample**, learn Firebolt, then select **Preformed Memory**
 and press **Recall memory**. Choose a source and a facet, then confirm.
 After the first reward fills the pack, the last memory can still be recalled
 into its own pouch cell. Reopen the workshop to continue from that save.
+# Vestige sample
+
+Choose **Vestige sample** to open a separate saved character with a common helmet,
+two sockets and a satchel. Inlay Morren and then Sylph for Held Breath. Choose a
+specific socket to replace a stone and preview the change before confirming.
+The same actions work on worn gear. Use Reload to reopen the SQLite save.
+
+Run the player with `--headless -- --measure-vestiges` to time previews and completed
+SQLite inlays. It checks the result after reopening the save, prints the individual
+samples and removes its temporary slot.
+

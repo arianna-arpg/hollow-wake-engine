@@ -13,7 +13,7 @@ export function createCraftingContext(table,rack) {
   const items = new ItemContent(itemPack); itemPack = null;
   const crafting = new CraftingContent(craftPack,items); craftPack = null;
   const skills = new SkillProgression(skillPack); skillPack = null;
-  const session=new CraftingSession({crafting,skills,memoryKinds:{rough_memory:'rough',preformed_memory:'preformed'}},2,rack);
+  const session=new CraftingSession({crafting,skills,memoryKinds:{rough_memory:'rough',preformed_memory:'preformed'}},2,typeof rack==='function'?rack(items):rack);
   return {session,items,skills,crafting};
 }
 export const create = table => createCraftingContext(table).session;

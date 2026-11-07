@@ -6,7 +6,7 @@ import {EquipmentSlots} from '@hollow-wake/engine/inventory/equipment';
 
 export const create=(table,rack)=>({...createCraftingContext(table,rack),inspector:null,cargo:null});
 const refuse=reason=>({ok:false,reason});
-export const dispatch=godotDispatch((host,request)=>{
+export function dispatchCrafting(host,request){
   const op=request?.op;
   if(op==='snapshot-text')return Object.keys(request).length===2?host.session.snapshotText(request.profile):refuse('invalid-request');
   if(!['configure-inspection','inspect-item','compare-items','configure-cargo','cargo-references','inspect-cargo','configure-equipment','inspect-loadout'].includes(op))return host.session.command(request);
@@ -44,6 +44,7 @@ export const dispatch=godotDispatch((host,request)=>{
       let terms;
       try{terms=JSON.parse(request.text);}catch{return refuse('invalid-vocabulary');}
       host.inspector=new ItemInspector(host.items,terms);
+      if(host.vestigeEditor)host.vestigeLabels={stones:terms.vestiges,words:terms.epitaphs};
       return {ok:true};
     }
     if(!host.inspector)return refuse('inspection-unavailable');
@@ -57,4 +58,5 @@ export const dispatch=godotDispatch((host,request)=>{
       return {ok:true,rows:host.inspector.compare(request.candidate,request.worn)};
     return refuse('invalid-request');
   }catch(error){if(error instanceof InspectionInputError)return refuse(error.message);throw error;}
-});
+}
+export const dispatch=godotDispatch(dispatchCrafting);

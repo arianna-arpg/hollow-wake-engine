@@ -1,3 +1,4 @@
+import {matchEpitaph} from './vestige-rules.js';
 // Derived from the pinned original; mechanical recipe: scripts/extract-item-core.mjs.
 // Maintained directly after extraction. All registries, caches and identity providers are explicit instance state.
 import { Random } from './random.js';
@@ -20,8 +21,7 @@ interface EligibleTier { index: number; def: AffixTierDef }
 const relicUniqueValue = (m: Pick<Modifier, 'stat' | 'kind' | 'value' | 'fromStat'>) =>
   Object.hasOwn(pack.relic.scalable, m.stat) && (m.kind === 'flat' || m.kind === 'increased') && !m.fromStat && Number.isFinite(m.value) && m.value > 0
     ? m.value * pack.relic.baseline : m.value;
-const epitaphFor = (rarity: string, category: string, sockets: readonly (string | null)[]) => rarity === 'common' && sockets.length && !sockets.some(s => s === null)
-  ? pack.epitaphs.find(e => e.categories.includes(category) && e.sequence.length === sockets.length && e.sequence.every((id,i) => sockets[i] === id)) : undefined;
+const epitaphFor = (rarity: string, category: string, sockets: readonly (string | null)[]) => matchEpitaph(pack.epitaphs,rarity,category,sockets);
 function socketCap(category: ItemCategory): number {
   return ITEM_CFG.sockets.cap[category] ?? 0;
 }

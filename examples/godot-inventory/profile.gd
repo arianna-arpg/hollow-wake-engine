@@ -19,13 +19,15 @@ var available := false
 var _open_profile := false
 var _starter_cargo := false
 var _starter_supports := false
+var _starter_vestiges := false
 var _fit_revision := -1
 var _fit_uid := 0
 var _fit_reply: Dictionary = {}
 var _memory: Variant = null
 const RECALL_SAVE := "inventory-workshop/recall-v1"
 
-func start(filename: String, backend: Variant = null, starter_cargo := false, starter_supports := false) -> Dictionary:
+func start(filename: String, backend: Variant = null, starter_cargo := false, starter_supports := false, starter_vestiges := false) -> Dictionary:
+	_starter_vestiges=starter_vestiges
 	_starter_cargo = starter_cargo or starter_supports
 	_starter_supports = starter_supports
 	store = backend if backend != null else HollowWakeSlotStore.new()
@@ -64,6 +66,7 @@ func reload() -> Dictionary:
 	revision = row.revision
 	if revision == 0:
 		var initial := _empty_state()
+		if _starter_vestiges: initial.board={"w":4,"h":4}
 		if _starter_cargo:
 			var sample := api.from_portable_json(FileAccess.get_file_as_string("res://cargo-sample.json"))
 			if not sample.ok or not sample.value is Array: return {"ok":false,"reason":"invalid-record"}
@@ -77,6 +80,13 @@ func reload() -> Dictionary:
 		var opened := api.open_profile(1, 17, initial)
 		if not opened.ok: return opened
 		_open_profile = true
+		if _starter_vestiges:
+			var minted:=api.forge(1,{"baseId":"helmet_armor","ilvl":1,"rarity":"common","sockets":2,"quality":0.5,"superior":false})
+			if not minted.ok: return minted
+			for material in [["morren",2],["sylph",2],["thal",2]]:
+				var grant:=api.grant_vestige(1,material[0],material[1])
+				if not grant.ok or not grant.result.changed:return {"ok":false,"reason":"sample-grant"}
+			return _save([])
 		if _starter_cargo: return _save([])
 		# Seed the standalone example through the actual mint and placement rules.
 		for rarity in ["common","magic","rare","magic","rare"]:
@@ -214,6 +224,25 @@ func recall(uid: int, seen_revision: int, group: String, facet: String) -> Dicti
 
 # A UI action carries the UID and revision the player actually saw. On a failed
 # write, re-read the durable owners before allowing another action.
+func inlay(uid: int, seen_revision: int, id: String, socket := -1) -> Dictionary:
+	if not available:return {"ok":false,"reason":"unavailable"}
+	if seen_revision!=revision:return {"ok":false,"reason":"stale-revision"}
+	return _commit_vestiges(api.inlay_vestige(1,uid,id,socket))
+
+func grant_vestige(id: String, count: int, seen_revision: int) -> Dictionary:
+	if not available:return {"ok":false,"reason":"unavailable"}
+	if seen_revision!=revision:return {"ok":false,"reason":"stale-revision"}
+	return _commit_vestiges(api.grant_vestige(1,id,count))
+
+func _commit_vestiges(change: Dictionary) -> Dictionary:
+	if not change.ok:return change
+	if not change.result.changed:return {"ok":false,"reason":change.result.reason}
+	var stored:=_save(stash)
+	if not stored.ok:
+		var restored:=reload()
+		return stored if restored.ok else restored
+	return change
+
 func act(action: String, uid: int, seen_revision: int, slot := -1, expected_skill := "", socket: Dictionary = {}) -> Dictionary:
 	if not available: return {"ok":false,"reason":"unavailable"}
 	if seen_revision != revision: return {"ok":false,"reason":"stale-revision"}

@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import pack from '@hollow-wake/engine/content/vestiges.json' with {type:'json'};
+import {VestigeCatalogue} from '@hollow-wake/engine/items/vestiges/catalogue';
+import {VestigeInlays} from '@hollow-wake/engine/items/vestiges';
+const catalogue=new VestigeCatalogue(pack);
+const inlays=new VestigeInlays({vestige:id=>catalogue.vestige(id),word:(item,sockets)=>catalogue.word(item.rarity,item.category,sockets)});
+const helm={uid:7,baseId:'helmet_armor',category:'helmet',name:'Helm',rarity:'common',sockets:[null,null]};
+const character={items:[],equipped:{head:helm},vestiges:{}};
+inlays.grant(character,'morren',1);
+inlays.grant(character,'sylph',1);
+inlays.inlay(character,7,undefined,'morren');
+const preview=inlays.preview(character,7,undefined,'sylph');
+assert.equal(preview.epitaph,'held_breath');assert.equal(character.vestiges.sylph,1);
+const result=inlays.inlay(character,7,preview.index,'sylph');
+assert.equal(result.epitaph,'held_breath');assert.equal(character.vestiges.sylph,0);
+console.log('Held Breath awakened.',catalogue.modifiers(helm.rarity,helm.category,helm.sockets));

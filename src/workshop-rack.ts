@@ -12,7 +12,7 @@ export type WorkshopResidence<S> = {
   freeCellCount(items:readonly ItemInstance[]): number;
   itemOfSocket?(row:GemSocketRow):ItemInstance|null;
 };
-export type WorkshopEvent={kind:'dirty'|'recalculate'}|{kind:'resync-supports';skillId:string};
+export type WorkshopEvent={kind:'vestige-granted';id:string;count:number}|{kind:'vestige-crumbled'|'vestige-inlaid'|'epitaph-awakened';id:string}|{kind:'dirty'|'recalculate'}|{kind:'resync-supports';skillId:string};
 export type WorkshopSignal=(event:WorkshopEvent)=>void;
 const seats=8;
 

@@ -34,6 +34,15 @@ var _recall_revision := 0
 var compare_button := CheckButton.new()
 var forge := Button.new()
 var sample_button := Button.new()
+var vestige_sample_button := Button.new()
+var sample_vestiges := false
+var inlay_button := Button.new()
+var inlay_dialog := ConfirmationDialog.new()
+var inlay_material := OptionButton.new()
+var inlay_socket := OptionButton.new()
+var inlay_preview := Label.new()
+var _inlay_item := {}
+var _inlay_revision := 0
 var heading := Label.new()
 var refresh_button := Button.new()
 var selected_uid := 0
@@ -71,6 +80,11 @@ func _ready() -> void:
 	if OS.get_cmdline_user_args().has("--support-sample"):
 		sample_supports=true
 		save_path="user://inventory-support-sample.sqlite3"
+	if OS.get_cmdline_user_args().has("--vestige-sample"):
+		sample_vestiges=true
+		sample_supports=false
+		sample_cargo=false
+		save_path="user://inventory-vestiges.sqlite3"
 	var t := Theme.new()
 	t.default_font_size = 18
 	t.set_stylebox("normal","Button",_box(Color("#344a43"),12))
@@ -99,6 +113,8 @@ func _ready() -> void:
 	header.add_child(heading)
 	_button(sample_button,"Support sample",_switch_sample)
 	header.add_child(sample_button)
+	_button(vestige_sample_button,"Vestige sample",_switch_vestiges)
+	header.add_child(vestige_sample_button)
 	_button(forge,"Forge ring",func(): perform("forge"))
 	header.add_child(forge)
 	tabs.name = "Locations"
@@ -146,6 +162,22 @@ func _ready() -> void:
 	_button(socket_button,"",_edit_socket)
 	socket_controls.add_child(socket_button)
 	detail.add_child(socket_controls)
+	_button(inlay_button,"Inlay a vestige",_open_inlay)
+	detail.add_child(inlay_button)
+	inlay_dialog.title="Inlay a vestige"
+	inlay_dialog.ok_button_text="Inlay"
+	inlay_dialog.min_size=Vector2i(400,245)
+	add_child(inlay_dialog)
+	var inlay_fields:=VBoxContainer.new()
+	inlay_dialog.add_child(inlay_fields)
+	for field in [inlay_material,inlay_socket]:
+		field.custom_minimum_size.y=44
+		field.fit_to_longest_item=false
+		inlay_fields.add_child(field)
+		field.item_selected.connect(func(_at): _show_inlay_preview())
+	inlay_preview.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	inlay_fields.add_child(inlay_preview)
+	inlay_dialog.confirmed.connect(_confirm_inlay)
 	_button(recall_button,"Recall memory",_open_recall)
 	detail.add_child(recall_button)
 	recall_dialog.title="Recall memory"
@@ -197,17 +229,28 @@ func _ready() -> void:
 	tabs.grab_focus()
 
 func _switch_sample() -> void:
+	sample_vestiges=false
 	sample_supports=not sample_supports
 	save_path="user://inventory-support-sample.sqlite3" if sample_supports else ("user://inventory-cargo-sample.sqlite3" if sample_cargo else "user://inventory.sqlite3")
 	tabs.current_tab=0
 	_restart()
 
+func _switch_vestiges() -> void:
+	sample_supports=false
+	sample_vestiges=not sample_vestiges
+	save_path="user://inventory-vestiges.sqlite3" if sample_vestiges else ("user://inventory-cargo-sample.sqlite3" if sample_cargo else "user://inventory.sqlite3")
+	tabs.current_tab=0
+	_restart()
+
 func _restart() -> void:
+	inlay_dialog.hide()
+	_inlay_item={}
 	recall_dialog.hide()
 	profile.close()
 	profile = Profile.new()
-	var reply := profile.start(save_path,null,sample_cargo,sample_supports)
-	heading.text="Support workshop" if sample_supports else "Inventory"
+	var reply := profile.start(save_path,null,sample_cargo and not sample_vestiges,sample_supports,sample_vestiges)
+	heading.text="Vestige workshop" if sample_vestiges else ("Support workshop" if sample_supports else "Inventory")
+	vestige_sample_button.text="Back to inventory" if sample_vestiges else "Vestige sample"
 	sample_button.text=("Back to cargo sample" if sample_cargo else "Back to inventory") if sample_supports else "Support sample"
 	selected_uid = 0
 	render(true)
@@ -274,6 +317,7 @@ func details() -> void:
 	learn_controls.hide()
 	socket_controls.hide()
 	recall_button.hide()
+	inlay_button.hide()
 	socket_choice.clear()
 	compare_button.hide()
 	primary.text = ["Sell item","Move to stash","Return to pack","Unequip to pack","Return skill to pack"][tabs.current_tab]
@@ -350,6 +394,7 @@ func show_item(item: Dictionary) -> void:
 	var mode := "full" if compare_button.button_pressed else "compact"
 	var card := profile.api.inspect_loadout(item,profile.saved.state.equipped,Profile.HERO_LEVEL,mode)
 	if card.ok:
+		inlay_button.visible=tabs.current_tab in [0,3] and not item.get("sockets",[]).is_empty() and not profile.saved.state.get("vestiges",{}).is_empty()
 		name_label.text = card.title
 		properties.text = card_text(card)
 		compare_button.visible = card.hasComparison
@@ -503,6 +548,48 @@ func _confirm_recall() -> void:
 	render()
 	status.text=("Recalled "+reply.result.name+".") if reply.ok else error_text(reply.reason)
 	_recall_view={}
+
+func _open_inlay() -> void:
+	_inlay_item={}
+	for item in rows():
+		if item.uid==selected_uid: _inlay_item=item;break
+	if _inlay_item.is_empty():return
+	_inlay_revision=displayed_revision
+	var view:=profile.api.view_inlay(_inlay_item,profile.saved.state.get("vestiges",{}))
+	if not view.ok:status.text=error_text(view.reason);return
+	inlay_material.clear()
+	for row in view.materials:
+		inlay_material.add_item("%s ×%d" % [row.name,row.count])
+		inlay_material.set_item_metadata(inlay_material.item_count-1,row.id)
+	inlay_socket.clear()
+	inlay_socket.add_item("First empty socket")
+	for i in view.sockets.size():
+		inlay_socket.add_item("Socket %d · %s" % [i+1,view.sockets[i]])
+	_show_inlay_preview()
+	inlay_dialog.popup_centered()
+
+func _show_inlay_preview() -> void:
+	inlay_dialog.get_ok_button().disabled=true
+	if inlay_material.selected<0:inlay_preview.text="Your satchel has no vestiges.";return
+	var id:String=inlay_material.get_item_metadata(inlay_material.selected)
+	var view:=profile.api.view_inlay(_inlay_item,profile.saved.state.get("vestiges",{}),id,inlay_socket.selected-1)
+	if not view.ok:inlay_preview.text=error_text(view.reason);return
+	var plan:Dictionary=view.preview
+	if not plan.changed:
+		inlay_preview.text="All sockets are full. Choose the socket to replace." if plan.reason=="sockets-full" else error_text(plan.reason)
+		return
+	inlay_preview.text="Consumes one vestige in socket %d." % (int(plan.index)+1)
+	if plan.replacedName!=null:inlay_preview.text+=" "+str(plan.replacedName)+" will be destroyed."
+	if plan.epitaphName!=null:inlay_preview.text+=" Awakens "+str(plan.epitaphName)+"."
+	inlay_dialog.get_ok_button().disabled=false
+
+func _confirm_inlay() -> void:
+	if _inlay_item.is_empty() or inlay_dialog.get_ok_button().disabled:return
+	var id:String=inlay_material.get_item_metadata(inlay_material.selected)
+	var reply:=profile.inlay(_inlay_item.uid,_inlay_revision,id,inlay_socket.selected-1)
+	_inlay_item={}
+	render()
+	status.text="Vestige inlaid." if reply.ok else error_text(reply.reason)
 
 func _exit_tree() -> void:
 	profile.close()
