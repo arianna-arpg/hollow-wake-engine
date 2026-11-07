@@ -18,7 +18,7 @@ class PausedStore:
 		var release := OS.get_environment("HWE_RESUME")
 		while release == "" or not FileAccess.file_exists(release): OS.delay_msec(20)
 	func open_file(filename: String) -> Dictionary:
-		if OS.get_environment("HWE_CASE") == "commit-busy" and inner.has_method("checkpoint"):
+		if (OS.get_environment("HWE_CASE") == "commit-busy" or OS.get_environment("HWE_PRESERVE_JOURNAL") == "1") and inner.has_method("checkpoint"):
 			return inner.open_file(filename,"preserve")
 		return inner.open_file(filename)
 	func read_slot(slot: int) -> Dictionary: return inner.read_slot(slot)

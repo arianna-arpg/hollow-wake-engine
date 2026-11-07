@@ -5,7 +5,11 @@ qualifies the normal builder through the full workshop bundle and extracted
 Windows player. Capability fault tests run inside the crafting builder; the
 inventory verifier requires exact crash recovery, current background/inlay/
 station courses, and the existing delivered workflow fault tests. This
-checkpoint does not replace physical-device or fresh Linux qualification.
+checkpoint is followed by [fresh Linux qualification](../evidence/fresh-linux-package/README.md):
+an empty-dist build, editor and relocated exports, and runtime-only replay.
+Both SQLite journal modes recover exact saved owners at all three crash
+boundaries; actual lost/premature-commit exports are rejected. Neither
+checkpoint establishes physical-device performance.
 
 The [background-save boundary](background-saves.md) adds a bounded native worker
 and asynchronous inventory publication. Its independent barrier/fault tests,

@@ -6,9 +6,6 @@ import {build} from 'esbuild';
 import {root,sha256,writeJSON} from './reference-utils.mjs';
 import {npmCli} from './npm-cli.mjs';
 import {composedAddon} from './godot-addon-inventory.mjs';
-import {unlockContentPack} from './compile-unlock-content.mjs';
-import {memoryRewardPack} from './compile-memory-rewards.mjs';
-import {progressionGatePack} from './compile-progression-gates.mjs';
 
 const args=process.argv.slice(2), options={};
 assert(['win32','linux'].includes(process.platform));assert.equal(process.arch,'x64');
@@ -33,12 +30,6 @@ assert.equal(hash(path.join(options['--library-proof'],nativeName)),library.libr
 const archiveBase=path.join(options['--base'],'hollow-wake-godot-experimental.zip');assert.equal(hash(archiveBase),base.addon.archiveSha256);
 const directory=fs.mkdtempSync(path.join(root,'.artifacts/godot-progression-addon-'));
 const extra=path.join(directory,'extra'),consumer=path.join(directory,'consumer');fs.mkdirSync(extra);fs.mkdirSync(consumer);
-const content={unlocks:unlockContentPack(),gates:progressionGatePack(),memories:memoryRewardPack()};
-const compiled=read(path.join(root,'baseline/unlock-lifecycle/compiled-content.json'));
-for(const [key,pack] of Object.entries(content)){
-  assert.equal(pack.contentId,compiled.packs[key].contentId);assert.equal(sha256(JSON.stringify(pack,null,2)+'\n'),compiled.packs[key].sha256);
-}
-writeJSON(path.join(extra,'content.json'),content);
 const npm=npmCli(), commands=[];
 function run(name,command,args,cwd=consumer){
   const log=path.join(directory,name+'.txt'),fd=fs.openSync(log,'wx');
@@ -46,6 +37,17 @@ function run(name,command,args,cwd=consumer){
   finally{fs.closeSync(fd);commands.push({name,logSha256:hash(log)});}
 }
 run('runtime-build',process.execPath,[npm,'run','build'],root);
+// Content compilers import dist modules. Load them only after the build, so a
+// clean checkout does not require a previous run's compiled output.
+const [{unlockContentPack},{memoryRewardPack},{progressionGatePack}]=await Promise.all([
+  import('./compile-unlock-content.mjs'),import('./compile-memory-rewards.mjs'),import('./compile-progression-gates.mjs'),
+]);
+const content={unlocks:unlockContentPack(),gates:progressionGatePack(),memories:memoryRewardPack()};
+const compiled=read(path.join(root,'baseline/unlock-lifecycle/compiled-content.json'));
+for(const [key,pack] of Object.entries(content)){
+  assert.equal(pack.contentId,compiled.packs[key].contentId);assert.equal(sha256(JSON.stringify(pack,null,2)+'\n'),compiled.packs[key].sha256);
+}
+writeJSON(path.join(extra,'content.json'),content);
 run('pack',process.execPath,[npm,'pack','--json','--ignore-scripts','--pack-destination',directory,'--cache',path.join(root,'.artifacts/npm-cache')],root);
 const packed=read(path.join(directory,'pack.txt'))[0],archiveSDK=path.join(directory,packed.filename);
 writeJSON(path.join(consumer,'package.json'),{name:'hollow-progression-consumer',private:true,type:'module'});

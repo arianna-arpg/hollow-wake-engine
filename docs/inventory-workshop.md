@@ -26,9 +26,13 @@ commits, partial uncommitted transfers, unobserved barriers and missing workshop
 courses. The verification command also runs the existing rack, support, recall,
 readonly-view and station fault courses against the delivered archive.
 See the [fresh package evidence](../evidence/fresh-godot-package/README.md).
-The verification command exposes the requested output folder only after all
-checks pass. Choose a destination on the checkout's volume for the final
-atomic rename; copy the accepted delivery elsewhere afterwards.
+The [fresh Linux course](../evidence/fresh-linux-package/README.md) also runs
+the shipping executable in Steam Runtime Platform. It covers both WAL and
+rollback-journal modes at all three shutdown boundaries and rejects exported
+test drivers that lose a commit or commit before the staging barrier.
+The verification command stages beside the requested destination and exposes
+that folder only after all checks pass. This keeps the final handoff atomic
+across container mount layouts and removes private staging on failure.
 
 Choose the download for your platform and purpose.
 
@@ -244,8 +248,8 @@ provide the rendered test environment.
 node scripts/verify-inventory-workshop.mjs --tools TOOLS_JSON --addon COMBINED_ZIP --addon-proof DESKTOP_PROOF_JSON --out NEW_DIRECTORY --render
 ~~~
 
-The test kills a separate game process before SQL staging, with a live rollback
-journal, and after commit before the UI receives the result. A new game process
+The test kills a separate game process before SQL staging, after staging,
+and after commit before the UI receives the result. A new game process
 loads the profile before an independent SQL reader compares every saved value
 with the frozen original checkpoint. Other checks exercise competing processes,
 a blocked commit, cancellation, full destinations, stale clicks, protected

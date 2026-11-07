@@ -1,0 +1,203 @@
+{
+  "passed": true,
+  "gameSha256": "50ff38849a16ec3ed67afef61872eda291a9aa2c4ed99b9fb43e4179ac4ad2e3",
+  "checks": [
+    "wal-before-stage-seed",
+    "wal-before-stage-interrupt",
+    "wal-before-stage-shipping-recovery",
+    "wal-before-stage-inspect",
+    "wal-after-stage-seed",
+    "wal-after-stage-interrupt",
+    "wal-after-stage-shipping-recovery",
+    "wal-after-stage-inspect",
+    "wal-after-commit-seed",
+    "wal-after-commit-interrupt",
+    "wal-after-commit-shipping-recovery",
+    "wal-after-commit-inspect",
+    "delete-before-stage-seed",
+    "delete-before-stage-interrupt",
+    "delete-before-stage-shipping-recovery",
+    "delete-before-stage-inspect",
+    "delete-after-stage-seed",
+    "delete-after-stage-interrupt",
+    "delete-after-stage-shipping-recovery",
+    "delete-after-stage-inspect",
+    "delete-after-commit-seed",
+    "delete-after-commit-interrupt",
+    "delete-after-commit-shipping-recovery",
+    "delete-after-commit-inspect",
+    "seed",
+    "transfer",
+    "shipping-reopen",
+    "inspect-committed",
+    "equipment-cards",
+    "loadout",
+    "cargo-cards"
+  ],
+  "crashes": [
+    {
+      "phase": "before-stage",
+      "journalMode": "wal",
+      "barrierVerified": true,
+      "terminated": true,
+      "journalBytes": {
+        "-wal": 0,
+        "-journal": 0
+      },
+      "recovery": {
+        "revision": 1,
+        "gameEqualsDatabase": true,
+        "observedSha256": "debb014a0daa3f81859596478c7bf5dd1779f377ec5c37d184d93ceebc8cadcd"
+      }
+    },
+    {
+      "phase": "after-stage",
+      "journalMode": "wal",
+      "barrierVerified": true,
+      "terminated": true,
+      "journalBytes": {
+        "-wal": 0,
+        "-journal": 0
+      },
+      "recovery": {
+        "revision": 1,
+        "gameEqualsDatabase": true,
+        "observedSha256": "debb014a0daa3f81859596478c7bf5dd1779f377ec5c37d184d93ceebc8cadcd"
+      }
+    },
+    {
+      "phase": "after-commit",
+      "journalMode": "wal",
+      "barrierVerified": true,
+      "terminated": true,
+      "journalBytes": {
+        "-wal": 214272,
+        "-journal": 0
+      },
+      "recovery": {
+        "revision": 2,
+        "gameEqualsDatabase": true,
+        "observedSha256": "d4beaf6a01f338f73647b1e9aedd8f760cdfecdbf8200670a5d71294d72a59af"
+      }
+    },
+    {
+      "phase": "before-stage",
+      "journalMode": "delete",
+      "barrierVerified": true,
+      "terminated": true,
+      "journalBytes": {
+        "-wal": 0,
+        "-journal": 0
+      },
+      "recovery": {
+        "revision": 1,
+        "gameEqualsDatabase": true,
+        "observedSha256": "debb014a0daa3f81859596478c7bf5dd1779f377ec5c37d184d93ceebc8cadcd"
+      }
+    },
+    {
+      "phase": "after-stage",
+      "journalMode": "delete",
+      "barrierVerified": true,
+      "terminated": true,
+      "journalBytes": {
+        "-wal": 0,
+        "-journal": 12824
+      },
+      "recovery": {
+        "revision": 1,
+        "gameEqualsDatabase": true,
+        "observedSha256": "debb014a0daa3f81859596478c7bf5dd1779f377ec5c37d184d93ceebc8cadcd"
+      }
+    },
+    {
+      "phase": "after-commit",
+      "journalMode": "delete",
+      "barrierVerified": true,
+      "terminated": true,
+      "journalBytes": {
+        "-wal": 0,
+        "-journal": 0
+      },
+      "recovery": {
+        "revision": 2,
+        "gameEqualsDatabase": true,
+        "observedSha256": "d4beaf6a01f338f73647b1e9aedd8f760cdfecdbf8200670a5d71294d72a59af"
+      }
+    }
+  ],
+  "loadedLibraries": [
+    "libhwe_embedded.so",
+    "libhwe_godot.so",
+    "libhwe_slot_store.so"
+  ],
+  "inspection": {
+    "heap": {
+      "allocations": 106186,
+      "cancellation_requested": false,
+      "closed": true,
+      "delivery_failed": false,
+      "live_blocks": 0,
+      "live_bytes": 0,
+      "peak_bytes": 31445256,
+      "poisoned": false,
+      "response_pending": false,
+      "status": 0
+    },
+    "keyboardScroll": false,
+    "scrollMax": 240.0,
+    "scrollPage": 240.0
+  },
+  "loadout": {
+    "sha256": "b0c224b87717c1821039858c4af313f163c9a46b6f717435a02234fc599a2583",
+    "revision": 4,
+    "heap": {
+      "allocations": 97073,
+      "cancellation_requested": false,
+      "closed": true,
+      "delivery_failed": false,
+      "live_blocks": 0,
+      "live_bytes": 0,
+      "peak_bytes": 30970896,
+      "poisoned": false,
+      "response_pending": false,
+      "status": 0
+    }
+  },
+  "cargo": {
+    "cases": 25,
+    "repliesSha256": "e7be54d2732a9f78945f3fd554d14b9233dcb145476ec5ae1ed6b56b422adcc9",
+    "heap": {
+      "allocations": 101207,
+      "cancellation_requested": false,
+      "closed": true,
+      "delivery_failed": false,
+      "live_blocks": 0,
+      "live_bytes": 0,
+      "peak_bytes": 31008192,
+      "poisoned": false,
+      "response_pending": false,
+      "status": 0
+    },
+    "cache": {
+      "1": {
+        "pages": 1,
+        "reads": 4,
+        "sourceBytes": 13699
+      },
+      "4": {
+        "pages": 4,
+        "reads": 0,
+        "sourceBytes": 46779
+      }
+    },
+    "afterClose": {
+      "capacity": 4,
+      "pageReads": 0,
+      "retainedPages": 0,
+      "sourceBytes": 0
+    },
+    "saleRevision": 3
+  },
+  "uid": 13
+}

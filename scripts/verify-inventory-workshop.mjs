@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {root} from './reference-utils.mjs';
+import {publishDelivery} from './delivery-staging.mjs';
 
 const args=process.argv.slice(2),options=new Map();
 while(args.length){
@@ -27,7 +28,6 @@ if(!archive){
   archive=path.join(dir,'sqlite.zip');fs.writeFileSync(archive,bytes,{flag:'wx'});
 }
 const tools=options.get('--tools');
-const staged=path.join(dir,'delivery');
 function command(label,exe,params){
   console.log('Running '+label);
   const log=path.join(dir,label+'.txt'),fd=fs.openSync(log,'wx');
@@ -36,6 +36,7 @@ function command(label,exe,params){
   finally{fs.closeSync(fd);}
 }
 function run(script,params){command(script,process.execPath,[path.join(root,'scripts',script+'.mjs'),...params]);}
+await publishDelivery(options.get('--out'),staged=>{
 run('build-godot-save-store',['--tools',tools,'--sqlite',archive]);
 const lib=read(path.join(root,'.artifacts/godot-save-store-latest.json')).receipt;
 run('package-godot-inventory',['--tools',tools,'--library',lib,'--addon',options.get('--addon'),'--addon-proof',options.get('--addon-proof')]);
@@ -53,8 +54,5 @@ command('workshop-courses',nativeTools.python,['-I',path.join(root,'scripts/chec
   nativeTools.editor,out,dir,path.join(out,'workflow-controls.json'),'--profile-views']);
 command('station-controls',nativeTools.python,['-I',path.join(root,'scripts/check-station-faults.py'),
   nativeTools.editor,out,dir,path.join(out,'station-controls.json')]);
-// Only expose the requested delivery after every acceptance/control has passed.
-// Rename is atomic on the build volume; cross-volume callers must choose a
-// local staging destination and copy the accepted delivery afterwards.
-fs.renameSync(staged,options.get('--out'));
+});
 console.log({passed:true,out:options.get('--out')});

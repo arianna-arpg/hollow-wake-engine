@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "proofSha256": "a3211178ebcc80b277e82bbe8c95983619eaa7ba14e48e17db979fb6fa1adeb1",
+  "runs": [
+    {
+      "name": "foreign-archive",
+      "assertion": "matched shipping archive",
+      "detected": true
+    },
+    {
+      "name": "missing-crash-boundary",
+      "assertion": "all journal crash boundaries",
+      "detected": true
+    },
+    {
+      "name": "writer-not-terminated",
+      "assertion": "observed process termination",
+      "detected": true
+    },
+    {
+      "name": "uncommitted-revision",
+      "assertion": "recovered revision",
+      "detected": true
+    },
+    {
+      "name": "missing-database-reader",
+      "assertion": "both recovered owners observed",
+      "detected": true
+    },
+    {
+      "name": "shipping-recovery-skipped",
+      "assertion": "complete crash observation sequence",
+      "detected": true
+    }
+  ],
+  "zeroByteWalAccepted": true,
+  "sourcePreserved": true
+}

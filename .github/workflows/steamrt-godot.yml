@@ -20,11 +20,18 @@ on:
       - 'examples/godot-inventory/**'
       - 'scripts/*inventory-workshop.mjs'
       - 'scripts/test-inventory-platform.py'
+      - 'scripts/inventory-platform-proof.mjs'
+      - 'scripts/test-inventory-platform-proof.mjs'
+      - 'scripts/prepare-inventory-platform-faults.mjs'
+      - 'scripts/replay-inventory-platform.mjs'
+      - 'scripts/delivery-staging.mjs'
+      - 'test/delivery-staging.test.mjs'
       - 'adapters/embedded/crafting-session.mjs'
       - 'test/godot-*/**'
       - 'test/godot-addon-archive.py'
       - 'evidence/content-tables/**'
       - 'evidence/godot-crafting/windows.json'
+      - 'evidence/fresh-godot-package/**'
       - 'scripts/*embedded*.mjs'
       - 'scripts/*godot*.mjs'
       - 'scripts/native-tools.mjs'
@@ -75,9 +82,9 @@ jobs:
           retention-days: 14
           path: |
             .artifacts/steamrt-godot-*/sdk/inventory-workshop/*.zip
-            .artifacts/steamrt-godot-*/sdk/inventory-workshop/verification.json
+            .artifacts/steamrt-godot-*/sdk/inventory-workshop/*.json
             .artifacts/steamrt-godot-*/sdk/inventory-workshop/inventory.png
-            .artifacts/steamrt-godot-*/inventory-platform/platform.json
+            .artifacts/steamrt-godot-*/inventory-platform/*.json
       - name: Retain the verified device workloads
         if: success()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

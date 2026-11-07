@@ -1,5 +1,15 @@
 # Steam Runtime package experiment
 
+The [fresh Linux package checkpoint](../evidence/fresh-linux-package/README.md)
+qualifies the current builder from empty compiled output. Crafting now passes
+190 assertions, including the added workshop capabilities, while preserving
+the original 56 replies. Progression still passes 91 assertions. Both sealed
+exports and the inventory player run in separate offline Platform containers.
+Inventory recovery covers WAL and rollback journals at three process-death
+boundaries; two real broken-save exports and six receipt faults are detected.
+This local Docker Desktop run reuses a verified native base and compiles the
+current save extension. It is separate from the earlier hosted result below.
+
 The combined crafting and progression addon passed in the pinned Steam Runtime
 4 SDK and its matching Platform image. Both exported games used the same
 Linux x86_64 addon archive. Crafting passed 180 assertions and its 56 replies
@@ -85,6 +95,21 @@ Docker host with the pinned Platform image present.
 node scripts/build-steamrt-sessions.mjs --base BASE_DIR --library-proof LIBRARY_DIR --tools TOOLS_JSON --out NEW_EXPORTS_DIR
 node scripts/replay-steamrt-sessions.mjs --bundle NEW_EXPORTS_DIR --out NEW_PLATFORM_DIR
 ~~~
+
+The full workflow also builds the inventory and prepares two deliberately
+broken test packs inside the SDK. The host replays the unmodified package and
+each fault in separate Platform containers. For an already accepted Linux
+inventory build, these stages can be run directly:
+
+~~~sh
+node scripts/prepare-inventory-platform-faults.mjs --tools TOOLS_JSON --verified INVENTORY_ACCEPTANCE_JSON --bundle INVENTORY_DELIVERY/player-input --out NEW_FAULTS_DIR
+node scripts/replay-inventory-platform.mjs --bundle INVENTORY_DELIVERY/player-input --faults NEW_FAULTS_DIR --out NEW_PLATFORM_DIR
+~~~
+
+The preparation stage needs the matched acceptance project's test driver and
+pinned Godot editor. The Platform stage mounts only the player bundle, evidence
+folder and fault pack overlays, and removes its containers on failure as well
+as success. Supply `--docker PATH` when Docker is not on the host's search path.
 
 The full workflow collects the engine and component notices from the pinned
 Linux Godot editor and includes them alongside the addon notices in the device

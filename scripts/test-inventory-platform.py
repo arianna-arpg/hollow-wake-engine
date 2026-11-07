@@ -1,5 +1,7 @@
 """Exercise a shipped inventory game and its matched test export in the Valve player."""
 import hashlib
+import copy
+from contextlib import closing
 import json
 import os
 from pathlib import Path
@@ -32,7 +34,7 @@ def main():
     for file, expected in manifest["proofFiles"].items():
         require(Path(file).name == file and digest(bundle / "proof" / file) == expected, "changed test export")
     original = json.loads((bundle / "source.json").read_bytes())
-    report = {"passed": False, "gameSha256": manifest["gameSha256"], "checks": []}
+    report = {"passed": False, "gameSha256": manifest["gameSha256"], "checks": [], "crashes": []}
     with tempfile.TemporaryDirectory() as temp:
         work = Path(temp)
         with zipfile.ZipFile(bundle / "game.zip") as archive:
@@ -63,16 +65,24 @@ def main():
                                         env=opts, cwd=exe.parent, stdout=stream, stderr=subprocess.STDOUT)
                 try:
                     if "HWE_MARKER" in settings:
+                        phase = settings["HWE_PHASE"]
+                        require(phase in ("before-stage", "after-stage", "after-commit"), "unknown crash boundary")
                         marker = Path(settings["HWE_MARKER"])
                         deadline = time.monotonic() + 60
-                        while not (marker.exists() and marker.read_text() == "after-stage"):
+                        while not (marker.exists() and marker.read_text() == phase):
                             require(proc.poll() is None and time.monotonic() < deadline, "transaction barrier missed")
                             time.sleep(.02)
-                        size = Path(str(db) + "-journal").stat().st_size
-                        require(size > 0, "no staged SQLite journal")
+                        # Small WAL writes can stay in SQLite's page cache until
+                        # commit. File size cannot establish transaction state.
+                        with closing(sqlite3.connect(db.as_uri() + "?mode=ro", uri=True)) as conn:
+                            journal_mode = conn.execute("PRAGMA journal_mode").fetchone()[0]
+                        require(journal_mode == settings["HWE_EXPECTED_JOURNAL"], "writer changed journal mode")
+                        sizes = {suffix: Path(str(db) + suffix).stat().st_size if Path(str(db) + suffix).exists() else 0
+                                 for suffix in ("-wal", "-journal")}
                         proc.kill()
                         require(proc.wait(15) == -signal.SIGKILL, "writer survived")
-                        report["journalBytes"] = size
+                        report["crashes"].append(dict(phase=phase, journalMode=journal_mode,
+                            barrierVerified=True, terminated=True, journalBytes=sizes))
                     else:
                         require(proc.wait(90) == 0, label + " exited unsuccessfully")
                 finally:
@@ -94,25 +104,48 @@ def main():
 
         def read_owners():
             # Open only after a fresh shipping game has had a chance to recover the journal.
-            with sqlite3.connect(db.as_uri() + "?mode=ro", uri=True) as conn:
+            with closing(sqlite3.connect(db.as_uri() + "?mode=ro", uri=True)) as conn:
                 require(conn.execute("PRAGMA integrity_check").fetchone() == ("ok",), "integrity check")
                 revision, source, stash = conn.execute("SELECT revision,crafting,stash FROM slots WHERE slot=1").fetchone()
             return revision, json.loads(source), json.loads(stash)
 
+        observed = work / "restored.json"
+        transferred = copy.deepcopy(original)
+        moved = transferred["state"]["overflow"].pop()
+        for journal_mode in ("wal", "delete"):
+            for phase in ("before-stage", "after-stage", "after-commit"):
+                label = journal_mode + "-" + phase
+                env["XDG_DATA_HOME"] = str(work / label)
+                db = Path(env["XDG_DATA_HOME"]) / "hollow-wake-inventory-workshop/inventory.sqlite3"
+                db.parent.mkdir(parents=True)
+                run(proof, label + "-seed", HWE_CASE="seed")
+                with closing(sqlite3.connect(db)) as conn:
+                    require(conn.execute("PRAGMA journal_mode=" + journal_mode).fetchone() == (journal_mode,),
+                            "requested journal policy unavailable")
+                run(proof, label + "-interrupt", HWE_CASE="transfer", HWE_PHASE=phase,
+                    HWE_MARKER=str(work / (label + ".marker")), HWE_PRESERVE_JOURNAL="1",
+                    HWE_EXPECTED_JOURNAL=journal_mode)
+                # The actual shipping game opens first after process death.
+                run(game, label + "-shipping-recovery")
+                run(proof, label + "-inspect", HWE_CASE="inspect", HWE_RESULT=str(observed))
+                committed = phase == "after-commit"
+                expected = dict(revision=2 if committed else 1,
+                    source=transferred if committed else original, stash=[moved] if committed else [])
+                require(json.loads(observed.read_bytes()) == expected, "recovered game view differs")
+                require(read_owners() == (expected["revision"], expected["source"], expected["stash"]),
+                        "recovered durable owners differ")
+                report["crashes"][-1]["recovery"] = dict(revision=expected["revision"],
+                    gameEqualsDatabase=True, observedSha256=digest(observed))
+        # Keep an uninterrupted successful transfer and reopen as a control.
+        env["XDG_DATA_HOME"] = str(work / "normal")
+        db = Path(env["XDG_DATA_HOME"]) / "hollow-wake-inventory-workshop/inventory.sqlite3"
         db.parent.mkdir(parents=True)
         run(proof, "seed", HWE_CASE="seed")
-        run(proof, "interrupt", HWE_CASE="transfer", HWE_PHASE="after-stage", HWE_MARKER=str(work / "marker"))
-        run(game, "shipping-recovery")
-        observed = work / "restored.json"
-        run(proof, "inspect-uncommitted", HWE_CASE="inspect", HWE_RESULT=str(observed))
-        require(json.loads(observed.read_bytes()) == {"revision":1,"source":original,"stash":[]}, "recovered game view differs")
-        require(read_owners() == (1,original,[]), "uncommitted move escaped")
         run(proof, "transfer", HWE_CASE="transfer")
         run(game, "shipping-reopen")
-        moved = original["state"]["overflow"].pop()
         run(proof, "inspect-committed", HWE_CASE="inspect", HWE_RESULT=str(observed))
-        require(json.loads(observed.read_bytes()) == {"revision":2,"source":original,"stash":[moved]}, "committed game view differs")
-        require(read_owners() == (2,original,[moved]), "committed item did not have one owner")
+        require(json.loads(observed.read_bytes()) == {"revision":2,"source":transferred,"stash":[moved]}, "committed game view differs")
+        require(read_owners() == (2,transferred,[moved]), "committed item did not have one owner")
         # Exercise the real scene against an independent first-run save in the
         # player image. Its driver compares original cards and tests scrolling.
         card_data = work / "equipment-cards"
@@ -136,7 +169,7 @@ def main():
             require(heap["closed"] and not heap["poisoned"] and not heap["delivery_failed"] and
                     0 < heap["peak_bytes"] <= 32 * 1024 * 1024 and heap["live_bytes"] == heap["live_blocks"] == 0,
                     "loadout host exceeded budget or leaked allocations")
-            with sqlite3.connect(wear_db) as conn:
+            with closing(sqlite3.connect(wear_db)) as conn:
                 revision, crafting = conn.execute("SELECT revision,crafting FROM slots WHERE slot=1").fetchone()
                 require(revision == 4 and len(json.loads(crafting)["state"]["equipped"]) == 1, "loadout custody differs")
             report["loadout"] = {"sha256": digest(result), "revision": revision, "heap": heap}
@@ -152,7 +185,7 @@ def main():
             require(cache["4"]["reads"] == 0 and cache["1"]["reads"] > 0, "unexpected display page reads")
             require(cargo_heap["closed"] and not cargo_heap["poisoned"] and cargo_heap["live_bytes"] == 0
                     and cargo_heap["live_blocks"] == 0 and 0 < cargo_heap["peak_bytes"] <= 32 * 1024 * 1024, "cargo heap")
-            with sqlite3.connect(cargo_db.as_uri() + "?mode=ro", uri=True) as conn:
+            with closing(sqlite3.connect(cargo_db.as_uri() + "?mode=ro", uri=True)) as conn:
                 revision, saved = conn.execute("SELECT revision, crafting FROM slots WHERE slot=1").fetchone()
             quote = manifest["cargoQuote"]
             require(revision == 3 and json.loads(saved)["state"]["essences"] == {quote["essence"]:quote["count"]}, "cargo sale settlement")

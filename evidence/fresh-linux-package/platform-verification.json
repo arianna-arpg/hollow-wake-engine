@@ -1,0 +1,1766 @@
+{
+  "passed": true,
+  "gameSha256": "50ff38849a16ec3ed67afef61872eda291a9aa2c4ed99b9fb43e4179ac4ad2e3",
+  "runs": [
+    {
+      "name": "control",
+      "passed": true,
+      "crashes": 6,
+      "proofSha256": "a3211178ebcc80b277e82bbe8c95983619eaa7ba14e48e17db979fb6fa1adeb1"
+    },
+    {
+      "name": "lost-commit",
+      "detected": true,
+      "assertion": "recovered game view differs"
+    },
+    {
+      "name": "premature-commit",
+      "detected": true,
+      "assertion": "recovered game view differs"
+    }
+  ],
+  "containers": [
+    {
+      "name": "control",
+      "configuration": {
+        "Id": "4a89e8971288f9eb78b9d3c80a8f1768e326eacc11ab670161392e69e202f3cf",
+        "Created": "2026-11-07T18:58:02.744830235Z",
+        "Path": "/usr/bin/python3",
+        "Args": [
+          "-I",
+          "/bundle/test-inventory-platform.py",
+          "/bundle",
+          "/evidence"
+        ],
+        "State": {
+          "Status": "created",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "0001-01-01T00:00:00Z",
+          "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+        "ResolvConfPath": "",
+        "HostnamePath": "",
+        "HostsPath": "",
+        "LogPath": "",
+        "Name": "/infallible_lehmann",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+          "Binds": null,
+          "ContainerIDFile": "",
+          "LogConfig": {
+            "Type": "json-file",
+            "Config": {}
+          },
+          "NetworkMode": "none",
+          "PortBindings": {},
+          "RestartPolicy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "AutoRemove": false,
+          "VolumeDriver": "",
+          "VolumesFrom": null,
+          "ConsoleSize": [
+            0,
+            0
+          ],
+          "CapAdd": null,
+          "CapDrop": [
+            "ALL"
+          ],
+          "CgroupnsMode": "private",
+          "Dns": null,
+          "DnsOptions": [],
+          "DnsSearch": [],
+          "ExtraHosts": null,
+          "GroupAdd": null,
+          "IpcMode": "private",
+          "Cgroup": "",
+          "Links": null,
+          "OomScoreAdj": 0,
+          "PidMode": "",
+          "Privileged": false,
+          "PublishAllPorts": false,
+          "ReadonlyRootfs": true,
+          "SecurityOpt": [
+            "no-new-privileges"
+          ],
+          "Tmpfs": {
+            "/tmp": "rw,nosuid,nodev,exec,size=536870912"
+          },
+          "UTSMode": "",
+          "UsernsMode": "",
+          "ShmSize": 67108864,
+          "Runtime": "runc",
+          "Isolation": "",
+          "CpuShares": 0,
+          "Memory": 0,
+          "NanoCpus": 0,
+          "CgroupParent": "",
+          "BlkioWeight": 0,
+          "BlkioWeightDevice": [],
+          "BlkioDeviceReadBps": [],
+          "BlkioDeviceWriteBps": [],
+          "BlkioDeviceReadIOps": [],
+          "BlkioDeviceWriteIOps": [],
+          "CpuPeriod": 0,
+          "CpuQuota": 0,
+          "CpuRealtimePeriod": 0,
+          "CpuRealtimeRuntime": 0,
+          "CpusetCpus": "",
+          "CpusetMems": "",
+          "Devices": [],
+          "DeviceCgroupRules": null,
+          "DeviceRequests": null,
+          "MemoryReservation": 0,
+          "MemorySwap": 0,
+          "MemorySwappiness": null,
+          "OomKillDisable": false,
+          "PidsLimit": null,
+          "Ulimits": [],
+          "CpuCount": 0,
+          "CpuPercent": 0,
+          "IOMaximumIOps": 0,
+          "IOMaximumBandwidth": 0,
+          "Mounts": [
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\inventory\\player-input",
+              "Target": "/bundle",
+              "ReadOnly": true
+            },
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-final",
+              "Target": "/evidence"
+            }
+          ],
+          "MaskedPaths": [
+            "/proc/acpi",
+            "/proc/asound",
+            "/proc/interrupts",
+            "/proc/kcore",
+            "/proc/keys",
+            "/proc/latency_stats",
+            "/proc/sched_debug",
+            "/proc/scsi",
+            "/proc/timer_list",
+            "/proc/timer_stats",
+            "/sys/devices/virtual/powercap",
+            "/sys/firmware"
+          ],
+          "ReadonlyPaths": [
+            "/proc/bus",
+            "/proc/fs",
+            "/proc/irq",
+            "/proc/sys",
+            "/proc/sysrq-trigger"
+          ]
+        },
+        "GraphDriver": {
+          "Data": null,
+          "Name": ""
+        },
+        "Mounts": [
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\inventory\\player-input",
+            "Destination": "/bundle",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-final",
+            "Destination": "/evidence",
+            "Mode": "",
+            "RW": true,
+            "Propagation": "rprivate"
+          }
+        ],
+        "Config": {
+          "Hostname": "4a89e8971288",
+          "Domainname": "",
+          "User": "1000:1000",
+          "AttachStdin": false,
+          "AttachStdout": true,
+          "AttachStderr": true,
+          "Tty": false,
+          "OpenStdin": false,
+          "StdinOnce": false,
+          "Env": [
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+          ],
+          "Cmd": [
+            "-I",
+            "/bundle/test-inventory-platform.py",
+            "/bundle",
+            "/evidence"
+          ],
+          "Image": "registry.gitlab.steamos.cloud/steamrt/steamrt4/platform@sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+          "Volumes": null,
+          "WorkingDir": "",
+          "Entrypoint": [
+            "/usr/bin/python3"
+          ],
+          "OnBuild": null,
+          "Labels": {
+            "com.github.containers.toolbox": "true",
+            "com.github.debarshiray.toolbox": "true",
+            "os_release.bug_report_url": "https://github.com/ValveSoftware/steam-runtime/issues",
+            "os_release.build_id": "4.0.20261021.265997",
+            "os_release.debian_version_full": "13.7",
+            "os_release.home_url": "https://store.steampowered.com/",
+            "os_release.id": "steamrt",
+            "os_release.id_like": "debian",
+            "os_release.name": "Steam Runtime",
+            "os_release.pretty_name": "Steam Runtime 4",
+            "os_release.support_url": "https://help.steampowered.com/",
+            "os_release.variant": "Platform",
+            "os_release.variant_id": "com.valvesoftware.steamruntime.platform-amd64_i386-steamrt4",
+            "os_release.version": "4",
+            "os_release.version_codename": "steamrt4",
+            "os_release.version_id": "4"
+          },
+          "StopTimeout": 1
+        },
+        "NetworkSettings": {
+          "Bridge": "",
+          "SandboxID": "",
+          "SandboxKey": "",
+          "Ports": {},
+          "HairpinMode": false,
+          "LinkLocalIPv6Address": "",
+          "LinkLocalIPv6PrefixLen": 0,
+          "SecondaryIPAddresses": null,
+          "SecondaryIPv6Addresses": null,
+          "EndpointID": "",
+          "Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "IPAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "MacAddress": "",
+          "Networks": {
+            "none": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "MacAddress": "",
+              "DriverOpts": null,
+              "GwPriority": 0,
+              "NetworkID": "",
+              "EndpointID": "",
+              "Gateway": "",
+              "IPAddress": "",
+              "IPPrefixLen": 0,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "DNSNames": null
+            }
+          }
+        },
+        "ImageManifestDescriptor": {
+          "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+          "digest": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+          "size": 590,
+          "platform": {
+            "architecture": "amd64",
+            "os": "linux"
+          }
+        }
+      },
+      "state": {
+        "Id": "4a89e8971288f9eb78b9d3c80a8f1768e326eacc11ab670161392e69e202f3cf",
+        "Created": "2026-11-07T18:58:02.744830235Z",
+        "Path": "/usr/bin/python3",
+        "Args": [
+          "-I",
+          "/bundle/test-inventory-platform.py",
+          "/bundle",
+          "/evidence"
+        ],
+        "State": {
+          "Status": "exited",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-11-07T18:58:02.950581176Z",
+          "FinishedAt": "2026-11-07T18:58:56.557688793Z"
+        },
+        "Image": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+        "ResolvConfPath": "/var/lib/docker/containers/4a89e8971288f9eb78b9d3c80a8f1768e326eacc11ab670161392e69e202f3cf/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/4a89e8971288f9eb78b9d3c80a8f1768e326eacc11ab670161392e69e202f3cf/hostname",
+        "HostsPath": "/var/lib/docker/containers/4a89e8971288f9eb78b9d3c80a8f1768e326eacc11ab670161392e69e202f3cf/hosts",
+        "LogPath": "/var/lib/docker/containers/4a89e8971288f9eb78b9d3c80a8f1768e326eacc11ab670161392e69e202f3cf/4a89e8971288f9eb78b9d3c80a8f1768e326eacc11ab670161392e69e202f3cf-json.log",
+        "Name": "/infallible_lehmann",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+          "Binds": null,
+          "ContainerIDFile": "",
+          "LogConfig": {
+            "Type": "json-file",
+            "Config": {}
+          },
+          "NetworkMode": "none",
+          "PortBindings": {},
+          "RestartPolicy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "AutoRemove": false,
+          "VolumeDriver": "",
+          "VolumesFrom": null,
+          "ConsoleSize": [
+            0,
+            0
+          ],
+          "CapAdd": null,
+          "CapDrop": [
+            "ALL"
+          ],
+          "CgroupnsMode": "private",
+          "Dns": null,
+          "DnsOptions": [],
+          "DnsSearch": [],
+          "ExtraHosts": null,
+          "GroupAdd": null,
+          "IpcMode": "private",
+          "Cgroup": "",
+          "Links": null,
+          "OomScoreAdj": 0,
+          "PidMode": "",
+          "Privileged": false,
+          "PublishAllPorts": false,
+          "ReadonlyRootfs": true,
+          "SecurityOpt": [
+            "no-new-privileges"
+          ],
+          "Tmpfs": {
+            "/tmp": "rw,nosuid,nodev,exec,size=536870912"
+          },
+          "UTSMode": "",
+          "UsernsMode": "",
+          "ShmSize": 67108864,
+          "Runtime": "runc",
+          "Isolation": "",
+          "CpuShares": 0,
+          "Memory": 0,
+          "NanoCpus": 0,
+          "CgroupParent": "",
+          "BlkioWeight": 0,
+          "BlkioWeightDevice": [],
+          "BlkioDeviceReadBps": [],
+          "BlkioDeviceWriteBps": [],
+          "BlkioDeviceReadIOps": [],
+          "BlkioDeviceWriteIOps": [],
+          "CpuPeriod": 0,
+          "CpuQuota": 0,
+          "CpuRealtimePeriod": 0,
+          "CpuRealtimeRuntime": 0,
+          "CpusetCpus": "",
+          "CpusetMems": "",
+          "Devices": [],
+          "DeviceCgroupRules": null,
+          "DeviceRequests": null,
+          "MemoryReservation": 0,
+          "MemorySwap": 0,
+          "MemorySwappiness": null,
+          "OomKillDisable": null,
+          "PidsLimit": null,
+          "Ulimits": [],
+          "CpuCount": 0,
+          "CpuPercent": 0,
+          "IOMaximumIOps": 0,
+          "IOMaximumBandwidth": 0,
+          "Mounts": [
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\inventory\\player-input",
+              "Target": "/bundle",
+              "ReadOnly": true
+            },
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-final",
+              "Target": "/evidence"
+            }
+          ],
+          "MaskedPaths": [
+            "/proc/acpi",
+            "/proc/asound",
+            "/proc/interrupts",
+            "/proc/kcore",
+            "/proc/keys",
+            "/proc/latency_stats",
+            "/proc/sched_debug",
+            "/proc/scsi",
+            "/proc/timer_list",
+            "/proc/timer_stats",
+            "/sys/devices/virtual/powercap",
+            "/sys/firmware"
+          ],
+          "ReadonlyPaths": [
+            "/proc/bus",
+            "/proc/fs",
+            "/proc/irq",
+            "/proc/sys",
+            "/proc/sysrq-trigger"
+          ]
+        },
+        "GraphDriver": {
+          "Data": null,
+          "Name": ""
+        },
+        "Mounts": [
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\inventory\\player-input",
+            "Destination": "/bundle",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-final",
+            "Destination": "/evidence",
+            "Mode": "",
+            "RW": true,
+            "Propagation": "rprivate"
+          }
+        ],
+        "Config": {
+          "Hostname": "4a89e8971288",
+          "Domainname": "",
+          "User": "1000:1000",
+          "AttachStdin": false,
+          "AttachStdout": true,
+          "AttachStderr": true,
+          "Tty": false,
+          "OpenStdin": false,
+          "StdinOnce": false,
+          "Env": [
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+          ],
+          "Cmd": [
+            "-I",
+            "/bundle/test-inventory-platform.py",
+            "/bundle",
+            "/evidence"
+          ],
+          "Image": "registry.gitlab.steamos.cloud/steamrt/steamrt4/platform@sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+          "Volumes": null,
+          "WorkingDir": "",
+          "Entrypoint": [
+            "/usr/bin/python3"
+          ],
+          "OnBuild": null,
+          "Labels": {
+            "com.github.containers.toolbox": "true",
+            "com.github.debarshiray.toolbox": "true",
+            "os_release.bug_report_url": "https://github.com/ValveSoftware/steam-runtime/issues",
+            "os_release.build_id": "4.0.20261021.265997",
+            "os_release.debian_version_full": "13.7",
+            "os_release.home_url": "https://store.steampowered.com/",
+            "os_release.id": "steamrt",
+            "os_release.id_like": "debian",
+            "os_release.name": "Steam Runtime",
+            "os_release.pretty_name": "Steam Runtime 4",
+            "os_release.support_url": "https://help.steampowered.com/",
+            "os_release.variant": "Platform",
+            "os_release.variant_id": "com.valvesoftware.steamruntime.platform-amd64_i386-steamrt4",
+            "os_release.version": "4",
+            "os_release.version_codename": "steamrt4",
+            "os_release.version_id": "4"
+          },
+          "StopTimeout": 1
+        },
+        "NetworkSettings": {
+          "Bridge": "",
+          "SandboxID": "",
+          "SandboxKey": "",
+          "Ports": {},
+          "HairpinMode": false,
+          "LinkLocalIPv6Address": "",
+          "LinkLocalIPv6PrefixLen": 0,
+          "SecondaryIPAddresses": null,
+          "SecondaryIPv6Addresses": null,
+          "EndpointID": "",
+          "Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "IPAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "MacAddress": "",
+          "Networks": {
+            "none": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "MacAddress": "",
+              "DriverOpts": null,
+              "GwPriority": 0,
+              "NetworkID": "77380a045b2870d4a3c7ca8448aef693fafc0aa5b4b74860cfb5b6f61999d92f",
+              "EndpointID": "",
+              "Gateway": "",
+              "IPAddress": "",
+              "IPPrefixLen": 0,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "DNSNames": null
+            }
+          }
+        },
+        "ImageManifestDescriptor": {
+          "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+          "digest": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+          "size": 590,
+          "platform": {
+            "architecture": "amd64",
+            "os": "linux"
+          }
+        }
+      }
+    },
+    {
+      "name": "lost-commit",
+      "configuration": {
+        "Id": "b899b9c6d0c74d62bad5174a5fbe40f46de41a347f02e34534cbe7dca1d291f3",
+        "Created": "2026-11-07T18:58:56.829974242Z",
+        "Path": "/usr/bin/python3",
+        "Args": [
+          "-I",
+          "/bundle/test-inventory-platform.py",
+          "/bundle",
+          "/evidence"
+        ],
+        "State": {
+          "Status": "created",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "0001-01-01T00:00:00Z",
+          "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+        "ResolvConfPath": "",
+        "HostnamePath": "",
+        "HostsPath": "",
+        "LogPath": "",
+        "Name": "/cool_hypatia",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+          "Binds": null,
+          "ContainerIDFile": "",
+          "LogConfig": {
+            "Type": "json-file",
+            "Config": {}
+          },
+          "NetworkMode": "none",
+          "PortBindings": {},
+          "RestartPolicy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "AutoRemove": false,
+          "VolumeDriver": "",
+          "VolumesFrom": null,
+          "ConsoleSize": [
+            0,
+            0
+          ],
+          "CapAdd": null,
+          "CapDrop": [
+            "ALL"
+          ],
+          "CgroupnsMode": "private",
+          "Dns": null,
+          "DnsOptions": [],
+          "DnsSearch": [],
+          "ExtraHosts": null,
+          "GroupAdd": null,
+          "IpcMode": "private",
+          "Cgroup": "",
+          "Links": null,
+          "OomScoreAdj": 0,
+          "PidMode": "",
+          "Privileged": false,
+          "PublishAllPorts": false,
+          "ReadonlyRootfs": true,
+          "SecurityOpt": [
+            "no-new-privileges"
+          ],
+          "Tmpfs": {
+            "/tmp": "rw,nosuid,nodev,exec,size=536870912"
+          },
+          "UTSMode": "",
+          "UsernsMode": "",
+          "ShmSize": 67108864,
+          "Runtime": "runc",
+          "Isolation": "",
+          "CpuShares": 0,
+          "Memory": 0,
+          "NanoCpus": 0,
+          "CgroupParent": "",
+          "BlkioWeight": 0,
+          "BlkioWeightDevice": [],
+          "BlkioDeviceReadBps": [],
+          "BlkioDeviceWriteBps": [],
+          "BlkioDeviceReadIOps": [],
+          "BlkioDeviceWriteIOps": [],
+          "CpuPeriod": 0,
+          "CpuQuota": 0,
+          "CpuRealtimePeriod": 0,
+          "CpuRealtimeRuntime": 0,
+          "CpusetCpus": "",
+          "CpusetMems": "",
+          "Devices": [],
+          "DeviceCgroupRules": null,
+          "DeviceRequests": null,
+          "MemoryReservation": 0,
+          "MemorySwap": 0,
+          "MemorySwappiness": null,
+          "OomKillDisable": false,
+          "PidsLimit": null,
+          "Ulimits": [],
+          "CpuCount": 0,
+          "CpuPercent": 0,
+          "IOMaximumIOps": 0,
+          "IOMaximumBandwidth": 0,
+          "Mounts": [
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\inventory\\player-input",
+              "Target": "/bundle",
+              "ReadOnly": true
+            },
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-final\\lost-commit",
+              "Target": "/evidence"
+            },
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-faults-final\\lost-commit\\inventory-proof.pck",
+              "Target": "/bundle/proof/inventory-proof.pck",
+              "ReadOnly": true
+            },
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-faults-final\\lost-commit\\inputs.json",
+              "Target": "/bundle/inputs.json",
+              "ReadOnly": true
+            }
+          ],
+          "MaskedPaths": [
+            "/proc/acpi",
+            "/proc/asound",
+            "/proc/interrupts",
+            "/proc/kcore",
+            "/proc/keys",
+            "/proc/latency_stats",
+            "/proc/sched_debug",
+            "/proc/scsi",
+            "/proc/timer_list",
+            "/proc/timer_stats",
+            "/sys/devices/virtual/powercap",
+            "/sys/firmware"
+          ],
+          "ReadonlyPaths": [
+            "/proc/bus",
+            "/proc/fs",
+            "/proc/irq",
+            "/proc/sys",
+            "/proc/sysrq-trigger"
+          ]
+        },
+        "GraphDriver": {
+          "Data": null,
+          "Name": ""
+        },
+        "Mounts": [
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\inventory\\player-input",
+            "Destination": "/bundle",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-final\\lost-commit",
+            "Destination": "/evidence",
+            "Mode": "",
+            "RW": true,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-faults-final\\lost-commit\\inventory-proof.pck",
+            "Destination": "/bundle/proof/inventory-proof.pck",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-faults-final\\lost-commit\\inputs.json",
+            "Destination": "/bundle/inputs.json",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          }
+        ],
+        "Config": {
+          "Hostname": "b899b9c6d0c7",
+          "Domainname": "",
+          "User": "1000:1000",
+          "AttachStdin": false,
+          "AttachStdout": true,
+          "AttachStderr": true,
+          "Tty": false,
+          "OpenStdin": false,
+          "StdinOnce": false,
+          "Env": [
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+          ],
+          "Cmd": [
+            "-I",
+            "/bundle/test-inventory-platform.py",
+            "/bundle",
+            "/evidence"
+          ],
+          "Image": "registry.gitlab.steamos.cloud/steamrt/steamrt4/platform@sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+          "Volumes": null,
+          "WorkingDir": "",
+          "Entrypoint": [
+            "/usr/bin/python3"
+          ],
+          "OnBuild": null,
+          "Labels": {
+            "com.github.containers.toolbox": "true",
+            "com.github.debarshiray.toolbox": "true",
+            "os_release.bug_report_url": "https://github.com/ValveSoftware/steam-runtime/issues",
+            "os_release.build_id": "4.0.20261021.265997",
+            "os_release.debian_version_full": "13.7",
+            "os_release.home_url": "https://store.steampowered.com/",
+            "os_release.id": "steamrt",
+            "os_release.id_like": "debian",
+            "os_release.name": "Steam Runtime",
+            "os_release.pretty_name": "Steam Runtime 4",
+            "os_release.support_url": "https://help.steampowered.com/",
+            "os_release.variant": "Platform",
+            "os_release.variant_id": "com.valvesoftware.steamruntime.platform-amd64_i386-steamrt4",
+            "os_release.version": "4",
+            "os_release.version_codename": "steamrt4",
+            "os_release.version_id": "4"
+          },
+          "StopTimeout": 1
+        },
+        "NetworkSettings": {
+          "Bridge": "",
+          "SandboxID": "",
+          "SandboxKey": "",
+          "Ports": {},
+          "HairpinMode": false,
+          "LinkLocalIPv6Address": "",
+          "LinkLocalIPv6PrefixLen": 0,
+          "SecondaryIPAddresses": null,
+          "SecondaryIPv6Addresses": null,
+          "EndpointID": "",
+          "Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "IPAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "MacAddress": "",
+          "Networks": {
+            "none": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "MacAddress": "",
+              "DriverOpts": null,
+              "GwPriority": 0,
+              "NetworkID": "",
+              "EndpointID": "",
+              "Gateway": "",
+              "IPAddress": "",
+              "IPPrefixLen": 0,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "DNSNames": null
+            }
+          }
+        },
+        "ImageManifestDescriptor": {
+          "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+          "digest": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+          "size": 590,
+          "platform": {
+            "architecture": "amd64",
+            "os": "linux"
+          }
+        }
+      },
+      "state": {
+        "Id": "b899b9c6d0c74d62bad5174a5fbe40f46de41a347f02e34534cbe7dca1d291f3",
+        "Created": "2026-11-07T18:58:56.829974242Z",
+        "Path": "/usr/bin/python3",
+        "Args": [
+          "-I",
+          "/bundle/test-inventory-platform.py",
+          "/bundle",
+          "/evidence"
+        ],
+        "State": {
+          "Status": "exited",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 1,
+          "Error": "",
+          "StartedAt": "2026-11-07T18:58:57.056357183Z",
+          "FinishedAt": "2026-11-07T18:59:18.124920995Z"
+        },
+        "Image": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+        "ResolvConfPath": "/var/lib/docker/containers/b899b9c6d0c74d62bad5174a5fbe40f46de41a347f02e34534cbe7dca1d291f3/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/b899b9c6d0c74d62bad5174a5fbe40f46de41a347f02e34534cbe7dca1d291f3/hostname",
+        "HostsPath": "/var/lib/docker/containers/b899b9c6d0c74d62bad5174a5fbe40f46de41a347f02e34534cbe7dca1d291f3/hosts",
+        "LogPath": "/var/lib/docker/containers/b899b9c6d0c74d62bad5174a5fbe40f46de41a347f02e34534cbe7dca1d291f3/b899b9c6d0c74d62bad5174a5fbe40f46de41a347f02e34534cbe7dca1d291f3-json.log",
+        "Name": "/cool_hypatia",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+          "Binds": null,
+          "ContainerIDFile": "",
+          "LogConfig": {
+            "Type": "json-file",
+            "Config": {}
+          },
+          "NetworkMode": "none",
+          "PortBindings": {},
+          "RestartPolicy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "AutoRemove": false,
+          "VolumeDriver": "",
+          "VolumesFrom": null,
+          "ConsoleSize": [
+            0,
+            0
+          ],
+          "CapAdd": null,
+          "CapDrop": [
+            "ALL"
+          ],
+          "CgroupnsMode": "private",
+          "Dns": null,
+          "DnsOptions": [],
+          "DnsSearch": [],
+          "ExtraHosts": null,
+          "GroupAdd": null,
+          "IpcMode": "private",
+          "Cgroup": "",
+          "Links": null,
+          "OomScoreAdj": 0,
+          "PidMode": "",
+          "Privileged": false,
+          "PublishAllPorts": false,
+          "ReadonlyRootfs": true,
+          "SecurityOpt": [
+            "no-new-privileges"
+          ],
+          "Tmpfs": {
+            "/tmp": "rw,nosuid,nodev,exec,size=536870912"
+          },
+          "UTSMode": "",
+          "UsernsMode": "",
+          "ShmSize": 67108864,
+          "Runtime": "runc",
+          "Isolation": "",
+          "CpuShares": 0,
+          "Memory": 0,
+          "NanoCpus": 0,
+          "CgroupParent": "",
+          "BlkioWeight": 0,
+          "BlkioWeightDevice": [],
+          "BlkioDeviceReadBps": [],
+          "BlkioDeviceWriteBps": [],
+          "BlkioDeviceReadIOps": [],
+          "BlkioDeviceWriteIOps": [],
+          "CpuPeriod": 0,
+          "CpuQuota": 0,
+          "CpuRealtimePeriod": 0,
+          "CpuRealtimeRuntime": 0,
+          "CpusetCpus": "",
+          "CpusetMems": "",
+          "Devices": [],
+          "DeviceCgroupRules": null,
+          "DeviceRequests": null,
+          "MemoryReservation": 0,
+          "MemorySwap": 0,
+          "MemorySwappiness": null,
+          "OomKillDisable": null,
+          "PidsLimit": null,
+          "Ulimits": [],
+          "CpuCount": 0,
+          "CpuPercent": 0,
+          "IOMaximumIOps": 0,
+          "IOMaximumBandwidth": 0,
+          "Mounts": [
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\inventory\\player-input",
+              "Target": "/bundle",
+              "ReadOnly": true
+            },
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-final\\lost-commit",
+              "Target": "/evidence"
+            },
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-faults-final\\lost-commit\\inventory-proof.pck",
+              "Target": "/bundle/proof/inventory-proof.pck",
+              "ReadOnly": true
+            },
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-faults-final\\lost-commit\\inputs.json",
+              "Target": "/bundle/inputs.json",
+              "ReadOnly": true
+            }
+          ],
+          "MaskedPaths": [
+            "/proc/acpi",
+            "/proc/asound",
+            "/proc/interrupts",
+            "/proc/kcore",
+            "/proc/keys",
+            "/proc/latency_stats",
+            "/proc/sched_debug",
+            "/proc/scsi",
+            "/proc/timer_list",
+            "/proc/timer_stats",
+            "/sys/devices/virtual/powercap",
+            "/sys/firmware"
+          ],
+          "ReadonlyPaths": [
+            "/proc/bus",
+            "/proc/fs",
+            "/proc/irq",
+            "/proc/sys",
+            "/proc/sysrq-trigger"
+          ]
+        },
+        "GraphDriver": {
+          "Data": null,
+          "Name": ""
+        },
+        "Mounts": [
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\inventory\\player-input",
+            "Destination": "/bundle",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-final\\lost-commit",
+            "Destination": "/evidence",
+            "Mode": "",
+            "RW": true,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-faults-final\\lost-commit\\inventory-proof.pck",
+            "Destination": "/bundle/proof/inventory-proof.pck",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-faults-final\\lost-commit\\inputs.json",
+            "Destination": "/bundle/inputs.json",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          }
+        ],
+        "Config": {
+          "Hostname": "b899b9c6d0c7",
+          "Domainname": "",
+          "User": "1000:1000",
+          "AttachStdin": false,
+          "AttachStdout": true,
+          "AttachStderr": true,
+          "Tty": false,
+          "OpenStdin": false,
+          "StdinOnce": false,
+          "Env": [
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+          ],
+          "Cmd": [
+            "-I",
+            "/bundle/test-inventory-platform.py",
+            "/bundle",
+            "/evidence"
+          ],
+          "Image": "registry.gitlab.steamos.cloud/steamrt/steamrt4/platform@sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+          "Volumes": null,
+          "WorkingDir": "",
+          "Entrypoint": [
+            "/usr/bin/python3"
+          ],
+          "OnBuild": null,
+          "Labels": {
+            "com.github.containers.toolbox": "true",
+            "com.github.debarshiray.toolbox": "true",
+            "os_release.bug_report_url": "https://github.com/ValveSoftware/steam-runtime/issues",
+            "os_release.build_id": "4.0.20261021.265997",
+            "os_release.debian_version_full": "13.7",
+            "os_release.home_url": "https://store.steampowered.com/",
+            "os_release.id": "steamrt",
+            "os_release.id_like": "debian",
+            "os_release.name": "Steam Runtime",
+            "os_release.pretty_name": "Steam Runtime 4",
+            "os_release.support_url": "https://help.steampowered.com/",
+            "os_release.variant": "Platform",
+            "os_release.variant_id": "com.valvesoftware.steamruntime.platform-amd64_i386-steamrt4",
+            "os_release.version": "4",
+            "os_release.version_codename": "steamrt4",
+            "os_release.version_id": "4"
+          },
+          "StopTimeout": 1
+        },
+        "NetworkSettings": {
+          "Bridge": "",
+          "SandboxID": "",
+          "SandboxKey": "",
+          "Ports": {},
+          "HairpinMode": false,
+          "LinkLocalIPv6Address": "",
+          "LinkLocalIPv6PrefixLen": 0,
+          "SecondaryIPAddresses": null,
+          "SecondaryIPv6Addresses": null,
+          "EndpointID": "",
+          "Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "IPAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "MacAddress": "",
+          "Networks": {
+            "none": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "MacAddress": "",
+              "DriverOpts": null,
+              "GwPriority": 0,
+              "NetworkID": "77380a045b2870d4a3c7ca8448aef693fafc0aa5b4b74860cfb5b6f61999d92f",
+              "EndpointID": "",
+              "Gateway": "",
+              "IPAddress": "",
+              "IPPrefixLen": 0,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "DNSNames": null
+            }
+          }
+        },
+        "ImageManifestDescriptor": {
+          "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+          "digest": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+          "size": 590,
+          "platform": {
+            "architecture": "amd64",
+            "os": "linux"
+          }
+        }
+      }
+    },
+    {
+      "name": "premature-commit",
+      "configuration": {
+        "Id": "4c7c6369a5e4cff90162e6c05cc5265ab72cdca48fb85727575c7d35b2359b68",
+        "Created": "2026-11-07T18:59:18.325703248Z",
+        "Path": "/usr/bin/python3",
+        "Args": [
+          "-I",
+          "/bundle/test-inventory-platform.py",
+          "/bundle",
+          "/evidence"
+        ],
+        "State": {
+          "Status": "created",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "0001-01-01T00:00:00Z",
+          "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+        "ResolvConfPath": "",
+        "HostnamePath": "",
+        "HostsPath": "",
+        "LogPath": "",
+        "Name": "/quizzical_lamarr",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+          "Binds": null,
+          "ContainerIDFile": "",
+          "LogConfig": {
+            "Type": "json-file",
+            "Config": {}
+          },
+          "NetworkMode": "none",
+          "PortBindings": {},
+          "RestartPolicy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "AutoRemove": false,
+          "VolumeDriver": "",
+          "VolumesFrom": null,
+          "ConsoleSize": [
+            0,
+            0
+          ],
+          "CapAdd": null,
+          "CapDrop": [
+            "ALL"
+          ],
+          "CgroupnsMode": "private",
+          "Dns": null,
+          "DnsOptions": [],
+          "DnsSearch": [],
+          "ExtraHosts": null,
+          "GroupAdd": null,
+          "IpcMode": "private",
+          "Cgroup": "",
+          "Links": null,
+          "OomScoreAdj": 0,
+          "PidMode": "",
+          "Privileged": false,
+          "PublishAllPorts": false,
+          "ReadonlyRootfs": true,
+          "SecurityOpt": [
+            "no-new-privileges"
+          ],
+          "Tmpfs": {
+            "/tmp": "rw,nosuid,nodev,exec,size=536870912"
+          },
+          "UTSMode": "",
+          "UsernsMode": "",
+          "ShmSize": 67108864,
+          "Runtime": "runc",
+          "Isolation": "",
+          "CpuShares": 0,
+          "Memory": 0,
+          "NanoCpus": 0,
+          "CgroupParent": "",
+          "BlkioWeight": 0,
+          "BlkioWeightDevice": [],
+          "BlkioDeviceReadBps": [],
+          "BlkioDeviceWriteBps": [],
+          "BlkioDeviceReadIOps": [],
+          "BlkioDeviceWriteIOps": [],
+          "CpuPeriod": 0,
+          "CpuQuota": 0,
+          "CpuRealtimePeriod": 0,
+          "CpuRealtimeRuntime": 0,
+          "CpusetCpus": "",
+          "CpusetMems": "",
+          "Devices": [],
+          "DeviceCgroupRules": null,
+          "DeviceRequests": null,
+          "MemoryReservation": 0,
+          "MemorySwap": 0,
+          "MemorySwappiness": null,
+          "OomKillDisable": false,
+          "PidsLimit": null,
+          "Ulimits": [],
+          "CpuCount": 0,
+          "CpuPercent": 0,
+          "IOMaximumIOps": 0,
+          "IOMaximumBandwidth": 0,
+          "Mounts": [
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\inventory\\player-input",
+              "Target": "/bundle",
+              "ReadOnly": true
+            },
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-final\\premature-commit",
+              "Target": "/evidence"
+            },
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-faults-final\\premature-commit\\inventory-proof.pck",
+              "Target": "/bundle/proof/inventory-proof.pck",
+              "ReadOnly": true
+            },
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-faults-final\\premature-commit\\inputs.json",
+              "Target": "/bundle/inputs.json",
+              "ReadOnly": true
+            }
+          ],
+          "MaskedPaths": [
+            "/proc/acpi",
+            "/proc/asound",
+            "/proc/interrupts",
+            "/proc/kcore",
+            "/proc/keys",
+            "/proc/latency_stats",
+            "/proc/sched_debug",
+            "/proc/scsi",
+            "/proc/timer_list",
+            "/proc/timer_stats",
+            "/sys/devices/virtual/powercap",
+            "/sys/firmware"
+          ],
+          "ReadonlyPaths": [
+            "/proc/bus",
+            "/proc/fs",
+            "/proc/irq",
+            "/proc/sys",
+            "/proc/sysrq-trigger"
+          ]
+        },
+        "GraphDriver": {
+          "Data": null,
+          "Name": ""
+        },
+        "Mounts": [
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\inventory\\player-input",
+            "Destination": "/bundle",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-final\\premature-commit",
+            "Destination": "/evidence",
+            "Mode": "",
+            "RW": true,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-faults-final\\premature-commit\\inventory-proof.pck",
+            "Destination": "/bundle/proof/inventory-proof.pck",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-faults-final\\premature-commit\\inputs.json",
+            "Destination": "/bundle/inputs.json",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          }
+        ],
+        "Config": {
+          "Hostname": "4c7c6369a5e4",
+          "Domainname": "",
+          "User": "1000:1000",
+          "AttachStdin": false,
+          "AttachStdout": true,
+          "AttachStderr": true,
+          "Tty": false,
+          "OpenStdin": false,
+          "StdinOnce": false,
+          "Env": [
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+          ],
+          "Cmd": [
+            "-I",
+            "/bundle/test-inventory-platform.py",
+            "/bundle",
+            "/evidence"
+          ],
+          "Image": "registry.gitlab.steamos.cloud/steamrt/steamrt4/platform@sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+          "Volumes": null,
+          "WorkingDir": "",
+          "Entrypoint": [
+            "/usr/bin/python3"
+          ],
+          "OnBuild": null,
+          "Labels": {
+            "com.github.containers.toolbox": "true",
+            "com.github.debarshiray.toolbox": "true",
+            "os_release.bug_report_url": "https://github.com/ValveSoftware/steam-runtime/issues",
+            "os_release.build_id": "4.0.20261021.265997",
+            "os_release.debian_version_full": "13.7",
+            "os_release.home_url": "https://store.steampowered.com/",
+            "os_release.id": "steamrt",
+            "os_release.id_like": "debian",
+            "os_release.name": "Steam Runtime",
+            "os_release.pretty_name": "Steam Runtime 4",
+            "os_release.support_url": "https://help.steampowered.com/",
+            "os_release.variant": "Platform",
+            "os_release.variant_id": "com.valvesoftware.steamruntime.platform-amd64_i386-steamrt4",
+            "os_release.version": "4",
+            "os_release.version_codename": "steamrt4",
+            "os_release.version_id": "4"
+          },
+          "StopTimeout": 1
+        },
+        "NetworkSettings": {
+          "Bridge": "",
+          "SandboxID": "",
+          "SandboxKey": "",
+          "Ports": {},
+          "HairpinMode": false,
+          "LinkLocalIPv6Address": "",
+          "LinkLocalIPv6PrefixLen": 0,
+          "SecondaryIPAddresses": null,
+          "SecondaryIPv6Addresses": null,
+          "EndpointID": "",
+          "Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "IPAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "MacAddress": "",
+          "Networks": {
+            "none": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "MacAddress": "",
+              "DriverOpts": null,
+              "GwPriority": 0,
+              "NetworkID": "",
+              "EndpointID": "",
+              "Gateway": "",
+              "IPAddress": "",
+              "IPPrefixLen": 0,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "DNSNames": null
+            }
+          }
+        },
+        "ImageManifestDescriptor": {
+          "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+          "digest": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+          "size": 590,
+          "platform": {
+            "architecture": "amd64",
+            "os": "linux"
+          }
+        }
+      },
+      "state": {
+        "Id": "4c7c6369a5e4cff90162e6c05cc5265ab72cdca48fb85727575c7d35b2359b68",
+        "Created": "2026-11-07T18:59:18.325703248Z",
+        "Path": "/usr/bin/python3",
+        "Args": [
+          "-I",
+          "/bundle/test-inventory-platform.py",
+          "/bundle",
+          "/evidence"
+        ],
+        "State": {
+          "Status": "exited",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 1,
+          "Error": "",
+          "StartedAt": "2026-11-07T18:59:18.542015207Z",
+          "FinishedAt": "2026-11-07T18:59:32.558251089Z"
+        },
+        "Image": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+        "ResolvConfPath": "/var/lib/docker/containers/4c7c6369a5e4cff90162e6c05cc5265ab72cdca48fb85727575c7d35b2359b68/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/4c7c6369a5e4cff90162e6c05cc5265ab72cdca48fb85727575c7d35b2359b68/hostname",
+        "HostsPath": "/var/lib/docker/containers/4c7c6369a5e4cff90162e6c05cc5265ab72cdca48fb85727575c7d35b2359b68/hosts",
+        "LogPath": "/var/lib/docker/containers/4c7c6369a5e4cff90162e6c05cc5265ab72cdca48fb85727575c7d35b2359b68/4c7c6369a5e4cff90162e6c05cc5265ab72cdca48fb85727575c7d35b2359b68-json.log",
+        "Name": "/quizzical_lamarr",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+          "Binds": null,
+          "ContainerIDFile": "",
+          "LogConfig": {
+            "Type": "json-file",
+            "Config": {}
+          },
+          "NetworkMode": "none",
+          "PortBindings": {},
+          "RestartPolicy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "AutoRemove": false,
+          "VolumeDriver": "",
+          "VolumesFrom": null,
+          "ConsoleSize": [
+            0,
+            0
+          ],
+          "CapAdd": null,
+          "CapDrop": [
+            "ALL"
+          ],
+          "CgroupnsMode": "private",
+          "Dns": null,
+          "DnsOptions": [],
+          "DnsSearch": [],
+          "ExtraHosts": null,
+          "GroupAdd": null,
+          "IpcMode": "private",
+          "Cgroup": "",
+          "Links": null,
+          "OomScoreAdj": 0,
+          "PidMode": "",
+          "Privileged": false,
+          "PublishAllPorts": false,
+          "ReadonlyRootfs": true,
+          "SecurityOpt": [
+            "no-new-privileges"
+          ],
+          "Tmpfs": {
+            "/tmp": "rw,nosuid,nodev,exec,size=536870912"
+          },
+          "UTSMode": "",
+          "UsernsMode": "",
+          "ShmSize": 67108864,
+          "Runtime": "runc",
+          "Isolation": "",
+          "CpuShares": 0,
+          "Memory": 0,
+          "NanoCpus": 0,
+          "CgroupParent": "",
+          "BlkioWeight": 0,
+          "BlkioWeightDevice": [],
+          "BlkioDeviceReadBps": [],
+          "BlkioDeviceWriteBps": [],
+          "BlkioDeviceReadIOps": [],
+          "BlkioDeviceWriteIOps": [],
+          "CpuPeriod": 0,
+          "CpuQuota": 0,
+          "CpuRealtimePeriod": 0,
+          "CpuRealtimeRuntime": 0,
+          "CpusetCpus": "",
+          "CpusetMems": "",
+          "Devices": [],
+          "DeviceCgroupRules": null,
+          "DeviceRequests": null,
+          "MemoryReservation": 0,
+          "MemorySwap": 0,
+          "MemorySwappiness": null,
+          "OomKillDisable": null,
+          "PidsLimit": null,
+          "Ulimits": [],
+          "CpuCount": 0,
+          "CpuPercent": 0,
+          "IOMaximumIOps": 0,
+          "IOMaximumBandwidth": 0,
+          "Mounts": [
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\inventory\\player-input",
+              "Target": "/bundle",
+              "ReadOnly": true
+            },
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-final\\premature-commit",
+              "Target": "/evidence"
+            },
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-faults-final\\premature-commit\\inventory-proof.pck",
+              "Target": "/bundle/proof/inventory-proof.pck",
+              "ReadOnly": true
+            },
+            {
+              "Type": "bind",
+              "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-faults-final\\premature-commit\\inputs.json",
+              "Target": "/bundle/inputs.json",
+              "ReadOnly": true
+            }
+          ],
+          "MaskedPaths": [
+            "/proc/acpi",
+            "/proc/asound",
+            "/proc/interrupts",
+            "/proc/kcore",
+            "/proc/keys",
+            "/proc/latency_stats",
+            "/proc/sched_debug",
+            "/proc/scsi",
+            "/proc/timer_list",
+            "/proc/timer_stats",
+            "/sys/devices/virtual/powercap",
+            "/sys/firmware"
+          ],
+          "ReadonlyPaths": [
+            "/proc/bus",
+            "/proc/fs",
+            "/proc/irq",
+            "/proc/sys",
+            "/proc/sysrq-trigger"
+          ]
+        },
+        "GraphDriver": {
+          "Data": null,
+          "Name": ""
+        },
+        "Mounts": [
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\inventory\\player-input",
+            "Destination": "/bundle",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-final\\premature-commit",
+            "Destination": "/evidence",
+            "Mode": "",
+            "RW": true,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-faults-final\\premature-commit\\inventory-proof.pck",
+            "Destination": "/bundle/proof/inventory-proof.pck",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\linux-fresh-session\\platform-faults-final\\premature-commit\\inputs.json",
+            "Destination": "/bundle/inputs.json",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          }
+        ],
+        "Config": {
+          "Hostname": "4c7c6369a5e4",
+          "Domainname": "",
+          "User": "1000:1000",
+          "AttachStdin": false,
+          "AttachStdout": true,
+          "AttachStderr": true,
+          "Tty": false,
+          "OpenStdin": false,
+          "StdinOnce": false,
+          "Env": [
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+          ],
+          "Cmd": [
+            "-I",
+            "/bundle/test-inventory-platform.py",
+            "/bundle",
+            "/evidence"
+          ],
+          "Image": "registry.gitlab.steamos.cloud/steamrt/steamrt4/platform@sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+          "Volumes": null,
+          "WorkingDir": "",
+          "Entrypoint": [
+            "/usr/bin/python3"
+          ],
+          "OnBuild": null,
+          "Labels": {
+            "com.github.containers.toolbox": "true",
+            "com.github.debarshiray.toolbox": "true",
+            "os_release.bug_report_url": "https://github.com/ValveSoftware/steam-runtime/issues",
+            "os_release.build_id": "4.0.20261021.265997",
+            "os_release.debian_version_full": "13.7",
+            "os_release.home_url": "https://store.steampowered.com/",
+            "os_release.id": "steamrt",
+            "os_release.id_like": "debian",
+            "os_release.name": "Steam Runtime",
+            "os_release.pretty_name": "Steam Runtime 4",
+            "os_release.support_url": "https://help.steampowered.com/",
+            "os_release.variant": "Platform",
+            "os_release.variant_id": "com.valvesoftware.steamruntime.platform-amd64_i386-steamrt4",
+            "os_release.version": "4",
+            "os_release.version_codename": "steamrt4",
+            "os_release.version_id": "4"
+          },
+          "StopTimeout": 1
+        },
+        "NetworkSettings": {
+          "Bridge": "",
+          "SandboxID": "",
+          "SandboxKey": "",
+          "Ports": {},
+          "HairpinMode": false,
+          "LinkLocalIPv6Address": "",
+          "LinkLocalIPv6PrefixLen": 0,
+          "SecondaryIPAddresses": null,
+          "SecondaryIPv6Addresses": null,
+          "EndpointID": "",
+          "Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "IPAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "MacAddress": "",
+          "Networks": {
+            "none": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "MacAddress": "",
+              "DriverOpts": null,
+              "GwPriority": 0,
+              "NetworkID": "77380a045b2870d4a3c7ca8448aef693fafc0aa5b4b74860cfb5b6f61999d92f",
+              "EndpointID": "",
+              "Gateway": "",
+              "IPAddress": "",
+              "IPPrefixLen": 0,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "DNSNames": null
+            }
+          }
+        },
+        "ImageManifestDescriptor": {
+          "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+          "digest": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+          "size": 590,
+          "platform": {
+            "architecture": "amd64",
+            "os": "linux"
+          }
+        }
+      }
+    }
+  ],
+  "sources": {
+    "scripts/replay-inventory-platform.mjs": "a701533876f277108c98e80238aa1650244ce05c547cce627b9faf9a957d318f",
+    "scripts/test-inventory-platform.py": "450fb5c6fda9dafa1fefff5e94a2bc86bb50f6a8fdc163d35495e6492c99fb55",
+    "scripts/inventory-platform-proof.mjs": "81fd9141c74ec8c233c30fcfb7eb4cef31acda9e927e4d8071067235ff7208bb",
+    "scripts/test-inventory-platform-proof.mjs": "200fb30b09784135060b8e42c602f8fcace108800062dae917aa5a076416e77b"
+  },
+  "image": {
+    "id": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+    "reference": "registry.gitlab.steamos.cloud/steamrt/steamrt4/platform@sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+    "manifest": "sha256:954d06cebd63ba94a3fe1a7cca322fa3d59eac2fa59eb66cd17512733e641dd3",
+    "config": "sha256:b740749db0ecbfb6614d5ba84390dedc5802b83635e14e41c8e46d90431b84a8",
+    "layers": [
+      "sha256:bdd7420ccc360f3e2432e41b64c8713eaed90f8f32ce8ce5bb20dc3bf54d28c8",
+      "sha256:38ab83551d09d795cc3d3ffa9ea98bbadd4302d7565bd47027cba328c42c7461"
+    ]
+  },
+  "sourcePreserved": true,
+  "cleanup": [
+    {
+      "id": "4c7c6369a5e4cff90162e6c05cc5265ab72cdca48fb85727575c7d35b2359b68",
+      "removed": true
+    },
+    {
+      "id": "b899b9c6d0c74d62bad5174a5fbe40f46de41a347f02e34534cbe7dca1d291f3",
+      "removed": true
+    },
+    {
+      "id": "4a89e8971288f9eb78b9d3c80a8f1768e326eacc11ab670161392e69e202f3cf",
+      "removed": true
+    }
+  ]
+}

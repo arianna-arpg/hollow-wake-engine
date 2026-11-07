@@ -27,8 +27,15 @@ assert.equal(sdk.archive,'hollow-wake-godot-crafting-progression-linux-x64.zip')
 assert.equal(hash(path.join(bundle,sdk.archive)),sdk.archiveSha256);
 assert.equal(desktop.package.archiveSha256,sdk.archiveSha256);
 assert.equal(desktop.capBytesPerHost,32*1024*1024);
-const windows = read(path.join(root,'evidence/godot-crafting/windows.json'));
+const windowsFile = path.join(root,'evidence/fresh-godot-package/native-windows.json');
+const windowsAcceptance = read(path.join(root,'evidence/fresh-godot-package/acceptance.json'));
+assert(windowsAcceptance.passed);
+assert.equal(hash(windowsFile),windowsAcceptance.evidence['native-windows.json']);
+const windows = read(windowsFile);
 assert(windows.passed && windows.platform==='win32' && windows.arch==='x64');
+const legacyWindows = read(path.join(root,'evidence/godot-crafting/windows.json'));
+assert.equal(windows.observations.uncompressedSha256,legacyWindows.observations.uncompressedSha256,
+  'Fresh capabilities must preserve the original 56-command replies');
 const original = read(path.join(root,'evidence/content-tables/windows.json'));
 const raw = fs.readFileSync(path.join(root,original.raw.file));
 assert.equal(sha256(raw),original.raw.sha256);
@@ -45,7 +52,8 @@ assert(uid>0,'Run as a regular user');
 const user = uid+':'+gid;
 const report = {schemaVersion:1,passed:false,archive:sdk.archive,archiveSha256:sdk.archiveSha256,
   buildId:pin.buildId,image:pin.configDigest,manifest:pin.manifestDigest,sdkProofSha256:hash(path.join(bundle,'sdk.json')),
-  courseSha256:desktop.fixture.sha256,peaksMeasure:'tracked native allocations per host',replays:{}};
+  courseSha256:desktop.fixture.sha256,windowsProofSha256:hash(windowsFile),
+  peaksMeasure:'tracked native allocations per host',replays:{}};
 
 function docker(args) {
   return execFileSync('docker',args,{encoding:'utf8',windowsHide:true,timeout:240000,maxBuffer:8*1024*1024}).trim();

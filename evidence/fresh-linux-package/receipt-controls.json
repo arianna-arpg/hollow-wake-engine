@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "verificationSha256": "7d531fee5213b424dce3105525001c82bd21d7361909791b899c3e9f595da8c8",
+  "runs": [
+    {
+      "name": "unobserved-barrier",
+      "status": 1,
+      "assertion": "crash barrier verified",
+      "output": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: crash barrier verified\n    at file:///workspace/scripts/record-inventory-workshop.mjs:23:3\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:689:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.9.0\n",
+      "sha256": "bd8b89e50d04bfe1ac319e4d48b4c8fbd4084b853e05e59ed7e545fd652ec853"
+    },
+    {
+      "name": "lost-committed-inventory",
+      "status": 1,
+      "assertion": "exact recovered checkpoint",
+      "output": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: exact recovered checkpoint\n+ actual - expected\n\n  {\n    gameEqualsDatabase: true,\n    revision: 2,\n+   sourceSha256: '3399c6ba80c78c3ad76b58a003fb5ede7225f37f6ae157c700a00769ca815f97',\n-   sourceSha256: '4f9f3a716429c0c76fdf9f6ae5e8fb6dfa422f5abbaf4a09557e659ae6b151c6',\n    stashSha256: '32caa467dd9fd33afa8e603ff04a5e609c80f51314dd4edac62c34fd2e4b0b64'\n  }\n\n    at file:///workspace/scripts/record-inventory-workshop.mjs:26:10\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:689:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: {\n    revision: 2,\n    sourceSha256: '3399c6ba80c78c3ad76b58a003fb5ede7225f37f6ae157c700a00769ca815f97',\n    stashSha256: '32caa467dd9fd33afa8e603ff04a5e609c80f51314dd4edac62c34fd2e4b0b64',\n    gameEqualsDatabase: true\n  },\n  expected: {\n    revision: 2,\n    sourceSha256: '4f9f3a716429c0c76fdf9f6ae5e8fb6dfa422f5abbaf4a09557e659ae6b151c6',\n    stashSha256: '32caa467dd9fd33afa8e603ff04a5e609c80f51314dd4edac62c34fd2e4b0b64',\n    gameEqualsDatabase: true\n  },\n  operator: 'deepStrictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.9.0\n",
+      "sha256": "063f9f48020db583d5b48bb620c8edef45f151aa690ef848985e07df1ffd81e1"
+    },
+    {
+      "name": "partial-uncommitted-transfer",
+      "status": 1,
+      "assertion": "exact recovered checkpoint",
+      "output": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: exact recovered checkpoint\n+ actual - expected\n\n  {\n    gameEqualsDatabase: true,\n    revision: 1,\n    sourceSha256: '3399c6ba80c78c3ad76b58a003fb5ede7225f37f6ae157c700a00769ca815f97',\n+   stashSha256: '32caa467dd9fd33afa8e603ff04a5e609c80f51314dd4edac62c34fd2e4b0b64'\n-   stashSha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'\n  }\n\n    at file:///workspace/scripts/record-inventory-workshop.mjs:26:10\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:689:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: {\n    revision: 1,\n    sourceSha256: '3399c6ba80c78c3ad76b58a003fb5ede7225f37f6ae157c700a00769ca815f97',\n    stashSha256: '32caa467dd9fd33afa8e603ff04a5e609c80f51314dd4edac62c34fd2e4b0b64',\n    gameEqualsDatabase: true\n  },\n  expected: {\n    revision: 1,\n    sourceSha256: '3399c6ba80c78c3ad76b58a003fb5ede7225f37f6ae157c700a00769ca815f97',\n    stashSha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945',\n    gameEqualsDatabase: true\n  },\n  operator: 'deepStrictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.9.0\n",
+      "sha256": "46c15723c84f696fd12e2be9f96ec39ed92044e4919ca6cde55bdef775edcbe8"
+    },
+    {
+      "name": "missing-workshop-courses",
+      "status": 1,
+      "assertion": "v.workshop?.coldImport.cacheInitiallyAbsent",
+      "output": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(v.workshop?.coldImport.cacheInitiallyAbsent)\n\n    at file:///workspace/scripts/record-inventory-workshop.mjs:35:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:689:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: undefined,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.9.0\n",
+      "sha256": "724cdaf51017d009d5e185ed5bb6812ad15d0c24e1f217b80a61b0965eb731f5"
+    }
+  ],
+  "sourcePreserved": true
+}

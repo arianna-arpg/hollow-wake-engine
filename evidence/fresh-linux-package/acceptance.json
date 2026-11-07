@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "baseCommit": "b520b618c874a37b6f53c82fd4503997a5a8801f",
+  "platform": "linux",
+  "arch": "x64",
+  "scope": "Fresh SDK/inventory builds and runtime-only courses in Docker Desktop; cached verified native base; no physical-device or hosted-CI claim.",
+  "sources": {
+    "scripts/test-inventory-platform.py": "450fb5c6fda9dafa1fefff5e94a2bc86bb50f6a8fdc163d35495e6492c99fb55",
+    "test/godot-inventory/driver.gd": "b5c4a1feb306722858afdfa1774b5e60283089a74e24b251cfd41d115d1468dc",
+    "scripts/inventory-platform-proof.mjs": "81fd9141c74ec8c233c30fcfb7eb4cef31acda9e927e4d8071067235ff7208bb",
+    "scripts/test-steamrt-godot.mjs": "1510c1c19bba46e1877455bf594def2a56d9b9614df463591527199b1cb7fe5e",
+    "scripts/build-godot-progression.mjs": "2027f3f61ef9df715ab3384e5710fc979b4a9736c347444ea8a7da0b0b6c7c48",
+    "scripts/test-inventory-platform-proof.mjs": "200fb30b09784135060b8e42c602f8fcace108800062dae917aa5a076416e77b",
+    ".github/workflows/steamrt-godot.yml": "94822f47e04f66ce0b9337be9dc2fa62f0608a4275c5d93325b6e424c5e358ca",
+    "scripts/prepare-inventory-platform-faults.mjs": "3891a8942c214e4e7beba1bf29bd62094479440e496123ba62fd0c42d220cb07",
+    "scripts/replay-inventory-platform.mjs": "a701533876f277108c98e80238aa1650244ce05c547cce627b9faf9a957d318f",
+    "scripts/delivery-staging.mjs": "3ca8c18e89c2c3071edda25516fd40e09947eff43621b300b07e64ff767e12d3",
+    "test/delivery-staging.test.mjs": "185197fda8ea7b3d9d66c801a664f626bf9de3f235cd8bfaf1e4a9874f37187a",
+    "scripts/verify-inventory-workshop.mjs": "6d5f2b683a41137cabce5a7af6a09e1aa719b5b67b893213d6283c2a8256dd10",
+    "docs/inventory-workshop.md": "e00d64f90d09c81f785c2599fb1cb130b43bfc3bd0e19d320c8e760ceb07153d",
+    "scripts/replay-steamrt-sessions.mjs": "ccea6b97142474b29b8be145bf850926a3b818e4263ccc78df2526603f45bad6",
+    "docs/steam-runtime.md": "8ec8f31f02118c5f0e5d2475f30fdbeab842732609c5c2f1e5de5f8124d3dd0e",
+    "docs/verification.md": "5382e7ffb495fb0dd3b1991aa7ce1ce2fb0f7cee8533876d913f6a7d6404429d"
+  },
+  "nativeInputs": {
+    "experiments/godot-native/CMakeLists.txt": "59769879804a1cc8b078922a72ceb69caef27a2006f63883209b2a78289b1111",
+    "experiments/godot-native/build-profile.json": "d91e96bc849d2f33e1ea0bff1ae7ec49bf0aac6d8e026c17ff5e340ebc352142",
+    "experiments/godot-native/hollow_wake.gdextension": "7eec349e666560c3edfad41d02d791c55aca6a0a935b7da4352d318d3aff3568",
+    "experiments/godot-native/host.cpp": "88a375910fe50ec78499cd2d28e558c07e5bffafd330ce6b994764076df4540b",
+    "experiments/godot-native/notices/godot-cpp-LICENSE.md": "26a5b210d90760156ce886267ce9df235787dcc6cebfd7ecd95ef5b6fdcc95bf",
+    "experiments/godot-native/toolchain-lock.json": "3cfa573fe44bc8a7691d111378a0cf1951f64d0a7c704827538870c5d4ee871f",
+    "LICENSE.md": "5b944b285c70cb59ab4803c682bb7d8b36652131bbb504f0f2bea5089e941c71",
+    "experiments/embedded-js/native/hwe_embedded.h": "29fb4f208074cd4d6407482900479322cbd21d1e722851cf5617b732aac72978",
+    "experiments/embedded-js/tracked-allocator.h": "5c8e5cbf6412a3b9edf93826e190524221dc0cecc77f903690352f2a8c01ac0f",
+    "experiments/embedded-js/host-source-lock.json": "f920648cfa2b7b8ca35597106d94d3a990360f0b8441c9039a72e74706da6ffa",
+    "experiments/embedded-js/native/hwe_embedded.c": "382b4c0a404b7219feeb35742aaff0b2136c8df65c1cf93e634a9ee9e33f155a"
+  },
+  "evidence": {
+    "native-linux.json": "87d83b9dc236be82080fa36ee329884eff76600845d6618c56d536dd7da5b962",
+    "linux-observations.jsonl.gz": "6d93b14e6e39f633ad72a2d388dd006b6476434b673b2d4cbdef8bdcb8b8274c",
+    "sdk-sessions.json": "89bab564702040c2631c655e6240e0d8e807e5c9e0de6be7ca3a224ce04a4c82",
+    "session-platform.json": "2df797019648bc9144aa17a7d9db9606be9dded8276ef420577e00b75d118a95",
+    "inventory-linux.json": "bea39523d61ccfbd269a3077e255e55cd1024a5c992e3b4eac5270c60b6a764d",
+    "inventory-build.json": "7e36dd485a960c2cf76431d9dc81cb2c518d8ad7ad1a5a43b7501aa6620e1532",
+    "inventory-replay.json": "7d531fee5213b424dce3105525001c82bd21d7361909791b899c3e9f595da8c8",
+    "crafting-build.json": "cdaff5917fb34f7b06da6929e7993c96eaead47a4cbcefdda213f5c3af58a551",
+    "progression-build.json": "8509c02e2c3767923ccd47842781391e1bcc2e143b27633304773fd14b2e3288",
+    "save-build.json": "a9b8f772953a2db48befb0ad3fe071ed7d47c0e0b6af8980284f450c685ca1fc",
+    "base-input.json": "dd3805207b827401e9eebf998ba2920ba22d3889519020b2be5e3d6f215deb83",
+    "library-input.json": "8d58fb940b99f7ac0996cd8f5b367cac964d369fdb9fb9b82b740a9bcee6771d",
+    "receipt-controls.json": "cb18f53b48b6e72fcad18f614ae70231ff4ff08aac08c6be558e5d0d86ff5943",
+    "workflow-controls.json": "e9e9d28b7723f7edc2f9684490d64049072e1e5241c740f07f26ec925b067831",
+    "station-controls.json": "28329411732fc3cccd78b49a965785e70d3b2fd087e462d5e8f262ef7ad67695",
+    "platform.json": "a3211178ebcc80b277e82bbe8c95983619eaa7ba14e48e17db979fb6fa1adeb1",
+    "platform-verification.json": "e03a9db5da91a8ab5d95d178b1c99729f7403cab758852a2b3a11b944f4972b4",
+    "platform-proof-controls.json": "affa88685c2ac46c8206679678a9f3532d4acc7e9141ba39705c4d4a0d2909b4",
+    "platform-fault-packs.json": "b02c9d6674a2c87de9496e834927baa5f48ee7693ed4834a3a1049c31152d610",
+    "logs.json.gz": "f8103988b4dedd0043922eb9a33ce04bb486ce79b713389be77aca72b89b22b9",
+    "README.md": "9c24807e753d0ffc9dd7355d9bc23455bbb0b2b22c0ae12929b9e33a33ecc9e5",
+    "disk-cleanup.json": "9655c5838862ee442215d327d4c0b4820aaf3130b3c598607a3ef6b42d8fe555"
+  },
+  "delivery": {
+    "directory": ".artifacts/downloads/0.59.0-candidate.0/fresh-linux",
+    "files": {
+      "hollow-wake-godot-crafting-progression-linux-x64.zip": {
+        "sha256": "231d3714e00f1186023ac1a86c3a51cc7f96e3dceb319d4cbecc076260d215cc",
+        "bytes": 2904957
+      },
+      "hollow-wake-engine-0.59.0-candidate.0.tgz": {
+        "sha256": "93319bc26e23048fffceb5f8b9bf2cc9b0e20b61f7e67157f6533308698212b3",
+        "bytes": 988962
+      },
+      "hollow-wake-inventory-project-linux-x64.zip": {
+        "sha256": "b9ed07e652a61bd560835b05496d0e3f96ce9a7c22a4283cedd2897c35c81f3b",
+        "bytes": 3967479
+      },
+      "hollow-wake-inventory-linux-x64.zip": {
+        "sha256": "50ff38849a16ec3ed67afef61872eda291a9aa2c4ed99b9fb43e4179ac4ad2e3",
+        "bytes": 32486118
+      },
+      "hollow-wake-local-save-linux-x64.zip": {
+        "sha256": "f55083f325020b51f3308f9a0694cfc3695fe543a088f36eb848f717386906d5",
+        "bytes": 1008933
+      },
+      "native-verification.json": {
+        "sha256": "87d83b9dc236be82080fa36ee329884eff76600845d6618c56d536dd7da5b962",
+        "bytes": 23639
+      },
+      "verification.json": {
+        "sha256": "bea39523d61ccfbd269a3077e255e55cd1024a5c992e3b4eac5270c60b6a764d",
+        "bytes": 15236
+      },
+      "workflow-controls.json": {
+        "sha256": "e9e9d28b7723f7edc2f9684490d64049072e1e5241c740f07f26ec925b067831",
+        "bytes": 7013
+      },
+      "station-controls.json": {
+        "sha256": "28329411732fc3cccd78b49a965785e70d3b2fd087e462d5e8f262ef7ad67695",
+        "bytes": 6182
+      },
+      "receipt-controls.json": {
+        "sha256": "cb18f53b48b6e72fcad18f614ae70231ff4ff08aac08c6be558e5d0d86ff5943",
+        "bytes": 5139
+      },
+      "platform-verification.json": {
+        "sha256": "e03a9db5da91a8ab5d95d178b1c99729f7403cab758852a2b3a11b944f4972b4",
+        "bytes": 60881
+      },
+      "platform.json": {
+        "sha256": "a3211178ebcc80b277e82bbe8c95983619eaa7ba14e48e17db979fb6fa1adeb1",
+        "bytes": 5131
+      },
+      "session-platform.json": {
+        "sha256": "2df797019648bc9144aa17a7d9db9606be9dded8276ef420577e00b75d118a95",
+        "bytes": 8277
+      }
+    }
+  },
+  "checks": {
+    "typecheck": true,
+    "stagingPlatforms": [
+      "win32",
+      "linux"
+    ],
+    "emptyDistBuild": true,
+    "destinationMountHandoff": true,
+    "nativeOriginalCommands": 56,
+    "craftingAssertions": 190,
+    "progressionAssertions": 91,
+    "stationsPerMode": 79,
+    "journalModes": [
+      "wal",
+      "delete"
+    ],
+    "crashBoundariesPerMode": 3,
+    "actualSaveFaults": 2,
+    "receiptFaults": 6,
+    "unchangedSourceBundles": true,
+    "trackedAllocationsReleased": true
+  },
+  "retainedLogs": 603
+}
