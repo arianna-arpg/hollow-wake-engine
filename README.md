@@ -21,6 +21,11 @@ selected combat, pouch and workshop rules in Unity 2021.3 on Windows x64. Import
 configured cast and timed damage, then open the inventory workshop to forge,
 inlay and restore a checkpoint. [Combat verification](evidence/unity-gameplay/README.md)
 
+The development [portable save library](docs/portable-saves.md) extracts the
+Godot SQLite store behind a C interface and an engine-independent C# binding.
+It preserves paired-document commits and bounded background writes. Unity
+durable-save integration and hardware qualification remain separate milestones.
+
 The 0.57 candidate adds [memory pouch recall](docs/pouch-recall.md) to the
 standalone inventory. Choose the source and facet, reveal the gem and reopen
 the same SQLite save with its drop index and discovery receipts.

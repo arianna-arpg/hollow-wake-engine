@@ -1,0 +1,69 @@
+name: Verify portable save library
+on:
+  push:
+    paths:
+      - '.github/workflows/portable-save.yml'
+      - 'native/save/**'
+      - 'adapters/godot/local-save/sqlite-lock.json'
+      - 'scripts/*portable-save.mjs'
+      - 'scripts/test-save-worker.mjs'
+      - 'scripts/native-tools.mjs'
+      - 'scripts/reference-utils.mjs'
+      - 'test/portable-save*'
+      - 'test/portable-save-dotnet/**'
+      - 'test/local-save-worker.cpp'
+      - 'test/save-worker-start-failure.cpp'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  storage:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2025, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.9.0
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 8.0.x
+      - name: Prepare pinned SQLite and installed build tools
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $cmakePath = (Get-Command cmake -ErrorAction Stop).Source
+          $ninjaPath = (Get-Command ninja -ErrorAction Stop).Source
+          $pythonPath = (Get-Command python -ErrorAction Stop).Source
+          node scripts/prepare-portable-save.mjs --cmake $cmakePath --ninja $ninjaPath --python $pythonPath --output .artifacts/save-tools
+          if ($LASTEXITCODE -ne 0) { throw 'Pinned preparation failed' }
+      - name: Build standalone Release delivery
+        run: node scripts/build-portable-save.mjs --tools .artifacts/save-tools/tools.json --sqlite .artifacts/save-tools/sqlite.zip --output .artifacts/save-delivery
+      - name: Verify exact Release binary through C and C#
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $pythonPath = (Get-Content .artifacts/save-tools/tools.json -Raw | ConvertFrom-Json).python
+          node scripts/test-portable-save.mjs --sqlite .artifacts/save-tools/sqlite.zip --python $pythonPath --output .artifacts/save-contracts.json --library .artifacts/save-delivery/build-receipt.json --mutations --managed
+          if ($LASTEXITCODE -ne 0) { throw 'Save contracts or fault controls failed' }
+      - name: Verify sleeping worker and cancellation barriers
+        run: node scripts/test-save-worker.mjs .artifacts/save-worker.json --mutations
+      - name: Retain verified library and its source-bound evidence
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: portable-save-${{ matrix.os }}-x64
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            .artifacts/save-delivery/*
+            .artifacts/save-contracts.json
+            .artifacts/save-worker.json
+            .artifacts/save-tools/preparation.json

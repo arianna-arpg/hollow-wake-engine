@@ -40,7 +40,7 @@ const sourceFiles = ['scripts/test-steamrt-godot.mjs','scripts/build-steamrt-ses
   'scripts/package-godot-inventory.mjs','scripts/test-godot-inventory.mjs','scripts/test-inventory-platform.py',
   'scripts/inventory-platform-proof.mjs','scripts/test-inventory-platform-proof.mjs',
   'scripts/prepare-inventory-platform-faults.mjs','scripts/replay-inventory-platform.mjs',
-  ...['adapters/godot/local-save','examples/godot-inventory','test/godot-inventory'].flatMap(folder=>
+  ...['adapters/godot/local-save','native/save','examples/godot-inventory','test/godot-inventory'].flatMap(folder=>
     listFiles(path.join(root,folder)).map(file=>folder+'/'+file)),
   'docs/steamrt-device-run.md','.github/workflows/steamrt-godot.yml',
   ...listFiles(lockDirectory).map(file => 'experiments/steamrt-godot/' + file)];

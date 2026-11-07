@@ -22,10 +22,33 @@ try {
   const build=execFileSync(compiler,args,{cwd:dir,env,encoding:'utf8',windowsHide:true,timeout:120000});
   const checks=JSON.parse(execFileSync(executable,[],{cwd:dir,env,encoding:'utf8',windowsHide:true,timeout:30000}));
   assert(checks.passed);
+  const header='native/save/include/write-worker.hpp';
+  const original=fs.readFileSync(path.join(root,header),'utf8');
+  const launch='thread = std::thread([this] { run(); });';
+  assert.equal(original.split(launch).length,2,'Thread-launch injection anchor');
+  const instrumented=original.replace(launch,'thread = hwe_test_start([this] { run(); });');
+  const failureSource=path.join(dir,'save-worker-start-failure.cpp'),failureHeader=path.join(dir,'write-worker-under-test.hpp');
+  fs.copyFileSync(path.join(root,'test/save-worker-start-failure.cpp'),failureSource);
+  fs.writeFileSync(failureHeader,instrumented);
+  const runFailure=()=>{
+    execFileSync(compiler,args.map(a=>a===source?failureSource:a),{cwd:dir,env,encoding:'utf8',windowsHide:true,timeout:120000});
+    return execFileSync(executable,[],{cwd:dir,env,encoding:'utf8',windowsHide:true,timeout:30000,stdio:'pipe'});
+  };
+  const startRecovery=JSON.parse(runFailure());assert(startRecovery.passed);
   const mutations=[];
   if(extra.length){
-    const header='adapters/godot/local-save/write-worker.hpp';
-    const original=fs.readFileSync(path.join(root,header),'utf8');
+    const catchAll='catch (...) {';
+    assert.equal(instrumented.split(catchAll).length,2,'Launch failure recovery anchor');
+    fs.writeFileSync(failureHeader,instrumented.replace(catchAll,'catch (const std::system_error &) {'));
+    let launchDetected=false;
+    try{runFailure();}
+    catch(error){
+      assert.equal(error.status,2,'Unexpected launch-failure process result');
+      assert(String(error.stderr??'').includes('allocation failure escaped'));
+      launchDetected=true;
+    }
+    assert(launchDetected,'Allocation recovery fault escaped');
+    mutations.push({name:'launch-allocation-recovery',detected:true});
     const cases=[
       ['overlap','if (stopping || phase != Phase::idle) return {"unavailable"};','if (stopping) return {"unavailable"};','reason(worker.submit({}), "unavailable")'],
       ['ticket','if (!expected || expected != ticket || phase == Phase::idle) return {};','if (!expected || phase == Phase::idle) return {};','!worker.poll(queued.token + 1).valid'],
@@ -56,8 +79,8 @@ try {
       mutations.push({name,detected});
     }
   }
-  const files=['adapters/godot/local-save/write-worker.hpp','test/local-save-worker.cpp','scripts/test-save-worker.mjs'];
-  writeJSON(path.resolve(output),{platform:process.platform,arch:process.arch,...checks,mutations,
+  const files=['native/save/include/write-worker.hpp','test/local-save-worker.cpp','scripts/test-save-worker.mjs','test/save-worker-start-failure.cpp'];
+  writeJSON(path.resolve(output),{platform:process.platform,arch:process.arch,...checks,mutations,startRecovery,
     sources:Object.fromEntries(files.map(f=>[f,sha256(fs.readFileSync(path.join(root,f)))])),buildSha256:sha256(build)});
   console.log(checks);
 } finally {

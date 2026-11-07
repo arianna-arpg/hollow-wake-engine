@@ -20,7 +20,7 @@ const bindingFiles=listFiles(tools.bindings).filter(f=>!(f.split('/').includes('
 assert.deepEqual(bindingFiles,Object.keys(godot.bindings.files).sort());
 for(const [file,digest] of Object.entries(godot.bindings.files))assert.equal(hash(path.join(tools.bindings,file)),digest,file);
 const dir=fs.mkdtempSync(path.join(root,'.artifacts/godot-save-store-'));
-const env=nativeEnvironment(dir);
+const env={...nativeEnvironment(dir),TEMP:dir,TMP:dir,TMPDIR:dir};
 env.PYTHONPYCACHEPREFIX=path.join(dir,'pycache');
 function run(label,exe,args) {
   const file=path.join(dir,label+'.txt'),fd=fs.openSync(file,'wx');
@@ -44,7 +44,8 @@ run('compile',tools.cmake,['--build',build,'--parallel','4']);
 const library=path.join(bin,process.platform==='win32'?'hwe_slot_store.dll':'libhwe_slot_store.so');
 const sources=['adapters/godot/local-save/CMakeLists.txt','adapters/godot/local-save/store.cpp','adapters/godot/local-save/store.gdextension',
   'adapters/godot/local-save/sqlite-lock.json','adapters/godot/local-save/build-profile.json',
-  'adapters/godot/local-save/write-worker.hpp','scripts/build-godot-save-store.mjs'];
+  'adapters/godot/local-save/write-worker.hpp','native/save/include/write-worker.hpp',
+  'native/save/include/slot-store.hpp','native/save/src/slot-store.cpp','scripts/build-godot-save-store.mjs'];
 const receipt=path.join(dir,'verification.json');
 writeJSON(receipt,{passed:true,platform:process.platform,arch:process.arch,sqlite:pin.version,sqliteArchiveSha3:pin.sha3_256,
   bindings:godot.bindings.commit,library,librarySha256:hash(library),sources:Object.fromEntries(sources.map(f=>[f,hash(path.join(root,f))]))});
