@@ -10,6 +10,7 @@ import shutil
 import sqlite3
 import subprocess
 import tempfile
+import uuid
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,6 +20,24 @@ STORE = "addons/hollow_wake_save/"
 
 def digest(file):
     return hashlib.sha256(file.read_bytes()).hexdigest()
+
+
+def publish_release(release, output):
+    if output.exists():
+        raise FileExistsError(output)
+    # Windows TemporaryDirectory uses an owner-only ACL. Stage beside the
+    # destination with its inherited permissions so users can read the delivery.
+    staged = output.with_name("." + output.name + "-staging-" + uuid.uuid4().hex)
+    staged.mkdir()
+    try:
+        for source in release.iterdir():
+            if not source.is_file() or source.is_symlink():
+                raise ValueError("Expected a regular release file: " + source.name)
+            shutil.copyfile(source, staged / source.name)
+        staged.rename(output)
+    finally:
+        if staged.exists():
+            shutil.rmtree(staged)
 
 
 def extract(archive, destination):
@@ -137,8 +156,5 @@ if __name__ == "__main__":
         release.mkdir()
         report = verify(args, work, release)
         (release / "verification.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-        with tempfile.TemporaryDirectory(prefix="wal-delivery-", dir=args.output.parent) as staging:
-            staged = Path(staging) / "release"
-            shutil.copytree(release, staged)
-            staged.rename(args.output)
+        publish_release(release, args.output)
     print(json.dumps({"passed": True, "output": str(args.output)}))
