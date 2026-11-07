@@ -45,7 +45,8 @@ try{
   assert.throws(()=>renderVestiges(source.replace('m.vestiges[vestigeId] -= 1','m.vestiges[vestigeId] -= 2'),source),/Unreviewed/);
   const virtual=path.join(ref,'balance/observe-vestiges.ts'),worldFile=path.join(ref,world);
   const config=ts.parseJsonConfigFileContent(ts.readConfigFile(path.join(ref,'tsconfig.json'),ts.sys.readFile).config,ts.sys,ref);
-  const opts={...config.options,baseUrl:root,paths:{[spec]:[installed.replace(/\.js$/,'.d.ts')]}};
+  const opts={...config.options,types:['node'],typeRoots:[path.join(ref,'node_modules/@types')],
+    baseUrl:root,paths:{[spec]:[installed.replace(/\.js$/,'.d.ts')]}};
   const host=ts.createCompilerHost(opts),readFile=host.readFile.bind(host),exists=host.fileExists.bind(host);
   const files=new Map([[worldFile,generated],[virtual,observer]]);
   host.fileExists=f=>files.has(path.resolve(f))||exists(f);host.readFile=f=>files.get(path.resolve(f))??readFile(f);
