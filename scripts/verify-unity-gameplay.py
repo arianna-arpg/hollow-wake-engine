@@ -44,10 +44,6 @@ def check_replays(work, stage):
     assert len(combat) == len(expected) == 60
     for idx, (got, want) in enumerate(zip(combat, expected)):
         assert got == want, ("combat", idx, got, want)
-    workshop, expected = rows(work / (stage + "-workshop.replies")), rows(work / "workshop.expected")
-    assert len(workshop) == len(expected) == 56
-    for idx, (got, want) in enumerate(zip(workshop, expected)):
-        assert got == want, ("workshop", idx, got, want)
     pouches, expected = rows(work / (stage + "-pouches.replies")), rows(work / "pouches.expected")
     assert len(pouches) == len(expected) == 2334
     for idx, (got, want) in enumerate(zip(pouches, expected)):
@@ -66,10 +62,18 @@ def check_replays(work, stage):
                 assert got.get(key) == value, ("view/refusal", idx, key)
 
 
+def check_workshop_replay(work, stage):
+    workshop, expected = rows(work / (stage + "-workshop.replies")), rows(work / "workshop.expected")
+    assert len(workshop) == len(expected) == 56
+    for idx, (got, want) in enumerate(zip(workshop, expected)):
+        assert got == want, ("workshop", idx, got, want)
+
+
 def check_stage(work, stage, run_id):
     metrics = json.loads((work / (stage + ".json")).read_text(encoding="utf-8-sig"))
     assert metrics["stage"] == stage and metrics["run"]==run_id and metrics["unity"] == "2021.3.6f1", metrics
     check_replays(work, stage)
+    check_workshop_replay(work, stage)
     assert metrics["liveBytes"] == metrics["liveBlocks"] == 0
     assert all(metrics[k] for k in ("saveContinuation", "isolatedActors", "refusedInvalidRestore", "closedHost", "duplicatePress","catchUpBoundary","stoppedOnDeath","typedPouch"))
     assert all(metrics[k] for k in ("typedWorkshop","workshopContinuation","workshopIsolation","workshopClosed"))
