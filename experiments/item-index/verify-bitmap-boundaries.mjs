@@ -7,7 +7,9 @@ import {writeJSON, sha256} from '../../scripts/reference-utils.mjs';
 const directory = fs.realpathSync(process.argv[2]);
 const proof = JSON.parse(fs.readFileSync(path.join(directory, 'build-verification.json')));
 assert.equal(proof.implementation, 'bitmap');
-const {itemOperations} = await import(pathToFileURL(path.join(directory, 'pool-probes/baseline.mjs')).href);
+const baseline = path.join(proof.baseline, 'dist/item-core.js');
+assert.equal(sha256(fs.readFileSync(baseline)), proof.baselineRuntime['item-core.js']);
+const {itemOperations} = await import(pathToFileURL(baseline).href);
 const {ItemAffixIndex} = await import(pathToFileURL(path.join(proof.candidate, 'dist/item-affix-index.js')).href);
 const pack = JSON.parse(fs.readFileSync(process.argv[3])).items;
 const widths = [0, 1, 31, 32, 33, 63, 64, 65, 127, 128, 129, 255, 256, 257, 4095, 4096, 4097];
@@ -23,7 +25,7 @@ for (const width of widths) {
   const retained = [];
   for (const tags of selections) {
     const base = {id: 'probe-' + queries++, tags, category: 'ring', affixPool: 'explicit'};
-    const actual = index.pools(base), expected = original.__testPools(base);
+    const actual = index.pools(base), expected = original.affixPoolsFor(base);
     assert.deepEqual(actual, expected, `${width}/${tags.join(',')}`);
     retained.push({actual, copy: {prefix: [...actual.prefix], suffix: [...actual.suffix]}});
   }

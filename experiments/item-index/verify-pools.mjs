@@ -9,11 +9,8 @@ assert(!fs.existsSync(directory));
 fs.mkdirSync(directory);
 const modules = {};
 for (const mode of ["baseline", "candidate"]) {
-  const source = fs.readFileSync(path.join(c[mode], "dist/item-core.js"), "utf8"), end = "return { rollItem, forgeItem, compileItemMods, foldOwnStats, resolveUniqueChoices, tierForIlvl };";
-  assert.equal(source.split(end).length, 2);
-  assert(source.includes("from './random.js'"));
-  const code = source.replace(/from '(\.\/[^']+)'/g, (_, file2) => "from " + JSON.stringify(pathToFileURL(path.join(c[mode], "dist", file2)).href)).replace(end, end.replace("tierForIlvl", "tierForIlvl, __testPools: affixPoolsFor")), file = path.join(directory, mode + ".mjs");
-  fs.writeFileSync(file, code, { flag: "wx" });
+  const file = path.join(c[mode], "dist/item-core.js");
+  assert.equal(sha256(fs.readFileSync(file)), c[mode + "Runtime"]["item-core.js"]);
   modules[mode] = (await import(pathToFileURL(file))).itemOperations;
 }
 const pack = JSON.parse(fs.readFileSync(process.argv[3])).items;
@@ -26,15 +23,15 @@ const check = (content, bases) => {
   });
   owners++;
   for (const base of bases) {
-    const a = baseline.__testPools(base), b = candidate.__testPools(base);
+    const a = baseline.affixPoolsFor(base), b = candidate.affixPoolsFor(base);
     assert.deepEqual(b, a, base.id);
     assert.equal(new Set(b.prefix).size, b.prefix.length);
     assert.equal(new Set(b.suffix).size, b.suffix.length);
-    assert.strictEqual(candidate.__testPools(base), b);
+    assert.strictEqual(candidate.affixPoolsFor(base), b);
     queries++;
   }
   if (bases.length > 1) {
-    const a = candidate.__testPools(bases[0]), b = candidate.__testPools(bases[1]);
+    const a = candidate.affixPoolsFor(bases[0]), b = candidate.affixPoolsFor(bases[1]);
     assert.notStrictEqual(a, b);
     assert.notStrictEqual(a.prefix, b.prefix);
     assert.notStrictEqual(a.suffix, b.suffix);
@@ -43,7 +40,7 @@ const check = (content, bases) => {
 };
 const authored = Object.values(pack.bases);
 const first = check(pack, authored), second = check(pack, authored.slice().reverse());
-assert.notStrictEqual(first.__testPools(authored[0]).prefix, second.__testPools(authored[0]).prefix);
+assert.notStrictEqual(first.affixPoolsFor(authored[0]).prefix, second.affixPoolsFor(authored[0]).prefix);
 const tagSets = [void 0, [], ["a"], ["b"], ["a", "b"], ["a", "a"], ["__proto__"], ["constructor"], ["ring"], ["a", "ring"]];
 for (let rotation = 0; rotation < 10; rotation++) {
   const affixes = Object.fromEntries(Array.from({ length: 200 }, (_, i) => {

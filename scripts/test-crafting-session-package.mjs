@@ -8,6 +8,7 @@ import {npmCli} from './npm-cli.mjs';
 import {itemPack} from './compile-item-content.mjs';
 import {craftingPack} from './compile-crafting-content.mjs';
 import {skillProgressionPack} from './compile-skill-progression.mjs';
+fs.mkdirSync(path.join(root,'.artifacts'),{recursive:true});
 const directory=fs.mkdtempSync(path.join(root,'.artifacts/crafting-session-package-')),consumer=path.join(directory,'consumer');fs.mkdirSync(consumer);
 const run=(cwd,args)=>execFileSync(process.execPath,args,{cwd,encoding:'utf8',windowsHide:true,timeout:240000,maxBuffer:8*1024*1024});
 const npm=(cwd,args)=>run(cwd,[npmCli(),...args,'--cache',path.join(root,'.artifacts/npm-cache')]);

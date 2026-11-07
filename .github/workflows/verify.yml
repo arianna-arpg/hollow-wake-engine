@@ -21,6 +21,7 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: npm
       - run: npm ci
+      - run: npm run reference:prepare
       - run: node scripts/test-benchmark-worker-shutdown.mjs
       - run: npm run verify
   native:
@@ -69,6 +70,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run reference:prepare
+      - run: npm run build
       - run: npm run adapter:ui-source
       - run: npm run adapter:grant-source
       - run: npm run adapter:policy-source

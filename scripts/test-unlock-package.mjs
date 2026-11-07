@@ -11,6 +11,7 @@ import {buildUnlockContent} from './compile-unlock-content.mjs';
 import {readVocationFixture} from './vocation-reference.mjs';
 import {checkUnlockPackageBoundaries} from './check-unlock-package-boundaries.mjs';
 const read=file=>JSON.parse(fs.readFileSync(path.join(root,file)));
+fs.mkdirSync(path.join(root,'.artifacts'),{recursive:true});
 const directory=fs.mkdtempSync(path.join(root,'.artifacts/unlock-package-')),consumer=fs.mkdtempSync(path.join(os.tmpdir(),'hollow-unlocks-'));
 const run=(cwd,args)=>execFileSync(process.execPath,args,{cwd,encoding:'utf8',windowsHide:true,timeout:240000,maxBuffer:8*1024*1024});
 const npm=(cwd,args)=>run(cwd,[npmCli(),...args,'--cache',path.join(root,'.artifacts/npm-cache')]);

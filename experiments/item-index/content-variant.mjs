@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 
 const expected = {
-  'item-core.ts': '7378bdfe0278ab25b95f255398fae7bcedddd79fa0ef05192a69d7001c61f55b',
-  'item-rules.ts': 'dfae76122623682013cf9531b433424f5151a17955fe04e4cff9f44983f63723',
+  'item-core.ts': '50651f8c30ae3d69e60b2b3bd42d668b1673e628028fbd0806eb2a43971c0b99',
+  'item-rules.ts': '25ab69ff6ac3e6df87c59629e33d823929d0b398b4c0dfb1b4ec6fd367be85ae',
   'item-host.ts': '45ac229e90538f64c0504c7ebc8be4d79e8886ae7b99e793149abf2d101a773d'
 };
 export function contentIndexedSource(file, bytes) {
