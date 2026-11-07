@@ -6,10 +6,10 @@ empty-project SQLite checks, relocated player/restart courses and existing
 inventory workflows are recorded in [the checkpoint](../evidence/background-saves/README.md).
 The standalone addon's evidence is separate from full game content.
 
-`test:crafting-session-package` runs 14 owned-session contracts against an actual
+`test:crafting-session-package` runs 16 owned-session contracts against an actual
 offline package installation and a browser bundle with ambient RNG and host
-globals disabled. `test:crafting-session-faults` requires eight injected identity,
-custody, continuation and admission faults to change an assertion, then restores
+globals disabled. `test:crafting-session-faults` requires twelve injected identity,
+custody, continuation, view ownership, field order and admission faults to change an assertion, then restores
 both the test installation and its accepted predecessor. Full SDK verification
 includes both checks. See [owned crafting sessions](crafting-session.md);
 native/editor and physical-device acceptance remain separate work.

@@ -34,6 +34,52 @@ test('owned crafting admission detaches input and snapshots while sharing immuta
   const other=open(state(),3,2,sdk);assert.deepEqual(save(other,2).state.items,[]);assert.equal(command(sdk,'open',{seed:2,state:state()}).reason,'already-open');
 });
 
+test('versioned views detach state, preserve field order and survive close/reopen without token reuse',()=>{
+  const input=state({items:[gear(1,{x:0,y:0})]}),sdk=open({account:input.account,...input});
+  const first=sdk.snapshotView(1);assert.equal(first.ok,true);
+  assert.deepEqual(copy(first.view),save(sdk));
+  assert.equal(JSON.stringify(first.view),sdk.snapshotText(1).text);
+  assert.equal(Object.isFrozen(first.view.state.account),false);
+  const original=copy(first.view.state.account);
+  first.view.state.items[0].name='outside';first.view.state.account.ledger.outside=99;
+  assert.deepEqual(save(sdk).state.account,original);
+  assert.notEqual(save(sdk).state.items[0].name,'outside');
+  const retained=sdk.snapshotView(1,first.accountVersion);
+  assert.equal(retained.view.state.account,null);
+  assert.equal(retained.accountVersion,first.accountVersion);
+  command(sdk,'lock',{uid:1,on:true});
+  const locked=sdk.snapshotView(1,retained.accountVersion);
+  assert.equal(locked.view.state.items[0].locked,true);
+  assert.equal(locked.view.state.account,null);
+  assert.deepEqual(copy({...locked.view,state:{...locked.view.state,account:original}}),save(sdk));
+  assert.equal(JSON.stringify({...locked.view,state:{...locked.view.state,account:original}}),sdk.snapshotText(1).text);
+  const other=open(state(),5,2,sdk).snapshotView(2,first.accountVersion);
+  assert.notEqual(other.accountVersion,first.accountVersion);assert(other.view.state.account);
+  const saved=save(sdk);
+  command(sdk,'close');command(sdk,'restore',{save:saved});
+  const reopened=sdk.snapshotView(1,first.accountVersion);
+  assert.notEqual(reopened.accountVersion,first.accountVersion);
+  assert.deepEqual(copy(reopened.view),saved);
+  assert.deepEqual(copy(JSON.parse(sdk.snapshotText(1).text)),saved);
+});
+
+test('versioned views refresh changed lore, preserve tokens on refusals and reject invalid cursors',()=>{
+  const sdk=open(state({items:[gear(1,{x:0,y:0})]}));
+  const before=sdk.snapshotView(1);
+  assert.equal(command(sdk,'salvage',{uid:1,lane:'invalid'}).ok,false);
+  assert.equal(sdk.snapshotView(1,before.accountVersion).accountVersion,before.accountVersion);
+  command(sdk,'salvage',{uid:1,lane:'break'});
+  const after=sdk.snapshotView(1,before.accountVersion);
+  assert.notEqual(after.accountVersion,before.accountVersion);assert(after.view.state.account);
+  assert.deepEqual(copy(after.view),save(sdk));
+  for(const value of [-1,NaN,Infinity,1.5,Number.MAX_SAFE_INTEGER+1,'1',null,{},[]]){
+    assert.deepEqual(sdk.snapshotView(value),{ok:false,reason:'invalid-integer'});
+    assert.deepEqual(sdk.snapshotView(1,value),{ok:false,reason:'invalid-integer'});
+  }
+  assert.deepEqual(sdk.snapshotView(0xffffffff),{ok:false,reason:'not-open'});
+  assert(sdk.snapshotView(1,Number.MAX_SAFE_INTEGER).view.state.account);
+});
+
 test('craft and socket compose real rules, payments, slot capacity and equipped notifications',()=>{
   const helmet=new ItemRules(items,7,1).forge({baseId:'helmet_armor',ilvl:10,rarity:'common',sockets:0});
   const sdk=open(state({equipped:{ring:helmet}})),option=firstOption(sdk),before=save(sdk);

@@ -1,0 +1,106 @@
+{
+  "passed": true,
+  "platform": "linux",
+  "archiveSha256": "ee93e8176c1e03fb003d584e7991e523f9eab0c46f86349f61fa8b0358a05b17",
+  "editorImport": false,
+  "legacyCommands": 56,
+  "gearCards": 95,
+  "rack": {
+    "db": "/work/background-workshop-igdhnsk3/settings/hollow-wake-inventory-workshop/inventory-cargo-sample.sqlite3",
+    "minted": 23834,
+    "nextUid": 23835,
+    "peak": 32311985,
+    "revision": 6
+  },
+  "supports": {
+    "cases": 42,
+    "db": "/work/background-workshop-igdhnsk3/settings/hollow-wake-inventory-workshop/inventory-support-sample.sqlite3",
+    "metrics": {
+      "bytesRead": 1835664,
+      "heap": {
+        "allocations": 2198,
+        "cancellation_requested": false,
+        "closed": false,
+        "delivery_failed": false,
+        "live_blocks": 332,
+        "live_bytes": 1201997,
+        "peak_bytes": 1311089,
+        "poisoned": false,
+        "response_pending": false,
+        "status": 0
+      },
+      "pageReads": 164,
+      "queries": 44
+    },
+    "nextUid": 23836,
+    "pouch": {
+      "cases": 15,
+      "closedBytes": 0,
+      "first": {
+        "kind": "skill",
+        "level": 1.0,
+        "rarity": "common",
+        "skillId": "cleave",
+        "sockets": [
+          null
+        ]
+      },
+      "loadComparison": {
+        "objects": [
+          5085591,
+          5085591
+        ],
+        "text": [
+          4604091,
+          4604091
+        ]
+      },
+      "peakBytes": 4604091,
+      "revision": 4
+    },
+    "revision": 8,
+    "uid": 23835
+  },
+  "saveHashes": {
+    "inventory-cargo-sample.sqlite3": "d02127d63e0fe33eebd86d7cca49dde9672427811fb1f274430ed040ba9e6d6f",
+    "inventory-support-sample.sqlite3": "3d91147ce36aac81144759ec13125f76459d9610bdb9d323226425943667f4c2",
+    "recall-course.sqlite3": "9d44a94f3a7ae52fc40e127a798eea545e149edc7e7f13bbcd1dc53b63af1cc8"
+  },
+  "profileViews": {
+    "assertions": 21,
+    "metrics": {
+      "allocations": 87438,
+      "cancellation_requested": false,
+      "closed": true,
+      "delivery_failed": false,
+      "live_blocks": 0,
+      "live_bytes": 0,
+      "peak_bytes": 30969793,
+      "poisoned": false,
+      "response_pending": false,
+      "status": 0
+    },
+    "faults": [
+      {
+        "name": "mutable-view",
+        "assertion": "complete readonly view with exact numbers",
+        "logSha256": "ea112962de86086dfde8bd09ff07bdb5badb6fa245b06c570d9dbf3b6f5a7311",
+        "output": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\n\nHWE_VIEW_FAILED complete readonly view with exact numbers\n"
+      },
+      {
+        "name": "lose-retained-account",
+        "assertion": "unchanged account shared",
+        "logSha256": "54b5b3b4463c01f805f644afd9aceec98e7dc6f831884838a455490efca8148a",
+        "output": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\n\nHWE_VIEW_FAILED unchanged account shared\n"
+      },
+      {
+        "name": "reuse-VM-cursor",
+        "assertion": "colliding token across VM lifetimes refreshed",
+        "logSha256": "4cc2e749e6d8dc271a626fdc4b045b5b8e7553088403f017ed752a5c95df0147",
+        "output": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\n\nHWE_VIEW_FAILED colliding token across VM lifetimes refreshed\n"
+      }
+    ],
+    "restoredAssertions": 21,
+    "probeSha256": "d5c5f162b503e4a25d6b127368c1243df4e435b42aaeae0c7e2d7c8500c7f4e6"
+  }
+}

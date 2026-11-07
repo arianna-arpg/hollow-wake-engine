@@ -9,6 +9,11 @@ assert.equal(sha256(fs.readFileSync(accepted.archive)),accepted.archiveSha256);
 const directory=fs.mkdtempSync(path.join(root,'.artifacts/crafting-session-faults-')),consumer=path.join(directory,'consumer');fs.cpSync(accepted.consumer,consumer,{recursive:true});
 const snapshot=dir=>Object.fromEntries(listFiles(dir).map(file=>[file,sha256(fs.readFileSync(path.join(dir,file)))])),before=snapshot(consumer),acceptedBefore=snapshot(accepted.consumer);
 const faults=[
+  ['borrow-view-state','crafting-session','view: cloneOwnedJSON(view)','view'],
+  ['reuse-account-token','crafting-session','accountVersion = this.#nextAccountView++;','accountVersion = 1;'],
+  ['trust-foreign-account-token','crafting-session','accountVersion === knownAccountVersion ? null','knownAccountVersion !== 0 ? null'],
+  ['move-account-field','crafting-session','const state = { ...profile.state, account: accountVersion === knownAccountVersion ? null : profile.state.account };',
+    'const {account,...state}=profile.state; state.account=accountVersion===knownAccountVersion?null:account;'],
   ['commit-before-admission','crafting-session','this.#validate(draft);','profile.state = draft.state; this.#validate(draft);'],
   ['reset-restored-rng','crafting-session',"Random.restore({ algorithm: 'mulberry32/v1', state: random.state, draws: random.draws })",'new Random(1)'],
   ['reuse-identity','crafting-session','return profile.nextUid++;','return profile.nextUid;'],

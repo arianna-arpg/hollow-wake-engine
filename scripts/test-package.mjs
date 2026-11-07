@@ -166,7 +166,9 @@ const residenceModuleBytes = Object.fromEntries(Object.entries({'gem-residence':
   const matches=packed.files.filter(file=>file.path===`dist/${name}.js`);assert.equal(matches.length,1);
   assert.ok(matches[0].size>0&&matches[0].size<=kib*1024,`${name} exceeded its separate ${kib} KiB budget`);return [name,matches[0].size];
 }));
-const craftingSessionModuleBytes = Object.fromEntries(Object.entries({'crafting-session':20,'crafting-session-data':18,'session-json':6}).map(([name,kib])=>{
+// Versioned account views add ~1.6 KiB of unminified session code; the complete
+// Godot bundle has its own 101 KiB minified ceiling and measured action budget.
+const craftingSessionModuleBytes = Object.fromEntries(Object.entries({'crafting-session':22,'crafting-session-data':18,'session-json':6}).map(([name,kib])=>{
   const matches=packed.files.filter(file=>file.path===`dist/${name}.js`);assert.equal(matches.length,1);
   assert.ok(matches[0].size>0&&matches[0].size<=kib*1024,`${name} exceeded its separate ${kib} KiB budget`);return [name,matches[0].size];
 }));

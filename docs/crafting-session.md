@@ -6,9 +6,11 @@ It owns item bodies, wallet, expertise, account counters, item IDs and the rando
 stream together. Definitions are validated once through `ItemContent`,
 `CraftingContent` and `SkillProgression` and shared across profiles.
 
-This is a portable JavaScript/TypeScript capability. The owned session does not
-yet have a native/editor package or a renderer interaction course. Existing
-borrowed-state game adapters remain unchanged.
+This is a portable JavaScript/TypeScript capability. The Godot desktop workshop
+now exercises it through real native hosts and exported inventory players; see
+[background saves](background-saves.md). Existing borrowed-state game adapters
+remain unchanged. Repeated readers can use the optional
+[versioned view](profile-views.md) while portable saves remain complete.
 
 ## Construction and commands
 

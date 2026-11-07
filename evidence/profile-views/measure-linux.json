@@ -1,0 +1,867 @@
+{
+  "passed": true,
+  "platform": "linux",
+  "pairs": 18,
+  "editorImport": false,
+  "scope": "Exported headless player; action calls, serialization, save polling and UI methods. GPU rendering excluded; nested timings must not be added. API/phase medians include only actions calling that operation.",
+  "archiveSha256": "59581770a542e304264c72c1febd9e156445a96807d3de715512f38a4e18e6cc",
+  "sourceHashes": {
+    "scripts/measure-profile-saves.py": "32122ccbb326262f7178705f8eec8d998213d49782937ab8ee062d64033460e6",
+    "test/godot-inventory/profile-performance.gd": "099a7cc9f62c91aa5599acdf923e17bcfae43ae132965f89e1fae5fea439ffa7"
+  },
+  "candidateSha256": "a6ae20704090fa36ad8a1ef0cd5deb3c13eac712c453edc82ad0cafea93999b8",
+  "candidateWireSha256": null,
+  "candidateAddonHashes": {
+    "bundle.txt": "512d23bcb24410ad6590ab2d9ace88d800b6222068b45103e064ab76ba76edf5",
+    "crafting.gd": "5d302bc224aea450d00a3b13521906faa88e728fcba8cc5e7cef193e889a6d18"
+  },
+  "summaries": {
+    "synchronous": {
+      "small": {
+        "mainUs": {
+          "median": 29384.5,
+          "maximum": 143315
+        },
+        "maxBlockingUs": {
+          "median": 29384.5,
+          "maximum": 143315
+        },
+        "completionUs": {
+          "median": 29384.5,
+          "maximum": 143315
+        },
+        "storageCallUs": {
+          "median": 27135.0,
+          "maximum": 141249
+        },
+        "renderUs": {
+          "median": 191.5,
+          "maximum": 312
+        },
+        "apiUs": {
+          "cargo-references": 277.0,
+          "format": 32.0,
+          "learn-skill": 867.5,
+          "save": 478.5,
+          "snapshot-text": 151.0,
+          "unlearn-skill": 953.0
+        },
+        "wireUs": {
+          "cargo-references/decode": 13.0,
+          "cargo-references/encode": 74.0,
+          "cargo-references/json": 6.0,
+          "cargo-references/native": 165.0,
+          "format/encode": 17.0,
+          "format/json": 2.0,
+          "format/native": 10.0,
+          "learn-skill/decode": 20.0,
+          "learn-skill/encode": 32.0,
+          "learn-skill/json": 8.0,
+          "learn-skill/native": 800.0,
+          "save/decode": 149.0,
+          "save/encode": 23.0,
+          "save/json": 50.0,
+          "save/native": 238.0,
+          "snapshot-text/decode": 5.0,
+          "snapshot-text/encode": 24.0,
+          "snapshot-text/json": 18.0,
+          "snapshot-text/native": 97.0,
+          "unlearn-skill/decode": 21.0,
+          "unlearn-skill/encode": 33.0,
+          "unlearn-skill/json": 8.0,
+          "unlearn-skill/native": 877.5
+        }
+      },
+      "loaded": {
+        "mainUs": {
+          "median": 202011.0,
+          "maximum": 356176
+        },
+        "maxBlockingUs": {
+          "median": 202011.0,
+          "maximum": 356176
+        },
+        "completionUs": {
+          "median": 202011.0,
+          "maximum": 356176
+        },
+        "storageCallUs": {
+          "median": 101489.0,
+          "maximum": 258547
+        },
+        "renderUs": {
+          "median": 793.0,
+          "maximum": 1830
+        },
+        "apiUs": {
+          "cargo-references": 340.0,
+          "format": 65.0,
+          "learn-skill": 24497.0,
+          "save": 52193.0,
+          "snapshot-text": 12817.0,
+          "unlearn-skill": 24814.5
+        },
+        "wireUs": {
+          "cargo-references/decode": 14.0,
+          "cargo-references/encode": 90.5,
+          "cargo-references/json": 8.0,
+          "cargo-references/native": 214.5,
+          "format/encode": 26.0,
+          "format/json": 4.0,
+          "format/native": 29.0,
+          "learn-skill/decode": 31.0,
+          "learn-skill/encode": 35.0,
+          "learn-skill/json": 20.0,
+          "learn-skill/native": 24400.5,
+          "save/decode": 19432.5,
+          "save/encode": 33.0,
+          "save/json": 7059.5,
+          "save/native": 23964.0,
+          "snapshot-text/decode": 13.0,
+          "snapshot-text/encode": 39.0,
+          "snapshot-text/json": 2353.5,
+          "snapshot-text/native": 10313.5,
+          "unlearn-skill/decode": 31.0,
+          "unlearn-skill/encode": 34.0,
+          "unlearn-skill/json": 19.5,
+          "unlearn-skill/native": 24715.0
+        }
+      }
+    },
+    "baseline": {
+      "small": {
+        "mainUs": {
+          "median": 2302.5,
+          "maximum": 4211
+        },
+        "maxBlockingUs": {
+          "median": 1996.5,
+          "maximum": 3882
+        },
+        "completionUs": {
+          "median": 33591.0,
+          "maximum": 150521
+        },
+        "storageCallUs": {
+          "median": 61.5,
+          "maximum": 218
+        },
+        "renderUs": {
+          "median": 160.5,
+          "maximum": 308
+        },
+        "apiUs": {
+          "cargo-references": 314.0,
+          "format": 33.0,
+          "learn-skill": 894.0,
+          "save": 485.0,
+          "snapshot-text": 155.0,
+          "unlearn-skill": 1017.0
+        },
+        "wireUs": {
+          "cargo-references/decode": 14.0,
+          "cargo-references/encode": 85.0,
+          "cargo-references/json": 8.0,
+          "cargo-references/native": 197.5,
+          "format/encode": 17.0,
+          "format/json": 2.0,
+          "format/native": 10.0,
+          "learn-skill/decode": 21.0,
+          "learn-skill/encode": 33.0,
+          "learn-skill/json": 8.0,
+          "learn-skill/native": 825.0,
+          "save/decode": 146.5,
+          "save/encode": 24.0,
+          "save/json": 55.0,
+          "save/native": 243.5,
+          "snapshot-text/decode": 6.0,
+          "snapshot-text/encode": 24.0,
+          "snapshot-text/json": 19.0,
+          "snapshot-text/native": 99.0,
+          "unlearn-skill/decode": 22.0,
+          "unlearn-skill/encode": 45.0,
+          "unlearn-skill/json": 11.0,
+          "unlearn-skill/native": 923.5
+        }
+      },
+      "loaded": {
+        "mainUs": {
+          "median": 99691.0,
+          "maximum": 118352
+        },
+        "maxBlockingUs": {
+          "median": 95369.0,
+          "maximum": 112804
+        },
+        "completionUs": {
+          "median": 206389.5,
+          "maximum": 340948
+        },
+        "storageCallUs": {
+          "median": 589.0,
+          "maximum": 1254
+        },
+        "renderUs": {
+          "median": 1030.0,
+          "maximum": 3125
+        },
+        "apiUs": {
+          "cargo-references": 341.0,
+          "format": 62.0,
+          "learn-skill": 24795.5,
+          "save": 52128.0,
+          "snapshot-text": 12688.5,
+          "unlearn-skill": 24803.5
+        },
+        "wireUs": {
+          "cargo-references/decode": 15.0,
+          "cargo-references/encode": 91.0,
+          "cargo-references/json": 9.0,
+          "cargo-references/native": 212.5,
+          "format/encode": 25.0,
+          "format/json": 4.0,
+          "format/native": 28.0,
+          "learn-skill/decode": 32.0,
+          "learn-skill/encode": 36.0,
+          "learn-skill/json": 21.0,
+          "learn-skill/native": 24696.0,
+          "save/decode": 19078.5,
+          "save/encode": 32.5,
+          "save/json": 7114.5,
+          "save/native": 23904.5,
+          "snapshot-text/decode": 13.0,
+          "snapshot-text/encode": 38.0,
+          "snapshot-text/json": 2346.0,
+          "snapshot-text/native": 10270.5,
+          "unlearn-skill/decode": 31.5,
+          "unlearn-skill/encode": 38.0,
+          "unlearn-skill/json": 19.0,
+          "unlearn-skill/native": 24697.5
+        }
+      }
+    },
+    "control": {
+      "small": {
+        "mainUs": {
+          "median": 2267.5,
+          "maximum": 2708
+        },
+        "maxBlockingUs": {
+          "median": 1962.0,
+          "maximum": 2376
+        },
+        "completionUs": {
+          "median": 25302.0,
+          "maximum": 75280
+        },
+        "storageCallUs": {
+          "median": 59.5,
+          "maximum": 110
+        },
+        "renderUs": {
+          "median": 161.5,
+          "maximum": 233
+        },
+        "apiUs": {
+          "cargo-references": 309.5,
+          "format": 32.0,
+          "learn-skill": 890.5,
+          "save": 488.5,
+          "snapshot-text": 151.0,
+          "unlearn-skill": 993.5
+        },
+        "wireUs": {
+          "cargo-references/decode": 13.0,
+          "cargo-references/encode": 85.5,
+          "cargo-references/json": 7.0,
+          "cargo-references/native": 186.5,
+          "format/encode": 17.0,
+          "format/json": 2.0,
+          "format/native": 10.0,
+          "learn-skill/decode": 21.0,
+          "learn-skill/encode": 33.0,
+          "learn-skill/json": 8.0,
+          "learn-skill/native": 824.5,
+          "save/decode": 149.0,
+          "save/encode": 24.0,
+          "save/json": 54.0,
+          "save/native": 240.0,
+          "snapshot-text/decode": 5.5,
+          "snapshot-text/encode": 24.0,
+          "snapshot-text/json": 18.5,
+          "snapshot-text/native": 98.0,
+          "unlearn-skill/decode": 22.0,
+          "unlearn-skill/encode": 39.0,
+          "unlearn-skill/json": 10.0,
+          "unlearn-skill/native": 911.5
+        }
+      },
+      "loaded": {
+        "mainUs": {
+          "median": 101173.5,
+          "maximum": 126375
+        },
+        "maxBlockingUs": {
+          "median": 96446.5,
+          "maximum": 120544
+        },
+        "completionUs": {
+          "median": 205525.0,
+          "maximum": 320406
+        },
+        "storageCallUs": {
+          "median": 609.0,
+          "maximum": 1026
+        },
+        "renderUs": {
+          "median": 1177.0,
+          "maximum": 3443
+        },
+        "apiUs": {
+          "cargo-references": 351.5,
+          "format": 68.0,
+          "learn-skill": 24767.5,
+          "save": 52851.5,
+          "snapshot-text": 12807.0,
+          "unlearn-skill": 24826.0
+        },
+        "wireUs": {
+          "cargo-references/decode": 15.0,
+          "cargo-references/encode": 95.0,
+          "cargo-references/json": 9.0,
+          "cargo-references/native": 214.5,
+          "format/encode": 26.0,
+          "format/json": 4.0,
+          "format/native": 33.0,
+          "learn-skill/decode": 32.0,
+          "learn-skill/encode": 37.0,
+          "learn-skill/json": 20.0,
+          "learn-skill/native": 24666.5,
+          "save/decode": 19512.5,
+          "save/encode": 32.5,
+          "save/json": 7085.0,
+          "save/native": 24103.5,
+          "snapshot-text/decode": 14.0,
+          "snapshot-text/encode": 39.0,
+          "snapshot-text/json": 2353.5,
+          "snapshot-text/native": 10316.0,
+          "unlearn-skill/decode": 31.0,
+          "unlearn-skill/encode": 46.5,
+          "unlearn-skill/json": 20.0,
+          "unlearn-skill/native": 24717.0
+        }
+      }
+    },
+    "candidate": {
+      "small": {
+        "mainUs": {
+          "median": 2345.5,
+          "maximum": 3192
+        },
+        "maxBlockingUs": {
+          "median": 1993.5,
+          "maximum": 2789
+        },
+        "completionUs": {
+          "median": 41919.0,
+          "maximum": 133765
+        },
+        "storageCallUs": {
+          "median": 73.5,
+          "maximum": 205
+        },
+        "renderUs": {
+          "median": 181.5,
+          "maximum": 275
+        },
+        "apiUs": {
+          "cargo-references": 316.5,
+          "format": 32.0,
+          "learn-skill": 894.0,
+          "snapshot-text": 155.5,
+          "snapshot-view": 461.0,
+          "unlearn-skill": 1021.5
+        },
+        "wireUs": {
+          "cargo-references/decode": 14.0,
+          "cargo-references/encode": 86.5,
+          "cargo-references/json": 8.0,
+          "cargo-references/native": 199.0,
+          "format/encode": 17.0,
+          "format/json": 2.0,
+          "format/native": 11.0,
+          "learn-skill/decode": 21.0,
+          "learn-skill/encode": 33.0,
+          "learn-skill/json": 8.0,
+          "learn-skill/native": 820.5,
+          "snapshot-text/decode": 6.0,
+          "snapshot-text/encode": 25.0,
+          "snapshot-text/json": 19.0,
+          "snapshot-text/native": 100.0,
+          "snapshot-view/decode": 143.0,
+          "snapshot-view/encode": 27.0,
+          "snapshot-view/json": 53.0,
+          "snapshot-view/native": 219.0,
+          "unlearn-skill/decode": 23.0,
+          "unlearn-skill/encode": 45.0,
+          "unlearn-skill/json": 12.0,
+          "unlearn-skill/native": 932.0
+        }
+      },
+      "loaded": {
+        "mainUs": {
+          "median": 48533.5,
+          "maximum": 60841
+        },
+        "maxBlockingUs": {
+          "median": 46586.5,
+          "maximum": 58706
+        },
+        "completionUs": {
+          "median": 155782.5,
+          "maximum": 368416
+        },
+        "storageCallUs": {
+          "median": 619.5,
+          "maximum": 961
+        },
+        "renderUs": {
+          "median": 900.0,
+          "maximum": 2239
+        },
+        "apiUs": {
+          "cargo-references": 345.0,
+          "format": 67.0,
+          "learn-skill": 24705.0,
+          "snapshot-text": 12084.5,
+          "snapshot-view": 8227.5,
+          "unlearn-skill": 24715.5
+        },
+        "wireUs": {
+          "cargo-references/decode": 15.0,
+          "cargo-references/encode": 93.0,
+          "cargo-references/json": 9.0,
+          "cargo-references/native": 213.0,
+          "format/encode": 27.0,
+          "format/json": 4.0,
+          "format/native": 29.5,
+          "learn-skill/decode": 32.0,
+          "learn-skill/encode": 34.0,
+          "learn-skill/json": 18.0,
+          "learn-skill/native": 24596.0,
+          "snapshot-text/decode": 13.0,
+          "snapshot-text/encode": 36.0,
+          "snapshot-text/json": 2319.0,
+          "snapshot-text/native": 9631.5,
+          "snapshot-view/decode": 2360.0,
+          "snapshot-view/encode": 34.0,
+          "snapshot-view/json": 1508.0,
+          "snapshot-view/native": 4146.5,
+          "unlearn-skill/decode": 32.0,
+          "unlearn-skill/encode": 42.5,
+          "unlearn-skill/json": 19.0,
+          "unlearn-skill/native": 24615.0
+        }
+      }
+    }
+  },
+  "raw": {
+    "file": "evidence/profile-views/measure-linux.json.gz",
+    "sha256": "14b9b7bc34a9e5c664e60b4965861bbc62a9f17952def88f3c5a62168832fa6f",
+    "rawSha256": "5319d531868a267176ee848bac3a81307d2e272caa81a7e0ad30d2cc3b022896"
+  },
+  "runs": [
+    {
+      "variant": "synchronous",
+      "packSha256": "39ed56873ff6d6b38c7f659c44ba21174e21c61787e6ab4e409e1dd3b596a3d3",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "engine": "4.7.2-stable (official)",
+      "platform": "Linux",
+      "small": {
+        "database": "/work/background-workshop-p8xmh24n/run-0/hollow-wake-inventory-workshop/profile-small.sqlite3",
+        "metrics": {
+          "allocations": 93443,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 30964475,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 37,
+        "saveBytes": 1695,
+        "saveSha256": "1d2b184d44a07ff5254a3b95013e173de9b547fe7cca85eff5a647eb61db6d77",
+        "uid": 23849,
+        "measuredActions": 32,
+        "warmupActions": 4
+      },
+      "loaded": {
+        "database": "/work/background-workshop-p8xmh24n/run-0/hollow-wake-inventory-workshop/profile-loaded.sqlite3",
+        "metrics": {
+          "allocations": 152513,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 32071178,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 38,
+        "saveBytes": 283729,
+        "saveSha256": "dc67f56a8aecac29f4537010009b8aef04329af73fc74b26b5b14f04dc3ab2c1",
+        "uid": 1888,
+        "measuredActions": 32,
+        "warmupActions": 4
+      }
+    },
+    {
+      "variant": "baseline",
+      "packSha256": "c7c0b1c99fdc4b5007551460a2a62c06c53c5d42b45f36c5dee0770b5e7a8077",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "engine": "4.7.2-stable (official)",
+      "platform": "Linux",
+      "small": {
+        "database": "/work/background-workshop-p8xmh24n/run-1/hollow-wake-inventory-workshop/profile-small.sqlite3",
+        "metrics": {
+          "allocations": 93443,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 30964475,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 37,
+        "saveBytes": 1695,
+        "saveSha256": "1d2b184d44a07ff5254a3b95013e173de9b547fe7cca85eff5a647eb61db6d77",
+        "uid": 23849,
+        "measuredActions": 32,
+        "warmupActions": 4
+      },
+      "loaded": {
+        "database": "/work/background-workshop-p8xmh24n/run-1/hollow-wake-inventory-workshop/profile-loaded.sqlite3",
+        "metrics": {
+          "allocations": 152513,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 32071178,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 38,
+        "saveBytes": 283729,
+        "saveSha256": "dc67f56a8aecac29f4537010009b8aef04329af73fc74b26b5b14f04dc3ab2c1",
+        "uid": 1888,
+        "measuredActions": 32,
+        "warmupActions": 4
+      }
+    },
+    {
+      "variant": "candidate",
+      "packSha256": "cd665d5b42ca6b4223cf102934feb9417356a405c6f9ee617bb34d24707d443c",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "engine": "4.7.2-stable (official)",
+      "platform": "Linux",
+      "small": {
+        "database": "/work/background-workshop-p8xmh24n/run-2/hollow-wake-inventory-workshop/profile-small.sqlite3",
+        "metrics": {
+          "allocations": 89162,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 30969793,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 37,
+        "saveBytes": 1695,
+        "saveSha256": "1d2b184d44a07ff5254a3b95013e173de9b547fe7cca85eff5a647eb61db6d77",
+        "uid": 23849,
+        "measuredActions": 32,
+        "warmupActions": 4
+      },
+      "loaded": {
+        "database": "/work/background-workshop-p8xmh24n/run-2/hollow-wake-inventory-workshop/profile-loaded.sqlite3",
+        "metrics": {
+          "allocations": 124962,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 32132152,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 38,
+        "saveBytes": 283729,
+        "saveSha256": "dc67f56a8aecac29f4537010009b8aef04329af73fc74b26b5b14f04dc3ab2c1",
+        "uid": 1888,
+        "measuredActions": 32,
+        "warmupActions": 4
+      }
+    },
+    {
+      "variant": "control",
+      "packSha256": "c7c0b1c99fdc4b5007551460a2a62c06c53c5d42b45f36c5dee0770b5e7a8077",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "engine": "4.7.2-stable (official)",
+      "platform": "Linux",
+      "small": {
+        "database": "/work/background-workshop-p8xmh24n/run-3/hollow-wake-inventory-workshop/profile-small.sqlite3",
+        "metrics": {
+          "allocations": 93443,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 30964475,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 37,
+        "saveBytes": 1695,
+        "saveSha256": "1d2b184d44a07ff5254a3b95013e173de9b547fe7cca85eff5a647eb61db6d77",
+        "uid": 23849,
+        "measuredActions": 32,
+        "warmupActions": 4
+      },
+      "loaded": {
+        "database": "/work/background-workshop-p8xmh24n/run-3/hollow-wake-inventory-workshop/profile-loaded.sqlite3",
+        "metrics": {
+          "allocations": 152513,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 32071178,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 38,
+        "saveBytes": 283729,
+        "saveSha256": "dc67f56a8aecac29f4537010009b8aef04329af73fc74b26b5b14f04dc3ab2c1",
+        "uid": 1888,
+        "measuredActions": 32,
+        "warmupActions": 4
+      }
+    },
+    {
+      "variant": "control",
+      "packSha256": "c7c0b1c99fdc4b5007551460a2a62c06c53c5d42b45f36c5dee0770b5e7a8077",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "engine": "4.7.2-stable (official)",
+      "platform": "Linux",
+      "small": {
+        "database": "/work/background-workshop-p8xmh24n/run-4/hollow-wake-inventory-workshop/profile-small.sqlite3",
+        "metrics": {
+          "allocations": 93443,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 30964475,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 37,
+        "saveBytes": 1695,
+        "saveSha256": "1d2b184d44a07ff5254a3b95013e173de9b547fe7cca85eff5a647eb61db6d77",
+        "uid": 23849,
+        "measuredActions": 32,
+        "warmupActions": 4
+      },
+      "loaded": {
+        "database": "/work/background-workshop-p8xmh24n/run-4/hollow-wake-inventory-workshop/profile-loaded.sqlite3",
+        "metrics": {
+          "allocations": 152513,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 32071178,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 38,
+        "saveBytes": 283729,
+        "saveSha256": "dc67f56a8aecac29f4537010009b8aef04329af73fc74b26b5b14f04dc3ab2c1",
+        "uid": 1888,
+        "measuredActions": 32,
+        "warmupActions": 4
+      }
+    },
+    {
+      "variant": "candidate",
+      "packSha256": "cd665d5b42ca6b4223cf102934feb9417356a405c6f9ee617bb34d24707d443c",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "engine": "4.7.2-stable (official)",
+      "platform": "Linux",
+      "small": {
+        "database": "/work/background-workshop-p8xmh24n/run-5/hollow-wake-inventory-workshop/profile-small.sqlite3",
+        "metrics": {
+          "allocations": 89162,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 30969793,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 37,
+        "saveBytes": 1695,
+        "saveSha256": "1d2b184d44a07ff5254a3b95013e173de9b547fe7cca85eff5a647eb61db6d77",
+        "uid": 23849,
+        "measuredActions": 32,
+        "warmupActions": 4
+      },
+      "loaded": {
+        "database": "/work/background-workshop-p8xmh24n/run-5/hollow-wake-inventory-workshop/profile-loaded.sqlite3",
+        "metrics": {
+          "allocations": 124962,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 32132152,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 38,
+        "saveBytes": 283729,
+        "saveSha256": "dc67f56a8aecac29f4537010009b8aef04329af73fc74b26b5b14f04dc3ab2c1",
+        "uid": 1888,
+        "measuredActions": 32,
+        "warmupActions": 4
+      }
+    },
+    {
+      "variant": "baseline",
+      "packSha256": "c7c0b1c99fdc4b5007551460a2a62c06c53c5d42b45f36c5dee0770b5e7a8077",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "engine": "4.7.2-stable (official)",
+      "platform": "Linux",
+      "small": {
+        "database": "/work/background-workshop-p8xmh24n/run-6/hollow-wake-inventory-workshop/profile-small.sqlite3",
+        "metrics": {
+          "allocations": 93443,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 30964475,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 37,
+        "saveBytes": 1695,
+        "saveSha256": "1d2b184d44a07ff5254a3b95013e173de9b547fe7cca85eff5a647eb61db6d77",
+        "uid": 23849,
+        "measuredActions": 32,
+        "warmupActions": 4
+      },
+      "loaded": {
+        "database": "/work/background-workshop-p8xmh24n/run-6/hollow-wake-inventory-workshop/profile-loaded.sqlite3",
+        "metrics": {
+          "allocations": 152513,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 32071178,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 38,
+        "saveBytes": 283729,
+        "saveSha256": "dc67f56a8aecac29f4537010009b8aef04329af73fc74b26b5b14f04dc3ab2c1",
+        "uid": 1888,
+        "measuredActions": 32,
+        "warmupActions": 4
+      }
+    },
+    {
+      "variant": "synchronous",
+      "packSha256": "39ed56873ff6d6b38c7f659c44ba21174e21c61787e6ab4e409e1dd3b596a3d3",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "engine": "4.7.2-stable (official)",
+      "platform": "Linux",
+      "small": {
+        "database": "/work/background-workshop-p8xmh24n/run-7/hollow-wake-inventory-workshop/profile-small.sqlite3",
+        "metrics": {
+          "allocations": 93443,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 30964475,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 37,
+        "saveBytes": 1695,
+        "saveSha256": "1d2b184d44a07ff5254a3b95013e173de9b547fe7cca85eff5a647eb61db6d77",
+        "uid": 23849,
+        "measuredActions": 32,
+        "warmupActions": 4
+      },
+      "loaded": {
+        "database": "/work/background-workshop-p8xmh24n/run-7/hollow-wake-inventory-workshop/profile-loaded.sqlite3",
+        "metrics": {
+          "allocations": 152513,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 32071178,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 38,
+        "saveBytes": 283729,
+        "saveSha256": "dc67f56a8aecac29f4537010009b8aef04329af73fc74b26b5b14f04dc3ab2c1",
+        "uid": 1888,
+        "measuredActions": 32,
+        "warmupActions": 4
+      }
+    }
+  ]
+}

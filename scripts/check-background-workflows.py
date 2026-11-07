@@ -46,6 +46,8 @@ def check(args, work):
     (project/"pouch-cases.json").write_text(json.dumps(oracle["actions"]))
     for src, target in [("workshop-rack.gd","rack-test.gd"),("workshop-supports.gd","socket-test.gd")]:
         shutil.copyfile(ROOT/"test/godot-inventory"/src,project/target)
+    if args.profile_views:
+        shutil.copyfile(ROOT/"test/godot-inventory/profile-views.gd",project/"profile-views.gd")
     (project/"socket-test.tscn").write_text('[gd_scene load_steps=2 format=3]\n[ext_resource type="Script" path="res://socket-test.gd" id="1"]\n[node name="Sockets" type="Node"]\nscript = ExtResource("1")\n')
     settings=work/"settings"
     settings.mkdir()
@@ -53,13 +55,16 @@ def check(args, work):
              XDG_CONFIG_HOME=str(settings), XDG_DATA_HOME=str(settings), XDG_CACHE_HOME=str(settings),
              TEMP=str(settings), TMP=str(settings), TMPDIR=str(settings))
 
-    def launch(extra, marker=None):
+    def launch(extra, marker=None, expected_failure=None):
         result=subprocess.run([args.editor,"--headless","--path",project,*extra],cwd=project,env=env,
                               stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,
                               encoding="utf-8",errors="replace",timeout=120,
                               creationflags=getattr(subprocess,"CREATE_NO_WINDOW",0))
         errors=[line for line in result.stdout.splitlines() if ("ERROR:" in line or "ObjectDB instances leaked" in line)
                 and "Failed to read the root certificate store." not in line]
+        if expected_failure:
+            assert result.returncode==1 and not errors and "HWE_VIEW_FAILED "+expected_failure in result.stdout,result.stdout[-5000:]
+            return dict(sha256=hashlib.sha256(result.stdout.encode()).hexdigest(),output=result.stdout)
         assert result.returncode==0 and not errors,result.stdout[-5000:]
         if marker:
             return json.loads(next(line[len(marker):] for line in result.stdout.splitlines() if line.startswith(marker)))
@@ -83,6 +88,32 @@ def check(args, work):
         assert '<span style="color:'+("#6fc06f" if card["levelMet"] else "#d05050")+'">'+card["requirement"]+'</span> · '+card["rarityLabel"]==expected["fullMeta"]
     sockets=launch(["res://socket-test.tscn","--","--cargo-sample"],"HWE_SUPPORT ")
     assert sockets["cases"]==len(support) and sockets["pouch"]["cases"]==15
+    views=launch(["--script","res://profile-views.gd"],"HWE_VIEW_OK ") if args.profile_views else None
+    if views:
+        wrapper=project/"addons/hollow_wake/crafting/crafting.gd"
+        original=wrapper.read_bytes()
+        faults=[
+            ("mutable-view",[("\t_freeze_view(reply.view)","\tpass")],"complete readonly view with exact numbers"),
+            ("lose-retained-account",[("reply.view.state.account=_view_account","reply.view.state.account={}")],"unchanged account shared"),
+            ("reuse-VM-cursor",[("if status == 0: _clear_view()","if status == 0: pass"),("\t\t_clear_view()","\t\tpass")],"colliding token across VM lifetimes refreshed")
+        ]
+        detected=[]
+        try:
+            for label,edits,expected in faults:
+                changed=original.decode("utf-8")
+                for before,after in edits:
+                    assert changed.count(before)==1,label
+                    changed=changed.replace(before,after)
+                wrapper.write_text(changed,encoding="utf-8")
+                log=launch(["--script","res://profile-views.gd"],expected_failure=expected)
+                detected.append(dict(name=label,assertion=expected,logSha256=log["sha256"],output=log["output"]))
+        finally:
+            wrapper.write_bytes(original)
+        restored=launch(["--script","res://profile-views.gd"],"HWE_VIEW_OK ")
+        assert restored["assertions"]==views["assertions"] and wrapper.read_bytes()==original
+        views["faults"]=detected
+        views["restoredAssertions"]=restored["assertions"]
+        views["probeSha256"]=hashlib.sha256((ROOT/"test/godot-inventory/profile-views.gd").read_bytes()).hexdigest()
     hashes={}
     for name in ["inventory-cargo-sample.sqlite3","inventory-support-sample.sqlite3","recall-course.sqlite3"]:
         with closing(sqlite3.connect(folder/name)) as db:
@@ -107,7 +138,7 @@ def check(args, work):
                     assert loose[0]["gem"]==dict(kind="support",supportId="teeming_vein",level=2,rolled=dict(trigger="chance",brood="grubs",clutch="brood4"))
             hashes[name]=hashlib.sha256(body.encode()).hexdigest()
     return dict(passed=True,platform=proof["platform"],archiveSha256=proof["archives"][archive.name],
-                editorImport=not args.direct_registration,legacyCommands=len(observed),gearCards=len(cards),rack=rack,supports=sockets,saveHashes=hashes)
+                editorImport=not args.direct_registration,legacyCommands=len(observed),gearCards=len(cards),rack=rack,supports=sockets,saveHashes=hashes,profileViews=views)
 
 
 if __name__=="__main__":
@@ -115,6 +146,7 @@ if __name__=="__main__":
     parser.add_argument("editor")
     for name in ["delivery","scratch","output"]:parser.add_argument(name,type=Path)
     parser.add_argument("--direct-registration",action="store_true")
+    parser.add_argument("--profile-views",action="store_true")
     args=parser.parse_args()
     assert __debug__ and not args.output.exists()
     with runpy.run_path(str(ROOT/"scripts/verify-background-workshop.py"))["working_directory"](args.scratch) as work:

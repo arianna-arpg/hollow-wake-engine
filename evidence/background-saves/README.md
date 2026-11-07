@@ -20,10 +20,13 @@ main, and all seven compiled-source hashes match the accepted builds. The
 worker CI step. All three uploaded asset hashes match. The full inventory
 projects and player checks remain a separate local delivery.
 
-Both native jobs in the [published-source run](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42336328376)
-have passed, including the worker and its eight faults on Windows and Linux.
-The remaining hosted package/reference jobs are still running at this checkpoint;
-publication.json retains the observed status. The earlier 0.2 source commit's
+All seven jobs in the [published-source run](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42336328376)
+have passed, including the original-game reference suite, package consumers and
+native worker fault checks on Windows and Linux. The follow-up receipt in
+hosted-main.json records completion; publication.json preserves the earlier
+publication-time snapshot. The [duplicate tag run](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42336349636)
+also passed all seven jobs; hosted-tag.json retains its completion receipt.
+The earlier 0.2 source commit's
 branch, pull-request, tag and main runs all completed successfully.
 
 Windows x64 and Steam Runtime 4 Linux x86_64 both pass the empty-project native

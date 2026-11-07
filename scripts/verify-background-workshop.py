@@ -20,13 +20,14 @@ PREFIX = "inventory-workshop/"
 @contextmanager
 def working_directory(parent):
     """Retry transient Windows release delays; never suppress a cleanup failure."""
-    folder = Path(tempfile.mkdtemp(prefix="background-workshop-", dir=parent))
+    folder = Path(tempfile.mkdtemp(prefix="background-workshop-", dir=parent)).resolve()
     try:
         yield folder
     finally:
         for attempt in range(9):
             try:
                 shutil.rmtree(folder)
+                assert not folder.exists(), "Temporary fixture was not removed: " + str(folder)
                 break
             except FileNotFoundError:
                 break
@@ -72,6 +73,27 @@ def verify(args, work, delivery):
     source_files = ["profile.gd", "inventory.gd", "verify_inlays.gd", "verify_background.gd", "workshop_start.gd", "README.md"]
     for name in source_files:
         shutil.copyfile(ROOT / "examples/godot-inventory" / name, project / name)
+    crafting_hashes = {}
+    if args.crafting_addon:
+        overlay = json.loads((args.crafting_addon / "overlay.json").read_text())
+        assert overlay["passed"] and overlay["capability"] == "crafting-view/v1"
+        for name, expected in overlay["sources"].items():
+            file = (ROOT / name).resolve()
+            assert file.is_relative_to(ROOT.resolve()) and digest(file) == expected, name
+        manifest_file = project / "addons/hollow_wake/crafting/manifest.json"
+        manifest = json.loads(manifest_file.read_text())
+        for name, expected in manifest["files"].items():
+            assert digest(manifest_file.parent / name) == expected, name
+        for name in ["bundle.txt", "crafting.gd", "README.md"]:
+            assert digest(args.crafting_addon / name) == overlay["files"][name]
+            shutil.copyfile(args.crafting_addon / name, project / "addons/hollow_wake/crafting" / name)
+            crafting_hashes[name] = digest(args.crafting_addon / name)
+            manifest["files"][name] = crafting_hashes[name]
+        manifest["sdkArchiveSha256"] = overlay["sdkArchiveSha256"]
+        manifest["optional"].append(overlay["capability"])
+        manifest["readViewSources"] = overlay["sources"]
+        manifest_file.write_text(json.dumps(manifest, indent=2) + "\n")
+        crafting_hashes["manifest.json"] = digest(manifest_file)
     store = project / "addons/hollow_wake_save"
     shutil.copyfile(native["library"], store / "bin" / Path(native["library"]).name)
     shutil.copyfile(ROOT / "adapters/godot/local-save/README.md", store / "README.md")
@@ -168,7 +190,7 @@ def verify(args, work, delivery):
         vestiges.append(observations("relocated inlays", runnable, ["--", "--verify-inlays", "--vestige-sample", *extra],
                                      player_env, "HWE_VESTIGE_OK "))
     assert [row["resumed"] for row in vestiges] == [False, True] and all(row["revision"] == 5 for row in vestiges)
-    return dict(passed=True, platform=platform, native=native, editorImport=not args.direct_registration,
+    return dict(passed=True, platform=platform, native=native, editorImport=not args.direct_registration, craftingAddonHashes=crafting_hashes,
                 donorArchives={name: donor["archives"][name] for name in (project_name, player_name)},
                 sources={str((Path("examples/godot-inventory") / name).as_posix()): digest(ROOT / "examples/godot-inventory" / name) for name in source_files},
                 editor=editor, player=shipped, vestiges=vestiges,
@@ -180,6 +202,7 @@ if __name__ == "__main__":
     for name in ["tools", "native_proof", "donors", "scratch", "output"]:
         parser.add_argument(name, type=Path)
     parser.add_argument("--direct-registration", action="store_true")
+    parser.add_argument("--crafting-addon", type=Path)
     args = parser.parse_args()
     assert __debug__ and not args.output.exists()
     with working_directory(args.scratch) as temp:

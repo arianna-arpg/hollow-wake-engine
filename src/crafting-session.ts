@@ -31,6 +31,8 @@ export class CraftingSession {
   readonly #defs: CraftingSessionDefinitions;
   readonly #data: CraftingSessionData;
   readonly #profiles = new Map<number, Profile>();
+  readonly #accountViews = new WeakMap<Readonly<SessionPart>, number>();
+  #nextAccountView = 1;
   readonly #identity: unknown[];
   readonly #maxProfiles: number;
   readonly #inventory: InventoryHost<ItemInstance>;
@@ -69,6 +71,27 @@ export class CraftingSession {
     if(!Number.isSafeInteger(id)||id<0||id>0xffffffff)return refuse('invalid-integer');
     const profile=this.#profiles.get(id);
     return profile?{ok:true as const,text:JSON.stringify(this.#snapshot(profile))}:refuse('not-open');
+  }
+  /** Detached read projection. An account token is valid only in this session
+   * instance; zero requests the full account. A matching token replaces that
+   * unchanged subtree with null, retaining its property position. The reader
+   * must replace the marker with its matching account before saving the view.
+   * Ordinary save/snapshotText stay complete. */
+  snapshotView(id: number, knownAccountVersion = 0) {
+    if(!Number.isSafeInteger(id)||id<0||id>0xffffffff||!Number.isSafeInteger(knownAccountVersion)||knownAccountVersion<0)
+      return refuse('invalid-integer');
+    const profile=this.#profiles.get(id);
+    if(!profile)return refuse('not-open');
+    const part=profile.account!;
+    let accountVersion=this.#accountViews.get(part);
+    if(accountVersion===undefined){
+      if(this.#nextAccountView>Number.MAX_SAFE_INTEGER)return refuse('view-version-exhausted');
+      accountVersion=this.#nextAccountView++;
+      this.#accountViews.set(part,accountVersion);
+    }
+    const state={...profile.state,account:accountVersion===knownAccountVersion?null:profile.state.account};
+    const view={...this.#snapshot(profile),state};
+    return {ok:true as const,accountVersion,view:cloneOwnedJSON(view)};
   }
   /** Bind the host's authored slot pack once. Existing profiles retain their
    * identities and legacy slot keys. Only equip and unequip consume this pack. */

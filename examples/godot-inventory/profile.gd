@@ -146,7 +146,7 @@ func _valid_stash(source: Dictionary, items: Array) -> bool:
 	return true
 
 func _save(destination: Array, sold_uid: int = 0, new_memory: Variant = null) -> Dictionary:
-	var snapshot := api.snapshot(1)
+	var snapshot := api.snapshot_view(1)
 	if not snapshot.ok: return snapshot
 	if sold_uid and _find(snapshot.save.state.items,sold_uid) >= 0:
 		return {"ok":false,"reason":"protected-item"}

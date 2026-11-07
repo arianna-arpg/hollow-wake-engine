@@ -10,6 +10,47 @@ const SupportFit = preload("support_fit.gd")
 var _fit: SupportFit
 const PouchRecall = preload("pouch_recall.gd")
 var _pouch: PouchRecall
+var _view_profile := -1
+var _view_version := 0
+var _view_account: Dictionary = {}
+
+func start_from(data_path: String, heap_limit_bytes: int) -> int:
+	var status := super.start_from(data_path,heap_limit_bytes)
+	if status == 0: _clear_view()
+	return status
+
+func _clear_view() -> void:
+	_view_profile=-1
+	_view_version=0
+	_view_account={}
+
+func _freeze_view(value: Variant) -> void:
+	if value is Array and not value.is_read_only():
+		for child in value: _freeze_view(child)
+		value.make_read_only()
+	elif value is Dictionary and not value.is_read_only():
+		for key in value: _freeze_view(value[key])
+		value.make_read_only()
+
+# A complete, deeply read-only view. Only the last account is cached; switching
+# profiles or reinitializing the VM requests a full account. Mutable snapshot()
+# and portable snapshot_text() keep their existing ownership contracts.
+func snapshot_view(profile: int) -> Dictionary:
+	var known := _view_version if profile == _view_profile else 0
+	var reply := request({"op":"snapshot-view","profile":profile,"accountVersion":known})
+	if not reply.ok: return reply
+	if reply.view.state.account!=null:
+		_freeze_view(reply.view.state.account)
+		_view_account=reply.view.state.account
+		_view_profile=profile
+		_view_version=int(reply.accountVersion)
+	elif known==0 or int(reply.accountVersion)!=known:
+		close()
+		return {"ok":false,"reason":"invalid-native-response"}
+	else:
+		reply.view.state.account=_view_account
+	_freeze_view(reply.view)
+	return {"ok":true,"save":reply.view}
 
 func pouch_request(command: Dictionary) -> Dictionary:
 	if _pouch==null: _pouch=PouchRecall.new()
@@ -42,7 +83,9 @@ func start(heap_limit_bytes: int = 32 * 1024 * 1024) -> int:
 
 func close() -> int:
 	var status := super.close()
-	if status == 0: _reset_cards()
+	if status == 0:
+		_reset_cards()
+		_clear_view()
 	return status
 
 func _reset_cards() -> void:

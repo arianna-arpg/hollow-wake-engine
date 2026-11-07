@@ -1,0 +1,867 @@
+{
+  "passed": true,
+  "platform": "windows",
+  "pairs": 18,
+  "editorImport": true,
+  "scope": "Exported headless player; action calls, serialization, save polling and UI methods. GPU rendering excluded; nested timings must not be added. API/phase medians include only actions calling that operation.",
+  "archiveSha256": "99ccaffa36c5f015e4cd7d29f6536f9c239b50a70b340fea00afeccc44ef1196",
+  "sourceHashes": {
+    "scripts/measure-profile-saves.py": "32122ccbb326262f7178705f8eec8d998213d49782937ab8ee062d64033460e6",
+    "test/godot-inventory/profile-performance.gd": "099a7cc9f62c91aa5599acdf923e17bcfae43ae132965f89e1fae5fea439ffa7"
+  },
+  "candidateSha256": "a6ae20704090fa36ad8a1ef0cd5deb3c13eac712c453edc82ad0cafea93999b8",
+  "candidateWireSha256": null,
+  "candidateAddonHashes": {
+    "bundle.txt": "512d23bcb24410ad6590ab2d9ace88d800b6222068b45103e064ab76ba76edf5",
+    "crafting.gd": "5d302bc224aea450d00a3b13521906faa88e728fcba8cc5e7cef193e889a6d18"
+  },
+  "summaries": {
+    "synchronous": {
+      "small": {
+        "mainUs": {
+          "median": 34387.5,
+          "maximum": 71058
+        },
+        "maxBlockingUs": {
+          "median": 34387.5,
+          "maximum": 71058
+        },
+        "completionUs": {
+          "median": 34387.5,
+          "maximum": 71058
+        },
+        "storageCallUs": {
+          "median": 32059.5,
+          "maximum": 68629
+        },
+        "renderUs": {
+          "median": 169.5,
+          "maximum": 246
+        },
+        "apiUs": {
+          "cargo-references": 314.0,
+          "format": 45.0,
+          "learn-skill": 1072.5,
+          "save": 568.0,
+          "snapshot-text": 177.0,
+          "unlearn-skill": 1117.0
+        },
+        "wireUs": {
+          "cargo-references/decode": 14.0,
+          "cargo-references/encode": 86.0,
+          "cargo-references/json": 7.0,
+          "cargo-references/native": 199.5,
+          "format/encode": 26.0,
+          "format/json": 3.0,
+          "format/native": 12.0,
+          "learn-skill/decode": 22.0,
+          "learn-skill/encode": 41.0,
+          "learn-skill/json": 11.0,
+          "learn-skill/native": 988.0,
+          "save/decode": 159.0,
+          "save/encode": 34.0,
+          "save/json": 67.0,
+          "save/native": 296.0,
+          "snapshot-text/decode": 6.0,
+          "snapshot-text/encode": 33.0,
+          "snapshot-text/json": 19.0,
+          "snapshot-text/native": 114.0,
+          "unlearn-skill/decode": 21.0,
+          "unlearn-skill/encode": 41.0,
+          "unlearn-skill/json": 10.0,
+          "unlearn-skill/native": 1038.5
+        }
+      },
+      "loaded": {
+        "mainUs": {
+          "median": 174468.5,
+          "maximum": 268391
+        },
+        "maxBlockingUs": {
+          "median": 174468.5,
+          "maximum": 268391
+        },
+        "completionUs": {
+          "median": 174468.5,
+          "maximum": 268391
+        },
+        "storageCallUs": {
+          "median": 54179.0,
+          "maximum": 128904
+        },
+        "renderUs": {
+          "median": 1050.0,
+          "maximum": 3179
+        },
+        "apiUs": {
+          "cargo-references": 374.0,
+          "format": 71.5,
+          "learn-skill": 31519.5,
+          "save": 61730.0,
+          "snapshot-text": 14563.5,
+          "unlearn-skill": 31613.0
+        },
+        "wireUs": {
+          "cargo-references/decode": 14.0,
+          "cargo-references/encode": 96.0,
+          "cargo-references/json": 9.0,
+          "cargo-references/native": 244.0,
+          "format/encode": 34.0,
+          "format/json": 4.0,
+          "format/native": 28.5,
+          "learn-skill/decode": 27.0,
+          "learn-skill/encode": 42.0,
+          "learn-skill/json": 16.0,
+          "learn-skill/native": 31402.5,
+          "save/decode": 20832.5,
+          "save/encode": 38.0,
+          "save/json": 8876.5,
+          "save/native": 29574.5,
+          "snapshot-text/decode": 12.0,
+          "snapshot-text/encode": 43.0,
+          "snapshot-text/json": 2580.0,
+          "snapshot-text/native": 11822.0,
+          "unlearn-skill/decode": 27.0,
+          "unlearn-skill/encode": 41.0,
+          "unlearn-skill/json": 16.0,
+          "unlearn-skill/native": 31518.5
+        }
+      }
+    },
+    "baseline": {
+      "small": {
+        "mainUs": {
+          "median": 2607.5,
+          "maximum": 5638
+        },
+        "maxBlockingUs": {
+          "median": 2299.5,
+          "maximum": 3573
+        },
+        "completionUs": {
+          "median": 41898.0,
+          "maximum": 250305
+        },
+        "storageCallUs": {
+          "median": 55.0,
+          "maximum": 221
+        },
+        "renderUs": {
+          "median": 150.0,
+          "maximum": 2831
+        },
+        "apiUs": {
+          "cargo-references": 351.0,
+          "format": 45.0,
+          "learn-skill": 1050.0,
+          "save": 576.5,
+          "snapshot-text": 178.0,
+          "unlearn-skill": 1190.5
+        },
+        "wireUs": {
+          "cargo-references/decode": 14.0,
+          "cargo-references/encode": 94.5,
+          "cargo-references/json": 9.0,
+          "cargo-references/native": 225.5,
+          "format/encode": 26.0,
+          "format/json": 3.0,
+          "format/native": 12.0,
+          "learn-skill/decode": 21.0,
+          "learn-skill/encode": 42.0,
+          "learn-skill/json": 10.0,
+          "learn-skill/native": 969.5,
+          "save/decode": 162.0,
+          "save/encode": 33.0,
+          "save/json": 70.5,
+          "save/native": 297.5,
+          "snapshot-text/decode": 6.0,
+          "snapshot-text/encode": 33.0,
+          "snapshot-text/json": 20.0,
+          "snapshot-text/native": 114.0,
+          "unlearn-skill/decode": 23.5,
+          "unlearn-skill/encode": 51.0,
+          "unlearn-skill/json": 14.0,
+          "unlearn-skill/native": 1089.5
+        }
+      },
+      "loaded": {
+        "mainUs": {
+          "median": 119235.5,
+          "maximum": 165811
+        },
+        "maxBlockingUs": {
+          "median": 116517.5,
+          "maximum": 162472
+        },
+        "completionUs": {
+          "median": 175739.5,
+          "maximum": 258849
+        },
+        "storageCallUs": {
+          "median": 618.0,
+          "maximum": 1017
+        },
+        "renderUs": {
+          "median": 1066.5,
+          "maximum": 3577
+        },
+        "apiUs": {
+          "cargo-references": 372.0,
+          "format": 72.5,
+          "learn-skill": 31070.0,
+          "save": 62205.0,
+          "snapshot-text": 14617.0,
+          "unlearn-skill": 31690.0
+        },
+        "wireUs": {
+          "cargo-references/decode": 14.0,
+          "cargo-references/encode": 97.0,
+          "cargo-references/json": 9.0,
+          "cargo-references/native": 241.0,
+          "format/encode": 34.0,
+          "format/json": 4.0,
+          "format/native": 29.0,
+          "learn-skill/decode": 27.0,
+          "learn-skill/encode": 42.0,
+          "learn-skill/json": 16.0,
+          "learn-skill/native": 30973.5,
+          "save/decode": 21123.5,
+          "save/encode": 38.0,
+          "save/json": 8875.0,
+          "save/native": 29710.5,
+          "snapshot-text/decode": 12.5,
+          "snapshot-text/encode": 43.5,
+          "snapshot-text/json": 2600.0,
+          "snapshot-text/native": 11788.5,
+          "unlearn-skill/decode": 27.5,
+          "unlearn-skill/encode": 47.5,
+          "unlearn-skill/json": 16.0,
+          "unlearn-skill/native": 31584.5
+        }
+      }
+    },
+    "control": {
+      "small": {
+        "mainUs": {
+          "median": 2573.5,
+          "maximum": 4168
+        },
+        "maxBlockingUs": {
+          "median": 2265.0,
+          "maximum": 3812
+        },
+        "completionUs": {
+          "median": 41887.5,
+          "maximum": 58563
+        },
+        "storageCallUs": {
+          "median": 55.0,
+          "maximum": 72
+        },
+        "renderUs": {
+          "median": 153.0,
+          "maximum": 229
+        },
+        "apiUs": {
+          "cargo-references": 358.5,
+          "format": 45.0,
+          "learn-skill": 1048.5,
+          "save": 573.5,
+          "snapshot-text": 178.5,
+          "unlearn-skill": 1185.0
+        },
+        "wireUs": {
+          "cargo-references/decode": 14.0,
+          "cargo-references/encode": 96.0,
+          "cargo-references/json": 9.0,
+          "cargo-references/native": 229.0,
+          "format/encode": 26.0,
+          "format/json": 3.0,
+          "format/native": 12.0,
+          "learn-skill/decode": 21.0,
+          "learn-skill/encode": 42.0,
+          "learn-skill/json": 10.0,
+          "learn-skill/native": 965.5,
+          "save/decode": 160.0,
+          "save/encode": 33.0,
+          "save/json": 71.0,
+          "save/native": 297.5,
+          "snapshot-text/decode": 6.0,
+          "snapshot-text/encode": 33.0,
+          "snapshot-text/json": 20.0,
+          "snapshot-text/native": 113.5,
+          "unlearn-skill/decode": 23.5,
+          "unlearn-skill/encode": 51.0,
+          "unlearn-skill/json": 14.0,
+          "unlearn-skill/native": 1085.5
+        }
+      },
+      "loaded": {
+        "mainUs": {
+          "median": 118756.5,
+          "maximum": 148106
+        },
+        "maxBlockingUs": {
+          "median": 115731.5,
+          "maximum": 145863
+        },
+        "completionUs": {
+          "median": 175103.0,
+          "maximum": 311496
+        },
+        "storageCallUs": {
+          "median": 620.0,
+          "maximum": 925
+        },
+        "renderUs": {
+          "median": 1059.0,
+          "maximum": 2973
+        },
+        "apiUs": {
+          "cargo-references": 370.5,
+          "format": 76.0,
+          "learn-skill": 31185.5,
+          "save": 62207.0,
+          "snapshot-text": 14536.5,
+          "unlearn-skill": 31717.5
+        },
+        "wireUs": {
+          "cargo-references/decode": 14.0,
+          "cargo-references/encode": 96.0,
+          "cargo-references/json": 9.0,
+          "cargo-references/native": 241.0,
+          "format/encode": 35.0,
+          "format/json": 5.0,
+          "format/native": 30.0,
+          "learn-skill/decode": 27.0,
+          "learn-skill/encode": 42.0,
+          "learn-skill/json": 16.0,
+          "learn-skill/native": 31089.5,
+          "save/decode": 20825.5,
+          "save/encode": 39.0,
+          "save/json": 8847.0,
+          "save/native": 29894.0,
+          "snapshot-text/decode": 13.0,
+          "snapshot-text/encode": 44.0,
+          "snapshot-text/json": 2578.5,
+          "snapshot-text/native": 11789.5,
+          "unlearn-skill/decode": 27.0,
+          "unlearn-skill/encode": 48.0,
+          "unlearn-skill/json": 16.0,
+          "unlearn-skill/native": 31612.5
+        }
+      }
+    },
+    "candidate": {
+      "small": {
+        "mainUs": {
+          "median": 2485.5,
+          "maximum": 3725
+        },
+        "maxBlockingUs": {
+          "median": 2216.5,
+          "maximum": 3352
+        },
+        "completionUs": {
+          "median": 25244.0,
+          "maximum": 42057
+        },
+        "storageCallUs": {
+          "median": 42.0,
+          "maximum": 62
+        },
+        "renderUs": {
+          "median": 148.5,
+          "maximum": 244
+        },
+        "apiUs": {
+          "cargo-references": 352.0,
+          "format": 45.0,
+          "learn-skill": 1043.0,
+          "snapshot-text": 181.0,
+          "snapshot-view": 543.0,
+          "unlearn-skill": 1163.5
+        },
+        "wireUs": {
+          "cargo-references/decode": 14.0,
+          "cargo-references/encode": 92.0,
+          "cargo-references/json": 8.0,
+          "cargo-references/native": 225.5,
+          "format/encode": 26.0,
+          "format/json": 3.0,
+          "format/native": 12.0,
+          "learn-skill/decode": 21.0,
+          "learn-skill/encode": 42.0,
+          "learn-skill/json": 10.0,
+          "learn-skill/native": 963.5,
+          "snapshot-text/decode": 6.0,
+          "snapshot-text/encode": 33.0,
+          "snapshot-text/json": 20.0,
+          "snapshot-text/native": 115.5,
+          "snapshot-view/decode": 155.0,
+          "snapshot-view/encode": 35.5,
+          "snapshot-view/json": 67.0,
+          "snapshot-view/native": 272.5,
+          "unlearn-skill/decode": 22.0,
+          "unlearn-skill/encode": 49.0,
+          "unlearn-skill/json": 13.0,
+          "unlearn-skill/native": 1072.5
+        }
+      },
+      "loaded": {
+        "mainUs": {
+          "median": 58411.0,
+          "maximum": 82046
+        },
+        "maxBlockingUs": {
+          "median": 56487.5,
+          "maximum": 79712
+        },
+        "completionUs": {
+          "median": 123544.0,
+          "maximum": 290087
+        },
+        "storageCallUs": {
+          "median": 590.5,
+          "maximum": 905
+        },
+        "renderUs": {
+          "median": 1105.5,
+          "maximum": 3336
+        },
+        "apiUs": {
+          "cargo-references": 369.0,
+          "format": 72.0,
+          "learn-skill": 31244.5,
+          "snapshot-text": 14379.5,
+          "snapshot-view": 9123.0,
+          "unlearn-skill": 31309.5
+        },
+        "wireUs": {
+          "cargo-references/decode": 14.0,
+          "cargo-references/encode": 95.0,
+          "cargo-references/json": 9.0,
+          "cargo-references/native": 241.0,
+          "format/encode": 34.0,
+          "format/json": 4.0,
+          "format/native": 28.0,
+          "learn-skill/decode": 27.0,
+          "learn-skill/encode": 42.0,
+          "learn-skill/json": 15.0,
+          "learn-skill/native": 31134.0,
+          "snapshot-text/decode": 12.0,
+          "snapshot-text/encode": 39.0,
+          "snapshot-text/json": 2617.5,
+          "snapshot-text/native": 11605.0,
+          "snapshot-view/decode": 2315.5,
+          "snapshot-view/encode": 41.0,
+          "snapshot-view/json": 1484.0,
+          "snapshot-view/native": 5127.5,
+          "unlearn-skill/decode": 27.0,
+          "unlearn-skill/encode": 46.5,
+          "unlearn-skill/json": 16.0,
+          "unlearn-skill/native": 31208.0
+        }
+      }
+    }
+  },
+  "raw": {
+    "file": "evidence/profile-views/measure-windows.json.gz",
+    "sha256": "0c05b60cc263ea500961fe633554c11053df3a3a0f23846f06389ff681268b7d",
+    "rawSha256": "58bd85f4a8bfbed8ad1b9d9b39ed337607421b85fdda7d8d2cc7446b91504c73"
+  },
+  "runs": [
+    {
+      "variant": "synchronous",
+      "packSha256": "9385598daee63688e32480c39081644d99f3058ebe54568f5e06460bda62f4eb",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "engine": "4.7.2-stable (official)",
+      "platform": "Windows",
+      "small": {
+        "database": "D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-m2/.artifacts/profile-save-session/background-workshop-rez82ivt/run-0/hollow-wake-inventory-workshop/profile-small.sqlite3",
+        "metrics": {
+          "allocations": 92497,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 30964491,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 37,
+        "saveBytes": 1695,
+        "saveSha256": "1d2b184d44a07ff5254a3b95013e173de9b547fe7cca85eff5a647eb61db6d77",
+        "uid": 23849,
+        "measuredActions": 32,
+        "warmupActions": 4
+      },
+      "loaded": {
+        "database": "D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-m2/.artifacts/profile-save-session/background-workshop-rez82ivt/run-0/hollow-wake-inventory-workshop/profile-loaded.sqlite3",
+        "metrics": {
+          "allocations": 150874,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 32071194,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 38,
+        "saveBytes": 283729,
+        "saveSha256": "dc67f56a8aecac29f4537010009b8aef04329af73fc74b26b5b14f04dc3ab2c1",
+        "uid": 1888,
+        "measuredActions": 32,
+        "warmupActions": 4
+      }
+    },
+    {
+      "variant": "baseline",
+      "packSha256": "91495909fb77738177def6bf4cb5e47e1c9ab2f14e69baa8199d4f6ba392c6e7",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "engine": "4.7.2-stable (official)",
+      "platform": "Windows",
+      "small": {
+        "database": "D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-m2/.artifacts/profile-save-session/background-workshop-rez82ivt/run-1/hollow-wake-inventory-workshop/profile-small.sqlite3",
+        "metrics": {
+          "allocations": 92497,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 30964491,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 37,
+        "saveBytes": 1695,
+        "saveSha256": "1d2b184d44a07ff5254a3b95013e173de9b547fe7cca85eff5a647eb61db6d77",
+        "uid": 23849,
+        "measuredActions": 32,
+        "warmupActions": 4
+      },
+      "loaded": {
+        "database": "D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-m2/.artifacts/profile-save-session/background-workshop-rez82ivt/run-1/hollow-wake-inventory-workshop/profile-loaded.sqlite3",
+        "metrics": {
+          "allocations": 150874,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 32071194,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 38,
+        "saveBytes": 283729,
+        "saveSha256": "dc67f56a8aecac29f4537010009b8aef04329af73fc74b26b5b14f04dc3ab2c1",
+        "uid": 1888,
+        "measuredActions": 32,
+        "warmupActions": 4
+      }
+    },
+    {
+      "variant": "candidate",
+      "packSha256": "ffef9b89c6eb796a8cb976d530f2aa2b2726d7136ace5152b208b7afc3a217a4",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "engine": "4.7.2-stable (official)",
+      "platform": "Windows",
+      "small": {
+        "database": "D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-m2/.artifacts/profile-save-session/background-workshop-rez82ivt/run-2/hollow-wake-inventory-workshop/profile-small.sqlite3",
+        "metrics": {
+          "allocations": 88101,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 30969809,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 37,
+        "saveBytes": 1695,
+        "saveSha256": "1d2b184d44a07ff5254a3b95013e173de9b547fe7cca85eff5a647eb61db6d77",
+        "uid": 23849,
+        "measuredActions": 32,
+        "warmupActions": 4
+      },
+      "loaded": {
+        "database": "D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-m2/.artifacts/profile-save-session/background-workshop-rez82ivt/run-2/hollow-wake-inventory-workshop/profile-loaded.sqlite3",
+        "metrics": {
+          "allocations": 124946,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 32132168,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 38,
+        "saveBytes": 283729,
+        "saveSha256": "dc67f56a8aecac29f4537010009b8aef04329af73fc74b26b5b14f04dc3ab2c1",
+        "uid": 1888,
+        "measuredActions": 32,
+        "warmupActions": 4
+      }
+    },
+    {
+      "variant": "control",
+      "packSha256": "91495909fb77738177def6bf4cb5e47e1c9ab2f14e69baa8199d4f6ba392c6e7",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "engine": "4.7.2-stable (official)",
+      "platform": "Windows",
+      "small": {
+        "database": "D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-m2/.artifacts/profile-save-session/background-workshop-rez82ivt/run-3/hollow-wake-inventory-workshop/profile-small.sqlite3",
+        "metrics": {
+          "allocations": 92497,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 30964491,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 37,
+        "saveBytes": 1695,
+        "saveSha256": "1d2b184d44a07ff5254a3b95013e173de9b547fe7cca85eff5a647eb61db6d77",
+        "uid": 23849,
+        "measuredActions": 32,
+        "warmupActions": 4
+      },
+      "loaded": {
+        "database": "D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-m2/.artifacts/profile-save-session/background-workshop-rez82ivt/run-3/hollow-wake-inventory-workshop/profile-loaded.sqlite3",
+        "metrics": {
+          "allocations": 150874,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 32071194,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 38,
+        "saveBytes": 283729,
+        "saveSha256": "dc67f56a8aecac29f4537010009b8aef04329af73fc74b26b5b14f04dc3ab2c1",
+        "uid": 1888,
+        "measuredActions": 32,
+        "warmupActions": 4
+      }
+    },
+    {
+      "variant": "control",
+      "packSha256": "91495909fb77738177def6bf4cb5e47e1c9ab2f14e69baa8199d4f6ba392c6e7",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "engine": "4.7.2-stable (official)",
+      "platform": "Windows",
+      "small": {
+        "database": "D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-m2/.artifacts/profile-save-session/background-workshop-rez82ivt/run-4/hollow-wake-inventory-workshop/profile-small.sqlite3",
+        "metrics": {
+          "allocations": 92497,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 30964491,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 37,
+        "saveBytes": 1695,
+        "saveSha256": "1d2b184d44a07ff5254a3b95013e173de9b547fe7cca85eff5a647eb61db6d77",
+        "uid": 23849,
+        "measuredActions": 32,
+        "warmupActions": 4
+      },
+      "loaded": {
+        "database": "D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-m2/.artifacts/profile-save-session/background-workshop-rez82ivt/run-4/hollow-wake-inventory-workshop/profile-loaded.sqlite3",
+        "metrics": {
+          "allocations": 150874,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 32071194,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 38,
+        "saveBytes": 283729,
+        "saveSha256": "dc67f56a8aecac29f4537010009b8aef04329af73fc74b26b5b14f04dc3ab2c1",
+        "uid": 1888,
+        "measuredActions": 32,
+        "warmupActions": 4
+      }
+    },
+    {
+      "variant": "candidate",
+      "packSha256": "ffef9b89c6eb796a8cb976d530f2aa2b2726d7136ace5152b208b7afc3a217a4",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "engine": "4.7.2-stable (official)",
+      "platform": "Windows",
+      "small": {
+        "database": "D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-m2/.artifacts/profile-save-session/background-workshop-rez82ivt/run-5/hollow-wake-inventory-workshop/profile-small.sqlite3",
+        "metrics": {
+          "allocations": 88101,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 30969809,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 37,
+        "saveBytes": 1695,
+        "saveSha256": "1d2b184d44a07ff5254a3b95013e173de9b547fe7cca85eff5a647eb61db6d77",
+        "uid": 23849,
+        "measuredActions": 32,
+        "warmupActions": 4
+      },
+      "loaded": {
+        "database": "D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-m2/.artifacts/profile-save-session/background-workshop-rez82ivt/run-5/hollow-wake-inventory-workshop/profile-loaded.sqlite3",
+        "metrics": {
+          "allocations": 124946,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 32132168,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 38,
+        "saveBytes": 283729,
+        "saveSha256": "dc67f56a8aecac29f4537010009b8aef04329af73fc74b26b5b14f04dc3ab2c1",
+        "uid": 1888,
+        "measuredActions": 32,
+        "warmupActions": 4
+      }
+    },
+    {
+      "variant": "baseline",
+      "packSha256": "91495909fb77738177def6bf4cb5e47e1c9ab2f14e69baa8199d4f6ba392c6e7",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "engine": "4.7.2-stable (official)",
+      "platform": "Windows",
+      "small": {
+        "database": "D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-m2/.artifacts/profile-save-session/background-workshop-rez82ivt/run-6/hollow-wake-inventory-workshop/profile-small.sqlite3",
+        "metrics": {
+          "allocations": 92497,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 30964491,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 37,
+        "saveBytes": 1695,
+        "saveSha256": "1d2b184d44a07ff5254a3b95013e173de9b547fe7cca85eff5a647eb61db6d77",
+        "uid": 23849,
+        "measuredActions": 32,
+        "warmupActions": 4
+      },
+      "loaded": {
+        "database": "D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-m2/.artifacts/profile-save-session/background-workshop-rez82ivt/run-6/hollow-wake-inventory-workshop/profile-loaded.sqlite3",
+        "metrics": {
+          "allocations": 150874,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 32071194,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 38,
+        "saveBytes": 283729,
+        "saveSha256": "dc67f56a8aecac29f4537010009b8aef04329af73fc74b26b5b14f04dc3ab2c1",
+        "uid": 1888,
+        "measuredActions": 32,
+        "warmupActions": 4
+      }
+    },
+    {
+      "variant": "synchronous",
+      "packSha256": "9385598daee63688e32480c39081644d99f3058ebe54568f5e06460bda62f4eb",
+      "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "engine": "4.7.2-stable (official)",
+      "platform": "Windows",
+      "small": {
+        "database": "D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-m2/.artifacts/profile-save-session/background-workshop-rez82ivt/run-7/hollow-wake-inventory-workshop/profile-small.sqlite3",
+        "metrics": {
+          "allocations": 92497,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 30964491,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 37,
+        "saveBytes": 1695,
+        "saveSha256": "1d2b184d44a07ff5254a3b95013e173de9b547fe7cca85eff5a647eb61db6d77",
+        "uid": 23849,
+        "measuredActions": 32,
+        "warmupActions": 4
+      },
+      "loaded": {
+        "database": "D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-m2/.artifacts/profile-save-session/background-workshop-rez82ivt/run-7/hollow-wake-inventory-workshop/profile-loaded.sqlite3",
+        "metrics": {
+          "allocations": 150874,
+          "cancellation_requested": false,
+          "closed": true,
+          "delivery_failed": false,
+          "live_blocks": 0,
+          "live_bytes": 0,
+          "peak_bytes": 32071194,
+          "poisoned": false,
+          "response_pending": false,
+          "status": 0
+        },
+        "revision": 38,
+        "saveBytes": 283729,
+        "saveSha256": "dc67f56a8aecac29f4537010009b8aef04329af73fc74b26b5b14f04dc3ab2c1",
+        "uid": 1888,
+        "measuredActions": 32,
+        "warmupActions": 4
+      }
+    }
+  ]
+}

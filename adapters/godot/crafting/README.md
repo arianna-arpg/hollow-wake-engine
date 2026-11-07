@@ -6,6 +6,13 @@ native extension and its licenses. Each session starts independently. For export
 include the raw assets `*.json,*.txt,*.md` in **Resources → non-resource export
 filter**. Preserve any existing installation or custom files before updating.
 
+For repeated inventory reads, use `snapshot_view(profile)`. Its `save` is complete
+and deeply read-only; unchanged account lore is reused internally. `snapshot()`
+still returns a detached mutable save. Use `snapshot_text()` for portable storage.
+The view cache resets across VM restarts and profile changes. Never use the view
+as proof that a pending durable write has committed; publish it only after the
+store confirms success, as the inventory workshop does.
+
 ## Inspect an inventory item
 
 Call `inspect_item(item)` for rolled equipment and `compare_items(candidate, worn)`
