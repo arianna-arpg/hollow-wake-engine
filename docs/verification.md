@@ -6,8 +6,12 @@ match the original 56 workshop replies in both editor and relocated player,
 alongside the retained combat and pouch courses. Typed-profile checks cover
 large IDs, automatic next-ID selection, isolation, refused cross-profile
 commands, complete save/RNG continuation and disposal. The scene sample's
-checkpoint is in memory; durable Unity storage and combat-build synchronization
-remain separate integration work.
+checkpoint is in memory. The optional [Unity storage package](unity-storage.md)
+adds durable workshop publication and restart continuation; combat-build
+synchronization remains separate integration work. Its real Unity course covers
+plain storage and the combined gameplay installation, Package Manager sample
+import, a relocated player, exact SQLite records, pending-save lifecycle cleanup
+and deliberate early/failed-publication defects.
 
 The [fresh Godot package checkpoint](../evidence/fresh-godot-package/README.md)
 qualifies the normal builder through the full workshop bundle and extracted
@@ -47,11 +51,11 @@ are detected. Real returned-spear travel, exact-instance retirement and nine
 callback interruptions are included. See the [boundary](status-delivery-boundary.md)
 and [evidence](../evidence/status-delivery/baseline-windows.json).
 
-Hosted Windows native replay at `69729a1` fails at the experimental 256 KiB
-stack guard, although local Windows and hosted Linux replay pass. The native
-package therefore has an open portability failure. See the
-[investigation](native-stack-investigation.md); local replay is not evidence
-that the hosted configuration passes.
+Hosted Windows native replay at `69729a1` failed at the experimental 256 KiB
+stack guard, although local Windows and hosted Linux replay passed. The later
+[repair and hosted replay](native-stack-investigation.md) retain that guard;
+the earlier failure remains part of the evidence. Local replay alone is not
+evidence that a hosted configuration passes.
 
 The `reference:hit-aftermath` and `test:hit-aftermath-observer` commands
 cover the remaining damaging phase and the complete common continuation of a

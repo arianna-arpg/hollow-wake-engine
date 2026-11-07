@@ -1,0 +1,57 @@
+name: Verify Unity package archive
+on:
+  push:
+    paths:
+      - '.github/workflows/unity-storage.yml'
+      - 'scripts/unity-package-archive.py'
+      - 'scripts/unity-gameplay-archive.py'
+      - 'scripts/package-unity-gameplay.mjs'
+      - 'scripts/package-unity-storage.mjs'
+      - 'scripts/verify-unity-storage.py'
+      - 'scripts/check-unity-storage-evidence.mjs'
+      - 'adapters/unity-storage/**'
+      - 'test/unity-storage/**'
+      - 'test/unity-workshop-storage/**'
+      - 'evidence/unity-storage/**'
+      - 'test/unity-storage/archive-controls.py'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  archive:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2025, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.9.0
+      - name: Check source-bound Unity evidence
+        run: node scripts/check-unity-storage-evidence.mjs
+      - name: Check the shared packer against the frozen published archive
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Path .artifacts -Force | Out-Null
+          $archive = Join-Path (Get-Location) '.artifacts/unity-published.tgz'
+          try {
+            Invoke-WebRequest -Uri 'https://github.com/arianna-arpg/hollow-wake-engine/releases/download/unity-workshop-v0.2.0-preview.1/com.hollowwake.gameplay-0.2.0-preview.1.tgz' -OutFile $archive
+            python -I -B test/unity-storage/archive-controls.py $archive .artifacts/unity-archive-controls.json
+            if ($LASTEXITCODE -ne 0) { throw 'Frozen Unity archive comparison failed' }
+          } finally {
+            if (Test-Path -LiteralPath $archive) { Remove-Item -LiteralPath $archive }
+          }
+      - name: Retain archive verification only
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: unity-archive-${{ matrix.os }}
+          if-no-files-found: error
+          retention-days: 14
+          path: .artifacts/unity-archive-controls.json

@@ -91,7 +91,7 @@ try{
   fs.mkdirSync(out,{recursive:true});
   const receipt={name,version,file,bytes:bytes.length,sha256:sha256(bytes),sdkSha256,
     workshopAddonSha256:native.package.archiveSha256,workshopRulesBytes:workshopRules.outputFiles[0].contents.length,
-    sources:Object.fromEntries(['scripts/package-unity-gameplay.mjs','scripts/unity-gameplay-archive.py',
+    sources:Object.fromEntries(['scripts/package-unity-gameplay.mjs','scripts/unity-gameplay-archive.py','scripts/unity-package-archive.py',
       'scripts/godot-crafting-bundle.mjs','adapters/embedded/crafting-session.mjs',
       'adapters/godot/crafting/entry.mjs','adapters/godot/crafting/vestige-entry.mjs',
       ...listFiles(src).map(f=>'adapters/unity/'+f)].map(f=>[f,sha256(fs.readFileSync(path.join(root,f)))])),

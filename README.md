@@ -23,8 +23,12 @@ inlay and restore a checkpoint. [Combat verification](evidence/unity-gameplay/RE
 
 The development [portable save library](docs/portable-saves.md) extracts the
 Godot SQLite store behind a C interface and an engine-independent C# binding.
-It preserves paired-document commits and bounded background writes. Unity
-durable-save integration and hardware qualification remain separate milestones.
+It preserves paired-document commits and bounded background writes.
+The optional [Unity storage preview](adapters/unity-storage/README.md) adds a
+durable workshop: inventory changes appear after their save commits, and reopening
+continues the same items and random state. Import its **Durable Inventory** sample
+with the gameplay package to try forge, inlay and reopen. Hardware qualification
+remains a separate milestone.
 
 The 0.57 candidate adds [memory pouch recall](docs/pouch-recall.md) to the
 standalone inventory. Choose the source and facet, reveal the gem and reopen
