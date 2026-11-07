@@ -9,6 +9,8 @@ assert.equal(sha256(fs.readFileSync(accepted.archive)),accepted.archiveSha256);
 const directory=fs.mkdtempSync(path.join(root,'.artifacts/crafting-session-faults-')),consumer=path.join(directory,'consumer');fs.cpSync(accepted.consumer,consumer,{recursive:true});
 const snapshot=dir=>Object.fromEntries(listFiles(dir).map(file=>[file,sha256(fs.readFileSync(path.join(dir,file)))])),before=snapshot(consumer),acceptedBefore=snapshot(accepted.consumer);
 const faults=[
+  ['draw-during-station-quote','crafting-session',"if (request.op === 'options')\n                return options;","if (request.op === 'options') return options; this.#random(profile);"],
+  ['wrong-station-socket-cost','crafting-session','cost: rules.ports.craft.socketCost','cost: { ...rules.ports.craft.socketCost, count: 0 }'],
   ['borrow-view-state','crafting-session','view: cloneOwnedJSON(view)','view'],
   ['reuse-account-token','crafting-session','accountVersion = this.#nextAccountView++;','accountVersion = 1;'],
   ['trust-foreign-account-token','crafting-session','accountVersion === knownAccountVersion ? null','knownAccountVersion !== 0 ? null'],

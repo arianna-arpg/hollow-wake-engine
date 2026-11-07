@@ -63,8 +63,13 @@ to release the native host. UIDs belong to their profile.
 Use `options` to page through affixes (at most 128 per call), `forge`/`roll` to
 mint, `craft`, `socket` and `reroll` for item changes, and `lock_item`, `salvage`
 or `salvage_bulk` to manage salvage. Supply all four authoritative station flags
-(`salvage`, `oracle`, `bench`, `counter`) for these gated actions. The host decides
-access, durable saves, presentation and downstream character recalculation. Read
+(`salvage`, `oracle`, `bench`, `counter`) for every action.
+`station_view(profile, uid, offset, limit)` returns bounded craft choices and
+socket/reroll quotes without drawing randomness. The inventory example presents
+these in **Crafting & salvage** and durably saves paid actions and unpaid reroll
+continuations. Quotes never replace the action's authority or payment checks.
+
+The host decides access, durable saves, presentation and downstream character recalculation. Read
 `events` even for `ok: true`: insufficient payment or a refused action is a valid
 gameplay outcome. An unpaid reroll can consume a random draw.
 

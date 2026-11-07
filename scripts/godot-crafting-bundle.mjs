@@ -26,9 +26,9 @@ export async function craftingBundle(directory,withRack,plugins=[]){
 
 export async function workshopBundles(directory,plugins=[]){
   const base=await craftingBundle(directory,false,plugins),rack=await craftingBundle(directory,true,plugins);
-  // The versioned read projection adds <1 KiB and avoids retransmitting large
-  // unchanged account lore. Keep the explicitly measured 101 KiB base ceiling.
-  assert(base.bytes.length<=101*1024,'Base workshop exceeds 101 KiB: '+base.bytes.length);
+  // Versioned reads and bounded station quotes stay within the measured 102 KiB
+  // base ceiling; optional gameplay families keep their independent deltas.
+  assert(base.bytes.length<=102*1024,'Base workshop exceeds 102 KiB: '+base.bytes.length);
   assert(rack.bytes.length-base.bytes.length<=5*1024,'Optional learned rack exceeds 5 KiB');
   const support=await craftingBundle(directory,'supports',plugins);
   assert(support.bytes.length-rack.bytes.length<=5*1024,'Optional socket custody exceeds 5 KiB');

@@ -10,6 +10,22 @@ Select an overflow item and choose **Move to stash**. To return it to the pack,
 first sell a pack item to free a cell. **Forge ring** uses the SDK's item and
 placement rules. Each completed action saves automatically.
 
+Select gear in **Pack** or **Equipped**, then choose **Crafting & salvage**.
+Break down pack gear to gain materials and study its natural affixes. Learned
+families become craft choices. The dialog also adds sockets and rerolls natural
+affixes, showing their material costs and shared crafting capacity. Crafted or
+protected affixes cannot be rerolled; a successful reroll protects its result.
+Breaking down an item requires confirmation
+and destroys it. Standard rolls use zero challenge bonus; the original crafting
+minigames are not included in this example.
+
+The sample places the character at the crafting workshop and Oracle. An embedding
+game must update `profile.station_access` from its authoritative world state.
+The displayed revision prevents stale selections from spending materials. Saves
+run in the background; pending actions retain the last durable inventory, and a
+failed write restores its items, materials, lore and random continuation. The
+original unpaid reroll still advances randomness, so its refusal is saved too.
+
 The example includes the verified crafting and progression addon and a separate
 SQLite save extension. Both crafting state and stash state belong to one versioned
 slot in user://inventory.sqlite3. Tabs select the current inventory location.

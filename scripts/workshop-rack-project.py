@@ -20,7 +20,7 @@ def build(donor, expected, sdk_digest, bundle, project_out, addon_out):
     changes = {crafting + "bundle.txt": bundle.read_bytes()}
     extra = {crafting + "support_fit.gd": (root / "adapters/godot/crafting/support_fit.gd").read_bytes()}
     extra[crafting + "pouch_recall.gd"] = (root / "adapters/godot/crafting/pouch_recall.gd").read_bytes()
-    for name in ("measure_supports.gd", "support-measure.json", "measure_pouch.gd", "recall-measure.json", "measure_inlays.gd", "verify_inlays.gd", "workshop_start.gd", "workshop_start.tscn"):
+    for name in ("measure_supports.gd", "support-measure.json", "measure_pouch.gd", "recall-measure.json", "measure_inlays.gd", "verify_inlays.gd", "verify_background.gd", "verify_stations.gd", "workshop_station.gd", "workshop_start.gd", "workshop_start.tscn"):
         extra[name] = (root / "examples/godot-inventory" / name).read_bytes()
     for name in ("support-fit.txt", "support-index.json", "support-pages.txt", "pouch-rules.txt", "pouch-data.json"):
         extra[crafting + name] = (bundle.parent / name).read_bytes()
@@ -29,6 +29,9 @@ def build(donor, expected, sdk_digest, bundle, project_out, addon_out):
     for name in ("profile.gd", "inventory.gd", "project.godot", "README.md"):
         changes[name] = (root / "examples/godot-inventory" / name).read_bytes()
     with zipfile.ZipFile(donor) as source:
+        for name in list(extra):
+            if prefix + name in source.namelist():
+                changes[name] = extra.pop(name)
         manifest = json.loads(source.read(prefix + crafting + "manifest.json"))
         for name, checksum in manifest["files"].items():
             assert digest(source.read(prefix + crafting + name)) == checksum
@@ -66,13 +69,13 @@ def build(donor, expected, sdk_digest, bundle, project_out, addon_out):
 def switch_programs(prior, release, variant, directory):
     # The benchmark reuses immutable content and native programs in place.
     prefix = "inventory-workshop/"
-    changed = {"profile.gd", "inventory.gd", "workshop_start.gd", "project.godot", "README.md", "addons/hollow_wake/crafting/bundle.txt", "addons/hollow_wake/crafting/crafting.gd", "addons/hollow_wake/crafting/cargo_cards.gd",
+    changed = {"profile.gd", "inventory.gd", "workshop_start.gd", "verify_background.gd", "verify_stations.gd", "workshop_station.gd", "project.godot", "README.md", "addons/hollow_wake/crafting/bundle.txt", "addons/hollow_wake/crafting/crafting.gd", "addons/hollow_wake/crafting/cargo_cards.gd",
                "addons/hollow_wake/crafting/manifest.json", "addons/hollow_wake/crafting/README.md"}
     directory = pathlib.Path(directory).resolve(strict=True)
     with zipfile.ZipFile(prior) as old, zipfile.ZipFile(release) as new:
         additions = {prefix+"addons/hollow_wake/crafting/"+name for name in ("support_fit.gd","support-fit.txt","support-index.json","support-pages.txt")}
         additions.update(prefix+crafting for crafting in ("addons/hollow_wake/crafting/pouch_recall.gd","addons/hollow_wake/crafting/pouch-rules.txt","addons/hollow_wake/crafting/pouch-data.json"))
-        additions.update(prefix+name for name in ("measure_supports.gd","support-measure.json","measure_pouch.gd","recall-measure.json","workshop_start.gd","workshop_start.tscn"))
+        additions.update(prefix+name for name in ("measure_supports.gd","support-measure.json","measure_pouch.gd","recall-measure.json","measure_inlays.gd","verify_inlays.gd","verify_background.gd","verify_stations.gd","workshop_station.gd","workshop_start.gd","workshop_start.tscn"))
         assert set(new.namelist()).difference(old.namelist()) <= additions and set(old.namelist()) <= set(new.namelist())
         assert variant in ("previous", "candidate")
         for name in old.namelist():

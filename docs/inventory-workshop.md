@@ -1,5 +1,10 @@
 # Inventory workshop
 
+The [crafting station workflow](workshop-stations.md) adds durable gear affix
+crafting, sockets, rerolls and salvage expertise to the Godot inventory. Quotes
+use authored costs; current revision, station access and payment are checked
+again on confirmation.
+
 The workshop is a runnable Godot inventory screen backed by the standalone
 crafting SDK. Forge a ring, sell a pack item, recover overflow, move an item
 to the stash, or return it to a free cell. The profile keeps its random state,

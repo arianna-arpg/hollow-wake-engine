@@ -236,14 +236,22 @@ export class CraftingSession {
     const state = profile.state, rules = this.#defs.crafting.rules;
     if (request.op === 'save') {fields(request,['op','profile']); return {ok:true,save:this.#snapshot(profile)};}
     if (request.op === 'close') {fields(request,['op','profile']); this.#profiles.delete(request.profile); return {ok:true};}
-    if (request.op === 'options') {
+    if (request.op === 'options' || request.op === 'station-view') {
       fields(request,['op','profile','uid','offset','limit']); integer(request.uid,1); integer(request.offset); integer(request.limit,1,128);
       const item = state.items.find(i => i.uid === request.uid) ?? Object.values(state.equipped).find(i => i.uid === request.uid);
       if (!item) return refuse('unknown-item');
       const rows = rules.craftableAffixesFor(item,state.account.craftLore);
-      return {ok:true,total:rows.length,rows:rows.slice(request.offset,request.offset + request.limit).map(row => ({
+      const options={ok:true,total:rows.length,rows:rows.slice(request.offset,request.offset + request.limit).map(row => ({
         id:row.def.id,name:row.def.names.at(-1) ?? row.def.id,rank:row.rank,cost:rules.ports.cost(row.rank),
       })),crafted:rules.craftedCount(item),slots:rules.ports.craft.maxCraftedAffixes + (state.account.features.includes(rules.ports.craft.extraSlotFeature) ? 1 : 0)};
+      if(request.op==='options')return options;
+      return {...options,
+        socket:{count:item.sockets?.length??0,cap:rules.ports.socketCap(this.#defs.crafting.items.pack.bases[item.baseId].category),cost:rules.ports.craft.socketCost},
+        reroll:{cost:rules.ports.oracleCost(item.rarity),affixes:item.affixes.map((affix,index)=>{
+          const definition=rules.ports.affix(affix.id)!;
+          return {index,id:affix.id,name:definition.names[affix.tier]??definition.names.at(-1)??affix.id,
+            locked:affix.locked===true,crafted:affix.crafted===true};
+        })}};
     }
     if (request.op === 'recover' || request.op === 'take-overflow') {
       fields(request,['op','profile','uid']); integer(request.uid,1);

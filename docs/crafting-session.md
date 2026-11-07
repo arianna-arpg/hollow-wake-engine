@@ -53,6 +53,7 @@ their identities or explicitly remap them as part of its ownership transfer.
 | `mint` | `kind: 'roll' \| 'forge'`, `options` | Uses the owned random/ID streams and places the item or retains overflow |
 | `options` | `uid`, `offset`, `limit` (1–128) | Paged eligible affixes, ranks, costs and crafted capacity |
 | `craft` | `uid`, `affixId`, `score`, `access` | Bench affix selection and payment |
+| `station-view` | `uid`, `offset`, `limit` | Paged craft options plus authored socket/reroll prices and affix restrictions |
 | `socket` | `uid`, `access` | Socket chiseling and shared crafted capacity |
 | `reroll` | `uid`, `index`, `score`, `access` | Oracle reroll and its original payment order |
 | `salvage` | `uid`, optional `lane`, `access` | One gear item, skill, support or memory pouch |
@@ -62,6 +63,12 @@ their identities or explicitly remap them as part of its ownership transfer.
 | `take-overflow` | `uid` | Remove one retained item and return its detached body to the host |
 
 `access` contains four required booleans: `salvage`, `oracle`, `bench`, `counter`.
+`station-view` adds `socket: {count, cap, cost}` and
+`reroll: {cost, affixes: [{index, id, name, locked, crafted}]}` to the existing
+`options` response. It uses the same bounded paging (maximum 128), returns detached
+data and consumes no randomness. Quotes do not authorize actions or reserve funds;
+mutation commands always check current state and host-supplied access again.
+
 These are authoritative observations supplied by the host, not client security
 claims. Lanes are `break` or `sell`; categories are `item`, `skill` or `support`.
 The host also owns minigame input and supplies the finite score. Existing rules

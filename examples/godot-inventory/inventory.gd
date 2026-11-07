@@ -1,6 +1,7 @@
 extends Control
 
 const Profile = preload("res://profile.gd")
+const Station = preload("res://workshop_station.gd")
 const INK := Color("#e5e8dd")
 const MUTED := Color("#aebfb5")
 const GOLD := Color("#e8c58a")
@@ -37,6 +38,8 @@ var sample_button := Button.new()
 var vestige_sample_button := Button.new()
 var sample_vestiges := false
 var inlay_button := Button.new()
+var station_button := Button.new()
+var station_dialog := Station.new()
 var inlay_dialog := ConfirmationDialog.new()
 var inlay_material := OptionButton.new()
 var inlay_socket := OptionButton.new()
@@ -170,6 +173,10 @@ func _ready() -> void:
 	detail.add_child(socket_controls)
 	_button(inlay_button,"Inlay a vestige",_open_inlay)
 	detail.add_child(inlay_button)
+	_button(station_button,"Crafting & salvage",_open_station)
+	detail.add_child(station_button)
+	add_child(station_dialog)
+	station_dialog.submitted.connect(func(reply:Dictionary,message:String):_accept_result(reply,{"success":message}))
 	inlay_dialog.title="Inlay a vestige"
 	inlay_dialog.ok_button_text="Inlay"
 	inlay_dialog.min_size=Vector2i(400,245)
@@ -252,6 +259,7 @@ func _switch_vestiges() -> void:
 
 func _restart() -> void:
 	if profile.is_saving(): return
+	station_dialog.hide()
 	inlay_dialog.hide()
 	_inlay_item={}
 	recall_dialog.hide()
@@ -329,6 +337,7 @@ func details() -> void:
 	socket_controls.hide()
 	recall_button.hide()
 	inlay_button.hide()
+	station_button.hide()
 	socket_choice.clear()
 	compare_button.hide()
 	primary.text = ["Sell item","Move to stash","Return to pack","Unequip to pack","Return skill to pack"][tabs.current_tab]
@@ -403,6 +412,7 @@ func show_item(item: Dictionary) -> void:
 		properties.text = "\n".join(lines)
 		return
 	var mode := "full" if compare_button.button_pressed else "compact"
+	station_button.visible=tabs.current_tab in [0,3]
 	var card := profile.api.inspect_loadout(item,profile.saved.state.equipped,Profile.HERO_LEVEL,mode)
 	if card.ok:
 		inlay_button.visible=tabs.current_tab in [0,3] and not item.get("sockets",[]).is_empty() and not profile.saved.state.get("vestiges",{}).is_empty()
@@ -517,7 +527,7 @@ func _set_saving(saving: bool) -> void:
 		_save_focus=weakref(focused) if focused!=null else null
 		status.focus_mode=Control.FOCUS_ALL
 		status.grab_focus()
-	for button in [forge,primary,recover,equip_button,learn_button,socket_button,recall_button,inlay_button,
+	for button in [forge,primary,recover,equip_button,learn_button,socket_button,recall_button,inlay_button,station_button,
 			 sample_button,vestige_sample_button,refresh_button,sell_stack,keep_stack,compare_button,seat_choice,socket_choice]:
 		button.disabled=saving
 	for i in tabs.tab_count: tabs.set_tab_disabled(i,saving)
@@ -551,6 +561,15 @@ func _notification(what: int) -> void:
 		else: get_tree().quit()
 
 func error_text(reason: String) -> String:
+	if reason=="insufficient-materials":return "Not enough materials."
+	if reason=="station-unavailable":return "This crafting action is not available."
+	if reason=="capacity":return "All crafting slots are used."
+	if reason=="socket-capacity":return "This item cannot hold another socket."
+	if reason=="reroll-locked":return "This affix is protected."
+	if reason=="reroll-crafted":return "Crafted affixes cannot be rerolled."
+	if reason=="reroll-ineligible":return "This affix cannot be rerolled at the item's level."
+	if reason=="locked":return "This item is protected."
+	if reason=="memory-refused":return "Memories can be recalled or sold."
 	if reason=="background-save-unavailable": return "The save component needs an update."
 	if reason=="save-pending": return "Please wait for the current save."
 	if reason=="cancelled": return "Save cancelled. The previous inventory has been restored."
@@ -635,6 +654,14 @@ func _open_inlay() -> void:
 		inlay_socket.add_item("Socket %d · %s" % [i+1,view.sockets[i]])
 	_show_inlay_preview()
 	inlay_dialog.popup_centered()
+
+func _open_station() -> void:
+	if profile.is_saving():return
+	for item in rows():
+		if item.uid==selected_uid:
+			var reply:=station_dialog.open_for(profile,item,displayed_revision,error_text)
+			if not reply.ok:status.text=error_text(reply.reason)
+			return
 
 func _show_inlay_preview() -> void:
 	inlay_dialog.get_ok_button().disabled=true

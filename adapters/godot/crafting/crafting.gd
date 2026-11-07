@@ -205,6 +205,10 @@ func close_profile(profile: int) -> Dictionary:
 func options(profile: int, uid: int, offset: int = 0, limit: int = 32) -> Dictionary:
 	return request({"op": "options", "profile": profile, "uid": uid, "offset": offset, "limit": limit})
 
+# Quotes never draw randomness or authorize a station. Commands recheck live state.
+func station_view(profile: int, uid: int, offset: int = 0, limit: int = 32) -> Dictionary:
+	return request({"op":"station-view","profile":profile,"uid":uid,"offset":offset,"limit":limit})
+
 func forge(profile: int, specification: Dictionary) -> Dictionary:
 	return request({"op": "mint", "profile": profile, "kind": "forge", "options": specification})
 

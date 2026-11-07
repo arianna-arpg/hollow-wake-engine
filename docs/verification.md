@@ -12,10 +12,10 @@ automatic extension discovery, existing inventory courses and freshly exported
 players. Cached and missing-library installs must fail. Long-path cleanup has
 success/failure coverage; this does not establish physical-device support.
 
-`test:crafting-session-package` runs 16 owned-session contracts against an actual
+`test:crafting-session-package` runs 18 owned-session contracts against an actual
 offline package installation and a browser bundle with ambient RNG and host
-globals disabled. `test:crafting-session-faults` requires twelve injected identity,
-custody, continuation, view ownership, field order and admission faults to change an assertion, then restores
+globals disabled. `test:crafting-session-faults` requires fourteen injected identity,
+custody, continuation, view ownership, field order, station price and admission faults to change an assertion, then restores
 both the test installation and its accepted predecessor. Full SDK verification
 includes both checks. See [owned crafting sessions](crafting-session.md);
 native/editor and physical-device acceptance remain separate work.

@@ -66,7 +66,7 @@ for(const f of ['LICENSE.md','NOTICE.md'])fs.copyFileSync(path.join(root,f),path
 fs.copyFileSync(path.join(root,'experiments/godot-native/notices/godot-cpp-LICENSE.md'),path.join(store,'godot-cpp-LICENSE.md'));
 fs.copyFileSync(lib.library,path.join(store,'bin',path.basename(lib.library)));
 const extension=zip('zip-store',store,'addons/hollow_wake_save/','hollow-wake-local-save-'+platform+'-x64.zip');
-const files=['project.godot','inventory.tscn','inventory.gd','profile.gd','cargo-sample.json','support-measure.json','measure_supports.gd','recall-measure.json','measure_pouch.gd','workshop_start.tscn','workshop_start.gd','README.md'];
+const files=['project.godot','inventory.tscn','inventory.gd','profile.gd','workshop_station.gd','verify_stations.gd','verify_background.gd','verify_inlays.gd','measure_inlays.gd','cargo-sample.json','support-measure.json','measure_supports.gd','recall-measure.json','measure_pouch.gd','workshop_start.tscn','workshop_start.gd','README.md'];
 for(const f of files)fs.copyFileSync(path.join(root,'examples/godot-inventory',f),path.join(project,f));
 const target=windows?'Windows Desktop':'Linux';
 const preset='[preset.0]\nname='+JSON.stringify(target)+'\nplatform='+JSON.stringify(target)+'\nrunnable=true\nexport_filter="all_resources"\ninclude_filter="*.txt,*.json,*.md"\nexclude_filter=""\n\n[preset.0.options]\nbinary_format/architecture="x86_64"\nbinary_format/embed_pck=false\n'+(windows?'application/modify_resources=false\ncodesign/enable=false\n':'');

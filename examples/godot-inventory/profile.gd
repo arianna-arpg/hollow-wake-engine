@@ -10,6 +10,9 @@ const ACTOR_LEVEL := 10
 # This standalone hero can learn Firebolt. The workshop has no active debt or discipline.
 const HERO_ATTRIBUTES := {"intelligence":12}
 const COUNTER := {"salvage":false,"bench":false,"oracle":false,"counter":true}
+# This standalone scene places its hero at the workshop. An embedding game
+# updates these authoritative observations when its actor moves between stations.
+var station_access := {"salvage":true,"bench":true,"oracle":true,"counter":false}
 var api := Crafting.new()
 var store: Variant
 var revision := 0
@@ -207,6 +210,9 @@ func begin_action(action: String, uid: int, seen_revision: int, slot := -1, expe
 func begin_inlay(uid: int, seen_revision: int, id: String, socket := -1) -> Dictionary:
 	return _begin(inlay.bind(uid,seen_revision,id,socket))
 
+func begin_station(action: String, uid: int, seen_revision: int, affix_id := "", index := -1, score := 0.0) -> Dictionary:
+	return _begin(station_action.bind(action,uid,seen_revision,affix_id,index,score))
+
 func begin_recall(uid: int, seen_revision: int, group: String, facet: String) -> Dictionary:
 	return _begin(recall.bind(uid,seen_revision,group,facet))
 
@@ -311,6 +317,40 @@ func _commit_vestiges(change: Dictionary) -> Dictionary:
 		var restored:=reload()
 		return stored if restored.ok else restored
 	return change
+
+func station_view(uid: int, seen_revision: int, offset := 0) -> Dictionary:
+	if not available:return {"ok":false,"reason":"unavailable"}
+	if seen_revision!=revision:return {"ok":false,"reason":"stale-revision"}
+	return api.station_view(1,uid,offset,32)
+
+func station_action(action: String, uid: int, seen_revision: int, affix_id := "", index := -1, score := 0.0) -> Dictionary:
+	if not available:return {"ok":false,"reason":"unavailable"}
+	if seen_revision!=revision:return {"ok":false,"reason":"stale-revision"}
+	var change:Dictionary
+	match action:
+		"craft-affix":change=api.craft(1,uid,affix_id,score,station_access)
+		"craft-socket":change=api.socket(1,uid,station_access)
+		"reroll-affix":change=api.reroll(1,uid,index,score,station_access)
+		"break-down":change=api.salvage(1,uid,station_access,"break")
+		_:return {"ok":false,"reason":"unknown-action"}
+	if not change.ok:
+		var restored:=reload()
+		return change if restored.ok else restored
+	var changed:=false
+	var reason:="station-unavailable"
+	for event in change.events:
+		if event.kind=="dirty":changed=true
+		elif event.kind=="refused":reason=event.reason
+		elif event.kind=="insufficient":reason="insufficient-materials"
+		elif event.kind=="cue" and event.cue.kind in ["locked","memory-refused"]:reason=event.cue.kind
+	# An unpaid Oracle roll advances RNG before checking payment. Persist that
+	# continuation even though the UI must report a refusal, never a free reroll.
+	if changed or change.draws!=saved.random.draws or change.nextUid!=saved.nextUid:
+		var stored:=_save(stash)
+		if not stored.ok:
+			var restored:=reload()
+			return stored if restored.ok else restored
+	return {"ok":true,"events":change.events} if changed else {"ok":false,"reason":reason,"events":change.events}
 
 func act(action: String, uid: int, seen_revision: int, slot := -1, expected_skill := "", socket: Dictionary = {}) -> Dictionary:
 	if not available: return {"ok":false,"reason":"unavailable"}

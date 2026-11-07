@@ -20,6 +20,11 @@ def replace(prior, checksum, output, changes, addon=None, extras=None):
     assert sha(Path(prior).read_bytes()) == checksum
     with zipfile.ZipFile(prior) as source:
         names = source.namelist()
+        changes = dict(changes)
+        extras = dict(extras or {})
+        for rel in list(extras):
+            if PREFIX+rel in names:
+                changes[rel] = extras.pop(rel)
         assert len(names) == len(set(names)) and set(PREFIX+n for n in changes) <= set(names)
         with zipfile.ZipFile(output, "x") as dest:
             for rel,data in (extras or {}).items():
@@ -59,7 +64,7 @@ if __name__ == "__main__":
         manifest["optional"] += ["crafting-session/v3","vestige-inlays/v1"]
         changes[CRAFT+"manifest.json"] = (json.dumps(manifest,indent=2)+"\n").encode()
         with zipfile.ZipFile(extension,"x") as addon:
-            extra={n:(ROOT/"examples/godot-inventory"/n).read_bytes() for n in ("measure_inlays.gd","verify_inlays.gd")}
+            extra={n:(ROOT/"examples/godot-inventory"/n).read_bytes() for n in ("measure_inlays.gd","verify_inlays.gd","verify_background.gd","verify_stations.gd","workshop_station.gd")}
             replace(prior,checksum,output,changes,addon,extra)
     elif mode == "player":
         replace(prior,checksum,output,{"Inventory.pck":Path(rest[0]).read_bytes(),

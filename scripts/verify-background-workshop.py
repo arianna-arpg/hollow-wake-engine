@@ -92,13 +92,15 @@ def verify(args, work, delivery):
             assert "\\" not in name and ":" not in name
         archive.extractall(work)
     project = work / "inventory-workshop"
-    source_files = ["profile.gd", "inventory.gd", "verify_inlays.gd", "verify_background.gd", "workshop_start.gd", "README.md"]
+    source_files = ["profile.gd", "inventory.gd", "workshop_station.gd", "verify_stations.gd", "verify_inlays.gd", "verify_background.gd", "workshop_start.gd", "README.md"]
     for name in source_files:
         shutil.copyfile(ROOT / "examples/godot-inventory" / name, project / name)
+    if args.station_course:
+        shutil.copyfile(args.station_course, project / "station-cases.json")
     crafting_hashes = {}
     if args.crafting_addon:
         overlay = json.loads((args.crafting_addon / "overlay.json").read_text())
-        assert overlay["passed"] and overlay["capability"] == "crafting-view/v1"
+        assert overlay["passed"] and overlay["capability"] in ("crafting-view/v1", "crafting-station/v1")
         for name, expected in overlay["sources"].items():
             file = (ROOT / name).resolve()
             assert file.is_relative_to(ROOT.resolve()) and digest(file) == expected, name
@@ -182,7 +184,23 @@ def verify(args, work, delivery):
         assert resumed["resumed"] and resumed["revision"] == rev and resumed["saveSha256"] == first["saveSha256"]
         return [first, resumed]
 
+    def stations(label, executable, arguments, env, settings):
+        if not args.station_course:
+            return None
+        first = observations(label, executable, [*arguments, "--", "--verify-stations"], env, "HWE_STATIONS ")
+        file = Path(first["database"])
+        assert file.resolve().is_relative_to(settings.resolve())
+        with closing(sqlite3.connect(file)) as db:
+            assert db.execute("PRAGMA integrity_check").fetchone()[0] == "ok"
+            rev, source = db.execute("SELECT revision,crafting FROM slots WHERE slot=1").fetchone()
+            assert rev == first["revision"] and hashlib.sha256(source.encode()).hexdigest() == first["saveSha256"]
+        resumed = observations(label + " reopened", executable, [*arguments, "--", "--verify-stations", "--resume-stations"],
+            {**env, "HWE_STATION_EXPECTED_SHA": first["saveSha256"]}, "HWE_STATIONS ")
+        assert resumed["resumed"] and resumed["revision"] == rev
+        return [first, resumed]
+
     editor = course("editor actions", tools["editor"], ["--path", project], editor_env, editor_settings)
+    station_editor = stations("editor stations", tools["editor"], ["--path", project], editor_env, editor_settings)
     player = work / "player"
     player.mkdir()
     executable = player / ("Inventory.exe" if platform == "windows" else "Inventory.x86_64")
@@ -209,6 +227,7 @@ def verify(args, work, delivery):
         runnable.chmod(0o755)
     player_env, player_settings = environment("player-settings")
     shipped = course("relocated player", runnable, [], player_env, player_settings)
+    station_player = stations("relocated stations", runnable, [], player_env, player_settings)
     vestiges = []
     for extra in [[], ["--resume-inlay"]]:
         vestiges.append(observations("relocated inlays", runnable, ["--", "--verify-inlays", "--vestige-sample", *extra],
@@ -217,7 +236,8 @@ def verify(args, work, delivery):
     return dict(passed=True, platform=platform, native=native, editorImport=not args.direct_registration, coldImport=imported, craftingAddonHashes=crafting_hashes,
                 donorArchives={name: donor["archives"][name] for name in (project_name, player_name)},
                 sources={str((Path("examples/godot-inventory") / name).as_posix()): digest(ROOT / "examples/godot-inventory" / name) for name in source_files},
-                editor=editor, player=shipped, vestiges=vestiges,
+                editor=editor, player=shipped, vestiges=vestiges, stations=dict(editor=station_editor, player=station_player,
+                    fixtureSha256=digest(args.station_course)) if args.station_course else None,
                 archives={name: digest(delivery / name) for name in (project_name, player_name, addon_name)})
 
 
@@ -227,6 +247,7 @@ if __name__ == "__main__":
         parser.add_argument(name, type=Path)
     parser.add_argument("--direct-registration", action="store_true")
     parser.add_argument("--crafting-addon", type=Path)
+    parser.add_argument("--station-course", type=Path)
     args = parser.parse_args()
     assert __debug__ and not args.output.exists()
     with working_directory(args.scratch) as temp:

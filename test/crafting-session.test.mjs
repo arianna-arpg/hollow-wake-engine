@@ -26,6 +26,35 @@ function command(sdk,op,args={},profile=1){return copy(sdk.command({op,profile,.
 function save(sdk,profile=1){const row=command(sdk,'save',{},profile);assert.equal(row.ok,true,JSON.stringify(row));return row.save;}
 const firstOption=(sdk,uid=1)=>command(sdk,'options',{uid,offset:0,limit:128}).rows[0];
 
+test('station quotes reuse authored costs, keep option paging and never consume state or random draws',()=>{
+  const body=gear(1,{x:0,y:0}),sdk=open(state({items:[body]})),before=save(sdk);
+  const quote=command(sdk,'station-view',{uid:1,offset:0,limit:2});
+  const {socket,reroll,...options}=quote;
+  assert.deepEqual(options,command(sdk,'options',{uid:1,offset:0,limit:2}));
+  assert.deepEqual(socket,{count:0,cap:crafting.rules.ports.socketCap(items.pack.bases[body.baseId].category),cost:copy(crafting.pack.craft.socketCost)});
+  assert.deepEqual(reroll,{cost:copy(crafting.pack.oracleCosts.common),affixes:[]});
+  const page=command(sdk,'station-view',{uid:1,offset:2,limit:2});
+  assert.deepEqual([...quote.rows,...page.rows],command(sdk,'options',{uid:1,offset:0,limit:4}).rows);
+  quote.socket.cost.count=0;quote.rows[0].cost.count=0;
+  assert.notEqual(command(sdk,'station-view',{uid:1,offset:0,limit:2}).socket.cost.count,0);
+  assert.deepEqual(save(sdk),before);
+  assert.equal(command(sdk,'station-view',{uid:2,offset:0,limit:2}).reason,'unknown-item');
+  assert.equal(command(sdk,'station-view',{uid:1,offset:0,limit:129}).reason,'invalid-integer');
+});
+
+test('station quotes expose worn affix identity and restrictions without changing command outcomes',()=>{
+  const body=gear(1),def=Object.values(items.pack.affixes).find(a=>a.tiers.some(t=>!t.magicOnly&&t.ilvl<=10));
+  const tier=def.tiers.findIndex(t=>!t.magicOnly&&t.ilvl<=10);
+  body.affixes=[{id:def.id,tier,rolls:def.lines.map(()=>.5),locked:true}];
+  body.sockets=[null];body.craftedSockets=1;
+  const sdk=open(state({equipped:{ring:body}})),before=save(sdk);
+  const quote=command(sdk,'station-view',{uid:1,offset:0,limit:1});
+  assert.equal(quote.crafted,1);assert.equal(quote.socket.count,1);
+  assert.deepEqual(quote.reroll.affixes,[{index:0,id:def.id,name:def.names[tier]??def.names.at(-1)??def.id,locked:true,crafted:false}]);
+  assert.equal(command(sdk,'reroll',{uid:1,index:0,score:0}).events.find(e=>e.kind==='refused').reason,'reroll-locked');
+  assert.deepEqual(save(sdk),before);
+});
+
 test('owned crafting admission detaches input and snapshots while sharing immutable content',()=>{
   const input=state({items:[gear(1,{x:0,y:0})]}),sdk=open(input),before=save(sdk);
   input.items[0].name='outside';input.account.craftLore={};input.essences.coarse=0;

@@ -32,7 +32,7 @@ fs.writeFileSync(path.join(consumer,'crafting-session.test.mjs'),installed);
 const random=`export class Random{constructor(seed){this.s=seed||0x9e3779b9;this.draws=0}next(){this.s=(this.s+0x6d2b79f5)>>>0;let n=this.s;n=Math.imul(n^(n>>>15),n|1);n^=n+Math.imul(n^(n>>>7),n|61);this.draws++;return((n^(n>>>14))>>>0)/4294967296}snapshot(){return{algorithm:'mulberry32/v1',state:this.s,draws:this.draws}}static restore(s){const r=new Random(1);r.s=s.state;r.draws=s.draws;return r}}`;
 fs.writeFileSync(path.join(consumer,'random.mjs'),random);
 installed=installed.replaceAll("'@hollow-wake/engine/random'","'./random.mjs'");fs.writeFileSync(path.join(consumer,'crafting-session.test.mjs'),installed);
-const contracts=run(consumer,['--test','crafting-session.test.mjs']);assert(/(?:#|ℹ) pass 16\b/.test(contracts));fs.writeFileSync(path.join(directory,'contracts.txt'),contracts);
+const contracts=run(consumer,['--test','crafting-session.test.mjs']);assert(/(?:#|ℹ) pass 18\b/.test(contracts));fs.writeFileSync(path.join(directory,'contracts.txt'),contracts);
 const entry=path.join(consumer,'browser.mjs');
 fs.writeFileSync(entry,Object.values(imports).filter(v=>v!=='random').map(v=>`export * from '@hollow-wake/engine/${v}';`).join('\n'));
 const bundle=await build({entryPoints:[entry],bundle:true,platform:'browser',format:'esm',write:false,metafile:true,minify:true});
@@ -43,12 +43,12 @@ let browser=installed;for(const v of Object.values(imports).filter(v=>v!=='rando
 fs.writeFileSync(path.join(consumer,'browser-contracts.mjs'),browser);
 fs.writeFileSync(path.join(consumer,'hostile.mjs'),`Math.random=()=>{throw new Error('ambient random')};globalThis.fetch=()=>{throw new Error('network')};
 for(const key of ['window','document','localStorage'])Object.defineProperty(globalThis,key,{get(){throw new Error(key)}});await import('./browser-contracts.mjs');`);
-const hostile=run(consumer,['hostile.mjs']);assert(/(?:#|ℹ) pass 16\b/.test(hostile));fs.writeFileSync(path.join(directory,'hostile.txt'),hostile);
+const hostile=run(consumer,['hostile.mjs']);assert(/(?:#|ℹ) pass 18\b/.test(hostile));fs.writeFileSync(path.join(directory,'hostile.txt'),hostile);
 fs.writeFileSync(path.join(consumer,'types.ts'),`import {CraftingSession,type CraftingSessionState,type CraftingSessionDefinitions} from '@hollow-wake/engine/crafting/session';
 declare const definitions:CraftingSessionDefinitions,state:CraftingSessionState;
 const sdk=new CraftingSession(definitions);const result:unknown=sdk.command({op:'open',profile:1,seed:17,state});void result;`);
 fs.writeFileSync(path.join(directory,'types.txt'),run(consumer,[path.join(root,'node_modules/typescript/bin/tsc'),'--noEmit','--strict','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','types.ts']));
-const report={passed:true,directory,consumer,archive,archiveSha256:sha256(fs.readFileSync(archive)),contracts:16,browserContracts:16,browserBytes:bundle.outputFiles[0].contents.length,
+const report={passed:true,directory,consumer,archive,archiveSha256:sha256(fs.readFileSync(archive)),contracts:18,browserContracts:18,browserBytes:bundle.outputFiles[0].contents.length,
   inputSha256:sha256(Buffer.from(source)),contentSha256:sha256(fs.readFileSync(path.join(consumer,'content.json'))),types:true,hostileGlobals:true};
 writeJSON(path.join(directory,'verification.json'),report);writeJSON(path.join(root,'.artifacts/crafting-session-package-latest.json'),report);
-console.log({passed:true,directory,contracts:16,browserBytes:report.browserBytes});
+console.log({passed:true,directory,contracts:18,browserBytes:report.browserBytes});
