@@ -7,6 +7,18 @@ its SHA-256 is
 `ea56ce53d14a5c0b669ba1dcc05e96e90ea768994ac682e6ec54c5fd38577c76`.
 The original game checkout and prior accepted evidence were not changed.
 
+The [public preview release](https://github.com/arianna-arpg/hollow-wake-engine/releases/tag/unity-workshop-v0.2.0-preview.1)
+targets `1c1218d17d507a0d784919eb911936358c4a6b31`. Its five asset digests and
+resolved tag were checked after publication; see [publication.json](publication.json).
+All 15 applicable hosted workflows pass across the runtime-identical checkpoints
+identified in [hosted-validation.json](hosted-validation.json). That record
+retains the failed and superseded attempts as well as the accepted runs.
+The attached native-control receipts are also retained here.
+
+The [follow-up cleanup record](followup-cleanup.json) accounts for verification
+fixtures and compiler outputs removed after publication. The accepted delivery
+and its small comparison archives remain available locally.
+
 ## Actual host acceptance
 
 [Windows results](windows.json) come from Unity 2021.3.6f1, Windows x64 Mono.

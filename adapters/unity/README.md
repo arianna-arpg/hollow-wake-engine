@@ -1,5 +1,8 @@
 # Hollow Wake Gameplay for Unity
 
+Download [the verified 0.2.0 workshop preview](https://github.com/arianna-arpg/hollow-wake-engine/releases/tag/unity-workshop-v0.2.0-preview.1).
+The release includes the package and its local/hosted validation receipts.
+
 Install the supplied `.tgz` with **Window → Package Manager → + → Add package
 from tarball**. This preview targets Unity 2021.3, Windows x64 Editor and Windows
 x64 Standalone with Mono. The package contains its authored rules and native
