@@ -73,7 +73,9 @@ test('socket reads preserve unrelated stale cargo and reject inherited IDs and i
   const before=structuredClone(item);const support=f.rules.bagSkillSupport(item,0);
   assert.equal(support.def,f.supports.cut);assert.notEqual(support.rolled,item.gem.sockets[0].rolled);support.rolled.choice='mutated';assert.deepEqual(item,before);
   for(const index of [-1,.5,NaN,Infinity,Number.MAX_SAFE_INTEGER,1,2])assert.equal(f.rules.bagSkillSupport(item,index),null);
-  for(const id of ['constructor','__proto__','retired']){item.gem.sockets=[{supportId:id,level:1}];assert.equal(f.rules.bagSkillSupport(item,0),null);}
+  // Keep a failed outcome serializable across Node test-runner processes, even
+  // when a deliberately broken lookup returns an inherited constructor.
+  for(const id of ['constructor','__proto__','retired']){item.gem.sockets=[{supportId:id,level:1}];assert.equal(f.rules.bagSkillSupport(item,0)===null,true,id+' must be rejected');}
   assert.equal(f.rules.bagSkillSupport(gear(),0),null);
 });
 

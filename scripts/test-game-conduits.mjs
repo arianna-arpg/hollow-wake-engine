@@ -59,7 +59,8 @@ async function verify(){
   // Type-check the binding against the actual Actor and installed declarations. Serve
   // only the two changed files from memory so an existing game checkout stays intact.
   const config=ts.parseJsonConfigFileContent(ts.readConfigFile(path.join(game,'tsconfig.json'),ts.sys.readFile).config,ts.sys,game);
-  const options={...config.options,paths:{[spec]:[installed.replace(/\.js$/,'.d.ts')]},baseUrl:root};
+  const options={...config.options,types:['node'],typeRoots:[path.join(game,'node_modules/@types')],
+    paths:{[spec]:[installed.replace(/\.js$/,'.d.ts')]},baseUrl:root};
   const host=ts.createCompilerHost(options);
   const readFile=host.readFile.bind(host), exists=host.fileExists.bind(host);
   const overlay=new Map([[file,generated],[virtualObserver,observer]]);

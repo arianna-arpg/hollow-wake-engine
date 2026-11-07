@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "initialNode22FailureReproduced": true,
+  "nodeVersions": {
+    "22": "22.23.4",
+    "24": "24.9.0"
+  },
+  "faults": {
+    "22": {
+      "passed": true,
+      "detected": 30,
+      "sourceRestored": true,
+      "acceptedConsumerPreserved": true
+    },
+    "24": {
+      "passed": true,
+      "detected": 30,
+      "sourceRestored": true,
+      "acceptedConsumerPreserved": true
+    }
+  },
+  "conduits": {
+    "passed": true,
+    "command": "npm run reference:conduits",
+    "explicitPinnedNodeTypes": true
+  },
+  "sources": {
+    "scripts/test-game-conduits.mjs": "ad0c146b7e9879f27e2db547b9d97a4064b04af1df30f464a539214d907d74e5",
+    "test/gem-residence.test.mjs": "1333a544968c59a6e57d3cb99d182c0c6b99bf7fc4e18486b27d05dec255e503",
+    ".github/workflows/verify.yml": "00890f0397ae5a66f9e5acb0f036728ef6267a9f1a49709d57b9f2c4824e2d0a"
+  },
+  "rawSha256": "920c8cf5919ab5446fcafbc7ce8197d3b7c7788c0e783cd6eb1d5266f70ad15b",
+  "productionRuntimeUnchanged": true
+}
