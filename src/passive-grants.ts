@@ -2,11 +2,10 @@ import type { Modifier } from './types.js';
 import type { PassiveGraft } from './passive-policy.js';
 import { validateModifier } from './stat-rules.js';
 import { copy, finite, freeze, integer } from './validation.js';
+import { validateConduitSpec, type ConduitSpec } from './conduit-content.js';
 
-export type ConduitPool = 'life' | 'mana' | 'es' | 'poise' | 'ward' | 'guard' | 'insight';
-export interface PassiveConduit {
-  from: ConduitPool; to: ConduitPool; drainPct?: number; drainFlat?: number; ratio: number; floor?: number;
-}
+export type { ConduitPool } from './conduit-content.js';
+export interface PassiveConduit extends ConduitSpec {}
 export interface PassiveGrant {
   attributes?: Record<string, number>; attributesPct?: Record<string, number>; mods?: Modifier[];
   conduit?: PassiveConduit; graft?: PassiveGraft;
@@ -69,15 +68,7 @@ export class PassiveGrants {
     };
     const compile = (g: PassiveGrant): CompiledGrant => {
       for (const m of g.mods ?? []) this.validate(m);
-      if (g.conduit) {
-        const c = g.conduit, pools = ['life','mana','es','poise','ward','guard','insight'];
-        fields(c, ['from','to','drainPct','drainFlat','ratio','floor']);
-        if (!pools.includes(c.from) || !pools.includes(c.to)) throw new Error('Unknown conduit pool');
-        for (const value of [c.drainPct ?? 0, c.drainFlat ?? 0, c.ratio, c.floor ?? 0]) {
-          if (finite(value, 'conduit value') < 0) throw new Error('Negative conduit value');
-        }
-        if ((c.floor ?? 0) > 1) throw new Error('Conduit floor exceeds its pool');
-      }
+      if (g.conduit) validateConduitSpec(g.conduit);
       if (g.graft) {
         fields(g.graft, ['support','level']);
         if (!supports.has(g.graft.support)) throw new Error('Unknown graft support');

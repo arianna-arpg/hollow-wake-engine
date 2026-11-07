@@ -127,9 +127,9 @@ claimed. Full samples and identical-output hashes are in
 [final measurements](../evidence/milestone-nine/rebuild-benchmark.json) and
 [initial measurements](../evidence/milestone-nine/rebuild-benchmark-initial.json).
 
-This is attribute/stat assembly and specification delivery. Conduit pumping,
-proc payload execution, graft/support effects, vocation rewards and full level
-progression are not extracted here. The original fixture has one nonempty live
+The grant builder supplies specifications to [resource conduits](conduits.md)
+for live meter transfers. Separate capabilities own proc payloads, support effects
+and vocation rewards. The original fixture has one nonempty live
 graft-support binding row; all graft payloads are compared, but that is not broad
 support-runtime coverage. Game allocation policy delegation is still pending.
 No Steam Deck, mobile, Unity, Godot or Unreal support is inferred from these checks.

@@ -191,7 +191,16 @@ const pouchModule=packed.files.find(f=>f.path==='dist/pouch-recall.js');
 const pouchData=packed.files.find(f=>f.path==='content/pouch-recall.json');
 assert(pouchModule?.size>0&&pouchModule.size<=16*1024,'Optional pouch module exceeds 16 KiB or is missing');
 assert(pouchData?.size>0&&pouchData.size<=320*1024,'Optional pouch content exceeds 320 KiB or is missing');
-const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size;
+const conduitModule=packed.files.find(f=>f.path==='dist/conduits.js');
+const conduitContent=packed.files.find(f=>f.path==='dist/conduit-content.js');
+assert(conduitModule?.size>0 && conduitModule.size<=6*1024,'Optional conduit execution exceeded 6 KiB or is missing');
+assert(conduitContent?.size>0 && conduitContent.size<=1024,'Shared conduit validation exceeded 1 KiB or is missing');
+const conduitCatalogue=packed.files.find(f=>f.path==='dist/conduit-catalogue.js');
+const conduitData=packed.files.find(f=>f.path==='content/conduits.json');
+assert(conduitCatalogue?.size>0 && conduitCatalogue.size<=4*1024,'Optional conduit catalogue exceeded 4 KiB or is missing');
+assert(conduitData?.size>0 && conduitData.size<=4*1024,'Conduit data exceeded 4 KiB or is missing');
+const conduitJsBytes=conduitModule.size+conduitContent.size+conduitCatalogue.size;
+const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes;
 const craftingSessionJsBytes=Object.values(craftingSessionModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingSessionJsBytes=preContentTableJsBytes-craftingSessionJsBytes;
 const residenceJsBytes=Object.values(residenceModuleBytes).reduce((sum,size)=>sum+size,0),preResidenceJsBytes=preCraftingSessionJsBytes-residenceJsBytes;
 const craftingJsBytes=Object.values(craftingModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingJsBytes=preResidenceJsBytes-craftingJsBytes;
@@ -296,7 +305,7 @@ assert.ok(preSessionJsBytes <= (732 + 70) * 1024, 'Previous runtime exceeded the
 assert.ok(preCraftingJsBytes <= (732 + 70 + 20) * 1024, 'Previous runtime exceeded its retained 732 + 70 + 20 KiB budget');
 assert.ok(preCraftingSessionJsBytes <= (732 + 70 + 20 + 38) * 1024, 'Previous runtime exceeded the retained 732 + 70 + 20 + 38 KiB budget');
 assert.ok(preContentTableJsBytes <= (732 + 70 + 20 + 38 + 44) * 1024, 'Combined runtime exceeded the explicit 904 KiB budget');
-assert.ok(contentBytes-pouchData.size <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
+assert.ok(contentBytes-pouchData.size-conduitData.size <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
   contentTableModuleBytes,contentTableJsBytes,preContentTableJsBytes,craftingSessionModuleBytes,craftingSessionJsBytes,preCraftingSessionJsBytes,residenceModuleBytes,residenceJsBytes,preResidenceJsBytes,craftingModuleBytes,craftingJsBytes,preCraftingJsBytes,progressionSessionJsBytes, preSessionJsBytes, unlockModuleBytes, unlockJsBytes, preUnlockJsBytes, gateJsBytes, preGateJsBytes, continuityJsBytes, preContinuityJsBytes, characterJsBytes, preCharacterJsBytes, siteJsBytes, preSiteJsBytes, vocationJsBytes, preVocationJsBytes, procDeliveryJsBytes, preProcDeliveryJsBytes,
   cargoJsBytes, inspectionJsBytes, runtimeJsBytes: jsBytes, procCastingJsBytes, statusDeliveryJsBytes, hitAftermathJsBytes, hitSustainJsBytes, hitReactionsJsBytes, predecessorJsBytes, tagContextJsBytes, hitLandingJsBytes, hitPreparationJsBytes, previousJsBytes, damageJsBytes, statusJsBytes, statusEffectsJsBytes, hitStatusJsBytes, hitEffectsJsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, equipmentJsBytes, progressionJsBytes, skillJsBytes, supportJsBytes, resourceJsBytes, chargedCastJsBytes, interactiveCastJsBytes, ammunitionJsBytes, channelCastJsBytes, guardCastJsBytes, paymentJsBytes, admissionJsBytes, intentJsBytes, requestJsBytes, dispatchJsBytes, continuationJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
