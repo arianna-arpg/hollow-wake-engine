@@ -17,7 +17,9 @@ assert(previous.passed&&previous.platform===process.platform&&previous.arch===pr
 for(const [f,digest] of Object.entries(previous.sources))assert.equal(hash(path.join(root,f)),digest,'Changed progression package source: '+f);
 const proof=read(path.join(root,'evidence/content-tables/windows.json'));assert(proof.passed);assert.equal(hash(path.join(root,proof.raw.file)),proof.raw.sha256);
 const retained=JSON.parse(gunzipSync(fs.readFileSync(path.join(root,proof.raw.file))));assert.equal(retained.course.rows.length,proof.native.commands);assert.equal(proof.native.commands,56);
-const directory=fs.mkdtempSync(path.join(root,'.artifacts/godot-crafting-addon-')),consumer=path.join(directory,'consumer'),extra=path.join(directory,'extra');fs.mkdirSync(consumer);fs.mkdirSync(extra);
+const directory=fs.mkdtempSync(path.join(root,'.artifacts/godot-crafting-addon-')),consumer=path.join(directory,'consumer'),extra=path.join(directory,'extra');
+try {
+fs.mkdirSync(consumer);fs.mkdirSync(extra);
 const commands=[];function run(name,command,args,cwd=consumer){const log=path.join(directory,name+'.txt'),fd=fs.openSync(log,'wx');try{execFileSync(command,args,{cwd,windowsHide:true,stdio:['ignore',fd,fd],timeout:180000});}finally{fs.closeSync(fd);commands.push({name,logSha256:hash(log)});}}
 writeJSON(path.join(consumer,'package.json'),{name:'hollow-crafting-consumer',private:true,type:'module'});
 run('install',process.execPath,[npmCli(),'install',previous.sdkArchive,'--offline','--ignore-scripts','--no-audit','--no-fund','--cache',path.join(root,'.artifacts/npm-cache')]);
@@ -39,30 +41,39 @@ fs.writeFileSync(path.join(extra,'equipment.json'),JSON.stringify(equipmentPack(
 writeCargoAtlas(extra,packs.skills.contentId,packs.crafting.contentId);
 fs.copyFileSync(path.join(root,'adapters/godot/crafting/rack-entry.mjs'),path.join(consumer,'rack-entry.mjs'));
 fs.copyFileSync(path.join(root,'adapters/godot/crafting/support-entry.mjs'),path.join(consumer,'support-entry.mjs'));
+fs.copyFileSync(path.join(root,'adapters/godot/crafting/vestige-entry.mjs'),path.join(consumer,'vestige-entry.mjs'));
 await writeSupportGate(extra);
 fs.copyFileSync(path.join(root,'adapters/godot/crafting/pouch-entry.mjs'),path.join(consumer,'pouch-entry.mjs'));
 fs.copyFileSync(path.join(root,'adapters/embedded/pouch-session.mjs'),path.join(consumer,'pouch-session.mjs'));
 await writePouchRecall(extra,path.join(consumer,'pouch-entry.mjs'));
 fs.copyFileSync(path.join(root,'adapters/godot/crafting/pouch_recall.gd'),path.join(extra,'pouch_recall.gd'));
-const {base,rack,support}=await workshopBundles(consumer),inputs=support.inputs;
+const {base,rack,support,vestiges}=await workshopBundles(consumer),inputs=vestiges.inputs;
 assert(inputs.includes('node_modules/@hollow-wake/engine/dist/content-table.js')&&inputs.includes('node_modules/@hollow-wake/engine/dist/crafting-session.js'));
-assert(inputs.every(f=>f==='session.mjs'||f==='support-entry.mjs'||bridge.includes(f)||f.startsWith('node_modules/@hollow-wake/engine/dist/')));
-fs.writeFileSync(path.join(extra,'bundle.txt'),support.bytes);
-const bundleBytes=support.bytes.length,contentBytes=fs.statSync(path.join(extra,'content.json')).size;assert(contentBytes<=2*1024*1024);
+assert(inputs.every(f=>f==='session.mjs'||f==='vestige-entry.mjs'||bridge.includes(f)||f.startsWith('node_modules/@hollow-wake/engine/dist/')));
+fs.writeFileSync(path.join(extra,'bundle.txt'),vestiges.bytes);
+const bundleBytes=vestiges.bytes.length,contentBytes=fs.statSync(path.join(extra,'content.json')).size;assert(contentBytes<=2*1024*1024);
 for(const f of ['README.md','crafting.gd','cargo_cards.gd'])fs.copyFileSync(path.join(root,'adapters/godot/crafting',f),path.join(extra,f));fs.copyFileSync(path.join(root,'adapters/godot/shared/owned_session.gd'),path.join(extra,'owned_session.gd'));
 fs.copyFileSync(path.join(root,'adapters/godot/crafting/support_fit.gd'),path.join(extra,'support_fit.gd'));
 const files=Object.fromEntries(['README.md','crafting.gd','owned_session.gd','cargo_cards.gd','content.json','inspection.json','equipment.json','cargo-index.json','cargo-pages.txt','bundle.txt','support_fit.gd','support-fit.txt','support-index.json','support-pages.txt','pouch_recall.gd','pouch-rules.txt','pouch-data.json'].map(f=>[f,hash(path.join(extra,f))]));
 const content=[packs.items.id,packs.crafting.contentId,packs.skills.contentId];
 assert.deepEqual(content,retained.course.rows.find(row=>row.expected.save).expected.save.content.slice(0,3));
-const sizes={baseBytes:base.bytes.length,rackBytes:rack.bytes.length-base.bytes.length,socketBytes:bundleBytes-rack.bytes.length};
-writeJSON(path.join(extra,'manifest.json'),{schemaVersion:1,experimental:true,capability:'crafting-session/v1',optional:['crafting-session/v2','workshop-supports/v1','pouch-recall/v1'],...sizes,transport:'content-table/v1',content,parentAddonSha256:previous.archiveSha256,sdkArchiveSha256:previous.sdkArchiveSha256,files});
+const sizes={baseBytes:base.bytes.length,rackBytes:rack.bytes.length-base.bytes.length,socketBytes:support.bytes.length-rack.bytes.length,vestigeBytes:bundleBytes-support.bytes.length};
+const capabilities=['crafting-session/v2','crafting-session/v3','workshop-supports/v1','pouch-recall/v1','vestige-inlays/v1','crafting-view/v1','crafting-station/v1'];
+writeJSON(path.join(extra,'manifest.json'),{schemaVersion:1,experimental:true,capability:'crafting-session/v1',optional:capabilities,...sizes,transport:'content-table/v1',content,parentAddonSha256:previous.archiveSha256,sdkArchiveSha256:previous.sdkArchiveSha256,files});
+const capabilityProof=path.join(directory,'capabilities.json');
+run('bundled-capabilities',process.execPath,[path.join(root,'scripts/test-godot-capability-faults.mjs'),'--assets',extra,'--consumer',consumer,'--out',capabilityProof]);
 writeJSON(path.join(directory,'base-files.json'),previous.addon);const archive=path.join(directory,'hollow-wake-godot-crafting-progression-'+(process.platform==='win32'?'windows':'linux')+'-x64.zip');
 run('archive-contracts',tools.python,['-I',path.join(root,'test/godot-addon-archive.py')]);run('assemble',tools.python,['-I',path.join(root,'scripts/godot-proc-example-archive.py'),'assemble',previous.archive,path.join(directory,'base-files.json'),extra,archive,'crafting']);
 const sources=['adapters/godot/crafting/cargo_cards.gd','scripts/compile-cargo-cards.mjs','baseline/cargo-cards/acceptance.json','baseline/cargo-cards/faces.json.gz','adapters/godot/crafting/entry.mjs','scripts/compile-inspection-terms.mjs','baseline/item-inspection/terms.json.gz','baseline/item-inspection/observations.json','scripts/godot-addon-inventory.mjs','adapters/embedded/crafting-session.mjs','adapters/godot/shared/owned_session.gd','adapters/godot/crafting/crafting.gd','adapters/godot/crafting/README.md','scripts/build-godot-crafting.mjs','scripts/godot-proc-example-archive.py','test/godot-addon-archive.py','evidence/content-tables/windows.json'];
-sources.push('adapters/godot/crafting/rack-entry.mjs','adapters/godot/crafting/support-entry.mjs','adapters/godot/crafting/support_fit.gd','scripts/godot-crafting-bundle.mjs',
+sources.push('adapters/godot/crafting/rack-entry.mjs','adapters/godot/crafting/support-entry.mjs','adapters/godot/crafting/vestige-entry.mjs','test/godot-crafting/bundle-contract.mjs','scripts/test-godot-capability-faults.mjs','adapters/godot/crafting/support_fit.gd','scripts/godot-crafting-bundle.mjs',
   'adapters/embedded/support-fit.mjs','adapters/embedded/support-fit-pages.mjs','scripts/compile-workshop-supports.mjs','baseline/workshop-supports/acceptance.json');
 sources.push('adapters/embedded/pouch-session.mjs','adapters/godot/crafting/pouch-entry.mjs','adapters/godot/crafting/pouch_recall.gd','scripts/build-pouch-recall.mjs',
   'content/pouch-recall.json','baseline/pouch-recall/acceptance.json','src/pouch-recall.ts');
 const report={passed:true,directory,platform:process.platform,arch:process.arch,archive,archiveSha256:hash(archive),archiveBytes:fs.statSync(archive).size,progressionArchiveSha256:previous.archiveSha256,progressionProofSha256:hash(progressionFile),sdkArchiveSha256:previous.sdkArchiveSha256,baseProofSha256:previous.baseProofSha256,libraryProofSha256:previous.libraryProofSha256,files,bundleBytes,...sizes,contentBytes,immutableCourseSha256:proof.native.courseSha256,commandsReplayed:retained.course.rows.length,inputs,commands,sources:Object.fromEntries(sources.map(f=>[f,hash(path.join(root,f))])),
-  addon:composedAddon(hash(archive),previous.addon,'crafting',files,hash(path.join(extra,'manifest.json')))};
+  capabilityControls:read(capabilityProof),addon:composedAddon(hash(archive),previous.addon,'crafting',files,hash(path.join(extra,'manifest.json')))};
 writeJSON(path.join(directory,'package.json'),report);writeJSON(path.join(root,'.artifacts/godot-crafting-addon-latest.json'),{directory,receipt:path.join(directory,'package.json')});console.log({passed:true,directory,archive,bundleBytes,contentBytes,commands:report.commandsReplayed});
+} finally {
+  // Node dependencies and generated consumer inputs are not release artifacts.
+  // Retain receipts/logs and the sealed addon, including on a failed build.
+  fs.rmSync(consumer,{recursive:true,force:true,maxRetries:8,retryDelay:250});
+}

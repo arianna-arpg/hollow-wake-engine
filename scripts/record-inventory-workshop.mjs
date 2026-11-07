@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import {gunzipSync} from 'node:zlib';
 import {listFiles,root,sha256,writeJSON} from './reference-utils.mjs';
 const [buildFlag,buildFile,verifiedFlag,verifiedFile,outFlag,target,...rest]=process.argv.slice(2);
 assert.deepEqual([buildFlag,verifiedFlag,outFlag,rest.length],['--build','--verified','--out',0]);
@@ -9,12 +10,39 @@ const b=read(buildFile),v=read(verifiedFile);
 assert(b.built && v.passed);assert.equal(v.buildSha256,hash(buildFile));
 assert.deepEqual(v.archives,b.archives);
 assert.deepEqual(v.crashes.map(r=>r.phase),['before-stage','after-stage','after-commit']);
-assert(v.crashes.every(r=>r.terminated) && v.crashes[1].journalBytes>0);
+// WAL can keep a small uncommitted transaction in the page cache. Journal size
+// is diagnostic; correctness is the exact checkpoint recovered by both readers.
+const reference=read(path.join(root,'evidence/content-tables/windows.json'));
+const packed=fs.readFileSync(path.join(root,reference.raw.file));
+assert.equal(sha256(packed),reference.raw.sha256);
+const {course}=JSON.parse(gunzipSync(packed));
+const original=course.rows.map(row=>row.expected.save).find(s=>s?.state.overflow.length===1&&s.state.items.length===2);
+assert(original);
+const moved=structuredClone(original),cargo=moved.state.overflow.pop();
+for(const row of v.crashes){
+  assert(row.terminated&&row.barrierVerified,'crash barrier verified');
+  assert(Number.isSafeInteger(row.journalBytes)&&row.journalBytes>=0,'journal observation');
+  const committed=row.phase==='after-commit';
+  assert.deepEqual(row.recovery,{revision:committed?2:1,
+    sourceSha256:sha256(JSON.stringify(committed?moved:original)),
+    stashSha256:sha256(JSON.stringify(committed?[cargo]:[])),gameEqualsDatabase:true},'exact recovered checkpoint');
+}
 assert.equal(v.revisionAfterUI,5);
 for(const check of ['race-read','busy-commit','stale-read','withdraw-read','reject-duplicate','reject-full-stash','reject-foreign','screen','shipping-player']){
   assert(v.runs.some(row=>row.label===check),check);
 }
 for(const row of v.runs)assert.equal(hash(path.join(v.dir,row.label+'.txt')),row.logSha256,row.label);
+assert(v.workshop?.coldImport.cacheInitiallyAbsent);
+for(const mode of ['editor','player']){
+  const observed=v.workshop[mode];
+  for(const name of ['background','stations','inlays']){
+    assert.deepEqual(observed[name].map(row=>row.resumed),[false,true]);
+    for(const suffix of [name,name==='background'?'background-reopen':name+'-reopen'])
+      assert(v.runs.some(row=>row.label==='workshop-'+mode+'-'+suffix));
+  }
+  assert.equal(observed.stations[0].assertions,79);
+}
+assert.equal(v.workshop.playerArchiveSha256,b.archives['hollow-wake-inventory-'+(process.platform==='win32'?'windows':'linux')+'-x64.zip']);
 const out=path.resolve(target);fs.mkdirSync(out);
 for(const [file,h] of Object.entries(b.archives)){
   assert.equal(path.basename(file),file);const src=path.join(b.dir,file);assert.equal(hash(src),h);
@@ -45,6 +73,7 @@ if(process.platform==='linux'){
 const summary={schemaVersion:1,passed:true,platform:process.platform,arch:process.arch,
   buildSha256:hash(buildFile),verificationSha256:hash(verifiedFile),nativeReceiptSha256:b.nativeReceiptSha256,
   addonSha256:b.addonSha256,saveLibrarySha256:b.librarySha256,archives:b.archives,originalCourseSha256:v.originalCourseSha256,
-  originalCheckpointSha256:v.originalCheckpointSha256,crashes:v.crashes,checks:v.runs,inspection:v.inspection,cargo:v.cargo,loadout:v.loadout,render:v.screenshot??null};
+  originalCheckpointSha256:v.originalCheckpointSha256,crashes:v.crashes,checks:v.runs,inspection:v.inspection,cargo:v.cargo,loadout:v.loadout,
+  workshop:v.workshop,render:v.screenshot??null};
 writeJSON(path.join(out,'verification.json'),summary);
 console.log({passed:true,out,packages:Object.keys(b.archives)});

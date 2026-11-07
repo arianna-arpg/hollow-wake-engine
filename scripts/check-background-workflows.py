@@ -17,9 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def check(args, work):
     proof = json.loads((args.delivery/"verification.json").read_text())
-    name = "hollow-wake-workshop-"+proof["platform"]+"-x64.zip"
-    archive = args.delivery/name
-    assert hashlib.sha256(archive.read_bytes()).hexdigest() == proof["archives"][name]
+    archive = runpy.run_path(str(ROOT/"scripts/verify-background-workshop.py"))["delivered_project"](args.delivery,proof)
     with zipfile.ZipFile(archive) as source:
         for entry in source.namelist():
             assert entry.startswith("inventory-workshop/") and ".." not in PurePosixPath(entry).parts

@@ -30,6 +30,26 @@ func through_wrapper(host, r: Dictionary) -> Dictionary:
 		"take-overflow": return host.take_overflow(p, r.uid)
 	return {"unexpected_operation": r.op}
 
+func extensions(host: RefCounted) -> bool:
+	if not check(host.close_profile(1).ok and host.close_profile(2).ok,"retire legacy profiles"):return false
+	var state:={"board":{"w":4,"h":4},"items":[],"overflow":[],"equipped":{},"essences":{},"account":{"features":[],"ledger":{},"craftLore":{},"progression":true}}
+	if not check(host.open_profile(1,17,state).ok,"extension profile"):return false
+	var minted:Dictionary=host.forge(1,{"baseId":"helmet_armor","ilvl":1,"rarity":"common","sockets":2,"quality":0.5})
+	if not check(minted.ok,"extension gear"):return false
+	var view:Dictionary=host.snapshot_view(1)
+	if not check(view.ok and view.save.is_read_only() and view.save.state.account.is_read_only(),"readonly view in built addon"):return false
+	var quote:Dictionary=host.station_view(1,minted.result.uid)
+	if not check(quote.ok and quote.socket.count==2 and quote.socket.cost=={"essence":"brilliant","count":6.0},"station quote in built addon"):return false
+	if not check(host.grant_vestige(1,"morren",1).result.get("changed",false),"vestige grant in built addon"):return false
+	var saved:Dictionary=host.snapshot(1).save
+	var preview:Dictionary=host.view_inlay(saved.state.items[0],saved.state.vestiges,"morren")
+	if not check(preview.ok and preview.preview.changed and preview.preview.index==0,"vestige preview in built addon"):return false
+	if not check(host.inlay_vestige(1,minted.result.uid,"morren").result.get("changed",false),"vestige inlay in built addon"):return false
+	var inlaid:Dictionary=host.snapshot(1).save
+	if not check(inlaid.state.items[0].sockets==["morren",null] and inlaid.state.vestiges.morren==0,"vestige payment in built addon"):return false
+	if not check(host.close_profile(1).ok and host.restore_profile(1,inlaid).ok and host.snapshot(1).save==inlaid,"extension save roundtrip"):return false
+	return true
+
 func _ready() -> void:
 	var requests: Array = JSON.parse_string(FileAccess.get_file_as_string("res://requests.json"))
 	if not check(requests.size() == 56, "complete retained course"): return
@@ -129,9 +149,10 @@ func _ready() -> void:
 	var progression := Progression.new()
 	if not check(progression.start() == 0 and progression.open_profile(1, 19).ok, "progression starts independently from combined addon"): return
 	if not check(progression.catalogue(1, 0, 1).total > 190 and host.snapshot(1) == before, "no cross-capability handle collision"): return
+	if not extensions(host):return
 	if not check(progression.close() == 0 and resumed.close() == 0 and host.close() == 0 and host.close() == 0, "release independent native hosts"): return
 	if not check(host.snapshot(1).get("reason") == "native-host", "closed host refuses commands"): return
 	for m in [host.metrics(), resumed.metrics(), progression.metrics()]:
 		if not check(m.live_bytes == 0 and m.live_blocks == 0 and m.peak_bytes > 0 and m.peak_bytes <= 32*1024*1024, "tracked allocations released within per-host cap"): return
-	print(JSON.stringify({"passed":true,"assertions":assertions,"commands":requests.size(),"operations":kinds.size(),"lore":checkpoint.state.account.craftLore.size(),"items":checkpoint.state.items.size(),"continued_ids":ids,"exact_uid":exact_uid,"disk":true,"combined":true,"metrics":host.metrics(),"resumed_metrics":resumed.metrics(),"progression_metrics":progression.metrics()}))
+	print(JSON.stringify({"passed":true,"assertions":assertions,"commands":requests.size(),"operations":kinds.size(),"lore":checkpoint.state.account.craftLore.size(),"items":checkpoint.state.items.size(),"continued_ids":ids,"exact_uid":exact_uid,"disk":true,"combined":true,"extensions":["crafting-view/v1","crafting-station/v1","vestige-inlays/v1"],"metrics":host.metrics(),"resumed_metrics":resumed.metrics(),"progression_metrics":progression.metrics()}))
 	get_tree().quit(0)

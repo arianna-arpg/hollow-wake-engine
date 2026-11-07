@@ -15,9 +15,8 @@ HELPERS = runpy.run_path(str(ROOT / "scripts/verify-background-workshop.py"))
 
 def verify(args, work):
     receipt = json.loads((args.delivery / "verification.json").read_text())
-    name = "hollow-wake-workshop-" + receipt["platform"] + "-x64.zip"
-    archive = args.delivery / name
-    assert HELPERS["digest"](archive) == receipt["archives"][name]
+    archive = HELPERS["delivered_project"](args.delivery, receipt)
+    name = archive.name
     with zipfile.ZipFile(archive) as source:
         for member in source.namelist():
             assert member.startswith("inventory-workshop/") and ".." not in PurePosixPath(member).parts

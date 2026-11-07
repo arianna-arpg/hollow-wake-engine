@@ -49,6 +49,19 @@ def digest(file):
     return hashlib.sha256(file.read_bytes()).hexdigest()
 
 
+def delivered_project(delivery, receipt):
+    """Select one hash-verified project from either supported receipt layout."""
+    assert receipt.get("passed"), "Delivery has not passed acceptance"
+    platform = {"win32": "windows", "windows": "windows", "linux": "linux"}[receipt["platform"]]
+    names = [prefix + platform + "-x64.zip" for prefix in
+             ("hollow-wake-workshop-", "hollow-wake-inventory-project-")]
+    selected = [name for name in names if name in receipt["archives"]]
+    assert len(selected) == 1, "Receipt must name exactly one workshop project"
+    archive = delivery / selected[0]
+    assert digest(archive) == receipt["archives"][selected[0]], "Project archive hash differs"
+    return archive
+
+
 def cold_import(project, launch):
     """Require the editor to discover every extension in a cache-free project."""
     cache = project / ".godot"

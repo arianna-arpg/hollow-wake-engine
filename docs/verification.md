@@ -1,5 +1,12 @@
 # Verification and reproduction
 
+The [fresh Godot package checkpoint](../evidence/fresh-godot-package/README.md)
+qualifies the normal builder through the full workshop bundle and extracted
+Windows player. Capability fault tests run inside the crafting builder; the
+inventory verifier requires exact crash recovery, current background/inlay/
+station courses, and the existing delivered workflow fault tests. This
+checkpoint does not replace physical-device or fresh Linux qualification.
+
 The [background-save boundary](background-saves.md) adds a bounded native worker
 and asynchronous inventory publication. Its independent barrier/fault tests,
 empty-project SQLite checks, relocated player/restart courses and existing

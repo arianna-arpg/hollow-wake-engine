@@ -11,6 +11,25 @@ to the stash, or return it to a free cell. The profile keeps its random state,
 next item ID, wallet, crafting lore and exact item bodies across restarts.
 Pointer controls and keyboard navigation run through the same actions.
 
+The standard build now qualifies the current main scene in the editor and a
+fresh extraction of the player archive. Background-save contention, cancellation,
+close and reopen, the 79-assertion station course, and inlay/save continuation
+must pass before a delivery is recorded. These opt-in courses use separate,
+marked test directories. The source archive includes the pinned original
+station fixture so the exported player can run the same course.
+
+Crash acceptance compares the exact checkpoint, stash and revision recovered
+by the game and an independent SQLite reader before staging, after staging and
+after commit. Journal byte counts are diagnostics: a small uncommitted WAL
+transaction may still be in the page cache. Report fault tests reject lost
+commits, partial uncommitted transfers, unobserved barriers and missing workshop
+courses. The verification command also runs the existing rack, support, recall,
+readonly-view and station fault courses against the delivered archive.
+See the [fresh package evidence](../evidence/fresh-godot-package/README.md).
+The verification command exposes the requested output folder only after all
+checks pass. Choose a destination on the checkout's volume for the final
+atomic rename; copy the accepted delivery elsewhere afterwards.
+
 Choose the download for your platform and purpose.
 
 | Archive | Use |

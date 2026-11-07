@@ -21,6 +21,9 @@ const pkg=latest('godot-crafting-addon'),progression=latest('godot-progression-a
 const replay=latest('godot-crafting-replay'),priorReplay=latest('godot-progression-replay');
 const faults=latest('progression-session-faults');
 const wrapperFaults=latest('godot-crafting-faults');
+assert(pkg.data.capabilityControls?.passed&&pkg.data.capabilityControls.sourcePreserved);
+assert.deepEqual(pkg.data.capabilityControls.runs.map(r=>[r.name,r.status]),[
+  ['control-before',0],['support-only-factory',1],['missing-inlay-preview',1],['control-after',0]]);
 const isolatedCertificateDiagnostic='ERROR: Failed to read the root certificate store.';
 const diagnostics={isolatedWindowsCertificateMessages:0};
 function verifyEngineLog(directory,label,expected){
@@ -72,10 +75,10 @@ const rawName=stem+'-observations.jsonl.gz';
 const proof={schemaVersion:1,passed:true,version:read(path.join(root,'package.json')).version,platform:process.platform,arch:process.arch,
   scope:'Godot 4.7.2 desktop editor and relocated release; selected crafting and progression capabilities.',
   package:{archiveSha256,archiveBytes,sdkArchiveSha256,progressionArchiveSha256,bundleBytes,contentBytes,files,
-    ...(pkg.data.baseBytes===undefined?{}:{baseBytes:pkg.data.baseBytes,rackBytes:pkg.data.rackBytes,...(pkg.data.socketBytes!==undefined?{socketBytes:pkg.data.socketBytes}:{})}),
+    ...(pkg.data.baseBytes===undefined?{}:{baseBytes:pkg.data.baseBytes,rackBytes:pkg.data.rackBytes,...(pkg.data.socketBytes!==undefined?{socketBytes:pkg.data.socketBytes}:{}),...(pkg.data.vestigeBytes!==undefined?{vestigeBytes:pkg.data.vestigeBytes}:{})}),
     libraries:Object.fromEntries(Object.entries(addon.files).filter(([f])=>f.startsWith('bin/'))),libraryProofSha256,baseProofSha256},
   fixture:replay.data.fixture,capBytesPerHost:32*1024*1024,crafting:{editor:replay.data.editor,release:replay.data.release,releaseWithoutProject:true,
-    wrapperControls:wrapperFaults.data.runs},diagnostics,
+    wrapperControls:wrapperFaults.data.runs,capabilityControls:pkg.data.capabilityControls},diagnostics,
   progression:{editor:priorReplay.data.editor,release:priorReplay.data.release,releaseWithoutProject:true,detectedFaults:faults.data.runs.map(r=>r.name)},
   observations:{file:rawName,rows:expected.length,sha256:sha256(compressed),uncompressedSha256:sha256(observations),uncompressedBytes:observations.length,
     editorEqualsRelease:true,independentlyEqualsReference:true},

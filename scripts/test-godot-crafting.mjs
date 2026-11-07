@@ -30,6 +30,7 @@ replayGodotSession({capability:'crafting',probe:'test/godot-crafting/probe.gd',r
     assert.equal(result.commands,56);assert.equal(result.operations,14);
     assert.equal(result.lore,3929);assert.equal(result.items,128);
     assert.equal(result.exact_uid,'9007199254740991');assert(result.combined&&result.disk);
+    assert.deepEqual(result.extensions,['crafting-view/v1','crafting-station/v1','vestige-inlays/v1']);
     assert.deepEqual(result.continued_ids,[130,131,132]);
     for(const m of [result.metrics,result.resumed_metrics,result.progression_metrics]){
       assert(m.closed&&!m.poisoned&&!m.delivery_failed&&!m.response_pending);

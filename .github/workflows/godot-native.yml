@@ -159,7 +159,7 @@ jobs:
           retention-days: 14
           path: |
             .artifacts/inventory-verified/*.zip
-            .artifacts/inventory-verified/verification.json
+            .artifacts/inventory-verified/*.json
       - name: Retain verified crafting and progression addon
         if: success() && github.ref == 'refs/heads/codex/resource-restoration'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

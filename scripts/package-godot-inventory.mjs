@@ -68,6 +68,8 @@ fs.copyFileSync(lib.library,path.join(store,'bin',path.basename(lib.library)));
 const extension=zip('zip-store',store,'addons/hollow_wake_save/','hollow-wake-local-save-'+platform+'-x64.zip');
 const files=['project.godot','inventory.tscn','inventory.gd','profile.gd','workshop_station.gd','verify_stations.gd','verify_background.gd','verify_inlays.gd','measure_inlays.gd','cargo-sample.json','support-measure.json','measure_supports.gd','recall-measure.json','measure_pouch.gd','workshop_start.tscn','workshop_start.gd','README.md'];
 for(const f of files)fs.copyFileSync(path.join(root,'examples/godot-inventory',f),path.join(project,f));
+// Explicit opt-in acceptance course; expectations come from the pinned game.
+run('station-fixture',process.execPath,[path.join(root,'scripts/prepare-station-course.mjs'),path.join(project,'station-cases.json')]);
 const target=windows?'Windows Desktop':'Linux';
 const preset='[preset.0]\nname='+JSON.stringify(target)+'\nplatform='+JSON.stringify(target)+'\nrunnable=true\nexport_filter="all_resources"\ninclude_filter="*.txt,*.json,*.md"\nexclude_filter=""\n\n[preset.0.options]\nbinary_format/architecture="x86_64"\nbinary_format/embed_pck=false\n'+(windows?'application/modify_resources=false\ncodesign/enable=false\n':'');
 fs.writeFileSync(path.join(project,'export_presets.cfg'),preset);
@@ -75,7 +77,11 @@ const source=zip('zip-project',project,'inventory-workshop/','hollow-wake-invent
 const pristine=Object.fromEntries(listFiles(project).map(f=>[f,hash(path.join(project,f))]));
 const localPreset=preset+'custom_template/debug='+JSON.stringify(tools.exportDebug.replaceAll('\\','/'))+'\ncustom_template/release='+JSON.stringify(tools.exportRelease.replaceAll('\\','/'))+'\n';
 fs.writeFileSync(path.join(project,'export_presets.cfg'),localPreset);
-run('import',tools.editor,['--headless','--import','--path',project,'--frame-delay','1000']);
+assert(!fs.existsSync(path.join(project,'.godot')),'fresh project has no editor cache');
+run('import',tools.editor,['--headless','--editor','--import','--path',project,'--frame-delay','1000']);
+const extensions=listFiles(project).filter(f=>f.endsWith('.gdextension')).map(f=>'res://'+f).sort();
+assert(extensions.length>0);
+assert.deepEqual(fs.readFileSync(path.join(project,'.godot/extension_list.cfg'),'utf8').trim().split(/\r?\n/).sort(),extensions);
 const release=path.join(dir,'release');fs.mkdirSync(release);
 const executable=path.join(release,windows?'Inventory.exe':'Inventory.x86_64');
 run('export',tools.editor,['--headless','--path',project,'--export-release',target,executable]);
@@ -92,6 +98,7 @@ fs.copyFileSync(path.join(project,'README.md'),path.join(release,'README.md'));
 const game=zip('zip-game',release,'inventory-workshop/','hollow-wake-inventory-'+platform+'-x64.zip');
 const proof=path.join(dir,'build.json');
 writeJSON(proof,{built:true,dir,project,release,executable,pristine,addonSha256:hash(addon),nativeReceiptSha256:hash(receipt),
-  librarySha256:lib.librarySha256,archives:Object.fromEntries([source,game,extension].map(f=>[path.basename(f),hash(f)]))});
+  librarySha256:lib.librarySha256,coldImport:{cacheInitiallyAbsent:true,extensions},
+  archives:Object.fromEntries([source,game,extension].map(f=>[path.basename(f),hash(f)]))});
 writeJSON(path.join(root,'.artifacts/inventory-workshop-latest.json'),{dir,proof});
 console.log({dir,game,source,extension});

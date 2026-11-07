@@ -1,0 +1,52 @@
+// Runs the actual packaged IIFE, not workspace imports or a parallel rules model.
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+
+const [folder,variant,...rest]=process.argv.slice(2);
+assert(folder&&!rest.length);
+const data=name=>fs.readFileSync(path.join(folder,name),'utf8');
+const manifest=JSON.parse(data('manifest.json'));
+const expected=['crafting-session/v2','crafting-session/v3','workshop-supports/v1','pouch-recall/v1','vestige-inlays/v1','crafting-view/v1','crafting-station/v1'];
+assert.deepEqual(manifest.optional,expected,'complete capability inventory');
+const context=vm.createContext({input:data('content.json')});
+vm.runInContext('Math.random=()=>{throw new Error("ambient random")};',context);
+vm.runInContext(fs.readFileSync(variant??path.join(folder,'bundle.txt'),'utf8'),context,{timeout:30000});
+vm.runInContext('var host=HollowWakeSession.create(JSON.parse(input));',context,{timeout:30000});
+function command(request){
+  context.input=JSON.stringify(request);
+  const text=vm.runInContext('(()=>{const body=HollowWakeSession.dispatch(host,["parse",input]);if(!body.ok)throw new Error("command encoding");const reply=HollowWakeSession.dispatch(host,["command",body.value]);return HollowWakeSession.dispatch(host,["format",reply]).text;})()',context,{timeout:30000});
+  return JSON.parse(text);
+}
+const state={board:{w:4,h:4},items:[],overflow:[],equipped:{},essences:{brilliant:100},account:{features:[],ledger:{},craftLore:{},progression:true}};
+assert(command({op:'open',profile:1,seed:17,state}).ok,'profile opened');
+assert(command({op:'configure-inspection',text:data('inspection.json')}).ok,'inspection configured');
+const mint=command({op:'mint',profile:1,kind:'forge',options:{baseId:'helmet_armor',ilvl:1,rarity:'common',sockets:2,quality:.5}});
+assert(mint.ok&&mint.result.uid===1,'gear minted');
+const quote=command({op:'station-view',profile:1,uid:1,offset:0,limit:32});
+assert(quote.ok&&quote.total===0&&quote.socket.count===2&&quote.socket.cost.essence==='brilliant'&&quote.socket.cost.count===6,'station quote available');
+const view=command({op:'snapshot-view',profile:1,accountVersion:0});
+assert(view.ok&&view.view.state.items.length===1,'versioned view available');
+assert(command({op:'snapshot-view',profile:1,accountVersion:view.accountVersion}).view.state.account===null,'retained account available');
+assert(command({op:'grant-vestige',profile:1,id:'morren',count:1}).result?.changed,'vestige grant available');
+const save=command({op:'save',profile:1}).save;
+const preview=command({op:'view-inlay',item:save.state.items[0],wallet:save.state.vestiges,id:'morren'});
+assert(preview.ok&&preview.preview.changed&&preview.preview.index===0,'inlay preview available');
+assert(command({op:'inlay-vestige',profile:1,uid:1,id:'morren'}).result?.changed,'inlay action available');
+const after=command({op:'save',profile:1}).save;
+assert.deepEqual(after.state.items[0].sockets,['morren',null]);
+assert.equal(after.state.vestiges.morren,0);
+assert(command({op:'close',profile:1}).ok);
+assert(command({op:'restore',profile:1,save:after}).ok,'inlay continuation restored');
+assert.deepEqual(command({op:'save',profile:1}).save,after);
+const gem=(uid,kind,payload,x)=>({uid,baseId:kind+'_gem',ilvl:1,tier:1,name:kind,rarity:'common',baseRoll:0,implicitRolls:[],affixes:[],x,y:0,gem:{kind,...payload}});
+const skill=gem(20,'skill',{skillId:'firebolt',level:1,rarity:'common',sockets:[null]},0);
+const support=gem(21,'support',{supportId:'multistrike',level:1},1);
+assert(command({op:'open',profile:2,seed:19,state:{...state,items:[skill,support]}}).ok,'gem profile opened');
+assert(command({op:'learn-skill',profile:2,uid:20,meets:true,blocked:{},slot:0}).result?.changed,'learned rack available');
+assert(command({op:'socket-support',profile:2,uid:21,skillId:'firebolt',fits:true,hold:null}).result?.changed,'support custody available');
+assert.equal(command({op:'save',profile:2}).save.state.rack[0].gem.sockets[0].supportId,'multistrike');
+assert(command({op:'unlearn-skill',profile:2,skillId:'firebolt',blocked:{}}).result?.changed,'unlearning available');
+assert.equal(command({op:'save',profile:2}).save.state.items[0].gem.sockets[0].supportId,'multistrike');
+console.log(JSON.stringify({passed:true,capabilities:expected,vestiges:true,station:true,versionedViews:true,rack:true,supports:true,restored:true}));

@@ -27,13 +27,15 @@ if(!archive){
   archive=path.join(dir,'sqlite.zip');fs.writeFileSync(archive,bytes,{flag:'wx'});
 }
 const tools=options.get('--tools');
-function run(script,params){
-  console.log('Running '+script);
-  const log=path.join(dir,script+'.txt'),fd=fs.openSync(log,'wx');
-  try{execFileSync(process.execPath,[path.join(root,'scripts',script+'.mjs'),...params],{cwd:root,windowsHide:true,timeout:900000,stdio:['ignore',fd,fd]});}
+const staged=path.join(dir,'delivery');
+function command(label,exe,params){
+  console.log('Running '+label);
+  const log=path.join(dir,label+'.txt'),fd=fs.openSync(log,'wx');
+  try{execFileSync(exe,params,{cwd:root,windowsHide:true,timeout:900000,stdio:['ignore',fd,fd]});}
   catch(error){console.error(fs.readFileSync(log,'utf8').slice(-2400));throw error;}
   finally{fs.closeSync(fd);}
 }
+function run(script,params){command(script,process.execPath,[path.join(root,'scripts',script+'.mjs'),...params]);}
 run('build-godot-save-store',['--tools',tools,'--sqlite',archive]);
 const lib=read(path.join(root,'.artifacts/godot-save-store-latest.json')).receipt;
 run('package-godot-inventory',['--tools',tools,'--library',lib,'--addon',options.get('--addon'),'--addon-proof',options.get('--addon-proof')]);
@@ -42,5 +44,17 @@ const replay=['--build',build,'--tools',tools];
 if(options.has('--render'))replay.push('--render');
 run('test-godot-inventory',replay);
 const proof=read(path.join(root,'.artifacts/inventory-acceptance-latest.json')).receipt;
-run('record-inventory-workshop',['--build',build,'--verified',proof,'--out',options.get('--out')]);
+run('record-inventory-workshop',['--build',build,'--verified',proof,'--out',staged]);
+run('test-inventory-record-faults',['--build',build,'--verified',proof,'--accepted',staged,
+  '--out',path.join(staged,'receipt-controls.json')]);
+const nativeTools=read(tools),out=staged;
+command('project-identity',nativeTools.python,['-I',path.join(root,'scripts/test-workshop-delivery.py'),dir]);
+command('workshop-courses',nativeTools.python,['-I',path.join(root,'scripts/check-background-workflows.py'),
+  nativeTools.editor,out,dir,path.join(out,'workflow-controls.json'),'--profile-views']);
+command('station-controls',nativeTools.python,['-I',path.join(root,'scripts/check-station-faults.py'),
+  nativeTools.editor,out,dir,path.join(out,'station-controls.json')]);
+// Only expose the requested delivery after every acceptance/control has passed.
+// Rename is atomic on the build volume; cross-volume callers must choose a
+// local staging destination and copy the accepted delivery afterwards.
+fs.renameSync(staged,options.get('--out'));
 console.log({passed:true,out:options.get('--out')});

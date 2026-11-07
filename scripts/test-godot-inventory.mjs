@@ -70,7 +70,7 @@ async function launch(label,command,args,settings={},barrier=null) {
       assert(child.kill('SIGKILL'));
       const killed=await ended;
       assert(!expired && (killed.signal==='SIGKILL'||killed.code!==0));
-      report.crashes.push({phase:barrier,journalBytes,terminated:true});
+      report.crashes.push({phase:barrier,journalBytes,terminated:true,barrierVerified:true});
     }else{
       const {code,signal}=await ended;
       const text=fs.readFileSync(log,'utf8');
@@ -95,6 +95,50 @@ async function inspect(label,db,expected) {
   await play(label,'inspect',db,{HWE_RESULT:observed});
   assert.deepEqual(read(observed),expected,label+' restored game view');
   assert.deepEqual(database(db),expected,label+' independent database view');
+  return {revision:expected.revision,sourceSha256:sha256(JSON.stringify(expected.source)),
+    stashSha256:sha256(JSON.stringify(expected.stash)),gameEqualsDatabase:true};
+}
+async function workshop(label,command,args) {
+  const settings=path.join(dir,label+'-settings');fs.mkdirSync(settings);
+  for(const marker of ['.background-save-owner','.vestige-test-owner'])fs.writeFileSync(path.join(settings,marker),'owned package acceptance');
+  const isolated=Object.fromEntries(['APPDATA','LOCALAPPDATA','HOME','XDG_CONFIG_HOME','XDG_DATA_HOME','XDG_CACHE_HOME','TEMP','TMP','TMPDIR'].map(key=>[key,settings]));
+  Object.assign(isolated,{HWE_BACKGROUND_TEST_ROOT:settings,HWE_VESTIGE_TEST_ROOT:settings});
+  async function observe(name,flags,prefix,extra={}) {
+    const run=label+'-'+name;
+    await launch(run,command,[...args,'--',...flags],{...isolated,...extra});
+    const lines=fs.readFileSync(path.join(dir,run+'.txt'),'utf8').split(/\r?\n/).filter(line=>line.startsWith(prefix));
+    assert.equal(lines.length,1,run+' completion');
+    return JSON.parse(lines[0].slice(prefix.length));
+  }
+  function durable(row) {
+    const file=path.resolve(row.database);
+    assert(file.startsWith(settings+path.sep),'course database stays in owned settings');
+    const db=new DatabaseSync(file,{readOnly:true});
+    try {
+      assert.equal(db.prepare('PRAGMA integrity_check').get().integrity_check,'ok');
+      const saved=db.prepare('SELECT revision,crafting FROM slots WHERE slot=1').get();
+      assert.equal(saved.revision,row.revision);
+      assert.equal(sha256(saved.crafting),row.saveSha256);
+    }finally{db.close();}
+  }
+  const background=await observe('background',['--verify-background'],'HWE_BACKGROUND_PLAYER ');
+  assert(!background.resumed&&background.queuedViewUnchanged&&background.busyRecovered&&background.staleRecovered&&background.closeWaited);
+  durable(background);
+  const backgroundResume=await observe('background-reopen',['--verify-background','--resume-background'],'HWE_BACKGROUND_PLAYER ',
+    {HWE_BACKGROUND_EXPECTED_SHA:background.saveSha256});
+  assert(backgroundResume.resumed);
+  assert.equal(backgroundResume.revision,background.revision);assert.equal(backgroundResume.saveSha256,background.saveSha256);
+  const stations=await observe('stations',['--verify-stations'],'HWE_STATIONS ');
+  assert(!stations.resumed&&stations.unpaidPersisted&&stations.busyRestored&&stations.originalPrices);
+  assert.equal(stations.assertions,79);durable(stations);
+  const stationsResume=await observe('stations-reopen',['--verify-stations','--resume-stations'],'HWE_STATIONS ',
+    {HWE_STATION_EXPECTED_SHA:stations.saveSha256});
+  assert(stationsResume.resumed);assert.equal(stationsResume.revision,stations.revision);
+  const inlays=await observe('inlays',['--verify-inlays','--vestige-sample'],'HWE_VESTIGE_OK ');
+  const inlaysResume=await observe('inlays-reopen',['--verify-inlays','--vestige-sample','--resume-inlay'],'HWE_VESTIGE_OK ');
+  assert(!inlays.resumed&&inlaysResume.resumed);assert.equal(inlays.revision,5);
+  assert.deepEqual({...inlaysResume,resumed:false},inlays);
+  return {background:[background,backgroundResume],stations:[stations,stationsResume],inlays:[inlays,inlaysResume]};
 }
 try{
   const unpack='import pathlib,sys,zipfile\nwith zipfile.ZipFile(sys.argv[1]) as z:\n for f in z.infolist():\n  p=pathlib.PurePosixPath(f.filename)\n  assert p.parts[0]=="inventory-workshop" and ".." not in p.parts and "\\\\" not in f.filename and ":" not in f.filename\n z.extractall(sys.argv[2])';
@@ -146,7 +190,7 @@ try{
     await play(phase+'-seed','seed',db);assert.deepEqual(database(db),before);
     await play(phase+'-kill','transfer',db,{HWE_MARKER:path.join(dir,phase+'.marker')},phase);
     // The real application opens first after the writer dies, before any independent SQL reader.
-    await inspect(phase+'-recover',db,phase==='after-commit'?after:before);
+    report.crashes.at(-1).recovery=await inspect(phase+'-recover',db,phase==='after-commit'?after:before);
   }
   const db=path.join(dir,'writers.db');
   await play('writers-seed','seed',db);
@@ -250,6 +294,20 @@ try{
   assert.equal(Object.keys(wearSaved.source.state.equipped).length,1);assert.equal(wearSaved.source.state.overflow.length,1);
   assert(wearHeap.closed&&wearHeap.peak_bytes>0&&wearHeap.peak_bytes<=32*1024*1024);assert.equal(wearHeap.live_bytes,0);assert.equal(wearHeap.live_blocks,0);
   report.loadout={cases:loadoutRows.length,sha256:hash(loadoutFile),heap:wearHeap,revision:wearSaved.revision};
+  // Qualify the current main scene and a fresh extraction of the shipped player.
+  // No previously delivered workshop supplies code, content or test fixtures.
+  assert(build.coldImport?.cacheInitiallyAbsent&&build.coldImport.extensions.length>0);
+  const delivered=path.join(dir,'delivered');fs.mkdirSync(delivered);
+  const playerArchive='hollow-wake-inventory-'+(windows?'windows':'linux')+'-x64.zip';
+  assert.equal(hash(path.join(build.dir,playerArchive)),build.archives[playerArchive]);
+  execFileSync(tools.python,['-I','-c',unpack,path.join(build.dir,playerArchive),delivered],{windowsHide:true});
+  const shipped=path.join(delivered,'inventory-workshop',windows?'Inventory.exe':'Inventory.x86_64');
+  if(!windows)fs.chmodSync(shipped,0o755);
+  assert.equal(hash(path.join(path.dirname(shipped),windows?'hwe_slot_store.dll':'libhwe_slot_store.so')),build.librarySha256);
+  report.workshop={coldImport:build.coldImport,
+    editor:await workshop('workshop-editor',tools.editor,['--headless','--path',build.project]),
+    player:await workshop('workshop-player',shipped,['--headless']),
+    playerArchiveSha256:build.archives[playerArchive]};
   report.passed=true;
   report.originalCourseSha256=frozen.native.courseSha256;report.originalCheckpointSha256=sha256(JSON.stringify(original));
   report.recoveredItemUid=cargo.uid;report.revisionAfterUI=last.revision;report.archives=build.archives;

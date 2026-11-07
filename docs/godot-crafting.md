@@ -73,7 +73,13 @@ node scripts/record-godot-crafting.mjs --out <new-evidence-directory>
 
 The builder installs the same SDK archive in a fresh consumer, checks the item,
 crafting and skill content against the accepted hashes, and replays all 56
-reference commands before assembling the addon. The archive preserves every
+reference commands before assembling the addon. It builds the complete vestige
+entry point, including the learned-skill rack, supports, inlays, versioned views
+and station quotes. A packaged-bundle contract exercises these capabilities and
+save continuation. Substituting the older support-only entry point or disabling
+the inlay preview must fail that contract. The builder removes the installed
+consumer on success and failure; archives, receipts and build logs remain.
+The archive preserves every
 member of the progression package. The verifier imports in a fresh project,
 plays the course in the editor, exports a release, moves the original project
 and export away, then plays the relocated executable. An independent reader
@@ -92,3 +98,8 @@ The combined addon has Windows x64 editor/export evidence and Linux x86_64
 editor/export and Valve Platform evidence. Physical Steam Deck and older mobile
 hardware, rendered UI, Unity and Unreal remain separate acceptance work.
 See the [Steam Runtime results](steam-runtime.md) and [device test instructions](steamrt-device-run.md).
+
+The [fresh package checkpoint](../evidence/fresh-godot-package/README.md) fixes
+the canonical builder's missing vestige entry and incomplete bundle selection.
+That checkpoint is Windows-only; previous Linux workshop evidence used the
+recorded overlay workflow and does not qualify the revised fresh build path.

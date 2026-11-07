@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "verificationSha256": "8fc082709c8806b62a06d0a9577ce4c9f2c81260a8fef0b19439d5ceb01bdea7",
+  "runs": [
+    {
+      "name": "unobserved-barrier",
+      "status": 1,
+      "assertion": "crash barrier verified",
+      "output": "node:internal/modules/run_main:107\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: crash barrier verified\r\n    at file:///D:/Games/Claude/ARPG%20Game%20-%20World/.claude/ownership.engine-m2/scripts/record-inventory-workshop.mjs:23:3\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:689:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: false,\r\n  expected: true,\r\n  operator: '==',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.9.0\r\n",
+      "sha256": "a75cf15a08a24b6d3a90568eeab3958bedf6f98502693e9acfedebc552fc5e6e"
+    },
+    {
+      "name": "lost-committed-inventory",
+      "status": 1,
+      "assertion": "exact recovered checkpoint",
+      "output": "node:internal/modules/run_main:107\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: exact recovered checkpoint\r\n+ actual - expected\r\n\r\n  {\r\n    gameEqualsDatabase: true,\r\n    revision: 2,\r\n+   sourceSha256: '3399c6ba80c78c3ad76b58a003fb5ede7225f37f6ae157c700a00769ca815f97',\r\n-   sourceSha256: '4f9f3a716429c0c76fdf9f6ae5e8fb6dfa422f5abbaf4a09557e659ae6b151c6',\r\n    stashSha256: '32caa467dd9fd33afa8e603ff04a5e609c80f51314dd4edac62c34fd2e4b0b64'\r\n  }\r\n\r\n    at file:///D:/Games/Claude/ARPG%20Game%20-%20World/.claude/ownership.engine-m2/scripts/record-inventory-workshop.mjs:26:10\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:689:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: {\r\n    revision: 2,\r\n    sourceSha256: '3399c6ba80c78c3ad76b58a003fb5ede7225f37f6ae157c700a00769ca815f97',\r\n    stashSha256: '32caa467dd9fd33afa8e603ff04a5e609c80f51314dd4edac62c34fd2e4b0b64',\r\n    gameEqualsDatabase: true\r\n  },\r\n  expected: {\r\n    revision: 2,\r\n    sourceSha256: '4f9f3a716429c0c76fdf9f6ae5e8fb6dfa422f5abbaf4a09557e659ae6b151c6',\r\n    stashSha256: '32caa467dd9fd33afa8e603ff04a5e609c80f51314dd4edac62c34fd2e4b0b64',\r\n    gameEqualsDatabase: true\r\n  },\r\n  operator: 'deepStrictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.9.0\r\n",
+      "sha256": "b2d415c5ceb93dfabdc08b950dd49729f9e0552edb60b2ef7b119d416e67f86e"
+    },
+    {
+      "name": "partial-uncommitted-transfer",
+      "status": 1,
+      "assertion": "exact recovered checkpoint",
+      "output": "node:internal/modules/run_main:107\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: exact recovered checkpoint\r\n+ actual - expected\r\n\r\n  {\r\n    gameEqualsDatabase: true,\r\n    revision: 1,\r\n    sourceSha256: '3399c6ba80c78c3ad76b58a003fb5ede7225f37f6ae157c700a00769ca815f97',\r\n+   stashSha256: '32caa467dd9fd33afa8e603ff04a5e609c80f51314dd4edac62c34fd2e4b0b64'\r\n-   stashSha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'\r\n  }\r\n\r\n    at file:///D:/Games/Claude/ARPG%20Game%20-%20World/.claude/ownership.engine-m2/scripts/record-inventory-workshop.mjs:26:10\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:689:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: {\r\n    revision: 1,\r\n    sourceSha256: '3399c6ba80c78c3ad76b58a003fb5ede7225f37f6ae157c700a00769ca815f97',\r\n    stashSha256: '32caa467dd9fd33afa8e603ff04a5e609c80f51314dd4edac62c34fd2e4b0b64',\r\n    gameEqualsDatabase: true\r\n  },\r\n  expected: {\r\n    revision: 1,\r\n    sourceSha256: '3399c6ba80c78c3ad76b58a003fb5ede7225f37f6ae157c700a00769ca815f97',\r\n    stashSha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945',\r\n    gameEqualsDatabase: true\r\n  },\r\n  operator: 'deepStrictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.9.0\r\n",
+      "sha256": "6c3c974e9e59e5415abbd1f27c15618a348723a0edc98561824d24293c874da6"
+    },
+    {
+      "name": "missing-workshop-courses",
+      "status": 1,
+      "assertion": "v.workshop?.coldImport.cacheInitiallyAbsent",
+      "output": "node:internal/modules/run_main:107\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\r\n\r\n  assert(v.workshop?.coldImport.cacheInitiallyAbsent)\r\n\r\n    at file:///D:/Games/Claude/ARPG%20Game%20-%20World/.claude/ownership.engine-m2/scripts/record-inventory-workshop.mjs:35:1\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:689:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  generatedMessage: true,\r\n  code: 'ERR_ASSERTION',\r\n  actual: undefined,\r\n  expected: true,\r\n  operator: '==',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.9.0\r\n",
+      "sha256": "90c7060c972b9bcc61c80f0ca84052369dbc81b9c185e58c70eaa6a6f6ce4f05"
+    }
+  ],
+  "sourcePreserved": true
+}
