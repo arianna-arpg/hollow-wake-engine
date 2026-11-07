@@ -11,7 +11,8 @@ set(GODOTCPP_BUILD_PROFILE "${CMAKE_CURRENT_SOURCE_DIR}/build-profile.json" CACH
 set(GODOTCPP_USE_HOT_RELOAD OFF CACHE BOOL "" FORCE)
 add_subdirectory("${GODOT_CPP_SOURCE}" "${CMAKE_CURRENT_BINARY_DIR}/godot-cpp" SYSTEM)
 add_library(hwe_slot_store SHARED store.cpp "${SQLITE_SOURCE}/sqlite3.c")
-target_link_libraries(hwe_slot_store PRIVATE godot-cpp)
+find_package(Threads REQUIRED)
+target_link_libraries(hwe_slot_store PRIVATE godot-cpp Threads::Threads)
 target_include_directories(hwe_slot_store PRIVATE "${SQLITE_SOURCE}")
 target_compile_definitions(hwe_slot_store PRIVATE SQLITE_OMIT_LOAD_EXTENSION SQLITE_THREADSAFE=1 SQLITE_DQS=0)
 set_target_properties(hwe_slot_store PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF
