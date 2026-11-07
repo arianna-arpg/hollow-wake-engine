@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "measure": "tracked native allocations per host; no timing or device claim",
+  "beforeSha256": "d064ac93927ee9148fb7ad97f94d2c14f3fa54f6941a57f85ae10b80e98b8447",
+  "afterSha256": "18b7f0dee3e156a15b7f5da0542b5f4fd14751888b619d9a399b9904bcc0031d",
+  "librarySha256": "5819b60989b3c9d79ca1b5850e4a8461fc2411db400ae4c453a6ed4f6c8ff82f",
+  "requests": 56,
+  "zeroLiveAllocationsAfterClose": true,
+  "runs": [
+    {
+      "variant": "before",
+      "peakBytes": 32810277,
+      "allocations": 99130
+    },
+    {
+      "variant": "after",
+      "peakBytes": 32759626,
+      "allocations": 128323
+    },
+    {
+      "variant": "after",
+      "peakBytes": 32759626,
+      "allocations": 128323
+    },
+    {
+      "variant": "before",
+      "peakBytes": 32810277,
+      "allocations": 99130
+    }
+  ],
+  "rulesBytes": {
+    "before": 114411,
+    "after": 113511
+  }
+}

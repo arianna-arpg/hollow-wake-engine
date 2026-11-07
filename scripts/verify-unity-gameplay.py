@@ -21,8 +21,10 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def run_engine(exe, args, cwd, env, log, marker=None):
-    result = subprocess.run([exe, "-batchmode", "-nographics", "-logFile", log, *args], cwd=cwd, env=env,
+def run_engine(exe, args, cwd, env, log, marker=None, graphics=False):
+    display = ["-screen-width", "960", "-screen-height", "600", "-screen-fullscreen", "0"] if graphics else ["-nographics"]
+    mode = [] if graphics else ["-batchmode"]
+    result = subprocess.run([exe, *mode, *display, "-logFile", log, *args], cwd=cwd, env=env,
                             creationflags=subprocess.CREATE_NO_WINDOW, timeout=420)
     text = log.read_text(encoding="utf-8", errors="replace")
     critical=[line for line in text.splitlines() if ("error CS" in line or line.startswith(("NullReferenceException:", "DllNotFoundException:",
@@ -42,6 +44,10 @@ def check_replays(work, stage):
     assert len(combat) == len(expected) == 60
     for idx, (got, want) in enumerate(zip(combat, expected)):
         assert got == want, ("combat", idx, got, want)
+    workshop, expected = rows(work / (stage + "-workshop.replies")), rows(work / "workshop.expected")
+    assert len(workshop) == len(expected) == 56
+    for idx, (got, want) in enumerate(zip(workshop, expected)):
+        assert got == want, ("workshop", idx, got, want)
     pouches, expected = rows(work / (stage + "-pouches.replies")), rows(work / "pouches.expected")
     assert len(pouches) == len(expected) == 2334
     for idx, (got, want) in enumerate(zip(pouches, expected)):
@@ -66,6 +72,8 @@ def check_stage(work, stage, run_id):
     check_replays(work, stage)
     assert metrics["liveBytes"] == metrics["liveBlocks"] == 0
     assert all(metrics[k] for k in ("saveContinuation", "isolatedActors", "refusedInvalidRestore", "closedHost", "duplicatePress","catchUpBoundary","stoppedOnDeath","typedPouch"))
+    assert all(metrics[k] for k in ("typedWorkshop","workshopContinuation","workshopIsolation","workshopClosed"))
+    assert metrics["workshopRequests"] == 56 and 0 < metrics["workshopPeak"] <= 32 * 1024 * 1024
     assert len(metrics["catchUpManagedBytes"])==len(metrics["singleStepManagedBytes"])==4
     if metrics["managedAllocationCounterAvailable"]:
         assert all(0<b<a for a,b in zip(metrics["singleStepManagedBytes"],metrics["catchUpManagedBytes"]))
@@ -74,7 +82,7 @@ def check_stage(work, stage, run_id):
     assert metrics["singleRequests"]==512 and metrics["catchUpRequests"]==8
     assert 0<metrics["catchUpWireBytes"]<metrics["singleWireBytes"]
     if stage == "player":
-        assert metrics["importedSample"] and metrics["sampleHit"] > 0
+        assert metrics["importedSample"] and metrics["sampleHit"] > 0 and metrics["workshopSample"]
     return metrics
 
 
@@ -90,10 +98,12 @@ def verify(args, scratch):
     assert archive.parent == args.package and digest(archive) == pack["sha256"]
     local_name=pack["sha256"][:16]+"-"+archive.name
     shutil.copyfile(archive, project / "Packages" / local_name)
-    config = {"dependencies": {"com.unity.modules.jsonserialize":"1.0.0",pack["name"]:"file:"+local_name}}
+    config = {"dependencies": {"com.unity.modules.jsonserialize":"1.0.0",
+              "com.unity.modules.screencapture":"1.0.0","com.unity.modules.imageconversion":"1.0.0",
+              pack["name"]:"file:"+local_name}}
     (project / "Packages/manifest.json").write_text(json.dumps(config),encoding="utf-8")
     (project / "ProjectSettings/ProjectVersion.txt").write_text("m_EditorVersion: 2021.3.6f1\n",encoding="ascii")
-    for name in ("Editor/PackageChecks.cs", "GameplayReplay.cs"):
+    for name in ("Editor/PackageChecks.cs", "GameplayReplay.cs", "WorkshopReplay.cs"):
         shutil.copyfile(ROOT / "test/unity-gameplay" / name,project / "Assets" / name)
     with tarfile.open(archive,"r:gz") as pkg:
         data = pkg.extractfile("package/Runtime/Resources/HollowWake/PouchesContent.bytes").read()
@@ -117,7 +127,9 @@ def verify(args, scratch):
     game_profile=profile/"GameplayPackageTest"
     old_profile,old_game=profile.exists(),game_profile.exists()
     try:
-        run_engine(moved/"Gameplay.exe",[],work,env,work/"player.log")
+        player_env=dict(env)
+        if args.render: player_env["HWE_UNITY_SCREENSHOT"]=str(work/"workshop.png")
+        run_engine(moved/"Gameplay.exe",[],work,player_env,work/"player.log",graphics=args.render)
     finally:
         # Some Windows players create an empty persistentDataPath despite
         # explicit external logs. Only remove previously absent empty folders.
@@ -131,7 +143,7 @@ def verify(args, scratch):
     with tarfile.open(archive) as original, tarfile.open(damaged,"w:gz") as altered:
         for member in original:
             body=original.extractfile(member).read()
-            if member.name.endswith("/PouchesContent.bytes"):
+            if member.name.endswith(("/PouchesContent.bytes", "/WorkshopContent.bytes")):
                 body+=b" "
                 member.size=len(body)
             altered.addfile(member,io.BytesIO(body))
@@ -147,7 +159,8 @@ def verify(args, scratch):
                            cwd=work,env=env,capture_output=True,text=True,creationflags=subprocess.CREATE_NO_WINDOW,timeout=180)
     if control.returncode: raise RuntimeError(control.stderr[-2000:])
     return {"package":pack,"editor":editor,"player":player,"contentComparison":json.loads(control.stdout),
-            "installedFromTarball":True,"sampleImported":True,"relocatedPlayer":True,"playModeExitsWithoutDomainReload":2,"changedPouchAssetRejected":True,
+            "renderedSampleSha256":digest(work/"workshop.png") if args.render else None,
+            "installedFromTarball":True,"sampleImported":True,"relocatedPlayer":True,"playModeExitsWithoutDomainReload":2,"changedPouchAssetRejected":True,"changedWorkshopAssetRejected":True,
             "nativePluginSha256":digest(native[0]),"originalPouchCuts":2304,"originalPouchActions":15,"combatControlRequests":60}
 
 
@@ -156,6 +169,7 @@ if __name__ == "__main__":
     for name in ("editor","package","release","receipt"):
         parser.add_argument("--"+name,required=True,type=lambda p:Path(p).resolve())
     parser.add_argument("--work",type=lambda p:Path(p).resolve(),help="Reuse a fresh verifier-owned directory instead of creating one")
+    parser.add_argument("--render",action="store_true",help="Capture the real imported scene in the relocated Windows player")
     args=parser.parse_args()
     assert not args.receipt.exists(),"Choose a new receipt path"
     if args.work:

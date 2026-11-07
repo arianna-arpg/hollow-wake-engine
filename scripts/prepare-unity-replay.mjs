@@ -42,3 +42,10 @@ for(const row of cases){
 assert.equal(requests.length,2334);
 fs.writeFileSync(path.join(out,'pouches.requests'),requests.join('\n')+'\n');
 fs.writeFileSync(path.join(out,'pouches.expected'),expected.join('\n')+'\n');
+const workshopProof=read(path.join(root,'evidence/content-tables/windows.json'));
+const workshopBytes=fs.readFileSync(path.join(root,workshopProof.raw.file));
+assert.equal(sha256(workshopBytes),workshopProof.raw.sha256);
+const {course}=JSON.parse(gunzipSync(workshopBytes));
+assert.equal(course.rows.length,56);
+fs.writeFileSync(path.join(out,'workshop.requests'),course.rows.map(r=>JSON.stringify(r.request)).join('\n')+'\n');
+fs.writeFileSync(path.join(out,'workshop.expected'),course.rows.map(r=>JSON.stringify(r.expected)).join('\n')+'\n');

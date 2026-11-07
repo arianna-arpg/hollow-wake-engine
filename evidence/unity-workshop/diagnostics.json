@@ -1,0 +1,40 @@
+{
+  "acceptedRun": "a3bb802c32ce4176abaf6f65f1a6c63b",
+  "markers": {
+    "import.log": [
+      "HWE_SAMPLE_IMPORTED"
+    ],
+    "build.log": [
+      "HWE_UNITY_BUILT"
+    ],
+    "player.log": [],
+    "play-exit.log": [
+      "HWE_PLAY_EXIT_VERIFIED"
+    ],
+    "damaged.log": [
+      "HWE_DAMAGED_POUCH_REJECTED"
+    ]
+  },
+  "developmentFailures": [
+    {
+      "case": "Cleanup observer",
+      "observation": "The package test passed and removed its consumer, but the first cleanup observer also counted the tool-created node-compile-cache.",
+      "resolution": "The observer now checks the reported consumer directly; its enclosing temporary root and cache are removed separately."
+    },
+    {
+      "case": "Default next item ID",
+      "observation": "A profile with existing item IDs 20 and 21 rejected the old default of 1 with uid-floor.",
+      "resolution": "Zero in the typed facade now selects the native computed floor; explicit nextUid 22 is asserted."
+    },
+    {
+      "case": "Missing screenshot modules",
+      "observation": "Disposable Unity project did not reference the built-in screenshot and image-conversion modules.",
+      "resolution": "The verifier includes both built-in modules."
+    },
+    {
+      "case": "Black batch-mode screenshot",
+      "observation": "Numeric courses passed but visual inspection found an entirely black capture.",
+      "resolution": "Render mode runs the normal graphical player; a visible-pixel assertion now rejects blank captures."
+    }
+  ]
+}

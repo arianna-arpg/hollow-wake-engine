@@ -10,11 +10,11 @@ public sealed class GameplayReplay : MonoBehaviour
     [Serializable] public class Result
     {
         public string unity, platform, stage, run;
-        public int combatRequests, pouchRequests;
-        public long combatPeak, pouchPeak, liveBytes, liveBlocks;
+        public int combatRequests, pouchRequests, workshopRequests;
+        public long combatPeak, pouchPeak, workshopPeak, liveBytes, liveBlocks;
         public double restoredHit, sampleHit;
         public bool saveContinuation, isolatedActors, refusedInvalidRestore, closedHost, duplicatePress, importedSample;
-        public bool catchUpBoundary, stoppedOnDeath, typedPouch;
+        public bool catchUpBoundary, stoppedOnDeath, typedPouch, typedWorkshop, workshopContinuation, workshopIsolation, workshopClosed, workshopSample;
         public long[] singleStepManagedBytes, catchUpManagedBytes;
         public bool managedAllocationCounterAvailable;
         public long[] singleStepMicroseconds, catchUpMicroseconds, singleNativeAllocations, catchUpNativeAllocations;
@@ -61,6 +61,16 @@ public sealed class GameplayReplay : MonoBehaviour
             result.liveBytes += (long)pouches.FinalMetrics.LiveBytes;
             result.liveBlocks += (long)pouches.FinalMetrics.LiveBlocks;
         }
+        using(var workshop=GameplayHost.OpenWorkshop())
+        {
+            result.workshopRequests=Replay(workshop,"workshop",stage);
+            result.workshopPeak=(long)workshop.ReadMetrics().PeakBytes;
+            Need(result.workshopPeak<=32L*1024*1024,"Workshop host exceeded its memory cap");
+            workshop.Dispose();
+            result.liveBytes+=(long)workshop.FinalMetrics.LiveBytes;
+            result.liveBlocks+=(long)workshop.FinalMetrics.LiveBlocks;
+        }
+        WorkshopReplay.Check(result);
         var build = Resources.Load<TextAsset>("HollowWakeSample/Magician");
         Need(build != null, "Package Manager sample build missing");
         using (var world = new CombatWorld())
@@ -204,6 +214,42 @@ public sealed class GameplayReplay : MonoBehaviour
         {
             result.sampleHit = (double)component.GetType().GetField("lastHit").GetValue(component);
             Need(result.sampleHit > 0 && (string)component.GetType().GetField("lastCast").GetValue(component) == "completed", "Imported sample did not resolve a cast");
+            var bench=sample.GetComponent("InventoryWorkbench");
+            Need(bench!=null,"Workshop sample missing from imported scene");
+            var benchType=bench.GetType();
+            benchType.GetMethod("ForgeHelmet").Invoke(bench,null);
+            Need((long)benchType.GetField("lastUid").GetValue(bench)==1,"Sample forge did not create an item");
+            benchType.GetMethod("InlayMorren").Invoke(bench,null);
+            benchType.GetMethod("CaptureCheckpoint").Invoke(bench,null);
+            var kept=(string)benchType.GetField("savedSnapshot").GetValue(bench);
+            Need(kept.Contains("\"sockets\":[\"morren\",null]"),"Sample inlay did not persist");
+            benchType.GetMethod("ForgeHelmet").Invoke(bench,null);
+            Need((long)benchType.GetField("lastUid").GetValue(bench)==2,"Sample did not advance its item IDs");
+            benchType.GetMethod("RestoreCheckpoint").Invoke(bench,null);
+            Need(kept==(string)benchType.GetMethod("CurrentSnapshot").Invoke(bench,null),"Sample checkpoint did not restore");
+            result.workshopSample=true;
+        }
+        catch (Exception failure) { Debug.LogException(failure); Application.Quit(1); yield break; }
+        var capture=Environment.GetEnvironmentVariable("HWE_UNITY_SCREENSHOT");
+        if(!String.IsNullOrEmpty(capture))
+        {
+            yield return new WaitForEndOfFrame();
+            Texture2D screen=null;
+            try
+            {
+                screen=ScreenCapture.CaptureScreenshotAsTexture();
+                Need(screen!=null&&screen.width>=960&&screen.height>=600,"Rendered sample viewport missing");
+                int bright=0;
+                foreach(var pixel in screen.GetPixels32())
+                    if(pixel.r>150&&pixel.g>150&&pixel.b>150)bright++;
+                Need(bright>500,"Rendered sample did not display its text and controls");
+                File.WriteAllBytes(capture,screen.EncodeToPNG());
+            }
+            catch (Exception failure) { Debug.LogException(failure); Application.Quit(1); yield break; }
+            finally{if(screen!=null)Destroy(screen);}
+        }
+        try
+        {
             sample.SetActive(false);
             result.importedSample = true;
             Receipt(result);

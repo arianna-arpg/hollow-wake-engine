@@ -125,6 +125,12 @@ if __name__ == "__main__":
                 path = stage / target
                 path.parent.mkdir(exist_ok=True, parents=True)
                 path.write_bytes(source.read(name))
+    elif mode == "workshop-assets":
+        stage = pathlib.Path(second) / "Runtime/Resources/HollowWake"
+        with zipfile.ZipFile(first) as source:
+            for asset, name in {"WorkshopContent": "content.json", "WorkshopInspection": "inspection.json",
+                                "WorkshopEquipment": "equipment.json"}.items():
+                (stage / (asset + ".bytes")).write_bytes(source.read("addons/hollow_wake/crafting/" + name))
     elif mode == "pack":
         package(pathlib.Path(first), pathlib.Path(second))
     else:

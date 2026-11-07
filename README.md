@@ -16,9 +16,10 @@ timed damage, snapshots and memory pouches to C++ and Blueprints. Place the
 included training target in a level to try the Magician build on Windows x64.
 
 The [Unity Package Manager preview](adapters/unity/README.md) runs the
-selected combat and pouch rules in Unity 2021.3 on Windows x64. Import its
+selected combat, pouch and workshop rules in Unity 2021.3 on Windows x64. Import its
 **Casting and Burning** sample and open **Ruin Encounter** to try a
-configured cast and timed damage. [Verification](evidence/unity-gameplay/README.md)
+configured cast and timed damage, then open the inventory workshop to forge,
+inlay and restore a checkpoint. [Combat verification](evidence/unity-gameplay/README.md)
 
 The 0.57 candidate adds [memory pouch recall](docs/pouch-recall.md) to the
 standalone inventory. Choose the source and facet, reveal the gem and reopen

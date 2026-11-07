@@ -8,7 +8,9 @@ export function create(table){
   host.vestigeEditor=editor;
   return host;
 }
-export const dispatch=godotDispatch((host,request)=>{
+// The rules also serve hosts with an exact JSON codec. Godot alone uses the
+// bit-preserving wire wrapper below; there is one implementation of the policy.
+export function dispatchWorkshop(host,request){
   if(request?.op!=='view-inlay')return dispatchCrafting(host,request);
   const {item,wallet,id,socket}=request, labels=host.vestigeLabels;
   const refuse=()=>({ok:false,reason:'invalid-inlay-view'});
@@ -29,4 +31,5 @@ export const dispatch=godotDispatch((host,request)=>{
   reply.preview=decision.changed?{...decision,replacedName:decision.replaced?resolve(decision.replaced):null,
     epitaphName:decision.epitaph?labels.words[decision.epitaph]?.name:null}:decision;
   return reply;
-});
+}
+export const dispatch=/* @__PURE__ */ godotDispatch(dispatchWorkshop);

@@ -1,6 +1,7 @@
 import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {build} from 'esbuild';
 import {root,sha256,writeJSON} from './reference-utils.mjs';
 const directory=fs.mkdtempSync(path.join(root,'.artifacts/damage-package-')),consumer=fs.mkdtempSync(path.join(os.tmpdir(),'hollow-damage-'));
+try{
 const npm=process.env.npm_execpath??path.join(path.dirname(process.execPath),'node_modules/npm/bin/npm-cli.js');
 const [packed]=JSON.parse(execFileSync(process.execPath,[npm,'pack','--json','--pack-destination',directory,'--cache',path.join(root,'.artifacts/npm-cache')],{cwd:root,encoding:'utf8'}));
 writeJSON(path.join(consumer,'package.json'),{private:true,type:'module'});
@@ -21,3 +22,6 @@ const browser=await build({absWorkingDir:consumer,tsconfigRaw:{},nodePaths:[path
 assert(Object.keys(browser.metafile.inputs).every(file=>!file.includes('.reference')));fs.writeFileSync(path.join(directory,'browser.mjs'),browser.outputFiles[0].contents);
 const report={passed:true,directory,consumer,tests:18,typesPassed:true,browserBytes:browser.outputFiles[0].contents.length,archiveSha256:sha256(fs.readFileSync(path.join(directory,packed.filename))),independentInstallation:true};
 writeJSON(path.join(directory,'verification.json'),report);writeJSON(path.join(root,'.artifacts/damage-package-verification.json'),report);console.log(report);
+}finally{
+  fs.rmSync(consumer,{recursive:true,force:true,maxRetries:3});
+}

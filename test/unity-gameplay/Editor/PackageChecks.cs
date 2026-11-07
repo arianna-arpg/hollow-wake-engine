@@ -37,6 +37,7 @@ public static class PackageChecks
         var component=GameObject.Find("Ruin encounter").GetComponent("CastingAndBurning");
         GameplayReplay.Need(component!=null && (TextAsset)component.GetType().GetField("build").GetValue(component)!=null,
             "Imported scene lost its script or serialized build reference");
+        GameplayReplay.Need(GameObject.Find("Ruin encounter").GetComponent("InventoryWorkbench")!=null,"Imported scene lost workshop sample");
         PlayerSettings.companyName="HollowWakeSdkVerification";
         PlayerSettings.productName="GameplayPackageTest";
         PlayerSettings.SetScriptingBackend(BuildTargetGroup.Standalone,ScriptingImplementation.Mono2x);
@@ -48,6 +49,7 @@ public static class PackageChecks
         Debug.Log("HWE_UNITY_BUILT");
     }
     static GameplayHost playHost;
+    static GameplayHost playWorkshop;
     static int exits;
     public static void VerifyPlayExit()
     {
@@ -66,13 +68,16 @@ public static class PackageChecks
             if(state==PlayModeStateChange.EnteredPlayMode)
             {
                 playHost=GameplayHost.OpenMemoryPouches();
+                playWorkshop=GameplayHost.OpenWorkshop();
                 GameplayReplay.Need(playHost.Execute("{\"op\":\"validate\",\"memory\":null}").Contains("true"),"Play host not active");
                 EditorApplication.delayCall+=EditorApplication.ExitPlaymode;
             }
             if(state==PlayModeStateChange.EnteredEditMode && playHost!=null)
             {
                 GameplayReplay.Need(playHost.IsClosed && playHost.FinalMetrics.LiveBytes==0 && playHost.FinalMetrics.LiveBlocks==0,"Play-mode exit leaked a native host");
+                GameplayReplay.Need(playWorkshop.IsClosed && playWorkshop.FinalMetrics.LiveBytes==0 && playWorkshop.FinalMetrics.LiveBlocks==0,"Play-mode exit leaked a workshop host");
                 playHost=null;
+                playWorkshop=null;
                 if(++exits<2)EditorApplication.delayCall+=EditorApplication.EnterPlaymode;
                 else
                 {
@@ -90,6 +95,10 @@ public static class PackageChecks
         try { using(var ignored=GameplayHost.OpenMemoryPouches()){} }
         catch(InvalidOperationException error){refused=error.Message.Contains("Mismatched Hollow Wake asset PouchesContent");}
         GameplayReplay.Need(refused,"Changed pouch content was accepted or failed for a different reason");
+        refused=false;
+        try { using(var ignored=GameplayHost.OpenWorkshop()){} }
+        catch(InvalidOperationException error){refused=error.Message.Contains("Mismatched Hollow Wake asset WorkshopContent");}
+        GameplayReplay.Need(refused,"Changed workshop content was accepted or failed for a different reason");
         using(var combat=GameplayHost.OpenCombat())
             GameplayReplay.Need(combat.ReadMetrics().LiveBytes>0,"Independent combat content failed to open");
         Debug.Log("HWE_DAMAGED_POUCH_REJECTED");

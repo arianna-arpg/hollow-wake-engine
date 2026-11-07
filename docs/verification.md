@@ -1,5 +1,14 @@
 # Verification and reproduction
 
+The [Unity workshop checkpoint](../evidence/unity-workshop/README.md) adds ordinary-JSON access to the shared crafting,
+equipment, learned-skill/support and vestige rules. Its native replay must
+match the original 56 workshop replies in both editor and relocated player,
+alongside the retained combat and pouch courses. Typed-profile checks cover
+large IDs, automatic next-ID selection, isolation, refused cross-profile
+commands, complete save/RNG continuation and disposal. The scene sample's
+checkpoint is in memory; durable Unity storage and combat-build synchronization
+remain separate integration work.
+
 The [fresh Godot package checkpoint](../evidence/fresh-godot-package/README.md)
 qualifies the normal builder through the full workshop bundle and extracted
 Windows player. Capability fault tests run inside the crafting builder; the

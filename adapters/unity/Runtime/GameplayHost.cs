@@ -45,6 +45,9 @@ namespace HollowWake.Gameplay
         public bool IsClosed { get { lock (gate) return handle == IntPtr.Zero; } }
         public static GameplayHost OpenCombat() => Open("Combat", PackHashes.CombatRules, PackHashes.CombatContent, 64);
         public static GameplayHost OpenMemoryPouches() => Open("Pouches", PackHashes.PouchRules, PackHashes.PouchContent, 12);
+        public static GameplayHost OpenWorkshop() => Open("Workshop", PackHashes.WorkshopRules, PackHashes.WorkshopContent, 32);
+        internal static string WorkshopInspection() => Utf8.GetString(Read("WorkshopInspection", PackHashes.WorkshopInspection));
+        internal static string WorkshopEquipment() => Utf8.GetString(Read("WorkshopEquipment", PackHashes.WorkshopEquipment));
         static byte[] Read(string asset, string expected)
         {
             var source = Resources.Load<TextAsset>("HollowWake/" + asset);

@@ -5,26 +5,40 @@ import {execFileSync} from 'node:child_process';
 import {pathToFileURL} from 'node:url';
 import {gunzipSync} from 'node:zlib';
 import {build} from 'esbuild';
-import {root,sha256,writeJSON} from './reference-utils.mjs';
+import {root,sha256,writeJSON,listFiles} from './reference-utils.mjs';
 import {npmCli} from './npm-cli.mjs';
-import {itemPack} from './compile-item-content.mjs';
-import {passivePack} from './compile-passive-content.mjs';
+import {workspaceBridges} from './godot-crafting-bundle.mjs';
 
-const [releaseDir,outputDir,python]=process.argv.slice(2);
-assert(releaseDir&&outputDir&&python,'RELEASE_DIRECTORY OUTPUT_DIRECTORY PYTHON');
+const [releaseDir,outputDir,python,workshopDir,...rest]=process.argv.slice(2);
+assert(releaseDir&&outputDir&&python&&workshopDir&&!rest.length,'POUCH_RELEASE_DIRECTORY OUTPUT_DIRECTORY PYTHON FRESH_WORKSHOP_DIRECTORY');
 const release=fs.realpathSync(releaseDir),out=path.resolve(outputDir),read=f=>JSON.parse(fs.readFileSync(f));
 const accepted=read(path.join(root,'evidence/pouch-recall/dotnet-windows.json'));
-const sdk=path.join(release,'hollow-wake-engine-'+accepted.version+'.tgz'),pouches=path.join(release,accepted.archive);
-assert.equal(sha256(fs.readFileSync(sdk)),accepted.sdkSha256);assert.equal(sha256(fs.readFileSync(pouches)),accepted.sha256);
+const workshop=fs.realpathSync(workshopDir);
+const fresh=read(path.join(root,'evidence/fresh-godot-package/acceptance.json'));
+const native=read(path.join(root,'evidence/fresh-godot-package/native-windows.json'));
+assert(fresh.passed&&native.passed&&native.platform==='win32');
+assert.equal(sha256(fs.readFileSync(path.join(root,'evidence/fresh-godot-package/native-windows.json'))),fresh.evidence['native-windows.json']);
+const sdkName='hollow-wake-engine-'+native.version+'.tgz',addonName='hollow-wake-godot-crafting-progression-windows-x64.zip';
+const sdk=path.join(workshop,sdkName),addon=path.join(workshop,addonName),pouches=path.join(release,accepted.archive);
+const sdkSha256=sha256(fs.readFileSync(sdk));
+assert.equal(sdkSha256,fresh.delivery.files[sdkName].sha256);
+assert.equal(sha256(fs.readFileSync(addon)),native.package.archiveSha256);
+assert.equal(sha256(fs.readFileSync(pouches)),accepted.sha256);
+assert.equal(native.package.libraries['bin/hwe_embedded.dll'],accepted.files['hwe_embedded.dll']);
 const parent=fs.realpathSync(path.join(root,'.artifacts')),scratch=fs.mkdtempSync(path.join(parent,'unity-pack-'));
 const stage=path.join(scratch,'stage'),src=path.join(root,'adapters/unity'),asset=path.join(stage,'Runtime/Resources/HollowWake');
 try{
   fs.mkdirSync(asset,{recursive:true});
   const env={...process.env,TEMP:scratch,TMP:scratch,TMPDIR:scratch,npm_config_cache:path.join(scratch,'cache')};
   const run=(exe,args)=>execFileSync(exe,args,{cwd:scratch,env,windowsHide:true,stdio:['ignore','pipe','pipe']});
+  execFileSync(process.execPath,[npmCli(),'run','build'],{cwd:root,env,windowsHide:true,stdio:['ignore','pipe','pipe']});
+  const [{itemPack},{passivePack}]=await Promise.all([import('./compile-item-content.mjs'),import('./compile-passive-content.mjs')]);
   writeJSON(path.join(scratch,'package.json'),{private:true,type:'module'});
   run(process.execPath,[npmCli(),'install','--offline','--ignore-scripts','--no-audit','--no-fund',sdk]);
   const installed=path.join(scratch,'node_modules/@hollow-wake/engine'),manifest=read(path.join(installed,'package.json'));
+  assert.deepEqual(listFiles(path.join(installed,'dist')),listFiles(path.join(root,'dist')));
+  for(const f of listFiles(path.join(installed,'dist')))
+    assert.equal(sha256(fs.readFileSync(path.join(installed,'dist',f))),sha256(fs.readFileSync(path.join(root,'dist',f))),f);
   const resolve=id=>{
     const entry=manifest.exports[id.replace('@hollow-wake/engine','.')];
     assert(entry,'Missing installed export '+id);
@@ -33,6 +47,9 @@ try{
   for(const name of ['Runtime','Samples~','package.json','README.md'])fs.cpSync(path.join(src,name),path.join(stage,name),{recursive:true});
   const pythonTool=path.join(root,'scripts/unity-gameplay-archive.py');
   run(python,['-I',pythonTool,'assets',pouches,stage]);
+  run(python,['-I',pythonTool,'workshop-assets',addon,stage]);
+  for(const [name,file]of Object.entries({WorkshopContent:'content.json',WorkshopInspection:'inspection.json',WorkshopEquipment:'equipment.json'}))
+    assert.equal(sha256(fs.readFileSync(path.join(asset,name+'.bytes'))),native.package.files[file]);
   assert.equal(sha256(fs.readFileSync(path.join(stage,'Runtime/Native/Windows/hwe_embedded.dll'))),accepted.files['hwe_embedded.dll']);
   const pinned=JSON.parse(gunzipSync(fs.readFileSync(path.join(root,'evidence/embedded-js/windows-persistent-session-raw.json.gz')))).session;
   const config=JSON.parse(pinned['requests.jsonl'].split('\n')[0]).config;
@@ -51,16 +68,19 @@ try{
     '../../dist/passive-policy.js':'@hollow-wake/engine/passives'};
   const compile=entry=>build({entryPoints:[path.join(src,entry)],bundle:true,format:'iife',globalName:'HollowWakeSession',
     target:'es2022',platform:'neutral',write:false,minify:true,metafile:true,tsconfigRaw:{},
-    plugins:[{name:'packed-sdk',setup(b){
+    plugins:[...workspaceBridges(root),{name:'packed-sdk',setup(b){
       b.onResolve({filter:/^\.\.\/\.\.\/dist\//},a=>{assert.equal(path.resolve(a.importer),session);assert(exports[a.path]);return {path:resolve(exports[a.path])};});
       b.onResolve({filter:/^@hollow-wake\/engine/},a=>({path:resolve(a.path)}));
     }}]});
-  const compiled=await compile('combat-entry.mjs'),pouch=await compile('pouch-entry.mjs');
-  assert([...Object.values(compiled.metafile.outputs),...Object.values(pouch.metafile.outputs)].every(o=>!o.imports.length));
+  const compiled=await compile('combat-entry.mjs'),pouch=await compile('pouch-entry.mjs'),workshopRules=await compile('workshop-entry.mjs');
+  assert([compiled,pouch,workshopRules].flatMap(b=>Object.values(b.metafile.outputs)).every(o=>!o.imports.length));
+  assert(!Object.keys(workshopRules.metafile.inputs).some(f=>f.endsWith('number-wire.mjs'))||
+    !workshopRules.outputFiles[0].text.includes('invalid wire number'),'Unity must use direct JSON commands');
   fs.writeFileSync(path.join(asset,'PouchesRules.bytes'),pouch.outputFiles[0].contents);
   fs.writeFileSync(path.join(asset,'CombatRules.bytes'),compiled.outputFiles[0].contents);
   fs.writeFileSync(path.join(asset,'CombatContent.bytes'),JSON.stringify(table));
-  const hashes=Object.fromEntries(['CombatRules','CombatContent','PouchesRules','PouchesContent'].map(n=>[n,sha256(fs.readFileSync(path.join(asset,n+'.bytes')))]));
+  fs.writeFileSync(path.join(asset,'WorkshopRules.bytes'),workshopRules.outputFiles[0].contents);
+  const hashes=Object.fromEntries(['CombatRules','CombatContent','PouchesRules','PouchesContent','WorkshopRules','WorkshopContent','WorkshopInspection','WorkshopEquipment'].map(n=>[n,sha256(fs.readFileSync(path.join(asset,n+'.bytes')))]));
   assert.equal(hashes.PouchesContent,accepted.files['pouch-data.json']);
   const constants=Object.entries(hashes).map(([n,v])=>'        internal const string '+n.replace('Pouches','Pouch')+' = "'+v+'";');
   constants.push('        internal const string PouchId = '+JSON.stringify(read(path.join(asset,'PouchesContent.bytes')).id)+';');
@@ -69,7 +89,12 @@ try{
   const packed=path.join(scratch,file);run(python,['-I',pythonTool,'pack',stage,packed]);
   const bytes=fs.readFileSync(packed);
   fs.mkdirSync(out,{recursive:true});
-  const receipt={name,version,file,bytes:bytes.length,sha256:sha256(bytes),sdkSha256:accepted.sdkSha256,
+  const receipt={name,version,file,bytes:bytes.length,sha256:sha256(bytes),sdkSha256,
+    workshopAddonSha256:native.package.archiveSha256,workshopRulesBytes:workshopRules.outputFiles[0].contents.length,
+    sources:Object.fromEntries(['scripts/package-unity-gameplay.mjs','scripts/unity-gameplay-archive.py',
+      'scripts/godot-crafting-bundle.mjs','adapters/embedded/crafting-session.mjs',
+      'adapters/godot/crafting/entry.mjs','adapters/godot/crafting/vestige-entry.mjs',
+      ...listFiles(src).map(f=>'adapters/unity/'+f)].map(f=>[f,sha256(fs.readFileSync(path.join(root,f)))])),
     nativeSha256:accepted.files['hwe_embedded.dll'],hashes,plainContentBytes:Buffer.byteLength(JSON.stringify(contents)),tableContentBytes:fs.statSync(path.join(asset,'CombatContent.bytes')).size};
   const existing=path.join(out,'package-receipt.json');
   if(fs.existsSync(existing))assert.deepEqual(read(existing),receipt,'Output belongs to a different package');

@@ -61,4 +61,4 @@ export function dispatchCrafting(host,request){
     return refuse('invalid-request');
   }catch(error){if(error instanceof InspectionInputError)return refuse(error.message);throw error;}
 }
-export const dispatch=godotDispatch(dispatchCrafting);
+export const dispatch=/* @__PURE__ */ godotDispatch(dispatchCrafting);
