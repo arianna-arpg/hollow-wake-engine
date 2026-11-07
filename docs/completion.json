@@ -783,7 +783,16 @@
         "adapters/unreal/README.md",
         "scripts/package-unreal-gameplay.py",
         "scripts/verify-unreal-gameplay.py",
-        "evidence/unreal-gameplay/windows.json"
+        "evidence/unreal-gameplay/windows.json",
+        "adapters/godot/local-save/README.md",
+        "scripts/check-slot-addon.py",
+        "test/godot-inventory/wal-storage.gd",
+        "evidence/local-save-wal/README.md",
+        "evidence/local-save-wal/builds.json",
+        "evidence/local-save-wal/standalone-windows.json",
+        "evidence/local-save-wal/standalone-linux.json",
+        "evidence/local-save-wal/delivery.json",
+        "evidence/local-save-wal/publication.json"
       ],
       "remaining": [
         "Full-runtime native versus embedding decision; lifecycle leaves and selected embedded-session paths proven",
@@ -794,7 +803,8 @@
         "Cross-runtime verification of remaining SDK capabilities",
         "ARM/device builds",
         "Other-engine import/install tests and remaining Godot configurations",
-        "Actual Steam client launch, pressure-vessel integration, graphics/input and target-device measurements; pinned Steam Runtime 4 SDK and Platform headless replay verified"
+        "Actual Steam client launch, pressure-vessel integration, graphics/input and target-device measurements; pinned Steam Runtime 4 SDK and Platform headless replay verified",
+        "Hosted compilation and empty-project installation checks for the standalone save addon; Windows/Linux local addon checks pass and the existing hosted public SDK workflow passes on its source commit."
       ]
     },
     {
@@ -918,7 +928,11 @@
         "evidence/proc-delivery/runtime-windows.json",
         "evidence/steamrt-sessions/verification.json",
         "scripts/measure-steamrt-device.py",
-        "evidence/steamrt-sessions/device-vm.json"
+        "evidence/steamrt-sessions/device-vm.json",
+        "scripts/measure-vestige-storage.py",
+        "evidence/local-save-wal/storage-windows.json",
+        "evidence/local-save-wal/storage-linux.json",
+        "evidence/local-save-wal/README.md"
       ],
       "remaining": [
         "Steam Deck measurements",
@@ -926,7 +940,7 @@
         "Remaining character-rebuild overhead versus original",
         "Whole-request and running-cast costs on target devices; populated support preview regression (2.89–16.92% versus v0.27.0 in two final desktop runs)",
         "Allocation and whole-frame profiling",
-        "Load/save and migration stress tests",
+        "Save scheduling and target-device latency, larger database stress and power-loss qualification. WAL migration, 1,100-write checkpoint/reader checks and forced-process recovery pass on Windows and Linux. Windows desktop saves remain 25–33 ms in the measured workload; bounded background saves and main-thread stall acceptance remain open.",
         "Actor-condition sampling overhead against v0.31: 13–15% stable and 6–7% changing in two desktop runs; no whole-world speedup established",
         "Proc query and talent/pulse overhead versus v0.32; native ward frames remain 4.5–5.3% slower in two desktop runs",
         "Effect folding retains 0.073–0.398 ms overhead versus v0.33 per 75,776 desktop calls; device and allocation profiling remain open",
