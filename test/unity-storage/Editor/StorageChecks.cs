@@ -13,7 +13,7 @@ public static class StorageChecks
     public static void ImportSample()
     {
         var info=UnityEditor.PackageManager.PackageInfo.FindForAssembly(typeof(UnitySaveStore).Assembly);
-        var sample=UnityEditor.PackageManager.UI.Sample.FindByPackage(info.name,info.version).Single();
+        var sample=UnityEditor.PackageManager.UI.Sample.FindByPackage(info.name,info.version).Single(row=>row.displayName=="Durable Inventory");
         StorageReplay.Need(sample.Import(UnityEditor.PackageManager.UI.Sample.ImportOptions.OverridePreviousImports),"Storage sample import failed");
         AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
         Debug.Log("HWE_STORAGE_SAMPLE_IMPORTED");

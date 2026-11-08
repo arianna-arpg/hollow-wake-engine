@@ -77,3 +77,44 @@ Create durable inventory sample**, press Play and open the workshop. Forge,
 inlay, wait for the saved confirmation, then leave Play mode and reopen. The
 sample keeps existing saves and grants its initial material only once.
 Its read-only display model never replaces the complete saved snapshot.
+
+## Account and inventory groups
+
+With Gameplay 0.4.0-preview.1 or later, DurableAccountWorkshop owns an account
+progression profile and a workshop profile in two distinct reserved slots.
+BeginCreate initializes both empty records together; a partially populated
+pair is refused. Submit runs up to one command per owner on private candidates.
+Poll publishes one immutable Current view only after the entire group commits.
+Read the fields from that one view when a screen needs a coherent pair.
+
+Invalid commands (ok:false) or progression replies with result:false
+discard both candidates. Workshop ok:true means processed, including its
+original no-op, event and RNG behavior; it is not proof that an item was granted
+or a purchase succeeded. This adapter does not implement a cross-system shop
+transaction or merge the progression account's features/ledger with the
+workshop's account/lore projection. The host owns those domain policies.
+
+Both complete saves include their own random continuation. AccountExtraJson
+and StashJson are opaque host-owned documents. Each record has its own revision;
+both expected revisions must match before either write can commit. Reload reads
+one database snapshot and validates both profiles before replacing either.
+An unchanged proposal avoids disk writes. One pending operation prevents another
+submit or reload. Failed storage completion retains the prior view.
+
+The optional actor constructor transfers actor lifetime to this owner and
+publishes supported equipment with the committed inventory. Dispose the owner
+before its combat world. If publication fails after a durable commit, the owner
+closes both gameplay VMs and the actor and throws an IOException: reopen the
+saved pair rather than retrying the action as though it rolled back.
+
+Import **Durable Account** and choose **Hollow Wake → Create durable account
+sample** for separate memory-discovery and forging actions with one-time starting
+credits. Its default save namespace is separate from the older inventory sample.
+Both samples remain optional. Plain storage needs no gameplay installation, and
+the older workshop bridge remains available with Gameplay 0.2 or later.
+
+The native group API also supports 1–8 distinct slots, at most 4 MiB of combined
+document bytes. The gameplay coordinator uses exactly two records and at most
+two profiles in each VM. Candidate cloning and serialization happen on commands,
+not on combat ticks; a pending poll does not clone gameplay. These bounds do not
+establish CPU time or whole-process memory budgets on any physical device.

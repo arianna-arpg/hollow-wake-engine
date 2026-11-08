@@ -4,7 +4,9 @@ Optional [grouped saves](grouped-saves.md) add atomic writes and coherent reads
 over 1–8 existing local records, bounded at 4 MiB of document bytes. Gameplay
 authorization, record assignment, candidate validation and publication remain
 host-owned. This native extension does not change the combat runtime or
-automatically coordinate account and inventory owners in an engine.
+automatically coordinate account and inventory owners in an engine. The optional
+[Unity coordinator](unity-account-storage.md) supplies that persistence/publication
+composition; shared account-domain authorization remains host-owned.
 
 Implemented alpha contracts: `resolved-spell-hit/v1`, `ordinary-cast/v1` and
 strongest-wins timed damage using `hollow-wake-frame/v1`.

@@ -1,5 +1,11 @@
 # Verification and reproduction
 
+The [Unity account/storage boundary](unity-account-storage.md) composes account
+and workshop saves with private candidates, atomic revision checks and one
+committed view. Its current evidence checker is separate from the unchanged
+progression release, which can be checked against its pinned source using
+--source-ref 67fa07a50a58380af22fc52e354f0091a9009b55.
+
 The [grouped-save native checkpoint](../evidence/grouped-saves/README.md)
 adds bounded atomic transactions across existing records, with six independent
 process-restart cases, compatibility in both library/consumer directions and

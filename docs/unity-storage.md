@@ -1,5 +1,9 @@
 # Unity storage integration
 
+The development [account/inventory coordinator](unity-account-storage.md)
+composes two records through the grouped native transaction. Its Unity acceptance
+is recorded separately from the single-workshop releases below.
+
 The first [public storage preview](https://github.com/arianna-arpg/hollow-wake-engine/releases/tag/unity-storage-v0.1.0-preview.1)
 is available as a Unity Package Manager tarball. Its qualified archive hash is
 `10a052e8ccffc50e3f92ab9757610564edcaf1942c4bae514c76688c7d9c2d95`.

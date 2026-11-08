@@ -12,6 +12,8 @@ on:
       - 'scripts/check-live-equipment-evidence.mjs'
       - 'scripts/check-unity-progression-evidence.mjs'
       - 'scripts/verify-unity-progression.py'
+      - 'scripts/verify-unity-account-storage.py'
+      - 'scripts/check-unity-account-storage-evidence.mjs'
       - 'scripts/test-unity-progression-faults.py'
       - 'scripts/verify-live-equipment-unity.py'
       - 'scripts/test-live-equipment-unity-faults.py'
@@ -20,6 +22,8 @@ on:
       - 'src/crafting-session.ts'
       - 'test/unity-live-equipment/**'
       - 'test/unity-progression/**'
+      - 'test/unity-account-storage/**'
+      - 'evidence/unity-account-storage/**'
       - 'test/unity-progression-entry.test.mjs'
       - 'evidence/unity-progression/**'
       - 'evidence/live-equipment-adapter/**'
@@ -53,8 +57,12 @@ jobs:
         run: git fetch --no-tags --depth=1 origin 03eb2d504a9fe410b97d3959a76d4a494c5d3541
       - name: Check the published live-equipment checkpoint at its release source
         run: node scripts/check-live-equipment-evidence.mjs --source-ref 03eb2d504a9fe410b97d3959a76d4a494c5d3541
-      - name: Check current progression package and retained behavior evidence
-        run: node scripts/check-unity-progression-evidence.mjs
+      - name: Fetch the immutable progression release source
+        run: git fetch --no-tags --depth=1 origin 67fa07a50a58380af22fc52e354f0091a9009b55
+      - name: Check progression evidence at its release source
+        run: node scripts/check-unity-progression-evidence.mjs --source-ref 67fa07a50a58380af22fc52e354f0091a9009b55
+      - name: Check current account/storage composition evidence
+        run: node scripts/check-unity-account-storage-evidence.mjs
       - name: Exercise the current progression adapter
         run: node --test test/unity-progression-entry.test.mjs
       - name: Verify owned Unity fixture cleanup
