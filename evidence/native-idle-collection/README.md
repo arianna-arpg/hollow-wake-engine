@@ -50,6 +50,13 @@ all of its build/replay files. Linux CI runs the same course plus address,
 undefined-behavior and leak sanitizers. Hosted results are separate from this
 accepted Windows observation.
 
+The first hosted Linux run at `d8eda7b` completed the release-build courses
+and all injected/fault cases but timed out during its instrumented consumer.
+Its failed receipt is retained as `linux-first-failure.json`; it is not a
+sanitizer acceptance. The updated driver retains stage progress and allows ten
+minutes for that complete instrumented course. The refreshed Windows run
+preserves every reply digest and allocation observation above.
+
 The complete `npm run verify` SDK regression suite passed; its source map and
 log digest are retained in `sdk-verification.json`. After verification, 68
 owned consumer directories (9,617 files; 333,992,810 bytes) were removed.

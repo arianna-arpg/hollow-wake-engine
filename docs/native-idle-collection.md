@@ -65,6 +65,12 @@ fail the corresponding assertion. Linux verification additionally runs the
 separate-library contracts and full replay with address, undefined-behavior and
 leak sanitizers.
 
+The first hosted Linux run at `d8eda7b` passed the six release-build replays,
+six injected states and seven deliberate faults, then reached the instrumented
+consumer's three-minute process limit. This is a failed qualification, not a
+sanitizer pass. The complete instrumented course now has a ten-minute ceiling
+and retained stage/replay progress to distinguish slow execution from a stall.
+
 The driver preserves source and input hashes, retains compressed compiler and
 assertion receipts, and removes its private build and replay directory even on
 failure. It reports memory regressions as well as improvements. These results

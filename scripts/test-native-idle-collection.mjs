@@ -168,8 +168,11 @@ try {
     const result = spawnSync(sanitized.native, [sanitized.library, path.join(work, 'bundle.js'), path.join(work, 'content.json'),
       requestsFile, reply, 'configured'], {cwd: dir, env: {...sanitized.env,
         ASAN_OPTIONS: 'detect_leaks=1:halt_on_error=1', UBSAN_OPTIONS: 'halt_on_error=1:print_stacktrace=1'},
-      windowsHide: true, encoding: 'utf8', timeout: 180000, maxBuffer: 1024 * 1024});
-    raw.runs.push({sanitized: true, status: result.status, stdout: result.stdout, stderr: result.stderr, commands: sanitized.commands});
+      // Instrumented QuickJS is substantially slower than the release build.
+      // Keep the complete course and a finite ceiling; retain progress on failure.
+      windowsHide: true, encoding: 'utf8', timeout: 600000, maxBuffer: 1024 * 1024});
+    raw.runs.push({sanitized: true, status: result.status, signal: result.signal, error: result.error?.message,
+      stdout: result.stdout, stderr: result.stderr, commands: sanitized.commands});
     assert(!result.error, result.error?.message); assert.equal(result.signal, null); assert.equal(result.status, 0, result.stderr);
     await verify(reply); report.sanitizers = JSON.parse(result.stdout); assert(report.sanitizers.passed);
     report.sanitizers.replySha256 = hashFile(reply); assert.equal(report.sanitizers.replySha256, report.rows[0].replySha256);

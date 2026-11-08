@@ -116,7 +116,12 @@ int main(int argc, char **argv) {
         require(argc == 7, "Library, bundle, content, requests, output and collection mode required");
         const auto mode = std::filesystem::path(argv[6]).string();
         require(mode == "none" || mode == "configured" || mode == "every-release", "Collection mode");
-        CollectionApi api(argv[1]); contracts(api); collectionContracts(api);
+        CollectionApi api(argv[1]);
+        std::cerr << "collection-progress: ABI contracts" << std::endl;
+        contracts(api);
+        std::cerr << "collection-progress: collection contracts" << std::endl;
+        collectionContracts(api);
+        std::cerr << "collection-progress: create replay host" << std::endl;
         auto settings = defaults(); settings.heap_limit_bytes = 32 * 1024 * 1024;
         Host host(api, read(argv[2]), read(argv[3]), &settings);
         std::ifstream input{std::filesystem::path(argv[4])};
@@ -128,6 +133,8 @@ int main(int argc, char **argv) {
         while (std::getline(input, line)) {
             if (!line.empty() && line.back() == '\r') line.pop_back();
             output << host.request(line) << '\n'; ++requests;
+            if (requests == 2 || (requests > 2 && (requests - 2) % 56 == 0))
+                std::cerr << "collection-progress: replay " << requests << std::endl;
             if (requests == 2) { before = host.metrics(); after = before; }
             if ((mode == "configured" && requests == 2) || mode == "every-release") {
                 require(api.collect(host.value, &after) == HWE_JS_OK, "Collect at released replay boundary");
