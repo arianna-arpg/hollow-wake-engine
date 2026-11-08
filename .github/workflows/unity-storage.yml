@@ -15,6 +15,7 @@ on:
       - 'scripts/verify-unity-account-storage.py'
       - 'scripts/check-unity-account-storage-evidence.mjs'
       - 'scripts/check-prepared-account-evidence.mjs'
+      - 'scripts/check-unity-shared-account-evidence.mjs'
       - 'scripts/evidence-source.mjs'
       - 'scripts/test-unity-progression-faults.py'
       - 'scripts/verify-live-equipment-unity.py'
@@ -22,6 +23,7 @@ on:
       - 'adapters/unity/**'
       - 'adapters/unity-shared-account/**'
       - 'evidence/prepared-account/**'
+      - 'evidence/unity-shared-account/**'
       - 'adapters/embedded/equipment-session.mjs'
       - 'src/crafting-session.ts'
       - 'test/unity-live-equipment/**'
@@ -73,6 +75,10 @@ jobs:
         run: git fetch --no-tags --depth=1 origin ee663a3449fbaa29e67ba65b5293f300a97ff837
       - name: Check recorded shared-account candidate observations
         run: node scripts/check-prepared-account-evidence.mjs --source-ref ee663a3449fbaa29e67ba65b5293f300a97ff837
+      - name: Fetch the immutable Unity shared-account package source
+        run: git fetch --no-tags --depth=1 origin 98edfa74a4b9caecf6e0e6ef3ce49cb4365966f8
+      - name: Check shared-account package observations and retained behavior
+        run: node scripts/check-unity-shared-account-evidence.mjs --source-ref 98edfa74a4b9caecf6e0e6ef3ce49cb4365966f8
       - name: Exercise the current progression adapter
         run: node --test test/unity-progression-entry.test.mjs
       - name: Verify owned Unity fixture cleanup

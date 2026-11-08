@@ -2,6 +2,9 @@
 
 Source: `ee663a3449fbaa29e67ba65b5293f300a97ff837`.
 
+The later [Unity package checkpoint](../unity-shared-account/README.md) adds
+retained-feature regression and public installation for this capability.
+
 This is a development checkpoint for the prepared account boundary, typed Unity
 owner and fixed-group storage coordinator. It is not a published Unity release
 or a qualification of every retained gameplay feature in the new package.
@@ -40,12 +43,13 @@ observer carries token lifetime across both. The optional unminified module's
 budget changed explicitly from 20 to 21 KiB for the new transaction commands.
 Earlier factory source capsules remain available for reproduction.
 
-Run `node scripts/check-prepared-account-evidence.mjs` after fetching the source
+Run `node scripts/check-prepared-account-evidence.mjs --source-ref ee663a3449fbaa29e67ba65b5293f300a97ff837` after fetching the source
 commit above. It checks artifact hashes, source identity, complete SDK receipts,
 both serial/candidate bundles, native reply digests, Unity snapshots and faults.
 It does not turn recorded observations into a fresh engine run.
 
-Public installation still uses gameplay 0.4.1 and storage 0.3. These candidate
-archives remain local pending retained-feature regression and release work.
+At this checkpoint, public installation used gameplay 0.4.1 and storage 0.3.
+Its preview.0 archives remain local; the later preview.1 release is independently
+qualified against all retained package courses.
 Linux Unity, IL2CPP, ARM, Steam Deck and mobile acceptance remain open. Tracked
 VM heap is not total process memory, allocation volume or a device-speed result.

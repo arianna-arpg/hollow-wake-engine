@@ -1,5 +1,12 @@
 # Verification and reproduction
 
+The [Unity shared-account package checkpoint](../evidence/unity-shared-account/README.md)
+adds exact archive rebuilds, the documented example, shared save publication,
+five lifecycle courses, standalone storage, retained gameplay regression and
+ten deliberately broken save coordinators. It qualifies Unity 2021.3.6f1
+Windows x64 Editor and Mono player for the selected packaged capabilities;
+physical-device and complete-SDK acceptance remain separate.
+
 The [shared account course](shared-account.md) compares 30 original-game steps
 and independent multi-character ownership/continuation contracts. Both the
 original fixture and its documented socket correction remain reproducible.

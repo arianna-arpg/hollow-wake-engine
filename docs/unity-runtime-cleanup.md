@@ -1,5 +1,8 @@
 # Install the Unity gameplay preview
 
+This page records the 0.4.1 cleanup checkpoint. For the newer shared-account
+packages, use the [current installation guide](unity-shared-account.md).
+
 Download [gameplay 0.4.1](https://github.com/arianna-arpg/hollow-wake-engine/releases/tag/unity-runtime-cleanup-v0.4.1-preview.1)
 and install `com.hollowwake.gameplay-0.4.1-preview.1.tgz` using **Window → Package
 Manager → + → Add package from tarball**. The accepted target is Unity

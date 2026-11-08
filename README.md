@@ -15,13 +15,14 @@ The [Unreal project plugin](adapters/unreal/README.md) exposes casting, contact,
 timed damage, snapshots and memory pouches to C++ and Blueprints. Place the
 included training target in a level to try the Magician build on Windows x64.
 
-The [Unity Package Manager preview](docs/unity-runtime-cleanup.md) runs the
+The [Unity Package Manager preview](docs/unity-shared-account.md) runs the
 selected combat, pouch, workshop and account progression rules in Unity 2021.3 on Windows x64. Import its
 **Casting and Burning** sample and open **Ruin Encounter** to try a
 configured cast and timed damage, then open the inventory workshop to forge,
-inlay and restore a checkpoint. The 0.4.1 package fixes native cleanup after a
-tested memory-limit failure while preserving the 0.4 scripts and content.
-[Package verification](evidence/unity-runtime-cleanup/README.md)
+inlay and restore a checkpoint. Gameplay 0.5 adds one account authority across
+several inventories; optional storage 0.4 saves and publishes that entire group
+atomically. Existing APIs, content and samples remain available.
+[Package verification](evidence/unity-shared-account/README.md)
 
 The development [portable save library](docs/portable-saves.md) extracts the
 Godot SQLite store behind a C interface and an engine-independent C# binding.
