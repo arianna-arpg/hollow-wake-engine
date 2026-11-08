@@ -99,4 +99,39 @@ test('random continuation overflow in a later operation cannot publish the earli
  const before=states(resumed);assert.equal(resumed.command({op:'prepare',commands:[salvage(),memory()]}).ok,false);
  assert.deepEqual(states(resumed),before);assert.equal(sendPlain(resumed,salvage()).accountChanged,true);
 });
+
+const gear=(host,profile=1,token)=>sendPlain(host,{op:token===undefined?'workshop-equipment-text':'prepared-workshop-equipment-text',profile,...token===undefined?{}:{token}}).text;
+const equip=(profile=1)=>inventory({op:'equip',uid:1002,actorLevel:99,slot:'ring1'},profile);
+test('equipment reads separate committed and prepared maps without publishing or consuming random state',()=>{
+ const host=fresh(),ordinary=fresh(),before=states(host),empty=gear(host);
+ assert.deepEqual(JSON.parse(empty),{});sendPlain(ordinary,equip());const expected=states(ordinary);
+ const pending=prepare(host,[equip()]);assert(pending.replies[0].reply.result.changed);
+ const text=gear(host,1,pending.token);assert.equal(JSON.parse(text).ring1.uid,1002);
+ assert.deepEqual(JSON.parse(text),expected.inventories[0].save.workshop.state.equipped);
+ assert(text.length<JSON.stringify(expected.inventories[0]).length/2);
+ for(let i=0;i<4;i++){assert.equal(gear(host),empty);assert.equal(gear(host,1,pending.token),text);}
+ assert.deepEqual(states(host),before);send(host,{op:'commit-prepared',token:pending.token});
+ assert.equal(gear(host),text);assert.deepEqual(states(host),expected);
+});
+test('candidate gear includes unchanged dependencies and aborted tokens cannot read later proposals',()=>{
+ const host=fresh();send(host,{op:'open-workshop',profile:2,account:1,seed:71,state:baseline.scenarios[0].initial.inventory});
+ const before=states(host,[1,2]),pending=prepare(host,[equip()]),candidate=gear(host,1,pending.token);
+ assert(!pending.writes.some(row=>row.kind==='workshop'&&row.handle===2));assert.equal(gear(host,2,pending.token),gear(host,2));
+ send(host,{op:'abort-prepared',token:pending.token});assert.deepEqual(states(host,[1,2]),before);
+ const next=prepare(host,[equip(2)]);assert(next.token>pending.token);
+ assert.equal(host.command({op:'prepared-workshop-equipment-text',profile:1,token:pending.token}).reason,'stale-prepared-change');
+ assert.deepEqual(JSON.parse(gear(host,1,next.token)),{});assert.equal(gear(host,2,next.token),candidate);
+ send(host,{op:'commit-prepared',token:next.token});assert.equal(gear(host,2),candidate);assert.deepEqual(JSON.parse(gear(host)),{});
+ assert.equal(host.command({op:'prepared-workshop-equipment-text',profile:2,token:next.token}).reason,'no-prepared-change');
+});
+test('malformed equipment reads preserve both complete states and the active proposal',()=>{
+ const host=fresh(),before=states(host),pending=prepare(host,[equip()]),candidate=gear(host,1,pending.token);
+ for(const request of [{op:'workshop-equipment-text',profile:1,token:pending.token},
+  {op:'workshop-equipment-text',profile:1,account:1},{op:'workshop-equipment-text',profile:-1},
+  {op:'workshop-equipment-text',profile:2},...[0,-1,null,undefined,1.5,Number.MAX_SAFE_INTEGER+1].map(token=>({op:'prepared-workshop-equipment-text',profile:1,token})),
+  {op:'prepared-workshop-equipment-text',profile:2,token:pending.token}])assert.equal(host.command(request).ok,false,JSON.stringify(request));
+ assert.deepEqual(states(host),before);assert.equal(gear(host,1,pending.token),candidate);
+ send(host,{op:'abort-prepared',token:pending.token});send(host,{op:'close-workshop',profile:1});
+ assert.equal(host.command({op:'workshop-equipment-text',profile:1}).reason,'workshop-not-open');
+});
 }

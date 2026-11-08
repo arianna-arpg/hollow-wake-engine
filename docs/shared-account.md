@@ -10,10 +10,11 @@ materials, item IDs and workshop random stream. A workshop reads current account
 features and expertise on every command; its save contains a stable account key,
 not a second copy of those fields.
 
-This is a portable session boundary. The existing Unity durable coordinator still
-uses the earlier pair of independent sessions. This new shared owner needs its
-own embedded factory, engine adapters, migration and durable-publication course
-before being described as an engine package.
+This portable boundary is included in the [Unity shared-account preview](unity-shared-account.md).
+Its typed owner and optional durable coordinator use one shared account rather
+than independently saved projections. Other engine bindings and authoritative
+legacy-account migration remain separate. The [shared equipment candidate](shared-account-equipment.md)
+extends that coordinator with selected live combat projections; it is unpublished.
 
 ## Commands
 
@@ -38,6 +39,8 @@ this boundary does not reconstruct the original game's account factory.
 | workshop | profile,command | Existing crafting command without profile |
 | account-save | account | Complete account-workshop-account/v1 save |
 | workshop-save | profile | Complete account-workshop-inventory/v1 save |
+| workshop-equipment-text | profile | Committed worn-item map as exact JSON text; additive development API |
+| prepared-workshop-equipment-text | profile,token | Worn-item map from a live prepared change; additive development API |
 | close-workshop | profile | Retire the character inventory |
 | close-account | account | Retire the account; refuses while workshops remain attached |
 
@@ -76,8 +79,9 @@ level and roster; provide a coherent current observation. It is not an additive
 event collector. The opaque extra field is preserved but never interpreted as
 mechanical account state.
 
-For durable play, run proposals in a private candidate owner and commit every
-changed account/inventory record atomically using revision checks. Only then
+For durable play, use the owner's [prepared changes](prepared-account-changes.md)
+and atomically guard the complete dependent account/inventory group using
+storage revision checks, including unchanged records. Only after acknowledgement
 publish the candidate view and deliver its cues. Grouped storage provides the
 transaction primitive; this module performs no disk access and cannot turn its
 in-memory publication into a durable commit. Restoring a same-key but stale pair
@@ -121,7 +125,7 @@ The initial correctness boundary deliberately reuses the existing rule kernels.
 Call overhead and physical Steam Deck/mobile performance remain unmeasured for
 this composition. The native memory findings below are exploratory.
 
-An exploratory run against the exact public Unity progression 0.4 native
+An earlier exploratory run against the exact public Unity progression 0.4 native
 library found a 32 MiB failure during a catalogue query after repeated account
 lifetimes: native script-error status 4, a poisoned host, and 86,410 tracked bytes
 remaining after destruction (status 11). The peak was 33,493,285 bytes against a
@@ -134,13 +138,13 @@ temporary string reference but does not release it when the UTF-8 allocation
 fails. The [versioned cleanup candidate](../experiments/embedded-js/patches/README.md)
 restores zero-byte destruction at 32 MiB and preserves all 579 replies at 48 MiB.
 Its focused Windows comparison passes 210 byte, retry and cleanup cases; the
-unchanged runtime retains allocations in 24 cases. That candidate is not yet
-part of the production build. Hosted platform checks, native integration and
-engine-package qualification remain required. The 32 MiB command still fails
-without a separate collection-policy change, so cleanup correctness is not
-evidence that the workload fits that budget.
+unchanged runtime retains allocations in 24 cases. The repair and explicit
+startup collection are now included in the qualified Unity shared-account
+preview; see its [pinned evidence](../evidence/unity-shared-account/README.md).
+That later qualification does not change the failed historical observation.
+Cleanup correctness alone is not evidence that a workload fits a smaller heap.
 
 Reproduce with `node scripts/probe-shared-account-native.mjs --package <public-gameplay-0.4-archive> --python <python.exe> --output <fresh-report.json>`
 after building. The report preserves failed limits as failed, and the scratch
-directory is removed on success or failure. The new composition is not installed
-in the published engine packages.
+directory is removed on success or failure. This command intentionally probes
+the older 0.4 runtime, not the current shared-account package.

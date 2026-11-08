@@ -27,6 +27,8 @@ an admissible combined response.
 
 An unchanged batch returns token zero and no pending proposal. Otherwise,
 committed `account-save` and `workshop-save` remain readable until publication.
+The development [equipment reads](shared-account-equipment.md) also expose
+committed or staged worn maps without executing commands or copying full saves.
 All other ordinary operations, including rule queries, wait for commit or abort.
 Candidate save reads execute no new rules. Returned data cannot mutate either
 the candidate or the committed owner. A rejected batch publishes nothing and
@@ -84,7 +86,8 @@ disabled. Deliberately broken publication, rollback, token and ownership logic
 must fail assertions. Native replay also compares staged results and saves with
 the frozen pre-transaction implementation running the same operations serially.
 
-The optional unminified account module's allowance rises from 20 to 21 KiB for
-this additive boundary (20,768 bytes in this revision). The separate 180 KiB
-bundled consumer limit remains unchanged. Native heap observations do not
+Prepared changes originally raised the optional unminified account module's
+allowance from 20 to 21 KiB (20,768 bytes). The additive equipment reads raise
+it to 22 KiB (21,829 bytes); this is a documented size allowance, not a speedup.
+The separate 180 KiB bundled consumer limit remains unchanged. Native heap observations do not
 measure Unity allocations, frame time or physical-device performance.

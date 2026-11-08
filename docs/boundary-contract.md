@@ -4,8 +4,9 @@ The optional [shared account owner](shared-account.md) gives progression,
 crafting expertise and ledger counters one authority across multiple character
 inventories. This portable composition has its own save identities. The
 [Unity shared-account preview](unity-shared-account.md) adds a typed owner and
-fixed-group durable coordinator; coherent legacy migration, other engine
-bindings and shared equipment publication remain separate.
+fixed-group durable coordinator. The unpublished [equipment candidate](shared-account-equipment.md)
+adds selected live actor projections. Coherent legacy migration, broader gear
+effects, other engine bindings and device acceptance remain separate.
 
 Optional [grouped saves](grouped-saves.md) add atomic writes and coherent reads
 over 1–8 existing local records, bounded at 4 MiB of document bytes. Gameplay

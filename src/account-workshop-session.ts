@@ -186,6 +186,19 @@ export class AccountWorkshopSession {
   }
   #command(request:unknown):unknown {
     record(request);text(request.op);
+    if(request.op==='workshop-equipment-text'||request.op==='prepared-workshop-equipment-text'){
+      const prepared=request.op==='prepared-workshop-equipment-text';
+      fields(request,prepared?['op','profile','token']:['op','profile']);integer(request.profile,0,0xffffffff);
+      let state=this.#state;
+      if(prepared){
+        integer(request.token,1);const pending=this.#prepared;need(pending,'no-prepared-change');
+        need(pending.token===request.token,'stale-prepared-change');state=pending.state;
+      }
+      const workshop=state.workshops.get(request.profile);need(workshop,'workshop-not-open');
+      // Read only the owned worn map. No bag/account copy, rule execution,
+      // temporary kernel or publication occurs, even for unchanged dependencies.
+      return {ok:true,text:JSON.stringify(object(workshop.body.state).equipped)};
+    }
     if(['prepared-save','commit-prepared','abort-prepared'].includes(request.op))return this.#preparedCommand(request);
     // Committed saves remain readable while storage owns a pending write.
     // All other commands wait, including queries that use mutable rule kernels.

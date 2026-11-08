@@ -24,6 +24,7 @@ namespace HollowWake.Gameplay
         [Serializable] class Batch { public string op="prepare-text",text; }
         [Serializable] class TokenRequest { public string op;public long token; }
         [Serializable] class PreparedSave : TokenRequest { public string kind;public uint handle; }
+        [Serializable] class PreparedInventory : TokenRequest { public uint profile; }
 
         public bool IsDisposed { get { lock(gate)return closed||host.IsClosed; } }
         public static SharedAccountWorkshop Open(uint heapMiB=48) => new SharedAccountWorkshop(
@@ -159,6 +160,10 @@ namespace HollowWake.Gameplay
             { lock(Account.Owner.gate){return Account.Owner.Run(Command(commandJson).Request());} }
             public SavedRecord Save()
             { lock(Account.Owner.gate){Check();return Saved(Require(Account.Owner.Run(new InventoryRequest {op="workshop-save-text",profile=Handle})));} }
+            /// <summary>Complete committed worn-item map, without bag, account,
+            /// currencies or random state. Remains readable during preparation.</summary>
+            public string EquipmentJson()
+            { lock(Account.Owner.gate){Check();return Require(Account.Owner.Run(new InventoryRequest {op="workshop-equipment-text",profile=Handle})).text??throw new InvalidOperationException("Missing equipment text.");} }
             public void Dispose()
             {
                 lock(Account.Owner.gate)
@@ -212,6 +217,20 @@ namespace HollowWake.Gameplay
                 {
                     Check();if(index<0||index>=Writes.Count)throw new ArgumentOutOfRangeException(nameof(index));
                     var write=Writes[index];return Saved(Require(owner.Run(new PreparedSave {op="prepared-save-text",token=token,kind=write.Kind,handle=write.Handle})));
+                }
+            }
+            /// <summary>Read candidate gear, including an unchanged inventory
+            /// in the guarded group. Requires a live nonempty preparation.</summary>
+            public string EquipmentJson(Inventory inventory)
+            {
+                if(inventory==null)throw new ArgumentNullException(nameof(inventory));
+                lock(owner.gate)
+                {
+                    Check();inventory.Check();
+                    if(!ReferenceEquals(inventory.Account.Owner,owner))throw new ArgumentException("Inventory must belong to this owner.",nameof(inventory));
+                    if(token==0)throw new InvalidOperationException("No candidate state in an unchanged preparation.");
+                    return Require(owner.Run(new PreparedInventory {op="prepared-workshop-equipment-text",token=token,profile=inventory.Handle})).text
+                        ??throw new InvalidOperationException("Missing candidate equipment text.");
                 }
             }
             /// <summary>Publish only after an acknowledged atomic durable write,

@@ -1,10 +1,11 @@
-# Shared account Unity candidate
+# Shared account Unity integration
 
-This additive candidate integrates `AccountWorkshopSession` into the existing
+This integration adds `AccountWorkshopSession` to the existing
 Unity gameplay package. It supplies one account authority across several
 inventories, lossless save text, typed lifetime handles and prepared changes.
-The published 0.4.1 package remains the installation checkpoint until this
-candidate completes its broader package and durable-save qualification.
+The [published gameplay 0.5 / storage 0.4 preview](../../docs/unity-shared-account.md)
+is the qualified installation checkpoint. The optional live equipment work in
+this checkout is a separate, unpublished [development candidate](../../docs/shared-account-equipment.md).
 
 ```csharp
 using (var owner = SharedAccountWorkshop.Open())
@@ -39,11 +40,11 @@ that every admissible save, Unity process or physical device fits that budget.
 
 The [prepared-change contract](../../docs/prepared-account-changes.md) explains
 provisional results, whole-group revision checks and recovery. This interface
-does not automatically connect a scene, migrate competing legacy account
-projections or publish combat equipment. The separate storage candidate below
+does not automatically connect a scene or migrate competing legacy account
+projections. The separate storage coordinator below
 composes it with the existing SQLite extension.
 
-## Durable aggregate candidate
+## Durable aggregate
 
 `Storage/DurableSharedAccount.cs` adds an optional coordinator to the storage
 package. Reserve distinct slots for one account and 1–7 participating inventories
@@ -66,8 +67,9 @@ evaluate the action again. Post-commit publication failure closes gameplay and
 the storage worker so recovery must reopen the acknowledged records.
 
 The first coordinator keeps a fixed group and preserves each auxiliary document.
-Changing membership, editing those auxiliary documents, legacy migration and
-combat-equipment publication require their own explicit transaction boundaries.
+Changing membership, editing those auxiliary documents and legacy migration
+require their own explicit transaction boundaries. The development equipment
+overload has its own capability, ownership and publication contract.
 It does not invent those policies from account keys or file paths.
 
 ## Reproduction
@@ -84,6 +86,6 @@ replies are checked outside the editor. Temporary projects and caches are
 removed on success or failure. Logs remain local until publication review
 removes machine and licensing metadata.
 
-This candidate has not qualified Unity Linux, IL2CPP, ARM, physical Steam Deck
+This integration has not qualified Unity Linux, IL2CPP, ARM, physical Steam Deck
 or mobile hardware. The existing Godot and Unreal integration paths are
 separate packages and do not gain this new capability automatically.

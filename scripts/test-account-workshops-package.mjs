@@ -15,7 +15,7 @@ if(args.length)assert(!fs.existsSync(output)&&!fs.existsSync(output+'.logs.json.
 const owned=path.join(root,'.artifacts');fs.mkdirSync(owned,{recursive:true});
 const work=fs.mkdtempSync(path.join(owned,'account-workshops-package-'));
 const consumer=path.join(work,'consumer');fs.mkdirSync(consumer);
-const logs={},report={passed:false,contracts:30,sourceScenarios:10,sourceSteps:30,faults:[],sources:{}};
+const logs={},report={passed:false,contracts:33,sourceScenarios:10,sourceSteps:30,faults:[],sources:{}};
 const sources=['src/account-workshop-session.ts','test/shared-account.test.mjs','test/shared-account/contracts.mjs',
   'test/shared-account-prepare.test.mjs','test/shared-account/prepared-contracts.mjs',
   'test/shared-account/fixtures.mjs','scripts/test-account-workshops-package.mjs','package.json',
@@ -43,13 +43,14 @@ try{
   fs.writeFileSync(path.join(consumer,'content.json'),JSON.stringify(packs));
   fs.writeFileSync(path.join(consumer,'baseline.json'),JSON.stringify(baseline));
   const entries={'account-workshop-session':'account/workshops','item-rules':'items',
-    'crafting-content':'crafting/content','skill-progression':'skills/progression'};
+    'crafting-content':'crafting/content','skill-progression':'skills/progression','equipment-actions':'inventory/equipment'};
   let fixtures=fs.readFileSync(path.join(root,'test/shared-account/fixtures.mjs'),'utf8');
   fixtures=fixtures.slice(fixtures.indexOf('export function definitionsFrom'),fixtures.indexOf('const compressed='));
   const header="import fs from 'node:fs';\n"+
     "import {ItemContent} from '@hollow-wake/engine/items';\n"+
     "import {CraftingContent} from '@hollow-wake/engine/crafting/content';\n"+
     "import {SkillProgression} from '@hollow-wake/engine/skills/progression';\n"+
+    "import {EquipmentSlots} from '@hollow-wake/engine/inventory/equipment';\n"+
     "const packs=JSON.parse(fs.readFileSync(new URL('./content.json',import.meta.url)));\n"+
     "export const baseline=JSON.parse(fs.readFileSync(new URL('./baseline.json',import.meta.url)));\n";
   fixtures=header+fixtures+'\nexport const definitions=definitionsFrom(packs);\n';
@@ -107,6 +108,9 @@ try{
       'finally {\n            if(this.#prepared)this.#state = committed;\n        }\n    }\n    #preparedCommand'],
     ['committed-candidate','this.#state = pending.state;\n                return this.#command','void pending.state;\n                return this.#command'],
     ['borrowed-prepared-response','const reply = copySessionJSON({ ok: true, token, writes, replies });','const reply = { ok: true, token, writes, replies };'],
+    ['equipment-early-view','let state = this.#state;','let state = this.#prepared?.state ?? this.#state;'],
+    ['equipment-committed-candidate','\n                state = pending.state;','\n                state = this.#state;'],
+    ['equipment-stale-token',"need(pending.token === request.token, 'stale-prepared-change');",'void request.token;'],
   ];
   for(const[name,needle,replacement]of faults){
     assert.equal(original.split(needle).length,2,name+' needs one target');

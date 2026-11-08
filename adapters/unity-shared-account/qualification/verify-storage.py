@@ -1,5 +1,5 @@
 """Qualify complete shared-account publication through actual Unity and SQLite."""
-import argparse,gzip,hashlib,json,os,runpy,shutil,sqlite3,tempfile,time
+import argparse,gzip,hashlib,json,os,re,runpy,shutil,sqlite3,subprocess,tempfile,time
 from contextlib import closing
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[3];ARTIFACTS=(ROOT/'.artifacts').resolve()
@@ -17,9 +17,19 @@ def verify(args):
         packages={name:read(folder/'package-receipt.json') for name,folder in [('gameplay',args.gameplay),('storage',args.storage)]}
         for name,receipt in packages.items():
             folder=getattr(args,name);archive=folder/receipt['file'];assert archive.parent==folder and digest(archive)==receipt['sha256']
-            for file,sha in receipt['sources'].items():assert digest(ROOT/file)==sha,file
+            source_ref=getattr(args,'gameplay_source_ref',None) if name=='gameplay' else None
+            if source_ref:assert re.fullmatch('[0-9a-f]{40}',source_ref)
+            for field in (['sources','sdkSources'] if source_ref else ['sources']):
+                for file,sha in receipt.get(field,{}).items():
+                    if source_ref:
+                        body=subprocess.run(['git','cat-file','blob',source_ref+':'+file],cwd=ROOT,check=True,capture_output=True,creationflags=subprocess.CREATE_NO_WINDOW).stdout
+                        assert hashlib.sha256(body).hexdigest()==sha,(source_ref,file)
+                    else:assert digest(ROOT/file)==sha,file
         report['packages']=packages
-        fixture=json.loads(gzip.decompress((args.gameplay/'qualification-inputs.json.gz').read_bytes()));prepared=json.loads(fixture['prepared.json'])[0]
+        report['gameplaySourceRef']=getattr(args,'gameplay_source_ref',None)
+        fixture_file=getattr(args,'fixtures',None) or args.gameplay/'qualification-inputs.json.gz'
+        fixture_bytes=fixture_file.read_bytes();report['fixtureSha256']=hashlib.sha256(fixture_bytes).hexdigest()
+        fixture=json.loads(gzip.decompress(fixture_bytes));prepared=json.loads(fixture['prepared.json'])[0]
         control=prepared['control'];a=control[0]['request'];w=control[1]['request']
         memory=next(row['request']['command'] for row in control if row['request']['op']=='account' and row['request']['command']['op']=='buy')
         salvage=next(row['request']['command'] for row in control if row['request']['op']=='workshop')
@@ -94,6 +104,8 @@ def verify(args):
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
     for name in ['editor','gameplay','storage','output']:parser.add_argument('--'+name,type=Path,required=True)
+    parser.add_argument('--gameplay-source-ref')
+    parser.add_argument('--fixtures',type=lambda p:Path(p).resolve())
     args=parser.parse_args()
     for name in ['editor','gameplay','storage','output']:setattr(args,name,getattr(args,name).resolve())
     report=verify(args);print(compact(dict(passed=report['passed'],cleaned=report['cleaned'],results=report['results'])))

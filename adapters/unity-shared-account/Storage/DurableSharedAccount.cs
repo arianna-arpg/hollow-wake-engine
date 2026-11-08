@@ -6,6 +6,14 @@ using HollowWake.Gameplay;
 
 namespace HollowWake.Storage
 {
+#if HWE_STORAGE_SHARED_EQUIPMENT
+    public readonly struct SharedCombatBinding
+    {
+        public readonly int Inventory;
+        public readonly CombatWorld.Actor Actor;
+        public SharedCombatBinding(int inventory,CombatWorld.Actor actor){Inventory=inventory;Actor=actor;}
+    }
+#endif
     public readonly struct SharedAccountAction
     {
         // -1 addresses the account; 0..6 address configured inventories.
@@ -65,9 +73,21 @@ namespace HollowWake.Storage
         string pendingReplies;
         ulong ticket;
         bool closed,evaluating;
+#if HWE_STORAGE_SHARED_EQUIPMENT
+        sealed class LinkedActor
+        {
+            internal int Inventory;internal CombatWorld.Actor Actor;
+            internal CombatWorld.Actor.PreparedEquipment Pending;
+            internal string CurrentGear,NextGear;
+        }
+        LinkedActor[] linked=Array.Empty<LinkedActor>();
+        bool ActorsClosed { get { foreach(var link in linked)if(link.Actor.IsDisposed)return true;return false; } }
+#else
+        bool ActorsClosed=>false;
+#endif
         public SharedAccountSnapshot Current { get; private set; }
         public bool IsBusy=>ticket!=0||evaluating;
-        public bool IsDisposed=>closed||storage.IsDisposed||owner.IsDisposed;
+        public bool IsDisposed=>closed||storage.IsDisposed||owner.IsDisposed||ActorsClosed;
         public bool IsReady=>Current!=null&&!IsDisposed;
 
         public DurableSharedAccount(string absolutePath,uint accountSlot,params uint[] inventorySlots)
@@ -98,13 +118,80 @@ namespace HollowWake.Storage
             }
             catch { Dispose();throw; }
         }
-        void Check(){if(IsDisposed)throw new ObjectDisposedException(nameof(DurableSharedAccount));}
+#if HWE_STORAGE_SHARED_EQUIPMENT
+        /// <summary>After validating the entire binding list, transfers each
+        /// actor's lifetime to this owner. Each inventory and actor can appear
+        /// once. Publish at a main-thread simulation boundary; dispose this owner
+        /// before the combat world. Equipment capability limits still apply.</summary>
+        public DurableSharedAccount(string absolutePath,uint accountSlot,uint[] inventorySlots,params SharedCombatBinding[] combat)
+            :this(absolutePath,accountSlot,inventorySlots)
+        {
+            try
+            {
+                if(combat==null||combat.Length>inventories.Length)throw new ArgumentException("Supply at most one actor per inventory.",nameof(combat));
+                for(int i=0;i<combat.Length;i++)
+                {
+                    var binding=combat[i];
+                    if(binding.Inventory<0||binding.Inventory>=inventories.Length||binding.Actor==null||binding.Actor.IsDisposed)
+                        throw new ArgumentException("A binding requires a configured inventory and live actor.",nameof(combat));
+                    for(int j=0;j<i;j++)if(combat[j].Inventory==binding.Inventory||ReferenceEquals(combat[j].Actor,binding.Actor))
+                        throw new ArgumentException("Inventory and actor bindings must be distinct.",nameof(combat));
+                }
+                var links=new LinkedActor[combat.Length];
+                for(int i=0;i<links.Length;i++)links[i]=new LinkedActor {Inventory=combat[i].Inventory,Actor=combat[i].Actor};
+                linked=links;
+                if(Current!=null){PrepareEquipment();PublishEquipment();}
+            }
+            catch { Dispose();throw; }
+        }
+        void PrepareEquipment()
+        {
+            foreach(var link in linked)
+            {
+                var inventory=inventories[link.Inventory];
+                if(pending!=null)
+                {
+                    bool changed=false;foreach(var write in pending.Writes)if(write.Kind=="workshop"&&write.Handle==inventory.Handle){changed=true;break;}
+                    if(!changed){link.NextGear=link.CurrentGear;continue;}
+                }
+                link.NextGear=pending==null?inventory.EquipmentJson():pending.EquipmentJson(inventory);
+                if(link.NextGear!=link.CurrentGear)link.Pending=link.Actor.PrepareEquipment(link.NextGear);
+            }
+        }
+        void PublishEquipment()
+        {
+            if(ActorsClosed)throw new ObjectDisposedException(nameof(CombatWorld.Actor));
+            foreach(var link in linked)link.Pending?.Publish();
+            foreach(var link in linked){link.Pending=null;link.CurrentGear=link.NextGear;link.NextGear=null;}
+        }
+        static Exception Combine(Exception previous,Exception next)=>previous==null?next:new AggregateException(previous,next);
+        void DiscardEquipment(bool disposeActors=false)
+        {
+            Exception failure=null;
+            foreach(var link in linked)
+            {
+                try{link.Pending?.Dispose();}catch(Exception error){failure=Combine(failure,error);}
+                finally{link.Pending=null;link.NextGear=null;}
+                if(disposeActors)try{link.Actor.Dispose();}catch(Exception error){failure=Combine(failure,error);}
+            }
+            if(failure!=null)throw failure;
+        }
+#else
+        void PrepareEquipment(){}
+        void PublishEquipment(){}
+        void DiscardEquipment(bool disposeActors=false){}
+#endif
+        void Check()
+        {
+            if(closed||storage.IsDisposed)throw new ObjectDisposedException(nameof(DurableSharedAccount));
+            if(owner.IsDisposed||ActorsClosed){Dispose();throw new ObjectDisposedException(nameof(DurableSharedAccount));}
+        }
         static SharedAccountChange Refused(string reason)=>new SharedAccountChange(WorkshopChangeState.Refused,reason:reason);
         static SharedAccountChange StorageRefused(SaveResult result)=>new SharedAccountChange(WorkshopChangeState.Refused,reason:result.Status.ToString(),status:result.Status,code:result.SqliteCode);
         static SharedAccountChange Waiting()=>new SharedAccountChange(WorkshopChangeState.Pending,status:SaveStatus.Pending);
         void Discard()
         {
-            try { pending?.Dispose(); }
+            try { try{pending?.Dispose();}finally{DiscardEquipment();} }
             finally
             {
                 pending=null;pendingView=null;pendingReplies=null;ticket=0;
@@ -147,9 +234,9 @@ namespace HollowWake.Storage
                     inventories[i]=account.OpenInventory((uint)i+1,starts[i].Seed,starts[i].StateJson,starts[i].Progression,starts[i].NextUid);
                     bodies[i+1]=inventories[i].Save().Json;extras[i+1]=starts[i].ExtraJson;
                 }
-                return Queue(bodies,extras);
+                PrepareEquipment();return Queue(bodies,extras);
             }
-            catch { try{Discard();}finally{if(owner.IsDisposed)Dispose();}throw; }
+            catch { try{Discard();}finally{if(owner.IsDisposed||ActorsClosed)Dispose();}throw; }
             finally { evaluating=false; }
         }
         /// <summary>Policy receives complete provisional replies; no cue is
@@ -185,9 +272,9 @@ namespace HollowWake.Storage
                     if(index<0||index>=slots.Length||(index==0&&write.Handle!=1))throw new InvalidOperationException("Prepared record outside reserved group.");
                     bodies[index]=pending.Save(i).Json;
                 }
-                return Queue(bodies,extras);
+                PrepareEquipment();return Queue(bodies,extras);
             }
-            catch { try{Discard();}finally{if(owner.IsDisposed)Dispose();}throw; }
+            catch { try{Discard();}finally{if(owner.IsDisposed||ActorsClosed)Dispose();}throw; }
             finally { evaluating=false; }
         }
         public SharedAccountChange Poll()
@@ -198,10 +285,10 @@ namespace HollowWake.Storage
             if(closed||storage.IsDisposed)throw new ObjectDisposedException(nameof(DurableSharedAccount));
             if(evaluating)return Refused("save-pending");if(ticket==0){Check();return Refused("no-pending-save");}
             var result=storage.Store.Poll(ticket);if(result.Status==SaveStatus.Pending)return Waiting();
-            if(!result.Succeeded){try{Discard();}finally{if(owner.IsDisposed)Dispose();}return StorageRefused(result);}
+            if(!result.Succeeded){try{Discard();}finally{if(owner.IsDisposed||ActorsClosed)Dispose();}return StorageRefused(result);}
             try
             {
-                pending?.Commit();Current=pendingView;
+                pending?.Commit();PublishEquipment();Current=pendingView;
                 var reply=new SharedAccountChange(WorkshopChangeState.Committed,pendingReplies,status:SaveStatus.Ok);
                 Discard();return reply;
             }
@@ -220,7 +307,7 @@ namespace HollowWake.Storage
             try { storage?.Dispose(); }
             finally
             {
-                try { owner?.Dispose(); }
+                try { try{owner?.Dispose();}finally{DiscardEquipment(true);} }
                 finally { pending=null;pendingView=null;pendingReplies=null;ticket=0;account=null;Array.Clear(inventories,0,inventories.Length); }
             }
         }

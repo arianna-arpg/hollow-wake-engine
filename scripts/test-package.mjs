@@ -209,10 +209,10 @@ const vestigeJsBytes=Object.entries({'vestige-content':4,'vestige-inlays':4,'ves
 const vestigeData=packed.files.find(f=>f.path==='content/vestiges.json');
 assert(vestigeData?.size>0&&vestigeData.size<=8*1024,'Vestige catalogue exceeds 8 KiB or is missing');
 const accountWorkshopFile=packed.files.find(file=>file.path==='dist/account-workshop-session.js');
-// Prepared publication adds a bounded map fork and transaction commands. The
-// unminified module is 20,768 bytes; keep its allowance separate from the base
+// Prepared publication and worn-map reads add bounded transaction operations.
+// The unminified module is 21,829 bytes; keep its allowance separate from the base
 // SDK and retain the independent 180 KiB bundled-consumer budget.
-assert.ok(accountWorkshopFile?.size>0&&accountWorkshopFile.size<=21*1024,'Optional account/workshop owner exceeds 21 KiB or is missing');
+assert.ok(accountWorkshopFile?.size>0&&accountWorkshopFile.size<=22*1024,'Optional account/workshop owner exceeds 22 KiB or is missing');
 const accountWorkshopJsBytes=accountWorkshopFile.size;
 const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
 const craftingSessionJsBytes=Object.values(craftingSessionModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingSessionJsBytes=preContentTableJsBytes-craftingSessionJsBytes;

@@ -103,7 +103,7 @@ class TextOwner {
   if(request.op==='prepared-save')encoded={...request,op:'prepared-save-text'};
   if(['account-save','workshop-save'].includes(request.op))encoded={...request,op:request.op+'-text'};
   const reply=dispatch(this.host,encoded);
-  if(!reply.ok||!Object.hasOwn(reply,'text'))return reply;
+  if(!reply.ok||!Object.hasOwn(reply,'text')||request.op.endsWith('equipment-text'))return reply;
   const {text,...metadata}=reply;return {...metadata,[request.op==='prepare'?'replies':'save']:JSON.parse(text)};
  }
 }
