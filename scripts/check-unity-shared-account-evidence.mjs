@@ -26,8 +26,13 @@ const prior=unpack(path.join(root,'evidence/unity-runtime-cleanup/reports.json.g
 for(const[p,parentFiles,parentSha]of [[gameplay,prior.progression.package.archiveChanges.files,prior.progression.package.sha256],[storage,prior.accountStorage.packages[storage.name].files,prior.accountStorage.packages[storage.name].sha256]]){
  assert.equal(p.parentSha256,parentSha);
  assert.deepEqual(p.changed,['package/README.md',p===gameplay?'package/Runtime/GameplayHost.cs':'package/Runtime/GameplayBridge/HollowWake.Storage.Gameplay.asmdef','package/package.json']);
- assert.equal(p.preservedFiles,Object.keys(parentFiles).length-p.changed.length);
- for(const[file,want]of Object.entries(parentFiles))if(!p.changed.includes(file))assert.equal(p.files[file],want,file);
+ // The older storage receipt lists payloads without the package/ prefix and
+ // omits generated .meta files. The actual-archive controls compare those too.
+ assert.equal(p.preservedFiles,Object.keys(p.files).length-p.added.length-p.changed.length);
+ for(const[name,want]of Object.entries(parentFiles)){
+  const file=name.startsWith('package/')?name:'package/'+name;
+  if(!p.changed.includes(file))assert.equal(p.files[file],want,file);
+ }
 }
 assert.deepEqual(r.archives.packages,{gameplay:gameplay.sha256,storage:storage.sha256});assert.equal(r.archives.controls.length,10);assert.equal(new Set(r.archives.controls).size,10);
 const previous=unpack(path.join(root,'evidence/prepared-account/observations.json.gz'));
