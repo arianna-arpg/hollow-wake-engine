@@ -1,0 +1,472 @@
+{
+  "schemaVersion": 1,
+  "profile": "quickjs-ng-0.17.0-cstring-cleanup/v1",
+  "passed": true,
+  "engineQualified": false,
+  "deviceQualified": false,
+  "platform": "win32",
+  "arch": "x64",
+  "scope": "Source-pinned Windows native runtime with optional explicit idle collection and CString cleanup; package/engine qualification is separate.",
+  "rows": [
+    {
+      "variant": "original",
+      "librarySha256": "8804fa483ee0d1d65a652cf1cb418a13d81f61c5dd026a4c68e3dbb5b00f91c9",
+      "commands": [
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/O2",
+            "/std:c11",
+            "/fp:strict",
+            "/MT",
+            "/experimental:c11atomics",
+            "/ID:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\quickjs-source-v017",
+            "/W4",
+            "/WX",
+            "/DHWE_JS_BUILD_SHARED",
+            "/c",
+            "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\native\\hwe_embedded.c",
+            "/Fo:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\original-build\\hwe_embedded.obj"
+          ]
+        },
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/O2",
+            "/std:c11",
+            "/fp:strict",
+            "/MT",
+            "/experimental:c11atomics",
+            "/ID:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\quickjs-source-v017",
+            "/c",
+            "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\quickjs-source-v017\\quickjs-amalgam.c",
+            "/Fo:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\original-build\\quickjs-amalgam.obj"
+          ]
+        },
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/MT",
+            "/LD",
+            "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\original-build\\hwe_embedded.obj",
+            "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\original-build\\quickjs-amalgam.obj",
+            "/Fe:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\original-build\\hwe_embedded.dll"
+          ]
+        },
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/O2",
+            "/W4",
+            "/WX",
+            "/std:c++17",
+            "/utf-8",
+            "/EHsc",
+            "/MT",
+            "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\native\\consumer.cpp",
+            "/Fo:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\original-build\\consumer.obj",
+            "/Fe:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\original-build\\consumer.exe",
+            "/link",
+            "/STACK:2097152"
+          ]
+        }
+      ],
+      "compiler": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.38.33133 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+      "consumers": [
+        {
+          "name": "cpp",
+          "stats": {
+            "passed": true,
+            "requests": 579,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 36140101,
+            "bufferOwnership": true,
+            "threadMigration": true,
+            "concurrentCancellation": true,
+            "unloadReload": true
+          }
+        },
+        {
+          "name": "dotnet",
+          "stats": {
+            "passed": true,
+            "requests": 579,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 36140101,
+            "managedOwnership": true,
+            "threadMigration": true,
+            "libraryLease": true,
+            "failedConstructionLease": true,
+            "finalizerUnload": true,
+            "unloadReload": true,
+            "residencyProbe": "GetModuleHandleW"
+          }
+        }
+      ],
+      "memory": {
+        "exploratory": true,
+        "rows": [
+          {
+            "heapMiB": 32,
+            "createStatus": 0,
+            "created": true,
+            "opened": {
+              "live_bytes": 30426299,
+              "peak_bytes": 32197563,
+              "live_blocks": 7389,
+              "allocations": 180695,
+              "pending": 0,
+              "poisoned": 0,
+              "cancelled": 0,
+              "reserved": 0
+            },
+            "lastCommand": {
+              "course": "study-locked",
+              "index": 12,
+              "request": {
+                "op": "account",
+                "account": 1,
+                "command": {
+                  "op": "catalogue",
+                  "offset": 0,
+                  "limit": 64
+                }
+              }
+            },
+            "error": "AssertionError(('submit', 4))",
+            "failedMetrics": {
+              "live_bytes": 33305397,
+              "peak_bytes": 33493285,
+              "live_blocks": 8080,
+              "allocations": 223043,
+              "pending": 0,
+              "poisoned": 1,
+              "cancelled": 0,
+              "reserved": 0
+            },
+            "retryStatus": 5,
+            "retryLength": 0,
+            "copyStatus": 8,
+            "copyWritten": 0,
+            "afterRejectedRetry": {
+              "live_bytes": 33305397,
+              "peak_bytes": 33493285,
+              "live_blocks": 8080,
+              "allocations": 223043,
+              "pending": 0,
+              "poisoned": 1,
+              "cancelled": 0,
+              "reserved": 0
+            },
+            "destroyStatus": 11,
+            "remainingBytes": 86410,
+            "disposed": false
+          },
+          {
+            "heapMiB": 48,
+            "createStatus": 0,
+            "created": true,
+            "opened": {
+              "live_bytes": 30426299,
+              "peak_bytes": 32197563,
+              "live_blocks": 7389,
+              "allocations": 180695,
+              "pending": 0,
+              "poisoned": 0,
+              "cancelled": 0,
+              "reserved": 0
+            },
+            "lastCommand": {
+              "course": "purchase-already-owned",
+              "index": 40,
+              "request": {
+                "op": "close-account",
+                "account": 1
+              }
+            },
+            "coursePassed": true,
+            "commands": 579,
+            "tracked": {
+              "live_bytes": 35829091,
+              "peak_bytes": 36140101,
+              "live_blocks": 8721,
+              "allocations": 267837,
+              "pending": 0,
+              "poisoned": 0,
+              "cancelled": 0,
+              "reserved": 0
+            },
+            "destroyStatus": 0,
+            "remainingBytes": 0,
+            "disposed": true
+          }
+        ]
+      }
+    },
+    {
+      "variant": "patched",
+      "librarySha256": "d2562c18b9bfe114b9e674b563332323a4c58da7935c87be380a1dcd8137ca3b",
+      "commands": [
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/O2",
+            "/std:c11",
+            "/fp:strict",
+            "/MT",
+            "/experimental:c11atomics",
+            "/ID:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\patched",
+            "/W4",
+            "/WX",
+            "/DHWE_JS_BUILD_SHARED",
+            "/c",
+            "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\native\\hwe_embedded.c",
+            "/Fo:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\patched-build\\hwe_embedded.obj"
+          ]
+        },
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/O2",
+            "/std:c11",
+            "/fp:strict",
+            "/MT",
+            "/experimental:c11atomics",
+            "/ID:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\patched",
+            "/c",
+            "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\patched\\quickjs-amalgam.c",
+            "/Fo:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\patched-build\\quickjs-amalgam.obj"
+          ]
+        },
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/MT",
+            "/LD",
+            "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\patched-build\\hwe_embedded.obj",
+            "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\patched-build\\quickjs-amalgam.obj",
+            "/Fe:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\patched-build\\hwe_embedded.dll"
+          ]
+        },
+        {
+          "command": "cl.exe",
+          "args": [
+            "/nologo",
+            "/O2",
+            "/W4",
+            "/WX",
+            "/std:c++17",
+            "/utf-8",
+            "/EHsc",
+            "/MT",
+            "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\native\\consumer.cpp",
+            "/Fo:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\patched-build\\consumer.obj",
+            "/Fe:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\patched-build\\consumer.exe",
+            "/link",
+            "/STACK:2097152"
+          ]
+        }
+      ],
+      "compiler": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.38.33133 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+      "consumers": [
+        {
+          "name": "cpp",
+          "stats": {
+            "passed": true,
+            "requests": 579,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 36140101,
+            "bufferOwnership": true,
+            "threadMigration": true,
+            "concurrentCancellation": true,
+            "unloadReload": true
+          }
+        },
+        {
+          "name": "dotnet",
+          "stats": {
+            "passed": true,
+            "requests": 579,
+            "liveBytesAfterDispose": 0,
+            "liveBlocksAfterDispose": 0,
+            "peakTrackedBytes": 36140101,
+            "managedOwnership": true,
+            "threadMigration": true,
+            "libraryLease": true,
+            "failedConstructionLease": true,
+            "finalizerUnload": true,
+            "unloadReload": true,
+            "residencyProbe": "GetModuleHandleW"
+          }
+        }
+      ],
+      "memory": {
+        "exploratory": true,
+        "rows": [
+          {
+            "heapMiB": 32,
+            "createStatus": 0,
+            "created": true,
+            "opened": {
+              "live_bytes": 30426299,
+              "peak_bytes": 32197563,
+              "live_blocks": 7389,
+              "allocations": 180695,
+              "pending": 0,
+              "poisoned": 0,
+              "cancelled": 0,
+              "reserved": 0
+            },
+            "lastCommand": {
+              "course": "study-locked",
+              "index": 12,
+              "request": {
+                "op": "account",
+                "account": 1,
+                "command": {
+                  "op": "catalogue",
+                  "offset": 0,
+                  "limit": 64
+                }
+              }
+            },
+            "error": "AssertionError(('submit', 4))",
+            "failedMetrics": {
+              "live_bytes": 33218987,
+              "peak_bytes": 33493285,
+              "live_blocks": 8079,
+              "allocations": 223043,
+              "pending": 0,
+              "poisoned": 1,
+              "cancelled": 0,
+              "reserved": 0
+            },
+            "retryStatus": 5,
+            "retryLength": 0,
+            "copyStatus": 8,
+            "copyWritten": 0,
+            "afterRejectedRetry": {
+              "live_bytes": 33218987,
+              "peak_bytes": 33493285,
+              "live_blocks": 8079,
+              "allocations": 223043,
+              "pending": 0,
+              "poisoned": 1,
+              "cancelled": 0,
+              "reserved": 0
+            },
+            "destroyStatus": 0,
+            "remainingBytes": 0,
+            "disposed": true
+          },
+          {
+            "heapMiB": 48,
+            "createStatus": 0,
+            "created": true,
+            "opened": {
+              "live_bytes": 30426299,
+              "peak_bytes": 32197563,
+              "live_blocks": 7389,
+              "allocations": 180695,
+              "pending": 0,
+              "poisoned": 0,
+              "cancelled": 0,
+              "reserved": 0
+            },
+            "lastCommand": {
+              "course": "purchase-already-owned",
+              "index": 40,
+              "request": {
+                "op": "close-account",
+                "account": 1
+              }
+            },
+            "coursePassed": true,
+            "commands": 579,
+            "tracked": {
+              "live_bytes": 35829091,
+              "peak_bytes": 36140101,
+              "live_blocks": 8721,
+              "allocations": 267837,
+              "pending": 0,
+              "poisoned": 0,
+              "cancelled": 0,
+              "reserved": 0
+            },
+            "destroyStatus": 0,
+            "remainingBytes": 0,
+            "disposed": true
+          }
+        ]
+      }
+    }
+  ],
+  "sources": {
+    "experiments/embedded-js/patches/build-qualified-runtime.mjs": "4cf28b4d35552c4cf6113ac746110253487e1d16b66d27ffda80a214e6fac88f",
+    "experiments/embedded-js/patches/verify-qualified-runtime.mjs": "115d0bb4bd0d4b038aecccd459993a609f42d62f1ed53de6fa3338e00e7b143b",
+    "scripts/embedded-native-tools.mjs": "b30ebdf8ff830261d1e45c9bb4a4b2e4667bbdb750c9b0f5c54586f0833b40d6",
+    "scripts/native-tools.mjs": "80671f3913e94caaecc8d18ab0c87d95aa3cb978201f38896291a4b823db5b89",
+    "scripts/reference-utils.mjs": "e36edca23dfd5ac73f203599495a1bc348e2fc90689c5c922154f7da0a40feeb",
+    "experiments/embedded-js/patches/cstring-cleanup.mjs": "2df882f0ae359fcbf2336c2604546342a5454cec7f14faff3fc6132f0464b2b4",
+    "experiments/embedded-js/patches/cstring-cleanup.json": "55e41a155bbd172aac03e5d7ac3d5a452ad8ebe2946c4eb2773b63e1205a92c3",
+    "experiments/embedded-js/host-source-lock.json": "f920648cfa2b7b8ca35597106d94d3a990360f0b8441c9039a72e74706da6ffa",
+    "experiments/embedded-js/tracked-allocator.h": "5c8e5cbf6412a3b9edf93826e190524221dc0cecc77f903690352f2a8c01ac0f",
+    "scripts/probe-shared-account-native.py": "17b079b901aeb52b93fce337dfaeca6a17302ec7c065e3b49a30d7808c2f82ad",
+    "experiments/embedded-js/native/collection-consumer.cpp": "5ff01c4cb7c3c92682725800e700b13991f767a613c80383939e68100e78a36d",
+    "experiments/embedded-js/native/collection-state.c": "49b03b222c49dc1a750bf785b243862d7134666705759362deacc45307bf53d7",
+    "experiments/embedded-js/native/consumer.cpp": "c79543878d909b74dfe7f619e3b8d5578c9ce389c58502cdb9fa1d44b5528ef8",
+    "experiments/embedded-js/native/dotnet/Consumer.csproj": "5752c7f35a5b6b7f286e0e9fe3fc1ae94e4935873e07179a729777e0b79804cc",
+    "experiments/embedded-js/native/dotnet/Embedded.cs": "c6cea31a4ca20ed3373fdc53159477e9db38f77512c135d6209a8c057ea35000",
+    "experiments/embedded-js/native/dotnet/NuGet.Config": "2142cfb2dfa2c7feefbe40fabcc68b0dfecadafa99a1db9b70239d977cf2a7ef",
+    "experiments/embedded-js/native/dotnet/Program.cs": "ea866913c81e6f6be8d72da91e193e132bc94790bbe8a44b555347d5e22a861c",
+    "experiments/embedded-js/native/hwe_embedded.c": "d37295bde6f93cd774b403cdd2e8fcea0a0c804056ec7519e4f3cdd5be6ee6fe",
+    "experiments/embedded-js/native/hwe_embedded.h": "0a8b4208f8b4bd58688f5226e4faa902b994b82f16e795b2b3e6882e54fa2176"
+  },
+  "capsuleSha256": "fc87b365317f8ec26d6d3cfd5c69a9f8731fbe64d4f0bb3f4692be9c6fb6d6b7",
+  "inputReceiptSha256": "a41650402b56c6e0fce8ce2096cb84aa5e3253a7b06893921c134d7ddf8e4f99",
+  "patch": {
+    "id": "quickjs-ng-0.17.0-cstring-cleanup-v1",
+    "directory": "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\qualified-runtime-RPr7po\\patched",
+    "sourceLockSha256": "f920648cfa2b7b8ca35597106d94d3a990360f0b8441c9039a72e74706da6ffa",
+    "manifestSha256": "55e41a155bbd172aac03e5d7ac3d5a452ad8ebe2946c4eb2773b63e1205a92c3",
+    "original": {
+      "quickjs-amalgam.c": "7c853a67ce7b6db463018e44f1425cd019d9f004a012ca013f47e415eb43446c",
+      "quickjs.h": "747a77444ff04a910b57ca51dd998d7ee46895b1b9592d7d6051fd180317c44d"
+    },
+    "files": {
+      "quickjs-amalgam.c": "e88c15e41d834ff3d492576799d8f6f938fee543244fb5ca1087a7d6059ea5a5",
+      "quickjs.h": "747a77444ff04a910b57ca51dd998d7ee46895b1b9592d7d6051fd180317c44d"
+    }
+  },
+  "dotnetSdk": "8.0.421",
+  "files": {
+    "hwe_embedded.dll": "d2562c18b9bfe114b9e674b563332323a4c58da7935c87be380a1dcd8137ca3b",
+    "hwe_embedded.h": "0a8b4208f8b4bd58688f5226e4faa902b994b82f16e795b2b3e6882e54fa2176"
+  },
+  "exports": [
+    "hwe_js_cancel_v1",
+    "hwe_js_collect_v1",
+    "hwe_js_copy_response_v1",
+    "hwe_js_create_v1",
+    "hwe_js_destroy_v1",
+    "hwe_js_layout_v1",
+    "hwe_js_metrics_v1",
+    "hwe_js_release_response_v1",
+    "hwe_js_submit_v1"
+  ],
+  "inputsUnchanged": true,
+  "upstreamUnchanged": true,
+  "preparedUnchanged": true,
+  "rawSha256": "35f243e7d3d4fdf743f1fa4991c6ab5dbdb6077c53045f1e4bd320abc9a6c372",
+  "cleaned": true
+}
