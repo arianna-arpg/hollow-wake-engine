@@ -6,7 +6,9 @@ const accepted=read('acceptance.json');assert.equal(accepted.schemaVersion,1);as
 assert.equal(accepted.sourceCommit,'ee663a3449fbaa29e67ba65b5293f300a97ff837');
 for(const name of ['publishedPackage','fullUnityPackageQualified','physicalDeviceQualification'])assert.equal(accepted[name],false,name);
 for(const[file,hash]of Object.entries(accepted.files)){assert.equal(path.basename(file),file);assert.equal(sha256(fs.readFileSync(path.join(dir,file))),hash,file);}
-const current=sourceHasher(),historical=sourceHasher(accepted.sourceCommit);
+const args=process.argv.slice(2);
+assert(args.length===0||(args.length===2&&args[0]==='--source-ref'&&args[1]===accepted.sourceCommit));
+const current=sourceHasher(args.length?accepted.sourceCommit:null),historical=sourceHasher(accepted.sourceCommit);
 const sources=(map,hash=current)=>{assert(Object.keys(map).length);for(const[file,want]of Object.entries(map))assert.equal(hash(file),want,file);};
 sources(accepted.sources);sources(accepted.sources,historical);
 const reports=unpack('reports.json.gz'),observed=unpack('observations.json.gz');

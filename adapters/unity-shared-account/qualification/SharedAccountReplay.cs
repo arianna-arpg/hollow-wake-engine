@@ -12,7 +12,12 @@ public sealed class SharedAccountReplay : MonoBehaviour
     [Serializable] class Saved { public string text;public long version,accountVersion; }
     [Serializable] class Write { public string kind;public uint handle; }
     [Serializable] class Prepared { public string text;public bool hasChanges;public Write[] writes; }
-    [Serializable] class Result { public bool passed,closed,retiredAccount,retiredInventory,retiredCommand,ownerDisposal,foreignOwner;public string stage,unity;public int steps;public ulong peak,requests; }
+    [Serializable] class Result { public bool passed,closed,retiredAccount,retiredInventory,retiredCommand,ownerDisposal,foreignOwner,documentationExample;public string stage,unity;public int steps;public ulong peak,requests; }
+    [Serializable] class AccountSaveView { public ProgressionView progression; }
+    [Serializable] class ProgressionView { public AccountView account; }
+    [Serializable] class AccountView { public long credits; }
+    [Serializable] class Mutation { public bool ok;public Purchase reply; }
+    [Serializable] class Purchase { public bool ok,result; }
     public static string Work=>Environment.GetEnvironmentVariable("HWE_SHARED_ACCOUNT_WORK");
     public static void Need(bool condition,string message){if(!condition)throw new Exception(message);}
     static void Refuses(Action action,string message)
@@ -63,6 +68,21 @@ public sealed class SharedAccountReplay : MonoBehaviour
                 catch(InvalidOperationException){if(!step.throws)throw;refused=true;reply="{\"threw\":true}";}
                 Need(refused==step.throws,"Unexpected refusal at "+result.steps);output.WriteLine(reply);result.steps++;
             }
+            using(var example=host.OpenAccount(9,"example-account",17))
+            {
+                var grant=JsonUtility.FromJson<Mutation>(example.Execute(@"{""op"":""observe"",""level"":1,""credits"":1000,""ledger"":{},""roster"":[]}"));
+                Need(grant.ok&&grant.reply.ok,"Documented example grant refused");
+                const string emptyInventory=@"{""board"":{""w"":6,""h"":6},""items"":[],""overflow"":[],""equipped"":{},""essences"":{}}";
+                using(var inventory=example.OpenInventory(9,71,emptyInventory))
+                {
+                    var purchase=JsonUtility.FromJson<Mutation>(example.Execute(@"{""op"":""buy"",""id"":""memory_discovery""}"));
+                    Need(purchase.ok&&purchase.reply.ok&&purchase.reply.result,"Documented example purchase refused");
+                    var saved=example.Save().Json;Need(JsonUtility.FromJson<AccountSaveView>(saved).progression.account.credits==970,"Documented example price changed");
+                    File.WriteAllText(Path.Combine(Work,stage+"-documentation-account.json"),saved);
+                    File.WriteAllText(Path.Combine(Work,stage+"-documentation-inventory.json"),inventory.Save().Json);
+                }
+            }
+            result.documentationExample=true;
             var initial=input.steps.First(step=>step.op=="open-account");var inventoryInput=input.steps.First(step=>step.op=="open-workshop");
             var old=host.OpenAccount(7,"retirement",initial.seed,initial.text);
             var oldInventory=old.OpenInventory(7,17,inventoryInput.text);

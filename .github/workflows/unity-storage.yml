@@ -72,7 +72,7 @@ jobs:
       - name: Fetch the prepared-account SDK verification source
         run: git fetch --no-tags --depth=1 origin ee663a3449fbaa29e67ba65b5293f300a97ff837
       - name: Check recorded shared-account candidate observations
-        run: node scripts/check-prepared-account-evidence.mjs
+        run: node scripts/check-prepared-account-evidence.mjs --source-ref ee663a3449fbaa29e67ba65b5293f300a97ff837
       - name: Exercise the current progression adapter
         run: node --test test/unity-progression-entry.test.mjs
       - name: Verify owned Unity fixture cleanup

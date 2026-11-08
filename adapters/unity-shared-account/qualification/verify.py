@@ -68,7 +68,9 @@ def verify(editor,package,output):
         report['results']={}
         for stage in ['editor','player']:
             result=read(course/(stage+'-result.json'));assert result['stage']==stage and result['unity']=='2021.3.6f1'
-            for flag in ['passed','closed','retiredAccount','retiredInventory','retiredCommand','ownerDisposal','foreignOwner']:assert result[flag],(stage,flag)
+            for flag in ['passed','closed','retiredAccount','retiredInventory','retiredCommand','ownerDisposal','foreignOwner','documentationExample']:assert result[flag],(stage,flag)
+            assert read(course/(stage+'-documentation-account.json'))['progression']['account']['credits']==970
+            assert 'account' not in read(course/(stage+'-documentation-inventory.json'))['workshop']['state']
             assert 0<result['peak']<=32*1024*1024
             replies=[json.loads(line) for line in (course/(stage+'-replies.jsonl')).read_text(encoding='utf-8-sig').splitlines()]
             assert len(replies)==len(expected)==result['steps']

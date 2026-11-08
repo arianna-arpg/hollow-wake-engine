@@ -60,6 +60,17 @@ def verify(args):
                     for record,part in zip(records,['account','inventory0','inventory1']):assert json.loads(record[2])==read(course/(stage+'-final-'+part+'.json'))
                 report['databases'][stage+suffix]=records
             report['results'][stage]=result
+        report['lifecycle']={}
+        for method,marker in [('VerifyPlayExit','HWE_SHARED_PLAY_EXIT'),('VerifyReload','HWE_SHARED_RELOAD')]:
+            launch(args.editor,['-projectPath',project,'-executeMethod','SharedStorageChecks.'+method],ROOT,env,course/(method+'.log'),marker)
+        for stage in ['play-entry-0','play-exit-0','play-entry-1','play-exit-1','reload']:
+            result=read(course/(stage+'-lifecycle.json'));assert result==dict(passed=True,closed=True,stage=stage)
+            with closing(sqlite3.connect('file:'+(course/(stage+'.db')).as_posix()+'?mode=ro',uri=True)) as db:
+                assert db.execute('PRAGMA integrity_check').fetchone()==('ok',)
+                records=db.execute('SELECT slot,revision,crafting FROM slots ORDER BY slot').fetchall()
+            assert [(row[0],row[1]) for row in records]==[(10,1),(20,1),(30,1)]
+            assert [json.loads(row[2]) for row in records]==expected['initial']
+            report['lifecycle'][stage]=result;report['databases'][stage]=records
         report['passed']=True
     except BaseException as error:report['failure']=str(error);raise
     finally:

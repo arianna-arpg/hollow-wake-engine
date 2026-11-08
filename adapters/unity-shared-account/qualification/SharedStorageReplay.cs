@@ -127,5 +127,34 @@ public sealed class SharedStorageReplay : MonoBehaviour
         bool refused=false;try{using(var invalid=new DurableSharedAccount(file,10,20,30)){} }catch(IOException){refused=true;}
         Need(refused,"Incomplete group admitted");
     }
+    static DurableSharedAccount lifecycleOwner;
+    static SlotStore lifecyclePeer;
+    static SharedAccountSnapshot lifecycleBefore;
+    static ulong lifecycleHeld;
+    [Serializable] public class LifecycleResult { public bool passed,closed;public string stage; }
+    public static void StartLifecycle(string stage)
+    {
+        Need(lifecycleOwner==null,"Previous shared lifecycle owner retained");
+        var input=JsonUtility.FromJson<Inputs>(File.ReadAllText(Path.Combine(Work,"inputs.json")));
+        var file=Path.Combine(Work,stage+".db");lifecycleOwner=Create(file,input);lifecycleBefore=lifecycleOwner.Current;
+        lifecyclePeer=new SlotStore();Need(lifecyclePeer.Open(file).Succeeded,"Shared lifecycle peer");
+        var row=lifecycleBefore.Inventories[1];var held=lifecyclePeer.Stage(row.Slot,row.Revision,row.Json,row.ExtraJson);
+        Need(held.Succeeded,"Shared lifecycle writer hold");lifecycleHeld=held.Value;
+        Pending(lifecycleOwner,Batch(input));
+    }
+    public static void EndLifecycle(string stage)
+    {
+        try
+        {
+            Need(lifecycleOwner.IsDisposed&&!lifecycleOwner.IsBusy,"Lifecycle retained shared owner or proposal");
+            var metrics=lifecycleOwner.ReadMetrics();Need(metrics.LiveBytes==0&&metrics.LiveBlocks==0,"Lifecycle retained shared gameplay allocations");
+            var storage=(UnitySaveStore)typeof(DurableSharedAccount).GetField("storage",BindingFlags.NonPublic|BindingFlags.Instance).GetValue(lifecycleOwner);
+            Need(storage.IsDisposed,"Lifecycle retained shared storage worker");
+            Need(ReferenceEquals(lifecycleBefore,lifecycleOwner.Current),"Lifecycle published unobserved shared candidates");
+            Need(lifecyclePeer.Cancel(lifecycleHeld).Succeeded,"Shared lifecycle writer release");Pair(lifecyclePeer,lifecycleBefore);
+            File.WriteAllText(Path.Combine(Work,stage+"-lifecycle.json"),JsonUtility.ToJson(new LifecycleResult {passed=true,closed=true,stage=stage}));
+        }
+        finally { lifecyclePeer?.Dispose();lifecycleOwner?.Dispose();lifecyclePeer=null;lifecycleOwner=null;lifecycleBefore=null; }
+    }
     void Start(){try{Run("player");Application.Quit(0);}catch(Exception error){UnityEngine.Debug.LogException(error);Application.Quit(1);}}
 }
