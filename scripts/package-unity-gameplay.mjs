@@ -59,6 +59,12 @@ try{
   run(python,['-I',pythonTool,'workshop-assets',addon,stage]);
   for(const [name,file]of Object.entries({WorkshopContent:'content.json',WorkshopInspection:'inspection.json',WorkshopEquipment:'equipment.json'}))
     assert.equal(sha256(fs.readFileSync(path.join(asset,name+'.bytes'))),native.package.files[file]);
+  const progression=read(path.join(asset,'ProgressionContent.bytes'));
+  const progressionBaseline=read(path.join(root,'baseline/unlock-lifecycle/compiled-content.json'));
+  for(const [name,pack]of Object.entries(progression)){
+    assert.equal(pack.contentId,progressionBaseline.packs[name].contentId);
+    assert.equal(sha256(JSON.stringify(pack,null,2)+'\n'),progressionBaseline.packs[name].sha256);
+  }
   assert.equal(sha256(fs.readFileSync(path.join(stage,'Runtime/Native/Windows/hwe_embedded.dll'))),accepted.files['hwe_embedded.dll']);
   const pinned=JSON.parse(gunzipSync(fs.readFileSync(path.join(root,'evidence/embedded-js/windows-persistent-session-raw.json.gz')))).session;
   const config=JSON.parse(pinned['requests.jsonl'].split('\n')[0]).config;
@@ -81,15 +87,18 @@ try{
       b.onResolve({filter:/^\.\.\/\.\.\/dist\//},a=>{assert.equal(path.resolve(a.importer),session);assert(exports[a.path]);return {path:resolve(exports[a.path])};});
       b.onResolve({filter:/^@hollow-wake\/engine/},a=>({path:resolve(a.path)}));
     }}]});
-  const compiled=await compile('combat-entry.mjs'),pouch=await compile('pouch-entry.mjs'),workshopRules=await compile('workshop-entry.mjs');
-  assert([compiled,pouch,workshopRules].flatMap(b=>Object.values(b.metafile.outputs)).every(o=>!o.imports.length));
+  const compiled=await compile('combat-entry.mjs'),pouch=await compile('pouch-entry.mjs'),workshopRules=await compile('workshop-entry.mjs'),
+    progressionRules=await compile('progression-entry.mjs');
+  assert([compiled,pouch,workshopRules,progressionRules].flatMap(b=>Object.values(b.metafile.outputs)).every(o=>!o.imports.length));
+  assert(progressionRules.outputFiles[0].contents.length<=96*1024 && fs.statSync(path.join(asset,'ProgressionContent.bytes')).size<=512*1024);
   assert(!Object.keys(workshopRules.metafile.inputs).some(f=>f.endsWith('number-wire.mjs'))||
     !workshopRules.outputFiles[0].text.includes('invalid wire number'),'Unity must use direct JSON commands');
   fs.writeFileSync(path.join(asset,'PouchesRules.bytes'),pouch.outputFiles[0].contents);
   fs.writeFileSync(path.join(asset,'CombatRules.bytes'),compiled.outputFiles[0].contents);
   fs.writeFileSync(path.join(asset,'CombatContent.bytes'),JSON.stringify(table));
   fs.writeFileSync(path.join(asset,'WorkshopRules.bytes'),workshopRules.outputFiles[0].contents);
-  const hashes=Object.fromEntries(['CombatRules','CombatContent','PouchesRules','PouchesContent','WorkshopRules','WorkshopContent','WorkshopInspection','WorkshopEquipment'].map(n=>[n,sha256(fs.readFileSync(path.join(asset,n+'.bytes')))]));
+  fs.writeFileSync(path.join(asset,'ProgressionRules.bytes'),progressionRules.outputFiles[0].contents);
+  const hashes=Object.fromEntries(['CombatRules','CombatContent','PouchesRules','PouchesContent','WorkshopRules','WorkshopContent','WorkshopInspection','WorkshopEquipment','ProgressionRules','ProgressionContent'].map(n=>[n,sha256(fs.readFileSync(path.join(asset,n+'.bytes')))]));
   assert.equal(hashes.PouchesContent,accepted.files['pouch-data.json']);
   const constants=Object.entries(hashes).map(([n,v])=>'        internal const string '+n.replace('Pouches','Pouch')+' = "'+v+'";');
   constants.push('        internal const string PouchId = '+JSON.stringify(read(path.join(asset,'PouchesContent.bytes')).id)+';');
@@ -103,6 +112,7 @@ try{
     sdkSources:sourceHashes,
     sdkRuntimeFiles:Object.fromEntries(listFiles(path.join(installed,'dist')).map(file=>[file,sha256(fs.readFileSync(path.join(installed,'dist',file)))])),
     workshopAddonSha256:native.package.archiveSha256,workshopRulesBytes:workshopRules.outputFiles[0].contents.length,
+    progressionRulesBytes:progressionRules.outputFiles[0].contents.length,progressionContent:Object.values(progression).map(p=>p.contentId),
     sources:Object.fromEntries(['scripts/package-unity-gameplay.mjs','scripts/unity-gameplay-archive.py','scripts/unity-package-archive.py',
       'scripts/godot-crafting-bundle.mjs','adapters/embedded/crafting-session.mjs','adapters/embedded/equipment-session.mjs',
       'adapters/godot/crafting/entry.mjs','adapters/godot/crafting/vestige-entry.mjs',

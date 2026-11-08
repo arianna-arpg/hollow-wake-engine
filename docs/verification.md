@@ -1,9 +1,18 @@
 # Verification and reproduction
 
+The [Unity progression checkpoint](../evidence/unity-progression/README.md) adds the shared account
+contract and an imported memory-discovery/checkpoint example. Its actual
+editor/player course checks 104 steps, retired-handle isolation and complete
+JSON/RNG continuation. Current package evidence is kept separately from the
+published live-equipment checkpoint; the latter can be checked at its pinned
+release source with `--source-ref 03eb2d504a9fe410b97d3959a76d4a494c5d3541`.
+Ignored compiled outputs still require their accepted byte hashes.
+
 The [native idle-collection checkpoint](../evidence/native-idle-collection/README.md)
 adds an explicit development C operation with no automatic engine integration.
 Six repeated 450-reply courses, native boundary injections and seven
-deliberate faults qualify the Windows implementation. Peak memory decreases in
+deliberate faults qualify Windows and Linux, with a complete Linux sanitizer
+replay. Peak memory decreases in
 the measured configuration schedule while ending retention increases; no timing
 or physical-device improvement is claimed.
 

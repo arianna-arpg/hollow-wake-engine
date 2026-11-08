@@ -46,6 +46,7 @@ namespace HollowWake.Gameplay
         public static GameplayHost OpenCombat() => Open("Combat", PackHashes.CombatRules, PackHashes.CombatContent, 64);
         public static GameplayHost OpenMemoryPouches() => Open("Pouches", PackHashes.PouchRules, PackHashes.PouchContent, 12);
         public static GameplayHost OpenWorkshop() => Open("Workshop", PackHashes.WorkshopRules, PackHashes.WorkshopContent, 32);
+        public static GameplayHost OpenProgression() => Open("Progression", PackHashes.ProgressionRules, PackHashes.ProgressionContent, 32);
         internal static string WorkshopInspection() => Utf8.GetString(Read("WorkshopInspection", PackHashes.WorkshopInspection));
         internal static string WorkshopEquipment() => Utf8.GetString(Read("WorkshopEquipment", PackHashes.WorkshopEquipment));
         static byte[] Read(string asset, string expected)

@@ -1,4 +1,4 @@
-# Account progression sessions and the Godot package
+# Account progression sessions and engine packages
 
 The optional `@hollow-wake/engine/progression/session` entry composes the existing
 unlock, memory, class-claim, gate, relic and storage implementations. It adds a
@@ -11,6 +11,8 @@ random stream. `command` accepts plain JSON values and returns a detached JSON
 reply. Godot uses the same installed implementation through the existing native
 extension; neither a Node process nor the game checkout is required at runtime.
 The entry is optional and stays outside the eager core dependency graph.
+The [Unity progression adapter](unity-progression.md) exposes the same account
+contract through typed profile handles and opaque JSON saves.
 
 | Command | Required fields besides `op`, `profile` | Result |
 | --- | --- | --- |
@@ -48,7 +50,7 @@ purchase. Equipment, bag transfers and legacy custody migration remain separate
 SDK services and host responsibilities.
 
 The protocol uses nonnegative safe integers for account numbers and uint32 profile
-handles/seeds. JSON is limited to depth 16, 32,768 nodes and 131,072 total string/key
+handles/seeds and relic instance IDs. JSON is limited to depth 16, 32,768 nodes and 131,072 total string/key
 code units, plus 512 KiB of canonical UTF-8 JSON for a complete command/reply.
 Strings must contain well-formed Unicode without NUL. Byte accounting includes escaped
 controls, numeric formatting, punctuation and surrogate pairs without allocating

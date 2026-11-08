@@ -1,12 +1,13 @@
 # Hollow Wake Gameplay for Unity
 
-Download [the verified 0.2.0 workshop preview](https://github.com/arianna-arpg/hollow-wake-engine/releases/tag/unity-workshop-v0.2.0-preview.1).
+Download [the verified 0.3.0 live-equipment preview](https://github.com/arianna-arpg/hollow-wake-engine/releases/tag/unity-live-equipment-v0.3.0-preview.1).
 The release includes the package and its local/hosted validation receipts.
+The development 0.4 package adds account progression; its qualification is separate.
 
 Install the supplied `.tgz` with **Window → Package Manager → + → Add package
 from tarball**. This preview targets Unity 2021.3, Windows x64 Editor and Windows
 x64 Standalone with Mono. The package contains its authored rules and native
-runtime. It loads combat, pouch and workshop resources separately when requested.
+runtime. It loads combat, pouch, workshop and progression resources separately when requested.
 
 Import **Casting and Burning** from the package's **Samples** section.
 Open the imported **Ruin Encounter** scene, enter Play mode and press
@@ -24,6 +25,49 @@ helmet, inlay Morren, keep a checkpoint, forge again, then restore the
 checkpoint. The item, satchel, next item ID and random continuation return
 together. The sample keeps checkpoints in memory; it does not save to disk.
 Attach `InventoryWorkbench` to another GameObject to try the same panel.
+
+The development sample also includes `AccountProgressionExample`. Attach it to
+an active GameObject, open the example account, discover a memory, keep a
+checkpoint, discover again and restore. The sample grants 1,000 example credits;
+production games must supply their own authorized starting grants and earnings.
+Its checkpoint stays in memory.
+
+## Account progression
+
+`AccountProgression` shares validated content among up to eight profiles in one
+32 MiB capped native runtime. It exposes purchases, partial investment, class
+settlement/acknowledgement, memory rewards, relic storage/power upgrades,
+authoritative observations and the paged catalogue. Create it on Unity's main
+thread because construction loads Unity resources; keep it alive while needed.
+
+~~~csharp
+using var accounts = new HollowWake.Gameplay.AccountProgression();
+using var account = accounts.OpenProfile(1, 17, authorizedAccountJson);
+string reply = account.Buy("memory_discovery");
+string snapshot = account.Save();
+using var resumed = accounts.RestoreProfile(2, snapshot);
+~~~
+
+`Buy`, `Invest`, `Settle`, `Acknowledge`, `Catalogue`, `Observe` and
+`UpdateRelics` return complete JSON replies. `Execute` accepts one SDK command
+without a profile field. An `ok: true` reply may still contain `result: false`
+for an ordinary refused purchase. Opening, restoring and saving throw on a
+refused operation. The game owns earned observations and account authority.
+`Observe` replaces level, credits, ledger and roster; it is not a credit increment.
+
+Keep complete saves as JSON text. They include content identities, account
+maps, opaque relic payloads and RNG continuation. Credits and ledger values
+are nonnegative safe integers through 2^53−1; profile/seed and relic instance
+IDs are unsigned 32-bit values. These differ from the workshop's wider item IDs.
+The SDK bounds commands/replies to 512 KiB, depth 16, 32,768 nodes and 131,072
+total key/string characters; oversized state is refused before commitment.
+
+Dispose profiles before their owner. A retired profile cannot reach an account
+that later reuses its number. Native execution failure requires disposing that
+owner and recovering from an authoritative checkpoint. Account saves are
+independent from workshop saves: the optional storage preview does not yet
+atomically publish both. Progression commands belong at account/UI transitions,
+not on every combat frame.
 
 ~~~csharp
 using var world = new HollowWake.Gameplay.CombatWorld();

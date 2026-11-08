@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "packageVersion": "0.4.0-preview.1",
+  "physicalDeviceQualification": false,
+  "scope": "Actual Unity 2021.3.6f1 Windows x64 Mono UPM editor and relocated player; progression, sample and retained integrations.",
+  "packageSha256": "e75f83bad493ddb159ab0217513e5216e203bdb0c7e5834a1c5dc0a8a2721317",
+  "files": {
+    "reports.json": "afb1e7dee4afcb22786479ff17407892beeb34deac483ef0af3232b1600784a5",
+    "observations.json.gz": "3362c04305cc68faa653c7f207d3cbc405615a8176814d67a7b6356c6e9aace4",
+    "sdk-verify.txt.gz": "6d7ff95063c936e6a7bdd96c17ea22355831d703caa7d2f8da72dd60ec38d949",
+    "focused-checks.json": "eda99e175a012e745c85167dddf716aa1d5715dfc78ed3774d539f84d51252da",
+    "cleanup.json": "aa17967f7b67dfb660ef7c52477d54d058749cf03b1c9809c0a53ae38c767ad1"
+  },
+  "sources": {
+    "scripts/check-unity-progression-evidence.mjs": "281e963054ab2516cb2a5939788e931456b355078426506c2ff3e56a7f92cec2",
+    "scripts/verify-unity-progression.py": "4fe49fc01981493126bd9bda2e494ba3a58c68551fbfba50a7309cbf215d08c1",
+    "scripts/test-unity-progression-faults.py": "47ce0bb0f3dec8a18ebc237e8ff1916fbef0b28c42bc9d613ada74b555a4cc72",
+    "scripts/verify-live-equipment-unity.py": "c36f2159cd293f13a643701b0ef2357c81e99fc5d1d2a8865f9e2c892002e931",
+    "scripts/verify-unity-gameplay.py": "9727e62754e8da30ac1f1a40edbf33e69cad3eb557f019c1a4366d21a9da9fbb",
+    "scripts/prepare-unity-replay.mjs": "e2cffc0e79fe394bd8af770cb2d745969db276847360830de9f6146cec6fbe97",
+    "scripts/compile-unlock-content.mjs": "f6afda6dd80c3bdbd9d0dcf169f20a8f0507efb01127e21738672a186bb5bf68",
+    "scripts/compile-memory-rewards.mjs": "42e14a599a14024281f8df0ec549dc27e42758dc5d2a30c6609cd780f1aa5e48",
+    "scripts/compile-progression-gates.mjs": "af212fa522f1c5de334255fe8acf02590c0de5fde6acff87154cd92a7bb243d7",
+    "test/unity-progression-entry.test.mjs": "787f24b4638919402f0b00eafde40680ed6cf7e766e22e5ae5417495026e8dfa",
+    "test/unity-progression/inputs.mjs": "63e64041c519284c9f556a43aa3f1cc0669fb970e64f11ee928daa4088250b6e",
+    "test/unity-progression/ProgressionReplay.cs": "8d0336a32977d613d91fed1b3bfb6b551dc9581fa5a8561f7610aa57758f1ce9",
+    "test/unity-progression/Editor/ProgressionChecks.cs": "bad3eb69636d6125107f7e10e73fdb66638b1a63e48b1291878869bc5720cb14",
+    "test/unity-progression/Editor/ProgressionFaultChecks.cs": "5329f25c979dd630feed753aa0b70cd15b354b33bda56c0ee37a3caffacaa9f5",
+    "test/unity-progression/cleanup.py": "38825432294ce4afa8c074572e3fc46816dab0155c3a0ca92490fdb2f928b78f",
+    "test/unity-gameplay/Editor/PackageChecks.cs": "8757d4bab509a95f981cd5cbf90eb0475ec3fc1d7f7e9a6510aec4356442a267",
+    "test/unity-gameplay/GameplayReplay.cs": "bb12308325887cd5568a8a8928063678c6580b0b8d35116d1ba813ae482d0b5f",
+    "test/unity-gameplay/WorkshopReplay.cs": "1e4db66050f959173d6e21e081b2e904a698b4f08c236fb9f80c694769c51af9"
+  },
+  "priorFailures": [
+    {
+      "reportSha256": "6612fcd2b0bfea0d95d182b28f351cb988e387a73df804a0ff51c621424ba14a",
+      "cause": "Verification C# used incorrectly cased metric field names; corrected before accepted runs."
+    },
+    {
+      "reportSha256": "2a1f6194bcbc4b7d6a37aecc27c7e1ceea36c955445159815146f546ad85b7da",
+      "cause": "Engine/sample checks passed but a transient UnityCrashHandler64.exe lock interrupted cleanup. Exact owned folder removed; bounded cleanup retry added and r4 completed cleanly."
+    }
+  ],
+  "limits": [
+    "No durable account/workshop atomic publication",
+    "No IL2CPP or non-Windows Unity qualification",
+    "No physical Steam Deck/mobile or elapsed-time improvement claim"
+  ],
+  "focusedFollowup": "After full SDK regression, two tests now create their artifacts parent on a clean checkout. Six adapter and five cleanup checks passed again; production sources and package remain unchanged."
+}

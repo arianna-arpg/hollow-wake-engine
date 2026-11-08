@@ -23,6 +23,7 @@ if __name__ == "__main__":
             for asset, name in {"WorkshopContent": "content.json", "WorkshopInspection": "inspection.json",
                                 "WorkshopEquipment": "equipment.json"}.items():
                 (stage / (asset + ".bytes")).write_bytes(source.read("addons/hollow_wake/crafting/" + name))
+            (stage / "ProgressionContent.bytes").write_bytes(source.read("addons/hollow_wake/progression/content.json"))
     elif mode == "pack":
         runpy.run_path(str(pathlib.Path(__file__).with_name("unity-package-archive.py")))["package"](pathlib.Path(first), pathlib.Path(second))
     else:
