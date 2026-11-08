@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "exploratory": true,
+  "productionAdopted": false,
+  "deviceQualified": false,
+  "scope": "Windows native C++ and C# controls plus 579-command original/candidate shared-owner replay and explicit failure/reuse/disposal observations.",
+  "priorAttempt": "The first observer used incorrect numeric status expectations. It is retained as failed; revision 2 reads POISONED and NO_RESPONSE values from the pinned header.",
+  "findings": [
+    "Both native callers match all 579 replies with zero tracked bytes after ordinary disposal.",
+    "At 32 MiB both libraries reach the same script error, refuse subsequent execution as POISONED, and expose NO_RESPONSE without changing metrics.",
+    "The original retains 86,410 bytes after failed-host destruction. The cleanup candidate reaches zero. At 48 MiB both complete the full course.",
+    "No automatic collection policy, engine archive, physical-device or elapsed-time claim is adopted."
+  ],
+  "files": {
+    "inputs.json.gz": "fc87b365317f8ec26d6d3cfd5c69a9f8731fbe64d4f0bb3f4692be9c6fb6d6b7",
+    "r1.json.gz": "569346d863e558b118b2ec21fe607754fae674950ded042672ef8fb641d32597",
+    "r1.raw.json.gz": "775c3cc028dd73f2c586bfb1be6183105106afda9ba769d301206420dae675b7",
+    "r2.json.gz": "a41650402b56c6e0fce8ce2096cb84aa5e3253a7b06893921c134d7ddf8e4f99",
+    "r2.raw.json.gz": "cfe7f91c5200677f50993ee62b03341140520e78e491b13ca7958bfbfec303fa"
+  }
+}

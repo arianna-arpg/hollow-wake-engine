@@ -1,16 +1,7 @@
 name: Verify native string cleanup candidate
+# Historical revision 1 intentionally fails the cold-retry sanitizer expectation.
+# Revision 2 is the automatic qualification; retain explicit reproduction here.
 on:
-  push:
-    paths:
-      - '.github/workflows/embedded-cstring-cleanup.yml'
-      - '.github/actions/prepare-embedded-runtime/**'
-      - 'experiments/embedded-js/patches/**'
-      - 'experiments/embedded-js/host-source-lock.json'
-      - 'experiments/embedded-js/tracked-allocator.h'
-      - 'scripts/embedded-native-tools.mjs'
-      - 'scripts/native-tools.mjs'
-      - 'scripts/reference-utils.mjs'
-  pull_request:
   workflow_dispatch:
 permissions:
   contents: read
