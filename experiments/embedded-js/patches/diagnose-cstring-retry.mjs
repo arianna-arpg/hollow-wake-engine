@@ -25,7 +25,11 @@ try{
  diagnostic=replace(diagnostic,'    FaultHeap heap = {0};','    current_case=test->name;current_after=after;current_stage="setup";\n    FaultHeap heap = {0};');
  diagnostic=replace(diagnostic,'    size_t length = SIZE_MAX;','    current_stage="conversion";\n    size_t length = SIZE_MAX;');
  diagnostic=replace(diagnostic,'    size_t retry_length = 0;','    current_stage="retry";\n    size_t retry_length = 0;');
- diagnostic=replace(diagnostic,'    if (retry) JS_FreeCString(ctx, retry);','    if (!retry && !test->throws) clear_exception(ctx);\n    if (retry) JS_FreeCString(ctx, retry);');
+ diagnostic=replace(diagnostic,'    if (retry) JS_FreeCString(ctx, retry);',
+  '    if (!retry && !test->throws) clear_exception(ctx);\n'+
+  '    if (retry && retry_length!=reference_length) fprintf(stderr,"case=%s after=%zu retryLength=%zu expectedLength=%zu\\n",test->name,after,retry_length,reference_length);\n'+
+  '    if (retry) JS_FreeCString(ctx, retry);');
+ diagnostic=replace(diagnostic,'int main(void) {','int main(void) {\n    setvbuf(stdout,NULL,_IONBF,0);');
  fs.copyFileSync(path.join(root,'experiments/embedded-js/tracked-allocator.h'),path.join(work,'tracked-allocator.h'));
  for(const variant of ['original','patched','original-warm','patched-warm']){
   const directory=path.join(work,variant+'-build');fs.mkdirSync(directory);
@@ -43,7 +47,8 @@ try{
   const fd=fs.openSync(path.join(directory,'build.txt'),'wx');
   try{execFileSync(cc,flags,{cwd:directory,env,stdio:['ignore',fd,fd],timeout:180000});}finally{fs.closeSync(fd);}
   const result=spawnSync(binary,[],{cwd:directory,env,encoding:'utf8',timeout:60000,maxBuffer:8*1024*1024});
-  raw[variant]={source,stdout:result.stdout,stderr:result.stderr,build:fs.readFileSync(path.join(directory,'build.txt'),'utf8')};
+  raw[variant]={source,stdout:result.stdout,stderr:result.stderr,process:{status:result.status,signal:result.signal,error:result.error?.message??null},
+   build:fs.readFileSync(path.join(directory,'build.txt'),'utf8')};
   const cases=result.stdout.trim().split(/\r?\n/).filter(Boolean).map(line=>JSON.parse(line));
   report.rows.push({variant,compiler:cc,flags,status:result.status,signal:result.signal,error:result.error?.message??null,cases});
   assert(!result.error&&!result.signal);assert([0,1].includes(result.status));assert.equal(cases.length,210);
