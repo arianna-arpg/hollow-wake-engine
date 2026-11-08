@@ -13,6 +13,7 @@ on:
       - 'scripts/native-tools.mjs'
       - 'scripts/probe-shared-account-native.py'
       - 'scripts/reference-utils.mjs'
+      - 'scripts/evidence-source.mjs'
       - 'evidence/native-cstring-cleanup/native-followthrough/**'
   workflow_dispatch:
 permissions:
@@ -51,9 +52,11 @@ jobs:
       - name: Verify byte-preserving Unity packaging
         shell: pwsh
         run: |
+          git fetch --no-tags --depth=1 origin 67fa07a50a58380af22fc52e354f0091a9009b55
+          if ($LASTEXITCODE -ne 0) { throw 'Historical parent source fetch failed' }
           python -I -B experiments/embedded-js/patches/test-unity-cleanup-archive.py .artifacts/gameplay-public.tgz
           if ($LASTEXITCODE -ne 0) { throw 'Archive controls failed' }
-          node experiments/embedded-js/patches/package-unity-cleanup.mjs --parent .artifacts/gameplay-public.tgz --runtime .artifacts/qualified-runtime --python (Get-Command python).Source --output .artifacts/unity-cleanup
+          node experiments/embedded-js/patches/package-unity-cleanup.mjs --parent .artifacts/gameplay-public.tgz --runtime .artifacts/qualified-runtime --python (Get-Command python).Source --output .artifacts/unity-cleanup --parent-source-ref 67fa07a50a58380af22fc52e354f0091a9009b55
           if ($LASTEXITCODE -ne 0) { throw 'Package derivation failed' }
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()

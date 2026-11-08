@@ -9,6 +9,7 @@ on:
       - 'scripts/test-save-worker.mjs'
       - 'scripts/native-tools.mjs'
       - 'scripts/reference-utils.mjs'
+      - 'scripts/evidence-source.mjs'
       - 'test/portable-save*'
       - 'test/portable-save-dotnet/**'
       - 'baseline/grouped-saves/**'
@@ -52,7 +53,9 @@ jobs:
       - name: Build standalone Release delivery
         run: node scripts/build-portable-save.mjs --tools .artifacts/save-tools/tools.json --sqlite .artifacts/save-tools/sqlite.zip --output .artifacts/save-delivery
       - name: Verify the retained source-bound Windows checkpoint
-        run: node scripts/check-grouped-save-evidence.mjs
+        run: |
+          git fetch --no-tags --depth=1 origin eb6a01647063aaebe72a19f63ca29fd876288f69
+          node scripts/check-grouped-save-evidence.mjs --source-ref eb6a01647063aaebe72a19f63ca29fd876288f69
       - name: Verify exact Release binary through C and C#
         shell: pwsh
         run: |

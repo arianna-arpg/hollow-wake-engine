@@ -3,6 +3,13 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import {gunzipSync} from 'node:zlib';
 import {root,sha256} from './reference-utils.mjs';
+import {sourceHasher} from './evidence-source.mjs';
+
+// This retained SDK/native checkpoint predates later Unity bindings. Read its
+// actual Git blobs when requested; fresh platform tests still use today's code.
+const checkpoint='eb6a01647063aaebe72a19f63ca29fd876288f69',args=process.argv.slice(2);
+assert(args.length===0||(args.length===2&&args[0]==='--source-ref'&&args[1]===checkpoint));
+const sourceHash=sourceHasher(args.length?checkpoint:null);
 
 const directory=path.join(root,'evidence/grouped-saves');
 const read=file=>JSON.parse(fs.readFileSync(path.join(directory,file)));
@@ -12,12 +19,12 @@ assert.equal(accepted.engineQualification,false);assert.equal(accepted.physicalD
 for(const [file,hash]of Object.entries(accepted.files))
   assert.equal(sha256(fs.readFileSync(path.join(directory,file))),hash,file);
 for(const [file,hash]of Object.entries(accepted.sources))
-  assert.equal(sha256(fs.readFileSync(path.join(root,file))),hash,file);
+  assert.equal(sourceHash(file),hash,file);
 const reports=JSON.parse(gunzipSync(fs.readFileSync(path.join(directory,'windows-raw.json.gz'))));
 for(const name of ['build','contracts','worker']){
   const report=reports[name];assert(report.passed,name);
   for(const [file,hash]of Object.entries(report.sources))
-    assert.equal(sha256(fs.readFileSync(path.join(root,file))),hash,name+': '+file);
+    assert.equal(sourceHash(file),hash,name+': '+file);
 }
 const {build,contracts,worker,sdk}=reports;
 assert.equal(build.version,'0.2.0-preview.1');assert.equal(build.abi,1);
@@ -47,7 +54,7 @@ assert.equal(sha256(gunzipSync(fs.readFileSync(path.join(directory,'sdk-verify.t
 // stability flag rather than claiming it tested those native files.
 const changed=[];
 for(const [file,hash]of Object.entries(sdk.sources)){
-  const current=sha256(fs.readFileSync(path.join(root,file)));
+  const current=sourceHash(file);
   if(current!==hash){
     assert.equal(build.sources[file],current,'Changed SDK source lacks native qualification: '+file);
     changed.push(file);

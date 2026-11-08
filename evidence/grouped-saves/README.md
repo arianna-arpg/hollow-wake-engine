@@ -9,6 +9,10 @@ windows.json identifies the accepted Release DLL. windows-raw.json.gz retains
 its build receipt, C++/C/C# observations, sleeping-worker checks and full SDK
 regression receipt. sdk-verify.txt.gz preserves that regression's complete log.
 The source-bound checker is scripts/check-grouped-save-evidence.mjs.
+For this historical checkpoint, run it with
+`--source-ref eb6a01647063aaebe72a19f63ca29fd876288f69`; it reads and hashes the
+actual committed source blobs. The default mode still requires matching local
+sources. Hosted native builds and tests use the current checkout separately.
 superseded.json.gz retains earlier successful test/build receipts from before
 the final read-boundary corrections; their generated binaries were removed.
 
@@ -25,7 +29,7 @@ independent worker course retains its cancellation and thread-launch controls.
 
 Two native read-boundary corrections were made during the full SDK regression.
 The original receipt's whole-source stability flag remains false; the checker
-requires every SDK source to be unchanged and both native files to match the
+requires every SDK source at that checkpoint to be unchanged and both native files to match the
 separately qualified final Release build and consumers. No native coverage is
 inferred from the TypeScript regression.
 
