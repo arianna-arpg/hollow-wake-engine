@@ -17,7 +17,24 @@ def verify(args):
     try:
         original=read(args.storage/'package-receipt.json');prior=json.loads(gzip.decompress((ROOT/proof).read_bytes()))['standalone']['result']['package']
         assert prior['sha256']=='6d22281f2ba07e7631270e9af19bf11d5e512be54254bbc8bb230b574714428b'
-        assert original['parentSha256']==prior['sha256'] and original['nativeSha256']==prior['nativeSha256']
+        assert original['nativeSha256']==prior['nativeSha256']
+        if original['parentSha256']!=prior['sha256']:
+            # A release preview can add guides/version metadata above the
+            # equipment candidate. Verify that complete Runtime boundary from
+            # actual archive bytes, rather than rewriting its recorded parent.
+            accepted_name='evidence/shared-account-equipment/acceptance.json'
+            reports_name='evidence/shared-account-equipment/reports.json.gz'
+            archive_helper='experiments/embedded-js/patches/unity-cleanup-archive.py'
+            accepted=read(ROOT/accepted_name);body=(ROOT/reports_name).read_bytes()
+            assert accepted['passed'] and hashlib.sha256(body).hexdigest()==accepted['files']['reports.json.gz']
+            candidate=json.loads(gzip.decompress(body))['equipmentFaults']['control']['packages']['storage']
+            assert original['parentSha256']==candidate['sha256'] and candidate['parentSha256']==prior['sha256']
+            assert candidate['nativeSha256']==prior['nativeSha256']
+            entries=runpy.run_path(str(ROOT/archive_helper))['load'](args.storage/original['file'])
+            runtime={file:hashlib.sha256(content).hexdigest() for file,content in entries.items() if file.startswith('package/Runtime/')}
+            assert runtime=={file:sha for file,sha in candidate['files'].items() if file.startswith('package/Runtime/')}
+            for name in [accepted_name,reports_name,archive_helper]:sources[name]=digest(ROOT/name)
+            report['runtimeCandidateParent']=candidate['sha256'];report['runtimeCandidateEvidenceSha256']=digest(ROOT/accepted_name)
         for file,sha in prior['nativeSources'].items():assert digest(ROOT/file)==sha;sources[file]=sha
         archive=args.storage/original['file'];assert archive.parent==args.storage and digest(archive)==original['sha256']
         package=owned/'package';package.mkdir();shutil.copyfile(archive,package/archive.name)
