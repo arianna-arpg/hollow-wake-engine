@@ -7,6 +7,7 @@ on:
       - 'experiments/embedded-js/**'
       - 'scripts/test-native-idle-collection.mjs'
       - 'scripts/check-native-idle-evidence.mjs'
+      - 'scripts/evidence-source.mjs'
       - 'scripts/embedded-native-tools.mjs'
       - 'scripts/native-tools.mjs'
       - 'scripts/reference-utils.mjs'
@@ -32,6 +33,8 @@ jobs:
         with:
           node-version: 24.9.0
       - uses: ./.github/actions/prepare-embedded-runtime
+      - name: Fetch the SDK source associated with retained verification
+        run: git fetch --no-tags --depth=1 origin ee663a3449fbaa29e67ba65b5293f300a97ff837
       - name: Verify accepted source-bound observations
         run: node scripts/check-native-idle-evidence.mjs
       - name: Download the exact public workload

@@ -3,15 +3,14 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import {gunzipSync} from 'node:zlib';
 import {root,sha256} from './reference-utils.mjs';
+import {sourceHasher} from './evidence-source.mjs';
 
 const directory=path.join(root,'evidence/unity-account-storage');
 const read=file=>JSON.parse(fs.readFileSync(path.join(directory,file)));
 const hash=file=>sha256(fs.readFileSync(file));
-const sourceHash=file=>{
-  const relative=file.replaceAll('\\','/');
-  assert(!relative.startsWith('/')&&!relative.includes(':')&&!relative.split('/').includes('..'));
-  return hash(path.join(root,relative));
-};
+const args=process.argv.slice(2),release='86b75485c3497f2f0b854c8cdfeed07c8802806f';
+assert(args.length===0||(args.length===2&&args[0]==='--source-ref'&&args[1]===release));
+const sourceHash=sourceHasher(args.length?release:null);
 const acceptance=read('acceptance.json'),reports=read('reports.json');
 assert(acceptance.passed && acceptance.physicalDeviceQualification===false);
 for(const[file,sha]of Object.entries(acceptance.files))assert.equal(hash(path.join(directory,file)),sha,file);

@@ -3,6 +3,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import {gunzipSync} from 'node:zlib';
 import {root, sha256} from './reference-utils.mjs';
+import {sourceHasher} from './evidence-source.mjs';
 
 const dir = path.join(root, 'evidence/native-idle-collection');
 const report = JSON.parse(fs.readFileSync(path.join(dir, 'windows.json')));
@@ -39,8 +40,9 @@ const sdk = JSON.parse(fs.readFileSync(path.join(dir, 'sdk-verification.json')))
 assert(sdk.passed && sdk.unchanged && sdk.results.length === 1);
 assert.equal(sdk.results[0].name, 'verify'); assert.equal(sdk.results[0].exitCode, 0);
 assert(!sdk.results[0].signal && !sdk.results[0].error);
+const sdkSourceHash=sourceHasher(sdk.sourceCommit??null);
 for (const [file, hash] of Object.entries(sdk.sources))
-  assert.equal(sha256(fs.readFileSync(path.join(root, file.replaceAll('\\', '/')))), hash, file);
+  assert.equal(sdkSourceHash(file), hash, file);
 const cleanup = JSON.parse(fs.readFileSync(path.join(dir, 'cleanup.json')));
 assert(cleanup.passed && cleanup.foldersRemoved === 68 && cleanup.bytesRemoved === 333992810);
 const hosted = JSON.parse(fs.readFileSync(path.join(dir, 'hosted-run.json')));

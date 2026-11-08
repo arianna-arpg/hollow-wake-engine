@@ -14,10 +14,14 @@ on:
       - 'scripts/verify-unity-progression.py'
       - 'scripts/verify-unity-account-storage.py'
       - 'scripts/check-unity-account-storage-evidence.mjs'
+      - 'scripts/check-prepared-account-evidence.mjs'
+      - 'scripts/evidence-source.mjs'
       - 'scripts/test-unity-progression-faults.py'
       - 'scripts/verify-live-equipment-unity.py'
       - 'scripts/test-live-equipment-unity-faults.py'
       - 'adapters/unity/**'
+      - 'adapters/unity-shared-account/**'
+      - 'evidence/prepared-account/**'
       - 'adapters/embedded/equipment-session.mjs'
       - 'src/crafting-session.ts'
       - 'test/unity-live-equipment/**'
@@ -61,8 +65,14 @@ jobs:
         run: git fetch --no-tags --depth=1 origin 67fa07a50a58380af22fc52e354f0091a9009b55
       - name: Check progression evidence at its release source
         run: node scripts/check-unity-progression-evidence.mjs --source-ref 67fa07a50a58380af22fc52e354f0091a9009b55
-      - name: Check current account/storage composition evidence
-        run: node scripts/check-unity-account-storage-evidence.mjs
+      - name: Fetch the immutable account/storage release source
+        run: git fetch --no-tags --depth=1 origin 86b75485c3497f2f0b854c8cdfeed07c8802806f
+      - name: Check account/storage evidence at its release source
+        run: node scripts/check-unity-account-storage-evidence.mjs --source-ref 86b75485c3497f2f0b854c8cdfeed07c8802806f
+      - name: Fetch the prepared-account SDK verification source
+        run: git fetch --no-tags --depth=1 origin ee663a3449fbaa29e67ba65b5293f300a97ff837
+      - name: Check recorded shared-account candidate observations
+        run: node scripts/check-prepared-account-evidence.mjs
       - name: Exercise the current progression adapter
         run: node --test test/unity-progression-entry.test.mjs
       - name: Verify owned Unity fixture cleanup

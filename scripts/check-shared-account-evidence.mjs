@@ -2,6 +2,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {root,sha256} from './reference-utils.mjs';
+import {sourceHasher} from './evidence-source.mjs';
+const args=process.argv.slice(2),release='c46c3ddfd35c4700e5e432555399f6027f77ba4d';
+assert(args.length===0||(args.length===2&&args[0]==='--source-ref'&&args[1]===release));
+const sourceHash=sourceHasher(args.length?release:null);
 const directory=path.join(root,'evidence/shared-account');
 const read=file=>JSON.parse(fs.readFileSync(path.join(directory,file)));
 const acceptance=read('acceptance.json'),reports=read('reports.json');
@@ -15,7 +19,7 @@ const requireSources=map=>{
   assert(Object.keys(map).length>0);
   for(const[file,hash]of Object.entries(map)){
     assert(!path.isAbsolute(file)&&!file.includes('..'));
-    assert.equal(sha256(fs.readFileSync(path.join(root,file))),hash,file);
+    assert.equal(sourceHash(file),hash,file);
   }
 };
 requireSources(acceptance.sources);

@@ -1,14 +1,19 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {gunzipSync} from 'node:zlib';
 import {root,sha256} from './reference-utils.mjs';
+import {sourceHasher} from './evidence-source.mjs';
 import {qualifiedRuntimeSources,verifyQualifiedRuntime} from '../experiments/embedded-js/patches/verify-qualified-runtime.mjs';
 const directory=path.join(root,'evidence/unity-runtime-cleanup');
+const args=process.argv.slice(2),release='aab27026a0433092b0f741aae2c626248541c3c2';
+let sourceRef=null;
+if(args[0]==='--source-ref'){assert.equal(args[1],release);sourceRef=release;args.splice(0,2);}
+const sourceHash=sourceHasher(sourceRef);
 const read=file=>JSON.parse(fs.readFileSync(file)),unpack=file=>JSON.parse(gunzipSync(fs.readFileSync(file)));
 const accepted=read(path.join(directory,'acceptance.json')),reports=unpack(path.join(directory,'reports.json.gz'));
 const observations=unpack(path.join(directory,'observations.json.gz'));
 assert(accepted.passed&&accepted.physicalDeviceQualification===false&&accepted.automaticCollection===false);
 for(const[file,hash]of Object.entries(accepted.files))assert.equal(sha256(fs.readFileSync(path.join(directory,file))),hash,file);
 for(const[file,hash]of Object.entries(accepted.sources)){
- assert(!path.isAbsolute(file)&&!file.includes('..'));assert.equal(sha256(fs.readFileSync(path.join(root,file))),hash,file);
+ assert(!path.isAbsolute(file)&&!file.includes('..'));assert.equal(sourceHash(file),hash,file);
 }
 const pack=reports.progression.package,parent=read(path.join(root,'evidence/unity-progression/reports.json')).progression.package;
 assert.equal(pack.version,'0.4.1-preview.1');assert.equal(pack.sha256,accepted.gameplaySha256);
@@ -134,6 +139,6 @@ assert.notEqual(hosted.package.nativeSha256,accepted.nativeSha256);assert(hosted
 assert.equal(hosted.package.archiveChanges.preservedFiles,62);assert.deepEqual(hosted.controls,reports.controls);
 assert.equal(sha256(gunzipSync(fs.readFileSync(path.join(directory,'hosted-log.txt.gz')))),hosted.logSha256);
 for(const row of hosted.collection.rows)assert(row.replySha256===collection.rows[0].replySha256&&row.closedBytes===0&&row.closedBlocks===0&&row.requests===450);
-const args=process.argv.slice(2);assert(args.length===0||(args.length===4&&args[0]==='--runtime'&&args[2]==='--archive'));
+assert(args.length===0||(args.length===4&&args[0]==='--runtime'&&args[2]==='--archive'));
 if(args.length){assert.deepEqual(verifyQualifiedRuntime(args[1]),native);assert.equal(sha256(fs.readFileSync(args[3])),accepted.gameplaySha256);}
 console.log({passed:true,version:pack.version,nativeCallers:579,collectionReplays:3,progressionStepsEach:104,retainedEach:{combat:60,pouches:2334,workshop:56},durableFaults:4,physicalDeviceQualification:false});
