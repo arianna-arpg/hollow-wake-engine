@@ -1,0 +1,67 @@
+name: Qualify repaired Windows runtime
+on:
+  push:
+    paths:
+      - '.github/workflows/qualified-runtime.yml'
+      - '.github/actions/prepare-embedded-runtime/**'
+      - 'experiments/embedded-js/patches/**'
+      - 'experiments/embedded-js/native/**'
+      - 'experiments/embedded-js/tracked-allocator.h'
+      - 'experiments/embedded-js/host-source-lock.json'
+      - 'experiments/embedded-js/measurements/startup-inputs.py'
+      - 'scripts/embedded-native-tools.mjs'
+      - 'scripts/native-tools.mjs'
+      - 'scripts/probe-shared-account-native.py'
+      - 'scripts/reference-utils.mjs'
+      - 'evidence/native-cstring-cleanup/native-followthrough/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  runtime:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.9.0
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 8.0.x
+      - uses: ./.github/actions/prepare-embedded-runtime
+      - name: Build and qualify the source-pinned native runtime
+        shell: pwsh
+        run: |
+          node experiments/embedded-js/patches/build-qualified-runtime.mjs --amalgam-dir .artifacts/embedded-host-upstream --python (Get-Command python).Source --output .artifacts/qualified-runtime
+          if ($LASTEXITCODE -ne 0) { throw 'Native runtime qualification failed' }
+          node experiments/embedded-js/patches/test-qualified-runtime.mjs .artifacts/qualified-runtime
+          if ($LASTEXITCODE -ne 0) { throw 'Runtime receipt controls failed' }
+      - name: Fetch frozen public workloads
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Invoke-WebRequest 'https://github.com/arianna-arpg/hollow-wake-engine/releases/download/unity-workshop-v0.2.0-preview.1/com.hollowwake.gameplay-0.2.0-preview.1.tgz' -OutFile .artifacts/workshop-public.tgz
+          Invoke-WebRequest 'https://github.com/arianna-arpg/hollow-wake-engine/releases/download/unity-progression-v0.4.0-preview.1/com.hollowwake.gameplay-0.4.0-preview.1.tgz' -OutFile .artifacts/gameplay-public.tgz
+      - name: Verify collection on the exact candidate DLL
+        shell: pwsh
+        run: node experiments/embedded-js/patches/test-qualified-collection.mjs --runtime .artifacts/qualified-runtime --package .artifacts/workshop-public.tgz --python (Get-Command python).Source --output .artifacts/qualified-collection.json
+      - name: Verify byte-preserving Unity packaging
+        shell: pwsh
+        run: |
+          python -I -B experiments/embedded-js/patches/test-unity-cleanup-archive.py .artifacts/gameplay-public.tgz
+          if ($LASTEXITCODE -ne 0) { throw 'Archive controls failed' }
+          node experiments/embedded-js/patches/package-unity-cleanup.mjs --parent .artifacts/gameplay-public.tgz --runtime .artifacts/qualified-runtime --python (Get-Command python).Source --output .artifacts/unity-cleanup
+          if ($LASTEXITCODE -ne 0) { throw 'Package derivation failed' }
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: qualified-windows-runtime
+          include-hidden-files: true
+          if-no-files-found: error
+          path: |
+            .artifacts/qualified-runtime/
+            .artifacts/qualified-collection.json*
+            .artifacts/unity-cleanup/
