@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "contractRevision": 2,
+  "productionAdopted": false,
+  "deviceQualified": false,
+  "scope": "Windows x64 cold behavior comparison and initialized ownership; Linux sanitizers and native host integration remain separate.",
+  "sources": {
+    "experiments/embedded-js/patches/cstring-cleanup.json": "55e41a155bbd172aac03e5d7ac3d5a452ad8ebe2946c4eb2773b63e1205a92c3",
+    "experiments/embedded-js/patches/cstring-cleanup.mjs": "2df882f0ae359fcbf2336c2604546342a5454cec7f14faff3fc6132f0464b2b4",
+    "experiments/embedded-js/patches/cstring-contracts-v2.c": "740fcb713ce4a3c117ac75fcf56fbf050238b0fd05e60d0e166f34d09eb9da35",
+    "experiments/embedded-js/patches/test-cstring-cleanup-v2.mjs": "8cdd51bf996173f829db32323c158d7e5feca12c75c9160de4103f77d42943d5",
+    "experiments/embedded-js/patches/verify-cstring-v2.mjs": "cfe859c4010d002f9fe138812a329ef08719d42d7ca0e717cb2ca9527e55b9a9",
+    "experiments/embedded-js/tracked-allocator.h": "5c8e5cbf6412a3b9edf93826e190524221dc0cecc77f903690352f2a8c01ac0f",
+    "experiments/embedded-js/host-source-lock.json": "f920648cfa2b7b8ca35597106d94d3a990360f0b8441c9039a72e74706da6ffa",
+    "scripts/embedded-native-tools.mjs": "b30ebdf8ff830261d1e45c9bb4a4b2e4667bbdb750c9b0f5c54586f0833b40d6",
+    "scripts/native-tools.mjs": "80671f3913e94caaecc8d18ab0c87d95aa3cb978201f38896291a4b823db5b89",
+    "scripts/reference-utils.mjs": "e36edca23dfd5ac73f203599495a1bc348e2fc90689c5c922154f7da0a40feeb",
+    "experiments/embedded-js/patches/test-cstring-v2-evidence.mjs": "affbaa1a8780def0a3633cf2777b99e465205f26447416bd3a581166c18d90d0",
+    "experiments/embedded-js/patches/check-cstring-v2-evidence.mjs": "0c24e2bb610b4752d7b667a125fb01c0189cce7c330b69662dc20041f4557180",
+    "experiments/embedded-js/patches/cstring-v2.md": "cb362082031ac7b0f2554353ee763f6ab265bd820a5f0114493a84bacaa3bf4a",
+    ".github/workflows/cstring-cleanup-v2.yml": "c5df07857d8e27c936f6b310c7556f31f289d5635ab4486c09db159bd243351c",
+    "evidence/native-cstring-cleanup/retry-diagnosis/finding.json": "470c14981dce73b44af2c4e88a86c3922b007836d9ce62b4ab2fac0ec2d8249d"
+  },
+  "files": {
+    "windows.json.gz": "73974ca3a4dff2c522b0d8012b0d2c2a8b96a67fed303bf0fd8282427a0eb9a3",
+    "windows.raw.json.gz": "1e7da6ba81a142e889374e750776af53ae77d436174ceccdddbc96e0d73035db",
+    "controls.json": "e803cd58b59a6b5a55b2abc657e0bcbde76f783584a7ddba41e2941e2b2780ed"
+  }
+}

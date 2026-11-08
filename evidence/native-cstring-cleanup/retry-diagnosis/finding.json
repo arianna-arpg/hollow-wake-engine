@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "exploratory": true,
+  "productionAccepted": false,
+  "diagnosticCommit": "255824f6a23ba0ffb3dff47615b041cfa85536ac",
+  "candidateCommit": "428bd98c8ecafac2061420bc4eecb5c6172f630e",
+  "initialCollectorCommit": "362697f4b9244a65cd1d66fc2514cc5f77fe3da4",
+  "workflow": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42511258366",
+  "observed": [
+    {
+      "variant": "original",
+      "status": 1,
+      "cases": 210,
+      "contentFailures": 12,
+      "leaks": 34
+    },
+    {
+      "variant": "patched",
+      "status": 1,
+      "cases": 210,
+      "contentFailures": 12,
+      "leaks": 0
+    },
+    {
+      "variant": "original-warm",
+      "status": 1,
+      "cases": 210,
+      "contentFailures": 0,
+      "leaks": 28
+    },
+    {
+      "variant": "patched-warm",
+      "status": 0,
+      "cases": 210,
+      "contentFailures": 0,
+      "leaks": 0
+    }
+  ],
+  "recordedRetryErrors": [
+    "case=object after=0 stage=retry error=not a function",
+    "case=object after=0 stage=retry error=not a function",
+    "case=object after=1 stage=retry error=not a function",
+    "case=object after=1 stage=retry error=not a function",
+    "case=object after=2 stage=retry error=not a function",
+    "case=object after=2 stage=retry error=not a function",
+    "case=error-object after=0 retryLength=8192 expectedLength=8199",
+    "case=error-object after=0 retryLength=8192 expectedLength=8199",
+    "case=error-object after=1 retryLength=8192 expectedLength=8199",
+    "case=error-object after=1 retryLength=8192 expectedLength=8199",
+    "case=error-object after=2 retryLength=8192 expectedLength=8199",
+    "case=error-object after=2 retryLength=8192 expectedLength=8199"
+  ],
+  "sources": {
+    "experiments/embedded-js/patches/diagnose-cstring-retry.mjs": "fcf6caa9e23556ccb201b0eb73b37fc145247ee639ebe7e1155dd36d7cbaa2cd",
+    "experiments/embedded-js/patches/cstring-contracts.c": "55a4b8704fe133f5a15408aaaa194d3e3c4af375d64a123ddf11568821f05e6b",
+    "experiments/embedded-js/patches/cstring-cleanup.mjs": "2df882f0ae359fcbf2336c2604546342a5454cec7f14faff3fc6132f0464b2b4",
+    "experiments/embedded-js/patches/cstring-cleanup.json": "55e41a155bbd172aac03e5d7ac3d5a452ad8ebe2946c4eb2773b63e1205a92c3",
+    "experiments/embedded-js/host-source-lock.json": "f920648cfa2b7b8ca35597106d94d3a990360f0b8441c9039a72e74706da6ffa",
+    "experiments/embedded-js/tracked-allocator.h": "5c8e5cbf6412a3b9edf93826e190524221dc0cecc77f903690352f2a8c01ac0f"
+  },
+  "files": {
+    "initial-collector.json.gz": "00908a0c241e5eef01966293329ede0b3b84bb91c672493d8ae3cf8f6ae2c027",
+    "initial-collector.raw.json.gz": "47c98d96d24a7bb559d6e1ac38675476adaf8544480068fa344ec16872b013b2",
+    "initial-qualification.json.gz": "2c2f7fddf677a1c87dca775a931ad95ff8a30d0abc4e124f38d9826c91aafc4c",
+    "initial-qualification.raw.json.gz": "65c032d00c5c142ce58bbe5aa7ddf592bd415af017f5cce04dbcd8de90e43d6e",
+    "observed.json.gz": "48774104d40980c21f5b7eefe8bcf198d2dee5421ba77e40285345d632a6f7b3",
+    "observed.raw.json.gz": "954500959a4e762014c08ff3e2719aaa69368169ca80c2367d4e5337042b1427"
+  },
+  "conclusion": "Cold original and patched sanitized builds have the same recorded object retry errors and shortened Error conversion. Warmed patched conversion passes all 210 cases without tracked leaks; original still leaks. The initial universal cold-retry expectation exceeded the native poisoned-host boundary.",
+  "next": "Revise the focused contract with explicit cold original/candidate comparison and strict initialized ownership checks. Preserve poisoned-host behavior and qualify the native/engine integration before adoption."
+}
