@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "revision": 2,
+  "capturedBeforeImplementation": false,
+  "supersedes": "baseline/shared-account/acceptance.json",
+  "reason": "Revision 1 seeded a crafted socket on a Lapis Ring, whose source socket capacity is zero. Revision 2 uses a socket-capable helmet for the craft target; source rules and accepted revision 1 are unchanged.",
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "predecessor": "86b75485c3497f2f0b854c8cdfeed07c8802806f",
+  "helper": "reference/export-shared-account-admitted.ts",
+  "helperSha256": "ca0028b079693d126dafcb5a1d5fc188977c9c659db74f4a15cb5530fbd9ed4e",
+  "methods": {
+    "engine/world.ts#breakOneItem": "b177cee97faba7c296bfb9ab829305be60b4719b8f5739c4ebe1afcfeeead342",
+    "engine/world.ts#salvageItem": "a770e7fe773e7e5a73098c444e14ed10266d3c69f48705831e35cf20a72cfadc",
+    "engine/world.ts#salvageLane": "27292432745b2a593be55c4cd2a4bd47312840180eef97be2fae16f34964038b",
+    "engine/world.ts#craftSlots": "f811afc66d275256632046d306b8ea3c6a7bf749b7e04b0a6c9bf0d1732027ac",
+    "engine/world.ts#craftAffix": "42739d776184d50e52f56f848cc9fb69287707b4b300a8073445ba5cf84a251c",
+    "meta/unlocks.ts#applyUnlock": "95c6dd9a71013a835956d26f491b7bc683be0d934ab6ffa400739b96f3e76a89",
+    "meta/unlocks.ts#investUnlock": "320e4bf088940b8eebbaa3fb482cc6ea1c659e2b9fa3c802adf8d01da467f008",
+    "meta/unlocks.ts#grantUnlock": "2fc86557bb56bd594a0e5c20351c58277637f868fbacdec1d2753925304cd106",
+    "meta/unlocks.ts#isUnlockVisible": "0d6948439ad419b67e91bb260193a3fce5e6ea482cf1b167efa496e4172a48a2",
+    "meta/unlocks.ts#isUnlockOwned": "d0bac55ff595b710d4f8630e5c18a4004c187a308cf61c898228c0ffdbd0a438",
+    "meta/unlocks.ts#remainingCost": "c6b8e522797ea4813ea7b6f8a6659aaa6df24a992e69b7a08a8dcedc1f574c0e",
+    "meta/account.ts#makeAccount": "258270992b5785a9a5cbd6977f6618cf5848f3ef69c31b5e48f16406db36e95b",
+    "meta/account.ts#serializeAccount": "ace7e15edfa27addf95f10899bd23516cbe32165d732a7b386e01a793049d90d",
+    "engine/crafting.ts#studySalvage": "e50e040457fd1fa3e89f9f2821bd369637898349062bf6204a521986efd9b9a0",
+    "engine/crafting.ts#craftableAffixesFor": "6fae29beeebf4bdee97b29404ee4d12d4628cfa20b3e9c98d720a4dbbcb201a9",
+    "engine/crafting.ts#CRAFT_CFG": "71d637b8a85652137d18fe133ce6d0234c8ed7ea63ee99220f77d84761a88498"
+  },
+  "fixture": "baseline/shared-account/admitted-socket/observations.json.gz",
+  "sha256": "d5763d1153a375a3d2e9098bf9d8c4546809665926d90c59caba986ec0f327c1",
+  "compressedSha256": "08d560ae540ab5a1f5cf1a4c42748d7f4611ecf4d5f8e744afbf8abccce77f09",
+  "bytes": 152271,
+  "compressedBytes": 3458,
+  "scenarios": 10,
+  "steps": 30,
+  "faults": [
+    {
+      "name": "missing-ledger",
+      "file": "engine/world.ts",
+      "detected": true,
+      "status": 1,
+      "assertion": true,
+      "traceChanged": false,
+      "logSha256": "5361aa0e75a831ea48e254d5361d45c2b2ee652bd92e80d52fac8e9832210e49"
+    },
+    {
+      "name": "double-ledger",
+      "file": "engine/world.ts",
+      "detected": true,
+      "status": 1,
+      "assertion": true,
+      "traceChanged": false,
+      "logSha256": "be41013a429d637bdf93705ecce6407bcd0c4600201d01a05cd7232400dd717f"
+    },
+    {
+      "name": "detached-lore",
+      "file": "engine/world.ts",
+      "detected": true,
+      "status": 1,
+      "assertion": true,
+      "traceChanged": false,
+      "logSha256": "f5b21f724963910ad4dcfc3a2be85aeb47bf08f2909ddb67e48bf3b6da8b76db"
+    },
+    {
+      "name": "stale-feature",
+      "file": "engine/world.ts",
+      "detected": true,
+      "status": 1,
+      "assertion": true,
+      "traceChanged": false,
+      "logSha256": "01b2a62de150b23a243a4104832bbe4e41e983a16e6aa52d66d7d28848d3a7ce"
+    },
+    {
+      "name": "ignore-sealed-progression",
+      "file": "engine/world.ts",
+      "detected": true,
+      "status": 1,
+      "assertion": true,
+      "traceChanged": false,
+      "logSha256": "05cf348d69c49f17f5bbf0a66d3455b822be4a6aaa65bbcd37990d28e1babed2"
+    },
+    {
+      "name": "teach-on-sale",
+      "file": "engine/world.ts",
+      "detected": true,
+      "status": 1,
+      "assertion": true,
+      "traceChanged": false,
+      "logSha256": "05cf348d69c49f17f5bbf0a66d3455b822be4a6aaa65bbcd37990d28e1babed2"
+    },
+    {
+      "name": "missing-feature-grant",
+      "file": "meta/unlocks.ts",
+      "detected": true,
+      "status": 1,
+      "assertion": true,
+      "traceChanged": false,
+      "logSha256": "01b2a62de150b23a243a4104832bbe4e41e983a16e6aa52d66d7d28848d3a7ce"
+    },
+    {
+      "name": "insufficient-purchase-spends",
+      "file": "meta/unlocks.ts",
+      "detected": true,
+      "status": 1,
+      "assertion": true,
+      "traceChanged": false,
+      "logSha256": "14cdc3566b8f8aa7375f2727855aa66d2cc45b32cb2f7f7c8c2be471460de6da"
+    },
+    {
+      "name": "drop-saved-lore",
+      "file": "meta/account.ts",
+      "detected": true,
+      "status": 0,
+      "assertion": false,
+      "traceChanged": true,
+      "logSha256": "66fa6cede51c87a59699e6fbc80131d8affc38acdc228b2f8750b4955176d3a9"
+    }
+  ]
+}

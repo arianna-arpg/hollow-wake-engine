@@ -1,5 +1,11 @@
 # Verification and reproduction
 
+The [shared account course](shared-account.md) compares 30 original-game steps
+and independent multi-character ownership/continuation contracts. Both the
+original fixture and its documented socket correction remain reproducible.
+Package qualification adds installed/browser consumers and deliberate authority
+faults; it does not establish the new composition's native-engine/device support.
+
 The [Unity account/storage boundary](unity-account-storage.md) composes account
 and workshop saves with private candidates, atomic revision checks and one
 committed view. Its current evidence checker is separate from the unchanged

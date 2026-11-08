@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "capturedBeforeImplementation": true,
+  "sourceLockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+  "predecessor": "86b75485c3497f2f0b854c8cdfeed07c8802806f",
+  "helper": "reference/export-shared-account.ts",
+  "helperSha256": "36d9e6b0c2f21895bd635424d1218f1be3fc09afdaa2f5b53a38b0d7ec1f73d8",
+  "methods": {
+    "engine/world.ts#breakOneItem": "b177cee97faba7c296bfb9ab829305be60b4719b8f5739c4ebe1afcfeeead342",
+    "engine/world.ts#salvageItem": "a770e7fe773e7e5a73098c444e14ed10266d3c69f48705831e35cf20a72cfadc",
+    "engine/world.ts#salvageLane": "27292432745b2a593be55c4cd2a4bd47312840180eef97be2fae16f34964038b",
+    "engine/world.ts#craftSlots": "f811afc66d275256632046d306b8ea3c6a7bf749b7e04b0a6c9bf0d1732027ac",
+    "engine/world.ts#craftAffix": "42739d776184d50e52f56f848cc9fb69287707b4b300a8073445ba5cf84a251c",
+    "meta/unlocks.ts#applyUnlock": "95c6dd9a71013a835956d26f491b7bc683be0d934ab6ffa400739b96f3e76a89",
+    "meta/unlocks.ts#investUnlock": "320e4bf088940b8eebbaa3fb482cc6ea1c659e2b9fa3c802adf8d01da467f008",
+    "meta/unlocks.ts#grantUnlock": "2fc86557bb56bd594a0e5c20351c58277637f868fbacdec1d2753925304cd106",
+    "meta/unlocks.ts#isUnlockVisible": "0d6948439ad419b67e91bb260193a3fce5e6ea482cf1b167efa496e4172a48a2",
+    "meta/unlocks.ts#isUnlockOwned": "d0bac55ff595b710d4f8630e5c18a4004c187a308cf61c898228c0ffdbd0a438",
+    "meta/unlocks.ts#remainingCost": "c6b8e522797ea4813ea7b6f8a6659aaa6df24a992e69b7a08a8dcedc1f574c0e",
+    "meta/account.ts#makeAccount": "258270992b5785a9a5cbd6977f6618cf5848f3ef69c31b5e48f16406db36e95b",
+    "meta/account.ts#serializeAccount": "ace7e15edfa27addf95f10899bd23516cbe32165d732a7b386e01a793049d90d",
+    "engine/crafting.ts#studySalvage": "e50e040457fd1fa3e89f9f2821bd369637898349062bf6204a521986efd9b9a0",
+    "engine/crafting.ts#craftableAffixesFor": "6fae29beeebf4bdee97b29404ee4d12d4628cfa20b3e9c98d720a4dbbcb201a9",
+    "engine/crafting.ts#CRAFT_CFG": "71d637b8a85652137d18fe133ce6d0234c8ed7ea63ee99220f77d84761a88498"
+  },
+  "fixture": "baseline/shared-account/observations.json.gz",
+  "sha256": "4d43a3e2ab00b93687ec3045d3ea2a428638b1ea113781da353303b54858aaee",
+  "compressedSha256": "15dc6037c73a24e724e7bc9284854508a5f1af23be6c4f9201fbbf60868679e7",
+  "bytes": 151431,
+  "compressedBytes": 3398,
+  "scenarios": 10,
+  "steps": 30,
+  "faults": [
+    {
+      "name": "missing-ledger",
+      "file": "engine/world.ts",
+      "detected": true,
+      "status": 1,
+      "assertion": true,
+      "traceChanged": false,
+      "logSha256": "71096738a294991d44fad384a26d6a05a5da4e72d5c5a321f5d8f3ddaf086678"
+    },
+    {
+      "name": "double-ledger",
+      "file": "engine/world.ts",
+      "detected": true,
+      "status": 1,
+      "assertion": true,
+      "traceChanged": false,
+      "logSha256": "4762eff0871311282ee8ffb726e5ca64128a5a76433b84faa594b85f300c8591"
+    },
+    {
+      "name": "detached-lore",
+      "file": "engine/world.ts",
+      "detected": true,
+      "status": 1,
+      "assertion": true,
+      "traceChanged": false,
+      "logSha256": "44f3e149dd600f6d7beca5b5732131f3758d797185ba0c4d53ee4e90ed01afbe"
+    },
+    {
+      "name": "stale-feature",
+      "file": "engine/world.ts",
+      "detected": true,
+      "status": 1,
+      "assertion": true,
+      "traceChanged": false,
+      "logSha256": "286e506c56d5640b5dff97bcf68555d49cf004ea59d3db6acb4d2e6cdbe0e6f9"
+    },
+    {
+      "name": "ignore-sealed-progression",
+      "file": "engine/world.ts",
+      "detected": true,
+      "status": 1,
+      "assertion": true,
+      "traceChanged": false,
+      "logSha256": "50820086712f08386055e502476895ed610aedbdbffdb76bf9df54c861b51f28"
+    },
+    {
+      "name": "teach-on-sale",
+      "file": "engine/world.ts",
+      "detected": true,
+      "status": 1,
+      "assertion": true,
+      "traceChanged": false,
+      "logSha256": "50820086712f08386055e502476895ed610aedbdbffdb76bf9df54c861b51f28"
+    },
+    {
+      "name": "missing-feature-grant",
+      "file": "meta/unlocks.ts",
+      "detected": true,
+      "status": 1,
+      "assertion": true,
+      "traceChanged": false,
+      "logSha256": "286e506c56d5640b5dff97bcf68555d49cf004ea59d3db6acb4d2e6cdbe0e6f9"
+    },
+    {
+      "name": "insufficient-purchase-spends",
+      "file": "meta/unlocks.ts",
+      "detected": true,
+      "status": 1,
+      "assertion": true,
+      "traceChanged": false,
+      "logSha256": "08874fc086897b7402e510b6f90e0da6fb81956f0b5a8f113ad712f5286840a4"
+    },
+    {
+      "name": "drop-saved-lore",
+      "file": "meta/account.ts",
+      "detected": true,
+      "status": 0,
+      "assertion": false,
+      "traceChanged": true,
+      "logSha256": "66fa6cede51c87a59699e6fbc80131d8affc38acdc228b2f8750b4955176d3a9"
+    }
+  ]
+}
