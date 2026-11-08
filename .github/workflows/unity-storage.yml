@@ -24,6 +24,7 @@ on:
       - 'adapters/unity-shared-account/**'
       - 'evidence/prepared-account/**'
       - 'evidence/unity-shared-account/**'
+      - 'evidence/shared-account-equipment/**'
       - 'adapters/embedded/equipment-session.mjs'
       - 'src/crafting-session.ts'
       - 'test/unity-live-equipment/**'
@@ -79,6 +80,10 @@ jobs:
         run: git fetch --no-tags --depth=1 origin 98edfa74a4b9caecf6e0e6ef3ce49cb4365966f8
       - name: Check shared-account package observations and retained behavior
         run: node scripts/check-unity-shared-account-evidence.mjs --source-ref 98edfa74a4b9caecf6e0e6ef3ce49cb4365966f8
+      - name: Fetch the shared equipment development checkpoint source
+        run: git fetch --no-tags --depth=1 origin 5d138fb0b0f8f3271172f002a6e317abb8df9cf9
+      - name: Check shared equipment observations and failure controls
+        run: node adapters/unity-shared-account/qualification/check-equipment-evidence.mjs --source-ref 5d138fb0b0f8f3271172f002a6e317abb8df9cf9
       - name: Exercise the current progression adapter
         run: node --test test/unity-progression-entry.test.mjs
       - name: Verify owned Unity fixture cleanup

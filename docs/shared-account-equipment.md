@@ -4,7 +4,11 @@ This **unpublished development candidate** connects the shared account's
 inventories to selected live combat actors. The public installation checkpoint
 remains [gameplay 0.5 / storage 0.4](unity-shared-account.md). Candidate archives
 are gameplay `0.6.0-candidate.0` and storage `0.5.0-candidate.0`; broader package
-regression, compatibility and public release evidence remain separate gates.
+regression and public release evidence remain separate gates.
+
+The [recorded development checkpoint](../evidence/shared-account-equipment/README.md)
+contains the completed local SDK, original, Unity, failure and compatibility
+courses. Broader distribution acceptance remains separate.
 
 ## Read boundary
 
