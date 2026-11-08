@@ -84,6 +84,10 @@ jobs:
         run: git fetch --no-tags --depth=1 origin 5d138fb0b0f8f3271172f002a6e317abb8df9cf9
       - name: Check shared equipment observations and failure controls
         run: node adapters/unity-shared-account/qualification/check-equipment-evidence.mjs --source-ref 5d138fb0b0f8f3271172f002a6e317abb8df9cf9
+      - name: Fetch the retained equipment qualification source
+        run: git fetch --no-tags --depth=1 origin 4fb5c72b3bbccff87d748a6624e4594658c30975
+      - name: Check retained features in the equipment candidates
+        run: node adapters/unity-shared-account/qualification/check-equipment-retained.mjs --source-ref 4fb5c72b3bbccff87d748a6624e4594658c30975
       - name: Exercise the current progression adapter
         run: node --test test/unity-progression-entry.test.mjs
       - name: Verify owned Unity fixture cleanup

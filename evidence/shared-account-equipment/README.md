@@ -67,3 +67,8 @@ generated expected result is required.
 Broader retained-feature/package distribution checks, release guides and archive
 controls remain prerequisites for publishing these candidates. Other engine
 bindings, Unity Linux/ARM/IL2CPP and physical-device performance remain open.
+
+The [retained-feature follow-up](retained/README.md) now records the completed
+gameplay, shared-account, progression, separate-equipment, paired-save and
+archive courses for these exact candidates. Final release preparation and
+versioned package installation remain separate.
