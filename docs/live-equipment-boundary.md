@@ -4,6 +4,10 @@ This is a boundary contract and original-game baseline. The existing public
 Unity packages still keep the workshop and combat actors separate. No connected
 equipment package or performance acceptance is implied.
 
+The [adapter candidate](live-equipment-adapter.md) implements the preparation and
+publication protocol. Its native and engine acceptance remain explicit gates;
+the existing public archives are unchanged.
+
 ## Original observations
 
 The [frozen course](../baseline/live-equipment/README.md) starts from real World

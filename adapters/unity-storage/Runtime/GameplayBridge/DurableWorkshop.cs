@@ -30,6 +30,27 @@ namespace HollowWake.Storage
         ulong ticket;
         string candidateSnapshot, candidateStash, candidateReply;
         bool closed;
+#if HWE_STORAGE_LIVE_EQUIPMENT
+        CombatWorld.Actor actor;
+        CombatWorld.Actor.PreparedEquipment equipment;
+        string currentEquipment, candidateEquipment;
+        /// <summary>Transfers actor lifetime to this durable workshop, including
+        /// closure after a committed save cannot be published. Dispose the world
+        /// after this owner. Poll at a main-thread simulation boundary.</summary>
+        public DurableWorkshop(string absolutePath,uint slot,CombatWorld.Actor actor) : this(absolutePath,slot)
+        {
+            try
+            {
+                this.actor=actor??throw new ArgumentNullException(nameof(actor));
+                if(current!=null)
+                {
+                    currentEquipment=current.EquipmentJson();
+                    using(var initial=actor.PrepareEquipment(currentEquipment))initial.Publish();
+                }
+            }
+            catch { Dispose();throw; }
+        }
+#endif
         [Serializable] class Envelope { public bool ok;public string reason; }
         public string Snapshot { get; private set; }
         public string StashJson { get; private set; }
@@ -82,7 +103,12 @@ namespace HollowWake.Storage
         {
             var retired=candidate;candidate=null;ticket=0;
             candidateSnapshot=candidateStash=candidateReply=null;
-            retired?.Dispose();
+            try {
+#if HWE_STORAGE_LIVE_EQUIPMENT
+                var pending=equipment;equipment=null;candidateEquipment=null;pending?.Dispose();
+#endif
+            }
+            finally { retired?.Dispose(); }
         }
         WorkshopChange Queue(string stash)
         {
@@ -92,6 +118,14 @@ namespace HollowWake.Storage
                 var reply=candidateReply;Discard();
                 return new WorkshopChange(WorkshopChangeState.Unchanged,reply,null);
             }
+#if HWE_STORAGE_LIVE_EQUIPMENT
+            if(actor!=null)
+            {
+                if(actor.IsDisposed)throw new ObjectDisposedException(nameof(CombatWorld.Actor));
+                candidateEquipment=candidate.EquipmentJson();
+                if(candidateEquipment!=currentEquipment)equipment=actor.PrepareEquipment(candidateEquipment);
+            }
+#endif
             var submitted=storage.Store.Submit(slot,Revision,candidateSnapshot,stash);
             if(!submitted.Succeeded) { Discard();return StorageRefused(submitted); }
             ticket=submitted.Value;
@@ -151,6 +185,12 @@ namespace HollowWake.Storage
             var result=storage.Store.Poll(ticket);
             if(result.Status==SaveStatus.Pending)return Pending();
             if(!result.Succeeded) { Discard();return StorageRefused(result); }
+            try
+            {
+#if HWE_STORAGE_LIVE_EQUIPMENT
+                if(actor!=null && actor.IsDisposed)throw new ObjectDisposedException(nameof(CombatWorld.Actor));
+                equipment?.Publish();equipment=null;currentEquipment=candidateEquipment;candidateEquipment=null;
+#endif
             var retired=current;
             current=candidate;currentId=candidateId;candidate=null;
             Snapshot=candidateSnapshot;StashJson=candidateStash;Revision++;
@@ -158,6 +198,15 @@ namespace HollowWake.Storage
             candidateSnapshot=candidateStash=candidateReply=null;
             retired?.Dispose();
             return new WorkshopChange(WorkshopChangeState.Committed,reply,null,SaveStatus.Ok);
+            }
+            catch(Exception error)
+            {
+                // The disk commit already happened. Never report a rollback or
+                // allow a stale actor to continue; reopen from the durable slot.
+                try { Dispose(); }
+                catch(Exception closing) { error=new AggregateException(error,closing); }
+                throw new IOException("Workshop save committed, but live publication failed. Reopen the saved slot and actor.",error);
+            }
         }
         public SaveResult CancelPending()
         {
@@ -177,7 +226,21 @@ namespace HollowWake.Storage
             var id=currentId==1?2u:1u;
             var restored=workshop.RestoreProfile(id,record.CraftingJson);
             string normalized;
-            try { normalized=restored.Save(); }
+            try {
+                normalized=restored.Save();
+#if HWE_STORAGE_LIVE_EQUIPMENT
+                if(actor!=null)
+                {
+                    var equipped=restored.EquipmentJson();
+                    using(var projection=actor.PrepareEquipment(equipped))
+                    {
+                        try { projection.Publish(); }
+                        catch { Dispose();throw; }
+                    }
+                    currentEquipment=equipped;
+                }
+#endif
+            }
             catch { restored.Dispose();throw; }
             var retired=current;
             current=restored;currentId=id;Snapshot=normalized;StashJson=record.StashJson;Revision=record.Revision;
@@ -196,7 +259,15 @@ namespace HollowWake.Storage
                 finally
                 {
                     try { current?.Dispose(); }
-                    finally { workshop.Dispose();candidate=current=null; }
+                    finally {
+                        try { workshop.Dispose();candidate=current=null; }
+                        finally {
+#if HWE_STORAGE_LIVE_EQUIPMENT
+                            try { actor?.Dispose(); }
+                            finally { equipment?.Dispose();equipment=null;actor=null; }
+#endif
+                        }
+                    }
                 }
             }
         }

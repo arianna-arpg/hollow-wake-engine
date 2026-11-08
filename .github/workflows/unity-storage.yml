@@ -9,6 +9,14 @@ on:
       - 'scripts/package-unity-storage.mjs'
       - 'scripts/verify-unity-storage.py'
       - 'scripts/check-unity-storage-evidence.mjs'
+      - 'scripts/check-live-equipment-evidence.mjs'
+      - 'scripts/verify-live-equipment-unity.py'
+      - 'scripts/test-live-equipment-unity-faults.py'
+      - 'adapters/unity/**'
+      - 'adapters/embedded/equipment-session.mjs'
+      - 'src/crafting-session.ts'
+      - 'test/unity-live-equipment/**'
+      - 'evidence/live-equipment-adapter/**'
       - 'adapters/unity-storage/**'
       - 'test/unity-storage/**'
       - 'test/unity-workshop-storage/**'
@@ -33,8 +41,10 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24.9.0
-      - name: Check source-bound Unity evidence
-        run: node scripts/check-unity-storage-evidence.mjs
+      - run: npm ci
+      - run: npm run build
+      - name: Check current source-bound Unity equipment and compatibility evidence
+        run: node scripts/check-live-equipment-evidence.mjs
       - name: Check the shared packer against the frozen published archive
         shell: pwsh
         run: |

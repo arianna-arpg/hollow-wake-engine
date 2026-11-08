@@ -78,6 +78,12 @@ namespace HollowWake.Gameplay
                 Check();
                 return Require(owner.host.Execute("{\"op\":\"snapshot-text\",\"profile\":"+id.ToString(CultureInfo.InvariantCulture)+"}")).text;
             }
+            /// <summary>Only the complete worn-item map; no bag, wallet or account copy.</summary>
+            public string EquipmentJson()
+            {
+                Check();
+                return Require(owner.host.Execute("{\"op\":\"equipment-text\",\"profile\":"+id.ToString(CultureInfo.InvariantCulture)+"}")).text;
+            }
             public void Dispose()
             {
                 if(closed)return;

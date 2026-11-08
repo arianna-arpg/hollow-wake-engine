@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "scope": "Selected live equipment publication; Unity 2021.3.6f1 Windows x64 Mono. No new public release or physical-device acceptance.",
+  "sources": {
+    "scripts/check-live-equipment-evidence.mjs": "cda73a93f3e31112698d06c4328c7a5a4ffc8f8ac64cdf8babfc6e569c3e2081",
+    "scripts/test-live-equipment-faults.mjs": "ef96db7420e8e681f51319ea70dbf7e509f8b7b4f3d6666c8f52f9d69280f3eb",
+    "test/crafting-equipment-placement.test.mjs": "27bd4ba0f4751b3cd4ba7ea8614f18bdeddd912d4471a92ce51f2a2ce011398d"
+  },
+  "files": {
+    "native-raw.json.gz": "f84e09c17962bd2fd73fc624dd8a973b1c43f6c97a30326a0d600d7020017e42",
+    "protocolFaults-raw.json.gz": "1059d79563e8f7d740eac2fd9fe6c37ba85fa6b12486e309f2ad35c6ed44629b",
+    "reports.json": "ab33e43c15ba87462b303916e5a7dc9e1ecc4ac4fc623bef3dda2f0740f2ae45",
+    "sdk-logs.json.gz": "bd45a95f3f8324b405994161c84691fa2cb6cbcd7129f9247a879b48ddf9697e",
+    "unity-observations.json.gz": "94a2c86e15c4492c45a475d9f8ba3fc4ac6aef88c17d24f4f5e8e0eb434b8986",
+    "cleanup.json": "0d1897da5e4dfaa41802aad7be98d4dd1de5c6f2b2e83e7d8cb3b41db1adb41d"
+  },
+  "originalBaseline": "dd6062157470ceda217a0230aac2556b61c5d41543f8ccb48e2463fb610fb406",
+  "observedCourses": 12,
+  "nativeRequests": 37,
+  "protocolFaults": 5,
+  "unityFaults": 3,
+  "publicRawPolicy": "Exact gameplay observations and intended fault assertion lines are included. Full local Unity logs remain private because they contain machine and licensing diagnostics.",
+  "initialFailures": {
+    "workspaceTemp": "The first broad check failed while bundling a consumer in the restricted profile temp folder. The retained final run uses an owned workspace temp directory.",
+    "unityAccess": "The restricted first editor launch failed its existing machine licence check before loading the project. The unchanged packages passed with normal local access; licence files were not changed."
+  }
+}

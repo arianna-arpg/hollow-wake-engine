@@ -6,6 +6,8 @@ export {create};
 export function dispatch(host,request){
   if(!request||typeof request!=='object'||Array.isArray(request))return {ok:false,reason:'invalid-request'};
   const {op,profile,text}=request;
+  if(op==='equipment-text')return Object.keys(request).length===2?
+    host.session.equipmentText(profile):{ok:false,reason:'invalid-request'};
   if(op==='workshop-query'){
     if(Object.keys(request).length!==2||typeof text!=='string'||text.length>524288)return {ok:false,reason:'invalid-request'};
     let query;

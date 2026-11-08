@@ -1,4 +1,4 @@
-import {create as createSession,dispatch as dispatchSession} from '../../experiments/embedded-js/session.mjs';
+import {create as createSession,dispatch as dispatchSession} from '../embedded/equipment-session.mjs';
 import {decodeContentTable} from '@hollow-wake/engine/content/table';
 
 // Parsed privately by the native runtime. Release the transport rows before
@@ -12,6 +12,18 @@ export function create(input){
 
 export function dispatch(world,request){
   if(!request||request.version!==1)return dispatchSession(world,request);
+  if(request.op==='prepareEquipmentText'){
+    if(Object.keys(request).length!==5||typeof request.text!=='string'||request.text.length>524288)
+      return {ok:false,error:'invalid-request'};
+    let equipped;
+    try{equipped=JSON.parse(request.text);}catch{return {ok:false,error:'invalid-json'};}
+    return dispatchSession(world,{version:1,op:'prepareEquipment',handle:request.handle,
+      capability:request.capability,equipped});
+  }
+  if(request.op==='equipmentViewText'){
+    const result=dispatchSession(world,{version:1,op:'equipmentView',handle:request.handle});
+    return result.ok?{ok:true,text:JSON.stringify(result.view)}:result;
+  }
   if(request?.version===1&&request.op==='advanceSteps'){
     if(!Number.isSafeInteger(request.steps)||request.steps<1||request.steps>64||
        !Number.isFinite(request.dt)||request.dt<0||request.dt>60)return {ok:false,error:'invalid-request'};

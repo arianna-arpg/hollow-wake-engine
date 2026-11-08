@@ -1,5 +1,10 @@
 # Verification and reproduction
 
+The [live-equipment checkpoint](../evidence/live-equipment-adapter/README.md)
+connects selected worn items to running Unity combat only after a durable commit.
+Original courses, native replies, actual editor/relocated player runs and deliberate
+publication faults are source-bound separately from the unchanged public archives.
+
 The [Unity workshop checkpoint](../evidence/unity-workshop/README.md) adds ordinary-JSON access to the shared crafting,
 equipment, learned-skill/support and vestige rules. Its native replay must
 match the original 56 workshop replies in both editor and relocated player,

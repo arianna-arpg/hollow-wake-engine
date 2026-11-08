@@ -10,8 +10,9 @@ namespace HollowWake.Gameplay
     {
         readonly GameplayHost host = GameplayHost.OpenCombat();
         bool closed;
-        [Serializable] class Reply { public bool ok; public int handle; public string error, message, text; }
+        [Serializable] class Reply { public bool ok; public int handle; public long token; public string error, message, text; }
         [Serializable] class TextRequest { public int version = 1; public int handle; public string op, text; }
+        [Serializable] class EquipmentRequest : TextRequest { public string capability = "live-equipment/simple-v1"; }
         static T Require<T>(string json) where T : Reply
         {
             var reply = JsonUtility.FromJson<T>(json);
@@ -46,6 +47,8 @@ namespace HollowWake.Gameplay
             readonly int handle;
             readonly string prefix;
             bool closed;
+            PreparedEquipment prepared;
+            public bool IsDisposed => closed || world.closed || world.host.IsClosed;
             internal Actor(CombatWorld world, int handle)
             {
                 this.world = world;
@@ -88,11 +91,51 @@ namespace HollowWake.Gameplay
                 return world.host.Execute(JsonUtility.ToJson(new TextRequest { op = "batchText", handle = handle, text = commandsJson }));
             }
             public string Save() => Require<Reply>(Send(",\"op\":\"snapshotText\"}")).text;
+            /// <summary>Read derived equipment stats without advancing combat or randomness.</summary>
+            public string EquipmentView() => Require<Reply>(Send(",\"op\":\"equipmentViewText\"}")).text;
+            /// <summary>Validate a complete worn-item map without changing the actor.
+            /// Simulation may continue until Publish; structural changes are serialized.
+            /// The current capability admits common Lapis/Coral rings and Opal amulets.</summary>
+            public PreparedEquipment PrepareEquipment(string equippedJson)
+            {
+                if(IsDisposed)throw new ObjectDisposedException(nameof(Actor));
+                if(prepared!=null)throw new InvalidOperationException("Equipment publication is already pending.");
+                if(equippedJson==null)throw new ArgumentNullException(nameof(equippedJson));
+                var reply=Require<Reply>(world.host.Execute(JsonUtility.ToJson(new EquipmentRequest {
+                    op="prepareEquipmentText",handle=handle,text=equippedJson
+                })));
+                prepared=new PreparedEquipment(this,reply.token);
+                return prepared;
+            }
+            public sealed class PreparedEquipment : IDisposable
+            {
+                Actor actor;
+                readonly long token;
+                internal PreparedEquipment(Actor actor,long token) { this.actor=actor;this.token=token; }
+                string Command(string op) => ",\"op\":\""+op+"\",\"token\":"+token.ToString(CultureInfo.InvariantCulture)+"}";
+                /// <summary>Call at the host simulation boundary after durable success.
+                /// Uses current resources, cast progress, conditions and randomness.</summary>
+                public void Publish()
+                {
+                    if(actor==null)throw new ObjectDisposedException(nameof(PreparedEquipment));
+                    Require<Reply>(actor.Send(Command("publishEquipment")));
+                    Retire();
+                }
+                internal void Retire() { if(actor!=null)actor.prepared=null;actor=null; }
+                public void Dispose()
+                {
+                    if(actor==null)return;
+                    var owner=actor;
+                    try { if(!owner.IsDisposed)Require<Reply>(owner.Send(Command("discardEquipment"))); }
+                    catch { owner.Dispose();throw; }
+                    finally { Retire(); }
+                }
+            }
             public void Dispose()
             {
                 if (closed) return;
-                if (!world.closed && !world.host.IsClosed) Require<Reply>(Send(",\"op\":\"destroy\"}"));
-                closed = true;
+                try { if (!world.closed && !world.host.IsClosed) Require<Reply>(Send(",\"op\":\"destroy\"}")); }
+                finally { closed = true;prepared?.Retire(); }
             }
         }
     }

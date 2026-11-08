@@ -9,8 +9,8 @@ import {root,sha256,writeJSON,listFiles} from './reference-utils.mjs';
 import {npmCli} from './npm-cli.mjs';
 import {workspaceBridges} from './godot-crafting-bundle.mjs';
 
-const [releaseDir,outputDir,python,workshopDir,...rest]=process.argv.slice(2);
-assert(releaseDir&&outputDir&&python&&workshopDir&&!rest.length,'POUCH_RELEASE_DIRECTORY OUTPUT_DIRECTORY PYTHON FRESH_WORKSHOP_DIRECTORY');
+const [releaseDir,outputDir,python,workshopDir,sdkArchive,...rest]=process.argv.slice(2);
+assert(releaseDir&&outputDir&&python&&workshopDir&&!rest.length,'POUCH_RELEASE_DIRECTORY OUTPUT_DIRECTORY PYTHON WORKSHOP_CONTENT_DIRECTORY [FRESH_SDK_ARCHIVE]');
 const release=fs.realpathSync(releaseDir),out=path.resolve(outputDir),read=f=>JSON.parse(fs.readFileSync(f));
 const accepted=read(path.join(root,'evidence/pouch-recall/dotnet-windows.json'));
 const workshop=fs.realpathSync(workshopDir);
@@ -19,9 +19,9 @@ const native=read(path.join(root,'evidence/fresh-godot-package/native-windows.js
 assert(fresh.passed&&native.passed&&native.platform==='win32');
 assert.equal(sha256(fs.readFileSync(path.join(root,'evidence/fresh-godot-package/native-windows.json'))),fresh.evidence['native-windows.json']);
 const sdkName='hollow-wake-engine-'+native.version+'.tgz',addonName='hollow-wake-godot-crafting-progression-windows-x64.zip';
-const sdk=path.join(workshop,sdkName),addon=path.join(workshop,addonName),pouches=path.join(release,accepted.archive);
+const sdk=sdkArchive?fs.realpathSync(sdkArchive):path.join(workshop,sdkName),addon=path.join(workshop,addonName),pouches=path.join(release,accepted.archive);
 const sdkSha256=sha256(fs.readFileSync(sdk));
-assert.equal(sdkSha256,fresh.delivery.files[sdkName].sha256);
+if(!sdkArchive)assert.equal(sdkSha256,fresh.delivery.files[sdkName].sha256);
 assert.equal(sha256(fs.readFileSync(addon)),native.package.archiveSha256);
 assert.equal(sha256(fs.readFileSync(pouches)),accepted.sha256);
 assert.equal(native.package.libraries['bin/hwe_embedded.dll'],accepted.files['hwe_embedded.dll']);
@@ -31,14 +31,23 @@ try{
   fs.mkdirSync(asset,{recursive:true});
   const env={...process.env,TEMP:scratch,TMP:scratch,TMPDIR:scratch,npm_config_cache:path.join(scratch,'cache')};
   const run=(exe,args)=>execFileSync(exe,args,{cwd:scratch,env,windowsHide:true,stdio:['ignore','pipe','pipe']});
-  execFileSync(process.execPath,[npmCli(),'run','build'],{cwd:root,env,windowsHide:true,stdio:['ignore','pipe','pipe']});
+  // Compile a small source snapshot so packaging never rewrites the shared dist
+  // directory during verification. Compare the installed archive to this build.
+  const sourceBuild=path.join(scratch,'source-build');fs.mkdirSync(sourceBuild);
+  for(const file of ['src','package.json','tsconfig.json'])fs.cpSync(path.join(root,file),path.join(sourceBuild,file),{recursive:true});
+  const sourceHashes=Object.fromEntries(['package.json','tsconfig.json',...listFiles(path.join(root,'src')).map(file=>'src/'+file)]
+    .map(file=>[file,sha256(fs.readFileSync(path.join(sourceBuild,file)))]));
+  run(process.execPath,[path.join(root,'node_modules/typescript/bin/tsc'),'-p',path.join(sourceBuild,'tsconfig.json')]);
   const [{itemPack},{passivePack}]=await Promise.all([import('./compile-item-content.mjs'),import('./compile-passive-content.mjs')]);
   writeJSON(path.join(scratch,'package.json'),{private:true,type:'module'});
   run(process.execPath,[npmCli(),'install','--offline','--ignore-scripts','--no-audit','--no-fund',sdk]);
   const installed=path.join(scratch,'node_modules/@hollow-wake/engine'),manifest=read(path.join(installed,'package.json'));
-  assert.deepEqual(listFiles(path.join(installed,'dist')),listFiles(path.join(root,'dist')));
+  assert.equal(manifest.name,'@hollow-wake/engine');
+  assert.equal(manifest.version,read(path.join(root,'package.json')).version);
+  assert.deepEqual(manifest.exports,read(path.join(root,'package.json')).exports);
+  assert.deepEqual(listFiles(path.join(installed,'dist')),listFiles(path.join(sourceBuild,'dist')));
   for(const f of listFiles(path.join(installed,'dist')))
-    assert.equal(sha256(fs.readFileSync(path.join(installed,'dist',f))),sha256(fs.readFileSync(path.join(root,'dist',f))),f);
+    assert.equal(sha256(fs.readFileSync(path.join(installed,'dist',f))),sha256(fs.readFileSync(path.join(sourceBuild,'dist',f))),f);
   const resolve=id=>{
     const entry=manifest.exports[id.replace('@hollow-wake/engine','.')];
     assert(entry,'Missing installed export '+id);
@@ -90,9 +99,12 @@ try{
   const bytes=fs.readFileSync(packed);
   fs.mkdirSync(out,{recursive:true});
   const receipt={name,version,file,bytes:bytes.length,sha256:sha256(bytes),sdkSha256,
+    sdkOrigin:sdkArchive?'fresh archive; every runtime file matched to an isolated source build':'accepted Godot delivery',
+    sdkSources:sourceHashes,
+    sdkRuntimeFiles:Object.fromEntries(listFiles(path.join(installed,'dist')).map(file=>[file,sha256(fs.readFileSync(path.join(installed,'dist',file)))])),
     workshopAddonSha256:native.package.archiveSha256,workshopRulesBytes:workshopRules.outputFiles[0].contents.length,
     sources:Object.fromEntries(['scripts/package-unity-gameplay.mjs','scripts/unity-gameplay-archive.py','scripts/unity-package-archive.py',
-      'scripts/godot-crafting-bundle.mjs','adapters/embedded/crafting-session.mjs',
+      'scripts/godot-crafting-bundle.mjs','adapters/embedded/crafting-session.mjs','adapters/embedded/equipment-session.mjs',
       'adapters/godot/crafting/entry.mjs','adapters/godot/crafting/vestige-entry.mjs',
       ...listFiles(src).map(f=>'adapters/unity/'+f)].map(f=>[f,sha256(fs.readFileSync(path.join(root,f)))])),
     nativeSha256:accepted.files['hwe_embedded.dll'],hashes,plainContentBytes:Buffer.byteLength(JSON.stringify(contents)),tableContentBytes:fs.statSync(path.join(asset,'CombatContent.bytes')).size};

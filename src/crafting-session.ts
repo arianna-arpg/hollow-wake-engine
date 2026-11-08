@@ -72,6 +72,13 @@ export class CraftingSession {
     const profile=this.#profiles.get(id);
     return profile?{ok:true as const,text:JSON.stringify(this.#snapshot(profile))}:refuse('not-open');
   }
+  /** Only worn item bodies cross into the combat projection; no bag, account,
+   * wallet or random state is serialized by this read. */
+  equipmentText(id: number) {
+    if(!Number.isSafeInteger(id)||id<0||id>0xffffffff)return refuse('invalid-integer');
+    const profile=this.#profiles.get(id);
+    return profile?{ok:true as const,text:JSON.stringify(profile.state.equipped)}:refuse('not-open');
+  }
   /** Detached read projection. An account token is valid only in this session
    * instance; zero requests the full account. A matching token replaces that
    * unchanged subtree with null, retaining its property position. The reader
@@ -219,16 +226,20 @@ export class CraftingSession {
       const wear=this.#wear;
       if(!wear)return refuse('equipment-unavailable');
       const equip=request.op==='equip';
-      fields(request,equip?['op','profile','uid','actorLevel','slot']:['op','profile','uid','slot']);
+      fields(request,equip?['op','profile','uid','actorLevel','slot']:['op','profile','uid','slot','x','y']);
       const {uid,slot,actorLevel}=request; integer(uid,1);
       if(equip)integer(actorLevel,1);
       if(!equip||slot!==undefined)text(slot);
+      if(!equip && (request.x!==undefined || request.y!==undefined)){
+        integer(request.x);integer(request.y);
+      }
       return this.#mutate(profile,(draft,events)=>{
         const state=draft.state,board=this.#board(state);
         if(!equip&&state.equipped[slot as string]?.uid!==uid)return {changed:false};
         const action=equip?equipOnBoard(this.#inventory,wear,{carry:state,bagBoard:board,level:actorLevel as number,
           drop:item=>{state.overflow.push(item);events.push({kind:'recovered',uid:item.uid,destination:'overflow'});}},uid,slot as string|undefined)
-          :unequipOnBoard(this.#inventory,{carry:state,bagBoard:board},slot as string);
+          :unequipOnBoard(this.#inventory,{carry:state,bagBoard:board},slot as string,
+            request.x as number|undefined,request.y as number|undefined);
         if(action.changed)events.push({kind:'recalculate'},{kind:'dirty'});
         return action.refusal?{changed:false,refusal:action.refusal}:{changed:action.changed};
       });

@@ -1,0 +1,61 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {gunzipSync} from 'node:zlib';
+import {equipmentCapability} from '../adapters/embedded/equipment-session.mjs';
+import {itemPack} from '../scripts/compile-item-content.mjs';
+import {passivePack} from '../scripts/compile-passive-content.mjs';
+import {sha256} from '../scripts/reference-utils.mjs';
+const copy=value=>JSON.parse(JSON.stringify(value));
+export function liveEquipmentCourse({create,dispatch}){
+ const read=file=>JSON.parse(fs.readFileSync(new URL(file,import.meta.url)));
+ const bytes=fs.readFileSync(new URL('../baseline/live-equipment/v2/observations.json.gz',import.meta.url));
+ assert.equal(sha256(bytes),read('../baseline/live-equipment/v2/acceptance.json').gzipSha256);
+ const original=JSON.parse(gunzipSync(bytes));
+ const input={core:read('../content/milestone-one.json'),items:itemPack(),passives:passivePack()};
+ const old=JSON.parse(gunzipSync(fs.readFileSync(new URL('../evidence/embedded-js/windows-persistent-session-raw.json.gz',import.meta.url))));
+ const config=JSON.parse(old.session['requests.jsonl'].split('\n')[0]).config;
+ config.character={classId:'magician',passivePoints:1};
+ config.skill={id:'ruin',level:5,sockets:0,treePoints:0};config.resources={life:68,mana:117};
+ const world=create(input),requests=[],replies=[];
+ const run=command=>{
+  requests.push(JSON.stringify(command));const result=copy(dispatch(world,copy(command)));
+  replies.push(JSON.stringify(result));return result;
+ };
+ const open=()=>{const result=run({version:1,op:'createText',text:JSON.stringify(config)});assert(result.ok);return result.handle;};
+ const a=open(),b=open(),send=(handle,op,body={})=>run({version:1,handle,op,...body});
+ const batch=(handle,...commands)=>send(handle,'batchText',{text:JSON.stringify(commands)});
+ const ring=copy(original.rows[0].initialItems[0]);delete ring.x;delete ring.y;ring.uid=4294967297;
+ const before=send(a,'snapshot').snapshot;
+ const first=send(a,'prepareEquipmentText',{capability:equipmentCapability,text:JSON.stringify({ring1:ring})});
+ assert(first.ok);assert.deepEqual(send(a,'snapshot').snapshot,before);
+ assert(batch(a,{op:'press'},{op:'advance',dt:.1}).ok);
+ assert(send(a,'publishEquipment',{token:first.token}).ok);
+ let view=JSON.parse(send(a,'equipmentViewText').text);
+ assert.equal(view.stats.mana,131);assert.equal(view.mana,109);
+ assert.equal(send(a,'snapshot').snapshot.casting.active.elapsed,.1);
+ const next=send(a,'prepareEquipment',{capability:equipmentCapability,equipped:{}});
+ assert(next.ok);
+ assert.equal(batch(a,{op:'hit'},{op:'equip',item:'lapis-reference',slot:'ring1'}).error,'equipment-pending');
+ assert(batch(a,{op:'advance',dt:1},{op:'advance',dt:.2},{op:'press'},{op:'hit'},{op:'applyDot',dps:5},{op:'advance',dt:.1}).ok);
+ const moving=send(a,'snapshot').snapshot;
+ assert(send(a,'publishEquipment',{token:next.token}).ok);
+ const published=send(a,'snapshot').snapshot;
+ for(const field of ['casting','random','target','effect','items'])assert.deepEqual(published[field],moving[field]);
+ view=JSON.parse(send(a,'equipmentViewText').text);assert.equal(view.stats.mana,117);assert.equal(view.mana,101);
+ assert.equal(send(a,'publishEquipment',{token:next.token}).error,'stale-equipment-token');
+ const restored=run({version:1,op:'restoreText',text:JSON.stringify(published)});assert(restored.ok);
+ assert.deepEqual(send(restored.handle,'snapshot').snapshot,published);
+ const pending=send(b,'prepareEquipment',{capability:equipmentCapability,equipped:{ring1:ring}});assert(pending.ok);
+ assert.equal(send(a,'publishEquipment',{token:pending.token}).error,'stale-equipment-token');
+ assert(send(b,'discardEquipment',{token:pending.token}).ok);
+ assert.equal(send(b,'publishEquipment',{token:pending.token}).error,'stale-equipment-token');
+ const empty=send(b,'snapshot').snapshot;
+ for(const equipped of [{ring1:{...ring,sockets:[]}},{amulet:ring},{ring1:ring,ring2:ring},{ring1:{...ring,unknownProc:'refuse'}}]){
+  assert.equal(send(b,'prepareEquipment',{capability:equipmentCapability,equipped}).ok,false);
+  assert.deepEqual(send(b,'snapshot').snapshot,empty);
+ }
+ const dispose=send(b,'prepareEquipment',{capability:equipmentCapability,equipped:{ring1:ring}});assert(dispose.ok);
+ assert(send(b,'destroy').ok);assert.equal(send(b,'publishEquipment',{token:dispose.token}).error,'stale-handle');
+ assert(send(a,'destroy').ok);assert(send(restored.handle,'destroy').ok);
+ return {input,requests,replies};
+}
