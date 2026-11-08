@@ -15,8 +15,9 @@ if(args.length)assert(!fs.existsSync(output)&&!fs.existsSync(output+'.logs.json.
 const owned=path.join(root,'.artifacts');fs.mkdirSync(owned,{recursive:true});
 const work=fs.mkdtempSync(path.join(owned,'account-workshops-package-'));
 const consumer=path.join(work,'consumer');fs.mkdirSync(consumer);
-const logs={},report={passed:false,contracts:22,sourceScenarios:10,sourceSteps:30,faults:[],sources:{}};
+const logs={},report={passed:false,contracts:30,sourceScenarios:10,sourceSteps:30,faults:[],sources:{}};
 const sources=['src/account-workshop-session.ts','test/shared-account.test.mjs','test/shared-account/contracts.mjs',
+  'test/shared-account-prepare.test.mjs','test/shared-account/prepared-contracts.mjs',
   'test/shared-account/fixtures.mjs','scripts/test-account-workshops-package.mjs','package.json',
   'baseline/shared-account/admitted-socket/acceptance.json'];
 for(const file of sources)report.sources[file]=sha256(fs.readFileSync(path.join(root,file)));
@@ -30,7 +31,7 @@ const run=(label,args,cwd=consumer)=>{
 const success=(label,args,cwd)=>{const result=run(label,args,cwd);assert.equal(result.status,0,logs[label]);return result;};
 const npm=(label,args,cwd)=>success(label,[npmCli(),...args,'--cache',path.join(work,'npm-cache')],cwd);
 const verify=(label,file='contracts.test.mjs')=>{
-  const result=success(label,['--test',file]);assert(/(?:#|ℹ) pass 22\b/.test(logs[label]),logs[label]);return result;
+  const result=success(label,['--test',file]);assert(new RegExp('(?:#|ℹ) pass '+report.contracts+'\\b').test(logs[label]),logs[label]);return result;
 };
 try{
   npm('pack',['pack','--json','--ignore-scripts','--pack-destination',work],root);
@@ -54,9 +55,11 @@ try{
   fixtures=header+fixtures+'\nexport const definitions=definitionsFrom(packs);\n';
   fs.writeFileSync(path.join(consumer,'fixtures.mjs'),fixtures);
   fs.copyFileSync(path.join(root,'test/shared-account/contracts.mjs'),path.join(consumer,'contracts.mjs'));
+  fs.copyFileSync(path.join(root,'test/shared-account/prepared-contracts.mjs'),path.join(consumer,'prepared-contracts.mjs'));
   const test="import test from 'node:test';\nimport {AccountWorkshopSession} from '@hollow-wake/engine/account/workshops';\n"+
     "import {baseline,definitions} from './fixtures.mjs';\nimport {contracts} from './contracts.mjs';\n"+
-    "contracts(test,{AccountWorkshopSession,baseline,definitions});\n";
+    "import {preparedContracts} from './prepared-contracts.mjs';\n"+
+    "contracts(test,{AccountWorkshopSession,baseline,definitions});\npreparedContracts(test,{AccountWorkshopSession,baseline,definitions});\n";
   fs.writeFileSync(path.join(consumer,'contracts.test.mjs'),test);
   report.installed=verify('installed');
   fs.writeFileSync(path.join(consumer,'browser.mjs'),Object.values(entries).map(e=>"export * from '@hollow-wake/engine/"+e+"';").join('\n'));
@@ -93,6 +96,17 @@ try{
     ['default-null-context','request.progression === undefined ? true : request.progression','request.progression ?? true'],
     ['erase-null-host-data','request.extra === undefined ? {} : request.extra','request.extra ?? {}'],
     ['default-null-item-id','integer(request.nextUid, 1);','void request.nextUid;'],
+    ['premature-publication','finally {\n            this.#state = committed;\n        }\n    }\n    #preparedCommand',
+      'finally {\n            void committed;\n        }\n    }\n    #preparedCommand'],
+    ['lost-publication',"if (request.op === 'commit-prepared')\n            this.#state = pending.state;",'void pending.state;'],
+    ['abort-publishes',"if (request.op === 'commit-prepared')\n            this.#state = pending.state;",'this.#state = pending.state;'],
+    ['stale-token',"need(request.token === pending.token, 'stale-prepared-change');",'void request.token;'],
+    ['pending-edit',"if (this.#prepared && request.op !== 'account-save' && request.op !== 'workshop-save')",'if (false)'],
+    ['excess-records',"need(writes.length <= 8, 'prepared-record-limit');","need(writes.length <= 9, 'prepared-record-limit');"],
+    ['failed-batch-publishes','finally {\n            this.#state = committed;\n        }\n    }\n    #preparedCommand',
+      'finally {\n            if(this.#prepared)this.#state = committed;\n        }\n    }\n    #preparedCommand'],
+    ['committed-candidate','this.#state = pending.state;\n                return this.#command','void pending.state;\n                return this.#command'],
+    ['borrowed-prepared-response','const reply = copySessionJSON({ ok: true, token, writes, replies });','const reply = { ok: true, token, writes, replies };'],
   ];
   for(const[name,needle,replacement]of faults){
     assert.equal(original.split(needle).length,2,name+' needs one target');

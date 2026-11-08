@@ -39,6 +39,7 @@ namespace HollowWake.Gameplay
         [DllImport(Library, CallingConvention=CallingConvention.Cdecl)] static extern int hwe_js_copy_response_v1(IntPtr host, byte* buffer, ulong capacity, out ulong written);
         [DllImport(Library, CallingConvention=CallingConvention.Cdecl)] static extern int hwe_js_release_response_v1(IntPtr host);
         [DllImport(Library, CallingConvention=CallingConvention.Cdecl)] static extern int hwe_js_metrics_v1(IntPtr host, out Metrics metrics);
+        [DllImport(Library, CallingConvention=CallingConvention.Cdecl)] static extern int hwe_js_collect_v1(IntPtr host, out Metrics metrics);
         [DllImport(Library, CallingConvention=CallingConvention.Cdecl)] static extern int hwe_js_destroy_v1(ref IntPtr host, out Metrics metrics);
 
         public Metrics FinalMetrics { get; private set; }
@@ -49,7 +50,7 @@ namespace HollowWake.Gameplay
         public static GameplayHost OpenProgression() => Open("Progression", PackHashes.ProgressionRules, PackHashes.ProgressionContent, 32);
         internal static string WorkshopInspection() => Utf8.GetString(Read("WorkshopInspection", PackHashes.WorkshopInspection));
         internal static string WorkshopEquipment() => Utf8.GetString(Read("WorkshopEquipment", PackHashes.WorkshopEquipment));
-        static byte[] Read(string asset, string expected)
+        internal static byte[] Read(string asset, string expected)
         {
             var source = Resources.Load<TextAsset>("HollowWake/" + asset);
             if (source == null) throw new InvalidOperationException("Missing Hollow Wake asset " + asset);
@@ -61,11 +62,27 @@ namespace HollowWake.Gameplay
         }
         static GameplayHost Open(string prefix, string rulesHash, string contentHash, uint heapMiB)
         {
+            RequirePlatform();
+            return Create(Read(prefix + "Rules", rulesHash), Read(prefix + "Content", contentHash), heapMiB);
+        }
+        static void RequirePlatform()
+        {
             if ((Application.platform != RuntimePlatform.WindowsEditor && Application.platform != RuntimePlatform.WindowsPlayer) || IntPtr.Size != 8)
                 throw new PlatformNotSupportedException("This Hollow Wake package supplies the Windows x64 runtime.");
-            return new GameplayHost(Read(prefix + "Rules", rulesHash), Read(prefix + "Content", contentHash), heapMiB);
         }
-        GameplayHost(byte[] rules, byte[] content, uint heapMiB)
+        /// <summary>Creates an owner from a trusted, compiled SDK capability and
+        /// its validated content. Call on the Unity main thread. Optional startup
+        /// collection requires the 0.4.1 native runtime or later; it has no
+        /// frame-time bound. The heap cap excludes Unity and managed memory.</summary>
+        public static GameplayHost Create(byte[] rules, byte[] content, uint heapMiB, bool collectAfterCreate=false)
+        {
+            RequirePlatform();
+            if(rules==null)throw new ArgumentNullException(nameof(rules));
+            if(content==null)throw new ArgumentNullException(nameof(content));
+            if(heapMiB<1 || heapMiB>1024)throw new ArgumentOutOfRangeException(nameof(heapMiB));
+            return new GameplayHost(rules,content,heapMiB,collectAfterCreate);
+        }
+        GameplayHost(byte[] rules, byte[] content, uint heapMiB, bool collectAfterCreate)
         {
             Check(hwe_js_layout_v1(out var layout));
             if (layout.abi != Abi || layout.pointer != IntPtr.Size || layout.options != sizeof(Options) || layout.metrics != sizeof(Metrics))
@@ -73,7 +90,12 @@ namespace HollowWake.Gameplay
             var options = new Options { abi = Abi, heap = (ulong)heapMiB << 20, request = RequestLimit, response = ResponseLimit, polls = 1000000 };
             fixed (byte* code = rules, data = content)
                 Check(hwe_js_create_v1(ref options, code, (ulong)rules.Length, data, (ulong)content.Length, out handle));
-            lock (Live) Live.Add(this);
+            try
+            {
+                if(collectAfterCreate)Check(hwe_js_collect_v1(handle,out var collected));
+                lock (Live) Live.Add(this);
+            }
+            catch { Dispose();throw; }
         }
         static void Check(int status)
         {
@@ -120,6 +142,16 @@ namespace HollowWake.Gameplay
             }
         }
         public Traffic ReadTraffic() { lock (gate) return traffic; }
+        /// <summary>Explicit idle-boundary collection. Never call per frame;
+        /// this synchronous native pass has no wall-time bound.</summary>
+        public Metrics Collect()
+        {
+            lock(gate)
+            {
+                if(handle==IntPtr.Zero)throw new ObjectDisposedException(nameof(GameplayHost));
+                Check(hwe_js_collect_v1(handle,out var result));return result;
+            }
+        }
         public void Dispose()
         {
             lock (gate)

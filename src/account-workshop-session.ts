@@ -9,6 +9,9 @@ import {copySessionJSON,SessionInputError,requireSession as need,sessionFields a
 type ObjectJSON=Record<string,SessionJSON>;
 type Account={key:string;progression:ObjectJSON;craftLore:SessionJSON;extra:SessionJSON;version:number};
 type Workshop={account:number;body:ObjectJSON;progression:boolean;version:number};
+type OwnerState={accounts:Map<number,Account>;keys:Set<string>;workshops:Map<number,Workshop>};
+type PreparedWrite={kind:'account'|'workshop';handle:number};
+type PreparedChange={token:number;state:OwnerState;writes:PreparedWrite[]};
 export interface AccountWorkshopDefinitions {
   progression:ProgressionSessionContent;
   workshop:CraftingSessionDefinitions;
@@ -31,9 +34,12 @@ export class AccountWorkshopSession {
   readonly #progression:ProgressionSession;
   readonly #crafting:CraftingSession;
   readonly #data:CraftingSessionData;
-  readonly #accounts=new Map<number,Account>();
-  readonly #keys=new Set<string>();
-  readonly #workshops=new Map<number,Workshop>();
+  #state:OwnerState={accounts:new Map(),keys:new Set(),workshops:new Map()};
+  get #accounts(){return this.#state.accounts;}
+  get #keys(){return this.#state.keys;}
+  get #workshops(){return this.#state.workshops;}
+  #prepared?:PreparedChange;
+  #nextToken=1;
   readonly #limits:{accounts:number;workshops:number};
   #busy=false;
   constructor(definitions:AccountWorkshopDefinitions,limits:AccountWorkshopLimits={}) {
@@ -120,6 +126,54 @@ export class AccountWorkshopSession {
     need(!Object.hasOwn(value,'profile') && (account?accountOps.has(value.op):!lifecycleOps.has(value.op)),'invalid-profile-command');
     return value as ObjectJSON;
   }
+  #prepare(request:Record<string,unknown>) {
+    fields(request,['op','commands']);
+    need(Array.isArray(request.commands)&&request.commands.length>0&&request.commands.length<=16,'invalid-command-batch');
+    integer(this.#nextToken,1,Number.MAX_SAFE_INTEGER);
+    const committed=this.#state;
+    const staged:OwnerState={accounts:new Map(committed.accounts),keys:new Set(committed.keys),workshops:new Map(committed.workshops)};
+    const replies:ObjectJSON[]=[],writes:PreparedWrite[]=[];
+    // Existing commands publish by replacing complete admitted records. A
+    // shallow map fork therefore shares unchanged records and compiled rules.
+    // Always restore the committed view, including validation/callback errors.
+    try{
+      this.#state=staged;
+      for(const command of request.commands){
+        record(command);need(command.op==='account'||command.op==='workshop','invalid-prepared-operation');
+        replies.push(this.#require(this.#command(command)));
+      }
+      for(const[handle,account]of staged.accounts)if(account!==committed.accounts.get(handle))writes.push({kind:'account',handle});
+      for(const[handle,workshop]of staged.workshops)if(workshop!==committed.workshops.get(handle))writes.push({kind:'workshop',handle});
+      need(writes.length<=8,'prepared-record-limit');
+      // Every exported candidate uses the same already admitted save envelope.
+      // Saving never executes further rules or consumes either random stream.
+      for(const write of writes)this.#require(this.#command(write.kind==='account'?
+        {op:'account-save',account:write.handle}:{op:'workshop-save',profile:write.handle}));
+      const token=writes.length?this.#nextToken:0;
+      const reply=copySessionJSON({ok:true,token,writes,replies});
+      if(writes.length){this.#prepared={token,state:staged,writes};this.#nextToken++;}
+      return reply;
+    }finally{this.#state=committed;}
+  }
+  #preparedCommand(request:Record<string,unknown>) {
+    const saving=request.op==='prepared-save';
+    fields(request,saving?['op','token','kind','handle']:['op','token']);integer(request.token,1);
+    const pending=this.#prepared;need(pending,'no-prepared-change');need(request.token===pending.token,'stale-prepared-change');
+    if(saving){
+      need(request.kind==='account'||request.kind==='workshop','invalid-prepared-kind');integer(request.handle,0,0xffffffff);
+      need(pending.writes.some(row=>row.kind===request.kind&&row.handle===request.handle),'record-not-prepared');
+      const committed=this.#state;
+      try{
+        this.#state=pending.state;
+        return this.#command(request.kind==='account'?{op:'account-save',account:request.handle}:{op:'workshop-save',profile:request.handle});
+      }finally{this.#state=committed;}
+    }
+    // Admit the reply before publishing. A native failure still poisons the
+    // runtime; durable callers recover from their acknowledged storage record.
+    const reply=copySessionJSON({ok:true,token:pending.token});
+    if(request.op==='commit-prepared')this.#state=pending.state;
+    this.#prepared=undefined;return reply;
+  }
   /** Plain JSON only. Invalid input refuses before publication. Complete saves
    * retain independent random streams, item IDs and opaque host account data.
    * A processed workshop no-op retains its original event/RNG semantics. */
@@ -132,6 +186,11 @@ export class AccountWorkshopSession {
   }
   #command(request:unknown):unknown {
     record(request);text(request.op);
+    if(['prepared-save','commit-prepared','abort-prepared'].includes(request.op))return this.#preparedCommand(request);
+    // Committed saves remain readable while storage owns a pending write.
+    // All other commands wait, including queries that use mutable rule kernels.
+    if(this.#prepared&&request.op!=='account-save'&&request.op!=='workshop-save')return refuse('prepared-change-pending');
+    if(request.op==='prepare')return this.#prepare(request);
     if(request.op==='open-account' || request.op==='restore-account') {
       const restore=request.op==='restore-account';
       fields(request,restore?['op','account','save']:['op','account','key','seed','state','craftLore','extra']);
