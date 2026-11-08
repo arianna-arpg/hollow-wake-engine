@@ -75,6 +75,17 @@ HWE_JS_API int32_t HWE_JS_CALL hwe_js_copy_response_v1(hwe_js_host *host,
     uint8_t *output, uint64_t capacity, uint64_t *written);
 HWE_JS_API int32_t HWE_JS_CALL hwe_js_release_response_v1(hwe_js_host *host);
 HWE_JS_API int32_t HWE_JS_CALL hwe_js_metrics_v1(hwe_js_host *host, hwe_js_metrics *output);
+/* Optional synchronous cycle collection at a caller-selected idle boundary.
+ * No automatic call is added to create/submit/release. Pending responses and
+ * overlapping work are refused without mutation. Cancellation or queued jobs,
+ * unhandled asynchronous work or VM exceptions poison the host; no jobs run.
+ * Successful collection resets the VM's automatic threshold to its upstream
+ * post-collection policy. Reachable state is retained; WeakRef target lifetime
+ * is not a gameplay guarantee. This native pass has no wall-time/interrupt-poll
+ * bound; cancellation is checked before and after it. Do not call per frame.
+ * Optional metrics are zero on invalid/BUSY admission, otherwise the final
+ * admitted host state (including refusals/failures). Older DLLs lack this export. */
+HWE_JS_API int32_t HWE_JS_CALL hwe_js_collect_v1(hwe_js_host *host, hwe_js_metrics *output);
 /* Sticky cancellation: interrupt current or next VM work; no rollback. A late
  * cancellation may arrive after a response was completed. Lifetime exclusion
  * remains the caller's responsibility; cancel must not race destruction. */

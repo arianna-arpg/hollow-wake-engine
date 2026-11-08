@@ -1,0 +1,53 @@
+name: Verify native idle collection
+on:
+  push:
+    paths:
+      - '.github/workflows/native-idle-collection.yml'
+      - '.github/actions/prepare-embedded-runtime/**'
+      - 'experiments/embedded-js/**'
+      - 'scripts/test-native-idle-collection.mjs'
+      - 'scripts/check-native-idle-evidence.mjs'
+      - 'scripts/embedded-native-tools.mjs'
+      - 'scripts/native-tools.mjs'
+      - 'scripts/reference-utils.mjs'
+      - 'evidence/unity-workshop/**'
+      - 'evidence/native-idle-collection/**'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  collect:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2025, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.9.0
+      - uses: ./.github/actions/prepare-embedded-runtime
+      - name: Verify accepted source-bound observations
+        run: node scripts/check-native-idle-evidence.mjs
+      - name: Download the exact public workload
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Invoke-WebRequest -Uri 'https://github.com/arianna-arpg/hollow-wake-engine/releases/download/unity-workshop-v0.2.0-preview.1/com.hollowwake.gameplay-0.2.0-preview.1.tgz' -OutFile .artifacts/workshop-public.tgz
+          if ((Get-FileHash .artifacts/workshop-public.tgz -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'ea56ce53d14a5c0b669ba1dcc05e96e90ea768994ac682e6ec54c5fd38577c76') { throw 'Public archive hash mismatch' }
+      - name: Verify collection contracts and repeated original replies
+        run: node scripts/test-native-idle-collection.mjs --amalgam-dir .artifacts/embedded-host-upstream --package .artifacts/workshop-public.tgz --python python --output .artifacts/native-idle-collection.json
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: native-idle-collection-${{ runner.os }}
+          include-hidden-files: true
+          if-no-files-found: error
+          path: |
+            .artifacts/native-idle-collection.json
+            .artifacts/native-idle-collection.json.raw.json.gz

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "passed": false,
+  "startedAt": "2026-11-08T01:37:17.935Z",
+  "sources": {
+    "scripts/test-native-idle-collection.mjs": "739ae8f513df3b9ba76bd03830c9446a257252d86351c341a96af3d673f7c054",
+    "scripts/embedded-native-tools.mjs": "b30ebdf8ff830261d1e45c9bb4a4b2e4667bbdb750c9b0f5c54586f0833b40d6",
+    "scripts/native-tools.mjs": "80671f3913e94caaecc8d18ab0c87d95aa3cb978201f38896291a4b823db5b89",
+    "scripts/reference-utils.mjs": "e36edca23dfd5ac73f203599495a1bc348e2fc90689c5c922154f7da0a40feeb",
+    "experiments/embedded-js/native/hwe_embedded.c": "d37295bde6f93cd774b403cdd2e8fcea0a0c804056ec7519e4f3cdd5be6ee6fe",
+    "experiments/embedded-js/native/hwe_embedded.h": "0a8b4208f8b4bd58688f5226e4faa902b994b82f16e795b2b3e6882e54fa2176",
+    "experiments/embedded-js/native/consumer.cpp": "c79543878d909b74dfe7f619e3b8d5578c9ce389c58502cdb9fa1d44b5528ef8",
+    "experiments/embedded-js/native/collection-consumer.cpp": "287a8d3c2571b2e1a841efa181cdd4ab66374030caef2ccbd83e71075f582368",
+    "experiments/embedded-js/native/collection-state.c": "49b03b222c49dc1a750bf785b243862d7134666705759362deacc45307bf53d7",
+    "experiments/embedded-js/tracked-allocator.h": "5c8e5cbf6412a3b9edf93826e190524221dc0cecc77f903690352f2a8c01ac0f",
+    "experiments/embedded-js/host-source-lock.json": "f920648cfa2b7b8ca35597106d94d3a990360f0b8441c9039a72e74706da6ffa",
+    "experiments/embedded-js/measurements/startup-inputs.py": "d983ad15a6c6d7043c982f21614fa469c5297bb47ddd27b8f68c653d7eb3c1bd",
+    "evidence/unity-workshop/acceptance.json": "2fd421849b58caf08d7960f330779b3a130b63671dd0a41742cbb4f2727178d8",
+    "evidence/unity-workshop/replay.json.gz": "b499d0f070d499060ea38025452e6be8249d6af51f58249a430645d249a7b645"
+  },
+  "packageSha256": "ea56ce53d14a5c0b669ba1dcc05e96e90ea768994ac682e6ec54c5fd38577c76",
+  "upstream": {
+    "schemaVersion": 1,
+    "runtime": "QuickJS-NG",
+    "version": "0.17.0",
+    "release": "https://github.com/quickjs-ng/quickjs/releases/tag/v0.17.0",
+    "license": "MIT",
+    "archive": {
+      "name": "quickjs-amalgam.zip",
+      "sha256": "a0955463c74809173a253ff87365095e6972e8b171cfb6aa8a1e781adf35cfeb"
+    },
+    "files": {
+      "quickjs-amalgam.c": "7c853a67ce7b6db463018e44f1425cd019d9f004a012ca013f47e415eb43446c",
+      "quickjs.h": "747a77444ff04a910b57ca51dd998d7ee46895b1b9592d7d6051fd180317c44d"
+    },
+    "scope": "Optional development C-host experiment. The upstream source and binaries are not redistributed. No production dependency or SDK license change."
+  },
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v24.9.0",
+    "os": "10.0.19045",
+    "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz"
+  },
+  "scope": "Explicit public-ABI idle collection and frozen workshop replay. No automatic integration, timing, device or engine-package claim.",
+  "repetitions": 8,
+  "rows": [],
+  "faults": [],
+  "failure": "Error: spawnSync intentionally-unavailable-idle-probe-python ENOENT\n    at Object.spawnSync (node:internal/child_process:1120:20)\n    at spawnSync (node:child_process:911:24)\n    at execFileSync (node:child_process:954:15)\n    at file:///D:/Games/Claude/ARPG%20Game%20-%20World/.claude/ownership.engine-m2/scripts/test-native-idle-collection.mjs:41:3\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:689:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)",
+  "cleaned": true,
+  "finishedAt": "2026-11-08T01:37:17.962Z",
+  "rawSha256": "bf5cb79c28d64e713391fc016907438dcb2a76fa98de39e5d2e1dfc19a36e517"
+}

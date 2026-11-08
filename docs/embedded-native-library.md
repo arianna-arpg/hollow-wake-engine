@@ -1,5 +1,10 @@
 # Experimental native library
 
+The current development interface additionally offers explicit
+[idle collection](native-idle-collection.md). It adds one optional export without
+changing existing layouts or automatically scheduling collection. Historical
+eight-export qualification below describes the earlier binary.
+
 The development C++ concurrency test now handles initial `BUSY` admission while
 its metrics observer briefly owns the same lock. Only that nonexecuting status
 is retried, within a bounded wait. Executed failures remain terminal. If ownership
@@ -180,7 +185,8 @@ does not authorize changing the SDK's existing license.
 The shared build helper retains the Windows compiler commands and adds native
 Linux builds. It records the actual commands and compiler banners. Linux uses
 position-independent code, hidden symbols and strict floating-point options;
-only the eight C interface functions may appear in the dynamic export table.
+only the declared C interface functions may appear in the dynamic export table
+(eight in the original proof, nine with explicit idle collection).
 The library links with undefined-symbol checks and immediate relocation. Its
 loader requests immediate, local symbol resolution. The runtime source and C
 ownership implementation are unchanged.

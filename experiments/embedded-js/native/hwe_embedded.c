@@ -261,6 +261,40 @@ int32_t HWE_JS_CALL hwe_js_metrics_v1(hwe_js_host *host, hwe_js_metrics *output)
     return HWE_JS_OK;
 }
 
+int32_t HWE_JS_CALL hwe_js_collect_v1(hwe_js_host *host, hwe_js_metrics *output) {
+    if (output) memset(output, 0, sizeof(*output));
+    if (!host) return HWE_JS_INVALID_ARGUMENT;
+    if (!enter(host)) return HWE_JS_BUSY;
+    int32_t status = HWE_JS_OK;
+    if (host->poisoned) status = HWE_JS_POISONED;
+    else if (host->response) status = HWE_JS_RESPONSE_PENDING;
+    else if (atomic_load_explicit(&host->cancellation, memory_order_relaxed) ||
+            host->async_violation || JS_IsJobPending(host->runtime) || JS_HasException(host->context))
+        status = failure(host);
+    else {
+        JS_RunGC(host->runtime);
+        /* FinalizationRegistry may enqueue a job or fail to allocate that job.
+         * Never execute it or overlook the exception from a failed enqueue. */
+        if (host->async_violation || JS_IsJobPending(host->runtime) || JS_HasException(host->context) ||
+                atomic_load_explicit(&host->cancellation, memory_order_relaxed))
+            status = failure(host);
+        else {
+            JSMemoryUsage usage;
+            JS_ComputeMemoryUsage(host->runtime, &usage);
+            /* Use the pinned runtime's public accounting, not our allocator's
+             * different requested-byte accounting. Match its automatic policy. */
+            size_t used = (size_t)usage.malloc_size;
+            JS_SetGCThreshold(host->runtime, used > SIZE_MAX - (used >> 1)
+                ? SIZE_MAX : used + (used >> 1));
+        }
+    }
+    if (status == HWE_JS_OK && atomic_load_explicit(&host->cancellation, memory_order_relaxed))
+        status = failure(host);
+    metrics(host, output);
+    leave(host);
+    return status;
+}
+
 int32_t HWE_JS_CALL hwe_js_cancel_v1(hwe_js_host *host) {
     if (!host) return HWE_JS_INVALID_ARGUMENT;
     atomic_store_explicit(&host->cancellation, 1, memory_order_relaxed);

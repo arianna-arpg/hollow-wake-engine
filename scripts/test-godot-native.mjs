@@ -134,7 +134,7 @@ try {
   assert.equal(hash(nativeLibrary), libraryProof.librarySha256);
   // Rebuild a pure import library from the verified export list. The old build's
   // unrecorded .lib file is never accepted as compiler input.
-  const names = ['cancel', 'copy_response', 'create', 'destroy', 'layout', 'metrics', 'release_response', 'submit'].map(name => 'hwe_js_' + name + '_v1');
+  const names = ['cancel', 'collect', 'copy_response', 'create', 'destroy', 'layout', 'metrics', 'release_response', 'submit'].map(name => 'hwe_js_' + name + '_v1');
   assert.deepEqual(libraryProof.exportedFunctions, names);
   const definition = path.join(directory, 'hwe_embedded.def'), importLibrary = path.join(directory, 'hwe_embedded.lib');
   if (windows) {

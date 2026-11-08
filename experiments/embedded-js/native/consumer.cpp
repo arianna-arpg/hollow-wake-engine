@@ -285,6 +285,7 @@ static void contracts(Api &api) {
     pending.close();
 }
 
+#ifndef HWE_JS_CONSUMER_NO_MAIN
 #if defined(_WIN32)
 int wmain(int argc, wchar_t **argv) {
 #else
@@ -320,3 +321,4 @@ int main(int argc, char **argv) {
         return 0;
     } catch (const std::exception &error) { std::cerr << error.what() << std::endl; return 1; }
 }
+#endif

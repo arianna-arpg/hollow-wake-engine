@@ -1,5 +1,12 @@
 # Verification and reproduction
 
+The [native idle-collection checkpoint](../evidence/native-idle-collection/README.md)
+adds an explicit development C operation with no automatic engine integration.
+Six repeated 450-reply courses, native boundary injections and seven
+deliberate faults qualify the Windows implementation. Peak memory decreases in
+the measured configuration schedule while ending retention increases; no timing
+or physical-device improvement is claimed.
+
 The [live-equipment checkpoint](../evidence/live-equipment-adapter/README.md)
 connects selected worn items to running Unity combat only after a durable commit.
 Original courses, native replies, actual editor/relocated player runs and deliberate

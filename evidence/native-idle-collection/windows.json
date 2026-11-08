@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "startedAt": "2026-11-08T01:34:46.226Z",
+  "sources": {
+    "scripts/test-native-idle-collection.mjs": "739ae8f513df3b9ba76bd03830c9446a257252d86351c341a96af3d673f7c054",
+    "scripts/embedded-native-tools.mjs": "b30ebdf8ff830261d1e45c9bb4a4b2e4667bbdb750c9b0f5c54586f0833b40d6",
+    "scripts/native-tools.mjs": "80671f3913e94caaecc8d18ab0c87d95aa3cb978201f38896291a4b823db5b89",
+    "scripts/reference-utils.mjs": "e36edca23dfd5ac73f203599495a1bc348e2fc90689c5c922154f7da0a40feeb",
+    "experiments/embedded-js/native/hwe_embedded.c": "d37295bde6f93cd774b403cdd2e8fcea0a0c804056ec7519e4f3cdd5be6ee6fe",
+    "experiments/embedded-js/native/hwe_embedded.h": "0a8b4208f8b4bd58688f5226e4faa902b994b82f16e795b2b3e6882e54fa2176",
+    "experiments/embedded-js/native/consumer.cpp": "c79543878d909b74dfe7f619e3b8d5578c9ce389c58502cdb9fa1d44b5528ef8",
+    "experiments/embedded-js/native/collection-consumer.cpp": "287a8d3c2571b2e1a841efa181cdd4ab66374030caef2ccbd83e71075f582368",
+    "experiments/embedded-js/native/collection-state.c": "49b03b222c49dc1a750bf785b243862d7134666705759362deacc45307bf53d7",
+    "experiments/embedded-js/tracked-allocator.h": "5c8e5cbf6412a3b9edf93826e190524221dc0cecc77f903690352f2a8c01ac0f",
+    "experiments/embedded-js/host-source-lock.json": "f920648cfa2b7b8ca35597106d94d3a990360f0b8441c9039a72e74706da6ffa",
+    "experiments/embedded-js/measurements/startup-inputs.py": "d983ad15a6c6d7043c982f21614fa469c5297bb47ddd27b8f68c653d7eb3c1bd",
+    "evidence/unity-workshop/acceptance.json": "2fd421849b58caf08d7960f330779b3a130b63671dd0a41742cbb4f2727178d8",
+    "evidence/unity-workshop/replay.json.gz": "b499d0f070d499060ea38025452e6be8249d6af51f58249a430645d249a7b645"
+  },
+  "packageSha256": "ea56ce53d14a5c0b669ba1dcc05e96e90ea768994ac682e6ec54c5fd38577c76",
+  "upstream": {
+    "schemaVersion": 1,
+    "runtime": "QuickJS-NG",
+    "version": "0.17.0",
+    "release": "https://github.com/quickjs-ng/quickjs/releases/tag/v0.17.0",
+    "license": "MIT",
+    "archive": {
+      "name": "quickjs-amalgam.zip",
+      "sha256": "a0955463c74809173a253ff87365095e6972e8b171cfb6aa8a1e781adf35cfeb"
+    },
+    "files": {
+      "quickjs-amalgam.c": "7c853a67ce7b6db463018e44f1425cd019d9f004a012ca013f47e415eb43446c",
+      "quickjs.h": "747a77444ff04a910b57ca51dd998d7ee46895b1b9592d7d6051fd180317c44d"
+    },
+    "scope": "Optional development C-host experiment. The upstream source and binaries are not redistributed. No production dependency or SDK license change."
+  },
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v24.9.0",
+    "os": "10.0.19045",
+    "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz"
+  },
+  "scope": "Explicit public-ABI idle collection and frozen workshop replay. No automatic integration, timing, device or engine-package claim.",
+  "repetitions": 8,
+  "rows": [
+    {
+      "passed": true,
+      "contracts": true,
+      "requests": 450,
+      "collections": 0,
+      "beforeBytes": 28660357,
+      "afterBytes": 28660357,
+      "endBytes": 18623461,
+      "peakBytes": 32811005,
+      "closedBytes": 0,
+      "closedBlocks": 0,
+      "mode": "none",
+      "replySha256": "44c66f1d58254cf3042d9b8cd4d77685ad92399889f669734fdc58c45ccb4368"
+    },
+    {
+      "passed": true,
+      "contracts": true,
+      "requests": 450,
+      "collections": 1,
+      "beforeBytes": 28660357,
+      "afterBytes": 18554661,
+      "endBytes": 27065749,
+      "peakBytes": 31332173,
+      "closedBytes": 0,
+      "closedBlocks": 0,
+      "mode": "configured",
+      "replySha256": "44c66f1d58254cf3042d9b8cd4d77685ad92399889f669734fdc58c45ccb4368"
+    },
+    {
+      "passed": true,
+      "contracts": true,
+      "requests": 450,
+      "collections": 450,
+      "beforeBytes": 18550589,
+      "afterBytes": 18603157,
+      "endBytes": 18603157,
+      "peakBytes": 30947365,
+      "closedBytes": 0,
+      "closedBlocks": 0,
+      "mode": "every-release",
+      "replySha256": "44c66f1d58254cf3042d9b8cd4d77685ad92399889f669734fdc58c45ccb4368"
+    },
+    {
+      "passed": true,
+      "contracts": true,
+      "requests": 450,
+      "collections": 450,
+      "beforeBytes": 18550589,
+      "afterBytes": 18603157,
+      "endBytes": 18603157,
+      "peakBytes": 30947365,
+      "closedBytes": 0,
+      "closedBlocks": 0,
+      "mode": "every-release",
+      "replySha256": "44c66f1d58254cf3042d9b8cd4d77685ad92399889f669734fdc58c45ccb4368"
+    },
+    {
+      "passed": true,
+      "contracts": true,
+      "requests": 450,
+      "collections": 1,
+      "beforeBytes": 28660357,
+      "afterBytes": 18554661,
+      "endBytes": 27065749,
+      "peakBytes": 31332173,
+      "closedBytes": 0,
+      "closedBlocks": 0,
+      "mode": "configured",
+      "replySha256": "44c66f1d58254cf3042d9b8cd4d77685ad92399889f669734fdc58c45ccb4368"
+    },
+    {
+      "passed": true,
+      "contracts": true,
+      "requests": 450,
+      "collections": 0,
+      "beforeBytes": 28660357,
+      "afterBytes": 28660357,
+      "endBytes": 18623461,
+      "peakBytes": 32811005,
+      "closedBytes": 0,
+      "closedBlocks": 0,
+      "mode": "none",
+      "replySha256": "44c66f1d58254cf3042d9b8cd4d77685ad92399889f669734fdc58c45ccb4368"
+    }
+  ],
+  "faults": [
+    {
+      "name": "no-collection",
+      "rejected": true,
+      "expectedFailure": "Explicit collection reclaims unreachable cycle",
+      "mutatedSourceSha256": "892d60a88962bf023d423c2d2b922a224b062c44fa6e41016b0f59827ec56993"
+    },
+    {
+      "name": "pending-admitted",
+      "rejected": true,
+      "expectedFailure": "Pending response collection refuses without mutation",
+      "mutatedSourceSha256": "ca99e3bef34637ea87e815d1f8fe8d37f86201dcf78e7166d21d25c4083dd6b0"
+    },
+    {
+      "name": "async-ignored",
+      "rejected": true,
+      "expectedFailure": "Collection rejects existing cleanup",
+      "mutatedSourceSha256": "c38110dcc789a957a2757fe1b9f341ab7e85cd98c82b7084050a0b73c06dd961"
+    },
+    {
+      "name": "cancellation-ignored",
+      "rejected": true,
+      "expectedFailure": "Idle collection respects sticky cancellation",
+      "mutatedSourceSha256": "93f4f8d6b2ce5b92cb9ebd658583900082d016c47d8dc1f0ed7e519842c4d8e8"
+    },
+    {
+      "name": "prior-exception-ignored",
+      "rejected": true,
+      "expectedFailure": "Reject pending exception before collection",
+      "mutatedSourceSha256": "9f8c449036789f9c5a456ede4048e48a125a3363eae496621c4326244c7d143b"
+    },
+    {
+      "name": "gc-exception-ignored",
+      "rejected": true,
+      "expectedFailure": "Reject post-collection exception without job",
+      "mutatedSourceSha256": "6d1beaed0d4adb0c59021bacbae8a8e31975e4f2891d8a4929ef62a1aae5c26f"
+    },
+    {
+      "name": "accounting-cancel-ignored",
+      "rejected": true,
+      "expectedFailure": "Observe cancellation during accounting",
+      "mutatedSourceSha256": "15b2f71d45b74f6366026964dc167bb382568e331687538df3599994e68ce8a9"
+    }
+  ],
+  "compiler": "usage: cl [ option... ] filename... [ /link linkoption... ]\r\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.38.33133 for x64\r\nCopyright (C) Microsoft Corporation.  All rights reserved.",
+  "commands": [
+    {
+      "command": "cl.exe",
+      "args": [
+        "/nologo",
+        "/O2",
+        "/std:c11",
+        "/fp:strict",
+        "/MT",
+        "/experimental:c11atomics",
+        "/ID:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\quickjs-source-v017",
+        "/W4",
+        "/WX",
+        "/DHWE_JS_BUILD_SHARED",
+        "/c",
+        "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\native\\hwe_embedded.c",
+        "/Fo:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-idle-collection-luSh6I\\build\\hwe_embedded.obj"
+      ]
+    },
+    {
+      "command": "cl.exe",
+      "args": [
+        "/nologo",
+        "/O2",
+        "/std:c11",
+        "/fp:strict",
+        "/MT",
+        "/experimental:c11atomics",
+        "/ID:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\quickjs-source-v017",
+        "/c",
+        "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\quickjs-source-v017\\quickjs-amalgam.c",
+        "/Fo:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-idle-collection-luSh6I\\build\\quickjs-amalgam.obj"
+      ]
+    },
+    {
+      "command": "cl.exe",
+      "args": [
+        "/nologo",
+        "/MT",
+        "/LD",
+        "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-idle-collection-luSh6I\\build\\hwe_embedded.obj",
+        "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-idle-collection-luSh6I\\build\\quickjs-amalgam.obj",
+        "/Fe:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-idle-collection-luSh6I\\build\\hwe_embedded.dll"
+      ]
+    },
+    {
+      "command": "cl.exe",
+      "args": [
+        "/nologo",
+        "/O2",
+        "/W4",
+        "/WX",
+        "/std:c++17",
+        "/utf-8",
+        "/EHsc",
+        "/MT",
+        "D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\experiments\\embedded-js\\native\\collection-consumer.cpp",
+        "/Fo:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-idle-collection-luSh6I\\build\\consumer.obj",
+        "/Fe:D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\native-idle-collection-luSh6I\\build\\consumer.exe",
+        "/link",
+        "/STACK:2097152"
+      ]
+    }
+  ],
+  "exports": [
+    "hwe_js_cancel_v1",
+    "hwe_js_collect_v1",
+    "hwe_js_copy_response_v1",
+    "hwe_js_create_v1",
+    "hwe_js_destroy_v1",
+    "hwe_js_layout_v1",
+    "hwe_js_metrics_v1",
+    "hwe_js_release_response_v1",
+    "hwe_js_submit_v1"
+  ],
+  "librarySha256": "892f267d1e42652a8324bccee229b1f8ac39139442fc83fb14611e33ef263b7d",
+  "consumerSha256": "ae1e893b3b93c0e6d1a51751e3b2eea364fa160c059fad76e75717c7a0add0bc",
+  "stateInjections": {
+    "passed": true,
+    "cases": 6,
+    "closedBytes": 0,
+    "closedBlocks": 0
+  },
+  "inputs": {
+    "bundle.js": "f45fc7cfdd971d975fddbd2c17383eb91348cdc05b1d14d3da16796aed28874c",
+    "content.json": "7f76054575d7237bc67f3f687e8f04b7e032345c92cd14675bb4ba6de9e6add1",
+    "requests.jsonl": "9386d18ac1f1c4b50532dbdda48e177871b2bd48eb18d2c21c66882dd0a320e2",
+    "expected.jsonl": "e71e7fcdb09e2ae7923dfc5953cdba3be462b272a35f19ebc9c98f78a02640ce"
+  },
+  "peakDeltaBytes": -1478832,
+  "endDeltaBytes": 8442288,
+  "cleaned": true,
+  "finishedAt": "2026-11-08T01:37:26.298Z",
+  "rawSha256": "da244c9ff1ee1a53a2a28fe97ad2ac4954c2c4965888a6eac3507ecd6a751e41"
+}

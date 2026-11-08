@@ -44,10 +44,11 @@ export function buildEmbeddedExecutable(directory, upstream, source, stem) {
   return {binary, env: t.env, compilerBanner: t.banner(t.cc), commands: t.commands, compilerFlags: t.flags};
 }
 
-export function buildEmbeddedLibrary(directory, upstream, {sanitize = false} = {}) {
+export function buildEmbeddedLibrary(directory, upstream, {sanitize = false, collectionConsumer = false} = {}) {
   const t = toolchain(directory, upstream, sanitize), source = path.join(root, 'experiments/embedded-js/native');
   const library = path.join(directory, t.windows ? 'hwe_embedded.dll' : 'libhwe_embedded.so');
   const native = path.join(directory, t.windows ? 'consumer.exe' : 'consumer'), suffix = t.windows ? '.obj' : '.o';
+  const consumerSource = path.join(source, collectionConsumer ? 'collection-consumer.cpp' : 'consumer.cpp');
   const ownObject = path.join(directory, 'hwe_embedded' + suffix), upstreamObject = path.join(directory, 'quickjs-amalgam' + suffix);
   try {
     t.run(t.cc, t.windows ? [...t.flags, '/W4', '/WX', '/DHWE_JS_BUILD_SHARED', '/c', path.join(source, 'hwe_embedded.c'), '/Fo:' + ownObject]
@@ -56,17 +57,17 @@ export function buildEmbeddedLibrary(directory, upstream, {sanitize = false} = {
       : [...t.flags, '-c', path.join(upstream, 'quickjs-amalgam.c'), '-o', upstreamObject]);
     t.run(t.cc, t.windows ? ['/nologo', '/MT', '/LD', ownObject, upstreamObject, '/Fe:' + library]
       : ['-shared', ownObject, upstreamObject, '-Wl,-z,defs,-z,relro,-z,now', '-lm', '-ldl', '-pthread', ...t.instrumentation, '-o', library]);
-    t.run(t.cxx, t.windows ? ['/nologo', '/O2', '/W4', '/WX', '/std:c++17', '/utf-8', '/EHsc', '/MT', path.join(source, 'consumer.cpp'),
+    t.run(t.cxx, t.windows ? ['/nologo', '/O2', '/W4', '/WX', '/std:c++17', '/utf-8', '/EHsc', '/MT', consumerSource,
       '/Fo:' + path.join(directory, 'consumer.obj'), '/Fe:' + native, '/link', '/STACK:2097152']
       : ['-std=c++17', '-O2', '-Wall', '-Wextra', '-Werror', '-fno-fast-math', '-ffp-contract=off',
-        ...t.instrumentation, path.join(source, 'consumer.cpp'), '-ldl', '-pthread', '-o', native]);
+        ...t.instrumentation, consumerSource, '-ldl', '-pthread', '-o', native]);
   } finally {t.finish();}
   const exported = execFileSync(t.windows ? 'dumpbin.exe' : 'nm', t.windows ? ['/exports', library]
     : ['-D', '--defined-only', '--format=posix', library], {cwd: directory, env: t.env, windowsHide: true, encoding: 'utf8'});
   fs.writeFileSync(path.join(directory, 'exports.txt'), exported, {flag: 'wx'});
   const names = t.windows ? [...exported.matchAll(/^\s+\d+\s+[\dA-F]+\s+[\dA-F]+\s+(\S+)\s*$/gm)].map(match => match[1]).sort()
     : exported.trim().split(/\r?\n/).map(line => line.split(/\s+/)[0]).sort();
-  assert.deepEqual(names, ['cancel', 'copy_response', 'create', 'destroy', 'layout', 'metrics', 'release_response', 'submit'].map(name => 'hwe_js_' + name + '_v1').sort());
+  assert.deepEqual(names, ['cancel', 'collect', 'copy_response', 'create', 'destroy', 'layout', 'metrics', 'release_response', 'submit'].map(name => 'hwe_js_' + name + '_v1').sort());
   return {library, native, env: t.env, compilerBanner: t.banner(t.cc), cppCompilerBanner: t.banner(t.cxx),
     commands: t.commands, compilerFlags: t.flags, exportedFunctions: names, sanitize};
 }
