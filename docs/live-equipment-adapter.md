@@ -1,11 +1,14 @@
-# Live equipment adapter candidate
+# Live equipment adapter preview
 
 The first connection is deliberately bounded: common, unsocketed Lapis Rings,
 Coral Rings and Opal Amulets, with the existing Magician/Ruin combat capability.
 The full workshop can own other items, but this connection refuses to equip an
 item whose combat behavior it cannot reproduce. The [accepted local checkpoint](../evidence/live-equipment-adapter/README.md)
-qualifies the named editor/player path. This candidate is not a published package
-or a physical-device qualification.
+qualifies the named editor/player path.
+[Gameplay 0.3 with storage 0.2 is public](https://github.com/arianna-arpg/hollow-wake-engine/releases/tag/unity-live-equipment-v0.3.0-preview.1).
+All ten hosted workflows passed at release commit `03eb2d504a9fe410b97d3959a76d4a494c5d3541`;
+the publication receipt records all nine asset hashes. Physical-device
+qualification remains separate.
 
 ## Ownership and publication
 
@@ -27,7 +30,7 @@ targets, effects or randomness. Unknown fields, identities, slots or unsupported
 item effects fail explicitly. Original UI cue randomness is not combat randomness;
 see the [raw boundary](live-equipment-boundary.md).
 
-The Unity storage candidate adds
+The Unity storage preview adds
 `new DurableWorkshop(absolutePath, slot, actor)`. This overload transfers actor
 lifetime to the workshop. Dispose the workshop before disposing its combat world.
 Use the actor only after `IsReady`, and call `Poll` at a main-thread simulation

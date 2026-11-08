@@ -1,6 +1,6 @@
 # Live equipment publication checkpoint
 
-The candidate connects saved workshop equipment to an already-running combat
+The public preview connects saved workshop equipment to an already-running combat
 actor. All twelve original-game courses are covered by source tests. The
 unchanged Windows native library reproduces 37 exact replies from the new rules;
 five deliberately broken protocols fail their intended assertions.
@@ -22,18 +22,25 @@ cleanup and the two prior publication-fault controls. The full SDK verification
 and original-game comparison suites pass. Earlier profile-temp and restricted
 Unity-launch failures are recorded in `acceptance.json` rather than discarded.
 
-| Candidate | Archive SHA-256 |
+| Published archive | Archive SHA-256 |
 | --- | --- |
 | Gameplay 0.3.0-preview.1 | `55af6001cf2c0d29622787d3ac71a607f2200a9a7a2b324fab0a0b1bc26d08e8` |
 | Storage 0.2.0-preview.1 | `fdc50aa2541439f73237004da76b01667c60ddc17eab1df2c2afd239ed9a5dcd` |
 
 The three common unsocketed bases are the complete admission scope. This is not
-full item-effect support, a new public release, IL2CPP/ARM qualification, or a
+full item-effect support, IL2CPP/ARM qualification, or a
 Steam Deck/mobile performance result. The existing 64 MiB combat and 32 MiB
 workshop VM caps exclude Unity, managed memory and SQLite. The observed course
 peaks in `reports.json` are allocation observations, not speed improvements.
 
 ## Reproduction
+
+The [public release](https://github.com/arianna-arpg/hollow-wake-engine/releases/tag/unity-live-equipment-v0.3.0-preview.1)
+targets `03eb2d504a9fe410b97d3959a76d4a494c5d3541`. All ten hosted workflows passed
+at that commit. `publication.json` retains the public visibility check and nine
+asset identities; `hosted-final.json` retains the final workflow results.
+Reproduce this historical package checkpoint at the release commit; later
+adapter changes require fresh qualification.
 
 Build the SDK and run `node scripts/check-live-equipment-evidence.mjs` to verify
 accepted file hashes, current sources, package identity and observation invariants.
