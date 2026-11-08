@@ -25,6 +25,7 @@ on:
       - 'evidence/prepared-account/**'
       - 'evidence/unity-shared-account/**'
       - 'evidence/shared-account-equipment/**'
+      - 'evidence/unity-shared-equipment/**'
       - 'adapters/embedded/equipment-session.mjs'
       - 'src/crafting-session.ts'
       - 'test/unity-live-equipment/**'
@@ -88,6 +89,10 @@ jobs:
         run: git fetch --no-tags --depth=1 origin 4fb5c72b3bbccff87d748a6624e4594658c30975
       - name: Check retained features in the equipment candidates
         run: node adapters/unity-shared-account/qualification/check-equipment-retained.mjs --source-ref 4fb5c72b3bbccff87d748a6624e4594658c30975
+      - name: Fetch the versioned equipment preview source
+        run: git fetch --no-tags --depth=1 origin bb50099f8d516f4d1faf938283f37c09a10c1933
+      - name: Check installed equipment preview observations and source lineage
+        run: node adapters/unity-shared-account/qualification/check-equipment-preview.mjs --source-ref bb50099f8d516f4d1faf938283f37c09a10c1933
       - name: Exercise the current progression adapter
         run: node --test test/unity-progression-entry.test.mjs
       - name: Verify owned Unity fixture cleanup
@@ -105,10 +110,55 @@ jobs:
           } finally {
             if (Test-Path -LiteralPath $archive) { Remove-Item -LiteralPath $archive }
           }
+      - name: Rebuild the versioned equipment previews from their immutable source
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $original = git rev-parse HEAD
+          git diff --quiet
+          if ($LASTEXITCODE -ne 0) { throw 'Tracked changes before historical rebuild' }
+          git diff --cached --quiet
+          if ($LASTEXITCODE -ne 0) { throw 'Staged changes before historical rebuild' }
+          $artifactRoot = (Resolve-Path -LiteralPath .artifacts).Path
+          $work = [IO.Path]::GetFullPath((Join-Path $artifactRoot 'equipment-preview-rebuild'))
+          if ([IO.Path]::GetDirectoryName($work) -ne $artifactRoot -or (Test-Path -LiteralPath $work)) { throw 'Unexpected rebuild directory' }
+          New-Item -ItemType Directory -Path $work | Out-Null
+          try {
+            git switch --detach bb50099f8d516f4d1faf938283f37c09a10c1933
+            if ($LASTEXITCODE -ne 0) { throw 'Historical source checkout failed' }
+            npm ci
+            if ($LASTEXITCODE -ne 0) { throw 'Historical dependencies failed' }
+            npm run build
+            if ($LASTEXITCODE -ne 0) { throw 'Historical SDK build failed' }
+            $gameplayParent = Join-Path $work 'gameplay-parent.tgz'
+            $storageParent = Join-Path $work 'storage-parent.tgz'
+            Invoke-WebRequest 'https://github.com/arianna-arpg/hollow-wake-engine/releases/download/unity-shared-account-v0.5.0-preview.1/com.hollowwake.gameplay-0.5.0-preview.1.tgz' -OutFile $gameplayParent
+            Invoke-WebRequest 'https://github.com/arianna-arpg/hollow-wake-engine/releases/download/unity-shared-account-v0.5.0-preview.1/com.hollowwake.storage-0.4.0-preview.1.tgz' -OutFile $storageParent
+            $candidate = Join-Path $work 'candidate'
+            $preview = Join-Path $work 'preview'
+            python -I -B adapters/unity-shared-account/qualification/equipment-package.py --gameplay $gameplayParent --storage $storageParent --output $candidate
+            if ($LASTEXITCODE -ne 0) { throw 'Historical equipment candidate rebuild failed' }
+            python -I -B adapters/unity-shared-account/qualification/package-equipment-preview.py --candidate $candidate --output $preview
+            if ($LASTEXITCODE -ne 0) { throw 'Equipment preview rebuild failed' }
+            python -I -B adapters/unity-shared-account/qualification/verify-equipment-preview-archives.py --candidate $candidate --preview $preview --output .artifacts/shared-equipment-preview-archive-controls.json
+            if ($LASTEXITCODE -ne 0) { throw 'Equipment preview archive controls failed' }
+          } finally {
+            try {
+              git switch --detach $original
+              if ($LASTEXITCODE -ne 0) { throw 'Could not restore checked-out source after historical rebuild' }
+            } finally {
+              if ((Split-Path -Parent (Resolve-Path -LiteralPath $work).Path) -ne $artifactRoot) { throw 'Unexpected rebuild cleanup path' }
+              Remove-Item -LiteralPath $work -Recurse
+            }
+          }
+          node --input-type=commonjs -e 'const fs=require("node:fs"),a=JSON.parse(fs.readFileSync("evidence/unity-shared-equipment/acceptance.json")),r=JSON.parse(fs.readFileSync(".artifacts/shared-equipment-preview-archive-controls.json"));if(!r.passed||!r.cleaned||!r.inputsUnchanged)throw Error("Archive controls failed");for(const name of ["gameplay","storage"])if(r.packages[name].sha256!==a[name+"Sha256"])throw Error("Published preview differs: "+name);'
+          if ($LASTEXITCODE -ne 0) { throw 'Recorded preview identities differ' }
       - name: Retain archive verification only
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: unity-archive-${{ matrix.os }}
           if-no-files-found: error
           retention-days: 14
-          path: .artifacts/unity-archive-controls.json
+          path: |
+            .artifacts/unity-archive-controls.json
+            .artifacts/shared-equipment-preview-archive-controls.json

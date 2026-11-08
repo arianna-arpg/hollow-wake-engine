@@ -3,9 +3,10 @@
 This integration adds `AccountWorkshopSession` to the existing
 Unity gameplay package. It supplies one account authority across several
 inventories, lossless save text, typed lifetime handles and prepared changes.
-The [published gameplay 0.5 / storage 0.4 preview](../../docs/unity-shared-account.md)
-is the qualified installation checkpoint. The optional live equipment work in
-this checkout is a separate, unpublished [development candidate](../../docs/shared-account-equipment.md).
+The [gameplay 0.6 / storage 0.5 preview](../../docs/unity-shared-equipment.md)
+adds optional live equipment publication to the qualified shared-account path.
+The [equipment contract](../../docs/shared-account-equipment.md) describes its
+selected gear capability, ownership and save/recovery boundary.
 
 ```csharp
 using (var owner = SharedAccountWorkshop.Open())
@@ -68,7 +69,7 @@ the storage worker so recovery must reopen the acknowledged records.
 
 The first coordinator keeps a fixed group and preserves each auxiliary document.
 Changing membership, editing those auxiliary documents and legacy migration
-require their own explicit transaction boundaries. The development equipment
+require their own explicit transaction boundaries. The equipment
 overload has its own capability, ownership and publication contract.
 It does not invent those policies from account keys or file paths.
 
