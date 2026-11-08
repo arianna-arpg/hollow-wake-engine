@@ -113,3 +113,37 @@ and block on disposal. These are desktop observations, not total Unity memory,
 performance improvements or physical Steam Deck/mobile acceptance. The default
 shared heap remains 48 MiB. Broad gear effects, cross-engine bindings, ARM,
 IL2CPP and target-device frame/allocation budgets remain open.
+
+## Retained package checks
+
+`qualification/verify-equipment-retained.py` runs the existing Unity courses
+against the unchanged equipment candidate. Supply `--editor`, `--gameplay`,
+`--storage` and a fresh `--output` JSON path. Run these modes sequentially:
+
+| Mode | Existing behavior exercised |
+| --- | --- |
+| `gameplay` | 60 combat requests, 2,334 pouch requests, 56 workshop requests, imported samples, content corruption and native content-load controls |
+| `shared` | 84 typed shared-account operations, the documented example and retired/foreign handles |
+| `equipment` | The older separate workshop/equipment save coordinator and live combat continuation |
+| `account-storage` | The older paired account/workshop coordinator, imported sample, five lifecycle paths and four deliberate faults |
+
+The progression course remains `scripts/verify-unity-progression.py`, taking
+`--editor`, `--gameplay` and `--output`. Each course uses the actual UPM archive
+in the editor and a relocated Windows x64 Mono player. A passing result is
+specific to the recorded archive hashes and this host configuration.
+
+The retained runner verifies every archive member and all declared source
+hashes. Older tools need a resource-hash index and frozen inputs beside the
+archive, so it derives a supplemental receipt in a private temporary directory.
+The report records the original and supplemental receipt hashes; it never
+edits the candidate receipt or archive. The pouch reference and prepared
+expectations come from accepted repository evidence, not regenerated output.
+Generated projects, caches and supplementary metadata are removed on failure
+as well as success, including Windows paths beyond the legacy path limit.
+
+`qualification/verify-equipment-archives.py` takes `--gameplay-parent`,
+`--storage-parent`, the candidate `--gameplay` and `--storage` directories and
+a fresh `--output`. It rebuilds both archives byte for byte, checks the exact
+allowed changes independently, and refuses altered parent archives, source or
+member hashes, contradictory resource metadata and existing output folders.
+These archive controls do not replace actual-engine qualification.
