@@ -1,5 +1,12 @@
 # Unity durable storage qualification
 
+Published publicly as
+[unity-storage-v0.1.0-preview.1](https://github.com/arianna-arpg/hollow-wake-engine/releases/tag/unity-storage-v0.1.0-preview.1)
+from commit `5795e287ca1ebd272783e50e42e3cd7dea0b3d75`.
+Both hosted workflows completed successfully. All eight release assets were
+downloaded and matched to the qualified local bytes before publication;
+[publication.json](publication.json) records their hashes and URLs.
+
 This checkpoint qualifies the optional storage package in Unity 2021.3.6f1,
 Windows x64 editor and Mono player. The gameplay package is the unchanged public
 0.2.0-preview.1 archive. The storage DLL is the exact Release binary already

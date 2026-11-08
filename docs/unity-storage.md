@@ -1,5 +1,11 @@
 # Unity storage integration
 
+The first [public storage preview](https://github.com/arianna-arpg/hollow-wake-engine/releases/tag/unity-storage-v0.1.0-preview.1)
+is available as a Unity Package Manager tarball. Its qualified archive hash is
+`10a052e8ccffc50e3f92ab9757610564edcaf1942c4bae514c76688c7d9c2d95`.
+See the [publication receipt](../evidence/unity-storage/publication.json) for
+the source commit, hosted checks and exact assets.
+
 The optional `com.hollowwake.storage` package adapts the accepted portable
 save library to Unity. It has no dependency on the gameplay package. The
 first delivery targets the installed Unity 2021.3 Windows x64 editor and
@@ -38,8 +44,8 @@ Acceptance gates:
 - Connect the workshop and verify exact inventory/RNG continuation, committed-view
   publication and failure recovery through real editor and player runs.
 
-The published gameplay 0.2 preview remains unchanged and continues to provide
-in-memory checkpoints while this integration is developed.
+The published gameplay 0.2 preview remains unchanged. Install the optional
+storage preview alongside it to add durable workshop checkpoints.
 
 The storage package's optional gameplay assembly uses Unity's documented
 [package-version defines and assembly constraints](https://docs.unity3d.com/cn/2021.3/Manual/ScriptCompilationAssemblyDefinitionFiles.html).
