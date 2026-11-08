@@ -70,6 +70,9 @@ six injected states and seven deliberate faults, then reached the instrumented
 consumer's three-minute process limit. This is a failed qualification, not a
 sanitizer pass. The complete instrumented course now has a ten-minute ceiling
 and retained stage/replay progress to distinguish slow execution from a stall.
+The [rerun at d478454](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42442109695)
+passed both Windows and Linux, including the complete Linux sanitizer course.
+Its source-bound reports and raw progress are retained in the checkpoint.
 
 The driver preserves source and input hashes, retains compressed compiler and
 assertion receipts, and removes its private build and replay directory even on

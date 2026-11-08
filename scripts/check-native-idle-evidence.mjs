@@ -43,5 +43,36 @@ for (const [file, hash] of Object.entries(sdk.sources))
   assert.equal(sha256(fs.readFileSync(path.join(root, file.replaceAll('\\', '/')))), hash, file);
 const cleanup = JSON.parse(fs.readFileSync(path.join(dir, 'cleanup.json')));
 assert(cleanup.passed && cleanup.foldersRemoved === 68 && cleanup.bytesRemoved === 333992810);
+const hosted = JSON.parse(fs.readFileSync(path.join(dir, 'hosted-run.json')));
+assert.equal(hosted.headSha, 'd478454871039cd18c8181de896ce715b757b48f');
+assert.equal(hosted.conclusion, 'success'); assert.equal(hosted.jobs.length, 2);
+assert(hosted.jobs.every(job => job.conclusion === 'success' && job.status === 'completed'));
+for (const platform of ['linux', 'hosted-windows']) {
+  const current = JSON.parse(fs.readFileSync(path.join(dir, platform + '.json')));
+  const compressed = fs.readFileSync(path.join(dir, platform + '-raw.json.gz'));
+  assert(current.passed && current.cleaned && current.stateInjections.passed);
+  assert.equal(current.stateInjections.cases, 6);
+  assert.equal(current.rows.length, 6); assert.equal(current.faults.length, 7);
+  assert(current.faults.every(fault => fault.rejected));
+  assert.equal(sha256(compressed), current.rawSha256);
+  const observations = JSON.parse(gunzipSync(compressed));
+  assert.deepEqual(current.sources, report.sources);
+  for (const [file, hash] of Object.entries(current.sources))
+    if (Object.hasOwn(observations.sources, file)) assert.equal(sha256(observations.sources[file]), hash, file);
+  for (const row of current.rows) {
+    assert(row.passed && row.contracts && row.requests === 450);
+    assert.equal(row.replySha256, report.rows[0].replySha256);
+    assert.equal(row.closedBytes, 0); assert.equal(row.closedBlocks, 0);
+  }
+  if (platform === 'linux') {
+    assert(current.sanitizers.passed && current.sanitizers.contracts);
+    assert.equal(current.sanitizers.requests, 450);
+    assert.equal(current.sanitizers.replySha256, report.rows[0].replySha256);
+    assert.equal(current.sanitizers.closedBytes, 0); assert.equal(current.sanitizers.closedBlocks, 0);
+    const run = observations.runs.find(row => row.sanitized);
+    assert.equal(run.status, 0); assert.equal(run.signal, null); assert(!run.error);
+    assert(run.stderr.includes('collection-progress: replay 450'));
+  }
+}
 console.log({passed: true, replays: 6, requestsEach: 450, deliberateFaults: 7,
-  scope: 'Current native source and recorded Windows memory observations; no engine or device performance claim'});
+  scope: 'Current native source, Windows/Linux contracts and Linux sanitizers; no engine or device performance claim'});

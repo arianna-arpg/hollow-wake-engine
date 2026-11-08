@@ -57,6 +57,15 @@ sanitizer acceptance. The updated driver retains stage progress and allows ten
 minutes for that complete instrumented course. The refreshed Windows run
 preserves every reply digest and allocation observation above.
 
+The [hosted rerun](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42442109695)
+at `d478454871039cd18c8181de896ce715b757b48f` passed on Windows and Linux.
+`linux.json`, `hosted-windows.json` and their compressed raw receipts bind the
+same source hashes to six replays, six state injections and seven fault controls.
+The Linux address/undefined-behavior/leak-instrumented consumer also completed
+all 450 requests with the exact accepted digest and zero tracked disposal bytes.
+`hosted-run.json` records both successful jobs. This adds cross-platform
+correctness evidence; it makes no new timing or device-performance claim.
+
 The complete `npm run verify` SDK regression suite passed; its source map and
 log digest are retained in `sdk-verification.json`. After verification, 68
 owned consumer directories (9,617 files; 333,992,810 bytes) were removed.
