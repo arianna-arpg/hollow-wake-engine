@@ -11,6 +11,9 @@ on:
       - 'scripts/reference-utils.mjs'
       - 'test/portable-save*'
       - 'test/portable-save-dotnet/**'
+      - 'baseline/grouped-saves/**'
+      - 'evidence/grouped-saves/**'
+      - 'scripts/check-grouped-save-evidence.mjs'
       - 'test/local-save-worker.cpp'
       - 'test/save-worker-start-failure.cpp'
   pull_request:
@@ -36,6 +39,8 @@ jobs:
         with:
           dotnet-version: 8.0.x
       - name: Prepare pinned SQLite and installed build tools
+        # Retained Windows evidence and these fresh platform builds have
+        # separate scope; neither implies engine or physical-device support.
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
@@ -46,6 +51,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Pinned preparation failed' }
       - name: Build standalone Release delivery
         run: node scripts/build-portable-save.mjs --tools .artifacts/save-tools/tools.json --sqlite .artifacts/save-tools/sqlite.zip --output .artifacts/save-delivery
+      - name: Verify the retained source-bound Windows checkpoint
+        run: node scripts/check-grouped-save-evidence.mjs
       - name: Verify exact Release binary through C and C#
         shell: pwsh
         run: |

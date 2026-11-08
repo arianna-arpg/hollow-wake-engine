@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
+import {gunzipSync} from 'node:zlib';
 import {root,sha256,writeJSON} from './reference-utils.mjs';
 import {nativeEnvironment} from './native-tools.mjs';
 
@@ -44,6 +45,12 @@ try {
   const fixtures=path.join(dir,'fixtures');fs.mkdirSync(fixtures);
   const result=JSON.parse(run(executable,[fixtures]));
   assert(result.passed);
+  const crashRecovery=[];
+  for(const journal of ['wal','rollback'])for(const boundary of ['staged','committed','refused']){
+    run(executable,[fixtures,'--group-crash',journal,boundary]);
+    const recovered=JSON.parse(run(executable,[fixtures,'--group-recover',journal,boundary]));
+    assert(recovered.passed&&recovered.recovered);crashRecovery.push({journal,boundary,...recovered});
+  }
   const mutations=[];
   if(extra.includes('--mutations')){
     const original=fs.readFileSync(source,'utf8');
@@ -55,7 +62,15 @@ try {
       ['payload-limit','body.size() <= SlotStore::max_bytes','body.size() <= SlotStore::max_bytes+1','reason(owner.stage_slot(1,1,std::string(SlotStore::max_bytes+1,\'x\'),"y"),"payload-size")',1],
       ['split-update','SET crafting=?2,stash=?3,revision=revision+1','SET crafting=?2,stash=stash,revision=revision+1','owner.read_slot(1,value).ok() && value.revision == 2 && value.crafting == body + " " && value.stash == stash + " "',1],
       ['hidden-commit-error','if (rc != SQLITE_OK) { rollback(); return failure(rc); }','if (rc != SQLITE_OK) { rollback(); return {}; }','reason(owner.commit_slot(staged.token),"busy")',1],
-      ['wrong-token','if (!db || !pending || pending != token) return {"invalid-token"};','if (!db || !pending || pending > token) return {"invalid-token"};','reason(owner.commit_slot(staged.token + 1),"invalid-token")',2]
+      ['wrong-token','if (!db || !pending || pending != token) return {"invalid-token"};','if (!db || !pending || pending > token) return {"invalid-token"};','reason(owner.commit_slot(staged.token + 1),"invalid-token")',2],
+      ['group-partial-commit','if (!written.ok()) { rollback(); return written; }','if (!written.ok()) { execute("COMMIT"); return written; }',
+        'peer.read_group(ids,3,rows).ok() && rows[2].revision == 1 && rows[2].crafting == "account"',1],
+      ['group-read-order','auto &record = read[ordinal];','auto &record = read[count-1-ordinal];',
+        'rows[0].revision == 1 && rows[0].crafting == "inventory" && rows[0].stash == "inventory-stash"',1],
+      ['group-byte-limit','if (bytes > SlotStore::max_group_bytes)','if (bytes > SlotStore::max_group_bytes + 1048576)',
+        'reason(owner.save_group_async(limits.data(),5),"payload-size")',1],
+      ['group-null-record','if (sqlite3_column_type(q.value, 4) == SQLITE_NULL) continue;',
+        'if (sqlite3_column_type(q.value, 1) == SQLITE_NULL) continue;','reason(owner.read_group(corrupt_ids,2,rows),"invalid-record")',1]
     ];
     for(const [name,from,to,expected,count]of cases){
       assert.equal(original.split(from).length-1,count,name+' anchor');
@@ -97,6 +112,31 @@ try {
       '/Fe:'+abiExe,'/Fo:'+dir+path.sep]
     : ['-std=c11','-O2','-Wall','-Wextra','-Werror','-DHWE_SAVE_SHARED','-I',include,consumer,link,'-Wl,-rpath,$ORIGIN','-o',abiExe]));
   const cAbi=JSON.parse(run(abiExe,[fixtures]));assert(cAbi.passed);
+  // Compile the frozen pre-extension C consumer against the current library,
+  // then use the frozen library below with the current managed binding.
+  const baselineFiles=['baseline/grouped-saves/manifest.json','baseline/grouped-saves/source.json.gz'];
+  const baseline=JSON.parse(fs.readFileSync(path.join(root,baselineFiles[0])));
+  assert.equal(baseline.commit,'67fa07a50a58380af22fc52e354f0091a9009b55');
+  const capsule=fs.readFileSync(path.join(root,baselineFiles[1]));
+  assert.equal(sha256(capsule),baseline.sourceSha256);
+  const originals=JSON.parse(gunzipSync(capsule));
+  assert.deepEqual(Object.keys(originals).sort(),Object.keys(baseline.files).sort());
+  for(const [file,text]of Object.entries(originals)){
+    const bytes=Buffer.from(text);assert.equal(bytes.length,baseline.files[file].bytes);assert.equal(sha256(bytes),baseline.files[file].sha256);
+  }
+  const legacy=path.join(dir,'legacy');fs.mkdirSync(legacy);
+  for(const file of ['native/save/include/slot-store.hpp','native/save/include/write-worker.hpp','native/save/include/hwe_save.h',
+    'native/save/src/slot-store.cpp','native/save/src/hwe_save.cpp','test/portable-save-c.c'])
+    fs.writeFileSync(path.join(legacy,path.basename(file)),originals[file],{flag:'wx'});
+  const legacyExe=path.join(dir,win?'legacy-c.exe':'legacy-c');
+  log.push(run(win?'cl.exe':process.env.CC??'cc',win
+    ? ['/nologo','/std:c11','/O2','/W4','/WX','/MT','/utf-8','/DHWE_SAVE_SHARED','/I'+legacy,
+      path.join(legacy,'portable-save-c.c'),link,'/Fe:'+legacyExe,'/Fo:'+legacy+path.sep]
+    : ['-std=c11','-O2','-Wall','-Wextra','-Werror','-DHWE_SAVE_SHARED','-I',legacy,
+      path.join(legacy,'portable-save-c.c'),link,'-Wl,-rpath,$ORIGIN','-o',legacyExe]));
+  const legacyFixtures=path.join(legacy,'fixtures');fs.mkdirSync(legacyFixtures);
+  fs.copyFileSync(path.join(fixtures,'corrupt-utf8.db'),path.join(legacyFixtures,'corrupt-utf8.db'));
+  const legacyConsumer=JSON.parse(run(legacyExe,[legacyFixtures]));assert(legacyConsumer.passed);
   const symbolText=run(win?'dumpbin.exe':'nm',win?['/nologo','/exports',library]:['-D','--defined-only','--format=posix',library]);
   const symbols=symbolText.split(/\r?\n/).flatMap(line=>{
     const match=win?line.match(/^\s+\d+\s+[0-9A-F]+\s+[0-9A-F]+\s+(\S+)/i):line.match(/^(\S+)\s+[A-Za-z]\s/);
@@ -133,7 +173,7 @@ try {
       for(const [key,value]of Object.entries(saved))if(value===undefined)delete env[key];else env[key]=value;
     }
   }
-  let managed=null,managedSdk=null;
+  let managed=null,managedSdk=null,legacyManaged=null;
   if(extra.includes('--managed')){
     const project=path.join(dir,'managed'),app=path.join(project,'app');fs.mkdirSync(project);
     for(const name of ['Program.cs','PortableSave.csproj','NuGet.Config'])
@@ -154,13 +194,24 @@ try {
       '--configfile',path.join(project,'NuGet.Config'),'-p:NuGetAudit=false','-p:UseSharedCompilation=false','--disable-build-servers']));
     fs.copyFileSync(library,path.join(app,path.basename(library)));
     managed=JSON.parse(run('dotnet',[path.join(app,'PortableSave.dll'),fixtures]));assert(managed.passed);
+    const oldLibrary=path.join(legacy,win?'hwe_save.dll':'libhwe_save.so');
+    log.push(run(win?'cl.exe':process.env.CXX??'c++',win
+      ? ['/nologo','/std:c++17','/EHsc','/O2','/W4','/WX','/MT','/utf-8','/LD','/DHWE_SAVE_SHARED','/DHWE_SAVE_BUILD',
+        '/I'+dir,'/I'+legacy,path.join(legacy,'slot-store.cpp'),path.join(legacy,'hwe_save.cpp'),object,
+        '/Fe:'+oldLibrary,'/Fo:'+legacy+path.sep,'/link','/IMPLIB:'+path.join(legacy,'hwe_save.lib')]
+      : ['-std=c++17','-O2','-Wall','-Wextra','-Werror','-pthread','-fPIC','-shared','-fvisibility=hidden',
+        '-DHWE_SAVE_SHARED','-DHWE_SAVE_BUILD','-I',dir,'-I',legacy,path.join(legacy,'slot-store.cpp'),
+        path.join(legacy,'hwe_save.cpp'),object,'-ldl','-o',oldLibrary]));
+    fs.copyFileSync(oldLibrary,path.join(app,path.basename(oldLibrary)));
+    legacyManaged=JSON.parse(run('dotnet',[path.join(app,'PortableSave.dll'),legacyFixtures,'--legacy']));
+    assert(legacyManaged.passed&&legacyManaged.legacyLibrary&&legacyManaged.groupsRefused);
   }
   const files=['native/save/include/slot-store.hpp','native/save/include/write-worker.hpp',
     'native/save/src/slot-store.cpp','native/save/include/hwe_save.h','native/save/src/hwe_save.cpp',
-    'test/portable-save.cpp','test/portable-save-c.c','scripts/test-portable-save.mjs',
+    'test/portable-save.cpp','test/portable-save-group.hpp','test/portable-save-c.c','test/portable-save-group-c.h','scripts/test-portable-save.mjs',
     'native/save/bindings/dotnet/SlotStore.cs','test/portable-save-dotnet/Program.cs',
-    'test/portable-save-dotnet/PortableSave.csproj','test/portable-save-dotnet/NuGet.Config'];
-  writeJSON(path.resolve(output),{...result,mutations,cAbi,managed,managedSdk,sanitizers,
+    'test/portable-save-dotnet/PortableSave.csproj','test/portable-save-dotnet/NuGet.Config',...baselineFiles];
+  writeJSON(path.resolve(output),{...result,crashRecovery,mutations,cAbi,managed,managedSdk,legacyConsumer,legacyManaged,sanitizers,
     exports:expectedExports,sqliteExportsPrivate:true,symbolTableSha256:sha256(symbolText),
     platform:process.platform,arch:process.arch,sqlite:pin,
     suppliedBuildReceiptSha256:libraryProof?sha256(fs.readFileSync(libraryProof)):null,

@@ -22,6 +22,7 @@ static hwe_save_result finish(hwe_save_store *store, uint64_t ticket) {
 #endif
     }
 }
+#include "portable-save-group-c.h"
 int main(int argc, char **argv) {
     char file[8192];
     hwe_save_store *store = NULL;
@@ -100,6 +101,7 @@ int main(int argc, char **argv) {
     CHECK(hwe_save_read(store,1,&view).status == HWE_SAVE_INVALID_RECORD && view.crafting == NULL && view.stash == NULL);
     hwe_save_destroy(store);
     hwe_save_destroy(NULL);
-    puts("{\"passed\":true,\"abi\":1,\"courses\":[\"C-linkage\",\"layout\",\"input-bounds\",\"UTF-8\",\"embedded-NUL-document\",\"opaque-bytes\",\"owned-async-input\",\"occupied-admission\",\"ticket-continuation\",\"malformed-stored-document\"]}");
+    group_c_tests(argv[1]);
+    puts("{\"passed\":true,\"abi\":1,\"groupExtension\":1,\"courses\":[\"C-linkage\",\"layout\",\"input-bounds\",\"UTF-8\",\"embedded-NUL-document\",\"opaque-bytes\",\"owned-async-input\",\"occupied-admission\",\"ticket-continuation\",\"malformed-stored-document\",\"group-layout\",\"group-rollback\",\"group-owned-input\",\"group-refusal-clears-views\"]}");
     return 0;
 }

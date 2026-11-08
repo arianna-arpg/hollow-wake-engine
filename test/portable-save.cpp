@@ -22,7 +22,9 @@ WriteResult finish(SlotStore &store, int64_t ticket) {
         std::this_thread::yield();
     }
 }
+#include "portable-save-group.hpp"
 int main(int argc, char **argv) {
+    if (argc == 5) return group_process(std::filesystem::absolute(std::filesystem::u8path(argv[1])),argv[2],argv[3],argv[4]);
     CHECK(argc == 2);
     const auto root = std::filesystem::absolute(std::filesystem::u8path(argv[1]));
     CHECK(std::filesystem::is_directory(root));
@@ -142,7 +144,9 @@ int main(int argc, char **argv) {
     CHECK(sqlite3_open(corrupt.c_str(),&reader) == SQLITE_OK);
     sql(reader,"INSERT INTO slots VALUES(1,1,CAST(x'ff' AS TEXT),'{}')");
     CHECK(sqlite3_close(reader) == SQLITE_OK);
+    group_tests(root);
     std::cout << "{\"passed\":true,\"courses\":[\"identity\",\"paired-documents\",\"competing-writers\","
         "\"revision-and-size-limits\",\"rollback\",\"closed-token\",\"journal-conversion\","
-        "\"failed-commit\",\"async-owner\",\"cancellation\",\"reopened-ticket\",\"foreign-database\"]}\n";
+        "\"failed-commit\",\"async-owner\",\"cancellation\",\"reopened-ticket\",\"foreign-database\","
+        "\"group-rollback\",\"group-bounds\",\"group-snapshot\",\"group-async\",\"group-failed-commit\"]}\n";
 }

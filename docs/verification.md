@@ -1,5 +1,11 @@
 # Verification and reproduction
 
+The [grouped-save native checkpoint](../evidence/grouped-saves/README.md)
+adds bounded atomic transactions across existing records, with six independent
+process-restart cases, compatibility in both library/consumer directions and
+twelve deliberate store faults. Actual engine coordination and physical-device
+budgets remain separate gates.
+
 The [Unity progression checkpoint](../evidence/unity-progression/README.md) adds the shared account
 contract and an imported memory-discovery/checkpoint example. Its actual
 editor/player course checks 104 steps, retired-handle isolation and complete

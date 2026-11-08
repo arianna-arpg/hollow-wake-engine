@@ -1,6 +1,7 @@
 #include "slot-store.hpp"
 #include "sqlite3.h"
 #include <filesystem>
+#include <array>
 #include <utility>
 
 namespace hwe_save {
@@ -31,6 +32,20 @@ bool absolute_file(const std::string &path) {
 bool valid_payload(std::string_view body, std::string_view stash) noexcept {
     return !body.empty() && !stash.empty() &&
         body.size() <= SlotStore::max_bytes && stash.size() <= SlotStore::max_bytes;
+}
+WriteResult valid_group(const SlotWrite *records, size_t count) noexcept {
+    if (!records || !count || count > SlotStore::max_group_records) return {"invalid-argument"};
+    size_t bytes = 0;
+    for (size_t i = 0; i < count; ++i) {
+        const auto &record = records[i];
+        if (record.slot < 0 || record.slot > 65535 || record.revision < 0 || record.revision >= SlotStore::max_revision)
+            return {"invalid-revision-or-slot"};
+        for (size_t j = 0; j < i; ++j) if (record.slot == records[j].slot) return {"invalid-argument"};
+        if (!valid_payload(record.body, record.stash)) return {"payload-size"};
+        bytes += record.body.size() + record.stash.size();
+        if (bytes > SlotStore::max_group_bytes) return {"payload-size"};
+    }
+    return {};
 }
 }
 int SlotStore::execute(const char *sql) noexcept {
@@ -129,6 +144,54 @@ WriteResult SlotStore::write_status(int64_t slot, int64_t expected) {
         return {"invalid-revision-or-slot"};
     return {};
 }
+WriteResult SlotStore::read_group(const int64_t *slots, size_t count, std::vector<Slot> &out) {
+    std::unique_lock<std::mutex> lock(gate, std::try_to_lock);
+    if (!lock.owns_lock() || worker.busy() || !db || pending) return {"unavailable"};
+    if (!slots || !count || count > max_group_records) return {"invalid-argument"};
+    for (size_t i = 0; i < count; ++i) {
+        if (slots[i] < 0 || slots[i] > 65535) return {"invalid-revision-or-slot"};
+        for (size_t j = 0; j < i; ++j) if (slots[i] == slots[j]) return {"invalid-argument"};
+    }
+    // One SELECT owns one SQLite read snapshot across every returned record.
+    // Missing rows keep their requested position and return revision zero.
+    std::string sql = "WITH requested(ord,slot) AS (VALUES";
+    for (size_t i = 0; i < count; ++i)
+        sql += (i ? ",(" : "(") + std::to_string(i) + ",?" + std::to_string(i + 1) + ")";
+    // Carry ordinals instead of sorting document payloads in SQLite. Output
+    // ordering is explicit even if the query planner changes traversal order.
+    sql += ") SELECT r.ord,s.revision,s.crafting,s.stash,s.slot FROM requested r LEFT JOIN slots s ON s.slot=r.slot";
+    Statement q;
+    int rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &q.value, nullptr);
+    for (size_t i = 0; rc == SQLITE_OK && i < count; ++i)
+        rc = sqlite3_bind_int64(q.value, static_cast<int>(i + 1), slots[i]);
+    if (rc != SQLITE_OK) return failure(rc);
+    std::vector<Slot> read(count);
+    size_t bytes = 0;
+    uint32_t seen = 0;
+    for (size_t i = 0; i < count; ++i) {
+        rc = sqlite3_step(q.value);
+        if (rc != SQLITE_ROW) return rc == SQLITE_DONE ? WriteResult{"invalid-record"} : failure(rc);
+        const auto ordinal = static_cast<size_t>(sqlite3_column_int64(q.value, 0));
+        if (ordinal >= count || (seen & (1u << ordinal))) return {"invalid-record"};
+        seen |= 1u << ordinal;
+        auto &record = read[ordinal];
+        if (sqlite3_column_type(q.value, 4) == SQLITE_NULL) continue;
+        record.revision = sqlite3_column_int64(q.value, 1);
+        if (record.revision < 1 || record.revision > max_revision) return {"invalid-record"};
+        for (int column = 2; column <= 3; ++column) {
+            const auto *data = sqlite3_column_text(q.value, column);
+            const int size = sqlite3_column_bytes(q.value, column);
+            if (!data || size < 1 || size > max_bytes) return {"invalid-record"};
+            bytes += static_cast<size_t>(size);
+            if (bytes > max_group_bytes) return {"payload-size"};
+            (column == 2 ? record.crafting : record.stash).assign(reinterpret_cast<const char *>(data), static_cast<size_t>(size));
+        }
+    }
+    rc = sqlite3_step(q.value);
+    if (rc != SQLITE_DONE) return rc == SQLITE_ROW ? WriteResult{"invalid-record"} : failure(rc);
+    out = std::move(read);
+    return {};
+}
 WriteResult SlotStore::check_write(int64_t slot, int64_t expected) {
     std::unique_lock<std::mutex> lock(gate, std::try_to_lock);
     return lock.owns_lock() ? write_status(slot, expected) : WriteResult{"unavailable"};
@@ -143,8 +206,12 @@ WriteResult SlotStore::stage_slot(int64_t slot, int64_t expected, std::string_vi
 }
 WriteResult SlotStore::stage_bytes(int64_t slot, int64_t expected, const char *body, int body_size,
                                   const char *stash, int stash_size) noexcept {
-    int rc = execute("BEGIN IMMEDIATE");
-    if (rc != SQLITE_OK) return failure(rc);
+    const SlotWrite record{slot, expected, {body, static_cast<size_t>(body_size)}, {stash, static_cast<size_t>(stash_size)}};
+    return stage_group_bytes(&record, 1);
+}
+WriteResult SlotStore::write_record(int64_t slot, int64_t expected, const char *body, int body_size,
+                                   const char *stash, int stash_size) noexcept {
+    int rc;
     {
         Statement q;
         const char *sql = expected == 0 ?
@@ -157,13 +224,33 @@ WriteResult SlotStore::stage_bytes(int64_t slot, int64_t expected, const char *b
         if (rc == SQLITE_OK && expected != 0) rc = sqlite3_bind_int64(q.value, 4, expected);
         if (rc == SQLITE_OK) rc = sqlite3_step(q.value);
     }
-    if (rc != SQLITE_DONE) { rollback(); return failure(rc); }
-    if (sqlite3_changes(db) != 1) { rollback(); return {"stale-revision"}; }
+    if (rc != SQLITE_DONE) return failure(rc);
+    if (sqlite3_changes(db) != 1) return {"stale-revision"};
+    return {};
+}
+WriteResult SlotStore::stage_group_bytes(const SlotWrite *records, size_t count) noexcept {
+    const int rc = execute("BEGIN IMMEDIATE");
+    if (rc != SQLITE_OK) return failure(rc);
+    for (size_t i = 0; i < count; ++i) {
+        const auto &record = records[i];
+        const auto written = write_record(record.slot, record.revision, record.body.data(), static_cast<int>(record.body.size()),
+                                          record.stash.data(), static_cast<int>(record.stash.size()));
+        if (!written.ok()) { rollback(); return written; }
+    }
     pending = ++sequence;
     return {nullptr, 0, pending};
 }
 WriteResult SlotStore::stage(const WriteRequest &input) noexcept {
     std::lock_guard<std::mutex> lock(gate);
+    if (!input.group.empty()) {
+        if (input.group.size() > max_group_records) return {"invalid-argument"};
+        std::array<SlotWrite, max_group_records> records{};
+        for (size_t i = 0; i < input.group.size(); ++i) {
+            const auto &record = input.group[i];
+            records[i] = {record.slot, record.revision, record.body, record.stash};
+        }
+        return stage_group_bytes(records.data(), input.group.size());
+    }
     return stage_bytes(input.slot, input.revision, input.body.data(), static_cast<int>(input.body.size()),
                        input.stash.data(), static_cast<int>(input.stash.size()));
 }
@@ -194,6 +281,29 @@ WriteResult SlotStore::save_slot_async(int64_t slot, int64_t expected, std::stri
     if (!ready.ok()) return ready;
     if (!valid_payload(body, stash)) return {"payload-size"};
     return worker.submit({slot, expected, std::string(body), std::string(stash)});
+}
+WriteResult SlotStore::stage_group(const SlotWrite *records, size_t count) {
+    std::unique_lock<std::mutex> lock(gate, std::try_to_lock);
+    if (!lock.owns_lock()) return {"unavailable"};
+    const auto ready = write_status(0, 0);
+    if (!ready.ok()) return ready;
+    const auto valid = valid_group(records, count);
+    return valid.ok() ? stage_group_bytes(records, count) : valid;
+}
+WriteResult SlotStore::save_group_async(const SlotWrite *records, size_t count) {
+    std::unique_lock<std::mutex> lock(gate, std::try_to_lock);
+    if (!lock.owns_lock()) return {"unavailable"};
+    const auto ready = write_status(0, 0);
+    if (!ready.ok()) return ready;
+    const auto valid = valid_group(records, count);
+    if (!valid.ok()) return valid;
+    WriteRequest request;
+    request.group.reserve(count);
+    for (size_t i = 0; i < count; ++i) {
+        const auto &record = records[i];
+        request.group.push_back({record.slot, record.revision, std::string(record.body), std::string(record.stash)});
+    }
+    return worker.submit(std::move(request));
 }
 WriteResult SlotStore::commit_slot(int64_t token) {
     std::unique_lock<std::mutex> lock(gate, std::try_to_lock);

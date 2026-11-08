@@ -1,8 +1,9 @@
 # Portable save boundary
 
-Development branch: the existing Godot slot-store implementation has been
-extracted into an optional native library. This is not yet a Unity save package.
-The published Unity workshop preview continues to use in-memory checkpoints.
+The Godot slot-store implementation is extracted into an optional native
+library. The separately qualified [Unity storage package](unity-storage.md)
+now supplies durable workshop saves. The [grouped-save extension](grouped-saves.md)
+adds atomic multi-record storage; its engine coordinator has separate acceptance.
 
 The raw starting point is the accepted database implementation, sleeping writer,
 and existing Godot/worker contract courses at commit
@@ -35,8 +36,8 @@ Keep these observations during extraction:
 
 A C interface carries explicit byte lengths and fixed-width numbers, with
 owned instances and no engine objects or callbacks on the writer thread. The
-Godot adapter and engine-independent C# binding translate this shared contract;
-Unity lifecycle integration remains a separate acceptance step. SQLite remains an
+Godot adapter and engine-independent C# binding translate this shared contract.
+Each engine integration has its own lifecycle acceptance. SQLite remains an
 optional save dependency; authored gameplay definitions remain separately loaded
 runtime data.
 

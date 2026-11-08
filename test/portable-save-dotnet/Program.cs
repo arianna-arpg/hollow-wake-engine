@@ -20,7 +20,7 @@ static class Program
     }
     static int Main(string[] args)
     {
-        Need(args.Length==1,"owned fixture directory");
+        Need(args.Length==1 || (args.Length==2 && args[1]=="--legacy"),"owned fixture directory");
         string file=Path.Combine(args[0],"managed-é.db");
         var store=new SlotStore();
         var peer=new SlotStore();
@@ -70,6 +70,13 @@ static class Program
             Need(store.Close().Succeeded,"close");
             Need(store.Open(Path.Combine(args[0],"corrupt-utf8.db")).Succeeded,"malformed record fixture");
             Need(store.Read(1).Result.Status==SaveStatus.InvalidRecord,"refuse corrupt stored text");
+            if(args.Length==1)GroupTests(args[0]);
+            else
+            {
+                Need(!store.SupportsGroupedSaves,"old library feature detection");
+                Need(store.ReadGroup(1).Result.Status==SaveStatus.AbiMismatch,"old library group read refusal");
+                Need(store.StageGroup(new SaveWrite(1,0,"a","b")).Status==SaveStatus.AbiMismatch,"old library group write refusal");
+            }
             store.Dispose();
             store.Dispose();
             Need(store.IsDisposed && !store.IsSaving,"disposed");
@@ -78,7 +85,61 @@ static class Program
             Need(refused,"disposed call");
         }
         finally { peer.Dispose();store.Dispose(); }
-        Console.WriteLine("{\"passed\":true,\"binding\":\"dotnet\",\"courses\":[\"layout\",\"native-call\",\"text-roundtrip\",\"competing-writers\",\"atomic-publication\",\"bounds\",\"occupied-admission\",\"cancellation\",\"reopen\",\"disposal\",\"corrupt-record\"]}");
+        Console.WriteLine(args.Length==2 ? "{\"passed\":true,\"binding\":\"dotnet\",\"legacyLibrary\":true,\"groupsRefused\":true}" :
+            "{\"passed\":true,\"binding\":\"dotnet\",\"groupExtension\":1,\"courses\":[\"layout\",\"native-call\",\"text-roundtrip\",\"competing-writers\",\"atomic-publication\",\"bounds\",\"occupied-admission\",\"cancellation\",\"reopen\",\"disposal\",\"corrupt-record\",\"group-snapshot\",\"group-rollback\",\"group-limits\",\"group-owned-input\"]}");
         return 0;
+    }
+    static void GroupTests(string root)
+    {
+        using var store=new SlotStore();
+        using var peer=new SlotStore();
+        Need(store.SupportsGroupedSaves,"group extension layout");
+        string file=Path.Combine(root,"managed-group.db");
+        Need(store.Open(file).Succeeded && peer.Open(file).Succeeded,"group owners");
+        const string body="account\0é𐀀", stash="9007199254740991";
+        var initial=new[] {new SaveWrite(10,0,body,stash),new SaveWrite(20,0,"inventory","inventory-stash")};
+        var transaction=store.StageGroup(initial);
+        Need(transaction.Succeeded,"stage group");
+        var before=peer.ReadGroup(20,99,10);
+        Need(before.Result.Succeeded && before.Records.Length==3 && before.Records[0].IsEmpty && before.Records[2].IsEmpty,"group uncommitted invisible");
+        Need(store.Commit(transaction.Value).Succeeded,"commit group");
+        var saved=peer.ReadGroup(20,99,10);
+        Need(saved.Result.Succeeded && saved.Records[0].CraftingJson=="inventory" && saved.Records[1].IsEmpty &&
+            saved.Records[2].Revision==1 && saved.Records[2].CraftingJson==body && saved.Records[2].StashJson==stash,"group order and exact bytes");
+        Need(store.ReadGroup(10,10).Result.Status==SaveStatus.InvalidArgument,"duplicate read slots");
+        Need(store.ReadGroup().Result.Status==SaveStatus.InvalidArgument,"empty group read");
+        Need(store.StageGroup(new SaveWrite(10,1,"lost","lost"),new SaveWrite(20,0,"stale","stale")).Status==SaveStatus.StaleRevision,"late stale group");
+        Need(peer.Read(10).Revision==1 && peer.Read(10).CraftingJson==body,"whole group rollback");
+        Need(store.SubmitGroup(new SaveWrite(10,1,body,stash),new SaveWrite(10,1,body,stash)).Status==SaveStatus.InvalidArgument,"duplicate write slots");
+        Need(store.StageGroup(new SaveWrite(10,1,body,stash),new SaveWrite(20,1,"\ud800","a")).Status==SaveStatus.InvalidUtf8,"group UTF-16");
+        Need(store.StageGroup(new SaveWrite(10,SlotStore.MaximumRevision,body,stash)).Status==SaveStatus.InvalidRevisionOrSlot,"group revision bound");
+        string maximum=new string('x',SlotStore.DocumentLimit);
+        var large=new SaveWrite[5];
+        for(int i=0;i<large.Length;++i)large[i]=new SaveWrite((uint)(100+i),0,maximum,maximum);
+        Need(store.SubmitGroup(large).Status==SaveStatus.PayloadSize && !store.IsSaving,"aggregate group byte bound");
+        var exact=new SaveWrite[4];Array.Copy(large,exact,4);
+        transaction=store.StageGroup(exact);
+        Need(transaction.Succeeded && store.Commit(transaction.Value).Succeeded,"exact aggregate boundary");
+        var full=store.ReadGroup(103,102,101,100);
+        Need(full.Result.Succeeded && full.Records[0].CraftingJson==maximum && full.Records[3].StashJson==maximum,"full bounded group");
+        initial[0]=new SaveWrite(10,1,body+"next",stash);
+        initial[1]=new SaveWrite(20,1,"next-inventory","next-stash");
+        var submitted=store.SubmitGroup(initial);
+        Need(submitted.Succeeded && store.IsSaving,"async group");
+        initial[0]=new SaveWrite(10,1,"overwritten","overwritten");
+        Need(store.Submit(30,0,"a","b").Status==SaveStatus.Unavailable,"shared single request owner");
+        Need(store.SubmitGroup(new SaveWrite(10,1,"\ud800","a")).Status==SaveStatus.Unavailable,"group occupied before encoding");
+        Need(Finish(store,submitted.Value).Succeeded && !store.IsSaving,"group completion");
+        var after=store.ReadGroup(10,20);
+        Need(after.Result.Succeeded && after.Records[0].Revision==2 && after.Records[1].Revision==2 &&
+            after.Records[0].CraftingJson==body+"next" && after.Records[1].CraftingJson=="next-inventory","group owned inputs");
+        Need(saved.Records[2].CraftingJson==body,"managed reads are detached");
+        Need(store.Close().Succeeded && store.Open(file,SaveJournal.Preserve).Succeeded,"group reopen");
+        after=store.ReadGroup(10,20);
+        Need(after.Result.Succeeded && after.Records[0].Revision==2 && after.Records[1].CraftingJson=="next-inventory","group durable continuation");
+        store.Dispose();
+        bool refused=false;
+        try { store.ReadGroup(10,20); } catch(ObjectDisposedException) { refused=true; }
+        Need(refused && after.Records[0].CraftingJson==body+"next","group disposal and detached output");
     }
 }

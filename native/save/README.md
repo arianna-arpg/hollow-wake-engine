@@ -5,10 +5,11 @@ The gameplay runtime does not depend on this library. The store commits two
 opaque UTF-8 documents and a revision together; the game validates their meaning
 and publishes a proposed gameplay change only after a successful commit.
 
-This is a development candidate. Windows x64 C/C++ and .NET checks and an original
-versus extracted Godot comparison are available. Unity integration, Linux
-qualification, ARM, physical-device budgets and power-loss behavior need their
-own acceptance. See the repository's portable save boundary and evidence.
+This is a development candidate. Earlier single-record releases have separate
+Godot and Unity qualification. The optional grouped-save extension needs its own
+native and engine acceptance; do not infer it from those earlier packages.
+ARM, physical-device budgets and physical power-loss behavior remain unqualified.
+See the repository's portable save boundary and grouped-save evidence.
 
 The C interface is declared in `hwe_save.h`. Include it when building a native
 consumer; define `HWE_SAVE_SHARED` when linking the supplied Windows import
@@ -34,6 +35,15 @@ the writer thread. Intermediate input bytes are not retained after return.
 Keep the database and SQLite sidecars together during recovery; use SQLite's
 backup facilities for live backups. This library uses local filesystem paths
 and does not provide cloud synchronization or account authorization.
+
+The optional version-1 group extension saves 1–8 distinct records together,
+with a 4 MiB aggregate document limit. Query hwe_save_group_info_v1 before
+calling its C functions; C# exposes SupportsGroupedSaves, ReadGroup, StageGroup
+and SubmitGroup. Existing commit/cancel/poll operations handle its single token
+or ticket. A group read returns one consistent snapshot in requested order.
+Every borrowed view expires on any read. Group support does not change the
+database schema or automatically coordinate account and inventory owners.
+See docs/grouped-saves.md in the source repository for the complete contract.
 
 Build from the pinned SQLite amalgamation identified by
 `adapters/godot/local-save/sqlite-lock.json`:

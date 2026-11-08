@@ -20,6 +20,8 @@ extern "C" {
 #define HWE_SAVE_ABI_VERSION 1u
 #define HWE_SAVE_DOCUMENT_LIMIT 524288u
 #define HWE_SAVE_PATH_LIMIT 131072u
+#define HWE_SAVE_GROUP_LIMIT 8u
+#define HWE_SAVE_GROUP_BYTE_LIMIT 4194304u
 typedef struct hwe_save_store hwe_save_store;
 typedef enum hwe_save_status {
     HWE_SAVE_OK = 0, HWE_SAVE_PENDING = 1,
@@ -49,6 +51,21 @@ typedef struct hwe_save_view {
     const uint8_t *stash;
     uint32_t stash_length;
 } hwe_save_view;
+
+/* Optional grouped-save extension, version 1. The established ABI stays at 1.
+ * Query the layout before using these functions in a foreign-language binding. */
+typedef struct hwe_save_group_info {
+    uint32_t version, read_size, write_size, record_limit, byte_limit;
+} hwe_save_group_info;
+typedef struct hwe_save_record_view {
+    uint64_t revision;
+    hwe_save_view documents;
+} hwe_save_record_view;
+typedef struct hwe_save_record_write {
+    uint32_t slot, reserved; /* reserved must be zero */
+    uint64_t revision;
+    hwe_save_view documents;
+} hwe_save_record_write;
 
 /* One host owner serializes calls on each live handle. Independent handles may
  * be used concurrently. The internal writer never calls host code. Pointer
@@ -82,6 +99,23 @@ HWE_SAVE_API hwe_save_result hwe_save_poll(hwe_save_store *, uint64_t ticket);
 HWE_SAVE_API hwe_save_result hwe_save_cancel_async(hwe_save_store *, uint64_t ticket);
 /* Success value is one only when the checkpoint reports complete. */
 HWE_SAVE_API hwe_save_result hwe_save_checkpoint(hwe_save_store *, int32_t *frames, int32_t *copied);
+
+HWE_SAVE_API hwe_save_result hwe_save_group_info_v1(hwe_save_group_info *out, uint32_t size);
+/* One read snapshot, in requested order; unique slots, count 1..8. Empty records
+ * have revision zero. Success value is count. Any read invalidates ALL borrowed
+ * single/group views, even on failure. On refusal out[0..count) is zeroed when
+ * out is non-NULL and count is valid; invalid counts leave out untouched.
+ * Each document is bounded as above, with a 4 MiB aggregate group byte limit. */
+HWE_SAVE_API hwe_save_result hwe_save_read_group_v1(hwe_save_store *, const uint32_t *slots,
+    uint32_t count, hwe_save_record_view *out);
+/* Every record's expected revision must match. One transaction updates all or
+ * none, with one token/ticket using the existing commit/cancel/poll operations.
+ * Count 1..8, unique slots, aggregate at most 4 MiB. Inputs are consumed/copied
+ * before return. These operations share the existing single-request worker. */
+HWE_SAVE_API hwe_save_result hwe_save_stage_group_v1(hwe_save_store *,
+    const hwe_save_record_write *records, uint32_t count);
+HWE_SAVE_API hwe_save_result hwe_save_submit_group_v1(hwe_save_store *,
+    const hwe_save_record_write *records, uint32_t count);
 
 #ifdef __cplusplus
 }

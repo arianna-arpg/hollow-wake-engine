@@ -7,11 +7,20 @@
 #include <system_error>
 #include <thread>
 #include <utility>
+#include <vector>
 
 namespace hwe_save {
-struct WriteRequest {
+struct WriteRecord {
     int64_t slot = 0, revision = 0;
     std::string body, stash;
+};
+struct WriteRequest : WriteRecord {
+    // Empty for the established single-record path. A group uses this same
+    // one-request worker; it never introduces another queue or writer.
+    std::vector<WriteRecord> group;
+    WriteRequest() = default;
+    WriteRequest(int64_t id, int64_t expected, std::string data, std::string extra)
+        : WriteRecord{id, expected, std::move(data), std::move(extra)} {}
 };
 struct WriteResult {
     const char *reason = nullptr;

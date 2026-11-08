@@ -4,9 +4,17 @@
 #include <cstring>
 #include <new>
 #include <string_view>
+#include <array>
 
 static_assert(sizeof(hwe_save_result) == 16, "C result layout");
-struct hwe_save_store { hwe_save::SlotStore core; hwe_save::Slot last_read; };
+static_assert(HWE_SAVE_GROUP_LIMIT == hwe_save::SlotStore::max_group_records, "group record bound");
+static_assert(HWE_SAVE_GROUP_BYTE_LIMIT == hwe_save::SlotStore::max_group_bytes, "group byte bound");
+struct hwe_save_store {
+    hwe_save::SlotStore core;
+    hwe_save::Slot last_read;
+    std::vector<hwe_save::Slot> last_group;
+    void clear_reads() { last_read = {}; last_group.clear(); }
+};
 namespace {
 struct NamedStatus { const char *name; int32_t status; };
 constexpr NamedStatus names[] = {
@@ -82,6 +90,43 @@ hwe_save_result write(hwe_save_store *store, uint32_t slot, uint64_t revision,
     });
 }
 bool valid_id(uint64_t id) { return id > 0 && id <= static_cast<uint64_t>(hwe_save::SlotStore::max_revision); }
+bool valid_count(uint32_t count) { return count > 0 && count <= HWE_SAVE_GROUP_LIMIT; }
+bool valid_text(const hwe_save::Slot &value) {
+    return utf8(reinterpret_cast<const uint8_t *>(value.crafting.data()),static_cast<uint32_t>(value.crafting.size())) &&
+        utf8(reinterpret_cast<const uint8_t *>(value.stash.data()),static_cast<uint32_t>(value.stash.size()));
+}
+hwe_save_view borrowed(const hwe_save::Slot &value) {
+    if (!value.revision) return {};
+    return {reinterpret_cast<const uint8_t *>(value.crafting.data()),static_cast<uint32_t>(value.crafting.size()),
+        reinterpret_cast<const uint8_t *>(value.stash.data()),static_cast<uint32_t>(value.stash.size())};
+}
+hwe_save_result write_group(hwe_save_store *store, const hwe_save_record_write *records, uint32_t count, bool async) {
+    return call(store,[&] {
+        if (!records || !valid_count(count)) return result(HWE_SAVE_INVALID_ARGUMENT);
+        const auto ready = store->core.check_write(0,0);
+        if (!ready.ok()) return convert(ready);
+        std::array<hwe_save::SlotWrite,HWE_SAVE_GROUP_LIMIT> input{};
+        size_t bytes = 0;
+        for (uint32_t i = 0; i < count; ++i) {
+            const auto &record = records[i];
+            if (record.reserved) return result(HWE_SAVE_INVALID_ARGUMENT);
+            if (record.slot > 65535 || record.revision >= static_cast<uint64_t>(hwe_save::SlotStore::max_revision))
+                return result(HWE_SAVE_INVALID_REVISION_OR_SLOT);
+            for (uint32_t j = 0; j < i; ++j)
+                if (records[j].slot == record.slot) return result(HWE_SAVE_INVALID_ARGUMENT);
+            const auto &data = record.documents;
+            const auto a = document(data.crafting,data.crafting_length);
+            if (a != HWE_SAVE_OK) return result(a);
+            const auto b = document(data.stash,data.stash_length);
+            if (b != HWE_SAVE_OK) return result(b);
+            bytes += static_cast<size_t>(data.crafting_length) + data.stash_length;
+            if (bytes > HWE_SAVE_GROUP_BYTE_LIMIT) return result(HWE_SAVE_PAYLOAD_SIZE);
+            input[i] = {record.slot,static_cast<int64_t>(record.revision),
+                view(data.crafting,data.crafting_length),view(data.stash,data.stash_length)};
+        }
+        return convert(async ? store->core.save_group_async(input.data(),count) : store->core.stage_group(input.data(),count));
+    });
+}
 }
 extern "C" {
 uint32_t hwe_save_abi_version(void) { return HWE_SAVE_ABI_VERSION; }
@@ -116,12 +161,12 @@ hwe_save_result hwe_save_open(hwe_save_store *store, const uint8_t *path, uint32
     });
 }
 hwe_save_result hwe_save_close(hwe_save_store *store) {
-    return call(store,[&] { store->core.close_file(); store->last_read = {}; return result(HWE_SAVE_OK); });
+    return call(store,[&] { store->core.close_file(); store->clear_reads(); return result(HWE_SAVE_OK); });
 }
 hwe_save_result hwe_save_read(hwe_save_store *store, uint32_t slot, hwe_save_view *out) {
     if (out) *out = {};
     return call(store,[&] {
-        store->last_read = {};
+        store->clear_reads();
         if (!out) return result(HWE_SAVE_INVALID_ARGUMENT);
         const auto read = store->core.read_slot(slot,store->last_read);
         if (!read.ok()) return convert(read);
@@ -176,5 +221,45 @@ hwe_save_result hwe_save_checkpoint(hwe_save_store *store, int32_t *frames, int3
         *frames = progress.frames; *copied = progress.copied;
         return result(HWE_SAVE_OK,progress.complete ? 1 : 0);
     });
+}
+hwe_save_result hwe_save_group_info_v1(hwe_save_group_info *out, uint32_t size) {
+    if (!out) return result(HWE_SAVE_INVALID_ARGUMENT);
+    if (size != sizeof(hwe_save_group_info)) return result(HWE_SAVE_ABI_MISMATCH);
+    *out = {1,static_cast<uint32_t>(sizeof(hwe_save_record_view)),static_cast<uint32_t>(sizeof(hwe_save_record_write)),
+        HWE_SAVE_GROUP_LIMIT,HWE_SAVE_GROUP_BYTE_LIMIT};
+    return result(HWE_SAVE_OK);
+}
+hwe_save_result hwe_save_read_group_v1(hwe_save_store *store, const uint32_t *slots,
+                                      uint32_t count, hwe_save_record_view *out) {
+    std::array<int64_t,HWE_SAVE_GROUP_LIMIT> input{};
+    // Snapshot IDs before clearing outputs or prior borrowed documents. This
+    // also permits a caller's input and output storage to overlap.
+    if (slots && valid_count(count)) for (uint32_t i = 0; i < count; ++i) {
+        uint32_t slot;
+        std::memcpy(&slot,slots+i,sizeof(slot));
+        input[i] = slot;
+    }
+    if (out && valid_count(count)) for (uint32_t i = 0; i < count; ++i) out[i] = {};
+    return call(store,[&] {
+        store->clear_reads();
+        if (!slots || !out || !valid_count(count)) return result(HWE_SAVE_INVALID_ARGUMENT);
+        const auto read = store->core.read_group(input.data(),count,store->last_group);
+        if (!read.ok()) return convert(read);
+        for (const auto &value : store->last_group) if (!valid_text(value)) {
+            store->clear_reads();
+            return result(HWE_SAVE_INVALID_RECORD);
+        }
+        for (uint32_t i = 0; i < count; ++i) {
+            const auto &value = store->last_group[i];
+            out[i] = {static_cast<uint64_t>(value.revision),borrowed(value)};
+        }
+        return result(HWE_SAVE_OK,count);
+    });
+}
+hwe_save_result hwe_save_stage_group_v1(hwe_save_store *store, const hwe_save_record_write *records, uint32_t count) {
+    return write_group(store,records,count,false);
+}
+hwe_save_result hwe_save_submit_group_v1(hwe_save_store *store, const hwe_save_record_write *records, uint32_t count) {
+    return write_group(store,records,count,true);
 }
 }
