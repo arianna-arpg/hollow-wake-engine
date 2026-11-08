@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "quickjs-ng-0.17.0-cstring-cleanup-v1",
+  "runtime": "QuickJS-NG",
+  "version": "0.17.0",
+  "file": "quickjs-amalgam.c",
+  "originalSha256": "7c853a67ce7b6db463018e44f1425cd019d9f004a012ca013f47e415eb43446c",
+  "patchedSha256": "e88c15e41d834ff3d492576799d8f6f938fee543244fb5ca1087a7d6059ea5a5",
+  "function": "JS_ToCStringLen2",
+  "change": "Release the temporary string reference when conversion allocation fails, matching the existing UTF-16 conversion cleanup.",
+  "scope": "Explicit private-build candidate. Existing build helpers and published engine archives are unchanged."
+}
