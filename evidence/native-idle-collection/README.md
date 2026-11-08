@@ -71,3 +71,12 @@ log digest are retained in `sdk-verification.json`. After verification, 68
 owned consumer directories (9,617 files; 333,992,810 bytes) were removed.
 Their compressed receipts remain locally in an 869,220-byte archive. No
 worktree was created or removed.
+
+The original SDK receipt is now preserved as
+`sdk-verification-before-shared-account.json`. Adding the optional shared-account
+export changed `package.json` while every recorded native input stayed identical.
+The current SDK gate uses the completed verification from the shared-account
+checkpoint, including its full source map and log digest. Its provenance links
+that receipt and preserves the previous bytes. This is a newer executed SDK
+verification; the native observations and original-game fixtures were not rerun
+or rewritten to manufacture a passing result.
