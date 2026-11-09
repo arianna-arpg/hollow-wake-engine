@@ -23,6 +23,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run reference:prepare
+      - run: npm run reference:install
       - run: node scripts/test-benchmark-worker-shutdown.mjs
       - run: npm run verify
   native:
