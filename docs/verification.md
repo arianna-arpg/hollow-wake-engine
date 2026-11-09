@@ -1,5 +1,16 @@
 # Verification and reproduction
 
+The [equipment catalogue course](equipment-catalogue-boundary.md) captures original
+worn-item derivation in two fresh processes. It records authored modifier output,
+ordered stat sources, skill grants, worn supports and cast preservation before
+expanding the live adapter. Numeric comparison and catalogue coverage do not
+qualify complete effect execution or native package support.
+
+The public [Unity equipment preview](unity-shared-equipment.md) preserves the
+qualified candidate runtime, passes actual editor/player and compatibility
+courses, and rebuilds byte for byte on hosted Windows and Linux. The release
+contains checksums and its hosted qualification report.
+
 The [Unity shared-account package checkpoint](../evidence/unity-shared-account/README.md)
 adds exact archive rebuilds, the documented example, shared save publication,
 five lifecycle courses, standalone storage, retained gameplay regression and

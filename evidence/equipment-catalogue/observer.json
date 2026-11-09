@@ -1,0 +1,82 @@
+{
+  "passed": true,
+  "fixtureSha256": "b61c88957a93b75ad698fed454cef3fc57bca57d4fc825b2ec90ae1aba7eee18",
+  "observerSha256": "ac8d72039334393d347e4373c82154df5e7b54957b16d4885ec76344a563875c",
+  "scope": "Six deliberate omissions at real original-game derivation ports; not complete source mutation or effect-execution coverage",
+  "results": [
+    {
+      "name": "omit-gear-source",
+      "index": 0,
+      "originalCase": "helmet_armor",
+      "control": {
+        "observationSha256": "2d2b11b4a149b21ad69b3b5c42b9368b5cad37bf867117eae4688dc0c1a80895"
+      },
+      "detected": true,
+      "broken": {
+        "observationSha256": "663e1adf7705226fda3fc2281faa4badf938d22a11faf378b702484b56cc1ce7"
+      }
+    },
+    {
+      "name": "omit-current-resource-clamp",
+      "index": 4016,
+      "originalCase": "pale_bargain",
+      "control": {
+        "observationSha256": "f0c37866eca33c1d4ad4e8be21c258545c297fc975200e022abe370f4481522a"
+      },
+      "detected": true,
+      "broken": {
+        "observationSha256": "6eb2a607feb7fb0c6feb1e891f510ecb69680c343474f9bb154656b021944215"
+      }
+    },
+    {
+      "name": "omit-worn-supports",
+      "index": 372,
+      "originalCase": "slotgraft_1_overmatch",
+      "control": {
+        "observationSha256": "f43d23ec7e6031d112948414206a9042afacf297083c3dec25e663f525944667"
+      },
+      "detected": true,
+      "broken": {
+        "observationSha256": "8da2f11ca243103269dc3f79e6c6e7ded6f48da40204527a5a3d50efb04f112e"
+      }
+    },
+    {
+      "name": "omit-class-skill-bonus",
+      "index": 324,
+      "originalCase": "class_skills_summoner",
+      "control": {
+        "observationSha256": "c4facee57c46980872820bdb4afbd7715dc9b434c3801fd5e9c187d2837815c5"
+      },
+      "detected": true,
+      "broken": {
+        "observationSha256": "690a5637e7b4007d93b10d34cdc2e851a1bf98a0630223202c012eef646c8157"
+      }
+    },
+    {
+      "name": "omit-granted-skill-owner",
+      "index": 4013,
+      "originalCase": "emberbrand",
+      "control": {
+        "observationSha256": "d7702b002eb8ebc422e136247a391d357d9e95e137264f32cdc0bd34b4a844e4"
+      },
+      "detected": true,
+      "broken": {
+        "observationSha256": "814b9b5d202c32799fecf8a2d0e264ac50f59c793d881c0b5fc9187b8864f9e3"
+      }
+    },
+    {
+      "name": "replace-active-cast",
+      "index": 0,
+      "originalCase": "helmet_armor",
+      "control": {
+        "observationSha256": "2d2b11b4a149b21ad69b3b5c42b9368b5cad37bf867117eae4688dc0c1a80895"
+      },
+      "detected": true,
+      "broken": {
+        "assertion": "Rebuild replaced cast:"
+      }
+    }
+  ],
+  "inputsUnchanged": true,
+  "cleaned": true
+}
