@@ -1,0 +1,197 @@
+{
+  "passed": true,
+  "run": "42694496644",
+  "commit": "531b37622f54c594bb7a5491b08b0feab6746927",
+  "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42694496644",
+  "qualified": [
+    {
+      "os": "windows-2025",
+      "job": 129422583639,
+      "report": {
+        "passed": true,
+        "contracts": 13,
+        "originalClassRecords": 78,
+        "faults": [
+          {
+            "name": "lose-save-context",
+            "detected": true,
+            "logSha256": "6e51b2bfbeccc058b4b537ccaba021eae96b3cc5be46cbbf219b26eefad44a14"
+          },
+          {
+            "name": "skip-inventory-links",
+            "detected": true,
+            "logSha256": "af157ece4b15d4e807a5507d2feb0f61cfc9812b9d9fdef96eb2235f0d2bd0bb"
+          },
+          {
+            "name": "reuse-owned-address",
+            "detected": true,
+            "logSha256": "71530f0bbe1fbb7f6f2da94297350f4864b0df587a115ae0e79409baf03017ed"
+          },
+          {
+            "name": "accept-zero-level",
+            "detected": true,
+            "logSha256": "9f272e371b6a7a2e08df468cc99fdd555c8c74ef65566bad55c19f15b28b0170"
+          },
+          {
+            "name": "accept-wrong-content",
+            "detected": true,
+            "logSha256": "53949d893dd4269062d46bf690459411efe1c500c4d9f7cb44c0118705df617b"
+          },
+          {
+            "name": "skip-passive-admission",
+            "detected": true,
+            "logSha256": "871923e3ce5cb0b5eab9d1f764a6c7bbf329ac0abba65d818a1db422ae6aa1f7"
+          },
+          {
+            "name": "duplicate-account-body",
+            "detected": true,
+            "logSha256": "9547e4367d82f3c754b6562270f52a1796842842a5229c401a8393faf0e9e73c"
+          },
+          {
+            "name": "duplicate-local-address",
+            "detected": true,
+            "logSha256": "60ec5a1911a204c845477c7f3f2a11a99727cfcce403ac579f994d41df3df835"
+          },
+          {
+            "name": "orphan-graft",
+            "detected": true,
+            "logSha256": "4ccdcb4d88a27d1bef17018157fb239c81ff8541fda77dcfc5123c3addcd7f00"
+          },
+          {
+            "name": "account-container-copy",
+            "detected": true,
+            "logSha256": "da27c13436ad81eeaba03f5e6272c0662cf2a0ceaf656a561cb8e1e48e0c2516"
+          }
+        ],
+        "sources": {
+          "src/workshop-character.ts": "1a7cb6bdc0a867b466d7160c173f2cd7c5f5fafc7851188c72c05545cba867fa",
+          "src/account-workshop-session.ts": "8ef999548882b4a283292e23a9fb55c6480b5514072d68322fa7a85bf457202f",
+          "src/workshop-build-preparation.ts": "83ab4228932b712b1908eafe5973d140b017f73fe9f5c76ca5dc96aa5343da99",
+          "src/passive-policy.ts": "ea83beecd0257f2accd3e65c1166184ffd66f30c23cae5b77f68c6b3f6c3da13",
+          "src/passive-grants.ts": "036641e676ceefacd08bd7a0161063462ea334a90064dcbd7601ed74811bbb89",
+          "src/crafting-session-data.ts": "c4c7dc90d6b5da2828369703ea44b17772c451d9ab3b0bcf809ecd32a925438e",
+          "src/workshop-skill-book.ts": "c894222dec4d6b69df67164485abc1a0a640dfb81e2c19e6f4c1dc853bdc7990",
+          "test/workshop-character.test.mjs": "42502cf029533f96c3769c1a97a3003c07b2b7b19db1a839c1b83a892cfc48ab",
+          "test/workshop-character-fixture.mjs": "339efd767e96a11c21b131deeacd251cceb3e58ec2325bf4c19512c4a1bbe452",
+          "test/shared-account/fixtures.mjs": "669d72f8bda758bf73d2e8d63153b06204d8f622f748a31d22ff452769f90332",
+          "test/shared-account/contracts.mjs": "c444f9496bcc3c66d82c2b64d7874edc09aade05b8403a271ea3eb5262fe9efd",
+          "scripts/test-workshop-character-package.mjs": "87fee1e6d71b144cf3ba8b4466e69681302043ac49af2f1716c18bbdc95937a1",
+          "baseline/build-contributions/acceptance.json": "3fd3fc49dac5cc892838530971d6b6df29cf06e7906af693161d4350f242fadf",
+          "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+          "package.json": "8fa922763fedf975d74f8c85015335343cc968e3e4d891eca5799e2dca344745",
+          "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702"
+        },
+        "archiveSha256": "c3a858e8a905638c2228d1f1bb55dd2c40208fa36f5cc443c95b588620a6dee5",
+        "contentSha256": "a1c8fee117923cac302005ecbd27cbcc6538b8cabae13894ac4c726661b43fa0",
+        "baselineSha256": "3cdfc2f7be472db7c8fd984c234d76f5f6930ef3766bcbdbd99bcaffc051add3",
+        "characterFixtureSha256": "16655fdab8f84acbee12d1eb95279f8a30b631be8beeac059496abae2f3ea94f",
+        "browserBytes": 196055,
+        "types": true,
+        "moduleBytes": {
+          "account-workshop-session": 26558,
+          "workshop-character": 5854
+        },
+        "restored": true,
+        "inputsUnchanged": true,
+        "logsSha256": "f7a4d91d35490ae4657af37df38e580c94ecb9508a8f4de28921137d75bd7a86",
+        "cleaned": true
+      },
+      "reportSha256": "9f1850d79125c49027ca6ccba24422b4f3c3f8f3ce4a06adcc93bb9f2b16b0fd"
+    },
+    {
+      "os": "ubuntu-24.04",
+      "job": 129422584275,
+      "report": {
+        "passed": true,
+        "contracts": 13,
+        "originalClassRecords": 78,
+        "faults": [
+          {
+            "name": "lose-save-context",
+            "detected": true,
+            "logSha256": "d641b589df277ee0fbf42e200c353bb0b148e3e21a8ae96317a94f0ff4d7be21"
+          },
+          {
+            "name": "skip-inventory-links",
+            "detected": true,
+            "logSha256": "2c438e7665686108f178149d9d860ff3326608f0418385f117410721e60516ea"
+          },
+          {
+            "name": "reuse-owned-address",
+            "detected": true,
+            "logSha256": "0b2fd3cfabfabb43ae019debe7f89eaf237abcc02263d5bb6085dd649b02b1e6"
+          },
+          {
+            "name": "accept-zero-level",
+            "detected": true,
+            "logSha256": "947991e671640b5fe080763786d7946130b3263fd29e89dc837de2c81dcb85bf"
+          },
+          {
+            "name": "accept-wrong-content",
+            "detected": true,
+            "logSha256": "61bb9356e243185d9aa4ba0e4ff67e3c635ff0478e41fb82d079c3bb757cd540"
+          },
+          {
+            "name": "skip-passive-admission",
+            "detected": true,
+            "logSha256": "7a108712b1730b685e7e7c1a4b77373c72797b363b1502d8cf7b6d52305d52c5"
+          },
+          {
+            "name": "duplicate-account-body",
+            "detected": true,
+            "logSha256": "72bf87dca579b02c9eaffa8da9ba4a33c30bcac4a1ad62cced15517c57614aad"
+          },
+          {
+            "name": "duplicate-local-address",
+            "detected": true,
+            "logSha256": "a9d2459fba1b44f26f5ebab1b36ba00b928b6b92c98452513be892b3f37b9921"
+          },
+          {
+            "name": "orphan-graft",
+            "detected": true,
+            "logSha256": "611acee4d0d91b28498feeb263e4ba827668dc0105e85692a12fc097e1047b26"
+          },
+          {
+            "name": "account-container-copy",
+            "detected": true,
+            "logSha256": "947b47b14e7dc151f8c18ad4b224d5db40eb65f770e882d85719d35503007694"
+          }
+        ],
+        "sources": {
+          "src/workshop-character.ts": "1a7cb6bdc0a867b466d7160c173f2cd7c5f5fafc7851188c72c05545cba867fa",
+          "src/account-workshop-session.ts": "8ef999548882b4a283292e23a9fb55c6480b5514072d68322fa7a85bf457202f",
+          "src/workshop-build-preparation.ts": "83ab4228932b712b1908eafe5973d140b017f73fe9f5c76ca5dc96aa5343da99",
+          "src/passive-policy.ts": "ea83beecd0257f2accd3e65c1166184ffd66f30c23cae5b77f68c6b3f6c3da13",
+          "src/passive-grants.ts": "036641e676ceefacd08bd7a0161063462ea334a90064dcbd7601ed74811bbb89",
+          "src/crafting-session-data.ts": "c4c7dc90d6b5da2828369703ea44b17772c451d9ab3b0bcf809ecd32a925438e",
+          "src/workshop-skill-book.ts": "c894222dec4d6b69df67164485abc1a0a640dfb81e2c19e6f4c1dc853bdc7990",
+          "test/workshop-character.test.mjs": "42502cf029533f96c3769c1a97a3003c07b2b7b19db1a839c1b83a892cfc48ab",
+          "test/workshop-character-fixture.mjs": "339efd767e96a11c21b131deeacd251cceb3e58ec2325bf4c19512c4a1bbe452",
+          "test/shared-account/fixtures.mjs": "669d72f8bda758bf73d2e8d63153b06204d8f622f748a31d22ff452769f90332",
+          "test/shared-account/contracts.mjs": "c444f9496bcc3c66d82c2b64d7874edc09aade05b8403a271ea3eb5262fe9efd",
+          "scripts/test-workshop-character-package.mjs": "87fee1e6d71b144cf3ba8b4466e69681302043ac49af2f1716c18bbdc95937a1",
+          "baseline/build-contributions/acceptance.json": "3fd3fc49dac5cc892838530971d6b6df29cf06e7906af693161d4350f242fadf",
+          "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+          "package.json": "8fa922763fedf975d74f8c85015335343cc968e3e4d891eca5799e2dca344745",
+          "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702"
+        },
+        "archiveSha256": "c3a858e8a905638c2228d1f1bb55dd2c40208fa36f5cc443c95b588620a6dee5",
+        "contentSha256": "a1c8fee117923cac302005ecbd27cbcc6538b8cabae13894ac4c726661b43fa0",
+        "baselineSha256": "3cdfc2f7be472db7c8fd984c234d76f5f6930ef3766bcbdbd99bcaffc051add3",
+        "characterFixtureSha256": "16655fdab8f84acbee12d1eb95279f8a30b631be8beeac059496abae2f3ea94f",
+        "browserBytes": 196055,
+        "types": true,
+        "moduleBytes": {
+          "account-workshop-session": 26558,
+          "workshop-character": 5854
+        },
+        "restored": true,
+        "inputsUnchanged": true,
+        "logsSha256": "ad741edb8403a172e639593abddc02ba739566066d287eb49a81ae6d6f572859",
+        "cleaned": true
+      },
+      "reportSha256": "ecd95016239eef4baa419d5b9d607093d4bec19d8e8b77d313b1a99d1fd17034"
+    }
+  ],
+  "cleaned": true
+}

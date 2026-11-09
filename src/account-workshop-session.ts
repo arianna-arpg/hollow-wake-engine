@@ -3,13 +3,17 @@ import {CraftingSession} from './crafting-session.js';
 import {CraftingSessionData,type CraftingSessionDefinitions} from './crafting-session-data.js';
 import type {WorkshopRack} from './workshop-rack.js';
 import type {EquipmentSlots} from './equipment-actions.js';
+import type {AccountRelicItems} from './account-relic-items.js';
+import type {RelicState} from './relic-custody.js';
+import type {ProgressionRelic} from './progression-session.js';
+import type {ItemInstance} from './item-types.js';
 import type {WorkshopBuildPort,WorkshopBuildInput} from './workshop-build-preparation.js';
 import {WorkshopCharacterData,type WorkshopCharacterDefinitions,type WorkshopCharacterState} from './workshop-character.js';
 import {copySessionJSON,SessionInputError,requireSession as need,sessionFields as fields,
   sessionRecord as record,sessionInteger as integer,sessionText as text,sessionBoolean as bool,type SessionJSON} from './session-json.js';
 
 type ObjectJSON=Record<string,SessionJSON>;
-type Account={key:string;progression:ObjectJSON;craftLore:SessionJSON;extra:SessionJSON;version:number};
+type Account={key:string;progression:ObjectJSON;craftLore:SessionJSON;extra:SessionJSON;version:number;relicItems?:SessionJSON};
 type Workshop={account:number;body:ObjectJSON;progression:boolean;version:number;build?:object;buildAccount?:Account;character?:WorkshopCharacterState};
 type OwnerState={accounts:Map<number,Account>;keys:Set<string>;workshops:Map<number,Workshop>};
 type PreparedWrite={kind:'account'|'workshop';handle:number};
@@ -23,12 +27,14 @@ export interface AccountWorkshopDefinitions {
   preparation?:WorkshopBuildPort;
   /** Opt-in durable source context. Legacy v1 inventories keep their format. */
   character?:WorkshopCharacterDefinitions;
+  /** Optional typed account bodies, sharing this owner's workshop content. */
+  relicItems?:AccountRelicItems;
 }
 export interface AccountWorkshopLimits {accounts?:number;workshops?:number}
 const refuse=(reason:string)=>({ok:false as const,reason});
 const object=(value:unknown):ObjectJSON=>{record(value);return value as ObjectJSON;};
 const same=(a:unknown,b:unknown)=>JSON.stringify(a)===JSON.stringify(b);
-const accountOps=new Set(['buy','invest','acknowledge','observe','relics','settle','catalogue']);
+const accountOps=new Set(['buy','invest','acknowledge','observe','relics','relic-items','settle','catalogue']);
 const lifecycleOps=new Set(['open','restore','close','save']);
 
 /** One authority for account progression, knowledge and counters, with multiple
@@ -42,6 +48,7 @@ export class AccountWorkshopSession {
   readonly #data:CraftingSessionData;
   readonly #preparation?:WorkshopBuildPort;
   readonly #character?:WorkshopCharacterData;
+  readonly #relicItems?:AccountRelicItems;
   #state:OwnerState={accounts:new Map(),keys:new Set(),workshops:new Map()};
   get #accounts(){return this.#state.accounts;}
   get #keys(){return this.#state.keys;}
@@ -62,6 +69,10 @@ export class AccountWorkshopSession {
     this.#data=new CraftingSessionData(definitions.workshop);
     this.#preparation=definitions.preparation;
     if(definitions.character)this.#character=new WorkshopCharacterData(definitions.character,definitions.workshop);
+    if(definitions.relicItems){
+      need(definitions.relicItems.matchesDefinitions(definitions.workshop),'relic-content-mismatch');
+      this.#relicItems=definitions.relicItems;
+    }
   }
   #account(id:unknown):Account {
     integer(id,0,0xffffffff);const account=this.#accounts.get(id);
@@ -79,8 +90,10 @@ export class AccountWorkshopSession {
     return {craftLore:account.craftLore,features:state.features,ledger:state.ledger,progression};
   }
   #accountSave(account:Account):ObjectJSON {
-    return {schemaVersion:1,capability:'account-workshop-account/v1',key:account.key,
-      progression:account.progression,craftLore:account.craftLore,extra:account.extra};
+    const version=account.relicItems===undefined?1:2;
+    return {schemaVersion:version,capability:'account-workshop-account/v'+version,key:account.key,
+      progression:account.progression,craftLore:account.craftLore,extra:account.extra,
+      ...(account.relicItems===undefined?{}:{relicItems:account.relicItems})};
   }
   #workshopSave(workshop:Workshop,account:Account):ObjectJSON {
     const version=workshop.character?2:1;
@@ -89,12 +102,21 @@ export class AccountWorkshopSession {
       ...(workshop.character?{character:workshop.character as unknown as SessionJSON}:{})};
   }
   #checkAccount(account:Account) {
+    if(account.relicItems!==undefined)this.#relicItems!.decode(this.#relicState(account));
     // Reuse the established lore/family/ledger validator. No inventory is
     // created: this empty carrier supplies its required account context.
     this.#data.state({board:{w:1,h:1},items:[],equipped:{},overflow:[],essences:{},account:this.#project(account,true)});
     copySessionJSON({op:'restore-account',account:0xffffffff,save:this.#accountSave(account)});
   }
+  #relicState(account:Account):RelicState<ProgressionRelic> {
+    return object(account.progression.account).reliquary as unknown as RelicState<ProgressionRelic>;
+  }
   #checkWorkshop(workshop:Workshop,account:Account) {
+    if(account.relicItems!==undefined){
+      const state=object(workshop.body.state);
+      for(const item of [...state.items as SessionJSON[],...state.overflow as SessionJSON[],...Object.values(object(state.equipped))])
+        need(object(item).relicKey===undefined,'account-item-in-character');
+    }
     if(workshop.character){
       const state=object(this.#join(workshop,account).state) as unknown as WorkshopBuildInput['state'];
       this.#character!.checkInventory(workshop.character,state);
@@ -247,26 +269,33 @@ export class AccountWorkshopSession {
     if(['prepared-save','commit-prepared','abort-prepared'].includes(request.op))return this.#preparedCommand(request);
     // Committed saves remain readable while storage owns a pending write.
     // All other commands wait, including queries that use mutable rule kernels.
-    if(this.#prepared&&request.op!=='account-save'&&request.op!=='workshop-save')return refuse('prepared-change-pending');
+    if(this.#prepared&&!['account-save','workshop-save','account-relic-items'].includes(request.op))return refuse('prepared-change-pending');
     if(request.op==='prepare')return this.#prepare(request);
     if(request.op==='open-account' || request.op==='restore-account') {
       const restore=request.op==='restore-account';
-      fields(request,restore?['op','account','save']:['op','account','key','seed','state','craftLore','extra']);
+      fields(request,restore?['op','account','save']:['op','account','key','seed','state','craftLore','extra','relicItems']);
       integer(request.account,0,0xffffffff);
       need(!this.#accounts.has(request.account),'already-open');need(this.#accounts.size<this.#limits.accounts,'account-limit');
-      let key:unknown,progression:ObjectJSON,lore:unknown,extra:unknown;
+      let key:unknown,progression:ObjectJSON,lore:unknown,extra:unknown,relicItems:SessionJSON|undefined;
       if(restore) {
-        const save=request.save;fields(save,['schemaVersion','capability','key','progression','craftLore','extra']);
-        need(save.schemaVersion===1 && save.capability==='account-workshop-account/v1','unsupported-save');
+        const save=request.save;fields(save,['schemaVersion','capability','key','progression','craftLore','extra','relicItems']);
+        const version=save.relicItems===undefined?1:2;
+        need(save.schemaVersion===version && save.capability==='account-workshop-account/v'+version,'unsupported-save');
+        if(version===2){
+          need(this.#relicItems,'relic-items-unavailable');need(this.#relicItems.matchesContent(save.relicItems),'relic-content-mismatch');
+          relicItems=this.#relicItems.content;
+        }
         key=save.key;lore=save.craftLore;extra=save.extra;
         progression=this.#withAccount({op:'restore',save:object(save.progression)}).save;
       }else {
+        if(request.relicItems!==undefined)bool(request.relicItems);
+        if(request.relicItems){need(this.#relicItems,'relic-items-unavailable');relicItems=this.#relicItems.content;}
         key=request.key;lore=request.craftLore===undefined?{}:request.craftLore;extra=request.extra===undefined?{}:request.extra;
         integer(request.seed,0,0xffffffff);
         progression=this.#withAccount({op:'open',seed:request.seed,...(request.state===undefined?{}:{account:request.state as SessionJSON})}).save;
       }
       text(key);need(!this.#keys.has(key),'duplicate-account-key');
-      const account={key,progression,craftLore:lore as SessionJSON,extra:extra as SessionJSON,version:1};
+      const account={key,progression,craftLore:lore as SessionJSON,extra:extra as SessionJSON,version:1,relicItems};
       this.#checkAccount(account);
       this.#accounts.set(request.account,account);this.#keys.add(key);return {ok:true,version:1};
     }
@@ -321,12 +350,26 @@ export class AccountWorkshopSession {
       need(![...this.#workshops.values()].some(row=>row.account===request.account),'account-in-use');
       this.#accounts.delete(request.account as number);this.#keys.delete(account.key);return {ok:true};
     }
+    if(request.op==='account-relic-items') {
+      fields(request,['op','account']);const account=this.#account(request.account);
+      need(account.relicItems!==undefined,'relic-items-not-enabled');
+      return copySessionJSON({ok:true,version:account.version,state:this.#relicItems!.decode(this.#relicState(account))});
+    }
     if(request.op==='account') {
       fields(request,['op','account','command']);const account=this.#account(request.account),command=this.#commandInput(request.command,true);
-      const result=this.#withAccount({op:'restore',save:account.progression},command),reply=object(result.reply);
+      let admitted=command;
+      if(command.op==='relic-items'){
+        fields(command,['op','state']);need(account.relicItems!==undefined,'relic-items-not-enabled');
+        admitted={op:'relics',state:this.#relicItems!.encode(command.state as unknown as RelicState<ItemInstance>) as unknown as SessionJSON};
+      }
+      const result=this.#withAccount({op:'restore',save:account.progression},admitted),reply=object(result.reply);
       if(reply.ok!==true)return reply;
       const changed=!same(result.save,account.progression);
       const next={...account,progression:result.save,version:changed?this.#next(account.version):account.version};
+      if(account.relicItems!==undefined){
+        const released=new Set(this.#relicState(next).released);
+        need(this.#relicState(account).released.every(key=>released.has(key)),'released-relic-forgotten');
+      }
       this.#checkAccount(next);
       const replacements=changed?this.#refreshBuilds(request.account as number,next,command):new Map<number,Workshop>();
       if(changed)this.#checkBindings(request.account as number,next,replacements);
@@ -352,7 +395,7 @@ export class AccountWorkshopSession {
       result.save=prepared.save;
       const body=this.#body(result.save),changed=!same(body,workshop.body);
       const nextWorkshop={...workshop,body,build:prepared.build,buildAccount:prepared.buildAccount,version:changed?this.#next(workshop.version):workshop.version};
-      this.#checkAccount(nextAccount);this.#checkWorkshop(nextWorkshop,nextAccount);
+      if(accountChanged)this.#checkAccount(nextAccount);this.#checkWorkshop(nextWorkshop,nextAccount);
       const replacements=accountChanged?this.#refreshBuilds(workshop.account,nextAccount,command,request.profile as number):new Map<number,Workshop>();
       if(changed||prepared.build!==workshop.build)replacements.set(request.profile as number,nextWorkshop);
       if(accountChanged)this.#checkBindings(workshop.account,nextAccount,replacements);

@@ -7,9 +7,11 @@ on:
       - 'baseline/**'
       - 'test/workshop-build-preparation.test.mjs'
       - 'test/workshop-character*'
+      - 'test/account-relic-items*'
       - 'test/shared-account/**'
       - 'scripts/test-workshop-build-package.mjs'
       - 'scripts/test-workshop-character-package.mjs'
+      - 'scripts/test-account-relic-items-package.mjs'
       - 'scripts/test-account-workshops-package.mjs'
       - 'scripts/compile-*.mjs'
       - 'package*.json'
@@ -38,6 +40,7 @@ jobs:
       - run: npm run test:account-workshops-package
       - run: npm run test:workshop-build-package
       - run: npm run test:workshop-character-package
+      - run: npm run test:account-relic-items-package
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
         with:
@@ -51,3 +54,5 @@ jobs:
             .artifacts/workshop-build-package.logs.json.gz
             .artifacts/workshop-character-package.json
             .artifacts/workshop-character-package.logs.json.gz
+            .artifacts/account-relic-items-package.json
+            .artifacts/account-relic-items-package.logs.json.gz

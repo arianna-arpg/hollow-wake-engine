@@ -1,5 +1,10 @@
 # Boundary contract
 
+The optional [typed account relic owner](account-relic-items.md) admits complete
+canonical bodies and storage indexes in explicit v2 account saves and prepared
+transactions. Live projection, active-character authority and canonical grant
+writeback remain separate integration work.
+
 The optional [durable workshop character context](workshop-character.md) retains
 validated class, base attributes, passives and personal container inputs beside
 the inventory save. Account relic projection/writeback, full authored build

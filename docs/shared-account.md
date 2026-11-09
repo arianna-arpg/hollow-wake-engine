@@ -4,6 +4,10 @@ The optional `@hollow-wake/engine/account/workshops` entry adds one account
 authority with multiple attached character inventories. It composes the existing
 progression and crafting rules. It does not replace either standalone session.
 
+Optional [typed relic bodies](account-relic-items.md) add explicit account v2
+admission and detached canonical views. V1 opaque payloads remain unchanged.
+This does not bind account effects to a particular character or live actor.
+
 An optional [private build preparation service](workshop-build-preparation.md)
 normalizes item investment before candidate saves are exported and carries build
 continuity through command batches. When enabled, account changes can also

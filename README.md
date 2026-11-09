@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The optional [typed account relics](docs/account-relic-items.md) validate complete
+item bodies, preserve canonical custody and commit them through the shared owner.
+Legacy accounts retain their format. Active-character binding and live relic
+effects remain separate integration work.
+
 The optional [workshop character context](docs/workshop-character.md) saves
 validated class, attributes, passive choices and personal container inputs beside
 the inventory. Existing saves stay compatible. Account relic projection, full

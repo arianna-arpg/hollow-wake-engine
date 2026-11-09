@@ -1,5 +1,12 @@
 # Verification and reproduction
 
+The optional [typed account relic boundary](account-relic-items.md) adds twelve
+contracts, installed/browser/type checks and ten deliberate runtime faults.
+`reference:account-relic-build` reproduces 27 original-only checkpoints in two
+fresh processes; the typed package round-trips their account bodies and board
+order. Companion observations establish a future extraction baseline, not
+companion-runtime parity for the new owner.
+
 `npm run test:workshop-character-package` qualifies v2 source-context ownership
 through installed/browser consumers, public types, thirteen contracts and ten
 deliberate faults. Its 78 frozen original attribute comparisons cover source

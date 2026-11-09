@@ -102,7 +102,7 @@ try{
     ['lost-publication',"if (request.op === 'commit-prepared')\n            this.#state = pending.state;",'void pending.state;'],
     ['abort-publishes',"if (request.op === 'commit-prepared')\n            this.#state = pending.state;",'this.#state = pending.state;'],
     ['stale-token',"need(request.token === pending.token, 'stale-prepared-change');",'void request.token;'],
-    ['pending-edit',"if (this.#prepared && request.op !== 'account-save' && request.op !== 'workshop-save')",'if (false)'],
+    ['pending-edit',"if (this.#prepared && !['account-save', 'workshop-save', 'account-relic-items'].includes(request.op))",'if (false)'],
     ['excess-records',"need(writes.length <= 8, 'prepared-record-limit');","need(writes.length <= 9, 'prepared-record-limit');"],
     ['failed-batch-publishes','finally {\n            this.#state = committed;\n        }\n    }\n    #preparedCommand',
       'finally {\n            if(this.#prepared)this.#state = committed;\n        }\n    }\n    #preparedCommand'],
