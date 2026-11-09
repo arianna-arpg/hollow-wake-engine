@@ -60,6 +60,19 @@ composition. The earlier failing Linux run remains visible: only the gzip OS
 header differed, while the uncompressed observations matched. Frozen archives
 and expected observations were preserved.
 
+## Hosted composition result
+
+Both Windows 2025 and Ubuntu 24.04 passed
+[run 42556390452](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42556390452)
+at source commit `ccec8dfe0432f63afe3f3a069eb6a4aca6a39a32`.
+`hosted.json` records both downloaded artifact audits: original-only and complete
+game results, source and runtime hashes, all fault checkpoints, restored controls,
+and fresh original reference replays match the local checkpoint. Downloaded
+workspaces were removed. `public-readback.json` records anonymous byte-for-byte
+readback of six published source/evidence files at that same commit.
+`verification.json` remains the earlier local checkpoint; this hosted receipt
+adds qualification without rewriting its history.
+
 ## Reproduce
 
 After installing the SDK's development dependencies and preparing/installing
