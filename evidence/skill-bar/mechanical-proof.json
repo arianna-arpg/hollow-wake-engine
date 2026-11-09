@@ -1,0 +1,104 @@
+{
+  "passed": true,
+  "method": "Compare emitted statement structures after explicit host-port substitution, removal of the local ports alias, and single-statement control-block normalization. Adapter argument/default forwarding is covered by installed and unit courses.",
+  "sources": {
+    "src/skill-bar.ts": "cd1dce3be4c053a05617581b6314010b1659c0590128de7ade9c10a173967998",
+    ".reference/src/engine/world.ts": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+    ".reference/src/meta/skillSlotMemory.ts": "d5efc5637555b615d61450b568fa6183b1653c08501b09d4577664a37ac29db5"
+  },
+  "ports": [
+    [
+      "this.seatHero(seat)",
+      "r.hero(seat)"
+    ],
+    [
+      "this.rememberSkillSlots(seat,",
+      "r.remember(seat,"
+    ],
+    [
+      "this.rebindWornGrafts(seat,",
+      "r.rebind(seat,"
+    ],
+    [
+      "this.seatSkillById(seat,",
+      "r.resolve(seat,"
+    ],
+    [
+      "this.recalcSeat(seat)",
+      "r.recalculate(seat)"
+    ],
+    [
+      "inst.def.tags.includes('flask')",
+      "r.isFlask(inst)"
+    ],
+    [
+      "seat.actor",
+      "r.actor(seat)"
+    ],
+    [
+      "this.clearTreeFields(",
+      "r.clearFields("
+    ],
+    [
+      "this.resyncMinionSupports(",
+      "r.resync("
+    ],
+    [
+      "this.localSeat",
+      "r.localSeat()"
+    ],
+    [
+      "this.provisioningFlaskSlots.has(seat)",
+      "r.provisioning(seat)"
+    ],
+    [
+      "rememberSkillSlot(this.account.skillSlotMemory,",
+      "r.rememberSlot("
+    ],
+    [
+      "this.accountDirty = true",
+      "r.preferencesDirty()"
+    ],
+    [
+      "SKILL_SLOT_MEMORY_CFG.tags.some(tag => inst.def.tags.includes(tag))",
+      "eligible(inst)"
+    ]
+  ],
+  "rows": [
+    {
+      "original": "bindSkill",
+      "runtime": "bind",
+      "bodySha256": "97212203ad0a4f13392d278b8da25c861bcff6c66c0f26110539950da1405150"
+    },
+    {
+      "original": "swapSkillSlots",
+      "runtime": "swap",
+      "bodySha256": "7f3d33d54d7b570103c704f6084837af1322485581832762970b5089fc759c48"
+    },
+    {
+      "original": "rebindWornGrafts",
+      "runtime": "rebind",
+      "bodySha256": "b5ab81fbf6f87a8cb841c2ad29d5645c38c5d92139c895214dfbda0dd4d4ba00"
+    },
+    {
+      "original": "rememberSkillSlots",
+      "runtime": "remember",
+      "bodySha256": "67b4a5e562c18b2fdb21b7782459e92a093fad4bec7b8e393443749d9a355004"
+    },
+    {
+      "original": "restoreSkillSlotMemory",
+      "runtime": "restoreSkillSlotMemory",
+      "bodySha256": "8f5e7887c61d0817863677ed8509b0a462e16f44c6a0eb1c517ab6d20754f102"
+    },
+    {
+      "original": "rememberSkillSlot",
+      "runtime": "rememberSkillSlot",
+      "bodySha256": "397a3741311ea23c208a3339e68414ac3984d937168cdebf7714bb9bbbb4e0e1"
+    },
+    {
+      "original": "planSkillSlots",
+      "runtime": "planSkillSlots",
+      "bodySha256": "5cc0a68d03a5136d033c5742b867e3c2a12adf8656e701a141360b558e5011dc"
+    }
+  ]
+}

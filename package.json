@@ -488,6 +488,10 @@
       "types": "./dist/content-table-compiler.d.ts",
       "import": "./dist/content-table-compiler.js"
     },
+    "./skills/bar": {
+      "types": "./dist/skill-bar.d.ts",
+      "import": "./dist/skill-bar.js"
+    },
     "./skills/equipment": {
       "types": "./dist/equipment-skills.d.ts",
       "import": "./dist/equipment-skills.js"
@@ -503,7 +507,7 @@
     "reference:prepare": "node scripts/prepare-reference.mjs",
     "reference:install": "node scripts/install-reference-tools.mjs",
     "diagnose:restoration": "node scripts/run-restoration-diagnosis-ci.mjs",
-    "reference:verify": "node scripts/run-reference.mjs && node scripts/test-reference-unlock-lifecycle.mjs && npm run reference:unlock-content && npm run reference:crafting && npm run reference:gem-residence && npm run reference:inspection && npm run reference:cargo-cards && npm run reference:loadout && npm run reference:skill-rack && node scripts/reference-workshop-supports.mjs && node scripts/reference-workshop-supports.mjs --pouch-recall && npm run reference:conduits && npm run reference:vestiges && npm run reference:shared-account && npm run reference:equipment-skills && npm run reference:equipment-passive-grafts && npm run reference:equipment-lookup",
+    "reference:verify": "node scripts/run-reference.mjs && node scripts/test-reference-unlock-lifecycle.mjs && npm run reference:unlock-content && npm run reference:crafting && npm run reference:gem-residence && npm run reference:inspection && npm run reference:cargo-cards && npm run reference:loadout && npm run reference:skill-rack && node scripts/reference-workshop-supports.mjs && node scripts/reference-workshop-supports.mjs --pouch-recall && npm run reference:conduits && npm run reference:vestiges && npm run reference:shared-account && npm run reference:equipment-skills && npm run reference:equipment-passive-grafts && npm run reference:equipment-lookup && npm run reference:skill-bar",
     "reference:lifecycle": "node scripts/run-lifecycle-reference.mjs",
     "adapter:prepare": "npm run build && node scripts/prepare-game-adapter.mjs",
     "adapter:verify": "node scripts/test-game-adapter.mjs",
@@ -874,7 +878,9 @@
     "test:equipment-skills-overlay": "node scripts/test-equipment-skills-overlay.mjs",
     "test:equipment-skills-composed": "node scripts/test-equipment-skills-original.mjs --composed",
     "reference:equipment-passive-grafts": "node scripts/reference-equipment-passive-grafts.mjs",
-    "reference:equipment-lookup": "node scripts/reference-equipment-lookup.mjs"
+    "reference:equipment-lookup": "node scripts/reference-equipment-lookup.mjs",
+    "reference:skill-bar": "node scripts/reference-skill-bar.mjs",
+    "test:skill-bar-overlay": "node scripts/test-skill-bar-overlay.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12",

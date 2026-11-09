@@ -45,5 +45,9 @@ publication and physical-device acceptance remain separate work.
 worktree was created. The reference capsule, dependencies and existing work
 remain available for the next extraction.
 
-Hosted Windows/Linux qualification is recorded separately in `hosted.json`
-when the exact published source run and downloaded evidence have been checked.
+The [hosted qualification](hosted.json) independently checks both Windows 2025
+and Ubuntu 24.04 artifacts from [run 42563780250](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42563780250)
+at commit `99bae0f543ad06528531f0254b03185120a09f29`. Both pass the original
+replays, installed faults and complete adapter course. [Anonymous public
+readback](public-readback.json) matches seven published source/evidence files
+byte for byte.

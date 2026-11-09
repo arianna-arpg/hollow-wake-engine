@@ -26,6 +26,11 @@ globalThis.fetch = () => { throw new Error('network called'); };
 for (const key of ['window', 'document', 'localStorage']) Object.defineProperty(globalThis, key, { get() { throw new Error(key + ' accessed'); } });
 const { Engine, CastRuntime, TimedDamage, Inventory } = await import('@hollow-wake/engine');
 const {SkillRackActions,restoreLearnedSeatIds}=await import('@hollow-wake/engine/skills/rack');
+const {SkillBarActions,restoreSkillSlotMemory,rememberSkillSlot,planSkillSlots}=await import('@hollow-wake/engine/skills/bar');
+assert.equal(typeof SkillBarActions,'function');
+assert.deepEqual(restoreSkillSlotMemory({kept:0,invalid:-1}),{kept:0});
+const preferred={};assert(rememberSkillSlot(preferred,{def:{id:'new'}},1,true,()=>true));
+assert.deepEqual([...planSkillSlots(['new','kept'],['kept',null],preferred)],[['kept',0],['new',1]]);
 const {PouchRecall}=await import('@hollow-wake/engine/inventory/pouch-recall');
 const pouchContent=JSON.parse(fs.readFileSync(new URL(import.meta.resolve('@hollow-wake/engine/content/pouch-recall.json')),'utf8'));
 const recall=new PouchRecall(pouchContent).forActor({level:10,all:false,skills:[],supports:[]});
@@ -100,7 +105,7 @@ const relicJsBytes = packed.files.filter(file => file.path === 'dist/relic-custo
 const actionJsBytes = packed.files.filter(file => file.path === 'dist/relic-actions.js').reduce((sum, file) => sum + file.size, 0);
 const equipmentJsBytes = packed.files.filter(file => file.path === 'dist/equipment-actions.js').reduce((sum, file) => sum + file.size, 0);
 const progressionJsBytes = packed.files.filter(file => file.path === 'dist/character-progression.js').reduce((sum, file) => sum + file.size, 0);
-const skillJsBytes = packed.files.filter(file => /^dist\/skill-.*\.js$/.test(file.path) && !['dist/skill-admission.js', 'dist/skill-instances.js', 'dist/skill-intent.js', 'dist/skill-request.js', 'dist/skill-dispatch.js'].includes(file.path)).reduce((sum, file) => sum + file.size, 0);
+const skillJsBytes = packed.files.filter(file => /^dist\/skill-.*\.js$/.test(file.path) && !['dist/skill-bar.js', 'dist/skill-admission.js', 'dist/skill-instances.js', 'dist/skill-intent.js', 'dist/skill-request.js', 'dist/skill-dispatch.js'].includes(file.path)).reduce((sum, file) => sum + file.size, 0);
 const continuationJsBytes = packed.files.filter(file => file.path === 'dist/casting-continuation.js').reduce((sum, file) => sum + file.size, 0);
 const bankJsBytes = packed.files.filter(file => file.path === 'dist/channel-banks.js').reduce((sum, file) => sum + file.size, 0);
 const actorGaugeJsBytes = packed.files.filter(file => file.path === 'dist/actor-gauges.js').reduce((sum, file) => sum + file.size, 0);
@@ -185,6 +190,8 @@ const inspectionJsBytes=inspectionFiles.reduce((sum,f)=>sum+f.size,0);
 assert(inspectionJsBytes<=18*1024,'Optional inspection exceeded its separate 18 KiB budget');
 const rackFile=packed.files.find(f=>f.path==='dist/skill-rack.js');
 assert(rackFile&&rackFile.size<=6*1024,'Optional skill rack exceeded 6 KiB or is missing');
+const barFile=packed.files.find(f=>f.path==='dist/skill-bar.js');
+assert(barFile&&barFile.size>0&&barFile.size<=4*1024,'Optional skill bar exceeded 4 KiB or is missing');
 const workshopFile=packed.files.find(f=>f.path==='dist/workshop-rack.js');
 assert(workshopFile&&workshopFile.size<=6*1024,'Optional workshop rack exceeded 6 KiB or is missing');
 const supportWorkshop=packed.files.find(f=>f.path==='dist/workshop-supports.js');
@@ -219,7 +226,7 @@ const equipmentSkillsFile=packed.files.find(file=>file.path==='dist/equipment-sk
 // Cold bar restoration adds 1,435 bytes to the previously qualified rebuild module.
 assert(equipmentSkillsFile?.size>0&&equipmentSkillsFile.size<=11*1024,'Optional equipment skill derivation and lookup exceeds 11 KiB or is missing');
 const equipmentSkillsJsBytes=equipmentSkillsFile.size;
-const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
+const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
 const craftingSessionJsBytes=Object.values(craftingSessionModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingSessionJsBytes=preContentTableJsBytes-craftingSessionJsBytes;
 const residenceJsBytes=Object.values(residenceModuleBytes).reduce((sum,size)=>sum+size,0),preResidenceJsBytes=preCraftingSessionJsBytes-residenceJsBytes;
 const craftingJsBytes=Object.values(craftingModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingJsBytes=preResidenceJsBytes-craftingJsBytes;
@@ -327,6 +334,7 @@ assert.ok(preContentTableJsBytes <= (732 + 70 + 20 + 38 + 44) * 1024, 'Combined 
 assert.ok(contentBytes-pouchData.size-conduitData.size-vestigeData.size <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
   equipmentSkillsJsBytes,
+  skillBarJsBytes:barFile.size,
   accountWorkshopJsBytes,contentTableModuleBytes,contentTableJsBytes,preContentTableJsBytes,craftingSessionModuleBytes,craftingSessionJsBytes,preCraftingSessionJsBytes,residenceModuleBytes,residenceJsBytes,preResidenceJsBytes,craftingModuleBytes,craftingJsBytes,preCraftingJsBytes,progressionSessionJsBytes, preSessionJsBytes, unlockModuleBytes, unlockJsBytes, preUnlockJsBytes, gateJsBytes, preGateJsBytes, continuityJsBytes, preContinuityJsBytes, characterJsBytes, preCharacterJsBytes, siteJsBytes, preSiteJsBytes, vocationJsBytes, preVocationJsBytes, procDeliveryJsBytes, preProcDeliveryJsBytes,
   cargoJsBytes, inspectionJsBytes, runtimeJsBytes: jsBytes, procCastingJsBytes, statusDeliveryJsBytes, hitAftermathJsBytes, hitSustainJsBytes, hitReactionsJsBytes, predecessorJsBytes, tagContextJsBytes, hitLandingJsBytes, hitPreparationJsBytes, previousJsBytes, damageJsBytes, statusJsBytes, statusEffectsJsBytes, hitStatusJsBytes, hitEffectsJsBytes, coreJsBytes, itemJsBytes, passiveJsBytes, inventoryHostJsBytes, stashJsBytes, containerJsBytes, relicJsBytes, actionJsBytes, equipmentJsBytes, progressionJsBytes, skillJsBytes, supportJsBytes, resourceJsBytes, chargedCastJsBytes, interactiveCastJsBytes, ammunitionJsBytes, channelCastJsBytes, guardCastJsBytes, paymentJsBytes, admissionJsBytes, intentJsBytes, requestJsBytes, dispatchJsBytes, continuationJsBytes, contentBytes, packageBytes: packed.size, unpackedBytes: packed.unpackedSize,
   bankJsBytes, actorGaugeJsBytes, actorConditionJsBytes, procJsBytes, procEffectJsBytes, delayedJsBytes, buffJsBytes, cooldownJsBytes, cooldownLifecycleJsBytes, readyBankJsBytes, sequenceRecoveryJsBytes, attackSequenceJsBytes, isolatedConsumer: JSON.parse(result), node: process.version,

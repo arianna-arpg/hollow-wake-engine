@@ -1,8 +1,10 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';
 import {spawnSync,execFileSync} from 'node:child_process';import {gzipSync,gunzipSync} from 'node:zlib';
+import ts from 'typescript';
 import {root,materialize,verifyReference,sha256,listFiles} from './reference-utils.mjs';
 import {npmCli} from './npm-cli.mjs';import {renderEquipmentSkillProbe} from './equipment-skill-reference.mjs';
 import {integrateEquipmentSkills,renderEquipmentSkills} from '../adapters/hollow-wake/integrate-equipment-skills.mjs';
+import {integrateSkillBar} from '../adapters/hollow-wake/integrate-skill-bar.mjs';
 
 const composed=process.argv[2]==='--composed';assert.equal(process.argv.length,composed?3:2);
 const label=composed?'composed':'installed';
@@ -17,6 +19,7 @@ report.sources=Object.fromEntries(['src/equipment-skills.ts','adapters/hollow-wa
   'adapters/hollow-wake/integrate-passive-grants.mjs','adapters/hollow-wake/passiveGrantAdapter.ts',
   'reference/export-equipment-passive-grafts.ts','baseline/equipment-passive-grafts/acceptance.json',
   'reference/export-equipment-lookup.ts','scripts/reference-equipment-lookup.mjs','baseline/equipment-lookup/acceptance.json',
+  'src/skill-bar.ts','adapters/hollow-wake/integrate-skill-bar.mjs','reference/export-skill-bar.ts','baseline/skill-bar/acceptance.json',
   'baseline/equipment-skills/acceptance.json','package.json']
   .map(file=>[file,sha256(fs.readFileSync(path.join(root,file)))]));
 const run=(label,args,cwd=game)=>{
@@ -46,6 +49,7 @@ try{
     success('prepare',[path.join(root,'scripts/prepare-game-adapter.mjs'),'--game',game,'--location-out',location,'--reuse-tools',deps,'--scratch-root',work],root);
     const loc=JSON.parse(fs.readFileSync(location));assert.equal(loc.game,game);
     assert(loc.equipmentSkillsDecision);assert.equal(loc.equipmentSkillsPassiveSource,'compiled');
+    assert(loc.skillBarDecision);report.barAdapter={decision:loc.skillBarDecision};
     for(const key of ['skillRackDecision','conduitsDecision','vestigeDecision','gemResidenceDecision','craftingDecision','statContextDecision'])assert(loc[key],key);
     installed=path.join(game,'node_modules/@hollow-wake/engine');
     report.archiveSha256=sha256(fs.readFileSync(loc.archive));
@@ -63,6 +67,7 @@ try{
     installed=path.join(modules,'@hollow-wake/engine');fs.mkdirSync(installed,{recursive:true});
     execFileSync('tar',['-xf',archive,'-C',installed,'--strip-components=1'],{windowsHide:true});
     report.adapter=integrateEquipmentSkills(game);
+    report.barAdapter=integrateSkillBar(game);
   }
   for(const file of listFiles(path.join(root,'dist')))assert(fs.readFileSync(path.join(installed,'dist',file)).equals(fs.readFileSync(path.join(root,'dist',file))),file+' installed bytes differ');
   const module=path.join(installed,'dist/equipment-skills.js'),original=fs.readFileSync(module,'utf8');
@@ -71,6 +76,10 @@ try{
   assert.equal(lookupManifest.sourceLockSha256,manifest.sourceLockSha256);
   const lookupProbe=path.join(game,'balance/hwe-equipment-lookup.ts');fs.copyFileSync(path.join(root,lookupManifest.source),lookupProbe);
   assert.equal(sha256(fs.readFileSync(lookupProbe)),lookupManifest.sourceSha256);
+  const barManifest=JSON.parse(fs.readFileSync(path.join(root,'baseline/skill-bar/acceptance.json')));
+  assert.equal(barManifest.sourceLockSha256,manifest.sourceLockSha256);
+  const barProbe=path.join(game,'balance/hwe-skill-bar.ts');fs.copyFileSync(path.join(root,barManifest.source),barProbe);
+  assert.equal(sha256(fs.readFileSync(barProbe)),barManifest.sourceSha256);
   for(const config of ['tsconfig.json','tsconfig.launcher.json','tsconfig.sim.json'])success('types-'+config,[path.join(deps,'typescript/bin/tsc'),'--noEmit','-p',config]);
   report.types=true;
   const helper=path.join(game,'balance/hwe-equipment-helper.ts');fs.copyFileSync(path.join(root,manifest.helper),helper);
@@ -121,6 +130,10 @@ try{
   const lookupOutput=path.join(work,'lookup.json');success('lookup',['--import','tsx',lookupProbe,lookupOutput]);
   assert(fs.readFileSync(lookupOutput).equals(expected.lookup),'Cold lookup and character resume differ from original');
   report.results.lookup={cases:lookupManifest.cases,sha256:lookupManifest.sha256};
+  const barExpected=gunzipSync(fs.readFileSync(path.join(root,'baseline/skill-bar/observations.json.gz')));assert.equal(sha256(barExpected),barManifest.sha256);
+  const barOutput=path.join(work,'bar.json');success('bar',['--import','tsx',barProbe,barOutput]);
+  assert(fs.readFileSync(barOutput).equals(barExpected),'Bar ownership, callbacks and preferences differ from original');
+  report.results.bar={cases:barManifest.cases,memoryCases:barManifest.memoryCases,sha256:barManifest.sha256};
   for(const name of ['legends','slotgraft']){
     const probe=path.join(game,'balance/hwe-equipment-'+name+'.ts');
     fs.writeFileSync(probe,renderEquipmentSkillProbe(fs.readFileSync(path.join(game,manifest.results[name].source),'utf8'),'./hwe-equipment-helper.ts'));
@@ -169,6 +182,40 @@ try{
     assert(fs.readFileSync(output).equals(expected[probe]));
   }
   report.restored=true;
+  const barModule=path.join(installed,'dist/skill-bar.js'),barOriginal=fs.readFileSync(barModule,'utf8');report.barRuntimeSha256=sha256(barOriginal);report.barFaults=[];
+  const barTree=ts.createSourceFile(barProbe,fs.readFileSync(barProbe,'utf8'),ts.ScriptTarget.Latest,true),barCheckpoints=new Map();
+  const findBarChecks=node=>{if(ts.isCallExpression(node)&&node.expression.getText(barTree)==='step'&&ts.isStringLiteral(node.arguments[0])){
+    const name=node.arguments[0].text;assert(!barCheckpoints.has(name));barCheckpoints.set(name,[barTree.getLineAndCharacterOfPosition(node.getStart(barTree)).line+1,barTree.getLineAndCharacterOfPosition(node.end).line+1]);
+  }ts.forEachChild(node,findBarChecks);};findBarChecks(barTree);assert.equal(barCheckpoints.size,barManifest.cases);
+  for(const[name,needle,replacement,checkpoint]of [
+    ['bar-edits-controlled-body','const r = this.#p, p = r.hero(seat);','const r = this.#p, p = r.actor(seat);','possession binding changes the hero and leaves the borrowed bar intact'],
+    ['bar-loses-toggle','if (!already)','if (true)','binding the same id toggles off without forgetting it'],
+    ['bar-copies-resolved-instance','p.skills[slot] = inst;','p.skills[slot] = {...inst};','off-bar learned ownership binds without consuming investment'],
+    ['bar-does-not-deduplicate-touched','if (!inst || seen.has(inst))','if (!inst)','rebuild handoff deduplicates exact touched identities'],
+    ['bar-allows-guest-preferences','seat !== r.localSeat() || r.provisioning(seat)','r.provisioning(seat)','guest flask edits cannot change owner preferences'],
+    ['bar-overwrites-provisioning-preferences','seat !== r.localSeat() || r.provisioning(seat)','seat !== r.localSeat()','automatic provisioning cannot overwrite preferences'],
+    ['bar-forgets-field-retirement','r.clearFields(r.actor(seat), inst);','void inst;','clearing a flask keeps its preference and clears departed fields'],
+    ['bar-ignores-preserved-preference','(!overwrite && previous !== undefined)','(false && previous !== undefined)','missing-only capture leaves an existing preference'],
+  ]){
+    const occurrences=barOriginal.split(needle).length-1;assert.equal(occurrences,name==='bar-edits-controlled-body'?2:1,name+' target changed');
+    fs.writeFileSync(barModule,barOriginal.replaceAll(needle,replacement));
+    try{
+      const child=run(name,['--import','tsx',barProbe,path.join(work,name+'.json')]);assert.equal(child.status,1,name+' escaped');
+      const lines=barCheckpoints.get(checkpoint);assert(lines);const stackLines=[...logs[name].matchAll(/hwe-skill-bar\.ts:(\d+):\d+/g)].map(m=>Number(m[1]));
+      assert(logs[name].includes('ERR_ASSERTION')&&(logs[name].includes(checkpoint)||stackLines.some(n=>n>=lines[0]&&n<=lines[1])),name+' missed its checkpoint');
+      report.barFaults.push({name,detected:true,checkpoint,checkpointLines:lines,logSha256:sha256(logs[name])});
+    }
+    finally{fs.writeFileSync(barModule,barOriginal);}
+  }
+  const barRestored=path.join(work,'bar-restored.json');success('bar-restored',['--import','tsx',barProbe,barRestored]);assert(fs.readFileSync(barRestored).equals(barExpected));report.barRestored=true;
+  // Learning/removal and legacy resume must keep using the same original book,
+  // bar, investment and callback contracts after the new handoff is installed.
+  for(const name of ['skill-rack','skill-rack-resume']){
+    const file=path.join(game,'balance','hwe-previous-'+name+'.ts');fs.copyFileSync(path.join(root,'reference/export-'+name+'.ts'),file);
+    const output=path.join(work,name+'.json');success(name,['--import','tsx',file,output]);
+    const previous=gunzipSync(fs.readFileSync(path.join(root,'baseline',name,'observations.json.gz')));assert(fs.readFileSync(output).equals(previous),name+' changed after bar integration');
+    report.results[name]={sha256:sha256(previous)};
+  }
   report.passed=true;
 }catch(error){report.failure=String(error);throw error;}
 finally{

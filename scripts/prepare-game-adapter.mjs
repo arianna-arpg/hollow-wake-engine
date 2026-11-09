@@ -7,6 +7,7 @@ import {integrateCrafting} from '../adapters/hollow-wake/integrate-crafting.mjs'
 import {integrateGemResidence} from '../adapters/hollow-wake/integrate-gem-residence.mjs';
 import {integrateSkillRack} from '../adapters/hollow-wake/integrate-skill-rack.mjs';
 import {integrateEquipmentSkills} from '../adapters/hollow-wake/integrate-equipment-skills.mjs';
+import {integrateSkillBar} from '../adapters/hollow-wake/integrate-skill-bar.mjs';
 import {integrateConduits} from '../adapters/hollow-wake/integrate-conduits.mjs';
 import {integrateVestiges} from '../adapters/hollow-wake/integrate-vestiges.mjs';
 import {integrateCharacterRules} from '../adapters/hollow-wake/integrate-character-rules.mjs';
@@ -142,6 +143,7 @@ integrateCrafting(game, false);
 integrateGemResidence(game, false);
 integrateSkillRack(game, false);
 integrateEquipmentSkills(game, false);
+integrateSkillBar(game, false);
 integrateConduits(game, false);
 integrateVestiges(game, false);
 integrateStatContext(game, false);
@@ -349,6 +351,9 @@ const equipmentSkills=integrateEquipmentSkills(game,true,{passiveGrafts:'compile
 changes.files.push(...equipmentSkills.files);
 changes.equipmentSkillsDecision=equipmentSkills.decision;
 changes.equipmentSkillsPassiveSource=equipmentSkills.passiveGrafts;
+const skillBar=integrateSkillBar(game);
+changes.files.push(...skillBar.files);
+changes.skillBarDecision=skillBar.decision;
 const statContext = integrateStatContext(game);
 changes.files.push(...statContext.files);
 changes.statContextDecision = statContext.decision;

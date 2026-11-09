@@ -6,6 +6,10 @@ the bar for each character. The bar and book point to the same live skill
 instance. The SDK transfers the item and updates both bindings synchronously.
 The optional module loads on the inventory path.
 
+The separate [bar policy](skill-bar.md) binds and swaps existing learned or
+equipment-granted instances while retaining their ownership and investment.
+It also supplies the ordered rebuild handoff and account slot preferences.
+
 ```ts
 const rack = new SkillRackActions(ports);
 const learned = rack.learn(seat, bagItemUid);          // choose a seat

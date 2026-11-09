@@ -3,6 +3,10 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The optional [skill bar policy](docs/skill-bar.md) binds and swaps existing
+skills, preserves learned and equipment-granted ownership, and coordinates
+rebuild callbacks and account slot preferences through explicit host ports.
+
 The optional [equipment skill runtime](docs/equipment-skills.md) derives item-owned
 skills, class skill bonuses and passive, tree and worn supports. The complete
 game adapter also restores saved equipment-granted bar ownership and composes
