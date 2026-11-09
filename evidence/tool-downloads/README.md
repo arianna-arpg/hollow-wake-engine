@@ -5,9 +5,9 @@ fetching Electron or Godot export templates. The exact run URLs, observed error
 lines and retained-log hashes are in [the failure record](prior-failures.json).
 Those failed downloads did not complete the affected platform qualifications.
 
-The download helper retries HTTP 408, 429, 500, 502, 503 and 504 at most three
-times. Ordinary backoff is one then two seconds; Retry-After seconds or dates
-can increase each wait up to thirty seconds. Godot archive fetching shares one
+The download helper makes at most three attempts for HTTP 408, 429, 500, 502,
+503 or 504 responses. Ordinary backoff is one then two seconds; Retry-After
+seconds or dates can increase each wait up to thirty seconds. Godot fetching shares one
 ten-minute deadline across all attempts. Non-HTTP transport errors, local file
 errors, checksum failures and size mismatches fail directly.
 
@@ -30,6 +30,15 @@ child processes and isolated Godot preparation. The latter injects failed
 archives/extracted files and checks that only the receipt survives. Test
 consumers are removed even on failure. [Compressed logs](local.logs.json.gz)
 retain the observations and assertion failures.
+
+[Hosted qualification](hosted.json) independently checks the downloaded Windows
+2025 and Ubuntu 24.04 reports from
+[run 42654351904](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42654351904)
+at `e082cc99dfa3e505f2207c0112bd4f1a41b93a9f`. Both platforms passed all twelve
+contracts, detected all nine deliberate faults and passed the restored control.
+The receipt checks source hashes, archived log hashes, named failed assertions
+and scratch cleanup. [Anonymous public readback](public-readback.json) verifies
+eight published source/evidence files byte for byte at that same commit.
 
 Reproduce with `node scripts/test-tool-downloads.mjs`. It needs only Node's
 built-in modules, uses isolated copies of the small scripts, and does not fetch

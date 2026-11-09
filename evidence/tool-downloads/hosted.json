@@ -1,0 +1,209 @@
+{
+  "run": "42654351904",
+  "commit": "e082cc99dfa3e505f2207c0112bd4f1a41b93a9f",
+  "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42654351904",
+  "qualified": [
+    {
+      "os": "windows-2025",
+      "job": 129288740078,
+      "report": {
+        "passed": true,
+        "contracts": 12,
+        "faults": [
+          {
+            "name": "missing-retry",
+            "checkpoint": "transient HTTP failures retry with bounded delays and retain only exact pinned bytes",
+            "status": 1,
+            "logSha256": "5b08d6f7f3c3887cf2b5db0c9746df92c03c24377d6f89fa7d864d0bf64166aa"
+          },
+          {
+            "name": "four-attempts",
+            "checkpoint": "exhausted transient failures stop after three attempts without partial files",
+            "status": 1,
+            "logSha256": "ca4b803472764a83b8cb7e09145a7c004cbafbcc0789d3922aca5be55c7bfeef"
+          },
+          {
+            "name": "unchecked-checksum",
+            "checkpoint": "short, oversized and checksum-invalid archives fail once and remove their partial files",
+            "status": 1,
+            "logSha256": "c1e4b63bfda14bb43c569964be41155b1eaec3b148a16d2e86968579c44a8ecf"
+          },
+          {
+            "name": "retained-partial-file",
+            "checkpoint": "short, oversized and checksum-invalid archives fail once and remove their partial files",
+            "status": 1,
+            "logSha256": "8fa091b4de6e2efc11b7c565de00a4eec2a94be964b1892c11c6ba9f0835fc1e"
+          },
+          {
+            "name": "deleted-concurrent-file",
+            "checkpoint": "existing files and a destination created during the request are never overwritten or deleted",
+            "status": 1,
+            "logSha256": "295ce8bfc7a3cd4703c137e5b09bb1a5ec76d8351ecce4f1e4772a56bdb3956c"
+          },
+          {
+            "name": "retry-permanent-http",
+            "checkpoint": "permanent HTTP errors cancel the response and do not retry or create a file",
+            "status": 1,
+            "logSha256": "a290f8c80a57597b8e34e22772f1634c298ae91f68bdd54fe89d9a578a48612b"
+          },
+          {
+            "name": "reset-deadline",
+            "checkpoint": "transient HTTP failures retry with bounded delays and retain only exact pinned bytes",
+            "status": 1,
+            "logSha256": "17c6d82596cf9bcd258a7b0a87dfe6ad1893403187f509a68c48eed475cdf299"
+          },
+          {
+            "name": "retry-electron-corruption",
+            "checkpoint": "Electron checksum errors, process errors and signals fail immediately",
+            "status": 1,
+            "logSha256": "4bb9c61638f58c493719b8a3b13f16af08b000500d3dcecb0b894c96a1ae50d0"
+          },
+          {
+            "name": "retained-failed-tools",
+            "checkpoint": "Godot preparation uses bounded retries and retains only its failure receipt",
+            "status": 1,
+            "logSha256": "71f9306a704b2f93b0705808604138393d1acc12eaf0d2cd50fd370e4306b3bf"
+          }
+        ],
+        "sources": {
+          "scripts/tool-download.mjs": "1c283747d4232b70e5a2ec5ffd2809f2f8888366ad1144a4f7ab6afe1daef9e1",
+          "scripts/install-reference-electron.mjs": "740c9abf395cdf458174fe6d32de5ce75e9836be1c15f9cf37ec1b125a8cab4e",
+          "scripts/prepare-godot-tools.mjs": "24bd828c022e2bc01b50b2c9733028cd26cf59c03dcc0260362393ea73af6679",
+          "scripts/reference-utils.mjs": "e36edca23dfd5ac73f203599495a1bc348e2fc90689c5c922154f7da0a40feeb",
+          "test/tool-download.test.mjs": "8e8a58b55cffba329005974e23fde659f924c38f86df3a2734b675f61efae25c",
+          "experiments/godot-native/toolchain-lock.json": "3cfa573fe44bc8a7691d111378a0cf1951f64d0a7c704827538870c5d4ee871f",
+          ".github/workflows/character-rules.yml": "709c14bbabfa50d8091bb8a68b7b3ab83093455c002689c0c98fce326ce6c068",
+          ".github/workflows/device-lifecycle.yml": "b7a7e5b8016d82ac916857ae759ca7e04fa7399cc23f32d6e5cf3692cad9981e",
+          ".github/workflows/unlock-lifecycle.yml": "a7c4ea9cab784fe44a06c074e1f87d42d0a4411ed5df5f03ddee7c7f95db56e7",
+          ".github/workflows/godot-native.yml": "ce1c7d9bf03d28a3eb874fb9a36d9b232df0f54618483f08b7f98f15019d32a1",
+          "scripts/test-tool-downloads.mjs": "9a68c69933662fbf40825637bfb262892afcb0e7abf2024194fa8a664ade40ff",
+          ".github/workflows/tool-downloads.yml": "1dfcb0a74189d0ba054a4826f0f66abbf32a53c5aedbd4ca1504ce29c38babac"
+        },
+        "control": {
+          "status": 0,
+          "logSha256": "8adf47a874cd628900bb43a1c56bd587b7bebd072704e836dc45fde191da7b81"
+        },
+        "restored": {
+          "status": 0,
+          "logSha256": "51fae66dc573274ddb875e92570e2634ddda86ad2447caee0989cb0708316834"
+        },
+        "inputsUnchanged": true,
+        "logsSha256": "1a84f1363c88efdbf40a238011a087a3bf7df4e3e5243d9195719206c53387bd",
+        "cleaned": true
+      },
+      "artifactFiles": [
+        {
+          "file": "tool-downloads.json",
+          "sha256": "ed67b082835c27223e10dd3aa80f68ee8e0deacc5dd1270300a7c15ce9a4857d"
+        },
+        {
+          "file": "tool-downloads.json.logs.json.gz",
+          "sha256": "1a84f1363c88efdbf40a238011a087a3bf7df4e3e5243d9195719206c53387bd"
+        }
+      ]
+    },
+    {
+      "os": "ubuntu-24.04",
+      "job": 129288740586,
+      "report": {
+        "passed": true,
+        "contracts": 12,
+        "faults": [
+          {
+            "name": "missing-retry",
+            "checkpoint": "transient HTTP failures retry with bounded delays and retain only exact pinned bytes",
+            "status": 1,
+            "logSha256": "6bc2e96d52211f8a06affa23ad587b118dbfe0a51cbf36de1a344fcb7ef7980c"
+          },
+          {
+            "name": "four-attempts",
+            "checkpoint": "exhausted transient failures stop after three attempts without partial files",
+            "status": 1,
+            "logSha256": "e04804b3c94a7844f0f08d445dd3e7fdfa31a554379be131815ff04212a4e8a8"
+          },
+          {
+            "name": "unchecked-checksum",
+            "checkpoint": "short, oversized and checksum-invalid archives fail once and remove their partial files",
+            "status": 1,
+            "logSha256": "f05b745037e10c4432be866633daeee56a28d725031b76502d467b2ff66a9be6"
+          },
+          {
+            "name": "retained-partial-file",
+            "checkpoint": "short, oversized and checksum-invalid archives fail once and remove their partial files",
+            "status": 1,
+            "logSha256": "4e646aa951ecd7fe7d206ee089a33c4bedcb45c96b2aa7ec9e08d50a14b46644"
+          },
+          {
+            "name": "deleted-concurrent-file",
+            "checkpoint": "existing files and a destination created during the request are never overwritten or deleted",
+            "status": 1,
+            "logSha256": "b20e6686df175b1be01de321b0dd32cfb858379582684667d8c1bec0f91de42d"
+          },
+          {
+            "name": "retry-permanent-http",
+            "checkpoint": "permanent HTTP errors cancel the response and do not retry or create a file",
+            "status": 1,
+            "logSha256": "ec9fed96226bb687bad3a6a7449a793b17eb79409de0dea46514f60a91cf209d"
+          },
+          {
+            "name": "reset-deadline",
+            "checkpoint": "transient HTTP failures retry with bounded delays and retain only exact pinned bytes",
+            "status": 1,
+            "logSha256": "af2fe533919deedda02aa8dbe59d6641f6ec30c624255b4e55f6fbb52dcae4f2"
+          },
+          {
+            "name": "retry-electron-corruption",
+            "checkpoint": "Electron checksum errors, process errors and signals fail immediately",
+            "status": 1,
+            "logSha256": "f046db5df7b67e2f2543eaba544888a43a4feab5903126b87105c5d227c7bd7a"
+          },
+          {
+            "name": "retained-failed-tools",
+            "checkpoint": "Godot preparation uses bounded retries and retains only its failure receipt",
+            "status": 1,
+            "logSha256": "bf8d180f7a552201175243210426740b37b81ceba464c837e3fbff279a7f8110"
+          }
+        ],
+        "sources": {
+          "scripts/tool-download.mjs": "1c283747d4232b70e5a2ec5ffd2809f2f8888366ad1144a4f7ab6afe1daef9e1",
+          "scripts/install-reference-electron.mjs": "740c9abf395cdf458174fe6d32de5ce75e9836be1c15f9cf37ec1b125a8cab4e",
+          "scripts/prepare-godot-tools.mjs": "24bd828c022e2bc01b50b2c9733028cd26cf59c03dcc0260362393ea73af6679",
+          "scripts/reference-utils.mjs": "e36edca23dfd5ac73f203599495a1bc348e2fc90689c5c922154f7da0a40feeb",
+          "test/tool-download.test.mjs": "8e8a58b55cffba329005974e23fde659f924c38f86df3a2734b675f61efae25c",
+          "experiments/godot-native/toolchain-lock.json": "3cfa573fe44bc8a7691d111378a0cf1951f64d0a7c704827538870c5d4ee871f",
+          ".github/workflows/character-rules.yml": "709c14bbabfa50d8091bb8a68b7b3ab83093455c002689c0c98fce326ce6c068",
+          ".github/workflows/device-lifecycle.yml": "b7a7e5b8016d82ac916857ae759ca7e04fa7399cc23f32d6e5cf3692cad9981e",
+          ".github/workflows/unlock-lifecycle.yml": "a7c4ea9cab784fe44a06c074e1f87d42d0a4411ed5df5f03ddee7c7f95db56e7",
+          ".github/workflows/godot-native.yml": "ce1c7d9bf03d28a3eb874fb9a36d9b232df0f54618483f08b7f98f15019d32a1",
+          "scripts/test-tool-downloads.mjs": "9a68c69933662fbf40825637bfb262892afcb0e7abf2024194fa8a664ade40ff",
+          ".github/workflows/tool-downloads.yml": "1dfcb0a74189d0ba054a4826f0f66abbf32a53c5aedbd4ca1504ce29c38babac"
+        },
+        "control": {
+          "status": 0,
+          "logSha256": "b7d91c88048444101e2821cb5c0f82237c8424fb73fc12427b0930cc5d8d4fb1"
+        },
+        "restored": {
+          "status": 0,
+          "logSha256": "e08c9b13d2ebe0c9e374c94bbeab3e8bef989d38cf11d4b46cae1168fe6099ed"
+        },
+        "inputsUnchanged": true,
+        "logsSha256": "4fa92933f7eb87d224f84123f2b82fdc0380b6ebde3395cd4a4396da67e911b2",
+        "cleaned": true
+      },
+      "artifactFiles": [
+        {
+          "file": "tool-downloads.json",
+          "sha256": "71568cf5b1f12db3dec77388bd92dfb9cb6a7c55abeedac8611a7a20525584b3"
+        },
+        {
+          "file": "tool-downloads.json.logs.json.gz",
+          "sha256": "4fa92933f7eb87d224f84123f2b82fdc0380b6ebde3395cd4a4396da67e911b2"
+        }
+      ]
+    }
+  ],
+  "pending": [],
+  "failed": [],
+  "passed": true,
+  "cleaned": true
+}
