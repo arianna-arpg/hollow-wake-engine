@@ -3,6 +3,9 @@ on:
   push:
     paths:
       - '.github/workflows/character-rules.yml'
+      - 'scripts/tool-download.mjs'
+      - 'scripts/install-reference-electron.mjs'
+      - 'test/tool-download.test.mjs'
       - 'baseline/character-rules/**'
       - 'package*.json'
       - 'src/character-identity.ts'
@@ -48,6 +51,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - run: node --test test/tool-download.test.mjs
       - run: npm run reference:prepare
       - run: npm run reference:install
       - run: node scripts/test-reference-character-rules.mjs
@@ -60,7 +64,7 @@ jobs:
         run: node scripts/test-installed-character-rules.mjs --location .artifacts/adapter-location.json
       - name: Install pinned desktop runtime
         if: runner.os == 'Windows'
-        run: node .reference/node_modules/electron/install.js
+        run: node scripts/install-reference-electron.mjs .reference/node_modules/electron/install.js
       - name: Rebuild original and replay character selection, Vault and Continue
         if: runner.os == 'Windows'
         run: node scripts/test-reference-character-screen.mjs

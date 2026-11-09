@@ -1,11 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-import {createHash} from 'node:crypto';
-import {Readable, Transform} from 'node:stream';
-import {pipeline} from 'node:stream/promises';
 import {execFileSync} from 'node:child_process';
 import {root, sha256, writeJSON} from './reference-utils.mjs';
+import {downloadPinned} from './tool-download.mjs';
 
 assert(['win32', 'linux'].includes(process.platform)); assert.equal(process.arch, 'x64');
 const args = process.argv.slice(2), local = {};
@@ -27,14 +25,8 @@ try {
   const artifacts = [target.editor.archive, lock.bindings.archive, lock.exportTemplates];
   for (const item of artifacts) {
     const name = item.name ?? path.posix.basename(new URL(item.url).pathname); assert(/^[A-Za-z0-9_.-]+$/.test(name));
-    const output = path.join(directory, name), digest = createHash('sha256'); let bytes = 0;
-    const response = await fetch(item.url, {signal: AbortSignal.timeout(600000)}); assert(response.ok, `${response.status}: ${item.url}`);
-    await pipeline(Readable.fromWeb(response.body), new Transform({transform(chunk, _, done) {
-      bytes += chunk.length; if (bytes > item.bytes) return done(new Error('Archive exceeds pinned size'));
-      digest.update(chunk); done(null, chunk);
-    }}), fs.createWriteStream(output, {flags: 'wx'}));
-    assert.equal(bytes, item.bytes); assert.equal(digest.digest('hex'), item.sha256);
-    report.downloads.push({file: name, bytes, sha256: item.sha256}); writeJSON(receipt, report);
+    const downloaded=await downloadPinned(item,path.join(directory,name));
+    report.downloads.push({file:name,...downloaded}); writeJSON(receipt,report);
   }
   const extraction = `import json,pathlib,sys,tarfile,zipfile
 root=pathlib.Path(sys.argv[1]).resolve(); lock=json.loads(pathlib.Path(sys.argv[2]).read_text()); target=lock['platforms'][sys.argv[3]]
@@ -66,4 +58,17 @@ with zipfile.ZipFile(root/'Godot_v4.7.2-stable_export_templates.tpz') as archive
   if (process.platform === 'linux') for (const file of [tools.editor, tools.exportRelease, tools.exportDebug]) fs.chmodSync(file, 0o755);
   writeJSON(path.join(directory, 'tools.json'), tools); report.passed = true; report.status = 'completed';
 } catch (error) {report.status = 'failed'; report.error = error.message; throw error;}
-finally {writeJSON(receipt, report); console.log({directory, passed: report.passed, status: report.status, tools: path.join(directory, 'tools.json')});}
+finally {
+  if(!report.passed){
+    assert.equal(path.dirname(fs.realpathSync(directory)),fs.realpathSync(path.join(root,'.artifacts')));
+    // This fresh preparation directory owns every archive/extracted file here.
+    // Keep the diagnostic receipt, not failed partial tool installations.
+    for(const name of fs.readdirSync(directory))if(name!=='preparation.json'){
+      const target=path.join(directory,name);
+      if(fs.lstatSync(target).isSymbolicLink())fs.unlinkSync(target);
+      else {assert.equal(path.dirname(fs.realpathSync(target)),fs.realpathSync(directory));fs.rmSync(target,{recursive:true});}
+    }
+    report.failedFilesCleaned=true;
+  }
+  writeJSON(receipt, report); console.log({directory, passed: report.passed, status: report.status, tools: path.join(directory, 'tools.json')});
+}

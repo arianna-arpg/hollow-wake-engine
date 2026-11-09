@@ -3,6 +3,9 @@ on:
   push:
     paths:
       - '.github/workflows/unlock-lifecycle.yml'
+      - 'scripts/tool-download.mjs'
+      - 'scripts/install-reference-electron.mjs'
+      - 'test/tool-download.test.mjs'
       - 'baseline/unlock-lifecycle/**'
       - 'baseline/source-lock.json'
       - 'baseline/source.tar.gz'
@@ -86,6 +89,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      - run: node --test test/tool-download.test.mjs
       - run: node --test test/memory-rewards.test.mjs test/unlock-lifecycle.test.mjs test/unlock-content.test.mjs test/unlock-compatibility.test.mjs test/unlock-predicate-compiler.test.mjs
       - run: node scripts/test-unlock-package.mjs
       - run: node scripts/test-unlock-mutations.mjs
@@ -104,7 +108,7 @@ jobs:
       - run: node scripts/test-native-unlocks.mjs --amalgam-dir .artifacts/embedded-host-upstream
       - name: Install pinned desktop runtime
         if: runner.os == 'Windows'
-        run: node .reference/node_modules/electron/install.js
+        run: node scripts/install-reference-electron.mjs .reference/node_modules/electron/install.js
       - name: Build the preserved renderer shell and run Vault, memory and class interaction courses
         if: runner.os == 'Windows'
         run: node scripts/test-installed-unlock-screen.mjs --location .artifacts/adapter-location.json

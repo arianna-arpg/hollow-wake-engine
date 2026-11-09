@@ -55,5 +55,8 @@ as source records; no project, dependency tree or worktree was duplicated.
 This is build-data ownership. Equipment grants, shared-account preference writes
 and live combat publication remain separate integration work. Published engine
 packages keep their default entry; Unity/Godot/Unreal and Steam Deck/mobile
-coverage is not expanded by this result. Hosted checks for this exact public
-commit are reported separately after execution and artifact inspection.
+coverage is not expanded by this result. The exact public commit passed Windows
+2025 and Ubuntu 24.04 in [run 42650680856](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42650680856).
+[Hosted receipts](hosted.json) validate the downloaded source hashes, complete
+contracts, types and all eight fault logs. [Anonymous public readback](public-readback.json)
+checks seven published files byte-for-byte.

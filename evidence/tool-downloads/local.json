@@ -1,0 +1,85 @@
+{
+  "passed": true,
+  "contracts": 12,
+  "faults": [
+    {
+      "name": "missing-retry",
+      "checkpoint": "transient HTTP failures retry with bounded delays and retain only exact pinned bytes",
+      "status": 1,
+      "logSha256": "b2f423e31862ecef88b56f8419b4fc97fa9f92abdf2f3ad14329d13c9bd588ed"
+    },
+    {
+      "name": "four-attempts",
+      "checkpoint": "exhausted transient failures stop after three attempts without partial files",
+      "status": 1,
+      "logSha256": "4a5cdda4dbd4f3bfc1025b5f983ead4f03abbf737c2e7d3df445d07ffe5a9035"
+    },
+    {
+      "name": "unchecked-checksum",
+      "checkpoint": "short, oversized and checksum-invalid archives fail once and remove their partial files",
+      "status": 1,
+      "logSha256": "2dcb24ace0e4c4ce11616295fa71ef088cd1b2e8d6e6f42b4c2ea38fa27b8789"
+    },
+    {
+      "name": "retained-partial-file",
+      "checkpoint": "short, oversized and checksum-invalid archives fail once and remove their partial files",
+      "status": 1,
+      "logSha256": "c59783dc0c1b75ef82a8c13d9977f1e4577377e369cbe970d7302d38c1e9685b"
+    },
+    {
+      "name": "deleted-concurrent-file",
+      "checkpoint": "existing files and a destination created during the request are never overwritten or deleted",
+      "status": 1,
+      "logSha256": "0b32df4d360d5e47a4ee0f173216df90f7550cc07f01a8ac0743d4126517391a"
+    },
+    {
+      "name": "retry-permanent-http",
+      "checkpoint": "permanent HTTP errors cancel the response and do not retry or create a file",
+      "status": 1,
+      "logSha256": "cbdb3789fa0dd0761f0fa2fd39b44c1e8394bca0dab6d1b066363ceea4cd3b4b"
+    },
+    {
+      "name": "reset-deadline",
+      "checkpoint": "transient HTTP failures retry with bounded delays and retain only exact pinned bytes",
+      "status": 1,
+      "logSha256": "a2b67e34e728bce3eba0889a7e3705ef28196c548c186c3710d76f5c3152c1e3"
+    },
+    {
+      "name": "retry-electron-corruption",
+      "checkpoint": "Electron checksum errors, process errors and signals fail immediately",
+      "status": 1,
+      "logSha256": "ff074ad1dd3ce29f67ba3bc1dc0129fafb6ff912e5572c9c6d6c9c5f5e56c5fa"
+    },
+    {
+      "name": "retained-failed-tools",
+      "checkpoint": "Godot preparation uses bounded retries and retains only its failure receipt",
+      "status": 1,
+      "logSha256": "fa17054a4c32f7450853de8249b6711606c8cb4ff88895b72b2d24f07c424051"
+    }
+  ],
+  "sources": {
+    "scripts/tool-download.mjs": "1c283747d4232b70e5a2ec5ffd2809f2f8888366ad1144a4f7ab6afe1daef9e1",
+    "scripts/install-reference-electron.mjs": "740c9abf395cdf458174fe6d32de5ce75e9836be1c15f9cf37ec1b125a8cab4e",
+    "scripts/prepare-godot-tools.mjs": "24bd828c022e2bc01b50b2c9733028cd26cf59c03dcc0260362393ea73af6679",
+    "scripts/reference-utils.mjs": "e36edca23dfd5ac73f203599495a1bc348e2fc90689c5c922154f7da0a40feeb",
+    "test/tool-download.test.mjs": "8e8a58b55cffba329005974e23fde659f924c38f86df3a2734b675f61efae25c",
+    "experiments/godot-native/toolchain-lock.json": "3cfa573fe44bc8a7691d111378a0cf1951f64d0a7c704827538870c5d4ee871f",
+    ".github/workflows/character-rules.yml": "709c14bbabfa50d8091bb8a68b7b3ab83093455c002689c0c98fce326ce6c068",
+    ".github/workflows/device-lifecycle.yml": "b7a7e5b8016d82ac916857ae759ca7e04fa7399cc23f32d6e5cf3692cad9981e",
+    ".github/workflows/unlock-lifecycle.yml": "a7c4ea9cab784fe44a06c074e1f87d42d0a4411ed5df5f03ddee7c7f95db56e7",
+    ".github/workflows/godot-native.yml": "ce1c7d9bf03d28a3eb874fb9a36d9b232df0f54618483f08b7f98f15019d32a1",
+    "scripts/test-tool-downloads.mjs": "9a68c69933662fbf40825637bfb262892afcb0e7abf2024194fa8a664ade40ff",
+    ".github/workflows/tool-downloads.yml": "1dfcb0a74189d0ba054a4826f0f66abbf32a53c5aedbd4ca1504ce29c38babac"
+  },
+  "control": {
+    "status": 0,
+    "logSha256": "0e0b2402507dd6645d46740d98dab256c059d35e50880193e0bd504548371a04"
+  },
+  "restored": {
+    "status": 0,
+    "logSha256": "cab6a3bc7d1524a2f2f071b95e7defe6d53e1ca5a1c8bb4ec448f48d7262a71d"
+  },
+  "inputsUnchanged": true,
+  "logsSha256": "02a131ac3cdc84e8a25c11659cca74d2c14ceb81feb22f7bfa91d41166d906b9",
+  "cleaned": true
+}

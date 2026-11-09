@@ -3,6 +3,9 @@ on:
   push:
     paths:
       - '.github/workflows/device-lifecycle.yml'
+      - 'scripts/tool-download.mjs'
+      - 'scripts/install-reference-electron.mjs'
+      - 'test/tool-download.test.mjs'
       - 'tools/device-lifecycle/**'
       - 'scripts/build-device-lifecycle.mjs'
       - 'scripts/test-device-lifecycle.mjs'
@@ -36,6 +39,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - run: node --test test/tool-download.test.mjs
       - run: npm run build
       - run: node --expose-gc scripts/benchmark-lifecycle.mjs
       - run: node scripts/build-device-lifecycle.mjs --output .artifacts/hollow-wake-device-benchmark.html
@@ -44,7 +48,7 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           npm ci --prefix reference/tooling --ignore-scripts --no-audit --no-fund
-          node reference/tooling/node_modules/electron/install.js
+          node scripts/install-reference-electron.mjs reference/tooling/node_modules/electron/install.js
       - name: Replay the single file offline and check its actual downloads
         if: runner.os == 'Windows'
         run: node scripts/test-device-lifecycle.mjs --html .artifacts/hollow-wake-device-benchmark.html
