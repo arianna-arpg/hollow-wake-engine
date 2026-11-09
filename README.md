@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The optional [workshop character context](docs/workshop-character.md) saves
+validated class, attributes, passive choices and personal container inputs beside
+the inventory. Existing saves stay compatible. Account relic projection, full
+build construction and live actor publication remain separate integration work.
+
 The optional [skill bar policy](docs/skill-bar.md) binds and swaps existing
 skills, preserves learned and equipment-granted ownership, and coordinates
 rebuild callbacks and account slot preferences through explicit host ports.

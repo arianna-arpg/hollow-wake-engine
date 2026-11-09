@@ -218,10 +218,10 @@ const vestigeJsBytes=Object.entries({'vestige-content':4,'vestige-inlays':4,'ves
 const vestigeData=packed.files.find(f=>f.path==='content/vestiges.json');
 assert(vestigeData?.size>0&&vestigeData.size<=8*1024,'Vestige catalogue exceeds 8 KiB or is missing');
 const accountWorkshopFile=packed.files.find(file=>file.path==='dist/account-workshop-session.js');
-// Private build continuation and account-wide preparation extend this owner.
-// Its explicit allowance changes from 22 to 25 KiB; the predecessor/core and
+// Durable character v2 extends the previously 25 KiB account owner.
+// Its explicit allowance changes to 27 KiB; the predecessor/core and
 // independent 180 KiB account-only bundled-consumer budgets remain unchanged.
-assert.ok(accountWorkshopFile?.size>0&&accountWorkshopFile.size<=25*1024,'Optional account/workshop owner exceeds 25 KiB or is missing');
+assert.ok(accountWorkshopFile?.size>0&&accountWorkshopFile.size<=27*1024,'Optional account/workshop owner exceeds 27 KiB or is missing');
 const accountWorkshopJsBytes=accountWorkshopFile.size;
 const equipmentSkillsFile=packed.files.find(file=>file.path==='dist/equipment-skills.js');
 // A separate optional capability; retain every predecessor's existing bound.
@@ -232,9 +232,11 @@ const equipmentDraftFile=packed.files.find(file=>file.path==='dist/equipment-ski
 assert(equipmentDraftFile?.size>0&&equipmentDraftFile.size<=8*1024,'Optional equipment preparation exceeds 8 KiB or is missing');
 const workshopBuildFile=packed.files.find(file=>file.path==='dist/workshop-build-preparation.js');
 const buildContributionsFile=packed.files.find(file=>file.path==='dist/build-contributions.js');
+const workshopCharacterFile=packed.files.find(file=>file.path==='dist/workshop-character.js');
+assert(workshopCharacterFile&&workshopCharacterFile.size<8*1024,'Workshop character admission exceeded the 8 KiB bound');
 assert(buildContributionsFile&&buildContributionsFile.size<6*1024,'Build contributions exceeded the 6 KiB bound');
 assert(workshopBuildFile?.size>0&&workshopBuildFile.size<=4*1024,'Optional workshop build preparation exceeds 4 KiB or is missing');
-const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-buildContributionsFile.size-workshopBuildFile.size-equipmentDraftFile.size-bookFile.size-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
+const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-workshopCharacterFile.size-buildContributionsFile.size-workshopBuildFile.size-equipmentDraftFile.size-bookFile.size-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
 const craftingSessionJsBytes=Object.values(craftingSessionModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingSessionJsBytes=preContentTableJsBytes-craftingSessionJsBytes;
 const residenceJsBytes=Object.values(residenceModuleBytes).reduce((sum,size)=>sum+size,0),preResidenceJsBytes=preCraftingSessionJsBytes-residenceJsBytes;
 const craftingJsBytes=Object.values(craftingModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingJsBytes=preResidenceJsBytes-craftingJsBytes;
@@ -345,6 +347,7 @@ fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringi
   equipmentDraftJsBytes:equipmentDraftFile.size,
   workshopBuildJsBytes:workshopBuildFile.size,
   buildContributionsJsBytes:buildContributionsFile.size,
+  workshopCharacterJsBytes:workshopCharacterFile.size,
   skillBarJsBytes:barFile.size,
   workshopSkillBookJsBytes:bookFile.size,
   accountWorkshopJsBytes,contentTableModuleBytes,contentTableJsBytes,preContentTableJsBytes,craftingSessionModuleBytes,craftingSessionJsBytes,preCraftingSessionJsBytes,residenceModuleBytes,residenceJsBytes,preResidenceJsBytes,craftingModuleBytes,craftingJsBytes,preCraftingJsBytes,progressionSessionJsBytes, preSessionJsBytes, unlockModuleBytes, unlockJsBytes, preUnlockJsBytes, gateJsBytes, preGateJsBytes, continuityJsBytes, preContinuityJsBytes, characterJsBytes, preCharacterJsBytes, siteJsBytes, preSiteJsBytes, vocationJsBytes, preVocationJsBytes, procDeliveryJsBytes, preProcDeliveryJsBytes,

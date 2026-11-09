@@ -41,3 +41,13 @@ granted bar admission and acknowledgement-time live reconciliation remain
 integration work. This checkpoint does not expand native engine package
 admission or qualify Steam Deck/mobile performance. The
 [boundary contract](../../docs/build-contributions.md) describes the exact scope.
+
+[Hosted verification](hosted.json) subsequently confirmed the exact published
+`78781e56ed96599850614b747b4f5ad1c638a552` source on Windows and Linux in
+[run 42686961411](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42686961411).
+Both platforms reproduced the 91/47/18,773 observations and 127 isolated private
+preparations, detected the deliberate faults, and replayed the original
+contribution course in two fresh processes. Downloaded source/report/log hashes
+were checked independently against that commit; downloaded artifacts were
+removed after verification. This is platform evidence for this checkpoint,
+not physical-device qualification or evidence for later source changes.

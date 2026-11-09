@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import {gunzipSync} from 'node:zlib';
+import assert from 'node:assert/strict';
+import {sha256} from '../scripts/reference-utils.mjs';
+import {passivePack} from '../scripts/compile-passive-content.mjs';
+import {grantPack} from '../scripts/compile-passive-grants.mjs';
+import {containerPack} from '../scripts/compile-container-content.mjs';
+const bytes=fs.readFileSync(new URL('../baseline/build-contributions/observations.json.gz',import.meta.url));
+const manifest=JSON.parse(fs.readFileSync(new URL('../baseline/build-contributions/acceptance.json',import.meta.url)));
+assert.equal(sha256(bytes),manifest.gzipSha256);const decoded=gunzipSync(bytes);assert.equal(sha256(decoded),manifest.sha256);
+export const characterPacks={passives:passivePack(),grants:grantPack(),containers:containerPack()};
+export const originalBuilds=JSON.parse(decoded).rows.slice(0,78);

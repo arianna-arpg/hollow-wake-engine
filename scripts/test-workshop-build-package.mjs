@@ -51,7 +51,7 @@ try{
  const dist=path.join(consumer,'node_modules/@hollow-wake/engine/dist');
  const modules=Object.fromEntries(['account-workshop-session','workshop-build-preparation'].map(name=>[name,fs.readFileSync(path.join(dist,name+'.js'),'utf8')]));
  report.moduleBytes=Object.fromEntries(Object.entries(modules).map(([name,text])=>[name,Buffer.byteLength(text)]));
- assert(report.moduleBytes['account-workshop-session']<=25*1024);assert(report.moduleBytes['workshop-build-preparation']<=4*1024);
+ assert(report.moduleBytes['account-workshop-session']<=27*1024);assert(report.moduleBytes['workshop-build-preparation']<=4*1024);
  const faults=[
   ['cold-reopen','account-workshop-session','preparation.prepare(previous?.build,','preparation.prepare(undefined,'],
   ['lose-chain','account-workshop-session','const nextWorkshop = { ...workshop, body, build: prepared.build','const nextWorkshop = { ...workshop, body, build: workshop.build'],

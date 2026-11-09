@@ -4,12 +4,13 @@ import {CraftingSessionData,type CraftingSessionDefinitions} from './crafting-se
 import type {WorkshopRack} from './workshop-rack.js';
 import type {EquipmentSlots} from './equipment-actions.js';
 import type {WorkshopBuildPort,WorkshopBuildInput} from './workshop-build-preparation.js';
+import {WorkshopCharacterData,type WorkshopCharacterDefinitions,type WorkshopCharacterState} from './workshop-character.js';
 import {copySessionJSON,SessionInputError,requireSession as need,sessionFields as fields,
   sessionRecord as record,sessionInteger as integer,sessionText as text,sessionBoolean as bool,type SessionJSON} from './session-json.js';
 
 type ObjectJSON=Record<string,SessionJSON>;
 type Account={key:string;progression:ObjectJSON;craftLore:SessionJSON;extra:SessionJSON;version:number};
-type Workshop={account:number;body:ObjectJSON;progression:boolean;version:number;build?:object;buildAccount?:Account};
+type Workshop={account:number;body:ObjectJSON;progression:boolean;version:number;build?:object;buildAccount?:Account;character?:WorkshopCharacterState};
 type OwnerState={accounts:Map<number,Account>;keys:Set<string>;workshops:Map<number,Workshop>};
 type PreparedWrite={kind:'account'|'workshop';handle:number};
 type PreparedChange={token:number;state:OwnerState;writes:PreparedWrite[]};
@@ -20,6 +21,8 @@ export interface AccountWorkshopDefinitions {
   equipment?:EquipmentSlots;
   /** Optional private build normalization. No live actor publication occurs. */
   preparation?:WorkshopBuildPort;
+  /** Opt-in durable source context. Legacy v1 inventories keep their format. */
+  character?:WorkshopCharacterDefinitions;
 }
 export interface AccountWorkshopLimits {accounts?:number;workshops?:number}
 const refuse=(reason:string)=>({ok:false as const,reason});
@@ -38,6 +41,7 @@ export class AccountWorkshopSession {
   readonly #crafting:CraftingSession;
   readonly #data:CraftingSessionData;
   readonly #preparation?:WorkshopBuildPort;
+  readonly #character?:WorkshopCharacterData;
   #state:OwnerState={accounts:new Map(),keys:new Set(),workshops:new Map()};
   get #accounts(){return this.#state.accounts;}
   get #keys(){return this.#state.keys;}
@@ -57,6 +61,7 @@ export class AccountWorkshopSession {
     if(definitions.equipment)this.#crafting.configureEquipment(definitions.equipment);
     this.#data=new CraftingSessionData(definitions.workshop);
     this.#preparation=definitions.preparation;
+    if(definitions.character)this.#character=new WorkshopCharacterData(definitions.character,definitions.workshop);
   }
   #account(id:unknown):Account {
     integer(id,0,0xffffffff);const account=this.#accounts.get(id);
@@ -78,8 +83,10 @@ export class AccountWorkshopSession {
       progression:account.progression,craftLore:account.craftLore,extra:account.extra};
   }
   #workshopSave(workshop:Workshop,account:Account):ObjectJSON {
-    return {schemaVersion:1,capability:'account-workshop-inventory/v1',accountKey:account.key,
-      progression:workshop.progression,workshop:workshop.body};
+    const version=workshop.character?2:1;
+    return {schemaVersion:version,capability:'account-workshop-inventory/v'+version,accountKey:account.key,
+      progression:workshop.progression,workshop:workshop.body,
+      ...(workshop.character?{character:workshop.character as unknown as SessionJSON}:{})};
   }
   #checkAccount(account:Account) {
     // Reuse the established lore/family/ledger validator. No inventory is
@@ -88,6 +95,11 @@ export class AccountWorkshopSession {
     copySessionJSON({op:'restore-account',account:0xffffffff,save:this.#accountSave(account)});
   }
   #checkWorkshop(workshop:Workshop,account:Account) {
+    if(workshop.character){
+      const state=object(this.#join(workshop,account).state) as unknown as WorkshopBuildInput['state'];
+      this.#character!.checkInventory(workshop.character,state);
+      need((workshop.body.nextUid as number)>=this.#character!.uidFloor(workshop.character),'character-uid-floor');
+    }
     copySessionJSON({op:'restore-workshop',profile:0xffffffff,account:0xffffffff,save:this.#workshopSave(workshop,account)});
     // Reserve the largest future save reply as well as the restore request.
     // Two maximum-width version counters make that reply five bytes larger.
@@ -122,14 +134,15 @@ export class AccountWorkshopSession {
   #body(save:ObjectJSON):ObjectJSON {
     const state={...object(save.state)};delete state.account;return {...save,state};
   }
-  #prepareBuild(profile:number,save:ObjectJSON,owner:Account,phase:WorkshopBuildInput['phase'],previous?:Workshop,command?:ObjectJSON) {
+  #prepareBuild(profile:number,save:ObjectJSON,owner:Account,phase:WorkshopBuildInput['phase'],previous?:Workshop,command?:ObjectJSON,character=previous?.character) {
     const preparation=this.#preparation;
     if(!preparation)return {save,build:undefined,buildAccount:undefined};
     if(previous&&owner===previous.buildAccount&&same(this.#body(save),previous.body))return {save,build:previous.build,buildAccount:owner};
     const account=JSON.stringify(object(save.state).account);
     const result=preparation.prepare(previous?.build,{profile,phase,
       state:copySessionJSON(save.state) as unknown as WorkshopBuildInput['state'],
-      account:copySessionJSON(this.#accountSave(owner)) as ObjectJSON,command});
+      account:copySessionJSON(this.#accountSave(owner)) as ObjectJSON,command,
+      ...(character?{character:copySessionJSON(character) as unknown as WorkshopCharacterState}:{})});
     need(result.continuation!==null&&typeof result.continuation==='object'&&result.continuation!==previous?.build,'invalid-build-continuation');
     need(JSON.stringify(result.state.account)===account,'build-account-owner-violation');
     // Re-admit the complete normalized state with the existing rule kernel.
@@ -259,25 +272,36 @@ export class AccountWorkshopSession {
     }
     if(request.op==='open-workshop' || request.op==='restore-workshop') {
       const restore=request.op==='restore-workshop';
-      fields(request,restore?['op','profile','account','save']:['op','profile','account','seed','state','progression','nextUid']);
+      fields(request,restore?['op','profile','account','save']:['op','profile','account','seed','state','progression','nextUid','character']);
       integer(request.profile,0,0xffffffff);const account=this.#account(request.account);
       need(!this.#workshops.has(request.profile),'already-open');need(this.#workshops.size<this.#limits.workshops,'workshop-limit');
-      let progression:boolean,save:ObjectJSON;
+      let progression:boolean,save:ObjectJSON,context:unknown;
       if(restore) {
-        const saved=request.save;fields(saved,['schemaVersion','capability','accountKey','progression','workshop']);
-        need(saved.schemaVersion===1 && saved.capability==='account-workshop-inventory/v1','unsupported-save');
+        const saved=request.save;fields(saved,['schemaVersion','capability','accountKey','progression','workshop','character']);
+        const version=saved.character===undefined?1:2;
+        need(saved.schemaVersion===version && saved.capability==='account-workshop-inventory/v'+version,'unsupported-save');
+        context=saved.character;
         need(saved.accountKey===account.key,'account-mismatch');bool(saved.progression);progression=saved.progression;
         const body=object(saved.workshop),state=object(body.state);need(!Object.hasOwn(state,'account'),'duplicate-account-authority');
         save=this.#withWorkshop({op:'restore',save:{...body,state:{...state,account:this.#project(account,progression)}}}).save;
       }else {
+        context=request.character;
         const enabled=request.progression===undefined?true:request.progression;bool(enabled);progression=enabled;integer(request.seed,0,0xffffffff);
         if(request.nextUid!==undefined)integer(request.nextUid,1);
         const state=object(request.state);need(!Object.hasOwn(state,'account'),'duplicate-account-authority');
         save=this.#withWorkshop({op:'open',seed:request.seed,state:{...state,account:this.#project(account,progression)},
           ...(request.nextUid===undefined?{}:{nextUid:request.nextUid as SessionJSON})}).save;
       }
-      const prepared=this.#prepareBuild(request.profile,save,account,restore?'restore':'open');
-      const workshop={account:request.account as number,body:this.#body(prepared.save),progression,version:1,build:prepared.build,buildAccount:prepared.buildAccount};
+      let character:WorkshopCharacterState|undefined;
+      if(context!==undefined){
+        need(this.#character,'character-context-unavailable');
+        character=this.#character.admit(context,save.state as unknown as WorkshopBuildInput['state']);
+        const floor=this.#character.uidFloor(character);
+        if(!restore&&request.nextUid===undefined)save={...save,nextUid:Math.max(save.nextUid as number,floor)};
+        else need((save.nextUid as number)>=floor,'character-uid-floor');
+      }
+      const prepared=this.#prepareBuild(request.profile,save,account,restore?'restore':'open',undefined,undefined,character);
+      const workshop={account:request.account as number,body:this.#body(prepared.save),progression,version:1,build:prepared.build,buildAccount:prepared.buildAccount,character};
       this.#checkWorkshop(workshop,account);this.#workshops.set(request.profile,workshop);
       return {ok:true,version:1,accountVersion:account.version};
     }

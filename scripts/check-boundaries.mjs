@@ -48,6 +48,7 @@ assert.ok([...reachable].every(file=>path.basename(file)!=='equipment-skill-draf
 assert.ok([...reachable].every(file=>path.basename(file)!=='account-workshop-session.ts'), 'Shared account owner became an eager core import');
 assert.ok([...reachable].every(file=>path.basename(file)!=='workshop-build-preparation.ts'), 'Workshop build preparation became an eager core import');
 assert.ok([...reachable].every(file=>path.basename(file)!=='build-contributions.ts'), 'Build contributions became an eager core import');
+assert.ok([...reachable].every(file=>path.basename(file)!=='workshop-character.ts'), 'Workshop character admission became an eager core import');
 assert.ok([...reachable].every(file=>!path.basename(file).startsWith('cargo-')), 'Cargo cards became an eager core import');
 assert.ok([...reachable].every(file=>!path.basename(file).startsWith('inspection')), 'Optional inspection became an eager core import');
 assert.ok([...reachable].every(file => !['content-table.ts','content-table-compiler.ts','immutable-content.ts'].includes(path.basename(file))), 'Optional compiled content became an eager core import');

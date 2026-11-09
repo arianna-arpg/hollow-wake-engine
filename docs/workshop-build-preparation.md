@@ -65,7 +65,9 @@ browser bundle, checks public types, detects eight deliberate faults and restore
 a passing control. The existing 33 shared-account contracts remain separate.
 
 The optional helper has a 4 KiB unminified allowance. The account owner grows
-from a 22 KiB to a 25 KiB allowance for transactional build coordination. The
+from a 22 KiB to a 25 KiB allowance for transactional build coordination; the
+later [durable character context](workshop-character.md) raises that owner to
+27 KiB with its own separate validator allowance. The
 separate account-only browser cap remains 180 KiB; the combined equipment/build
 consumer is bounded at 176 KiB. These are code-size limits, not latency or heap
 measurements. There is no frame-loop work, I/O, database query or runtime dependency.

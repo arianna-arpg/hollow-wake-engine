@@ -1,5 +1,10 @@
 # Boundary contract
 
+The optional [durable workshop character context](workshop-character.md) retains
+validated class, base attributes, passives and personal container inputs beside
+the inventory save. Account relic projection/writeback, full authored build
+construction and live publication remain separate integration work.
+
 The optional [character contribution rebuild](build-contributions.md) composes
 passive, gear and active container sources in the original order and supplies
 complete item-host rows to skill derivation. Durable full-character admission

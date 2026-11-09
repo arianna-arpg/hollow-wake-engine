@@ -1,5 +1,6 @@
 import type {CraftingSessionState} from './crafting-session-data.js';
 import type {ItemInstance} from './item-types.js';
+import type {WorkshopCharacterState} from './workshop-character.js';
 import {copySessionJSON,requireSession as need,sessionArray as array,sessionFields as fields,sessionRecord as record,
   sessionInteger as integer,type SessionJSON} from './session-json.js';
 
@@ -11,6 +12,9 @@ export interface WorkshopBuildInput {
   /** Complete authoritative account save, including progression/reliquary and
    * opaque host context. This detached read is not a second account authority. */
   account:Readonly<Record<string,SessionJSON>>;
+  /** Admitted durable source context when the owner uses inventory v2.
+   * Read-only authority: returned grant writes still address inventory only. */
+  character?:WorkshopCharacterState;
   command?:Readonly<Record<string,SessionJSON>>;
 }
 export interface WorkshopGrantWrite {
@@ -47,6 +51,7 @@ export class WorkshopBuildPreparation<B extends object> implements WorkshopBuild
     const state=copySessionJSON(input.state) as unknown as CraftingSessionState;
     const privateInput={...input,state:copySessionJSON(state) as unknown as CraftingSessionState,
       account:copySessionJSON(input.account) as Record<string,SessionJSON>,
+      ...(input.character?{character:copySessionJSON(input.character) as unknown as WorkshopCharacterState}:{}),
       ...(input.command?{command:copySessionJSON(input.command) as Record<string,SessionJSON>}:{})};
     const held=previous===undefined?undefined:this.#builds.get(previous);
     need(previous===undefined||held?.profile===input.profile,'foreign-build-continuation');

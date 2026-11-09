@@ -1,5 +1,11 @@
 # Verification and reproduction
 
+`npm run test:workshop-character-package` qualifies v2 source-context ownership
+through installed/browser consumers, public types, thirteen contracts and ten
+deliberate faults. Its 78 frozen original attribute comparisons cover source
+retention and recomputation, not full character restoration or native v2
+admission. See [workshop character context](workshop-character.md).
+
 `npm run test:build-contributions-package` qualifies the complete contribution
 phase through installed/browser consumers, deliberate faults and frozen original
 class/container and live-casting courses. Pass `-- --catalogue` to include the
