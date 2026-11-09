@@ -36,6 +36,15 @@ recapture expected values. The equipment workflow runs the same courses on
 Windows and Linux; this checkpoint records local Windows results, not a hosted
 result for a later commit.
 
+The [hosted qualification](hosted.json) subsequently verified commit
+`dc6da57ed2a4ce87dee01762501bc7f199259047` on Windows 2025 and Ubuntu 24.04.
+Downloaded original, installed and composed receipts match the pinned source
+hashes and complete local observations. All continuity faults reached their
+named assertions, the existing bar faults reached their named or exact source
+checkpoints, and restored controls passed. Downloaded scratch folders were
+removed. This evidence qualifies that commit's continuity course; it does not
+stand in for later runtime changes or physical-device acceptance.
+
 This change adds characterization and integration gates. Runtime, content and
 existing engine packages are unchanged. It does not implement private grant
 candidates, durable live publication, expanded native equipment admission, or

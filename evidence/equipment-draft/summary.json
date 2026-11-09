@@ -1,0 +1,77 @@
+{
+  "passed": true,
+  "goalComplete": false,
+  "baseCommit": "dc6da57ed2a4ce87dee01762501bc7f199259047",
+  "node": "v24.9.0",
+  "platform": "win32",
+  "arch": "x64",
+  "units": {
+    "passed": 1725
+  },
+  "verification": {
+    "mode": "unchanged-production-prefix-and-exact-command-resume",
+    "prefixCommands": 52,
+    "resumedCommands": 55,
+    "resumedExitCode": 0,
+    "firstAttempt": "The new optional module was initially counted against the predecessor cap. Its separate 8 KiB cap was registered without raising old limits.",
+    "secondAttempt": "esbuild could not read the Windows profile temporary directory; the failing consumer removed itself.",
+    "verifierRefinement": {
+      "file": "scripts/test-equipment-skill-draft-package.mjs",
+      "before": "8e07a67b39e9a6e3f6a9d5a2402ac9759374c15f58ef994c6971ece580e32951",
+      "after": "8fe90d1e720a4af994cddc0335538c3d06dc7aa130b9ab214dd04967ad7cc3a1",
+      "reason": "Pin the observed 36 private rebuilds before this final verifier step starts; production inputs and prior steps are unchanged."
+    }
+  },
+  "reference": {
+    "exitCode": 0,
+    "command": "node scripts/run-reference.mjs && node scripts/test-reference-unlock-lifecycle.mjs && npm run reference:unlock-content && npm run reference:crafting && npm run reference:gem-residence && npm run reference:inspection && npm run reference:cargo-cards && npm run reference:loadout && npm run reference:skill-rack && node scripts/reference-workshop-supports.mjs && node scripts/reference-workshop-supports.mjs --pouch-recall && npm run reference:conduits && npm run reference:vestiges && npm run reference:shared-account && npm run reference:equipment-skills && npm run reference:equipment-passive-grafts && npm run reference:equipment-lookup && npm run reference:skill-bar && npm run reference:equipment-live",
+    "logSha256": "04994a374f3c3271a9b0167491c11bc8c6910c7da02eb889362ebbaaad49b52c"
+  },
+  "draft": {
+    "contracts": 8,
+    "faults": 6,
+    "game": {
+      "prepared": 36,
+      "unchanged": 36,
+      "matched": 36,
+      "originalCases": 47,
+      "sha256": "c488e7ec7bc389a308ca15fa5a4fdba883ac194913b70c902936667d02bedc83"
+    },
+    "moduleBytes": 5221,
+    "browserBytes": 6933
+  },
+  "sources": {
+    "src/equipment-skill-draft.ts": "d3587fe5d1d677df67ca96fb030f997d9c479a4aebcc482855510ab45e156402",
+    "test/equipment-skill-draft.test.mjs": "2c0d4009c1ea3ec66bc335b46b415b496c132d9a8f63b2e1723f690fd5069948",
+    "test/equipment-skill-draft-game.ts": "315a8f05edcfad5863aa7fb3a60351e38b41a6309218787707d614a02dc7b4ca",
+    "scripts/test-equipment-skill-draft-package.mjs": "8fe90d1e720a4af994cddc0335538c3d06dc7aa130b9ab214dd04967ad7cc3a1",
+    "scripts/check-boundaries.mjs": "cb94f28fe312614e007d22ca5aa0cfbb926cc1536ff49771c59a4a083d31e61d",
+    "package.json": "8ebcb14e5fb5399eab75ba0fb795611730242e97971f25a3a7ea79900e0f60c8",
+    ".github/workflows/equipment-skills.yml": "16fa83ba7d07c611699691bdedf0d22e67c6b8d172276445fb663e46d8f66560",
+    "docs/equipment-skill-draft.md": "a646b82023112fe4a6a03801f593261b76d545b211a10806a90aafb2b724386d",
+    "docs/boundary-contract.md": "4e815809462651262ddcd1fe32868f320e7fd1dbacc4257c5d9b9829249f0df9",
+    "docs/verification.md": "0c6c09d92be2dd8c131bae328a0f6d3efae01a6d3ccb04a87f3010791c2c8dbf",
+    "scripts/test-package.mjs": "0a7ea59ebd1bcf55b04b4de69826bb2fe90407011caca0f14f12530b2a89b008"
+  },
+  "files": {
+    "qualification.json": "56ffb597dcd1e1bd45eabfccf0613993deb5b18f75b6b7a74efc52a567f15417",
+    "qualification.logs.json.gz": "9c1a42b934c0d5cbb8238c092d090fb360fc5e7cb5ba7bb6c7fa98409eac91ac",
+    "sdk-verification.json": "6a6074c09a501ae85c51782a5021f6907b638d95d62c86c208f0922bcaea004c",
+    "sdk-prefix.log.gz": "0dd31523e12e3ac146298f19d4eb0d189ca9ec42d4e79493a9cbcb86adf0bad4",
+    "sdk-resume.log.gz": "844780d252199d1d852b7246f65d9d0757fa667655459c3caa59c8f685ffa78e",
+    "reference.log.gz": "242389f817212907b11d4193c2a60ada18173b68b1fd91ab67bd7058523a8281",
+    "cleanup.json": "e6297922a6598621d745ade626061f2a17c4e0dcd3460ac8f50eade89650a535",
+    "package-budgets.json": "df0a634c392f793815762b91b199e7fe73db9c66ed5be7480d28fe2738997c3c"
+  },
+  "footprint": {
+    "newWorktrees": 0,
+    "removedWorkspaceFolders": 79,
+    "removedProfileFolders": 34,
+    "remainingCreatedLargeFolders": []
+  },
+  "limits": [
+    "Private graph preparation only; workshop save coordination, account preference authority and live publication remain open.",
+    "Original-game course excludes companion grants and active aura/summon retirements; private routing is independently tested.",
+    "No new native engine package admission or physical-device performance qualification."
+  ]
+}

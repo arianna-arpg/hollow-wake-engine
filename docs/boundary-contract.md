@@ -1,5 +1,10 @@
 # Boundary contract
 
+The optional [equipment skill draft](equipment-skill-draft.md) prepares an
+isolated build graph for the existing equipment derivation. Its copied identity
+relations and normalized item investment support durable preparation; shared
+account authority and live publication remain separate integration work.
+
 The optional [workshop skill book](workshop-skill-book.md) owns learned payloads
 separately from action-bar bindings. Its explicit v4 promotion and exact blank
 restoration are build-data behavior; live combat and shared preference effects

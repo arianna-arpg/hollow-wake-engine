@@ -1,5 +1,10 @@
 # Verification and reproduction
 
+`npm run test:equipment-skill-draft-package` checks private build preparation
+through packed/browser consumers, deliberate faults, public types and the
+frozen original continuity course. See [equipment drafts](equipment-skill-draft.md)
+for the copy-service contract and remaining publication boundaries.
+
 The [workshop skill book](workshop-skill-book.md) adds installed-package, browser,
 public-type and deliberate-fault checks via `npm run test:workshop-skill-book-package`
 (also included in `npm run verify`). Its opt-in embedded entry has a separate
