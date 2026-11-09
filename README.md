@@ -5,7 +5,8 @@ Authored content is separate from the runtime, and each simulation owns its stat
 
 The optional [equipment skill runtime](docs/equipment-skills.md) derives item-owned
 skills, class skill bonuses and passive, tree and worn supports. The complete
-game adapter composes it with compiled passive grafts and checks original
+game adapter also restores saved equipment-granted bar ownership and composes
+it with compiled passive grafts. Verification checks original save/resume,
 lifecycle, catalogue and live authoring observations. Broader native gear
 admission and device performance qualification remain open.
 

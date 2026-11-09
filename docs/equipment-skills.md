@@ -1,10 +1,10 @@
 # Equipment skill derivation
 
 `@hollow-wake/engine/skills/equipment` exports `EquipmentSkills`, an optional
-runtime for the skill portion of a character rebuild. It owns ordinary granted
+runtime for saved bar lookup and the skill portion of a character rebuild. It owns ordinary granted
 skills, class skill bonuses, passive/tree grafts and worn support admission.
-The guarded Hollow Wake adapter replaces that contiguous `World.recalcSeat`
-phase. Item modifier compilation and equipment-action authorization remain
+The guarded Hollow Wake adapter replaces `World.seatSkillById` and that contiguous
+`World.recalcSeat` phase. Item modifier compilation and equipment-action authorization remain
 separate capabilities.
 
 ## Ownership and ordering
@@ -14,6 +14,24 @@ maps, the previous grant map, and already compiled modifier sources. Methods
 are synchronous on validated, single-writer state. Content lookups, stat reads,
 support fit and companion operations are explicit live ports. A frame is not
 a serialized public command or a durable transaction.
+
+`resolve(owner, skillId, compileItem)` restores bar ownership before a rebuild.
+It returns a learned instance first, then an existing granted instance, without
+reading content or gear on either hit. Otherwise it sums matching flat grants
+from configured worn slots, floors and caps the result, and uses the first
+matching item as host, even when that first contribution is zero or negative.
+Bag items, unconfigured slots, container pieces and sheet-only sources do not
+mint a cold grant. A previously cached grant remains available until a rebuild
+retires it. These are the original lookup rules, distinct from full derivation.
+
+Cold restoration calls the supplied skill factory and investment restorer, then
+publishes to the owner's current grant map. It leaves the bar, learned book and
+saved item investment unchanged. It does not add relic attribution or normalize
+saved investment; `derive` supplies those later. A restoration failure publishes
+no new instance, while any callback-owned effects retain their original order.
+Keep those callbacks synchronous and the owner under one writer. Shared SDK
+serialization already lives in `inventory/gems`; lookup does not introduce
+another save format or grant serializer.
 
 The first granting worn item in equipment-slot order hosts a skill's saved
 investment; the first granting container piece is the fallback. Rebuilding
@@ -52,8 +70,22 @@ adapter and compares both probe outputs byte for byte. It also compares the
 full 18,773-case equipment catalogue, including active-cast preservation and
 item removal. Five deliberate faults target saved investment, compounded
 bonuses, retained grafts, dependency retries and retired bar instances; a
-restored package must match again. Nine independent tests add host changes,
+restored package must match again. Sixteen independent tests add cold lookup,
+restoration failure and live map publication, along with host changes,
 source precedence, toggle identity, callback failure ordering and cycles.
+
+The separately frozen cold-lookup course has 18 original-game checkpoints,
+including real `serializeCharacter` / `applySavedCharacter` round trips,
+learned/granted investment separation and normalized item writeback. It was
+captured before implementing lookup in the SDK. Both installed modes compare
+its complete observations, and five additional installed faults must fail at
+their named original assertions: learned priority, saved investment, grant
+caching, summed levels and first-host ownership. Restored controls must match
+again. `reference:equipment-lookup` type-checks the observer and compares two
+fresh original processes with the accepted bytes; normal runs cannot recapture.
+The observer's three non-null type annotations were added after capture; the
+recorded type repair proves identical emitted JavaScript and preserves the
+original observation archive unchanged.
 
 The complete prepared-game qualification runs the real `adapter:prepare`
 pipeline with the other extracted systems installed. It checks those same
@@ -75,6 +107,7 @@ Run `npm run build`, `node --test test/equipment-skills.test.mjs`,
 `npm run reference:equipment-skills` and
 `npm run test:equipment-skills-original` after preparing/installing the pinned
 reference. Also run `npm run reference:equipment-passive-grafts`,
+`npm run reference:equipment-lookup`,
 `npm run test:equipment-skills-overlay` and
 `npm run test:equipment-skills-composed` for the complete integration. Installed
 qualifications remove their generated games, reused dependency links, packed
@@ -87,13 +120,20 @@ fresh compression.
 
 ## Performance and integration limits
 
-This phase runs on build changes. It performs no database, filesystem, network,
+Derivation runs on build changes; cold lookup runs when ownership is requested.
+Both perform no database, filesystem, network,
 rendering or per-frame work and imports no content registry. Temporary maps,
 sets and rows preserve original ordering and callback semantics; this extraction
 does not claim fewer allocations or a measured speedup. Avoid caching live
 content or callback results without a separate correctness and performance
 course. Content authoring/indexing belongs upstream of the compiled modifier
 inputs; durable storage belongs after validated candidate publication.
+
+The optional module is 10,496 bytes of unminified JavaScript, including the
+1,435-byte lookup addition. Its package budget is 11 KiB; all predecessor and
+core budgets remain unchanged. Learned/cached lookup creates no SDK collection
+and does no modifier compilation. This is an implementation property, not a
+hardware timing or allocation benchmark.
 
 The current Unity equipment preview still accepts its previously qualified
 small jewelry set. This module does not expand native actor admission, execute
@@ -105,4 +145,6 @@ The source adapter accepts either the pinned original graft lookup or the exact
 compiled-passive transformation. The default `adapter:prepare` path uses
 `passiveBuild.grafts` from the existing passive adapter. Other edits within the
 replaced phase, a missing preceding passive build and repeated installation are
-refused. Unrelated host extensions and existing line endings are preserved.
+refused. The complete lookup method must also match the pinned source; edited,
+missing and duplicate methods are rejected. Unrelated host extensions and
+existing line endings are preserved.

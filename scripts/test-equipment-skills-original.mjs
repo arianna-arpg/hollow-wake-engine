@@ -16,6 +16,7 @@ report.sources=Object.fromEntries(['src/equipment-skills.ts','adapters/hollow-wa
   'scripts/test-equipment-skills-original.mjs','scripts/prepare-game-adapter.mjs',
   'adapters/hollow-wake/integrate-passive-grants.mjs','adapters/hollow-wake/passiveGrantAdapter.ts',
   'reference/export-equipment-passive-grafts.ts','baseline/equipment-passive-grafts/acceptance.json',
+  'reference/export-equipment-lookup.ts','scripts/reference-equipment-lookup.mjs','baseline/equipment-lookup/acceptance.json',
   'baseline/equipment-skills/acceptance.json','package.json']
   .map(file=>[file,sha256(fs.readFileSync(path.join(root,file)))]));
 const run=(label,args,cwd=game)=>{
@@ -66,6 +67,10 @@ try{
   for(const file of listFiles(path.join(root,'dist')))assert(fs.readFileSync(path.join(installed,'dist',file)).equals(fs.readFileSync(path.join(root,'dist',file))),file+' installed bytes differ');
   const module=path.join(installed,'dist/equipment-skills.js'),original=fs.readFileSync(module,'utf8');
   assert.equal(original,fs.readFileSync(path.join(root,'dist/equipment-skills.js'),'utf8'));report.runtimeSha256=sha256(original);
+  const lookupManifest=JSON.parse(fs.readFileSync(path.join(root,'baseline/equipment-lookup/acceptance.json')));
+  assert.equal(lookupManifest.sourceLockSha256,manifest.sourceLockSha256);
+  const lookupProbe=path.join(game,'balance/hwe-equipment-lookup.ts');fs.copyFileSync(path.join(root,lookupManifest.source),lookupProbe);
+  assert.equal(sha256(fs.readFileSync(lookupProbe)),lookupManifest.sourceSha256);
   for(const config of ['tsconfig.json','tsconfig.launcher.json','tsconfig.sim.json'])success('types-'+config,[path.join(deps,'typescript/bin/tsc'),'--noEmit','-p',config]);
   report.types=true;
   const helper=path.join(game,'balance/hwe-equipment-helper.ts');fs.copyFileSync(path.join(root,manifest.helper),helper);
@@ -111,7 +116,11 @@ try{
     report.compiledHandoffRestored=true;
     success('simulation-smoke',['--import','tsx','balance/cli.ts','run','--suite','smoke']);report.simulationSmoke=true;
   }
-  const expected={};
+  const expected={lookup:gunzipSync(fs.readFileSync(path.join(root,'baseline/equipment-lookup/observations.json.gz')))};
+  assert.equal(sha256(expected.lookup),lookupManifest.sha256);
+  const lookupOutput=path.join(work,'lookup.json');success('lookup',['--import','tsx',lookupProbe,lookupOutput]);
+  assert(fs.readFileSync(lookupOutput).equals(expected.lookup),'Cold lookup and character resume differ from original');
+  report.results.lookup={cases:lookupManifest.cases,sha256:lookupManifest.sha256};
   for(const name of ['legends','slotgraft']){
     const probe=path.join(game,'balance/hwe-equipment-'+name+'.ts');
     fs.writeFileSync(probe,renderEquipmentSkillProbe(fs.readFileSync(path.join(game,manifest.results[name].source),'utf8'),'./hwe-equipment-helper.ts'));
@@ -135,8 +144,13 @@ try{
     ['retain-derived-grafts','slotgraft','inst.grafts = undefined;','void inst.grafts;'],
     ['skip-support-fixed-point','slotgraft','for (let flipped = true; flipped;)','for (let flipped = false; flipped;)'],
     ['retain-retired-bar-instance','legends','p.skills[i] = null;','void p.skills[i];'],
+    ['ignore-learned-lookup-priority','lookup','if (known)\n            return known;','if (false)\n            return known;','learned ownership wins without replacing the granted copy'],
+    ['omit-cold-investment','lookup','if (state)\n            r.restoreGrant(inst, state);','if (false)\n            r.restoreGrant(inst, state);','cold lookup restores bounded item investment'],
+    ['omit-cold-cache','lookup','(seat.grantedInsts ??= new Map()).set(skillId, inst);','void inst;','cold lookup leaves other grants and the bar untouched'],
+    ['replace-grant-sum-with-last-line','lookup','level += gm.value;','level = gm.value;','cold lookup sums worn grants and takes the first host'],
+    ['replace-first-grant-host','lookup','host ??= worn;','host = worn;','cold lookup sums worn grants and takes the first host'],
   ];
-  for(const [name,probe,needle,replacement] of faults){
+  for(const [name,probe,needle,replacement,checkpoint] of faults){
     assert.equal(original.split(needle).length,2,name+' target must be unique');
     fs.writeFileSync(module,original.replace(needle,replacement));
     try{
@@ -144,11 +158,12 @@ try{
       const child=run(name,['--import','tsx',path.join(game,'balance/hwe-equipment-'+probe+'.ts'),result]);
       const observed=child.status===0&&fs.existsSync(result);
       assert(observed||child.status===1&&/ERR_ASSERTION/.test(logs[name]),name+' failed outside a behavior assertion');
+      if(checkpoint){assert.equal(child.status,1);assert(logs[name].includes(checkpoint),name+' missed its expected checkpoint');}
       if(observed)assert(!fs.readFileSync(result).equals(expected[probe]),name+' escaped');
-      report.faults.push({name,probe,detected:true,kind:observed?'observation-difference':'original-assertion',logSha256:sha256(logs[name])});
+      report.faults.push({name,probe,detected:true,kind:observed?'observation-difference':'original-assertion',checkpoint,logSha256:sha256(logs[name])});
     }finally{fs.writeFileSync(module,original);}
   }
-  for(const probe of ['legends','slotgraft']){
+  for(const probe of ['legends','slotgraft','lookup']){
     const output=path.join(work,'restored-'+probe+'.json');
     success('restored-'+probe,['--import','tsx',path.join(game,'balance/hwe-equipment-'+probe+'.ts'),output]);
     assert(fs.readFileSync(output).equals(expected[probe]));

@@ -216,7 +216,8 @@ assert.ok(accountWorkshopFile?.size>0&&accountWorkshopFile.size<=22*1024,'Option
 const accountWorkshopJsBytes=accountWorkshopFile.size;
 const equipmentSkillsFile=packed.files.find(file=>file.path==='dist/equipment-skills.js');
 // A separate optional capability; retain every predecessor's existing bound.
-assert(equipmentSkillsFile?.size>0&&equipmentSkillsFile.size<=10*1024,'Optional equipment skill derivation exceeds 10 KiB or is missing');
+// Cold bar restoration adds 1,435 bytes to the previously qualified rebuild module.
+assert(equipmentSkillsFile?.size>0&&equipmentSkillsFile.size<=11*1024,'Optional equipment skill derivation and lookup exceeds 11 KiB or is missing');
 const equipmentSkillsJsBytes=equipmentSkillsFile.size;
 const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
 const craftingSessionJsBytes=Object.values(craftingSessionModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingSessionJsBytes=preContentTableJsBytes-craftingSessionJsBytes;

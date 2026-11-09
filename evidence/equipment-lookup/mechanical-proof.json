@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "originalFileSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+  "runtimeSourceSha256": "d904771a26d05c8cad34434ebb5ffdcd36e3fd84177815fdf86355b9b744ae63",
+  "originalBodySha256": "e8a0c2c658068c7cb42e77a8eb6b10014d833ae1354575ed38fc3bc3f918f4f8",
+  "mappedBodySha256": "6a3c76e78504956cbfec74ebe08e87616d68e9c2803c6a9f283e04e7bfba67be",
+  "mappings": [
+    [
+      "SKILLS[skillId]",
+      "r.skill(skillId)"
+    ],
+    [
+      "skillGrantStat(skillId)",
+      "r.skillGrantPrefix + skillId"
+    ],
+    [
+      "EQUIP_SLOTS",
+      "r.equipSlots()"
+    ],
+    [
+      "compileItemMods(worn)",
+      "compileItem(worn)"
+    ],
+    [
+      "skillMaxLevel(def)",
+      "r.skillMaxLevel(def)"
+    ],
+    [
+      "makeSkillInstance(def, level, GRANT_CFG.sockets)",
+      "r.makeSkill(def, level, r.grantSockets())"
+    ],
+    [
+      "restoreGrantState(inst, state)",
+      "r.restoreGrant(inst, state)"
+    ],
+    [
+      "ItemInstance | undefined",
+      "I | undefined"
+    ]
+  ],
+  "additionalChange": "Read the instance-owned ports before the first content lookup; the canonical comparison removes only that local alias declaration."
+}

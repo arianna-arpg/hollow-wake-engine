@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "baseCommit": "1e67c7d7dc1eab8408108bcdd3eafe8b7749a6d8",
+  "scope": "Cold equipment-grant resolution and real character save/resume, through original-only and complete prepared-game adapters",
+  "sources": {
+    "reference/export-equipment-lookup.ts": "8b062b11ea8db6905f77644d3fef1dcf38b333c7e64a64e0c286930b6fd4508f",
+    "scripts/reference-equipment-lookup.mjs": "ff99b938087ad4668e394914f3f1ebea323988f9790f985f3f8d2049b6cd51a7",
+    "baseline/equipment-lookup/acceptance.json": "cca629340d659f246d729a41e1dcf3c15367e6f617c26c3d59efd6f849a9cd26",
+    "baseline/equipment-lookup/observations.json.gz": "6a987f0b4d0f69e5ee8b493a33ca538b417f901590ddbf788ee9d3b61e1b4f66",
+    "src/equipment-skills.ts": "d904771a26d05c8cad34434ebb5ffdcd36e3fd84177815fdf86355b9b744ae63",
+    "test/equipment-skills.test.mjs": "84334c4eb473b67cfe7fe7f14e7852d2f411ef73b374bb6d68736e127a4e9139",
+    "adapters/hollow-wake/integrate-equipment-skills.mjs": "d185eb1513f8c9a098f37d7f10d8a16643bbc5368934c4b2dfaba94c4da6229e",
+    "scripts/test-equipment-skills-overlay.mjs": "218ad39b2973727c9ac19f8c5f51171337986f797bbb269b0e808f6956e391cd",
+    "scripts/test-equipment-skills-original.mjs": "18367f452902506875585fdb39280202414cb01ad80e673ef8664e07695892d7",
+    "scripts/test-package.mjs": "6568c1b8f7c8d2b4ec8d2761e0d12a0f58f96ec71fcd5ca027af237755c212b8",
+    "package.json": "f01f3c6fe18ee91a2e863662bb0647d85d2bacac3c23429e5733e92c4b959bb3",
+    ".github/workflows/equipment-skills.yml": "8d48e1679671929ac0953d787fedb21cfb0eb4da5035f45831c1dc16e5a47fc2",
+    "docs/equipment-skills.md": "830eee01df38216da4009a64afff6d2c11e6af075479fbc44551e3b8e06a4d07",
+    "docs/completion.json": "b9861171d88a46dee94508ea0f8d3d2cf71f8c0a03cc1d10986907f5c04cfcf7",
+    "README.md": "14480b0502457985dc68fc9846b2b86b694e9d11c95de9c24ec1b03ef65f1482",
+    "baseline/equipment-lookup/observer-type-repair.json": "cf1d5821c63bc08f10f2e1a83c8cc418e2240dec32a926fdf9c45a673f33751e"
+  },
+  "evidence": {
+    "broad-checks.json": "35dd52fe52e97d7de4d46982867bc178b7fe398f79c5f30d71e15c35c7a7dd35",
+    "composed.json": "bae74ffec68a5b17a6d6d31450ac34cae9a3c135be2a61758f95d10df1f8917e",
+    "composed.logs.json.gz": "0dc21e33918764381f55e91a9940a362af0f094430b3d1e61b8f1960af121f07",
+    "equipment-reference.json": "2bc5c0f35044f5b5a35760aa6c1b9cdbfa3c302cb35bc7da1584b7290631ef87",
+    "installed.json": "61c7183fb342af9e5120f6b9a2cbcbe7376cff65c68bbcbeea98182ec7ed76a6",
+    "installed.logs.json.gz": "236a45bc9211fced2a7b957fa622007daf80c8986776f5257b8a066d362b4d5d",
+    "lookup-reference.json": "225affa3fd203948d7dc410bfc3245d00727388fc91086080bc394b8440b2f1a",
+    "mechanical-proof.json": "291df34acbdcc4d7da3ce8d33ada81fba5c9f6704df26d7b5ac009023b0923e6",
+    "package-budgets.json": "a06b91947dc2c587e78ff56422f9bf786fe016123e05e62b86502e0eb11bb494",
+    "passive-reference.json": "0e57fe2821799c134193edfaa66e289a1e909740429ba1ddac0c69aa69350acc",
+    "profile-cache-cleanup.json": "341ec33ae6d190edfa883ce7a397782ab4a16ccc0b306723474a75746b8d7ad8",
+    "reference-verify.log.gz": "d13099aa8632d4b9187bbed249208785a498a93626185c65e0ac9ea52a3c14e4",
+    "retained-test-receipts.json.gz": "620e1a0b2672dfe5c755184188cfdcf28d4cf6ff39ff693e6ef6fc79259b33d0",
+    "retention.json": "2302c92c2df8811afacc3df06484ad90ce42f561128fbf839c8e6c632551c676",
+    "tooling-repair.json": "f70bd8e40a3f1836cf244ed091fd85b31cfbb6f986c713d0a9826cbcfa0d9df5",
+    "tooling-repair.logs.json.gz": "afa865c20785a73ee546a22f19ea00bce983eee88d9ef3929a0e53497721db96",
+    "verify.log.gz": "f7aa3295eb17d9152799c73485d016324e8d44e6e6f243396841661586547350"
+  },
+  "faultCheckpoints": {
+    "forget-grant-investment": "FAIL  B10 THE RESIDENCE ON THE ITEM: the stone lands on the helm's grantState",
+    "compound-bonus-levels": "FAIL  I4 repeated recalculation never compounds bonus levels",
+    "retain-derived-grafts": "FAIL  D: re-binding the bar moves the grant off the seat",
+    "skip-support-fixed-point": "FAIL  J: the worn crack gem lands live scanned BEFORE its enabler",
+    "retain-retired-bar-instance": "FAIL  B11 unequipped, the grant leaves cleanly: lane empty, bar cleared",
+    "ignore-learned-lookup-priority": "learned ownership wins without replacing the granted copy",
+    "omit-cold-investment": "cold lookup restores bounded item investment",
+    "omit-cold-cache": "cold lookup leaves other grants and the bar untouched",
+    "replace-grant-sum-with-last-line": "cold lookup sums worn grants and takes the first host",
+    "replace-first-grant-host": "cold lookup sums worn grants and takes the first host"
+  },
+  "toolingChanges": {
+    "passed": true,
+    "file": "scripts/reference-equipment-lookup.mjs",
+    "beforeSha256": "e5c1ffcbb59b0b4bde7e767cb96cd08b8532786681d8a117f5d2d7911e03bb73",
+    "afterSha256": "ff99b938087ad4668e394914f3f1ebea323988f9790f985f3f8d2049b6cd51a7",
+    "reason": "Give the original-reference compiler and observer children their cleanup-owned temporary directory, including when this verifier is invoked directly.",
+    "metadata": [
+      {
+        "file": "package.json",
+        "beforeSha256": "310864a98e4807cbd74dd100a992126df190c36c4d77309f596cd2cc096e9dc5",
+        "afterSha256": "f01f3c6fe18ee91a2e863662bb0647d85d2bacac3c23429e5733e92c4b959bb3",
+        "identicalJSON": true,
+        "reason": "Normalize newly inserted line endings to the repository LF rule; JSON values are unchanged."
+      },
+      {
+        "file": "docs/completion.json",
+        "beforeSha256": "f98943624e670f92c102c7fe5812e859ac9f51f2a71698aea5da19de6c57c20d",
+        "afterSha256": "b9861171d88a46dee94508ea0f8d3d2cf71f8c0a03cc1d10986907f5c04cfcf7",
+        "identicalJSON": true,
+        "reason": "Normalize newly inserted line endings to the repository LF rule; JSON values are unchanged."
+      }
+    ],
+    "checks": [
+      {
+        "script": "scripts/reference-equipment-lookup.mjs",
+        "status": 0,
+        "logSha256": "2d6d488c28f5db9a62ed8b64350d17444dc4a95edfae32e1b2baa04f6ad454ca"
+      },
+      {
+        "script": "scripts/test-package.mjs",
+        "status": 0,
+        "logSha256": "7a1234b81c0442541b161d292d718fe67965ffe72968ac9dfd036007600794b1"
+      },
+      {
+        "script": "scripts/check-completion.mjs",
+        "status": 0,
+        "logSha256": "0a4d2e0a95d9c43633ea663d0449fbb1992babfbf96ade0a5a2507d46dff2109"
+      }
+    ],
+    "cleaned": true,
+    "generatedDirectories": []
+  },
+  "originalGameChanged": false,
+  "runtimeChanged": true,
+  "measuredSpeedup": false,
+  "physicalDeviceQualification": false,
+  "nativeAdmissionExpanded": false,
+  "hostedQualification": false
+}

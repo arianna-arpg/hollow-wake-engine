@@ -13,6 +13,11 @@ export interface EquipmentSkill<D, U> {
 export interface EquipmentGrantItem<State> {
   uid: number; name: string; relicKey?: string; grantState?: Record<string, State>;
 }
+export interface EquipmentSkillOwner<S, I> {
+  meta: { knownSkills: Map<string, S>; equipped: Record<string, I | undefined> };
+  grantedInsts?: Map<string, S>;
+}
+export interface EquipmentGrantModifier { stat: string; kind: string; value: number }
 export interface EquipmentGrantRow<D, S> {
   def: D; level: number; inst: S; source: string; hostUid?: number; slot: number;
 }
@@ -62,6 +67,39 @@ export class EquipmentSkills<D extends EquipmentSkillDefinition, U extends Equip
   S extends EquipmentSkill<D, U>, I extends EquipmentGrantItem<State>, State, C> {
   readonly #p: EquipmentSkillPorts<D, U, S, State, C>;
   constructor(ports: EquipmentSkillPorts<D, U, S, State, C>) { this.#p = ports; }
+
+  /** Resolve saved bar ownership before the first rebuild. Only worn flat grants
+   * can create an instance here; derive() later normalizes item investment. */
+  resolve(seat: EquipmentSkillOwner<S, I>, skillId: string,
+    compileItem: (item: I) => Iterable<EquipmentGrantModifier>): S | null {
+    const known = seat.meta.knownSkills.get(skillId);
+    if (known) return known;
+    const held = seat.grantedInsts?.get(skillId);
+    if (held) return held;
+    const r = this.#p, def = r.skill(skillId);
+    if (!def) return null;
+    const stat = r.skillGrantPrefix + skillId;
+    let host: I | undefined;
+    let level = 0;
+    for (const slot of r.equipSlots()) {
+      const worn = seat.meta.equipped[slot.id];
+      if (!worn) continue;
+      for (const gm of compileItem(worn)) {
+        if (gm.stat !== stat || gm.kind !== 'flat') continue;
+        level += gm.value;
+        host ??= worn;
+      }
+    }
+    level = Math.min(r.skillMaxLevel(def), Math.floor(level));
+    if (!host || level < 1) return null;
+    const inst = r.makeSkill(def, level, r.grantSockets());
+    const state = host.grantState?.[skillId];
+    if (state) r.restoreGrant(inst, state);
+    inst.grantedBy = host.name;
+    inst.grantedHostUid = host.uid;
+    (seat.grantedInsts ??= new Map()).set(skillId, inst);
+    return inst;
+  }
 
   derive(frame: EquipmentSkillFrame<D, U, S, I>): void {
     const r = this.#p, { seat, actor: p, meta: m, passiveMods, gearSheetMods,

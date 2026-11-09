@@ -16,8 +16,68 @@ function fixture(){
     classes:()=>[{id:'mage'}],openingSkills:()=>['fire'],classSkillStat:c=>'class_'+c.id,treeGraft:()=>undefined,supportFits:()=>true};
   const runtime=new EquipmentSkills(ports),derive=()=>runtime.derive(frame);
   const wear=(slot,item,stats)=>{frame.meta.equipped[slot]=item;frame.gearSheetMods.set(slot,stats.map(stat=>({stat})));};
-  return {frame,ports,values,calls,defs,supports,make,derive,wear,auto:()=>{auto=true;}};
+  const owner=()=>Object.assign(frame.seat,{meta:frame.meta});
+  const resolve=(id,compile=item=>item.mods??[])=>runtime.resolve(owner(),id,compile);
+  return {frame,ports,values,calls,defs,supports,make,derive,wear,resolve,auto:()=>{auto=true;}};
 }
+
+test('cold lookup prioritizes learned then cached ownership without consulting content or items',()=>{
+  const f=fixture(),known=f.make(f.defs.fire),grant=f.make(f.defs.fire);
+  f.frame.meta.knownSkills.set('fire',known);f.frame.seat.grantedInsts=new Map([['fire',grant]]);
+  f.ports.skill=()=>{throw Error('unexpected content read');};f.ports.equipSlots=()=>{throw Error('unexpected gear read');};
+  assert.equal(f.resolve('fire'),known);assert.equal(f.frame.seat.grantedInsts.get('fire'),grant);
+  f.frame.meta.knownSkills.clear();assert.equal(f.resolve('fire'),grant);
+});
+test('cold lookup sums only matching flat worn modifiers, floors once and retains the first matching host',()=>{
+  const f=fixture(),line=(value,kind='flat',stat='grant_fire')=>({stat,kind,value});
+  const first={uid:1,name:'First',relicKey:'not-annotated-at-lookup',mods:[line(-.25),line(99,'inc'),line(88,'flat','grant_ice')]};
+  const second={uid:2,name:'Second',mods:[line(1.75),line(2.75)]};
+  f.frame.meta.equipped={ring:second,head:first,retiredSlot:{mods:[line(100)]}};
+  const calls=[];const inst=f.resolve('fire',item=>{calls.push(item.uid);return item.mods;});
+  assert.deepEqual(calls,[1,2]);assert.equal(inst.level,4);assert.equal(inst.grantedHostUid,1);assert.equal(inst.grantedBy,'First');
+  assert.equal(inst.relicSource,undefined);assert.equal(first.grantState,undefined);assert.deepEqual(f.frame.actor.skills,[null,null]);
+  assert.equal(f.frame.meta.knownSkills.size,0);assert.equal(f.frame.seat.grantedSkills,undefined);
+});
+test('cold lookup rejects absent definitions and absent or sub-level grants; caps a new instance',()=>{
+  const f=fixture();let reads=0;f.ports.equipSlots=()=>{reads++;return [{id:'head'}];};
+  assert.equal(f.resolve('retired'),null);assert.equal(reads,0);
+  assert.equal(f.resolve('fire'),null);assert.equal(f.frame.seat.grantedInsts,undefined);
+  const item={uid:1,name:'Hat',mods:[{stat:'grant_fire',kind:'flat',value:.99}]};f.frame.meta.equipped.head=item;
+  assert.equal(f.resolve('fire'),null);item.mods[0].value=-2;assert.equal(f.resolve('fire'),null);
+  item.mods[0].value=100;assert.equal(f.resolve('fire').level,20);
+});
+test('cold restore leaves saved investment untouched and publishes to the current map only after restoration',()=>{
+  const f=fixture(),state={sockets:[{def:f.supports.a,level:3},null],old:true};
+  const item={uid:1,name:'Hat',grantState:{fire:state},mods:[{stat:'grant_fire',kind:'flat',value:2}]};f.frame.meta.equipped.head=item;
+  const map=new Map([['ice',f.make(f.defs.ice)]]);f.frame.seat.grantedInsts=map;const saved=structuredClone(state);
+  f.ports.packGrant=()=>{throw Error('lookup must not serialize');};
+  f.ports.restoreGrant=(inst,observed)=>{assert.equal(observed,state);assert.equal(map.has('fire'),false);inst.sockets=structuredClone(observed.sockets);};
+  const inst=f.resolve('fire');assert.equal(f.frame.seat.grantedInsts,map);assert.equal(map.get('fire'),inst);
+  assert.equal(inst.sockets[0].level,3);assert.deepEqual(state,saved);assert.equal(item.grantState.fire,state);
+  f.frame.meta.equipped={};assert.equal(f.resolve('fire'),inst);
+});
+test('restore failure does not publish a new grant or replace unrelated existing ownership',()=>{
+  for(const existing of [false,true]){
+    const f=fixture(),map=existing?new Map([['ice',f.make(f.defs.ice)]]):undefined;f.frame.seat.grantedInsts=map;
+    f.frame.meta.equipped.head={uid:1,name:'Hat',grantState:{fire:{sockets:[]}},mods:[{stat:'grant_fire',kind:'flat',value:2}]};
+    f.ports.restoreGrant=()=>{throw Error('restore failure');};assert.throws(()=>f.resolve('fire'),/restore failure/);
+    assert.equal(f.frame.seat.grantedInsts,map);if(map)assert.deepEqual([...map.keys()],['ice']);
+  }
+});
+test('restoration callbacks retain original live map publication order',()=>{
+  const f=fixture(),replacement=new Map([['ice',f.make(f.defs.ice)]]);
+  f.frame.meta.equipped.head={uid:1,name:'Hat',grantState:{fire:{sockets:[]}},mods:[{stat:'grant_fire',kind:'flat',value:2}]};
+  f.ports.restoreGrant=()=>{f.frame.seat.grantedInsts=replacement;};const inst=f.resolve('fire');
+  assert.equal(f.frame.seat.grantedInsts,replacement);assert.equal(replacement.get('fire'),inst);assert.equal(replacement.size,2);
+});
+test('first rebuild retains the cold instance and separates learned and item investment',()=>{
+  const f=fixture(),item={uid:1,name:'Hat',grantState:{fire:{sockets:[{def:f.supports.a,level:3},null]}},mods:[{stat:'grant_fire',kind:'flat',value:2}]};
+  f.wear('head',item,['grant_fire']);f.values.grant_fire=2;const grant=f.resolve('fire');f.frame.actor.skills[0]=grant;
+  f.derive();assert.equal(f.frame.seat.grantedInsts.get('fire'),grant);assert.equal(f.frame.actor.skills[0],grant);
+  const learned=f.make(f.defs.fire,5);learned.sockets[0]={def:f.supports.b,level:7};f.frame.meta.knownSkills.set('fire',learned);f.derive();
+  assert.equal(f.resolve('fire'),learned);assert.equal(f.frame.actor.skills[0],learned);assert.equal(item.grantState.fire.sockets[0].level,3);
+  assert.equal(learned.sockets[0].level,7);assert.equal(f.frame.seat.grantedInsts.get('fire'),grant);
+});
 
 test('different grant hosts restore their own investment and retire only the old owned toggles',()=>{
   const f=fixture(),{frame,values,defs,make}=f;values.grant_fire=3.9;

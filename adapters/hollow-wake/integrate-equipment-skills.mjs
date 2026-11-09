@@ -6,6 +6,21 @@ import {root,sha256} from '../../scripts/reference-utils.mjs';
 import {installCharacterSources} from './install-character-sources.mjs';
 
 const file='src/engine/world.ts';
+function pruneLookupImport(source){
+  const ast=ts.createSourceFile(file,source,ts.ScriptTarget.Latest,true);let used=false;
+  const visit=n=>{if(ts.isImportDeclaration(n))return;if(ts.isIdentifier(n)&&n.text==='skillGrantStat')used=true;ts.forEachChild(n,visit);};visit(ast);
+  if(used)return source;
+  for(const declaration of ast.statements.filter(ts.isImportDeclaration)){
+    if(declaration.moduleSpecifier.text!=='./skills')continue;
+    const bindings=declaration.importClause?.namedBindings;if(!bindings||!ts.isNamedImports(bindings))continue;
+    const index=bindings.elements.findIndex(n=>n.getText(ast)==='skillGrantStat');if(index<0)continue;
+    const start=bindings.elements[index].getStart(ast),next=bindings.elements[index+1];
+    assert(next,'Cold lookup import position needs review');const end=next.getStart(ast);
+    assert(/^skillGrantStat\s*,\s*$/.test(source.slice(start,end)),'Cold lookup import trivia needs review');
+    return source.slice(0,start)+source.slice(end);
+  }
+  return source;
+}
 function locate(source){
   const ast=ts.createSourceFile(file,source,ts.ScriptTarget.Latest,true);
   const worlds=ast.statements.filter(n=>ts.isClassDeclaration(n)&&n.name?.text==='World');assert.equal(worlds.length,1);
@@ -15,7 +30,8 @@ function locate(source){
   const first=rows.indexOf(grants[0]),last=rows.findIndex(n=>n.getText(ast).startsWith("p.sheet.setSource('level',"));assert(first<last);
   const companion=grants[0].statements.filter(n=>ts.isExpressionStatement(n)&&n.getText(ast).startsWith('this.companionGrants.derive('));assert.equal(companion.length,1);
   const args=companion[0].expression.arguments;assert.equal(args.length,6);
-  return {ast,world,rows,start:rows[first].getStart(ast),end:rows[last-1].end,kill:args[3].getText(ast),relevel:args[4].getText(ast)};
+  const lookups=world.members.filter(n=>ts.isMethodDeclaration(n)&&n.name.getText(ast)==='seatSkillById');assert.equal(lookups.length,1,'Expected one cold equipment lookup');
+  return {ast,world,rows,lookup:lookups[0],start:rows[first].getStart(ast),end:rows[last-1].end,kill:args[3].getText(ast),relevel:args[4].getText(ast)};
 }
 export function renderEquipmentSkills(source,original,{passiveGrafts='original'}={}){
   assert(['original','compiled'].includes(passiveGrafts),'Unknown passive graft source');
@@ -34,6 +50,7 @@ export function renderEquipmentSkills(source,original,{passiveGrafts='original'}
     assert(builds[0].getStart(a.ast)<a.start,'Compiled passive build must precede equipment derivation');
   }
   assert.equal(input.slice(a.start,a.end),expected,'Unreviewed equipment skill derivation');
+  assert.equal(a.lookup.getText(a.ast),b.lookup.getText(b.ast),'Unreviewed cold equipment lookup');
   const field=`
   private readonly sdkEquipmentSkills = new EngineEquipmentSkills<SkillDef,SupportDef,SkillInstance,ItemInstance,ReturnType<typeof packGrantState>,(typeof CLASSES)[number]>({
     skillGrantPrefix:SKILLGRANT_PREFIX, companionGrantPrefix:COMPANION_GRANT_PREFIX, slotGraftPrefix:SLOTGRAFT_PREFIX,
@@ -53,9 +70,10 @@ export function renderEquipmentSkills(source,original,{passiveGrafts='original'}
       deactivateAura:id=>this.deactivateAura(p,id), dismissSummon:id=>this.dismissSummonToggle(p,id),
     });`;
   const offset=a.ast.statements.filter(ts.isImportDeclaration).at(-1).end;
-  const edits=[[a.start,a.end,replacement],[a.world.members.pos,a.world.members.pos,field],
+  const edits=[[a.start,a.end,replacement],[a.lookup.body.getStart(a.ast),a.lookup.body.end,'{\n    return this.sdkEquipmentSkills.resolve(seat,skillId,compileItemMods);\n  }'],[a.world.members.pos,a.world.members.pos,field],
     [offset,offset,"\nimport {EquipmentSkills as EngineEquipmentSkills} from '@hollow-wake/engine/skills/equipment';"]];
   let out=input;for(const [start,end,text] of edits.sort((x,y)=>y[0]-x[0]))out=out.slice(0,start)+text+out.slice(end);
+  out=pruneLookupImport(out);
   return source.includes('\r\n')?out.replaceAll('\n','\r\n'):out;
 }
 export function integrateEquipmentSkills(game,install=true,options={}){
@@ -63,5 +81,5 @@ export function integrateEquipmentSkills(game,install=true,options={}){
   const original=fs.readFileSync(path.join(root,'.reference',file));assert.equal(sha256(original),lock.files[file]);
   const before=fs.readFileSync(path.join(game,file)),after=Buffer.from(renderEquipmentSkills(before.toString(),original.toString(),options));
   if(install)installCharacterSources(game,[{file,before,after}]);
-  return {files:[file],passiveGrafts:options.passiveGrafts??'original',decision:'Equipment skill grants, bonuses and grafts use the SDK; companion bodies and world effects remain explicit host services.'};
+  return {files:[file],passiveGrafts:options.passiveGrafts??'original',decision:'Equipment skill lookup, grants, bonuses and grafts use the SDK; companion bodies and world effects remain explicit host services.'};
 }

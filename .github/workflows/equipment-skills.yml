@@ -10,9 +10,11 @@ on:
       - 'reference/equipment-skill-observer.ts'
       - 'reference/export-equipment-catalogue.ts'
       - 'reference/export-equipment-passive-grafts.ts'
+      - 'reference/export-equipment-lookup.ts'
       - 'scripts/equipment-skill-reference.mjs'
       - 'scripts/reference-equipment-skills.mjs'
       - 'scripts/reference-equipment-passive-grafts.mjs'
+      - 'scripts/reference-equipment-lookup.mjs'
       - 'scripts/test-equipment-skills-original.mjs'
       - 'scripts/test-equipment-skills-overlay.mjs'
       - 'scripts/*overlay*.mjs'
@@ -20,6 +22,7 @@ on:
       - 'baseline/equipment-skills/**'
       - 'baseline/equipment-catalogue/**'
       - 'baseline/equipment-passive-grafts/**'
+      - 'baseline/equipment-lookup/**'
       - 'baseline/source-lock.json'
       - 'package.json'
   pull_request:
@@ -53,6 +56,8 @@ jobs:
         run: npm run reference:equipment-skills
       - name: Replay original passive graft lifecycle in two fresh processes
         run: npm run reference:equipment-passive-grafts
+      - name: Replay original cold lookup and character resume in two fresh processes
+        run: npm run reference:equipment-lookup
       - name: Verify installed game, catalogue and deliberate faults
         run: npm run test:equipment-skills-original
       - name: Verify complete game composition and passive handoff
@@ -66,6 +71,7 @@ jobs:
           path: |
             .artifacts/equipment-skills-reference-*.json
             .artifacts/equipment-passive-reference-*.json
+            .artifacts/equipment-lookup-reference-*.json
             .artifacts/equipment-skills-installed.json
             .artifacts/equipment-skills-installed.logs.json.gz
             .artifacts/equipment-skills-composed.json

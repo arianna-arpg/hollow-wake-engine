@@ -1,0 +1,133 @@
+{
+  "passed": true,
+  "composition": "original-game",
+  "results": {
+    "passiveGrafts": {
+      "cases": 15,
+      "sha256": "8719fe687f615af96917acff404b2dd4326294001c4abbd67d939b657b7c9e2b"
+    },
+    "lookup": {
+      "cases": 18,
+      "sha256": "b11fa4961e7d48f6651f46e3279d9fd003e8e5e568c55ca3d464bec0a1d8db86"
+    },
+    "legends": {
+      "cases": 60,
+      "sha256": "938064e47262f12ac0cc28f04d10d6a5e0b3914fe2e55866ba9d49f0aeba0921"
+    },
+    "slotgraft": {
+      "cases": 36,
+      "sha256": "743159dec65a2107faaccb99538246a2b53736d34bdc3f4fa4b0962f3e8d8b92"
+    },
+    "catalogue": {
+      "cases": 18773,
+      "sha256": "12a0f4dabd7297650a11ada95bbe6b0442466a29afe761c260ff0fc07f0235bc"
+    }
+  },
+  "faults": [
+    {
+      "name": "forget-grant-investment",
+      "probe": "legends",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "fbd91295820c8e9e6facec7aca82d8468e634562c33df987e18eaca1be3bfaf5"
+    },
+    {
+      "name": "compound-bonus-levels",
+      "probe": "legends",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "75361dc23e7b53d9e0d23a2c171ae54b447ae8fa6d052e99245e180414cf28b2"
+    },
+    {
+      "name": "retain-derived-grafts",
+      "probe": "slotgraft",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "8f52c624f60cff25ce15f4712ddfc1e8b394439abd400f6b0a49e108775c4167"
+    },
+    {
+      "name": "skip-support-fixed-point",
+      "probe": "slotgraft",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "b29513bc0c60f80755a559e86489462afe2e3d896229e710848706ba853320fd"
+    },
+    {
+      "name": "retain-retired-bar-instance",
+      "probe": "legends",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "379db9e4c1f807a7f4e8c4aed16b5dc465cd527ec71d1f50d442bb6e3b4e7439"
+    },
+    {
+      "name": "ignore-learned-lookup-priority",
+      "probe": "lookup",
+      "detected": true,
+      "kind": "original-assertion",
+      "checkpoint": "learned ownership wins without replacing the granted copy",
+      "logSha256": "d44438f3a7f12d55fbea176dff702bcfc975e80000fa849813fbbe10103c05fb"
+    },
+    {
+      "name": "omit-cold-investment",
+      "probe": "lookup",
+      "detected": true,
+      "kind": "original-assertion",
+      "checkpoint": "cold lookup restores bounded item investment",
+      "logSha256": "56c2a6e16f38273e4387af64562aa249194f9f8118785711eb3895b3dcb2b579"
+    },
+    {
+      "name": "omit-cold-cache",
+      "probe": "lookup",
+      "detected": true,
+      "kind": "original-assertion",
+      "checkpoint": "cold lookup leaves other grants and the bar untouched",
+      "logSha256": "13f7f669605847530aac5629fb901edd11f5d2a9759b70f23b20bbc425547dec"
+    },
+    {
+      "name": "replace-grant-sum-with-last-line",
+      "probe": "lookup",
+      "detected": true,
+      "kind": "original-assertion",
+      "checkpoint": "cold lookup sums worn grants and takes the first host",
+      "logSha256": "b9d84a7a1f85263ab03e652ee2d272ab9ae964cb4d18f2250dcb66d6ecc1c06b"
+    },
+    {
+      "name": "replace-first-grant-host",
+      "probe": "lookup",
+      "detected": true,
+      "kind": "original-assertion",
+      "checkpoint": "cold lookup sums worn grants and takes the first host",
+      "logSha256": "26a2c56f5c15ba8966d4bb6101803985f3545cec688bfa828000254c74768f48"
+    }
+  ],
+  "sources": {
+    "src/equipment-skills.ts": "d904771a26d05c8cad34434ebb5ffdcd36e3fd84177815fdf86355b9b744ae63",
+    "adapters/hollow-wake/integrate-equipment-skills.mjs": "d185eb1513f8c9a098f37d7f10d8a16643bbc5368934c4b2dfaba94c4da6229e",
+    "reference/equipment-skill-observer.ts": "8bd5abb3d7866142305f6a4eaef6207c3b9fbab71fe743f0cda389649da6a8b1",
+    "scripts/equipment-skill-reference.mjs": "6d134f9a9c19b07c88e90022195b867a4d3de7d7aa2de21407cd07349c8d4098",
+    "scripts/test-equipment-skills-original.mjs": "18367f452902506875585fdb39280202414cb01ad80e673ef8664e07695892d7",
+    "scripts/prepare-game-adapter.mjs": "7c7baaa7e18aef5a24999b746800e9518103d68ab1f8487658a980660e8a630a",
+    "adapters/hollow-wake/integrate-passive-grants.mjs": "bf147fb066fe9e2aaf9b9dea6e6fdc528a008d7bbeb899e39ec1e4ad1e9f9189",
+    "adapters/hollow-wake/passiveGrantAdapter.ts": "c82172a70301298781f1f537ae11a2e48ec2fcb18c81aed2ff73d6af322cd571",
+    "reference/export-equipment-passive-grafts.ts": "680f5190279bfcf4b8e2891c2e57bf5da02d963dfef1fddb4573085d8d632c15",
+    "baseline/equipment-passive-grafts/acceptance.json": "b5868886dcf098d245bb5ea824b677ef92b1d9b762ee034c4a3c437e744a0863",
+    "reference/export-equipment-lookup.ts": "8b062b11ea8db6905f77644d3fef1dcf38b333c7e64a64e0c286930b6fd4508f",
+    "scripts/reference-equipment-lookup.mjs": "e5c1ffcbb59b0b4bde7e767cb96cd08b8532786681d8a117f5d2d7911e03bb73",
+    "baseline/equipment-lookup/acceptance.json": "cca629340d659f246d729a41e1dcf3c15367e6f617c26c3d59efd6f849a9cd26",
+    "baseline/equipment-skills/acceptance.json": "d166dd62211caf2ccc525ddda4093dc1cd3c0e5a3e4dca34417e1f1dfa3fbda5",
+    "package.json": "310864a98e4807cbd74dd100a992126df190c36c4d77309f596cd2cc096e9dc5"
+  },
+  "archiveSha256": "941a64ffd5bbe2f4805291e2bf4c918096fde7c4026107580ea12df94f3658cc",
+  "adapter": {
+    "files": [
+      "src/engine/world.ts"
+    ],
+    "passiveGrafts": "original",
+    "decision": "Equipment skill lookup, grants, bonuses and grafts use the SDK; companion bodies and world effects remain explicit host services."
+  },
+  "runtimeSha256": "bd5a39c5adbef4871a66ced5bb5ce9114c9ce7e8edd28327de020dcdf13295ea",
+  "types": true,
+  "restored": true,
+  "inputsUnchanged": true,
+  "cleaned": true
+}

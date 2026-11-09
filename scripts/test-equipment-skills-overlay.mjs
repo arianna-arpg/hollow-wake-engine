@@ -10,8 +10,15 @@ for(const newline of ['\n','\r\n']){
     const options={passiveGrafts},output=renderEquipmentSkills(input+marker,original,options);
     assert(output.endsWith(marker));assert.equal(output.includes('\r\n'),newline==='\r\n');
     assert(output.includes('passiveGrafts:()=>'+port+','));
+    assert(output.includes('return this.sdkEquipmentSkills.resolve(seat,skillId,compileItemMods);'));
+    assert(!output.includes('skillGrantStat,'));
+    const extension=newline+"export const retainedGrantStat = skillGrantStat('firebolt');"+newline;
+    const extended=renderEquipmentSkills(input+extension,original,options);assert(extended.endsWith(extension));assert(extended.includes('skillGrantStat,'));
     assert.throws(()=>renderEquipmentSkills(output,original,options),/already present/);
     assert.throws(()=>renderEquipmentSkills(input.replace('const grantStats = new Set<string>();','const grantStats = new Set<string>(); /* edited */'),original,options),/Unreviewed/);
+    assert.throws(()=>renderEquipmentSkills(input.replace('const stat = skillGrantStat(skillId);','const stat = skillGrantStat(skillId); /* edited */'),original,options),/Unreviewed cold equipment lookup/);
+    assert.throws(()=>renderEquipmentSkills(input.replace('seatSkillById(seat: Seat, skillId: string): SkillInstance | null {','renamedLookup(seat: Seat, skillId: string): SkillInstance | null {'),original,options),/Expected one cold equipment lookup/);
+    assert.throws(()=>renderEquipmentSkills(input.replace('seatSkillById(seat: Seat, skillId: string): SkillInstance | null {','seatSkillById(): null { return null; }'+newline+'  seatSkillById(seat: Seat, skillId: string): SkillInstance | null {'),original,options),/Expected one cold equipment lookup/);
   }
   assert.throws(()=>renderEquipmentSkills(compiled,original),/Unreviewed/);
   assert.throws(()=>renderEquipmentSkills(original,original,{passiveGrafts:'compiled'}),/Missing compiled passive build/);
