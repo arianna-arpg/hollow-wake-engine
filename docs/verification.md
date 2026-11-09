@@ -1,5 +1,11 @@
 # Verification and reproduction
 
+`npm run test:build-contributions-package` qualifies the complete contribution
+phase through installed/browser consumers, deliberate faults and frozen original
+class/container and live-casting courses. Pass `-- --catalogue` to include the
+18,773-observation worn-equipment course. See [build contributions](build-contributions.md)
+for the preserved publication order and remaining durable context boundary.
+
 `npm run test:workshop-build-package` qualifies transactional private-build
 continuation through installed and browser consumers, types and eight deliberate
 faults. Its diagnostic grants exercise save ownership; they do not establish

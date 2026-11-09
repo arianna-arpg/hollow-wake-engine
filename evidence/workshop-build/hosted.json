@@ -1,0 +1,597 @@
+{
+  "passed": true,
+  "run": "42677428770",
+  "commit": "a4e49e42ad87b2775212b53da60683967aa4396d",
+  "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42677428770",
+  "qualified": [
+    {
+      "os": "windows-2025",
+      "job": 129362485810,
+      "reports": {
+        "preparation": {
+          "passed": true,
+          "contracts": 10,
+          "faults": [
+            {
+              "name": "cold-reopen",
+              "detected": true,
+              "logSha256": "7ea97514ec8c899916fe1aaa0493b4b17ec0b45c5befa3ba1f9b454171661187"
+            },
+            {
+              "name": "lose-chain",
+              "detected": true,
+              "logSha256": "c85ba2c2ad49c5e6e1a21577fffc62cbaaeb9e3c934cd1355108c00a19dd3387"
+            },
+            {
+              "name": "skip-siblings",
+              "detected": true,
+              "logSha256": "3e8af73c68d28cea4cfd865316a36469f2a7561737bf7312773436a065ff677a"
+            },
+            {
+              "name": "stale-account-context",
+              "detected": true,
+              "logSha256": "ba8afcae378a5434ff054f4c5d05953465ca98e9624dcd0a7b18777de889009b"
+            },
+            {
+              "name": "omit-writeback",
+              "detected": true,
+              "logSha256": "c3cf021e540568ae68a45fe584ccc07e2b78ea2c6d91c51680b3d0696197d6da"
+            },
+            {
+              "name": "publish-input-edits",
+              "detected": true,
+              "logSha256": "32c0056a60f4550c7b56ae31cdaa984fee3c1d0bc62a2ae30e92e15efafbddd8"
+            },
+            {
+              "name": "skip-normalized-admission",
+              "detected": true,
+              "logSha256": "ba7f58fedd220560fa3476c94f6afb10a91f919cfbad389a5e8f7e768e9f38c2"
+            },
+            {
+              "name": "reuse-source",
+              "detected": true,
+              "logSha256": "b24cecb5dec020ab73534fb1e0b94aa25ceb873d2889cedc51f5482250c0db67"
+            }
+          ],
+          "sources": {
+            "src/account-workshop-session.ts": "3d3170512f7c30413a4d4fee233b3231a7debf6cf6b5d933f61bbb78c94ea73c",
+            "src/workshop-build-preparation.ts": "266d349abcdfb50ef3e163545f80424d06a4b5f8bdbb6bbee5bc985d5b5e1857",
+            "src/equipment-skill-draft.ts": "d3587fe5d1d677df67ca96fb030f997d9c479a4aebcc482855510ab45e156402",
+            "src/equipment-skills.ts": "d904771a26d05c8cad34434ebb5ffdcd36e3fd84177815fdf86355b9b744ae63",
+            "test/workshop-build-preparation.test.mjs": "f7d7752cbb2c6e6f0eff39962c5a790ea2569492bf01b5c02b7218795c27e443",
+            "test/shared-account/fixtures.mjs": "669d72f8bda758bf73d2e8d63153b06204d8f622f748a31d22ff452769f90332",
+            "test/shared-account/contracts.mjs": "c444f9496bcc3c66d82c2b64d7874edc09aade05b8403a271ea3eb5262fe9efd",
+            "scripts/test-workshop-build-package.mjs": "87336e63fe12039be923680ca8fee339a1249914057028fb7270f7bd761f23e0",
+            "package.json": "93c17f71584d302ff2614c3d0a8b3e11366b28af31a81aac32023b45b5c3d30f",
+            "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702"
+          },
+          "archiveSha256": "96a90072d4407f953f6f0b073118f89a067886b426f02333d524233f6f48a772",
+          "contentSha256": "a1c8fee117923cac302005ecbd27cbcc6538b8cabae13894ac4c726661b43fa0",
+          "baselineSha256": "3cdfc2f7be472db7c8fd984c234d76f5f6930ef3766bcbdbd99bcaffc051add3",
+          "browserBytes": 169149,
+          "types": true,
+          "moduleBytes": {
+            "account-workshop-session": 25005,
+            "workshop-build-preparation": 2525
+          },
+          "restored": true,
+          "inputsUnchanged": true,
+          "logsSha256": "8f8badeba3495548051b477b1694fb29409ccda2c488f61db6625f2f305c36ad",
+          "cleaned": true
+        },
+        "account": {
+          "passed": true,
+          "contracts": 33,
+          "sourceScenarios": 10,
+          "sourceSteps": 30,
+          "faults": [
+            {
+              "name": "detached-lore",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "8d9266b104b4f1caa1bf6fd7d5e2779cc47568fa65719414cdf3e980f47f3665"
+            },
+            {
+              "name": "detached-ledger",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "46f73c2c5ba1d39eb74cd2d31918a199a7e79ee2a131f83d9b93609661c94a4b"
+            },
+            {
+              "name": "stale-feature",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "4479b4416fba9e8062d42240bdc2f852b0eb283c139b2468c3a6c9ab64543483"
+            },
+            {
+              "name": "ignore-sealed",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "f49ddcda35a792df4f8122d9edd6ffc38b2b2a8a343e8a80f68862f5b12bf4a3"
+            },
+            {
+              "name": "drop-key-check",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "add4f9dbec90598cbcbb1925245797f8c4691e897971d18bcf9b0c49d3c232f1"
+            },
+            {
+              "name": "drop-duplicate-key",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "22516df22a93c9e652dee351a6ecf299d55c1bbd782bf4ee2eec3c51a866af75"
+            },
+            {
+              "name": "allow-close-bound",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "8a28d00d3dcae7e88e5ab7f445b0fa77c9175b5c67457c1028d4a0490c13aeff"
+            },
+            {
+              "name": "lose-opaque-extra",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "dfa430bab6b82594fdc02e21e5aaa4047bb230efa21cbb884b5c921c4e20fb49"
+            },
+            {
+              "name": "drop-account-publication",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "d5612231ad1db102f706cb551a5c9631df8f06a2b16857828ddb9cfe606fbc85"
+            },
+            {
+              "name": "drop-inventory-publication",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "c1c9c2554fd5e58d40b4637281e13cbd6c0a588b2e8eb95bc0969a1aa5129907"
+            },
+            {
+              "name": "skip-bound-inventory-admission",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "6c348d0d4ba7ca84f81b9a0d5572de42bf4405fb232ebba17f71aacd2cc98ccf"
+            },
+            {
+              "name": "default-null-context",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "5ffcb4a17cce4467deccb72489ee007818532411c0a2a955748b103a502f3609"
+            },
+            {
+              "name": "erase-null-host-data",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "a024f0d212867486cf0fa25566a5133b87cdd93329b5852ac5a343bee7bf54de"
+            },
+            {
+              "name": "default-null-item-id",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "043617ac74752b6e47c3eff6476ef9157a10dd5142f494c8b0dcdf1077df0bcc"
+            },
+            {
+              "name": "premature-publication",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "119f3041655f8e86379cdbf6cd8d417876295133cdc7d9bd9c1093ad4624cd10"
+            },
+            {
+              "name": "lost-publication",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "d0fe046fce901b82b973a1b176d8cc08ed0027cf9e89ac554f11f08927ac740a"
+            },
+            {
+              "name": "abort-publishes",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "76a409bc8cda4fdcb70d5b7d4c03e8295183ddb07d270715cdc3f7e953946b4a"
+            },
+            {
+              "name": "stale-token",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "a08ee6e740bc5c2ab3fe5426f87b45017b5a21c9d0c8f93cab424acdfb308aca"
+            },
+            {
+              "name": "pending-edit",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "ff0c8ee93e9f25c0caeb92df07d12f8e532c06b499ab32fa5744bb65ab454d37"
+            },
+            {
+              "name": "excess-records",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "b0efad6a7df472b2a7550f005ab59ab2f45865a0124936cb553cc9d605426ddf"
+            },
+            {
+              "name": "failed-batch-publishes",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "07b6ffb1d6e8ddfddca345716b919de285e3911d65bfa0035692fc3bc2ee95cf"
+            },
+            {
+              "name": "committed-candidate",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "fa4b97a48d3a8b66a83c8764e97473c6a6394498e53702db8f05bdab3c645941"
+            },
+            {
+              "name": "borrowed-prepared-response",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "cd1329a890691edbfac2e523ef9929668b9805e245e8a660fab08a07d6fbdd6e"
+            },
+            {
+              "name": "equipment-early-view",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "08e52d4082839ecfdda13039fdee9b651859e459925f7c39042b06399927e6b8"
+            },
+            {
+              "name": "equipment-committed-candidate",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "165da13bfcbfe96f1e20e5c88cea2fe02a39cfc7d9bdf1fc292f7b2a52a24d30"
+            },
+            {
+              "name": "equipment-stale-token",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "c9ca85696b1da10f232d04babe6b692c2299a231e46b9a5d7d24443c96d71642"
+            }
+          ],
+          "sources": {
+            "src/account-workshop-session.ts": "3d3170512f7c30413a4d4fee233b3231a7debf6cf6b5d933f61bbb78c94ea73c",
+            "test/shared-account.test.mjs": "12c5944fe3cef514b1c4367a483af565052d9d55d0f28b11e4b4fa1d68b73106",
+            "test/shared-account/contracts.mjs": "c444f9496bcc3c66d82c2b64d7874edc09aade05b8403a271ea3eb5262fe9efd",
+            "test/shared-account-prepare.test.mjs": "eea393c7636612edc18aef64b7b97f96f18430ef13b8dfc78964b1e1bfad8663",
+            "test/shared-account/prepared-contracts.mjs": "519491b53cb9ebc57e639522294c2e1eeeb33eb243294ed152bf25175a137d95",
+            "test/shared-account/fixtures.mjs": "669d72f8bda758bf73d2e8d63153b06204d8f622f748a31d22ff452769f90332",
+            "scripts/test-account-workshops-package.mjs": "4d43ed6d0e7984b1791b83e6a1a7046537833982cb4b0c8596965c6a031605f8",
+            "package.json": "93c17f71584d302ff2614c3d0a8b3e11366b28af31a81aac32023b45b5c3d30f",
+            "baseline/shared-account/admitted-socket/acceptance.json": "a225dcc39f020f68f9b85c2f567f85f143f2bdde877f4475169614ef0ec3af2a"
+          },
+          "archiveSha256": "96a90072d4407f953f6f0b073118f89a067886b426f02333d524233f6f48a772",
+          "installed": {
+            "status": 0,
+            "assertion": false,
+            "logSha256": "54057415ba481a0f331b97c053265bdd0a3da6546af9f0b05704a50d68b2cbd8"
+          },
+          "browserBytes": 161230,
+          "browser": {
+            "status": 0,
+            "assertion": false,
+            "logSha256": "06bb94eefd41db09960a9ac1155fff3a587c3cc3e68f1c9c3d5b406682968089"
+          },
+          "types": {
+            "status": 0,
+            "assertion": false,
+            "logSha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "restored": {
+            "status": 0,
+            "assertion": false,
+            "logSha256": "c41bc0a86666fcb1dca9d76cd477b09e01b1acd8493ae551d45319bb2519367d"
+          },
+          "logsSha256": "05360c779616727bbff46fe1da3987b9f3ddd2059f0f8ed792874d32dfe4805f",
+          "cleaned": true
+        }
+      },
+      "artifactFiles": [
+        {
+          "file": "account-workshops-package-latest.json",
+          "sha256": "c031ccffc18b4ba78720e7be13477be9da1b199559ce11baa39695d4fc449b7b"
+        },
+        {
+          "file": "account-workshops-package-latest.json.logs.json.gz",
+          "sha256": "05360c779616727bbff46fe1da3987b9f3ddd2059f0f8ed792874d32dfe4805f"
+        },
+        {
+          "file": "workshop-build-package.json",
+          "sha256": "816aeab2948fc6e17583b57cbc5034b4f004086f3d96fd3c61be68274ce74f41"
+        },
+        {
+          "file": "workshop-build-package.logs.json.gz",
+          "sha256": "8f8badeba3495548051b477b1694fb29409ccda2c488f61db6625f2f305c36ad"
+        }
+      ]
+    },
+    {
+      "os": "ubuntu-24.04",
+      "job": 129362486632,
+      "reports": {
+        "preparation": {
+          "passed": true,
+          "contracts": 10,
+          "faults": [
+            {
+              "name": "cold-reopen",
+              "detected": true,
+              "logSha256": "0dc3e1c8893d19c0ec0068dd2a22dc85f529876bf3396962b28f5f9ac0d5b922"
+            },
+            {
+              "name": "lose-chain",
+              "detected": true,
+              "logSha256": "fe5cd414b73e15766dca3a97f785a3ec1a45d7e2ff8385411c13483ad5d8245c"
+            },
+            {
+              "name": "skip-siblings",
+              "detected": true,
+              "logSha256": "5b6a5d18aa46af577d23d07f10326e8fb22019ba2ad7c6fd3405ddbac1ff0cda"
+            },
+            {
+              "name": "stale-account-context",
+              "detected": true,
+              "logSha256": "6d72de10e3638472d06cba331f3423f2a0d4f8987bbf5ca27d86fe3a28347121"
+            },
+            {
+              "name": "omit-writeback",
+              "detected": true,
+              "logSha256": "346da0be266527460cfa95826bd1839823a3880f2a395e9f7d8435f2ba443abc"
+            },
+            {
+              "name": "publish-input-edits",
+              "detected": true,
+              "logSha256": "adb46122bf78686ac0da727d695e2c2e2859bd5369aae0f49096e0254b3abc66"
+            },
+            {
+              "name": "skip-normalized-admission",
+              "detected": true,
+              "logSha256": "bb0e1d248882b580a817d97e9694100747f66854e40305b896b7573b15b93f42"
+            },
+            {
+              "name": "reuse-source",
+              "detected": true,
+              "logSha256": "ded5e3b3c3060feb06a548e880ec5380fe742defe6db8bdf714fe1693fad3712"
+            }
+          ],
+          "sources": {
+            "src/account-workshop-session.ts": "3d3170512f7c30413a4d4fee233b3231a7debf6cf6b5d933f61bbb78c94ea73c",
+            "src/workshop-build-preparation.ts": "266d349abcdfb50ef3e163545f80424d06a4b5f8bdbb6bbee5bc985d5b5e1857",
+            "src/equipment-skill-draft.ts": "d3587fe5d1d677df67ca96fb030f997d9c479a4aebcc482855510ab45e156402",
+            "src/equipment-skills.ts": "d904771a26d05c8cad34434ebb5ffdcd36e3fd84177815fdf86355b9b744ae63",
+            "test/workshop-build-preparation.test.mjs": "f7d7752cbb2c6e6f0eff39962c5a790ea2569492bf01b5c02b7218795c27e443",
+            "test/shared-account/fixtures.mjs": "669d72f8bda758bf73d2e8d63153b06204d8f622f748a31d22ff452769f90332",
+            "test/shared-account/contracts.mjs": "c444f9496bcc3c66d82c2b64d7874edc09aade05b8403a271ea3eb5262fe9efd",
+            "scripts/test-workshop-build-package.mjs": "87336e63fe12039be923680ca8fee339a1249914057028fb7270f7bd761f23e0",
+            "package.json": "93c17f71584d302ff2614c3d0a8b3e11366b28af31a81aac32023b45b5c3d30f",
+            "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702"
+          },
+          "archiveSha256": "96a90072d4407f953f6f0b073118f89a067886b426f02333d524233f6f48a772",
+          "contentSha256": "a1c8fee117923cac302005ecbd27cbcc6538b8cabae13894ac4c726661b43fa0",
+          "baselineSha256": "3cdfc2f7be472db7c8fd984c234d76f5f6930ef3766bcbdbd99bcaffc051add3",
+          "browserBytes": 169149,
+          "types": true,
+          "moduleBytes": {
+            "account-workshop-session": 25005,
+            "workshop-build-preparation": 2525
+          },
+          "restored": true,
+          "inputsUnchanged": true,
+          "logsSha256": "8213f87ff005ef4edffc694fb944c0de547b08cdd149a90ff929ffa6054d0536",
+          "cleaned": true
+        },
+        "account": {
+          "passed": true,
+          "contracts": 33,
+          "sourceScenarios": 10,
+          "sourceSteps": 30,
+          "faults": [
+            {
+              "name": "detached-lore",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "f44ec03a0ec06c15cddf7b3d0e4f6cca4d6f5d2422af8003d6bd80979f182dc7"
+            },
+            {
+              "name": "detached-ledger",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "2da0d43bb53b0ffbe2e94e0bd8dbb4feb7014e4b94f990e48bcf64a8eaadaafe"
+            },
+            {
+              "name": "stale-feature",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "4156fcae3a387083150207ec0486fa9973a75de0a4c1fe92b42cfd9bc008415a"
+            },
+            {
+              "name": "ignore-sealed",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "f189a5f15e1afc95873ae30ac8f10a7a5b90142ec15a3a01f8b0e657d00d8c52"
+            },
+            {
+              "name": "drop-key-check",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "0842852f122998ab948a3517c0430d8ca8b80450148fbe1d600c56c04f107a2e"
+            },
+            {
+              "name": "drop-duplicate-key",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "064de379ca6d88cebc19251f6e0afe46ecd83aa0cf12d47b16cbd7d3e6c95068"
+            },
+            {
+              "name": "allow-close-bound",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "1dca62872b3c435c71ab36e263547e4bb36ebbdc7726e33a36e1ac8f1230f68a"
+            },
+            {
+              "name": "lose-opaque-extra",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "63bfac696067208aa18effe12cd1ab4a491f29c4a5e93c564c9253e9f52f0bb6"
+            },
+            {
+              "name": "drop-account-publication",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "c9d572710100fc6905cd7d576992391d8eee89702a462ee5d98a694e99692b72"
+            },
+            {
+              "name": "drop-inventory-publication",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "a64011443749f08a1366f7bf6bff822a6b6385f3e48741cc1b6feb3e92ffe256"
+            },
+            {
+              "name": "skip-bound-inventory-admission",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "a2ffb873e57a9e09bc1c07c2ee90feea6cb3d13cd7d570286d0bfe9b3d4371b8"
+            },
+            {
+              "name": "default-null-context",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "948801b0e25bbbc5a23ced1a17fdd3aa07f94541b7b40e43a3b329f9e9e65a04"
+            },
+            {
+              "name": "erase-null-host-data",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "dc8e6293798fd4db4ad4f17c3d4d3d4bac205e1ebec4c6456d2cf23103d2cc07"
+            },
+            {
+              "name": "default-null-item-id",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "d21f21f98496b4bba901ef701c0cbdb397d6839ce7f67e01b7c9bc2cfba57cf7"
+            },
+            {
+              "name": "premature-publication",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "586b4c8503f5fbaca8aa9fee960ccd6c6a37223d2f086193c150e211a2beab77"
+            },
+            {
+              "name": "lost-publication",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "52f17125780acffaaeac2cededd641ca4608d9fa4d812ec538ecbf32aea7319b"
+            },
+            {
+              "name": "abort-publishes",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "6f40d80175f2e94527f0a1281f92928152b7d1814fd6dd281d892fb658579b79"
+            },
+            {
+              "name": "stale-token",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "4d7fa978599a47d11279f8b5ba8c970745bbb5745223ef376dd1a1a8049dcd5b"
+            },
+            {
+              "name": "pending-edit",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "86de0143e2c52638ce0456d61b1ce0c466138c47a9bc02609d832123293b9b07"
+            },
+            {
+              "name": "excess-records",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "077d4331def7012a5bc854c6c807393a2f2d8a0286af634270886779ed9f73a9"
+            },
+            {
+              "name": "failed-batch-publishes",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "b8ea6032dcf1a011c7b45c17ac0023be604a2ed16c84c4fbe54129530c113d8d"
+            },
+            {
+              "name": "committed-candidate",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "16d5b938fd36f7cf3ad354ad6daca28f9c73f8d2a7c87f2f93d67a168d8e65b3"
+            },
+            {
+              "name": "borrowed-prepared-response",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "1f863f5796509182831b4ae6768674305ac442de2371c1bd42fc654a9cfe04b2"
+            },
+            {
+              "name": "equipment-early-view",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "37a1d0e7c9132976ebf954e5200d77d6e9c7941800296e7df3748e8dd7d6a3da"
+            },
+            {
+              "name": "equipment-committed-candidate",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "81e9969d4d7e62b3c38840d94dbb1d493ed05f5a918e046b7b4d5e50f6762318"
+            },
+            {
+              "name": "equipment-stale-token",
+              "status": 1,
+              "assertion": true,
+              "logSha256": "45a3236ee0766a542e7e9028ba6a12592b714fc820277f0c2c9bc335d4d6e912"
+            }
+          ],
+          "sources": {
+            "src/account-workshop-session.ts": "3d3170512f7c30413a4d4fee233b3231a7debf6cf6b5d933f61bbb78c94ea73c",
+            "test/shared-account.test.mjs": "12c5944fe3cef514b1c4367a483af565052d9d55d0f28b11e4b4fa1d68b73106",
+            "test/shared-account/contracts.mjs": "c444f9496bcc3c66d82c2b64d7874edc09aade05b8403a271ea3eb5262fe9efd",
+            "test/shared-account-prepare.test.mjs": "eea393c7636612edc18aef64b7b97f96f18430ef13b8dfc78964b1e1bfad8663",
+            "test/shared-account/prepared-contracts.mjs": "519491b53cb9ebc57e639522294c2e1eeeb33eb243294ed152bf25175a137d95",
+            "test/shared-account/fixtures.mjs": "669d72f8bda758bf73d2e8d63153b06204d8f622f748a31d22ff452769f90332",
+            "scripts/test-account-workshops-package.mjs": "4d43ed6d0e7984b1791b83e6a1a7046537833982cb4b0c8596965c6a031605f8",
+            "package.json": "93c17f71584d302ff2614c3d0a8b3e11366b28af31a81aac32023b45b5c3d30f",
+            "baseline/shared-account/admitted-socket/acceptance.json": "a225dcc39f020f68f9b85c2f567f85f143f2bdde877f4475169614ef0ec3af2a"
+          },
+          "archiveSha256": "96a90072d4407f953f6f0b073118f89a067886b426f02333d524233f6f48a772",
+          "installed": {
+            "status": 0,
+            "assertion": false,
+            "logSha256": "5986d8d5b8dd0f05e73cf1a45e53993b54b3c2eda70f73de447872fa69a0e6fa"
+          },
+          "browserBytes": 161230,
+          "browser": {
+            "status": 0,
+            "assertion": false,
+            "logSha256": "f88d3f2b2749fb92177c051da68f7e6e86c660d1339a8394c2ff2068b27ac209"
+          },
+          "types": {
+            "status": 0,
+            "assertion": false,
+            "logSha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "restored": {
+            "status": 0,
+            "assertion": false,
+            "logSha256": "5d99746cebbca1fa912a7380cc995032be8b5880f66eb954ca58a9d7d49d1a8c"
+          },
+          "logsSha256": "dbb964c824a19e0c24fcbc1e775b7745e1442ffce14225c1e3ac0df76e3cc974",
+          "cleaned": true
+        }
+      },
+      "artifactFiles": [
+        {
+          "file": "account-workshops-package-latest.json",
+          "sha256": "777b30932bae21ff157b3a880cec4405383460e01d9db7911eeb430bc5038e93"
+        },
+        {
+          "file": "account-workshops-package-latest.json.logs.json.gz",
+          "sha256": "dbb964c824a19e0c24fcbc1e775b7745e1442ffce14225c1e3ac0df76e3cc974"
+        },
+        {
+          "file": "workshop-build-package.json",
+          "sha256": "84ea12457dcfa42581bacddfa4d0c14ad094778103ebaf64a6161f6677abd81a"
+        },
+        {
+          "file": "workshop-build-package.logs.json.gz",
+          "sha256": "8213f87ff005ef4edffc694fb944c0de547b08cdd149a90ff929ffa6054d0536"
+        }
+      ]
+    }
+  ],
+  "cleaned": true
+}

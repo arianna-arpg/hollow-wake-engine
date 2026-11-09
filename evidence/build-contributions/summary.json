@@ -1,0 +1,92 @@
+{
+  "passed": true,
+  "goalComplete": false,
+  "baseCommit": "a4e49e42ad87b2775212b53da60683967aa4396d",
+  "node": "v24.9.0",
+  "platform": "win32",
+  "arch": "x64",
+  "verification": {
+    "command": "npm run verify",
+    "exitCode": 0,
+    "commands": 109,
+    "unitTests": 1745
+  },
+  "reference": {
+    "command": "npm run reference:verify",
+    "exitCode": 0,
+    "verificationOnlyCorrections": [
+      "scripts/test-package.mjs",
+      "scripts/test-build-contributions-package.mjs"
+    ]
+  },
+  "contribution": {
+    "contracts": 10,
+    "faults": 10,
+    "installedGameFaults": 3,
+    "privateBuilds": 127,
+    "classes": 39,
+    "courses": [
+      {
+        "name": "build-contributions",
+        "cases": 91,
+        "sha256": "6b8797859f541b54826e04ca366b56506357e1b6cbb66cf6b56466a23010ef6e"
+      },
+      {
+        "name": "equipment-live",
+        "cases": 47,
+        "sha256": "c488e7ec7bc389a308ca15fa5a4fdba883ac194913b70c902936667d02bedc83"
+      },
+      {
+        "name": "equipment-catalogue",
+        "cases": 18773,
+        "sha256": "12a0f4dabd7297650a11ada95bbe6b0442466a29afe761c260ff0fc07f0235bc"
+      }
+    ],
+    "moduleBytes": 3296,
+    "browserBytes": 21632
+  },
+  "sources": {
+    ".github/workflows/equipment-skills.yml": "1f3c9af83f37c3bf99b4e043d167d7b25a77f18c8daa1f7deff0f54e2e8ad341",
+    "docs/boundary-contract.md": "3c806a0ab126d541f0abc822cf3f6d266c4123547bd0676b5ac9c7d305b011e5",
+    "docs/completion.json": "77fa7ccdf5925864d919865288a26972415cdbd7e37ca0f109cf29d4c1fd1780",
+    "docs/verification.md": "0e02a11ab06b64aba7fadded5bef651a86663705ac6ab6204f1238bba8c5f186",
+    "evidence/workshop-build/README.md": "e79e4e13dd0cc51aaf5754f77cb279e7c991f1a6cb42b983b6cddda0315e8577",
+    "package.json": "f21745678f6354b8b4dbb90413120dd404a0e72221a9464a890499bf7baa24b9",
+    "scripts/check-boundaries.mjs": "5eab7dc49e829f1c9285f788c95c36b1772bbe62d3a0669c0f88611f91564e4e",
+    "scripts/test-package.mjs": "34baee67ff6245f226e1e924674e4b7a5db74ce63bc32bdc025cfc347e4110a3",
+    "adapters/hollow-wake/integrate-build-contributions.mjs": "df98614fcd88335fd933dea32fdb1d5c3efe3d4547bc4ecf571b22aab586f491",
+    "baseline/build-contributions/acceptance.json": "3fd3fc49dac5cc892838530971d6b6df29cf06e7906af693161d4350f242fadf",
+    "baseline/build-contributions/observations.json.gz": "16bf72fedcab8ae6f367683291c2e143dd12f9867011376523c2f4d281eaa750",
+    "docs/build-contributions.md": "642645a52c08ad6990f69a1ca10e3cce05d809a33b1f2bcc5df58dcd9b1a7a89",
+    "evidence/workshop-build/hosted.json": "f5160845d86adca67331334883c8036a8a826157508f6b20d2a369cae67e3254",
+    "reference/export-build-contributions.ts": "cb250effce34a3b74b503f2ec484cb9922f7e19e225515e52ac1b5b6e6b259cf",
+    "scripts/reference-build-contributions.mjs": "c32f2127fa4ff0defe8f338eb5076351782be5ac96a4e13cc429cefb9663e021",
+    "scripts/test-build-contributions-package.mjs": "91181b7b79c4c5bf3f40c9842d8b8e08281941023fa1a7090595c6fd31cc97db",
+    "src/build-contributions.ts": "d7b75a9603324062ccaa1260ced913f2b749f64031f66948f98838fe61cf13a0",
+    "test/build-contributions-game.ts": "a0d05efe892edc73c791df22a6af2183b3f28e106ee43796be8736d91c6f7539",
+    "test/build-contributions.test.mjs": "06b7509482ffa031bed56c711283f9d9373742b2985c2717e1d4a4fbeb7aca30"
+  },
+  "files": {
+    "verification.json": "3cea719b28e79c157b77cdf57c97c5dcb1f7e48c0d1804d22152afd7cc7ffbc2",
+    "verification.log.gz": "5f9987717c3d8c232bf8f47c6efacf6afa543a2b5c423592376a46f188874820",
+    "reference.json": "78ba027ce42f7b88ffdc746a8e55d621bb267c6f426629676e970e3827cebda0",
+    "reference.log.gz": "1e9d7eb4f112ec1c6c9f666e1665fdfe4eba4d4130e953a117d7527d7f180d87",
+    "reference-verification-corrections.json": "fa2d35b26b562ffe06f6c51f1d8aef240977de5856be592b09a09bedf709b42f",
+    "qualification.json": "0bceade22a2c75989aff6a560cc3b0dfe65949cf4cd0dbf9827383edccde3276",
+    "qualification.logs.json.gz": "63ef051918a101615d35dddbc9c3aaafbb032c672d29d9164e11b2965a11ca22",
+    "catalogue.json": "08d6b21e106a60f55faa892ffdd5a77a95fbbd74840ccb5c5ec1705044077766",
+    "catalogue.logs.json.gz": "28890fe817bd2c25f0b9d9f73a6c64ae292e8b02ad7f46bca35f6f9b97e71f5c",
+    "package-budgets.json": "4f53087264f2d7e44f6ba7bfa9a95200b315e4cc3717e47a904e78146080fe71",
+    "cleanup.json": "8eb7c9ebce0131eb58cf9e1e9811a2d808a2794fbfed2455f22417e4347f3aaa"
+  },
+  "footprint": {
+    "newWorktrees": 0,
+    "removedWorkspaceFolders": 78,
+    "remainingCreatedLargeFolders": []
+  },
+  "limits": [
+    "Build contributions are extracted; durable full-character context admission and provider composition remain open.",
+    "Granted bar authority, shared preferences and acknowledgement-time live publication remain open.",
+    "No new native package admission, timing, allocation or physical-device qualification."
+  ]
+}

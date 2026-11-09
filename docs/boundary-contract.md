@@ -1,5 +1,10 @@
 # Boundary contract
 
+The optional [character contribution rebuild](build-contributions.md) composes
+passive, gear and active container sources in the original order and supplies
+complete item-host rows to skill derivation. Durable full-character admission
+and acknowledgement-time live publication remain separate integration work.
+
 The optional [workshop build preparation](workshop-build-preparation.md) connects
 private build continuations and normalized item investment to account/workshop
 transactions. Full authored-context construction and live actor publication are

@@ -1,0 +1,124 @@
+{
+  "passed": true,
+  "contracts": 10,
+  "faults": [
+    {
+      "name": "skip-class",
+      "detected": true,
+      "logSha256": "508f517181e7bf03f6a0cb01fee9f6bf1561906e090e31f4c6b3198d6ad94626"
+    },
+    {
+      "name": "lose-conduits",
+      "detected": true,
+      "logSha256": "9b3065f627942f104318189cf56cc5c38a70641e83dfcd47b1b7413de016016a"
+    },
+    {
+      "name": "ignore-enable",
+      "detected": true,
+      "logSha256": "991c1336e8a66bc02354363bcd562927cac91196e41bc767186d36f0087f239e"
+    },
+    {
+      "name": "ignore-suppression",
+      "detected": true,
+      "logSha256": "3b96b6fb95f9f2ee8a4a08bc1e5900e78f93474e74da2ea9fa46f580f707b56c"
+    },
+    {
+      "name": "include-misfits",
+      "detected": true,
+      "logSha256": "bd5a0d304828ab677a244c8f0c9f993d862e4caabdb2a2944cea101e9d5abd6c"
+    },
+    {
+      "name": "lose-neighbourhood",
+      "detected": true,
+      "logSha256": "36d08ddfdec25ea1aa383ac7c9c6c8ec859f4d811378731ee72c0187894afea4"
+    },
+    {
+      "name": "zero-means-one",
+      "detected": true,
+      "logSha256": "a1b1a866e374ed879901d572c67caaad63d21554818552b38b6e398f686ffc74"
+    },
+    {
+      "name": "lose-host-identity",
+      "detected": true,
+      "logSha256": "e05e996021344f3e5b740fc2ac09222e68b09a16b103f90a4dca5483128b01aa"
+    },
+    {
+      "name": "stale-gear",
+      "detected": true,
+      "logSha256": "246be236e671fa086888eb7b5b93303bde9ff3b2c6343bc6b49adfb34227d0f0"
+    },
+    {
+      "name": "reverse-order",
+      "detected": true,
+      "logSha256": "76670b3a731bcb13689149bf68d4507ae6a27ffa0cdf2f558e20a2c7e11e2490"
+    }
+  ],
+  "game": {
+    "courses": [
+      {
+        "name": "build-contributions",
+        "cases": 91,
+        "sha256": "6b8797859f541b54826e04ca366b56506357e1b6cbb66cf6b56466a23010ef6e"
+      },
+      {
+        "name": "equipment-live",
+        "cases": 47,
+        "sha256": "c488e7ec7bc389a308ca15fa5a4fdba883ac194913b70c902936667d02bedc83"
+      }
+    ],
+    "faults": [
+      {
+        "name": "skip-class",
+        "detected": true
+      },
+      {
+        "name": "include-misfits",
+        "detected": true
+      },
+      {
+        "name": "lose-neighbourhood",
+        "detected": true
+      }
+    ],
+    "privateBuilds": {
+      "build-contributions": {
+        "prepared": 91,
+        "unchanged": 91,
+        "matched": 91
+      },
+      "equipment-live": {
+        "prepared": 36,
+        "unchanged": 36,
+        "matched": 36
+      }
+    },
+    "restored": true
+  },
+  "sources": {
+    "src/build-contributions.ts": "d7b75a9603324062ccaa1260ced913f2b749f64031f66948f98838fe61cf13a0",
+    "src/passive-grants.ts": "036641e676ceefacd08bd7a0161063462ea334a90064dcbd7601ed74811bbb89",
+    "src/equipment-skills.ts": "d904771a26d05c8cad34434ebb5ffdcd36e3fd84177815fdf86355b9b744ae63",
+    "test/build-contributions.test.mjs": "06b7509482ffa031bed56c711283f9d9373742b2985c2717e1d4a4fbeb7aca30",
+    "test/build-contributions-game.ts": "a0d05efe892edc73c791df22a6af2183b3f28e106ee43796be8736d91c6f7539",
+    "scripts/test-build-contributions-package.mjs": "91181b7b79c4c5bf3f40c9842d8b8e08281941023fa1a7090595c6fd31cc97db",
+    "adapters/hollow-wake/integrate-build-contributions.mjs": "df98614fcd88335fd933dea32fdb1d5c3efe3d4547bc4ecf571b22aab586f491",
+    "adapters/hollow-wake/integrate-equipment-skills.mjs": "d185eb1513f8c9a098f37d7f10d8a16643bbc5368934c4b2dfaba94c4da6229e",
+    "adapters/hollow-wake/integrate-passive-grants.mjs": "bf147fb066fe9e2aaf9b9dea6e6fdc528a008d7bbeb899e39ec1e4ad1e9f9189",
+    "adapters/hollow-wake/passiveGrantAdapter.ts": "c82172a70301298781f1f537ae11a2e48ec2fcb18c81aed2ff73d6af322cd571",
+    "reference/export-build-contributions.ts": "cb250effce34a3b74b503f2ec484cb9922f7e19e225515e52ac1b5b6e6b259cf",
+    "baseline/build-contributions/acceptance.json": "3fd3fc49dac5cc892838530971d6b6df29cf06e7906af693161d4350f242fadf",
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "package.json": "f21745678f6354b8b4dbb90413120dd404a0e72221a9464a890499bf7baa24b9",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    "reference/export-equipment-live.ts": "d5ca10c043c43f044198ad0207e5206f568325d62462b10eae83e2cb1d2afe44"
+  },
+  "archiveSha256": "85c3412595efa3d042fb8f06cf1936262f8632026651847b03166715fdb96419",
+  "browserBytes": 21632,
+  "types": true,
+  "moduleBytes": 3296,
+  "restored": true,
+  "adapterGuards": 3,
+  "inputsUnchanged": true,
+  "logsSha256": "63ef051918a101615d35dddbc9c3aaafbb032c672d29d9164e11b2965a11ca22",
+  "cleaned": true
+}

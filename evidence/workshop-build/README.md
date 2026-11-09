@@ -22,6 +22,14 @@ authored-game parity. [qualification.json](qualification.json) contains the
 source hashes and fault results. The separate existing account course retains
 all 33 contracts and 26 detected faults in [account-regression.json](account-regression.json).
 
+Hosted Windows 2025 and Ubuntu 24.04 independently passed both packed courses at
+commit `a4e49e42ad87b2775212b53da60683967aa4396d`.
+[hosted.json](hosted.json) records the downloaded reports, source and log hashes,
+all eight preparation faults and all 26 account faults. Both artifact downloads
+were removed after checking. The corresponding
+[GitHub run](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42677428770)
+completed successfully; this hosted result has the same scope as the local courses.
+
 Native compatibility separately preserves all 579 frozen predecessor replies
 and the 32-step skill-book course. The 32/48 MiB single-loop configurations and
 32 MiB startup-collection configurations, including ten loops, all pass and

@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "referenceCommand": "npm run reference:verify",
+  "exitCode": 0,
+  "explanation": "After the passing original-game run, only these two verification scripts changed: account separately for the optional module and typecheck the game before materializing the frozen catalogue observer. Runtime, reference observers, source lock and reference command remain byte-identical. Full verify and catalogue qualification use the final scripts.",
+  "changes": [
+    {
+      "file": "scripts/test-package.mjs",
+      "referenceSha256": "052cd16e853199a676ddee50f47c408e9ce161211383d1b2c32a6dffacf64d03",
+      "finalSha256": "34baee67ff6245f226e1e924674e4b7a5db74ce63bc32bdc025cfc347e4110a3",
+      "finalToReference": [
+        [
+          "jsBytes-buildContributionsFile.size-workshopBuildFile.size",
+          "jsBytes-workshopBuildFile.size"
+        ],
+        [
+          "  buildContributionsJsBytes:buildContributionsFile.size,\n",
+          ""
+        ]
+      ]
+    },
+    {
+      "file": "scripts/test-build-contributions-package.mjs",
+      "referenceSha256": "a8b9046f9a005f29a5d679842f4ddfc2cd0a2be169b57306eb6717a888ca7764",
+      "finalSha256": "91181b7b79c4c5bf3f40c9842d8b8e08281941023fa1a7090595c6fd31cc97db",
+      "finalToReference": [
+        [
+          "  if(name!=='equipment-catalogue'){\n   const text=source.toString();",
+          "  if(name==='equipment-catalogue')fs.writeFileSync(probe,source);\n  else {\n   const text=source.toString();"
+        ],
+        [
+          " // The immutable older catalogue observer deliberately calls private World\n // methods. Typecheck the installed game and new observers before adding it;\n // execute its exact accepted bytes through the original transpilation path.\n if(catalogue){const row=courseFiles.get('equipment-catalogue');fs.copyFileSync(path.join(root,row.manifest.source),row.probe);}\n",
+          ""
+        ]
+      ]
+    }
+  ]
+}

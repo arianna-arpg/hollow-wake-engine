@@ -1,0 +1,130 @@
+{
+  "passed": true,
+  "contracts": 10,
+  "faults": [
+    {
+      "name": "skip-class",
+      "detected": true,
+      "logSha256": "df926e5a342307581a94c46fdb89855978693241cd185dee57f51b54100c1390"
+    },
+    {
+      "name": "lose-conduits",
+      "detected": true,
+      "logSha256": "1da2b85551aad2828db3d2e48fa243a67eb97f667176829583f5cc098b2d80be"
+    },
+    {
+      "name": "ignore-enable",
+      "detected": true,
+      "logSha256": "0d37d3e7c28463051681622842208a02b1e79e3038c57b484195208728968628"
+    },
+    {
+      "name": "ignore-suppression",
+      "detected": true,
+      "logSha256": "1b06044ced0737b6408d1ddc070c09b3bd58da795e49821bf875c3682ac6a6c3"
+    },
+    {
+      "name": "include-misfits",
+      "detected": true,
+      "logSha256": "5fcbece3ee49029fdfef680cc8fdf3fdfefcf602e41b9e92f8cc4f85971766fc"
+    },
+    {
+      "name": "lose-neighbourhood",
+      "detected": true,
+      "logSha256": "be473094e5e43bd3930b5f68c2c0aa34a905c8e8cd060f3f2fe8fe15c85bb0d7"
+    },
+    {
+      "name": "zero-means-one",
+      "detected": true,
+      "logSha256": "5eb2df76ecdd98dbc80590bd15812cae0f817cb8299167b444cecae2b100f38f"
+    },
+    {
+      "name": "lose-host-identity",
+      "detected": true,
+      "logSha256": "c38098aa9ed41e87d2c803472f0e74296b5c1708e693a7ef60300d5e0ff57e92"
+    },
+    {
+      "name": "stale-gear",
+      "detected": true,
+      "logSha256": "883ed423bb7cb20655f2aa55e5abf21a1acf97c228f084afe0684178e312a287"
+    },
+    {
+      "name": "reverse-order",
+      "detected": true,
+      "logSha256": "adb7672efb2037fb4ecc6c08f4264de942997fc9117dc09c7bea125768a0455a"
+    }
+  ],
+  "game": {
+    "courses": [
+      {
+        "name": "build-contributions",
+        "cases": 91,
+        "sha256": "6b8797859f541b54826e04ca366b56506357e1b6cbb66cf6b56466a23010ef6e"
+      },
+      {
+        "name": "equipment-live",
+        "cases": 47,
+        "sha256": "c488e7ec7bc389a308ca15fa5a4fdba883ac194913b70c902936667d02bedc83"
+      },
+      {
+        "name": "equipment-catalogue",
+        "cases": 18773,
+        "sha256": "12a0f4dabd7297650a11ada95bbe6b0442466a29afe761c260ff0fc07f0235bc"
+      }
+    ],
+    "faults": [
+      {
+        "name": "skip-class",
+        "detected": true
+      },
+      {
+        "name": "include-misfits",
+        "detected": true
+      },
+      {
+        "name": "lose-neighbourhood",
+        "detected": true
+      }
+    ],
+    "privateBuilds": {
+      "build-contributions": {
+        "prepared": 91,
+        "unchanged": 91,
+        "matched": 91
+      },
+      "equipment-live": {
+        "prepared": 36,
+        "unchanged": 36,
+        "matched": 36
+      }
+    },
+    "restored": true
+  },
+  "sources": {
+    "src/build-contributions.ts": "d7b75a9603324062ccaa1260ced913f2b749f64031f66948f98838fe61cf13a0",
+    "src/passive-grants.ts": "036641e676ceefacd08bd7a0161063462ea334a90064dcbd7601ed74811bbb89",
+    "src/equipment-skills.ts": "d904771a26d05c8cad34434ebb5ffdcd36e3fd84177815fdf86355b9b744ae63",
+    "test/build-contributions.test.mjs": "06b7509482ffa031bed56c711283f9d9373742b2985c2717e1d4a4fbeb7aca30",
+    "test/build-contributions-game.ts": "a0d05efe892edc73c791df22a6af2183b3f28e106ee43796be8736d91c6f7539",
+    "scripts/test-build-contributions-package.mjs": "91181b7b79c4c5bf3f40c9842d8b8e08281941023fa1a7090595c6fd31cc97db",
+    "adapters/hollow-wake/integrate-build-contributions.mjs": "df98614fcd88335fd933dea32fdb1d5c3efe3d4547bc4ecf571b22aab586f491",
+    "adapters/hollow-wake/integrate-equipment-skills.mjs": "d185eb1513f8c9a098f37d7f10d8a16643bbc5368934c4b2dfaba94c4da6229e",
+    "adapters/hollow-wake/integrate-passive-grants.mjs": "bf147fb066fe9e2aaf9b9dea6e6fdc528a008d7bbeb899e39ec1e4ad1e9f9189",
+    "adapters/hollow-wake/passiveGrantAdapter.ts": "c82172a70301298781f1f537ae11a2e48ec2fcb18c81aed2ff73d6af322cd571",
+    "reference/export-build-contributions.ts": "cb250effce34a3b74b503f2ec484cb9922f7e19e225515e52ac1b5b6e6b259cf",
+    "baseline/build-contributions/acceptance.json": "3fd3fc49dac5cc892838530971d6b6df29cf06e7906af693161d4350f242fadf",
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "package.json": "f21745678f6354b8b4dbb90413120dd404a0e72221a9464a890499bf7baa24b9",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    "reference/export-equipment-live.ts": "d5ca10c043c43f044198ad0207e5206f568325d62462b10eae83e2cb1d2afe44",
+    "reference/export-equipment-catalogue.ts": "ac8d72039334393d347e4373c82154df5e7b54957b16d4885ec76344a563875c"
+  },
+  "archiveSha256": "85c3412595efa3d042fb8f06cf1936262f8632026651847b03166715fdb96419",
+  "browserBytes": 21632,
+  "types": true,
+  "moduleBytes": 3296,
+  "restored": true,
+  "adapterGuards": 3,
+  "inputsUnchanged": true,
+  "logsSha256": "28890fe817bd2c25f0b9d9f73a6c64ae292e8b02ad7f46bca35f6f9b97e71f5c",
+  "cleaned": true
+}

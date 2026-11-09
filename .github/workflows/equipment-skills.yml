@@ -5,10 +5,16 @@ on:
       - '.github/workflows/equipment-skills.yml'
       - 'src/equipment-skills.ts'
       - 'src/equipment-skill-draft.ts'
+      - 'src/build-contributions.ts'
       - 'src/skill-bar.ts'
       - 'src/passive-grants.ts'
       - 'test/equipment-skills.test.mjs'
       - 'test/equipment-skill-draft*'
+      - 'test/build-contributions*'
+      - 'scripts/test-build-contributions-package.mjs'
+      - 'scripts/reference-build-contributions.mjs'
+      - 'reference/export-build-contributions.ts'
+      - 'baseline/build-contributions/**'
       - 'scripts/test-equipment-skill-draft-package.mjs'
       - 'test/skill-bar.test.mjs'
       - 'adapters/hollow-wake/**'
@@ -65,6 +71,10 @@ jobs:
       - run: npm run reference:install
       - name: Verify private equipment preparation in installed and browser consumers
         run: npm run test:equipment-skill-draft-package
+      - name: Verify full contribution rebuilding and worn catalogue through the installed SDK
+        run: npm run test:build-contributions-package -- --catalogue
+      - name: Replay original class and container contributions in two fresh processes
+        run: npm run reference:build-contributions
       - run: node scripts/test-overlay-scratch.mjs
       - run: node scripts/test-equipment-skills-overlay.mjs
       - run: node scripts/test-skill-bar-overlay.mjs
@@ -100,3 +110,6 @@ jobs:
             .artifacts/equipment-skills-composed.logs.json.gz
             .artifacts/equipment-draft-package.json
             .artifacts/equipment-draft-package.logs.json.gz
+            .artifacts/build-contributions-reference-*.json
+            .artifacts/build-contributions-package-catalogue.json
+            .artifacts/build-contributions-package-catalogue.logs.json.gz
