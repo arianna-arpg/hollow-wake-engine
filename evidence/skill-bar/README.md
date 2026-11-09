@@ -50,6 +50,8 @@ source capsules, dependencies and unfinished work remain available.
 
 Native learned-book/bar/grant ownership and private candidate publication remain
 the next integration boundary. This milestone does not expand native equipment
-admission or qualify physical Steam Deck/mobile performance. Hosted Windows/Linux
-qualification is recorded separately after the exact published run and downloaded
-evidence have been checked.
+admission or qualify physical Steam Deck/mobile performance. The exact published
+commit passed both Windows 2025 and Ubuntu 24.04 in
+[run 42569986309](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42569986309).
+[Hosted evidence](hosted.json) records independent checks of the downloaded
+reports and logs; [public readback](public-readback.json) verifies published bytes.

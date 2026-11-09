@@ -1,0 +1,78 @@
+{
+  "passed": false,
+  "contracts": 11,
+  "faults": [
+    {
+      "name": "lost-off-bar",
+      "status": 1,
+      "assertion": true,
+      "logSha256": "a40d28daca0915961f9dfeb8fd4c20e1a2045c763624b89590c53bb8b49a60f6"
+    },
+    {
+      "name": "lost-binding",
+      "status": 1,
+      "assertion": true,
+      "logSha256": "24c895b9ffd5d3182af700b23f8ccab76606f541cf6eae1fead094191422d78c"
+    },
+    {
+      "name": "unresolved-binding",
+      "status": 1,
+      "assertion": true,
+      "logSha256": "0fba5b7ca3427d9dd08b582297bc4b91beff631049735553d757e2f17efefdd6"
+    },
+    {
+      "name": "duplicate-binding",
+      "status": 1,
+      "assertion": true,
+      "logSha256": "971d9781f58ccd28b31625a089c7eb32d0f3a08f6f177711ccd8f9db1b9ff583"
+    },
+    {
+      "name": "dual-authority",
+      "status": 1,
+      "assertion": true,
+      "logSha256": "b8d231321e4082f98c8c27621e935964286a77542ffd0e9ba621d5d1c8de9872"
+    },
+    {
+      "name": "lost-off-bar-supports",
+      "status": 1,
+      "assertion": true,
+      "logSha256": "1b414c4820b9a07688ec5fef067efe59bde47d7b9238b09a793d3245127c49de"
+    }
+  ],
+  "sources": {
+    "scripts/test-workshop-skill-book-package.mjs": "4dd094a91b1c97bc6988f6c273bfd99bcc24ac9242962894c431f06554f4d7f8",
+    "test/workshop-skill-book.test.mjs": "caaf643e48dc1d974c71d00d010b0b554a3a389d6545810ec92e8d40d6342053",
+    "test/shared-account/fixtures.mjs": "669d72f8bda758bf73d2e8d63153b06204d8f622f748a31d22ff452769f90332",
+    "src/workshop-skill-book.ts": "c894222dec4d6b69df67164485abc1a0a640dfb81e2c19e6f4c1dc853bdc7990",
+    "src/workshop-rack.ts": "6675c725dae84579400ed685e8caa270975197592069eff6d770ab1e4c5a5820",
+    "src/workshop-supports.ts": "3e5f5ae17ef56c7832f3504c78d2518327ba7e88325300f6d07fe3f0633c1789",
+    "src/crafting-session.ts": "2069c90fbc116a694d523b62160499cd89925c1ce55c8a4967afe622f2835d20",
+    "src/crafting-session-data.ts": "c4c7dc90d6b5da2828369703ea44b17772c451d9ab3b0bcf809ecd32a925438e",
+    "src/account-workshop-session.ts": "8902ff2b7a4a17f50723f23f7ac6ed6daa598dc6a2e447af4139f74a6302f83f",
+    "src/skill-bar.ts": "cd1dce3be4c053a05617581b6314010b1659c0590128de7ade9c10a173967998",
+    "examples/godot-inventory/cargo-sample.json": "24f2315c4a035ed47abba3b78425a31c3976ec97d1aace5dfddcdb283ee26993",
+    "package.json": "a1ba2bd9a5723c98ca95a67fd246050e9c8c18ffb774177ff37474089640e91c",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702"
+  },
+  "archiveSha256": "2488b17b96cef6cf0a09a4d37ac777546e668c90363038ceb5302878ac273fb9",
+  "installed": {
+    "status": 0,
+    "assertion": false,
+    "logSha256": "47c24f153dbc7a7fbc372fd16f7568365a051fe815e97ffe4825eb7078fcaffb"
+  },
+  "browserBytes": 172723,
+  "browser": {
+    "status": 0,
+    "assertion": false,
+    "logSha256": "dbdc478bcf700bb247912b609b389bd76bd25187e1b15e0ac478bdf17f68adb1"
+  },
+  "types": {
+    "status": 0,
+    "assertion": false,
+    "logSha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+  },
+  "failure": "AssertionError [ERR_ASSERTION]: ✖ legacy saves keep their version until explicit book promotion, preserving every payload and binding (8.1115ms)\n✔ binding, toggling and swapping retain off-bar investment, exact blanks and the learned insertion order (5.0896ms)\n✔ a new gem replaces an off-bar copy and a seated other skill through the existing custody policy (2.4883ms)\n✔ unlearning an off-bar skill returns its locked investment and does not fill a bar vacancy on resume (1.62ms)\n✔ support custody addresses an off-bar learned skill and survives a complete save/reopen (2.8755ms)\n✔ strict book admission rejects duplicate authorities, unresolved references and malformed payloads without occupying a profile (17.1332ms)\n✔ promoting a vestige save preserves the wallet and keeps vestige commands available (2.0833ms)\n✔ a retained provider draft cannot alter committed book rows or bindings (1.7369ms)\n✔ two workshops prepare independent books, abort without publication and reject stale tokens (17.9569ms)\n✔ off-bar entries count toward learned capacity and a full bag retains the original refusal and UID semantics (5.696ms)\n✔ provider failure after a book change leaves the whole committed profile untouched (1.9452ms)\nℹ tests 11\nℹ suites 0\nℹ pass 10\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 376.4383\n\n✖ failing tests:\n\ntest at test\\contracts.test.mjs:21:1\n✖ legacy saves keep their version until explicit book promotion, preserving every payload and binding (8.1115ms)\n  TypeError: Cannot read properties of undefined (reading 'changed')\n      at TestContext.<anonymous> (file:///D:/Games/Claude/ARPG%20Game%20-%20World/.claude/ownership.engine-m2/.artifacts/workshop-book-package-aWc43W/consumer/test/contracts.test.mjs:25:43)\n      at Test.runInAsyncScope (node:async_hooks:214:14)\n      at Test.run (node:internal/test_runner/test:1106:25)\n      at Test.start (node:internal/test_runner/test:1003:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17)\n\n",
+  "inputsUnchanged": true,
+  "logsSha256": "927a6d408c7f50b10ab3b5686aef3a4ec58688f4160fb921410d9f4f8481e919",
+  "cleaned": true
+}

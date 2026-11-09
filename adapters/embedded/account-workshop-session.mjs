@@ -18,13 +18,13 @@ function packs(table){
 // This factory consumes an exclusively owned native JSON argument. The public
 // content-table decoder remains non-mutating. Release transport rows and each
 // decoded pack as soon as its validated owner has detached what it needs.
-export function create(table){
+export function create(table,rackFactory=items=>new WorkshopVestiges(items)){
   let {items:ip,crafting:cp,skills:sp,unlocks,memories,gates,equipment}=packs(table);
   table.nodes.length=0;
   const items=new ItemContent(ip);ip=null;
   const crafting=new CraftingContent(cp,items);cp=null;
   const skills=new SkillProgression(sp);sp=null;
-  const rack=new WorkshopVestiges(items);
+  const rack=rackFactory(items);
   const slots=equipment===undefined?undefined:new EquipmentSlots(equipment);equipment=null;
   const session=new AccountWorkshopSession({progression:{unlocks,memories,gates},
     workshop:{crafting,skills,memoryKinds:{rough_memory:'rough',preformed_memory:'preformed'}},rack,equipment:slots});

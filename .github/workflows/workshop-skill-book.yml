@@ -1,0 +1,47 @@
+name: Verify workshop skill book
+on:
+  push:
+    paths:
+      - '.github/workflows/workshop-skill-book.yml'
+      - 'src/**'
+      - 'adapters/embedded/account-workshop-session.mjs'
+      - 'adapters/embedded/skill-book-session.mjs'
+      - 'test/workshop-skill-book*.mjs'
+      - 'test/shared-account/**'
+      - 'test/shared-account-entry.test.mjs'
+      - 'scripts/test-workshop-skill-book-package.mjs'
+      - 'package*.json'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ownership:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.9.0
+          cache: npm
+      - run: npm ci
+      - run: npm run reference:prepare
+      - run: npm run build
+      - run: node --test test/workshop-skill-book.test.mjs test/workshop-skill-book-entry.test.mjs test/shared-account-entry.test.mjs
+      - run: npm run test:workshop-skill-book-package
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: workshop-skill-book-${{ matrix.os }}
+          include-hidden-files: true
+          if-no-files-found: error
+          path: |
+            .artifacts/workshop-skill-book-package.json
+            .artifacts/workshop-skill-book-package.json.logs.json.gz

@@ -11,6 +11,7 @@ import {SessionInputError, requireSession as need, sessionFields as fields, sess
 export interface CraftingSessionState {
   vestiges?: Record<string,number>;
   rack?: ({gem:SkillGemPayload;locked?:true}|null)[];
+  skillBook?: {known:{gem:SkillGemPayload;locked?:true}[];bar:(string|null)[]};
   board: InventoryBoard;
   items: ItemInstance[];
   equipped: Record<string, ItemInstance>;
@@ -25,8 +26,8 @@ export interface CraftingSessionDefinitions {
   /** Item base ID -> crafting memory price kind. Saved as part of content identity. */
   memoryKinds: Readonly<Record<string, string>>;
 }
-export function craftingSaveVersion(state: {vestiges?:unknown;rack?:unknown}) {
-  return state.vestiges!==undefined ? 3 : state.rack!==undefined ? 2 : 1;
+export function craftingSaveVersion(state: {vestiges?:unknown;rack?:unknown;skillBook?:unknown}) {
+  return state.skillBook!==undefined ? 4 : state.vestiges!==undefined ? 3 : state.rack!==undefined ? 2 : 1;
 }
 const itemFields = ['uid','baseId','ilvl','tier','rarity','name','baseRoll','superior','implicitRolls','affixes','uniqueId','uniqueRolls',
   'uniqueChoices','grantState','sockets','craftedSockets','x','y','locked','gem','mem','writ','relicKey','questId'];
@@ -148,8 +149,12 @@ export class CraftingSessionData {
     if (input.writ !== undefined) {fields(input.writ,['category','complexity']); text(input.writ.category); integer(input.writ.complexity,1);}
     return input as unknown as ItemInstance;
   }
-  state(input: unknown, validateRack?: (rack:unknown,data:CraftingSessionData)=>void, admittedAccount?:unknown): CraftingSessionState {
-    fields(input,['board','items','equipped','overflow','essences','account','rack','vestiges']);
+  state(input: unknown, validateRack?: (rack:unknown,data:CraftingSessionData)=>void, admittedAccount?:unknown,
+    validateBook?: (book:unknown,data:CraftingSessionData)=>void): CraftingSessionState {
+    fields(input,['board','items','equipped','overflow','essences','account','rack','vestiges','skillBook']);
+    if(input.skillBook!==undefined){
+      need(input.rack===undefined,'duplicate-skill-authority');need(validateBook,'skill-book-unavailable');validateBook(input.skillBook,this);
+    }
     if(input.vestiges!==undefined){
       record(input.vestiges);
       for(const [id,count] of Object.entries(input.vestiges)){

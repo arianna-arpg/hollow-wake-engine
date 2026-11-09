@@ -1,0 +1,37 @@
+import assert from 'node:assert/strict';
+const plain=value=>JSON.parse(JSON.stringify(value));
+export function skillBookCourse(command){
+ const rows=[];
+ const send=(request,check)=>{const reply=plain(command(plain(request)));check?.(reply);rows.push({request,reply});return reply;};
+ const ok=reply=>assert.equal(reply.ok,true,JSON.stringify(reply));
+ const state={board:{w:2,h:2},items:[],equipped:{},overflow:[],essences:{},rack:[{gem:{kind:'skill',skillId:'firebolt',level:1,rarity:'common',sockets:[null]},locked:true},...Array(7).fill(null)]};
+ send({op:'open-account-text',account:1,key:'owned-book',seed:17,text:'{}'},ok);
+ for(const profile of [1,2])send({op:'open-workshop-text',profile,account:1,seed:profile,progression:true,nextUid:0,text:JSON.stringify(state)},ok);
+ const saved=profile=>send({op:'workshop-save-text',profile},ok);
+ const old=saved(1),account=send({op:'account-save-text',account:1},ok);
+ assert.equal(JSON.parse(old.text).workshop.schemaVersion,2);
+ const move=(profile,body)=>send({op:'workshop-command-text',profile,text:JSON.stringify(body)},ok);
+ for(const profile of [1,2])assert(move(profile,{op:'promote-skill-book'}).reply.result.changed);
+ const promoted=saved(1);assert.equal(JSON.parse(promoted.text).workshop.schemaVersion,4);
+ assert(move(1,{op:'bind-skill',slot:0,skillId:'firebolt'}).reply.result.changed);
+ const cleared=saved(1),book=JSON.parse(cleared.text).workshop.state.skillBook;
+ assert.equal(book.known.length,1);assert.equal(book.known[0].locked,true);assert.deepEqual(book.bar,Array(8).fill(null));
+ send({op:'close-workshop',profile:1},ok);
+ send({op:'restore-workshop-text',profile:1,account:1,text:cleared.text},ok);
+ assert.equal(saved(1).text,cleared.text,'new-format resume must not refill a cleared binding');
+ const before=[saved(1),saved(2)];
+ const commands=[1,2].map(profile=>({op:'workshop-command-text',profile,text:JSON.stringify({op:'bind-skill',slot:profile+2,skillId:'firebolt'})}));
+ const first=send({op:'prepare-text',text:JSON.stringify(commands)},ok);assert.equal(first.writes.length,2);
+ const candidate=send({op:'prepared-save-text',token:first.token,kind:'workshop',handle:1},ok);
+ assert.equal(JSON.parse(candidate.text).workshop.state.skillBook.bar[3],'firebolt');
+ assert.deepEqual([saved(1),saved(2)],before);send({op:'abort-prepared',token:first.token},ok);
+ assert.deepEqual([saved(1),saved(2)],before);
+ const next=send({op:'prepare-text',text:JSON.stringify(commands)},ok);assert(next.token>first.token);
+ send({op:'commit-prepared',token:first.token},reply=>assert.equal(reply.reason,'stale-prepared-change'));
+ assert.equal(send({op:'prepared-save-text',token:next.token,kind:'workshop',handle:1},ok).text,candidate.text);
+ send({op:'commit-prepared',token:next.token},ok);
+ assert.equal(saved(1).text,candidate.text);assert.equal(JSON.parse(saved(2).text).workshop.state.skillBook.bar[4],'firebolt');
+ assert.deepEqual(send({op:'account-save-text',account:1},ok),account);
+ for(const profile of [1,2])send({op:'close-workshop',profile},ok);send({op:'close-account',account:1},ok);
+ return {name:'owned-skill-book',rows};
+}

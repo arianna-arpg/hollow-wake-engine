@@ -110,7 +110,7 @@ export class CraftingSession {
       level:item=>pack.bases[item.baseId].category==='relic'?1:equipmentTierLevel(item.tier,pack.config.tierBreaks)};
   }
   #validate(profile: Profile): void {
-    this.#data.state(profile.state,this.#rack?.validate,profile.account?.value); integer(profile.nextUid,1); integer(profile.random.draws);
+    this.#data.state(profile.state,this.#rack?.validate,profile.account?.value,this.#rack?.validateBook); integer(profile.nextUid,1); integer(profile.random.draws);
     for (const item of allItems(profile.state)) need(item.uid < profile.nextUid,'uid-floor');
     if(!Object.is(profile.state.account,profile.account?.value)){
       profile.account=retainSessionPart(profile.state.account);
@@ -198,7 +198,7 @@ export class CraftingSession {
       if (profile) return refuse('already-open'); if (this.#profiles.size >= this.#maxProfiles) return refuse('profile-limit');
       let next: Profile;
       if (request.op === 'open') {
-        integer(request.seed,0,0xffffffff); const state = this.#data.state(request.state,this.#rack?.validate);
+        integer(request.seed,0,0xffffffff); const state = this.#data.state(request.state,this.#rack?.validate,undefined,this.#rack?.validateBook);
         const floor = allItems(state).reduce((n,i) => Math.max(n,i.uid + 1),1), nextUid = request.nextUid ?? floor;
         integer(nextUid,1); next = {state,nextUid,random:new Random(request.seed)};
       } else {
@@ -209,7 +209,7 @@ export class CraftingSession {
         need(JSON.stringify(save.content) === JSON.stringify(this.#identity),'content-mismatch'); integer(save.nextUid,1);
         const random = save.random; fields(random,['algorithm','state','draws']); need(random.algorithm === 'mulberry32/v1','unsupported-random');
         integer(random.state,0,0xffffffff); integer(random.draws);
-        next = {state:this.#data.state(save.state,this.#rack?.validate),nextUid:save.nextUid,random:Random.restore({algorithm:'mulberry32/v1',state:random.state,draws:random.draws})};
+        next = {state:this.#data.state(save.state,this.#rack?.validate,undefined,this.#rack?.validateBook),nextUid:save.nextUid,random:Random.restore({algorithm:'mulberry32/v1',state:random.state,draws:random.draws})};
       }
       this.#validate(next); this.#profiles.set(request.profile,next); return {ok:true};
     }

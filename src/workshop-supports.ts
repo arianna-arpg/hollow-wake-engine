@@ -22,7 +22,7 @@ export class WorkshopSupports extends WorkshopRack {
     if(install)bool(request.fits);else {integer(index,0,1023);text(supportId);}
     const stored=!install&&uid!==undefined;
     const item=state.items.find(i=>i.uid===uid);
-    const skill=stored?item?.gem:state.rack?.find(row=>row?.gem.skillId===skillId)?.gem;
+    const skill=stored?item?.gem:(state.skillBook?.known??state.rack)?.find(row=>row?.gem.skillId===skillId)?.gem;
     if(skill?.kind!=='skill'||skill.skillId!==skillId||(!install&&skill.sockets[index as number]?.supportId!==supportId))
       return {changed:false,needsSave:false,refusal:'stale-socket'};
     const target={def:{id:skillId},sockets:skill.sockets};

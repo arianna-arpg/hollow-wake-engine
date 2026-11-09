@@ -1,5 +1,10 @@
 # Boundary contract
 
+The optional [workshop skill book](workshop-skill-book.md) owns learned payloads
+separately from action-bar bindings. Its explicit v4 promotion and exact blank
+restoration are build-data behavior; live combat and shared preference effects
+remain host integration work.
+
 The optional [shared account owner](shared-account.md) gives progression,
 crafting expertise and ledger counters one authority across multiple character
 inventories. This portable composition has its own save identities. The

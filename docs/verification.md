@@ -1,5 +1,11 @@
 # Verification and reproduction
 
+The [workshop skill book](workshop-skill-book.md) adds installed-package, browser,
+public-type and deliberate-fault checks via `npm run test:workshop-skill-book-package`
+(also included in `npm run verify`). Its opt-in embedded entry has a separate
+32-step course and a qualified Windows native reproduction script. Neither is
+a physical-device qualification or an expanded live equipment package.
+
 The [equipment catalogue course](equipment-catalogue-boundary.md) captures original
 worn-item derivation in two fresh processes. It records authored modifier output,
 ordered stat sources, skill grants, worn supports and cast preservation before

@@ -12,15 +12,23 @@ export type WorkshopResidence<S> = {
   freeCellCount(items:readonly ItemInstance[]): number;
   itemOfSocket?(row:GemSocketRow):ItemInstance|null;
 };
-export type WorkshopEvent={kind:'vestige-granted';id:string;count:number}|{kind:'vestige-crumbled'|'vestige-inlaid'|'epitaph-awakened';id:string}|{kind:'dirty'|'recalculate'}|{kind:'resync-supports';skillId:string};
+export type WorkshopEvent={kind:'vestige-granted';id:string;count:number}|{kind:'vestige-crumbled'|'vestige-inlaid'|'epitaph-awakened';id:string}|{kind:'dirty'|'recalculate'}|{kind:'resync-supports';skillId:string}
+  |{kind:'remember-skill-slot';skillId:string;slot:number}|{kind:'bar-rebound';skillIds:string[]};
 export type WorkshopSignal=(event:WorkshopEvent)=>void;
 const seats=8;
+
+/** Internal adapter view. Both save formats use the same move policy; a view
+ * is opened only after the complete command has passed structural admission. */
+export interface WorkshopRackView<S> {
+  body:{skills:(S|null)[]};known:Map<string,S>;save():void;
+}
 
 /** Optional eight-seat workshop for one actor whose learned book is its bar.
  * The authoritative host supplies the current requirements verdict and holds
  * on departing skills. Commands run entirely on a detached session draft. */
 export class WorkshopRack {
   declare readonly handles?: (op:string)=>boolean;
+  declare readonly validateBook?: (book:unknown,data:CraftingSessionData)=>void;
   /** Identifies the move implementation that can borrow a frozen account.
    * An override or a structurally compatible provider keeps a writable draft. */
   readonly accountPreservingMove?:WorkshopRack['move']=WorkshopRack.prototype.move;
@@ -37,6 +45,22 @@ export class WorkshopRack {
   }
   move<S extends GemSkill>(request:Record<string,unknown>,state:CraftingSessionState,inventory:InventoryHost<ItemInstance>,
     board:LiveInventoryBoard,gems:WorkshopResidence<S>,_signal?:WorkshopSignal){
+    return moveWorkshopRack(request,state,inventory,board,gems,()=>{
+      const rows=state.rack??Array<null>(seats).fill(null);
+      const original=rows.map(row=>row?gems.skillOfGemItem(row):null);
+      const body={skills:original.slice()},known=new Map<string,S>();
+      for(const skill of body.skills)if(skill)known.set(skill.def.id,skill);
+      return {body,known,save:()=>{state.rack=body.skills.map((skill,index)=>{
+        if(skill===original[index])return rows[index];
+        return skill?{gem:packSkillGemPayload(skill),...(skill.locked?{locked:true as const}:{})}:null;
+      });}};
+    });
+  }
+}
+
+/** Internal shared adapter for the extracted learning/removal policy. */
+export function moveWorkshopRack<S extends GemSkill>(request:Record<string,unknown>,state:CraftingSessionState,
+  inventory:InventoryHost<ItemInstance>,board:LiveInventoryBoard,gems:WorkshopResidence<S>,open:()=>WorkshopRackView<S>){
     const learn=request.op==='learn-skill';
     fields(request,learn?['op','profile','uid','slot','meets','blocked']:['op','profile','skillId','blocked']);
     if(learn){integer(request.uid,1);bool(request.meets);if(request.slot!==undefined)integer(request.slot,0,seats-1);}
@@ -44,11 +68,7 @@ export class WorkshopRack {
     const blocked=request.blocked;record(blocked);
     need(Object.keys(blocked).length<=seats,'invalid-rack-holds');
     for(const [id,reason] of Object.entries(blocked)){text(id);text(reason);}
-    const rows=state.rack??Array<null>(seats).fill(null);
-    const original=rows.map(row=>row?gems.skillOfGemItem(row):null);
-    const body={skills:original.slice()};
-    const known=new Map<string,S>();
-    for(const skill of body.skills)if(skill)known.set(skill.def.id,skill);
+    const {body,known,save}=open();
     const before=state.items.findIndex(item=>item.uid===request.uid);
     let refusal:string|undefined;
     const noop=()=>{};
@@ -67,12 +87,8 @@ export class WorkshopRack {
       beforeForget:noop,afterForget:noop,afterLearn:noop,dirty:noop,afterUnlearn:noop,
     });
     const changed=learn?actions.learn(null,request.uid as number,request.slot as number|undefined):actions.unlearn(null,request.skillId as string);
-    if(changed)state.rack=body.skills.map((skill,index)=>{
-      if(skill===original[index])return rows[index];
-      return skill?{gem:packSkillGemPayload(skill),...(skill.locked?{locked:true as const}:{})}:null;
-    });
+    if(changed)save();
     // A refused two-skill swap may append the original wrapper back at its cell.
     const reordered=learn && !changed && before!==state.items.findIndex(item=>item.uid===request.uid);
     return {changed,needsSave:changed||reordered,...(refusal?{refusal}:{})};
-  }
 }
