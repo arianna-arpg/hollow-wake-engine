@@ -6,6 +6,7 @@ import {integrateUnlockLifecycle} from '../adapters/hollow-wake/integrate-unlock
 import {integrateCrafting} from '../adapters/hollow-wake/integrate-crafting.mjs';
 import {integrateGemResidence} from '../adapters/hollow-wake/integrate-gem-residence.mjs';
 import {integrateSkillRack} from '../adapters/hollow-wake/integrate-skill-rack.mjs';
+import {integrateEquipmentSkills} from '../adapters/hollow-wake/integrate-equipment-skills.mjs';
 import {integrateConduits} from '../adapters/hollow-wake/integrate-conduits.mjs';
 import {integrateVestiges} from '../adapters/hollow-wake/integrate-vestiges.mjs';
 import {integrateCharacterRules} from '../adapters/hollow-wake/integrate-character-rules.mjs';
@@ -30,6 +31,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { root, materialize, verifyReference } from './reference-utils.mjs';
+import {npmCli as locateNpmCli} from './npm-cli.mjs';
 import { integrate } from '../adapters/hollow-wake/integrate.mjs';
 import { integrateItems } from '../adapters/hollow-wake/integrate-items.mjs';
 import { integrateInventoryUi } from '../adapters/hollow-wake/integrate-inventory-ui.mjs';
@@ -82,6 +84,11 @@ const game = requested < 0 ? path.join(artifacts, 'game-adapter') : path.resolve
 const locationIndex = process.argv.indexOf('--location-out');
 if (locationIndex >= 0) assert(process.argv[locationIndex + 1], 'Missing adapter location output');
 const locationOutput = locationIndex < 0 ? path.join(artifacts, 'adapter-location.json') : path.resolve(process.argv[locationIndex + 1]);
+const scratchIndex=process.argv.indexOf('--scratch-root'),reuseIndex=process.argv.indexOf('--reuse-tools');
+if(scratchIndex>=0)assert(process.argv[scratchIndex+1],'Missing scratch root');
+if(reuseIndex>=0)assert(process.argv[reuseIndex+1],'Missing reusable node_modules');
+const scratch=scratchIndex<0?artifacts:fs.realpathSync(process.argv[scratchIndex+1]);
+const reusedTools=reuseIndex<0?undefined:fs.realpathSync(process.argv[reuseIndex+1]);
 if (requested < 0) {
   const lock = JSON.parse(fs.readFileSync(path.join(root, 'baseline/source-lock.json'), 'utf8'));
   materialize(null, lock, game); verifyReference(game, lock);
@@ -134,16 +141,25 @@ integrateUnlockLifecycle(game, false);
 integrateCrafting(game, false);
 integrateGemResidence(game, false);
 integrateSkillRack(game, false);
+integrateEquipmentSkills(game, false);
 integrateConduits(game, false);
 integrateVestiges(game, false);
 integrateStatContext(game, false);
 renderHitEffects(renderHitStatus(fs.readFileSync(path.join(game,'src/engine/world.ts'),'utf8')));
 // A distinct tool environment: never install into the frozen reference or another checkout's junction.
-const tooling = fs.mkdtempSync(path.join(artifacts, 'adapter-tools-'));
+const tooling = fs.mkdtempSync(path.join(scratch, 'adapter-tools-'));
 for (const file of ['package.json', 'package-lock.json']) fs.copyFileSync(path.join(root, 'reference/tooling', file), path.join(tooling, file));
-const npmCli = process.env.npm_execpath ?? path.join(path.dirname(process.execPath), 'node_modules/npm/bin/npm-cli.js');
-const npm = (args, cwd) => execFileSync(process.execPath, [npmCli, ...args, '--cache', path.join(artifacts, 'npm-cache')], { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
-npm(['ci', '--ignore-scripts', '--no-audit', '--no-fund'], tooling);
+const npmCli = locateNpmCli();
+const npm = (args, cwd) => execFileSync(process.execPath, [npmCli, ...args, '--cache', path.join(scratch, 'npm-cache')], { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+if(reusedTools){
+  const required=JSON.parse(fs.readFileSync(path.join(tooling,'package.json'))).devDependencies;
+  for(const[id,version]of Object.entries(required))assert.equal(JSON.parse(fs.readFileSync(path.join(reusedTools,id,'package.json'))).version,version,'Wrong reusable tool: '+id);
+  const modules=path.join(tooling,'node_modules');fs.mkdirSync(modules);
+  for(const entry of fs.readdirSync(reusedTools,{withFileTypes:true})){
+    if(entry.name==='@hollow-wake'||!entry.isDirectory()&&!entry.isSymbolicLink())continue;
+    fs.symlinkSync(path.join(reusedTools,entry.name),path.join(modules,entry.name),process.platform==='win32'?'junction':'dir');
+  }
+}else npm(['ci', '--ignore-scripts', '--no-audit', '--no-fund'], tooling);
 const packageDirectory = path.join(tooling, 'package');
 fs.mkdirSync(packageDirectory);
 const [packed] = JSON.parse(npm(['pack', '--json', '--pack-destination', packageDirectory], root));
@@ -329,6 +345,10 @@ changes.conduitsDecision=conduits.decision;
 const vestiges=integrateVestiges(game);
 changes.files.push(...vestiges.files);
 changes.vestigeDecision=vestiges.decision;
+const equipmentSkills=integrateEquipmentSkills(game,true,{passiveGrafts:'compiled'});
+changes.files.push(...equipmentSkills.files);
+changes.equipmentSkillsDecision=equipmentSkills.decision;
+changes.equipmentSkillsPassiveSource=equipmentSkills.passiveGrafts;
 const statContext = integrateStatContext(game);
 changes.files.push(...statContext.files);
 changes.statContextDecision = statContext.decision;

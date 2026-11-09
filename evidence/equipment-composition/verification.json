@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "baseCommit": "45ed6c6b973456cd2880f6a1e9530efa36d2b017",
+  "scope": "Equipment derivation through original-only and complete prepared-game adapters, including compiled passive graft handoff",
+  "sources": {
+    "adapters/hollow-wake/integrate-equipment-skills.mjs": "b255d897624a115b6e33614362ed46304bbb6ad373be70b2239ecb2f84870b97",
+    "scripts/prepare-game-adapter.mjs": "7c7baaa7e18aef5a24999b746800e9518103d68ab1f8487658a980660e8a630a",
+    "scripts/test-equipment-skills-original.mjs": "0b73018fb1c716ce98527099e5953aeaa4684e6e11762f2c33a53c61fb825d8d",
+    "scripts/test-equipment-skills-overlay.mjs": "02e1fbd850c49bc2db9120e48b8ca12b37e9d7ab766a22059f03fb1b1ae6ece8",
+    ".github/workflows/equipment-skills.yml": "26b8050283f762ee01a0b12801747001963ca07521d2b81e6bbf5083e8e6bc36",
+    "package.json": "33e39fc4fdb33ebe1fb83ddbd0242d0a69635a9977f36c72f05125cd0d7b4f11",
+    "docs/equipment-skills.md": "d4d929a2c65253e2de3d5c20922fad0ac0196f2253fe4eef78f68a34330e3c55",
+    "docs/completion.json": "5b865ff01283154ca00c74f7635aa7f4fb6da0ad4859becc1629a35e243a4830",
+    "README.md": "6d166fb5fed62eb32347ab194d6eae7de1733462a0eb2c3614093a46937b5eea",
+    "scripts/reference-equipment-skills.mjs": "9802a3b4f162cd65493e9c53f7e5704dd884254ab124a6bfe4f4271f5a72806a",
+    "reference/export-equipment-passive-grafts.ts": "680f5190279bfcf4b8e2891c2e57bf5da02d963dfef1fddb4573085d8d632c15",
+    "scripts/reference-equipment-passive-grafts.mjs": "48dde1857bcf09f6999e8c1685735718c7b523b6091a3c45adc288999805a9b9",
+    "baseline/equipment-passive-grafts/acceptance.json": "b5868886dcf098d245bb5ea824b677ef92b1d9b762ee034c4a3c437e744a0863",
+    "baseline/equipment-passive-grafts/observations.json.gz": "b251e8df264bd0cecdbcc86e6914fd7fd84c170f4292c5db045c046d0564e600",
+    "src/equipment-skills.ts": "d5756a5e190fdd398e1e5e87c88705148866b6a1ef1ef7391695c39794f27812",
+    "scripts/overlay-scratch.mjs": "b24e3981370c0f710702478e39b87e56c7dc82dbb23bef2de743782d8c2647a6",
+    "scripts/test-overlay-scratch.mjs": "622f3db1cd22d1363dda413fe4cd28280f20f1bf2dbfe8073a2c38b1090168c5",
+    "scripts/test-life-recovery-overlay.mjs": "c8ec2bbe1eb3d2cc63f0f303fdc549c0250e4b8e1495b93f6ff335debe60a1b3",
+    "scripts/test-restoration-overlay.mjs": "a94702a5af780b4325e8b1fa14882a4d8cde9f92777c854d21ed2bfb279f0647",
+    "scripts/test-cooldown-overlay.mjs": "f7f28e1cefeb894151ad75298d1397a1a10afd627412cb0a29011f4be94ed682",
+    "scripts/test-cooldown-lifecycle-overlay.mjs": "02b9c2f10017b9ee95ccc0594ad86776ad4147c8d82607fa6db018cb9edbc474",
+    "scripts/test-ready-bank-overlay.mjs": "102809256b5757714bff1f52beed6d33a23d81336666b6379885e1cad9a25789",
+    "scripts/test-sequence-recovery-overlay.mjs": "6583934a731d4c1fe47b0555860546cec4ec3a9f4abe6bb50a6b1245e83469af",
+    "scripts/test-attack-sequences-overlay.mjs": "734a2e372ef0fc003958923029a0b53e27b6ceea03086fd9bbd70dee215130e7"
+  },
+  "deliveryChanges": [
+    {
+      "file": ".github/workflows/equipment-skills.yml",
+      "verifiedSha256": "4311613801fbd77206158de060f664751b3e48c42d265727ce4c8701e1af9c4e",
+      "publishedSha256": "26b8050283f762ee01a0b12801747001963ca07521d2b81e6bbf5083e8e6bc36",
+      "reason": "Add cleanup-tool path triggers and the separately passing teardown check to hosted qualification."
+    }
+  ],
+  "evidence": {
+    "broad-checks.json": "ea122936f49c871402c00f8840be68d4cc870c3f2745a18691538379cc6362b6",
+    "composed.json": "2eb8008b5edb0015b8cdefb77718da921047b70f45c15e9dab1ac0f995f19378",
+    "composed.logs.json.gz": "99fa9717364ae23a774803c30f5ea2ebb601971c09440ab2e0055d8a506c6876",
+    "equipment-reference.json": "2bc5c0f35044f5b5a35760aa6c1b9cdbfa3c302cb35bc7da1584b7290631ef87",
+    "gzip-hosted.json": "0bd4069cbded84df04937301eff288aae0ebc3ee8d7f9e96f1a422e4d2d613f4",
+    "installed.json": "24bfa85b22efd740973b19dbd95d499691762e06d4be9b9182c14391c6645e26",
+    "installed.logs.json.gz": "78c81a887e74690983c6b29332ede734b688e1a3c4602c72c25c8a3d3153c0f6",
+    "package-budgets.json": "eaff61d07c8f2ef4a58735092a31950eeab5e6dcda275a035cd2be4683f8af84",
+    "passive-reference.json": "0e57fe2821799c134193edfaa66e289a1e909740429ba1ddac0c69aa69350acc",
+    "reference-verify.log.gz": "8d5e4bd43ab9915d82db5048562f3e05a9839356d379e1058118f406011426eb",
+    "teardown.json": "ade3f1c60f1fc9ab04df07c6e78460b4b3da34958f2d80f885864e38dfa08a13",
+    "verify.log.gz": "c04942dbd1547f0349c3e08fd3f7b40f5e32fa465c706918b7d4dbba287d5ea0"
+  },
+  "faultCheckpoints": {
+    "forget-grant-investment": "FAIL  B10 THE RESIDENCE ON THE ITEM: the stone lands on the helm's grantState",
+    "compound-bonus-levels": "FAIL  I4 repeated recalculation never compounds bonus levels",
+    "retain-derived-grafts": "FAIL  D: re-binding the bar moves the grant off the seat",
+    "skip-support-fixed-point": "FAIL  J: the worn crack gem lands live scanned BEFORE its enabler",
+    "retain-retired-bar-instance": "FAIL  B11 unequipped, the grant leaves cleanly: lane empty, bar cleared"
+  },
+  "originalGameChanged": false,
+  "runtimeChanged": false,
+  "measuredSpeedup": false,
+  "physicalDeviceQualification": false,
+  "nativeAdmissionExpanded": false,
+  "hostedCompositionQualification": false,
+  "priorHostedRepairRun": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42552233845"
+}

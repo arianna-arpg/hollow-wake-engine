@@ -1,18 +1,22 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';
 import {spawnSync,execFileSync} from 'node:child_process';import {gzipSync,gunzipSync} from 'node:zlib';
-import {root,materialize,verifyReference,sha256} from './reference-utils.mjs';
+import {root,materialize,verifyReference,sha256,listFiles} from './reference-utils.mjs';
 import {npmCli} from './npm-cli.mjs';import {renderEquipmentSkillProbe} from './equipment-skill-reference.mjs';
 import {integrateEquipmentSkills,renderEquipmentSkills} from '../adapters/hollow-wake/integrate-equipment-skills.mjs';
 
-assert.equal(process.argv.length,2);
+const composed=process.argv[2]==='--composed';assert.equal(process.argv.length,composed?3:2);
+const label=composed?'composed':'installed';
 const owned=path.join(root,'.artifacts');fs.mkdirSync(owned,{recursive:true});
-const work=fs.mkdtempSync(path.join(owned,'equipment-skills-installed-owned-'));
-const game=path.join(work,'game'),logs={},report={passed:false,results:{},faults:[]};
+const work=fs.mkdtempSync(path.join(owned,'equipment-skills-'+label+'-owned-'));
+const game=path.join(work,'game'),logs={},report={passed:false,composition:composed?'complete-prepared-game':'original-game',results:{},faults:[]};
 const lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json')));
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'baseline/equipment-skills/acceptance.json')));
 report.sources=Object.fromEntries(['src/equipment-skills.ts','adapters/hollow-wake/integrate-equipment-skills.mjs',
   'reference/equipment-skill-observer.ts','scripts/equipment-skill-reference.mjs',
-  'scripts/test-equipment-skills-original.mjs','baseline/equipment-skills/acceptance.json','package.json']
+  'scripts/test-equipment-skills-original.mjs','scripts/prepare-game-adapter.mjs',
+  'adapters/hollow-wake/integrate-passive-grants.mjs','adapters/hollow-wake/passiveGrantAdapter.ts',
+  'reference/export-equipment-passive-grafts.ts','baseline/equipment-passive-grafts/acceptance.json',
+  'baseline/equipment-skills/acceptance.json','package.json']
   .map(file=>[file,sha256(fs.readFileSync(path.join(root,file)))]));
 const run=(label,args,cwd=game)=>{
   const child=spawnSync(process.execPath,args,{cwd,encoding:'utf8',windowsHide:true,timeout:600000,maxBuffer:16*1024*1024,
@@ -33,25 +37,80 @@ try{
     assert.throws(()=>renderEquipmentSkills(out,raw),/already present/);
     assert.throws(()=>renderEquipmentSkills(raw.replace('const grantStats = new Set<string>();','const grantStats = new Set<string>(); /* edited */'),raw),/Unreviewed/);
   }
-  success('pack',[npmCli(),'pack','--json','--ignore-scripts','--pack-destination',work,'--cache',path.join(work,'npm-cache')],root);
-  const packed=JSON.parse(logs.pack)[0],archive=path.join(work,packed.filename);report.archiveSha256=sha256(fs.readFileSync(archive));
   materialize(undefined,lock,game);verifyReference(game,lock);
-  const modules=path.join(game,'node_modules');fs.mkdirSync(modules);
-  // Reuse tooling without copying dependencies or modifying their directories.
   const deps=fs.realpathSync(path.join(root,'.reference/node_modules'));
-  for(const entry of fs.readdirSync(deps,{withFileTypes:true})){
-    if(entry.name==='.bin'||entry.name==='@hollow-wake'||!entry.isDirectory()&&!entry.isSymbolicLink())continue;
-    fs.symlinkSync(path.join(deps,entry.name),path.join(modules,entry.name),process.platform==='win32'?'junction':'dir');
+  let installed;
+  if(composed){
+    const location=path.join(work,'location.json');
+    success('prepare',[path.join(root,'scripts/prepare-game-adapter.mjs'),'--game',game,'--location-out',location,'--reuse-tools',deps,'--scratch-root',work],root);
+    const loc=JSON.parse(fs.readFileSync(location));assert.equal(loc.game,game);
+    assert(loc.equipmentSkillsDecision);assert.equal(loc.equipmentSkillsPassiveSource,'compiled');
+    for(const key of ['skillRackDecision','conduitsDecision','vestigeDecision','gemResidenceDecision','craftingDecision','statContextDecision'])assert(loc[key],key);
+    installed=path.join(game,'node_modules/@hollow-wake/engine');
+    report.archiveSha256=sha256(fs.readFileSync(loc.archive));
+    report.adapter={files:[...new Set(loc.files)].sort(),decision:loc.equipmentSkillsDecision,passiveGrafts:loc.equipmentSkillsPassiveSource};
+    assert(fs.readFileSync(path.join(game,'src/engine/world.ts'),'utf8').includes('passiveGrafts:()=>passiveBuild.grafts,'));
+  }else{
+    success('pack',[npmCli(),'pack','--json','--ignore-scripts','--pack-destination',work,'--cache',path.join(work,'npm-cache')],root);
+    const packed=JSON.parse(logs.pack)[0],archive=path.join(work,packed.filename);report.archiveSha256=sha256(fs.readFileSync(archive));
+    const modules=path.join(game,'node_modules');fs.mkdirSync(modules);
+    // Reuse tooling without copying dependencies or modifying their directories.
+    for(const entry of fs.readdirSync(deps,{withFileTypes:true})){
+      if(entry.name==='.bin'||entry.name==='@hollow-wake'||!entry.isDirectory()&&!entry.isSymbolicLink())continue;
+      fs.symlinkSync(path.join(deps,entry.name),path.join(modules,entry.name),process.platform==='win32'?'junction':'dir');
+    }
+    installed=path.join(modules,'@hollow-wake/engine');fs.mkdirSync(installed,{recursive:true});
+    execFileSync('tar',['-xf',archive,'-C',installed,'--strip-components=1'],{windowsHide:true});
+    report.adapter=integrateEquipmentSkills(game);
   }
-  const installed=path.join(modules,'@hollow-wake/engine');fs.mkdirSync(installed,{recursive:true});
-  execFileSync('tar',['-xf',archive,'-C',installed,'--strip-components=1'],{windowsHide:true});
+  for(const file of listFiles(path.join(root,'dist')))assert(fs.readFileSync(path.join(installed,'dist',file)).equals(fs.readFileSync(path.join(root,'dist',file))),file+' installed bytes differ');
   const module=path.join(installed,'dist/equipment-skills.js'),original=fs.readFileSync(module,'utf8');
   assert.equal(original,fs.readFileSync(path.join(root,'dist/equipment-skills.js'),'utf8'));report.runtimeSha256=sha256(original);
-  report.adapter=integrateEquipmentSkills(game);
   for(const config of ['tsconfig.json','tsconfig.launcher.json','tsconfig.sim.json'])success('types-'+config,[path.join(deps,'typescript/bin/tsc'),'--noEmit','-p',config]);
   report.types=true;
   const helper=path.join(game,'balance/hwe-equipment-helper.ts');fs.copyFileSync(path.join(root,manifest.helper),helper);
   assert.equal(sha256(fs.readFileSync(helper)),manifest.helperSha256);
+  const graftManifest=JSON.parse(fs.readFileSync(path.join(root,'baseline/equipment-passive-grafts/acceptance.json')));
+  const graftSource=fs.readFileSync(path.join(root,graftManifest.source),'utf8');assert.equal(sha256(graftSource),graftManifest.sourceSha256);
+  assert.equal(graftManifest.helperSha256,manifest.helperSha256);assert.equal(graftManifest.sourceLockSha256,manifest.sourceLockSha256);
+  assert.equal(graftSource.split('__EQUIPMENT_OBSERVER__').length,2);
+  const graftProbe=path.join(game,'balance/hwe-equipment-passive-grafts.ts');
+  fs.writeFileSync(graftProbe,graftSource.replace('__EQUIPMENT_OBSERVER__','./hwe-equipment-helper.ts'));
+  const graftExpected=gunzipSync(fs.readFileSync(path.join(root,'baseline/equipment-passive-grafts/observations.json.gz')));
+  assert.equal(sha256(graftExpected),graftManifest.sha256);
+  const graftOutput=path.join(work,'passive-graft-lifecycle.json');
+  success('passive-graft-lifecycle',['--import','tsx',graftProbe,graftOutput,...(composed?['--sdk']:[])]);
+  assert(fs.readFileSync(graftOutput).equals(graftExpected),'Actual passive graft lifecycle differs from original');
+  report.results.passiveGrafts={cases:graftManifest.cases,sha256:graftManifest.sha256};
+  if(composed){
+    const results={};
+    for(const name of ['passive-grants','passive-grant-refresh']){
+      const file=path.join(game,'balance','hwe-'+name+'.ts');fs.copyFileSync(path.join(root,'reference/export-'+name+'.ts'),file);
+      const output=path.join(work,name);success(name,['--import','tsx',file,output,...(name.endsWith('refresh')?['--sdk']:[])]);
+      const expected=gunzipSync(fs.readFileSync(path.join(root,'baseline/milestone-nine',name+'.json.gz')));
+      assert(fs.readFileSync(path.join(output,name+'.json')).equals(expected),name+' differs after composition');
+      results[name]={rows:JSON.parse(expected).rows.length,sha256:sha256(expected)};
+    }
+    report.results.passives=results;
+    // A wrong handoff must fail the original graft observations even when the
+    // rest of the passive and equipment runtimes remain intact.
+    const world=path.join(game,'src/engine/world.ts'),source=fs.readFileSync(world,'utf8'),needle='passiveGrafts:()=>passiveBuild.grafts,';
+    assert.equal(source.split(needle).length,2);fs.writeFileSync(world,source.replace(needle,'passiveGrafts:()=>[],'));
+    try{
+      const output=path.join(work,'missing-passive-grafts.json');
+      const child=run('missing-passive-grafts',['--import','tsx',graftProbe,output,'--sdk']);
+      const sensitive=JSON.parse(graftExpected).rows.filter(row=>JSON.parse(row.detail).expected.some(lane=>lane.length)).length;
+      assert(sensitive>0);assert.equal(child.status,1);assert(logs['missing-passive-grafts'].includes('ERR_ASSERTION'));
+      assert(logs['missing-passive-grafts'].includes(sensitive+' !== 0'),'Handoff fault did not reach the expected live-graft checks');
+      report.compiledHandoffFaultDetected=true;
+      report.compiledHandoffFault={failingCheckpoints:sensitive,logSha256:sha256(logs['missing-passive-grafts'])};
+    }finally{fs.writeFileSync(world,source);}
+    const restored=path.join(work,'restored-passive-grafts.json');
+    success('restored-passive-grafts',['--import','tsx',graftProbe,restored,'--sdk']);
+    assert(fs.readFileSync(restored).equals(graftExpected),'Restored compiled graft handoff differs from original');
+    report.compiledHandoffRestored=true;
+    success('simulation-smoke',['--import','tsx','balance/cli.ts','run','--suite','smoke']);report.simulationSmoke=true;
+  }
   const expected={};
   for(const name of ['legends','slotgraft']){
     const probe=path.join(game,'balance/hwe-equipment-'+name+'.ts');
@@ -103,11 +162,11 @@ finally{
     for(const[file,hash]of Object.entries(report.sources))assert.equal(sha256(fs.readFileSync(path.join(root,file))),hash,file+' changed during qualification');
     report.inputsUnchanged=true;
   }finally{
-    try{fs.writeFileSync(path.join(owned,'equipment-skills-installed.logs.json.gz'),gzipSync(JSON.stringify(logs),{level:9}));}
+    try{fs.writeFileSync(path.join(owned,'equipment-skills-'+label+'.logs.json.gz'),gzipSync(JSON.stringify(logs),{level:9}));}
     finally{
       assert.equal(path.dirname(fs.realpathSync(work)),fs.realpathSync(owned));
       fs.rmSync(work,{recursive:true,force:true});report.cleaned=!fs.existsSync(work);
-      fs.writeFileSync(path.join(owned,'equipment-skills-installed.json'),JSON.stringify(report,null,2)+'\n');
+      fs.writeFileSync(path.join(owned,'equipment-skills-'+label+'.json'),JSON.stringify(report,null,2)+'\n');
     }
   }
 }

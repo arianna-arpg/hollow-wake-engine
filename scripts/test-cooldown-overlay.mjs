@@ -1,8 +1,10 @@
+import {withOverlayScratch} from './overlay-scratch.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {pathToFileURL} from 'node:url';
 import {root,sha256,writeJSON} from './reference-utils.mjs';import {cooldownTree,readCooldownExpectations} from './check-cooldown-contract.mjs';
 import {cooldownPath,cooldownImport,renderCooldownSource,integrateCooldowns} from '../adapters/hollow-wake/integrate-cooldowns.mjs';
 
 export function verifyCooldownOverlay(sourceGame){
+ return withOverlayScratch('cooldown',scratch=>{
   const original=fs.readFileSync(path.join(sourceGame,cooldownPath)),base=original.toString().replaceAll('\r\n','\n'),{boundary}=readCooldownExpectations();
   renderCooldownSource(base);const tree=cooldownTree(base),{ast,owner,method}=tree,replace=(start,end,text)=>base.slice(0,start)+text+base.slice(end),faults=[];
   faults.push(['missing-method',replace(method.getStart(ast),method.end,'')],['duplicate-method',replace(method.end,method.end,method.getText(ast))],
@@ -14,7 +16,7 @@ export function verifyCooldownOverlay(sourceGame){
   for(const clause of tree.cases)faults.push(['changed-case:'+clause.expression.text,replace(clause.end,clause.end,'\n void 0;')]);
   const reports=[];
   for(const ending of ['\n','\r\n']){
-    const directory=fs.mkdtempSync(path.join(root,'.artifacts/cooldown-overlay-')),file=path.join(directory,cooldownPath);
+    const directory=fs.mkdtempSync(path.join(scratch,'cooldown-overlay-')),file=path.join(directory,cooldownPath);
     fs.mkdirSync(path.dirname(file),{recursive:true});const marked=(replace(owner.members.end,owner.members.end,'\n  retainedCooldownMarker() { return 75; }\n')+'\n// retained cooldown marker\n').replaceAll('\n',ending);
     fs.writeFileSync(file,marked);integrateCooldowns(directory,false);assert.equal(fs.readFileSync(file,'utf8'),marked);
     for(const[name,fault]of faults){const input=fault.replaceAll('\n',ending);fs.writeFileSync(file,input);
@@ -31,5 +33,6 @@ export function verifyCooldownOverlay(sourceGame){
   }
   assert(fs.readFileSync(path.join(sourceGame,cooldownPath)).equals(original));
   const result={faults:faults.length*2,reports,sourceReadOnly:true};writeJSON(path.join(root,'.artifacts/cooldown-overlay-verification.json'),result);console.log('PASS: '+result.faults+' cooldown source faults rejected; predecessor preserved.');return result;
+ });
 }
 if(process.argv[1]&&pathToFileURL(path.resolve(process.argv[1])).href===import.meta.url){const at=process.argv.indexOf('--game');assert(at>=0&&process.argv[at+1],'Provide --game with the pre-cooldown adapter directory');verifyCooldownOverlay(path.resolve(process.argv[at+1]));}

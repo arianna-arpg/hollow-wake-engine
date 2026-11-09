@@ -4,15 +4,22 @@ on:
     paths:
       - '.github/workflows/equipment-skills.yml'
       - 'src/equipment-skills.ts'
+      - 'src/passive-grants.ts'
       - 'test/equipment-skills.test.mjs'
-      - 'adapters/hollow-wake/integrate-equipment-skills.mjs'
+      - 'adapters/hollow-wake/**'
       - 'reference/equipment-skill-observer.ts'
       - 'reference/export-equipment-catalogue.ts'
+      - 'reference/export-equipment-passive-grafts.ts'
       - 'scripts/equipment-skill-reference.mjs'
       - 'scripts/reference-equipment-skills.mjs'
+      - 'scripts/reference-equipment-passive-grafts.mjs'
       - 'scripts/test-equipment-skills-original.mjs'
+      - 'scripts/test-equipment-skills-overlay.mjs'
+      - 'scripts/*overlay*.mjs'
+      - 'scripts/prepare-game-adapter.mjs'
       - 'baseline/equipment-skills/**'
       - 'baseline/equipment-catalogue/**'
+      - 'baseline/equipment-passive-grafts/**'
       - 'baseline/source-lock.json'
       - 'package.json'
   pull_request:
@@ -40,10 +47,16 @@ jobs:
       - run: node --test test/equipment-skills.test.mjs
       - run: npm run reference:prepare
       - run: npm run reference:install
+      - run: node scripts/test-overlay-scratch.mjs
+      - run: node scripts/test-equipment-skills-overlay.mjs
       - name: Replay original lifecycle in two fresh processes
         run: npm run reference:equipment-skills
+      - name: Replay original passive graft lifecycle in two fresh processes
+        run: npm run reference:equipment-passive-grafts
       - name: Verify installed game, catalogue and deliberate faults
         run: npm run test:equipment-skills-original
+      - name: Verify complete game composition and passive handoff
+        run: node scripts/test-equipment-skills-original.mjs --composed
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
@@ -52,5 +65,8 @@ jobs:
           if-no-files-found: error
           path: |
             .artifacts/equipment-skills-reference-*.json
+            .artifacts/equipment-passive-reference-*.json
             .artifacts/equipment-skills-installed.json
             .artifacts/equipment-skills-installed.logs.json.gz
+            .artifacts/equipment-skills-composed.json
+            .artifacts/equipment-skills-composed.logs.json.gz

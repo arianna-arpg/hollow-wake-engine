@@ -1,3 +1,4 @@
+import {withOverlayScratch} from './overlay-scratch.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';
 import {pathToFileURL} from 'node:url';import ts from 'typescript';
 import {root,sha256,writeJSON} from './reference-utils.mjs';
@@ -6,6 +7,7 @@ import {recoveryPaths,recoveryTree,renderLifeRecoverySource,integrateLifeRecover
 
 /** Read a prepared predecessor, testing transformations only on fresh copies. */
 export function verifyLifeRecoveryOverlay(sourceGame){
+ return withOverlayScratch('life-recovery',scratch=>{
   const {acceptance}=readLifeRecoveryExpectations(),contract=JSON.parse(fs.readFileSync(path.join(root,'baseline/milestone-forty-two/adapter-contract.json')));
   assert.equal(contract.source,acceptance.source);assert.equal(contract.sourceLockSha256,acceptance.sourceLockSha256);
   assert.equal(contract.sourceBoundariesSha256,acceptance.sourceBoundaries.sha256);
@@ -33,7 +35,7 @@ export function verifyLifeRecoveryOverlay(sourceGame){
   }
   const reports=[];
   for(const ending of ['\n','\r\n']){
-    const game=fs.mkdtempSync(path.join(root,'.artifacts/recovery-overlay-')),written=new Map();fs.mkdirSync(path.join(game,'src/engine'),{recursive:true});
+    const game=fs.mkdtempSync(path.join(scratch,'recovery-overlay-')),written=new Map();fs.mkdirSync(path.join(game,'src/engine'),{recursive:true});
     for(const[kind,base]of Object.entries(bases)){
       const tree=recoveryTree(base,kind),at=tree.owner.members.end;
       const marked=base.slice(0,at)+'\n  retainedRecoveryMarker() { return 27; }\n'+base.slice(at)+'\n// retained recovery marker\n';
@@ -72,6 +74,7 @@ export function verifyLifeRecoveryOverlay(sourceGame){
   const receipt={decision:contract.decision,source:sourceGame,sourceHashes:Object.fromEntries(Object.entries(original).map(([kind,bytes])=>[kind,sha256(bytes)])),
     contractSha256:sha256(fs.readFileSync(path.join(root,'baseline/milestone-forty-two/adapter-contract.json'))),reports,sourceFaults:faults.length*2,inputUnchanged:true};
   writeJSON(path.join(root,'.artifacts/life-recovery-overlay-verification.json'),receipt);console.log('PASS recovery source controls: '+receipt.sourceFaults+' faults rejected.');return receipt;
+ });
 }
 if(process.argv[1]&&pathToFileURL(path.resolve(process.argv[1])).href===import.meta.url){
   const at=process.argv.indexOf('--game');assert(at>=0&&process.argv[at+1],'Provide --game with a prepared predecessor game');verifyLifeRecoveryOverlay(path.resolve(process.argv[at+1]));

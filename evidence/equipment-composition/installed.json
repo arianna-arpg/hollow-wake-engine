@@ -1,0 +1,86 @@
+{
+  "passed": true,
+  "composition": "original-game",
+  "results": {
+    "passiveGrafts": {
+      "cases": 15,
+      "sha256": "8719fe687f615af96917acff404b2dd4326294001c4abbd67d939b657b7c9e2b"
+    },
+    "legends": {
+      "cases": 60,
+      "sha256": "938064e47262f12ac0cc28f04d10d6a5e0b3914fe2e55866ba9d49f0aeba0921"
+    },
+    "slotgraft": {
+      "cases": 36,
+      "sha256": "743159dec65a2107faaccb99538246a2b53736d34bdc3f4fa4b0962f3e8d8b92"
+    },
+    "catalogue": {
+      "cases": 18773,
+      "sha256": "12a0f4dabd7297650a11ada95bbe6b0442466a29afe761c260ff0fc07f0235bc"
+    }
+  },
+  "faults": [
+    {
+      "name": "forget-grant-investment",
+      "probe": "legends",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "3fbbec2606b605304a04de45c2a6de41cc5040605d004c9436e6c233ae0f728c"
+    },
+    {
+      "name": "compound-bonus-levels",
+      "probe": "legends",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "a5e8f98a56cf9024460a608c781bebe93d1bdb555771df980b90257a6cc489f3"
+    },
+    {
+      "name": "retain-derived-grafts",
+      "probe": "slotgraft",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "39aba50393eadc5241a9d048906288b60983a7e08d7847e49aa012482a25a9fe"
+    },
+    {
+      "name": "skip-support-fixed-point",
+      "probe": "slotgraft",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "190597f1231b4407c0c5fc79f9cb657fabd23e74e88f9beb32ac1275c1f91d48"
+    },
+    {
+      "name": "retain-retired-bar-instance",
+      "probe": "legends",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "fd32ea3bb534a80c9fc85d3c16321f5c1029c6d53706bd167ac340dd15fef563"
+    }
+  ],
+  "sources": {
+    "src/equipment-skills.ts": "d5756a5e190fdd398e1e5e87c88705148866b6a1ef1ef7391695c39794f27812",
+    "adapters/hollow-wake/integrate-equipment-skills.mjs": "b255d897624a115b6e33614362ed46304bbb6ad373be70b2239ecb2f84870b97",
+    "reference/equipment-skill-observer.ts": "8bd5abb3d7866142305f6a4eaef6207c3b9fbab71fe743f0cda389649da6a8b1",
+    "scripts/equipment-skill-reference.mjs": "6d134f9a9c19b07c88e90022195b867a4d3de7d7aa2de21407cd07349c8d4098",
+    "scripts/test-equipment-skills-original.mjs": "0b73018fb1c716ce98527099e5953aeaa4684e6e11762f2c33a53c61fb825d8d",
+    "scripts/prepare-game-adapter.mjs": "7c7baaa7e18aef5a24999b746800e9518103d68ab1f8487658a980660e8a630a",
+    "adapters/hollow-wake/integrate-passive-grants.mjs": "bf147fb066fe9e2aaf9b9dea6e6fdc528a008d7bbeb899e39ec1e4ad1e9f9189",
+    "adapters/hollow-wake/passiveGrantAdapter.ts": "c82172a70301298781f1f537ae11a2e48ec2fcb18c81aed2ff73d6af322cd571",
+    "reference/export-equipment-passive-grafts.ts": "680f5190279bfcf4b8e2891c2e57bf5da02d963dfef1fddb4573085d8d632c15",
+    "baseline/equipment-passive-grafts/acceptance.json": "b5868886dcf098d245bb5ea824b677ef92b1d9b762ee034c4a3c437e744a0863",
+    "baseline/equipment-skills/acceptance.json": "d166dd62211caf2ccc525ddda4093dc1cd3c0e5a3e4dca34417e1f1dfa3fbda5",
+    "package.json": "33e39fc4fdb33ebe1fb83ddbd0242d0a69635a9977f36c72f05125cd0d7b4f11"
+  },
+  "archiveSha256": "0c7d1de1cc885fb333df2892fd3c21120250b8f3d0c80751a4460af15df3f631",
+  "adapter": {
+    "files": [
+      "src/engine/world.ts"
+    ],
+    "passiveGrafts": "original",
+    "decision": "Equipment skill grants, bonuses and grafts use the SDK; companion bodies and world effects remain explicit host services."
+  },
+  "runtimeSha256": "d4fa964889907bf977fc398b802c0776713c945b2903eba88da0177da72292cb",
+  "types": true,
+  "restored": true,
+  "inputsUnchanged": true,
+  "cleaned": true
+}

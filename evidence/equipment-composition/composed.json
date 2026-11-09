@@ -1,0 +1,188 @@
+{
+  "passed": true,
+  "composition": "complete-prepared-game",
+  "results": {
+    "passiveGrafts": {
+      "cases": 15,
+      "sha256": "8719fe687f615af96917acff404b2dd4326294001c4abbd67d939b657b7c9e2b"
+    },
+    "passives": {
+      "passive-grants": {
+        "rows": 4103,
+        "sha256": "9fdaec13782fca4c5d1f83d7d58a2b2bea9e970090bb12554d2cad935b68a192"
+      },
+      "passive-grant-refresh": {
+        "rows": 8,
+        "sha256": "72e61a69b2168a18e19a802acc59774117ce4383f33bfad40e70edcff90ead58"
+      }
+    },
+    "legends": {
+      "cases": 60,
+      "sha256": "938064e47262f12ac0cc28f04d10d6a5e0b3914fe2e55866ba9d49f0aeba0921"
+    },
+    "slotgraft": {
+      "cases": 36,
+      "sha256": "743159dec65a2107faaccb99538246a2b53736d34bdc3f4fa4b0962f3e8d8b92"
+    },
+    "catalogue": {
+      "cases": 18773,
+      "sha256": "12a0f4dabd7297650a11ada95bbe6b0442466a29afe761c260ff0fc07f0235bc"
+    }
+  },
+  "faults": [
+    {
+      "name": "forget-grant-investment",
+      "probe": "legends",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "b9336647539b8a68e05f8bcdb94abfe856632e38fac2108fb4992d5cde9eae76"
+    },
+    {
+      "name": "compound-bonus-levels",
+      "probe": "legends",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "9c262672cfe5797b679644c7bf2969402293c292a47a4fa5ecd920a71c1082ea"
+    },
+    {
+      "name": "retain-derived-grafts",
+      "probe": "slotgraft",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "c8361e72a77c7404471ef7bdfcde54fd077b120827e5fe2da0a593e575198aec"
+    },
+    {
+      "name": "skip-support-fixed-point",
+      "probe": "slotgraft",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "173cc350c629cbc2c4833a4717e941aff98db9c7b5277d365f5b8dc7850d9cb6"
+    },
+    {
+      "name": "retain-retired-bar-instance",
+      "probe": "legends",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "a722afb5f89a6568f14303140d5c485d3eb7744c08d5382b0107bee2b1305b04"
+    }
+  ],
+  "sources": {
+    "src/equipment-skills.ts": "d5756a5e190fdd398e1e5e87c88705148866b6a1ef1ef7391695c39794f27812",
+    "adapters/hollow-wake/integrate-equipment-skills.mjs": "b255d897624a115b6e33614362ed46304bbb6ad373be70b2239ecb2f84870b97",
+    "reference/equipment-skill-observer.ts": "8bd5abb3d7866142305f6a4eaef6207c3b9fbab71fe743f0cda389649da6a8b1",
+    "scripts/equipment-skill-reference.mjs": "6d134f9a9c19b07c88e90022195b867a4d3de7d7aa2de21407cd07349c8d4098",
+    "scripts/test-equipment-skills-original.mjs": "0b73018fb1c716ce98527099e5953aeaa4684e6e11762f2c33a53c61fb825d8d",
+    "scripts/prepare-game-adapter.mjs": "7c7baaa7e18aef5a24999b746800e9518103d68ab1f8487658a980660e8a630a",
+    "adapters/hollow-wake/integrate-passive-grants.mjs": "bf147fb066fe9e2aaf9b9dea6e6fdc528a008d7bbeb899e39ec1e4ad1e9f9189",
+    "adapters/hollow-wake/passiveGrantAdapter.ts": "c82172a70301298781f1f537ae11a2e48ec2fcb18c81aed2ff73d6af322cd571",
+    "reference/export-equipment-passive-grafts.ts": "680f5190279bfcf4b8e2891c2e57bf5da02d963dfef1fddb4573085d8d632c15",
+    "baseline/equipment-passive-grafts/acceptance.json": "b5868886dcf098d245bb5ea824b677ef92b1d9b762ee034c4a3c437e744a0863",
+    "baseline/equipment-skills/acceptance.json": "d166dd62211caf2ccc525ddda4093dc1cd3c0e5a3e4dca34417e1f1dfa3fbda5",
+    "package.json": "33e39fc4fdb33ebe1fb83ddbd0242d0a69635a9977f36c72f05125cd0d7b4f11"
+  },
+  "archiveSha256": "0c7d1de1cc885fb333df2892fd3c21120250b8f3d0c80751a4460af15df3f631",
+  "adapter": {
+    "files": [
+      "balance/inventory-ui.cjs",
+      "balance/probe_statusvoice.ts",
+      "src/data/classes.ts",
+      "src/data/essences.ts",
+      "src/data/procs.ts",
+      "src/dev/passiveEditor.ts",
+      "src/engine/absorb.ts",
+      "src/engine/accountRelicRuntime.ts",
+      "src/engine/accountReliquary.ts",
+      "src/engine/actor.ts",
+      "src/engine/actorConditionAdapter.ts",
+      "src/engine/assault.ts",
+      "src/engine/attackSequenceSpec.ts",
+      "src/engine/attackSequences.ts",
+      "src/engine/buffAdapter.ts",
+      "src/engine/castseal.ts",
+      "src/engine/channelBankAdapter.ts",
+      "src/engine/channelCastingAdapter.ts",
+      "src/engine/chargedCastingAdapter.ts",
+      "src/engine/containers.ts",
+      "src/engine/crafting.ts",
+      "src/engine/damage.ts",
+      "src/engine/damagePipeline.ts",
+      "src/engine/delayedBurstAdapter.ts",
+      "src/engine/engineAdapter.ts",
+      "src/engine/equipmentActionAdapter.ts",
+      "src/engine/gauge.ts",
+      "src/engine/gemitems.ts",
+      "src/engine/guardCastingAdapter.ts",
+      "src/engine/hitAftermath.ts",
+      "src/engine/hitEffects.ts",
+      "src/engine/hitLanding.ts",
+      "src/engine/hitPreparation.ts",
+      "src/engine/hitReactions.ts",
+      "src/engine/hitStatuses.ts",
+      "src/engine/hitSustain.ts",
+      "src/engine/inventory.ts",
+      "src/engine/itemAdapter.ts",
+      "src/engine/itemLimits.ts",
+      "src/engine/itemgen.ts",
+      "src/engine/lifeRecoveryAdapter.ts",
+      "src/engine/passiveGrantAdapter.ts",
+      "src/engine/passivePolicyAdapter.ts",
+      "src/engine/passiveRefund.ts",
+      "src/engine/procAdapter.ts",
+      "src/engine/procCasting.ts",
+      "src/engine/procDelivery.ts",
+      "src/engine/procEffectAdapter.ts",
+      "src/engine/progressionAdapter.ts",
+      "src/engine/reception.ts",
+      "src/engine/relicActionAdapter.ts",
+      "src/engine/relicPower.ts",
+      "src/engine/resourceAdapter.ts",
+      "src/engine/resourceEventAdapter.ts",
+      "src/engine/resourcePaymentAdapter.ts",
+      "src/engine/resourceRestorationAdapter.ts",
+      "src/engine/seatlaw.ts",
+      "src/engine/skillActionsAdapter.ts",
+      "src/engine/skillAdmissionAdapter.ts",
+      "src/engine/skillEmpowerment.ts",
+      "src/engine/skillIntentAdapter.ts",
+      "src/engine/skillMerge.ts",
+      "src/engine/skillProgressionAdapter.ts",
+      "src/engine/skills.ts",
+      "src/engine/skilltree.ts",
+      "src/engine/stash.ts",
+      "src/engine/stats.ts",
+      "src/engine/status.ts",
+      "src/engine/statusDelivery.ts",
+      "src/engine/statusEffects.ts",
+      "src/engine/statusLifecycle.ts",
+      "src/engine/supportActionsAdapter.ts",
+      "src/engine/supportRulesAdapter.ts",
+      "src/engine/supportbase.ts",
+      "src/engine/vocationGrantAdapter.ts",
+      "src/engine/vocationSiteAdapter.ts",
+      "src/engine/world.ts",
+      "src/main.ts",
+      "src/meta/account.ts",
+      "src/meta/character.ts",
+      "src/meta/classkit.ts",
+      "src/meta/gates.ts",
+      "src/meta/memoryUnlocks.ts",
+      "src/meta/reliquary.ts",
+      "src/meta/unlocks.ts",
+      "src/quests/vocations.ts"
+    ],
+    "decision": "Equipment skill grants, bonuses and grafts use the SDK; companion bodies and world effects remain explicit host services.",
+    "passiveGrafts": "compiled"
+  },
+  "runtimeSha256": "d4fa964889907bf977fc398b802c0776713c945b2903eba88da0177da72292cb",
+  "types": true,
+  "compiledHandoffFaultDetected": true,
+  "compiledHandoffFault": {
+    "failingCheckpoints": 8,
+    "logSha256": "5bc0b39c84ed2f9dff1883825735e301d2e96f6894153c184643e3b594621024"
+  },
+  "compiledHandoffRestored": true,
+  "simulationSmoke": true,
+  "restored": true,
+  "inputsUnchanged": true,
+  "cleaned": true
+}

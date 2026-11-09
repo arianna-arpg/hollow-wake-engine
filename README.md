@@ -4,9 +4,10 @@ An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
 The optional [equipment skill runtime](docs/equipment-skills.md) derives item-owned
-skills, class skill bonuses and passive, tree and worn supports. Its isolated
-game adapter is checked against original lifecycle and catalogue observations;
-composition with the complete game adapter and broader native gear admission remain open.
+skills, class skill bonuses and passive, tree and worn supports. The complete
+game adapter composes it with compiled passive grafts and checks original
+lifecycle, catalogue and live authoring observations. Broader native gear
+admission and device performance qualification remain open.
 
 The 0.59 candidate adds [vestige inlays](docs/vestige-inlays.md) to the SDK and
 Godot inventory. Fill a socket, preview an overwrite, awaken an epitaph and

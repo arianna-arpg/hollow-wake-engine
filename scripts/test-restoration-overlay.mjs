@@ -1,3 +1,4 @@
+import {withOverlayScratch} from './overlay-scratch.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';
 import {pathToFileURL} from 'node:url';import ts from 'typescript';
 import {root,sha256,writeJSON} from './reference-utils.mjs';
@@ -7,6 +8,7 @@ import {restorationPaths,restorationTree,restorationImports,restorationDecision,
 
 /** Read the predecessor; exercise every transformation on fresh disposable copies. */
 export function verifyRestorationOverlay(sourceGame){
+ return withOverlayScratch('restoration',scratch=>{
   const {contract}=readRestorationExpectations();
   const original=Object.fromEntries(['actor','world'].map(kind=>[kind,fs.readFileSync(path.join(sourceGame,restorationPaths[kind]))]));
   const bases=Object.fromEntries(Object.entries(original).map(([kind,bytes])=>[kind,bytes.toString().replaceAll('\r\n','\n')])),faults=[];
@@ -30,7 +32,7 @@ export function verifyRestorationOverlay(sourceGame){
   }
   const reports=[];
   for(const ending of ['\n','\r\n']){
-    const game=fs.mkdtempSync(path.join(root,'.artifacts/restoration-overlay-')),written=new Map();fs.mkdirSync(path.join(game,'src/engine'),{recursive:true});
+    const game=fs.mkdtempSync(path.join(scratch,'restoration-overlay-')),written=new Map();fs.mkdirSync(path.join(game,'src/engine'),{recursive:true});
     for(const[kind,base]of Object.entries(bases)){
       const tree=restorationTree(base,kind),at=tree.owner.members.end;
       const marked=base.slice(0,at)+'\n  retainedRestorationMarker() { return 43; }\n'+base.slice(at)+'\n// retained restoration marker\n';
@@ -76,6 +78,7 @@ export function verifyRestorationOverlay(sourceGame){
     contractSha256:sha256(fs.readFileSync(path.join(root,'baseline/milestone-forty-three/adapter-contract.json'))),reports,sourceFaults:faults.length*2,inputUnchanged:true};
   writeJSON(path.join(root,'.artifacts/restoration-overlay-verification.json'),receipt);
   console.log('PASS restoration source controls: '+receipt.sourceFaults+' faults rejected.');return receipt;
+ });
 }
 if(process.argv[1]&&pathToFileURL(path.resolve(process.argv[1])).href===import.meta.url){
   const at=process.argv.indexOf('--game');assert(at>=0&&process.argv[at+1],'Provide --game with a prepared predecessor game');
