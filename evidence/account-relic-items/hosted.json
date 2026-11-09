@@ -1,0 +1,195 @@
+{
+  "passed": true,
+  "run": "42709044948",
+  "commit": "a30b6d7b7021e79d837ec232bb837091c747afe8",
+  "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42709044948",
+  "qualified": [
+    {
+      "os": "windows-2025",
+      "job": 129473393398,
+      "report": {
+        "passed": true,
+        "contracts": 12,
+        "originalAccountCheckpoints": 27,
+        "faults": [
+          {
+            "name": "drop-typed-save",
+            "detected": true,
+            "logSha256": "e157bc3c4c78121ba0f0b7b5ed8f781247e14ea4f18a4dda6b22732a79718854"
+          },
+          {
+            "name": "forget-tombstones",
+            "detected": true,
+            "logSha256": "a88b2d3c056e032556dd5ce84135545989757907e3f69350ce28138b1609f840"
+          },
+          {
+            "name": "duplicate-character-body",
+            "detected": true,
+            "logSha256": "d7d791ec29eeccefc9c0d75b653d5c55da9893b3ed882167a63b416defc1223a"
+          },
+          {
+            "name": "revalidate-unchanged-bodies",
+            "detected": true,
+            "logSha256": "12fa3c57836d4c373065b9a1c79bbf23615f6b17b91a307c0406b132262173da"
+          },
+          {
+            "name": "skip-payload-admission",
+            "detected": true,
+            "logSha256": "b3f336e719dce9ce275f5091fc8afe9d9d332feeab0fce4659995b2443342996"
+          },
+          {
+            "name": "wrong-content",
+            "detected": true,
+            "logSha256": "70ee3e044c11e326faf30e681b02c89695dd276326a486e3e6e52fd764eb40dd"
+          },
+          {
+            "name": "wrong-category",
+            "detected": true,
+            "logSha256": "73911feb31501fbe0235e07c122513fc2c959054d787f62ccdf9032ed1c088fd"
+          },
+          {
+            "name": "wrong-body-address",
+            "detected": true,
+            "logSha256": "17d3545ceda43e50857569fd6947532a2b3d6d3ac1d17b49ee90ceb0945b3a32"
+          },
+          {
+            "name": "wrong-footprint",
+            "detected": true,
+            "logSha256": "e470a9c3d615c9bf05522f64d3fd65f4533d0f671c89f39abe2fd492e07c2f05"
+          },
+          {
+            "name": "reorder-bodies",
+            "detected": true,
+            "logSha256": "3599a9dfc2aec65055039ea87877ecd2fe03cb9dda4f6dc13582f8597eddbcfc"
+          }
+        ],
+        "sources": {
+          "src/account-relic-items.ts": "c542e2bf2ad9d62f9a4e4c90a0e7849e2b806686c2936145c6b3b511de939729",
+          "src/account-workshop-session.ts": "0435496cba32a48d6df2f9c9f3ce78b5ee387bff13d8fde0b706a356e7d18983",
+          "src/workshop-build-preparation.ts": "83ab4228932b712b1908eafe5973d140b017f73fe9f5c76ca5dc96aa5343da99",
+          "src/relic-custody.ts": "d5714b190e221568e31db8534331855c26c54ea8ab92ecb35159375a640b057a",
+          "src/crafting-session-data.ts": "c4c7dc90d6b5da2828369703ea44b17772c451d9ab3b0bcf809ecd32a925438e",
+          "src/progression-session.ts": "f3708f68117b36b26dc8b20cfa2b88c8991694c64228f00925e9e1110fde5d56",
+          "test/account-relic-items.test.mjs": "3567acc63e714bbd2538c9468e4c2df05152359e4b3535e03a4a2d45578fdd21",
+          "test/account-relic-items-fixture.mjs": "e7838a5e29419df1d6c62de48fddf6e6baed50f1dca3f3941d47bb4985b46a60",
+          "test/shared-account/fixtures.mjs": "669d72f8bda758bf73d2e8d63153b06204d8f622f748a31d22ff452769f90332",
+          "test/shared-account/contracts.mjs": "c444f9496bcc3c66d82c2b64d7874edc09aade05b8403a271ea3eb5262fe9efd",
+          "scripts/test-account-relic-items-package.mjs": "d0ab79b0bc81c026c7f1223893c148004e03a66fb3be101d5519cb94c9f5f7bc",
+          "baseline/account-relic-build/acceptance.json": "eb0291f25cc7eef6860d3334d65f87a6bc53677f68b9424d07aad18dce0cf0dd",
+          "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+          "package.json": "bfbe6906ad65334bccd921dff91adf2c093f6d2792c601cc25bb9faf34f2627c",
+          "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702"
+        },
+        "archiveSha256": "c794371520045174961b1473b4e51d6a03f83f8834eee8c856ad4fce9ee99312",
+        "contentSha256": "a1c8fee117923cac302005ecbd27cbcc6538b8cabae13894ac4c726661b43fa0",
+        "baselineSha256": "3cdfc2f7be472db7c8fd984c234d76f5f6930ef3766bcbdbd99bcaffc051add3",
+        "originalRelicsSha256": "89d046388a12748172391c79d2bfa50a56c00265d3f94ea22dfe94a27ea1fde5",
+        "browserBytes": 168399,
+        "types": true,
+        "moduleBytes": {
+          "account-workshop-session": 29225,
+          "account-relic-items": 3576
+        },
+        "restored": true,
+        "inputsUnchanged": true,
+        "logsSha256": "e1f75d6401b50ae8a09f5100b0cefb6172c7fcd629c422d4eb86efba009f52bf",
+        "cleaned": true
+      },
+      "reportSha256": "3a1fa310e0eccba776dd541dc1e095c014dc8caee899c4fb2db6f3959729f4ae"
+    },
+    {
+      "os": "ubuntu-24.04",
+      "job": 129473393821,
+      "report": {
+        "passed": true,
+        "contracts": 12,
+        "originalAccountCheckpoints": 27,
+        "faults": [
+          {
+            "name": "drop-typed-save",
+            "detected": true,
+            "logSha256": "18704ad6920e90e1475eb3a1c2c83f94e756d7c37af7fea4c96cfe0cbc6dbc7f"
+          },
+          {
+            "name": "forget-tombstones",
+            "detected": true,
+            "logSha256": "dfa598d31873ddbb4da4f7c05a47aae62989d7aa507a412b1ea1e84e8cba922d"
+          },
+          {
+            "name": "duplicate-character-body",
+            "detected": true,
+            "logSha256": "ef4a210ed04a9df3ec752d2d092a71ba9abff59a0c1bf3ead5a7ad1503097653"
+          },
+          {
+            "name": "revalidate-unchanged-bodies",
+            "detected": true,
+            "logSha256": "49c9fd52b9065c1815d40316843810738ccefe6ce29070a33200f47841b842c2"
+          },
+          {
+            "name": "skip-payload-admission",
+            "detected": true,
+            "logSha256": "c59e34e1b0964a783286abca2b7b2fc84e5f72492a430c0a067b99626301ac2e"
+          },
+          {
+            "name": "wrong-content",
+            "detected": true,
+            "logSha256": "731f2ed880f57766d32adfc98678ac00b2619498ab8ec835c325c534d57306a6"
+          },
+          {
+            "name": "wrong-category",
+            "detected": true,
+            "logSha256": "850cd35f2d62a69dde0100dbc1bdb9dd0d43cb0fc761e0aaed562f7ade6b926c"
+          },
+          {
+            "name": "wrong-body-address",
+            "detected": true,
+            "logSha256": "0942c302d3e126277f3adcad8cdddcc05be563a8fb059c5a93e675a25aa9a157"
+          },
+          {
+            "name": "wrong-footprint",
+            "detected": true,
+            "logSha256": "62ce935c429aefe9c48289a6172fc3bd92340c65e5797a7746b867a44991c57d"
+          },
+          {
+            "name": "reorder-bodies",
+            "detected": true,
+            "logSha256": "a5ed968702a3b625a07d25f809a1fac6d830ae7bb99e35179010ea0165e0bbc3"
+          }
+        ],
+        "sources": {
+          "src/account-relic-items.ts": "c542e2bf2ad9d62f9a4e4c90a0e7849e2b806686c2936145c6b3b511de939729",
+          "src/account-workshop-session.ts": "0435496cba32a48d6df2f9c9f3ce78b5ee387bff13d8fde0b706a356e7d18983",
+          "src/workshop-build-preparation.ts": "83ab4228932b712b1908eafe5973d140b017f73fe9f5c76ca5dc96aa5343da99",
+          "src/relic-custody.ts": "d5714b190e221568e31db8534331855c26c54ea8ab92ecb35159375a640b057a",
+          "src/crafting-session-data.ts": "c4c7dc90d6b5da2828369703ea44b17772c451d9ab3b0bcf809ecd32a925438e",
+          "src/progression-session.ts": "f3708f68117b36b26dc8b20cfa2b88c8991694c64228f00925e9e1110fde5d56",
+          "test/account-relic-items.test.mjs": "3567acc63e714bbd2538c9468e4c2df05152359e4b3535e03a4a2d45578fdd21",
+          "test/account-relic-items-fixture.mjs": "e7838a5e29419df1d6c62de48fddf6e6baed50f1dca3f3941d47bb4985b46a60",
+          "test/shared-account/fixtures.mjs": "669d72f8bda758bf73d2e8d63153b06204d8f622f748a31d22ff452769f90332",
+          "test/shared-account/contracts.mjs": "c444f9496bcc3c66d82c2b64d7874edc09aade05b8403a271ea3eb5262fe9efd",
+          "scripts/test-account-relic-items-package.mjs": "d0ab79b0bc81c026c7f1223893c148004e03a66fb3be101d5519cb94c9f5f7bc",
+          "baseline/account-relic-build/acceptance.json": "eb0291f25cc7eef6860d3334d65f87a6bc53677f68b9424d07aad18dce0cf0dd",
+          "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+          "package.json": "bfbe6906ad65334bccd921dff91adf2c093f6d2792c601cc25bb9faf34f2627c",
+          "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702"
+        },
+        "archiveSha256": "c794371520045174961b1473b4e51d6a03f83f8834eee8c856ad4fce9ee99312",
+        "contentSha256": "a1c8fee117923cac302005ecbd27cbcc6538b8cabae13894ac4c726661b43fa0",
+        "baselineSha256": "3cdfc2f7be472db7c8fd984c234d76f5f6930ef3766bcbdbd99bcaffc051add3",
+        "originalRelicsSha256": "89d046388a12748172391c79d2bfa50a56c00265d3f94ea22dfe94a27ea1fde5",
+        "browserBytes": 168399,
+        "types": true,
+        "moduleBytes": {
+          "account-workshop-session": 29225,
+          "account-relic-items": 3576
+        },
+        "restored": true,
+        "inputsUnchanged": true,
+        "logsSha256": "f76eabe7451d967d74ed9462dae118015f288d8f7f74f7e99d722b90589016ab",
+        "cleaned": true
+      },
+      "reportSha256": "281dc7b38da42e38e11d50f63faef72450181d6618c7ca75499d5c587c36bb11"
+    }
+  ],
+  "cleaned": true
+}

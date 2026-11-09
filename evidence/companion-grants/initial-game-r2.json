@@ -1,0 +1,91 @@
+{
+  "passed": false,
+  "sources": {
+    "src/companion-grants.ts": "83abfdec818cd71bee90e1d89aa6c36016b3f4de1b53b8b9ab8872e1e9c38ed7",
+    "adapters/hollow-wake/integrate-companion-grants.mjs": "b798f10c04280c52e2467d01b756c17d052e1f1ce446c6bd29366d929be945fb",
+    "scripts/test-game-companion-grants.mjs": "b4e3155ebf224d50071eeeb54f93510ca21f84d35660d32b57b4c11877e1a725",
+    "scripts/prepare-game-adapter.mjs": "cb1e75e782f547ba2e474a3aa366e559f85e230c3fc89ac6ee0feaef551a072a",
+    "adapters/hollow-wake/integrate-passive-grants.mjs": "bf147fb066fe9e2aaf9b9dea6e6fdc528a008d7bbeb899e39ec1e4ad1e9f9189",
+    "adapters/hollow-wake/passiveGrantAdapter.ts": "c82172a70301298781f1f537ae11a2e48ec2fcb18c81aed2ff73d6af322cd571",
+    "adapters/hollow-wake/integrate-equipment-skills.mjs": "d185eb1513f8c9a098f37d7f10d8a16643bbc5368934c4b2dfaba94c4da6229e",
+    "adapters/hollow-wake/integrate-build-contributions.mjs": "df98614fcd88335fd933dea32fdb1d5c3efe3d4547bc4ecf571b22aab586f491",
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "package.json": "1e3c370999b059bf91d4b57b421afd2bf6d21a6f313082c598d9dd72e65a02a2",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    "reference/export-companion-grants.ts": "7ba8d2db34df8dcc7c80830e9b47bf7347ff800ede1fea4d25f57722f1321947",
+    "baseline/companion-grants/acceptance.json": "170e0fb74ccec76374f51dbfe1cdddbe4faf5716c19e28c6b6f231763856e7ee",
+    "reference/export-account-relic-build.ts": "f3451aa7f060da1fca108e90755eca19c2dfe741cf78dd041ac66dead4effcfa",
+    "baseline/account-relic-build/acceptance.json": "eb0291f25cc7eef6860d3334d65f87a6bc53677f68b9424d07aad18dce0cf0dd",
+    "reference/export-build-contributions.ts": "cb250effce34a3b74b503f2ec484cb9922f7e19e225515e52ac1b5b6e6b259cf",
+    "baseline/build-contributions/acceptance.json": "3fd3fc49dac5cc892838530971d6b6df29cf06e7906af693161d4350f242fadf",
+    "reference/export-equipment-live.ts": "d5ca10c043c43f044198ad0207e5206f568325d62462b10eae83e2cb1d2afe44",
+    "baseline/equipment-live/acceptance.json": "0978f37e4c1bf62327c40b20d23714363434852b748c6ca409091790fc1d44b5"
+  },
+  "courses": [
+    {
+      "name": "companion-grants",
+      "cases": 28,
+      "observations": 83,
+      "sha256": "864e618c63cded622fd00ef1d5f1ff5e5f8cd5784bafeb45854a477b6c66224e",
+      "modes": [
+        "original",
+        "companion",
+        "composed"
+      ]
+    },
+    {
+      "name": "account-relic-build",
+      "cases": 27,
+      "sha256": "a42121e71aa61dd6c706b83de13dcc9042f29286574be65f8ade120c6acd41c8",
+      "modes": [
+        "original",
+        "companion",
+        "composed"
+      ]
+    },
+    {
+      "name": "build-contributions",
+      "cases": 91,
+      "sha256": "6b8797859f541b54826e04ca366b56506357e1b6cbb66cf6b56466a23010ef6e",
+      "modes": [
+        "original",
+        "companion",
+        "composed"
+      ]
+    },
+    {
+      "name": "equipment-live",
+      "cases": 47,
+      "sha256": "c488e7ec7bc389a308ca15fa5a4fdba883ac194913b70c902936667d02bedc83",
+      "modes": [
+        "original",
+        "companion",
+        "composed"
+      ]
+    }
+  ],
+  "faults": [
+    {
+      "name": "fault-scaled-death",
+      "detected": true,
+      "logSha256": "c413c20fa201d50fe013e98ca83c5c9f9a9d7e8c01409df7e7964b9a5ab51be9"
+    },
+    {
+      "name": "fault-cold-refresh",
+      "detected": true,
+      "logSha256": "44857f39925109e04956011c5127fa358d30547cca01069974f2a1685b028509"
+    },
+    {
+      "name": "fault-missing-provenance-binding",
+      "detected": true,
+      "logSha256": "c413c20fa201d50fe013e98ca83c5c9f9a9d7e8c01409df7e7964b9a5ab51be9"
+    }
+  ],
+  "archiveSha256": "df693f8a33936c581fdcd3381b08696247d0b691db22b86b4be87df771d2e934",
+  "adapterGuards": 11,
+  "types": true,
+  "restored": true,
+  "inputsUnchanged": false,
+  "logsSha256": "fc7c1cb65482ff99c491bebc2e6b1d70251d81d23c936f4b55d040cc197b8ed8",
+  "cleaned": true
+}

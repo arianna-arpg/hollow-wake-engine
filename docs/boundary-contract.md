@@ -1,5 +1,10 @@
 # Boundary contract
 
+The optional [companion lifecycle](companion-grants.md) owns rule execution over
+explicit borrowed state. Hosts own entity presence, bodies, spawning and live
+refresh effects. Exceptions retain preceding borrowed writes; this API does not
+provide transactional live publication or automatic actor cloning.
+
 The optional [typed account relic owner](account-relic-items.md) admits complete
 canonical bodies and storage indexes in explicit v2 account saves and prepared
 transactions. Live projection, active-character authority and canonical grant

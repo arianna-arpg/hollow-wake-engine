@@ -3,6 +3,12 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The optional [persistent companion lifecycle](docs/companion-grants.md) preserves
+living followers across build changes and handles death, respawn and reservation
+prices through host-owned state and explicit callbacks. The Hollow Wake binding
+composes with the extracted build and equipment rules. Engine-specific companion
+delivery and target-device performance qualification remain open.
+
 The optional [typed account relics](docs/account-relic-items.md) validate complete
 item bodies, preserve canonical custody and commit them through the shared owner.
 Legacy accounts retain their format. Active-character binding and live relic

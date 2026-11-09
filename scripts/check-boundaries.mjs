@@ -106,3 +106,5 @@ assert.ok([...reachable].every(file=>!['hit-landing.ts','hit-landing-types.ts'].
 assert.ok([...reachable].every(file=>!['hit-reactions.ts','hit-reactions-types.ts'].includes(path.basename(file))), 'Optional hit reactions became an eager core import');
 assert.ok([...reachable].every(file=>!['hit-aftermath.ts','hit-aftermath-types.ts'].includes(path.basename(file))), 'Optional hit aftermath became an eager core import');
 assert.ok([...reachable].every(file=>!['status-delivery.ts','status-delivery-types.ts'].includes(path.basename(file))), 'Optional status delivery became an eager core import');
+
+assert.ok([...reachable].every(file=>path.basename(file)!=='companion-grants.ts'), 'Optional companion lifecycle became an eager core import');

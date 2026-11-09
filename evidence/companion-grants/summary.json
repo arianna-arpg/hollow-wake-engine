@@ -1,0 +1,137 @@
+{
+  "passed": true,
+  "goalComplete": false,
+  "baseCommit": "a30b6d7b7021e79d837ec232bb837091c747afe8",
+  "node": "v24.9.0",
+  "platform": "win32",
+  "arch": "x64",
+  "verification": {
+    "commands": 112,
+    "unitTests": 1784,
+    "exitCode": 0
+  },
+  "reference": {
+    "commands": 23,
+    "exitCode": 0,
+    "courses": 28,
+    "observations": 83,
+    "freshProcesses": 2
+  },
+  "companion": {
+    "contracts": 14,
+    "packageFaults": 14,
+    "gameFaults": 3,
+    "gameCourses": [
+      {
+        "name": "companion-grants",
+        "cases": 28,
+        "observations": 83,
+        "sha256": "864e618c63cded622fd00ef1d5f1ff5e5f8cd5784bafeb45854a477b6c66224e",
+        "modes": [
+          "original",
+          "companion",
+          "composed"
+        ]
+      },
+      {
+        "name": "account-relic-build",
+        "cases": 27,
+        "sha256": "a42121e71aa61dd6c706b83de13dcc9042f29286574be65f8ade120c6acd41c8",
+        "modes": [
+          "original",
+          "companion",
+          "composed"
+        ]
+      },
+      {
+        "name": "build-contributions",
+        "cases": 91,
+        "sha256": "6b8797859f541b54826e04ca366b56506357e1b6cbb66cf6b56466a23010ef6e",
+        "modes": [
+          "original",
+          "companion",
+          "composed"
+        ]
+      },
+      {
+        "name": "equipment-live",
+        "cases": 47,
+        "sha256": "c488e7ec7bc389a308ca15fa5a4fdba883ac194913b70c902936667d02bedc83",
+        "modes": [
+          "original",
+          "companion",
+          "composed"
+        ]
+      }
+    ],
+    "moduleBytes": 3289,
+    "browserBytes": 1291
+  },
+  "completeAdapter": {
+    "passed": true,
+    "simulationSmoke": true,
+    "faults": 10,
+    "barFaults": 8,
+    "compiledHandoffFault": true
+  },
+  "sources": {
+    ".github/workflows/companion-grants.yml": "d6b34b8348cc383f940ddaa7db8a5d2035617da11cb450a470a05a1441e46bf2",
+    "README.md": "f9a047423e10d82890c12ff6754df3caeeb1284b70e37fc92170df6adbc79a5f",
+    "adapters/hollow-wake/integrate-companion-grants.mjs": "b798f10c04280c52e2467d01b756c17d052e1f1ce446c6bd29366d929be945fb",
+    "baseline/companion-grants/README.md": "f5346f0ea33df3cfb84800704e150dd9e7484c6c7f251c0f1ee07aa9fb98b027",
+    "baseline/companion-grants/acceptance.json": "170e0fb74ccec76374f51dbfe1cdddbe4faf5716c19e28c6b6f231763856e7ee",
+    "baseline/companion-grants/observations.json.gz": "299885eae84c65c749b1bef574f8f324d7ab5ca9ddc308b19a0b93b43b675456",
+    "docs/boundary-contract.md": "49f14e2055b100862a88bc11087106d9f8fd2991d583ec6edcc4971e520ec1dd",
+    "docs/companion-grants.md": "0e8bc08654ca7d61d0e0684cbd08ad4643bdffc63b98daaf4fedce3e68f47f13",
+    "docs/completion.json": "31b1435264b8d82b8970361e126b9818456369f24dcde3918a17813b24d8c731",
+    "docs/verification.md": "9d917e054fd37e65ffb1c4379cfb6efede354559200cb22f4bdbdf07dfcd0d3f",
+    "package.json": "1e3c370999b059bf91d4b57b421afd2bf6d21a6f313082c598d9dd72e65a02a2",
+    "reference/export-companion-grants.ts": "7ba8d2db34df8dcc7c80830e9b47bf7347ff800ede1fea4d25f57722f1321947",
+    "scripts/check-boundaries.mjs": "74b185e8ac01eb3f4cf25d926430d3fbd9a8ce80f6796cb0d7e16a9a9fd260e7",
+    "scripts/prepare-game-adapter.mjs": "cb1e75e782f547ba2e474a3aa366e559f85e230c3fc89ac6ee0feaef551a072a",
+    "scripts/reference-companion-grants.mjs": "9367a35c608bde5a88711e3e5b69fc58aafb00e4041ccda19f9097c1afc26e9b",
+    "scripts/test-companion-grants-package.mjs": "5c72c00d38f70cf333b018bcf461dff73cfefa4a37c716339c0635b70df0c29a",
+    "scripts/test-game-companion-grants.mjs": "b9ae197cc17911f7fd9a1b791427549cdc3c56262a4898ff95a4c015c88d5881",
+    "scripts/test-package.mjs": "685a4bd05886713595e2431074db3e20bc51a215b8aec5a1a74fbcc198e1121c",
+    "src/companion-grants.ts": "83abfdec818cd71bee90e1d89aa6c36016b3f4de1b53b8b9ab8872e1e9c38ed7",
+    "test/companion-grants.test.mjs": "c55d0ba2a21eae748beb38b81eae9e471df2067d5bc0aef1fb01231688f616f1"
+  },
+  "files": {
+    "game.json": "7244804d01ed8ce6af371e1a9f345b4b3a25e95c4ec77d6559faa53a88a1ba73",
+    "game.log.gz": "d0c4963754afbc0085410346f5374c5b60fb40fa8b79c65ba1e7bc5d92de629d",
+    "verify.json": "02a6de7a5fbc5a168334a396ed7813783439ce3aa07ceaeb6be3c2dd5774ae32",
+    "verify.log.gz": "e0228926609e43fd2a016999a8200bb94eb3f9d84e74105a3d9caac991ff14ff",
+    "reference.json": "c869d9f4e586b7bacb5d0605d286d40de60618dc8912a498f614412e79854794",
+    "reference.log.gz": "76be596ddb4ec2963a915f6b302ef3944fa2cf5a1ec2d619c3f8cb86521d4253",
+    "composed.json": "823ccf8c28b8d94e560e56d758fe8f416322cfe9f8a28c806c7edcdb944ef7f7",
+    "composed.log.gz": "4304209b6d838d54144c3d8e1f83215850a4523f28aea2d6bac7d0dc16c3b6ee",
+    "package-qualification.json": "d731ebee780ac6e212482314714ab1e029c95dbd062baf301d465f69ec257cc7",
+    "package-qualification.logs.json.gz": "2ca40fce78bda372e3a3f1bf7af2155fa2868f54ebaee4e64d916817a75ab333",
+    "game-qualification.json": "6e2d19bd6b5ffb711b2ab698780599faf991953b442aa0cf1f062ef1a459cc5f",
+    "game-qualification.logs.json.gz": "61ffc61dacdd3c5d285fed5295eb7962725761a25cc0c0637c3d77b2210e4b81",
+    "reference-qualification.json": "cc379c51d8dec09a7115f4a816f3d1492d3f2d715c394c5f8f744ce8e1cbd1af",
+    "reference-qualification.logs.json.gz": "8df47eb58573e6e9a2c8053ea627b96f040a180562a09bacf66ad55e55b25eb3",
+    "complete-adapter-qualification.json": "c95e17ca44582ced5433feafb95bc2c8bdeefcf17c54237d041ecfe151e9606a",
+    "complete-adapter-qualification.logs.json.gz": "9bcfaea5e7b73f3d58fdd57155b92689a39574d8a793a34349a14ee4bde4729c",
+    "initial-game-r1.json": "c36f8dba5347f2d9e4737b181cdf2c0ff45da1e93d4e07a3e3e5a8038fbc4f2b",
+    "initial-game-r1.logs.json.gz": "d511746e8817727ec0cb87248d311a90ec8750e6e52cf1f6c0146ed8c4d80fb1",
+    "initial-game-r2.json": "ac8104170837ade46d285729cde119c7d409250c0efa91b8f663164e8650013d",
+    "initial-game-r2.logs.json.gz": "fc7c1cb65482ff99c491bebc2e6b1d70251d81d23c936f4b55d040cc197b8ed8",
+    "cleanup.json": "5240db30c436563777a9e5f198f5011c86f4491ee9c73bae769190a575876e34",
+    "package-budgets.json": "ef604c5a51334ca7e1a3699252c34987ce43bfbd6fddcd1f23d2faa0a99f0bca"
+  },
+  "footprint": {
+    "newWorktrees": 0,
+    "removedWorkspaceFolders": 76,
+    "remainingCreatedLargeFolders": []
+  },
+  "initialRuns": [
+    "An intentionally missing grant caused the original observer to dereference absent state. That was rejected as insufficient behavioral fault evidence; a lost-provenance binding fault replaces it.",
+    "A subsequent run passed behavior checks but failed input invariance because evidence checks were strengthened during it. It was discarded; the frozen-source game test and full runtime/reference verification were then rerun."
+  ],
+  "limits": [
+    "Host spawning, physics, retirement effects and live stat baking remain host responsibilities.",
+    "Active-character account authority, canonical investment writeback, complete authored private builds and acknowledgement-time reconciliation remain open.",
+    "No new Unity/Godot/Unreal companion delivery or physical-device timing, allocation or compatibility acceptance."
+  ]
+}

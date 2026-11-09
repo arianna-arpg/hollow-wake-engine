@@ -1,5 +1,14 @@
 # Verification and reproduction
 
+The optional [companion lifecycle](companion-grants.md) adds fourteen independent
+contracts, fourteen deliberate package faults and installed/browser/type checks.
+Its original-only reference contains 28 courses and 83 lifecycle observations.
+The installed game replay compares companion-only and composed build adapters
+against frozen companion, account, contribution and live-casting courses, then
+requires runtime/binding fault detection and restored controls. Full commands
+are listed in the capability document; device and native companion acceptance
+remain separate work.
+
 The optional [typed account relic boundary](account-relic-items.md) adds twelve
 contracts, installed/browser/type checks and ten deliberate runtime faults.
 `reference:account-relic-build` reproduces 27 original-only checkpoints in two
