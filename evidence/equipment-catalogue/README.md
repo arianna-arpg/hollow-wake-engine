@@ -29,6 +29,16 @@ and Linux; a workflow file alone is not hosted acceptance. Consult its actual ru
 before making a hosted claim. No physical-device or new engine-package result is
 implied.
 
+The tool hashes in this local checkpoint refer to commit
+`752fbba63606cf5d6270a2e42673af9c1914f395`. Its
+[first hosted replay](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42540601473)
+stopped on both systems before capture: the results parent directory did not yet
+exist. The tools now create that parent themselves. A fresh local workspace
+reproduced the predecessor's failure, then ran the corrected exporter and matched
+the first frozen case exactly; all temporary links and outputs were removed.
+The original exporter, expected observations and production runtime are unchanged.
+The later hosted replay remains the authority for complete clean-runner success.
+
 Run the three commands in the boundary document after the normal SDK build and
 pinned-reference preparation. Normal checks read the existing expected fixture;
 they cannot replace it. The six fault checks inject omissions into temporary

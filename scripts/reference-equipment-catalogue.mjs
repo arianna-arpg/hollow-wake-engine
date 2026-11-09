@@ -14,6 +14,7 @@ if (capture) assert(!fs.existsSync(directory), 'Initial capture refuses an exist
 const sourcePath = 'reference/export-equipment-catalogue.ts', source = fs.readFileSync(path.join(root, sourcePath));
 const lockBytes = fs.readFileSync(path.join(root, 'baseline/source-lock.json')), lock = JSON.parse(lockBytes);
 verifyReference(ref, lock);
+fs.mkdirSync(path.join(root, '.artifacts'), {recursive: true});
 const work = fs.mkdtempSync(path.join(root, '.artifacts/equipment-catalogue-owned-'));
 const script = path.join(ref, 'balance', `hwe-equipment-catalogue-${randomUUID()}.ts`);
 const receipt = {passed: false, capture, diagnostic, sourceSha256: sha256(source), sourceLockSha256: sha256(lockBytes)};

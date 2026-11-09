@@ -38,6 +38,7 @@ function replaceOnce(value, before, after) {
   assert.equal(value.split(before).length, 2, 'Observer source anchor changed'); return value.replace(before, after);
 }
 verifyReference(reference, lock);
+fs.mkdirSync(path.join(root, '.artifacts'), {recursive: true});
 const work = fs.mkdtempSync(path.join(root, '.artifacts/equipment-catalogue-observer-owned-'));
 const scripts = [], results = [];
 const report = {passed: false, fixtureSha256: manifest.gzipSha256, observerSha256: manifest.sourceSha256,

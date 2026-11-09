@@ -81,6 +81,7 @@ const report = {schemaVersion: 1, passed: !compilationFailures.length && !projec
     rejectionReasons: Object.keys(rejected).length, choiceFallbacks: choiceFallbacks.length,
     derivation: Object.fromEntries(Object.entries(derivation).map(([key, rows]) => [key, rows.length]))},
   nativeQualification: false, physicalDeviceQualification: false};
+fs.mkdirSync('.artifacts', {recursive: true});
 fs.writeFileSync('.artifacts/equipment-catalogue-audit.json', JSON.stringify(report, null, 2) + '\n');
 console.log(report.summary);
 assert(report.passed, `Equipment audit found ${compilationFailures.length} compilation and ${projectionDifferences.length} numeric differences; see .artifacts/equipment-catalogue-audit.json`);
