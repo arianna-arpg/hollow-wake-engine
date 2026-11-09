@@ -3,12 +3,13 @@ import {CraftingSession} from './crafting-session.js';
 import {CraftingSessionData,type CraftingSessionDefinitions} from './crafting-session-data.js';
 import type {WorkshopRack} from './workshop-rack.js';
 import type {EquipmentSlots} from './equipment-actions.js';
+import type {WorkshopBuildPort,WorkshopBuildInput} from './workshop-build-preparation.js';
 import {copySessionJSON,SessionInputError,requireSession as need,sessionFields as fields,
   sessionRecord as record,sessionInteger as integer,sessionText as text,sessionBoolean as bool,type SessionJSON} from './session-json.js';
 
 type ObjectJSON=Record<string,SessionJSON>;
 type Account={key:string;progression:ObjectJSON;craftLore:SessionJSON;extra:SessionJSON;version:number};
-type Workshop={account:number;body:ObjectJSON;progression:boolean;version:number};
+type Workshop={account:number;body:ObjectJSON;progression:boolean;version:number;build?:object;buildAccount?:Account};
 type OwnerState={accounts:Map<number,Account>;keys:Set<string>;workshops:Map<number,Workshop>};
 type PreparedWrite={kind:'account'|'workshop';handle:number};
 type PreparedChange={token:number;state:OwnerState;writes:PreparedWrite[]};
@@ -17,6 +18,8 @@ export interface AccountWorkshopDefinitions {
   workshop:CraftingSessionDefinitions;
   rack?:WorkshopRack;
   equipment?:EquipmentSlots;
+  /** Optional private build normalization. No live actor publication occurs. */
+  preparation?:WorkshopBuildPort;
 }
 export interface AccountWorkshopLimits {accounts?:number;workshops?:number}
 const refuse=(reason:string)=>({ok:false as const,reason});
@@ -34,6 +37,7 @@ export class AccountWorkshopSession {
   readonly #progression:ProgressionSession;
   readonly #crafting:CraftingSession;
   readonly #data:CraftingSessionData;
+  readonly #preparation?:WorkshopBuildPort;
   #state:OwnerState={accounts:new Map(),keys:new Set(),workshops:new Map()};
   get #accounts(){return this.#state.accounts;}
   get #keys(){return this.#state.keys;}
@@ -52,6 +56,7 @@ export class AccountWorkshopSession {
     this.#crafting=new CraftingSession(definitions.workshop,1,definitions.rack);
     if(definitions.equipment)this.#crafting.configureEquipment(definitions.equipment);
     this.#data=new CraftingSessionData(definitions.workshop);
+    this.#preparation=definitions.preparation;
   }
   #account(id:unknown):Account {
     integer(id,0,0xffffffff);const account=this.#accounts.get(id);
@@ -89,12 +94,12 @@ export class AccountWorkshopSession {
     copySessionJSON({ok:true,version:Number.MAX_SAFE_INTEGER,accountVersion:Number.MAX_SAFE_INTEGER,
       save:this.#workshopSave(workshop,account)});
   }
-  #checkBindings(id:number,account:Account,profile?:number,replacement?:Workshop) {
+  #checkBindings(id:number,account:Account,replacements?:ReadonlyMap<number,Workshop>) {
     // A shared-account update must not make another character's next command
     // impossible to admit. Validate the complete legacy kernel envelope for
     // every attached inventory before publishing either owner.
     for(const [handle,workshop] of this.#workshops)if(workshop.account===id) {
-      const current=handle===profile&&replacement?replacement:workshop;
+      const current=replacements?.get(handle)??workshop;
       copySessionJSON({op:'restore',profile:0xffffffff,save:this.#join(current,account)});
     }
   }
@@ -116,6 +121,33 @@ export class AccountWorkshopSession {
   }
   #body(save:ObjectJSON):ObjectJSON {
     const state={...object(save.state)};delete state.account;return {...save,state};
+  }
+  #prepareBuild(profile:number,save:ObjectJSON,owner:Account,phase:WorkshopBuildInput['phase'],previous?:Workshop,command?:ObjectJSON) {
+    const preparation=this.#preparation;
+    if(!preparation)return {save,build:undefined,buildAccount:undefined};
+    if(previous&&owner===previous.buildAccount&&same(this.#body(save),previous.body))return {save,build:previous.build,buildAccount:owner};
+    const account=JSON.stringify(object(save.state).account);
+    const result=preparation.prepare(previous?.build,{profile,phase,
+      state:copySessionJSON(save.state) as unknown as WorkshopBuildInput['state'],
+      account:copySessionJSON(this.#accountSave(owner)) as ObjectJSON,command});
+    need(result.continuation!==null&&typeof result.continuation==='object'&&result.continuation!==previous?.build,'invalid-build-continuation');
+    need(JSON.stringify(result.state.account)===account,'build-account-owner-violation');
+    // Re-admit the complete normalized state with the existing rule kernel.
+    // This reads no live build and consumes neither random stream nor item IDs.
+    const checked=this.#withWorkshop({op:'restore',save:{...save,state:result.state as unknown as SessionJSON}}).save;
+    return {save:checked,build:result.continuation,buildAccount:owner};
+  }
+  #refreshBuilds(id:number,account:Account,command:ObjectJSON,except?:number) {
+    const replacements=new Map<number,Workshop>();
+    if(this.#preparation)for(const[profile,current]of this.#workshops)if(current.account===id&&profile!==except){
+      const prepared=this.#prepareBuild(profile,this.#join(current,account),account,'account',current,command);
+      if(prepared.build===current.build)continue;
+      const body=this.#body(prepared.save),changed=!same(body,current.body);
+      const next={...current,body,build:prepared.build,buildAccount:prepared.buildAccount,
+        version:changed?this.#next(current.version):current.version};
+      this.#checkWorkshop(next,account);replacements.set(profile,next);
+    }
+    return replacements;
   }
   #join(workshop:Workshop,account:Account):ObjectJSON {
     return {...workshop.body,state:{...object(workshop.body.state),account:this.#project(account,workshop.progression)}};
@@ -244,7 +276,8 @@ export class AccountWorkshopSession {
         save=this.#withWorkshop({op:'open',seed:request.seed,state:{...state,account:this.#project(account,progression)},
           ...(request.nextUid===undefined?{}:{nextUid:request.nextUid as SessionJSON})}).save;
       }
-      const workshop={account:request.account as number,body:this.#body(save),progression,version:1};
+      const prepared=this.#prepareBuild(request.profile,save,account,restore?'restore':'open');
+      const workshop={account:request.account as number,body:this.#body(prepared.save),progression,version:1,build:prepared.build,buildAccount:prepared.buildAccount};
       this.#checkWorkshop(workshop,account);this.#workshops.set(request.profile,workshop);
       return {ok:true,version:1,accountVersion:account.version};
     }
@@ -271,9 +304,11 @@ export class AccountWorkshopSession {
       const changed=!same(result.save,account.progression);
       const next={...account,progression:result.save,version:changed?this.#next(account.version):account.version};
       this.#checkAccount(next);
-      if(changed)this.#checkBindings(request.account as number,next);
+      const replacements=changed?this.#refreshBuilds(request.account as number,next,command):new Map<number,Workshop>();
+      if(changed)this.#checkBindings(request.account as number,next,replacements);
       const answer=copySessionJSON({ok:true,reply,changed,version:next.version});
       if(changed)this.#accounts.set(request.account as number,next);
+      for(const[profile,replacement]of replacements)this.#workshops.set(profile,replacement);
       return answer;
     }
     if(request.op==='workshop') {
@@ -288,16 +323,20 @@ export class AccountWorkshopSession {
         progression=this.#withAccount({op:'restore',save:{...progression,account:{...object(progression.account),ledger:shared.ledger}}}).save;
       }
       const accountChanged=!same(progression,account.progression) || !same(shared.craftLore,account.craftLore);
-      const nextAccount={...account,progression,craftLore:shared.craftLore,version:accountChanged?this.#next(account.version):account.version};
+      const nextAccount=accountChanged?{...account,progression,craftLore:shared.craftLore,version:this.#next(account.version)}:account;
+      const prepared=this.#prepareBuild(request.profile as number,result.save,nextAccount,'command',workshop,command);
+      result.save=prepared.save;
       const body=this.#body(result.save),changed=!same(body,workshop.body);
-      const nextWorkshop={...workshop,body,version:changed?this.#next(workshop.version):workshop.version};
+      const nextWorkshop={...workshop,body,build:prepared.build,buildAccount:prepared.buildAccount,version:changed?this.#next(workshop.version):workshop.version};
       this.#checkAccount(nextAccount);this.#checkWorkshop(nextWorkshop,nextAccount);
-      if(accountChanged)this.#checkBindings(workshop.account,nextAccount,request.profile as number,nextWorkshop);
+      const replacements=accountChanged?this.#refreshBuilds(workshop.account,nextAccount,command,request.profile as number):new Map<number,Workshop>();
+      if(changed||prepared.build!==workshop.build)replacements.set(request.profile as number,nextWorkshop);
+      if(accountChanged)this.#checkBindings(workshop.account,nextAccount,replacements);
       const answer=copySessionJSON({ok:true,reply,changed,accountChanged,version:nextWorkshop.version,accountVersion:nextAccount.version});
       // All allocations, reply admission and rule callbacks finish before either
       // reference is promoted. The account and inventory become visible together.
       if(accountChanged)this.#accounts.set(workshop.account,nextAccount);
-      if(changed)this.#workshops.set(request.profile as number,nextWorkshop);
+      for(const[profile,replacement]of replacements)this.#workshops.set(profile,replacement);
       return answer;
     }
     return refuse('unknown-operation');

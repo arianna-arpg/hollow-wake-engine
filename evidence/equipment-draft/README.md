@@ -13,6 +13,14 @@ leave their source unchanged and match the actual installed derivation. All 47
 frozen observations still match. See [qualification.json](qualification.json),
 its compressed logs, and [summary.json](summary.json) for source and artifact hashes.
 
+The published commit `3cc8416a12ff06e1cb629e795baa92c9a66906a8` also passes the
+complete equipment workflow on Windows 2025 and Ubuntu 24.04 in
+[run 42669922380](https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42669922380).
+Downloaded artifacts independently confirm draft qualification, frozen original
+continuity, installed/composed catalogue results and deliberate faults.
+[hosted.json](hosted.json) binds the reports and artifact hashes to that exact
+commit. These hosted results do not qualify later uncommitted changes or devices.
+
 All 107 SDK verification commands passed on the recorded inputs, including 1,725
 unit tests. This was a split run: the first 52 commands passed before a Windows
 profile-temp access error interrupted a package consumer. The exact remaining 55

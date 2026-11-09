@@ -1,0 +1,48 @@
+name: Verify workshop build preparation
+on:
+  push:
+    paths:
+      - '.github/workflows/workshop-build.yml'
+      - 'src/**'
+      - 'baseline/**'
+      - 'test/workshop-build-preparation.test.mjs'
+      - 'test/shared-account/**'
+      - 'scripts/test-workshop-build-package.mjs'
+      - 'scripts/test-account-workshops-package.mjs'
+      - 'scripts/compile-*.mjs'
+      - 'package*.json'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preparation:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: 24.9.0
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run test:account-workshops-package
+      - run: npm run test:workshop-build-package
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: workshop-build-${{ matrix.os }}
+          include-hidden-files: true
+          if-no-files-found: error
+          path: |
+            .artifacts/account-workshops-package-latest.json
+            .artifacts/account-workshops-package-latest.json.logs.json.gz
+            .artifacts/workshop-build-package.json
+            .artifacts/workshop-build-package.logs.json.gz

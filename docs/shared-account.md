@@ -4,6 +4,11 @@ The optional `@hollow-wake/engine/account/workshops` entry adds one account
 authority with multiple attached character inventories. It composes the existing
 progression and crafting rules. It does not replace either standalone session.
 
+An optional [private build preparation service](workshop-build-preparation.md)
+normalizes item investment before candidate saves are exported and carries build
+continuity through command batches. When enabled, account changes can also
+normalize attached inventories; durable callers must save the complete group.
+
 The account owns credits, unlocks, ledger counters, crafting expertise, its reward
 random stream and opaque host fields. Each character owns its bag, equipment,
 materials, item IDs and workshop random stream. A workshop reads current account

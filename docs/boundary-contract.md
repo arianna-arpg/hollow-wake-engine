@@ -1,5 +1,10 @@
 # Boundary contract
 
+The optional [workshop build preparation](workshop-build-preparation.md) connects
+private build continuations and normalized item investment to account/workshop
+transactions. Full authored-context construction and live actor publication are
+separate host integration work.
+
 The optional [equipment skill draft](equipment-skill-draft.md) prepares an
 isolated build graph for the existing equipment derivation. Its copied identity
 relations and normalized item investment support durable preparation; shared

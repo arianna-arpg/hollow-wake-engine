@@ -1,0 +1,104 @@
+{
+  "passed": true,
+  "goalComplete": false,
+  "baseCommit": "dde4047d95bbbc030b6c331a62c0efbf6e2011d3",
+  "verificationSourceBase": "3cc8416a12ff06e1cb629e795baa92c9a66906a8",
+  "node": "v24.9.0",
+  "platform": "win32",
+  "arch": "x64",
+  "verification": {
+    "command": "npm run verify",
+    "exitCode": 0,
+    "commands": 108,
+    "unitTests": 1735,
+    "temporaryRoot": "owned workspace directory, removed on completion"
+  },
+  "preparation": {
+    "contracts": 10,
+    "faults": 8,
+    "moduleBytes": {
+      "account-workshop-session": 25005,
+      "workshop-build-preparation": 2525
+    },
+    "browserBytes": 169149
+  },
+  "compatibility": {
+    "accountContracts": 33,
+    "accountFaults": 26,
+    "nativeOriginalReplies": 579,
+    "nativeBookReplies": 32,
+    "nativeRows": [
+      {
+        "heapMiB": 32,
+        "policy": "none",
+        "loops": 1,
+        "original": true,
+        "book": true,
+        "remaining": 0
+      },
+      {
+        "heapMiB": 48,
+        "policy": "none",
+        "loops": 1,
+        "original": true,
+        "book": true,
+        "remaining": 0
+      },
+      {
+        "heapMiB": 32,
+        "policy": "startup",
+        "loops": 1,
+        "original": true,
+        "book": true,
+        "remaining": 0
+      },
+      {
+        "heapMiB": 32,
+        "policy": "startup",
+        "loops": 10,
+        "original": true,
+        "book": true,
+        "remaining": 0
+      }
+    ]
+  },
+  "sources": {
+    "src/account-workshop-session.ts": "3d3170512f7c30413a4d4fee233b3231a7debf6cf6b5d933f61bbb78c94ea73c",
+    "src/workshop-build-preparation.ts": "266d349abcdfb50ef3e163545f80424d06a4b5f8bdbb6bbee5bc985d5b5e1857",
+    "test/workshop-build-preparation.test.mjs": "f7d7752cbb2c6e6f0eff39962c5a790ea2569492bf01b5c02b7218795c27e443",
+    "docs/workshop-build-preparation.md": "dcd2bc2384ce7ef9cded625ddfc691078340536ff45d9753287423465a8346d6",
+    "package.json": "93c17f71584d302ff2614c3d0a8b3e11366b28af31a81aac32023b45b5c3d30f",
+    "scripts/test-package.mjs": "b5a009b26809f03e0621e3ab82a22d83a1a761259c8fb6d4af6103d9a058d94c",
+    "scripts/test-account-workshops-package.mjs": "4d43ed6d0e7984b1791b83e6a1a7046537833982cb4b0c8596965c6a031605f8",
+    "scripts/check-boundaries.mjs": "babd0caa0bb105cd6115715a398e1c1c711ec2f2140d0f76e9055022c9e9667c",
+    "scripts/test-workshop-build-package.mjs": "87336e63fe12039be923680ca8fee339a1249914057028fb7270f7bd761f23e0",
+    "docs/shared-account.md": "70adf7919783236f609219a1dd71b493c23f96fe8a9450009005b30fe8d85b17",
+    "docs/boundary-contract.md": "520239ce59352066ad094788285f922b09397b8cef4d5808a9379ba3343468eb",
+    "docs/verification.md": "e716a1abdfd2b07c39aacc6fa0f98055b5c37a966ad8d500c972f8e28b463e83",
+    ".github/workflows/workshop-build.yml": "826446217f3047267aa1280ccbcb1ead074e65f0659e71683d038a56a0779ec4",
+    "docs/completion.json": "015871c2f8778676637edf68476f1c8016d46166b4defb42f236a482afd05546"
+  },
+  "files": {
+    "qualification.json": "67a2f9bef35d25c9286ae5b00dc78c91ecda68cfe41e34b2b65216fff69e3c1d",
+    "qualification.logs.json.gz": "b52605f429f8e8be76c529ab451fe88d7442bd96d65e5c36411d2d2fb3518635",
+    "account-regression.json": "c86747e6aa20357b0373fa78ae8ca329301b42a8c47326fe117e3615992aa2f6",
+    "account-regression.logs.json.gz": "05967344795e71b4b45179f2018b144d033746eae7d19e2ea167097559150e55",
+    "verification.json": "0aeee330b3deab511894e5705571af82fb8a388474cafd367657f0c605a5ed02",
+    "verification.log.gz": "795bc6e07428b16bd668d8d80002ca3c912dc716bb0e88c44967587e66529427",
+    "cleanup.json": "38e1ac56464c302fbed100c585e5ea5dd38f15d9c2384c02fa5aef34f0264a53",
+    "package-budgets.json": "f4f79c39513d4db1e2d368529c6193e8fd6b853df82f3d0bec3db8609b8dd46d"
+  },
+  "footprint": {
+    "newWorktrees": 0,
+    "removedWorkspaceFolders": 68,
+    "removedNativeCapsuleBytes": 2474440,
+    "retainedNativeEvidenceBytes": 81877,
+    "remainingCreatedLargeFolders": []
+  },
+  "limits": [
+    "The new composition uses diagnostic grants; it does not qualify a complete authored-content builder.",
+    "The native replay qualifies unchanged entry behavior, not the new optional preparation service.",
+    "Equipment-granted bar admission, shared preference authority and acknowledgement-time live publication remain open.",
+    "No new engine package admission, device timing or physical-device qualification."
+  ]
+}

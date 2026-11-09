@@ -1,5 +1,10 @@
 # Verification and reproduction
 
+`npm run test:workshop-build-package` qualifies transactional private-build
+continuation through installed and browser consumers, types and eight deliberate
+faults. Its diagnostic grants exercise save ownership; they do not establish
+new authored-content parity or live actor publication.
+
 `npm run test:equipment-skill-draft-package` checks private build preparation
 through packed/browser consumers, deliberate faults, public types and the
 frozen original continuity course. See [equipment drafts](equipment-skill-draft.md)
