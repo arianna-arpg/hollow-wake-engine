@@ -57,6 +57,11 @@ same live/duplicate/unfit/empty decisions used for injection.
 
 ## Verification
 
+The [live continuity course](equipment-live-continuity.md) additionally follows
+real ordinary and held casts through investment edits, host replacement,
+learned takeover, native input and projectile completion. Its frozen ownership
+and identity requirements govern the pending native candidate/publication work.
+
 The immutable original fixture was captured before implementing the runtime.
 Two fresh processes produced identical state at all 60 legend checks and
 36 worn-support checks. Observations include identity, sockets, tree picks,

@@ -19,6 +19,7 @@ report.sources=Object.fromEntries(['src/equipment-skills.ts','adapters/hollow-wa
   'adapters/hollow-wake/integrate-passive-grants.mjs','adapters/hollow-wake/passiveGrantAdapter.ts',
   'reference/export-equipment-passive-grafts.ts','baseline/equipment-passive-grafts/acceptance.json',
   'reference/export-equipment-lookup.ts','scripts/reference-equipment-lookup.mjs','baseline/equipment-lookup/acceptance.json',
+  'reference/export-equipment-live.ts','scripts/reference-equipment-live.mjs','baseline/equipment-live/acceptance.json',
   'src/skill-bar.ts','adapters/hollow-wake/integrate-skill-bar.mjs','reference/export-skill-bar.ts','baseline/skill-bar/acceptance.json',
   'baseline/equipment-skills/acceptance.json','package.json']
   .map(file=>[file,sha256(fs.readFileSync(path.join(root,file)))]));
@@ -76,6 +77,10 @@ try{
   assert.equal(lookupManifest.sourceLockSha256,manifest.sourceLockSha256);
   const lookupProbe=path.join(game,'balance/hwe-equipment-lookup.ts');fs.copyFileSync(path.join(root,lookupManifest.source),lookupProbe);
   assert.equal(sha256(fs.readFileSync(lookupProbe)),lookupManifest.sourceSha256);
+  const liveManifest=JSON.parse(fs.readFileSync(path.join(root,'baseline/equipment-live/acceptance.json')));
+  assert.equal(liveManifest.sourceLockSha256,manifest.sourceLockSha256);
+  const liveProbe=path.join(game,'balance/hwe-equipment-live.ts');fs.copyFileSync(path.join(root,liveManifest.source),liveProbe);
+  assert.equal(sha256(fs.readFileSync(liveProbe)),liveManifest.sourceSha256);
   const barManifest=JSON.parse(fs.readFileSync(path.join(root,'baseline/skill-bar/acceptance.json')));
   assert.equal(barManifest.sourceLockSha256,manifest.sourceLockSha256);
   const barProbe=path.join(game,'balance/hwe-skill-bar.ts');fs.copyFileSync(path.join(root,barManifest.source),barProbe);
@@ -134,6 +139,45 @@ try{
   const barOutput=path.join(work,'bar.json');success('bar',['--import','tsx',barProbe,barOutput]);
   assert(fs.readFileSync(barOutput).equals(barExpected),'Bar ownership, callbacks and preferences differ from original');
   report.results.bar={cases:barManifest.cases,memoryCases:barManifest.memoryCases,sha256:barManifest.sha256};
+  const liveExpected=gunzipSync(fs.readFileSync(path.join(root,'baseline/equipment-live/observations.json.gz')));
+  assert.equal(sha256(liveExpected),liveManifest.sha256);
+  const liveOutput=path.join(work,'live.json');success('live',['--import','tsx',liveProbe,liveOutput]);
+  assert(fs.readFileSync(liveOutput).equals(liveExpected),'Live investment, casts, input and projectile completion differ from original');
+  report.results.live={cases:liveManifest.cases,scenarios:liveManifest.scenarios,sha256:liveManifest.sha256};
+  report.liveFaults=[];
+  const liveWorld=path.join(game,'src/engine/world.ts');
+  for(const[name,file,needle,replacement,checkpoint]of [
+    ['replace-live-grant-identity',module,
+      'let inst = previousGrant?.grantedHostUid === host?.uid ? previousGrant : undefined;',
+      'let inst = !p.casting && previousGrant?.grantedHostUid === host?.uid ? previousGrant : undefined;',
+      'socket: socket surgery updates the casting instance and item residence'],
+    ['retarget-committed-cast',module,
+      'if (previousGrant && previousGrant !== inst) {',
+      'if (previousGrant && previousGrant !== inst) { if (p.casting?.inst === previousGrant) p.casting.inst = inst;',
+      'replace-host: replacement changes the bar but the cast retains the former host'],
+    ['omit-live-item-writeback',module,
+      '(host.grantState ??= {})[skillId] = r.packGrant(inst);',
+      '(host.grantState ??= {})[skillId] = p.casting ? (host.grantState[skillId] ?? r.packGrant(inst)) : r.packGrant(inst);',
+      'socket: socket surgery updates the casting instance and item residence'],
+    ['rewind-live-cast',module,
+      'const prevInsts = seat.grantedInsts, keep = new Map();',
+      'if (p.casting) p.casting.elapsed = 0; const prevInsts = seat.grantedInsts, keep = new Map();',
+      'socket: build edit preserves cast identity clock payment and random continuation'],
+    ['feed-replacement-by-id',liveWorld,
+      'a.skills.findIndex(s => s === a.casting!.inst)',
+      'a.skills.findIndex(s => s?.def.id === a.casting!.inst.def.id)',
+      'held-replace-host: held input follows exact identity rather than a replacement with the same id'],
+  ]){
+    const source=fs.readFileSync(file,'utf8');assert.equal(source.split(needle).length,2,name+' target changed');
+    fs.writeFileSync(file,source.replace(needle,replacement));
+    try{
+      const child=run(name,['--import','tsx',liveProbe,path.join(work,name+'.json')]);
+      assert.equal(child.status,1,name+' escaped');assert(logs[name].includes('ERR_ASSERTION')&&logs[name].includes(checkpoint),name+' missed its behavior assertion');
+      report.liveFaults.push({name,checkpoint,detected:true,logSha256:sha256(logs[name])});
+    }finally{fs.writeFileSync(file,source);}
+  }
+  const liveRestored=path.join(work,'live-restored.json');success('live-restored',['--import','tsx',liveProbe,liveRestored]);
+  assert(fs.readFileSync(liveRestored).equals(liveExpected));report.liveRestored=true;
   for(const name of ['legends','slotgraft']){
     const probe=path.join(game,'balance/hwe-equipment-'+name+'.ts');
     fs.writeFileSync(probe,renderEquipmentSkillProbe(fs.readFileSync(path.join(game,manifest.results[name].source),'utf8'),'./hwe-equipment-helper.ts'));

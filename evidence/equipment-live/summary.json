@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "baseCommit": "d9507b4fe743964b64b58177f84cbb6c146df272",
+  "kind": "original-and-installed-characterization-no-runtime-change",
+  "node": "v24.9.0",
+  "platform": "win32",
+  "arch": "x64",
+  "original": {
+    "cases": 47,
+    "scenarios": [
+      "socket",
+      "unsocket",
+      "same-host-level",
+      "replace-host",
+      "learned-takeover",
+      "remove-grant",
+      "unbind",
+      "held-same-host",
+      "held-replace-host"
+    ],
+    "freshProcesses": 2,
+    "gzipBytes": 5304
+  },
+  "installed": {
+    "cases": 47,
+    "faults": 5,
+    "catalogueCases": 18773
+  },
+  "composed": {
+    "cases": 47,
+    "faults": 5,
+    "catalogueCases": 18773,
+    "simulationSmoke": true,
+    "compiledPassiveHandoff": true
+  },
+  "referenceVerify": {
+    "passed": true,
+    "exitCode": 0,
+    "command": "node scripts/run-reference.mjs && node scripts/test-reference-unlock-lifecycle.mjs && npm run reference:unlock-content && npm run reference:crafting && npm run reference:gem-residence && npm run reference:inspection && npm run reference:cargo-cards && npm run reference:loadout && npm run reference:skill-rack && node scripts/reference-workshop-supports.mjs && node scripts/reference-workshop-supports.mjs --pouch-recall && npm run reference:conduits && npm run reference:vestiges && npm run reference:shared-account && npm run reference:equipment-skills && npm run reference:equipment-passive-grafts && npm run reference:equipment-lookup && npm run reference:skill-bar && npm run reference:equipment-live",
+    "logSha256": "478c724571b51ff9d3df9c808917396322afea68f2b49402e28716ccae528e03"
+  },
+  "files": {
+    "README.md": "743f5ac82383305db49a584d95aecdd58ac8b8b90a8b445f4cbbeaab5b626e3f",
+    "reference.json": "381bd53499b6cc8bd52083b1c4fcda9e35614bd0b95530da51fe166f3344d3ea",
+    "installed.json": "d54f98868bb8e283047a56468be5f2a2939f038d3398740ed2d2295cfb35c804",
+    "installed.logs.json.gz": "2db481468cf19df37de99a32a31a4c2d7cc7198cea4f91c2299fc4c0b111ddd2",
+    "composed.json": "3f88b9bc81d1d3d949d8c5d4aea55b5eee067ac05209daa944bdf2635bde2e56",
+    "composed.logs.json.gz": "dc8efdd49aa83dfd711e2f72bdc1ee1a55a8bcef8870ad3ab9a137b4576476b3",
+    "reference-all.log.gz": "7bc7c3c163ffe581d43b9b14562dd176370eac7388c08a7224c7b69c3ebecdf2"
+  },
+  "newWorktrees": 0,
+  "retainedCreatedLargeFolders": [],
+  "remainingOwnedTemporaryDirectories": [],
+  "limits": [
+    "Private grant candidate and durable live publication are not implemented by this change.",
+    "No expanded native package admission or physical-device result."
+  ]
+}

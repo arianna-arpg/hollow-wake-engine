@@ -1,0 +1,389 @@
+{
+  "passed": true,
+  "composition": "complete-prepared-game",
+  "results": {
+    "passiveGrafts": {
+      "cases": 15,
+      "sha256": "8719fe687f615af96917acff404b2dd4326294001c4abbd67d939b657b7c9e2b"
+    },
+    "passives": {
+      "passive-grants": {
+        "rows": 4103,
+        "sha256": "9fdaec13782fca4c5d1f83d7d58a2b2bea9e970090bb12554d2cad935b68a192"
+      },
+      "passive-grant-refresh": {
+        "rows": 8,
+        "sha256": "72e61a69b2168a18e19a802acc59774117ce4383f33bfad40e70edcff90ead58"
+      }
+    },
+    "lookup": {
+      "cases": 18,
+      "sha256": "b11fa4961e7d48f6651f46e3279d9fd003e8e5e568c55ca3d464bec0a1d8db86"
+    },
+    "bar": {
+      "cases": 31,
+      "memoryCases": 8,
+      "sha256": "c1671afb758a23f5260dabb3ffd059eb3ec838ff443d9c510c28b96ee7e1f7e0"
+    },
+    "live": {
+      "cases": 47,
+      "scenarios": [
+        "socket",
+        "unsocket",
+        "same-host-level",
+        "replace-host",
+        "learned-takeover",
+        "remove-grant",
+        "unbind",
+        "held-same-host",
+        "held-replace-host"
+      ],
+      "sha256": "c488e7ec7bc389a308ca15fa5a4fdba883ac194913b70c902936667d02bedc83"
+    },
+    "legends": {
+      "cases": 60,
+      "sha256": "938064e47262f12ac0cc28f04d10d6a5e0b3914fe2e55866ba9d49f0aeba0921"
+    },
+    "slotgraft": {
+      "cases": 36,
+      "sha256": "743159dec65a2107faaccb99538246a2b53736d34bdc3f4fa4b0962f3e8d8b92"
+    },
+    "catalogue": {
+      "cases": 18773,
+      "sha256": "12a0f4dabd7297650a11ada95bbe6b0442466a29afe761c260ff0fc07f0235bc"
+    },
+    "skill-rack": {
+      "sha256": "5a6fae51cdebd8bf8d87f0ab03d4f7bbb4e4a453802789768236886b9daaadbf"
+    },
+    "skill-rack-resume": {
+      "sha256": "248eebb156d2fc295a0a29fc91c59c091d769c4406eab0ca01fe6548ab113ed2"
+    }
+  },
+  "faults": [
+    {
+      "name": "forget-grant-investment",
+      "probe": "legends",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "ef29fd5e20641b0380046a871bf9788d773560227a67526c8bbcbf2c671931f5"
+    },
+    {
+      "name": "compound-bonus-levels",
+      "probe": "legends",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "ebb2694511d803e9b5dd64899d270ddbf8558baa580ef90b64454a099aa93725"
+    },
+    {
+      "name": "retain-derived-grafts",
+      "probe": "slotgraft",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "e4c00d969e64e93eb2855e8d5557da1758cb298c481e383d2dded85d1c61ac55"
+    },
+    {
+      "name": "skip-support-fixed-point",
+      "probe": "slotgraft",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "4f558d0bf237eaaac7243a10f07248d47a1fc4b2d74d8d0791befccde1a6e17b"
+    },
+    {
+      "name": "retain-retired-bar-instance",
+      "probe": "legends",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "a349263524c4f1431f22e499f0f92b39c4152db209268fa51b8ce86625b7ccf4"
+    },
+    {
+      "name": "ignore-learned-lookup-priority",
+      "probe": "lookup",
+      "detected": true,
+      "kind": "original-assertion",
+      "checkpoint": "learned ownership wins without replacing the granted copy",
+      "logSha256": "52fdca12f31b437075d497f56d54654c1b01f278136bd6c42ab1e5661984fb99"
+    },
+    {
+      "name": "omit-cold-investment",
+      "probe": "lookup",
+      "detected": true,
+      "kind": "original-assertion",
+      "checkpoint": "cold lookup restores bounded item investment",
+      "logSha256": "f9f045c93f34d3c14dc09c74ee43c2f71a8e797d4a79eb65e084bf1d999fbb33"
+    },
+    {
+      "name": "omit-cold-cache",
+      "probe": "lookup",
+      "detected": true,
+      "kind": "original-assertion",
+      "checkpoint": "cold lookup leaves other grants and the bar untouched",
+      "logSha256": "3b5b5a9ddb43fe3c7e80542fb992d00177ae45607b3b72ef92c811ffac3c6467"
+    },
+    {
+      "name": "replace-grant-sum-with-last-line",
+      "probe": "lookup",
+      "detected": true,
+      "kind": "original-assertion",
+      "checkpoint": "cold lookup sums worn grants and takes the first host",
+      "logSha256": "f49202ed89bbde2863b4a87fe5ca86c54a39fd35a5e99b1f2611ac9494c273ed"
+    },
+    {
+      "name": "replace-first-grant-host",
+      "probe": "lookup",
+      "detected": true,
+      "kind": "original-assertion",
+      "checkpoint": "cold lookup sums worn grants and takes the first host",
+      "logSha256": "56eab7f357a588972b9f8443bbfed5fff0e56ff93f930581cc206457727d4816"
+    }
+  ],
+  "sources": {
+    "src/equipment-skills.ts": "d904771a26d05c8cad34434ebb5ffdcd36e3fd84177815fdf86355b9b744ae63",
+    "adapters/hollow-wake/integrate-equipment-skills.mjs": "d185eb1513f8c9a098f37d7f10d8a16643bbc5368934c4b2dfaba94c4da6229e",
+    "reference/equipment-skill-observer.ts": "8bd5abb3d7866142305f6a4eaef6207c3b9fbab71fe743f0cda389649da6a8b1",
+    "scripts/equipment-skill-reference.mjs": "6d134f9a9c19b07c88e90022195b867a4d3de7d7aa2de21407cd07349c8d4098",
+    "scripts/test-equipment-skills-original.mjs": "c520a41c8fca2fddc8638a13d4ecb295b51560d7bdd484b08406a431bfe2107a",
+    "scripts/prepare-game-adapter.mjs": "4574bb8c8d38be39a90754590d9c844fc928519a2aedadb674d0c7fa836a9117",
+    "adapters/hollow-wake/integrate-passive-grants.mjs": "bf147fb066fe9e2aaf9b9dea6e6fdc528a008d7bbeb899e39ec1e4ad1e9f9189",
+    "adapters/hollow-wake/passiveGrantAdapter.ts": "c82172a70301298781f1f537ae11a2e48ec2fcb18c81aed2ff73d6af322cd571",
+    "reference/export-equipment-passive-grafts.ts": "680f5190279bfcf4b8e2891c2e57bf5da02d963dfef1fddb4573085d8d632c15",
+    "baseline/equipment-passive-grafts/acceptance.json": "b5868886dcf098d245bb5ea824b677ef92b1d9b762ee034c4a3c437e744a0863",
+    "reference/export-equipment-lookup.ts": "8b062b11ea8db6905f77644d3fef1dcf38b333c7e64a64e0c286930b6fd4508f",
+    "scripts/reference-equipment-lookup.mjs": "ff99b938087ad4668e394914f3f1ebea323988f9790f985f3f8d2049b6cd51a7",
+    "baseline/equipment-lookup/acceptance.json": "cca629340d659f246d729a41e1dcf3c15367e6f617c26c3d59efd6f849a9cd26",
+    "reference/export-equipment-live.ts": "d5ca10c043c43f044198ad0207e5206f568325d62462b10eae83e2cb1d2afe44",
+    "scripts/reference-equipment-live.mjs": "7df6462f91f45b75b96e14c229239eaa4fb326781760e368c6cb7a69179ead9f",
+    "baseline/equipment-live/acceptance.json": "0978f37e4c1bf62327c40b20d23714363434852b748c6ca409091790fc1d44b5",
+    "src/skill-bar.ts": "cd1dce3be4c053a05617581b6314010b1659c0590128de7ade9c10a173967998",
+    "adapters/hollow-wake/integrate-skill-bar.mjs": "487f6b5eb50d397947d1e1b21dc85a94d13eb76a111595f8ca2842fde70974fc",
+    "reference/export-skill-bar.ts": "9ffe8eec487f9631bc90d0ca02a51e95ea91145261a26c35efbbef65b0de4ef1",
+    "baseline/skill-bar/acceptance.json": "b93349f3c93fedc7c575306609febee072548156cbceb9b0b42a865c0da5a942",
+    "baseline/equipment-skills/acceptance.json": "d166dd62211caf2ccc525ddda4093dc1cd3c0e5a3e4dca34417e1f1dfa3fbda5",
+    "package.json": "7b3605de06ccf4c91b76014d6c17427b9753c608efc5ffb4ce55ad4e5c576262"
+  },
+  "barAdapter": {
+    "decision": "Bar binding, swapping, rebuild handoff and slot preferences use the SDK; live bodies, effects, account authorization and durable publication remain host-owned."
+  },
+  "archiveSha256": "baabfc5c636830afc3700c5945c89bcc6f577ed3603a17955cd0952a067df77f",
+  "adapter": {
+    "files": [
+      "balance/inventory-ui.cjs",
+      "balance/probe_statusvoice.ts",
+      "src/data/classes.ts",
+      "src/data/essences.ts",
+      "src/data/procs.ts",
+      "src/dev/passiveEditor.ts",
+      "src/engine/absorb.ts",
+      "src/engine/accountRelicRuntime.ts",
+      "src/engine/accountReliquary.ts",
+      "src/engine/actor.ts",
+      "src/engine/actorConditionAdapter.ts",
+      "src/engine/assault.ts",
+      "src/engine/attackSequenceSpec.ts",
+      "src/engine/attackSequences.ts",
+      "src/engine/buffAdapter.ts",
+      "src/engine/castseal.ts",
+      "src/engine/channelBankAdapter.ts",
+      "src/engine/channelCastingAdapter.ts",
+      "src/engine/chargedCastingAdapter.ts",
+      "src/engine/containers.ts",
+      "src/engine/crafting.ts",
+      "src/engine/damage.ts",
+      "src/engine/damagePipeline.ts",
+      "src/engine/delayedBurstAdapter.ts",
+      "src/engine/engineAdapter.ts",
+      "src/engine/equipmentActionAdapter.ts",
+      "src/engine/gauge.ts",
+      "src/engine/gemitems.ts",
+      "src/engine/guardCastingAdapter.ts",
+      "src/engine/hitAftermath.ts",
+      "src/engine/hitEffects.ts",
+      "src/engine/hitLanding.ts",
+      "src/engine/hitPreparation.ts",
+      "src/engine/hitReactions.ts",
+      "src/engine/hitStatuses.ts",
+      "src/engine/hitSustain.ts",
+      "src/engine/inventory.ts",
+      "src/engine/itemAdapter.ts",
+      "src/engine/itemLimits.ts",
+      "src/engine/itemgen.ts",
+      "src/engine/lifeRecoveryAdapter.ts",
+      "src/engine/passiveGrantAdapter.ts",
+      "src/engine/passivePolicyAdapter.ts",
+      "src/engine/passiveRefund.ts",
+      "src/engine/procAdapter.ts",
+      "src/engine/procCasting.ts",
+      "src/engine/procDelivery.ts",
+      "src/engine/procEffectAdapter.ts",
+      "src/engine/progressionAdapter.ts",
+      "src/engine/reception.ts",
+      "src/engine/relicActionAdapter.ts",
+      "src/engine/relicPower.ts",
+      "src/engine/resourceAdapter.ts",
+      "src/engine/resourceEventAdapter.ts",
+      "src/engine/resourcePaymentAdapter.ts",
+      "src/engine/resourceRestorationAdapter.ts",
+      "src/engine/seatlaw.ts",
+      "src/engine/skillActionsAdapter.ts",
+      "src/engine/skillAdmissionAdapter.ts",
+      "src/engine/skillEmpowerment.ts",
+      "src/engine/skillIntentAdapter.ts",
+      "src/engine/skillMerge.ts",
+      "src/engine/skillProgressionAdapter.ts",
+      "src/engine/skills.ts",
+      "src/engine/skilltree.ts",
+      "src/engine/stash.ts",
+      "src/engine/stats.ts",
+      "src/engine/status.ts",
+      "src/engine/statusDelivery.ts",
+      "src/engine/statusEffects.ts",
+      "src/engine/statusLifecycle.ts",
+      "src/engine/supportActionsAdapter.ts",
+      "src/engine/supportRulesAdapter.ts",
+      "src/engine/supportbase.ts",
+      "src/engine/vocationGrantAdapter.ts",
+      "src/engine/vocationSiteAdapter.ts",
+      "src/engine/world.ts",
+      "src/main.ts",
+      "src/meta/account.ts",
+      "src/meta/character.ts",
+      "src/meta/classkit.ts",
+      "src/meta/gates.ts",
+      "src/meta/memoryUnlocks.ts",
+      "src/meta/reliquary.ts",
+      "src/meta/skillSlotMemory.ts",
+      "src/meta/unlocks.ts",
+      "src/quests/vocations.ts"
+    ],
+    "decision": "Equipment skill lookup, grants, bonuses and grafts use the SDK; companion bodies and world effects remain explicit host services.",
+    "passiveGrafts": "compiled"
+  },
+  "runtimeSha256": "bd5a39c5adbef4871a66ced5bb5ce9114c9ce7e8edd28327de020dcdf13295ea",
+  "types": true,
+  "compiledHandoffFaultDetected": true,
+  "compiledHandoffFault": {
+    "failingCheckpoints": 8,
+    "logSha256": "c01d9478d15f75ff513d74d9c8f4e0a6605f83216a1247a198c90f9620329f1a"
+  },
+  "compiledHandoffRestored": true,
+  "simulationSmoke": true,
+  "liveFaults": [
+    {
+      "name": "replace-live-grant-identity",
+      "checkpoint": "socket: socket surgery updates the casting instance and item residence",
+      "detected": true,
+      "logSha256": "4729fb9ecacc724b40754b56c06a33a052f5acaa172a82d10d053cb8f0628296"
+    },
+    {
+      "name": "retarget-committed-cast",
+      "checkpoint": "replace-host: replacement changes the bar but the cast retains the former host",
+      "detected": true,
+      "logSha256": "5943b6966867c7924520d5cc8ae662c3fb328cdc0c6238345b38af1cd6aa594c"
+    },
+    {
+      "name": "omit-live-item-writeback",
+      "checkpoint": "socket: socket surgery updates the casting instance and item residence",
+      "detected": true,
+      "logSha256": "75bc5b6bbd8e4beb364f6743ec65e94cc2d91487d33f525c4af38c5678434ee7"
+    },
+    {
+      "name": "rewind-live-cast",
+      "checkpoint": "socket: build edit preserves cast identity clock payment and random continuation",
+      "detected": true,
+      "logSha256": "ccb4ddc67055d0a3063138c4be7327530343abf3f82686e29b20a82dc4d8d92b"
+    },
+    {
+      "name": "feed-replacement-by-id",
+      "checkpoint": "held-replace-host: held input follows exact identity rather than a replacement with the same id",
+      "detected": true,
+      "logSha256": "b390bfa6f43599c8566b572813d0c0401d99540656dfdc44b1b9d83f569195b6"
+    }
+  ],
+  "liveRestored": true,
+  "restored": true,
+  "barRuntimeSha256": "6a81d24241db68837f6c741f1e7da41cb960ee05c631cd2637ec09917bb8cc75",
+  "barFaults": [
+    {
+      "name": "bar-edits-controlled-body",
+      "detected": true,
+      "checkpoint": "possession binding changes the hero and leaves the borrowed bar intact",
+      "checkpointLines": [
+        84,
+        84
+      ],
+      "logSha256": "d339c65944abc39ebc0dfebee99f1b44b6cf88e6cd9a4995bef17046324d80df"
+    },
+    {
+      "name": "bar-loses-toggle",
+      "detected": true,
+      "checkpoint": "binding the same id toggles off without forgetting it",
+      "checkpointLines": [
+        63,
+        63
+      ],
+      "logSha256": "400b76ffb8a5d666ad1fb5449403ccd6c90076a73d0c85a9169368095690d683"
+    },
+    {
+      "name": "bar-copies-resolved-instance",
+      "detected": true,
+      "checkpoint": "off-bar learned ownership binds without consuming investment",
+      "checkpointLines": [
+        60,
+        60
+      ],
+      "logSha256": "854151ff8f22fac6f7bea5d0c60920295dc42f00cd5746538924ee33dac9c478"
+    },
+    {
+      "name": "bar-does-not-deduplicate-touched",
+      "detected": true,
+      "checkpoint": "rebuild handoff deduplicates exact touched identities",
+      "checkpointLines": [
+        81,
+        82
+      ],
+      "logSha256": "6b9a96b73aee4ac9bf7ae20c3bdd44dca54031215c8dfa8a40a2485f6daa677f"
+    },
+    {
+      "name": "bar-allows-guest-preferences",
+      "detected": true,
+      "checkpoint": "guest flask edits cannot change owner preferences",
+      "checkpointLines": [
+        75,
+        75
+      ],
+      "logSha256": "009a83442f40b4bf912ab1a889bc9fec4a06555fd28fd57b9d3464216d52f8ff"
+    },
+    {
+      "name": "bar-overwrites-provisioning-preferences",
+      "detected": true,
+      "checkpoint": "automatic provisioning cannot overwrite preferences",
+      "checkpointLines": [
+        77,
+        77
+      ],
+      "logSha256": "6483b921495ce8b29c2bf4c8d2d43cba859575ee6bdbfb2e7ce3b9dbf7964fce"
+    },
+    {
+      "name": "bar-forgets-field-retirement",
+      "detected": true,
+      "checkpoint": "clearing a flask keeps its preference and clears departed fields",
+      "checkpointLines": [
+        73,
+        73
+      ],
+      "logSha256": "07c12b9302f93731a1d35235d4af2bebc372b1d84652628672ec586b37409d17"
+    },
+    {
+      "name": "bar-ignores-preserved-preference",
+      "detected": true,
+      "checkpoint": "missing-only capture leaves an existing preference",
+      "checkpointLines": [
+        79,
+        79
+      ],
+      "logSha256": "5e3e4a4d4143b5363e8add62cd7914b55a955f33917f4b43b66d3a82cb7c8652"
+    }
+  ],
+  "barRestored": true,
+  "inputsUnchanged": true,
+  "cleaned": true
+}

@@ -511,7 +511,7 @@
     "reference:prepare": "node scripts/prepare-reference.mjs",
     "reference:install": "node scripts/install-reference-tools.mjs",
     "diagnose:restoration": "node scripts/run-restoration-diagnosis-ci.mjs",
-    "reference:verify": "node scripts/run-reference.mjs && node scripts/test-reference-unlock-lifecycle.mjs && npm run reference:unlock-content && npm run reference:crafting && npm run reference:gem-residence && npm run reference:inspection && npm run reference:cargo-cards && npm run reference:loadout && npm run reference:skill-rack && node scripts/reference-workshop-supports.mjs && node scripts/reference-workshop-supports.mjs --pouch-recall && npm run reference:conduits && npm run reference:vestiges && npm run reference:shared-account && npm run reference:equipment-skills && npm run reference:equipment-passive-grafts && npm run reference:equipment-lookup && npm run reference:skill-bar",
+    "reference:verify": "node scripts/run-reference.mjs && node scripts/test-reference-unlock-lifecycle.mjs && npm run reference:unlock-content && npm run reference:crafting && npm run reference:gem-residence && npm run reference:inspection && npm run reference:cargo-cards && npm run reference:loadout && npm run reference:skill-rack && node scripts/reference-workshop-supports.mjs && node scripts/reference-workshop-supports.mjs --pouch-recall && npm run reference:conduits && npm run reference:vestiges && npm run reference:shared-account && npm run reference:equipment-skills && npm run reference:equipment-passive-grafts && npm run reference:equipment-lookup && npm run reference:skill-bar && npm run reference:equipment-live",
     "reference:lifecycle": "node scripts/run-lifecycle-reference.mjs",
     "adapter:prepare": "npm run build && node scripts/prepare-game-adapter.mjs",
     "adapter:verify": "node scripts/test-game-adapter.mjs",
@@ -883,6 +883,7 @@
     "test:equipment-skills-composed": "node scripts/test-equipment-skills-original.mjs --composed",
     "reference:equipment-passive-grafts": "node scripts/reference-equipment-passive-grafts.mjs",
     "reference:equipment-lookup": "node scripts/reference-equipment-lookup.mjs",
+    "reference:equipment-live": "node scripts/reference-equipment-live.mjs",
     "reference:skill-bar": "node scripts/reference-skill-bar.mjs",
     "test:skill-bar-overlay": "node scripts/test-skill-bar-overlay.mjs",
     "test:workshop-skill-book-package": "node scripts/test-workshop-skill-book-package.mjs"

@@ -13,11 +13,13 @@ on:
       - 'reference/export-equipment-catalogue.ts'
       - 'reference/export-equipment-passive-grafts.ts'
       - 'reference/export-equipment-lookup.ts'
+      - 'reference/export-equipment-live.ts'
       - 'reference/export-skill-bar.ts'
       - 'scripts/equipment-skill-reference.mjs'
       - 'scripts/reference-equipment-skills.mjs'
       - 'scripts/reference-equipment-passive-grafts.mjs'
       - 'scripts/reference-equipment-lookup.mjs'
+      - 'scripts/reference-equipment-live.mjs'
       - 'scripts/reference-skill-bar.mjs'
       - 'scripts/test-skill-bar-overlay.mjs'
       - 'scripts/test-equipment-skills-original.mjs'
@@ -28,6 +30,7 @@ on:
       - 'baseline/equipment-catalogue/**'
       - 'baseline/equipment-passive-grafts/**'
       - 'baseline/equipment-lookup/**'
+      - 'baseline/equipment-live/**'
       - 'baseline/skill-bar/**'
       - 'baseline/source-lock.json'
       - 'package.json'
@@ -66,6 +69,8 @@ jobs:
         run: npm run reference:equipment-passive-grafts
       - name: Replay original cold lookup and character resume in two fresh processes
         run: npm run reference:equipment-lookup
+      - name: Replay original investment and live cast continuity in two fresh processes
+        run: npm run reference:equipment-live
       - name: Replay original bar ownership and preferences in two fresh processes
         run: npm run reference:skill-bar
       - name: Verify installed game, catalogue and deliberate faults
@@ -82,6 +87,7 @@ jobs:
             .artifacts/equipment-skills-reference-*.json
             .artifacts/equipment-passive-reference-*.json
             .artifacts/equipment-lookup-reference-*.json
+            .artifacts/equipment-live-reference-*.json
             .artifacts/skill-bar-reference-*.json
             .artifacts/equipment-skills-installed.json
             .artifacts/equipment-skills-installed.logs.json.gz
