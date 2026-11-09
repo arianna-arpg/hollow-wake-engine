@@ -41,6 +41,7 @@ function entryGraph(file) {
   }
 }
 entryGraph(path.join(root,'src/index.ts'));
+assert.ok([...reachable].every(file=>path.basename(file)!=='equipment-skills.ts'), 'Optional equipment skill derivation became an eager core import');
 assert.ok([...reachable].every(file=>path.basename(file)!=='account-workshop-session.ts'), 'Shared account owner became an eager core import');
 assert.ok([...reachable].every(file=>!path.basename(file).startsWith('cargo-')), 'Cargo cards became an eager core import');
 assert.ok([...reachable].every(file=>!path.basename(file).startsWith('inspection')), 'Optional inspection became an eager core import');

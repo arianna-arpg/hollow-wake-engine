@@ -6,7 +6,9 @@ inventories. This portable composition has its own save identities. The
 [Unity shared-account preview](unity-shared-account.md) adds a typed owner and
 fixed-group durable coordinator. The public [equipment preview](unity-shared-equipment.md)
 adds selected live actor projections. The [catalogue derivation course](equipment-catalogue-boundary.md)
-records the broader original gear behavior before expanding that adapter. Coherent legacy migration, broader gear
+records the broader original gear behavior before expanding that adapter. The optional
+[equipment skill runtime](equipment-skills.md) extracts grant ownership, bonuses and graft
+derivation through a guarded game adapter. Coherent legacy migration, broader gear
 effects, other engine bindings and device acceptance remain separate.
 
 Optional [grouped saves](grouped-saves.md) add atomic writes and coherent reads

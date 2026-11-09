@@ -1,0 +1,75 @@
+{
+  "passed": true,
+  "results": {
+    "legends": {
+      "cases": 60,
+      "sha256": "938064e47262f12ac0cc28f04d10d6a5e0b3914fe2e55866ba9d49f0aeba0921"
+    },
+    "slotgraft": {
+      "cases": 36,
+      "sha256": "743159dec65a2107faaccb99538246a2b53736d34bdc3f4fa4b0962f3e8d8b92"
+    },
+    "catalogue": {
+      "cases": 18773,
+      "sha256": "12a0f4dabd7297650a11ada95bbe6b0442466a29afe761c260ff0fc07f0235bc"
+    }
+  },
+  "faults": [
+    {
+      "name": "forget-grant-investment",
+      "probe": "legends",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "872a842669ad1d81b526ce338c9233c0618aa12312f0f43fb5cb257976906abb"
+    },
+    {
+      "name": "compound-bonus-levels",
+      "probe": "legends",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "34b716cca582dc5818d80ee6fd828451a7ed2553b2d467e4d9422ef987d1284c"
+    },
+    {
+      "name": "retain-derived-grafts",
+      "probe": "slotgraft",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "4224e52559550f8935b5ee995c03b0772850ae2cc9182e996cd99036b015d2f1"
+    },
+    {
+      "name": "skip-support-fixed-point",
+      "probe": "slotgraft",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "d8a3a676de3d989ca9c1a0636088135443942d4e9a8bc8f026ae90fcb133350b"
+    },
+    {
+      "name": "retain-retired-bar-instance",
+      "probe": "legends",
+      "detected": true,
+      "kind": "original-assertion",
+      "logSha256": "fe761290c638a25b5e1a73fdd828bd04e1750158bf37062b008ce6607d9707ec"
+    }
+  ],
+  "sources": {
+    "src/equipment-skills.ts": "d5756a5e190fdd398e1e5e87c88705148866b6a1ef1ef7391695c39794f27812",
+    "adapters/hollow-wake/integrate-equipment-skills.mjs": "a76f64b4fa21f846bd72cb072d69d12df40dffed7aa72e853b3c8ccacd5c2174",
+    "reference/equipment-skill-observer.ts": "8bd5abb3d7866142305f6a4eaef6207c3b9fbab71fe743f0cda389649da6a8b1",
+    "scripts/equipment-skill-reference.mjs": "6d134f9a9c19b07c88e90022195b867a4d3de7d7aa2de21407cd07349c8d4098",
+    "scripts/test-equipment-skills-original.mjs": "ec4796f90caf204efea666e3008f8047077bb6c7556f7005a7595d4b676955c7",
+    "baseline/equipment-skills/acceptance.json": "d166dd62211caf2ccc525ddda4093dc1cd3c0e5a3e4dca34417e1f1dfa3fbda5",
+    "package.json": "26f73d361e5141df96209698fcf39a169c7f565224c193eb7e6b1861e0c5c6f6"
+  },
+  "archiveSha256": "300c3b645cc699931ec9c34d79132b61589135aad40e44f82884f39d3384c370",
+  "runtimeSha256": "d4fa964889907bf977fc398b802c0776713c945b2903eba88da0177da72292cb",
+  "adapter": {
+    "files": [
+      "src/engine/world.ts"
+    ],
+    "decision": "Equipment skill grants, bonuses and grafts use the SDK; companion bodies and world effects remain explicit host services."
+  },
+  "types": true,
+  "restored": true,
+  "inputsUnchanged": true,
+  "cleaned": true
+}

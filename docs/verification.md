@@ -6,6 +6,11 @@ ordered stat sources, skill grants, worn supports and cast preservation before
 expanding the live adapter. Numeric comparison and catalogue coverage do not
 qualify complete effect execution or native package support.
 
+The [equipment skill derivation course](equipment-skills.md) compares a packed SDK
+inside the pinned game against 96 original lifecycle observations and the complete
+equipment catalogue. Independent ownership/failure contracts and deliberate installed
+faults supplement parity; native admission and device performance remain separate.
+
 The public [Unity equipment preview](unity-shared-equipment.md) preserves the
 qualified candidate runtime, passes actual editor/player and compatibility
 courses, and rebuilds byte for byte on hosted Windows and Linux. The release

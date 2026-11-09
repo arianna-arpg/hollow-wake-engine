@@ -207,9 +207,18 @@
       "import": "./dist/conduit-catalogue.js"
     },
     "./content/conduits.json": "./content/conduits.json",
-    "./items/vestiges": {"types":"./dist/vestige-inlays.d.ts","import":"./dist/vestige-inlays.js"},
-    "./items/vestiges/catalogue": {"types":"./dist/vestige-content.d.ts","import":"./dist/vestige-content.js"},
-    "./items/vestiges/workshop": {"types":"./dist/workshop-vestiges.d.ts","import":"./dist/workshop-vestiges.js"},
+    "./items/vestiges": {
+      "types": "./dist/vestige-inlays.d.ts",
+      "import": "./dist/vestige-inlays.js"
+    },
+    "./items/vestiges/catalogue": {
+      "types": "./dist/vestige-content.d.ts",
+      "import": "./dist/vestige-content.js"
+    },
+    "./items/vestiges/workshop": {
+      "types": "./dist/workshop-vestiges.d.ts",
+      "import": "./dist/workshop-vestiges.js"
+    },
     "./content/vestiges.json": "./content/vestiges.json",
     "./casting/channel": {
       "types": "./dist/channel-casting.d.ts",
@@ -478,6 +487,10 @@
     "./content/table/compiler": {
       "types": "./dist/content-table-compiler.d.ts",
       "import": "./dist/content-table-compiler.js"
+    },
+    "./skills/equipment": {
+      "types": "./dist/equipment-skills.d.ts",
+      "import": "./dist/equipment-skills.js"
     }
   },
   "scripts": {
@@ -490,7 +503,7 @@
     "reference:prepare": "node scripts/prepare-reference.mjs",
     "reference:install": "node scripts/install-reference-tools.mjs",
     "diagnose:restoration": "node scripts/run-restoration-diagnosis-ci.mjs",
-    "reference:verify": "node scripts/run-reference.mjs && node scripts/test-reference-unlock-lifecycle.mjs && npm run reference:unlock-content && npm run reference:crafting && npm run reference:gem-residence && npm run reference:inspection && npm run reference:cargo-cards && npm run reference:loadout && npm run reference:skill-rack && node scripts/reference-workshop-supports.mjs && node scripts/reference-workshop-supports.mjs --pouch-recall && npm run reference:conduits && npm run reference:vestiges && npm run reference:shared-account",
+    "reference:verify": "node scripts/run-reference.mjs && node scripts/test-reference-unlock-lifecycle.mjs && npm run reference:unlock-content && npm run reference:crafting && npm run reference:gem-residence && npm run reference:inspection && npm run reference:cargo-cards && npm run reference:loadout && npm run reference:skill-rack && node scripts/reference-workshop-supports.mjs && node scripts/reference-workshop-supports.mjs --pouch-recall && npm run reference:conduits && npm run reference:vestiges && npm run reference:shared-account && npm run reference:equipment-skills",
     "reference:lifecycle": "node scripts/run-lifecycle-reference.mjs",
     "adapter:prepare": "npm run build && node scripts/prepare-game-adapter.mjs",
     "adapter:verify": "node scripts/test-game-adapter.mjs",
@@ -855,7 +868,9 @@
     "reference:inspection": "node scripts/reference-item-inspection.mjs",
     "godot:crafting-replay": "node scripts/test-godot-crafting.mjs",
     "test:account-workshops-package": "node scripts/test-account-workshops-package.mjs",
-    "reference:shared-account": "node scripts/reference-shared-account.mjs --revision 1 && node scripts/reference-shared-account.mjs"
+    "reference:shared-account": "node scripts/reference-shared-account.mjs --revision 1 && node scripts/reference-shared-account.mjs",
+    "reference:equipment-skills": "node scripts/reference-equipment-skills.mjs",
+    "test:equipment-skills-original": "node scripts/test-equipment-skills-original.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12",
