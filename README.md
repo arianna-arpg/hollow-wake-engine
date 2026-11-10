@@ -3,6 +3,10 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The optional [body-level service](docs/body-levels.md) shares level stamps between
+fresh bodies and companion growth while preserving wounds, spent armor and
+native skill identities through explicit host services.
+
 The optional [bonded-companion runtime](docs/companion-bonds.md) manages growth,
 inherited stats, shared attributes, granted skills, recovery, mimic copies and
 timed bond effects through explicit host services. The game adapter preserves

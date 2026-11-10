@@ -1,0 +1,95 @@
+{
+  "passed": true,
+  "sources": {
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "src/body-levels.ts": "baaae6adb36f836327ffe581cbf9a5ba2df1516d492ab7e02fc8004a7ded1a30",
+    "src/companion-bonds.ts": "6682290558f80ace95017a18a1034b5e2a7967386a98ee1e992b51b222c83872",
+    "src/companion-bond-rules.ts": "e216be21647e96dffae83e914162d4987407f8710d8e5411af604dedddf24490",
+    "src/minion-inheritance.ts": "e852b2fa60498eebc58d07a01533549e5d8f00a8552e9cc988934c7b9003ee96",
+    "src/attribute-bequests.ts": "e5a5b8e912fb237eb25884ca8313f4ac7351f827d974627cd80d291cce913452",
+    "adapters/hollow-wake/integrate-body-levels.mjs": "8a345b2946e373e1b9183defe9b2547bb3e9c1fe8774bcdf8f41d29bb581a8bf",
+    "adapters/hollow-wake/integrate-companion-bonds.mjs": "7bba00008486acf29a6694bc9a98594d43766257f74953f8e4fc463597a08da2",
+    "adapters/hollow-wake/install-character-sources.mjs": "d786bd93d1efb9dac3ff44fcef2e62acbf7867dae4c6fd4e4ebca318afe83a95",
+    "scripts/prepare-game-adapter.mjs": "fb602eb27b35c4713b8422eaa6e1927bcc44c2dc70dcb2f834fc0ad8d5f3c4e7",
+    "scripts/test-game-body-levels.mjs": "06fc82125b20337239fa45b62214a16fe5cf55d063e759f984a435fa8050c178",
+    "package.json": "ccae3bf1ff5f7cc169f1e41474d81f79298e30ab0541a15514d30f15b6d626cc",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    "adapters/hollow-wake/companionBonds.ts": "6d60d902c749eff8593837da809855289a32fc7ff6e1a13122db4d3d943220c6",
+    "adapters/hollow-wake/companionSpec.ts": "8bf250afef8094454010713756036e41f126b49210d5c0adc5eb55bc0d12036a",
+    "adapters/hollow-wake/minionInheritance.ts": "ebef4c79a8c636a4dbbeae60ff5e38788b8136545a98bafabcfd44c896682e99",
+    "adapters/hollow-wake/bequests.ts": "cc34cb76000d061f1e9ba3a710c6193251c6f8eab9d05a6fbc5452fe7f229966",
+    "baseline/body-levels/acceptance.json": "073b8e6e708e2a5d23f74ca90404e1c50722a77266d9a68bf73484152dbda55b",
+    "reference/export-body-levels.ts": "c06dccf595de9f76b9f8be986b840452692e553e2c9bc270d91a2163df346dc3",
+    "baseline/body-levels/observations.json.gz": "dc84c510bacbb02a337fdda1ecfa2ef4cdef42e0651f34e7e5c080e657d9c753",
+    "baseline/companion-continuation/acceptance.json": "c6d5906d43418f419f798ccad4fd8c4a68ffcc0871ae5ad5035de05a1033fc39",
+    "reference/export-companion-continuation.ts": "c6164d9b85108034fb6514bbefea58658028e906b23f6305bcbbbb162a090fb6",
+    "baseline/companion-continuation/observations.json.gz": "a0e6edceb52d0ca519d77f21099ca5474ce9809a7f2fe02cd77b977f4068a229",
+    "baseline/companion-continuation/original.logs.json.gz": "d4996327a28994a0d7fa6af5f20d781bfdd6bee1b8ec2d3733fa145868b92966",
+    "test/companion-continuation-game.ts": "b75b014c4afb44c87f5bcd8b3324f79acd3c8e36da1745c277db8053b878b13d"
+  },
+  "courses": [
+    {
+      "name": "body-levels",
+      "observations": 23,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "companion-continuation",
+      "observations": 8,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "private-companion",
+      "privateCourses": 4,
+      "privateStages": 15,
+      "modes": [
+        "installed"
+      ]
+    }
+  ],
+  "faults": [
+    {
+      "name": "fault-refilled-life",
+      "detected": true,
+      "logSha256": "be43b3e937b05db3006d760a7d5a61ec312c980fabe1956fe097eab4f100d72f"
+    },
+    {
+      "name": "fault-refilled-plies",
+      "detected": true,
+      "logSha256": "aa9133a5af6fc57feb2ab5c0035bfec2d4d7f8dbbf60d7a15ed9c5090ed7f7fc"
+    },
+    {
+      "name": "fault-lost-skill-levels",
+      "detected": true,
+      "logSha256": "abf58ad6e1c9affcdd92508bebaee9a10cb7474327b02a504a27e742c3d4d89c"
+    },
+    {
+      "name": "fault-missing-mint-stamp",
+      "detected": true,
+      "logSha256": "a659eab7af69fb24bd7163f72a79636e5db468d4b92302cad4e8298d35e393f2"
+    },
+    {
+      "name": "fault-missing-relevel",
+      "detected": true,
+      "logSha256": "20686d24b2d52379c69779664b44cd76a9e8e0faa9b6e48834bf77adbccab1c3"
+    },
+    {
+      "name": "fault-wrong-native-ladder",
+      "detected": true,
+      "logSha256": "8bfcdcea40a7c95a3c8f9869a1adec6281bf522b2aea3c2218ed43732bb074e4"
+    }
+  ],
+  "adapterGuards": 15,
+  "archiveSha256": "02be8c617d959641e5bc9ea48e5cbf9959eea1637d26ff2d64ef01932e235e5f",
+  "types": true,
+  "restored": true,
+  "inputsUnchanged": true,
+  "cleaned": true,
+  "logsSha256": "a05a90e1d31f32eb260bf8c2496996ecd650bd23a4e2630dc1ec2935f85e4e04"
+}

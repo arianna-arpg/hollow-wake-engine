@@ -1,5 +1,10 @@
 # Boundary contract
 
+The optional [body-level service](body-levels.md) owns level-derived modifiers,
+armor capacity and the native skill ladder. Releveling preserves resource
+fractions and skill identities; body creation, live effects and complete
+private character construction remain host responsibilities.
+
 The optional [guard disciplines](guard-arts.md) execute over explicit actor,
 skill and effect state with host-provided time, randomness and effects. Cleanup
 is actor/skill-scoped; trusted synchronous exceptions retain preceding writes.

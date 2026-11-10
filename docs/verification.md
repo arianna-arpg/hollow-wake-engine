@@ -1262,3 +1262,14 @@ retaining the world's fixed controller identity and proving that private steps
 leave the live guard unchanged. Its explicit fixture graph is not a generic
 World copier or the full authored private-build provider. See
 [guard disciplines](guard-arts.md).
+
+## Body levels
+
+`test:body-levels-package` checks sixteen independent contracts through installed
+and browser consumers, installed and direct-source public types, and ten
+deliberate faults with a restored control. `reference:body-levels` replays 23
+frozen original checkpoints in two fresh processes. `adapter:body-levels`
+checks installed body and companion modules together, source installation guards,
+six runtime/binding faults, the original body and copy-lifetime courses, and
+four private companion contexts with fifteen stages. Complete spawn/World and
+device acceptance remain separate; see [body levels](body-levels.md).

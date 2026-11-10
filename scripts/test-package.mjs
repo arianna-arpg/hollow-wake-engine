@@ -241,13 +241,15 @@ const companionBondsJsBytes=Object.values(companionModuleBytes).reduce((sum,n)=>
 assert(companionBondsJsBytes<=40*1024,'Optional bond, inheritance and bequest modules exceed 40 KiB');
 const companionGrantsFile=packed.files.find(file=>file.path==='dist/companion-grants.js');
 assert(companionGrantsFile?.size>0&&companionGrantsFile.size<=5*1024,'Optional companion grants exceeds 5 KiB or is missing');
+const bodyLevelsFile=packed.files.find(file=>file.path==='dist/body-levels.js');
+assert(bodyLevelsFile?.size>0&&bodyLevelsFile.size<=6*1024,'Optional body levels exceeds its separate 6 KiB budget or is missing');
 const accountRelicItemsFile=packed.files.find(file=>file.path==='dist/account-relic-items.js');
 assert(accountRelicItemsFile&&accountRelicItemsFile.size<5*1024,'Account relic item admission exceeded 5 KiB');
 const workshopCharacterFile=packed.files.find(file=>file.path==='dist/workshop-character.js');
 assert(workshopCharacterFile&&workshopCharacterFile.size<8*1024,'Workshop character admission exceeded the 8 KiB bound');
 assert(buildContributionsFile&&buildContributionsFile.size<6*1024,'Build contributions exceeded the 6 KiB bound');
 assert(workshopBuildFile?.size>0&&workshopBuildFile.size<=4*1024,'Optional workshop build preparation exceeds 4 KiB or is missing');
-const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-companionBondsJsBytes-guardArtsFile.size-companionGrantsFile.size-accountRelicItemsFile.size-workshopCharacterFile.size-buildContributionsFile.size-workshopBuildFile.size-equipmentDraftFile.size-bookFile.size-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
+const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-bodyLevelsFile.size-companionBondsJsBytes-guardArtsFile.size-companionGrantsFile.size-accountRelicItemsFile.size-workshopCharacterFile.size-buildContributionsFile.size-workshopBuildFile.size-equipmentDraftFile.size-bookFile.size-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
 const craftingSessionJsBytes=Object.values(craftingSessionModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingSessionJsBytes=preContentTableJsBytes-craftingSessionJsBytes;
 const residenceJsBytes=Object.values(residenceModuleBytes).reduce((sum,size)=>sum+size,0),preResidenceJsBytes=preCraftingSessionJsBytes-residenceJsBytes;
 const craftingJsBytes=Object.values(craftingModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingJsBytes=preResidenceJsBytes-craftingJsBytes;
@@ -355,6 +357,7 @@ assert.ok(preContentTableJsBytes <= (732 + 70 + 20 + 38 + 44) * 1024, 'Combined 
 assert.ok(contentBytes-pouchData.size-conduitData.size-vestigeData.size <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
   equipmentSkillsJsBytes,
+  bodyLevelsJsBytes:bodyLevelsFile.size,
   equipmentDraftJsBytes:equipmentDraftFile.size,
   workshopBuildJsBytes:workshopBuildFile.size,
   buildContributionsJsBytes:buildContributionsFile.size,
