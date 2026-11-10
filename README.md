@@ -3,6 +3,10 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The optional [aura retirement service](docs/aura-retirement.md) preserves shell
+release, source cleanup, payloads, ledger settlement and debt release in their
+original synchronous order. Full activation and private builds remain separate.
+
 The optional [companion recovery service](docs/companion-recovery.md) preserves
 shared pack protection, status cleansing and revival through explicit host ports.
 

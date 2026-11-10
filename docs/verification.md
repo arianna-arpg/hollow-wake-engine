@@ -1283,3 +1283,15 @@ two fresh processes. `adapter:companion-recovery` composes installed recovery,
 body and companion modules, checks eighteen installation guards and eleven
 runtime/binding faults, and retains body/copy-lifetime observations plus four
 private companion contexts and fifteen stages. See [recovery](companion-recovery.md).
+
+## Aura retirement
+
+`test:aura-retirement-package` checks twenty contracts through installed and
+browser consumers, installed/direct-source types and thirteen deliberate faults.
+`reference:aura-retirement` replays twenty-six retirement and five actual-contact
+checkpoints in two fresh original processes. `adapter:aura-retirement` combines
+installed aura, recovery, body and companion modules; it checks twenty-three
+installation guards, four runtime/binding faults, eighty-seven original
+observations and four private companion contexts with fifteen stages. These
+prepared courses do not qualify aura activation, a complete private build, native
+engine exposure or physical-device performance. See [aura retirement](aura-retirement.md).

@@ -1,5 +1,10 @@
 # Boundary contract
 
+The optional [aura retirement service](aura-retirement.md) removes active auras
+through explicit synchronous effect ports. Callback-visible state and original
+release ordering are retained; activation, full private graphs and durable live
+acknowledgement remain separate boundaries.
+
 The optional [companion recovery service](companion-recovery.md) executes immediate
 recovery and revival over current borrowed bodies and synchronous host effects.
 Timers, acquisition, private graphs and durable live acknowledgement remain separate.
