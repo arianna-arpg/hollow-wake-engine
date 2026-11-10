@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The optional [active-character binding](docs/account-character-binding.md) gives
+one selected character authority to normalize canonical account relic investments.
+Selection, inventory changes and private builds commit together; failed rebuilds
+leave all owners intact. Address collisions refuse without discarding items.
+
 The optional [persistent companion lifecycle](docs/companion-grants.md) preserves
 living followers across build changes and handles death, respawn and reservation
 prices through host-owned state and explicit callbacks. The Hollow Wake binding
@@ -11,13 +16,13 @@ delivery and target-device performance qualification remain open.
 
 The optional [typed account relics](docs/account-relic-items.md) validate complete
 item bodies, preserve canonical custody and commit them through the shared owner.
-Legacy accounts retain their format. Active-character binding and live relic
-effects remain separate integration work.
+Legacy accounts retain their format. Live relic effects remain separate
+integration work.
 
 The optional [workshop character context](docs/workshop-character.md) saves
 validated class, attributes, passive choices and personal container inputs beside
-the inventory. Existing saves stay compatible. Account relic projection, full
-build construction and live actor publication remain separate integration work.
+the inventory. Existing saves stay compatible. Full authored build construction
+and live actor publication remain separate integration work.
 
 The optional [skill bar policy](docs/skill-bar.md) binds and swaps existing
 skills, preserves learned and equipment-granted ownership, and coordinates

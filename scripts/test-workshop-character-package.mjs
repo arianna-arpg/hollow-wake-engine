@@ -57,7 +57,7 @@ try{
  const dist=path.join(consumer,'node_modules/@hollow-wake/engine/dist');
  const modules=Object.fromEntries(['account-workshop-session','workshop-character'].map(name=>[name,fs.readFileSync(path.join(dist,name+'.js'),'utf8')]));
  report.moduleBytes=Object.fromEntries(Object.entries(modules).map(([name,text])=>[name,Buffer.byteLength(text)]));
- assert(report.moduleBytes['account-workshop-session']<=30*1024);assert(report.moduleBytes['workshop-character']<8*1024);
+ assert(report.moduleBytes['account-workshop-session']<=40*1024);assert(report.moduleBytes['workshop-character']<8*1024);
  const faults=[
   ['lose-save-context','account-workshop-session','...(workshop.character ? { character: workshop.character } : {})',''],
   ['skip-inventory-links','account-workshop-session','this.#character.checkInventory(workshop.character, state);',''],

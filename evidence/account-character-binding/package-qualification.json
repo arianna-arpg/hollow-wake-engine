@@ -1,0 +1,99 @@
+{
+  "passed": true,
+  "contracts": 17,
+  "faults": [
+    {
+      "name": "share-command-input",
+      "detected": true,
+      "logSha256": "6c2d4e26933a2bcfcfd8b085ebb88e42051055e0fbb9c8d0e4edd7adc434a96b"
+    },
+    {
+      "name": "allow-collision",
+      "detected": true,
+      "logSha256": "9cb1bbc1c4f781a308b15b284ab32cacd3aa7bcc22b4ea79a826ec4d7f7526ca"
+    },
+    {
+      "name": "forget-address-floor",
+      "detected": true,
+      "logSha256": "3c7ddb583b778a4ca281fb1686badb3ce208d76b2dc487929a9c5b46796e10cf"
+    },
+    {
+      "name": "allow-active-close",
+      "detected": true,
+      "logSha256": "4d75753b68ed4773d639c027046c547cdd1206162402b216a151aa07342a2aed"
+    },
+    {
+      "name": "lose-selected-role",
+      "detected": true,
+      "logSha256": "11c63ccbe8a831f017affcd6699ee1a50060ad4683885675e5d087287e44ebf0"
+    },
+    {
+      "name": "ignore-stale-address",
+      "detected": true,
+      "logSha256": "0859551c9c0201753f65ad2981d2b1cd70e18af1014c2efd549fe0e9fdaf7491"
+    },
+    {
+      "name": "allow-duplicate-writes",
+      "detected": true,
+      "logSha256": "a01c13fec14b78e0605769a11049f54a250165ba89a9874fba8d6727dc20b354"
+    },
+    {
+      "name": "drop-canonical-write",
+      "detected": true,
+      "logSha256": "cd89d96c0ec194abb05ae926dd997e6ad02e238a94f450f5de10549e5761998a"
+    },
+    {
+      "name": "drop-canonical-clear",
+      "detected": true,
+      "logSha256": "afdd40390881efee98ba91db1bb40556a7f56dc9cf8eedc858c365b9d02b7a38"
+    },
+    {
+      "name": "bypass-owner-authority",
+      "detected": true,
+      "logSha256": "aa38ee554d0305fa62a6ab6b1c1c36e9115e99fa403c75c1354b696c04e1925c"
+    },
+    {
+      "name": "stale-build-account",
+      "detected": true,
+      "logSha256": "4e6b1896a315a043c909e0a26b31e42ad0d540f118e3f48bcfa759a37bb9003a"
+    },
+    {
+      "name": "drop-prepared-publication",
+      "detected": true,
+      "logSha256": "9eb1e5d74dc4ce5b629f9a7b90f203a586bca533369b5d8d48620e918312c0ef"
+    }
+  ],
+  "sources": {
+    "src/account-relic-items.ts": "c542e2bf2ad9d62f9a4e4c90a0e7849e2b806686c2936145c6b3b511de939729",
+    "src/account-workshop-session.ts": "09b8461ed084aea93eda783b6ba625063118b6f1356259d2404c926591ce03e5",
+    "src/workshop-build-preparation.ts": "8819345328f2091b9a30d3e68b2bbc56364ef95994c47a5f7e7fe689aa3b3e31",
+    "src/relic-custody.ts": "d5714b190e221568e31db8534331855c26c54ea8ab92ecb35159375a640b057a",
+    "src/crafting-session-data.ts": "c4c7dc90d6b5da2828369703ea44b17772c451d9ab3b0bcf809ecd32a925438e",
+    "src/progression-session.ts": "f3708f68117b36b26dc8b20cfa2b88c8991694c64228f00925e9e1110fde5d56",
+    "test/account-character-binding.test.mjs": "97c7f86a6acf1ed38f5593ab87a159752ebfa1c95e7b6303c8183ad31c8e66d6",
+    "test/account-relic-items-fixture.mjs": "e7838a5e29419df1d6c62de48fddf6e6baed50f1dca3f3941d47bb4985b46a60",
+    "src/workshop-character.ts": "1a7cb6bdc0a867b466d7160c173f2cd7c5f5fafc7851188c72c05545cba867fa",
+    "src/passive-policy.ts": "ea83beecd0257f2accd3e65c1166184ffd66f30c23cae5b77f68c6b3f6c3da13",
+    "test/shared-account/fixtures.mjs": "669d72f8bda758bf73d2e8d63153b06204d8f622f748a31d22ff452769f90332",
+    "test/shared-account/contracts.mjs": "c444f9496bcc3c66d82c2b64d7874edc09aade05b8403a271ea3eb5262fe9efd",
+    "scripts/test-account-character-binding-package.mjs": "1d6f42ec52a759f43e8a1fef0204efb652d96746cce5195fefb283cab333ded2",
+    "baseline/account-relic-build/acceptance.json": "eb0291f25cc7eef6860d3334d65f87a6bc53677f68b9424d07aad18dce0cf0dd",
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "package.json": "461ca74095a9e811af1a881f02a38e6b291631aa1aefcf2ddfd51bd2951be500",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702"
+  },
+  "archiveSha256": "c5827a62330a64026349b3feca38afc128ab6f801d7bebaab4e5a451a99a8adc",
+  "contentSha256": "a1c8fee117923cac302005ecbd27cbcc6538b8cabae13894ac4c726661b43fa0",
+  "baselineSha256": "3cdfc2f7be472db7c8fd984c234d76f5f6930ef3766bcbdbd99bcaffc051add3",
+  "originalRelicsSha256": "89d046388a12748172391c79d2bfa50a56c00265d3f94ea22dfe94a27ea1fde5",
+  "browserBytes": 184146,
+  "types": true,
+  "moduleBytes": {
+    "account-workshop-session": 38009,
+    "workshop-build-preparation": 3322
+  },
+  "restored": true,
+  "inputsUnchanged": true,
+  "logsSha256": "13e3b236e89d0f12256ddb406268eb9db2297be990bd48d418f192872128d998",
+  "cleaned": true
+}

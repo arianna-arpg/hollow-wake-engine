@@ -218,10 +218,10 @@ const vestigeJsBytes=Object.entries({'vestige-content':4,'vestige-inlays':4,'ves
 const vestigeData=packed.files.find(f=>f.path==='content/vestiges.json');
 assert(vestigeData?.size>0&&vestigeData.size<=8*1024,'Vestige catalogue exceeds 8 KiB or is missing');
 const accountWorkshopFile=packed.files.find(file=>file.path==='dist/account-workshop-session.js');
-// Typed account relics extend the previously 27 KiB account owner.
-// Its explicit allowance changes to 30 KiB; the predecessor/core and
+// Explicit active-character coordination extends the previously 30 KiB owner.
+// Its allowance changes to 40 KiB; the predecessor/core and
 // independent 180 KiB account-only bundled-consumer budgets remain unchanged.
-assert.ok(accountWorkshopFile?.size>0&&accountWorkshopFile.size<=30*1024,'Optional account/workshop owner exceeds 30 KiB or is missing');
+assert.ok(accountWorkshopFile?.size>0&&accountWorkshopFile.size<=40*1024,'Optional account/workshop owner exceeds 40 KiB or is missing');
 const accountWorkshopJsBytes=accountWorkshopFile.size;
 const equipmentSkillsFile=packed.files.find(file=>file.path==='dist/equipment-skills.js');
 // A separate optional capability; retain every predecessor's existing bound.

@@ -57,12 +57,12 @@ try{
  const dist=path.join(consumer,'node_modules/@hollow-wake/engine/dist');
  const modules=Object.fromEntries(['account-workshop-session','account-relic-items'].map(name=>[name,fs.readFileSync(path.join(dist,name+'.js'),'utf8')]));
  report.moduleBytes=Object.fromEntries(Object.entries(modules).map(([name,text])=>[name,Buffer.byteLength(text)]));
- assert(report.moduleBytes['account-workshop-session']<=30*1024);assert(report.moduleBytes['account-relic-items']<5*1024);
+ assert(report.moduleBytes['account-workshop-session']<=40*1024);assert(report.moduleBytes['account-relic-items']<5*1024);
  const faults=[
   ['drop-typed-save','account-workshop-session','...(account.relicItems === undefined ? {} : { relicItems: account.relicItems })',''],
   ['forget-tombstones','account-workshop-session','this.#relicState(account).released.every(key => released.has(key))','true'],
   ['duplicate-character-body','account-workshop-session',"object(item).relicKey === undefined, 'account-item-in-character'","true, 'account-item-in-character'"],
-  ['revalidate-unchanged-bodies','account-workshop-session','if (accountChanged)\n                this.#checkAccount(nextAccount);','this.#checkAccount(nextAccount);'],
+  ['revalidate-unchanged-bodies','account-workshop-session','if (accountChanged)\n                this.#checkAccount(nextAccount);\n            this.#checkWorkshop(nextWorkshop, nextAccount);','this.#checkAccount(nextAccount);\n            this.#checkWorkshop(nextWorkshop, nextAccount);'],
   ['skip-payload-admission','account-relic-items','this.#data.item(value)','value'],
   ['wrong-content','account-relic-items','JSON.stringify(copySessionJSON(value)) === this.#identity','true'],
   ['wrong-category','account-relic-items',"this.#definitions.crafting.items.pack.bases[item.baseId].category === 'relic'",'true'],

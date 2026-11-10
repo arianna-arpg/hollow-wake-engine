@@ -1,5 +1,11 @@
 # Boundary contract
 
+The optional [active-character binding](account-character-binding.md) selects
+one canonical relic investment writer per account. Strict address admission,
+detached projection and active-first build preparation commit with all affected
+saves and continuations. Selection is ephemeral and never restored from a save.
+Hosts retain authorization, migration and acknowledgement-time live effects.
+
 The optional [companion lifecycle](companion-grants.md) owns rule execution over
 explicit borrowed state. Hosts own entity presence, bodies, spawning and live
 refresh effects. Exceptions retain preceding borrowed writes; this API does not
@@ -7,13 +13,12 @@ provide transactional live publication or automatic actor cloning.
 
 The optional [typed account relic owner](account-relic-items.md) admits complete
 canonical bodies and storage indexes in explicit v2 account saves and prepared
-transactions. Live projection, active-character authority and canonical grant
-writeback remain separate integration work.
+transactions. Live actor effects remain separate integration work.
 
 The optional [durable workshop character context](workshop-character.md) retains
 validated class, base attributes, passives and personal container inputs beside
-the inventory save. Account relic projection/writeback, full authored build
-construction and live publication remain separate integration work.
+the inventory save. Full authored build construction and live publication
+remain separate integration work.
 
 The optional [character contribution rebuild](build-contributions.md) composes
 passive, gear and active container sources in the original order and supplies

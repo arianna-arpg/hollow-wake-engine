@@ -1,5 +1,13 @@
 # Verification and reproduction
 
+The optional [account/character binding](account-character-binding.md) adds
+installed and browser contracts for explicit selection, canonical investment
+writeback, strict item addresses and prepared transaction rollback. Run
+`test:account-character-binding-package` after building; deliberate faults must
+fail and restored controls must pass. `reference:account-character-binding`
+independently reproduces the twelve frozen original adoption/authority records.
+Original migration and strict SDK admission are distinct contracts.
+
 The optional [companion lifecycle](companion-grants.md) adds fourteen independent
 contracts, fourteen deliberate package faults and installed/browser/type checks.
 Its original-only reference contains 28 courses and 83 lifecycle observations.

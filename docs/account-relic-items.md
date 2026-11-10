@@ -117,7 +117,9 @@ Unchanged ordinary inventory commands reuse already admitted account bodies.
 No frame-loop work, SQL queries, background tasks or runtime dependency is
 added. Code size and admission counts do not establish a device speedup.
 
-Active-character authority, coherent UID migration, canonical grant writeback,
-full authored private build construction, companion lifecycle extraction and
+The later [active-character binding](account-character-binding.md) adds explicit
+selection, strict address admission and canonical investment writeback; the
+[companion lifecycle](companion-grants.md) has its own extracted runtime.
+Qualified UID migration, full authored private build construction and
 acknowledgement-time live reconciliation remain open. Native/Unity/Godot/Unreal
 v2 account admission and Steam Deck/mobile acceptance require their own courses.

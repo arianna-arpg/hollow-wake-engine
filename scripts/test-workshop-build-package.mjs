@@ -51,14 +51,14 @@ try{
  const dist=path.join(consumer,'node_modules/@hollow-wake/engine/dist');
  const modules=Object.fromEntries(['account-workshop-session','workshop-build-preparation'].map(name=>[name,fs.readFileSync(path.join(dist,name+'.js'),'utf8')]));
  report.moduleBytes=Object.fromEntries(Object.entries(modules).map(([name,text])=>[name,Buffer.byteLength(text)]));
- assert(report.moduleBytes['account-workshop-session']<=30*1024);assert(report.moduleBytes['workshop-build-preparation']<=4*1024);
+ assert(report.moduleBytes['account-workshop-session']<=40*1024);assert(report.moduleBytes['workshop-build-preparation']<=4*1024);
  const faults=[
   ['cold-reopen','account-workshop-session','preparation.prepare(previous?.build,','preparation.prepare(undefined,'],
   ['lose-chain','account-workshop-session','const nextWorkshop = { ...workshop, body, build: prepared.build','const nextWorkshop = { ...workshop, body, build: workshop.build'],
   ['skip-siblings','account-workshop-session','if (this.#preparation)','if (false)'],
   ['stale-account-context','account-workshop-session','previous && owner === previous.buildAccount && same','previous && same'],
   ['omit-writeback','workshop-build-preparation','item.grantState = row.grantState;','void row.grantState;'],
-  ['publish-input-edits','workshop-build-preparation','return { state, continuation };','return { state: privateInput.state, continuation };'],
+  ['publish-input-edits','workshop-build-preparation','return { state, continuation, ...(relicWrites ? { relicWrites } : {}) };','return { state: privateInput.state, continuation, ...(relicWrites ? { relicWrites } : {}) };'],
   ['skip-normalized-admission','account-workshop-session',"const checked = this.#withWorkshop({ op: 'restore', save: { ...save, state: result.state } }).save;",'const checked = {...save,state:result.state};'],
   ['reuse-source','workshop-build-preparation',"candidate !== null && typeof candidate === 'object' && candidate !== source","candidate !== null && typeof candidate === 'object'"],
  ];

@@ -1,26 +1,34 @@
 import type {CraftingSessionState} from './crafting-session-data.js';
 import type {ItemInstance} from './item-types.js';
 import type {WorkshopCharacterState} from './workshop-character.js';
+import type {RelicState} from './relic-custody.js';
 import {copySessionJSON,requireSession as need,sessionArray as array,sessionFields as fields,sessionRecord as record,
   sessionInteger as integer,type SessionJSON} from './session-json.js';
 
 export interface WorkshopBuildInput {
   profile:number;
-  phase:'open'|'restore'|'command'|'account';
+  phase:'open'|'restore'|'command'|'account'|'activation';
   /** Detached post-command state. Edits to this input are never published. */
   state:CraftingSessionState;
   /** Complete authoritative account save, including progression/reliquary and
    * opaque host context. This detached read is not a second account authority. */
   account:Readonly<Record<string,SessionJSON>>;
-  /** Admitted durable source context when the owner uses inventory v2.
-   * Read-only authority: returned grant writes still address inventory only. */
+  /** Admitted durable source context when the owner uses inventory v2. */
   character?:WorkshopCharacterState;
+  /** Only the explicitly selected character receives a canonical projection.
+   * Bodies remain account property, outside the character inventory save. */
+  relics?:{role:'inactive'}|{role:'active';state:RelicState<ItemInstance>};
   command?:Readonly<Record<string,SessionJSON>>;
 }
 export interface WorkshopGrantWrite {
   uid:number;
   /** Null removes the item-resident investment field. */
   grantState:NonNullable<ItemInstance['grantState']>|null;
+}
+export interface WorkshopRelicGrantWrite extends WorkshopGrantWrite {relicKey:string}
+export interface WorkshopBuildWrites {
+  items:readonly WorkshopGrantWrite[];
+  relics:readonly WorkshopRelicGrantWrite[];
 }
 export interface WorkshopBuildServices<B extends object> {
   /** Cold admission only. Capture complete authorized class/passive/container
@@ -29,14 +37,15 @@ export interface WorkshopBuildServices<B extends object> {
   /** Pure complete fork, preserving build ownership. Never restore an existing
    * skill through a cold save path. Immutable definitions may be shared. */
   fork(source:Readonly<B>,input:WorkshopBuildInput):B;
-  /** Derive the complete private build. Return only item investment writeback;
-   * this port cannot publish wallet, account, bar or custody changes. Services
+  /** Derive the complete private build. Return only investment writeback;
+   * canonical relic writes require the selected character's explicit role.
+   * This port cannot publish wallet, bar or custody changes. Services
    * must not retain or later mutate owned graphs or call live World effects. */
-  derive(candidate:B,input:WorkshopBuildInput):readonly WorkshopGrantWrite[];
+  derive(candidate:B,input:WorkshopBuildInput):readonly WorkshopGrantWrite[]|WorkshopBuildWrites;
 }
 export interface WorkshopBuildPort {
   prepare(previous:object|undefined,input:WorkshopBuildInput):{
-    state:CraftingSessionState;continuation:object;
+    state:CraftingSessionState;continuation:object;relicWrites?:readonly WorkshopRelicGrantWrite[];
   };
 }
 
@@ -52,13 +61,22 @@ export class WorkshopBuildPreparation<B extends object> implements WorkshopBuild
     const privateInput={...input,state:copySessionJSON(state) as unknown as CraftingSessionState,
       account:copySessionJSON(input.account) as Record<string,SessionJSON>,
       ...(input.character?{character:copySessionJSON(input.character) as unknown as WorkshopCharacterState}:{}),
+      ...(input.relics?{relics:copySessionJSON(input.relics) as unknown as WorkshopBuildInput['relics']}:{}),
       ...(input.command?{command:copySessionJSON(input.command) as Record<string,SessionJSON>}:{})};
     const held=previous===undefined?undefined:this.#builds.get(previous);
     need(previous===undefined||held?.profile===input.profile,'foreign-build-continuation');
     const source=held?.build;
     const candidate=source===undefined?this.services.initialize(privateInput):this.services.fork(source,privateInput);
     need(candidate!==null&&typeof candidate==='object'&&candidate!==source,'invalid-build-candidate');
-    const writes=copySessionJSON(this.services.derive(candidate,privateInput));array(writes);
+    const result=copySessionJSON(this.services.derive(candidate,privateInput));
+    let writes:unknown[],relicWrites:WorkshopRelicGrantWrite[]|undefined;
+    if(Array.isArray(result))writes=result;
+    else {
+      fields(result,['items','relics']);array(result.items);array(result.relics,512);writes=result.items;
+      need(result.relics.length===0||input.relics?.role==='active','inactive-relic-write');
+      relicWrites=result.relics as unknown as WorkshopRelicGrantWrite[];
+    }
+    array(writes);
     const items=new Map([...state.items,...Object.values(state.equipped),...state.overflow].map(item=>[item.uid,item]));
     const touched=new Set<number>();
     for(const row of writes){
@@ -69,6 +87,8 @@ export class WorkshopBuildPreparation<B extends object> implements WorkshopBuild
       else {record(row.grantState);item.grantState=row.grantState as unknown as NonNullable<ItemInstance['grantState']>;}
     }
     const continuation=Object.freeze({});this.#builds.set(continuation,{profile:input.profile,build:candidate});
-    return {state,continuation};
+    // The account owner admits key/address pairs and complete canonical bodies.
+    // It publishes these writes together with this private continuation.
+    return {state,continuation,...(relicWrites?{relicWrites}:{})};
   }
 }

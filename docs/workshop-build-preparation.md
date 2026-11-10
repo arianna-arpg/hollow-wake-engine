@@ -30,6 +30,10 @@ Input edits are discarded. Only the returned investment rows reach inventory;
 unknown item IDs, duplicate rows and invalid investment refuse admission. The
 existing crafting validator then admits the complete normalized save again.
 Wallet, account, bar and item custody are outside this writeback capability.
+The later opt-in [active-character contract](account-character-binding.md)
+extends the result to `{items, relics}` with strictly admitted canonical
+investment rows. It requires explicit selection; the legacy array form and
+local write rules remain unchanged.
 The low-level `WorkshopBuildPort` is a trusted extension contract; use the supplied
 class for these writeback restrictions.
 
