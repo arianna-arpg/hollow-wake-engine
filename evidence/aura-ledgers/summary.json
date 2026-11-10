@@ -1,0 +1,112 @@
+{
+  "passed": true,
+  "goalComplete": false,
+  "baseCommit": "3e240dc1f7d0b2f2cd70bf7b1c922b608baec9a7",
+  "node": "v24.9.0",
+  "platform": "win32",
+  "arch": "x64",
+  "verification": {
+    "commands": 120,
+    "unitTests": 1999,
+    "exitCode": 0
+  },
+  "reference": {
+    "commands": 38,
+    "exitCode": 0
+  },
+  "auraLedgers": {
+    "contracts": 28,
+    "packageFaults": 16,
+    "gameFaults": 8,
+    "adapterGuards": 42,
+    "originalLedgerCheckpoints": 40,
+    "composedCheckpoints": 127,
+    "privateCourses": 4,
+    "privateStages": 15,
+    "moduleBytes": 3365,
+    "browserBytes": 1499,
+    "archiveSha256": "c9e6cd74426e8cbc7ab9774759c972f64408ba079163afbeb025e2d79a44d6cf",
+    "smoke": {
+      "scenarios": 5,
+      "seeds": 5,
+      "episodes": 25,
+      "exactEpisodes": true,
+      "normalizedReportsEqual": true,
+      "episodesSha256": "92f132c90f0c5da0a440415ae63e0b86b9cd1c66b6bca77c64ea2392688cd0c1",
+      "scope": "Composed game with aura ledgers delegated versus the same composed game with only ledger upkeep, settlement, capacity and regeneration banking restored to original"
+    }
+  },
+  "performance": {
+    "requiredContactKernel": true,
+    "ledgerCostMeasured": false,
+    "wholeFrameAcceptance": false,
+    "deviceAcceptance": false
+  },
+  "sources": {
+    ".github/workflows/aura-ledgers.yml": "e9d4dc0a20f14886582642de59e98130ef964283faf7f6713d11e462cb5540c5",
+    "README.md": "1b9e0f2b51b6e7592f70fbee23209eab05f73a162930258474047f0cc5668aeb",
+    "adapters/hollow-wake/integrate-aura-ledgers.mjs": "f75e70524084a79f3987a778277fc8f25f4eada20fef2682382cdc5483d069f3",
+    "baseline/aura-ledgers/README.md": "2423637e29afd810a197902d7d432e3233fe0a4e0b64636f6889ab3d98fdcbe3",
+    "baseline/aura-ledgers/acceptance.json": "49c47488cf44cd8c89f59492c152978dd2fd5be7113e0b38bbf8d8e2526ba141",
+    "baseline/aura-ledgers/observations.json.gz": "08d10aaa1fd262c9bb7fd977cddfb47a1d728837343b0860a60b6d68642fab7f",
+    "baseline/aura-ledgers/original-faults.json": "79d4298190605f94932e14a7a03e14d4bf1488aa93447def84c1e336dbdb67e0",
+    "baseline/aura-ledgers/original.logs.json.gz": "aaa10c7d22b8e1886e235751fb21f4244086a50f6dc658ca9f73c1d2b7d27a1e",
+    "docs/aura-ledgers.md": "0f5bf1cd6f5262f565fdd7f9f5512cb0eac053a1c1f3fe5e04bc98804c9b51c2",
+    "docs/boundary-contract.md": "3f507ac4753bba4cb3a7486aee5f39c38373c7ee0a9e58643671f4bfacbdebf7",
+    "docs/completion.json": "adfa7000841632f22c3426afc1049be6ba3a9e060f3d4c4759412749d1a8cdf8",
+    "docs/verification.md": "df7f4e0fbe5486e24a8f006250dae2f1957a8a30b28770862257726deeddbb04",
+    "package.json": "974c1c7e5fc8685b11376a4d92e62e1fc7d3c61894ca8e8010e27cbb1cfa5b3b",
+    "reference/export-aura-ledgers.ts": "b21b156d5756c934692c3273a241b04cc0b6c62d45532edcaacb36628a8c20a9",
+    "scripts/check-boundaries.mjs": "e54d6f1c85000ce6fcf28c315ae89bef185a1afdf8ecb4928dab379564da6081",
+    "scripts/prepare-game-adapter.mjs": "5c7db420a24f4824b3fac70207457cdcc08853cb577e10ebbe0d3d5b12a8b361",
+    "scripts/reference-aura-ledgers.mjs": "f671fd3a861bd07b0ea197434b1c96625ac13bc45d92aa59116ce574565d5bdd",
+    "scripts/test-aura-ledgers-package.mjs": "0622a36bce8074513158d416e98bf9874a597d95b77e40e2d2789a61d1ab1605",
+    "scripts/test-game-aura-ledgers.mjs": "36dc5ea188a9c80c8763efc833ed774647f0bbe4e8c77f08b8b14c9bbda77318",
+    "scripts/test-package.mjs": "a1d67e24fc29fbe02bc4cd1ca5ab90e8b2f46b0e4ccd57cec28c4b5ee6aaf69e",
+    "src/aura-ledgers.ts": "154276444e0a4aa5248168c69008ef5862572e7bc86fb7d23195dc4798162e6e",
+    "test/aura-ledgers-consumer.ts": "6f345faec2e3c6d62f4c379c427b47564929c7c4c4c419485b6600d4033e65c9",
+    "test/aura-ledgers.test.mjs": "62168da4424c09f7881dee3851e263933c2a7cb15081c4b19408d9d67339a023"
+  },
+  "files": {
+    "verify.json": "742926470f5793f2f87431c31b746d57b225091f3078d7adb16c63abb9ae18f5",
+    "verify.log.gz": "afbb1825c0ecc0d1f7bbe591cef515ab7b0b69ad871ba26a5fb9efafffa1586e",
+    "reference.json": "b97a1bfe153f55ed7af1dead1fbbf3960058069d9bf5a4739fc8dd7561ef82bb",
+    "reference.log.gz": "b5dba6b52e0096b92fe182d83cf24cbdca37b00e34d8a771ec70ebb16f242116",
+    "aura-ledgers-package.json": "a05cbbf945bcf1d9514366cab23390fed30bb95cddf9a077d397c74c52d2bf86",
+    "aura-ledgers-package.logs.json.gz": "e72c9317c7c03c41eca993fd43e22999f43288f2b826619970cc6348edb48c2f",
+    "aura-ledgers-reference.json": "503796544a1cc2b481355f186cc423fcfb4833659a47b3570fcb773c00e6af47",
+    "aura-ledgers-reference.logs.json.gz": "29937bbe0a5167ec1ee85c5d82501a62ea90d5cbc2a1dd469fd2b7c88b6fafce",
+    "aura-ledgers-game.json": "6d7a65205fb2b814dc2ab5372f63a02bc40661cb7967842eb06311d99b89b456",
+    "aura-ledgers-game.logs.json.gz": "d81c159554a3a03fcf231b959f25e49addc685b96f2f45db67ff1f9e6caacd4c",
+    "aura-ledgers-composed.json": "48e2d79c5e68807316d9ed7ae3296c2b248213e451c073609baf0bfd18dfdbbd",
+    "aura-ledgers-composed.logs.json.gz": "25eeb88d56c3b26f1bb2ee6e9b71f6e1d1901e484bea1043f937ae22a7f5b4d4",
+    "aura-ledgers-targeted.json": "fd272fa83bad27336dd362296e8c98d76d130d7c290a8cc04e585cab651ea1d3",
+    "aura-ledgers-targeted.logs.json.gz": "cc88bd263586d4834e09e2a793bb031b1721f9674fc2bb8405bddd202c613978",
+    "required-benchmark.json": "1cbeda66e82461a99edb0bbafb7c1d429cd8e6518b0a46471ce4c0fd9f4a2a23",
+    "required-benchmark.log.gz": "cbd3a37a40594c30254fc353cc5d0a8b769a1a72e4afa2bbdbc60ddd07982573",
+    "kernel-benchmark.json": "2b8c0e38fb35c6eabb4c72b260d38800f9b3b3d07e98e5b60843a0df1f59b1f6",
+    "startup.json": "652ef17fa1ea28b0f522978d771939cfb1412f60f5e2481b2dee7354b51dc9a4",
+    "package-budgets.json": "30fa3c154dad8b4de8fd98a272d8e4781b4e226dcd4243f51098495e28848bee",
+    "prior-hosted-acceptance.json": "33df017cf7ce93dfab01d4313dd53d562b5b6542c4b57ee9dcc7116282d4226f",
+    "candidate-review.json": "5eee01f8898e90729c7ef1d4cef3f82af01b91cafac09a18ee7f4a9eb295dfd1",
+    "aura-ledgers-original-r1.json": "a7f9b274b63af47506e3a5833f90a7da1d1367daa49afa050aa263cdf86314a7",
+    "aura-ledgers-original-r1.logs.json.gz": "c48af1e2b469cf8c869097540babee7b3e9810571595fb4a312b69e12a372a8a",
+    "aura-ledgers-contracts-r1.json": "dd3cdd5f7f6d2c009de50c85a552a04d065b0783de46698de53e1f6aa295708b",
+    "aura-ledgers-contracts-r1.logs.json.gz": "c4aa16b08c3f3c30540537d77739c11b146863f0e6b23cea60bdf56bc826d3ab",
+    "reproduce-composed.mjs": "1a5dafdb279c64574e1babc3f5643ebda6cc4b52b5502221f3922c4e9e879f3f",
+    "cleanup.json": "8b7fb7e77ab096ac99506db483871d765fcfbba9e098458904b1ebbdd19dddb4"
+  },
+  "footprint": {
+    "newWorktrees": 0,
+    "removedWorkspaceFolders": 76,
+    "remainingCreatedLargeFolders": []
+  },
+  "limits": [
+    "Prepared active rows qualify ledger phases, not activation or full World scheduling.",
+    "Actual contact courses use diagnostic innate grants and prepared target life; they do not establish universal damage ratios.",
+    "Paired combat isolates aura ledgers in the same fully assembled game, not whole-SDK parity against every original subsystem.",
+    "Private companion fixtures do not implement complete private character graphs or durable acknowledgement-time publication.",
+    "Spatial burst execution, body acquisition, summons and death remain host operations.",
+    "Complete native engine exposure and target-device performance remain open."
+  ]
+}

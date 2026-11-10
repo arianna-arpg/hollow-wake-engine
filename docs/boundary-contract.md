@@ -1,5 +1,9 @@
 # Boundary contract
 
+The optional [aura ledger service](aura-ledgers.md) owns capacity, regeneration
+skims, upkeep and settlement over borrowed resources. Synchronous host ports
+retain retirement, spatial damage, death and presentation in their original order.
+
 The optional [aura retirement service](aura-retirement.md) removes active auras
 through explicit synchronous effect ports. Callback-visible state and original
 release ordering are retained; activation, full private graphs and durable live

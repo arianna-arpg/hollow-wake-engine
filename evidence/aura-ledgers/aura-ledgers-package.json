@@ -1,0 +1,105 @@
+{
+  "passed": true,
+  "contracts": 28,
+  "sources": {
+    "src/aura-ledgers.ts": "154276444e0a4aa5248168c69008ef5862572e7bc86fb7d23195dc4798162e6e",
+    "test/aura-ledgers.test.mjs": "62168da4424c09f7881dee3851e263933c2a7cb15081c4b19408d9d67339a023",
+    "test/aura-ledgers-consumer.ts": "6f345faec2e3c6d62f4c379c427b47564929c7c4c4c419485b6600d4033e65c9",
+    "scripts/test-aura-ledgers-package.mjs": "0622a36bce8074513158d416e98bf9874a597d95b77e40e2d2789a61d1ab1605",
+    "package.json": "974c1c7e5fc8685b11376a4d92e62e1fc7d3c61894ca8e8010e27cbb1cfa5b3b",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    "tsconfig.json": "98691a01b56f8bd025c728aba3fa8ea3e682da943c6eab103289045c5e1ac6e1"
+  },
+  "faults": [
+    {
+      "name": "uncapped-is-zero",
+      "detected": true,
+      "logSha256": "a4c2a81dd9f616ce98ba07dbb645f2416b4bd930d3fc80c93aedc2ddb353354b"
+    },
+    {
+      "name": "missing-life-cap",
+      "detected": true,
+      "logSha256": "af9ef34529aa3ad9bd0616fa6d94a6738d1a158ac8fbfc16c106ab6284064b7a"
+    },
+    {
+      "name": "zero-cap-read-skipped",
+      "detected": true,
+      "logSha256": "f52cd513b26c5c69d51dd313a7fafdc2380c19f9e2983076ae7a8e397f0a5a0d"
+    },
+    {
+      "name": "full-ledger-restores-regen",
+      "detected": true,
+      "logSha256": "142bbaba54034e5369c4170563285ae42fbfee15f365997eed8ae9c1bfc384d0"
+    },
+    {
+      "name": "regen-map-snapshot",
+      "detected": true,
+      "logSha256": "579e55e161a1d235d8ecc562eb496f9e38f3c60db850f867872f85bd12f9bf91"
+    },
+    {
+      "name": "regen-rate-unbounded",
+      "detected": true,
+      "logSha256": "92d6085d3a2e5c5d4555b07a3272cf6c4fcb78da0a599ffd923399b20281e603"
+    },
+    {
+      "name": "regen-bank-skipped",
+      "detected": true,
+      "logSha256": "edab2f82fcf36a26e24db3b317f9c83597db599b63a8fb41165a612e9a4972f5"
+    },
+    {
+      "name": "settlement-balance-retained",
+      "detected": true,
+      "logSha256": "74ba408e3b9631617307a27f89788d214ad8e93663c8502bf22cee1ed523998c"
+    },
+    {
+      "name": "half-point-dropped",
+      "detected": true,
+      "logSha256": "62fb8f5c04309ccf09dd8599cfb01c1af75bcb486123413f29dfac826c4b0993"
+    },
+    {
+      "name": "corpse-charged",
+      "detected": true,
+      "logSha256": "e2bdd3ad5e9ba5c0bd5923b461ced7a236775a21d183d79f9d08418ed9ff69e9"
+    },
+    {
+      "name": "callback-death-ignored",
+      "detected": true,
+      "logSha256": "6832d8b0f83f57bf38eabc5ead690855076486dc81574e229aad9875eac13e26"
+    },
+    {
+      "name": "overflow-damage-lost",
+      "detected": true,
+      "logSha256": "d5354e4660c5addd13ab3ba221804fa625f92066e94fe52fbb01c1a8eb6f1fcc"
+    },
+    {
+      "name": "upkeep-equality-closes",
+      "detected": true,
+      "logSha256": "0419af959f87bb6981a4fca637a4be3b2d3666401ec215c2763e835b7754e34f"
+    },
+    {
+      "name": "upkeep-map-snapshot",
+      "detected": true,
+      "logSha256": "c5183ab24643fd4a0c5f9938d21758acf38834eb253ebd1653e5de9404c6ead6"
+    },
+    {
+      "name": "vent-threshold-inclusive",
+      "detected": true,
+      "logSha256": "ff9d1096313a5453f85da4f262e4e584f854e981d51acf440441d2289134b023"
+    },
+    {
+      "name": "upkeep-not-debited",
+      "detected": true,
+      "logSha256": "bbcc8f409c7ab3324527e03c4a82afa9ab5e88cf48840ea38c632efc30fba38a"
+    }
+  ],
+  "archiveSha256": "c9e6cd74426e8cbc7ab9774759c972f64408ba079163afbeb025e2d79a44d6cf",
+  "browserBytes": 1499,
+  "types": true,
+  "sourceTypes": true,
+  "moduleBytes": 3365,
+  "moduleSha256": "1a8b315112e79dcaec92b24290fa46e3f2cc40fb1b7c88601412600673848058",
+  "restored": true,
+  "inputsUnchanged": true,
+  "cleaned": true,
+  "logsSha256": "e72c9317c7c03c41eca993fd43e22999f43288f2b826619970cc6348edb48c2f"
+}

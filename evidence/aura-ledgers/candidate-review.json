@@ -1,0 +1,71 @@
+{
+  "passed": true,
+  "promoted": false,
+  "candidateOnly": true,
+  "recorded": "2026-11-10T20:12:38.508Z",
+  "reports": {
+    "aura-ledgers-original-r2": "4783e7c63728f60d65a99531afd71cb09d4cf484aacff5ccf46231310d61e1e3",
+    "aura-ledgers-prototype-r1": "665d10d0a832128f779f50c869e61a1803607d37016ffbb6ed038edef30bba2e",
+    "aura-ledgers-contracts-r2": "1b740f4d3dc579cad541d32cb147671cc1d6624d6d3fcd984fa2b4b47fda743f",
+    "aura-ledgers-adapter-guards": "229f5295e0afc4bebd2fd6c2d4764213fb2d1d14547de1da3932ef24fd6fd692",
+    "aura-ledgers-candidate-package-r1": "39670fb3fe9a9570172750b95e250a5ef25372428b6aa82681dd87e2aa9b7d5f",
+    "aura-ledgers-candidate-game-r1": "f8e2a093a976112bcde626a0e902a6e84883219abb3471e54fb7ee3c3ce44a3b"
+  },
+  "original": {
+    "observations": 40,
+    "freshProcesses": 2,
+    "faults": 23,
+    "sourceSha256": "b21b156d5756c934692c3273a241b04cc0b6c62d45532edcaacb36628a8c20a9"
+  },
+  "prototype": {
+    "observations": 71,
+    "faults": 20,
+    "coreTypes": true,
+    "gameTypes": true
+  },
+  "independent": {
+    "contracts": 28,
+    "faults": 16
+  },
+  "adapterGuards": 37,
+  "installed": {
+    "observations": 127,
+    "privateCourses": 4,
+    "privateStages": 15,
+    "freshProcesses": 2,
+    "gameFaults": 8,
+    "publicTypes": true,
+    "moduleBytes": 3365,
+    "browserBytes": 1499,
+    "baseArchiveSha256": "b0e840f5ddd35adbd6e608bd7fa65e0808fdbfe80d96ba2860e6c737dcf95bdb",
+    "archiveSha256": "4858b458da90472231656837c19ac0d40f759083c4a763e58ad43bc555d370d8"
+  },
+  "failureHistory": [
+    {
+      "report": "aura-ledgers-original-r1.json",
+      "source": "export-aura-ledgers-r1.ts",
+      "reason": "Original-only observer had an unused helper rejected by strict types before execution. Removed the helper; no original game code or accepted observations changed.",
+      "reportSha256": "a7f9b274b63af47506e3a5833f90a7da1d1367daa49afa050aa263cdf86314a7",
+      "sourceSha256": "0d9029137ae57b98c9bc149b1f04b7e7ef04a357aba73462b5700096a44d1ae1"
+    },
+    {
+      "report": "aura-ledgers-contracts-r1.json",
+      "source": "qualify-aura-ledgers-contracts-r1.mjs",
+      "reason": "Compiled and browser contracts passed, then the fault-selector harness found three array loops. Restricted selection to arrays of fault rows; all sixteen faults were detected in r2. Runtime and contracts unchanged.",
+      "reportSha256": "dd3cdd5f7f6d2c009de50c85a552a04d065b0783de46698de53e1f6aa295708b",
+      "sourceSha256": "e7949e7fa10fb27d0bd626c8994c179fa1952af7aad1a85b6c8d50993fa44c68"
+    }
+  ],
+  "next": [
+    "Finish and publish aura retirement before promoting this ledger candidate.",
+    "Promote the frozen original ledger observer, optional capacity/regen/upkeep/settlement runtime and guarded Actor/World binding.",
+    "Qualify the real production package and complete assembled game, then full checks and an isolated required benchmark. Keep native/device acceptance separate."
+  ],
+  "limits": [
+    "Diagnostic authored rows qualify ledger phases, not activation or full World scheduling.",
+    "Installed candidate game observations compose eight optional modules and retain original surrounding systems; complete assembled-game acceptance is still required.",
+    "The existing damage pipeline owns damageTaken skimming; this candidate does not duplicate that policy.",
+    "Trusted synchronous callbacks retain live iteration and partial writes; no complete private build or durable acknowledgement protocol is implemented.",
+    "No measured performance gain, whole-frame budget or target-device acceptance is claimed."
+  ]
+}

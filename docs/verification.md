@@ -1295,3 +1295,15 @@ installation guards, four runtime/binding faults, eighty-seven original
 observations and four private companion contexts with fifteen stages. These
 prepared courses do not qualify aura activation, a complete private build, native
 engine exposure or physical-device performance. See [aura retirement](aura-retirement.md).
+
+## Aura ledgers
+
+`test:aura-ledgers-package` checks twenty-eight installed/browser contracts,
+public/direct-source types and sixteen deliberate runtime faults.
+`reference:aura-ledgers` replays forty checkpoints in two fresh original
+processes. `adapter:aura-ledgers` composes eight installed modules and checks
+forty-two rendering/installation guards, eight runtime/binding faults, 127 original
+observations and four private companion contexts with fifteen stages. Both Actor
+and World are preflighted before either file is installed. These prepared courses
+do not qualify full activation/scheduling, complete private graphs, native engines
+or physical-device performance. See [aura ledgers](aura-ledgers.md).
