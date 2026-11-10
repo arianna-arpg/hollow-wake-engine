@@ -1,0 +1,103 @@
+{
+  "passed": true,
+  "sources": {
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "src/guard-arts.ts": "8492ea12b5e201d00d0f23331e322de3899088c7dc88501b7caa2d376b5060b9",
+    "adapters/hollow-wake/guardArts.ts": "434405ce4bf213400cc60d315e0e2b8c2c3080b8760acca615ce33cd7795aa64",
+    "adapters/hollow-wake/guardArtsSpec.ts": "3b1cc9f349187608188398237a4ee549fa0f125cc7de55963281669496783860",
+    "adapters/hollow-wake/integrate-guard-arts.mjs": "01ecdd8ac42dc45a9f9797f1ed4c3ddb3288174ceca9e9341e9574790b94d19d",
+    "adapters/hollow-wake/install-character-sources.mjs": "d786bd93d1efb9dac3ff44fcef2e62acbf7867dae4c6fd4e4ebca318afe83a95",
+    "scripts/prepare-game-adapter.mjs": "42c71e9d586d9c4239a69f8b913f8211e799682b7f3a15460d66cfdee59ccdad",
+    "scripts/test-game-guard-arts.mjs": "29f2035085aaf9c775c9ce585fa1d7b4b4e3afc15ab6e05d67b4b0082de3d665",
+    "package.json": "aeb597438c5a5e2b14c5067d1791c233bb5245b236b1104b4096e531d12e9715",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    "baseline/guard-build/acceptance.json": "7fa6044d97e34de2e85d128d4efeca6aaf52acf2aff6087ebcda767666f48c74",
+    "reference/export-guard-build.ts": "0fcf51c951d8db8c93c68197668cebec1c1d10f374e52a2360adca350c5694db",
+    "baseline/guard-build/observations.json.gz": "c035638d56fd84133d1d69caecf99d4967d0a8c04d5dbf9846b0f9d630624cb8",
+    "baseline/bond-build/acceptance.json": "03cb5ae488ce75154177f82f900ff18140e7328995f98fa44c1a8f6569a1c8f9",
+    "reference/export-bond-build.ts": "37ccc1e17cc169e3c3da2faacaa5381a1a180c50c8aabe20dd73153ab9096bbf",
+    "baseline/bond-build/observations.json.gz": "5fcc17037c3c9568be1e16df24be6f27d957956e9ff4ee2828af58b33daa5c53",
+    "baseline/companion-world-build/acceptance.json": "ddc06d9b19998d79c61c413541589017d91ae7b951b9879086399d7d557884f1",
+    "reference/export-companion-world-build.ts": "4f6618b14d9997e275ce6c5313f4348c48a7f104a20a696cabb042debb3b3f10",
+    "baseline/companion-world-build/observations.json.gz": "be865cc482a619455ca028cc96d641128d3e0f7886d8f586054c58b820c24635",
+    "baseline/guard-mechanics/acceptance.json": "bd8fa419b4bc1a72df2b83105fe765b9920413b3c8830a74787c7bfe623193a5",
+    "baseline/guard-mechanics/original.logs.json.gz": "83b12b30344b97257616a119dc1937e7952603f819bf586ae37a0bb4efd28f0d",
+    "test/guard-arts-binding-game.ts": "50b19dc67bf3545d124724624d3ce731054dab288957ce3e30b605f40416102c"
+  },
+  "courses": [
+    {
+      "name": "guard-build",
+      "observations": 17,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "bond-build",
+      "observations": 14,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "companion-world-build",
+      "observations": 9,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "mechanics",
+      "groups": 16,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "ownership",
+      "assertions": 5,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    }
+  ],
+  "faults": [
+    {
+      "name": "fault-no-plates",
+      "detected": true,
+      "logSha256": "8b9c8887b926334c764dfc2d9d488e6d0864076a35a419a675fbe0ff14d82a1f"
+    },
+    {
+      "name": "fault-no-intervention",
+      "detected": true,
+      "logSha256": "1193575e9ac619d9e99deaa4c5db012aba508aa9d79cb4c865dacfc777198efc"
+    },
+    {
+      "name": "fault-cold-rebuild",
+      "detected": true,
+      "logSha256": "206e627dc1595640cb9d0ed42d12175dc7c8ab35c024c6e44478093b43e10a3f"
+    },
+    {
+      "name": "fault-missing-projectile-owner",
+      "detected": true,
+      "logSha256": "d9daba5292c95c6c514a4e7a3cc811add9e0c93d5bb9f14e790b89bb428f3d75"
+    },
+    {
+      "name": "fault-missing-node-rules",
+      "detected": true,
+      "logSha256": "51c7859e70134a1d24935787acbeddd576c533cc2cdb5cafc63ff4f90c66ec47"
+    }
+  ],
+  "adapterGuards": 15,
+  "archiveSha256": "c44587a375614818d2ae6499c48ae192dbe43867561dc12c5eea6ccc1b22037b",
+  "types": true,
+  "restored": true,
+  "inputsUnchanged": true,
+  "logsSha256": "5c932e9c5ab349c2ae1c349931cbc64c351b534ba48da12bdaf0bc12bef7163c",
+  "cleaned": true
+}

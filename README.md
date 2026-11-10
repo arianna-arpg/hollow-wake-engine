@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The optional [guard disciplines](docs/guard-arts.md) provide plates, voluntary ram
+contacts, cast shields, bash waves, delayed bursts, outcome satellites and lethal
+intervention through explicit host services. Installed-package and original-game
+courses preserve their build, timing and cleanup rules.
+
 The optional [active-character binding](docs/account-character-binding.md) gives
 one selected character authority to normalize canonical account relic investments.
 Selection, inventory changes and private builds commit together; failed rebuilds

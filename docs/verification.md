@@ -1,5 +1,11 @@
 # Verification and reproduction
 
+The [guard disciplines](guard-arts.md) add 25 installed/browser contracts,
+public types and 19 deliberate package faults. `reference:build-lifecycles`
+reproduces 40 accepted guard/companion rebuild records and 16 original guard
+assertion groups in two fresh processes. `adapter:guard-arts` checks the typed
+installed game binding, guarded installation and runtime/binding faults.
+
 `test:stat-fork-package` verifies complete private stat context through installed
 and browser contracts, public types and deliberate faults. The immutable original
 `reference:build-context` course independently reproduces fourteen actual rebuild

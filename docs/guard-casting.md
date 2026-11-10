@@ -25,7 +25,7 @@ advanced again. The runtime does not maintain a second registry of active casts.
 
 The host owns spatial turning, guard coverage, incoming-hit interception, parry,
 shield damage/restoration, break dispatch and actual bash delivery. It also owns
-native guard arts, support effects, conduits, shell storage, durable identities,
+the separate [guard disciplines](guard-arts.md) binding, support effects, conduits, shell storage, durable identities,
 save/network authority and presentation. The guarded adapter delegates readiness
 reads used by the HUD and shared AI hold calculation to the same SDK entry.
 

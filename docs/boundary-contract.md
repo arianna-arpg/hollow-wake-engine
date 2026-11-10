@@ -1,5 +1,11 @@
 # Boundary contract
 
+The optional [guard disciplines](guard-arts.md) execute over explicit actor,
+skill and effect state with host-provided time, randomness and effects. Cleanup
+is actor/skill-scoped; trusted synchronous exceptions retain preceding writes.
+It composes with guard casting and shared absorb spending. Full private graph
+preparation and durable acknowledgement remain separate boundaries.
+
 The [private stat context](build-context.md) preserves complete stat inputs when
 forking a build, with independent mutable state and cold bounded caches. Full
 character derivation and acknowledgement-time live publication remain separate
