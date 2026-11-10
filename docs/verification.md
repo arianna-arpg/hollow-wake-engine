@@ -1273,3 +1273,13 @@ checks installed body and companion modules together, source installation guards
 six runtime/binding faults, the original body and copy-lifetime courses, and
 four private companion contexts with fifteen stages. Complete spawn/World and
 device acceptance remain separate; see [body levels](body-levels.md).
+
+## Companion recovery
+
+`test:companion-recovery-package` checks eighteen independent contracts through
+installed/browser consumers, installed/direct-source types and twelve deliberate
+faults. `reference:companion-recovery` replays 25 frozen original checkpoints in
+two fresh processes. `adapter:companion-recovery` composes installed recovery,
+body and companion modules, checks eighteen installation guards and eleven
+runtime/binding faults, and retains body/copy-lifetime observations plus four
+private companion contexts and fifteen stages. See [recovery](companion-recovery.md).

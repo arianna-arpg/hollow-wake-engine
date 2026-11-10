@@ -1,0 +1,72 @@
+name: Verify companion recovery
+on:
+  push:
+    paths:
+      - '.github/workflows/companion-recovery.yml'
+      - 'src/companion-recovery.ts'
+      - 'src/body-levels.ts'
+      - 'src/companion-bonds.ts'
+      - 'src/companion-bond-rules.ts'
+      - 'src/minion-inheritance.ts'
+      - 'src/attribute-bequests.ts'
+      - 'adapters/hollow-wake/integrate-companion-recovery.mjs'
+      - 'adapters/hollow-wake/integrate-body-levels.mjs'
+      - 'adapters/hollow-wake/integrate-companion-bonds.mjs'
+      - 'adapters/hollow-wake/install-character-sources.mjs'
+      - 'adapters/hollow-wake/companionBonds.ts'
+      - 'adapters/hollow-wake/companionSpec.ts'
+      - 'adapters/hollow-wake/minionInheritance.ts'
+      - 'adapters/hollow-wake/bequests.ts'
+      - 'baseline/companion-recovery/**'
+      - 'baseline/body-levels/**'
+      - 'baseline/companion-continuation/**'
+      - 'reference/export-companion-recovery.ts'
+      - 'reference/export-body-levels.ts'
+      - 'reference/export-companion-continuation.ts'
+      - 'test/companion-recovery*'
+      - 'test/companion-continuation-game.ts'
+      - 'scripts/test-companion-recovery-package.mjs'
+      - 'scripts/test-game-companion-recovery.mjs'
+      - 'scripts/reference-companion-recovery.mjs'
+      - 'scripts/prepare-game-adapter.mjs'
+      - 'package*.json'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  recovery:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: 24.9.0
+          cache: npm
+      - run: npm ci
+      - run: npm run reference:prepare
+      - run: npm run reference:install
+      - run: npm run build
+      - run: npm run test:companion-recovery-package
+      - run: npm run reference:companion-recovery
+      - run: npm run adapter:companion-recovery
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: companion-recovery-${{ matrix.os }}
+          include-hidden-files: true
+          if-no-files-found: error
+          path: |
+            .artifacts/companion-recovery-package.json
+            .artifacts/companion-recovery-package.logs.json.gz
+            .artifacts/companion-recovery-reference.json
+            .artifacts/companion-recovery-reference.logs.json.gz
+            .artifacts/companion-recovery-game.json
+            .artifacts/companion-recovery-game.logs.json.gz

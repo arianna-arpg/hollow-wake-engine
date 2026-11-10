@@ -3,6 +3,9 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The optional [companion recovery service](docs/companion-recovery.md) preserves
+shared pack protection, status cleansing and revival through explicit host ports.
+
 The optional [body-level service](docs/body-levels.md) shares level stamps between
 fresh bodies and companion growth while preserving wounds, spent armor and
 native skill identities through explicit host services.

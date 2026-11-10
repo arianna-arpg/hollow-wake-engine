@@ -1,0 +1,29 @@
+{
+  "recorded": "2026-11-10T18:50:18.156Z",
+  "repository": "arianna-arpg/hollow-wake-engine",
+  "run": 42876589219,
+  "commit": "a91b2950a4903c2c809a2c354e78c45be54ba3db",
+  "conclusion": "failure",
+  "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42876589219",
+  "jobs": [
+    {
+      "name": "bodies (windows-2025)",
+      "conclusion": "failure",
+      "failedSteps": [
+        "Run npm run test:body-levels-package",
+        "Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9"
+      ]
+    },
+    {
+      "name": "bodies (ubuntu-24.04)",
+      "conclusion": "failure",
+      "failedSteps": [
+        "Run npm run test:body-levels-package",
+        "Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9"
+      ]
+    }
+  ],
+  "cause": "Standalone package entry calls realpathSync before creating the absent .artifacts directory in a clean checkout. Gameplay tests did not run in these jobs.",
+  "logsSha256": "449c77e3cfd35d60ac1980e4806255f225ab0a1be5c1c43be7db7bdd5d6a5dde",
+  "repairQualified": false
+}

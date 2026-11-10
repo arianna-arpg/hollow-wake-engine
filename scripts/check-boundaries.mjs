@@ -41,6 +41,7 @@ function entryGraph(file) {
   }
 }
 entryGraph(path.join(root,'src/index.ts'));
+assert.ok([...reachable].every(file=>path.basename(file)!=='companion-recovery.ts'), 'Optional companion recovery became an eager core import');
 assert.ok([...reachable].every(file=>path.basename(file)!=='body-levels.ts'), 'Optional body levels became an eager core import');
 assert.ok([...reachable].every(file=>!['companion-bonds.ts','companion-bond-rules.ts','minion-inheritance.ts','attribute-bequests.ts'].includes(path.basename(file))), 'Optional companion modules became eager core imports');
 assert.ok([...reachable].every(file=>path.basename(file)!=='guard-arts.ts'), 'Optional guard arts became an eager core import');

@@ -1,0 +1,133 @@
+{
+  "passed": true,
+  "sources": {
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "src/body-levels.ts": "baaae6adb36f836327ffe581cbf9a5ba2df1516d492ab7e02fc8004a7ded1a30",
+    "adapters/hollow-wake/integrate-body-levels.mjs": "8a345b2946e373e1b9183defe9b2547bb3e9c1fe8774bcdf8f41d29bb581a8bf",
+    "src/companion-recovery.ts": "d758cc3fa64bbbce53ecb4ea750bdb6dafe36d766ae0e40b40ea09e7117f178b",
+    "src/companion-bonds.ts": "6682290558f80ace95017a18a1034b5e2a7967386a98ee1e992b51b222c83872",
+    "src/companion-bond-rules.ts": "e216be21647e96dffae83e914162d4987407f8710d8e5411af604dedddf24490",
+    "src/minion-inheritance.ts": "e852b2fa60498eebc58d07a01533549e5d8f00a8552e9cc988934c7b9003ee96",
+    "src/attribute-bequests.ts": "e5a5b8e912fb237eb25884ca8313f4ac7351f827d974627cd80d291cce913452",
+    "adapters/hollow-wake/integrate-companion-recovery.mjs": "696cf205baf61623584fc0ebc518f87c688c2c5105b4d9827d8c28b2fff571cd",
+    "adapters/hollow-wake/integrate-companion-bonds.mjs": "7bba00008486acf29a6694bc9a98594d43766257f74953f8e4fc463597a08da2",
+    "adapters/hollow-wake/install-character-sources.mjs": "d786bd93d1efb9dac3ff44fcef2e62acbf7867dae4c6fd4e4ebca318afe83a95",
+    "scripts/prepare-game-adapter.mjs": "c9bb6c8a421dae6400906a87274873839659d2f6e544c345622b0ad9fc373115",
+    "scripts/test-game-companion-recovery.mjs": "8317722b86abb662d646698e4762fd8c57b619ef618a90a3dcccef599c7126ea",
+    "package.json": "7ddb04ad920eb4a1c8ba184fb9e749c6b052a435b4b2c3e5dccc21b9f52b7e8b",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    "adapters/hollow-wake/companionBonds.ts": "6d60d902c749eff8593837da809855289a32fc7ff6e1a13122db4d3d943220c6",
+    "adapters/hollow-wake/companionSpec.ts": "8bf250afef8094454010713756036e41f126b49210d5c0adc5eb55bc0d12036a",
+    "adapters/hollow-wake/minionInheritance.ts": "ebef4c79a8c636a4dbbeae60ff5e38788b8136545a98bafabcfd44c896682e99",
+    "adapters/hollow-wake/bequests.ts": "cc34cb76000d061f1e9ba3a710c6193251c6f8eab9d05a6fbc5452fe7f229966",
+    "baseline/companion-recovery/acceptance.json": "b54cd52f53118972eade3ed64c970e804d3ddf3d124975ffe6f8271205c929a9",
+    "reference/export-companion-recovery.ts": "5b89bac9bdd6f68b6b92f952d68c086f9db1c7a4ec8dc8f7a6fdeb15ebeeebb6",
+    "baseline/companion-recovery/observations.json.gz": "978cb8caef43d737ee95c492433042f3f63715c03854331dc14bae78d1306cdc",
+    "baseline/body-levels/acceptance.json": "073b8e6e708e2a5d23f74ca90404e1c50722a77266d9a68bf73484152dbda55b",
+    "reference/export-body-levels.ts": "c06dccf595de9f76b9f8be986b840452692e553e2c9bc270d91a2163df346dc3",
+    "baseline/body-levels/observations.json.gz": "dc84c510bacbb02a337fdda1ecfa2ef4cdef42e0651f34e7e5c080e657d9c753",
+    "baseline/companion-continuation/acceptance.json": "c6d5906d43418f419f798ccad4fd8c4a68ffcc0871ae5ad5035de05a1033fc39",
+    "reference/export-companion-continuation.ts": "c6164d9b85108034fb6514bbefea58658028e906b23f6305bcbbbb162a090fb6",
+    "baseline/companion-continuation/observations.json.gz": "a0e6edceb52d0ca519d77f21099ca5474ce9809a7f2fe02cd77b977f4068a229",
+    "baseline/companion-continuation/original.logs.json.gz": "d4996327a28994a0d7fa6af5f20d781bfdd6bee1b8ec2d3733fa145868b92966",
+    "test/companion-continuation-game.ts": "b75b014c4afb44c87f5bcd8b3324f79acd3c8e36da1745c277db8053b878b13d"
+  },
+  "courses": [
+    {
+      "name": "companion-recovery",
+      "observations": 25,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "body-levels",
+      "observations": 23,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "companion-continuation",
+      "observations": 8,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "private-companion",
+      "privateCourses": 4,
+      "privateStages": 15,
+      "modes": [
+        "installed"
+      ]
+    }
+  ],
+  "faults": [
+    {
+      "name": "fault-pending-expiry-survives",
+      "detected": true,
+      "logSha256": "26a6ce7d09cb45baf62e776da1f7a69476201391d013ff14fb6d64767efade0b"
+    },
+    {
+      "name": "fault-downed-body-evades-budget",
+      "detected": true,
+      "logSha256": "bd8dc27b2cf3d738f8da150bb1077aeaa39a2ee08e621950e5df874107fb5b3c"
+    },
+    {
+      "name": "fault-retained-long-shelter",
+      "detected": true,
+      "logSha256": "67a7da9e81a84a222634563535e50514fb4c6f2d14667892129638e5eeab9e6d"
+    },
+    {
+      "name": "fault-refilled-life",
+      "detected": true,
+      "logSha256": "00bfc78c615b47d972ab447855d1ea68cb8f11d38bddafecc8d3c5bbab940e3a"
+    },
+    {
+      "name": "fault-obsolete-revival-clock",
+      "detected": true,
+      "logSha256": "e5ef8127dfb42b281881505289681f20e800a497d69fd2dcbb63c3aa79003f69"
+    },
+    {
+      "name": "fault-no-cleanse",
+      "detected": true,
+      "logSha256": "86525256000ab6411ff8be9332e951efeaff9ce6617b677893ea680b2020521b"
+    },
+    {
+      "name": "fault-no-revival-cue",
+      "detected": true,
+      "logSha256": "93920e9f6e14dec5684e44e6fe489efdbf481f77a5d807053e4c68742c9ca37e"
+    },
+    {
+      "name": "fault-ownerless-revival-refused",
+      "detected": true,
+      "logSha256": "d46184160662a71a08b084546105f67db8fda9a6a18deb71f511d06965753c93"
+    },
+    {
+      "name": "fault-missing-recovery-binding",
+      "detected": true,
+      "logSha256": "be6ddde0a51b3411588efa811cade4d436c952dcf2178b1efb5f2ec6596921d1"
+    },
+    {
+      "name": "fault-missing-revival-binding",
+      "detected": true,
+      "logSha256": "97aec520b5017b16a319d17b7b3e6ff4ab5fcd0b4cd0550d7abc8363effd7180"
+    },
+    {
+      "name": "fault-private-cleanse",
+      "detected": true,
+      "logSha256": "800b8a849c6d9567b7403ce94e95b0c652e59fb5c3203c42ed54a18d5426cd8b"
+    }
+  ],
+  "adapterGuards": 18,
+  "archiveSha256": "9267b4f014863cf79c2c3666766f3d000291ca4c04d9a4b64611bcc322009d66",
+  "types": true,
+  "restored": true,
+  "inputsUnchanged": true,
+  "cleaned": true,
+  "logsSha256": "a96b6bd6724b3923a3b9f245df88455f36a2fc6614062da119792e5eab9f0909"
+}

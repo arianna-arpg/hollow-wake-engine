@@ -1,5 +1,9 @@
 # Boundary contract
 
+The optional [companion recovery service](companion-recovery.md) executes immediate
+recovery and revival over current borrowed bodies and synchronous host effects.
+Timers, acquisition, private graphs and durable live acknowledgement remain separate.
+
 The optional [body-level service](body-levels.md) owns level-derived modifiers,
 armor capacity and the native skill ladder. Releveling preserves resource
 fractions and skill identities; body creation, live effects and complete

@@ -3,6 +3,7 @@ import {root,sha256,verifyReference} from './reference-utils.mjs';import {npmCli
 import {integrateBodyLevels,renderBodyLevels} from '../adapters/hollow-wake/integrate-body-levels.mjs';
 import {companionBondsBindings} from '../adapters/hollow-wake/integrate-companion-bonds.mjs';
 assert.equal(process.argv.length,2);
+fs.mkdirSync(path.join(root,'.artifacts'),{recursive:true});
 const owned=fs.realpathSync(path.join(root,'.artifacts')),ref=path.join(root,'.reference'),read=file=>fs.readFileSync(file,'utf8'),logs={},report={passed:false,sources:{},courses:[],faults:[],adapterGuards:0};
 function tracked(file){const bytes=fs.readFileSync(path.join(root,file));report.sources[file]=sha256(bytes);return bytes;}
 const lock=JSON.parse(tracked('baseline/source-lock.json'));

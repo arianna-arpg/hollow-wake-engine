@@ -1,5 +1,6 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';import {gzipSync} from 'node:zlib';import {build} from 'esbuild';import {root,sha256} from './reference-utils.mjs';import {npmCli} from './npm-cli.mjs';
 assert.equal(process.argv.length,2);
+fs.mkdirSync(path.join(root,'.artifacts'),{recursive:true});
 const owned=fs.realpathSync(path.join(root,'.artifacts')),work=fs.mkdtempSync(path.join(owned,'body-levels-package-owned-')),consumer=path.join(work,'consumer');fs.mkdirSync(consumer);
 const files=['src/body-levels.ts','test/body-levels.test.mjs','test/body-levels-consumer.ts','scripts/test-body-levels-package.mjs','package.json','package-lock.json'],report={passed:false,contracts:16,faults:[],sources:Object.fromEntries(files.map(file=>[file,sha256(fs.readFileSync(path.join(root,file)))]))},logs={};
 const run=(label,args,cwd=consumer)=>{const c=spawnSync(process.execPath,args,{cwd,windowsHide:true,encoding:'utf8',timeout:180000,maxBuffer:4*1024*1024,env:{...process.env,TEMP:work,TMP:work,TMPDIR:work,NODE_PATH:'',NODE_COMPILE_CACHE:path.join(work,'compile-cache')}});logs[label]=(c.stdout??'')+'\n'+(c.stderr??'');assert(!c.error&&!c.signal,label+': '+c.error);return c;};
