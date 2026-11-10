@@ -1,0 +1,185 @@
+{
+  "passed": true,
+  "contracts": 38,
+  "sources": {
+    "src/aura-activation.ts": "46d66563418e7e2224a28c71eb5a6209d8f6f1ce17cd68340c3f04ae322fbb43",
+    "test/aura-activation.test.mjs": "5616ea51caf3cc4a94eeb997c57a9b672d9c5ea19e1cd8e8f638757157c6198b",
+    "test/aura-activation-consumer.ts": "64956a1d47894250f8e7618c59b857def580cf618a7d96e81d00b8d30967bb16",
+    "scripts/test-aura-activation-package.mjs": "a3f292e82d74379da4f10ccfbfbc7bdb8fbdeaa8586b2f8ddf1704c9a99ea73b",
+    "package.json": "6d5e25606b348249ecc5cb1fd91c59ae3c1316b903be4497f12eaaed100d44b9",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    "tsconfig.json": "98691a01b56f8bd025c728aba3fa8ea3e682da943c6eab103289045c5e1ac6e1"
+  },
+  "faults": [
+    {
+      "name": "existing-row-refreshed",
+      "detected": true,
+      "logSha256": "315d35f2b87aa51c3600b7e1cdd81a5721d7a55b78a686be6926edac8963cef6"
+    },
+    {
+      "name": "duplicate-lane-admitted",
+      "detected": true,
+      "logSha256": "d46f06dffd3ee99972aa1d8e8c39ecd461144513bb870e446dcfc6c48e3e1a57"
+    },
+    {
+      "name": "mana-equality-refused",
+      "detected": true,
+      "logSha256": "d728ab5deff2f3f589a8e1fa6417eee413e3c00cebb4a89db031ab78e96fd47f"
+    },
+    {
+      "name": "life-equality-refused",
+      "detected": true,
+      "logSha256": "0398ff4cd658c31b7102266f1cb2a599b6ac28672fd27c736c453363803bdebe"
+    },
+    {
+      "name": "price-lost",
+      "detected": true,
+      "logSha256": "935ab1436c0996238809d5e17e99024c60e94b0e190fbb4dead5319c8c620584"
+    },
+    {
+      "name": "mana-clamp-lost",
+      "detected": true,
+      "logSha256": "608093f5087d8159dbc6750eb15b87606cfcdce4329e3b4a99deb1947d3b2bad"
+    },
+    {
+      "name": "life-clamp-lost",
+      "detected": true,
+      "logSha256": "0ea420291919656b4d3fee9d5a89710d3ea13907cd9af9f347855327876cafbb"
+    },
+    {
+      "name": "duration-life-precedence-lost",
+      "detected": true,
+      "logSha256": "61c62e9521059c03d0a9ebc383388ac59b4ed892387d554c432cd2ca18ee0d94"
+    },
+    {
+      "name": "cap-rounded-down",
+      "detected": true,
+      "logSha256": "1b1caa30ca1d446abe8278254394c38ea28ae2b70e89046c47c0ec51281dc4d4"
+    },
+    {
+      "name": "newest-evicted",
+      "detected": true,
+      "logSha256": "f42f7bd25424d26527ab33df450ff9ccb39815a5e2d2e6c9da8bb0450b3733b7"
+    },
+    {
+      "name": "infinite-rows-counted",
+      "detected": true,
+      "logSha256": "73757e0ce1bebfed332944ce530acf6bb0502a061e9b0deb3d69e261a1febdf8"
+    },
+    {
+      "name": "snapshot-cap-requeried",
+      "detected": true,
+      "logSha256": "01d3c3252d08867ea7f71ce18ca6cd99fc2265c2d23659e716c6046967e807be"
+    },
+    {
+      "name": "ally-definition-mutated",
+      "detected": true,
+      "logSha256": "2d71017592a3c283a2009465c3de8651ea78b196d62488a775a6df311dd89493"
+    },
+    {
+      "name": "delay-sign-lost",
+      "detected": true,
+      "logSha256": "6c8cedb977c5df03575af34f3fe540ce8b532d985503832bc631de8ea9d934d3"
+    },
+    {
+      "name": "radius-scale-lost",
+      "detected": true,
+      "logSha256": "1d13c22a7bd606efc8543977e9c8a963f7687b5e24f99ed823c87fa651c8360c"
+    },
+    {
+      "name": "shape-query-skipped",
+      "detected": true,
+      "logSha256": "61e4617f2955d5ae7f094816afd6e87bc0c003f836b14c7dc6850d0fae459c5b"
+    },
+    {
+      "name": "native-duration-default-changed",
+      "detected": true,
+      "logSha256": "e0896ccd9a1d8ea12a86eb714b5baaab887c60227123d2b3ec4d7d25a525e107"
+    },
+    {
+      "name": "zero-duration-lost",
+      "detected": true,
+      "logSha256": "ea00f4edf4c82162550c719848ab62ae71b1acb61b82ea8c6932ce391b0136fd"
+    },
+    {
+      "name": "borrowed-spec-cloned",
+      "detected": true,
+      "logSha256": "ef898917d6fbe4175f63852e9c23d93eba96e62a7d52f653bb7fc8e953a5b4b5"
+    },
+    {
+      "name": "life-lane-lost",
+      "detected": true,
+      "logSha256": "8e9cee8d5267273582ce1991b11287826941f171e86ee58262e3d3a7dc1cc1b6"
+    },
+    {
+      "name": "pulse-start-changed",
+      "detected": true,
+      "logSha256": "a976b59c8d7d092cee02084457c9c421a18a4499d076408eb5df1d5f1d0068c1"
+    },
+    {
+      "name": "affected-set-reused",
+      "detected": true,
+      "logSha256": "3e116b1516a762fedbbf4e559f00130ae9df55779504f9f53de9f718a81348ae"
+    },
+    {
+      "name": "time-stale",
+      "detected": true,
+      "logSha256": "a0c17440581f04364476d208a86c15d5a4b8dc3920cc6a5401e2dcf691d3f9d1"
+    },
+    {
+      "name": "ledger-not-opened",
+      "detected": true,
+      "logSha256": "192a451ed4edafe27f1cb02076e8dd71a22ad210cb41eecb97aaa984ee8408c6"
+    },
+    {
+      "name": "seal-raised",
+      "detected": true,
+      "logSha256": "e3ec85d31f02b8093bfd4462c33a5037a554f371bf60b1e1aefd200d9f0cd515"
+    },
+    {
+      "name": "self-source-skipped",
+      "detected": true,
+      "logSha256": "41f68998e8508efc8df900a7c286a6c1d8d3f54907bc6daf14b17432e51d6d59"
+    },
+    {
+      "name": "shell-strength-lost",
+      "detected": true,
+      "logSha256": "1da342fc85de754533136d376d242fe5c694391460f01dffa5dc4efc69c6bb4a"
+    },
+    {
+      "name": "shell-zero-arc-lost",
+      "detected": true,
+      "logSha256": "952f30521de724623d94f8c367e553f4ce3916ea960b4f6e3f530f149f2b463e"
+    },
+    {
+      "name": "shell-zero-delay-lost",
+      "detected": true,
+      "logSha256": "ab986c2d41a0647fa3c359f8447265abceaafe47e8e65f695486c8d2e614ace2"
+    },
+    {
+      "name": "shell-zero-rate-lost",
+      "detected": true,
+      "logSha256": "7c9db11cfa4be41a7802ab626e4b90556c53e44ce0009868cd2f2e0000e1c8f5"
+    },
+    {
+      "name": "shell-default-rate-unscaled",
+      "detected": true,
+      "logSha256": "98917fdc7083a3ca5fb72364d33c726eb7372cb7a158c417bf857d8f3653c09d"
+    },
+    {
+      "name": "map-key-read-after-row",
+      "detected": true,
+      "logSha256": "add65494342a9bf5545cb0cec6142852e2113a563a0a8462e84165eeb25159eb"
+    }
+  ],
+  "archiveSha256": "baffe4c61c23b484b8975622816e2dd6034b33605bf5b0c5c81505e177b2328b",
+  "browserBytes": 1961,
+  "types": true,
+  "sourceTypes": true,
+  "moduleBytes": 4082,
+  "moduleSha256": "30957a6896c8b6038c0c102c375ec7a8d70dd3eff360d2c94d7ced675c506c9f",
+  "restored": true,
+  "inputsUnchanged": true,
+  "cleaned": true,
+  "logsSha256": "4f8edbae5713c7393ad7db2dda575c113763037d0bba997ab1075cb4e6c0862f"
+}

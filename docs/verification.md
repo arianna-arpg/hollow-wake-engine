@@ -1307,3 +1307,14 @@ observations and four private companion contexts with fifteen stages. Both Actor
 and World are preflighted before either file is installed. These prepared courses
 do not qualify full activation/scheduling, complete private graphs, native engines
 or physical-device performance. See [aura ledgers](aura-ledgers.md).
+
+## Aura activation
+
+`test:aura-activation-package` checks thirty-eight installed/browser contracts,
+public/direct-source types and thirty-two deliberate runtime faults.
+`reference:aura-activation` replays thirty-eight checkpoints in two fresh original
+processes. `adapter:aura-activation` composes nine installed modules and checks
+thirty rendering/installation guards, eight runtime/binding faults, 165 original
+observations and four private companion contexts with fifteen stages. Full World
+scheduling, complete private graphs, native engines and physical-device acceptance
+remain separate. See [aura activation](aura-activation.md).

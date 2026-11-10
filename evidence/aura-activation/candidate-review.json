@@ -1,0 +1,77 @@
+{
+  "passed": true,
+  "promoted": false,
+  "candidateOnly": true,
+  "recorded": "2026-11-10T21:14:02.293Z",
+  "reports": {
+    "aura-activation-original-r2": "7361cceb7e5643463c99ee6e14b5fea03d600625ec6236cbc284645694700702",
+    "aura-activation-prototype-r1": "96858d2e22ca51d3c73eb802162819d1449ae1d444f0d7c746c8f026c141c4b2",
+    "aura-activation-contracts-r2": "964019bab265e5466256252ca3c585e0b0ae361dc8a566d1c7a66fd34a1aa0ed",
+    "aura-activation-adapter-guards": "0248bbb6ec91ce76699ce5474c2a7951fd58f8218850b4e877937f3bc3730e03",
+    "aura-activation-candidate-package-r1": "93afb4313598e17b3dfdccf14a92a958432fd5b3c1cbbf566e0dcfe2635365f0",
+    "aura-activation-candidate-game-r2": "770dea1756a9dec904cf4b8fa6c28dfd8a0567af66c27d10d7a19324159472ea"
+  },
+  "original": {
+    "observations": 38,
+    "freshProcesses": 2,
+    "faults": 31,
+    "sourceSha256": "f7854f5f59a548f380ee72d65082541c1f51d1e8cc08285b7460fe9c829f4d75"
+  },
+  "prototype": {
+    "observations": 109,
+    "faults": 34,
+    "coreTypes": true,
+    "gameTypes": true
+  },
+  "independent": {
+    "contracts": 38,
+    "faults": 32
+  },
+  "adapterGuards": 26,
+  "installed": {
+    "observations": 165,
+    "privateCourses": 4,
+    "privateStages": 15,
+    "freshProcesses": 2,
+    "gameFaults": 8,
+    "publicTypes": true,
+    "moduleBytes": 4082,
+    "browserBytes": 1961,
+    "moduleSha256": "30957a6896c8b6038c0c102c375ec7a8d70dd3eff360d2c94d7ced675c506c9f",
+    "baseArchiveSha256": "c9e6cd74426e8cbc7ab9774759c972f64408ba079163afbeb025e2d79a44d6cf",
+    "archiveSha256": "6765c828e90b1261cd02a5693123f66f3c568af53f95585772fda5f3327d2825"
+  },
+  "failureHistory": [
+    {
+      "report": "aura-activation-original-r1.json",
+      "source": "export-aura-activation-r1.ts",
+      "reason": "The original-only observer incorrectly expected a later map key after a callback changed the instance ID. The corrected assertion preserves the original key evaluation before row construction; original game code and accepted observations were not changed.",
+      "reportSha256": "fc5aa25260e2cd34aed85985c6eec0b67222a97f427270d8bdca9a851351d392",
+      "sourceSha256": "d99a40810f69178ab33958fbeb48e6cbff79cd3f6052a8a8fdfe5c760aeca72f"
+    },
+    {
+      "report": "aura-activation-contracts-r1.json",
+      "source": "aura-activation-contracts-r1-source.mjs",
+      "reason": "Compiled and browser contracts passed. A deliberate fault hit a forbidden callback but threw an ordinary Error; the harness correctly refused this as proof. Forbidden-call sentinels now use assertion failures. The unchanged runtime detects all 32 faults in r2.",
+      "reportSha256": "c454032a0fd75d4624efcc16e8be32a844f528b40671c1d7fca276fe0012c156",
+      "sourceSha256": "48cf75ba4ff7e773ed32d2781b76ddc6ff3ce17883d9ccf73576ab1273996f6f"
+    },
+    {
+      "report": "aura-activation-candidate-game-r1.json",
+      "source": "check-aura-activation-candidate-game-r1-source.mjs",
+      "reason": "The installed-game harness attempted to hash an intentionally unpromoted source file before replay. It now tracks the candidate source and requires the installed activation module in each replay bundle. No runtime or accepted observation changed.",
+      "reportSha256": "caa300ef71104d3842402d1e0b9ab1b934ebac73f99add2ff52901ddcfe51b81",
+      "sourceSha256": "5cb8bfef39c82d9178153419da428f89b0a4d2c5fdd90448d8eed4bcd501cfb3"
+    }
+  ],
+  "next": [
+    "Publish verified ledger milestone before promoting activation.",
+    "Promote activation source, frozen original observer, independent contracts and guarded adapter.",
+    "Qualify production package, fully assembled game, paired combat, full checks, isolated benchmark and hosted checks."
+  ],
+  "limits": [
+    "Authored and diagnostic activation courses do not qualify complete World scheduling.",
+    "Synchronous callback exceptions preserve preceding writes; complete private graphs and durable publication remain open.",
+    "An indexed eviction snapshot removes repeated array shifts; no measured speedup, whole-frame budget or device acceptance is claimed."
+  ]
+}

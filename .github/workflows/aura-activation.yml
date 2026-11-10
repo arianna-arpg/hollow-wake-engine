@@ -1,0 +1,86 @@
+name: Verify aura activation
+on:
+  push:
+    paths:
+      - '.github/workflows/aura-activation.yml'
+      - 'src/aura-activation.ts'
+      - 'src/aura-ledgers.ts'
+      - 'adapters/hollow-wake/integrate-aura-ledgers.mjs'
+      - 'baseline/aura-ledgers/**'
+      - 'reference/export-aura-ledgers.ts'
+      - 'src/aura-retirement.ts'
+      - 'adapters/hollow-wake/integrate-aura-retirement.mjs'
+      - 'baseline/aura-retirement/**'
+      - 'reference/export-aura-retirement.ts'
+      - 'src/companion-recovery.ts'
+      - 'adapters/hollow-wake/integrate-companion-recovery.mjs'
+      - 'baseline/companion-recovery/**'
+      - 'baseline/retirement-contact/**'
+      - 'reference/export-retirement-contact.ts'
+      - 'reference/export-companion-recovery.ts'
+      - 'src/body-levels.ts'
+      - 'src/companion-bonds.ts'
+      - 'src/companion-bond-rules.ts'
+      - 'src/minion-inheritance.ts'
+      - 'src/attribute-bequests.ts'
+      - 'adapters/hollow-wake/integrate-aura-activation.mjs'
+      - 'adapters/hollow-wake/integrate-body-levels.mjs'
+      - 'adapters/hollow-wake/integrate-companion-bonds.mjs'
+      - 'adapters/hollow-wake/install-character-sources.mjs'
+      - 'adapters/hollow-wake/companionBonds.ts'
+      - 'adapters/hollow-wake/companionSpec.ts'
+      - 'adapters/hollow-wake/minionInheritance.ts'
+      - 'adapters/hollow-wake/bequests.ts'
+      - 'baseline/aura-activation/**'
+      - 'baseline/body-levels/**'
+      - 'baseline/companion-continuation/**'
+      - 'reference/export-aura-activation.ts'
+      - 'reference/export-body-levels.ts'
+      - 'reference/export-companion-continuation.ts'
+      - 'test/aura-activation*'
+      - 'test/companion-continuation-game.ts'
+      - 'scripts/test-aura-activation-package.mjs'
+      - 'scripts/test-game-aura-activation.mjs'
+      - 'scripts/reference-aura-activation.mjs'
+      - 'scripts/prepare-game-adapter.mjs'
+      - 'package*.json'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  activation:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: 24.9.0
+          cache: npm
+      - run: npm ci
+      - run: npm run reference:prepare
+      - run: npm run reference:install
+      - run: npm run build
+      - run: npm run test:aura-activation-package
+      - run: npm run reference:aura-activation
+      - run: npm run adapter:aura-activation
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: aura-activation-${{ matrix.os }}
+          include-hidden-files: true
+          if-no-files-found: error
+          path: |
+            .artifacts/aura-activation-package.json
+            .artifacts/aura-activation-package.logs.json.gz
+            .artifacts/aura-activation-reference.json
+            .artifacts/aura-activation-reference.logs.json.gz
+            .artifacts/aura-activation-game.json
+            .artifacts/aura-activation-game.logs.json.gz

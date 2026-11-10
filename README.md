@@ -3,6 +3,9 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The optional [aura activation service](docs/aura-activation.md) opens auras with
+reservation, duration eviction, shells and ordered synchronous host effects.
+
 The optional [aura ledger service](docs/aura-ledgers.md) preserves capacity,
 mana-regeneration banking, upkeep and settlement through live actor resources
 and synchronous host services.

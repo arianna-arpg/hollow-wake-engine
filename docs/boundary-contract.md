@@ -1,5 +1,9 @@
 # Boundary contract
 
+The optional [aura activation service](aura-activation.md) preserves reservation,
+duration eviction, borrowed state and ordered synchronous host effects. Support
+admission, full scheduling and durable publication remain host responsibilities.
+
 The optional [aura ledger service](aura-ledgers.md) owns capacity, regeneration
 skims, upkeep and settlement over borrowed resources. Synchronous host ports
 retain retirement, spatial damage, death and presentation in their original order.
