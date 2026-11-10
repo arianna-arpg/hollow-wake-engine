@@ -86,8 +86,99 @@ export interface GuardArtState<A,S,D extends GuardArtProjectile> {
   blasts: { remaining: number; duration: number; power: number; radius: number }[];
 }
 
+/** Mappings are trusted synchronous services: preserve aliases and logical IDs,
+ * detach all mutable actor/skill/spec state, and never mutate the source graph.
+ * A complete actor/skill graph and private effects must already exist. */
+export interface GuardArtsForkMapping<A,S,D extends GuardArtProjectile> {
+  actor(source:A):A;
+  skill(source:S):S;
+  spec(source:GuardArtsSpec<D>):GuardArtsSpec<D>;
+}
+
 export class GuardArts<A extends GuardArtActor<S>,S extends GuardArtSkill,D extends GuardArtProjectile,B extends {mult?:number},Tag extends string,M> {
   constructor(private readonly p:GuardArtsPorts<A,S,D,B,Tag,M>,readonly state:GuardArtsState<A,S,D>=createGuardArtsState(),private readonly limits:Readonly<GuardArtsLimits>=GUARD_ARTS_LIMITS) {}
+
+  private layerBindings=new WeakMap<GuardArtAbsorbLayer<S>,{state:GuardArtState<A,S,D>;power:number;ended:GuardArtAbsorbLayer<S>['ended']}>();
+  private interceptorStates=new WeakMap<(amount:number)=>number,GuardArtState<A,S,D>>();
+  private bindInterception(s:GuardArtState<A,S,D>):void {
+    const a=s.owner,inst=s.host;
+    const existing=a.lifeDamageInterceptors?.get(s.key);
+    if(existing&&this.interceptorStates.get(existing)===s)return;
+    const interceptor=(amount:number)=>{
+        if (amount < a.life || a.life <= 0 || !this.live(s) || (a.guardIntervention[inst.def.id] ?? 0) > 0
+          || a.invulnerable) return amount;
+        // Stamp first: the resulting break burst may itself resolve retaliation.
+        a.guardIntervention[inst.def.id] = s.spec.intervention!.cooldown;
+        this.p.addBuff(a,{ type: 'buff', id: `guardIntervention:${inst.def.id}`, label: s.spec.intervention!.label,
+          duration: s.spec.intervention!.cooldown, mods: [] });
+        this.cast(a, inst);
+        this.p.cooldown(a, inst);
+        return this.p.spendAbsorb(a, amount);
+    };
+    this.interceptorStates.set(interceptor,s);
+    (a.lifeDamageInterceptors??=new Map()).set(s.key,interceptor);
+  }
+  private bindLayer(s:GuardArtState<A,S,D>,data:{amount:number;remaining:number;source:S},power:number):void {
+    const layer:GuardArtAbsorbLayer<S>={...data,ended:reason=>{
+        if (!this.live(s)) return;
+        const rule = reason === 'broken' ? s.spec.brokenSatellite : s.spec.intactSatellite;
+        if (rule) {
+          const bank = reason === 'broken' ? s.broken : s.intact;
+          bank.push({ expires: this.p.time() + rule.duration, power });
+          while (bank.length > rule.max) bank.shift();
+          this.satelliteGrants(s);
+        }
+        if (reason === 'broken' && s.spec.breakBurst) this.burst(s, s.spec.breakBurst.radius, s.spec.breakBurst.power * power);
+    }};
+    this.layerBindings.set(layer,{state:s,power,ended:layer.ended});
+    s.owner.absorbLayers.set(s.key,layer);
+  }
+  /** Copy only this controller's owned state into an already detached
+   * graph. Other callbacks, actor resources and effect queues remain the graph
+   * owner's responsibility. No cast, clock step or host effect is replayed. */
+  forkOwnedState(ports:GuardArtsPorts<A,S,D,B,Tag,M>,mapping:GuardArtsForkMapping<A,S,D>):GuardArts<A,S,D,B,Tag,M> {
+    return this.copyOwnedStateTo(new GuardArts(ports,createGuardArtsState(),this.limits),mapping);
+  }
+
+  /** Populate an empty controller already owned by the private host. This keeps
+   * the host's controller identity and ports, while replacing its empty ledger.
+   * Matching limits are required for an equivalent continuation. */
+  copyOwnedStateTo(runtime:GuardArts<A,S,D,B,Tag,M>,mapping:GuardArtsForkMapping<A,S,D>):GuardArts<A,S,D,B,Tag,M> {
+    if(runtime===this||runtime.state===this.state||runtime.state.owners===this.state.owners||runtime.state.owners.size||runtime.visuals.length)throw Error('Guard continuation requires an empty private controller');
+    if(runtime.limits.pendingBlasts!==this.limits.pendingBlasts||runtime.limits.promotePerFrame!==this.limits.promotePerFrame||runtime.limits.maximumReduction!==this.limits.maximumReduction)throw Error('Guard continuation requires matching limits');
+    const sourceActors=new Set(this.states.keys()),sourceSkills=new Set<S>();
+    for(const [a,family]of this.states)for(const [inst,s]of family){sourceSkills.add(inst);const layer=a.absorbLayers.get(s.key);if(layer)sourceSkills.add(layer.source);}
+    const actors=new Map<A,A>(),skills=new Map<S,S>(),targets=new Set<A>(),skillTargets=new Set<S>();
+    const actor=(a:A)=>{let mapped=actors.get(a);if(mapped)return mapped;mapped=mapping.actor(a);
+      if(sourceActors.has(mapped)||targets.has(mapped)||mapped.guardIntervention===a.guardIntervention||mapped.absorbLayers===a.absorbLayers||a.lifeDamageInterceptors&&mapped.lifeDamageInterceptors===a.lifeDamageInterceptors)throw Error('Guard continuation requires detached actor ownership');
+      if(mapped.id!==a.id)throw Error('Guard continuation requires stable actor IDs');
+      actors.set(a,mapped);targets.add(mapped);return mapped;};
+    const skill=(i:S)=>{let mapped=skills.get(i);if(mapped)return mapped;mapped=mapping.skill(i);
+      if(sourceSkills.has(mapped)||skillTargets.has(mapped))throw Error('Guard continuation requires distinct skill identities');
+      if(mapped.def.id!==i.def.id)throw Error('Guard continuation requires stable skill definitions');
+      skills.set(i,mapped);skillTargets.add(mapped);return mapped;};
+    // Preflight all owned callbacks and mappings before installing any bindings.
+    const plans=[],families=[...this.states].map(([a,family])=>({a,family,target:actor(a)}));
+    for(const {a,family}of families)for(const [inst,s]of family){
+      if(s.owner!==a||s.host!==inst)throw Error('Inconsistent guard state ownership');
+      const layer=a.absorbLayers.get(s.key),interceptor=a.lifeDamageInterceptors?.get(s.key),binding=layer?this.layerBindings.get(layer):undefined;
+      if(layer&&(!binding||binding.state!==s||binding.ended!==layer.ended))throw Error('Unknown guard layer continuation');
+      if(interceptor&&this.interceptorStates.get(interceptor)!==s)throw Error('Unknown guard interception continuation');
+      plans.push({source:s,actor:actor(a),host:skill(inst),spec:mapping.spec(s.spec),layer:layer?{amount:layer.amount,remaining:layer.remaining,source:skill(layer.source)}:undefined,power:binding?.power,interceptor:!!interceptor});
+    }
+    const state=runtime.state;state.nextSource=this.state.nextSource;state.visuals=this.visuals.map(v=>({...v}));
+    for(const {target}of families)state.owners.set(target,new Map());
+    for(const plan of plans){const s=plan.source;
+      const next:GuardArtState<A,S,D>={owner:plan.actor,host:plan.host,spec:plan.spec,key:s.key,policy:s.policy,
+        plates:s.plates,plateClock:s.plateClock,lastCast:s.lastCast,
+        contacts:new Map([...s.contacts].map(([id,row])=>[id,{...row}])),intact:s.intact.map(row=>({...row})),broken:s.broken.map(row=>({...row})),blasts:s.blasts.map(row=>({...row}))};
+      let family=state.owners.get(plan.actor);if(!family)state.owners.set(plan.actor,family=new Map());family.set(plan.host,next);
+      if(plan.layer)runtime.bindLayer(next,plan.layer,plan.power!);
+      if(plan.interceptor)runtime.bindInterception(next);
+    }
+    return runtime;
+  }
+
   get visuals():GuardArtVisual[]{return this.state.visuals;}
   set visuals(value:GuardArtVisual[]){this.state.visuals=value;}
   private get states(){return this.state.owners;}
@@ -120,17 +211,7 @@ export class GuardArts<A extends GuardArtActor<S>,S extends GuardArtSkill,D exte
     for (const inst of a.skills) {
       if (!inst || !this.p.spec(inst)) continue;
       const s = this.ensure(a, inst)!;
-      if (s.spec.intervention && s.spec.absorb) (a.lifeDamageInterceptors ??= new Map()).set(s.key, (amount: number) => {
-        if (amount < a.life || a.life <= 0 || !this.live(s) || (a.guardIntervention[inst.def.id] ?? 0) > 0
-          || a.invulnerable) return amount;
-        // Stamp first: the resulting break burst may itself resolve retaliation.
-        a.guardIntervention[inst.def.id] = s.spec.intervention!.cooldown;
-        this.p.addBuff(a,{ type: 'buff', id: `guardIntervention:${inst.def.id}`, label: s.spec.intervention!.label,
-          duration: s.spec.intervention!.cooldown, mods: [] });
-        this.cast(a, inst);
-        this.p.cooldown(a, inst);
-        return this.p.spendAbsorb(a, amount);
-      });
+      if (s.spec.intervention && s.spec.absorb) this.bindInterception(s);
     }
   }
   clear(a: A, inst?: S): void {
@@ -193,18 +274,7 @@ export class GuardArts<A extends GuardArtActor<S>,S extends GuardArtSkill,D exte
     const power = patience && this.p.time() - s.lastCast + 1e-9 >= patience.seconds ? patience.multiplier : 1;
     s.lastCast = this.p.time();
     const { duration, amount } = this.p.absorb(a, inst, power)!;
-    if (amount > 0 && duration > 0) a.absorbLayers.set(s.key, { amount, remaining: duration, source: inst,
-      ended: reason => {
-        if (!this.live(s)) return;
-        const rule = reason === 'broken' ? s.spec.brokenSatellite : s.spec.intactSatellite;
-        if (rule) {
-          const bank = reason === 'broken' ? s.broken : s.intact;
-          bank.push({ expires: this.p.time() + rule.duration, power });
-          while (bank.length > rule.max) bank.shift();
-          this.satelliteGrants(s);
-        }
-        if (reason === 'broken' && s.spec.breakBurst) this.burst(s, s.spec.breakBurst.radius, s.spec.breakBurst.power * power);
-      } });
+    if (amount > 0 && duration > 0) this.bindLayer(s,{amount,remaining:duration,source:inst},power);
     if (s.spec.detonation) {
       const d = s.spec.detonation;
       // Casts are bounded even with extreme cooldown investment.

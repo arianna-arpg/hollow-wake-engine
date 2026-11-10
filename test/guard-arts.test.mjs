@@ -171,3 +171,123 @@ test('authored validation rejects nonfinite amounts, invalid caps and inconsiste
  const errors=guardArtsErrors({armorRatio:NaN,plateRestore:2,plates:{...plates,max:1.5},ram:{...ram,reset:.1},brokenSatellite:{family:'',max:0,duration:1,power:Infinity}});
  for(const text of ['armorRatio','fractions exceed one','plate cap','ram payload','satellite family','satellite: values'])assert(errors.some(e=>e.includes(text)),text);
 });
+
+function forkFixture(f){
+ const c=fixture(structuredClone(f.inst.def.guardArts));
+ c.world.time=f.world.time;
+ const remap=i=>{assert.equal(i,f.inst);return c.inst;};
+ Object.assign(c.a,{...f.a,pos:{...f.a.pos},skills:f.a.skills.map(i=>i&&remap(i)),guardIntervention:{...f.a.guardIntervention},
+  sources:new Map([...f.a.sources].map(([k,v])=>[k,structuredClone(v)])),buffs:new Map([...f.a.buffs].map(([k,v])=>[k,structuredClone(v)])),
+  absorbLayers:new Map([...f.a.absorbLayers].map(([k,v])=>[k,{...v,source:remap(v.source)}])),
+  lifeDamageInterceptors:f.a.lifeDamageInterceptors&&new Map(f.a.lifeDamageInterceptors),casting:f.a.casting?{...f.a.casting,inst:remap(f.a.casting.inst)}:f.a.casting});
+ const mapping={actor:a=>{assert.equal(a,f.a);return c.a;},skill:remap,spec:structuredClone};
+ const fork=()=>f.runtime.forkOwnedState(c.ports,mapping);
+ return{c,mapping,fork};
+}
+const guardSnapshot=s=>({key:s.key,policy:s.policy,plates:s.plates,clock:s.plateClock,lastCast:s.lastCast,contacts:[...s.contacts],intact:s.intact,broken:s.broken,blasts:s.blasts});
+test('private guard fork preserves clocks and owned rows without replaying acquisition',()=>{
+ const f=fixture({absorb,patience:{seconds:4,multiplier:2},detonation:{delay:5,radius:7,power:3},intactSatellite:{family:'blue',max:2,duration:6}});
+ f.runtime.sync(f.a);f.world.time=20;f.runtime.cast(f.a,f.inst);const s=f.current(),layer=f.a.absorbLayers.get(s.key);
+ layer.amount=23;layer.remaining=1.25;s.plates=2;s.plateClock=.3;s.contacts.set(5,{next:22,seen:20});s.intact.push({expires:29,power:.5});s.broken.push({expires:30,power:.8});s.blasts[0].remaining=2;
+ f.runtime.visuals=[{owner:1,x:2,y:3,tier:0,radius:4,progress:.5,color:'#abc'}];f.a.casting={inst:f.inst,mode:'guard',held:true,elapsed:.75};
+ const {c,fork}=forkFixture(f),next=fork(),ns=next.state.owners.get(c.a).get(c.inst),nl=c.a.absorbLayers.get(s.key);
+ assert.deepEqual(guardSnapshot(ns),guardSnapshot(s));assert.equal(next.state.nextSource,f.state.nextSource);assert.deepEqual(next.visuals,f.runtime.visuals);assert.notEqual(next.visuals[0],f.runtime.visuals[0]);
+ assert.deepEqual([nl.amount,nl.remaining],[23,1.25]);assert.equal(nl.source,c.inst);assert.notEqual(nl.ended,layer.ended);assert.equal(c.a.casting.elapsed,.75);assert.equal(c.a.casting.inst,c.inst);
+ assert.equal(c.calls.absorb.length,0);assert.equal(c.calls.flashes.length,0);assert.equal(c.calls.casts.length,0);assert.equal(c.calls.cooldown.length,0);assert.equal(s.lastCast,20);
+ ns.contacts.get(5).next=90;ns.blasts[0].remaining=1;ns.intact[0].power=8;ns.broken[0].expires=200;ns.spec.patience.multiplier=9;
+ assert.equal(s.contacts.get(5).next,22);assert.equal(s.blasts[0].remaining,2);assert.equal(s.intact[0].power,.5);assert.equal(s.broken[0].expires,30);assert.equal(s.spec.patience.multiplier,2);
+});
+test('private expiry reconnects cast-time power without touching live outcomes',()=>{
+ const f=fixture({absorb,patience:{seconds:4,multiplier:2},intactSatellite:{family:'blue',max:2,duration:6}});f.runtime.sync(f.a);f.world.time=20;f.runtime.cast(f.a,f.inst);
+ const {c,fork}=forkFixture(f),next=fork(),s=f.current(),ns=next.state.owners.get(c.a).get(c.inst);c.world.time=23;c.a.absorbLayers.get(s.key).ended('expired');
+ assert.deepEqual(ns.intact,[{expires:29,power:2}]);assert.deepEqual(s.intact,[]);assert.equal(f.a.sources.has(s.key+':satellites'),false);assert.equal(c.a.sources.has(s.key+':satellites'),true);assert.equal(f.calls.absorb.length,1);
+});
+test('private lethal interception targets the private actor, runtime and services',()=>{
+ const f=fixture({absorb,intervention:{cooldown:8,label:'Return'},patience:{seconds:4,multiplier:2}});f.runtime.sync(f.a);f.world.time=20;f.runtime.cast(f.a,f.inst);f.a.life=20;
+ const {c,fork}=forkFixture(f),next=fork(),s=f.current(),ns=next.state.owners.get(c.a).get(c.inst);c.world.time=25;const result=c.a.lifeDamageInterceptors.get(s.key)(20);
+ assert.equal(result,-30);assert.equal(c.a.guardIntervention.guard,8);assert.equal(f.a.guardIntervention.guard,undefined);assert.equal(ns.lastCast,25);assert.equal(s.lastCast,20);assert.equal(c.calls.cooldown.length,1);assert.equal(f.calls.cooldown.length,0);assert.deepEqual(c.calls.absorb,[2]);assert.equal(c.a.absorbLayers.get(s.key).source,c.inst);
+});
+test('private updates expire their own delayed bursts without advancing live clocks',()=>{
+ const f=fixture({absorb,detonation:{delay:3,radius:10,power:2}});f.runtime.sync(f.a);f.runtime.cast(f.a,f.inst);const {c,fork}=forkFixture(f),next=fork();next.update(1);
+ const ns=next.state.owners.get(c.a).get(c.inst);assert.equal(ns.blasts[0].remaining,2);assert.equal(f.current().blasts[0].remaining,3);next.update(2);assert.equal(ns.blasts.length,0);assert.equal(f.current().blasts.length,1);assert.equal(f.calls.casts.length,0);
+});
+test('recast with no replacement layer retains the preceding cast-time continuation',()=>{
+ const f=fixture({absorb,patience:{seconds:4,multiplier:2},intactSatellite:{family:'blue',max:2,duration:6}});f.runtime.sync(f.a);f.runtime.cast(f.a,f.inst);const layer=f.a.absorbLayers.get(f.current().key);
+ f.world.time=1;f.ports.absorb=()=>({amount:0,duration:1});f.runtime.cast(f.a,f.inst);assert.equal(f.a.absorbLayers.get(f.current().key),layer);
+ const {c,fork}=forkFixture(f),next=fork(),ns=next.state.owners.get(c.a).get(c.inst);c.a.absorbLayers.get(ns.key).ended('expired');assert.equal(ns.intact[0].power,2);assert.equal(f.current().intact.length,0);
+});
+test('unknown layer callbacks refuse before installing candidate bindings',()=>{
+ const f=fixture({absorb,intervention:{cooldown:8,label:'Return'}});f.runtime.sync(f.a);f.runtime.cast(f.a,f.inst);const s=f.current();f.a.absorbLayers.set(s.key,{...f.a.absorbLayers.get(s.key)});
+ const {c,fork}=forkFixture(f),before=c.a.absorbLayers.get(s.key),interceptor=c.a.lifeDamageInterceptors.get(s.key);assert.throws(fork,/Unknown guard layer/);assert.equal(c.a.absorbLayers.get(s.key),before);assert.equal(c.a.lifeDamageInterceptors.get(s.key),interceptor);
+});
+test('unknown interception callbacks and shared actor/skill ownership refuse',()=>{
+ const f=fixture({absorb,intervention:{cooldown:8,label:'Return'}});f.runtime.sync(f.a);f.runtime.cast(f.a,f.inst);const s=f.current();f.a.lifeDamageInterceptors.set(s.key,x=>x);
+ assert.throws(forkFixture(f).fork,/Unknown guard interception/);f.runtime.sync(f.a);const {c,mapping}=forkFixture(f);
+ assert.throws(()=>f.runtime.forkOwnedState(c.ports,{...mapping,actor:()=>f.a}),/detached actor/);
+ assert.throws(()=>f.runtime.forkOwnedState(c.ports,{...mapping,skill:i=>i}),/distinct skill/);
+ c.a.absorbLayers=f.a.absorbLayers;assert.throws(()=>f.runtime.forkOwnedState(c.ports,mapping),/detached actor/);
+});
+test('empty retained families and source counters survive a fork',()=>{
+ const f=fixture({absorb});f.runtime.sync(f.a);f.runtime.clear(f.a);const {c,fork}=forkFixture(f),next=fork();assert.equal(next.state.owners.size,1);assert.equal(next.state.owners.get(c.a).size,0);assert.equal(next.state.nextSource,f.state.nextSource);next.sync(c.a);assert.equal(next.state.nextSource,f.state.nextSource+1);assert.equal(f.state.owners.get(f.a).size,0);
+});
+test('changed logical IDs and inconsistent owner indexing refuse before installation',()=>{
+ const f=fixture({absorb});f.runtime.sync(f.a);f.runtime.cast(f.a,f.inst);const {c,fork}=forkFixture(f),before=c.a.absorbLayers.get(f.current().key);
+ c.a.id=10;assert.throws(fork,/stable actor IDs/);c.a.id=1;c.inst.def.id='replacement';assert.throws(fork,/stable skill definitions/);c.inst.def.id=f.inst.def.id;
+ const s=f.current();s.owner=c.a;assert.throws(fork,/Inconsistent guard state/);s.owner=f.a;assert.equal(c.a.absorbLayers.get(s.key),before);
+});
+
+test('replaced callbacks on a known layer refuse without altering the candidate',()=>{
+ const f=fixture({absorb});f.runtime.sync(f.a);f.runtime.cast(f.a,f.inst);const s=f.current(),layer=f.a.absorbLayers.get(s.key);layer.ended=()=>{};
+ const {c,fork}=forkFixture(f),before=c.a.absorbLayers.get(s.key);assert.throws(fork,/Unknown guard layer/);assert.equal(c.a.absorbLayers.get(s.key),before);
+});
+
+test('known layers moved between owned guards cannot acquire different callback state',()=>{
+ const f=fixture({absorb}),other=skill({absorb},'other');f.a.skills.push(other);f.runtime.sync(f.a);f.runtime.cast(f.a,f.inst);f.runtime.cast(f.a,other);
+ const s=f.current(),otherState=f.state.owners.get(f.a).get(other),original=f.a.absorbLayers.get(s.key),foreign=f.a.absorbLayers.get(otherState.key);f.a.absorbLayers.set(s.key,foreign);
+ const c=fixture(),otherCopy=skill({absorb},'other');c.a.skills.push(otherCopy);const before={...original,source:c.inst};c.a.absorbLayers.set(s.key,before);
+ assert.throws(()=>f.runtime.forkOwnedState(c.ports,{actor:a=>{assert.equal(a,f.a);return c.a;},skill:i=>i===f.inst?c.inst:otherCopy,spec:structuredClone}),/Unknown guard layer/);
+ assert.equal(c.a.absorbLayers.get(s.key),before);assert.equal(f.a.absorbLayers.get(s.key),foreign);
+});
+
+test('a different live instance with the same definition cannot become the private host',()=>{
+ const f=fixture({absorb}),other=skill({absorb},f.inst.def.id);f.a.skills.push(other);f.runtime.sync(f.a);f.runtime.cast(f.a,f.inst);f.runtime.cast(f.a,other);
+ const c=fixture(),otherCopy=skill({absorb},other.def.id);c.a.skills=[other,otherCopy];
+ assert.throws(()=>f.runtime.forkOwnedState(c.ports,{actor:()=>c.a,skill:i=>i===f.inst?other:otherCopy,spec:structuredClone}),/distinct skill/);
+ assert.equal(c.a.absorbLayers.size,0);
+});
+
+test('shared intervention cooldown records refuse before reconnecting callbacks',()=>{
+ const f=fixture({absorb,intervention:{cooldown:8,label:'Return'}});f.runtime.sync(f.a);f.runtime.cast(f.a,f.inst);
+ const {c,fork}=forkFixture(f),before=c.a.lifeDamageInterceptors.get(f.current().key);c.a.guardIntervention=f.a.guardIntervention;
+ assert.throws(fork,/detached actor/);assert.equal(c.a.lifeDamageInterceptors.get(f.current().key),before);
+});
+
+test('copying into an empty host-owned controller preserves its identity and services',()=>{
+ const f=fixture({absorb,patience:{seconds:4,multiplier:2},intactSatellite:{family:'blue',max:2,duration:6}});f.runtime.sync(f.a);f.runtime.cast(f.a,f.inst);
+ const {c,mapping}=forkFixture(f),controller=c.runtime;const result=f.runtime.copyOwnedStateTo(controller,mapping);
+ assert.equal(result,controller);assert.equal(c.runtime,controller);assert.deepEqual(guardSnapshot(c.current()),guardSnapshot(f.current()));
+ c.world.time=11;c.a.absorbLayers.get(c.current().key).ended('expired');assert.deepEqual(c.current().intact,[{expires:17,power:2}]);assert.deepEqual(f.current().intact,[]);
+});
+
+test('nonempty, visual-bearing and shared destination controllers refuse without changes',()=>{
+ const f=fixture({absorb});f.runtime.sync(f.a);f.runtime.cast(f.a,f.inst);const {c,mapping}=forkFixture(f);c.runtime.sync(c.a);
+ const before=guardSnapshot(c.current());assert.throws(()=>f.runtime.copyOwnedStateTo(c.runtime,mapping),/empty private controller/);assert.deepEqual(guardSnapshot(c.current()),before);
+ c.runtime.clearAll();c.runtime.visuals=[{owner:1}];assert.throws(()=>f.runtime.copyOwnedStateTo(c.runtime,mapping),/empty private controller/);
+ assert.throws(()=>f.runtime.copyOwnedStateTo(f.runtime,mapping),/empty private controller/);
+ const sharing=new GuardArts(c.ports,f.state);assert.throws(()=>f.runtime.copyOwnedStateTo(sharing,mapping),/empty private controller/);
+ const empty=new GuardArts(f.ports),sharedOwners=new GuardArts(c.ports,{...empty.state});assert.throws(()=>empty.copyOwnedStateTo(sharedOwners,mapping),/empty private controller/);
+});
+
+test('different continuation limits refuse before installing bindings',()=>{
+ const f=fixture({absorb});f.runtime.sync(f.a);f.runtime.cast(f.a,f.inst);const {c,mapping}=forkFixture(f),before=c.a.absorbLayers.get(f.current().key);
+ for(const key of ['pendingBlasts','promotePerFrame','maximumReduction']){
+  const target=new GuardArts(c.ports,undefined,{...GUARD_ARTS_LIMITS,[key]:GUARD_ARTS_LIMITS[key]+1});assert.throws(()=>f.runtime.copyOwnedStateTo(target,mapping),/matching limits/);assert.equal(target.state.owners.size,0);assert.equal(c.a.absorbLayers.get(f.current().key),before);
+ }
+});
+
+test('unchanged sync retains its owned interception callback and repairs external replacement',()=>{
+ const f=fixture({absorb,intervention:{cooldown:8,label:'Return'}});f.runtime.sync(f.a);const s=f.current(),original=f.a.lifeDamageInterceptors.get(s.key);
+ for(let i=0;i<20;i++)f.runtime.update(1/60);assert.equal(f.a.lifeDamageInterceptors.get(s.key),original);
+ f.a.lifeDamageInterceptors.set(s.key,amount=>amount);f.runtime.sync(f.a);const repaired=f.a.lifeDamageInterceptors.get(s.key);assert.notEqual(repaired,original);f.runtime.sync(f.a);assert.equal(f.a.lifeDamageInterceptors.get(s.key),repaired);
+ f.inst.level++;f.runtime.sync(f.a);assert.notEqual(f.a.lifeDamageInterceptors.get(f.current().key),repaired);
+});

@@ -29,7 +29,7 @@ try{
  fs.writeFileSync(path.join(fixture,specFile),originals.get(specFile));integrateGuardArts(fixture);assert.throws(()=>integrateGuardArts(fixture),/already installed/);report.adapterGuards++;
  const overlay=new Map([...bindings.keys()].map(file=>[path.join(ref,file),read(path.join(fixture,file))]));
  const courses=new Map();
- for(const name of ['guard-build','bond-build','companion-world-build']){
+ for(const name of ['guard-build','bond-build','companion-world-build','guard-continuation']){
   const manifest=JSON.parse(tracked('baseline/'+name+'/acceptance.json')),source=tracked(manifest.source).toString(),packed=tracked('baseline/'+name+'/observations.json.gz'),expected=gunzipSync(packed);
   assert.equal(sha256(source),manifest.sourceSha256);assert.equal(manifest.sourceLockSha256,report.sources['baseline/source-lock.json']);assert.equal(sha256(packed),manifest.gzipSha256);assert.equal(sha256(expected),manifest.sha256);
   courses.set(name,{source,expected,manifest,virtual:path.join(ref,'balance/hwe-'+name+'.ts')});
@@ -37,6 +37,7 @@ try{
  const mechanics=JSON.parse(tracked('baseline/guard-mechanics/acceptance.json')),packed=tracked('baseline/guard-mechanics/original.logs.json.gz');
  assert.equal(sha256(packed),mechanics.logsSha256);assert.equal(mechanics.sourceLockSha256,report.sources['baseline/source-lock.json']);const mechanicsSource=read(path.join(ref,mechanics.source));assert.equal(sha256(mechanicsSource),mechanics.sourceSha256);
  courses.set('mechanics',{source:mechanicsSource,expectedLogs:JSON.parse(gunzipSync(packed))[0],manifest:mechanics,virtual:path.join(ref,mechanics.source)});
+ courses.set('private-continuation',{source:tracked('test/guard-continuation-game.ts').toString(),expectedLogs:{stdout:'Guard private game continuation: 3 courses, 11 stages passed\n',stderr:JSON.parse(gunzipSync(packed))[0].stderr},manifest:{courses:3,stages:11},virtual:path.join(ref,'balance/hwe-guard-private.ts'),installedOnly:true});
  courses.set('ownership',{source:tracked('test/guard-arts-binding-game.ts').toString(),expectedLogs:{stdout:'Guard binding ownership: 5 assertions passed\n',stderr:''},manifest:{assertions:5},virtual:path.join(ref,'balance/hwe-guard-binding.ts')});
  const config=ts.getParsedCommandLineOfConfigFile(path.join(ref,'tsconfig.sim.json'),{}, {...ts.sys,onUnRecoverableConfigFileDiagnostic:d=>{throw Error(ts.flattenDiagnosticMessageText(d.messageText,'\n'));}});assert(config);
  const paths=Object.fromEntries(Object.entries(pkg.exports).filter(([,entry])=>entry.types).map(([key,entry])=>['@hollow-wake/engine'+(key==='.'?'':key.slice(1)),[path.join(installed,entry.types)]]));
@@ -56,16 +57,21 @@ try{
   if(fault){assert(!matched,'Fault escaped '+label);if(child.status!==0){assert.equal(child.status,1);assert.match(JSON.stringify(logs[label]),/ERR_ASSERTION/);}report.faults.push({name:label,detected:true,logSha256:sha256(JSON.stringify(logs[label]))});}
   else assert(matched,label+' differs from original: '+JSON.stringify(logs[label]).slice(-6000));
  }
- for(const[name,course]of courses){await replay(name,'original-'+name,true);await replay(name,'installed-'+name);report.courses.push({name,observations:course.manifest.observations,groups:course.manifest.groups,assertions:course.manifest.assertions,modes:['original','installed']});}
+ for(const[name,course]of courses){if(!course.installedOnly)await replay(name,'original-'+name,true);await replay(name,'installed-'+name);report.courses.push({name,observations:course.manifest.observations,groups:course.manifest.groups,assertions:course.manifest.assertions,privateCourses:course.manifest.courses,privateStages:course.manifest.stages,modes:course.installedOnly?['installed']:['original','installed']});}
  const faults=[
   ['no-plates','mechanics','runtime','s.plates = Math.min(p.max, s.plates + 1);','s.plates = 0;'],
   ['no-intervention','mechanics','runtime','this.p.spendAbsorb(a, amount)','amount'],
   ['cold-rebuild','guard-build','runtime','state.policy !== policy','true'],
   ['missing-projectile-owner','ownership','guardArts.ts','p.caster!==a||p.inst.guardArtsHost!==host','p.caster!==a'],
   ['missing-node-rules','mechanics','guardArtsSpec.ts','id=>treeNodeOf(inst.def,id)?.guardArts','()=>undefined'],
+  ['fork-layer-live-owner','private-continuation','runtime','runtime.bindLayer(next, plan.layer, plan.power);','this.bindLayer(next, plan.layer, plan.power);'],
+  ['fork-interception-live-owner','private-continuation','runtime','runtime.bindInterception(next);','this.bindInterception(next);'],
+  ['fork-lost-cast-time-power','private-continuation','runtime','runtime.bindLayer(next, plan.layer, plan.power);','runtime.bindLayer(next, plan.layer, 1);'],
+  ['fork-restarted-clock','private-continuation','runtime','lastCast: s.lastCast','lastCast: -Infinity'],
+  ['fork-replayed-acquisition','private-continuation','runtime','runtime.bindInterception(next);','runtime.bindInterception(next); runtime.cast(plan.actor, plan.host);'],
  ];
  for(const[name,course,file,from,to]of faults)await replay(course,'fault-'+name,false,{file,from,to});
- await replay('guard-build','restored-build');await replay('mechanics','restored-mechanics');report.restored=true;report.passed=true;
+ await replay('guard-build','restored-build');await replay('mechanics','restored-mechanics');await replay('private-continuation','restored-private');report.restored=true;report.passed=true;
 }catch(error){report.failure=String(error);process.exitCode=1;}
 finally{
  try{verifyReference(ref,lock);report.inputsUnchanged=Object.entries(report.sources).every(([file,hash])=>sha256(fs.readFileSync(path.join(root,file)))===hash);report.passed=report.passed&&report.inputsUnchanged;

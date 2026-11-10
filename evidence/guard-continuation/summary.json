@@ -1,0 +1,114 @@
+{
+  "passed": true,
+  "goalComplete": false,
+  "baseCommit": "4e598576ddbd9c9a16facd0440778a68bd500005",
+  "node": "v24.9.0",
+  "platform": "win32",
+  "arch": "x64",
+  "verification": {
+    "commands": 116,
+    "unitTests": 1908,
+    "exitCode": 0
+  },
+  "reference": {
+    "commands": 30,
+    "exitCode": 0,
+    "checkpoints": 54,
+    "freshProcesses": 2,
+    "guardGroups": 16
+  },
+  "guardContinuation": {
+    "contracts": 42,
+    "packageFaults": 37,
+    "gameFaults": 10,
+    "adapterGuards": 15,
+    "ownershipAssertions": 5,
+    "privateCourses": 3,
+    "privateStages": 11,
+    "composedGame": true,
+    "browserBytes": 14843,
+    "moduleBytes": 26533
+  },
+  "performance": {
+    "pairedSamples": 15,
+    "medians": [
+      {
+        "actors": 1,
+        "baseline": 7.719600000000014,
+        "candidate": 8.733100000000007
+      },
+      {
+        "actors": 32,
+        "baseline": 159.22289999999998,
+        "candidate": 156.75549999999998
+      },
+      {
+        "actors": 128,
+        "baseline": 675.6412,
+        "candidate": 637.5128000000004
+      }
+    ],
+    "callbackInstallationsRemoved": true,
+    "completeFrameAcceptance": false,
+    "deviceAcceptance": false
+  },
+  "sources": {
+    ".github/workflows/guard-arts.yml": "01b4f64ce10bd0dae680bf9d6a16c2cbde9629f521db0e4555f1c9a47660f81c",
+    "adapters/hollow-wake/guardArts.ts": "45643a032da93f1ee4e0bfae584495efa63381b3224a989313d4e0a3ca4c2041",
+    "baseline/guard-continuation/README.md": "139c3068ee457d415153a3b983d223353d5c3f375198bf0a7edd9ce4a080e23a",
+    "baseline/guard-continuation/acceptance.json": "be9a9483dc31ac833557d2d48f8ca0a62fcec00b89b6bf12a7e7405bc3d36408",
+    "baseline/guard-continuation/observations.json.gz": "92597de52994df4be62533dbcb4377e721cce742754c73d99bc788980db1b02e",
+    "baseline/guard-continuation/original-faults.json": "21dda575b3b2a25797a5a7a3fe58806488ae22ff60003abc667f4a3b97cff5dd",
+    "baseline/guard-continuation/original-faults.logs.json.gz": "4d5f47fe799e5e30c979a84dd9f1576c96b1abd60a310ac283de0a97414bd275",
+    "baseline/guard-continuation/original.logs.json.gz": "5aeea44012ee29479274e2265e8ce5fa81271867240140a79ad98484e11a4097",
+    "docs/boundary-contract.md": "5daf4691306cf4634b5049ae0836791a6cc2ec021b36c3f4c986a0eba76fc231",
+    "docs/completion.json": "3a140af1488bda2a3b4b67f38554fb34694d5768d730b69e88c110af2ce7477e",
+    "docs/guard-arts.md": "de285028b7a829cfba2b10007a159aa54dad94ac1208fc55d593ad3c4a042aad",
+    "docs/verification.md": "d081118fefaf008df684a69564b3e6237941f0e708811ce0383ea7ff5d9c4fe6",
+    "package.json": "69d52d71a262bf9eabf2b20b80d32f934b6bcc56419888b46abdd2c5657ba933",
+    "reference/export-guard-continuation.ts": "948874ac66b43a8ef796505050b3e0d6bbc84e32c0398a50870cbcefffbbc7e6",
+    "scripts/benchmark-guard-continuation.mjs": "336ccdeed16e9c0033fe5e44319c40cc24bc58009d7631d550a046e69b1fc716",
+    "scripts/reference-build-lifecycles.mjs": "9929329b534918e3d61470e7f18706676d4190ef3e3eb2df7b88a78a0117fd88",
+    "scripts/test-game-guard-arts.mjs": "1e8bcf71410c54703d6e8f586f6549f08ebbd0ed438df033f1265429e244142d",
+    "scripts/test-guard-arts-package.mjs": "b04af2759511b6beadeb6074650e658bdae29f6be7bfa6f6cded237147ac0034",
+    "src/guard-arts.ts": "0c884d5323ad4b5c54d2c7ec3dea190947ac2f55eae8ce1867b0ae78caad33de",
+    "test/guard-arts-consumer.ts": "64f0703701bc688e795fa680ba9277e467ea8b8de269c74b6a39815356b34570",
+    "test/guard-arts.test.mjs": "87af59a10a0b085bbcd4368177cca936314431b78971e950590f0727cf7bbbac",
+    "test/guard-continuation-game.ts": "05e2f040ee9665b8c965f6b122f7a657e2d08ace6a2a58042232fc2f96ef4c03"
+  },
+  "files": {
+    "interrupted-run.json": "9fca6586e169b0d284656a80732d9538b0c0368cb79bfae9dce453abbbdad5f8",
+    "interrupted-run.log.gz": "b8574d847a354a879262f17e626646df56d3f50a6c49b68e6cbfdd1a057033c3",
+    "verify.json": "b8dcb2ef7fd7ed0678f32e30dabdae49730bf38373a45649ae767666d233318f",
+    "verify.log.gz": "ab00e098870f9680eddf3dd12006c5b6e6ba1b4d7feafeee454f5464c4e2d96d",
+    "reference.json": "ba9024bdf724b7be06a6ad4de622629cb6b38f9dd8fec656c8d1df13d5142c8c",
+    "reference.log.gz": "7b2bcfd64901ddee6053112f9d33eb6d60c24d85e551cc1a360b1f67213531e0",
+    "guard-arts-package.json": "b5fad06740c2fc67d2d4ecb3cf55cf1fd17c968ae5b004a5cd55158cb13c7449",
+    "guard-arts-package.logs.json.gz": "2a0dd157f4a2cdcdce19e96614554b8de7762f761159b947f002e86b261b4ef9",
+    "guard-arts-game.json": "06c982fea8c8770fc79a357d5ea5a91a3230da08fbc9d472eb90adfc74ce1cf2",
+    "guard-arts-game.logs.json.gz": "17366ce3a4efa6967d4ec9c0c21e21e9a8efce43bb9dee791f3cca1eba0350b7",
+    "build-lifecycles-reference.json": "07c4ad0ccb8b211413d77ab0f41cfc5512243c36e110c4bb17432a2ed7b29f94",
+    "build-lifecycles-reference.logs.json.gz": "b5f6df2177af7165c0ec38945a8318c7762ed81fb1bce313bceb0424ca526bfb",
+    "guard-continuation-composed.json": "ceecf69cac6662da1331def8d8d5bf0eba5306e84a543ceef74c02e4361df55d",
+    "guard-continuation-composed.logs.json.gz": "77bc25a450f826fac7b1c481afe651636e36214367287c3b88052b07a147e702",
+    "guard-continuation-benchmark.json": "823a8ff5026e989ae3a381fb010a9f936f1327b10dd3a0c27a0f65a322effa84",
+    "guard-continuation-required-benchmark.json": "0d63055a69134da057e5bd12ad5c742327cacd90c1108c9c82171eea0c91c01d",
+    "required-benchmark.log.gz": "0ee6bfdd170bdbd380279b3ce56bbd6021278af41c1c124b7a0be5926f1b4210",
+    "kernel-benchmark.json": "ddf14791c1432e9f0bf14e68794abfbb4bddf10bf0c3152331ae00ca64e31292",
+    "package-budgets.json": "a2fec2ce5cb8e392a6f38ecb3e72609767a248590f30fcd9b54e47cabeb6bd60",
+    "cleanup.json": "df931d0d07a75f665861a7ecd6328c74e6e228b89e4305fc088a656efb4a15c1"
+  },
+  "footprint": {
+    "newWorktrees": 0,
+    "removedWorkspaceFolders": 145,
+    "remainingCreatedLargeFolders": []
+  },
+  "limits": [
+    "Ordinary original observations and private graph courses prove distinct boundaries.",
+    "The explicit three-context test copier is not an arbitrary World copier or complete authored private-build provider.",
+    "Mappings and host services are trusted synchronous operations; generic graph validation and durable live publication remain open.",
+    "Callback identity across unchanged syncs intentionally remains stable; other update allocations remain.",
+    "Desktop guard-kernel timing and heap samples do not establish a frame-rate improvement or Steam Deck/mobile acceptance.",
+    "Complete native engine exposure and the remaining gameplay families remain open."
+  ]
+}

@@ -1243,3 +1243,15 @@ control. The three optional exports have their own package bounds. These are
 behavior, packaging and ownership checks; target-device performance and full
 native engine exposure are separate acceptance work. See
 [the contract](companion-bonds.md).
+
+## Guard continuation ownership
+
+The guard package course now exercises 42 contracts and 37 deliberate faults,
+including cast-time power, private callback ownership, logical aliases and
+installation into an empty host-owned controller. The original lifecycle course
+also replays the fourteen frozen guard continuation observations. The game
+course checks three real-actor continuation contexts and eleven paired stages,
+retaining the world's fixed controller identity and proving that private steps
+leave the live guard unchanged. Its explicit fixture graph is not a generic
+World copier or the full authored private-build provider. See
+[guard disciplines](guard-arts.md).

@@ -1,4 +1,4 @@
-import {GuardArts,createGuardArtsState,guardArtCapacity,guardArtAbsorb,resolveGuardArts,type GuardArtActor,type GuardArtSkill,type GuardArtProjectile,type GuardArtsPorts,type GuardArtValuePorts,type GuardArtsSpec} from '@hollow-wake/engine/guard/arts';
+import {GuardArts,createGuardArtsState,guardArtCapacity,guardArtAbsorb,resolveGuardArts,type GuardArtActor,type GuardArtSkill,type GuardArtProjectile,type GuardArtsPorts,type GuardArtValuePorts,type GuardArtsSpec,type GuardArtsForkMapping} from '@hollow-wake/engine/guard/arts';
 
 interface Skill extends GuardArtSkill {def:GuardArtSkill['def']&{guardArts?:GuardArtsSpec}}
 interface Body extends GuardArtActor<Skill> {name:string}
@@ -26,3 +26,13 @@ bound.runtime.sync({skills:['guard']});
 // @ts-expect-error Host random must be an explicit service.
 const incomplete:Ports={...ports,random:undefined};
 void incomplete;
+
+export function privateGuards(source:ReturnType<typeof bindGuards>['runtime'],privatePorts:Ports,mapping:GuardArtsForkMapping<Body,Skill,GuardArtProjectile>) {
+ const result:typeof source=source.forkOwnedState(privatePorts,mapping);
+ return result;
+}
+export function existingPrivateGuards(source:ReturnType<typeof bindGuards>['runtime'],target:typeof source,mapping:GuardArtsForkMapping<Body,Skill,GuardArtProjectile>) {
+ const result:typeof source=source.copyOwnedStateTo(target,mapping);return result;
+}
+// @ts-expect-error A private graph must supply an explicit derived-policy copy.
+privateGuards(bound.runtime,ports,{actor:(a:Body)=>a,skill:(s:Skill)=>s});

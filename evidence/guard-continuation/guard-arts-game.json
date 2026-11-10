@@ -1,0 +1,148 @@
+{
+  "passed": true,
+  "sources": {
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "src/guard-arts.ts": "0c884d5323ad4b5c54d2c7ec3dea190947ac2f55eae8ce1867b0ae78caad33de",
+    "adapters/hollow-wake/guardArts.ts": "45643a032da93f1ee4e0bfae584495efa63381b3224a989313d4e0a3ca4c2041",
+    "adapters/hollow-wake/guardArtsSpec.ts": "3b1cc9f349187608188398237a4ee549fa0f125cc7de55963281669496783860",
+    "adapters/hollow-wake/integrate-guard-arts.mjs": "01ecdd8ac42dc45a9f9797f1ed4c3ddb3288174ceca9e9341e9574790b94d19d",
+    "adapters/hollow-wake/install-character-sources.mjs": "d786bd93d1efb9dac3ff44fcef2e62acbf7867dae4c6fd4e4ebca318afe83a95",
+    "scripts/prepare-game-adapter.mjs": "8382837516443f877279db2cd19d35832774482d4f98e8afeeb220c5677c2598",
+    "scripts/test-game-guard-arts.mjs": "1e8bcf71410c54703d6e8f586f6549f08ebbd0ed438df033f1265429e244142d",
+    "package.json": "69d52d71a262bf9eabf2b20b80d32f934b6bcc56419888b46abdd2c5657ba933",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    "baseline/guard-build/acceptance.json": "7fa6044d97e34de2e85d128d4efeca6aaf52acf2aff6087ebcda767666f48c74",
+    "reference/export-guard-build.ts": "0fcf51c951d8db8c93c68197668cebec1c1d10f374e52a2360adca350c5694db",
+    "baseline/guard-build/observations.json.gz": "c035638d56fd84133d1d69caecf99d4967d0a8c04d5dbf9846b0f9d630624cb8",
+    "baseline/bond-build/acceptance.json": "03cb5ae488ce75154177f82f900ff18140e7328995f98fa44c1a8f6569a1c8f9",
+    "reference/export-bond-build.ts": "37ccc1e17cc169e3c3da2faacaa5381a1a180c50c8aabe20dd73153ab9096bbf",
+    "baseline/bond-build/observations.json.gz": "5fcc17037c3c9568be1e16df24be6f27d957956e9ff4ee2828af58b33daa5c53",
+    "baseline/companion-world-build/acceptance.json": "ddc06d9b19998d79c61c413541589017d91ae7b951b9879086399d7d557884f1",
+    "reference/export-companion-world-build.ts": "4f6618b14d9997e275ce6c5313f4348c48a7f104a20a696cabb042debb3b3f10",
+    "baseline/companion-world-build/observations.json.gz": "be865cc482a619455ca028cc96d641128d3e0f7886d8f586054c58b820c24635",
+    "baseline/guard-continuation/acceptance.json": "be9a9483dc31ac833557d2d48f8ca0a62fcec00b89b6bf12a7e7405bc3d36408",
+    "reference/export-guard-continuation.ts": "948874ac66b43a8ef796505050b3e0d6bbc84e32c0398a50870cbcefffbbc7e6",
+    "baseline/guard-continuation/observations.json.gz": "92597de52994df4be62533dbcb4377e721cce742754c73d99bc788980db1b02e",
+    "baseline/guard-mechanics/acceptance.json": "bd8fa419b4bc1a72df2b83105fe765b9920413b3c8830a74787c7bfe623193a5",
+    "baseline/guard-mechanics/original.logs.json.gz": "83b12b30344b97257616a119dc1937e7952603f819bf586ae37a0bb4efd28f0d",
+    "test/guard-continuation-game.ts": "05e2f040ee9665b8c965f6b122f7a657e2d08ace6a2a58042232fc2f96ef4c03",
+    "test/guard-arts-binding-game.ts": "50b19dc67bf3545d124724624d3ce731054dab288957ce3e30b605f40416102c"
+  },
+  "courses": [
+    {
+      "name": "guard-build",
+      "observations": 17,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "bond-build",
+      "observations": 14,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "companion-world-build",
+      "observations": 9,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "guard-continuation",
+      "observations": 14,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "mechanics",
+      "groups": 16,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "private-continuation",
+      "privateCourses": 3,
+      "privateStages": 11,
+      "modes": [
+        "installed"
+      ]
+    },
+    {
+      "name": "ownership",
+      "assertions": 5,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    }
+  ],
+  "faults": [
+    {
+      "name": "fault-no-plates",
+      "detected": true,
+      "logSha256": "fb2557ac311da55090e8eea0bc2e3f576c7d97d0e8f19bfede6e5ca9eeb40c8b"
+    },
+    {
+      "name": "fault-no-intervention",
+      "detected": true,
+      "logSha256": "dbf26d85d9475704b8a2f7b35affec738277afb5c9bb8ce9eb1b3a92936ec951"
+    },
+    {
+      "name": "fault-cold-rebuild",
+      "detected": true,
+      "logSha256": "e25255612571399e1b3ff6efd3810c370c8d396dfad41910e9f2640c1f72db13"
+    },
+    {
+      "name": "fault-missing-projectile-owner",
+      "detected": true,
+      "logSha256": "5cacf0f63a918dc1bec3ef3067f073e4811ee0572ca188fcadd02b4d47fe5b68"
+    },
+    {
+      "name": "fault-missing-node-rules",
+      "detected": true,
+      "logSha256": "f57904f33712537dbbb366f415561704cbda2dba18a205bc463aa34ba3617246"
+    },
+    {
+      "name": "fault-fork-layer-live-owner",
+      "detected": true,
+      "logSha256": "73fc7706e3b94d29edf22919877d47f7478fb3db1416ef2e22c4e66d6e8f6b94"
+    },
+    {
+      "name": "fault-fork-interception-live-owner",
+      "detected": true,
+      "logSha256": "912899c375ed00082682e92c15925a3e3ecbbfc6000a2d01d1b731da7a88e9f6"
+    },
+    {
+      "name": "fault-fork-lost-cast-time-power",
+      "detected": true,
+      "logSha256": "620281c44f085ebabb63c18b891d0a3e373fce20c0d18acdd0b8a1318076d37b"
+    },
+    {
+      "name": "fault-fork-restarted-clock",
+      "detected": true,
+      "logSha256": "65855cbe0f1090a310063f2f2da437b5ec6746076a0f3a7d36b7b7758b797326"
+    },
+    {
+      "name": "fault-fork-replayed-acquisition",
+      "detected": true,
+      "logSha256": "85a643ddc478d2665f61699b635789de8c848fffd6396295746b3235256cacd8"
+    }
+  ],
+  "adapterGuards": 15,
+  "archiveSha256": "905d7f6fde12689d9e6f6bd6f2d864018fe2b5b81f1d10b7e97d51e332c40d99",
+  "types": true,
+  "restored": true,
+  "inputsUnchanged": true,
+  "logsSha256": "17366ce3a4efa6967d4ec9c0c21e21e9a8efce43bb9dee791f3cca1eba0350b7",
+  "cleaned": true
+}

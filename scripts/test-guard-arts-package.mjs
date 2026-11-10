@@ -4,7 +4,7 @@ import {root,sha256} from './reference-utils.mjs';import {npmCli} from './npm-cl
 assert.equal(process.argv.length,2);
 const owned=path.join(root,'.artifacts');fs.mkdirSync(owned,{recursive:true});
 const work=fs.mkdtempSync(path.join(owned,'guard-arts-package-owned-')),consumer=path.join(work,'consumer');fs.mkdirSync(consumer);
-const report={passed:false,contracts:25,faults:[],sources:{}},logs={};
+const report={passed:false,contracts:42,faults:[],sources:{}},logs={};
 for(const file of ['src/guard-arts.ts','test/guard-arts.test.mjs','test/guard-arts-consumer.ts','scripts/test-guard-arts-package.mjs','package.json','package-lock.json'])report.sources[file]=sha256(fs.readFileSync(path.join(root,file)));
 const run=(label,args,cwd=consumer)=>{const c=spawnSync(process.execPath,args,{cwd,encoding:'utf8',windowsHide:true,timeout:180000,maxBuffer:4*1024*1024,
  env:{...process.env,TEMP:work,TMP:work,TMPDIR:work,NODE_PATH:'',NODE_COMPILE_CACHE:path.join(work,'compile-cache')}});
@@ -47,6 +47,24 @@ try{
   ['unsorted-patches','[...new Set(inst.treeNodes ?? [])].sort()','[...new Set(inst.treeNodes ?? [])]'],
   ['recursive-payload','if (inst.guardArtsPayload)','if (false)'],
   ['lost-armor','p.stat(actor, \'armor\', tags, mods) * (p.spec(inst)?.armorRatio ?? 0)','0'],
+  ['fork-lost-cast-time-power','runtime.bindLayer(next, plan.layer, plan.power);','runtime.bindLayer(next, plan.layer, 1);'],
+  ['fork-layer-bound-to-live','runtime.bindLayer(next, plan.layer, plan.power);','this.bindLayer(next, plan.layer, plan.power);'],
+  ['fork-interception-bound-to-live','runtime.bindInterception(next);','this.bindInterception(next);'],
+  ['fork-restarted-source-counter','state.nextSource = this.state.nextSource;','state.nextSource = 1;'],
+  ['fork-shared-contact-rows','[id, { ...row }]','[id, row]'],
+  ['fork-shared-policy','spec: mapping.spec(s.spec)','spec: s.spec'],
+  ['fork-lost-empty-family','state.owners.set(target, new Map());','void target;'],
+  ['fork-unknown-layer-admitted','if (layer && (!binding || binding.state !== s || binding.ended !== layer.ended))','if (false)'],
+  ['fork-replaced-callback-admitted',' || binding.ended !== layer.ended',''],
+  ['fork-moved-layer-admitted','binding.state !== s || ',''],
+  ['fork-live-peer-skill-admitted','sourceSkills.has(mapped)','mapped === i'],
+  ['fork-shared-intervention','mapped.guardIntervention === a.guardIntervention || ',''],
+  ['fork-replayed-cast','runtime.bindInterception(next);','runtime.bindInterception(next); runtime.cast(plan.actor, plan.host);'],
+  ['fork-nonempty-destination','runtime.state.owners.size','false'],
+  ['fork-visual-destination','runtime.visuals.length','false'],
+  ['fork-different-limits','runtime.limits.pendingBlasts !== this.limits.pendingBlasts || runtime.limits.promotePerFrame !== this.limits.promotePerFrame || runtime.limits.maximumReduction !== this.limits.maximumReduction','false'],
+  ['recreated-owned-interceptor','if (existing && this.interceptorStates.get(existing) === s)','if (false)'],
+  ['fork-shared-empty-owner-map','runtime.state.owners === this.state.owners || ',''],
  ];
  for(const[name,from,to]of faults){const occurrences=source.split(from).length-1;assert.equal(occurrences,name==='reversed-outcome-expiry'?2:1,name+' selector');fs.writeFileSync(module,source.replaceAll(from,to));
   try{assert.equal(run('fault-'+name,['--test','test/guard-arts.test.mjs']).status,1,name+' escaped');assert.match(logs['fault-'+name],/ERR_ASSERTION/);report.faults.push({name,detected:true,logSha256:sha256(logs['fault-'+name])});}

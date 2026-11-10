@@ -1,0 +1,426 @@
+{
+  "passed": true,
+  "baseline": "4e598576ddbd9c9a16facd0440778a68bd500005",
+  "scope": "guard update kernel; synthetic host ports, no complete actor frame or device acceptance",
+  "node": "v24.9.0",
+  "platform": "win32",
+  "arch": "x64",
+  "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+  "sources": {
+    "src/guard-arts.ts": "0c884d5323ad4b5c54d2c7ec3dea190947ac2f55eae8ce1867b0ae78caad33de",
+    "test/guard-arts.test.mjs": "87af59a10a0b085bbcd4368177cca936314431b78971e950590f0727cf7bbbac",
+    "scripts/benchmark-guard-continuation.mjs": "336ccdeed16e9c0033fe5e44319c40cc24bc58009d7631d550a046e69b1fc716"
+  },
+  "samples": [
+    {
+      "count": 1,
+      "round": 0,
+      "first": "baseline",
+      "results": [
+        {
+          "mode": "baseline",
+          "count": 1,
+          "frames": 1200,
+          "milliseconds": 7.069399999999995,
+          "callbackWrites": 1200,
+          "heapGrowthBeforeGC": 175376,
+          "retainedHeapDelta": 73016
+        },
+        {
+          "mode": "candidate",
+          "count": 1,
+          "frames": 1200,
+          "milliseconds": 7.197999999999993,
+          "callbackWrites": 0,
+          "heapGrowthBeforeGC": 1099824,
+          "retainedHeapDelta": 32432
+        }
+      ],
+      "receiptsEqual": true
+    },
+    {
+      "count": 1,
+      "round": 1,
+      "first": "candidate",
+      "results": [
+        {
+          "mode": "candidate",
+          "count": 1,
+          "frames": 1200,
+          "milliseconds": 6.524100000000004,
+          "callbackWrites": 0,
+          "heapGrowthBeforeGC": 1074344,
+          "retainedHeapDelta": 48664
+        },
+        {
+          "mode": "baseline",
+          "count": 1,
+          "frames": 1200,
+          "milliseconds": 8.445599999999999,
+          "callbackWrites": 1200,
+          "heapGrowthBeforeGC": 289344,
+          "retainedHeapDelta": -60496
+        }
+      ],
+      "receiptsEqual": true
+    },
+    {
+      "count": 1,
+      "round": 2,
+      "first": "baseline",
+      "results": [
+        {
+          "mode": "baseline",
+          "count": 1,
+          "frames": 1200,
+          "milliseconds": 8.891100000000009,
+          "callbackWrites": 1200,
+          "heapGrowthBeforeGC": 292176,
+          "retainedHeapDelta": 30352
+        },
+        {
+          "mode": "candidate",
+          "count": 1,
+          "frames": 1200,
+          "milliseconds": 9.3737,
+          "callbackWrites": 0,
+          "heapGrowthBeforeGC": 144000,
+          "retainedHeapDelta": -26192
+        }
+      ],
+      "receiptsEqual": true
+    },
+    {
+      "count": 1,
+      "round": 3,
+      "first": "candidate",
+      "results": [
+        {
+          "mode": "candidate",
+          "count": 1,
+          "frames": 1200,
+          "milliseconds": 9.193600000000004,
+          "callbackWrites": 0,
+          "heapGrowthBeforeGC": 54776,
+          "retainedHeapDelta": 5128
+        },
+        {
+          "mode": "baseline",
+          "count": 1,
+          "frames": 1200,
+          "milliseconds": 7.719600000000014,
+          "callbackWrites": 1200,
+          "heapGrowthBeforeGC": 144976,
+          "retainedHeapDelta": 7176
+        }
+      ],
+      "receiptsEqual": true
+    },
+    {
+      "count": 1,
+      "round": 4,
+      "first": "baseline",
+      "results": [
+        {
+          "mode": "baseline",
+          "count": 1,
+          "frames": 1200,
+          "milliseconds": 7.231099999999998,
+          "callbackWrites": 1200,
+          "heapGrowthBeforeGC": 42536,
+          "retainedHeapDelta": 2720
+        },
+        {
+          "mode": "candidate",
+          "count": 1,
+          "frames": 1200,
+          "milliseconds": 8.733100000000007,
+          "callbackWrites": 0,
+          "heapGrowthBeforeGC": 98360,
+          "retainedHeapDelta": -22912
+        }
+      ],
+      "receiptsEqual": true
+    },
+    {
+      "count": 32,
+      "round": 0,
+      "first": "baseline",
+      "results": [
+        {
+          "mode": "baseline",
+          "count": 32,
+          "frames": 1200,
+          "milliseconds": 164.5692,
+          "callbackWrites": 38400,
+          "heapGrowthBeforeGC": 506800,
+          "retainedHeapDelta": 16456
+        },
+        {
+          "mode": "candidate",
+          "count": 32,
+          "frames": 1200,
+          "milliseconds": 162.46269999999998,
+          "callbackWrites": 0,
+          "heapGrowthBeforeGC": 3688208,
+          "retainedHeapDelta": -65248
+        }
+      ],
+      "receiptsEqual": true
+    },
+    {
+      "count": 32,
+      "round": 1,
+      "first": "candidate",
+      "results": [
+        {
+          "mode": "candidate",
+          "count": 32,
+          "frames": 1200,
+          "milliseconds": 153.6911,
+          "callbackWrites": 0,
+          "heapGrowthBeforeGC": 917816,
+          "retainedHeapDelta": -78720
+        },
+        {
+          "mode": "baseline",
+          "count": 32,
+          "frames": 1200,
+          "milliseconds": 159.22289999999998,
+          "callbackWrites": 38400,
+          "heapGrowthBeforeGC": 1271128,
+          "retainedHeapDelta": -55728
+        }
+      ],
+      "receiptsEqual": true
+    },
+    {
+      "count": 32,
+      "round": 2,
+      "first": "baseline",
+      "results": [
+        {
+          "mode": "baseline",
+          "count": 32,
+          "frames": 1200,
+          "milliseconds": 160.12390000000005,
+          "callbackWrites": 38400,
+          "heapGrowthBeforeGC": 2613192,
+          "retainedHeapDelta": -80832
+        },
+        {
+          "mode": "candidate",
+          "count": 32,
+          "frames": 1200,
+          "milliseconds": 156.75549999999998,
+          "callbackWrites": 0,
+          "heapGrowthBeforeGC": 4176536,
+          "retainedHeapDelta": -42512
+        }
+      ],
+      "receiptsEqual": true
+    },
+    {
+      "count": 32,
+      "round": 3,
+      "first": "candidate",
+      "results": [
+        {
+          "mode": "candidate",
+          "count": 32,
+          "frames": 1200,
+          "milliseconds": 155.95759999999996,
+          "callbackWrites": 0,
+          "heapGrowthBeforeGC": 216288,
+          "retainedHeapDelta": -79832
+        },
+        {
+          "mode": "baseline",
+          "count": 32,
+          "frames": 1200,
+          "milliseconds": 157.37099999999987,
+          "callbackWrites": 38400,
+          "heapGrowthBeforeGC": 461384,
+          "retainedHeapDelta": -52112
+        }
+      ],
+      "receiptsEqual": true
+    },
+    {
+      "count": 32,
+      "round": 4,
+      "first": "baseline",
+      "results": [
+        {
+          "mode": "baseline",
+          "count": 32,
+          "frames": 1200,
+          "milliseconds": 157.0172,
+          "callbackWrites": 38400,
+          "heapGrowthBeforeGC": 5103904,
+          "retainedHeapDelta": -80544
+        },
+        {
+          "mode": "candidate",
+          "count": 32,
+          "frames": 1200,
+          "milliseconds": 157.92679999999973,
+          "callbackWrites": 0,
+          "heapGrowthBeforeGC": 4068056,
+          "retainedHeapDelta": -42200
+        }
+      ],
+      "receiptsEqual": true
+    },
+    {
+      "count": 128,
+      "round": 0,
+      "first": "baseline",
+      "results": [
+        {
+          "mode": "baseline",
+          "count": 128,
+          "frames": 1200,
+          "milliseconds": 655.9160000000002,
+          "callbackWrites": 153600,
+          "heapGrowthBeforeGC": 15098240,
+          "retainedHeapDelta": -97056
+        },
+        {
+          "mode": "candidate",
+          "count": 128,
+          "frames": 1200,
+          "milliseconds": 643.3798000000002,
+          "callbackWrites": 0,
+          "heapGrowthBeforeGC": 16018952,
+          "retainedHeapDelta": -85536
+        }
+      ],
+      "receiptsEqual": true
+    },
+    {
+      "count": 128,
+      "round": 1,
+      "first": "candidate",
+      "results": [
+        {
+          "mode": "candidate",
+          "count": 128,
+          "frames": 1200,
+          "milliseconds": 678.8710000000005,
+          "callbackWrites": 0,
+          "heapGrowthBeforeGC": 3200688,
+          "retainedHeapDelta": 336
+        },
+        {
+          "mode": "baseline",
+          "count": 128,
+          "frames": 1200,
+          "milliseconds": 675.6412,
+          "callbackWrites": 153600,
+          "heapGrowthBeforeGC": 3089120,
+          "retainedHeapDelta": -95360
+        }
+      ],
+      "receiptsEqual": true
+    },
+    {
+      "count": 128,
+      "round": 2,
+      "first": "baseline",
+      "results": [
+        {
+          "mode": "baseline",
+          "count": 128,
+          "frames": 1200,
+          "milliseconds": 680.6999999999998,
+          "callbackWrites": 153600,
+          "heapGrowthBeforeGC": 6526032,
+          "retainedHeapDelta": -664
+        },
+        {
+          "mode": "candidate",
+          "count": 128,
+          "frames": 1200,
+          "milliseconds": 619.4809999999998,
+          "callbackWrites": 0,
+          "heapGrowthBeforeGC": 31050256,
+          "retainedHeapDelta": -94904
+        }
+      ],
+      "receiptsEqual": true
+    },
+    {
+      "count": 128,
+      "round": 3,
+      "first": "candidate",
+      "results": [
+        {
+          "mode": "candidate",
+          "count": 128,
+          "frames": 1200,
+          "milliseconds": 637.5128000000004,
+          "callbackWrites": 0,
+          "heapGrowthBeforeGC": 1790992,
+          "retainedHeapDelta": 288
+        },
+        {
+          "mode": "baseline",
+          "count": 128,
+          "frames": 1200,
+          "milliseconds": 680.3636999999999,
+          "callbackWrites": 153600,
+          "heapGrowthBeforeGC": 17048096,
+          "retainedHeapDelta": -99240
+        }
+      ],
+      "receiptsEqual": true
+    },
+    {
+      "count": 128,
+      "round": 4,
+      "first": "baseline",
+      "results": [
+        {
+          "mode": "baseline",
+          "count": 128,
+          "frames": 1200,
+          "milliseconds": 634.8722000000016,
+          "callbackWrites": 153600,
+          "heapGrowthBeforeGC": 20758928,
+          "retainedHeapDelta": -736
+        },
+        {
+          "mode": "candidate",
+          "count": 128,
+          "frames": 1200,
+          "milliseconds": 625.0306,
+          "callbackWrites": 0,
+          "heapGrowthBeforeGC": 31390040,
+          "retainedHeapDelta": -90888
+        }
+      ],
+      "receiptsEqual": true
+    }
+  ],
+  "baselineSourceSha256": "acffdfa15c46b6ecdc7ae86b99f90832f66f96f1330269bda99b3b0ee4222a0a",
+  "medians": [
+    {
+      "actors": 1,
+      "baseline": 7.719600000000014,
+      "candidate": 8.733100000000007
+    },
+    {
+      "actors": 32,
+      "baseline": 159.22289999999998,
+      "candidate": 156.75549999999998
+    },
+    {
+      "actors": 128,
+      "baseline": 675.6412,
+      "candidate": 637.5128000000004
+    }
+  ],
+  "inputsUnchanged": true,
+  "cleaned": true
+}
