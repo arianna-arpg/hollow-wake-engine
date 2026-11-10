@@ -63,10 +63,60 @@ export function companionCanMimic(inst: CompanionBondSkill): boolean {
     && d.effects.every(f => ['damage', 'status', 'knockback', 'buff', 'heal', 'charge'].includes(f.type));
 }
 
+/** Complete identity maps include effect queues and external skill handles. */
+export interface CompanionBondForkMapping<A,S,M> {
+  actors:ReadonlyMap<A,A>;
+  skills:ReadonlyMap<S,S>;
+  spec(source:CompanionBondSpec<M>):CompanionBondSpec<M>;
+}
+
 /** Per-world, per-owner companion state. Only the saved revival countdown is
  * durable; skills, stats, preparations and pending copies rebuild from data. */
 export class CompanionBonds<A extends CompanionBondActor<A,S,R>,S extends CompanionBondSkill,M,I extends CompanionInherited<M>,R extends string,C> {
   constructor(private readonly p:CompanionBondPorts<A,S,M,I,C>,readonly state:CompanionBondsState<A,S,M>=createCompanionBondsState()) {}
+  /** Maps cover every actor/skill reachable from the private graph,
+   * including queues and external handles. The operation cannot enumerate a
+   * WeakSet to discover skills the graph owner omitted. */
+  forkOwnedState(ports:CompanionBondPorts<A,S,M,I,C>,mapping:CompanionBondForkMapping<A,S,M>):CompanionBonds<A,S,M,I,R,C> {
+    return this.copyOwnedStateTo(new CompanionBonds(ports),mapping);
+  }
+  /** The destination belongs to a detached graph and has no body state.
+   * Replace its copy history with the source history for the complete supplied
+   * skill map; old destination graph handles must not enter the new graph. */
+  copyOwnedStateTo(runtime:CompanionBonds<A,S,M,I,R,C>,mapping:CompanionBondForkMapping<A,S,M>):CompanionBonds<A,S,M,I,R,C> {
+    if(runtime===this||runtime.state===this.state||runtime.state.bodies===this.state.bodies||runtime.state.bodies.size)throw Error('Companion continuation requires an empty private controller');
+    const sourceActors=new Set(mapping.actors.keys()),sourceSkills=new Set(mapping.skills.keys()),actorTargets=new Set<A>(),skillTargets=new Set<S>();
+    const actor=(source:A):A=>{const target=mapping.actors.get(source);if(!target)throw Error('Missing companion actor mapping');return target;};
+    const skill=(source:S):S=>{const target=mapping.skills.get(source);if(!target)throw Error('Missing companion skill mapping');return target;};
+    for(const[source,target]of mapping.skills){
+      if(sourceSkills.has(target)||skillTargets.has(target))throw Error('Companion continuation requires detached skill identities');
+      if(target.def.id!==source.def.id)throw Error('Companion continuation requires stable skill definitions');
+      skillTargets.add(target);
+    }
+    for(const[source,target]of mapping.actors){
+      if(sourceActors.has(target)||actorTargets.has(target)||target.skills===source.skills||target.pos===source.pos||target.cooldowns===source.cooldowns||target.buffs===source.buffs)throw Error('Companion continuation requires detached actor ownership');
+      if(target.id!==source.id||target.sourceSkillId!==source.sourceSkillId)throw Error('Companion continuation requires stable actor identities');
+      actorTargets.add(target);
+      if(target.owner!==(source.owner?actor(source.owner):undefined))throw Error('Companion continuation lost owner identity');
+      if(target.skills.length!==source.skills.length||source.skills.some((s,index)=>(s?skill(s):null)!==target.skills[index]))throw Error('Companion continuation lost bar identity');
+      if(source.casting?(!target.casting||target.casting===source.casting||target.casting.inst!==skill(source.casting.inst)):!!target.casting)throw Error('Companion continuation lost cast identity');
+    }
+    const plans:[A,CompanionBondState<A,S,M>][]=[];
+    for(const[beast,s]of this.states){
+      const target=actor(beast);
+      plans.push([target,{inst:skill(s.inst),native:s.native.map(i=>i&&skill(i)),granted:new Map([...s.granted].map(([key,i])=>[key,skill(i)])),
+        spec:mapping.spec(s.spec),policy:s.policy,sheet:s.sheet,baseRadius:s.baseRadius,claimedLevel:s.claimedLevel,stanceId:s.stanceId,
+        orbAt:s.orbAt,chargeAt:s.chargeAt,echoAt:s.echoAt,dreadAt:s.dreadAt,pulseUntil:s.pulseUntil,pulseAt:s.pulseAt,
+        exposure:new Map([...s.exposure].map(([a,n])=>[actor(a),n])),issued:new Set([...s.issued].map(skill))}]);
+    }
+    const copies=new WeakSet<S>();
+    for(const[source,target]of mapping.skills)if(this.copies.has(source))copies.add(target);
+    // No acquisition, refresh, clock step or host effect runs during copying.
+    runtime.state.copies=copies;
+    for(const[beast,s]of plans)runtime.state.bodies.set(beast,s);
+    return runtime;
+  }
+
   private get states(){return this.state.bodies;}
   private get copies(){return this.state.copies;}
 

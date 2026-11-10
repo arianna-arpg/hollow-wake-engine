@@ -138,3 +138,85 @@ test('saved projection retains durable rarity, claimed radius and remaining revi
 test('host exceptions retain earlier ownership writes and stop later dispatch',()=>{
  const f=fixture({mimicMelee:{cooldown:2,power:1}},{repeat:()=>{throw Error('queue unavailable');}}).start();assert.throws(()=>f.runtime.onCast(f.owner,skill(),{x:0,y:0}),/queue unavailable/);assert.equal(f.current().issued.size,1);assert.equal(f.current().echoAt,2);assert(f.state.copies.has([...f.current().issued][0]));
 });
+
+function privateBondFixture(f,extraSkills=[]){
+ const c=fixture(structuredClone(f.world.spec)),actors=new Map([[f.owner,c.owner],[f.beast,c.beast]]),skills=new Map();
+ const collectActor=a=>{if(!actors.has(a))actors.set(a,actor(a.id));if(a.owner&&!actors.has(a.owner))collectActor(a.owner);};
+ for(const a of [...f.world.actors,...f.world.enemies])collectActor(a);
+ for(const [a,s]of f.state.bodies){collectActor(a);for(const target of s.exposure.keys())collectActor(target);}
+ for(const row of f.calls.repeats)collectActor(row.caster);
+ const mapSkill=s=>{if(!skills.has(s))skills.set(s,structuredClone(s));return skills.get(s);};
+ for(const s of extraSkills)mapSkill(s);
+ for(const [a,b]of actors){const{owner,skills:bar,casting,...data}=a;
+  Object.assign(b,structuredClone(data),{owner:owner&&actors.get(owner),skills:bar.map(s=>s&&mapSkill(s)),casting:casting?{...structuredClone({...casting,inst:null}),inst:mapSkill(casting.inst)}:null});
+ }
+ for(const s of f.state.bodies.values()){mapSkill(s.inst);for(const i of s.native)if(i)mapSkill(i);for(const i of s.granted.values())mapSkill(i);for(const i of s.issued)mapSkill(i);}
+ c.world.actors=f.world.actors.map(a=>actors.get(a));c.world.enemies=f.world.enemies.map(a=>actors.get(a));c.world.time=f.world.time;c.world.cap=f.world.cap;c.world.stance=f.world.stance;c.world.inherit=structuredClone(f.world.inherit);
+ c.calls.repeats=f.calls.repeats.map(({caster,inst,...data})=>({...structuredClone(data),caster:actors.get(caster),inst:mapSkill(inst)}));
+ const mapping={actors,skills,spec:structuredClone};return{c,mapping,copy:()=>f.runtime.copyOwnedStateTo(c.runtime,mapping)};
+}
+function bondSnapshot(s){return{inst:s.inst.def.id,native:s.native.map(i=>i&&i.def.id),granted:[...s.granted].map(([id,i])=>[id,i.def.id]),spec:s.spec,policy:s.policy,sheet:s.sheet,baseRadius:s.baseRadius,claimedLevel:s.claimedLevel,stance:s.stanceId,
+ orbAt:s.orbAt,chargeAt:s.chargeAt,echoAt:s.echoAt,dreadAt:s.dreadAt,exposure:[...s.exposure].map(([a,n])=>[a.id,n]),pulseUntil:s.pulseUntil,pulseAt:s.pulseAt,issued:[...s.issued].map(i=>i.def.id)};}
+
+test('private companion state preserves timers, wounds and identities without acquisition',()=>{
+ const f=fixture({beastSkills:['art'],mimicMelee:{cooldown:4,power:2},reviveSeconds:8}).start(),s=f.current();
+ Object.assign(s,{orbAt:7,chargeAt:8,echoAt:9,dreadAt:10,pulseUntil:20,pulseAt:12});f.world.time=6;f.beast.life=17;f.beast.plies=1;f.beast.casting={inst:s.granted.get('art'),elapsed:.75};
+ const {c,mapping,copy}=privateBondFixture(f),target=copy();assert.equal(target,c.runtime);assert.deepEqual(bondSnapshot(c.current()),bondSnapshot(s));
+ assert.notEqual(c.current(),s);assert.equal(c.current().inst,mapping.skills.get(f.inst));assert.equal(c.current().native[0],mapping.skills.get(f.native));assert.equal(c.current().granted.get('art'),c.beast.skills[1]);assert.equal(c.beast.casting.inst,c.beast.skills[1]);assert.equal(c.beast.casting.elapsed,.75);
+ assert.deepEqual([c.beast.life,c.beast.plies,c.beast.radius],[17,1,f.beast.radius]);assert.equal(c.calls.levels.length+c.calls.sources.length+c.calls.bequests.length+c.calls.casts.length+c.calls.draws,0);assert.equal(f.beast.casting.inst,s.granted.get('art'));
+});
+
+test('completed copies held by foreign carriers remain nonrecursive after copying',()=>{
+ const f=fixture({mimicMelee:{cooldown:2,power:1}}).start(),ordinary=skill('swing');f.runtime.onCast(f.owner,ordinary,f.owner.pos);const row=f.calls.repeats[0];
+ f.calls.repeats=[{...row,caster:f.owner}];f.world.time=8;f.runtime.update(0);assert.equal(f.current().issued.size,0);
+ const {c,mapping,copy}=privateBondFixture(f,[ordinary]);copy();const marked=mapping.skills.get(row.inst),echo=c.current().echoAt;
+ assert(c.state.copies.has(marked));assert.equal(c.current().issued.size,0);c.runtime.onCast(c.owner,marked,c.owner.pos);assert.equal(c.calls.repeats.length,1);assert.equal(c.current().echoAt,echo);
+ c.runtime.onCast(c.owner,mapping.skills.get(ordinary),c.owner.pos);assert.equal(c.calls.repeats.length,2);assert.equal(c.current().issued.size,1);assert.equal(f.calls.repeats.length,1);assert.equal(f.current().issued.size,0);assert(!f.state.copies.has(marked));
+});
+
+test('copy history survives a source with no remaining body records',()=>{
+ const f=fixture({mimicMelee:{cooldown:2,power:1}}).start();f.runtime.onCast(f.owner,skill(),f.owner.pos);const row=f.calls.repeats[0];f.calls.repeats=[{...row,caster:f.owner}];f.owner.skills=[];f.runtime.refresh();assert.equal(f.state.bodies.size,0);
+ const {c,mapping,copy}=privateBondFixture(f,[f.inst]);copy();assert.equal(c.state.bodies.size,0);assert(c.state.copies.has(mapping.skills.get(row.inst)));
+ c.owner.skills=[mapping.skills.get(f.inst)];c.runtime.refresh();c.world.time=10;c.runtime.onCast(c.owner,mapping.skills.get(row.inst),c.owner.pos);assert.equal(c.current().issued.size,0);assert.equal(c.calls.repeats.length,1);assert.equal(f.state.bodies.size,0);
+});
+
+test('private policy retirement keeps foreign carriers and the native cast',()=>{
+ const f=fixture({mimicMelee:{cooldown:4,power:1},beastSkills:['art']}).start();f.runtime.onCast(f.owner,skill(),f.owner.pos);const row=f.calls.repeats[0];f.calls.repeats.push({...row,caster:f.owner});f.beast.casting={inst:f.native,elapsed:.5};
+ const {c,mapping,copy}=privateBondFixture(f);copy();const held=c.beast.casting;c.owner.skills[0].treeNodes.push('changed');c.world.time=3;c.runtime.refresh();
+ assert.equal(c.calls.repeats.length,1);assert.equal(c.calls.repeats[0].caster,c.owner);assert.equal(c.calls.repeats[0].inst,mapping.skills.get(row.inst));assert.equal(c.beast.casting,held);assert.equal(c.current().issued.size,0);assert.equal(c.current().echoAt,7);
+ assert.equal(f.calls.repeats.length,2);assert.equal(f.current().issued.size,1);assert.equal(f.beast.casting.inst,f.native);
+});
+
+test('private recovery advances the copied countdown without resetting or reviving the source',()=>{
+ const f=fixture({reviveSeconds:5}).start();f.beast.downed=true;f.beast.life=0;f.beast.companionReviveRemaining=2;const {c,copy}=privateBondFixture(f);copy();
+ c.runtime.update(1);assert.equal(c.beast.companionReviveRemaining,1);assert.equal(f.beast.companionReviveRemaining,2);assert.equal(c.calls.revives.length,0);
+ c.runtime.update(1);assert.equal(c.calls.revives.length,1);assert.equal(c.calls.revives[0][0],c.beast);assert.equal(f.calls.revives.length,0);assert(f.beast.downed);
+});
+
+test('private exposure targets, policy rows and ownership containers are detached',()=>{
+ const f=fixture({dread:{radius:10,interval:2,damage:1,ramp:.5,maxStacks:3},beastSkills:['art']}).start(),enemy=actor(3);f.world.enemies=[enemy];f.current().exposure.set(enemy,2);f.current().issued.add(f.current().granted.get('art'));
+ const {c,mapping,copy}=privateBondFixture(f);copy();const s=c.current(),privateEnemy=mapping.actors.get(enemy);assert.equal(s.exposure.get(privateEnemy),2);assert(!s.exposure.has(enemy));assert(s.issued.has(mapping.skills.get(f.current().granted.get('art'))));
+ s.exposure.set(privateEnemy,9);s.native.push(null);s.granted.clear();s.issued.clear();s.spec.dread.damage=7;
+ assert.equal(f.current().exposure.get(enemy),2);assert.equal(f.current().native.length,1);assert.equal(f.current().granted.size,1);assert.equal(f.current().issued.size,1);assert.equal(f.current().spec.dread.damage,1);
+});
+
+test('incomplete or shared graph mappings refuse before installing private state',()=>{
+ const f=fixture({beastSkills:['art']}).start();f.beast.casting={inst:f.native};
+ for(const corrupt of [
+  m=>m.skills.delete(f.native),m=>m.actors.delete(f.beast),m=>m.skills.set(f.inst,f.inst),
+  m=>{m.actors.get(f.beast).owner=f.owner;},m=>{m.actors.get(f.beast).skills=f.beast.skills;},
+  m=>{m.actors.get(f.beast).casting=f.beast.casting;},m=>{m.actors.get(f.owner).id=99;},
+  m=>{m.skills.get(f.inst).def.id='other';},
+ ]){const {c,mapping,copy}=privateBondFixture(f),history=c.state.copies;corrupt(mapping);assert.throws(copy,/Companion continuation|Missing companion/);assert.equal(c.state.bodies.size,0);assert.equal(c.state.copies,history);assert.equal(f.state.bodies.size,1);}
+});
+
+test('destination admission rejects owned state and replaces private history from the full map',()=>{
+ const f=fixture({mimicMelee:{cooldown:2,power:1}}).start(),{c,mapping,copy}=privateBondFixture(f);c.state.copies.add(mapping.skills.get(f.inst));copy();assert(!c.state.copies.has(mapping.skills.get(f.inst)));assert.throws(copy,/empty private controller/);assert.throws(()=>f.runtime.copyOwnedStateTo(f.runtime,mapping),/empty private controller/);
+ const source=new CompanionBonds(f.ports),destination=new CompanionBonds(c.ports,{bodies:source.state.bodies,copies:new WeakSet()});assert.throws(()=>source.copyOwnedStateTo(destination,mapping),/empty private controller/);
+});
+
+test('fork factory keeps aliases and rejects multiple source skills mapped onto one target',()=>{
+ const f=fixture().start(),ordinary=skill(),{c,mapping}=privateBondFixture(f,[ordinary]);
+ const fork=f.runtime.forkOwnedState(c.ports,mapping);assert.notEqual(fork,c.runtime);assert.equal(c.state.bodies.size,0);assert.equal(fork.state.bodies.get(c.beast).native[0],c.beast.skills[0]);
+ mapping.skills.set(ordinary,mapping.skills.get(f.native));assert.throws(()=>f.runtime.forkOwnedState(c.ports,mapping),/detached skill/);assert.equal(f.state.bodies.size,1);
+});

@@ -4,7 +4,7 @@ assert.equal(process.argv.length,2);
 const owned=path.join(root,'.artifacts');fs.mkdirSync(owned,{recursive:true});
 const work=fs.mkdtempSync(path.join(owned,'companion-bonds-package-owned-')),consumer=path.join(work,'consumer');fs.mkdirSync(consumer);
 const modules=[['companion-bonds','companions/bonds'],['minion-inheritance','minions/inheritance'],['attribute-bequests','minions/bequests']],tests=modules.map(([name])=>'test/'+name+'.test.mjs');
-const report={passed:false,contracts:44,faults:[],sources:{}},logs={};
+const report={passed:false,contracts:53,faults:[],sources:{}},logs={};
 for(const file of [...modules.map(([name])=>'src/'+name+'.ts'),'src/companion-bond-rules.ts',...tests,'test/companion-bonds-consumer.ts','scripts/test-companion-bonds-package.mjs','package.json','package-lock.json'])report.sources[file]=sha256(fs.readFileSync(path.join(root,file)));
 const run=(label,args,cwd=consumer)=>{const c=spawnSync(process.execPath,args,{cwd,encoding:'utf8',windowsHide:true,timeout:180000,maxBuffer:4*1024*1024,
  env:{...process.env,TEMP:work,TMP:work,TMPDIR:work,NODE_PATH:'',NODE_COMPILE_CACHE:path.join(work,'compile-cache')}});
@@ -25,6 +25,12 @@ try{
  fs.writeFileSync(path.join(consumer,'hostile.test.mjs'),"Math.random=()=>{throw Error('ambient RNG')};globalThis.fetch=()=>{throw Error('network')};for(const key of ['window','document','localStorage'])Object.defineProperty(globalThis,key,{get(){throw Error(key)}});"+browserTests.map(file=>`await import('./${file}');`).join(''));contracts('browser',['hostile.test.mjs']);
  fs.copyFileSync(path.join(root,'test/companion-bonds-consumer.ts'),path.join(consumer,'types.ts'));
  success('types',[path.join(root,'node_modules/typescript/bin/tsc'),'--strict','--noEmit','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','types.ts']);report.types=true;
+ // The declaration consumer and direct source consumer exercise distinct
+ // inference paths for defaulted generic parameters. Keep both qualified.
+ let sourceTypes=fs.readFileSync(path.join(root,'test/companion-bonds-consumer.ts'),'utf8');
+ for(const[name,key]of modules){const target=path.relative(consumer,path.join(root,'src',name+'.js')).split(path.sep).join('/');sourceTypes=sourceTypes.replace(`'@hollow-wake/engine/${key}'`,`'${target.startsWith('.')?target:'./'+target}'`);}
+ fs.writeFileSync(path.join(consumer,'source-types.ts'),sourceTypes);
+ success('source-types',[path.join(root,'node_modules/typescript/bin/tsc'),'--strict','--noEmit','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','source-types.ts']);report.sourceTypes=true;
  const sources=new Map([...modules.map(([name])=>name),'companion-bond-rules'].map(name=>{const file=path.join(consumer,'node_modules/@hollow-wake/engine/dist/'+name+'.js');return[name,{file,source:fs.readFileSync(file,'utf8')}];}));
  report.moduleBytes=Object.fromEntries([...sources].map(([name,{source}])=>[name,Buffer.byteLength(source)]));assert(Object.values(report.moduleBytes).reduce((sum,n)=>sum+n,0)<40*1024);
  const faults=[
@@ -51,6 +57,14 @@ try{
   ['dead-owner-share','attribute-bequests','owner && !owner.dead && owner.attributeValues','owner && owner.attributeValues'],
   ['lost-recipient-filter','attribute-bequests',"def.recipients === 'minions' && recipient.companion",'false'],
   ['unclamped-life','attribute-bequests','recipient.life = Math.min(recipient.life, this.p.maxLife(recipient));',''],
+  ['fork-lost-copy-history','companion-bonds','if (this.copies.has(source))','if (false)'],
+  ['fork-shared-native-instances','companion-bonds','native: s.native.map(i => i && skill(i))','native: s.native'],
+  ['fork-reset-echo-deadline','companion-bonds','echoAt: s.echoAt','echoAt: 0'],
+  ['fork-live-exposure-targets','companion-bonds','[actor(a), n]','[a, n]'],
+  ['fork-replayed-acquisition','companion-bonds','runtime.state.bodies.set(beast, s);','runtime.state.bodies.set(beast, s); for (const [beast] of plans) runtime.adopt(beast);'],
+  ['fork-shared-derived-policy','companion-bonds','spec: mapping.spec(s.spec)','spec: s.spec'],
+  ['fork-lost-issued-ownership','companion-bonds','issued: new Set([...s.issued].map(skill))','issued: new Set()'],
+  ['fork-stale-destination-copy-history','companion-bonds','const copies = new WeakSet();','const copies = runtime.state.copies;'],
  ];
  for(const[name,module,from,to]of faults){const {file,source}=sources.get(module);assert.equal(source.split(from).length,2,name+' selector');fs.writeFileSync(file,source.replace(from,to));
   try{assert.equal(run('fault-'+name,['--test',...tests]).status,1,name+' escaped');assert.match(logs['fault-'+name],/ERR_ASSERTION/);report.faults.push({name,detected:true,logSha256:sha256(logs['fault-'+name])});}

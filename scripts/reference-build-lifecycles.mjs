@@ -9,7 +9,7 @@ tracked('scripts/reference-build-lifecycles.mjs');
 const run=(label,args)=>{const child=spawnSync(process.execPath,args,{cwd:ref,windowsHide:true,encoding:'utf8',timeout:180000,maxBuffer:4*1024*1024,env:{...process.env,TEMP:work,TMP:work,TMPDIR:work,NODE_COMPILE_CACHE:path.join(work,'compile-cache')}});logs[label]={stdout:child.stdout??'',stderr:child.stderr??''};assert(!child.error&&!child.signal&&child.status===0,label+': '+JSON.stringify(logs[label])+' '+String(child.error??''));return logs[label];};
 try{
  verifyReference(ref,lock);
- const courses=['guard-build','bond-build','companion-world-build','guard-continuation'].map(name=>{
+ const courses=['guard-build','bond-build','companion-world-build','guard-continuation','companion-continuation'].map(name=>{
   const manifest=JSON.parse(tracked('baseline/'+name+'/acceptance.json')),source=tracked(manifest.source),packed=tracked('baseline/'+name+'/observations.json.gz'),expected=gunzipSync(packed);
   assert.equal(sha256(source),manifest.sourceSha256);assert.equal(sha256(lockBytes),manifest.sourceLockSha256);assert.equal(sha256(packed),manifest.gzipSha256);assert.equal(sha256(expected),manifest.sha256);
   const probe=path.join(work,name+'.ts');fs.writeFileSync(probe,source.toString().replaceAll("'../src/","'../../.reference/src/"));return{name,manifest,probe,expected};

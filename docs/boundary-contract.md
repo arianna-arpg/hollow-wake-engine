@@ -8,6 +8,13 @@ can reconnect active guard callbacks into an already detached actor/skill graph
 without replaying casts. Full private graph preparation and durable
 acknowledgement remain separate boundaries.
 
+The optional [bonded companion controller](companion-bonds.md) can transfer its
+owned continuation into a detached actor/skill graph without replaying acquisition.
+Complete enumerable identity maps preserve copied-skill recursion suppression,
+including completed copies retained by foreign carriers or external handles.
+Body construction, private host effects and durable live acknowledgement remain
+separate responsibilities.
+
 The [private stat context](build-context.md) preserves complete stat inputs when
 forking a build, with independent mutable state and cold bounded caches. Full
 character derivation and acknowledgement-time live publication remain separate

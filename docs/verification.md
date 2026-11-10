@@ -1,8 +1,8 @@
 # Verification and reproduction
 
-The [guard disciplines](guard-arts.md) add 25 installed/browser contracts,
-public types and 19 deliberate package faults. `reference:build-lifecycles`
-reproduces 40 accepted guard/companion rebuild records and 16 original guard
+The [guard disciplines](guard-arts.md) add 42 installed/browser contracts,
+public types and 37 deliberate package faults. `reference:build-lifecycles`
+reproduces 62 accepted guard/companion rebuild and continuation records and 16 original guard
 assertion groups in two fresh processes. `adapter:guard-arts` checks the typed
 installed game binding, guarded installation and runtime/binding faults.
 
@@ -1236,13 +1236,20 @@ existing rebuild observations, then checks effect ownership and deliberate
 runtime/binding faults. All four replacement modules are checked before any
 installation writes, preserving reviewed inputs, newlines and appended host code.
 
-`test:companion-bonds-package` runs 44 independent contracts through the installed
+`test:companion-bonds-package` runs 53 independent contracts through the installed
 exports and a browser bundle with forbidden ambient services, checks public
-types, and requires 23 selected runtime faults to fail before restoring a clean
+types against both installed declarations and direct source, and requires 31
+selected runtime faults to fail before restoring a clean
 control. The three optional exports have their own package bounds. These are
 behavior, packaging and ownership checks; target-device performance and full
 native engine exposure are separate acceptance work. See
 [the contract](companion-bonds.md).
+
+The copy-lifetime original course adds eight frozen observations to the shared
+lifecycle verifier. The companion game adapter checks four private contexts and
+fifteen paired stages, including active native casts, growth and actual revival;
+five additional faults qualify copying and payload ownership. Its explicit graph
+fixture does not implement the complete authored private-build provider.
 
 ## Guard continuation ownership
 

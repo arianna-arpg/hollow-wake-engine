@@ -73,6 +73,45 @@ refill wounds. Attribute definitions must stay stable during active play because
 the original signature does not encode modifier-definition revisions. Hot reload
 requires an explicit host invalidation policy.
 
+## Private continuation
+
+`source.copyOwnedStateTo(emptyPrivateController, mapping)` populates a controller
+already owned by a detached actor/skill graph. `source.forkOwnedState(privatePorts,
+mapping)` creates that controller instead. Both preserve native, granted and
+issued skill aliases, policy and inheritance signatures, exposure targets, stance
+and all body-record clocks. Neither adopts, refreshes, revives, executes a skill,
+advances time nor emits a cue.
+
+`CompanionBondForkMapping` supplies complete `actors` and `skills` maps plus a
+`spec` copier. Each source identity maps to one distinct private identity;
+logical actor IDs and skill definition IDs stay stable. Owner, skill-bar and
+active-cast aliases must already point into that graph. Mutable rule rows must
+be detached; sharing requires the host to guarantee immutable content for both
+graphs' lifetimes. Services are trusted and synchronous. Admission checks do
+not validate arbitrary actor fields, callbacks, engine objects or effect queues.
+
+Include every skill reachable through the simulation and external handles,
+even if no body record or issued set references it. A copied skill remains
+ineligible for recursive copying after its owned payload ends, after a policy
+change and after body records are removed and recreated. A foreign caster's
+carrier can still reference that instance. Equal definitions or serialized
+contents do not carry this identity. The runtime transfers `WeakSet` membership
+for every supplied pair; it cannot enumerate the set to discover omitted handles.
+This requires enumerable maps rather than lookup callbacks alone.
+
+The destination needs a separate empty body map. Its copy-history set is
+replaced with the source history projected through the supplied skill map.
+Old destination-graph handles must not enter the new graph. This also applies
+when the source has no remaining body records. No strong registry retains
+historical copies solely for continuation.
+
+The host still copies actor resources, statuses, saved revival countdowns,
+investment, active casts, payload queues and world-owned callbacks. It supplies
+private time, randomness, stats and effects. This API neither constructs a
+complete World nor publishes a durable build into live play. At acknowledgement,
+derive from current live wounds, casts, clocks and identities; an older private
+snapshot must not replace them.
+
 ## Persistence and evidence
 
 `saved()` is a durable companion projection: body definition, level, host skill,
@@ -95,4 +134,19 @@ allocation results. Bounded optional package size prevents eager loading of thes
 features into games that do not use them. Runtime optimization must be measured
 against these preserved behaviors before introducing caches, dirty propagation,
 packed storage, or scheduling changes. World body execution, movement, full AI
-conduct and complete private build continuation remain separate work.
+conduct and complete private graph construction remain separate work.
+
+The [original copy-lifetime capture](../baseline/companion-continuation/README.md)
+adds eight checkpoints in two fresh processes and four detected source faults.
+It uses explicit diagnostic completion and foreign-carrier inputs, not UI
+legality or graph transfer. The installed package and browser course now checks
+53 contracts and 31 deliberate faults. Four real-game continuation contexts
+exercise fifteen paired stages and five additional game/binding faults: active
+and completed copies, body-record recreation, recovery with actual cleansing and
+revival, and a partly elapsed native attack across policy changes and growth.
+Every private step verifies that the live control stays unchanged before it
+advances. This explicit fixture copier is not an arbitrary World copier.
+
+The inheritance helper's optional tag/modifier arguments now have explicit
+generic annotations. They preserve its generated public types and runtime
+behavior while fixing inference for direct source consumers.

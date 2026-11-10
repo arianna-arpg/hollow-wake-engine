@@ -29,7 +29,7 @@ export interface MinionInheritance<M,T> {
 export class MinionInheritanceResolver<A,I extends MinionInheritanceSkill,M extends InheritanceModifier,T> {
  constructor(private readonly p:MinionInheritancePorts<A,I,M,T>) {}
  areaAvoidanceOf(caster: A, inst: I,
-  tags = this.p.tags(inst), extra = this.p.modifiers(inst)): number {
+  tags: T = this.p.tags(inst), extra: M[] = this.p.modifiers(inst)): number {
   return Math.max(0, Math.min(this.p.maxAreaAvoidance(),
     (this.p.combat(inst).areaAvoidance ?? 0)
     + this.p.stat(caster,'minionAreaAvoidance', tags, extra) * (inst.relicSource ? this.p.ordinaryStats() : 1)));

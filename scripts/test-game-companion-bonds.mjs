@@ -29,7 +29,7 @@ try{
  fs.writeFileSync(path.join(fixture,specFile),originals.get(specFile));integrateCompanionBonds(fixture);assert.throws(()=>integrateCompanionBonds(fixture),/already installed/);report.adapterGuards++;
  const overlay=new Map([...bindings.keys()].map(file=>[path.join(ref,file),read(path.join(fixture,file))]));
  const courses=new Map();
- for(const name of ['guard-build','bond-build','companion-world-build']){
+ for(const name of ['guard-build','bond-build','companion-world-build','companion-continuation']){
   const manifest=JSON.parse(tracked('baseline/'+name+'/acceptance.json')),source=tracked(manifest.source).toString(),packed=tracked('baseline/'+name+'/observations.json.gz'),expected=gunzipSync(packed);
   assert.equal(sha256(source),manifest.sourceSha256);assert.equal(manifest.sourceLockSha256,report.sources['baseline/source-lock.json']);assert.equal(sha256(packed),manifest.gzipSha256);assert.equal(sha256(expected),manifest.sha256);
   courses.set(name,{source,expected,manifest,virtual:path.join(ref,'balance/hwe-'+name+'.ts')});
@@ -40,6 +40,7 @@ try{
   courses.set(name,{source,expectedLogs:expectedLogs[name+'-1'],manifest:course,virtual:path.join(ref,course.source)});
  }
  courses.set('ownership',{source:tracked('test/companion-bonds-binding-game.ts').toString(),expectedLogs:{stdout:'Companion binding ownership: 9 assertions passed\n',stderr:expectedLogs['probe_companioninheritance-1'].stderr},manifest:{assertions:9},virtual:path.join(ref,'balance/hwe-companion-binding.ts')});
+ courses.set('private-continuation',{source:tracked('test/companion-continuation-game.ts').toString(),expectedLogs:{stdout:'Companion private game continuation: 4 courses, 15 stages passed\n',stderr:expectedLogs['probe_companioninheritance-1'].stderr},manifest:{courses:4,stages:15},virtual:path.join(ref,'balance/hwe-companion-private.ts'),installedOnly:true});
  const config=ts.getParsedCommandLineOfConfigFile(path.join(ref,'tsconfig.sim.json'),{}, {...ts.sys,onUnRecoverableConfigFileDiagnostic:d=>{throw Error(ts.flattenDiagnosticMessageText(d.messageText,'\n'));}});assert(config);
  const paths=Object.fromEntries(Object.entries(pkg.exports).filter(([,entry])=>entry.types).map(([key,entry])=>['@hollow-wake/engine'+(key==='.'?'':key.slice(1)),[path.join(installed,entry.types)]]));
  const typed=new Map([...overlay,...[...courses.values()].map(c=>[c.virtual,c.source])]),options={...config.options,baseUrl:root,paths,typeRoots:[path.join(ref,'node_modules/@types')]},host=ts.createCompilerHost(options),readFile=host.readFile.bind(host),exists=host.fileExists.bind(host);
@@ -58,7 +59,7 @@ try{
   if(fault){assert(!matched,'Fault escaped '+label);if(child.status!==0){assert.equal(child.status,1);assert.match(JSON.stringify(logs[label]),/ERR_ASSERTION|FAIL /);}report.faults.push({name:label,detected:true,logSha256:sha256(JSON.stringify(logs[label]))});}
   else assert(matched,label+' differs from original: '+JSON.stringify(logs[label]).slice(-6000));
  }
- for(const[name,course]of courses){await replay(name,'original-'+name,true);await replay(name,'installed-'+name);report.courses.push({name,observations:course.manifest.observations,groups:course.manifest.groups,assertions:course.manifest.assertions,modes:['original','installed']});}
+ for(const[name,course]of courses){if(!course.installedOnly)await replay(name,'original-'+name,true);await replay(name,'installed-'+name);report.courses.push({name,observations:course.manifest.observations,groups:course.manifest.groups,assertions:course.manifest.assertions,privateCourses:course.manifest.courses,privateStages:course.manifest.stages,modes:course.installedOnly?['installed']:['original','installed']});}
  const faults=[
   ['unretired-payloads','ownership','companion-bonds.js','this.p.retirePayloads(beast, owned);',''],
   ['missing-caster-scope','ownership','companionBonds.ts','caster===beast&&owned.has(inst)','owned.has(inst)'],
@@ -67,9 +68,14 @@ try{
   ['refilled-armor','probe_companioninheritance','minion-inheritance.js','minion.pliesMax - spent','minion.pliesMax'],
   ['lost-scoped-bequest','probe_companioninheritance','bequests.ts','runtime.sync(recipient,scale,tags,extra)','runtime.sync(recipient,scale,tags)'],
   ['multiplied-recovery-budget','probe_companionrecovery','companion-bond-rules.js','cfg.divideByPack ? Math.max(1, activeBodies) : 1','1'],
+  ['fork-lost-copy-history','private-continuation','companion-bonds.js','if (this.copies.has(source))','if (false)'],
+  ['fork-lost-issued-ownership','private-continuation','companion-bonds.js','issued: new Set([...s.issued].map(skill))','issued: new Set()'],
+  ['fork-reset-echo-deadline','private-continuation','companion-bonds.js','echoAt: s.echoAt','echoAt: 0'],
+  ['fork-retired-foreign-carriers','private-continuation','companionBonds.ts','caster===beast&&owned.has(inst)','owned.has(inst)'],
+  ['fork-replayed-acquisition','private-continuation','companion-bonds.js','runtime.state.bodies.set(beast, s);','runtime.state.bodies.set(beast, s); for (const [beast] of plans) runtime.adopt(beast);'],
  ];
  for(const[name,course,file,from,to]of faults)await replay(course,'fault-'+name,false,{file,from,to});
- await replay('bond-build','restored-build');await replay('ownership','restored-ownership');report.restored=true;report.passed=true;
+ await replay('bond-build','restored-build');await replay('ownership','restored-ownership');await replay('private-continuation','restored-private');report.restored=true;report.passed=true;
 }catch(error){report.failure=String(error);process.exitCode=1;}
 finally{
  try{verifyReference(ref,lock);report.inputsUnchanged=Object.entries(report.sources).every(([file,hash])=>sha256(fs.readFileSync(path.join(root,file)))===hash);report.passed=report.passed&&report.inputsUnchanged;
