@@ -1,0 +1,57 @@
+name: Verify private build context
+on:
+  push:
+    paths:
+      - '.github/workflows/build-context.yml'
+      - 'src/stats.ts'
+      - 'src/stat-rules.ts'
+      - 'src/validation.ts'
+      - 'src/tag-context-cache.ts'
+      - 'baseline/build-context/**'
+      - 'reference/export-build-context.ts'
+      - 'test/stat-fork.test.mjs'
+      - 'test/build-context-game.ts'
+      - 'scripts/test-stat-fork-package.mjs'
+      - 'scripts/test-build-context-game.mjs'
+      - 'scripts/reference-build-context.mjs'
+      - 'package*.json'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  context:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: 24.9.0
+          cache: npm
+      - run: npm ci
+      - run: npm run reference:prepare
+      - run: npm run reference:install
+      - run: npm run build
+      - run: npm run test:stat-fork-package
+      - run: npm run reference:build-context
+      - run: npm run adapter:build-context
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: private-build-context-${{ matrix.os }}
+          include-hidden-files: true
+          if-no-files-found: error
+          path: |
+            .artifacts/stat-fork-package.json
+            .artifacts/stat-fork-package.logs.json.gz
+            .artifacts/build-context-reference.json
+            .artifacts/build-context-reference.logs.json.gz
+            .artifacts/build-context-game.json
+            .artifacts/build-context-game.logs.json.gz

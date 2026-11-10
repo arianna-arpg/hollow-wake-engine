@@ -1,0 +1,36 @@
+{
+  "passed": false,
+  "draftOnly": true,
+  "sources": {
+    "src/stats.ts": "3cb59ef5d58d9f1944e4215734f335e28d826af645d5feaf93e9d3d7e1b698e1",
+    "src/passive-grants.ts": "036641e676ceefacd08bd7a0161063462ea334a90064dcbd7601ed74811bbb89",
+    "src/build-contributions.ts": "d7b75a9603324062ccaa1260ced913f2b749f64031f66948f98838fe61cf13a0",
+    "src/equipment-skills.ts": "d904771a26d05c8cad34434ebb5ffdcd36e3fd84177815fdf86355b9b744ae63",
+    "src/companion-grants.ts": "83abfdec818cd71bee90e1d89aa6c36016b3f4de1b53b8b9ab8872e1e9c38ed7",
+    "adapters/hollow-wake/integrate-companion-grants.mjs": "b798f10c04280c52e2467d01b756c17d052e1f1ce446c6bd29366d929be945fb",
+    "adapters/hollow-wake/integrate-passive-grants.mjs": "bf147fb066fe9e2aaf9b9dea6e6fdc528a008d7bbeb899e39ec1e4ad1e9f9189",
+    "adapters/hollow-wake/passiveGrantAdapter.ts": "c82172a70301298781f1f537ae11a2e48ec2fcb18c81aed2ff73d6af322cd571",
+    "adapters/hollow-wake/integrate-equipment-skills.mjs": "d185eb1513f8c9a098f37d7f10d8a16643bbc5368934c4b2dfaba94c4da6229e",
+    "adapters/hollow-wake/integrate-build-contributions.mjs": "df98614fcd88335fd933dea32fdb1d5c3efe3d4547bc4ecf571b22aab586f491",
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "package.json": "29dba9394b86ad103cd3dda75eeec9966b7ced46ba66f75078036a3c64759c1f",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    ".artifacts/observe-private-build-context-draft.ts": "9515ebc4194992c999f9cbca2e596860ee2ed38e74b1d81ea917eb11ae6c9ce5",
+    ".artifacts/export-build-context-draft.ts": "69b9a374053b66cffc38381b461c162751a62bdfb056e80395a828e6a8bf49ae",
+    ".artifacts/build-context-original-draft-report.json": "85576f21c549649b1651a18f1a60ef079c25c381901cadddf09b98aa464e939e",
+    ".artifacts/build-context-original-draft-observations.json.gz": "474213c38ed4a083cbd2172a7da57f2ac8bcba60da9ace96e44a69c8782d198a"
+  },
+  "replays": [
+    {
+      "label": "original-control",
+      "sha256": "e918f3dca788a3eff9bb58b66f264e0f1cfe928e2db070cdcffd0c6355a65818"
+    }
+  ],
+  "faults": [],
+  "archiveSha256": "b5ba2addff2b3bf8058506f1732f2d1ea069b2f54fe3ad8fd950eab06b51f9b5",
+  "types": true,
+  "failure": "AssertionError [ERR_ASSERTION]: \n[content] tileset 'meadow': span void region 'mere_bed' is walkable — a gone span must be a hole\n[content] monster toll_bailiff: 2 signature defense pools authored — textures are identities; stack them only on boss showpieces\n[content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fumes:exposure(195), fire_walker:moveTrail(5), aftershocks:aoeScatter(114), buried_charge:pulse(76), accelerando:cadence(118), ritardando:cadence(118), square_sigil:aoeShape(41), triangle_sigil:aoeShape(41), spell_cascade:cascade(95), scattered_cascade:cascade(95), seismic_march:cascade(95), mirrored_bounds:projFrameBounce(1), sundering_flight:fissureTrail(1), afterspray:departSplash(10) — the whys live on the rows in data/graftReadSites.ts\nnode:assert:152\r\n  throw new AssertionError(obj);\r\n  ^\r\n\r\nAssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\r\n+ actual - expected\r\n\r\n  [\r\n    {\r\n      kind: 'flat',\r\n      stat: 'life',\r\n-     tags: undefined,\r\n      value: 0,\r\n-     when: undefined\r\n    },\r\n    {\r\n      kind: 'flat',\r\n      stat: 'mana',\r\n-     tags: undefined,\r\n      value: 0,\r\n-     when: undefined\r\n    },\r\n    {\r\n      kind: 'flat',\r\n      stat: 'accuracy',\r\n-     tags: undefined,\r\n      value: 0,\r\n-     when: undefined\r\n    }\r\n  ]\r\n\r\n    at world.recalcSeat (D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\build-private-context-owned-xckQf5\\installed-composed.cjs:265511:65)\r\n    at Object.<anonymous> (D:\\Games\\Claude\\ARPG Game - World\\.claude\\ownership.engine-m2\\.artifacts\\build-private-context-owned-xckQf5\\installed-composed.cjs:288255:5)\r\n    at Module._compile (node:internal/modules/cjs/loader:1760:14)\r\n    at Object..js (node:internal/modules/cjs/loader:1893:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1480:32)\r\n    at Module._load (node:internal/modules/cjs/loader:1299:12)\r\n    at TracingChannel.traceSync (node:diagnostics_channel:328:14)\r\n    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)\r\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\r\n    at node:internal/main/run_main_module:33:47 {\r\n  generatedMessage: true,\r\n  code: 'ERR_ASSERTION',\r\n  actual: [\r\n    { stat: 'life', kind: 'flat', value: 0 },\r\n    { stat: 'mana', kind: 'flat', value: 0 },\r\n    { stat: 'accuracy', kind: 'flat', value: 0 }\r\n  ],\r\n  expected: [\r\n    {\r\n      stat: 'life',\r\n      kind: 'flat',\r\n      value: 0,\r\n      tags: undefined,\r\n      when: undefined\r\n    },\r\n    {\r\n      stat: 'mana',\r\n      kind: 'flat',\r\n      value: 0,\r\n      tags: undefined,\r\n      when: undefined\r\n    },\r\n    {\r\n      stat: 'accuracy',\r\n      kind: 'flat',\r\n      value: 0,\r\n      tags: undefined,\r\n      when: undefined\r\n    }\r\n  ],\r\n  operator: 'deepStrictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.9.0\r\n\n\n1 !== 0\n",
+  "inputsUnchanged": true,
+  "logsSha256": "b089fcd6006001a68b6eb0cd94dad346ea6aa222ef6e65d702d4ef7d73e41c59",
+  "cleaned": true
+}

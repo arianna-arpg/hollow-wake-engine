@@ -1,5 +1,12 @@
 # Verification and reproduction
 
+`test:stat-fork-package` verifies complete private stat context through installed
+and browser contracts, public types and deliberate faults. The immutable original
+`reference:build-context` course independently reproduces fourteen actual rebuild
+and paid-cast checkpoints in two fresh processes. `adapter:build-context` verifies
+eleven private ordinary builds through an installed package and five deliberate
+faults without changing those accepted observations. See [build context](build-context.md).
+
 The optional [account/character binding](account-character-binding.md) adds
 installed and browser contracts for explicit selection, canonical investment
 writeback, strict item addresses and prepared transaction rollback. Run

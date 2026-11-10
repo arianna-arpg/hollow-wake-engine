@@ -11,6 +11,20 @@ export class StatSheet {
         integer(maxCacheEntries, 0, 'stat cache bound');
         integer(maxContextCacheEntries, 0, 'stat context cache bound');
     }
+    /** Independent mutable state with shared immutable rules and modifier rows.
+     * Caches start empty. The copied revision is a local counter, not a global
+     * identity or authority to publish this candidate into a live actor. */
+    fork(): StatSheet {
+        const fork = new StatSheet(this.rules, this.maxCacheEntries, this.maxContextCacheEntries);
+        fork.sources = new Map(this.sources);
+        fork.baseOverrides = new Map(this.baseOverrides);
+        fork.conditions = new Set(this.conditions);
+        fork.conditionKey = this.conditionKey;
+        fork.gauges = new Map(this.gauges);
+        fork.gaugeKey = this.gaugeKey;
+        fork.generation = this.generation;
+        return fork;
+    }
     private generation = 0;
     get revision(): number { return this.generation; }
     get cacheEntries(): number { return this.cache.size; }

@@ -148,6 +148,10 @@ its behavior with the preserved original. This is an alpha extraction: the broad
 runtime still needs a JavaScript host. Unity, Godot and Unreal drop-in packages
 and Steam Deck/older-mobile measurements remain incomplete.
 
+The [private stat context](docs/build-context.md) can fork a complete sheet for
+build preparation while retaining base overrides, conditions and gauges. Frozen
+modifier rows are shared; mutable state and caches remain independent.
+
 The [bounded stat context cache](docs/stat-context-cache.md) avoids repeated tag
 sorting for common combat queries while checking live set membership. Its game
 adapter preserves original stat behavior and its SDK API keeps collision-free keys.

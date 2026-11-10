@@ -1,0 +1,83 @@
+{
+  "passed": true,
+  "scope": "ordinary-private-build-context/v1",
+  "sources": {
+    "src/stats.ts": "3cb59ef5d58d9f1944e4215734f335e28d826af645d5feaf93e9d3d7e1b698e1",
+    "src/passive-grants.ts": "036641e676ceefacd08bd7a0161063462ea334a90064dcbd7601ed74811bbb89",
+    "src/build-contributions.ts": "d7b75a9603324062ccaa1260ced913f2b749f64031f66948f98838fe61cf13a0",
+    "src/equipment-skills.ts": "d904771a26d05c8cad34434ebb5ffdcd36e3fd84177815fdf86355b9b744ae63",
+    "src/companion-grants.ts": "83abfdec818cd71bee90e1d89aa6c36016b3f4de1b53b8b9ab8872e1e9c38ed7",
+    "adapters/hollow-wake/integrate-companion-grants.mjs": "b798f10c04280c52e2467d01b756c17d052e1f1ce446c6bd29366d929be945fb",
+    "adapters/hollow-wake/integrate-passive-grants.mjs": "bf147fb066fe9e2aaf9b9dea6e6fdc528a008d7bbeb899e39ec1e4ad1e9f9189",
+    "adapters/hollow-wake/passiveGrantAdapter.ts": "c82172a70301298781f1f537ae11a2e48ec2fcb18c81aed2ff73d6af322cd571",
+    "adapters/hollow-wake/integrate-equipment-skills.mjs": "d185eb1513f8c9a098f37d7f10d8a16643bbc5368934c4b2dfaba94c4da6229e",
+    "adapters/hollow-wake/integrate-build-contributions.mjs": "df98614fcd88335fd933dea32fdb1d5c3efe3d4547bc4ecf571b22aab586f491",
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "package.json": "7a21a4c2cdeeeadf3d2cbed7b44f4d9ad82e08e780750d17393c828f08f3a9ba",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    "test/build-context-game.ts": "f0562efccf55d6d0559129ac7faa99719087ce5957d879388fe3f09e580d3352",
+    "scripts/test-build-context-game.mjs": "30ec0bf7a6463b33a7c6e80fd58abffd3ce34a061d5769d5ba9c6924229cf2b7",
+    "reference/export-build-context.ts": "69b9a374053b66cffc38381b461c162751a62bdfb056e80395a828e6a8bf49ae",
+    "baseline/build-context/acceptance.json": "52df0df6cd4475baef7e31903e15a9fa1a790b5c754f5a85af0b263dcb13da3f",
+    "baseline/build-context/observations.json.gz": "474213c38ed4a083cbd2172a7da57f2ac8bcba60da9ace96e44a69c8782d198a"
+  },
+  "replays": [
+    {
+      "label": "original-control",
+      "sha256": "e918f3dca788a3eff9bb58b66f264e0f1cfe928e2db070cdcffd0c6355a65818"
+    },
+    {
+      "label": "installed-composed",
+      "sha256": "e918f3dca788a3eff9bb58b66f264e0f1cfe928e2db070cdcffd0c6355a65818",
+      "privateChecks": {
+        "prepared": 11,
+        "unchanged": 11,
+        "equipmentMatched": 11,
+        "completed": 11
+      }
+    },
+    {
+      "label": "restored-composed",
+      "sha256": "e918f3dca788a3eff9bb58b66f264e0f1cfe928e2db070cdcffd0c6355a65818",
+      "privateChecks": {
+        "prepared": 11,
+        "unchanged": 11,
+        "equipmentMatched": 11,
+        "completed": 11
+      }
+    }
+  ],
+  "faults": [
+    {
+      "name": "cold-restore-warm-grant",
+      "detected": true,
+      "logSha256": "d551d0b24081e5c39adb70a65afdaaea41957efb9ef872c854ef22d465908d5e"
+    },
+    {
+      "name": "refill-current-resources",
+      "detected": true,
+      "logSha256": "283e21635accfd41775f000c494bec633d5f4a0f1b4e97e48e740c13ce0e95e2"
+    },
+    {
+      "name": "stat-fork-bases",
+      "detected": true,
+      "logSha256": "1aeb5f0bedc26971ff8936475a172f101a7b9bf57a41f230db9faf1b455e2a58"
+    },
+    {
+      "name": "stat-fork-conditions",
+      "detected": true,
+      "logSha256": "c0e02c83798650666344ca14b4ae681eb7979b531a752684b1735b2b679f142b"
+    },
+    {
+      "name": "stat-fork-gauges",
+      "detected": true,
+      "logSha256": "9405609632fe95c2cdedc4f6dd1b4e8319603c6d6ecc54604c4a9d31bca7cf7c"
+    }
+  ],
+  "archiveSha256": "47e98d5eed1f846e7666efaf63ba5fb4ac1d4210974d66c24687ae606f8f6706",
+  "types": true,
+  "restored": true,
+  "inputsUnchanged": true,
+  "logsSha256": "8301f1dd3aaca8945f698eab661f677b4cb6335da69f28ae9d64593f6f5d0406",
+  "cleaned": true
+}

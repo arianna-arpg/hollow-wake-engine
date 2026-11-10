@@ -1,5 +1,10 @@
 # Boundary contract
 
+The [private stat context](build-context.md) preserves complete stat inputs when
+forking a build, with independent mutable state and cold bounded caches. Full
+character derivation and acknowledgement-time live publication remain separate
+work; a stat fork is not an actor snapshot or publication authority.
+
 The optional [active-character binding](account-character-binding.md) selects
 one canonical relic investment writer per account. Strict address admission,
 detached projection and active-first build preparation commit with all affected
