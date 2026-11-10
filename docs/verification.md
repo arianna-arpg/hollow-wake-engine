@@ -1226,3 +1226,20 @@ The [inventory workshop checks](inventory-workshop.md) exercise that archive
 through rendered controls and process restarts, comparing the database and
 restored game view to the original checkpoint. The runtime-only Linux replay
 also checks the extension paths loaded by the shipped game.
+
+## Bonded companions and attribute inheritance
+
+`reference:companion-mechanics` replays the accepted 170 original assertions in
+two fresh processes, checking exact logs and source hashes. `adapter:companion-bonds`
+compares an installed SDK with the original across those assertions and 40
+existing rebuild observations, then checks effect ownership and deliberate
+runtime/binding faults. All four replacement modules are checked before any
+installation writes, preserving reviewed inputs, newlines and appended host code.
+
+`test:companion-bonds-package` runs 44 independent contracts through the installed
+exports and a browser bundle with forbidden ambient services, checks public
+types, and requires 23 selected runtime faults to fail before restoring a clean
+control. The three optional exports have their own package bounds. These are
+behavior, packaging and ownership checks; target-device performance and full
+native engine exposure are separate acceptance work. See
+[the contract](companion-bonds.md).

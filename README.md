@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The optional [bonded-companion runtime](docs/companion-bonds.md) manages growth,
+inherited stats, shared attributes, granted skills, recovery, mimic copies and
+timed bond effects through explicit host services. The game adapter preserves
+the original behavior; broader engine bindings and device measurements remain open.
+
 The optional [guard disciplines](docs/guard-arts.md) provide plates, voluntary ram
 contacts, cast shields, bash waves, delayed bursts, outcome satellites and lethal
 intervention through explicit host services. Installed-package and original-game

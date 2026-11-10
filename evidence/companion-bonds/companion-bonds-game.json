@@ -1,0 +1,134 @@
+{
+  "passed": true,
+  "sources": {
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "src/companion-bonds.ts": "4bc4386c247ad743e354a1912912166ce161c7718dfd6b4297c3b112ad73b4d8",
+    "src/companion-bond-rules.ts": "e216be21647e96dffae83e914162d4987407f8710d8e5411af604dedddf24490",
+    "src/minion-inheritance.ts": "4130d9beedc6867c1ce12fb0c6f09c732775a1a449a0dd2d57d4dd12d19d9b58",
+    "src/attribute-bequests.ts": "e5a5b8e912fb237eb25884ca8313f4ac7351f827d974627cd80d291cce913452",
+    "adapters/hollow-wake/companionBonds.ts": "6d60d902c749eff8593837da809855289a32fc7ff6e1a13122db4d3d943220c6",
+    "adapters/hollow-wake/companionSpec.ts": "8bf250afef8094454010713756036e41f126b49210d5c0adc5eb55bc0d12036a",
+    "adapters/hollow-wake/minionInheritance.ts": "ebef4c79a8c636a4dbbeae60ff5e38788b8136545a98bafabcfd44c896682e99",
+    "adapters/hollow-wake/bequests.ts": "cc34cb76000d061f1e9ba3a710c6193251c6f8eab9d05a6fbc5452fe7f229966",
+    "adapters/hollow-wake/integrate-companion-bonds.mjs": "7bba00008486acf29a6694bc9a98594d43766257f74953f8e4fc463597a08da2",
+    "adapters/hollow-wake/install-character-sources.mjs": "d786bd93d1efb9dac3ff44fcef2e62acbf7867dae4c6fd4e4ebca318afe83a95",
+    "scripts/prepare-game-adapter.mjs": "8382837516443f877279db2cd19d35832774482d4f98e8afeeb220c5677c2598",
+    "scripts/test-game-companion-bonds.mjs": "0b1e0032a199d995cc4d3f50e3813f8627daa330b20e6c0db7c28d7ebf1a2a53",
+    "package.json": "c2182c1fa9e2800382da85a9318ce44315aedf6a75d99a6fcd11e4f8f202ce1f",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    "baseline/guard-build/acceptance.json": "7fa6044d97e34de2e85d128d4efeca6aaf52acf2aff6087ebcda767666f48c74",
+    "reference/export-guard-build.ts": "0fcf51c951d8db8c93c68197668cebec1c1d10f374e52a2360adca350c5694db",
+    "baseline/guard-build/observations.json.gz": "c035638d56fd84133d1d69caecf99d4967d0a8c04d5dbf9846b0f9d630624cb8",
+    "baseline/bond-build/acceptance.json": "03cb5ae488ce75154177f82f900ff18140e7328995f98fa44c1a8f6569a1c8f9",
+    "reference/export-bond-build.ts": "37ccc1e17cc169e3c3da2faacaa5381a1a180c50c8aabe20dd73153ab9096bbf",
+    "baseline/bond-build/observations.json.gz": "5fcc17037c3c9568be1e16df24be6f27d957956e9ff4ee2828af58b33daa5c53",
+    "baseline/companion-world-build/acceptance.json": "ddc06d9b19998d79c61c413541589017d91ae7b951b9879086399d7d557884f1",
+    "reference/export-companion-world-build.ts": "4f6618b14d9997e275ce6c5313f4348c48a7f104a20a696cabb042debb3b3f10",
+    "baseline/companion-world-build/observations.json.gz": "be865cc482a619455ca028cc96d641128d3e0f7886d8f586054c58b820c24635",
+    "baseline/bond-mechanics/acceptance.json": "00b617aeb1fcd77c482b90d6649d10aba4c9cdb3b61c58ff2766d6afda18702f",
+    "baseline/bond-mechanics/original.logs.json.gz": "3628e7d497731e16d15a2208c14d7aeda63fc7d49a1cb4b0c2a7a551f2fe071c",
+    "test/companion-bonds-binding-game.ts": "31489ee623ca73e51abc09e2ed7c655fdaa772ead9e6384a264a7a21c38f77b8"
+  },
+  "courses": [
+    {
+      "name": "guard-build",
+      "observations": 17,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "bond-build",
+      "observations": 14,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "companion-world-build",
+      "observations": 9,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "probe_companioninheritance",
+      "assertions": 46,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "probe_companionstance",
+      "assertions": 85,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "probe_companionrecovery",
+      "assertions": 39,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    },
+    {
+      "name": "ownership",
+      "assertions": 9,
+      "modes": [
+        "original",
+        "installed"
+      ]
+    }
+  ],
+  "faults": [
+    {
+      "name": "fault-unretired-payloads",
+      "detected": true,
+      "logSha256": "146a5fceb509279abb0577613ad91530f50ca27c527317b4c342cf960e9d6bfb"
+    },
+    {
+      "name": "fault-missing-caster-scope",
+      "detected": true,
+      "logSha256": "36b8f2f305ce7c83dfd6490c0d687950ba737e947cf1ddb9faf200230e22662a"
+    },
+    {
+      "name": "fault-missing-skill-scope",
+      "detected": true,
+      "logSha256": "3075a25b7a0bfffc42c240c64a2112ebf04434fa9c98ac623be28b0de77ef780"
+    },
+    {
+      "name": "fault-stale-body-level",
+      "detected": true,
+      "logSha256": "e061219dd9303241072da2e3a7e919a3b121740e97e41e30e253c888764bd3d8"
+    },
+    {
+      "name": "fault-refilled-armor",
+      "detected": true,
+      "logSha256": "473f5fd03a05743330f8ba5a057e57620dd723af769c24077c93035f56bda904"
+    },
+    {
+      "name": "fault-lost-scoped-bequest",
+      "detected": true,
+      "logSha256": "72a8ab330def290b9b7e64c207cd9d2dd8a9d959f5e57e264bbc6554a187fd62"
+    },
+    {
+      "name": "fault-multiplied-recovery-budget",
+      "detected": true,
+      "logSha256": "a537c24d8f0ba912b78bef07c1403b206d3a5efda5c84a1742c2750a6790cb50"
+    }
+  ],
+  "adapterGuards": 27,
+  "archiveSha256": "cafbb18ab2b159a0868382f0f695de809cc97ba071595c0c4ff5c17e4928da9a",
+  "types": true,
+  "restored": true,
+  "inputsUnchanged": true,
+  "logsSha256": "797e2582a3476f176875b2e1eae201b8f7cc363ac82fcb0e9fc3001b881afc7d",
+  "cleaned": true
+}
