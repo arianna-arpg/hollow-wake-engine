@@ -9,6 +9,7 @@ import {root, sha256, verifyReference} from './reference-utils.mjs';
 import {challengeReference} from './challenge-reference.mjs';
 
 assert.equal(process.argv.length, 2, 'Normal verification cannot regenerate accepted observations');
+fs.mkdirSync(path.join(root, '.artifacts'), {recursive: true});
 const owned = fs.realpathSync(path.join(root, '.artifacts')), ref = path.join(root, '.reference');
 const sources = {}, read = f => fs.readFileSync(path.join(root, f));
 const tracked = f => {const bytes = read(f); sources[f] = sha256(bytes); return bytes;};

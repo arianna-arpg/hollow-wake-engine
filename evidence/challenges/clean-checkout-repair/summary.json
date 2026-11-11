@@ -1,0 +1,74 @@
+{
+  "passed": true,
+  "baseCommit": "be8e9bd22d0c43b5b36caf3b66a595885c6074c6",
+  "runtimeChanged": false,
+  "goalComplete": false,
+  "failure": {
+    "run": 43078934227,
+    "job": 130726063897,
+    "platform": "ubuntu-24.04",
+    "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/43078934227/job/130726063897",
+    "cause": "The runners resolved .artifacts before creating it on a clean checkout."
+  },
+  "repair": "Create the output directory before resolving its path in each of the four challenge runners.",
+  "verification": {
+    "coldFixtureOriginalFailure": true,
+    "coldFixtureRepairedPass": true,
+    "contracts": 20,
+    "packageFaults": 16,
+    "negativeTypes": 8,
+    "originalObservations": 61,
+    "installedFaults": 6,
+    "adapterGuards": 6,
+    "composedEpisodes": 25,
+    "exactEpisodes": true,
+    "archiveSha256": "7274e9131aa61641ea1d42ed49a81e750d41c09c6cc6c5f1455a03e2338f6eec",
+    "unchangedRuntimeModules": {
+      "challenges": {
+        "bytes": 18031,
+        "sha256": "d0ad676cbef9b568dbc9852a687d72a4c5f3128f8d532367fa345148c589746a",
+        "typesSha256": "094d9cb0939b070120cc206f44c366d495b855d1e57d75e03eab0b4d9f4397f6"
+      },
+      "challenge-content": {
+        "bytes": 1085,
+        "sha256": "6f03df5cd020da96bc408c92f3e9a524c7c1d480308f8e222822e89baaa064f6",
+        "typesSha256": "bb60db9e8082993059ca4282d445286d08dacc07ea8cd86a81fe8a03ae74be4d"
+      },
+      "challenge-types": {
+        "bytes": 54,
+        "sha256": "a2348dca405941ccc6ddf207a2aa780eff141078078957107f01736260766b35",
+        "typesSha256": "d0604ef98aae6105146fe9ddc13384a1f1f342cc13d7158ac7ebc38740f1d9f7"
+      }
+    },
+    "fullVerifyRepeated": false,
+    "fullReferenceRepeated": false,
+    "previousGameplayEvidence": "../summary.json",
+    "hostedAcceptance": "Pending a fresh run at the repair commit"
+  },
+  "documentation": "Clarifies authored call identity, investment replacement, automatic output setup and the isolated Node VM browser-bundle check.",
+  "cleanup": {
+    "newWorktrees": 0,
+    "retainedNewFixtureDirectories": []
+  },
+  "sources": {
+    "docs/challenges.md": "73bf458de0dd06e4fe3dd4a8dec4edee2d9381ccf2eb2fb7e23e80340ed330c2",
+    "scripts/reference-challenges.mjs": "368d3f83923b74d6d1e7f261484b0241e90d6d0090965a83c81192919e31a642",
+    "scripts/test-challenge-package.mjs": "ddcabc2e8eb9e3ff4f35fcb5045309bd81fbe7ab72495cf357c895988e9247d0",
+    "scripts/test-challenges-composed.mjs": "7e5e133e5e7835a3ca884b02e30246cf832a16c876c7ef4c84f4c0a6562225cc",
+    "scripts/test-game-challenges.mjs": "9ead726b1f55f1c6acb398d2d0e4b176e4fe93ed552da8e06b5186de17f48178"
+  },
+  "files": {
+    "challenges-clean-start.json": "525d3e976b2604d2417c1ee62236a79a9cd11864bd9d219a76c02d9b4e656e3c",
+    "challenges-clean-start.logs.json.gz": "db4a128ec2d0a86fa041692a82572f6c1587a29e907813dc81e665d86677fdd1",
+    "challenges-repair-checks.json": "ca256550ed760fe0dbc581d774faaac2be6cf7aa8df83c36012a3ef1f57287f2",
+    "challenges-repair-checks.logs.json.gz": "a0d81352bc9227440d261811dc8902628b553867c3cb2769562cca26a75c3a32",
+    "challenges-reference.json": "84f2c7327652c5732cc4fdaf3694cefd60e81c4a6e6436f932191b6e603053a6",
+    "challenges-reference.logs.json.gz": "08d05cb78ae9c4bcb66b0449af75058b77fee3eb44c303b42e2fc3c63caee533",
+    "challenges-game.json": "01e8f3e4bef31d7def57fa6f9fd97d2e16b17f62e883275ea51a01e062ad0f99",
+    "challenges-game.logs.json.gz": "ad86c18c7fa7455bb813091d5f12fa1ff60240fb2dcef1b087024c8e5f05761d",
+    "challenges-composed.json": "617deb3984ae39737609c417393d8b74ac1ec9139dd46af8d8c90288418c81ec",
+    "challenges-composed.logs.json.gz": "6349dd7834840b758dc881559d90ea9ef01022584163e321e2d3ddd81a7e1e72",
+    "published-linux-failure.log.gz": "fb2d2805cc508c02219760df05c58514582858220905c1c2db95af35aba816d8",
+    "reproduction-scripts.json.gz": "dd2738cd01cba8befa555bab4f4e2b78a7b6b03cd2afdc9ce85880033aec51bf"
+  }
+}

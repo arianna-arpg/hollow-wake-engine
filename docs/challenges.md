@@ -24,6 +24,10 @@ authored rows remain borrowed. `delivery` produces the pylon placement definitio
 including an explicitly authored zero capacity. Content admission belongs to the
 loading layer; this low-level assembly service is not a parser for untrusted data.
 
+Authored Goad identifiers are preserved: the host-supplied `deviceCall` definition
+must use `goad_device_call`. State is keyed by owner ID and skill-definition ID.
+Preparing a replacement host for that key retires the former investment.
+
 Captured casts own their socket, graft and investment arrays while retaining
 support entries, definition, extra modifiers and runtime-state aliases. Their
 exact identities remain recognized even after retirement. A shallow copy of a
@@ -59,9 +63,11 @@ npm run adapter:challenges
 npm run adapter:challenges-composed
 ```
 
+Each command creates its output directory, including on a fresh checkout.
 The package course exercises twenty independent contracts in installed Node and
-a browser with forbidden host globals, eight negative type cases and sixteen
-deliberate faults. Original observations contain the pinned Goad probe's 56
+a browser-target bundle executed in an isolated Node VM with forbidden host
+globals, eight negative type cases and sixteen deliberate faults. It does not
+launch a rendered browser. Original observations contain the pinned Goad probe's 56
 checkpoints plus five seeded identity/retirement checkpoints. Normal reference
 checks compare all 61 accepted observations without regenerating them. Installed
 game checks use both package entries, six source-admission guards, six deliberate

@@ -12,6 +12,7 @@ import {challengeContracts} from '../test/challenge-contracts.mjs';
 import {challengePackageFaults} from '../test/challenge-faults.mjs';
 
 assert.equal(process.argv.length, 2);
+fs.mkdirSync(path.join(root, '.artifacts'), {recursive: true});
 const owned = fs.realpathSync(path.join(root, '.artifacts'));
 const read = f => fs.readFileSync(path.join(root, f));
 const sources = {}, tracked = f => {const bytes = read(f); sources[f] = sha256(bytes); return bytes;};

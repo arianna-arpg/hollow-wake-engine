@@ -11,6 +11,7 @@ import {challengeReference} from './challenge-reference.mjs';
 import {challengeFiles, renderChallengeFile, integrateChallenges} from '../adapters/hollow-wake/integrate-challenges.mjs';
 
 assert.equal(process.argv.length, 2);
+fs.mkdirSync(path.join(root, '.artifacts'), {recursive: true});
 const owned = fs.realpathSync(path.join(root, '.artifacts')), ref = path.join(root, '.reference');
 const sources = {}, read = f => fs.readFileSync(path.join(root, f));
 const tracked = f => {const bytes = read(f); sources[f] = sha256(bytes); return bytes;};
