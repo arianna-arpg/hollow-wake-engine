@@ -1340,3 +1340,14 @@ contexts with fifteen stages and ten integration faults. `adapter:summons-compos
 qualifies the complete adapter assembly and paired combat. These courses do not
 prove a complete body factory, private build graph, native API or target-device
 performance. See [summon services](summon-birth.md).
+
+## Body factory
+
+`test:body-factory-package` checks 27 installed/browser contracts, 27 deliberate
+faults and eleven negative type examples. `reference:body-factory` reproduces
+4,834 accepted original observations across 1,184 loaded definitions and focused
+ordering cases. `adapter:body-factory` checks 5,179 observations, thirteen installed
+modules, eighteen integration faults and nineteen factory installation guards.
+`adapter:body-factory-composed` compares the normal adapter assembly with the same
+assembly retaining only original body construction, including 25 paired combat
+episodes. Private graph, native-engine and device acceptance remain separate.

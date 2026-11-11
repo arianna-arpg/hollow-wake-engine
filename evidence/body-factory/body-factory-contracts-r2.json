@@ -1,0 +1,60 @@
+{
+  "passed": false,
+  "candidateOnly": true,
+  "sources": {
+    ".artifacts/body-factory.ts": "2de135be02ecb28857e57e9ddfccec809669dba7afcdb1deca94000e5f40a743",
+    ".artifacts/body-factory-contracts.mjs": "cc44e6fd3ffd802489964be10e71986581330e6d23b0ee211eb464bbbf2a7ffa",
+    ".artifacts/qualify-body-factory-contracts.mjs": "e0b661d23e2571d59639c154f12edaf585e1755ab43ab760c0076752aaf00912"
+  },
+  "faults": [
+    {
+      "name": "relay-lost",
+      "detected": true
+    },
+    {
+      "name": "mint-not-signalled",
+      "detected": true
+    },
+    {
+      "name": "innate-array-borrowed",
+      "detected": true
+    },
+    {
+      "name": "innate-modifier-identity-lost",
+      "detected": true
+    },
+    {
+      "name": "zero-detection-lost",
+      "detected": true
+    },
+    {
+      "name": "empty-innate-source-created",
+      "detected": true
+    },
+    {
+      "name": "owner-identity-lost",
+      "detected": true
+    },
+    {
+      "name": "owner-life-scaling-lost",
+      "detected": true
+    },
+    {
+      "name": "owned-body-party-scaled",
+      "detected": true
+    },
+    {
+      "name": "zero-heft-lost",
+      "detected": true
+    }
+  ],
+  "moduleBytes": 8351,
+  "moduleSha256": "8383e61bd74b06ed0f2ce047cda1c571df17e039bea657941e12e8434a48285c",
+  "contracts": 27,
+  "browserBytes": 5784,
+  "hostileBrowser": true,
+  "failure": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /ERR_ASSERTION/. Input:\n\n'file:///D:/Games/Claude/ARPG%20Game%20-%20World/.claude/ownership.engine-m2/.artifacts/body-factory-contracts.mjs:35\\r\\n' +\n  \" run('explicit-zero-weight-skips-derived-weight',()=>{const c=fixture();c.def.base.weight=0;c.p.density=()=>{throw Error('density should not run');};assert.equal(c.factory.create('body',1,'neutral').bases.get('weight'),0);});\\r\\n\" +\n  '                                                                                                                   ^\\r\\n' +\n  '\\r\\n' +\n  'Error: density should not run\\r\\n' +\n  '    at c.p.density (file:///D:/Games/Claude/ARPG%20Game%20-%20World/.claude/ownership.engine-m2/.artifacts/body-factory-contracts.mjs:35:116)\\r\\n' +\n  '    at BodyFactory.create (file:///D:/Games/Claude/ARPG%20Game%20-%20World/.claude/ownership.engine-m2/.artifacts/body-factory-contracts-owned-pPYmP4/factory.mjs:92:116)\\r\\n' +\n  '    at file:///D:/Games/Claude/ARPG%20Game%20-%20World/.claude/ownership.engine-m2/.artifacts/body-factory-contracts.mjs:35:173\\r\\n' +\n  '    at run (file:///D:/Games/Claude/ARPG%20Game%20-%20World/.claude/ownership.engine-m2/.artifacts/body-factory-contracts.mjs:27:24)\\r\\n' +\n  '    at bodyFactoryContracts (file:///D:/Games/Claude/ARPG%20Game%20-%20World/.claude/ownership.engine-m2/.artifacts/body-factory-contracts.mjs:35:2)\\r\\n' +\n  '    at file:///D:/Games/Claude/ARPG%20Game%20-%20World/.claude/ownership.engine-m2/.artifacts/body-factory-contracts-owned-pPYmP4/consumer.mjs:3:28\\r\\n' +\n  '    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\\r\\n' +\n  '    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:689:26)\\r\\n' +\n  '    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\\r\\n' +\n  '\\r\\n' +\n  'Node.js v24.9.0\\r\\n'\n",
+  "inputsUnchanged": true,
+  "cleaned": true,
+  "logsSha256": "5a53388b3d87eff137a271bb6c9be0923aeac4c4eda0893ed728a33add2bff14"
+}

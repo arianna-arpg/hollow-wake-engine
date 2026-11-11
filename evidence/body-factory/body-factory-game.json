@@ -1,0 +1,352 @@
+{
+  "passed": true,
+  "sources": {
+    "scripts/test-game-body-factory.mjs": "dfdba76b121d56abda74e0aa5aa395a2fc76c1d4309584907a684e2fd2127f56",
+    "scripts/test-body-factory-adapter.mjs": "a10c50a76274905beabfe1bbe4847848d446dc720957e2150a62b0728f2b60be",
+    "adapters/hollow-wake/integrate-body-factory.mjs": "4d75d3146b121981cf223eff9205d2b83e351abef8420d01e8aeaef307303bf1",
+    "scripts/test-summon-adapter.mjs": "b18361716ba72a465f92e533d65259953528c96775ac5a2b21da25121791c9df",
+    "scripts/prepare-game-adapter.mjs": "4258353a971aa95fc48f0997032bc45d40416ce3e40c6ab3ab26fd5fb327e8ee",
+    "package.json": "d7b5fe960aa68f1934c1847cd96f2ea1cc6bed9cdbe9d3d6e22f0b742e819253",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    "src/body-factory.ts": "2de135be02ecb28857e57e9ddfccec809669dba7afcdb1deca94000e5f40a743",
+    "src/summon-birth.ts": "9f29f338010faa1e005f170e1deb3005a1a965ee7c1115b05285800d81cd9b4d",
+    "src/summon-offspring.ts": "1ca2c53819cdc3a9e177c5d9cfdf1f5c48cd208b7b3f00e9ca4b8e31185cf4aa",
+    "src/aura-ticking.ts": "6ea54f1086153136ed39e4b86c3da593a1b700a7e0d50ec89eb84e0510369168",
+    "src/aura-activation.ts": "46d66563418e7e2224a28c71eb5a6209d8f6f1ce17cd68340c3f04ae322fbb43",
+    "src/aura-ledgers.ts": "154276444e0a4aa5248168c69008ef5862572e7bc86fb7d23195dc4798162e6e",
+    "src/aura-retirement.ts": "6375948d56641c515c2e86fa4beb69652c7f798c36a6280be9f2524031557def",
+    "src/companion-recovery.ts": "d758cc3fa64bbbce53ecb4ea750bdb6dafe36d766ae0e40b40ea09e7117f178b",
+    "src/body-levels.ts": "baaae6adb36f836327ffe581cbf9a5ba2df1516d492ab7e02fc8004a7ded1a30",
+    "src/companion-bonds.ts": "6682290558f80ace95017a18a1034b5e2a7967386a98ee1e992b51b222c83872",
+    "src/companion-bond-rules.ts": "e216be21647e96dffae83e914162d4987407f8710d8e5411af604dedddf24490",
+    "src/minion-inheritance.ts": "e852b2fa60498eebc58d07a01533549e5d8f00a8552e9cc988934c7b9003ee96",
+    "src/attribute-bequests.ts": "e5a5b8e912fb237eb25884ca8313f4ac7351f827d974627cd80d291cce913452",
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "adapters/hollow-wake/integrate-summon-birth.mjs": "6f339cf63e9ae3808125aebd241453bb0bdf4a5fbdf24b72581470802d27dc0f",
+    "adapters/hollow-wake/install-character-sources.mjs": "d786bd93d1efb9dac3ff44fcef2e62acbf7867dae4c6fd4e4ebca318afe83a95",
+    "adapters/hollow-wake/integrate-aura-ticking.mjs": "162c7e0b1a1b0121ae4449980fee0f9927009b8ba4d669fecc1308da211b1be0",
+    "adapters/hollow-wake/integrate-aura-activation.mjs": "a102607fe902a15e5fcbd7ecf934f5aa28ba2a40ad1b686238c68f07238d47c6",
+    "adapters/hollow-wake/integrate-aura-ledgers.mjs": "f75e70524084a79f3987a778277fc8f25f4eada20fef2682382cdc5483d069f3",
+    "adapters/hollow-wake/integrate-aura-retirement.mjs": "91ce2bf3a1e081f2c9ff98f8ffe963a658cb2de105ab2ca7bc8a6643458d4848",
+    "adapters/hollow-wake/integrate-companion-recovery.mjs": "696cf205baf61623584fc0ebc518f87c688c2c5105b4d9827d8c28b2fff571cd",
+    "adapters/hollow-wake/integrate-body-levels.mjs": "8a345b2946e373e1b9183defe9b2547bb3e9c1fe8774bcdf8f41d29bb581a8bf",
+    "adapters/hollow-wake/integrate-companion-bonds.mjs": "7bba00008486acf29a6694bc9a98594d43766257f74953f8e4fc463597a08da2",
+    "adapters/hollow-wake/companionBonds.ts": "6d60d902c749eff8593837da809855289a32fc7ff6e1a13122db4d3d943220c6",
+    "adapters/hollow-wake/companionSpec.ts": "8bf250afef8094454010713756036e41f126b49210d5c0adc5eb55bc0d12036a",
+    "adapters/hollow-wake/minionInheritance.ts": "ebef4c79a8c636a4dbbeae60ff5e38788b8136545a98bafabcfd44c896682e99",
+    "adapters/hollow-wake/bequests.ts": "cc34cb76000d061f1e9ba3a710c6193251c6f8eab9d05a6fbc5452fe7f229966",
+    "baseline/aura-ticking/acceptance.json": "dba9ecb82b3d2c8ec68488753f64c542c693216f38d54f011a9cd19d401ee793",
+    "reference/export-aura-ticking.ts": "c1f6919de4b3ca7d9f213aaadd911a8cec92d1da55ad980e2dcc8605eec23e95",
+    "baseline/aura-ticking/observations.json.gz": "5676765fef429d40623c7c83e87793801851db22269b6a02815021e268e02946",
+    "baseline/aura-ticking-contact/acceptance.json": "5e3337b6f66ea6897f45245af5f8a8db4b181772800a8ff6a2b85010cade2b3b",
+    "reference/export-aura-ticking-contact.ts": "b4aa446d72100aeaba5b1ef1dc29fbfead1f8fa405abe1e82da932c736697ea0",
+    "baseline/aura-ticking-contact/observations.json.gz": "8d179a8a9dfe219d81ef1a93531ebc0080b100f825d75fe6e0b3561c930297d7",
+    "baseline/aura-ticking-order/acceptance.json": "413f3035a5b7897137b696ebb42463a3f8476163b2909aa407ea219322635009",
+    "reference/export-aura-ticking-order.ts": "ac1483fb45a9ff21c52434feafb99ddc28651fe9f1801fbc5a4cd974346bc07d",
+    "baseline/aura-ticking-order/observations.json.gz": "449c7a2434dd006abbd9c8500097b4682a3577194a2d575c378c722114f30a89",
+    "baseline/aura-activation/acceptance.json": "0e631dcb91e630d2c70fee848c80043fa97559370f6454caa00f22b6efecb110",
+    "reference/export-aura-activation.ts": "f7854f5f59a548f380ee72d65082541c1f51d1e8cc08285b7460fe9c829f4d75",
+    "baseline/aura-activation/observations.json.gz": "c4efc84dc3c152a6c1871c4fa3f2089ec013c0970539cd344a6031e5c07bbe97",
+    "baseline/body-levels/acceptance.json": "073b8e6e708e2a5d23f74ca90404e1c50722a77266d9a68bf73484152dbda55b",
+    "reference/export-body-levels.ts": "c06dccf595de9f76b9f8be986b840452692e553e2c9bc270d91a2163df346dc3",
+    "baseline/body-levels/observations.json.gz": "dc84c510bacbb02a337fdda1ecfa2ef4cdef42e0651f34e7e5c080e657d9c753",
+    "baseline/companion-recovery/acceptance.json": "b54cd52f53118972eade3ed64c970e804d3ddf3d124975ffe6f8271205c929a9",
+    "reference/export-companion-recovery.ts": "5b89bac9bdd6f68b6b92f952d68c086f9db1c7a4ec8dc8f7a6fdeb15ebeeebb6",
+    "baseline/companion-recovery/observations.json.gz": "978cb8caef43d737ee95c492433042f3f63715c03854331dc14bae78d1306cdc",
+    "baseline/companion-continuation/acceptance.json": "c6d5906d43418f419f798ccad4fd8c4a68ffcc0871ae5ad5035de05a1033fc39",
+    "reference/export-companion-continuation.ts": "c6164d9b85108034fb6514bbefea58658028e906b23f6305bcbbbb162a090fb6",
+    "baseline/companion-continuation/observations.json.gz": "a0e6edceb52d0ca519d77f21099ca5474ce9809a7f2fe02cd77b977f4068a229",
+    "baseline/aura-retirement/acceptance.json": "11e4a5fe00acd0d5debd6544f14f75cbf1c993aaa4534b40435828df7f09e34e",
+    "reference/export-aura-retirement.ts": "5d020676d4bf27800b04db7aab1f980660063a35b172e3552849030eddb4668d",
+    "baseline/aura-retirement/observations.json.gz": "ce8d44a80be7468389df721789c4c8677f4e4900b613edcc4055e093b45bab81",
+    "baseline/aura-ledgers/acceptance.json": "49c47488cf44cd8c89f59492c152978dd2fd5be7113e0b38bbf8d8e2526ba141",
+    "reference/export-aura-ledgers.ts": "b21b156d5756c934692c3273a241b04cc0b6c62d45532edcaacb36628a8c20a9",
+    "baseline/aura-ledgers/observations.json.gz": "08d10aaa1fd262c9bb7fd977cddfb47a1d728837343b0860a60b6d68642fab7f",
+    "baseline/retirement-contact/acceptance.json": "c9cdbb9077f91cdf46c8cc034e1369b362bf3e25fabc079b5a7b677d391dbf30",
+    "reference/export-retirement-contact.ts": "7a16b71f485eacec5a2e8ab7d9280843c9168166c0a3116bbd651888c962e444",
+    "baseline/retirement-contact/observations.json.gz": "e1283ae841e8db9987a7f4ef3b46c79e2c72a738cbdad410234e9a8f96f8b67a",
+    "baseline/summon-birth-admission/acceptance.json": "418f1b170d5db6ec1acc09fdf8a9b2e1b4341d154041a1f16039c43f66254f3a",
+    "reference/export-summon-birth-admission.ts": "256c6e46ba0150a2c04fe754e8c8634d1c2d504c97fc4eadd5c58ac4e3387092",
+    "baseline/summon-birth-admission/observations.json.gz": "a751eaf3bc794726a8769b9c621e77134d2a34856cea017b0100f67371aa4874",
+    "baseline/summon-birth-contact/acceptance.json": "4dc8435978c4125ca06a117eb7c411d0731cd880de82afae73b3f8deaa0ff115",
+    "reference/export-summon-birth-contact.ts": "a685eeb18e2430ce0d0ca585430bf8c9135497c65296b5918fb7a127dc1a48a2",
+    "baseline/summon-birth-contact/observations.json.gz": "9e979639e1d3ff2e72cfe439fa8c23f37e21918d9ad27dcdda12b1ab04fbfee6",
+    "baseline/summon-offspring/acceptance.json": "f35bc78d6ba1a5dea52f7ed146dfd1931d6ef54d5a46edf1427f6352eab4db62",
+    "reference/export-summon-offspring.ts": "48f7a39f7affa36ab8f577ed1a3d6f133f97b3f2fa9b211b6be591d4b2622815",
+    "baseline/summon-offspring/observations.json.gz": "8e17e742c943447a7a7006d6e74e9353c4badfa1baaf671d9771c57d34c307d6",
+    "baseline/summon-birth-order/acceptance.json": "878f844ad663e4c849371521b98818677cd6d4bd367633313c088901fb523e4c",
+    "reference/export-summon-birth-order.ts": "50ac8d581ab1fe48c70bf5eb067a26a0a199b7f28990892c37ec9b970bc2052d",
+    "baseline/summon-birth-order/observations.json.gz": "0599d840c58790ebf934a275d33194f837d20231dbfa8a6a0555a9e03dc589cf",
+    "baseline/summon-birth-forms/acceptance.json": "3b74871faec3bda20e937677eaa4452332924ba6090453e4c41c73884780571c",
+    "reference/export-summon-birth-forms.ts": "54e136579c90d7282dd0cfdc17b0e2e892453f15ff1b3b0b89f8549523ebd225",
+    "baseline/summon-birth-forms/observations.json.gz": "026f0880cb996e0ba748ccf0ed55ad7805dd28dc4112a94135736c39edb62196",
+    "baseline/summon-birth-boundary/acceptance.json": "ac8da358777ab8570043db1efc8b657fe69c85919f12007ea58981b688f04271",
+    "reference/export-summon-birth-boundary.ts": "cf7e8f0f515777aca73af5016e4df7be7da0f3de181c503084e8d5e432990442",
+    "baseline/summon-birth-boundary/observations.json.gz": "9b86ee66e9f78493b4eca8f9f78255b786745b1ca390bdf8c8fe91c7953de706",
+    "baseline/summon-nested/acceptance.json": "745a41e52faa1bc588bf909731ad67ed63c3786eb9df62d2ce6e7e8c557fa976",
+    "reference/export-summon-nested.ts": "9a6e868656363a7eb8df78269c86415c54079e5e5248e02bc095065349a25bfe",
+    "baseline/summon-nested/observations.json.gz": "1ab64eda89f9d2ddfc771398a98dfb8274152c7705b055f0f14b9835ff842801",
+    "baseline/body-factory-catalogue/acceptance.json": "f614a03281d7a6d21324e892d33509f04b4e2408f06c98b60eb9c7c56d374417",
+    "reference/export-body-factory-catalogue.ts": "319ae9915d512c1149246e7a1a324f5b1a5b6f64eceb8f0873a2afbb2d1e090d",
+    "baseline/body-factory-catalogue/observations.json.gz": "af1b2c362765d1bb5428928ee5e73d9fac12a02030bd58c80ae0041f47ebd7f8",
+    "baseline/body-factory-catalogue/original.logs.json.gz": "13016934ce7b149244c041b6e99f1797a1894bca04bf81fc19e8fa4c0612295f",
+    "baseline/body-factory-order/acceptance.json": "fa7ce4e1698bc4537fc487e9aa842b83d593909912ae77b8de3d9bff9d02ff60",
+    "reference/export-body-factory-order.ts": "69913662e27a479eeb3b2857c0bbd6788d8a65efd25d1fa8bc3607fad8fb9769",
+    "baseline/body-factory-order/observations.json.gz": "e5f40471455dbba0800a02f427e8338deefe3712bb831108403c9d75a2aa0e71",
+    "baseline/body-factory-order/original.logs.json.gz": "5890fae4b64062dd8818312b2ebc492ab1d0f7896dcc0a59a40b90147b623f4f",
+    "baseline/companion-continuation/original.logs.json.gz": "d4996327a28994a0d7fa6af5f20d781bfdd6bee1b8ec2d3733fa145868b92966",
+    "test/companion-continuation-game.ts": "b75b014c4afb44c87f5bcd8b3324f79acd3c8e36da1745c277db8053b878b13d"
+  },
+  "courses": [
+    {
+      "name": "aura-ticking",
+      "observations": 34,
+      "freshProcesses": 2
+    },
+    {
+      "name": "aura-ticking-contact",
+      "observations": 9,
+      "freshProcesses": 2
+    },
+    {
+      "name": "aura-ticking-order",
+      "observations": 20,
+      "freshProcesses": 2
+    },
+    {
+      "name": "aura-activation",
+      "observations": 38,
+      "freshProcesses": 2
+    },
+    {
+      "name": "body-levels",
+      "observations": 23,
+      "freshProcesses": 2
+    },
+    {
+      "name": "companion-recovery",
+      "observations": 25,
+      "freshProcesses": 2
+    },
+    {
+      "name": "companion-continuation",
+      "observations": 8,
+      "freshProcesses": 2
+    },
+    {
+      "name": "aura-retirement",
+      "observations": 26,
+      "freshProcesses": 2
+    },
+    {
+      "name": "aura-ledgers",
+      "observations": 40,
+      "freshProcesses": 2
+    },
+    {
+      "name": "retirement-contact",
+      "observations": 5,
+      "freshProcesses": 2
+    },
+    {
+      "name": "summon-birth-admission",
+      "observations": 34,
+      "freshProcesses": 2
+    },
+    {
+      "name": "summon-birth-contact",
+      "observations": 27,
+      "freshProcesses": 2
+    },
+    {
+      "name": "summon-offspring",
+      "observations": 19,
+      "freshProcesses": 2
+    },
+    {
+      "name": "summon-birth-order",
+      "observations": 14,
+      "freshProcesses": 2
+    },
+    {
+      "name": "summon-birth-forms",
+      "observations": 9,
+      "freshProcesses": 2
+    },
+    {
+      "name": "summon-birth-boundary",
+      "observations": 4,
+      "freshProcesses": 2
+    },
+    {
+      "name": "summon-nested",
+      "observations": 10,
+      "freshProcesses": 2
+    },
+    {
+      "name": "body-factory-catalogue",
+      "observations": 4822,
+      "freshProcesses": 2
+    },
+    {
+      "name": "body-factory-order",
+      "observations": 12,
+      "freshProcesses": 2
+    },
+    {
+      "name": "private-companion",
+      "privateCourses": 4,
+      "privateStages": 15,
+      "freshProcesses": 2
+    }
+  ],
+  "faults": [
+    {
+      "name": "factory-level-binding",
+      "course": "body-factory-catalogue",
+      "detected": true,
+      "logSha256": "93334fa35f32e21aa010e7862c63d0477189a5e1d85885d3a5372948a602e053"
+    },
+    {
+      "name": "factory-owner-binding",
+      "course": "body-factory-catalogue",
+      "detected": true,
+      "logSha256": "e5d09cdb1b06026412b734930f0498ce9d633e6b725147fab67252279d53398e"
+    },
+    {
+      "name": "factory-level-stamp",
+      "course": "body-factory-catalogue",
+      "detected": true,
+      "logSha256": "c413c20fa201d50fe013e98ca83c5c9f9a9d7e8c01409df7e7964b9a5ab51be9"
+    },
+    {
+      "name": "factory-resource-fill",
+      "course": "body-factory-catalogue",
+      "detected": true,
+      "logSha256": "86a80cf814062bd06c12ea5b8d06e9960788129a91dd1336a0a3ad54a3506231"
+    },
+    {
+      "name": "factory-pins",
+      "course": "body-factory-order",
+      "detected": true,
+      "logSha256": "7fc15e531c139720d43817503b4502cd64e7be6c4be2894686a44c224f997ab8"
+    },
+    {
+      "name": "factory-party-failure-order",
+      "course": "body-factory-order",
+      "detected": true,
+      "logSha256": "315807b95bf175b8719c8775cc48546524ace506173697b92a832642a66020e4"
+    },
+    {
+      "name": "factory-appearance",
+      "course": "body-factory-order",
+      "detected": true,
+      "logSha256": "bfac3f86d20e139532e14f48a48311e02031b953272f7661d8dc78318d63b8fc"
+    },
+    {
+      "name": "factory-unconditional-variance",
+      "course": "body-factory-order",
+      "detected": true,
+      "logSha256": "4939073a0b08a116173e4ac880ff3c9cd3d1a4bef8e875c67e011c73c2c1bd6b"
+    },
+    {
+      "name": "birth-binding-skipped",
+      "course": "summon-nested",
+      "detected": true,
+      "logSha256": "e38c0fe877ef648c9729002d6bb74e42ebfd4b50dad09adb482029e4867ee1fa"
+    },
+    {
+      "name": "offspring-binding-skipped",
+      "course": "summon-nested",
+      "detected": true,
+      "logSha256": "9a899a763dfbdb94a14aa22ef102127a97fedf04f415a7f7ce7a455ccfb11878"
+    },
+    {
+      "name": "child-flag-lost",
+      "course": "summon-nested",
+      "detected": true,
+      "logSha256": "dabb7a012e138a2dafeeb8d4583eb4188db09ae00034d8d260ed38aa05aefa02"
+    },
+    {
+      "name": "child-cap-lost",
+      "course": "summon-nested",
+      "detected": true,
+      "logSha256": "a9b60fc3b8ece5f70b3f29782b0def2244638682dc79dc969b7d84a1d32d011c"
+    },
+    {
+      "name": "child-contract-retained",
+      "course": "summon-nested",
+      "detected": true,
+      "logSha256": "48d6401cc0c01f38406781300044ad858945307b9a1984cb70815ae03d327603"
+    },
+    {
+      "name": "child-shell-retained",
+      "course": "summon-nested",
+      "detected": true,
+      "logSha256": "492332cb59edbbd540129761a947735aa1e7463fe9bfb16b210608977fc00080"
+    },
+    {
+      "name": "explicit-override-kind-lost",
+      "course": "summon-birth-boundary",
+      "detected": true,
+      "logSha256": "291bc391bd1092c445aaa5f6747d82f9ab3a3580eeced7bdcddb4997d9d57e94"
+    },
+    {
+      "name": "tick-binding-skipped",
+      "course": "aura-ticking",
+      "detected": true,
+      "logSha256": "ae9ffb15563a215099bfdc57b4f000be9c64585c305916237baa1e618951d9ea"
+    },
+    {
+      "name": "activation-binding-skipped",
+      "course": "aura-activation",
+      "detected": true,
+      "logSha256": "a138f0ab2a44330dc2487f1079056209a1f7e78719f3140a1725e85fafeea50c"
+    },
+    {
+      "name": "inheritance-binding-skipped",
+      "course": "summon-birth-contact",
+      "detected": true,
+      "logSha256": "742eac1511f632c6b30963c23ffa18c5d7e7d1b3a571d9d4182593b738035124"
+    }
+  ],
+  "archiveSha256": "6018d0ab1d2ea027d5e5ae932f62f074b491a329b0f681a6d2c006336a8e651d",
+  "adapterGuards": 62,
+  "bodyAdapterGuards": 19,
+  "types": true,
+  "installedModuleHashes": {
+    "body-factory": "c49649d02b1d3fbc722e83d5d1bd366f6537ffb0a84d7e06f00d1af96b6f443d",
+    "summon-birth": "935bf8530ef14080ba29a66994bb5adb8f72e098f154b15786a6c6d73a132513",
+    "summon-offspring": "f4b8cf03229b58cb13a3ef75f2ca5abf53f0fc63946c45caa00b2e549afcdd1c",
+    "aura-ticking": "42679cee6a2c1b5550a770af2a296ca55df7bf8b3f8d53c8a05885dd9eac6e28",
+    "aura-activation": "30957a6896c8b6038c0c102c375ec7a8d70dd3eff360d2c94d7ced675c506c9f",
+    "aura-ledgers": "1a8b315112e79dcaec92b24290fa46e3f2cc40fb1b7c88601412600673848058",
+    "aura-retirement": "9a2c20e268dd109015786cdec93f57059628173037cae13dd862c2d1829caeb2",
+    "companion-recovery": "0ee737172ce3322bf49550bf97aae97c80fbc3c67a9b17992a1f2facb233fe8c",
+    "body-levels": "76840f72147f5e9116727411361f7f1d8f4aaedfe18b97e555f6a67b7fc438ff",
+    "companion-bonds": "987e9e8979da0bc446e07db5344bbd15bc92a8dc64d79aac24edc90187bce41f",
+    "companion-bond-rules": "a8c15963399bd2a7512c8361111e432ef0abbeedd2f801c81fa60119190b735a",
+    "minion-inheritance": "8a118761b498e35415c6b21c6ce52ef6dfd5f54eb6a8f163b3de09fe801eabb3",
+    "attribute-bequests": "e1d2a0419dd3204e8b12bce62bea34e96d6d8c71131d3f89822cde8f8f942700"
+  },
+  "restored": true,
+  "observations": 5179,
+  "loadedInstalledModules": [
+    "body-factory",
+    "summon-birth",
+    "summon-offspring",
+    "aura-ticking",
+    "aura-activation",
+    "aura-ledgers",
+    "aura-retirement",
+    "companion-recovery",
+    "body-levels",
+    "companion-bonds",
+    "companion-bond-rules",
+    "minion-inheritance",
+    "attribute-bequests"
+  ],
+  "inputsUnchanged": true,
+  "cleaned": true,
+  "logsSha256": "a36aef19d281daa5d11222a0dd323974d915bcfcf79144c851ad25c8dcd14d0b"
+}

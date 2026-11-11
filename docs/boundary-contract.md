@@ -1,5 +1,9 @@
 # Boundary contract
 
+The optional [body factory](body-factory.md) owns ordered body and skill-kit
+assembly over borrowed content. Allocation/defaults, identity, host effects,
+world membership and durable publication remain explicit host responsibilities.
+
 The optional [summon services](summon-birth.md) own birth admission, reservation,
 crew configuration and offspring ordering. Hosts retain body factories, rosters,
 spatial effects, death, presentation and durable publication.
