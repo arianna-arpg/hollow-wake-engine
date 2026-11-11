@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "startedWithoutPackageReceipt": true,
+  "failedHostedRun": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42972866935",
+  "failure": "The independent reference job had no sequence-continuation-package.json receipt.",
+  "correction": "Run the package prerequisite inside reference:verify before the original and installed checks.",
+  "packageManifestSha256": "43f2bdfcb3897c0cb90fa5226e8f0c5eb4a6d54673cc6c9d82fd5c39e74ab50a",
+  "commands": [
+    "npm run test:sequence-continuation-package",
+    "npm run reference:sequence-continuation",
+    "npm run adapter:sequence-continuation"
+  ],
+  "results": [
+    {
+      "command": "npm run test:sequence-continuation-package",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run reference:sequence-continuation",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run adapter:sequence-continuation",
+      "exitCode": 0
+    }
+  ],
+  "receipts": {
+    "sequence-continuation-package": {
+      "sha256": "468ada7054983bb5be366ffe114426e193483b94e2005c79fbb32f95e00f0216",
+      "archiveSha256": "f94cc5967730cd5776969b37eea525f5d27a0c2666431812fce6743bbf820f04"
+    },
+    "sequence-continuation-reference": {
+      "sha256": "75766541ea49845a586fd62d7b2bf8e4530d942aa03750a8e037779c643fa0e2"
+    },
+    "sequence-continuation-game": {
+      "sha256": "13732bed1c4ae45e51baf9f070bc453a1e3826939bdce5d4643354916259ca01",
+      "archiveSha256": "f94cc5967730cd5776969b37eea525f5d27a0c2666431812fce6743bbf820f04"
+    }
+  },
+  "remainingCreatedDirectories": [],
+  "logsSha256": "3fe7ca173f730bdc065747664f9225389d7f84d412ea3d5ae1416e5cc5c3cf73",
+  "checkedScope": "The exact final three commands of reference:verify, starting without a package receipt. Earlier full verification evidence is unchanged; the corrected full hosted job is pending."
+}

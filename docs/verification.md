@@ -8,7 +8,9 @@ episodes against a frozen predecessor controller. Run `test:sequence-continuatio
 `reference:sequence-continuation`, `adapter:sequence-continuation` and
 `adapter:sequence-continuation-composed` in that order. Package and reference/installed
 checks are included in the full verification commands; the dedicated Windows/Linux
-workflow also runs the composed comparison.
+workflow also runs the composed comparison. `reference:verify` creates its own
+package verification receipt before the installed continuation check. It does not
+depend on a prior `verify` run or files produced by a different CI job.
 
 The [guard disciplines](guard-arts.md) add 42 installed/browser contracts,
 public types and 37 deliberate package faults. `reference:build-lifecycles`
