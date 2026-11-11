@@ -132,12 +132,14 @@ const cooldownLifecycleJsBytes = packed.files.filter(file => file.path === "dist
 const readyBankJsBytes = packed.files.filter(file => file.path === "dist/ready-cooldown-bank.js").reduce((sum, file) => sum + file.size, 0);
 const sequenceRecoveryJsBytes = packed.files.filter(file => file.path === "dist/sequence-recovery.js").reduce((sum, file) => sum + file.size, 0);
 const attackSequenceJsBytes = packed.files.filter(file => /^dist\/attack-sequence(?:s|-types|-content|-owned)\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
-const challengeModuleBytes = Object.fromEntries(['challenges', 'challenge-content', 'challenge-types'].map(name => {
+const challengeModuleBytes = Object.fromEntries(['challenges', 'challenge-content', 'challenge-types', 'challenge-owned'].map(name => {
   const matches = packed.files.filter(file => file.path === 'dist/' + name + '.js');
   assert.equal(matches.length, 1, 'Missing optional challenge module ' + name); return [name, matches[0].size];
 }));
 const challengeJsBytes = Object.values(challengeModuleBytes).reduce((sum, size) => sum + size, 0);
 assert(challengeJsBytes <= 20 * 1024, 'Challenge runtime/content exceeds its separate 20 KiB bound');
+const challengeContinuationFile = packed.files.find(file => file.path === 'dist/challenge-continuation.js');
+assert(challengeContinuationFile?.size > 0 && challengeContinuationFile.size <= 8 * 1024, 'Optional challenge continuation exceeds 8 KiB');
 const sequenceContinuationFile = packed.files.find(file => file.path === 'dist/attack-sequence-continuation.js');
 assert(sequenceContinuationFile?.size > 0 && sequenceContinuationFile.size <= 8 * 1024, 'Optional sequence continuation exceeds its separate 8 KiB budget or is missing');
 const sequenceContinuationBudgetResult = sequenceContinuationBudget(packed.files);
@@ -276,7 +278,7 @@ const workshopCharacterFile=packed.files.find(file=>file.path==='dist/workshop-c
 assert(workshopCharacterFile&&workshopCharacterFile.size<8*1024,'Workshop character admission exceeded the 8 KiB bound');
 assert(buildContributionsFile&&buildContributionsFile.size<6*1024,'Build contributions exceeded the 6 KiB bound');
 assert(workshopBuildFile?.size>0&&workshopBuildFile.size<=4*1024,'Optional workshop build preparation exceeds 4 KiB or is missing');
-const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-challengeJsBytes-sequenceContinuationFile.size-sequenceBridgeJsBytes-bodyFactoryFile.size-summonsJsBytes-auraTickingFile.size-auraActivationFile.size-auraLedgersFile.size-auraRetirementFile.size-companionRecoveryFile.size-bodyLevelsFile.size-companionBondsJsBytes-guardArtsFile.size-companionGrantsFile.size-accountRelicItemsFile.size-workshopCharacterFile.size-buildContributionsFile.size-workshopBuildFile.size-equipmentDraftFile.size-bookFile.size-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
+const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-challengeContinuationFile.size-challengeJsBytes-sequenceContinuationFile.size-sequenceBridgeJsBytes-bodyFactoryFile.size-summonsJsBytes-auraTickingFile.size-auraActivationFile.size-auraLedgersFile.size-auraRetirementFile.size-companionRecoveryFile.size-bodyLevelsFile.size-companionBondsJsBytes-guardArtsFile.size-companionGrantsFile.size-accountRelicItemsFile.size-workshopCharacterFile.size-buildContributionsFile.size-workshopBuildFile.size-equipmentDraftFile.size-bookFile.size-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
 const craftingSessionJsBytes=Object.values(craftingSessionModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingSessionJsBytes=preContentTableJsBytes-craftingSessionJsBytes;
 const residenceJsBytes=Object.values(residenceModuleBytes).reduce((sum,size)=>sum+size,0),preResidenceJsBytes=preCraftingSessionJsBytes-residenceJsBytes;
 const craftingJsBytes=Object.values(craftingModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingJsBytes=preResidenceJsBytes-craftingJsBytes;
@@ -385,6 +387,7 @@ assert.ok(contentBytes-pouchData.size-conduitData.size-vestigeData.size <= 64 * 
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
   equipmentSkillsJsBytes,
   challengeModuleBytes, challengeJsBytes,
+  challengeContinuationJsBytes: challengeContinuationFile.size,
   sequenceContinuationJsBytes:sequenceContinuationFile.size,sequenceBridgeJsBytes,historicalAttackSequenceJsBytes,
   bodyLevelsJsBytes:bodyLevelsFile.size,
   companionRecoveryJsBytes:companionRecoveryFile.size,

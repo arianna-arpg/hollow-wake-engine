@@ -1,5 +1,12 @@
 # Verification and reproduction
 
+The optional [challenge continuation](challenge-continuation.md) adds 31
+installed/browser-bundle contracts, eight negative type cases and twelve package
+faults. `reference:challenge-continuation` reproduces thirteen frozen original
+observations. `adapter:challenge-continuation` adds five private scenarios, thirty
+stages and six integration faults. `adapter:challenges-composed` includes these
+cases in the complete game assembly and retains the paired 25-episode comparison.
+
 The optional [challenge controller](challenges.md) adds twenty installed/browser
 contracts, eight negative type cases and sixteen deliberate package faults.
 `reference:challenges` repeats 61 accepted original checkpoints in fresh processes;

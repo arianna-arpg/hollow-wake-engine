@@ -11,10 +11,12 @@ on:
       - 'scripts/npm-cli.mjs'
       - 'adapters/hollow-wake/**'
       - 'baseline/challenges/**'
+      - 'baseline/challenge-continuation/**'
       - 'baseline/source-lock.json'
       - 'baseline/source.tar.gz'
       - 'baseline/overlay/**'
       - 'reference/export-challenges.ts'
+      - 'reference/export-challenge-continuation.ts'
       - 'reference/tooling/**'
       - 'package*.json'
       - 'tsconfig.json'
@@ -45,6 +47,9 @@ jobs:
       - run: npm run test:challenges-package
       - run: npm run reference:challenges
       - run: npm run adapter:challenges
+      - run: npm run test:challenge-continuation-package
+      - run: npm run reference:challenge-continuation
+      - run: npm run adapter:challenge-continuation
       - run: npm run adapter:challenges-composed
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
@@ -61,3 +66,9 @@ jobs:
             .artifacts/challenges-game.logs.json.gz
             .artifacts/challenges-composed.json
             .artifacts/challenges-composed.logs.json.gz
+            .artifacts/challenge-continuation-package.json
+            .artifacts/challenge-continuation-package.logs.json.gz
+            .artifacts/challenge-continuation-reference.json
+            .artifacts/challenge-continuation-reference.logs.json.gz
+            .artifacts/challenge-continuation-game.json
+            .artifacts/challenge-continuation-game.logs.json.gz

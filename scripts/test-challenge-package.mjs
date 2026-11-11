@@ -17,7 +17,7 @@ const owned = fs.realpathSync(path.join(root, '.artifacts'));
 const read = f => fs.readFileSync(path.join(root, f));
 const sources = {}, tracked = f => {const bytes = read(f); sources[f] = sha256(bytes); return bytes;};
 for (const file of ['package.json', 'package-lock.json', 'tsconfig.json',
-  'src/challenges.ts', 'src/challenge-types.ts', 'src/challenge-content.ts',
+  'src/challenges.ts', 'src/challenge-types.ts', 'src/challenge-content.ts', 'src/challenge-owned.ts',
   'test/challenges.test.mjs', 'test/challenge-contracts.mjs', 'test/challenge-consumer.ts',
   'test/challenge-faults.mjs', 'scripts/test-challenge-package.mjs']) tracked(file);
 const report = {passed: false, sources, faults: []}, logs = {};
@@ -42,7 +42,7 @@ try {
   const entry = '@hollow-wake/engine/combat/challenges', contentEntry = '@hollow-wake/engine/combat/challenge-content';
   const dist = path.join(consumer, 'node_modules/@hollow-wake/engine/dist');
   report.modules = {};
-  for (const name of ['challenges', 'challenge-content', 'challenge-types']) {
+  for (const name of ['challenges', 'challenge-content', 'challenge-types', 'challenge-owned']) {
     const bytes = fs.readFileSync(path.join(dist, name + '.js')), types = fs.readFileSync(path.join(dist, name + '.d.ts'));
     assert(bytes.equals(tracked('dist/' + name + '.js'))); assert(types.equals(tracked('dist/' + name + '.d.ts')));
     report.modules[name] = {bytes: bytes.length, sha256: sha256(bytes), typesSha256: sha256(types)};
@@ -62,6 +62,8 @@ console.log(JSON.stringify(challengeContracts({Challenges,ChallengeContent})));
     platform: 'browser', format: 'iife', globalName: 'ChallengeApi', target: 'es2022',
     minify: true, metafile: true, write: false, logLevel: 'silent'});
   assert.equal(browser.outputFiles.length, 1); assert(Object.values(browser.metafile.outputs).every(o => !o.imports.length));
+  assert(Object.keys(browser.metafile.inputs).every(file => !file.endsWith('/challenge-continuation.js')),
+    'Ordinary challenge loading includes the optional copy service');
   report.browserBytes = browser.outputFiles[0].contents.length; assert(report.browserBytes <= 12 * 1024);
   const context = vm.createContext({});
   new vm.Script("for(const name of ['window','document','process','require','fetch','setTimeout','setInterval'])Object.defineProperty(globalThis,name,{get(){throw Error('Forbidden host global: '+name)}});Math.random=()=>{throw Error('Forbidden ambient RNG')};Date.now=()=>{throw Error('Forbidden ambient clock')};").runInContext(context);

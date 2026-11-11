@@ -1,5 +1,8 @@
 # Challenge casts and timed devices
 
+The optional [continuation service](challenge-continuation.md) copies owned casts
+and device schedules into an already detached host graph without replaying them.
+
 `@hollow-wake/engine/combat/challenges` exports `Challenges` and its host types.
 `combat/challenge-content` exports `ChallengeContent`. Both are optional imports.
 

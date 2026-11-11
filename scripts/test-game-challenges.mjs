@@ -19,7 +19,7 @@ const original = challengeReference(tracked), lock = JSON.parse(tracked('baselin
 for (const f of ['package.json', 'package-lock.json', 'tsconfig.json', 'scripts/test-game-challenges.mjs',
   'scripts/challenge-reference.mjs', 'adapters/hollow-wake/challenge-boundary.json',
   'adapters/hollow-wake/integrate-challenges.mjs', 'adapters/hollow-wake/challenges.ts',
-  'adapters/hollow-wake/challengeSpec.ts', 'src/challenges.ts', 'src/challenge-content.ts', 'src/challenge-types.ts']) tracked(f);
+  'adapters/hollow-wake/challengeSpec.ts', 'src/challenges.ts', 'src/challenge-content.ts', 'src/challenge-types.ts', 'src/challenge-owned.ts']) tracked(f);
 const work = fs.mkdtempSync(path.join(owned, 'challenges-game-owned-')), consumer = path.join(work, 'consumer');
 const report = {passed: false, installed: true, composed: false, sources, faults: []}, logs = {};
 const run = (label, args, cwd = consumer) => {
@@ -38,7 +38,7 @@ try {
   success('install', [npmCli(), 'install', archive, '--offline', '--ignore-scripts', '--no-audit', '--no-fund']);
   const dist = path.join(consumer, 'node_modules/@hollow-wake/engine/dist');
   const entries = Object.fromEntries(['challenges', 'challenge-content'].map(n => ['@hollow-wake/engine/combat/' + n, path.join(dist, n + '.js')]));
-  for (const n of ['challenges', 'challenge-content', 'challenge-types']) for (const suffix of ['.js', '.d.ts']) {
+  for (const n of ['challenges', 'challenge-content', 'challenge-types', 'challenge-owned']) for (const suffix of ['.js', '.d.ts']) {
     assert(fs.readFileSync(path.join(dist, n + suffix)).equals(tracked('dist/' + n + suffix)));
   }
   const virtuals = new Map(challengeFiles.map(f => [path.join(ref, f), renderChallengeFile(f, read('.reference/' + f).toString())]));

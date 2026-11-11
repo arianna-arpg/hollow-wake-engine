@@ -1,9 +1,15 @@
 # Boundary contract
 
+The optional [challenge continuation](challenge-continuation.md) copies owned
+casts, target ledgers, landings, devices, pursuers and delayed echoes into an
+admitted detached host graph. Hosts enumerate retained identities and supply
+synchronous copy callbacks. Complete character construction and durable live
+publication remain separate responsibilities.
+
 The optional [challenge controller](challenges.md) owns captured casts, secondary
 generations, timed devices, field wounds and aftershock scheduling. Hosts supply
 time, randomness, bodies, spatial selection, delivery and synchronous effects.
-Full private-graph continuation and durable publication remain separate work.
+Full private-character construction and durable publication remain separate work.
 
 The optional [sequence continuation](sequence-continuation.md) owns copying of
 controller state into an admitted detached host graph. Hosts must enumerate all

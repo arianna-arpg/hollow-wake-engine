@@ -1,20 +1,9 @@
-import type {ChallengePoint, ChallengeActor, ChallengeSkill, ChallengeProjectile, ChallengeCarrier, ChallengeConstructDelivery, ChallengePorts, ChallengeSpec} from './challenge-types.js';
+import type {ChallengePoint, ChallengeActor, ChallengeSkill, ChallengeProjectile, ChallengeCarrier, ChallengeConstructDelivery, ChallengePorts} from './challenge-types.js';
+import {challengeContinuationState, type ChallengeOwnedState, type ChallengeState, type ChallengeCast, type Effigy, type Landing, type Shock} from './challenge-owned.js';
 export type * from './challenge-types.js';
 
 const dist=(a:ChallengePoint,b:ChallengePoint)=>Math.hypot(a.x-b.x,a.y-b.y);
 const angleTo=(a:ChallengePoint,b:ChallengePoint)=>Math.atan2(b.y-a.y,b.x-a.x);
-
-interface ChallengeState<A,I> {
-  owner: A; host: I; spec: ChallengeSpec; policy: string;
-  primed: boolean; guaranteedAt: number; retired: boolean;
-}
-interface ChallengeCast<A,I> { state: ChallengeState<A,I>; inst: I; primed: boolean; generation: number; orbitTargets: Set<number> }
-interface Effigy<A,I> {
-  body: A; cast: ChallengeCast<A,I>; radius: number; average: number;
-  creeper?: A; center: ChallengePoint; trailAt: number; strikeAt: number;
-}
-interface Landing<A,I,C> { cast: ChallengeCast<A,I>; from: ChallengePoint; at: ChallengePoint; d: C; remaining: number; duration: number; power: number }
-interface Shock<A,I> { effigy: Effigy<A,I>; at: ChallengePoint; due: number; greater: boolean; echoes: boolean }
 
 /** Challenge casts capture their investment; bounded secondary generations
  * and explicit host ownership prevent recursion and respec leftovers. */
@@ -24,7 +13,17 @@ export class Challenges<A extends ChallengeActor<I,M>,I extends ChallengeSkill<M
   private landings: Landing<A,I,C>[] = [];
   private effigies: Effigy<A,I>[] = [];
   private shocks: Shock<A,I>[] = [];
+  private used = false;
   constructor(private readonly ports:ChallengePorts<A,I,M,P,R,F,Z,C>) {}
+  /** @internal Used only by the optional continuation entry. */
+  [challengeContinuationState](next?: ChallengeOwnedState<A,I,C>): ChallengeOwnedState<A,I,C> {
+    if (next) {
+      this.states = next.states; this.casts = next.casts; this.landings = next.landings;
+      this.effigies = next.effigies; this.shocks = next.shocks; this.used = next.used;
+    }
+    return {states: this.states, casts: this.casts, landings: this.landings,
+      effigies: this.effigies, shocks: this.shocks, used: this.used};
+  }
   private policy(inst: I) {
     return JSON.stringify([inst.treeNodes, inst.level, inst.sockets.map(s => s && [s.def.id, s.level]), inst.grafts?.map(s => [s.def.id, s.level])]);
   }
@@ -40,6 +39,7 @@ export class Challenges<A extends ChallengeActor<I,M>,I extends ChallengeSkill<M
     if (!state) {
       state = { owner, host: inst, spec, policy, primed: false, guaranteedAt: -Infinity, retired: false };
       this.states.set(key, state);
+      this.used = true;
     }
     const snapshot = { ...inst, sockets: [...inst.sockets], grafts: inst.grafts && [...inst.grafts], treeNodes: [...(inst.treeNodes ?? [])],
       state: inst.state ??= {}, challengeHost: inst };

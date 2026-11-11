@@ -41,7 +41,7 @@ function entryGraph(file) {
   }
 }
 entryGraph(path.join(root,'src/index.ts'));
-assert.ok([...reachable].every(file => !['challenges.ts', 'challenge-content.ts', 'challenge-types.ts'].includes(path.basename(file))), 'Optional challenges became an eager core import');
+assert.ok([...reachable].every(file => !['challenges.ts', 'challenge-content.ts', 'challenge-types.ts', 'challenge-owned.ts', 'challenge-continuation.ts'].includes(path.basename(file))), 'Optional challenges became an eager core import');
 assert.ok([...reachable].every(file=>path.basename(file)!=='attack-sequence-continuation.ts'), 'Optional continuation became an eager core import');
 assert.ok([...reachable].every(file=>path.basename(file)!=='body-factory.ts'), 'Optional body factory became an eager core import');
 assert.ok([...reachable].every(file=>!['summon-birth.ts','summon-offspring.ts'].includes(path.basename(file))), 'Optional summons became eager core imports');

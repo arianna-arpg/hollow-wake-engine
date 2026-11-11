@@ -5,6 +5,7 @@ import {spawnSync} from 'node:child_process';
 import {gzipSync} from 'node:zlib';
 import {root, sha256, materialize, verifyReference} from './reference-utils.mjs';
 import {challengeReference} from './challenge-reference.mjs';
+import {challengeContinuationReference} from './challenge-continuation-reference.mjs';
 import {challengeFiles} from '../adapters/hollow-wake/integrate-challenges.mjs';
 
 assert.equal(process.argv.length, 2);
@@ -12,8 +13,11 @@ fs.mkdirSync(path.join(root, '.artifacts'), {recursive: true});
 const owned = fs.realpathSync(path.join(root, '.artifacts')), read = f => fs.readFileSync(path.join(root, f));
 const sources = {}, tracked = f => {const bytes = read(f); sources[f] = sha256(bytes); return bytes;};
 const original = challengeReference(tracked), lock = JSON.parse(tracked('baseline/source-lock.json'));
+const continuation = challengeContinuationReference(tracked);
+const privateSource = tracked('test/challenge-continuation-game.ts').toString();
 for (const f of ['package.json', 'package-lock.json', 'src/challenges.ts', 'src/challenge-types.ts',
-  'src/challenge-content.ts', 'scripts/test-challenges-composed.mjs', 'scripts/prepare-game-adapter.mjs',
+  'src/challenge-content.ts', 'src/challenge-owned.ts', 'src/challenge-continuation.ts',
+  'scripts/challenge-continuation-reference.mjs', 'scripts/test-challenges-composed.mjs', 'scripts/prepare-game-adapter.mjs',
   'scripts/challenge-reference.mjs', 'adapters/hollow-wake/integrate-challenges.mjs',
   'adapters/hollow-wake/challenges.ts', 'adapters/hollow-wake/challengeSpec.ts',
   'adapters/hollow-wake/challenge-boundary.json']) tracked(f);
@@ -60,11 +64,23 @@ try {
   } finally {for (const [file, bytes] of installedFiles) fs.writeFileSync(path.join(game, file), bytes);}
   for (const [file, bytes] of installedFiles) assert(fs.readFileSync(path.join(game, file)).equals(bytes));
   report.controlRestored = true;
+  const continuationObserver = path.join(game, 'balance/hwe-challenge-continuation.ts');
+  const privateObserver = path.join(game, 'balance/hwe-challenge-continuation-private.ts');
+  fs.writeFileSync(continuationObserver, continuation.source); fs.writeFileSync(privateObserver, privateSource);
   for (const config of ['tsconfig.json', 'tsconfig.launcher.json', 'tsconfig.sim.json']) run('types-' + config, [tsc, '--noEmit', '-p', config]);
   report.types = true; report.typeConfigs = ['game', 'launcher', 'simulation'];
   const candidate = course('installed-course'); assert(candidate.equals(control), 'Composed controller changed observed behavior');
   report.observations = 61; report.originalReferenceMatch = candidate.equals(original.expected);
   report.observationSha256 = sha256(candidate);
+  for (let i = 1; i <= 2; i++) {
+    const output = path.join(work, 'continuation-' + i + '.json');
+    assert.deepEqual(run('continuation-' + i, ['--import', 'tsx', continuationObserver, output]), continuation.log);
+    assert(fs.readFileSync(output).equals(continuation.expected));
+    assert.deepEqual(run('private-' + i, ['--import', 'tsx', privateObserver]), {
+      stdout: 'Challenge private continuation: 5 courses, 30 stages passed\n', stderr: continuation.log.stderr,
+    });
+  }
+  report.continuation = {originalObservations: 13, privateCourses: 5, privateStages: 30, freshProcesses: 2};
   run('installed-smoke', ['--import', 'tsx', cli, 'run', '--suite', 'smoke', '--out', candidateSmoke]);
   const summarize = directory => {const {startedAt, ...value} = JSON.parse(fs.readFileSync(path.join(directory, 'report.json'))); assert.equal(typeof startedAt, 'string'); return value;};
   assert.deepEqual(summarize(candidateSmoke), summarize(controlSmoke));
