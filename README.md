@@ -3,6 +3,9 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The optional [summon services](docs/summon-birth.md) create and configure summons
+and request offspring through explicit body, stat and effect ports.
+
 The optional [aura ticking service](docs/aura-ticking.md) advances upkeep, spatial
 membership, typed damage and pulses through synchronous host effects.
 

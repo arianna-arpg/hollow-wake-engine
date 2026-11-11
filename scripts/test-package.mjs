@@ -241,6 +241,9 @@ const companionBondsJsBytes=Object.values(companionModuleBytes).reduce((sum,n)=>
 assert(companionBondsJsBytes<=40*1024,'Optional bond, inheritance and bequest modules exceed 40 KiB');
 const companionGrantsFile=packed.files.find(file=>file.path==='dist/companion-grants.js');
 assert(companionGrantsFile?.size>0&&companionGrantsFile.size<=5*1024,'Optional companion grants exceeds 5 KiB or is missing');
+const summonModuleBytes=Object.fromEntries(['summon-birth','summon-offspring'].map(name=>{const file=packed.files.find(file=>file.path==='dist/'+name+'.js');assert(file?.size>0);return[name,file.size];}));
+assert(summonModuleBytes['summon-birth']<=11*1024&&summonModuleBytes['summon-offspring']<=2*1024,'Optional summon modules exceed their separate bounds');
+const summonsJsBytes=Object.values(summonModuleBytes).reduce((sum,n)=>sum+n,0);
 const auraTickingFile=packed.files.find(file=>file.path==='dist/aura-ticking.js');
 assert(auraTickingFile?.size>0&&auraTickingFile.size<=9*1024,'Optional aura ticking exceeds its separate 9 KiB budget or is missing');
 const auraActivationFile=packed.files.find(file=>file.path==='dist/aura-activation.js');
@@ -259,7 +262,7 @@ const workshopCharacterFile=packed.files.find(file=>file.path==='dist/workshop-c
 assert(workshopCharacterFile&&workshopCharacterFile.size<8*1024,'Workshop character admission exceeded the 8 KiB bound');
 assert(buildContributionsFile&&buildContributionsFile.size<6*1024,'Build contributions exceeded the 6 KiB bound');
 assert(workshopBuildFile?.size>0&&workshopBuildFile.size<=4*1024,'Optional workshop build preparation exceeds 4 KiB or is missing');
-const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-auraTickingFile.size-auraActivationFile.size-auraLedgersFile.size-auraRetirementFile.size-companionRecoveryFile.size-bodyLevelsFile.size-companionBondsJsBytes-guardArtsFile.size-companionGrantsFile.size-accountRelicItemsFile.size-workshopCharacterFile.size-buildContributionsFile.size-workshopBuildFile.size-equipmentDraftFile.size-bookFile.size-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
+const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-summonsJsBytes-auraTickingFile.size-auraActivationFile.size-auraLedgersFile.size-auraRetirementFile.size-companionRecoveryFile.size-bodyLevelsFile.size-companionBondsJsBytes-guardArtsFile.size-companionGrantsFile.size-accountRelicItemsFile.size-workshopCharacterFile.size-buildContributionsFile.size-workshopBuildFile.size-equipmentDraftFile.size-bookFile.size-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
 const craftingSessionJsBytes=Object.values(craftingSessionModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingSessionJsBytes=preContentTableJsBytes-craftingSessionJsBytes;
 const residenceJsBytes=Object.values(residenceModuleBytes).reduce((sum,size)=>sum+size,0),preResidenceJsBytes=preCraftingSessionJsBytes-residenceJsBytes;
 const craftingJsBytes=Object.values(craftingModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingJsBytes=preResidenceJsBytes-craftingJsBytes;
@@ -373,6 +376,7 @@ fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringi
   auraLedgersJsBytes:auraLedgersFile.size,
   auraActivationJsBytes:auraActivationFile.size,
   auraTickingJsBytes:auraTickingFile.size,
+  summonsJsBytes,summonModuleBytes,
   equipmentDraftJsBytes:equipmentDraftFile.size,
   workshopBuildJsBytes:workshopBuildFile.size,
   buildContributionsJsBytes:buildContributionsFile.size,

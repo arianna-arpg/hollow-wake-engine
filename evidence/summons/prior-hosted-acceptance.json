@@ -1,0 +1,92 @@
+{
+  "recorded": "2026-11-11T00:56:10.260Z",
+  "repository": "arianna-arpg/hollow-wake-engine",
+  "commit": "aa236fef0ef40a583b98cc3a4a7eaa5202360d8c",
+  "accepted": true,
+  "selected": [
+    {
+      "name": "Verify aura ticking",
+      "id": 42932160455,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42932160455",
+      "jobs": [
+        {
+          "name": "ticking (windows-2025)",
+          "status": "completed",
+          "conclusion": "success",
+          "failedSteps": []
+        },
+        {
+          "name": "ticking (ubuntu-24.04)",
+          "status": "completed",
+          "conclusion": "success",
+          "failedSteps": []
+        }
+      ]
+    },
+    {
+      "name": "Verify engine",
+      "id": 42932160663,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/42932160663",
+      "jobs": [
+        {
+          "name": "reference",
+          "status": "in_progress",
+          "conclusion": null,
+          "currentStep": "Run npm run reference:verify",
+          "failedSteps": []
+        },
+        {
+          "name": "package (ubuntu-24.04, 22)",
+          "status": "in_progress",
+          "conclusion": null,
+          "currentStep": "Run npm run verify",
+          "failedSteps": []
+        },
+        {
+          "name": "native (windows-2025)",
+          "status": "completed",
+          "conclusion": "success",
+          "failedSteps": []
+        },
+        {
+          "name": "package (ubuntu-24.04, 24)",
+          "status": "in_progress",
+          "conclusion": null,
+          "currentStep": "Run npm run verify",
+          "failedSteps": []
+        },
+        {
+          "name": "package (windows-2025, 24)",
+          "status": "in_progress",
+          "conclusion": null,
+          "currentStep": "Run npm run verify",
+          "failedSteps": []
+        },
+        {
+          "name": "native (ubuntu-24.04)",
+          "status": "completed",
+          "conclusion": "success",
+          "failedSteps": []
+        },
+        {
+          "name": "package (windows-2025, 22)",
+          "status": "in_progress",
+          "conclusion": null,
+          "currentStep": "Run npm run verify",
+          "failedSteps": []
+        }
+      ]
+    }
+  ],
+  "failed": [],
+  "counts": {
+    "completed": 24,
+    "running": 5,
+    "queued": 0,
+    "total": 29
+  }
+}

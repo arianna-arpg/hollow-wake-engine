@@ -1,0 +1,10 @@
+{
+  "runtimeChanged": false,
+  "acceptedObservationsChanged": false,
+  "allUnmutatedContractsPassed": 36,
+  "failure": "The exact-reservation mutant returned null as intended, but the independent test dereferenced it before asserting admission. This produced a TypeError rather than a specific assertion.",
+  "correction": "Assert successful birth before inspecting its fields. Keep deliberate-fault acceptance restricted to assertion failures.",
+  "admissionAssertionsAdded": 10,
+  "failedSourceSha256": "4448f814fd86a3149c80ecf6a0973ef656f0608be3602916a332e64008c0ffc9",
+  "correctedSourceSha256": "5007caa7b6f96e913551fe2b82c5ae26b794d8331fdeab230c40158b13d66781"
+}

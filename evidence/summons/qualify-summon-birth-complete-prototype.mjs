@@ -1,0 +1,345 @@
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';import {gzipSync,gunzipSync} from 'node:zlib';import ts from 'typescript';import {build} from 'esbuild';
+import {root,sha256,verifyReference} from '../scripts/reference-utils.mjs';
+const owned=fs.realpathSync(path.join(root,'.artifacts')),ref=path.join(root,'.reference'),attempt=process.argv[2];assert(/^r\d+$/.test(attempt));const stem='summon-birth-complete-prototype-'+attempt;assert(!fs.existsSync(path.join(owned,stem+'.json')));
+const review=JSON.parse(fs.readFileSync(path.join(owned,'summon-birth-original-extensions-review.json')));assert(review.passed&&review.originalOnly&&review.observations===107&&review.faults===95);
+const sourceFiles=['.artifacts/summon-birth.ts','.artifacts/summon-offspring.ts','.artifacts/summon-birth-binding.ts','.artifacts/qualify-summon-birth-complete-prototype.mjs','.artifacts/summon-birth-original-extensions-review.json',...review.proofs.map(p=>p.source)],sources=Object.fromEntries(sourceFiles.map(f=>[f,sha256(fs.readFileSync(path.join(root,f)))])),birth=fs.readFileSync(path.join(owned,'summon-birth.ts'),'utf8'),offspring=fs.readFileSync(path.join(owned,'summon-offspring.ts'),'utf8'),binding=fs.readFileSync(path.join(owned,'summon-birth-binding.ts'),'utf8'),lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json')));
+const courses=review.proofs.map(p=>{assert.equal(sha256(fs.readFileSync(path.join(root,p.report))),p.reportSha256);assert.equal(sources[p.source],p.sourceSha256);const expected=gunzipSync(fs.readFileSync(path.join(root,p.report.replace(/\.json$/,'.observations.json.gz'))));assert.equal(sha256(expected),p.observationSha256);return{...p,observer:fs.readFileSync(path.join(root,p.source),'utf8'),expected};});
+const work=fs.mkdtempSync(path.join(owned,'summon-birth-prototype-owned-')),logs={},report={passed:false,prototypeOnly:true,sources,sourceLockSha256:sha256(fs.readFileSync(path.join(root,'baseline/source-lock.json'))),courses:[],faults:[]};
+try{
+ verifyReference(ref,lock);const worldFile=path.join(ref,'src/engine/world.ts'),original=fs.readFileSync(worldFile,'utf8');assert.equal(sha256(original),lock.files['src/engine/world.ts']);const ast=ts.createSourceFile(worldFile,original,ts.ScriptTarget.Latest,true),owner=ast.statements.find(n=>ts.isClassDeclaration(n)&&n.name?.text==='World');assert(owner);
+ const edits=[[owner.members.pos,owner.members.pos,'\n'+binding+'\n'],[0,0,"import {SummonBirth as EngineSummonBirth} from './hweSummonBirth';\nimport {SummonOffspring as EngineSummonOffspring} from './hweSummonOffspring';\n"]];report.originalMethods={};
+ for(const[name,replacement]of [['spawnMinion','{return this.engineSummonBirth.spawn(caster,inst,overrides);}'],['spawnSummonOffspring','{this.engineSummonOffspring.spawn(parent,act);}']]){const methods=owner.members.filter(n=>ts.isMethodDeclaration(n)&&n.name?.getText(ast)===name);assert.equal(methods.length,1);const method=methods[0];assert(method.body);report.originalMethods[name]=sha256(method.getText(ast));edits.push([method.body.getStart(ast),method.body.end,replacement]);}
+ const rolls=owner.members.filter(n=>ts.isMethodDeclaration(n)&&n.name?.getText(ast)==='rollSummonType');assert.equal(rolls.length,1);report.originalMethods.rollSummonType=sha256(rolls[0].getText(ast));edits.push([rolls[0].getFullStart(),rolls[0].end,'']);
+ const imports=ast.statements.filter(ts.isImportDeclaration).flatMap(n=>n.importClause?.namedBindings&&ts.isNamedImports(n.importClause.namedBindings)?[{decl:n,list:n.importClause.namedBindings}]:[]),holders=imports.filter(r=>r.list.elements.some(e=>e.name.text==='summonKitIds'));assert.equal(holders.length,1);const holder=holders[0],index=holder.list.elements.findIndex(e=>e.name.text==='summonKitIds'),elements=holder.list.elements;if(elements.length===1){assert(!holder.decl.importClause.name);edits.push([holder.decl.getFullStart(),holder.decl.end,'']);}else if(index<elements.length-1)edits.push([elements[index].getStart(ast),elements[index+1].getStart(ast),'']);else edits.push([elements[index-1].end,elements[index].end,'']);
+ let installed=original;for(const[a,b,s]of edits.sort((a,b)=>b[0]-a[0]))installed=installed.slice(0,a)+s+installed.slice(b);report.installedWorldSha256=sha256(installed);
+ const birthFile=path.join(ref,'src/engine/hweSummonBirth.ts'),offspringFile=path.join(ref,'src/engine/hweSummonOffspring.ts'),virtual=new Map([[worldFile,installed],[birthFile,birth],[offspringFile,offspring]]);for(const c of courses)virtual.set(path.join(ref,'balance/hwe-'+c.name+'.ts'),c.observer);
+ const config=ts.getParsedCommandLineOfConfigFile(path.join(ref,'tsconfig.sim.json'),{}, {...ts.sys,onUnRecoverableConfigFileDiagnostic:d=>{throw Error(ts.flattenDiagnosticMessageText(d.messageText,'\n'));}});assert(config);const host=ts.createCompilerHost(config.options),read=host.readFile.bind(host),exists=host.fileExists.bind(host);host.readFile=f=>virtual.get(path.resolve(f))??read(f);host.fileExists=f=>virtual.has(path.resolve(f))||exists(f);const diagnostics=ts.getPreEmitDiagnostics(ts.createProgram([...config.fileNames,...virtual.keys()],config.options,host));assert.equal(diagnostics.length,0,ts.formatDiagnostics(diagnostics,{getCurrentDirectory:()=>ref,getCanonicalFileName:p=>p,getNewLine:()=>'\n'}));report.types=true;
+ async function replay(course,label,fault){let runtime=birth;if(fault){assert.equal(runtime.split(fault.from).length,2,fault.name+' selector');runtime=runtime.replace(fault.from,fault.to);}const entry=path.join(work,label+'.cjs'),output=path.join(work,label+'.json');await build({stdin:{contents:course.observer,loader:'ts',resolveDir:path.join(ref,'balance')},bundle:true,platform:'node',format:'cjs',logLevel:'silent',outfile:entry,plugins:[{name:'virtual-birth-prototype',setup(b){b.onLoad({filter:/world\.ts$/},a=>path.resolve(a.path)===worldFile?{contents:installed,loader:'ts'}:undefined);b.onResolve({filter:/^\.\/hweSummon(Birth|Offspring)$/},a=>({path:a.path.endsWith('Birth')?'birth':'offspring',namespace:'summon'}));b.onLoad({filter:/.*/,namespace:'summon'},a=>({contents:a.path==='birth'?runtime:offspring,loader:'ts'}));}}]});const child=spawnSync(process.execPath,[entry,output],{cwd:ref,windowsHide:true,encoding:'utf8',timeout:180000,maxBuffer:4*1024*1024,env:{...process.env,TEMP:work,TMP:work,TMPDIR:work,NODE_COMPILE_CACHE:path.join(work,'compile-cache')}});logs[label]={stdout:child.stdout??'',stderr:child.stderr??''};assert(!child.error&&!child.signal,label+': '+child.error);if(fault){assert.equal(child.status,1,label+' escaped');assert.match(logs[label].stderr,/ERR_ASSERTION/);report.faults.push({name:label,course:course.name,detected:true});}else{assert.equal(child.status,0,label+': '+JSON.stringify(logs[label]));assert(fs.readFileSync(output).equals(course.expected),label+' differs from original');}}
+ for(const course of courses){await replay(course,course.name+'-1');await replay(course,course.name+'-2');assert.deepEqual(logs[course.name+'-1'],logs[course.name+'-2']);report.courses.push({name:course.name,observations:course.observations,freshProcesses:2});}
+ const cases={
+  "summon-birth-admission": [
+    [
+      "capacity-rounded-down",
+      "Math.round(this.p.stat(caster,'minionMaxCount',this.p.context(inst),d.maxActive))",
+      "Math.floor(this.p.stat(caster,'minionMaxCount',this.p.context(inst),d.maxActive))"
+    ],
+    [
+      "companion-capacity-used",
+      "inst.companionGrant?[]:d.poolGroup",
+      "false?[]:d.poolGroup"
+    ],
+    [
+      "shared-pool-ignored",
+      "this.p.minionsOfGroup(caster,d.poolGroup)",
+      "this.p.minionsOfSkill(caster,inst.def.id)"
+    ],
+    [
+      "offspring-cap-equality",
+      "length>=overrides.offspring.maxActive",
+      "length>overrides.offspring.maxActive"
+    ],
+    [
+      "offspring-evicts-parent",
+      "existing.length=0;",
+      "void existing.length;"
+    ],
+    [
+      "offspring-counted-as-parent",
+      "if(existing[i]!.summonOffspring)",
+      "if(false)"
+    ],
+    [
+      "no-replace-equality",
+      "overrides?.noReplace&&existing.length>=maxActive",
+      "overrides?.noReplace&&existing.length>maxActive"
+    ],
+    [
+      "capacity-equality",
+      "while(existing.length>=maxActive)",
+      "while(existing.length>maxActive)"
+    ],
+    [
+      "youngest-retired",
+      "existing.shift()",
+      "existing.pop()"
+    ],
+    [
+      "release-omitted",
+      "this.p.releaseContract(oldest,false);",
+      "void oldest;"
+    ],
+    [
+      "toggle-reservation",
+      "d.persistent&&!d.persistent.toggle",
+      "d.persistent"
+    ],
+    [
+      "exact-mana-refused",
+      "caster.reservedMana+reserve>this.p.maxMana(caster)",
+      "caster.reservedMana+reserve>=this.p.maxMana(caster)"
+    ],
+    [
+      "form-override-ignored",
+      "overrides?.monsterId??this.rollType(d)",
+      "this.rollType(d)"
+    ],
+    [
+      "pool-draw-skipped",
+      "let roll=this.p.random(0,total);",
+      "let roll=0;"
+    ]
+  ],
+  "summon-birth-contact": [
+    [
+      "bounty-lost",
+      "minion.noBounty=true",
+      "minion.noBounty=false"
+    ],
+    [
+      "lifeline-lost",
+      "minion.lifelineId=this.p.lifeline(caster)",
+      "minion.lifelineId=undefined"
+    ],
+    [
+      "instance-lost",
+      "minion.summonInst=inst",
+      "minion.summonInst=undefined"
+    ],
+    [
+      "crew-array-copied",
+      "this.p.setSource(minion,'summon:crew',d.crewMods)",
+      "this.p.setSource(minion,'summon:crew',[...d.crewMods])"
+    ],
+    [
+      "shell-publication-lost",
+      "(caster.summonShells??=new Set()).add(minion);",
+      "void caster.summonShells;"
+    ],
+    [
+      "shell-native-retained",
+      "minion.skills=[];",
+      "void minion.skills;"
+    ],
+    [
+      "ramp-upper-lost",
+      "Math.min(3,Math.max(.2,overrides.dmgMult))",
+      "Math.min(4,Math.max(.2,overrides.dmgMult))"
+    ],
+    [
+      "ramp-lower-lost",
+      "Math.min(3,Math.max(.2,overrides.dmgMult))",
+      "Math.min(3,Math.max(0,overrides.dmgMult))"
+    ],
+    [
+      "decay-life-division-lost",
+      "(this.p.maxLife(minion)/lifeMult)",
+      "this.p.maxLife(minion)"
+    ],
+    [
+      "duration-zero-stamped",
+      "if(d.duration)",
+      "if(d.duration!==undefined)"
+    ],
+    [
+      "reservation-not-committed",
+      "caster.reservedMana+=reserve",
+      "caster.reservedMana+=0"
+    ],
+    [
+      "mana-not-clamped",
+      "caster.mana=Math.min(caster.mana,this.p.availableMaxMana(caster));",
+      "void caster.mana;"
+    ],
+    [
+      "resources-not-filled",
+      "this.p.fillResources(minion);",
+      "void minion.life;"
+    ],
+    [
+      "placement-draw-skipped",
+      "const angle=this.p.random(0,Math.PI*2);",
+      "const angle=overrides?.pos?0:this.p.random(0,Math.PI*2);"
+    ],
+    [
+      "body-unpublished",
+      "this.p.actors().push(minion);",
+      "void minion;"
+    ],
+    [
+      "crew-aura-skipped",
+      "if(auraInst)this.p.activateCrewAura(minion,auraInst);",
+      "if(false)this.p.activateCrewAura(minion,auraInst!);"
+    ],
+    [
+      "gift-clock-lost",
+      "since:this.p.time()",
+      "since:undefined"
+    ],
+    [
+      "legion-clock-added",
+      "inst,spec:socket.def.minionAura,radius:",
+      "inst,spec:socket.def.minionAura,since:this.p.time(),radius:"
+    ]
+  ],
+  "summon-birth-order": [
+    [
+      "source-id-frozen",
+      "minion.sourceSkillId=inst.def.id",
+      "minion.sourceSkillId='summon_skeleton'"
+    ],
+    [
+      "story-frozen",
+      "minion.tier=caster.tier",
+      "minion.tier=0"
+    ],
+    [
+      "shell-position-frozen",
+      "minion.pos={...caster.pos}",
+      "minion.pos={x:100,y:100}"
+    ],
+    [
+      "reservation-repriced",
+      "minion.manaReserved=reserve",
+      "reserve=this.p.reservation(caster,inst,d);minion.manaReserved=reserve"
+    ],
+    [
+      "lifespan-context-refreshed",
+      "d.duration*this.p.stat(caster,'effectDuration',context)",
+      "d.duration*this.p.stat(caster,'effectDuration',this.p.context(inst))"
+    ],
+    [
+      "rites-context-cached",
+      "const current=this.p.context(inst);",
+      "const current=context;"
+    ],
+    [
+      "mend-snapshot",
+      "for(const ally of this.p.actors())",
+      "for(const ally of [...this.p.actors()])"
+    ],
+    [
+      "late-death-aborts",
+      "this.p.attachTethers(minion,inst,caster);",
+      "this.p.attachTethers(minion,inst,caster);if(caster.dead)return null;"
+    ],
+    [
+      "body-republished",
+      "this.p.accrueSummon(minion);",
+      "if(!this.p.actors().includes(minion))this.p.actors().push(minion);this.p.accrueSummon(minion);"
+    ],
+    [
+      "gift-time-frozen",
+      "since:this.p.time()",
+      "since:17"
+    ],
+    [
+      "devour-time-frozen",
+      "next:this.p.time()+devour.interval",
+      "next:17+devour.interval"
+    ]
+  ],
+  "summon-birth-forms": [
+    [
+      "mimic-shape-lost",
+      "minion.shape=caster.shape",
+      "minion.shape=undefined"
+    ],
+    [
+      "mimic-color-lost",
+      "minion.color=caster.color",
+      "minion.color=undefined"
+    ],
+    [
+      "mimic-radius-lost",
+      "minion.radius=caster.radius",
+      "minion.radius=11"
+    ],
+    [
+      "mimic-facing-lost",
+      "minion.radius=caster.radius;minion.facing=caster.facing;",
+      "minion.radius=caster.radius;void minion.facing;"
+    ],
+    [
+      "mimic-look-lost",
+      "minion.look=caster.look",
+      "minion.look=undefined"
+    ],
+    [
+      "mimic-material-lost",
+      "minion.material=caster.material",
+      "minion.material=undefined"
+    ],
+    [
+      "larger-explosion-lost",
+      "Math.max(minion.explodeOnDeath,",
+      "Math.min(minion.explodeOnDeath,"
+    ],
+    [
+      "bloom-clock-lost",
+      "minion.bloomIn=bloom;",
+      "void bloom;"
+    ],
+    [
+      "bloom-status-lost",
+      "this.p.applyBloom(minion,bloom);",
+      "void bloom;"
+    ],
+    [
+      "bloom-duration-lost",
+      "this.p.applyBloom(minion,bloom);",
+      "this.p.applyBloom(minion,1);"
+    ],
+    [
+      "crew-rules-ignored",
+      "summonBirthKitIds(d,typeId,minion.skills.flatMap(s=>s?[s.def.id]:[]))",
+      "minion.skills.flatMap(s=>s?[s.def.id]:[])"
+    ],
+    [
+      "retired-native-skill-kept",
+      "minion.skills=minion.skills.filter(s=>!s||crewIds.includes(s.def.id));",
+      "void minion.skills;"
+    ],
+    [
+      "native-skill-duplicated",
+      "this.p.definition(sid)&&!minion.skills.some(s=>s?.def.id===sid)",
+      "this.p.definition(sid)"
+    ],
+    [
+      "arrival-damage-lost",
+      "this.p.maxLife(minion)*impact",
+      "0"
+    ]
+  ],
+  "summon-birth-boundary": [
+    [
+      "explicit-override-kind-unchecked",
+      "if(!d||(requested!=null&&d.type!=='summon'))return null;",
+      "if(!d)return null;"
+    ],
+    [
+      "override-read-repeated",
+      "const requested=overrides?.delivery,",
+      "const requested=(void overrides?.delivery,overrides?.delivery),"
+    ],
+    [
+      "override-kind-read-repeated",
+      "requested!=null&&d.type!=='summon'",
+      "requested!=null&&(void d.type,d.type)!=='summon'"
+    ],
+    [
+      "null-override-fallback-lost",
+      "d=requested??this.p.delivery(inst)",
+      "d=requested"
+    ],
+    [
+      "late-kind-rechecked",
+      "const typeId=overrides?.monsterId??this.rollType(d)",
+      "if(d.type!=='summon')return null;const typeId=overrides?.monsterId??this.rollType(d)"
+    ]
+  ]
+};
+ for(const[name,faults]of Object.entries(cases)){const course=courses.find(c=>c.name===name);assert(course);for(const[name,from,to]of faults)await replay(course,name,{name,from,to});}
+ for(const course of courses)await replay(course,course.name+'-restored');report.restored=true;report.passed=true;
+}catch(e){report.failure=String(e);process.exitCode=1;}
+finally{try{verifyReference(ref,lock);report.inputsUnchanged=Object.entries(sources).every(([f,h])=>sha256(fs.readFileSync(path.join(root,f)))===h);report.passed=report.passed&&report.inputsUnchanged;}finally{assert.equal(path.dirname(fs.realpathSync(work)),owned);assert(!fs.existsSync(path.join(work,'.git')));fs.rmSync(work,{recursive:true,maxRetries:3});report.cleaned=true;const bytes=gzipSync(JSON.stringify(logs),{level:9});report.logsSha256=sha256(bytes);fs.writeFileSync(path.join(owned,stem+'.logs.json.gz'),bytes,{flag:'wx'});fs.writeFileSync(path.join(owned,stem+'.json'),JSON.stringify(report,null,2)+'\n',{flag:'wx'});}}
+assert(report.passed,report.failure??'Inputs changed');console.log({passed:true,prototypeOnly:true,observations:report.courses.reduce((n,c)=>n+c.observations,0),faults:report.faults.length,types:report.types,restored:report.restored,cleaned:true});

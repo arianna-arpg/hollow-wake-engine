@@ -1,0 +1,98 @@
+{
+  "passed": true,
+  "candidateOnly": true,
+  "promoted": false,
+  "recorded": "2026-11-11T00:31:25.490Z",
+  "proofs": [
+    {
+      "name": "summon-birth-candidate-review",
+      "file": ".artifacts/summon-birth-candidate-review.json",
+      "sha256": "2f8ec186154f1cb5d30f62ab8a076b185444781522731197d6cf5da8fa676b8d"
+    },
+    {
+      "name": "summon-candidate-package-r1",
+      "file": ".artifacts/summon-candidate-package-r1.json",
+      "sha256": "7ac4a03e90ffb7a4d5f770daa46bd2a1bea5fd2556f0fdc88c8cc74d5b6b08ee"
+    },
+    {
+      "name": "summon-adapter-r1",
+      "file": ".artifacts/summon-adapter-r1.json",
+      "sha256": "25f418c5ae44fa48e89be60d47e0b115d4d585c14551cefed3282d46b5ecfb1b"
+    },
+    {
+      "name": "summon-nested-original-r1",
+      "file": ".artifacts/summon-nested-original-r1.json",
+      "sha256": "7bfa3a1e607a749533237dc80cb75bfdbe6c66bf9094e43a50e88ae3d94dd17b"
+    },
+    {
+      "name": "summon-installed-game-r1",
+      "file": ".artifacts/summon-installed-game-r1.json",
+      "sha256": "093ece55a77d77dfc4e79d9c79aaf7d4f8ea7930467ee41991718c055bb5e488"
+    },
+    {
+      "name": "summon-composed-r1",
+      "file": ".artifacts/summon-composed-r1.json",
+      "sha256": "763cafcded0b80c4f94a771aedb6cdabbca9fb7eb8c38db0bd3a45180c192869"
+    }
+  ],
+  "sources": {
+    ".artifacts/summon-birth.ts": "9f29f338010faa1e005f170e1deb3005a1a965ee7c1115b05285800d81cd9b4d",
+    ".artifacts/summon-offspring.ts": "1ca2c53819cdc3a9e177c5d9cfdf1f5c48cd208b7b3f00e9ca4b8e31185cf4aa",
+    ".artifacts/summon-birth-binding.ts": "73fd91eedd882c9be07a62ab0e5a8efdee43b97614330ba2696765f2dbf355a1",
+    ".artifacts/summon-birth-consumer.ts": "df92e0c8c13fd0146c4826b3522a297d3c9cb81d3a3d44549f6214230f78a517",
+    ".artifacts/summon-offspring-consumer.ts": "94589e559dc7a3dfdbb9b873a67236641c94395f126aa73f316f5c616c6ce240",
+    ".artifacts/test-summon-birth-independent.mjs": "47cecffa228ef73095f07fbcc6d1e7ab40be590b4328aff85ffce6b239ece4dc",
+    ".artifacts/test-summon-offspring-independent.mjs": "b3a67d3f89096072fd4d6f083b774a277310be3dc125647faa80705385ff4315",
+    ".artifacts/summon-birth-api-review.json": "d34cf31ad698b06fb303366c08ca2f4095aa4f7ff3e9ba680f6c366ad9aeccdc",
+    ".artifacts/integrate-summon-birth.mjs": "2018577c7a5684d6142c5ed091b7e1924b79658bf4efc7a0b9b87c72591b3c50",
+    ".artifacts/export-summon-nested.ts": "9a6e868656363a7eb8df78269c86415c54079e5e5248e02bc095065349a25bfe",
+    ".artifacts/summon-package-docs.txt": "a3adb8c5d66997a5f1562b33217defd9869c9b54ba7c4693c874c55e307f5950"
+  },
+  "original": {
+    "courses": 7,
+    "observations": 117,
+    "originalFaults": 108,
+    "completePrototypeObservations": 107,
+    "completePrototypeFaults": 62
+  },
+  "package": {
+    "contracts": 56,
+    "faults": 35,
+    "types": true,
+    "negativeTypeCases": 9,
+    "browserBytes": 6293,
+    "archiveSha256": "e8c3d6783f585a5709ff435d82915d7af8195ebf4bb4c23ce5702217d8605be0"
+  },
+  "adapter": {
+    "guards": 62,
+    "installedModules": 12,
+    "originalObservations": 345,
+    "privateCourses": 4,
+    "privateStages": 15,
+    "faults": 10
+  },
+  "composed": {
+    "originalObservations": 345,
+    "typeConfigs": [
+      "game",
+      "launcher",
+      "simulation"
+    ],
+    "smoke": {
+      "scenarios": 5,
+      "seeds": 5,
+      "episodes": 25,
+      "exactEpisodes": true,
+      "normalizedReportsEqual": true,
+      "episodesSha256": "92f132c90f0c5da0a440415ae63e0b86b9cd1c66b6bca77c64ea2392688cd0c1",
+      "scope": "Fully assembled game with summons delegated versus the same assembly retaining original summon birth and offspring only"
+    }
+  },
+  "productionTickingSourcesFrozen": true,
+  "remaining": [
+    "Promote reviewed sources and immutable original observations only after ticking publication.",
+    "Run full SDK and original-reference checks after promotion; preserve failed histories and scoped cleanup.",
+    "Measure summon and aura workloads in isolation before optimization claims; existing kernel timing does not measure birth, allocation or full-frame cost.",
+    "Complete body factories, private graph construction, native package exposure and physical Steam Deck/older-mobile acceptance remain open."
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "passed": false,
+  "mode": "measure",
+  "candidateOnly": true,
+  "promoted": false,
+  "sources": {
+    ".artifacts/summon-workload.ts": "a2728da9b11c98a54b4ef89b21041a400643952af7cc469e9fbbb22bcb3a770d",
+    ".artifacts/qualify-summon-workload.mjs": "e3e79bba47a398f1b2d9ec0b6ba41c725a946c925bddaa6804569469aaa5ec2b",
+    ".artifacts/summon-installation-review.json": "b8bfba56dc7856a1e9cdfab593fc4457fde6769eaa5bebdbf71801cce29a9483",
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "tsconfig.json": "98691a01b56f8bd025c728aba3fa8ea3e682da943c6eab103289045c5e1ac6e1",
+    ".artifacts/summon-birth.ts": "9f29f338010faa1e005f170e1deb3005a1a965ee7c1115b05285800d81cd9b4d",
+    ".artifacts/summon-offspring.ts": "1ca2c53819cdc3a9e177c5d9cfdf1f5c48cd208b7b3f00e9ca4b8e31185cf4aa",
+    ".artifacts/summon-birth-binding.ts": "73fd91eedd882c9be07a62ab0e5a8efdee43b97614330ba2696765f2dbf355a1",
+    ".artifacts/summon-birth-consumer.ts": "df92e0c8c13fd0146c4826b3522a297d3c9cb81d3a3d44549f6214230f78a517",
+    ".artifacts/summon-offspring-consumer.ts": "94589e559dc7a3dfdbb9b873a67236641c94395f126aa73f316f5c616c6ce240",
+    ".artifacts/test-summon-birth-independent.mjs": "47cecffa228ef73095f07fbcc6d1e7ab40be590b4328aff85ffce6b239ece4dc",
+    ".artifacts/test-summon-offspring-independent.mjs": "b3a67d3f89096072fd4d6f083b774a277310be3dc125647faa80705385ff4315",
+    ".artifacts/summon-birth-api-review.json": "d34cf31ad698b06fb303366c08ca2f4095aa4f7ff3e9ba680f6c366ad9aeccdc",
+    ".artifacts/integrate-summon-birth.mjs": "2018577c7a5684d6142c5ed091b7e1924b79658bf4efc7a0b9b87c72591b3c50",
+    ".artifacts/export-summon-nested.ts": "9a6e868656363a7eb8df78269c86415c54079e5e5248e02bc095065349a25bfe",
+    ".artifacts/summon-package-docs.txt": "a3adb8c5d66997a5f1562b33217defd9869c9b54ba7c4693c874c55e307f5950",
+    "bundle:original": "66960f4430793aa5f834209c87541d6c7aa60eae7e391580b3061f28793ae34e",
+    "bundle:candidate": "6cba3113f6853cac24433c5e2579e1f732ba512a272c79039df794913b706162",
+    "bundle:fault": "e0249cf840b02dcc0c5ba81df88ef1228cb46d07183d02492aca81efbbb82db3"
+  },
+  "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+  "logicalCpus": 20,
+  "memoryBytes": 68631449600,
+  "node": "v24.9.0",
+  "runs": [],
+  "idleChecks": [
+    {
+      "label": "original-0",
+      "elapsedSeconds": 1.0577201999999999,
+      "processes": [
+        {
+          "name": "node",
+          "id": 80624,
+          "cpuSeconds": 5.265625,
+          "coreDuty": 4.9782778091975555
+        },
+        {
+          "name": "ChromaVisualizer",
+          "id": 29088,
+          "cpuSeconds": 0.75,
+          "coreDuty": 0.7090722102121148
+        },
+        {
+          "name": "codex",
+          "id": 66256,
+          "cpuSeconds": 0.671875,
+          "coreDuty": 0.6352105216483528
+        },
+        {
+          "name": "LEDKeeper2",
+          "id": 43020,
+          "cpuSeconds": 0.421875,
+          "coreDuty": 0.3988531182443146
+        },
+        {
+          "name": "iCUE",
+          "id": 64180,
+          "cpuSeconds": 0.21875,
+          "coreDuty": 0.20681272797853348
+        },
+        {
+          "name": "audiodg",
+          "id": 11980,
+          "cpuSeconds": 0.203125,
+          "coreDuty": 0.1920403902657811
+        },
+        {
+          "name": "firefox",
+          "id": 74416,
+          "cpuSeconds": 0.125,
+          "coreDuty": 0.11817870170201913
+        },
+        {
+          "name": "ChatGPT",
+          "id": 83592,
+          "cpuSeconds": 0.078125,
+          "coreDuty": 0.07386168856376195
+        }
+      ]
+    }
+  ],
+  "types": true,
+  "faultDetected": true,
+  "failure": "AssertionError [ERR_ASSERTION]: Another process is CPU-heavy; preserve this attempt and defer timed qualification",
+  "inputsUnchanged": true,
+  "cleaned": true,
+  "logsSha256": "dc3fb146969ad9416d52d6d541f45ebc9a0f2646bdfc1f0b4487617f948327ab"
+}

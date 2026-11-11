@@ -1,0 +1,12 @@
+{
+  "prototypeDefect": true,
+  "originalChanged": false,
+  "acceptedObservationsChanged": false,
+  "regressionWasReproduced": true,
+  "previouslyPassingObservations": 103,
+  "defect": "The first draft delegated the normal delivery-kind check to its host resolver but failed to check an explicit override.",
+  "correction": "Capture the optional override once. Fall back for null/undefined. Check an explicit override kind exactly once before admission, and retain that captured delivery through later callbacks.",
+  "failedSourceSha256": "1e8f35413f8edecf90352f861fafda119085462594c812281069f924ce29c6f9",
+  "correctedSourceSha256": "9f29f338010faa1e005f170e1deb3005a1a965ee7c1115b05285800d81cd9b4d",
+  "originalBoundary": ".artifacts/summon-birth-boundary-original-r1.json"
+}

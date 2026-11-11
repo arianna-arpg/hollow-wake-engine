@@ -1,0 +1,200 @@
+{
+  "passed": true,
+  "candidateOnly": true,
+  "promoted": false,
+  "recorded": "2026-11-11T00:06:07.988Z",
+  "originalReviewSha256": "cc45555b0f053f13b7290aeac2aae70961b1d91ae48880f51cb67c3266a5024f",
+  "proofs": [
+    {
+      "name": "summon-birth-complete-prototype-r2",
+      "file": ".artifacts/summon-birth-complete-prototype-r2.json",
+      "sha256": "58daa704a4c2b442116be4c83e36875f42249020d0e511881ac4f67c1e758ef1"
+    },
+    {
+      "name": "summon-birth-independent-r5",
+      "file": ".artifacts/summon-birth-independent-r5.json",
+      "sha256": "4887304d9a8361c62169ef3d04c5e2a3446e7ca7fa2146692cb8112b7948bcb5"
+    },
+    {
+      "name": "summon-birth-types-r2",
+      "file": ".artifacts/summon-birth-types-r2.json",
+      "sha256": "4b3f54d996429099a1ed1118c9d09d0b25b16345fe7dfd270195c2b370563b44"
+    },
+    {
+      "name": "summon-offspring-prototype-r1",
+      "file": ".artifacts/summon-offspring-prototype-r1.json",
+      "sha256": "cc4a43f5d3b68e84563de3703c6e839fa424abef7038472d9ed5f42b9bdd6151"
+    },
+    {
+      "name": "summon-offspring-independent-r1",
+      "file": ".artifacts/summon-offspring-independent-r1.json",
+      "sha256": "23674f9aeeeaa52279ba3fcb8336acd49a9e57ac6f51fe33e0a5e0d21348c112"
+    },
+    {
+      "name": "summon-offspring-types-r1",
+      "file": ".artifacts/summon-offspring-types-r1.json",
+      "sha256": "33135c9be297a839e6ee61af8d252205bb8107dae44331a4da41415f073c76be"
+    }
+  ],
+  "originalCourses": 6,
+  "originalObservations": 107,
+  "originalFaults": 95,
+  "prototypeFaults": 62,
+  "independentBirthContracts": 40,
+  "independentBirthFaults": 25,
+  "independentOffspringContracts": 16,
+  "independentOffspringFaults": 10,
+  "standaloneTypes": true,
+  "birthTypeNegativeCases": 5,
+  "offspringTypeNegativeCases": 4,
+  "selectedBrowserBytes": {
+    "birth": 6139,
+    "offspring": 1078
+  },
+  "sources": {
+    ".artifacts/summon-birth.ts": "9f29f338010faa1e005f170e1deb3005a1a965ee7c1115b05285800d81cd9b4d",
+    ".artifacts/summon-offspring.ts": "1ca2c53819cdc3a9e177c5d9cfdf1f5c48cd208b7b3f00e9ca4b8e31185cf4aa",
+    ".artifacts/summon-birth-binding.ts": "73fd91eedd882c9be07a62ab0e5a8efdee43b97614330ba2696765f2dbf355a1",
+    ".artifacts/summon-birth-consumer.ts": "df92e0c8c13fd0146c4826b3522a297d3c9cb81d3a3d44549f6214230f78a517",
+    ".artifacts/summon-offspring-consumer.ts": "94589e559dc7a3dfdbb9b873a67236641c94395f126aa73f316f5c616c6ce240",
+    ".artifacts/test-summon-birth-independent.mjs": "47cecffa228ef73095f07fbcc6d1e7ab40be590b4328aff85ffce6b239ece4dc",
+    ".artifacts/test-summon-offspring-independent.mjs": "b3a67d3f89096072fd4d6f083b774a277310be3dc125647faa80705385ff4315",
+    ".artifacts/summon-birth-api-review.json": "d34cf31ad698b06fb303366c08ca2f4095aa4f7ff3e9ba680f6c366ad9aeccdc"
+  },
+  "failureHistory": [
+    {
+      "report": ".artifacts/summon-birth-prototype-r1.json",
+      "reportSha256": "d86a29191328e1097147c8d7e7154123b0fa6cba1abed58ddb5d963cd1b919be",
+      "logsSha256": "c48af1e2b469cf8c869097540babee7b3e9810571595fb4a312b69e12a372a8a",
+      "correction": ".artifacts/summon-birth-prototype-r1-correction.json",
+      "correctionSha256": "507fd26954ae93ab5153498eb0f820f6110c2a25cabdd03695240859b89df4c4",
+      "backups": [
+        {
+          "original": ".artifacts/summon-birth.ts",
+          "backup": ".artifacts/summon-birth-r1.ts",
+          "sha256": "2cea5ba669f26b3b2ca4afae1772f2badc32ebe51cd97e801996b7f786778009"
+        },
+        {
+          "original": ".artifacts/summon-birth-binding.ts",
+          "backup": ".artifacts/summon-birth-binding-r1.ts",
+          "sha256": "538b08537e3ad2c140deb725ecfb216b52da14e9ea7d3c04062cdd4f8ed50f54"
+        },
+        {
+          "original": ".artifacts/qualify-summon-birth-prototype.mjs",
+          "backup": ".artifacts/qualify-summon-birth-prototype-r1.mjs",
+          "sha256": "4446a8774f1d1e02ea71d8f58746a3abba017c98943f52bddeed164aa40fded1"
+        }
+      ],
+      "reason": "Adapter used modifier-tag array as stat query context; unused original kit import and roll helper remained after extraction."
+    },
+    {
+      "report": ".artifacts/summon-birth-prototype-r2.json",
+      "reportSha256": "49c3d0383bebb0fa9691ed2dccd8bc9dd0566f72877e8ff2283703b6987afb96",
+      "logsSha256": "c48af1e2b469cf8c869097540babee7b3e9810571595fb4a312b69e12a372a8a",
+      "correction": ".artifacts/summon-birth-prototype-r2-correction.json",
+      "correctionSha256": "30b0c71f30541e079aef2c4018a1babd7f77396c8e26e8d4c21377f167859d44",
+      "backups": [
+        {
+          "original": ".artifacts/summon-birth.ts",
+          "backup": ".artifacts/summon-birth-before-override-guard.ts",
+          "sha256": "1e8f35413f8edecf90352f861fafda119085462594c812281069f924ce29c6f9"
+        },
+        {
+          "original": ".artifacts/qualify-summon-birth-prototype.mjs",
+          "backup": ".artifacts/qualify-summon-birth-prototype-r2.mjs",
+          "sha256": "7bcfc62c7d24396903c566f7bf59832b238f41550543a982fcbf476582a4e452"
+        }
+      ],
+      "reason": "Adapter removal guard assumed a grouped named import. The pinned summonKitIds import is a standalone declaration."
+    },
+    {
+      "report": ".artifacts/summon-birth-independent-r1.json",
+      "reportSha256": "ff043f5d06329ad74df885f3c29128393fb05696cabdb52abc959b7d5b83e292",
+      "logsSha256": "c48af1e2b469cf8c869097540babee7b3e9810571595fb4a312b69e12a372a8a",
+      "correction": ".artifacts/summon-birth-independent-r1-correction.json",
+      "correctionSha256": "ffef169148d9da770ccfd2c22b6e2ecefce9e279d1f591947b847563d46b88df",
+      "backups": [
+        {
+          "original": ".artifacts/summon-birth.ts",
+          "backup": ".artifacts/summon-birth-before-override-guard.ts",
+          "sha256": "1e8f35413f8edecf90352f861fafda119085462594c812281069f924ce29c6f9"
+        },
+        {
+          "original": ".artifacts/test-summon-birth-independent.mjs",
+          "backup": ".artifacts/test-summon-birth-independent-r1.mjs",
+          "sha256": "a138d1eae11d2c17427127e34fc6668a21ddf12a2eb658845c9acf6f1bd1233f"
+        }
+      ],
+      "reason": "The independent browser observer compared VM-created array prototypes to host arrays. Values matched; deep equality rejected realm identity."
+    },
+    {
+      "report": ".artifacts/summon-birth-independent-r2.json",
+      "reportSha256": "00726d623c16f8a846ebe2097fd260905705fdf4d1cb1bd054b5c6cb1ff1b4ea",
+      "logsSha256": "be8feab9c7a1416bc5aa099e898b98ded0bfe98e7816dfa0e8803a1ba3ed248f",
+      "correction": ".artifacts/summon-birth-independent-r2-correction.json",
+      "correctionSha256": "ccb606dd093aadf084a1247e2838ccad7aa1e6fb4fdddaa5cc00bc4423217e25",
+      "backups": [
+        {
+          "original": ".artifacts/summon-birth.ts",
+          "backup": ".artifacts/summon-birth-before-override-guard.ts",
+          "sha256": "1e8f35413f8edecf90352f861fafda119085462594c812281069f924ce29c6f9"
+        },
+        {
+          "original": ".artifacts/test-summon-birth-independent.mjs",
+          "backup": ".artifacts/test-summon-birth-independent-r2.mjs",
+          "sha256": "4448f814fd86a3149c80ecf6a0973ef656f0608be3602916a332e64008c0ffc9"
+        }
+      ],
+      "reason": "The exact-reservation mutant returned null as intended, but the independent test dereferenced it before asserting admission. This produced a TypeError rather than a specific assertion."
+    },
+    {
+      "report": ".artifacts/summon-birth-independent-r3.json",
+      "reportSha256": "a34682c3a061281f25d988c83d47a2d22c8b661b197b783e707e1c1b92c18a26",
+      "logsSha256": "d23d523a34b73b5c486ceb48bcafcd0609460477ef8572d52c8683eb37e636cd",
+      "correction": ".artifacts/summon-birth-independent-r3-correction.json",
+      "correctionSha256": "ce280296f2deda1b2960683a735d55bb515970187d34a96a97bf943de5c78171",
+      "backups": [
+        {
+          "original": ".artifacts/summon-birth.ts",
+          "backup": ".artifacts/summon-birth-before-override-guard.ts",
+          "sha256": "1e8f35413f8edecf90352f861fafda119085462594c812281069f924ce29c6f9"
+        },
+        {
+          "original": ".artifacts/test-summon-birth-independent.mjs",
+          "backup": ".artifacts/test-summon-birth-independent-r3.mjs",
+          "sha256": "5007caa7b6f96e913551fe2b82c5ae26b794d8331fdeab230c40158b13d66781"
+        }
+      ],
+      "reason": "The missing-shell-publication mutant removed the Set itself, so membership inspection threw a TypeError before the assertion."
+    },
+    {
+      "report": ".artifacts/summon-birth-complete-prototype-r1.json",
+      "reportSha256": "f4c781e96d90ae56b99daa7bf63a549aa6c24eef506b6850ab8c56c7b0079382",
+      "logsSha256": "dfd4b05760d24475e72cf6110c286f8b4f7b611be0456804cc638c27e6457720",
+      "correction": ".artifacts/summon-birth-override-guard-correction.json",
+      "correctionSha256": "78ed5b54a10fc87352c3f11e5a18b88950ecc7b3aa146d1e8716e40c7c8399ec",
+      "backups": [
+        {
+          "original": ".artifacts/summon-birth.ts",
+          "backup": ".artifacts/summon-birth-before-override-guard.ts",
+          "sha256": "1e8f35413f8edecf90352f861fafda119085462594c812281069f924ce29c6f9"
+        },
+        {
+          "original": ".artifacts/qualify-summon-birth-complete-prototype.mjs",
+          "backup": ".artifacts/qualify-summon-birth-complete-prototype.mjs",
+          "sha256": "9547185651e8abb93d3240cbb8f091b604fe2973ab489d898483e85eee4d9b5e"
+        }
+      ],
+      "reason": "The first draft delegated the normal delivery-kind check to its host resolver but failed to check an explicit override."
+    }
+  ],
+  "productionTickingSourcesFrozen": true,
+  "limits": [
+    "Not exported, installed, or publicly published.",
+    "Original body factory, death, placement and effect implementations remain explicit host boundaries. Selected authored contacts do not qualify every monster archetype.",
+    "The offspring orchestration course observes spawn requests; a fully assembled game and actual nested birth scenario remain integration gates.",
+    "A selected browser byte count is not a CPU, allocation, whole-frame or physical-device performance result.",
+    "Complete private character graphs and durable acknowledgement-time publication remain open."
+  ],
+  "next": "Generate installed consumer contracts from the accepted independent cases; assemble a candidate package from the verified immutable ticking archive without changing the checkout. Qualify package, guarded adapter, actual nested births, composed game and paired combat before promotion."
+}

@@ -1,5 +1,9 @@
 # Boundary contract
 
+The optional [summon services](summon-birth.md) own birth admission, reservation,
+crew configuration and offspring ordering. Hosts retain body factories, rosters,
+spatial effects, death, presentation and durable publication.
+
 The optional [aura ticking service](aura-ticking.md) owns expiry, upkeep, membership,
 typed damage and pulse ordering over borrowed state. Frame admission, spatial
 selection, retirement, death, presentation and durable publication remain host-owned.

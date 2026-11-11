@@ -1,0 +1,1359 @@
+{
+  "passed": false,
+  "mode": "measure",
+  "candidateOnly": true,
+  "promoted": false,
+  "sources": {
+    ".artifacts/summon-workload.ts": "a2728da9b11c98a54b4ef89b21041a400643952af7cc469e9fbbb22bcb3a770d",
+    ".artifacts/qualify-summon-workload.mjs": "517dbd3b216f3f8bfd9ed7a7acdd33061abe85c5e7e57360a8371edd876006ad",
+    ".artifacts/summon-installation-review.json": "b8bfba56dc7856a1e9cdfab593fc4457fde6769eaa5bebdbf71801cce29a9483",
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "tsconfig.json": "98691a01b56f8bd025c728aba3fa8ea3e682da943c6eab103289045c5e1ac6e1",
+    ".artifacts/summon-birth.ts": "9f29f338010faa1e005f170e1deb3005a1a965ee7c1115b05285800d81cd9b4d",
+    ".artifacts/summon-offspring.ts": "1ca2c53819cdc3a9e177c5d9cfdf1f5c48cd208b7b3f00e9ca4b8e31185cf4aa",
+    ".artifacts/summon-birth-binding.ts": "73fd91eedd882c9be07a62ab0e5a8efdee43b97614330ba2696765f2dbf355a1",
+    ".artifacts/summon-birth-consumer.ts": "df92e0c8c13fd0146c4826b3522a297d3c9cb81d3a3d44549f6214230f78a517",
+    ".artifacts/summon-offspring-consumer.ts": "94589e559dc7a3dfdbb9b873a67236641c94395f126aa73f316f5c616c6ce240",
+    ".artifacts/test-summon-birth-independent.mjs": "47cecffa228ef73095f07fbcc6d1e7ab40be590b4328aff85ffce6b239ece4dc",
+    ".artifacts/test-summon-offspring-independent.mjs": "b3a67d3f89096072fd4d6f083b774a277310be3dc125647faa80705385ff4315",
+    ".artifacts/summon-birth-api-review.json": "d34cf31ad698b06fb303366c08ca2f4095aa4f7ff3e9ba680f6c366ad9aeccdc",
+    ".artifacts/integrate-summon-birth.mjs": "2018577c7a5684d6142c5ed091b7e1924b79658bf4efc7a0b9b87c72591b3c50",
+    ".artifacts/export-summon-nested.ts": "9a6e868656363a7eb8df78269c86415c54079e5e5248e02bc095065349a25bfe",
+    ".artifacts/summon-package-docs.txt": "a3adb8c5d66997a5f1562b33217defd9869c9b54ba7c4693c874c55e307f5950",
+    "bundle:original": "5f174fd3eadd839f8203344891b04352060dd006d96591a29cf57a877180d3be",
+    "bundle:candidate": "840bce9a4d46d6fe3e8384a5d8508105ad180458f22af08182ab8d4dabb59ee4",
+    "bundle:fault": "8b7cf4755d7b4d73a64cb53039c0533bfad970e42411fe55f2e9924455f5de7d"
+  },
+  "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+  "logicalCpus": 20,
+  "memoryBytes": 68631449600,
+  "node": "v24.9.0",
+  "runs": [
+    {
+      "variant": "original",
+      "round": 0,
+      "result": {
+        "node": "v24.9.0",
+        "platform": "win32",
+        "arch": "x64",
+        "samples": 32,
+        "warmups": 24,
+        "results": [
+          {
+            "name": "ordinary-birth-burst",
+            "commandsPerBatch": 16,
+            "measurements": [
+              {
+                "elapsedMs": 2.7739999999998872,
+                "cpuUserMicros": 78000,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "09207f83c21bc76b388414e2ec7bd646a8a060b316a311852d6bea6f434e88fd"
+              },
+              {
+                "elapsedMs": 2.2398000000000593,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "3e199b1408fa769fa63cad07b71dc0029f9503534adeccf3bfb7616075869076"
+              },
+              {
+                "elapsedMs": 2.082400000000007,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "ed8647d2a3fb123e1e8d4a08537a803553f2c7e69f17606bb74864d15f3d19d6"
+              },
+              {
+                "elapsedMs": 2.3281999999999243,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "4fce71b524a15341beb53ad186661a563a064c9dad48b14389e72b0d00da149a"
+              },
+              {
+                "elapsedMs": 1.6905000000001564,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "a46ad8c1155143a6de2ec54e006c994855c0b192d5b7c4dc484ea2711e27dbd0"
+              },
+              {
+                "elapsedMs": 1.6338000000000648,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "9418bb942b12dd62eb742070ce00c52c4111d9613c68df84749bdc264fdfe533"
+              },
+              {
+                "elapsedMs": 1.8619000000001051,
+                "cpuUserMicros": 16000,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "78c366260270a2f7d67d70ca364a689ab80f53995dfdd52bbb90520b7eb7071a"
+              },
+              {
+                "elapsedMs": 1.7795000000000982,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "08f63a7e0c5ef29e0e716fe281bcb818205413f6a289a9760e0c71a6566c13bb"
+              },
+              {
+                "elapsedMs": 1.9379999999998745,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "46f4e8c16352778175f893daf80e600560d855dab4824b22693adfe92b1fd4f3"
+              },
+              {
+                "elapsedMs": 3.130600000000186,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "ceb8a18aa9a934d888930a9487811c428e9017cf42831a06f0fb5d1ef3e71861"
+              },
+              {
+                "elapsedMs": 1.6815000000001419,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "3f261b9c38f8be2982c88da0ccd1e2779c0b7363a5fa3374a2775a673840935a"
+              },
+              {
+                "elapsedMs": 1.652900000000045,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "a0836f7737235569c27613bde99b8ab4fc05dd9b49add8403154c84012bc46a3"
+              },
+              {
+                "elapsedMs": 2.1041000000000167,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "8ac01e8fedcf2f0e5657c336a1b49adf3cd8cef6f44331c12405840de5550eb8"
+              },
+              {
+                "elapsedMs": 1.7678999999998268,
+                "cpuUserMicros": 16000,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "11b116e29ca11093c06f5bef240255a9e8c1f49397c7ba3d61c3193552ad0a4f"
+              },
+              {
+                "elapsedMs": 2.153799999999819,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "ce77ee542504622cf5c88e41249bfad6fc0a6a8229aeae5210bdc0ae4cae1ca1"
+              },
+              {
+                "elapsedMs": 1.9135000000001128,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "6091e1a52eee099dadff463ede556eef3996dc9e78df506adda1c9060f83f4a9"
+              },
+              {
+                "elapsedMs": 1.7519999999999527,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "d6aab3d0e3f18417561ed6fc8d180909cf943f31798ad2c4a52923dc0c2c594b"
+              },
+              {
+                "elapsedMs": 1.7850000000000819,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "3cf37265212dcf30636f49a6a51d0187d89bc68cb5597e278aa0004bddcedc71"
+              },
+              {
+                "elapsedMs": 1.695699999999988,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "336f8dd320a31c045ec4e9d8734351cf84700b0ffaa41ebdb8cdebcd1261dff9"
+              },
+              {
+                "elapsedMs": 2.3038000000001375,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "221a13ca3ffe85a854d4f5150829fdec270ef815a38e44c020589b4cf81db325"
+              },
+              {
+                "elapsedMs": 1.6801000000000386,
+                "cpuUserMicros": 15000,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "8cea339fc9c20bdbee1f57929967c201cf87b649f499bf6828c829c6828007a4"
+              },
+              {
+                "elapsedMs": 2.1093000000000757,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "1cebe3669eb62fc9b82b3c1ac3e58f17452a5d54b19fecd047bfd54cd8d6ce8e"
+              },
+              {
+                "elapsedMs": 3.1838000000000193,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "5da5d106738cd2ecc23e2ada7511155f0e7e6dd1f952ee8462df272e123c2d73"
+              },
+              {
+                "elapsedMs": 3.1488999999999123,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "ce42f0edb8c0aef1d4acc3838ff708aac3c8c56fd12052473ee1e28c333da472"
+              },
+              {
+                "elapsedMs": 1.6794999999999618,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "dea374a017df671c3dd6916ac68a1712d3e2157316a3dc760d45397a01606aac"
+              },
+              {
+                "elapsedMs": 1.736599999999953,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "fa5c2b83e62060b87d0db122d081a76559379db95c7b487eba775a212f542d8f"
+              },
+              {
+                "elapsedMs": 1.636700000000019,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "55dfd4cd7ea294237e635b8b61c16640627d31824c2d345226a6ed861a8a5e65"
+              },
+              {
+                "elapsedMs": 2.019600000000082,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "c630e3fa8b9f32531a3c3f9396e60669459eeacf27307086ec1518edba5ed914"
+              },
+              {
+                "elapsedMs": 3.6943999999998596,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "3f2ca26ba1ccd4eb2bf15f2b0ea8dabcd71cad3c0cacd7f821798c925f1efc63"
+              },
+              {
+                "elapsedMs": 3.1089999999999236,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "b6f77ac5f337b7e5750d612ed8eac6bccb25fe5dea395a8178f7152319852ea0"
+              },
+              {
+                "elapsedMs": 3.040399999999863,
+                "cpuUserMicros": 16000,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "4f89c5745519c68691c99c528c8c981b31226fd9037d9cf025dc71872dc0fb5d"
+              },
+              {
+                "elapsedMs": 3.1274000000000797,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 16,
+                "created": 16,
+                "refused": 0,
+                "receiptSha256": "984e2dca09dc3c01ec2d09c3953579888ad46f417a9b576ac72d38129445702f"
+              }
+            ],
+            "heapBefore": 72249160,
+            "heapAfter": 73573488,
+            "retainedHeapDelta": 1324328
+          },
+          {
+            "name": "crew-aura-burst",
+            "commandsPerBatch": 8,
+            "measurements": [
+              {
+                "elapsedMs": 2.609000000000151,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "76dca678768f7fda7d40d9f8ae699e5cf488609c8b97f852dc6f3cb90fb1a59a"
+              },
+              {
+                "elapsedMs": 1.2900999999999385,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "d8a5ec11e9720e0688ae6ba305a688b4df7d3a272bc4de5a46d0bde98005af75"
+              },
+              {
+                "elapsedMs": 1.3281000000001768,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "93c954215316acb70ea600f23b11f557e7ae3e4d95f87f1d37b4bcf2bf3fbeae"
+              },
+              {
+                "elapsedMs": 1.2544000000000324,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "a0448f1ec49d1a9ce33aeb33dfad6f768a60ec5285b3f810bbbeb9f390164a47"
+              },
+              {
+                "elapsedMs": 1.2739999999998872,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "e7ba8bdbb75cf761c92c19750922081e5db6e5b2d1531e3358c79c63c175a56d"
+              },
+              {
+                "elapsedMs": 1.2408000000000357,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "dea4ff290e6084a7aaa80e5d1a0e63f9645df9fe040e6783f4cf110b819de6c4"
+              },
+              {
+                "elapsedMs": 1.2241999999998825,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "b677bb26ce1e581160c79d9abcf909abd47628845a8dc573b8819b960d012ae6"
+              },
+              {
+                "elapsedMs": 1.246499999999969,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "fd37afab41ee9a8fe51c0bec293c61a3d4648ba346810c9c39cd4d7630f0ac44"
+              },
+              {
+                "elapsedMs": 1.2310999999999694,
+                "cpuUserMicros": 15000,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "e853cd695b497143603448fcac4cc2cbce2550248fa8f0be1228fe36f1c6cf95"
+              },
+              {
+                "elapsedMs": 1.6630999999999858,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "ae8ddddf52ee71cf4ed15062d382af3a6bf76800c00f9719615e4bb11a1553ef"
+              },
+              {
+                "elapsedMs": 1.2579000000000633,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "1d9ff8433446b066bc181184484cabe6e3b58610b580cd7894ac2afc77010e26"
+              },
+              {
+                "elapsedMs": 1.209100000000035,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "f824977b8ae0529106b392d833bab43692284c85169faf07c340bc2bbf13d337"
+              },
+              {
+                "elapsedMs": 1.1955000000000382,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "ab057cfad2975f6d4ab31fdd0f938249d4be0897b76c3031c8716882240a8e41"
+              },
+              {
+                "elapsedMs": 1.2983999999999014,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "3ae03c8aa638222badd51cef0706786ef81ff26a739b8f4f5fcfeff4e1935dce"
+              },
+              {
+                "elapsedMs": 1.2590000000000146,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "c7e011fa4ab8ec4bd520d27bcbe66efbddaa19590d3ed9aef48ebcb3b6e6c7ef"
+              },
+              {
+                "elapsedMs": 1.2895000000000891,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "fdc2ed10686f5daec0574ac8c89cbce1b3925f724f442097b2196b4602603b66"
+              },
+              {
+                "elapsedMs": 1.8421000000000731,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "757de2e4317a671fa6a3f0600e4177b3d3a52c797b1312d36a63c4c79b4ac41e"
+              },
+              {
+                "elapsedMs": 1.3617999999999029,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "dc4147ae9a268b4e544d107e11c5c149d78463d837f6465f86c37a571e3f440f"
+              },
+              {
+                "elapsedMs": 1.1953000000000884,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "e0fdddf11d0bd386d8b6bb26ebd2ab98e12fc7e1f257f980aee172ceda0696e1"
+              },
+              {
+                "elapsedMs": 1.2088999999998578,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "d4686e9f2297f01833fae08014ba3587869df9e31615137eb08dcf2f82bcb81d"
+              },
+              {
+                "elapsedMs": 1.1389999999998963,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "19e357c2ae16856dc3ec4ebf1c61c4a19c95dfa7296724f2bb325f9352ff7eaa"
+              },
+              {
+                "elapsedMs": 1.1458000000000084,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "08345324c36cca81c79ce08eb646136e9fce835c1550e85a935adee3ba632f6c"
+              },
+              {
+                "elapsedMs": 1.1414999999999509,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "f1c3e89040e202b8f7c53d476a8ba928c01dfb75e7ec5186e5f00ce27947cc40"
+              },
+              {
+                "elapsedMs": 1.1411000000000513,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "e06ec722253d9fc2aefb65880690e03debbc9041d52caf97e6bc07fd27a7e8b5"
+              },
+              {
+                "elapsedMs": 1.1342999999999392,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "c50128d4c25efb54887e6efba4431f6a2adbaf31861fc4c944d2555361a2bc30"
+              },
+              {
+                "elapsedMs": 1.1374000000000706,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "002ca5baf2f5162e0fd53abc34648d143c2a160b82c244be58f531186aa41ce3"
+              },
+              {
+                "elapsedMs": 1.1784000000000106,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "6fac98acc675e12595792f1182bdeba7e276e8d6d69f568606b66c069ac4f887"
+              },
+              {
+                "elapsedMs": 1.1450999999999567,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "32a5815f24e6f7ce9c2be18b563939dc8912aff7329ce77dc393ff11851b2882"
+              },
+              {
+                "elapsedMs": 1.3123000000000502,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "8a2838b7ac433850c947ea89495f9be1948392e292ac11dae3fc0c3f44f3a3d0"
+              },
+              {
+                "elapsedMs": 1.1109000000001288,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "bfc920d7677c104f18779600c4fa463e0187c6f8a033c5ab2183a38448ce1a87"
+              },
+              {
+                "elapsedMs": 1.3396999999999935,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "e14db6d5339afee07f01f6b22cec1df0d7a5bfc0abf9b79d039b749753b4faa0"
+              },
+              {
+                "elapsedMs": 1.1566000000000258,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 8,
+                "refused": 0,
+                "receiptSha256": "a01071fba58bf7780e0983d71470167c1251d59b6ae442c1ae816de7bf5c2ee7"
+              }
+            ],
+            "heapBefore": 73472480,
+            "heapAfter": 73570992,
+            "retainedHeapDelta": 98512
+          },
+          {
+            "name": "offspring-burst",
+            "commandsPerBatch": 8,
+            "measurements": [
+              {
+                "elapsedMs": 4.850300000000061,
+                "cpuUserMicros": 78000,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "ae93d21fc2c740e29bc56d75b5ca2eb72a567c44fab3498a876cc0e783fe869c"
+              },
+              {
+                "elapsedMs": 3.789299999999912,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "5d41c735946b25e148b3be0c175df671688c2746340221ec0dc85f8cf42354ef"
+              },
+              {
+                "elapsedMs": 3.8128999999998996,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "a32aa3f8ad3fb197422f2f2e61ab5aabc69222b6eebd9abd70f8965c858a63a7"
+              },
+              {
+                "elapsedMs": 3.693899999999985,
+                "cpuUserMicros": 15000,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "1d0b8409359da0e1bc057aa1af7503346522d0b8ae0a2b2604e4e2d62e127991"
+              },
+              {
+                "elapsedMs": 4.0960999999999785,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "4dd44f435c259745f030240045bedda96a2ff7b661ee8a8b01998b5fcab93e17"
+              },
+              {
+                "elapsedMs": 3.67879999999991,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "31d45cf4b59afe5f43f669e2dfaf02500e61a0a4334156c99f1d9e0db9337622"
+              },
+              {
+                "elapsedMs": 3.6601000000000568,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "f5d25464c1b731a5112ebffc24a5d387e87237ac21ef3bb65b0774b3608f15f0"
+              },
+              {
+                "elapsedMs": 6.580400000000054,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "a033e3b01924701d0197a3b2a230b51b96cab3d0af5bd29ce096ec8860bd1194"
+              },
+              {
+                "elapsedMs": 4.946099999999888,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "99fbb1c407c4011a3ba128bbd88790aabf24c3e2a2ab3353a9499cbd7f04b83b"
+              },
+              {
+                "elapsedMs": 4.595399999999927,
+                "cpuUserMicros": 31000,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "a3117a3be304ff43083a89dcc376a90c28df2c1bc46e53f06ea21cdd613b8c95"
+              },
+              {
+                "elapsedMs": 3.7293999999999414,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "15cb8f797dc28d9be98f8a743c8c8ccdeeb3cb57666b6aa888c0f463c6bec2e7"
+              },
+              {
+                "elapsedMs": 3.401200000000017,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "92c2115e94a2aaa38749792897b309013f54e3d61f9c8f69bb620594236395ba"
+              },
+              {
+                "elapsedMs": 3.3584999999998217,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "d9423f79d603c11341c4f2945dd903ff2564ae0f5cb9eea7b91bb28e0b5331ac"
+              },
+              {
+                "elapsedMs": 3.9309999999998126,
+                "cpuUserMicros": 31000,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "c712009d6d860e6622b69980996e12e07543c46b33dc7234927724611e2107ef"
+              },
+              {
+                "elapsedMs": 3.949299999999994,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "d8e8fc0a6841c1e2ee8249945ad5291c95aedc6e3c31760ac8680fbe32845944"
+              },
+              {
+                "elapsedMs": 3.4266999999999825,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "e1897542cc86df29c5381a9d410c4c59913efa4e9c7033b6b19a91ca6ed07e63"
+              },
+              {
+                "elapsedMs": 3.4465999999999894,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "17641d713238ddafe2aa83fd6fb7e55888115d12f9ecf1ef62dc9d55e8e0d1c8"
+              },
+              {
+                "elapsedMs": 3.458599999999933,
+                "cpuUserMicros": 16000,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "10ffc3cfdc8a274bd3cb06dc8640f052418f41339d67ec07557a2d5496c04dc9"
+              },
+              {
+                "elapsedMs": 3.3077999999998156,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "adef19e26da19798af114962bdc9877b77bf919e3d77b55500f6a4715c147190"
+              },
+              {
+                "elapsedMs": 4.974099999999908,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "29b62fe0d6cc182fe411a72acb5618c74fd2fd453f5e4e78647645555b33be74"
+              },
+              {
+                "elapsedMs": 4.442600000000084,
+                "cpuUserMicros": 16000,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "891555aa145275c2419adbd28334d5956ddbcffcace4977797006e5a0dde7752"
+              },
+              {
+                "elapsedMs": 3.505100000000084,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "f6dc63b0407b52298d22d21dc22067254749e62671e8664199da3f175ffe15fc"
+              },
+              {
+                "elapsedMs": 3.575399999999945,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "910df587d1e8986ce762311a13d0c17a4afac5f1589e31d907e0d397a7549278"
+              },
+              {
+                "elapsedMs": 3.4663000000000466,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "b436bf939a71f9544a982d25737de2f84a62fb2958604fd257b3f120137dd517"
+              },
+              {
+                "elapsedMs": 4.960699999999861,
+                "cpuUserMicros": 31000,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "2e1cf47bd3b2ac7691ffa49629c8d5af649a758fe9f7b41f873c8454b18d51d9"
+              },
+              {
+                "elapsedMs": 3.1722000000002026,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "24f73f7f99550752cc8d6205dd10ade9d818bda1bd198b79d7bbd940f4fd2a41"
+              },
+              {
+                "elapsedMs": 3.1649999999999636,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "ca8f4a0bc9614b0c14148d2cd9cb3fbdcefd9d3d6b2dfdc2b354aa1ebab3e931"
+              },
+              {
+                "elapsedMs": 3.1523999999999432,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "4a2b1865a8bdc97cb3606afc5f6da3901d8a6dba1a00e6c8fab99390fe03164c"
+              },
+              {
+                "elapsedMs": 3.220199999999977,
+                "cpuUserMicros": 16000,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "7fcc86273ff9ba30e99ffbbd603f50292e27958a768d71911cdaf2435cc7c49a"
+              },
+              {
+                "elapsedMs": 3.5868000000000393,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "a98f201670f65e7eeecfe6c3d26a47b602bbe23b139191eec26812c73e17e7a5"
+              },
+              {
+                "elapsedMs": 3.146400000000085,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "b077aa9c7e60293e7ed51da125f6d6d40252f9fc6e12749b7bee173b932067ea"
+              },
+              {
+                "elapsedMs": 3.116599999999835,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 8,
+                "created": 32,
+                "refused": 0,
+                "receiptSha256": "d1d6efb31f40e558c5b576385bf139b520607f46627322b8e823896b82eeec1b"
+              }
+            ],
+            "heapBefore": 73647944,
+            "heapAfter": 73654312,
+            "retainedHeapDelta": 6368
+          },
+          {
+            "name": "capacity-refusal",
+            "commandsPerBatch": 128,
+            "measurements": [
+              {
+                "elapsedMs": 1.167699999999968,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 1.2332000000001244,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 1.4354000000000724,
+                "cpuUserMicros": 32000,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 1.1836000000000695,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 1.1847999999999956,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 1.1396000000002005,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 1.157799999999952,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 1.0394000000001142,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.9389000000001033,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.9453999999998359,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.9601000000000113,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.9532999999998992,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 1.1634000000001379,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.990099999999984,
+                "cpuUserMicros": 15000,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 1.2094999999999345,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.9429000000000087,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 1.0773999999998978,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.9345000000000709,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.934099999999944,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.9762000000000626,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 1.0674999999998818,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.9419000000000324,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.9319000000000415,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 1.0449000000000979,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.9884000000001834,
+                "cpuUserMicros": 16000,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.9255000000000564,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.9365999999999985,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.9383000000000266,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.928000000000111,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 1.2472999999999956,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.9373000000000502,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              },
+              {
+                "elapsedMs": 0.9963000000000193,
+                "cpuUserMicros": 0,
+                "cpuSystemMicros": 0,
+                "commands": 128,
+                "created": 0,
+                "refused": 128,
+                "receiptSha256": "f62bdf5c56f01b1f7ae66e87f20892ebab7bc49e6f3ca01625c6e18acaea45c3"
+              }
+            ],
+            "heapBefore": 74182048,
+            "heapAfter": 74230096,
+            "retainedHeapDelta": 48048
+          }
+        ],
+        "processMaxRssKiB": 204976,
+        "limits": [
+          "Times include the real original monster factory, stats, reservation/death callbacks and presentation work inside the summon command.",
+          "Receipts, explicit garbage collection and host frame-boundary compaction/child retirement are outside the timed interval. This is not a full-frame benchmark.",
+          "Heap snapshots include the entire original game and observer objects. Retained-heap differences are not allocation counts or portable SDK memory size.",
+          "No physical-device qualification or universal frame budget follows from this desktop workload."
+        ]
+      }
+    }
+  ],
+  "idleChecks": [
+    {
+      "label": "original-0",
+      "elapsedSeconds": 1.0418322,
+      "processes": [
+        {
+          "name": "ChromaVisualizer",
+          "id": 29088,
+          "cpuSeconds": 0.6875,
+          "coreDuty": 0.6598951347443475
+        },
+        {
+          "name": "codex",
+          "id": 66256,
+          "cpuSeconds": 0.421875,
+          "coreDuty": 0.4049356508658496
+        },
+        {
+          "name": "LEDKeeper2",
+          "id": 43020,
+          "cpuSeconds": 0.390625,
+          "coreDuty": 0.37494041746837925
+        },
+        {
+          "name": "ChatGPT",
+          "id": 58532,
+          "cpuSeconds": 0.3125,
+          "coreDuty": 0.2999523339747034
+        },
+        {
+          "name": "ChatGPT",
+          "id": 83592,
+          "cpuSeconds": 0.28125,
+          "coreDuty": 0.2699571005772331
+        },
+        {
+          "name": "audiodg",
+          "id": 11980,
+          "cpuSeconds": 0.203125,
+          "coreDuty": 0.1949690170835572
+        },
+        {
+          "name": "iCUE",
+          "id": 64180,
+          "cpuSeconds": 0.109375,
+          "coreDuty": 0.10498331689114619
+        },
+        {
+          "name": "Discord",
+          "id": 44192,
+          "cpuSeconds": 0.09375,
+          "coreDuty": 0.08998570019241102
+        }
+      ]
+    },
+    {
+      "label": "candidate-0",
+      "elapsedSeconds": 1.0377142,
+      "processes": [
+        {
+          "name": "node",
+          "id": 87996,
+          "cpuSeconds": 6.109375,
+          "coreDuty": 5.887338729681063
+        },
+        {
+          "name": "codex",
+          "id": 66256,
+          "cpuSeconds": 1.53125,
+          "coreDuty": 1.4755989654955093
+        },
+        {
+          "name": "ChromaVisualizer",
+          "id": 29088,
+          "cpuSeconds": 0.75,
+          "coreDuty": 0.7227423504467801
+        },
+        {
+          "name": "LEDKeeper2",
+          "id": 43020,
+          "cpuSeconds": 0.390625,
+          "coreDuty": 0.3764283075243646
+        },
+        {
+          "name": "ChatGPT",
+          "id": 83592,
+          "cpuSeconds": 0.203125,
+          "coreDuty": 0.19574271991266962
+        },
+        {
+          "name": "iCUE",
+          "id": 64180,
+          "cpuSeconds": 0.140625,
+          "coreDuty": 0.13551419070877127
+        },
+        {
+          "name": "ChatGPT",
+          "id": 58532,
+          "cpuSeconds": 0.09375,
+          "coreDuty": 0.09034279380584752
+        },
+        {
+          "name": "DCv2",
+          "id": 34172,
+          "cpuSeconds": 0.0625,
+          "coreDuty": 0.06022852920389834
+        }
+      ]
+    }
+  ],
+  "types": true,
+  "preparationIsolated": true,
+  "controllerPid": 73952,
+  "faultDetected": true,
+  "failure": "AssertionError [ERR_ASSERTION]: Another process is CPU-heavy; preserve this attempt and defer timed qualification",
+  "inputsUnchanged": true,
+  "cleaned": true,
+  "logsSha256": "3200f58bca5cc2c5281295a7849ae7a98760d43fe9432982258eb70d9e94d7c5"
+}

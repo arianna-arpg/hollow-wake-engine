@@ -1329,3 +1329,14 @@ installation guards, 12 runtime/binding faults, 228 original observations and fo
 private companion contexts with fifteen stages. Full game scheduling, complete
 private graphs, native engines and physical-device acceptance remain separate.
 See [aura ticking](aura-ticking.md).
+
+## Summon birth and offspring
+
+`test:summons-package` checks 56 installed/browser contracts, public/direct-source
+types and 35 deliberate faults. `reference:summons` replays 117 frozen original
+observations in seven courses and two fresh processes each. `adapter:summons`
+checks 62 installation guards, 345 original observations, four private companion
+contexts with fifteen stages and ten integration faults. `adapter:summons-composed`
+qualifies the complete adapter assembly and paired combat. These courses do not
+prove a complete body factory, private build graph, native API or target-device
+performance. See [summon services](summon-birth.md).
