@@ -1,0 +1,65 @@
+{
+  "passed": true,
+  "originalOnly": true,
+  "sources": {
+    ".artifacts/export-sequence-deferred-ownership.ts": "20e5625b08113734f1fd4e0bc3cce733962fb0afc8f78563123162692ebbc232",
+    ".artifacts/capture-sequence-deferred-ownership.mjs": "e43ac52f54678355c7fce99e8068ef78f741a8a5701514aef6c368ba50dd7242",
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    ".reference/src/engine/actor.ts": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30",
+    ".reference/src/engine/world.ts": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+    ".reference/src/engine/skills.ts": "6beb81a4c53666d076732b64078f2337b6e2125972f985f0bdf17e2531a2285e",
+    ".reference/src/engine/attackSequences.ts": "88f840c02de4a543b1bd5d1b0a09445149144f730e765560289cf6c8d14bd371"
+  },
+  "faults": [
+    {
+      "name": "deferred-contact-retains-wrong-target",
+      "detected": true,
+      "detection": "independent assertion"
+    },
+    {
+      "name": "deferred-contact-not-consumed",
+      "detected": true,
+      "detection": "independent assertion"
+    },
+    {
+      "name": "deferred-contact-not-landed",
+      "detected": true,
+      "detection": "independent assertion"
+    },
+    {
+      "name": "deferred-contacts-discarded-while-pending",
+      "detected": true,
+      "detection": "independent assertion"
+    },
+    {
+      "name": "delayed-opening-keeps-live-aim",
+      "detected": true,
+      "detection": "independent assertion"
+    },
+    {
+      "name": "delayed-opening-not-fired",
+      "detected": true,
+      "detection": "independent assertion"
+    }
+  ],
+  "types": true,
+  "restored": true,
+  "scope": "original-sequence-deferred-ownership/v1",
+  "observations": 8,
+  "labels": [
+    "fused-contact-retains-original-carrier-and-target",
+    "pending-fuse-keeps-deferred-recovery-locked",
+    "due-hit-reconnects-original-recovery-identities",
+    "missing-target-releases-deferred-origin-recovery",
+    "retirement-removes-fuse-and-deferred-contact",
+    "delayed-opening-owns-aim-and-retains-host",
+    "delayed-opening-waits",
+    "delayed-opening-delivers-without-primary-capture"
+  ],
+  "freshProcesses": 2,
+  "sha256": "7e57548cb4d21238fc463b2a66614a17cb1cf153f3d812f77dbc7f5932bdad8b",
+  "gzipSha256": "8e838384ebde297a8ceec59e6aff3270094136d77031ef949cac6f9fcdac5a49",
+  "inputsUnchanged": true,
+  "cleaned": true,
+  "logsSha256": "383a679b192640a2e73e99ca44560a04f6589070320ab9218dd76e13ce3b5d57"
+}

@@ -1,0 +1,51 @@
+{
+  "candidateOnly": true,
+  "promoted": false,
+  "published": false,
+  "goalComplete": false,
+  "baseCommit": "0d283c37cfc231a6b9612a6874ea0016ba5dfd7d",
+  "publicEntry": "@hollow-wake/engine/combat/attack-sequence-continuation",
+  "publicFunction": "copyAttackSequenceState(source, destination, mapping)",
+  "runtimeCandidates": {
+    "src/attack-sequences.ts": ".artifacts/attack-sequences-optional.ts",
+    "src/attack-sequence-continuation.ts": ".artifacts/attack-sequence-continuation.ts",
+    "src/attack-sequence-owned.ts": ".artifacts/attack-sequence-owned.ts"
+  },
+  "ownership": [
+    "The ordinary controller retains all combat execution and private state.",
+    "The optional service copies controller-owned state into an already detached admitted host graph.",
+    "The internal unique-symbol bridge is shared by the two modules; it is not a public package entry or authorization boundary.",
+    "Identity maps must cover all retained skill and projectile handles, including retired and completed casts.",
+    "Host callbacks perform synchronous alias-preserving copies and do not mutate either controller or the live graph.",
+    "All fallible mapping finishes before destination controller publication. This does not provide durable live-character publication."
+  ],
+  "sizeBoundary": {
+    "ordinaryGroupMaximumBytes": 32768,
+    "ordinaryGroupMeasuredBytes": 27156,
+    "ordinaryModules": ["attack-sequences", "attack-sequence-content", "attack-sequence-types", "attack-sequence-owned"],
+    "optionalServiceMaximumBytes": 8192,
+    "optionalServiceMeasuredBytes": 7236,
+    "ordinaryInstalledBrowserBytes": 13644,
+    "browserWithOptionalServiceBytes": 17095,
+    "ordinaryBrowserMustExcludeOptionalService": true,
+    "note": "Recorded package/compiler sizes, not CPU, memory allocation or physical-device measurements."
+  },
+  "qualifiedEvidence": [
+    ".artifacts/sequence-continuation-courses-review.json",
+    ".artifacts/sequence-optional-r2.json",
+    ".artifacts/sequence-optional-game-r1.json",
+    ".artifacts/sequence-optional-package-r1.json",
+    ".artifacts/sequence-optional-installed-r2.json"
+  ],
+  "pendingEvidence": [".artifacts/sequence-optional-composed-r1.json"],
+  "productionWorkRemaining": [
+    "Review the exact complete-adapter result and failure history before promotion.",
+    "Add the optional export, independent public-API contracts and strict declaration consumer; keep the internal symbol module unexported.",
+    "Preserve all four accepted original courses under baseline with their source-lock bindings and fault evidence; normal verification must never regenerate them.",
+    "Promote reproducible package, installed-game and composed-game checks with scoped finally cleanup, then wire verification and hosted workflows.",
+    "Document the synchronous ownership and missing weak-key limits, the ordinary-entry size boundary and the remaining private-character work.",
+    "Run complete SDK and reference checks on the frozen promotion before committing or publishing.",
+    "Keep original-game checkout/index and existing unrelated work untouched."
+  ],
+  "notEstablished": ["A complete private actor/skill/carrier graph builder", "Durable character publication", "Full native-engine bindings", "Steam Deck or older-mobile performance acceptance"]
+}

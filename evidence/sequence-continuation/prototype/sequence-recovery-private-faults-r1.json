@@ -1,0 +1,47 @@
+{
+  "passed": false,
+  "candidateOnly": true,
+  "installed": false,
+  "sources": {
+    ".artifacts/attack-sequences-continuation.ts": "fb7cf181541c8d9f74d6485ddfdce1fc9208c287c6018a06663ddd65330a5702",
+    ".artifacts/sequence-recovery-private-game.ts": "4ec138fd1304d7567e1cfaf1fe390eedb442358916fb573aa156dc3ae74e90d1",
+    ".artifacts/sequence-recovery-ownership-original-r3.json": "205564e16c7f3e79f1598e59e8a0d37a80f61f19f8012e6018f581e45e13d5ee",
+    ".artifacts/qualify-sequence-private-recovery-faults.mjs": "ebfef3b4377aa7e2d4b44ec727131f9f72a79cb57de6fd2189dc3418b5e98e08",
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "src/attack-sequences.ts": "da1b40055f715d762ff13bb252ba159666b99aa046994c0ac1511220d805b619",
+    "src/attack-sequence-types.ts": "5c2daf1c179e486a603a6f5e3185a70953878d3587ccbe18a2793851d197d3ef",
+    "src/attack-sequence-content.ts": "69dbe011d9c38ae09ada416fe860bfb41288d4b36552d823238edaca8c9437b1",
+    "src/sequence-recovery.ts": "a534acb116077fab248ed4c3dbdd2fa87eeeb4102e19c6c378b35c2fc551cb5f",
+    "adapters/hollow-wake/attack-sequences.ts": "0665211e9feb67e0687a1c960931ccf474406195cce009f511b1f66b7c176a23",
+    "adapters/hollow-wake/attack-sequence-spec.ts": "80167392bd8e5aa28f7d4b1adc73883979917142d5b10458f7a4ed8c450fd15b",
+    "adapters/hollow-wake/integrate-attack-sequences.mjs": "0e5b9612e57cce7b1204a0ce218b5b428efeb8274fb1660d7d74ce2808ca7c37",
+    "adapters/hollow-wake/integrate-sequence-recovery.mjs": "e4105348277ac64810d01a836cceb81d4b2fb3408f1f18ac6d9b7b983daf760c"
+  },
+  "types": true,
+  "faults": [
+    {
+      "name": "recovery-retains-live-target",
+      "detected": true,
+      "detection": "independent assertion"
+    },
+    {
+      "name": "recovery-retains-live-marker",
+      "detected": true,
+      "detection": "independent assertion"
+    },
+    {
+      "name": "recovery-retains-live-projectile",
+      "detected": true,
+      "detection": "independent assertion"
+    },
+    {
+      "name": "recovery-breaks-cast-alias",
+      "detected": true,
+      "detection": "independent assertion"
+    }
+  ],
+  "failure": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /ERR_ASSERTION/. Input:\n\n\"[content] tileset 'meadow': span void region 'mere_bed' is walkable — a gone span must be a hole\\n\" +\n  '[content] monster toll_bailiff: 2 signature defense pools authored — textures are identities; stack them only on boss showpieces\\n' +\n  '[content] no-op audit: 14 known-broad pair(s) adjudicated inertOk — collapsed: creeping_fumes:exposure(195), fire_walker:moveTrail(5), aftershocks:aoeScatter(114), buried_charge:pulse(76), accelerando:cadence(118), ritardando:cadence(118), square_sigil:aoeShape(41), triangle_sigil:aoeShape(41), spell_cascade:cascade(95), scattered_cascade:cascade(95), seismic_march:cascade(95), mirrored_bounds:projFrameBounce(1), sundering_flight:fissureTrail(1), afterspray:departSplash(10) — the whys live on the rows in data/graftReadSites.ts\\n' +\n  'D:\\\\Games\\\\Claude\\\\ARPG Game - World\\\\.claude\\\\ownership.engine-m2\\\\.artifacts\\\\sequence-recovery-private-faults-owned-LvTQy1\\\\scheduled-repeats-dropped.cjs:287563\\r\\n' +\n  '    import_strict.default.equal(b2.inst, skills.get(a.inst));\\r\\n' +\n  '                                   ^\\r\\n' +\n  '\\r\\n' +\n  \"TypeError: Cannot read properties of undefined (reading 'inst')\\r\\n\" +\n  '    at detach (D:\\\\Games\\\\Claude\\\\ARPG Game - World\\\\.claude\\\\ownership.engine-m2\\\\.artifacts\\\\sequence-recovery-private-faults-owned-LvTQy1\\\\scheduled-repeats-dropped.cjs:287563:36)\\r\\n' +\n  '    at Object.<anonymous> (D:\\\\Games\\\\Claude\\\\ARPG Game - World\\\\.claude\\\\ownership.engine-m2\\\\.artifacts\\\\sequence-recovery-private-faults-owned-LvTQy1\\\\scheduled-repeats-dropped.cjs:287597:18)\\r\\n' +\n  '    at Module._compile (node:internal/modules/cjs/loader:1760:14)\\r\\n' +\n  '    at Object..js (node:internal/modules/cjs/loader:1893:10)\\r\\n' +\n  '    at Module.load (node:internal/modules/cjs/loader:1480:32)\\r\\n' +\n  '    at Module._load (node:internal/modules/cjs/loader:1299:12)\\r\\n' +\n  '    at TracingChannel.traceSync (node:diagnostics_channel:328:14)\\r\\n' +\n  '    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)\\r\\n' +\n  '    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\\r\\n' +\n  '    at node:internal/main/run_main_module:33:47\\r\\n' +\n  '\\r\\n' +\n  'Node.js v24.9.0\\r\\n'\n",
+  "inputsUnchanged": true,
+  "cleaned": true,
+  "logsSha256": "d8893d04523cfd03c688fa8f0aa620b829db59efd1c2b404630fc99a087b052f"
+}

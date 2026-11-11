@@ -4,6 +4,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { root } from './reference-utils.mjs';
+import {sequenceContinuationBudget} from './sequence-continuation-budget.mjs';
 
 const npmCli = process.env.npm_execpath ?? path.join(path.dirname(process.execPath), 'node_modules/npm/bin/npm-cli.js');
 const artifacts = path.join(root, '.artifacts');
@@ -130,7 +131,12 @@ const cooldownJsBytes = packed.files.filter(file => /^dist\/(cooldowns|cooldown-
 const cooldownLifecycleJsBytes = packed.files.filter(file => file.path === "dist/cooldown-lifecycle.js").reduce((sum, file) => sum + file.size, 0);
 const readyBankJsBytes = packed.files.filter(file => file.path === "dist/ready-cooldown-bank.js").reduce((sum, file) => sum + file.size, 0);
 const sequenceRecoveryJsBytes = packed.files.filter(file => file.path === "dist/sequence-recovery.js").reduce((sum, file) => sum + file.size, 0);
-const attackSequenceJsBytes = packed.files.filter(file => /^dist\/attack-sequence(?:s|-types|-content)\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
+const attackSequenceJsBytes = packed.files.filter(file => /^dist\/attack-sequence(?:s|-types|-content|-owned)\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
+const sequenceContinuationFile = packed.files.find(file => file.path === 'dist/attack-sequence-continuation.js');
+assert(sequenceContinuationFile?.size > 0 && sequenceContinuationFile.size <= 8 * 1024, 'Optional sequence continuation exceeds its separate 8 KiB budget or is missing');
+const sequenceContinuationBudgetResult = sequenceContinuationBudget(packed.files);
+const sequenceBridgeJsBytes = sequenceContinuationBudgetResult.bridgeBytes;
+const historicalAttackSequenceJsBytes = attackSequenceJsBytes - sequenceBridgeJsBytes;
 const damageJsBytes = packed.files.filter(file => /^dist\/damage-pipeline(?:-types)?\.js$/.test(file.path)).reduce((sum, file) => sum + file.size, 0);
 const statusJsBytes = packed.files.filter(file => /^dist\/status-lifecycle(?:-types)?\.js$/.test(file.path)).reduce((sum,file)=>sum+file.size,0);
 const statusEffectsJsBytes = packed.files.filter(file => /^dist\/status-effects(?:-types)?\.js$/.test(file.path)).reduce((sum,file)=>sum+file.size,0);
@@ -264,7 +270,7 @@ const workshopCharacterFile=packed.files.find(file=>file.path==='dist/workshop-c
 assert(workshopCharacterFile&&workshopCharacterFile.size<8*1024,'Workshop character admission exceeded the 8 KiB bound');
 assert(buildContributionsFile&&buildContributionsFile.size<6*1024,'Build contributions exceeded the 6 KiB bound');
 assert(workshopBuildFile?.size>0&&workshopBuildFile.size<=4*1024,'Optional workshop build preparation exceeds 4 KiB or is missing');
-const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-bodyFactoryFile.size-summonsJsBytes-auraTickingFile.size-auraActivationFile.size-auraLedgersFile.size-auraRetirementFile.size-companionRecoveryFile.size-bodyLevelsFile.size-companionBondsJsBytes-guardArtsFile.size-companionGrantsFile.size-accountRelicItemsFile.size-workshopCharacterFile.size-buildContributionsFile.size-workshopBuildFile.size-equipmentDraftFile.size-bookFile.size-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
+const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-sequenceContinuationFile.size-sequenceBridgeJsBytes-bodyFactoryFile.size-summonsJsBytes-auraTickingFile.size-auraActivationFile.size-auraLedgersFile.size-auraRetirementFile.size-companionRecoveryFile.size-bodyLevelsFile.size-companionBondsJsBytes-guardArtsFile.size-companionGrantsFile.size-accountRelicItemsFile.size-workshopCharacterFile.size-buildContributionsFile.size-workshopBuildFile.size-equipmentDraftFile.size-bookFile.size-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
 const craftingSessionJsBytes=Object.values(craftingSessionModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingSessionJsBytes=preContentTableJsBytes-craftingSessionJsBytes;
 const residenceJsBytes=Object.values(residenceModuleBytes).reduce((sum,size)=>sum+size,0),preResidenceJsBytes=preCraftingSessionJsBytes-residenceJsBytes;
 const craftingJsBytes=Object.values(craftingModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingJsBytes=preResidenceJsBytes-craftingJsBytes;
@@ -284,7 +290,7 @@ const tagContextJsBytes = packed.files.filter(file => file.path === 'dist/tag-co
 // The new cache has its own growth bound. Count it in the retained core and
 // whole-package limits; historical component bounds exclude only this new file.
 const previousJsBytes = predecessorJsBytes - tagContextJsBytes - hitLandingJsBytes - hitPreparationJsBytes - damageJsBytes - statusJsBytes - statusEffectsJsBytes - hitStatusJsBytes - hitEffectsJsBytes;
-const coreJsBytes = previousJsBytes + tagContextJsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes - stashJsBytes - containerJsBytes - relicJsBytes - actionJsBytes - equipmentJsBytes - progressionJsBytes - skillJsBytes - supportJsBytes - resourceJsBytes - chargedCastJsBytes - interactiveCastJsBytes - ammunitionJsBytes - channelCastJsBytes - guardCastJsBytes - paymentJsBytes - admissionJsBytes - intentJsBytes - requestJsBytes - dispatchJsBytes - continuationJsBytes - bankJsBytes - actorGaugeJsBytes - actorConditionJsBytes - procJsBytes - procEffectJsBytes - delayedJsBytes - buffJsBytes - cooldownJsBytes - cooldownLifecycleJsBytes - readyBankJsBytes - sequenceRecoveryJsBytes - attackSequenceJsBytes;
+const coreJsBytes = previousJsBytes + tagContextJsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes - stashJsBytes - containerJsBytes - relicJsBytes - actionJsBytes - equipmentJsBytes - progressionJsBytes - skillJsBytes - supportJsBytes - resourceJsBytes - chargedCastJsBytes - interactiveCastJsBytes - ammunitionJsBytes - channelCastJsBytes - guardCastJsBytes - paymentJsBytes - admissionJsBytes - intentJsBytes - requestJsBytes - dispatchJsBytes - continuationJsBytes - bankJsBytes - actorGaugeJsBytes - actorConditionJsBytes - procJsBytes - procEffectJsBytes - delayedJsBytes - buffJsBytes - cooldownJsBytes - cooldownLifecycleJsBytes - readyBankJsBytes - sequenceRecoveryJsBytes - historicalAttackSequenceJsBytes;
 const contentBytes = packed.files.filter(file => file.path.startsWith('content/') && file.path.endsWith('.json')).reduce((sum, file) => sum + file.size, 0);
 assert.ok(coreJsBytes <= 96 * 1024, 'Core runtime exceeded the retained 96 KiB unminified JS budget');
 assert.ok(hitSustainJsBytes > 0 && hitSustainJsBytes <= 4 * 1024, 'Optional hit sustain exceeded its separate 4 KiB budget or is missing');
@@ -323,15 +329,15 @@ assert.ok(procEffectJsBytes > 0 && procEffectJsBytes <= 4 * 1024, 'Optional magn
 assert.ok(delayedJsBytes > 0 && delayedJsBytes <= 8 * 1024, 'Optional delayed bursts exceeded the 8 KiB unminified JS budget or are missing');
 assert.ok(buffJsBytes > 0 && buffJsBytes <= 18 * 1024, 'Optional buff runtime and content compiler exceeded their 18 KiB unminified JS budget or are missing');
 assert.ok(cooldownJsBytes > 0 && cooldownJsBytes <= 8 * 1024, 'Optional cooldown execution/content exceeded the prospective 8 KiB unminified JS budget or are missing');
-assert.ok(previousJsBytes - buffJsBytes - cooldownJsBytes - cooldownLifecycleJsBytes - readyBankJsBytes - sequenceRecoveryJsBytes - attackSequenceJsBytes <= 500 * 1024, 'Existing runtime exceeded its retained 500 KiB unminified JS budget');
-assert.ok(previousJsBytes - cooldownJsBytes - cooldownLifecycleJsBytes - readyBankJsBytes - sequenceRecoveryJsBytes - attackSequenceJsBytes <= 518 * 1024, 'Pre-cooldown runtime exceeded its retained 500 + 18 KiB unminified JS budget');
+assert.ok(previousJsBytes - buffJsBytes - cooldownJsBytes - cooldownLifecycleJsBytes - readyBankJsBytes - sequenceRecoveryJsBytes - historicalAttackSequenceJsBytes <= 500 * 1024, 'Existing runtime exceeded its retained 500 KiB unminified JS budget');
+assert.ok(previousJsBytes - cooldownJsBytes - cooldownLifecycleJsBytes - readyBankJsBytes - sequenceRecoveryJsBytes - historicalAttackSequenceJsBytes <= 518 * 1024, 'Pre-cooldown runtime exceeded its retained 500 + 18 KiB unminified JS budget');
 assert.ok(cooldownLifecycleJsBytes > 0 && cooldownLifecycleJsBytes <= 6 * 1024, "Cooldown lifecycle exceeded its prospective 6 KiB budget");
-assert.ok(previousJsBytes - cooldownLifecycleJsBytes - readyBankJsBytes - sequenceRecoveryJsBytes - attackSequenceJsBytes <= 526 * 1024, 'Pre-lifecycle runtime exceeded the retained 500 + 18 + 8 KiB unminified JS budget');
-assert.ok(previousJsBytes - readyBankJsBytes - sequenceRecoveryJsBytes - attackSequenceJsBytes <= 532 * 1024, 'Pre-bank runtime exceeded its retained 532 KiB unminified JS budget');
+assert.ok(previousJsBytes - cooldownLifecycleJsBytes - readyBankJsBytes - sequenceRecoveryJsBytes - historicalAttackSequenceJsBytes <= 526 * 1024, 'Pre-lifecycle runtime exceeded the retained 500 + 18 + 8 KiB unminified JS budget');
+assert.ok(previousJsBytes - readyBankJsBytes - sequenceRecoveryJsBytes - historicalAttackSequenceJsBytes <= 532 * 1024, 'Pre-bank runtime exceeded its retained 532 KiB unminified JS budget');
 assert.ok(readyBankJsBytes > 0 && readyBankJsBytes <= 3 * 1024, 'Ready bank exceeded its separate 3 KiB budget');
-assert.ok(previousJsBytes - sequenceRecoveryJsBytes - attackSequenceJsBytes <= 535 * 1024, 'Pre-sequence runtime exceeded its retained 535 KiB unminified JS budget');
+assert.ok(previousJsBytes - sequenceRecoveryJsBytes - historicalAttackSequenceJsBytes <= 535 * 1024, 'Pre-sequence runtime exceeded its retained 535 KiB unminified JS budget');
 assert.ok(sequenceRecoveryJsBytes > 0 && sequenceRecoveryJsBytes <= 4 * 1024, 'Sequence recovery exceeded its separate 4 KiB budget');
-assert.ok(previousJsBytes - attackSequenceJsBytes <= 535 * 1024, 'Previous runtime exceeded its retained 535 KiB unminified JS budget');
+assert.ok(previousJsBytes - historicalAttackSequenceJsBytes <= 535 * 1024, 'Previous runtime exceeded its retained 535 KiB unminified JS budget');
 assert.ok(attackSequenceJsBytes > 0 && attackSequenceJsBytes <= 32 * 1024, 'Optional attack-sequence controller/content exceeded its prospective 32 KiB budget');
 assert.ok(previousJsBytes <= 567 * 1024, 'Combined runtime exceeded its explicit 535 + 32 KiB unminified JS budget');
 // Initial measured output is 32,770 bytes including the generated type-only
@@ -372,6 +378,7 @@ assert.ok(preContentTableJsBytes <= (732 + 70 + 20 + 38 + 44) * 1024, 'Combined 
 assert.ok(contentBytes-pouchData.size-conduitData.size-vestigeData.size <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
   equipmentSkillsJsBytes,
+  sequenceContinuationJsBytes:sequenceContinuationFile.size,sequenceBridgeJsBytes,historicalAttackSequenceJsBytes,
   bodyLevelsJsBytes:bodyLevelsFile.size,
   companionRecoveryJsBytes:companionRecoveryFile.size,
   auraRetirementJsBytes:auraRetirementFile.size,

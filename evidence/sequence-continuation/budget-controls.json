@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "sources": {
+    "scripts/sequence-continuation-budget.mjs": "e8f61a3bd9e7f882c991b6cd5d8e6095cebb17a1e191f4af20ecc93cbb48d6fb",
+    "scripts/sequence-continuation-control.mjs": "582ee0cd0997fb969880067abf2c530946bdc558e703862e9bafa0e87738355a",
+    "src/attack-sequences.ts": "b18881923549ece46041cc756a387a6a68c1e671f14c5e58299151751364e4ee",
+    "src/attack-sequence-owned.ts": "8d7993fc68ee704204bc2a9afe0ecb366e6f10c07f841763f41d0efc5b5ec58f",
+    "baseline/sequence-continuation-control/acceptance.json": "91b55e5de9ab5b0842d36b626cd7b8bc9188960a868791e547df2f192448507a",
+    "baseline/sequence-continuation-control/attack-sequences.ts": "da1b40055f715d762ff13bb252ba159666b99aa046994c0ac1511220d805b619",
+    ".artifacts/qualify-sequence-budget-boundary.mjs": "ebd536c0077cd6e53e4a34b2bb4fc712f6aec57dda732f731440dd123a8f2747"
+  },
+  "faults": [
+    {
+      "name": "oversized-bridge",
+      "detected": true
+    },
+    {
+      "name": "changed-existing-combat-member",
+      "detected": true
+    }
+  ],
+  "control": {
+    "bridgeBytes": 1282,
+    "predecessorControllerBytes": 21774,
+    "existingMembersUnchanged": true
+  },
+  "restored": true,
+  "inputsUnchanged": true,
+  "cleaned": true,
+  "logsSha256": "185fffbfb1de942158cd8f9c15c45224d4bd2042999ec8150f40c57aeb8cf7af"
+}

@@ -1,0 +1,43 @@
+{
+  "corrected": true,
+  "promoted": false,
+  "failure": ".artifacts/sequence-flight-private-r1.json",
+  "failureSha256": "e901a133d835315c40c4404bbbadfc8fe3219cbb8c8816385845ec544db950cc",
+  "changes": [
+    {
+      "file": ".artifacts/attack-sequences-continuation.ts",
+      "backup": ".artifacts/attack-sequences-continuation.before-property-presence.ts",
+      "beforeSha256": "f3ca7442e08dcaf4269d92eb36f35f8621edc450a273bb41e3f397d60f64227d",
+      "afterSha256": "fb7cf181541c8d9f74d6485ddfdce1fc9208c287c6018a06663ddd65330a5702"
+    },
+    {
+      "file": ".artifacts/sequence-continuation-method.txt",
+      "backup": ".artifacts/sequence-continuation-method.before-property-presence.txt",
+      "beforeSha256": "8deb8656d7bc99f01cbc53d30ccc68e498edfc99ebe9806b201de1c5eb2b6724",
+      "afterSha256": "912810daac26e05bf5c2795b6373426771d57893bc2fef62f8b422e678e9f04d"
+    },
+    {
+      "file": ".artifacts/sequence-continuation-contracts.mjs",
+      "backup": ".artifacts/sequence-continuation-contracts.before-property-presence.mjs",
+      "beforeSha256": "2fe41f2e8dd7e2c0ba618173337699a1df218918fca05c5a6b5f9ce652831ada",
+      "afterSha256": "81caad4dd945aa6a43dae2e3a3793327806137c9de8efdd5340150a9da56d6a9"
+    },
+    {
+      "file": ".artifacts/qualify-sequence-continuation.mjs",
+      "backup": ".artifacts/qualify-sequence-continuation.before-property-presence.mjs",
+      "beforeSha256": "c76b38368884994aff809270a7d2b8295261fa2674d6f1bd46d0eb5c382a72c0",
+      "afterSha256": "ba14eb75d8ad80c7384774b85ec82e63bd379c844d37a2d338d7bb5cd61c090c"
+    },
+    {
+      "file": ".artifacts/qualify-sequence-continuation-faults.mjs",
+      "backup": ".artifacts/qualify-sequence-continuation-faults.before-property-presence.mjs",
+      "beforeSha256": "caa355b59460b6c5d5dc681e354a76feb24f641d3b65b0c2fefc95cfcc1f86d5",
+      "afterSha256": "43b37ffd13960a66552b627c62c57c045b370d4187e201657caf5cc8a318a561"
+    }
+  ],
+  "reason": "The new copy materialized absent receipt/target/marker slots as explicit undefined. Preserve own-property presence while still remapping present object references. Add three independent contract checks; do not normalize the original observation or game fixture.",
+  "originalEdited": false,
+  "acceptedObservationsChanged": false,
+  "contracts": 26,
+  "priorCandidateReviewsHistorical": true
+}

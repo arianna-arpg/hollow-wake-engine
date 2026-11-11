@@ -3,6 +3,10 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The optional [sequence continuation](docs/sequence-continuation.md) reconnects
+active casts, projectiles and timers into an already detached host graph without
+replaying combat. Its copying code stays outside the ordinary combat import.
+
 The optional [body factory](docs/body-factory.md) assembles bodies and skill kits
 through explicit allocation, content and synchronous host services.
 

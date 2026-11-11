@@ -1,24 +1,9 @@
+import {sequenceContinuationState,type SequenceOwnedState,type SequenceState,type SequenceCast,type Recovery,type Scheduled} from './attack-sequence-owned.js';
 import {lockSequenceRecovery, releaseSequenceRecovery, settleSequenceRecoveries,
   type SequenceRecoveryPorts} from './sequence-recovery.js';
-import type {AttackSequencePorts, AttackSequenceSpec, SequenceActor, SequenceBuff,
+import type {AttackSequencePorts, SequenceActor,
   SequenceProjectile, SequenceSkill} from './attack-sequence-types.js';
 export type * from './attack-sequence-types.js';
-
-interface SequenceState<A, I, M, D extends {type: string}> {
-  owner: A; host: I; spec: AttackSequenceSpec<M, D>; policy: string; key: string;
-  stacks: Map<A, number>; caught: number; retired: boolean; buffs: Map<A, SequenceBuff<M>>;
-}
-interface SequenceCast<A, I, M, D extends {type: string}> {
-  state: SequenceState<A, I, M, D>; inst: I; caught: number; connected: boolean; done: boolean;
-  receipt?: { target: A; dealt: number; physical: number };
-}
-interface Recovery<A, I, P, Aim, M, D extends {type: string}> {
-  cast: SequenceCast<A, I, M, D>; projectile: P; target?: A; at: Aim; from: Aim;
-  elapsed: number; duration: number; marker?: A; dealt: number; airborne: boolean;
-}
-interface Scheduled<A, I, Aim, M, D extends {type: string}> {
-  state: SequenceState<A, I, M, D>; inst: I; aim: Aim; due: number; power: number;
-}
 
 /** Actor/instance/target-scoped cycles and recoverable weapons. All damage still
  * enters the shared hit/status/mitigation paths; secondary generations never
@@ -36,6 +21,7 @@ export class AttackSequences<
   private rainAt = new WeakMap<P, number>();
   private deferredContacts: { projectile: P; target: A }[] = [];
   private serial = 0;
+  private continuationImported = false;
   constructor(private readonly ports: AttackSequencePorts<A, I, P, Aim, M, Tag, D>) {}
   private readonly recoveryPorts: SequenceRecoveryPorts<SequenceCast<A, I, M, D>> = {
     flying: (cast, s) => this.ports.flights().some(p => this.casts.get(p.inst) === cast && p.caster === s.owner),
@@ -46,6 +32,19 @@ export class AttackSequences<
     objects: cast => this.recoveries.filter(r => r.cast === cast),
     clearCatch: s => { s.owner.removeBuff(s.key + ':catch'); },
   };
+
+  /** @internal Cold continuation bridge; ordinary combat never calls it. */
+  [sequenceContinuationState](owned?:SequenceOwnedState<A,I,P,Aim,M,D>):SequenceOwnedState<A,I,P,Aim,M,D> {
+    if(owned){
+      this.states=owned.states;this.casts=owned.casts;this.active=owned.active;
+      this.recoveries=owned.recoveries;this.scheduled=owned.scheduled;this.rainAt=owned.rainAt;
+      this.deferredContacts=owned.deferredContacts;this.serial=owned.serial;
+      this.continuationImported=owned.continuationImported;return owned;
+    }
+    return{states:this.states,casts:this.casts,active:this.active,recoveries:this.recoveries,
+      scheduled:this.scheduled,rainAt:this.rainAt,deferredContacts:this.deferredContacts,
+      serial:this.serial,continuationImported:this.continuationImported};
+  }
 
   private policy(inst: I): string {
     return JSON.stringify([inst.treeNodes, inst.level, inst.sockets.map(s => s && [s.def.id, s.level, s.rolled]),

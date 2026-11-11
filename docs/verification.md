@@ -1,5 +1,15 @@
 # Verification and reproduction
 
+The optional [sequence continuation](sequence-continuation.md) adds 26 contracts,
+nine negative type cases and ten deliberate package faults. Its four frozen original
+courses reproduce 28 observations. Installed game checks add twelve private contexts,
+seventy stages and 22 integration faults. The complete adapter compares 25 paired
+episodes against a frozen predecessor controller. Run `test:sequence-continuation-package`,
+`reference:sequence-continuation`, `adapter:sequence-continuation` and
+`adapter:sequence-continuation-composed` in that order. Package and reference/installed
+checks are included in the full verification commands; the dedicated Windows/Linux
+workflow also runs the composed comparison.
+
 The [guard disciplines](guard-arts.md) add 42 installed/browser contracts,
 public types and 37 deliberate package faults. `reference:build-lifecycles`
 reproduces 62 accepted guard/companion rebuild and continuation records and 16 original guard

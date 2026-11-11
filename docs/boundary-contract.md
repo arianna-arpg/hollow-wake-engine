@@ -1,5 +1,10 @@
 # Boundary contract
 
+The optional [sequence continuation](sequence-continuation.md) owns copying of
+controller state into an admitted detached host graph. Hosts must enumerate all
+retained handles, preserve aliases and supply synchronous side-effect-free copies.
+Private character construction and durable live publication remain host work.
+
 The optional [body factory](body-factory.md) owns ordered body and skill-kit
 assembly over borrowed content. Allocation/defaults, identity, host effects,
 world membership and durable publication remain explicit host responsibilities.

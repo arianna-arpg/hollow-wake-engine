@@ -1,0 +1,59 @@
+name: Verify attack sequence continuation
+on:
+  push:
+    paths:
+      - '.github/workflows/sequence-continuation.yml'
+      - 'src/attack-sequence*.ts'
+      - 'test/sequence-continuation*'
+      - 'baseline/sequence-continuation-*/**'
+      - 'reference/export-sequence-continuation-*.ts'
+      - 'scripts/*sequence-continuation*.mjs'
+      - 'scripts/prepare-game-adapter.mjs'
+      - 'scripts/reference-utils.mjs'
+      - 'scripts/npm-cli.mjs'
+      - 'adapters/hollow-wake/**'
+      - 'package*.json'
+      - 'tsconfig.json'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sequence-continuation:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: 24.9.0
+          cache: npm
+      - run: npm ci
+      - run: npm run reference:prepare
+      - run: npm run reference:install
+      - run: npm run build
+      - run: npm run test:sequence-continuation-package
+      - run: npm run reference:sequence-continuation
+      - run: npm run adapter:sequence-continuation
+      - run: npm run adapter:sequence-continuation-composed
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: sequence-continuation-${{ matrix.os }}
+          include-hidden-files: true
+          if-no-files-found: error
+          path: |
+            .artifacts/sequence-continuation-package.json
+            .artifacts/sequence-continuation-package.logs.json.gz
+            .artifacts/sequence-continuation-reference.json
+            .artifacts/sequence-continuation-reference.logs.json.gz
+            .artifacts/sequence-continuation-game.json
+            .artifacts/sequence-continuation-game.logs.json.gz
+            .artifacts/sequence-continuation-composed.json
+            .artifacts/sequence-continuation-composed.logs.json.gz

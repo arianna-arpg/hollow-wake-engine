@@ -1,0 +1,10 @@
+{
+  "backup": ".artifacts/qualify-sequence-continuation-original-before-pinned-roots.mjs",
+  "beforeSha256": "98b6b6bc18a2dda8d85f8718ca96cd11fd9d59a2c1c0767de81f59819d99ac61",
+  "afterSha256": "bf15a91cc7906c652d11958fa500a0fd87e9b18105dcf30bf74fa4cbdf1df72f",
+  "failure": ".artifacts/sequence-continuation-original-match-r2.json",
+  "failureSha256": "32302e3af7bb0219959ca9a85fab525647ef70ccf4024482554d65d75d8c9822",
+  "reason": "The concurrent full reference suite briefly creates helper source files, which tsconfig directory discovery admitted before their owner removed them. Candidate type checking now uses only config roots present in the pinned source-lock plus its own explicit virtual files. All compiler options and pinned source checks remain unchanged.",
+  "originalEdited": false,
+  "compilerChecksRelaxed": false
+}

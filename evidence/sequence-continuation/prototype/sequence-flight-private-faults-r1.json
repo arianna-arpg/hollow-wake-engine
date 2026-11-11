@@ -1,0 +1,56 @@
+{
+  "passed": true,
+  "candidateOnly": true,
+  "installed": false,
+  "sources": {
+    ".artifacts/attack-sequences-continuation.ts": "fb7cf181541c8d9f74d6485ddfdce1fc9208c287c6018a06663ddd65330a5702",
+    ".artifacts/sequence-flight-private-game.ts": "d9af9856d05654b4071a991d9e57a0987b760b8162d70107f84d67944244714e",
+    ".artifacts/sequence-flight-ownership-original-r1.json": "7d7a8e4254574aeea0e1a2f0cc7099456cce905c719e98b2b2c33fdd633a137a",
+    ".artifacts/qualify-sequence-private-flight-faults.mjs": "13df4e700d1ee06cf4a8d523d54ece811e97d710ecaf9f744515c33fcaf1f628",
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "src/attack-sequences.ts": "da1b40055f715d762ff13bb252ba159666b99aa046994c0ac1511220d805b619",
+    "src/attack-sequence-types.ts": "5c2daf1c179e486a603a6f5e3185a70953878d3587ccbe18a2793851d197d3ef",
+    "src/attack-sequence-content.ts": "69dbe011d9c38ae09ada416fe860bfb41288d4b36552d823238edaca8c9437b1",
+    "src/sequence-recovery.ts": "a534acb116077fab248ed4c3dbdd2fa87eeeb4102e19c6c378b35c2fc551cb5f",
+    "adapters/hollow-wake/attack-sequences.ts": "0665211e9feb67e0687a1c960931ccf474406195cce009f511b1f66b7c176a23",
+    "adapters/hollow-wake/attack-sequence-spec.ts": "80167392bd8e5aa28f7d4b1adc73883979917142d5b10458f7a4ed8c450fd15b",
+    "adapters/hollow-wake/integrate-attack-sequences.mjs": "0e5b9612e57cce7b1204a0ce218b5b428efeb8274fb1660d7d74ce2808ca7c37",
+    "adapters/hollow-wake/integrate-sequence-recovery.mjs": "e4105348277ac64810d01a836cceb81d4b2fb3408f1f18ac6d9b7b983daf760c"
+  },
+  "types": true,
+  "faults": [
+    {
+      "name": "flight-clock-bank-discarded",
+      "detected": true,
+      "detection": "independent assertion"
+    },
+    {
+      "name": "flight-clock-retains-live-projectile-key",
+      "detected": true,
+      "detection": "independent assertion"
+    },
+    {
+      "name": "absent-receipt-slot-materialized",
+      "detected": true,
+      "detection": "independent assertion"
+    },
+    {
+      "name": "active-flight-cast-lost",
+      "detected": true,
+      "detection": "independent assertion"
+    },
+    {
+      "name": "flight-controller-keeps-live-owner",
+      "detected": true,
+      "detection": "independent assertion"
+    }
+  ],
+  "restored": true,
+  "originalObservations": 0,
+  "privateCourses": 2,
+  "privateStages": 14,
+  "freshProcesses": 2,
+  "inputsUnchanged": true,
+  "cleaned": true,
+  "logsSha256": "58d7744bfac579c645a205d106fa49fe99a2a8fce06406f1acfee9ee7ecb4d14"
+}

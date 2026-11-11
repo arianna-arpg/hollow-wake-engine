@@ -1,0 +1,109 @@
+{
+  "passed": true,
+  "sources": {
+    "scripts/test-sequence-continuation-package.mjs": "7a9d0a10bbcf40173ac0268525fff4f84d8ed1137931c3fe422267e72f25bf52",
+    "test/sequence-continuation-faults.mjs": "4834b64c1f40f2d165f4d91104d7ae8992b29fe5c914f68cd2fbdbeb1a8fa714",
+    "package.json": "df3947ba0ac3a9d5d49a6939156b7e154bc965c18eb514578db95512300e16d8",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    "tsconfig.json": "98691a01b56f8bd025c728aba3fa8ea3e682da943c6eab103289045c5e1ac6e1",
+    "test/sequence-continuation-contracts.mjs": "184cc47463a2b1287b945e3b665fcd4bc900241c6f0376038f083d04f8e0650d",
+    "test/sequence-continuation-consumer.ts": "984c5104bbb6b1c0df7926d0f143562db10bc46acf192a0f3bb48b711d53bcfa",
+    "src/attack-sequence-continuation.ts": "295bed0cac4d423ec391f4afaa33600aa15e72b4ef79bd5ecbfba19b78c7841d",
+    "src/attack-sequences.ts": "b18881923549ece46041cc756a387a6a68c1e671f14c5e58299151751364e4ee",
+    "src/attack-sequence-owned.ts": "8d7993fc68ee704204bc2a9afe0ecb366e6f10c07f841763f41d0efc5b5ec58f",
+    "src/attack-sequence-content.ts": "69dbe011d9c38ae09ada416fe860bfb41288d4b36552d823238edaca8c9437b1",
+    "src/attack-sequence-types.ts": "5c2daf1c179e486a603a6f5e3185a70953878d3587ccbe18a2793851d197d3ef",
+    "dist/attack-sequences.js": "b3a1259ecee1116aa80722840296078a1913c1a84224ed6e7aa73c4de39a79e5",
+    "dist/attack-sequences.d.ts": "218bbabd15eefc44bf7f35819ebaf5ec822de1630b96ca6c6fae31a0d93e16c3",
+    "dist/attack-sequence-continuation.js": "e2eceffb78f19ae38b3ced5c01a5fed2e1f900d3b14ef2479319cfa08eb3c538",
+    "dist/attack-sequence-continuation.d.ts": "d87ad37b28bc03538c5432536b07d4e1881d21014d12b6f5ef181e6f1a6ae316",
+    "dist/attack-sequence-owned.js": "95575d0bb0781e4dd79ef62823622c85d8a1771162e28e0e821ba112a72f40fb",
+    "dist/attack-sequence-owned.d.ts": "07f2fb3052a7d3c9b4d66290e0b0a6868b0db69244bc9411b095290085582b5c",
+    "dist/attack-sequence-content.js": "c2cdc4648a3e069feabdeb3a9dc02984b9aacec7a9cb056e9036636ef3dd7900",
+    "dist/attack-sequence-content.d.ts": "4e0a66918f83c39d24fc0c7efe26a3e83ec46ca96b6ad3f3ed8169c3e9156724",
+    "dist/attack-sequence-types.js": "9fbab3c900f0c6712f07e07fabb51f87defe50e037deb8be182a53afa2f66cf5",
+    "dist/attack-sequence-types.d.ts": "a5ad64a8b232a97007e895d88a5f98ef1ecdc741aecf9873ae300140d78d8ae1"
+  },
+  "faults": [
+    {
+      "name": "lost-retired-state",
+      "detected": true
+    },
+    {
+      "name": "cast-alias-duplicated",
+      "detected": true
+    },
+    {
+      "name": "rain-clock-reset",
+      "detected": true
+    },
+    {
+      "name": "catch-count-reset",
+      "detected": true
+    },
+    {
+      "name": "recovery-clock-reset",
+      "detected": true
+    },
+    {
+      "name": "receipt-keeps-live-target",
+      "detected": true
+    },
+    {
+      "name": "source-key-reminted",
+      "detected": true
+    },
+    {
+      "name": "owned-buffs-lost",
+      "detected": true
+    },
+    {
+      "name": "publish-before-fallible-mapping",
+      "detected": true
+    },
+    {
+      "name": "active-casts-lost",
+      "detected": true
+    }
+  ],
+  "archiveSha256": "d9402918a49d98810d2c693337cdbcff4d096a0427c9bb13b8fa8e410f5b7ec8",
+  "modules": {
+    "attack-sequences": {
+      "bytes": 22775,
+      "sha256": "b3a1259ecee1116aa80722840296078a1913c1a84224ed6e7aa73c4de39a79e5",
+      "typesSha256": "218bbabd15eefc44bf7f35819ebaf5ec822de1630b96ca6c6fae31a0d93e16c3"
+    },
+    "attack-sequence-continuation": {
+      "bytes": 7236,
+      "sha256": "e2eceffb78f19ae38b3ced5c01a5fed2e1f900d3b14ef2479319cfa08eb3c538",
+      "typesSha256": "d87ad37b28bc03538c5432536b07d4e1881d21014d12b6f5ef181e6f1a6ae316"
+    },
+    "attack-sequence-owned": {
+      "bytes": 281,
+      "sha256": "95575d0bb0781e4dd79ef62823622c85d8a1771162e28e0e821ba112a72f40fb",
+      "typesSha256": "07f2fb3052a7d3c9b4d66290e0b0a6868b0db69244bc9411b095290085582b5c"
+    },
+    "attack-sequence-content": {
+      "bytes": 4040,
+      "sha256": "c2cdc4648a3e069feabdeb3a9dc02984b9aacec7a9cb056e9036636ef3dd7900",
+      "typesSha256": "4e0a66918f83c39d24fc0c7efe26a3e83ec46ca96b6ad3f3ed8169c3e9156724"
+    },
+    "attack-sequence-types": {
+      "bytes": 60,
+      "sha256": "9fbab3c900f0c6712f07e07fabb51f87defe50e037deb8be182a53afa2f66cf5",
+      "typesSha256": "a5ad64a8b232a97007e895d88a5f98ef1ecdc741aecf9873ae300140d78d8ae1"
+    }
+  },
+  "ordinaryGroupBytes": 27156,
+  "contracts": 26,
+  "ordinaryBrowserBytes": 13644,
+  "optionalServiceExcluded": true,
+  "optionalBrowserBytes": 17095,
+  "hostileBrowser": true,
+  "negativeTypeCases": 9,
+  "types": true,
+  "restored": true,
+  "inputsUnchanged": true,
+  "cleaned": true,
+  "logsSha256": "bacdbcbe81850f1bfb1c28da860d30ce2c24e4cee2baba960c063933b2f62a02"
+}
