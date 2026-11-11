@@ -1,5 +1,9 @@
 # Boundary contract
 
+The optional [aura ticking service](aura-ticking.md) owns expiry, upkeep, membership,
+typed damage and pulse ordering over borrowed state. Frame admission, spatial
+selection, retirement, death, presentation and durable publication remain host-owned.
+
 The optional [aura activation service](aura-activation.md) preserves reservation,
 duration eviction, borrowed state and ordered synchronous host effects. Support
 admission, full scheduling and durable publication remain host responsibilities.

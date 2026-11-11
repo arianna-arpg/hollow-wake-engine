@@ -1,0 +1,62 @@
+{
+  "passed": true,
+  "candidateOnly": true,
+  "promoted": false,
+  "recorded": "2026-11-10T22:22:04.817Z",
+  "reports": {
+    "aura-ticking-original-r1": "81270f6a34ec947cd19d5e330394e02e186314f37122ff2299042cbd9c8a3173",
+    "aura-ticking-contact-original-r3": "c7d833fe3bcf5473bb64b5c929d5406917cfdb82921420a41a4a8c6e6ded55a6",
+    "aura-ticking-order-original-r2": "a1f1d616ae131e72a3e3a950f17d9d0890013f7fc722ebda3c6f5590dc52c412",
+    "aura-ticking-baseline-review": "a91edbd89ff986438cd3c6f5972f9ed6c4b77803dfb9549bba1b5f1b2c02c076",
+    "aura-ticking-order-review": "2c3964512273eb0d241b09d0709765eeede2d065115ed543f13154e2079d72ea",
+    "aura-ticking-prototype-r1": "cde4bad01e32553596d23580ab82f8083055017c43a43d46b5063ff277249728",
+    "aura-ticking-contracts-r1": "a9b0df1edbf1f57686320df017ce6c4cb0d9c2d70d760316d5ade241662ffeac",
+    "aura-ticking-adapter-guards": "573eb10edd0b267aa6fd58fd447f78922342937560dd03c5a8731d0af15facda",
+    "aura-ticking-candidate-package-r1": "e610f184ade92768e6162977380bea242f55f4483982afbce6be59f312fbb9d2",
+    "aura-ticking-candidate-game-r1": "55e04647f4eb419eaaff7b2a6fe5acd1c3448b3a4ccb5265112db0b83cd996c0"
+  },
+  "originalObservations": 63,
+  "originalFaults": 50,
+  "contracts": 48,
+  "packageFaults": 33,
+  "adapterGuards": 30,
+  "installedObservations": 228,
+  "privateCourses": 4,
+  "privateStages": 15,
+  "gameFaults": 12,
+  "moduleBytes": 8742,
+  "browserBytes": 2995,
+  "candidateArchiveSha256": "f40d11e652b48fd6e5c92b21d946462a9f00a192dbaa1d0df614fadb68adc13c",
+  "runtimeSha256": "6ea54f1086153136ed39e4b86c3da593a1b700a7e0d50ec89eb84e0510369168",
+  "adapterSha256": "d951fb6581cb26faa36d3d05d74681ac54c10023283cad864122942e682706a8",
+  "failureHistory": [
+    {
+      "report": "aura-ticking-contact-original-r1",
+      "source": "export-aura-ticking-contact-r1.ts",
+      "sourceSha256": "c7f058d0600e1b2b9748ee5a1f7898bae449d5f7165a9f2cc44e936dfffacdf6",
+      "reason": "Diagnostic fixture used unregistered resistFire/resistCold keys; corrected to the original fireRes/coldRes keys.",
+      "acceptedObservationsChanged": false
+    },
+    {
+      "report": "aura-ticking-contact-original-r2",
+      "source": "export-aura-ticking-contact-r2.ts",
+      "sourceSha256": "2fd2c7aea1602c9c24d90a57aad502666cd4f44e570b4a02c894eed552c5e0e9",
+      "reason": "Diagnostic expectation omitted original base mana regeneration of two; corrected totals to seven while active and two after retirement.",
+      "acceptedObservationsChanged": false
+    },
+    {
+      "report": "aura-ticking-order-original-r1",
+      "source": "export-aura-ticking-order-r1.ts",
+      "sourceSha256": "68fbedf93bdeb89bea5b74c77299b0dba477a4367b31110db383ad9415c89d67",
+      "reason": "Diagnostic damage expectation omitted the bearer modifier installed earlier in the same aura row; corrected expected target life from seventy to forty.",
+      "acceptedObservationsChanged": false
+    }
+  ],
+  "toolingReview": "A builder refused an ambiguous loaded-module selector before writing its output. The selector was narrowed to the bundle-input assertion; the failed builder source is retained separately. No runtime, original source or accepted observation changed.",
+  "limits": [
+    "Full assembled-game comparison is tracked separately.",
+    "Production promotion, full SDK verification and public publication remain pending.",
+    "No ticking speedup, allocation reduction, physical-device or native engine acceptance is claimed.",
+    "Complete private character graphs and durable live publication remain separate."
+  ]
+}

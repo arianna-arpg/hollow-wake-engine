@@ -1318,3 +1318,14 @@ thirty rendering/installation guards, eight runtime/binding faults, 165 original
 observations and four private companion contexts with fifteen stages. Full World
 scheduling, complete private graphs, native engines and physical-device acceptance
 remain separate. See [aura activation](aura-activation.md).
+
+## Aura ticking
+
+`test:aura-ticking-package` checks 48 installed/browser contracts, public and
+direct-source types, and 33 deliberate runtime faults. `reference:aura-ticking`
+replays 63 original observations in three courses and two fresh processes each.
+`adapter:aura-ticking` composes ten installed modules and checks 34 rendering and
+installation guards, 12 runtime/binding faults, 228 original observations and four
+private companion contexts with fifteen stages. Full game scheduling, complete
+private graphs, native engines and physical-device acceptance remain separate.
+See [aura ticking](aura-ticking.md).

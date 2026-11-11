@@ -41,6 +41,7 @@ function entryGraph(file) {
   }
 }
 entryGraph(path.join(root,'src/index.ts'));
+assert.ok([...reachable].every(file=>path.basename(file)!=='aura-ticking.ts'), 'Optional aura ticking became an eager core import');
 assert.ok([...reachable].every(file=>path.basename(file)!=='aura-activation.ts'), 'Optional aura activation became an eager core import');
 assert.ok([...reachable].every(file=>path.basename(file)!=='aura-ledgers.ts'), 'Optional aura ledgers became an eager core import');
 assert.ok([...reachable].every(file=>path.basename(file)!=='aura-retirement.ts'), 'Optional aura retirement became an eager core import');

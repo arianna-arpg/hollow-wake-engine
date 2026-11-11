@@ -1,0 +1,94 @@
+name: Verify aura ticking
+on:
+  push:
+    paths:
+      - '.github/workflows/aura-ticking.yml'
+      - 'src/aura-ticking.ts'
+      - 'src/aura-activation.ts'
+      - 'adapters/hollow-wake/integrate-aura-activation.mjs'
+      - 'baseline/aura-activation/**'
+      - 'reference/export-aura-activation.ts'
+      - 'baseline/aura-ticking-contact/**'
+      - 'baseline/aura-ticking-order/**'
+      - 'reference/export-aura-ticking-contact.ts'
+      - 'reference/export-aura-ticking-order.ts'
+      - 'src/aura-ledgers.ts'
+      - 'adapters/hollow-wake/integrate-aura-ledgers.mjs'
+      - 'baseline/aura-ledgers/**'
+      - 'reference/export-aura-ledgers.ts'
+      - 'src/aura-retirement.ts'
+      - 'adapters/hollow-wake/integrate-aura-retirement.mjs'
+      - 'baseline/aura-retirement/**'
+      - 'reference/export-aura-retirement.ts'
+      - 'src/companion-recovery.ts'
+      - 'adapters/hollow-wake/integrate-companion-recovery.mjs'
+      - 'baseline/companion-recovery/**'
+      - 'baseline/retirement-contact/**'
+      - 'reference/export-retirement-contact.ts'
+      - 'reference/export-companion-recovery.ts'
+      - 'src/body-levels.ts'
+      - 'src/companion-bonds.ts'
+      - 'src/companion-bond-rules.ts'
+      - 'src/minion-inheritance.ts'
+      - 'src/attribute-bequests.ts'
+      - 'adapters/hollow-wake/integrate-aura-ticking.mjs'
+      - 'adapters/hollow-wake/integrate-body-levels.mjs'
+      - 'adapters/hollow-wake/integrate-companion-bonds.mjs'
+      - 'adapters/hollow-wake/install-character-sources.mjs'
+      - 'adapters/hollow-wake/companionBonds.ts'
+      - 'adapters/hollow-wake/companionSpec.ts'
+      - 'adapters/hollow-wake/minionInheritance.ts'
+      - 'adapters/hollow-wake/bequests.ts'
+      - 'baseline/aura-ticking/**'
+      - 'baseline/body-levels/**'
+      - 'baseline/companion-continuation/**'
+      - 'reference/export-aura-ticking.ts'
+      - 'reference/export-body-levels.ts'
+      - 'reference/export-companion-continuation.ts'
+      - 'test/aura-ticking*'
+      - 'test/companion-continuation-game.ts'
+      - 'scripts/test-aura-ticking-package.mjs'
+      - 'scripts/test-game-aura-ticking.mjs'
+      - 'scripts/reference-aura-ticking.mjs'
+      - 'scripts/prepare-game-adapter.mjs'
+      - 'package*.json'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ticking:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: 24.9.0
+          cache: npm
+      - run: npm ci
+      - run: npm run reference:prepare
+      - run: npm run reference:install
+      - run: npm run build
+      - run: npm run test:aura-ticking-package
+      - run: npm run reference:aura-ticking
+      - run: npm run adapter:aura-ticking
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: aura-ticking-${{ matrix.os }}
+          include-hidden-files: true
+          if-no-files-found: error
+          path: |
+            .artifacts/aura-ticking-package.json
+            .artifacts/aura-ticking-package.logs.json.gz
+            .artifacts/aura-ticking-reference.json
+            .artifacts/aura-ticking-reference.logs.json.gz
+            .artifacts/aura-ticking-game.json
+            .artifacts/aura-ticking-game.logs.json.gz

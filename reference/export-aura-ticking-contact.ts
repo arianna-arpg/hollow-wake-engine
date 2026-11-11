@@ -1,0 +1,23 @@
+// Authored original activation -> tick -> retirement/contact paths. These call
+// the real conversion, healing and kill services; no cast-payment claim is made.
+import assert from 'node:assert/strict';import {writeFileSync} from 'node:fs';
+import {bootSimEngine,makeSimWorld} from '../src/sim/arena';import {seedGlobalRandom} from '../src/sim/rng';
+import {Actor} from '../src/engine/actor';import {StatSheet,mod} from '../src/engine/stats';
+import {makeSkillInstance,type SkillInstance,type AuraDelivery} from '../src/engine/skills';import {SKILLS} from '../src/data/skills';
+bootSimEngine();const restore=seedGlobalRandom(0xa672c),rows:unknown[]=[];
+function body(name:string,team:'player'|'enemy',life=100){const a=new Actor(name,team,{x:0,y:0});a.sheet=new StatSheet();for(const[k,v]of Object.entries({life,mana:100,damage:1,damageTaken:1,effectDuration:1,manaCost:1}))a.sheet.setBase(k,v);a.life=life;a.mana=100;return a;}
+function fixture(id:string){const w=makeSimWorld('magician',0xa672c),a=body('bearer','player'),ally=body('ally','player'),enemy=body('enemy','enemy'),inst=makeSkillInstance(SKILLS[id],1),events:Record<string,unknown>[]=[];w.walk=null;w.actors=[a,ally,enemy];w.time=17;const host=w as unknown as {activateAura(a:Actor,inst:SkillInstance,d:AuraDelivery,scale:number):void;updateAuras(dt:number):void};const kill=w.kill.bind(w);w.kill=(...args)=>{events.push({kind:'kill',actor:args[0].name,killer:args[2]?.name,life:args[0].life,bearerLife:a.life,silent:args[1]??false});return kill(...args);};return{w,a,ally,enemy,inst,host,events};}
+type Context=ReturnType<typeof fixture>;
+function course(label:string,id:string,setup:(c:Context)=>void,dt:number,check:(c:Context)=>void){const c=fixture(id);setup(c);const d=c.inst.def.delivery;assert(d.type==='aura');c.host.activateAura(c.a,c.inst,d,1);assert(c.a.activeAuras.has(id));c.host.updateAuras(dt);check(c);rows.push({label,id,life:c.a.life,enemyLife:c.enemy.life,enemyDead:c.enemy.dead,allyManaRegen:c.ally.sheet.get('manaRegen'),bearerManaRegen:c.a.sheet.get('manaRegen'),active:[...c.a.activeAuras].map(([key,r])=>({key,remaining:Number.isFinite(r.remaining)?r.remaining:String(r.remaining),affected:[...r.affected]})),events:c.events});}
+try{
+ course('righteous-fire-uses-bearer-max-life','righteous_fire',c=>{c.a.life=80;c.enemy.sheet.setBase('life',1000);c.enemy.life=1000;},1,c=>{assert.equal(c.a.life,76.5);assert.equal(c.enemy.life,996.5);});
+ course('righteous-fire-scales-with-larger-bearer','righteous_fire',c=>{c.a.sheet.setBase('life',200);c.a.life=160;c.enemy.sheet.setBase('life',1000);c.enemy.life=1000;},1,c=>{assert.equal(c.a.life,153);assert.equal(c.enemy.life,993);});
+ course('righteous-fire-conversion-and-resistance','righteous_fire',c=>{c.a.life=80;c.a.sheet.setSource('diagnostic-conversion',[mod('convert_fire_cold','flat',.5)]);c.enemy.sheet.setBase('fireRes',.25);c.enemy.sheet.setBase('coldRes',.5);},1,c=>{assert.equal(c.a.life,76.5);assert.equal(c.enemy.life,97.8125);});
+ course('righteous-fire-extra-damage-after-conversion','righteous_fire',c=>{c.a.life=80;c.a.sheet.setSource('diagnostic-conversion',[mod('convert_fire_cold','flat',.5),mod('extraAs_chaos','flat',.5)]);c.enemy.sheet.setBase('fireRes',.25);c.enemy.sheet.setBase('coldRes',.5);},1,c=>{assert.equal(c.enemy.life,96.0625);});
+ course('righteous-fire-upkeep-persists-with-invulnerable-target','righteous_fire',c=>{c.a.life=80;c.enemy.invulnerable=true;},1,c=>{assert.equal(c.a.life,76.5);assert.equal(c.enemy.life,100);});
+ course('vampiric-presence-real-healing','vampiric_presence',c=>{c.a.life=40;},1,c=>{assert.equal(c.a.life,49);assert.equal(c.enemy.life,91);assert.equal(c.a.activeAuras.get('vampiric_presence')?.remaining,5);});
+ course('vampiric-presence-expiry-precedes-damage','vampiric_presence',c=>{c.a.life=40;},6,c=>{assert.equal(c.a.life,40);assert.equal(c.enemy.life,100);assert(!c.a.activeAuras.has('vampiric_presence'));});
+ course('vampiric-kill-retains-bearer-after-healing','vampiric_presence',c=>{c.a.life=40;c.enemy.life=1;},1,c=>{assert.equal(c.a.life,49);assert(c.enemy.dead);assert.deepEqual(c.events,[{kind:'kill',actor:'enemy',killer:'bearer',life:-8,bearerLife:49,silent:false}]);});
+ course('eye-of-storm-entry-and-retirement','eye_of_the_storm',()=>{},1,c=>{assert.equal(c.enemy.life,92);assert.equal(c.ally.sheet.get('manaRegen'),7);assert.equal(c.a.sheet.get('manaRegen'),7);c.host.updateAuras(7);assert(!c.a.activeAuras.has('eye_of_the_storm'));assert.equal(c.enemy.life,92);assert.equal(c.ally.sheet.get('manaRegen'),2);assert.equal(c.a.sheet.get('manaRegen'),2);});
+ assert.equal(rows.length,9);writeFileSync(process.argv[2],JSON.stringify({scope:'original-aura-ticking-contact/v1',rows}),{flag:'wx'});
+}finally{restore();}

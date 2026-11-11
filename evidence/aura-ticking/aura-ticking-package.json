@@ -1,0 +1,190 @@
+{
+  "passed": true,
+  "contracts": 48,
+  "sources": {
+    "src/aura-ticking.ts": "6ea54f1086153136ed39e4b86c3da593a1b700a7e0d50ec89eb84e0510369168",
+    "test/aura-ticking.test.mjs": "f0774758d13ae5963ed18320e44fa0e69457d466224eaaa995ab6650bad4b5d5",
+    "test/aura-ticking-consumer.ts": "2dadceb14cca10717cab00f0f39ed2dde212dbc4fca513d09ce5aa15ed552d94",
+    "scripts/test-aura-ticking-package.mjs": "150746b0af1bed18921fd6b22ccbee1d1e8aa174574ebebc8ecb5d2c5629857e",
+    "package.json": "790873ff203c96305a49f8ac7abc858658856b2b732dc20e23e210586bca2569",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    "tsconfig.json": "98691a01b56f8bd025c728aba3fa8ea3e682da943c6eab103289045c5e1ac6e1"
+  },
+  "faults": [
+    {
+      "name": "dead-bearer-ticks",
+      "detected": true,
+      "logSha256": "1ca7c950edcd4c6fda63a7834518043028e27a7ee8983ef4dc26223dbd99d3b7"
+    },
+    {
+      "name": "aura-snapshot-lost",
+      "detected": true,
+      "logSha256": "c2ca3691e9114b0f89a3360919ac1f6ded967a7a925e9c149f3d9dead8db9982"
+    },
+    {
+      "name": "actor-live-iteration-lost",
+      "detected": true,
+      "logSha256": "66a4a8ed114a962f11b2ab3fc0362bfb86a0fc42a3728834a94f862f7bf0cc82"
+    },
+    {
+      "name": "duration-expiry-delayed",
+      "detected": true,
+      "logSha256": "901663ffd95d33dd4f66e526f14d81d46c3aedeaad33d4069c3aa1d614f93b25"
+    },
+    {
+      "name": "duration-clock-lost",
+      "detected": true,
+      "logSha256": "6475100ca2d40e7cd0e6ebb2fd671cde20b0aa0cf87129c0a19f3b9afca4e117"
+    },
+    {
+      "name": "fuse-equality-delayed",
+      "detected": true,
+      "logSha256": "1df3bd119fd4c785549daf23a45d9d692e82f3afb03648fecf4454f067a4a774"
+    },
+    {
+      "name": "absent-since-zero",
+      "detected": true,
+      "logSha256": "f692f1d224775bb706489c6064eb0e2f3cecd1778cfc0431b09718a3961d7ba4"
+    },
+    {
+      "name": "upkeep-ramp-lost",
+      "detected": true,
+      "logSha256": "81f21723cc19740d2fc9b4cc2851a0bdac3d3eae9bcd727f0582c502e4a63a05"
+    },
+    {
+      "name": "mana-max-drain-lost",
+      "detected": true,
+      "logSha256": "44e7768155acbf0774d0d0df517223a369c3acad44b19b88f8cafd0b6dad7cda"
+    },
+    {
+      "name": "mana-current-drain-lost",
+      "detected": true,
+      "logSha256": "71809d0eb33c0d20064fc054339049af09b4eb50f487264e459d931cae2136e1"
+    },
+    {
+      "name": "mana-not-clamped",
+      "detected": true,
+      "logSha256": "8593a1d6fe29cf08c15fea7c79848178e11d6e03bb4ef9383c325ccc297190c7"
+    },
+    {
+      "name": "life-floor-equality-admitted",
+      "detected": true,
+      "logSha256": "65e33169ccc2099a5aa783c6232f8322ecc8e86c3fbdbd37d63eeba9b0dcf032"
+    },
+    {
+      "name": "life-debit-lost",
+      "detected": true,
+      "logSha256": "7391c958fde462bd9b2d9f1114592423818e503b68da71317a21bec7b8a7212f"
+    },
+    {
+      "name": "charge-fraction-reset",
+      "detected": true,
+      "logSha256": "06f14e2cab42a43d058bcc524f5002001319df498dcf06ac6580b83d4d08f61d"
+    },
+    {
+      "name": "charge-whole-rounded",
+      "detected": true,
+      "logSha256": "b22b2fab00596eb1f090f1d5c7b0c24ab5cae3a12034b11b31706ad30833636b"
+    },
+    {
+      "name": "charge-fraction-discarded",
+      "detected": true,
+      "logSha256": "3eaca8e762fd9c30df202a6b98d087fc3430ec6d94507884a9862f65b2f8a739"
+    },
+    {
+      "name": "empty-charge-bank-spent",
+      "detected": true,
+      "logSha256": "d62fc1b482356db7a9a8af39a3a753949e73de265d0733cb446976111f7216fd"
+    },
+    {
+      "name": "seal-publication-state-lost",
+      "detected": true,
+      "logSha256": "929db4f0d3d553bdac9fa9130e0a8df9a96d5ad25aa095ffd8a906eef8852ff0"
+    },
+    {
+      "name": "seal-noop-source-reset",
+      "detected": true,
+      "logSha256": "f365ac21327db9c855719b0ac8bd26d45d6d11bdf42006f0546a1afbdc52bacb"
+    },
+    {
+      "name": "ally-override-lost",
+      "detected": true,
+      "logSha256": "8fe41e3b80364450370ea232a2b349a8de790db9c88a0f3b9bb8a1a8ad531278"
+    },
+    {
+      "name": "ally-members-refreshed",
+      "detected": true,
+      "logSha256": "ad5819161fd61313f78106ae7819d2a40ede22e68767917be5febb79b67e8e54"
+    },
+    {
+      "name": "affected-publication-too-early",
+      "detected": true,
+      "logSha256": "c726d1d725412d07e5588ea494f827ae66d9c935128689d07952e8a6053510ff"
+    },
+    {
+      "name": "damage-dt-lost",
+      "detected": true,
+      "logSha256": "7629b53bd2de85fd7cd592994c7a54a421d40f820ae9da92662ec1500c52fde6"
+    },
+    {
+      "name": "conversion-lost",
+      "detected": true,
+      "logSha256": "71e0f5ab3a299e358623030f61e64c60327ec3d33d8b743ebb17bd6104c5f78e"
+    },
+    {
+      "name": "resistance-lost",
+      "detected": true,
+      "logSha256": "ca9edd3173fdf6a0d4fdddeb29a5c2b21b8f319334a78f2d7f8f995fed0d2e6d"
+    },
+    {
+      "name": "invulnerability-ignored",
+      "detected": true,
+      "logSha256": "d687262a19e83d263b2608045d5e75f87c203d13b22b1bc07c96d005f63e8dae"
+    },
+    {
+      "name": "siphon-lost",
+      "detected": true,
+      "logSha256": "c3b12a207b7c20bd44ca84ca0957bf9c01c2f4333fc11c8419009816028483a1"
+    },
+    {
+      "name": "dead-enemy-rechecked",
+      "detected": true,
+      "logSha256": "56da9ff1ebe81f7a87a3fb59ff707df01622d35a4eb9030599f2c2bdcca581da"
+    },
+    {
+      "name": "bearer-death-rechecked",
+      "detected": true,
+      "logSha256": "4a8d580abfed520061943941c879ee5228d6ad3bcb7792c5891c7bb5d8becc41"
+    },
+    {
+      "name": "pulse-overshoot-retained",
+      "detected": true,
+      "logSha256": "c5397fbee471077988ab04b5563dce8d4912efaed7987380a41c0c8a830a3046"
+    },
+    {
+      "name": "pulse-first-frame-delayed",
+      "detected": true,
+      "logSha256": "763b8121b0d54bc5a2a5551106a854ce88155dd496bd29555b2418032eb95f04"
+    },
+    {
+      "name": "pulse-heal-captured-before-presence",
+      "detected": true,
+      "logSha256": "a54458c66d5226ee9368ceec1948395875e08ced05c0f2a68ea39fb7348c7b55"
+    },
+    {
+      "name": "held-span-requeried",
+      "detected": true,
+      "logSha256": "8e66a069cebd0ff5295d5b9a2810e3a3e14bf22b66e4545b5b63ab161d9a6193"
+    }
+  ],
+  "archiveSha256": "af9f1044897cef17205268dcedd3cdb19df2082d515444f7e29f95e5a0a0b397",
+  "browserBytes": 2995,
+  "types": true,
+  "sourceTypes": true,
+  "moduleBytes": 8742,
+  "moduleSha256": "42679cee6a2c1b5550a770af2a296ca55df7bf8b3f8d53c8a05885dd9eac6e28",
+  "restored": true,
+  "inputsUnchanged": true,
+  "cleaned": true,
+  "logsSha256": "6e2e62097448f1fab40cdd5df722e32957be7e1c6b6bcce4795fcacc5089babf"
+}
