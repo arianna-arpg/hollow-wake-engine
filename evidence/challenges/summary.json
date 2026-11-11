@@ -1,0 +1,131 @@
+{
+  "passed": true,
+  "goalComplete": false,
+  "baseCommit": "b8bd51e072d9219268fe884bd8b6ec0a857ab035",
+  "node": "v24.9.0",
+  "platform": "win32",
+  "arch": "x64",
+  "verification": {
+    "commands": 126,
+    "unitTests": 2195,
+    "exitCode": 0
+  },
+  "reference": {
+    "commands": 51,
+    "exitCode": 0
+  },
+  "challenges": {
+    "contracts": 20,
+    "negativeTypeCases": 8,
+    "packageFaults": 16,
+    "originalObservations": 61,
+    "originalFaults": 4,
+    "originalProbeCheckpointsPreserved": 56,
+    "installedFaults": 6,
+    "adapterGuards": 6,
+    "archiveSha256": "4dfab91b52508def6a2afaed2d8ac4f9e2136167d20c4ba4362766a43cb48abc",
+    "modules": {
+      "challenges": {
+        "bytes": 18031,
+        "sha256": "d0ad676cbef9b568dbc9852a687d72a4c5f3128f8d532367fa345148c589746a",
+        "typesSha256": "094d9cb0939b070120cc206f44c366d495b855d1e57d75e03eab0b4d9f4397f6"
+      },
+      "challenge-content": {
+        "bytes": 1085,
+        "sha256": "6f03df5cd020da96bc408c92f3e9a524c7c1d480308f8e222822e89baaa064f6",
+        "typesSha256": "bb60db9e8082993059ca4282d445286d08dacc07ea8cd86a81fe8a03ae74be4d"
+      },
+      "challenge-types": {
+        "bytes": 54,
+        "sha256": "a2348dca405941ccc6ddf207a2aa780eff141078078957107f01736260766b35",
+        "typesSha256": "d0604ef98aae6105146fe9ddc13384a1f1f342cc13d7158ac7ebc38740f1d9f7"
+      }
+    },
+    "moduleBytes": 19170,
+    "moduleMaximumBytes": 20480,
+    "browserBytes": 11243,
+    "browserMaximumBytes": 12288,
+    "browserExecution": "Browser-target bundle executed in an isolated Node VM with forbidden host globals",
+    "excludedFromEagerCore": true,
+    "draftControllerBodyUnchanged": true,
+    "composedOriginalReferenceMatch": true,
+    "smoke": {
+      "episodes": 25,
+      "exactEpisodes": true,
+      "episodesSha256": "92f132c90f0c5da0a440415ae63e0b86b9cd1c66b6bca77c64ea2392688cd0c1",
+      "normalizedReportsEqual": true
+    }
+  },
+  "performance": {
+    "benchmarkRun": false,
+    "timingAccepted": false,
+    "allocationReduction": false,
+    "deviceAcceptance": false,
+    "reason": "Only emitted code size is bounded here; CPU, allocation and physical-device measurements remain open."
+  },
+  "sources": {
+    ".github/workflows/challenges.yml": "0ba1f99f141476fe45e35227d5dc98d71ba769614f7ea0a51453b2b0b9b13757",
+    "adapters/hollow-wake/challenge-boundary.json": "4cb88aeb6e97d0404dea55dbb942a2d2c9701f007318fa546a08f5f726c55a4d",
+    "adapters/hollow-wake/challengeSpec.ts": "4ee8fb412137b0e75bdcce2525504a222fd6a0f3b4bb72b9b345813465aae5a0",
+    "adapters/hollow-wake/challenges.ts": "5f8bf3ababccc320b4c46e0b985545ac4906f77fce16d45e0aed555dbd2b4f81",
+    "adapters/hollow-wake/integrate-challenges.mjs": "a2211ed9d12132d2ea80bbd0399105e2586175bcf11effb8a1964c8cbc586c9c",
+    "baseline/challenges/acceptance.json": "c9bc17e78347c644ea13a8ab066004ff85c5d16087fd7b60e02db650b91f0864",
+    "baseline/challenges/observations.json.gz": "924736e21a0e31a27825dd304bf58a91cbef0e7cca03be27dd8a3182f80f2718",
+    "baseline/challenges/original.logs.json.gz": "14766abf899b2c8e11c87067080094c920d5b092ad704c201a69e6cb4629e102",
+    "docs/boundary-contract.md": "c4eeaba7385501c6b0e5b61fa62e938d71e731a9f058b58e9965f3eb450c9d91",
+    "docs/challenges.md": "1b86913430fad281fb041d830d17aa5446481fc66c006d5ea5b290cc25b00695",
+    "docs/completion.json": "5f0605cadf35d3b9be710af0e43ace35b5fac1b4f1a757eb672c7a48b9d13683",
+    "docs/verification.md": "f797fb692921f4fcccd836abf345f3c3117e5645e2912d3f0c4895f6afe7780b",
+    "package.json": "a778635886947ebdc80022dc6a27a416a7fd577608855ac9c19f199a93323fe6",
+    "reference/export-challenges.ts": "01716bf6f332099658413eb12c43b1192a5f3a87077b5fa6beed98b31ef03e94",
+    "scripts/challenge-reference.mjs": "037f96101005e7e679347e198d2013e697ddcfc1d2e3d352f08cc325d5ee2fd3",
+    "scripts/check-boundaries.mjs": "4ba20c17beeb4458c1c5b477ebdea45c7821ee93713548bacdc05a8f8cbc73fa",
+    "scripts/prepare-game-adapter.mjs": "e9931a27eaf5a63b9c9bfe357bbb3f6c917e2dc081d5ecd91070766fb00a9c21",
+    "scripts/reference-challenges.mjs": "7fe8b46c2a131fbb3aa7c27395b84fa74f73e2706e924a1b0428f548bfc19aaf",
+    "scripts/test-challenge-package.mjs": "2161a4d5f2f04db32a4a44b41cdacfa4a4971cda254c2c07ffd252c850306617",
+    "scripts/test-challenges-composed.mjs": "20a28d2b2aaadbe96e14cb5411c4c03b24fe3e256f10fa912cdd96f2efb376a7",
+    "scripts/test-game-challenges.mjs": "061b8e66771fbc381df0458ded2686f342dd03a90cff91d960b755d65348c72b",
+    "scripts/test-package.mjs": "ed6b6cab5b9f3628e7735df10b9e76572b66f14b764afcb7f9f0a3ef5426584f",
+    "src/challenge-content.ts": "1e8a9e7a464fbefdff16c55133561ff38577272e38af0c19e615abbdf0252965",
+    "src/challenge-types.ts": "f6f415884c97309d2cde3bae63147e26f5b5722cfeb4a83aea6b11962f495d9a",
+    "src/challenges.ts": "e8a87d046ad8c8b63c00f45a268c70e2d6f43be26aa8aab581f1d04d6ca5c430",
+    "test/challenge-consumer.ts": "19bc204f4ef70f29a6581eb8f51b11dd8b843f7cdb15b3112007f3300ec4faea",
+    "test/challenge-contracts.mjs": "cd21b212cafff3b2728b60517c0bffb25d7182a52c4ebb08c28bef070dec8d83",
+    "test/challenge-faults.mjs": "c946e7c8f09983ac3aa7e983b365a1c0deb15b9cc082f7fbfe3298a6109e941f",
+    "test/challenges.test.mjs": "e0e6f7f2b17ab34d007f7afd832cdbc73dfe9882d450fd0bc006fe03b5c6db24"
+  },
+  "files": {
+    "verify.json": "f8b37a6fa3e023f89ec85ee060c5a837c77d9d34e52be2fee58bcbf7780bbc2d",
+    "verify.log.gz": "1489c1a87f41a74b555539dfc613756d3b91a771f1a5ac01b0ebbb0ea4860009",
+    "reference.json": "e8d8956cc9c5e012b27b6e33e5e014d65d62840d976b2a25cfe79d26614cd1d4",
+    "reference.log.gz": "ddec1ee058f6154aa1b96770c1d4d7359ae4e3c57ec56412dda8dc3e0f3fd0b6",
+    "composed.json": "f210ce94b52f62750c34d685642a31fa3499d30f7ebaf181cddb787f98690d51",
+    "composed.log.gz": "4a376dd33891cb3666606045189f6e3fa90e7ef1330b2f7d6c8aa0234d94b25c",
+    "challenges-package.json": "34d4da4d89c5d601c4db2065b8f589ba20d2f92f5406a3a4add37268663353c6",
+    "challenges-package.logs.json.gz": "3b5591ba055311839eeac961df0cfdb6f6736d60fec28f1461b54b0da753f23f",
+    "challenges-reference.json": "52de1c992b2cea5b176e5df75be6905a7ae2c97dadbed4e6e5f4bc52b2e9c846",
+    "challenges-reference.logs.json.gz": "08d05cb78ae9c4bcb66b0449af75058b77fee3eb44c303b42e2fc3c63caee533",
+    "challenges-game.json": "234219a30cdd12a50b3aee1de55ff7294b95db67684e3ee08bb5553450f0024b",
+    "challenges-game.logs.json.gz": "7c30ec832daf0882ec579ab3fa556fcd5b738f9d03a75d11ffb94ff02378d43a",
+    "challenges-composed.json": "4f71cfd43d3cd174c1cc894f74f8837d41498112c8c2ab96cd09ca5f8439dd90",
+    "challenges-composed.logs.json.gz": "2200ef499f8470bc0cef49fadfd02ea8c2c99316fb1e1ac169e8e6a3883ff0bc",
+    "package-sizes.json": "8e670c484b7186835288ef388d7df82f14cda43ab8ae1a07be31df9a95ea1e8a",
+    "prototype.json.gz": "d4b4ef1026df3c6279ade6362f8671756a08e46fc7d6dacaf40f48bdcdae145b",
+    "prototype-manifest.json": "b8922a2ea9cf7a4518a674e7a99a45160866e86c7de314ab146505a432db0653",
+    "cleanup.json": "bbf1336ba22b3835d24b9bd660e4e0b27488c682567ebac449be1ca7b50826e9"
+  },
+  "footprint": {
+    "newWorktrees": 0,
+    "removedFolders": 75,
+    "removedArchives": 11,
+    "remainingCreatedLargeFolders": []
+  },
+  "limits": [
+    "Host time, RNG, identities, actor allocation, geometry, skill execution and presentation are explicit synchronous services.",
+    "Authored Goad mechanic IDs are preserved: deviceCall must use goad_device_call; state is keyed by owner ID and skill-definition ID, with a replacement host retiring the former investment.",
+    "Trusted authored patches retain nested aliases; this service is not an untrusted-data validator.",
+    "Callback failure preserves earlier writes, matching the original game; no durable transaction is implied.",
+    "Paired assembly comparison changes only the two challenge files, not the entire SDK.",
+    "Private challenge continuation, complete authored character graphs, acknowledgement-time live publication, native bindings and target-device performance remain open."
+  ]
+}

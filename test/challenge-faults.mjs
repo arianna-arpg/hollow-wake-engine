@@ -1,0 +1,18 @@
+export const challengePackageFaults = [
+  {name: 'cast-identity', module: 'challenges', from: 'if (this.casts.has(inst)) return inst;', to: '// Lost retained cast identity.'},
+  {name: 'shared-cast-state', module: 'challenges', from: 'state: inst.state ??= {}, challengeHost: inst', to: 'state: {...(inst.state ??= {})}, challengeHost: inst'},
+  {name: 'rng-order', module: 'challenges', from: 'if (guaranteed || this.ports.random() < s.resetChance)', to: 'if (this.ports.random() < s.resetChance || guaranteed)'},
+  {name: 'reset-deadline', module: 'challenges', from: 'state.guaranteedAt = this.ports.time + s.guaranteedResetEvery!', to: 'state.guaranteedAt = this.ports.time - s.guaranteedResetEvery!'},
+  {name: 'preview-consumes-readiness', module: 'challenges', from: 'primed: real && state.primed', to: 'primed: state.primed'},
+  {name: 'field-wound-burst', module: 'challenges', from: "st.id !== 'bleed' || st.challengeField !== undefined", to: "st.id !== 'bleed'"},
+  {name: 'recursive-orbits', module: 'challenges', from: 'cast.generation > 1', to: 'cast.generation > 2'},
+  {name: 'immediate-landing', module: 'challenges', from: 'Math.max(0.15, length / 600)', to: 'Math.max(0, length / 600)'},
+  {name: 'thorns-average', module: 'challenges', from: '(bands.lo + bands.hi) / 2 * power', to: '(bands.lo + bands.hi) * power'},
+  {name: 'field-duration', module: 'challenges', from: 'wound.remaining = dt + 0.05', to: 'wound.remaining = dt'},
+  {name: 'exact-shock-deadline', module: 'challenges', from: 'shock.due <= this.ports.time', to: 'shock.due < this.ports.time'},
+  {name: 'foreign-carrier-removal', module: 'challenges', from: 'this.ports.projectiles.filter(p => p.caster !== owner || !owned(p.inst))', to: 'this.ports.projectiles.filter(p => !owned(p.inst))'},
+  {name: 'retained-repeat', module: 'challenges', from: 'this.ports.pendingRepeats = this.ports.pendingRepeats.filter(p => p.caster !== owner || !owned(p.inst));', to: '// Discarded repeat cleanup.'},
+  {name: 'patch-order', module: 'challenge-content', from: '[...inst.treeNodes].sort()', to: '[...inst.treeNodes]'},
+  {name: 'nested-content-ownership', module: 'challenge-content', from: 'Object.assign(out ??= {}, patch)', to: 'Object.assign(out ??= {}, structuredClone(patch))'},
+  {name: 'explicit-zero-cap', module: 'challenge-content', from: 's.deviceCap ?? 1', to: 's.deviceCap || 1'},
+];

@@ -1,5 +1,13 @@
 # Verification and reproduction
 
+The optional [challenge controller](challenges.md) adds twenty installed/browser
+contracts, eight negative type cases and sixteen deliberate package faults.
+`reference:challenges` repeats 61 accepted original checkpoints in fresh processes;
+`adapter:challenges` repeats them through an installed archive and requires six
+source-admission guards, six runtime/adapter faults and a restored control.
+The package and reference commands include these checks. The dedicated
+Windows/Linux workflow also runs the composed game comparison.
+
 The optional [sequence continuation](sequence-continuation.md) adds 26 contracts,
 nine negative type cases and ten deliberate package faults. Its four frozen original
 courses reproduce 28 observations. Installed game checks add twelve private contexts,
