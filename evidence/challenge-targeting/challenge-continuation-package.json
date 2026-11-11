@@ -1,0 +1,108 @@
+{
+  "passed": true,
+  "sources": {
+    "package.json": "0f06be3ea2f02b7d6a57afc8fac60ed50e106fbc63964046849fbdcc82b5d815",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    "tsconfig.json": "98691a01b56f8bd025c728aba3fa8ea3e682da943c6eab103289045c5e1ac6e1",
+    "src/challenges.ts": "ea0feb84ffc754a461158312f20568cb1ffa3e1282cb7babcbf9ca9ea4b0c9de",
+    "src/challenge-continuation.ts": "a4a79d8ebb9162b4fe0586c34b1122a58004bce3e460965c2d445b97560f5c0f",
+    "src/challenge-owned.ts": "a602eaba8ec79671d03406d066780972aa8b4f02d7a2a82f6673ab8fc56c19da",
+    "src/challenge-types.ts": "f6f415884c97309d2cde3bae63147e26f5b5722cfeb4a83aea6b11962f495d9a",
+    "test/challenge-continuation.test.mjs": "6059d0db3cbca34bdd960b4ea1d15e2a75c843226001ef77324383cc555a2733",
+    "test/challenge-continuation-contracts.mjs": "c67265d3c156396c3eb567037a27c5276cce9f891263aedfb3d55b6740dc8b02",
+    "test/challenge-continuation-consumer.ts": "b04da2fe0d62985b9f4e501d2756cee3912b8b64e11ebed0e50ae8d21a03e793",
+    "test/challenge-continuation-faults.mjs": "235e49b3356d7ca045e4dc4a22f583ab4de9cbf14b06af1b6c6ad97c6617cf98",
+    "scripts/test-challenge-continuation-package.mjs": "d352d29d1ef8742dee878e18be229ff13624ff1ab5c7371ea460977daf4840f8",
+    "dist/challenges.js": "49273f0f237757c7c9b77c57725d39c4b91a3be68840e40dfd7810170b5903ea",
+    "dist/challenges.d.ts": "61f21b92c6d166a94c55dec2b17f5715fdfa29293b6a1105733f6001f63a1541",
+    "dist/challenge-continuation.js": "3744d4a119e51507daccb76e2ccd825933277b187217b7f5dba5b7a1185066c8",
+    "dist/challenge-continuation.d.ts": "b6ad74af0b16890cff1661ffcbc5ad40f0bdf7fdda85f6e1df7239e886e45221",
+    "dist/challenge-owned.js": "10c416fbc27ce011cc1c8ef804a99b52636ab37bbc41c2ac6dc0b193019c0028",
+    "dist/challenge-owned.d.ts": "92cfaed0aa13ce34cc37a40c2647aa3dd3db4b051d0de4ecd5c50848cec5a1d0",
+    "dist/challenge-types.js": "a2348dca405941ccc6ddf207a2aa780eff141078078957107f01736260766b35",
+    "dist/challenge-types.d.ts": "d0604ef98aae6105146fe9ddc13384a1f1f342cc13d7158ac7ebc38740f1d9f7"
+  },
+  "faults": [
+    {
+      "name": "lost-absolute-deadline",
+      "detected": true
+    },
+    {
+      "name": "lost-secondary-generation",
+      "detected": true
+    },
+    {
+      "name": "shared-orbit-ledger",
+      "detected": true
+    },
+    {
+      "name": "lost-retired-identity",
+      "detected": true
+    },
+    {
+      "name": "revived-retired-state",
+      "detected": true
+    },
+    {
+      "name": "shared-policy",
+      "detected": true
+    },
+    {
+      "name": "shared-delivery",
+      "detected": true
+    },
+    {
+      "name": "lost-shocks",
+      "detected": true
+    },
+    {
+      "name": "lost-pursuer-slot",
+      "detected": true
+    },
+    {
+      "name": "lost-admission-marker",
+      "detected": true
+    },
+    {
+      "name": "reusable-import",
+      "detected": true
+    },
+    {
+      "name": "collapsed-cast-alias",
+      "detected": true
+    }
+  ],
+  "archiveSha256": "35ea9d08e9661357e15aceb28a522a006c830cf858ac2bdff6a091c7d62ad8be",
+  "modules": {
+    "challenges": {
+      "bytes": 19032,
+      "sha256": "49273f0f237757c7c9b77c57725d39c4b91a3be68840e40dfd7810170b5903ea",
+      "typesSha256": "61f21b92c6d166a94c55dec2b17f5715fdfa29293b6a1105733f6001f63a1541"
+    },
+    "challenge-continuation": {
+      "bytes": 6235,
+      "sha256": "3744d4a119e51507daccb76e2ccd825933277b187217b7f5dba5b7a1185066c8",
+      "typesSha256": "b6ad74af0b16890cff1661ffcbc5ad40f0bdf7fdda85f6e1df7239e886e45221"
+    },
+    "challenge-owned": {
+      "bytes": 277,
+      "sha256": "10c416fbc27ce011cc1c8ef804a99b52636ab37bbc41c2ac6dc0b193019c0028",
+      "typesSha256": "92cfaed0aa13ce34cc37a40c2647aa3dd3db4b051d0de4ecd5c50848cec5a1d0"
+    },
+    "challenge-types": {
+      "bytes": 54,
+      "sha256": "a2348dca405941ccc6ddf207a2aa780eff141078078957107f01736260766b35",
+      "typesSha256": "d0604ef98aae6105146fe9ddc13384a1f1f342cc13d7158ac7ebc38740f1d9f7"
+    }
+  },
+  "moduleBytes": 25598,
+  "contracts": 31,
+  "browserBytes": 13933,
+  "hostileBrowser": true,
+  "negativeTypeCases": 8,
+  "types": true,
+  "restored": true,
+  "inputsUnchanged": true,
+  "cleaned": true,
+  "logsSha256": "1e2c6dcb4a294da241945e1dc2edbcfbb8d5a0943972d71c35e63701ef9333e7"
+}

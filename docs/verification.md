@@ -1,5 +1,12 @@
 # Verification and reproduction
 
+The [challenge targeting comparison](challenge-targeting-performance.md) adds
+eighteen installed/browser targeting cases and five deliberate faults. The
+non-timed `test:challenge-targeting` command compares seven public update courses
+against the retained published predecessor, checking every one of 120 frames per
+course. It runs in `verify` and the dedicated Windows/Linux workflow. Original-game
+fixtures remain unchanged. Timings are a separate `benchmark:challenge-targeting` run.
+
 The optional [challenge continuation](challenge-continuation.md) adds 31
 installed/browser-bundle contracts, eight negative type cases and twelve package
 faults. `reference:challenge-continuation` reproduces thirteen frozen original

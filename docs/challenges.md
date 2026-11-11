@@ -3,6 +3,12 @@
 The optional [continuation service](challenge-continuation.md) copies owned casts
 and device schedules into an already detached host graph without replaying them.
 
+Pursuers select the nearest enemy with a single scan of finite distances. Equal
+distances retain the first candidate in host order. The distance metric remains
+`Math.hypot`; a nonfinite distance falls back to the previous sorting path.
+Host coordinates must remain stable during synchronous selection. See the
+[targeting comparison](challenge-targeting-performance.md) for scope and reproduction.
+
 `@hollow-wake/engine/combat/challenges` exports `Challenges` and its host types.
 `combat/challenge-content` exports `ChallengeContent`. Both are optional imports.
 
@@ -69,7 +75,8 @@ npm run adapter:challenges-composed
 Each command creates its output directory, including on a fresh checkout.
 The package course exercises twenty independent contracts in installed Node and
 a browser-target bundle executed in an isolated Node VM with forbidden host
-globals, eight negative type cases and sixteen deliberate faults. It does not
+globals, eight negative type cases and sixteen deliberate faults. Another eighteen
+targeting cases run in both consumers, with five additional targeting faults. It does not
 launch a rendered browser. Original observations contain the pinned Goad probe's 56
 checkpoints plus five seeded identity/retirement checkpoints. Normal reference
 checks compare all 61 accepted observations without regenerating them. Installed

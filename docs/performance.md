@@ -1,5 +1,10 @@
 # Performance targets and measurement
 
+The [challenge targeting workload](challenge-targeting-performance.md) compares
+the current public controller against its retained published predecessor. Its
+seven scenes cover idle updates and increasing enemy/device counts, with and
+without field wounds. Correctness checks run separately from timed measurements.
+
 Steam Deck is the primary device target. Older phones and tablets are the
 stretch target and a design constraint against unnecessary allocation, loading
 and background work. Their actual CPU/memory limits require on-device measurements.

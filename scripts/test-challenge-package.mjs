@@ -10,6 +10,7 @@ import {root, sha256} from './reference-utils.mjs';
 import {npmCli} from './npm-cli.mjs';
 import {challengeContracts} from '../test/challenge-contracts.mjs';
 import {challengePackageFaults} from '../test/challenge-faults.mjs';
+import {challengeTargetingContracts, challengeTargetingFaults} from '../test/challenge-targeting-contracts.mjs';
 
 assert.equal(process.argv.length, 2);
 fs.mkdirSync(path.join(root, '.artifacts'), {recursive: true});
@@ -19,8 +20,9 @@ const sources = {}, tracked = f => {const bytes = read(f); sources[f] = sha256(b
 for (const file of ['package.json', 'package-lock.json', 'tsconfig.json',
   'src/challenges.ts', 'src/challenge-types.ts', 'src/challenge-content.ts', 'src/challenge-owned.ts',
   'test/challenges.test.mjs', 'test/challenge-contracts.mjs', 'test/challenge-consumer.ts',
-  'test/challenge-faults.mjs', 'scripts/test-challenge-package.mjs']) tracked(file);
-const report = {passed: false, sources, faults: []}, logs = {};
+  'test/challenge-faults.mjs', 'test/challenge-targeting-contracts.mjs',
+  'test/challenge-targeting.test.mjs', 'scripts/test-challenge-package.mjs']) tracked(file);
+const report = {passed: false, sources, faults: [], targetingFaults: []}, logs = {};
 const work = fs.mkdtempSync(path.join(owned, 'challenges-package-owned-'));
 const consumer = path.join(work, 'consumer');
 const run = (label, args, cwd = consumer) => {
@@ -50,13 +52,16 @@ try {
   report.moduleBytes = Object.values(report.modules).reduce((n, r) => n + r.bytes, 0);
   assert(report.moduleBytes <= 20 * 1024, 'Challenge runtime/content exceeds its separate 20 KiB bound');
   fs.writeFileSync(path.join(consumer, 'contracts.mjs'), tracked('test/challenge-contracts.mjs'));
+  fs.writeFileSync(path.join(consumer, 'targeting.mjs'), tracked('test/challenge-targeting-contracts.mjs'));
   fs.writeFileSync(path.join(consumer, 'consumer.mjs'), `import {Challenges} from '${entry}';
 import {ChallengeContent} from '${contentEntry}';
 import {challengeContracts} from './contracts.mjs';
-console.log(JSON.stringify(challengeContracts({Challenges,ChallengeContent})));
+import {challengeTargetingContracts} from './targeting.mjs';
+console.log(JSON.stringify({...challengeContracts({Challenges,ChallengeContent}), targeting:challengeTargetingContracts({Challenges})}));
 `);
   const expected = JSON.parse(success('installed', ['consumer.mjs']).stdout);
   assert.equal(expected.contracts, 20); report.contracts = expected.contracts;
+  assert.equal(expected.targeting.contracts, 18); report.targetingContracts = expected.targeting.contracts;
   fs.writeFileSync(path.join(consumer, 'entry.mjs'), `export {Challenges} from '${entry}';export {ChallengeContent} from '${contentEntry}';`);
   const browser = await build({entryPoints: [path.join(consumer, 'entry.mjs')], bundle: true,
     platform: 'browser', format: 'iife', globalName: 'ChallengeApi', target: 'es2022',
@@ -68,7 +73,8 @@ console.log(JSON.stringify(challengeContracts({Challenges,ChallengeContent})));
   const context = vm.createContext({});
   new vm.Script("for(const name of ['window','document','process','require','fetch','setTimeout','setInterval'])Object.defineProperty(globalThis,name,{get(){throw Error('Forbidden host global: '+name)}});Math.random=()=>{throw Error('Forbidden ambient RNG')};Date.now=()=>{throw Error('Forbidden ambient clock')};").runInContext(context);
   new vm.Script(browser.outputFiles[0].text).runInContext(context);
-  assert.deepEqual(challengeContracts(context.ChallengeApi), expected); report.hostileBrowser = true;
+  assert.deepEqual({...challengeContracts(context.ChallengeApi), targeting: challengeTargetingContracts(context.ChallengeApi)}, expected);
+  report.hostileBrowser = true;
   const consumerTypes = tracked('test/challenge-consumer.ts');
   report.negativeTypeCases = (consumerTypes.toString().match(/@ts-expect-error/g) ?? []).length;
   assert.equal(report.negativeTypeCases, 8); fs.writeFileSync(path.join(consumer, 'consumer.ts'), consumerTypes);
@@ -77,7 +83,8 @@ console.log(JSON.stringify(challengeContracts({Challenges,ChallengeContent})));
     moduleResolution: 'NodeNext', types: [], lib: ['ES2022']}, files: ['consumer.ts']}));
   success('types', [path.join(root, 'node_modules/typescript/bin/tsc'), '-p', 'tsconfig.json']); report.types = true;
   assert.equal(challengePackageFaults.length, 16);
-  for (const fault of challengePackageFaults) {
+  assert.equal(challengeTargetingFaults.length, 5);
+  for (const fault of [...challengePackageFaults, ...challengeTargetingFaults]) {
     const source = tracked('src/' + fault.module + '.ts').toString();
     assert.equal(source.split(fault.from).length, 2, fault.name + ' selector');
     const file = path.join(dist, fault.module + '.js'), original = fs.readFileSync(file);
@@ -86,7 +93,8 @@ console.log(JSON.stringify(challengeContracts({Challenges,ChallengeContent})));
     try {
       fs.writeFileSync(file, altered);
       const result = run(fault.name, ['consumer.mjs']); assert.equal(result.status, 1, fault.name + ' escaped');
-      assert.match(logs[fault.name].stderr, /ERR_ASSERTION/); report.faults.push({name: fault.name, detected: true});
+      assert.match(logs[fault.name].stderr, /ERR_ASSERTION/);
+      (challengeTargetingFaults.includes(fault) ? report.targetingFaults : report.faults).push({name: fault.name, detected: true});
     } finally {fs.writeFileSync(file, original);}
   }
   assert.deepEqual(JSON.parse(success('restored', ['consumer.mjs']).stdout), expected); report.restored = true;
@@ -108,4 +116,5 @@ finally {
 }
 assert(report.passed, report.failure ?? 'Verified inputs changed');
 console.log({passed: true, contracts: report.contracts, faults: report.faults.length, negativeTypeCases: report.negativeTypeCases,
+  targetingContracts: report.targetingContracts, targetingFaults: report.targetingFaults.length,
   moduleBytes: report.moduleBytes, browserBytes: report.browserBytes, hostileBrowser: report.hostileBrowser, cleaned: true});

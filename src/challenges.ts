@@ -211,7 +211,12 @@ export class Challenges<A extends ChallengeActor<I,M>,I extends ChallengeSkill<M
 
   private moveCreeper(e: Effigy<A,I>, enemies: A[], dt: number): void {
     const c = e.creeper!, s = e.cast.state.spec.creeper!;
-    const target = enemies.sort((a, b) => dist(a.pos, c.pos) - dist(b.pos, c.pos))[0];
+    let target: A | undefined, nearest = Infinity;
+    for (const enemy of enemies) {
+      const distance = dist(enemy.pos, c.pos);
+      if (!Number.isFinite(distance)) { target = enemies.sort((a, b) => dist(a.pos, c.pos) - dist(b.pos, c.pos))[0]; break; }
+      if (distance < nearest) { target = enemy; nearest = distance; }
+    }
     const toward = target?.pos ?? e.body.pos, distance = dist(e.center, toward), step = Math.min(1, s.speed * dt / Math.max(1, distance));
     e.center.x += (toward.x - e.center.x) * step; e.center.y += (toward.y - e.center.y) * step;
     const phase = this.ports.time * 3 + e.body.id, radius = target ? 34 : Math.min(65, e.radius * 0.4);

@@ -12,6 +12,7 @@ on:
       - 'adapters/hollow-wake/**'
       - 'baseline/challenges/**'
       - 'baseline/challenge-continuation/**'
+      - 'baseline/challenge-targeting/**'
       - 'baseline/source-lock.json'
       - 'baseline/source.tar.gz'
       - 'baseline/overlay/**'
@@ -45,6 +46,7 @@ jobs:
       - run: npm run reference:install
       - run: npm run build
       - run: npm run test:challenges-package
+      - run: npm run test:challenge-targeting
       - run: npm run reference:challenges
       - run: npm run adapter:challenges
       - run: npm run test:challenge-continuation-package
@@ -60,6 +62,7 @@ jobs:
           path: |
             .artifacts/challenges-package.json
             .artifacts/challenges-package.logs.json.gz
+            .artifacts/challenge-targeting-check.json
             .artifacts/challenges-reference.json
             .artifacts/challenges-reference.logs.json.gz
             .artifacts/challenges-game.json
