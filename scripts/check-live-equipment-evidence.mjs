@@ -2,24 +2,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {gunzipSync} from 'node:zlib';
-import {execFileSync} from 'node:child_process';
+import {sourceHasher} from './evidence-source.mjs';
 import {root,sha256} from './reference-utils.mjs';
 const directory=path.join(root,'evidence/live-equipment-adapter');
 const read=file=>JSON.parse(fs.readFileSync(path.join(directory,file)));
 const hash=file=>sha256(fs.readFileSync(file));
 const args=process.argv.slice(2),release='03eb2d504a9fe410b97d3959a76d4a494c5d3541';
 assert(args.length===0||(args.length===2&&args[0]==='--source-ref'&&args[1]===release));
-const sourceRef=args.length?release:null,sourceCache=new Map();
-const sourceHash=file=>{
- const name=file.replaceAll('\\','/');
- assert(!name.startsWith('/')&&!name.split('/').includes('..')&&!name.includes(':'));
- // Ignored build outputs are still checked byte-for-byte against their
- // accepted hashes. They are never manufactured from recorded hash values.
- if(!sourceCache.has(name))sourceCache.set(name,sourceRef&&!name.startsWith('dist/')?
-   sha256(execFileSync('git',['show',sourceRef+':'+name],{cwd:root,windowsHide:true,maxBuffer:16*1024*1024})):
-   hash(path.join(root,name)));
- return sourceCache.get(name);
-};
+const sourceRef=args.length?release:null,sourceHash=sourceHasher(sourceRef);
 const accepted=read('acceptance.json'),reports=read('reports.json');
 assert(accepted.passed);
 for(const[file,sha]of Object.entries(accepted.sources))assert.equal(sourceHash(file),sha,file);

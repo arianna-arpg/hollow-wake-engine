@@ -17,6 +17,8 @@ on:
       - 'scripts/check-prepared-account-evidence.mjs'
       - 'scripts/check-unity-shared-account-evidence.mjs'
       - 'scripts/evidence-source.mjs'
+      - 'scripts/historical-typescript.mjs'
+      - 'scripts/test-historical-typescript.mjs'
       - 'scripts/test-unity-progression-faults.py'
       - 'scripts/verify-live-equipment-unity.py'
       - 'scripts/test-live-equipment-unity-faults.py'
@@ -63,6 +65,8 @@ jobs:
       - run: npm run build
       - name: Fetch the immutable live-equipment release source
         run: git fetch --no-tags --depth=1 origin 03eb2d504a9fe410b97d3959a76d4a494c5d3541
+      - name: Verify historical source compilation and isolation
+        run: node --test scripts/test-historical-typescript.mjs
       - name: Check the published live-equipment checkpoint at its release source
         run: node scripts/check-live-equipment-evidence.mjs --source-ref 03eb2d504a9fe410b97d3959a76d4a494c5d3541
       - name: Fetch the immutable progression release source
@@ -158,6 +162,7 @@ jobs:
         with:
           name: unity-archive-${{ matrix.os }}
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 14
           path: |
             .artifacts/unity-archive-controls.json

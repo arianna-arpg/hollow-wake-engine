@@ -1,5 +1,12 @@
 # Verification and reproduction
 
+Historical Unity evidence uses source and compiled output from the same immutable
+release. `scripts/evidence-source.mjs` rebuilds historical TypeScript in memory
+with its recorded compiler version and checks the original accepted hashes.
+It does not read today's `src` or `dist` for that rebuild, create a worktree, or
+install another dependency tree. The Unity archive workflow runs the compiler
+and isolation checks after fetching the required release commit.
+
 The shared crafting implementation retains the public constructor and v1–v4
 save formats. `test:crafting-session-package` runs 22 installed/browser checks
 and positive/negative public type checks. `test:crafting-session-faults` checks
