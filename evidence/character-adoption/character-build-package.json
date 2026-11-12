@@ -1,0 +1,217 @@
+{
+  "passed": true,
+  "contracts": 25,
+  "faults": [
+    {
+      "name": "shared-sheet",
+      "detected": true,
+      "logSha256": "57a4383df459ae7475d9252437911f594204e49a064d02bf2fb54b1c61085035"
+    },
+    {
+      "name": "cold-existing-grant",
+      "detected": true,
+      "logSha256": "19790eda02fcf6d799b9b4e6a0a0547a1ad10f1113dac28b234da4850495ce0b"
+    },
+    {
+      "name": "shared-companion",
+      "detected": true,
+      "logSha256": "3d2913632cf8f13a3ffc614bdc567a47f937f96bc5d082309a309b98103748fa"
+    },
+    {
+      "name": "lost-learned-update",
+      "detected": true,
+      "logSha256": "448180addcbbae9464dac2212bff129aef636c2829cdb9273c41eb09f0e4a082"
+    },
+    {
+      "name": "lost-grant-edit",
+      "detected": true,
+      "logSha256": "b82e77653f6fcdc2859b3f2274e09b3de37f4caec06deae124339da8152baed8"
+    },
+    {
+      "name": "lost-learned-lock",
+      "detected": true,
+      "logSha256": "e3ad63833904597f4309f7c118d7b211958ff6d3e45b77eee06d337ca884a5ae"
+    },
+    {
+      "name": "lost-lineage",
+      "detected": true,
+      "logSha256": "f8608830a16c7ac72846a1b39ee77ba69070dd452ec658ed07cae2dbf984142a"
+    },
+    {
+      "name": "ignore-replaced-edit",
+      "detected": true,
+      "logSha256": "78aebe9a437cf786266fc5852b3d30ab2e88a19b0308e0132acd718892d00c4c"
+    },
+    {
+      "name": "skip-slot-rebuild",
+      "detected": true,
+      "logSha256": "f29578c86064c411fb1fd8905b66029a1648f4221d897e8bead67fddc558ae03"
+    },
+    {
+      "name": "cold-adopted-grant",
+      "detected": true,
+      "logSha256": "500690cc1d1d99a0512a31f337576e8513e1ffb2a0c61930264897a4d2ddd539"
+    },
+    {
+      "name": "truncate-adopted-sockets",
+      "detected": true,
+      "logSha256": "8e0f067fe7ea89aca9fba0cb850c8a3f675b2f39e61b9f26d8383fc16cbc639f"
+    },
+    {
+      "name": "cold-adopted-learned",
+      "detected": true,
+      "logSha256": "3132fd04042ef22c3c5c6d2aba6e946955c494972e64325dc98b81cf1dea76ea"
+    },
+    {
+      "name": "reordered-live-sources",
+      "detected": true,
+      "logSha256": "8b39b2e0be1743a224c6b95e5bc6c4a8c1e987d9c9afc53b152d68f3ab19c7e7"
+    },
+    {
+      "name": "ignore-observed-grant-level",
+      "detected": true,
+      "logSha256": "f5651ce9a3d454ee83bdfde962ef07a8ab45cb977a262780d62dfd725a3faa00"
+    },
+    {
+      "name": "allow-missing-adopted-grant",
+      "detected": true,
+      "logSha256": "a805a97ca50e9c83cf1e2ec24f55e15c76f87810b9e9ca12c2d07b2e753faddf"
+    },
+    {
+      "name": "allow-missing-adopted-companion",
+      "detected": true,
+      "logSha256": "469430995618aff1f1edcd5838c12362068f78c3216619cde5da62cd5023e0fb"
+    },
+    {
+      "name": "retained-draft-callbacks",
+      "detected": true,
+      "logSha256": "16376e1162ff2e732c9a6687d682224880430c913b7d833476813e71fc864c7c",
+      "adoptionLogSha256": "16376e1162ff2e732c9a6687d682224880430c913b7d833476813e71fc864c7c"
+    }
+  ],
+  "sources": {
+    "src/character-builds.ts": "f033d6e017fd53bee49e43ac05e5d984970318acc818a735a243d5e27ab0ba2b",
+    "adapters/embedded/character-builds.mjs": "6b8beb49675810a626226d70f7554ec03bb0677ebd01f314a750534bb2917789",
+    "adapters/embedded/character-build-helpers.mjs": "189e12e070f24d00c04d3cb96e15a6a8e8db722f0fe1e9232e9429faa819ca25",
+    "scripts/compile-character-builds.mjs": "2beeaef8f185452d170f9eed48e86dc048b82792b831d294525f01771e7875ef",
+    "scripts/test-character-builds-package.mjs": "8bc42d43ec1d97daab97b4b2a21de326c43f1d963efbfd43ad9134c7c1be386f",
+    "test/character-builds.test.mjs": "2040aee6097c4122c29927b340501a82329b9b888cfae24dfa0c9395b287a6a1",
+    "test/character-build-fixture.mjs": "3d6229eefd4f87b1d817fb3124da1a158828e26c775f0512ac487931cf01d7ac",
+    "test/character-adoption.test.mjs": "6d00cab27cee45d89b8102e37c4bc487f325ac2d32df95634dfb69f5ef7d2518",
+    "test/character-adoption-game.ts": "01c3af9224e60057cbfbfe63266ddb14a2d341853090a091e00a4c684fbb16a9",
+    "test/character-build-retention.mjs": "266113bb04e36014f54ee08e2fd6973bf91fed4dd3fa876078d303c701a02b24",
+    "test/character-builds-game.ts": "09ab022ca6fc6b2ad53e6dbe253171c51572e2f76152e3a9b8ba2194fd648b98",
+    "package.json": "b432b4340793eb456b3ad814971bdb12e65cd3fd017dcbad2713f7acbf611249",
+    "package-lock.json": "938c1e6738f1a27c3b2e418f76f7caa76af665a3f5c5385fecfbb69b3cb90702",
+    "baseline/source-lock.json": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "baseline/character-builds/acceptance.json": "e37213af07ba39103fa74df3319fdcf6b08facb1da3c2f4ec660715c625587fe",
+    "baseline/character-builds/observations.json.gz": "ff33f66fc91b0f568e0a3e604503258f03c4d60d1e8e111b45558c19da51ebd6",
+    "baseline/character-build-classes/acceptance.json": "306248bad413a041c776baa728f7b6f1b19cd392eceed9917b787af8c61a4240",
+    "baseline/character-build-classes/observations.json.gz": "0a1088a82889ae50b9608eb43b19252d37f4c87ee6ee0dbc4654e161817a3653",
+    "baseline/character-adoption/acceptance.json": "0bcfc8c3a6d6212cc3883e6f60eb8c80061b5dea289562d4c6162f25f75337bf",
+    "baseline/character-adoption/observations.json.gz": "ff1371d5495704a7be4136a9b500bb5690639a5d6adc13e71c3d6229acfc64e3"
+  },
+  "game": {
+    "runs": [
+      {
+        "sha256": "e99caa21526a3c5bbe56339a1898e9f0c2075277abe721a6d86ec9c5c4870204"
+      },
+      {
+        "sha256": "e99caa21526a3c5bbe56339a1898e9f0c2075277abe721a6d86ec9c5c4870204"
+      }
+    ],
+    "observations": 93
+  },
+  "factory": {
+    "schemaVersion": 1,
+    "contentId": "hollow-wake-character-builds:sha256:fc9641a8a25af76a78d6a2e049688911aee18c90ec25fb4a82250072ea7b1cd6",
+    "sourceCommit": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+    "capability": "hollow-wake-character-builds/v1",
+    "files": {
+      "index.js": {
+        "sha256": "c6ab689dccaef7a8d8aee513b4677599bbfc09918dea5532bea555160b5778d1",
+        "bytes": 70621
+      },
+      "builds.json": {
+        "sha256": "6e336f52ec4b67a3fd13864e52958c0535c70a362f8951108df882d44b3aee8f",
+        "bytes": 8372771
+      }
+    },
+    "sources": {
+      ".reference/src/engine/skillScopes.ts": "fcc7ee24eef09d43f92a28767367b80f7409a93613694df508ac55bdda6df23e",
+      ".reference/src/data/skillEmpowerment.ts": "67d854d4e770e059ee3ffb16edc5944e7b7572a6904ca529d9aa304eaf1f924b",
+      ".reference/src/engine/skilltree.ts": "f69483ee3694b0f3b3590fb0d76ed3344ce48e292864819bb60cf459c71f131b",
+      ".reference/src/engine/skillEmpowerment.ts": "c659d7289a834482b38358fc4e55b7158ec786fe4847544c27e2e08f58e13f23",
+      ".reference/src/engine/absorb.ts": "2db40e8772362b6a77d530947708e9cd4e9fa9498353c380df5ddc34b25f5a22",
+      ".reference/src/engine/guardArtsSpec.ts": "91b2d9d9009ec8f6d5426a630b88e43d654cfe5aade93c3c89036f738644052d",
+      ".reference/src/engine/companionSpec.ts": "a930ecbaa7ea90259f619ee8790b2f7f18c356c2d5bbea3a3dcd1323ecf9553b",
+      ".reference/src/engine/challengeSpec.ts": "5000e4e71c544c53ae8040fe5b45bf87c998b8478b5aaa0be9fb44f9e3de18b9",
+      ".reference/src/engine/attackSequenceSpec.ts": "6ffb006e0c79ec1943faafcbb6de5bdca7eae8bac286f3ea4fb2b8858ca3b267",
+      ".reference/src/engine/defense.ts": "5e15d4d1a6b13ab1b3a7b78cecf3b6b223cef8344f356700fba37fc85cabcdab",
+      ".reference/src/engine/stats.ts": "ec10354deb96b1d32dc5b16dbcf47fda4f022235e3c965b0e3092448f196fc81",
+      ".reference/src/data/impaleCues.ts": "4df2f6a9ef8ca10646a1efd74f6d6d66af9c000c062aace2486545aae0c856f5",
+      ".reference/src/engine/status.ts": "fd296c4779426d85ffed7465af580862d5dbe3532997c25957d44ef709c99b77",
+      ".reference/src/engine/supportbase.ts": "e012cd0a303702a6b952a04146ad942d432e075432769ec5d732657019ae6f5a",
+      ".reference/src/engine/skills.ts": "6beb81a4c53666d076732b64078f2337b6e2125972f985f0bdf17e2531a2285e",
+      ".reference/src/data/minionFamilies.ts": "f6fd59246f7bd79dc7702151e5da76be143037320d595fd96e2c7511f5d51680",
+      "adapters/embedded/character-build-helpers.mjs": "189e12e070f24d00c04d3cb96e15a6a8e8db722f0fe1e9232e9429faa819ca25",
+      "adapters/embedded/character-builds.mjs": "6b8beb49675810a626226d70f7554ec03bb0677ebd01f314a750534bb2917789"
+    }
+  },
+  "archiveSha256": "80d9821713cd7064e86f507b492a3e9beb0a0afb22a0aa865fbb46ab0b647ad8",
+  "factoryArchiveSha256": "752baac0a8ebd998eb5aa5588b07a41f9bc661efdcda73e540b74fc826dc9625",
+  "retention": {
+    "runs": [
+      {
+        "precedingSkills": 32,
+        "retainedPrecedingSkills": 0,
+        "currentBuildReadable": true,
+        "nextBuildEquivalent": true
+      },
+      {
+        "precedingSkills": 32,
+        "retainedPrecedingSkills": 0,
+        "currentBuildReadable": true,
+        "nextBuildEquivalent": true
+      }
+    ],
+    "restored": true
+  },
+  "adoptionRetention": {
+    "runs": [
+      {
+        "precedingSkills": 32,
+        "retainedPrecedingSkills": 0,
+        "currentBuildReadable": true,
+        "nextBuildEquivalent": true
+      },
+      {
+        "precedingSkills": 32,
+        "retainedPrecedingSkills": 0,
+        "currentBuildReadable": true,
+        "nextBuildEquivalent": true
+      }
+    ],
+    "restored": true
+  },
+  "browserBytes": 153429,
+  "factoryBrowser": true,
+  "types": 13,
+  "moduleBytes": 15322,
+  "restored": true,
+  "adoption": {
+    "observations": 5,
+    "contracts": 18,
+    "runs": [
+      {
+        "sha256": "65b2ca500efd9c2d7cc46a0c0d04ea6a04cdeda74d82a7b2898002ef4884b507"
+      },
+      {
+        "sha256": "65b2ca500efd9c2d7cc46a0c0d04ea6a04cdeda74d82a7b2898002ef4884b507"
+      }
+    ]
+  },
+  "inputsUnchanged": true,
+  "cleaned": true,
+  "logsSha256": "e7cbb8f3f355328415c4a823954528b26f22c7db89a3eab049b30fd5119faedf"
+}

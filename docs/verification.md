@@ -1,12 +1,14 @@
 # Verification and reproduction
 
-The [durable character builder](character-builds.md) adds fifteen installed and
-browser contracts, eight negative type cases and ten deliberate runtime faults.
+The [durable character builder](character-builds.md) has 25 installed and
+browser contracts, thirteen negative type cases and seventeen deliberate runtime faults.
 Its installed Node GC course releases preceding skill investment while the
-current build remains usable, with a deliberate retention fault and restored control.
-`reference:character-builds` reproduces 93 original-only observations across two
-courses in fresh processes. `test:character-builds-package` checks the separate
-default-content factory, installed original-game comparisons and restored controls.
+current build remains usable after both cold opening and trusted adoption, with
+a deliberate retention fault and restored controls. `reference:character-builds`
+reproduces 98 original-only observations across three courses in fresh processes.
+`test:character-builds-package` checks the separate default-content factory,
+installed original-game comparisons, eighteen adoption checks around actual
+running casts, and restored controls.
 Both commands are included in their respective full verification suites.
 
 The [challenge targeting comparison](challenge-targeting-performance.md) adds

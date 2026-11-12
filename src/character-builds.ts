@@ -23,6 +23,14 @@ export interface CharacterBuildInput<I extends ItemInstance=ItemInstance> {
   features:string[];relicEnabled:boolean;relicEmpowerment:number;
   learned:CharacterLearnedSkill[];
 }
+/** Trusted observations of a current live build, not a save or permission.
+ * The host supplies durable source history without temporary combat sources.
+ * Adoption preserves investment; it never advances or installs live effects. */
+export interface CharacterBuildAdoption {
+  sourceOrder:string[];
+  grants:{skillId:string;hostUid?:number;level:number;state:GrantedSkillState}[];
+  companions:{skillId:string;level:number}[];
+}
 export interface CharacterBuildEdits {
   /** Explicit investment changes to an existing grant, before rebuilding.
    * No cold level-budget repair may be applied to this existing instance. */
@@ -44,6 +52,7 @@ export interface CharacterBuildView<I extends ItemInstance=ItemInstance> {
 export interface CharacterBuildService<I extends ItemInstance=ItemInstance> {
   readonly contentId:string;
   open(input:CharacterBuildInput<I>,bar:readonly(string|null)[]):CharacterBuild;
+  adopt(input:CharacterBuildInput<I>,bar:readonly(string|null)[],adoption:CharacterBuildAdoption):CharacterBuild;
   rebuild(previous:CharacterBuild,input:CharacterBuildInput<I>,edits?:CharacterBuildEdits):CharacterBuild;
   read(token:CharacterBuild):CharacterBuildView<I>;
   stat(token:CharacterBuild,id:string):number;
@@ -114,17 +123,24 @@ export class CharacterBuilds<D extends EquipmentSkillDefinition,U extends GemDef
   open(input:CharacterBuildInput<I>,bar:readonly(string|null)[]):CharacterBuild{
     this.#bar(bar);return this.#derive(input,undefined,copy(bar));
   }
+  adopt(input:CharacterBuildInput<I>,bar:readonly(string|null)[],adoption:CharacterBuildAdoption):CharacterBuild{
+    this.#bar(bar);return this.#derive(input,undefined,copy(bar),{},copy(adoption));
+  }
   rebuild(previous:CharacterBuild,input:CharacterBuildInput<I>,edits:CharacterBuildEdits={}):CharacterBuild{
     this.#get(previous);if(edits.bar)this.#bar(edits.bar);
     return this.#derive(input,previous,undefined,copy(edits));
   }
-  #derive(raw:CharacterBuildInput<I>,previous?:CharacterBuild,bar?:readonly(string|null)[],edits:CharacterBuildEdits={}):CharacterBuild{
+  #derive(raw:CharacterBuildInput<I>,previous?:CharacterBuild,bar?:readonly(string|null)[],edits:CharacterBuildEdits={},adoption?:CharacterBuildAdoption):CharacterBuild{
     const p=this.#p,input=copy(raw),prior=previous&&this.#get(previous),classDef=p.class(input.classId);
     if(!classDef)throw Error('Unknown build class');integer(input.level,1,'Build level');
     const sheet=prior?prior.sheet.fork():new StatSheet(p.stats);
     // Preserve the original World initialization order, including an empty
     // level-one source. Subsequent builds retain their source insertion history.
-    if(!prior)for(const id of ['attributes','class','passives','level'])sheet.setSource(id,[]);
+    if(adoption){
+      const allowed=new Set(['attributes','class','passives','level',...[...p.equipment.equipSlots()].map(row=>'gear:'+row.id),...[...p.contributions.containers()].map(row=>'container:'+row.id)]);
+      if(new Set(adoption.sourceOrder).size!==adoption.sourceOrder.length||adoption.sourceOrder.some(id=>!allowed.has(id))||['attributes','class','passives','level'].some(id=>!adoption.sourceOrder.includes(id)))throw Error('Invalid durable source order');
+      for(const id of adoption.sourceOrder)sheet.setSource(id,[]);
+    }else if(!prior)for(const id of ['attributes','class','passives','level'])sheet.setSource(id,[]);
     let attrs:Record<string,number>={},conduits:PassiveConduit[]|undefined;
     const features=new Set(input.features),contributions=new BuildContributions({...p.contributions,
       board:(def:T)=>p.contributions.board(def,features),
@@ -156,18 +172,30 @@ export class CharacterBuilds<D extends EquipmentSkillDefinition,U extends GemDef
       if(known.has(payload.skillId))throw Error('Duplicate learned build skill');
       let inst=frame.meta.knownSkills.get(payload.skillId);
       if(inst){const def=inst.def;p.updateLearned(inst,payload);if(inst.def!==def)throw Error('Learned update changed definition');}
-      else inst=p.restoreLearned(payload);
+      else {inst=p.restoreLearned(payload);if(adoption)p.updateLearned(inst,payload);}
       if(row.locked)inst.locked=true;else delete inst.locked;
       if(inst.def.id!==payload.skillId)throw Error('Learned restoration changed identity');known.set(payload.skillId,inst);
     }
     for(const[id,inst]of frame.meta.knownSkills)if(!known.has(id))for(let n=0;n<frame.actor.skills.length;n++)if(frame.actor.skills[n]===inst)frame.actor.skills[n]=null;
     frame.meta.knownSkills=known;
+    const adoptedGrants=new Map<string,S>();
+    if(adoption){
+      for(const row of adoption.grants){
+        const def=p.equipment.skill(row.skillId);if(!def||adoptedGrants.has(row.skillId))throw Error('Invalid adopted grant');
+        integer(row.level,1,'Adopted grant level');if(row.hostUid!==undefined)integer(row.hostUid,1,'Adopted grant host');
+        const inst=p.equipment.makeSkill(def,row.level,p.equipment.grantSockets());
+        if(inst.sockets.length!==row.state.sockets.length)throw Error('Stale adopted grant sockets');
+        p.updateGrant(inst,row.state);inst.grantedHostUid=row.hostUid;
+        adoptedGrants.set(row.skillId,inst);
+      }
+      frame.seat.grantedInsts=adoptedGrants.size?adoptedGrants:undefined;
+    }
     const touched=new Map<string,S>();for(const edit of edits.grants??[]){
       const inst=frame.seat.grantedInsts?.get(edit.skillId);
       if(!inst||inst.grantedHostUid!==edit.hostUid||touched.has(edit.skillId))throw Error('Foreign or duplicate grant investment');
       touched.set(edit.skillId,inst);const def=inst.def;p.updateGrant(inst,edit.state);if(inst.def!==def)throw Error('Grant update changed definition');
     }
-    if(bar){const owner={meta:frame.meta};for(let n=0;n<bar.length;n++)if(bar[n]){
+    if(bar){const owner={meta:frame.meta,grantedInsts:frame.seat.grantedInsts};for(let n=0;n<bar.length;n++)if(bar[n]){
       const inst=this.#equipment.resolve(owner,bar[n]!,p.contributions.compileItem);
       if(!inst)throw Error('Unresolved cold character binding');frame.actor.skills[n]=inst;
     }frame.seat.grantedInsts=(owner as typeof owner&{grantedInsts?:Map<string,S>}).grantedInsts;}
@@ -182,6 +210,13 @@ export class CharacterBuilds<D extends EquipmentSkillDefinition,U extends GemDef
       for(let n=0;n<edits.bar.length;n++)if((frame.actor.skills[n]?.def.id??null)!==edits.bar[n])throw Error('Character binding was not retained');
     }
     sheet.setSource('level',p.levelModifiers(input.level));
+    if(adoption){
+      if((frame.seat.grantedInsts?.size??0)!==adoptedGrants.size)throw Error('Stale adopted grant set');
+      for(const row of adoption.grants)if(frame.seat.grantedInsts?.get(row.skillId)!==adoptedGrants.get(row.skillId)||frame.seat.grantedInsts?.get(row.skillId)?.level!==row.level)throw Error('Stale adopted grant');
+      if(new Set(adoption.companions.map(row=>row.skillId)).size!==adoption.companions.length||(companions.grants?.size??0)!==adoption.companions.length)throw Error('Stale adopted companions');
+      for(const row of adoption.companions)if(companions.grants?.get(row.skillId)?.inst.level!==row.level)throw Error('Stale adopted companion');
+      const order=sheet.sourceNames();if(order.length!==adoption.sourceOrder.length||order.some((id,n)=>id!==adoption.sourceOrder[n]))throw Error('Stale adopted source order');
+    }
     const lineages=new WeakMap<S,CharacterSkillLineage>();
     for(const inst of [...known.values(),...(frame.seat.grantedInsts?.values()??[]),...[...(companions.grants?.values()??[])].map(row=>row.inst)]){
       const source=origins.get(inst),lineage=source&&prior?.lineages.get(source);

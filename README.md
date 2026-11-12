@@ -5,8 +5,9 @@ Authored content is separate from the runtime, and each simulation owns its stat
 
 The optional [durable character builder](docs/character-builds.md) composes class,
 passive, equipment, container and skill investment into private builds. A separate
-default-content package supplies the wiring. Installed consumers reproduce 93
-original-game observations; live workshop acknowledgement remains integration work.
+default-content package supplies the wiring. Trusted adoption preserves existing
+investment and source history. Installed consumers reproduce 98 original-game
+observations; live workshop acknowledgement remains integration work.
 
 The optional [challenge continuation](docs/challenge-continuation.md) copies
 captured casts, in-flight devices, pursuers and aftershock schedules into a

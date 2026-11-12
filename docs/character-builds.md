@@ -8,7 +8,7 @@ default wiring and authored definitions. Consumers do not load the original game
 This capability constructs investment and derived build data. It does not own a
 running actor, simulate combat, admit arbitrary saves or commit account changes.
 The workshop owner must still integrate granted bar admission, account preferences,
-adoption of a running character and acknowledgement-time live effects.
+the trusted adoption entry point and acknowledgement-time live effects.
 
 ## Package use
 
@@ -52,6 +52,27 @@ that a caller owns a relic or may spend a passive point.
 policy, resolves saved bar ownership and preserves the original source insertion
 order. Unknown or duplicate bar bindings fail.
 
+`adopt(input, bar, observations)` seeds a private durable build from trusted
+observations of an existing character. It preserves learned and granted investment
+that a cold load would trim after a level decrease. Observations contain:
+
+- `sourceOrder`: the current ordered durable stat-source identifiers, excluding
+  temporary combat sources. Required base sources and the final derived order
+  must match; duplicates and unknown sources fail.
+- `grants`: every current ordinary grant's skill ID, expected host UID where
+  applicable, observed level, and socket/tree investment. Derivation must retain
+  exactly these granting identities and levels. A mismatched socket count fails
+  instead of truncating observed investment.
+- `companions`: the current companion skill IDs and observed levels. The complete
+  declaration set must match the admitted character and selected relic inputs.
+
+These observations are host-owned data, not a save format, ownership permission,
+or proof that spending was legal. The host must observe one coherent character
+state and supply its fully admitted inputs. The service rejects stale source,
+grant and companion declarations; it never borrows the live actor or its skills.
+Each adoption establishes new private lineage tokens. Subsequent `rebuild` calls
+preserve those tokens while the corresponding investment remains owned.
+
 `rebuild` copies the preceding private investment graph. Existing grants retain
 investment when their derived level decreases; a different granting host restores
 a new instance. Removing and later re-equipping the same item UID also creates a
@@ -81,29 +102,36 @@ canonical writes must go through the selected account owner. The existing
 Never assign a private bar to a live actor. Live acknowledgement must reconcile
 investment with current live identities and run the original retirement/refresh
 ordering while preserving current casts, resources, cooldowns, time and randomness.
-Cold restoration is also not a substitute for adopting an already running
-character with retained over-budget investment. These integration paths remain
-separate work. Arbitrary temporary grant-level extensions need an explicit
-dependency contract before they can use this durable-only projection.
+Use `adopt` for an already running character with retained over-budget investment;
+do not use cold restoration as a substitute. The installed original-game course
+checks adoption during a paid cast and verifies that the same live skill later
+launches its projectile. This proves adoption does not disturb that cast; it does
+not implement acknowledgement-time reconciliation. Arbitrary temporary grant-level
+extensions need an explicit dependency contract before they can use this
+durable-only projection.
 
 ## Verification and size
 
-- `test:character-builds-package`: 15 ownership/failure contracts in installed and
-  browser-targeted consumers, eight negative type cases, ten deliberate runtime
-  faults, restored controls and a standalone authored-factory check with hostile
-  ambient APIs.
+- `test:character-builds-package`: 25 ownership/failure contracts in installed and
+  browser-targeted consumers, thirteen negative type cases, seventeen deliberate
+  runtime faults, restored controls and a standalone authored-factory check with
+  hostile ambient APIs.
 - A separate installed Node GC course proves preceding skill instances are
   collectible while the latest build remains readable and can rebuild. It runs
-  in two fresh processes and detects deliberate retention of draft callbacks;
+  in two fresh processes for each of cold opening and adoption, and detects
+  deliberate retention of draft callbacks in both paths;
   this is a reference-lifetime check, not a heap or device budget measurement.
-- `reference:character-builds`: two original-only courses, each repeated in two
+- `reference:character-builds`: three original-only courses, each repeated in two
   fresh processes. Normal checks compare frozen bytes and never rewrite fixtures.
-- The installed authored factory matches 93 original observations in two fresh
+- The installed authored factory matches 98 original observations in two fresh
   processes: 15 grant/relic/investment observations plus all 39 class starter
-  builds and their level-18 rebuilds. The original-only export imports no SDK.
+  builds and their level-18 rebuilds, and five running-character adoption
+  observations. Eighteen installed adoption checks also preserve an actual paid
+  cast, validate stale observations and exercise canonical companion declarations.
+  The original-only exports import no SDK.
 
 The default factory module is about 71 KB; its complete browser bundle with the
-needed SDK services is about 151 KB. The uncompressed authored JSON is about
+needed SDK services is about 153 KB. The uncompressed authored JSON is about
 8.37 MB, mostly the existing item definitions. These are artifact sizes, not heap
 or startup measurements. The package is separately loaded and does not become an
 eager combat dependency. No physical Steam Deck/mobile performance claim is made.

@@ -3,9 +3,10 @@
 The optional [durable character builder](character-builds.md) composes admitted
 character/account inputs into owned private investment graphs. Its separately
 loaded default-content factory needs no game checkout. Opaque continuations
-preserve skill lineage; reads and investment writes are detached. Save authority,
-running-character adoption, granted workshop bars and live acknowledgement remain
-separate boundaries. This durable projection is not a complete combat snapshot.
+preserve skill lineage; reads and investment writes are detached. Trusted adoption
+preserves existing investment and durable source history without advancing the
+running actor. Save authority, granted workshop bars and live acknowledgement
+remain separate boundaries. This projection is not a complete combat snapshot.
 
 The optional [challenge continuation](challenge-continuation.md) copies owned
 casts, target ledgers, landings, devices, pursuers and delayed echoes into an

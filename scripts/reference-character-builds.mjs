@@ -5,7 +5,7 @@ const lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json'
 try{
   verifyReference(path.join(root,'.reference'),lock);
   report.observations=0;
-  for(const course of ['character-builds','character-build-classes']){
+  for(const course of ['character-builds','character-build-classes','character-adoption']){
   const base='baseline/'+course,accepted=JSON.parse(fs.readFileSync(path.join(root,base,'acceptance.json'))),source=fs.readFileSync(path.join(root,accepted.source),'utf8');
   assert.equal(sha256(source),accepted.sourceSha256);const expected=gunzipSync(fs.readFileSync(path.join(root,base,'observations.json.gz')));assert.equal(sha256(expected),accepted.sha256);
   const entry=path.join(work,course+'.cjs'),result=await build({stdin:{contents:source,loader:'ts',resolveDir:path.join(root,'.reference/balance')},bundle:true,platform:'node',format:'cjs',target:'es2022',outfile:entry,metafile:true});
