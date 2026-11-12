@@ -1,5 +1,14 @@
 # Verification and reproduction
 
+The [durable character builder](character-builds.md) adds fifteen installed and
+browser contracts, eight negative type cases and ten deliberate runtime faults.
+Its installed Node GC course releases preceding skill investment while the
+current build remains usable, with a deliberate retention fault and restored control.
+`reference:character-builds` reproduces 93 original-only observations across two
+courses in fresh processes. `test:character-builds-package` checks the separate
+default-content factory, installed original-game comparisons and restored controls.
+Both commands are included in their respective full verification suites.
+
 The [challenge targeting comparison](challenge-targeting-performance.md) adds
 eighteen installed/browser targeting cases and five deliberate faults. The
 non-timed `test:challenge-targeting` command compares seven public update courses

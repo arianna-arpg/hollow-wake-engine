@@ -3,6 +3,11 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The optional [durable character builder](docs/character-builds.md) composes class,
+passive, equipment, container and skill investment into private builds. A separate
+default-content package supplies the wiring. Installed consumers reproduce 93
+original-game observations; live workshop acknowledgement remains integration work.
+
 The optional [challenge continuation](docs/challenge-continuation.md) copies
 captured casts, in-flight devices, pursuers and aftershock schedules into a
 detached host graph. Ordinary combat does not load its copying code.
@@ -66,8 +71,9 @@ integration work.
 
 The optional [workshop character context](docs/workshop-character.md) saves
 validated class, attributes, passive choices and personal container inputs beside
-the inventory. Existing saves stay compatible. Full authored build construction
-and live actor publication remain separate integration work.
+the inventory. Existing saves stay compatible. The separate durable builder can
+construct authored projections; workshop integration and live actor publication
+remain separate work.
 
 The optional [skill bar policy](docs/skill-bar.md) binds and swaps existing
 skills, preserves learned and equipment-granted ownership, and coordinates

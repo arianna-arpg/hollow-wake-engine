@@ -26,6 +26,8 @@ Math.random = () => { throw new Error('ambient RNG called'); };
 globalThis.fetch = () => { throw new Error('network called'); };
 for (const key of ['window', 'document', 'localStorage']) Object.defineProperty(globalThis, key, { get() { throw new Error(key + ' accessed'); } });
 const { Engine, CastRuntime, TimedDamage, Inventory } = await import('@hollow-wake/engine');
+const {CharacterBuilds}=await import('@hollow-wake/engine/character/builds');
+assert.equal(typeof CharacterBuilds,'function');
 const {SkillRackActions,restoreLearnedSeatIds}=await import('@hollow-wake/engine/skills/rack');
 const {SkillBarActions,restoreSkillSlotMemory,rememberSkillSlot,planSkillSlots}=await import('@hollow-wake/engine/skills/bar');
 assert.equal(typeof SkillBarActions,'function');
@@ -278,7 +280,9 @@ const workshopCharacterFile=packed.files.find(file=>file.path==='dist/workshop-c
 assert(workshopCharacterFile&&workshopCharacterFile.size<8*1024,'Workshop character admission exceeded the 8 KiB bound');
 assert(buildContributionsFile&&buildContributionsFile.size<6*1024,'Build contributions exceeded the 6 KiB bound');
 assert(workshopBuildFile?.size>0&&workshopBuildFile.size<=4*1024,'Optional workshop build preparation exceeds 4 KiB or is missing');
-const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-challengeContinuationFile.size-challengeJsBytes-sequenceContinuationFile.size-sequenceBridgeJsBytes-bodyFactoryFile.size-summonsJsBytes-auraTickingFile.size-auraActivationFile.size-auraLedgersFile.size-auraRetirementFile.size-companionRecoveryFile.size-bodyLevelsFile.size-companionBondsJsBytes-guardArtsFile.size-companionGrantsFile.size-accountRelicItemsFile.size-workshopCharacterFile.size-buildContributionsFile.size-workshopBuildFile.size-equipmentDraftFile.size-bookFile.size-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
+const characterBuildFile=packed.files.find(file=>file.path==='dist/character-builds.js');
+assert(characterBuildFile?.size>0&&characterBuildFile.size<=16*1024,'Optional durable character builder exceeds its separate 16 KiB budget or is missing');
+const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-characterBuildFile.size-challengeContinuationFile.size-challengeJsBytes-sequenceContinuationFile.size-sequenceBridgeJsBytes-bodyFactoryFile.size-summonsJsBytes-auraTickingFile.size-auraActivationFile.size-auraLedgersFile.size-auraRetirementFile.size-companionRecoveryFile.size-bodyLevelsFile.size-companionBondsJsBytes-guardArtsFile.size-companionGrantsFile.size-accountRelicItemsFile.size-workshopCharacterFile.size-buildContributionsFile.size-workshopBuildFile.size-equipmentDraftFile.size-bookFile.size-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
 const craftingSessionJsBytes=Object.values(craftingSessionModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingSessionJsBytes=preContentTableJsBytes-craftingSessionJsBytes;
 const residenceJsBytes=Object.values(residenceModuleBytes).reduce((sum,size)=>sum+size,0),preResidenceJsBytes=preCraftingSessionJsBytes-residenceJsBytes;
 const craftingJsBytes=Object.values(craftingModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingJsBytes=preResidenceJsBytes-craftingJsBytes;
@@ -388,6 +392,7 @@ fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringi
   equipmentSkillsJsBytes,
   challengeModuleBytes, challengeJsBytes,
   challengeContinuationJsBytes: challengeContinuationFile.size,
+  characterBuildJsBytes:characterBuildFile.size,
   sequenceContinuationJsBytes:sequenceContinuationFile.size,sequenceBridgeJsBytes,historicalAttackSequenceJsBytes,
   bodyLevelsJsBytes:bodyLevelsFile.size,
   companionRecoveryJsBytes:companionRecoveryFile.size,

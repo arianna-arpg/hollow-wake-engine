@@ -1,5 +1,12 @@
 # Boundary contract
 
+The optional [durable character builder](character-builds.md) composes admitted
+character/account inputs into owned private investment graphs. Its separately
+loaded default-content factory needs no game checkout. Opaque continuations
+preserve skill lineage; reads and investment writes are detached. Save authority,
+running-character adoption, granted workshop bars and live acknowledgement remain
+separate boundaries. This durable projection is not a complete combat snapshot.
+
 The optional [challenge continuation](challenge-continuation.md) copies owned
 casts, target ledgers, landings, devices, pursuers and delayed echoes into an
 admitted detached host graph. Hosts enumerate retained identities and supply
