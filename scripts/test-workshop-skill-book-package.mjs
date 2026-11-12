@@ -8,7 +8,7 @@ const artifacts=path.join(root,'.artifacts');fs.mkdirSync(artifacts,{recursive:t
 const work=fs.mkdtempSync(path.join(artifacts,'workshop-book-package-')),consumer=path.join(work,'consumer');fs.mkdirSync(consumer);
 const logs={},report={passed:false,contracts:11,faults:[],sources:{}};
 const sources=['scripts/test-workshop-skill-book-package.mjs','test/workshop-skill-book.test.mjs','test/shared-account/fixtures.mjs',
- 'src/workshop-skill-book.ts','src/workshop-rack.ts','src/workshop-supports.ts','src/crafting-session.ts','src/crafting-session-data.ts',
+ 'src/workshop-skill-book.ts','src/workshop-rack.ts','src/workshop-supports.ts','src/crafting-session.ts','src/crafting-session-core.ts','src/crafting-session-data.ts',
  'src/account-workshop-session.ts','src/skill-bar.ts','examples/godot-inventory/cargo-sample.json','package.json','package-lock.json'];
 for(const file of sources)report.sources[file]=sha256(fs.readFileSync(path.join(root,file)));
 const run=(label,args,cwd=consumer)=>{

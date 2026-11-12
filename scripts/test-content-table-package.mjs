@@ -2,7 +2,10 @@ import fs from 'node:fs';import path from 'node:path';import assert from 'node:a
 import {root,sha256,listFiles,writeJSON} from './reference-utils.mjs';import {npmCli} from './npm-cli.mjs';
 import {itemPack} from './compile-item-content.mjs';import {craftingPack} from './compile-crafting-content.mjs';import {skillProgressionPack} from './compile-skill-progression.mjs';
 import {encodeContentTable} from '../dist/content-table-compiler.js';import {decodeContentTable} from '../dist/content-table.js';
-const directory=fs.mkdtempSync(path.join(root,'.artifacts/content-table-package-')),consumer=path.join(directory,'consumer');fs.mkdirSync(consumer);
+import {craftingConsumerSource,craftingConsumerRandom} from './crafting-session-package-check.mjs';
+const directory=fs.mkdtempSync(path.join(root,'.artifacts/content-table-package-')),consumer=path.join(directory,'consumer');let completed=false;
+try{
+fs.mkdirSync(consumer);
 const run=(cwd,args)=>execFileSync(process.execPath,args,{cwd,encoding:'utf8',windowsHide:true,timeout:240000,maxBuffer:8*1024*1024});
 const npm=(cwd,args)=>run(cwd,[npmCli(),...args,'--cache',path.join(root,'.artifacts/npm-cache')]);
 const packed=JSON.parse(npm(root,['pack','--json','--ignore-scripts','--pack-destination',directory]))[0],archive=path.join(directory,packed.filename);
@@ -12,20 +15,20 @@ const content={items:itemPack(),crafting:craftingPack(),skills:skillProgressionP
 assert.equal(JSON.stringify(decodeContentTable(table)),JSON.stringify(content),'Complete ordered content changed');
 fs.writeFileSync(path.join(consumer,'content.json'),JSON.stringify(content));fs.writeFileSync(path.join(consumer,'table.json'),JSON.stringify(table));
 fs.writeFileSync(path.join(consumer,'fixtures.mjs'),`import fs from 'node:fs';const c=JSON.parse(fs.readFileSync(new URL('./content.json',import.meta.url)));export const itemPack=()=>structuredClone(c.items);`);
-fs.writeFileSync(path.join(consumer,'compiled-fixtures.mjs'),`import fs from 'node:fs';import {decodeContentTable} from '@hollow-wake/engine/content/table';const c=decodeContentTable(JSON.parse(fs.readFileSync(new URL('./table.json',import.meta.url))));export const itemPack=()=>c.items,craftingPack=()=>c.crafting,skillProgressionPack=()=>c.skills;`);
+const formatSaves=JSON.parse(fs.readFileSync(path.join(root,'baseline/crafting-session-formats/saves.json')));
+fs.writeFileSync(path.join(consumer,'compiled-fixtures.mjs'),`import fs from 'node:fs';import {decodeContentTable} from '@hollow-wake/engine/content/table';const c=decodeContentTable(JSON.parse(fs.readFileSync(new URL('./table.json',import.meta.url))));export const itemPack=()=>c.items,craftingPack=()=>c.crafting,skillProgressionPack=()=>c.skills;export const formatSaves=${JSON.stringify(formatSaves)};`);
 const entries={'content-table':'content/table','content-table-compiler':'content/table/compiler','item-rules':'items'};
 let contracts=fs.readFileSync(path.join(root,'test/content-table.test.mjs'),'utf8');
 for(const [file,entry] of Object.entries(entries))contracts=contracts.replaceAll(`'../dist/${file}.js'`,`'@hollow-wake/engine/${entry}'`);
 contracts=contracts.replaceAll("'../scripts/compile-item-content.mjs'","'./fixtures.mjs'");assert(!contracts.includes('../dist/')&&!contracts.includes('../scripts/'));
 fs.writeFileSync(path.join(consumer,'contracts.mjs'),contracts);
 const log=run(consumer,['contracts.mjs']);assert(/(?:#|ℹ) pass 9\b/.test(log));fs.writeFileSync(path.join(directory,'contracts.txt'),log);
-const previous=JSON.parse(fs.readFileSync(path.join(root,'.artifacts/crafting-session-package-latest.json')));assert(previous.passed);
 const installed=path.join(consumer,'node_modules/@hollow-wake/engine/dist');
 for(const file of listFiles(path.join(root,'dist')))assert.equal(sha256(fs.readFileSync(path.join(installed,file))),sha256(fs.readFileSync(path.join(root,'dist',file))));
 // Run the entire existing owned-session contract suite using the compiled packs.
-const course=fs.readFileSync(path.join(previous.consumer,'crafting-session.test.mjs'),'utf8').replaceAll("'./fixtures.mjs'","'./compiled-fixtures.mjs'");
-fs.writeFileSync(path.join(consumer,'crafting.mjs'),course);fs.copyFileSync(path.join(previous.consumer,'random.mjs'),path.join(consumer,'random.mjs'));
-const craftingLog=run(consumer,['crafting.mjs']);assert(/(?:#|ℹ) pass 18\b/.test(craftingLog));fs.writeFileSync(path.join(directory,'crafting.txt'),craftingLog);
+const course=craftingConsumerSource().replaceAll("'./fixtures.mjs'","'./compiled-fixtures.mjs'");
+fs.writeFileSync(path.join(consumer,'crafting.mjs'),course);fs.writeFileSync(path.join(consumer,'random.mjs'),craftingConsumerRandom);
+const craftingLog=run(consumer,['crafting.mjs']);assert(/(?:#|ℹ) pass 22\b/.test(craftingLog));fs.writeFileSync(path.join(directory,'crafting.txt'),craftingLog);
 fs.writeFileSync(path.join(consumer,'browser.mjs'),Object.values(entries).map(entry=>`export * from '@hollow-wake/engine/${entry}';`).join('\n'));
 const bundle=await build({entryPoints:[path.join(consumer,'browser.mjs')],bundle:true,platform:'browser',format:'esm',minify:true,write:false,metafile:true});
 assert(!Object.keys(bundle.metafile.inputs).some(file=>/\.reference|\/content\//.test(file)));assert(bundle.outputFiles[0].contents.length<=45*1024);
@@ -35,6 +38,11 @@ fs.writeFileSync(path.join(consumer,'browser-contracts.mjs'),browser);fs.writeFi
 const hostile=run(consumer,['hostile.mjs']);assert(/(?:#|ℹ) pass 9\b/.test(hostile));fs.writeFileSync(path.join(directory,'hostile.txt'),hostile);
 fs.writeFileSync(path.join(consumer,'types.ts'),`import {decodeContentTable,type ContentValue,type ContentTable} from '@hollow-wake/engine/content/table';import {encodeContentTable} from '@hollow-wake/engine/content/table/compiler';const table:ContentTable=encodeContentTable({a:[1,2]});const value:ContentValue=decodeContentTable(table);void value;`);
 fs.writeFileSync(path.join(directory,'types.txt'),run(consumer,[path.join(root,'node_modules/typescript/bin/tsc'),'--noEmit','--strict','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','types.ts']));
-const report={passed:true,directory,consumer,archive,archiveSha256:sha256(fs.readFileSync(archive)),contentSha256:sha256(fs.readFileSync(path.join(consumer,'content.json'))),tableSha256:sha256(fs.readFileSync(path.join(consumer,'table.json'))),contentBytes:Buffer.byteLength(JSON.stringify(content)),tableBytes:Buffer.byteLength(JSON.stringify(table)),nodes:table.nodes.length,contracts:9,browserContracts:9,craftingContracts:18,types:true,browserBytes:bundle.outputFiles[0].contents.length,
+const report={passed:true,directory,consumer,archive,archiveSha256:sha256(fs.readFileSync(archive)),contentSha256:sha256(fs.readFileSync(path.join(consumer,'content.json'))),tableSha256:sha256(fs.readFileSync(path.join(consumer,'table.json'))),contentBytes:Buffer.byteLength(JSON.stringify(content)),tableBytes:Buffer.byteLength(JSON.stringify(table)),nodes:table.nodes.length,contracts:9,browserContracts:9,craftingContracts:22,types:true,browserBytes:bundle.outputFiles[0].contents.length,
   runtimeMap:Object.fromEntries(listFiles(installed).map(f=>[f,sha256(fs.readFileSync(path.join(installed,f)))]))};
-writeJSON(path.join(directory,'verification.json'),report);writeJSON(path.join(root,'.artifacts/content-table-package-latest.json'),report);console.log({passed:true,directory,contracts:9,craftingContracts:18,bytes:report.tableBytes});
+writeJSON(path.join(directory,'verification.json'),report);writeJSON(path.join(root,'.artifacts/content-table-package-latest.json'),report);console.log({passed:true,directory,contracts:9,craftingContracts:22,bytes:report.tableBytes});
+// This receipt is an explicit input to the subsequent fault/native courses.
+completed=true;
+}finally{
+ if(!completed){assert.equal(path.dirname(fs.realpathSync(directory)),fs.realpathSync(path.join(root,'.artifacts')));assert(!fs.existsSync(path.join(directory,'.git')));fs.rmSync(directory,{recursive:true,maxRetries:3});}
+}

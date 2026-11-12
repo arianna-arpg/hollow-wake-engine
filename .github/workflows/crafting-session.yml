@@ -45,11 +45,13 @@ jobs:
         with:
           name: crafting-session-${{ matrix.os }}
           path: |
-            .artifacts/crafting-session-package-*/verification.json
-            .artifacts/crafting-session-package-*/*.txt
-            .artifacts/crafting-session-faults-*/verification.json
-            .artifacts/crafting-session-faults-*/*.txt
+            .artifacts/crafting-session-package-latest.json
+            .artifacts/crafting-session-package-latest.logs.json.gz
+            .artifacts/crafting-session-faults-latest.json
+            .artifacts/crafting-session-faults-latest.logs.json.gz
             .artifacts/content-table-package-*/verification.json
             .artifacts/content-table-package-*/*.txt
-            .artifacts/content-table-faults-*/verification.json
-            .artifacts/content-table-faults-*/*.txt
+            .artifacts/content-table-faults-latest.json
+            .artifacts/content-table-faults-latest.logs.json.gz
+          include-hidden-files: true
+          if-no-files-found: error

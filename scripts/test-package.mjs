@@ -187,12 +187,13 @@ const residenceModuleBytes = Object.fromEntries(Object.entries({'gem-residence':
   const matches=packed.files.filter(file=>file.path===`dist/${name}.js`);assert.equal(matches.length,1);
   assert.ok(matches[0].size>0&&matches[0].size<=kib*1024,`${name} exceeded its separate ${kib} KiB budget`);return [name,matches[0].size];
 }));
-// Versioned account views add ~1.6 KiB of unminified session code; the complete
-// Godot bundle has its own 102 KiB minified ceiling and measured action budget.
-const craftingSessionModuleBytes = Object.fromEntries(Object.entries({'crafting-session':23,'crafting-session-data':18,'session-json':6}).map(([name,kib])=>{
+// Count both the fixed public facade and shared implementation. Moving code
+// into the internal module must not remove it from the package size budget.
+const craftingSessionModuleBytes = Object.fromEntries(Object.entries({'crafting-session':1,'crafting-session-core':23,'crafting-session-data':18,'session-json':6}).map(([name,kib])=>{
   const matches=packed.files.filter(file=>file.path===`dist/${name}.js`);assert.equal(matches.length,1);
   assert.ok(matches[0].size>0&&matches[0].size<=kib*1024,`${name} exceeded its separate ${kib} KiB budget`);return [name,matches[0].size];
 }));
+assert(craftingSessionModuleBytes['crafting-session']+craftingSessionModuleBytes['crafting-session-core']<=24*1024,'Shared crafting implementation and facade exceeded 24 KiB');
 const contentTableModuleBytes=Object.fromEntries(Object.entries({'content-table':8,'content-table-compiler':5,'immutable-content':3}).map(([name,kib])=>{
   const matches=packed.files.filter(file=>file.path===`dist/${name}.js`);assert.equal(matches.length,1);assert(matches[0].size>0&&matches[0].size<=kib*1024,`${name} exceeded its separate ${kib} KiB budget`);return [name,matches[0].size];
 }));

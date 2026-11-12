@@ -1,5 +1,14 @@
 # Verification and reproduction
 
+The shared crafting implementation retains the public constructor and v1–v4
+save formats. `test:crafting-session-package` runs 22 installed/browser checks
+and positive/negative public type checks. `test:crafting-session-faults` checks
+16 deliberate faults against a temporary installed package, restores it, and
+removes that installation. `reference:crafting-session-formats` reproduces four
+frozen saves from the retained pre-refactor SDK implementation in two fresh
+processes. These checks preserve the crafting API; they do not publish the
+separate complete-character/world-delivery candidate or qualify new devices.
+
 The [durable character builder](character-builds.md) has 25 installed and
 browser contracts, thirteen negative type cases and seventeen deliberate runtime faults.
 Its installed Node GC course releases preceding skill investment while the

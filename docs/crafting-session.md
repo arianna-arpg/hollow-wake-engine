@@ -6,6 +6,12 @@ It owns item bodies, wallet, expertise, account counters, item IDs and the rando
 stream together. Definitions are validated once through `ItemContent`,
 `CraftingContent` and `SkillProgression` and shared across profiles.
 
+Crafting commands share one internal implementation. The public constructor
+keeps its fixed admission policy and existing v1–v4 save envelopes; a save or
+player command cannot choose another codec. Four frozen saves from
+`0.59.0-candidate.0` verify exact restoration and rejection of mismatched formats.
+This refactor does not add a new public save format.
+
 This is a portable JavaScript/TypeScript capability. The Godot desktop workshop
 now exercises it through real native hosts and exported inventory players; see
 [background saves](background-saves.md). Existing borrowed-state game adapters

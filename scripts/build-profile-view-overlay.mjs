@@ -9,8 +9,7 @@ import {root,sha256,writeJSON} from './reference-utils.mjs';
 const args=process.argv.slice(2);assert(args.length===1||(args.length===2&&args[1]==='--stations'),'Expected a fresh overlay directory and optional --stations');
 const output=path.resolve(args[0]);assert(!fs.existsSync(output));
 const accepted=JSON.parse(fs.readFileSync(path.join(root,'.artifacts/crafting-session-package-latest.json')));
-assert(accepted.passed&&accepted.contracts===18);
-assert.equal(sha256(fs.readFileSync(accepted.archive)),accepted.archiveSha256);
+assert(accepted.passed&&accepted.contracts===22&&accepted.installedRestored&&accepted.inputsUnchanged&&accepted.cleaned);
 const directory=path.join(root,'adapters/godot/crafting');
 const bundles=await workshopBundles(directory,workspaceBridges(root));
 const sources={};
@@ -18,7 +17,7 @@ for(const input of bundles.vestiges.inputs){
   const file=path.resolve(directory,input),relative=path.relative(root,file).replaceAll('\\','/');
   assert(!relative.startsWith('../')&&!path.isAbsolute(relative));
   sources[relative]=sha256(fs.readFileSync(file));
-  if(relative.startsWith('dist/'))assert.equal(sha256(fs.readFileSync(path.join(accepted.consumer,'node_modules/@hollow-wake/engine',relative))),sources[relative]);
+  if(relative.startsWith('dist/'))assert.equal(accepted.runtimeMap[relative.slice(5)],sources[relative]);
 }
 for(const name of ['scripts/build-profile-view-overlay.mjs','scripts/godot-crafting-bundle.mjs','adapters/godot/crafting/crafting.gd','adapters/godot/crafting/README.md'])sources[name]=sha256(fs.readFileSync(path.join(root,name)));
 fs.mkdirSync(output,{recursive:true});

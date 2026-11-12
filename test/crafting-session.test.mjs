@@ -5,6 +5,8 @@ import {CraftingContent} from '../dist/crafting-content.js';
 import {ItemContent,ItemRules} from '../dist/item-rules.js';
 import {SkillProgression} from '../dist/skill-progression.js';
 import {Random} from '../dist/random.js';
+import {WorkshopSkillBook} from '../dist/workshop-skill-book.js';
+import formatSaves from '../baseline/crafting-session-formats/saves.json' with {type:'json'};
 import {itemPack} from '../scripts/compile-item-content.mjs';
 import {craftingPack} from '../scripts/compile-crafting-content.mjs';
 import {skillProgressionPack} from '../scripts/compile-skill-progression.mjs';
@@ -257,4 +259,15 @@ test('limits, unknown commands and illegal field combinations cannot consume ses
   }
   assert.equal(command(sdk,'close',{},0).ok,true);assert.equal(command(sdk,'save',{},0).reason,'not-open');
   assert.equal(command(sdk,'open',{seed:1,state:state()},1).ok,true);
+});
+
+for(const row of formatSaves.rows)test('published v'+row.version+' save restores exactly and refuses a mismatched envelope',()=>{
+  const sdk=new CraftingSession(definitions,1,new WorkshopSkillBook(items));
+  assert.equal(sdk.command({op:'restore',profile:1,save:row.save}).ok,true);
+  assert.deepEqual(copy(sdk.command({op:'save',profile:1}).save),row.save);
+  assert.equal(sdk.command({op:'close',profile:1}).ok,true);
+  assert.equal(sdk.command({op:'restore',profile:1,save:{...row.save,capability:'crafting-session/complete-diagnostic'}}).reason,'unsupported-save');
+  assert.equal(sdk.command({op:'restore',profile:1,save:{...row.save,schemaVersion:row.version+1}}).reason,'unsupported-save');
+  assert.equal(sdk.command({op:'open',profile:1,seed:123,state:row.input}).ok,true);
+  assert.deepEqual(copy(sdk.command({op:'save',profile:1}).save),row.save);
 });
