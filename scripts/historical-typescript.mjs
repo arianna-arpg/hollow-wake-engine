@@ -1,11 +1,15 @@
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
-import ts from 'typescript';
+import {createRequire} from 'node:module';
 import {root} from './reference-utils.mjs';
 
 const builds = new Map();
 const trees = new Map();
+const require = createRequire(import.meta.url);
+let compiler;
+// Native evidence readers hash Git blobs without installing JavaScript tools.
+const typeScript = () => compiler ??= require('typescript');
 const git = (args, input) => execFileSync('git', args, {
   cwd: root, input, windowsHide: true, maxBuffer: 64 * 1024 * 1024,
 });
@@ -41,6 +45,7 @@ export function historicalSourceBytes(sourceRef, name) {
 export function historicalTypeScript(sourceRef) {
   assert(/^[a-f0-9]{40}$/.test(sourceRef), 'Expected an immutable source commit');
   if (builds.has(sourceRef)) return builds.get(sourceRef);
+  const ts = typeScript();
   const files = historicalTree(sourceRef);
   const version = JSON.parse(files.get('package-lock.json')).packages['node_modules/typescript'].version;
   assert.equal(ts.version, version, 'Historical TypeScript compiler version differs');
@@ -50,6 +55,7 @@ export function historicalTypeScript(sourceRef) {
 
 /** In-memory compiler boundary, also used by deliberate source-fault controls. */
 export function compileTypeScriptTree(files, identity) {
+  const ts = typeScript();
   assert(/^[a-zA-Z0-9_-]+$/.test(identity), 'Invalid virtual build identity');
   const virtual = path.join(root, '.artifacts', 'historical-typescript-virtual-' + identity);
   const normalize = name => {

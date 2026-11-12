@@ -3,9 +3,24 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
+import {pathToFileURL} from 'node:url';
 import {sourceHasher} from './evidence-source.mjs';
 import {compileTypeScriptTree} from './historical-typescript.mjs';
 import {root,sha256} from './reference-utils.mjs';
+
+test('source-only evidence does not load the TypeScript compiler', () => {
+  const script = `import assert from 'node:assert/strict';
+import {registerHooks} from 'node:module';
+registerHooks({resolve(specifier,context,next){
+  if(specifier==='typescript')throw Error('compiler forbidden in source-only evidence');
+  return next(specifier,context);
+}});
+const {sourceHasher}=await import(${JSON.stringify(pathToFileURL(path.join(root,'scripts/evidence-source.mjs')).href)});
+const hash=sourceHasher('03eb2d504a9fe410b97d3959a76d4a494c5d3541');
+assert.equal(hash('src/stats.ts'),${JSON.stringify(sha256(execFileSync('git',['show','03eb2d504a9fe410b97d3959a76d4a494c5d3541:src/stats.ts'],{cwd:root})))});
+assert.throws(()=>hash('dist/stats.js'),/compiler forbidden/);`;
+  execFileSync(process.execPath,['--input-type=module','-e',script],{cwd:root,windowsHide:true,timeout:30000});
+});
 
 test('historical Unity runtime hashes come from their actual release sources', () => {
   const historical = sourceHasher('03eb2d504a9fe410b97d3959a76d4a494c5d3541');
