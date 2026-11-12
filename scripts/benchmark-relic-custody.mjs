@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
 import {root,verifyReference,listFiles} from './reference-utils.mjs';import {relicCustodyFiles,relicRuntimeFile,relicRuntimeSource,renderRelicCustody} from '../adapters/hollow-wake/integrate-relic-custody.mjs';
 const game=path.join(root,'.reference'),lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json'))),location=JSON.parse(fs.readFileSync(path.join(root,'.artifacts/adapter-location.json'))),lf=s=>s.replaceAll('\r\n','\n');
@@ -6,7 +7,7 @@ assert.equal(JSON.parse(fs.readFileSync(path.join(previous,'node_modules/@hollow
 for(const file of relicCustodyFiles){sources[file]=fs.readFileSync(path.join(game,file),'utf8');assert.equal(lf(fs.readFileSync(path.join(previous,file),'utf8')),lf(sources[file]),'Prior custody control must remain original');}
 const expected=renderRelicCustody(sources,sources);for(const file of relicCustodyFiles)assert.equal(lf(fs.readFileSync(path.join(location.game,file),'utf8')),expected[file]);assert.equal(lf(fs.readFileSync(path.join(location.game,relicRuntimeFile),'utf8')),relicRuntimeSource);
 for(const file of ['inventory-host.js','stash-policy.js','validation.js'])assert.deepEqual(fs.readFileSync(path.join(previous,'node_modules/@hollow-wake/engine/dist',file)),fs.readFileSync(path.join(root,'dist',file)),'Prior storage control changed');
-const installed=path.join(location.tooling,'node_modules/@hollow-wake/engine/dist');assert.deepEqual(listFiles(installed),listFiles(path.join(root,'dist')));for(const file of listFiles(path.join(root,'dist')))assert.deepEqual(fs.readFileSync(path.join(installed,file)),fs.readFileSync(path.join(root,'dist',file)),`Stale custody runtime: ${file}`);
+const installed=path.join(location.tooling,'node_modules/@hollow-wake/engine/dist');assert.deepEqual(listFiles(installed),packageRuntimeFiles());for(const file of packageRuntimeFiles())assert.deepEqual(fs.readFileSync(path.join(installed,file)),fs.readFileSync(path.join(root,'dist',file)),`Stale custody runtime: ${file}`);
 verifyReference(game,lock);const target=path.join(game,'balance/benchmark-engine-relic-custody.ts');fs.copyFileSync(path.join(root,'reference/benchmark-relic-custody.ts'),target);
 if(process.argv.includes('--check-only')){console.log('Original/M13/M14 custody benchmark sources and packages verified.');process.exit(0);}
 execFileSync(process.execPath,['--import','tsx',target,root,previous,location.game,path.join(root,'.artifacts/relic-custody-benchmark.json')],{cwd:game,stdio:'inherit'});verifyReference(game,lock);

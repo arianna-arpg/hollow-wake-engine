@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {pathToFileURL} from 'node:url';import {spawnSync} from 'node:child_process';import {build} from 'esbuild';
 import {root,sha256,listFiles,writeJSON} from './reference-utils.mjs';import {craftingCourse} from './content-table-course.mjs';
 assert.equal(process.platform,'win32');assert.equal(process.arch,'x64');
@@ -13,7 +14,7 @@ const accepted=read(path.join(root,'evidence/crafting-session/windows.json'));as
 for(const file of ['experiments/embedded-js/native/hwe_embedded.c','experiments/embedded-js/native/hwe_embedded.h','experiments/embedded-js/tracked-allocator.h','experiments/embedded-js/host-source-lock.json'])assert.equal(hash(path.join(root,file)),library.sourceHashes[file]);
 const directory=fs.mkdtempSync(path.join(root,'.artifacts/content-table-native-')),installed=path.join(pkg.consumer,'node_modules/@hollow-wake/engine/dist'),old=path.join(baseline.consumer,'node_modules/@hollow-wake/engine/dist');
 assert.equal(sha256(JSON.stringify(Object.fromEntries(listFiles(old).map(f=>[f,hash(path.join(old,f))])))),accepted.runtimeMapSha256,'Accepted baseline installation changed');
-assert.deepEqual(listFiles(installed),listFiles(path.join(root,'dist')));for(const file of listFiles(installed))assert.equal(hash(path.join(installed,file)),hash(path.join(root,'dist',file)));
+assert.deepEqual(listFiles(installed),packageRuntimeFiles());for(const file of listFiles(installed))assert.equal(hash(path.join(installed,file)),hash(path.join(root,'dist',file)));
 const load=async dir=>Object.assign({},...await Promise.all(['crafting-session','item-rules','crafting-content','skill-progression'].map(f=>import(pathToFileURL(path.join(dir,f+'.js')).href))));
 const content=read(path.join(pkg.consumer,'content.json'));assert.equal(JSON.stringify(content),JSON.stringify(read(path.join(baseline.consumer,'content.json'))));
 const course=craftingCourse(await load(old),content);writeJSON(path.join(directory,'course.json'),course);

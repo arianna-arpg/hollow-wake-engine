@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {randomUUID} from 'node:crypto';
 import {root,listFiles,verifyReference,sha256,writeJSON} from './reference-utils.mjs';
 import {bankPaths,renderBankWorld,renderGaugeActor,renderBankChannel} from '../adapters/hollow-wake/integrate-channel-banks.mjs';
@@ -6,7 +7,7 @@ const previous=path.resolve(process.argv[at+1]),artifacts=path.join(root,'.artif
 const reference=path.join(root,'.reference'),lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json'))),oldEngine=path.join(previous,'node_modules/@hollow-wake/engine'),newEngine=path.join(location.tooling,'node_modules/@hollow-wake/engine');
 assert.equal(fs.realpathSync(path.join(location.game,'node_modules/@hollow-wake/engine')),fs.realpathSync(newEngine));assert.notEqual(fs.realpathSync(oldEngine),fs.realpathSync(newEngine));
 assert.equal(JSON.parse(fs.readFileSync(path.join(oldEngine,'package.json'))).version,'0.30.0');assert.equal(JSON.parse(fs.readFileSync(path.join(newEngine,'package.json'))).version,'0.31.0');
-const files=listFiles(path.join(root,'dist')),oldFiles=listFiles(path.join(oldEngine,'dist'));
+const files=packageRuntimeFiles(),oldFiles=listFiles(path.join(oldEngine,'dist'));
 const comparisonAt=process.argv.indexOf('--comparison-adapter');assert(comparisonAt<0||process.argv[comparisonAt+1]);const comparison=comparisonAt<0?undefined:path.resolve(process.argv[comparisonAt+1]);
 function snapshot(game){
  if(!game)return undefined;const engine=path.join(game,'node_modules/@hollow-wake/engine');assert.notEqual(fs.realpathSync(engine),fs.realpathSync(newEngine));assert.notEqual(fs.realpathSync(engine),fs.realpathSync(oldEngine));

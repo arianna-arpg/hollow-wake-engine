@@ -1,7 +1,8 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {gunzipSync} from 'node:zlib';import {execFileSync} from 'node:child_process';import {randomUUID} from 'node:crypto';
 import {root,listFiles,writeJSON} from './reference-utils.mjs';
 const location=JSON.parse(fs.readFileSync(path.join(root,'.artifacts/adapter-location.json'))),installed=path.join(location.tooling,'node_modules/@hollow-wake/engine/dist');
-assert.deepEqual(listFiles(installed),listFiles(path.join(root,'dist')));for(const file of listFiles(installed))assert.deepEqual(fs.readFileSync(path.join(installed,file)),fs.readFileSync(path.join(root,'dist',file)),`Stale action package: ${file}`);
+assert.deepEqual(listFiles(installed),packageRuntimeFiles());for(const file of listFiles(installed))assert.deepEqual(fs.readFileSync(path.join(installed,file)),fs.readFileSync(path.join(root,'dist',file)),`Stale action package: ${file}`);
 const bytes=fs.readFileSync(path.join(root,'reference/export-relic-actions.ts')),file=path.join(location.game,`balance/sdk-relic-actions-${randomUUID()}.ts`),output=path.join(root,'.artifacts/game-relic-actions');fs.writeFileSync(file,bytes,{flag:'wx'});
 const expected=gunzipSync(fs.readFileSync(path.join(root,'baseline/milestone-fifteen/relic-actions.json.gz'))),run=(out,stdio='inherit')=>execFileSync(process.execPath,['--import','tsx',file,out],{cwd:location.game,stdio,maxBuffer:64*1024*1024});
 function difference(a,b,p='root'){if(Object.is(a,b))return;if(!a||!b||typeof a!=='object'||typeof b!=='object')return `${p}: ${JSON.stringify(a)} != ${JSON.stringify(b)}`;for(const key of new Set([...Object.keys(a),...Object.keys(b)])){const result=difference(a[key],b[key],`${p}.${key}`);if(result)return result;}}

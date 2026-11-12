@@ -1,9 +1,9 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';import {gzipSync,gunzipSync} from 'node:zlib';
 import {build} from 'esbuild';import {root,sha256,verifyReference} from './reference-utils.mjs';import {npmCli} from './npm-cli.mjs';import {buildCharacterBuilds} from './compile-character-builds.mjs';
 const owned=fs.realpathSync(path.join(root,'.artifacts')),work=fs.mkdtempSync(path.join(owned,'character-build-package-owned-')),consumer=path.join(work,'consumer');
-const logs={},report={passed:false,contracts:25,faults:[],sources:{},game:{runs:[]}};
+const logs={},report={passed:false,contracts:28,faults:[],sources:{},game:{runs:[]}};
 const inputs=['src/character-builds.ts','adapters/embedded/character-builds.mjs','adapters/embedded/character-build-helpers.mjs','scripts/compile-character-builds.mjs',
- 'scripts/test-character-builds-package.mjs','test/character-builds.test.mjs','test/character-build-fixture.mjs','test/character-adoption.test.mjs','test/character-adoption-game.ts','test/character-build-retention.mjs','test/character-builds-game.ts','package.json','package-lock.json','baseline/source-lock.json'];
+ 'scripts/test-character-builds-package.mjs','test/character-builds.test.mjs','test/character-build-commands.test.mjs','test/character-build-fixture.mjs','test/character-adoption.test.mjs','test/character-adoption-game.ts','test/character-build-retention.mjs','test/character-builds-game.ts','package.json','package-lock.json','baseline/source-lock.json'];
 const run=(name,args,cwd=consumer,timeout=240000)=>{const child=spawnSync(process.execPath,args,{cwd,encoding:'utf8',windowsHide:true,timeout,maxBuffer:12*1024*1024,
  env:{...process.env,TEMP:work,TMP:work,TMPDIR:work,NODE_PATH:'',NODE_COMPILE_CACHE:path.join(work,'compile-cache')}});logs[name]=(child.stdout??'')+'\n'+(child.stderr??'');assert(!child.error&&!child.signal,name+': '+child.error);return child;};
 const success=(name,args,cwd)=>{const child=run(name,args,cwd);assert.equal(child.status,0,logs[name].slice(-10000));return child;};
@@ -19,11 +19,13 @@ try{
  const entries={'character-builds':'character/builds','stat-rules':'','passive-grants':'passives/grants','gem-residence':'inventory/gems'};
  const installedImports=text=>{for(const[file,entry]of Object.entries(entries))text=text.replaceAll("'../dist/"+file+".js'","'@hollow-wake/engine"+(entry?'/'+entry:'')+"'");return text;};
  let contract=installedImports(fs.readFileSync(path.join(root,'test/character-builds.test.mjs'),'utf8'));
+ const commands=installedImports(fs.readFileSync(path.join(root,'test/character-build-commands.test.mjs'),'utf8'));
  let adoption=installedImports(fs.readFileSync(path.join(root,'test/character-adoption.test.mjs'),'utf8'));
  let fixture=installedImports(fs.readFileSync(path.join(root,'test/character-build-fixture.mjs'),'utf8'));
  fs.writeFileSync(path.join(consumer,'character-build-fixture.mjs'),fixture);
  fs.writeFileSync(path.join(consumer,'adoption.test.mjs'),adoption);
- fs.writeFileSync(path.join(consumer,'contracts.test.mjs'),"import './adoption.test.mjs';\n"+contract);contracts('installed');
+ fs.writeFileSync(path.join(consumer,'commands.test.mjs'),commands);
+ fs.writeFileSync(path.join(consumer,'contracts.test.mjs'),"import './adoption.test.mjs';\nimport './commands.test.mjs';\n"+contract);contracts('installed');
  fs.copyFileSync(path.join(root,'test/character-build-retention.mjs'),path.join(consumer,'retention-course.mjs'));
  fs.writeFileSync(path.join(consumer,'retention.mjs'),"import {setup} from './character-build-fixture.mjs';\nimport {verifyBuildRetention} from './retention-course.mjs';console.log(JSON.stringify(await verifyBuildRetention(setup,process.argv[2]??'open')));\n");
  report.retention={runs:[]};
@@ -38,7 +40,8 @@ try{
  const browserImports=text=>{for(const entry of Object.values(entries))text=text.replaceAll("'@hollow-wake/engine"+(entry?'/'+entry:'')+"'","'./browser-built.mjs'");return text.replaceAll("'./character-build-fixture.mjs'","'./browser-fixture.mjs'");};
  fs.writeFileSync(path.join(consumer,'browser-fixture.mjs'),browserImports(fixture));
  fs.writeFileSync(path.join(consumer,'browser-adoption.test.mjs'),browserImports(adoption));
- fs.writeFileSync(path.join(consumer,'browser-contracts.mjs'),"import './browser-adoption.test.mjs';\n"+browserImports(contract));
+ fs.writeFileSync(path.join(consumer,'browser-commands.test.mjs'),browserImports(commands));
+ fs.writeFileSync(path.join(consumer,'browser-contracts.mjs'),"import './browser-adoption.test.mjs';\nimport './browser-commands.test.mjs';\n"+browserImports(contract));
  const hostile="Math.random=()=>{throw Error('ambient RNG')};globalThis.fetch=()=>{throw Error('network')};for(const key of ['window','document','localStorage'])Object.defineProperty(globalThis,key,{get(){throw Error(key)}});";
  fs.writeFileSync(path.join(consumer,'hostile.test.mjs'),hostile+"await import('./browser-contracts.mjs');");contracts('browser','hostile.test.mjs');
  fs.writeFileSync(path.join(consumer,'factory-smoke.mjs'),"import fs from 'node:fs';import assert from 'node:assert/strict';const pack=JSON.parse(fs.readFileSync(new URL('./node_modules/@hollow-wake/character-builds/builds.json',import.meta.url)));"+hostile+`
@@ -52,6 +55,13 @@ try{
  import type {CharacterBuild,CharacterBuildInput,CharacterBuildService,CharacterBuildAdoption} from '@hollow-wake/engine/character/builds';
  declare const input:CharacterBuildInput;const builds:CharacterBuildService=createCharacterBuilds({});const first=builds.open(input,[]);const next=builds.rebuild(first,input);
  builds.read(next);builds.investment(next);builds.lineages(next);builds.stat(next,'life');
+ builds.rebuild(first,input,{replaceLearned:['bolt']});builds.canSocket(first,'bolt','repeat',{mode:'chain'});
+ // @ts-expect-error replacement identities must be strings
+ builds.rebuild(first,input,{replaceLearned:[1]});
+ // @ts-expect-error rolled support choices must be string identities
+ builds.canSocket(first,'bolt','repeat',{mode:1});
+ // @ts-expect-error compatibility queries need an owned build handle
+ builds.canSocket(input,'bolt','repeat');
  // @ts-expect-error opaque handles cannot be constructed
  const forged:CharacterBuild={};
  // @ts-expect-error a save is not a continuation
@@ -80,7 +90,7 @@ try{
  // @ts-expect-error adoption requires explicit observations
  builds.adopt(input,[]);
  `);
- success('types',[path.join(root,'node_modules/typescript/bin/tsc'),'--noEmit','--strict','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','types.ts']);report.types=13;
+ success('types',[path.join(root,'node_modules/typescript/bin/tsc'),'--noEmit','--strict','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','types.ts']);report.types=16;
  const installed=path.join(consumer,'node_modules/@hollow-wake/engine'),module=path.join(installed,'dist/character-builds.js'),original=fs.readFileSync(module,'utf8');report.moduleBytes=Buffer.byteLength(original);assert(report.moduleBytes<=16*1024);
  const faults=[
   ['shared-sheet','prior.sheet.fork()','prior.sheet'],
@@ -89,6 +99,9 @@ try{
   ['lost-learned-update','const def = inst.def;\n                p.updateLearned(inst, payload);','const def = inst.def;\n                void payload;'],
   ['lost-grant-edit','p.updateGrant(inst, edit.state);','void edit;'],
   ['lost-learned-lock','inst.locked = true;','delete inst.locked;'],
+  ['lost-learned-replacement','replacements?.has(payload.skillId) ? undefined : frame.meta.knownSkills.get(payload.skillId)','frame.meta.knownSkills.get(payload.skillId)'],
+  ['lost-replacement-bar','frame.actor.skills[n] = known.get(id) ?? null;','frame.actor.skills[n] = null;'],
+  ['lost-support-rolls','return fits(def, inst, rolled);','return fits(def, inst);'],
   ['lost-lineage','lineage ?? Object.freeze({})','Object.freeze({})'],
   ['ignore-replaced-edit',"throw Error('Edited grant no longer belongs to this build');",'void inst;'],
   ['skip-slot-rebuild','// Slot grafts depend on the requested positions. Re-evaluate them on the\n            // owned graph; this second pass has no live effect callbacks.\n            this.#equipment.derive(frame);','void frame;'],

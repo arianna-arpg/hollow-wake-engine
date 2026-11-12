@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -20,7 +21,7 @@ function controls() {
   verifyReference(reference, lock);
   assert.equal(fs.realpathSync(path.join(location.game, 'node_modules/@hollow-wake/engine')),
     fs.realpathSync(newEngine), 'Candidate game does not resolve the verified runtime');
-  const files = listFiles(path.join(root, 'dist'));
+  const files = packageRuntimeFiles();
   assert.deepEqual(listFiles(path.join(newEngine, 'dist')), files);
   assert.deepEqual(listFiles(path.join(oldEngine, 'dist')), files);
   const changed = [], modules = {};

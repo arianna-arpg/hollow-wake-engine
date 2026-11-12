@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {build} from 'esbuild';
 import {root,sha256,listFiles,writeJSON} from './reference-utils.mjs';import {npmCli} from './npm-cli.mjs';
 import {itemPack} from './compile-item-content.mjs';import {craftingPack} from './compile-crafting-content.mjs';import {skillProgressionPack} from './compile-skill-progression.mjs';
@@ -24,7 +25,8 @@ contracts=contracts.replaceAll("'../scripts/compile-item-content.mjs'","'./fixtu
 fs.writeFileSync(path.join(consumer,'contracts.mjs'),contracts);
 const log=run(consumer,['contracts.mjs']);assert(/(?:#|ℹ) pass 9\b/.test(log));fs.writeFileSync(path.join(directory,'contracts.txt'),log);
 const installed=path.join(consumer,'node_modules/@hollow-wake/engine/dist');
-for(const file of listFiles(path.join(root,'dist')))assert.equal(sha256(fs.readFileSync(path.join(installed,file))),sha256(fs.readFileSync(path.join(root,'dist',file))));
+assert.deepEqual(listFiles(installed),packageRuntimeFiles());
+for(const file of packageRuntimeFiles())assert.equal(sha256(fs.readFileSync(path.join(installed,file))),sha256(fs.readFileSync(path.join(root,'dist',file))));
 // Run the entire existing owned-session contract suite using the compiled packs.
 const course=craftingConsumerSource().replaceAll("'./fixtures.mjs'","'./compiled-fixtures.mjs'");
 fs.writeFileSync(path.join(consumer,'crafting.mjs'),course);fs.writeFileSync(path.join(consumer,'random.mjs'),craftingConsumerRandom);

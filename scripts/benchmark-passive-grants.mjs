@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -6,7 +7,7 @@ import { execFileSync } from 'node:child_process';
 import { root,verifyReference,listFiles,writeJSON } from './reference-utils.mjs';
 const location=JSON.parse(fs.readFileSync(path.join(root,'.artifacts/adapter-location.json')));
 const installed=path.join(location.tooling,'node_modules/@hollow-wake/engine/dist');
-for(const file of listFiles(path.join(root,'dist')))assert.deepEqual(fs.readFileSync(path.join(installed,file)),fs.readFileSync(path.join(root,'dist',file)),`Stale benchmark package: ${file}`);
+for(const file of packageRuntimeFiles())assert.deepEqual(fs.readFileSync(path.join(installed,file)),fs.readFileSync(path.join(root,'dist',file)),`Stale benchmark package: ${file}`);
 const lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json'))),reference=path.join(root,'.reference');
 verifyReference(reference,lock);
 const bytes=fs.readFileSync(path.join(root,'reference/benchmark-passive-grants.ts')),results={};

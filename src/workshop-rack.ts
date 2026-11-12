@@ -32,7 +32,7 @@ export class WorkshopRack {
   /** Identifies the move implementation that can borrow a frozen account.
    * An override or a structurally compatible provider keeps a writable draft. */
   readonly accountPreservingMove?:WorkshopRack['move']=WorkshopRack.prototype.move;
-  validate(input:unknown,data:CraftingSessionData):void {
+  validate(input:unknown,data:Pick<CraftingSessionData,'skillPayload'>):void {
     array(input,seats);need(input.length===seats,'invalid-rack-size');
     const seen=new Set<string>();
     for(const row of input){

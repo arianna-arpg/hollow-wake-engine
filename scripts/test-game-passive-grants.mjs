@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -8,7 +9,7 @@ import { root,listFiles,writeJSON } from './reference-utils.mjs';
 const args=process.argv.slice(2);assert(args.length===0||(args.length===2&&args[0]==='--location'));
 const location=JSON.parse(fs.readFileSync(path.resolve(root,args[1]??'.artifacts/adapter-location.json')));
 const installed=path.join(location.tooling,'node_modules/@hollow-wake/engine/dist');
-for(const file of listFiles(path.join(root,'dist')))assert.deepEqual(fs.readFileSync(path.join(installed,file)),fs.readFileSync(path.join(root,'dist',file)),`Stale grant package: ${file}`);
+for(const file of packageRuntimeFiles())assert.deepEqual(fs.readFileSync(path.join(installed,file)),fs.readFileSync(path.join(root,'dist',file)),`Stale grant package: ${file}`);
 const file=path.join(location.game,`balance/sdk-grants-${randomUUID()}.ts`),bytes=fs.readFileSync(path.join(root,'reference/export-passive-grants.ts'));
 const output=path.join(root,'.artifacts/game-passive-grants');
 fs.writeFileSync(file,bytes,{flag:'wx'});

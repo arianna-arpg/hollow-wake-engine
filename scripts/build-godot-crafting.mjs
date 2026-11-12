@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {gunzipSync} from 'node:zlib';
 import {workshopBundles} from './godot-crafting-bundle.mjs';
 import {writeSupportGate} from './compile-workshop-supports.mjs';
@@ -23,7 +24,7 @@ fs.mkdirSync(consumer);fs.mkdirSync(extra);
 const commands=[];function run(name,command,args,cwd=consumer){const log=path.join(directory,name+'.txt'),fd=fs.openSync(log,'wx');try{execFileSync(command,args,{cwd,windowsHide:true,stdio:['ignore',fd,fd],timeout:180000});}finally{fs.closeSync(fd);commands.push({name,logSha256:hash(log)});}}
 writeJSON(path.join(consumer,'package.json'),{name:'hollow-crafting-consumer',private:true,type:'module'});
 run('install',process.execPath,[npmCli(),'install',previous.sdkArchive,'--offline','--ignore-scripts','--no-audit','--no-fund','--cache',path.join(root,'.artifacts/npm-cache')]);
-const installed=path.join(consumer,'node_modules/@hollow-wake/engine/dist');assert.deepEqual(listFiles(installed),listFiles(path.join(root,'dist')));
+const installed=path.join(consumer,'node_modules/@hollow-wake/engine/dist');assert.deepEqual(listFiles(installed),packageRuntimeFiles());
 assert.equal(read(path.join(installed,'../package.json')).version,read(path.join(root,'package.json')).version);
 for(const f of listFiles(installed))assert.equal(hash(path.join(installed,f)),hash(path.join(root,'dist',f)),f);
 const packs={items:itemPack(),crafting:craftingPack(),skills:skillProgressionPack()};const plain=JSON.stringify(packs);assert.equal(sha256(plain),proof.content.contentSha256);

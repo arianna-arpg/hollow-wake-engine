@@ -1,7 +1,8 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {gunzipSync} from 'node:zlib';import {execFileSync} from 'node:child_process';import {randomUUID} from 'node:crypto';
 import {root,listFiles,writeJSON} from './reference-utils.mjs';
 const location=JSON.parse(fs.readFileSync(path.join(root,'.artifacts/adapter-location.json'))),installed=path.join(location.tooling,'node_modules/@hollow-wake/engine/dist');
-for(const file of listFiles(path.join(root,'dist')))assert.deepEqual(fs.readFileSync(path.join(installed,file)),fs.readFileSync(path.join(root,'dist',file)),`Stale policy package: ${file}`);
+for(const file of packageRuntimeFiles())assert.deepEqual(fs.readFileSync(path.join(installed,file)),fs.readFileSync(path.join(root,'dist',file)),`Stale policy package: ${file}`);
 const out=path.join(root,'.artifacts/game-passive-policy'),sources=new Map();
 for(const name of ['passives','passive-policy-host']){const bytes=fs.readFileSync(path.join(root,`reference/export-${name}.ts`)),file=path.join(location.game,`balance/sdk-policy-${randomUUID()}.ts`);fs.writeFileSync(file,bytes,{flag:'wx'});sources.set(name,{file,bytes});}
 const run=(name,output,stdio='inherit')=>execFileSync(process.execPath,['--import','tsx',sources.get(name).file,output,'--sdk'],{cwd:location.game,stdio});

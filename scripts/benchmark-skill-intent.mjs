@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -13,7 +14,7 @@ const reference = path.join(root, '.reference'), lock = JSON.parse(fs.readFileSy
 const oldEngine = path.join(previous, 'node_modules/@hollow-wake/engine'), newEngine = path.join(location.tooling, 'node_modules/@hollow-wake/engine');
 assert.equal(JSON.parse(fs.readFileSync(path.join(oldEngine, 'package.json'))).version, '0.26.0');
 assert.equal(JSON.parse(fs.readFileSync(path.join(newEngine, 'package.json'))).version, '0.27.0');
-const files = listFiles(path.join(root, 'dist'));
+const files = packageRuntimeFiles();
 assert.deepEqual(listFiles(path.join(newEngine, 'dist')), files);
 for (const file of files) {
   const bytes = fs.readFileSync(path.join(root, 'dist', file));

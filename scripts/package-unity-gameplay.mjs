@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -45,7 +46,7 @@ try{
   assert.equal(manifest.name,'@hollow-wake/engine');
   assert.equal(manifest.version,read(path.join(root,'package.json')).version);
   assert.deepEqual(manifest.exports,read(path.join(root,'package.json')).exports);
-  assert.deepEqual(listFiles(path.join(installed,'dist')),listFiles(path.join(sourceBuild,'dist')));
+  assert.deepEqual(listFiles(path.join(installed,'dist')),packageRuntimeFiles(sourceBuild));
   for(const f of listFiles(path.join(installed,'dist')))
     assert.equal(sha256(fs.readFileSync(path.join(installed,'dist',f))),sha256(fs.readFileSync(path.join(sourceBuild,'dist',f))),f);
   const resolve=id=>{

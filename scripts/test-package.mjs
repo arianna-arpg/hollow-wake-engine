@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { root } from './reference-utils.mjs';
 import {sequenceContinuationBudget} from './sequence-continuation-budget.mjs';
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 
 const npmCli = process.env.npm_execpath ?? path.join(path.dirname(process.execPath), 'node_modules/npm/bin/npm-cli.js');
 const artifacts = path.join(root, '.artifacts');
@@ -12,6 +13,13 @@ fs.mkdirSync(artifacts, { recursive: true });
 const [packed] = JSON.parse(execFileSync(process.execPath, [npmCli, 'pack', '--json', '--pack-destination', artifacts, '--cache', path.join(artifacts, 'npm-cache')],
   { cwd: root, encoding: 'utf8' }));
 assert.ok(packed.files.every(file => !/^(baseline|reference|scripts|test|src|\.reference|node_modules)\//.test(file.path)), 'Development or original-game files leaked into package');
+assert.deepEqual(packed.files.filter(file=>file.path.startsWith('dist/')).map(file=>file.path.slice(5)).sort(),
+  packageRuntimeFiles(), 'Archive runtime files differ from the source packaging contract');
+const internalCharacterModules=['character-delivery-codec','character-inventory-commands','character-residence-data','character-spill-placement',
+  'character-world-adapter','character-world-located-deliveries','crafting-session-complete','durable-character-located-owner',
+  'workshop-character-complete','workshop-character-progression','workshop-complete-cargo'];
+for(const name of internalCharacterModules)assert(!packed.files.some(file=>file.path.startsWith('dist/'+name+'.')),
+  'Unqualified internal character module leaked into package: '+name);
 const consumer = fs.mkdtempSync(path.join(os.tmpdir(), 'hollow-wake-consumer-'));
 let result;
 try {

@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -16,7 +17,7 @@ assert.equal(fs.realpathSync(path.join(location.game, 'node_modules/@hollow-wake
 assert.notEqual(fs.realpathSync(oldEngine), fs.realpathSync(newEngine), 'Benchmark requires independent installations');
 assert.equal(JSON.parse(fs.readFileSync(path.join(oldEngine, 'package.json'))).version, '0.29.0');
 assert.equal(JSON.parse(fs.readFileSync(path.join(newEngine, 'package.json'))).version, '0.30.0');
-const files = listFiles(path.join(root, 'dist')), previousFiles = listFiles(path.join(oldEngine, 'dist'));
+const files = packageRuntimeFiles(), previousFiles = listFiles(path.join(oldEngine, 'dist'));
 const comparisonAt = process.argv.indexOf('--comparison-adapter');
 assert(comparisonAt < 0 || process.argv[comparisonAt + 1], 'Missing comparison adapter path');
 const comparison = comparisonAt < 0 ? undefined : path.resolve(process.argv[comparisonAt + 1]);

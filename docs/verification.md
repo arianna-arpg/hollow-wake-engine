@@ -1,5 +1,14 @@
 # Verification and reproduction
 
+The internal complete-character integration has maintained checks for save
+admission, inventory preparation, bare-gem delivery, scene lifetimes and typed
+host ports. Run `npm run test:character-world` after building. Its focused checks
+complement `test/complete-inventory.test.mjs`, which runs in the normal unit suite.
+The installed character-build course also covers explicit learned replacements
+and support compatibility with rolled choices. The full 343-group original-World
+integration comparison still uses private qualification material; see
+[the integration boundary](character-world-integration.md) for its limits.
+
 Historical Unity evidence uses source and compiled output from the same immutable
 release. `scripts/evidence-source.mjs` rebuilds historical TypeScript in memory
 with its recorded compiler version and checks the original accepted hashes.

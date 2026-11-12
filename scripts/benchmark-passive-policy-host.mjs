@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -7,7 +8,7 @@ const reference = path.join(root, '.reference'), lock = JSON.parse(fs.readFileSy
 const location = JSON.parse(fs.readFileSync(path.join(root, '.artifacts/adapter-location.json')));
 const installed = path.join(location.tooling, 'node_modules/@hollow-wake/engine/dist');
 verifyReference(reference, lock);
-for (const file of listFiles(path.join(root, 'dist'))) assert.deepEqual(fs.readFileSync(path.join(installed, file)), fs.readFileSync(path.join(root, 'dist', file)), `Stale package: ${file}`);
+for (const file of packageRuntimeFiles()) assert.deepEqual(fs.readFileSync(path.join(installed, file)), fs.readFileSync(path.join(root, 'dist', file)), `Stale package: ${file}`);
 const target = path.join(reference, 'balance/benchmark-engine-passive-policy-host.ts');
 fs.copyFileSync(path.join(root, 'reference/benchmark-passive-policy-host.ts'), target);
 execFileSync(process.execPath, ['--import', 'tsx', target, root, location.game, path.join(root, '.artifacts/passive-policy-host-benchmark.json')], { cwd: reference, stdio: 'inherit' });

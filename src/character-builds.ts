@@ -32,6 +32,8 @@ export interface CharacterBuildAdoption {
   companions:{skillId:string;level:number}[];
 }
 export interface CharacterBuildEdits {
+  /** Admitted acquisition replaces an existing learned identity, including off-bar skills. */
+  replaceLearned?:readonly string[];
   /** Explicit investment changes to an existing grant, before rebuilding.
    * No cold level-budget repair may be applied to this existing instance. */
   grants?:readonly {skillId:string;hostUid?:number;state:GrantedSkillState}[];
@@ -56,6 +58,7 @@ export interface CharacterBuildService<I extends ItemInstance=ItemInstance> {
   rebuild(previous:CharacterBuild,input:CharacterBuildInput<I>,edits?:CharacterBuildEdits):CharacterBuild;
   read(token:CharacterBuild):CharacterBuildView<I>;
   stat(token:CharacterBuild,id:string):number;
+  canSocket(token:CharacterBuild,skillId:string,supportId:string,rolled?:Readonly<Record<string,string>>):boolean;
   lineages(token:CharacterBuild):ReadonlyMap<string,CharacterSkillLineage>;
   investment(token:CharacterBuild):CharacterBuildInvestment;
 }
@@ -83,6 +86,7 @@ export interface CharacterBuildPorts<D extends EquipmentSkillDefinition,U extend
   updateLearned(skill:S,payload:SkillGemPayload):void;
   updateGrant(skill:S,state:GrantedSkillState):void;
   levelModifiers(level:number):Modifier[];
+  socketFits?(def:U,inst:S,rolled?:Readonly<Record<string,string>>):boolean;
 }
 
 const completedBuildEffect=():never=>{throw Error('Completed durable build cannot execute effects');};
@@ -167,16 +171,21 @@ export class CharacterBuilds<D extends EquipmentSkillDefinition,U extends GemDef
       deriveCompanions:(_frame,defs,name,key)=>companionRules.derive(companions,{dead:false,downed:false,sheet},defs,name,
         ()=>{throw Error('Durable build cannot own a companion body');},()=>{throw Error('Durable build cannot refresh a body');},key)});
     const frame=draft.frame,known=new Map<string,S>();
+    let replacements:Set<string>|undefined;
+    for(const id of edits.replaceLearned??[]){
+      if(typeof id!=='string'||!id||replacements?.has(id)||!frame.meta.knownSkills.has(id)||!input.learned.some(row=>row.gem.skillId===id))throw Error('Invalid learned replacement');
+      (replacements??=new Set()).add(id);
+    }
     for(const row of input.learned){
       const payload=row.gem;
       if(known.has(payload.skillId))throw Error('Duplicate learned build skill');
-      let inst=frame.meta.knownSkills.get(payload.skillId);
+      let inst=replacements?.has(payload.skillId)?undefined:frame.meta.knownSkills.get(payload.skillId);
       if(inst){const def=inst.def;p.updateLearned(inst,payload);if(inst.def!==def)throw Error('Learned update changed definition');}
       else {inst=p.restoreLearned(payload);if(adoption)p.updateLearned(inst,payload);}
       if(row.locked)inst.locked=true;else delete inst.locked;
       if(inst.def.id!==payload.skillId)throw Error('Learned restoration changed identity');known.set(payload.skillId,inst);
     }
-    for(const[id,inst]of frame.meta.knownSkills)if(!known.has(id))for(let n=0;n<frame.actor.skills.length;n++)if(frame.actor.skills[n]===inst)frame.actor.skills[n]=null;
+    for(const[id,inst]of frame.meta.knownSkills)if(known.get(id)!==inst)for(let n=0;n<frame.actor.skills.length;n++)if(frame.actor.skills[n]===inst)frame.actor.skills[n]=known.get(id)??null;
     frame.meta.knownSkills=known;
     const adoptedGrants=new Map<string,S>();
     if(adoption){
@@ -237,6 +246,12 @@ export class CharacterBuilds<D extends EquipmentSkillDefinition,U extends GemDef
       equipped:f.meta.equipped,attrs:held.attrs,sources:held.sheet.sourceNames().map(id=>[id,held.sheet.getSourceMods(id)!]),conduits:held.conduits});
   }
   stat(token:CharacterBuild,id:string):number{return this.#get(token).sheet.get(id);}
+  /** Compatibility only; custody and payment remain command-owner responsibilities. */
+  canSocket(token:CharacterBuild,skillId:string,supportId:string,rolled?:Readonly<Record<string,string>>):boolean{
+    const frame=this.#get(token).frame,inst=frame.meta.knownSkills.get(skillId)??frame.seat.grantedInsts?.get(skillId);
+    const def=this.#p.equipment.support(supportId);if(!inst||!def)return false;
+    const fits=this.#p.socketFits;if(!fits)throw Error('Build support admission is unavailable');return fits(def,inst,rolled);
+  }
   /** Detached normalized investment, including active container hosts. The
    * caller must route canonical relic writes through the account authority. */
   investment(token:CharacterBuild):CharacterBuildInvestment{

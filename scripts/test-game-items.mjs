@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -7,7 +8,7 @@ import {randomUUID} from 'node:crypto';
 import {root,listFiles,writeJSON} from './reference-utils.mjs';
 const location=JSON.parse(fs.readFileSync(path.join(root,'.artifacts/adapter-location.json')));
 const installed=path.join(location.tooling,'node_modules/@hollow-wake/engine/dist');
-for(const file of listFiles(path.join(root,'dist'))) assert.deepEqual(fs.readFileSync(path.join(installed,file)),fs.readFileSync(path.join(root,'dist',file)),`Stale item package: ${file}`);
+for(const file of packageRuntimeFiles()) assert.deepEqual(fs.readFileSync(path.join(installed,file)),fs.readFileSync(path.join(root,'dist',file)),`Stale item package: ${file}`);
 const output=path.join(root,'.artifacts/game-item-reference');
 const temporary=new Map();
 const run=(name,directory,stdio='inherit')=>execFileSync(process.execPath,['--import','tsx',temporary.get(name).file,directory,...(name==='export-item-bridge'?['--sdk']:[])],{cwd:location.game,stdio});

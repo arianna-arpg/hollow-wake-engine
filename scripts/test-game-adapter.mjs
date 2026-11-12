@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -6,7 +7,7 @@ import { root, listFiles } from './reference-utils.mjs';
 const location = JSON.parse(fs.readFileSync(path.join(root, '.artifacts/adapter-location.json'), 'utf8'));
 const game = location.game;
 const installed = path.join(location.tooling, 'node_modules/@hollow-wake/engine/dist');
-for (const file of listFiles(path.join(root, 'dist'))) assert.deepEqual(
+for (const file of packageRuntimeFiles()) assert.deepEqual(
   fs.readFileSync(path.join(installed, file)), fs.readFileSync(path.join(root, 'dist', file)), `Installed SDK is stale: ${file}`);
 const output = path.join(root, '.artifacts/adapter-traces');
 execFileSync(process.execPath, ['--import', 'tsx', 'balance/export-engine-lifecycle.ts', output], { cwd: game, stdio: 'inherit' });

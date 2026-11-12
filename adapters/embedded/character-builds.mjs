@@ -45,6 +45,8 @@ export function createCharacterBuilds(pack){
       if(payload[field]!==undefined)inst[field]=clone(payload[field]);else delete inst[field];
     }
   };
+  const compatible=(def,inst,rolled)=>{const delivery=h.instanceDelivery(inst),crew=h.summonCrewOf(delivery.type==='summon'?delivery:h.instanceSummon(inst),id=>own(monsters,id),id=>own(skills,id));
+      return h.supportFitsInstOrCrew(def,inst,crew,rolled);};
   const equipment={skillGrantPrefix:h.SKILLGRANT_PREFIX,companionGrantPrefix:'companiongrant_',slotGraftPrefix:h.SLOTGRAFT_PREFIX,
     equipSlots:()=>slots,skill:id=>own(skills,id),support:id=>own(supports,id),parseSkillGrant:h.parseSkillGrantStat,
     companionGrantStat:id=>'companiongrant_'+id,parseSlotGraft:h.parseSlotGraftStat,skillMaxLevel:h.skillMaxLevel,maxSupportLevel:h.MAX_SUPPORT_LEVEL,
@@ -52,9 +54,9 @@ export function createCharacterBuilds(pack){
     restoreGrant:cargo.restoreGrantState,packGrant:packGrantState,classes:()=>classes,
     openingSkills:def=>{const ids=def.bar.filter(id=>id!==null);for(const row of def.kit??[])if(!ids.includes(row.skill))ids.push(row.skill);return ids;},
     classSkillStat:def=>'classSkill_'+def.id,treeGraft:(def,id)=>h.treeNodeOf(def,id)?.graft,
-    supportFits:(def,inst)=>{const delivery=h.instanceDelivery(inst),crew=h.summonCrewOf(delivery.type==='summon'?delivery:h.instanceSummon(inst),id=>own(monsters,id),id=>own(skills,id));
-      return h.supportFitsInstOrCrew(def,inst,crew);}};
+    supportFits:(def,inst)=>compatible(def,inst)};
   return new CharacterBuilds({contentId,barSlots:h.BAR_SLOTS,stats:statRules,passives,class:id=>classes.find(def=>def.id===id),equipment,
+    socketFits:compatible,
     summon:def=>def.delivery.type==='summon'?def.delivery:undefined,copySkill,updateGrant,updateLearned,
     restoreLearned:payload=>{const inst=cargo.skillOfGemItem({gem:payload});if(!inst)throw Error('Unknown learned build skill');return inst;},
     contributions:{equipSlots:()=>slots,containers:()=>containers,compileItem:item=>items.compile(item),board:(def,features)=>layouts.get(def.id).board(features),

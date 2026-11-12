@@ -1,6 +1,7 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {gunzipSync} from 'node:zlib';import {execFileSync} from 'node:child_process';import {randomUUID} from 'node:crypto';import {root,listFiles,sha256,writeJSON} from './reference-utils.mjs';
 const location=JSON.parse(fs.readFileSync(path.join(root,'.artifacts/adapter-location.json'))),installed=path.join(location.tooling,'node_modules/@hollow-wake/engine/dist');
-const identity=()=>{assert.deepEqual(listFiles(installed),listFiles(path.join(root,'dist')));for(const file of listFiles(installed))assert(fs.readFileSync(path.join(installed,file)).equals(fs.readFileSync(path.join(root,'dist',file))),`Stale support package: ${file}`);};identity();
+const identity=()=>{assert.deepEqual(listFiles(installed),packageRuntimeFiles());for(const file of listFiles(installed))assert(fs.readFileSync(path.join(installed,file)).equals(fs.readFileSync(path.join(root,'dist',file))),`Stale support package: ${file}`);};identity();
 const output=fs.mkdtempSync(path.join(root,'.artifacts/game-supports-')),helpers=[],expected=new Map(),reports=[];
 const run=(name,label,stdio='pipe')=>{const helper=helpers.find(h=>h.name===name),file=path.join(output,label+'.json');execFileSync(process.execPath,['--import','tsx',helper.file,file],{cwd:location.game,stdio,maxBuffer:96*1024*1024});return fs.readFileSync(file);};
 try{

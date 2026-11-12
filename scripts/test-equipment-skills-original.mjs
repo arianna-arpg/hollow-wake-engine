@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';
 import {spawnSync,execFileSync} from 'node:child_process';import {gzipSync,gunzipSync} from 'node:zlib';
 import ts from 'typescript';
@@ -70,7 +71,7 @@ try{
     report.adapter=integrateEquipmentSkills(game);
     report.barAdapter=integrateSkillBar(game);
   }
-  for(const file of listFiles(path.join(root,'dist')))assert(fs.readFileSync(path.join(installed,'dist',file)).equals(fs.readFileSync(path.join(root,'dist',file))),file+' installed bytes differ');
+  for(const file of packageRuntimeFiles())assert(fs.readFileSync(path.join(installed,'dist',file)).equals(fs.readFileSync(path.join(root,'dist',file))),file+' installed bytes differ');
   const module=path.join(installed,'dist/equipment-skills.js'),original=fs.readFileSync(module,'utf8');
   assert.equal(original,fs.readFileSync(path.join(root,'dist/equipment-skills.js'),'utf8'));report.runtimeSha256=sha256(original);
   const lookupManifest=JSON.parse(fs.readFileSync(path.join(root,'baseline/equipment-lookup/acceptance.json')));

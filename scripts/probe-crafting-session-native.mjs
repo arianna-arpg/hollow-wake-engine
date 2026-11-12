@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';import {build} from 'esbuild';
 import {root,sha256,listFiles,writeJSON} from './reference-utils.mjs';
 assert.equal(process.platform,'win32');assert.equal(process.arch,'x64');
@@ -10,7 +11,7 @@ assert.equal(hash(pkg.archive),pkg.archiveSha256);assert.equal(hash(path.join(pk
 for(const file of ['experiments/embedded-js/native/hwe_embedded.c','experiments/embedded-js/native/hwe_embedded.h','experiments/embedded-js/tracked-allocator.h','experiments/embedded-js/host-source-lock.json'])assert.equal(hash(path.join(root,file)),library.sourceHashes[file]);
 const directory=fs.mkdtempSync(path.join(root,'.artifacts/crafting-session-native-spike-'));
 const installed=path.join(pkg.consumer,'node_modules/@hollow-wake/engine/dist');
-const outputs=listFiles(path.join(root,'dist'));assert.deepEqual(listFiles(installed),outputs);
+const outputs=packageRuntimeFiles();assert.deepEqual(listFiles(installed),outputs);
 for(const file of outputs)assert.equal(hash(path.join(installed,file)),hash(path.join(root,'dist',file)),'Installed runtime changed: '+file);
 const entry=path.join(directory,'entry.mjs');
 const source=`import {CraftingSession} from ${JSON.stringify(path.join(installed,'crafting-session.js'))};

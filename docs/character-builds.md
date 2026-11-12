@@ -88,6 +88,20 @@ if that grant is absent, repeated, removed or replaced in the resulting build.
 `edits.bar` requests a complete binding after derivation; unresolved IDs fail and
 slot grafts are recomputed at their new positions.
 
+`edits.replaceLearned` names an admitted new acquisition that replaces an existing
+learned skill of the same ID. It performs cold restoration, creates a new lineage,
+and preserves that skill's bar position if it was bound. Off-bar replacements
+stay off-bar. The ID must occur in both the preceding learned ownership and the
+new input; duplicates, removed skills and grant-only identities fail. Ordinary
+warm edits continue to preserve the existing learned lineage and investment.
+
+`canSocket(build, skillId, supportId, rolled?)` checks compatibility against the
+owned learned or granted instance, including rolled support choices. It returns
+false for absent skills/supports and rejects foreign build handles. The authored
+factory supplies the original support/crew rules. Custom factories must provide
+the optional `socketFits` port to use this query; a missing port fails explicitly.
+The query does not spend currency, transfer a support or authorize either action.
+
 Every candidate owns its mutable skills, items and companion declarations.
 Immutable definitions and stat modifier rows may be shared. Companion declarations
 have no body, respawn timer continuation or live effect callback. A failed candidate
@@ -112,8 +126,8 @@ durable-only projection.
 
 ## Verification and size
 
-- `test:character-builds-package`: 25 ownership/failure contracts in installed and
-  browser-targeted consumers, thirteen negative type cases, seventeen deliberate
+- `test:character-builds-package`: 28 ownership/failure contracts in installed and
+  browser-targeted consumers, sixteen negative type cases, twenty deliberate
   runtime faults, restored controls and a standalone authored-factory check with
   hostile ambient APIs.
 - A separate installed Node GC course proves preceding skill instances are

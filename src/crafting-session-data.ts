@@ -65,7 +65,18 @@ export class CraftingSessionData {
     ids(picks); const kept = this.#defs.skills.tree(id).restore(picks,level,investment) ?? [];
     need(kept.length === picks.length && kept.every((v,i) => v === picks[i]), 'invalid-skill-tree');
   }
-  skillPayload(gem: unknown): void {
+  /** Same-content grant residence validation. Budget/host/custody authority
+   * belongs to the complete command; an existing lower-level grant is not cold-restored here. */
+  grantState(id: unknown,row: unknown): void {
+    this.#skill(id); fields(row,['sockets','treeNodes']); this.#sockets(row.sockets); this.#tree(id as string,row.treeNodes);
+  }
+  /** The same support-row validation used by sockets, without a dummy item. */
+  supportState(row:unknown):void {this.#support(row);}
+  skillPayload(gem: unknown): void {this.#skillPayload(gem,false);}
+  /** Trusted retained investment. Public cold saves keep strict budgets;
+   * the complete owner must separately admit ownership and spending. */
+  retainedSkillPayload(gem: unknown): void {this.#skillPayload(gem,true);}
+  #skillPayload(gem: unknown,retained: boolean): void {
     fields(gem,['kind','skillId','level','rarity','sockets','empowermentRank','replenishmentPaused','granted','attunedForm','treeNodes']);
     need(gem.kind === 'skill','unknown-gem-kind');
     this.#skill(gem.skillId); integer(gem.level,1,this.#defs.skills.skill(gem.skillId as string).maxLevel);
@@ -73,9 +84,13 @@ export class CraftingSessionData {
     optionalBool(gem.granted); optionalText(gem.attunedForm);
     if (gem.replenishmentPaused !== undefined) need(gem.replenishmentPaused === true,'invalid-pause');
     if (gem.empowermentRank !== undefined) {integer(gem.empowermentRank,1); need(gem.rarity === 'legendary','invalid-empowerment');}
-    this.#tree(gem.skillId as string,gem.treeNodes,gem.level,gem);
+    this.#tree(gem.skillId as string,gem.treeNodes,retained?undefined:gem.level,gem);
   }
-  item(input: unknown): ItemInstance {
+  item(input: unknown): ItemInstance {return this.#item(input,false);}
+  /** New complete-format physical cargo retains structurally valid investment.
+   * Existing item()/v4 paths remain strict. No caller-provided save flag exists. */
+  retainedItem(input: unknown): ItemInstance {return this.#item(input,true);}
+  #item(input: unknown,retained: boolean): ItemInstance {
     fields(input,itemFields); const p = this.#defs.crafting.items.pack;
     text(input.name); text(input.baseId); integer(input.uid,1,Number.MAX_SAFE_INTEGER - 1);
     need(Object.hasOwn(p.bases,input.baseId),'unknown-item-base');
@@ -113,7 +128,7 @@ export class CraftingSessionData {
     if (input.gem !== undefined) {
       const gem = input.gem; record(gem);
       if (gem.kind === 'skill') {
-        this.skillPayload(gem);
+        this.#skillPayload(gem,retained);
         need(input.baseId === 'skill_gem','gem-base');
       } else {
         fields(gem,['kind','supportId','level','rolled']); need(gem.kind === 'support','unknown-gem-kind');
@@ -124,7 +139,7 @@ export class CraftingSessionData {
     } else need(input.baseId !== 'skill_gem' && input.baseId !== 'support_gem','missing-gem');
     if (input.grantState !== undefined) {
       record(input.grantState);
-      for (const [id,row] of Object.entries(input.grantState)) {this.#skill(id); fields(row,['sockets','treeNodes']); this.#sockets(row.sockets); this.#tree(id,row.treeNodes);}
+      for (const [id,row] of Object.entries(input.grantState)) this.grantState(id,row);
     }
     const memory = this.#defs.memoryKinds[input.baseId];
     need((memory !== undefined) === (input.mem !== undefined),'memory-base');

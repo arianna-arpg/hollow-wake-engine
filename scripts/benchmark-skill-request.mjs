@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -16,7 +17,7 @@ assert.equal(fs.realpathSync(path.join(location.game, 'node_modules/@hollow-wake
 assert.notEqual(fs.realpathSync(oldEngine), fs.realpathSync(newEngine), 'Benchmark requires independent installations');
 assert.equal(JSON.parse(fs.readFileSync(path.join(oldEngine, 'package.json'))).version, '0.27.1');
 assert.equal(JSON.parse(fs.readFileSync(path.join(newEngine, 'package.json'))).version, '0.28.0');
-const files = listFiles(path.join(root, 'dist')), previousFiles = listFiles(path.join(oldEngine, 'dist'));
+const files = packageRuntimeFiles(), previousFiles = listFiles(path.join(oldEngine, 'dist'));
 function verifyInputs() {
   assert.deepEqual(listFiles(path.join(newEngine, 'dist')), files);
   assert.deepEqual(files.filter(file => !file.startsWith('skill-request.')), previousFiles);

@@ -46,7 +46,10 @@ try{
  fs.writeFileSync(path.join(consumer,'browser.mjs'),Object.values(entries).map(entry=>"export * from '@hollow-wake/engine/"+entry+"';").join('\n'));
  const bundle=await build({entryPoints:[path.join(consumer,'browser.mjs')],bundle:true,platform:'browser',format:'esm',target:'es2022',minify:true,metafile:true,write:false});
  assert(Object.values(bundle.metafile.outputs).every(row=>!row.imports.length));report.browserBytes=bundle.outputFiles[0].contents.length;
- assert(report.browserBytes<180*1024,'Typed relic/workshop consumer exceeds 180 KiB');
+ // Shared retained-investment validation adds 244 bytes in a controlled source
+ // comparison. The reviewed 181 KiB allowance is recorded in character-world-integration.md.
+ report.browserBudgetBytes=181*1024;
+ assert(report.browserBytes<report.browserBudgetBytes,'Typed relic/workshop consumer exceeds 181 KiB');
  fs.writeFileSync(path.join(consumer,'browser-built.mjs'),bundle.outputFiles[0].contents);
  const browser=text=>Object.values(entries).reduce((text,entry)=>text.replaceAll("'@hollow-wake/engine/"+entry+"'","'./browser-built.mjs'"),text);
  fs.writeFileSync(path.join(consumer,'browser-fixtures.mjs'),browser(fixtures));
