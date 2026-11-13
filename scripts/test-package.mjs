@@ -20,7 +20,7 @@ assert.deepEqual(packed.files.filter(file=>file.path.startsWith('dist/')).map(fi
 const internalCharacterModules=['character-delivery-codec','character-inventory-commands','character-residence-data','character-spill-placement',
   'character-world-adapter','character-world-located-deliveries','crafting-session-complete','durable-character-located-owner',
   'workshop-character-complete','workshop-character-progression','workshop-complete-cargo',
-  "character-bar-commands","character-command-types","character-support-commands","character-delivery-types","character-pickup-commands","character-merge-commands","character-rack-commands","character-progression-commands","character-workshop-commands","complete-account-commands","account-workshop-complete","passive-actions","character-workshop-boundary","character-passive-commands","character-passive-effects"];
+  "character-bar-commands","character-command-types","character-support-commands","character-delivery-types","character-pickup-commands","character-merge-commands","character-rack-commands","character-progression-commands","character-workshop-commands","complete-account-commands","account-workshop-complete","passive-actions","character-workshop-boundary","character-passive-commands","character-passive-effects","character-experience-plan","run-character-session","durable-run-owner","account-prepared-step","relic-experience"];
 for(const name of internalCharacterModules)assert(!packed.files.some(file=>file.path.startsWith('dist/'+name+'.')),
   'Unqualified internal character module leaked into package: '+name);
 const consumer = path.join(work, 'consumer');

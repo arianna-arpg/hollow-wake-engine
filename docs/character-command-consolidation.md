@@ -46,3 +46,10 @@ complete-character admission into an excluded internal module. With the
 legacy account group measures 44,518 raw bytes, and the relic/workshop browser
 consumer measures 187,049 minified bytes. Both retain the same limits above.
 These are package-size measurements, not device-performance results.
+
+The subsequent internal run integration keeps prepared-step metadata and relic
+policy outside the installed package. Its shared account group measures 44,898
+raw bytes and its legacy relic/workshop browser consumer measures 187,187 minified
+bytes. Existing account, browser and predecessor-runtime limits are unchanged.
+The public relic custody implementation is unchanged; the internal policy is
+compared with original staged relic observations. See [run progression](run-character-progression.md).

@@ -1,5 +1,11 @@
 # Verification and reproduction
 
+The internal [run progression and checkpoint courses](run-character-progression.md)
+use maintained sources and pinned original observations. `verify` includes their
+type, XP, ownership and fresh-process SQLite checks; `reference:verify` adds live
+World comparisons and twenty combined World/SQLite scenarios. They do not expose
+a stable complete-character API or qualify target-device performance.
+
 The internal complete-character integration has maintained checks for save
 admission, inventory preparation, bare-gem delivery, scene lifetimes and typed
 host ports. Run `npm run test:character-world` after building. Its focused checks

@@ -1,0 +1,130 @@
+import {relicExperienceFactor} from './relic-experience.js';
+import {CompleteAccountWorkshopSession} from './account-workshop-complete.js';
+import {CompleteAccountKernel,type CompleteAccountPorts} from './complete-account-commands.js';
+import type {AccountWorkshopDefinitions,AccountWorkshopLimits} from './account-workshop-core.js';
+import type {PreparedStepScope} from './account-prepared-step.js';
+import type {CharacterWorkshopDefinitions,CharacterWorkshopHandle} from './character-workshop-commands.js';
+import type {PreparedCharacterCommand} from './complete-character-contracts.js';
+import type {CharacterProgression} from './character-progression.js';
+import {planExperience,type ExperiencePlan,type ExperienceObservation} from './character-experience-plan.js';
+import {copySessionJSON,SessionInputError,requireSession as need,sessionFields as fields,sessionRecord as record,sessionText as text,sessionInteger as integer,sessionArray as array,type SessionJSON} from './session-json.js';
+
+type JSONRecord=Record<string,SessionJSON>;
+export interface RunCharacter {readonly key:string;readonly accountKey:string;readonly xp:number;readonly xpNeeded:number}
+export interface RunState {readonly schemaVersion:1;readonly capability:'run-progression/diagnostic';readonly key:string;readonly ledger:Readonly<Record<string,number>>;readonly characters:readonly RunCharacter[]}
+export type RunAction={readonly kind:'award';readonly profile:number;readonly amount:number}|{readonly kind:'command';readonly command:JSONRecord};
+export interface RunPreparedCommand {readonly character:PreparedCharacterCommand;readonly before:RunState;readonly after:RunState;readonly experience?:ExperiencePlan}
+export interface RunCharacterDefinitions {account:AccountWorkshopDefinitions;character:CharacterWorkshopDefinitions;experience:CharacterProgression}
+export interface RunExperienceObservation extends Omit<ExperienceObservation,'multiplier'> {readonly relicSuppressed:boolean}
+export interface RunCharacterPorts extends Omit<CompleteAccountPorts,'experience'> {experience(request:Readonly<{profile:number;accountKey:string;amount:number}>):RunExperienceObservation}
+const raw=(value:unknown):JSONRecord=>{record(value);return value as JSONRecord;};
+const passed=(value:unknown):JSONRecord=>{const r=raw(value);need(r.ok===true,typeof r.reason==='string'?r.reason:'run-command-refused');return r;};
+const internal=(value:JSONRecord)=>value.op==='run-experience'||value.op==='character-experience-levels'||
+ value.op==='workshop'&&value.command!==null&&typeof value.command==='object'&&!Array.isArray(value.command)&&value.command.op==='character-experience-levels';
+
+/** Internal synchronous preparation/commit owner. Persistence,
+ * player admission and live actor publication are NOT provided by this class.
+ * Level and passive currency remain exclusively in the character owner. */
+export class RunCharacterSession {
+ readonly #owner;readonly #kernel;readonly #rules;readonly #observe;readonly #relicPenalty;
+ #run?:RunState;#staged?:RunState;#pending?:{token:number;state:RunState;journal:readonly RunPreparedCommand[]};
+ #bindings=new Map<number,string>();#busy=false;#grants=new Map<number,{profile:number;amount:number}>();
+ #plan?:{grant:number;profile:number;accountKey:string;plan:ExperiencePlan};
+ #rows:{before:RunState;after:RunState;experience?:ExperiencePlan}[]=[];
+ constructor(definitions:RunCharacterDefinitions,ports:RunCharacterPorts,limits:AccountWorkshopLimits={}){
+  need(typeof ports.experience==='function','experience-observation-required');this.#rules=definitions.experience;this.#observe=ports.experience.bind(ports);
+  this.#relicPenalty=definitions.account.progression.unlocks.reliquaryConfig.xpPenaltyPerCell;
+  relicExperienceFactor(0,this.#relicPenalty,true);
+  const conditions=ports.conditions.bind(ports);
+  this.#kernel=new CompleteAccountKernel(definitions.character,{trace:ports.trace?.bind(ports),
+   conditions:request=>{
+    const observed=raw(copySessionJSON(conditions(request)));
+    if(raw(request.command).op==='character-passive'){need(this.#staged||this.#run,'run-not-attached');return{...observed,runLedger:(this.#staged??this.#run)!.ledger};}
+    return observed;
+   },
+   experience:request=>{
+    const held=this.#plan;need(held&&held.grant===request.grant&&held.profile===request.profile&&held.accountKey===request.accountKey,'unowned-experience-grant');
+    this.#plan=undefined;return held.plan;
+   }
+  });
+  this.#owner=new CompleteAccountWorkshopSession({...definitions.account,completeKernel:this.#kernel,preparedStep:(command,scope)=>this.#step(command,scope)},limits);
+ }
+ #step(command:JSONRecord,scope:PreparedStepScope):JSONRecord|undefined{
+  const before=this.#staged;need(before,'run-preparation-required');
+  if(command.op!=='run-experience'){
+   need(!internal(command),'unowned-experience-grant');
+   if(command.op==='workshop'){integer(command.profile,0,0xffffffff);need(this.#bindings.has(command.profile),'character-not-in-run');}
+   this.#rows.push({before,after:before});return undefined;
+  }
+  fields(command,['op','profile','grant']);integer(command.profile,0,0xffffffff);integer(command.grant,1);
+  const grant=this.#grants.get(command.grant);need(grant&&grant.profile===command.profile,'unowned-experience-grant');this.#grants.delete(command.grant);
+  const key=this.#bindings.get(grant.profile),row=before.characters.find(r=>r.key===key);need(row,'character-not-in-run');
+  const current=scope.read(grant.profile);need(current.accountKey===row.accountKey,'run-account-mismatch');
+  const observed=copySessionJSON(this.#observe(Object.freeze({profile:grant.profile,accountKey:row.accountKey,amount:grant.amount})));
+  fields(observed,['eligible','blessing','relicSuppressed','local','accountOwned']);need(typeof observed.relicSuppressed==='boolean','invalid-relic-suppression');
+  const multiplier=relicExperienceFactor(current.relicCells,this.#relicPenalty,current.relicEnabled&&!observed.relicSuppressed);
+  const plan=planExperience(this.#rules,{...current,xp:row.xp,xpNeeded:row.xpNeeded,ledger:before.ledger},grant.amount,{...observed,multiplier} as unknown as ExperienceObservation);
+  let result:JSONRecord={ok:true,reply:{ok:true,accepted:plan.accepted,events:plan.events as unknown as SessionJSON}};
+  if(plan.after.level!==plan.before.level){
+   this.#plan={grant:command.grant,profile:grant.profile,accountKey:row.accountKey,plan};
+   result=passed(scope.execute({op:'workshop',profile:grant.profile,command:{op:'character-experience-levels',grant:command.grant}}));
+   need(!this.#plan,'experience-plan-not-consumed');
+  }
+  const changed=row.xp!==plan.after.xp||row.xpNeeded!==plan.after.xpNeeded||before.ledger!==plan.ledgerAfter;
+  const after=changed?Object.freeze({...before,ledger:plan.ledgerAfter,characters:Object.freeze(before.characters.map(r=>r===row?Object.freeze({...r,xp:plan.after.xp,xpNeeded:plan.after.xpNeeded}):r))}):before;
+  this.#staged=after;this.#rows.push({before,after,experience:plan});return result;
+ }
+ #guard<T>(work:()=>T):T{need(!this.#busy,'reentrant-run-command');this.#busy=true;try{return work();}finally{this.#busy=false;}}
+ attach(input:unknown,bindings:readonly {profile:number;key:string}[]):void{this.#guard(()=>{
+  need(!this.#run&&!this.#pending,'run-already-attached');const v=copySessionJSON(input);fields(v,['schemaVersion','capability','key','ledger','characters']);
+  need(v.schemaVersion===1&&v.capability==='run-progression/diagnostic','unsupported-run');text(v.key);record(v.ledger);array(v.characters,256);
+  need(v.characters.length>0&&Object.keys(v.ledger).length<=4096,'invalid-run-size');
+  for(const[k,n]of Object.entries(v.ledger)){text(k);integer(n);}
+  const keys=new Set<string>(),characters:RunCharacter[]=[];
+  for(const r of v.characters){fields(r,['key','accountKey','xp','xpNeeded']);text(r.key);text(r.accountKey);need(!keys.has(r.key),'duplicate-run-character');keys.add(r.key);
+   need(typeof r.xp==='number'&&Number.isFinite(r.xp),'invalid-run-experience');integer(r.xpNeeded,1);characters.push(Object.freeze(r as unknown as RunCharacter));}
+  const admitted=new Map<number,string>(),seen=new Set<string>();need(bindings.length===characters.length,'incomplete-run-bindings');
+  for(const b of bindings){fields(b,['profile','key']);integer(b.profile,0,0xffffffff);text(b.key);need(!admitted.has(b.profile)&&!seen.has(b.key),'duplicate-run-binding');
+   const r=characters.find(r=>r.key===b.key);need(r,'unknown-run-character');const saved=raw(passed(this.#owner.command({op:'workshop-save',profile:b.profile})).save);
+   need(saved.accountKey===r.accountKey,'run-account-mismatch');admitted.set(b.profile,b.key);seen.add(b.key);}
+  this.#bindings=admitted;this.#run=Object.freeze({schemaVersion:1,capability:'run-progression/diagnostic',key:v.key,ledger:Object.freeze(v.ledger as Record<string,number>),characters:Object.freeze(characters)});
+ });}
+ read():RunState{need(!this.#busy,'reentrant-run-command');need(this.#run,'run-not-attached');return this.#run;}
+ prepared(token:number){need(!this.#busy,'reentrant-run-command');integer(token,1);const p=this.#pending;need(p&&p.token===token,'stale-run-preparation');return Object.freeze({state:p.state,journal:p.journal});}
+ /** Detached build diagnostics; no mutable continuation or owner escapes. */
+ build(handle:object){need(!this.#busy,'reentrant-run-command');return this.#kernel.read(handle as CharacterWorkshopHandle);}
+ prepareTrusted(actions:readonly RunAction[]):unknown{return this.#guard(()=>this.#prepare(actions));}
+ #prepare(input:unknown):unknown{
+  need(this.#run,'run-not-attached');need(!this.#pending,'prepared-change-pending');const actions=copySessionJSON(input);array(actions,16);need(actions.length>0,'invalid-command-batch');
+  this.#staged=this.#run;this.#rows=[];let pendingToken=0;
+  try{
+   const commands=actions.map((a,i)=>{record(a);
+    if(a.kind==='award'){fields(a,['kind','profile','amount']);integer(a.profile,0,0xffffffff);need(typeof a.amount==='number'&&Number.isFinite(a.amount),'invalid-experience-award');
+     const grant=i+1;this.#grants.set(grant,{profile:a.profile,amount:a.amount});return{op:'run-experience',profile:a.profile,grant};}
+    fields(a,['kind','command']);need(a.kind==='command','invalid-run-action');const c=raw(a.command);need(!internal(c),'unowned-experience-grant');return c;
+   });
+   const result=passed(this.#owner.command({op:'prepare',commands}));integer(result.token);pendingToken=result.token;
+   if(pendingToken){
+    const rows=this.#owner.preparedJournal(pendingToken);need(rows.length===this.#rows.length,'run-journal-mismatch');
+    const journal=Object.freeze(rows.map((character,index)=>Object.freeze({character,...this.#rows[index]})));
+    this.#pending={token:pendingToken,state:this.#staged,journal};
+   }else need(this.#staged===this.#run,'run-change-without-preparation');
+   return result;
+  }catch(error){if(pendingToken)this.#owner.command({op:'abort-prepared',token:pendingToken});throw error;}
+  finally{this.#staged=undefined;this.#grants.clear();this.#plan=undefined;this.#rows=[];}
+ }
+ command(input:unknown):unknown{
+  try{return this.#guard(()=>{
+   const c=raw(copySessionJSON(input));need(!internal(c),'unowned-experience-grant');
+   if(c.op==='prepare'){fields(c,['op','commands']);array(c.commands,16);return this.#prepare(c.commands.map(command=>({kind:'command',command})));}
+   if(c.op==='commit-prepared'||c.op==='abort-prepared'){
+    fields(c,['op','token']);integer(c.token,1);const p=this.#pending;need(p&&p.token===c.token,'stale-run-preparation');const result=passed(this.#owner.command(c));
+    if(c.op==='commit-prepared')this.#run=p.state;this.#pending=undefined;return result;
+   }
+   // Setup is allowed before attachment. Once attached, all investment writes
+   // must use this owner's single preparation fence.
+   if(this.#run)need(['account-save','workshop-save','account-relic-items','active-workshop','prepared-save','workshop-equipment-text','prepared-workshop-equipment-text'].includes(String(c.op)),'run-command-requires-preparation');
+   return this.#owner.command(c);
+  });}catch(error){if(error instanceof SessionInputError)return{ok:false,reason:error.message};throw error;}
+ }
+}

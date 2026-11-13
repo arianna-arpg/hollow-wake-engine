@@ -1,3 +1,4 @@
+import type {ExperiencePlan} from './character-experience-plan.js';
 import {CharacterWorkshopAdmission,type CharacterWorkshopDefinitions,type CharacterWorkshopHandle,type CharacterWorkshopScope} from './character-workshop-commands.js';
 import type {CompleteCharacterCodec,CompleteWorkshopKernel,CharacterObjectJSON,WorkshopRuleScope,CompleteBuildTransition} from './complete-character-contracts.js';
 import {ProgressionCharacterData,type ProgressionCharacterState} from './workshop-character-progression.js';
@@ -14,6 +15,7 @@ export interface CompleteAccountTrace {
  role:WorkshopRuleScope['relics']['role'];reply:SessionJSON;
 }
 export interface CompleteAccountPorts {
+ experience?(request:{profile:number;accountKey:string;grant:number}):ExperiencePlan;
  conditions(request:{profile:number;accountKey:string;command:SessionJSON}):unknown;
  trace?(packet:CompleteAccountTrace):unknown;
 }
@@ -37,11 +39,11 @@ const wrapped:Readonly<Record<string,'bar'|'rack'|'support'|'progression'|'merge
 /** One private command router. Its input scope is supplied by the account
  * owner; the owner still admits replies and atomically commits the group. */
 export class CompleteAccountKernel implements CompleteWorkshopKernel {
- readonly #service;readonly #content;readonly #conditions;readonly #trace;
+ readonly #service;readonly #content;readonly #conditions;readonly #trace;readonly #experience;
  readonly character:CompleteCharacterCodec;
- constructor(definitions:CharacterWorkshopDefinitions,{conditions,trace=()=>{}}:CompleteAccountPorts){
+ constructor(definitions:CharacterWorkshopDefinitions,{conditions,trace=()=>{},experience}:CompleteAccountPorts){
   need(typeof conditions==='function','trusted-character-conditions-required');
-  this.#service=new CharacterWorkshopAdmission(definitions);this.#conditions=conditions;this.#trace=trace;
+  this.#service=new CharacterWorkshopAdmission(definitions);this.#conditions=conditions;this.#trace=trace;this.#experience=experience;
   const base=new WorkshopCharacterData(definitions.character,definitions.workshop),codec=new ProgressionCharacterData(base,definitions.workshop.skills);
   this.character={admit:(value,state)=>codec.admit(value,state),
    // The account owner pairs these operations with this codec's admitted context.
@@ -82,7 +84,12 @@ export class CompleteAccountKernel implements CompleteWorkshopKernel {
    need(previous,'missing-character-continuation');const handle=previous as CharacterWorkshopHandle,held=this.#service.read(handle);
    need(equal(inventory,held.state)&&equal(scope.characterInput,held.character)&&nextUid===held.nextUid,'stale-character-continuation');
    const method=typeof command.op==='string'&&Object.hasOwn(wrapped,command.op)?wrapped[command.op]:undefined;
-   if(command.op==='character-passive'){
+   if(command.op==='character-experience-levels'){
+    fields(command,['op','grant']);integer(command.grant,1);need(scope.delivery==='prepare'&&this.#experience,'owned-experience-required');
+    const plan=this.#experience({profile:scope.profile,accountKey:scope.accountKey,grant:command.grant});
+    const result=this.#service.experienceLevels(handle,localScope,plan);token=result.token;rebuilds=result.rebuilds;
+    reply={ok:true,events:plan.events as unknown as SessionJSON};
+   }else if(command.op==='character-passive'){
     fields(command,['op','command']);
     const conditions=copySessionJSON(this.#conditions({profile:scope.profile,accountKey:scope.accountKey,command:copySessionJSON(command)}));
     const {token:next,rebuilds:path,...details}=this.#service.passive(handle,localScope,command.command,conditions);

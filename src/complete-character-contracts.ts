@@ -5,6 +5,14 @@ import type {ItemInstance} from './item-types.js';
 import type {SessionJSON} from './session-json.js';
 
 export type CharacterObjectJSON=Record<string,SessionJSON>;
+export interface PreparedStepAccount {key:string;progression:CharacterObjectJSON;active?:number}
+export interface PreparedStepAccess {
+ workshop(profile:number):{account:number;character?:CompleteCharacterContext};
+ account(id:number):PreparedStepAccount;
+ relicBuilds:boolean;
+}
+export type PreparedCommand=(command:CharacterObjectJSON,execute:(command:CharacterObjectJSON)=>CharacterObjectJSON)=>CharacterObjectJSON;
+export type PreparedStepInstaller=(access:PreparedStepAccess)=>PreparedCommand;
 export interface CompleteCharacterContext extends Omit<WorkshopCharacterState,'schemaVersion'|'capability'> {schemaVersion:number;capability:string}
 export interface CompleteCharacterCodec {
  admit(input:unknown,inventory:WorkshopBuildInput['state']):CompleteCharacterContext;

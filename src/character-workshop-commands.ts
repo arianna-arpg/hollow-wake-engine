@@ -1,3 +1,5 @@
+import type {ExperiencePlan} from './character-experience-plan.js';
+import type {CompleteBuildTransition} from './complete-character-contracts.js';
 import {changeCharacterPassive} from './character-passive-commands.js';
 import type {CharacterBuild,CharacterBuildService,CharacterBuildAdoption,CharacterBuildEdits} from './character-builds.js';
 import type {CraftingSessionData as BaseInventoryData,CraftingSessionState} from './crafting-session-data.js';
@@ -124,6 +126,17 @@ export class CharacterWorkshopAdmission {
     const held=this.#scoped(previous,scope),result=changeCharacterPickup({saved:held.saved,definitions:this.#defs,inventory:this.#inventory,admitDrop:raw=>this.#dropCodec(raw) as unknown as CharacterGemDelivery},request,conditions);
     const {request:next,...reply}=result;
     return {token:this.rebuild(previous,next,scope),...reply};
+  }
+  experienceLevels(previous:CharacterWorkshopHandle,scope:CharacterWorkshopScope,plan:ExperiencePlan){
+    let held=this.#scoped(previous,scope),token=previous;const rebuilds:CompleteBuildTransition[]=[];
+    need(held.saved.character.level===plan.before.level&&held.saved.character.passives.passivePoints===plan.before.passivePoints,'stale-experience-build');
+    for(const event of plan.events)if(event.kind==='recalculate'){
+      const saved=held.saved,character={...saved.character,level:event.state.level,passives:{...saved.character.passives,passivePoints:event.state.passivePoints}};
+      const next=this.rebuild(token,{capability:'character-workshop/residence-diagnostic',state:saved.state,character,nextUid:saved.nextUid},scope);
+      rebuilds.push({before:token,after:next});token=next;held=this.#scoped(token,scope);
+    }
+    need(held.saved.character.level===plan.after.level&&held.saved.character.passives.passivePoints===plan.after.passivePoints,'experience-build-mismatch');
+    return{token,rebuilds};
   }
   passive(previous:CharacterWorkshopHandle,scope:CharacterWorkshopScope,request:unknown,conditions:unknown){
     this.#scoped(previous,scope);

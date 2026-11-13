@@ -18,7 +18,9 @@ complete synchronously and preserve per-command ordering.
 
 Permanent account progress is distinct from the current run ledger. Publishing an
 account observation cannot rewrite run unlocks. The passive host supplies explicit
-run observations; durable run and reward authority remain unfinished.
+run observations. The internal [run checkpoint owner](run-character-progression.md)
+now pairs that ledger with character investment; pending reward admission and
+full actor recovery remain unfinished.
 
 ## Verification
 

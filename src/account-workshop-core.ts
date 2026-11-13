@@ -8,6 +8,7 @@ import type {EquipmentSlots} from './equipment-actions.js';
 import type {AccountRelicItems} from './account-relic-items.js';
 import type {RelicState} from './relic-custody.js';
 import type {ProgressionRelic} from './progression-session.js';
+import type {PreparedCommand,PreparedStepInstaller} from './complete-character-contracts.js';
 import type {ItemInstance} from './item-types.js';
 import type {WorkshopBuildPort,WorkshopBuildInput,WorkshopRelicGrantWrite} from './workshop-build-preparation.js';
 import {WorkshopCharacterData,type WorkshopCharacterDefinitions,type WorkshopCharacterState} from './workshop-character.js';
@@ -27,6 +28,7 @@ export interface WorkshopRuleKernel {
     scope:WorkshopRuleScope):{reply:SessionJSON;save:Record<string,SessionJSON>};
 }
 export interface AccountWorkshopKernelOptions {
+  preparedStep?:PreparedStepInstaller;
   ruleKernel?:WorkshopRuleKernel;
   completeKernel?:CompleteWorkshopKernel;
   completeBoundary?:CompleteWorkshopBoundary;
@@ -64,6 +66,7 @@ export class AccountWorkshopSessionCore {
   readonly #ruleKernel?:WorkshopRuleKernel;
   readonly #completeKernel?:CompleteWorkshopKernel;
   readonly #completeBoundary?:CompleteWorkshopBoundary;
+  readonly #preparedStep?:PreparedCommand;
   readonly #data:CraftingSessionData;
   readonly #preparation?:WorkshopBuildPort;
   readonly #character?:CompleteCharacterCodec;
@@ -103,6 +106,7 @@ export class AccountWorkshopSessionCore {
     }
     this.#relicBuilds=definitions.relicBuilds===true;
     need(!this.#relicBuilds||(this.#relicItems&&this.#character&&(this.#preparation||this.#completeKernel)),'relic-build-services-required');
+    this.#preparedStep=kernels.preparedStep?.({workshop:id=>this.#workshop(id),account:id=>this.#account(id),relicBuilds:this.#relicBuilds});
   }
   #account(id:unknown):Account {
     integer(id,0,0xffffffff);const account=this.#accounts.get(id);
@@ -328,9 +332,15 @@ export class AccountWorkshopSessionCore {
     try{
       this.#state=staged;
       for(const command of request.commands){
-        record(command);need(command.op==='account'||command.op==='workshop'||command.op==='activate-workshop','invalid-prepared-operation');
+        record(command);
         const beforeAccounts=journal?new Map(this.#accounts):undefined;
-        const transitions:PrivateBuildTransition[]|undefined=journal?[]:undefined,reply=this.#require(this.#command(command,transitions));replies.push(reply);
+        const transitions:PrivateBuildTransition[]|undefined=journal?[]:undefined;
+        const execute=(value:ObjectJSON):ObjectJSON=>{
+          need(value.op==='account'||value.op==='workshop'||value.op==='activate-workshop','invalid-prepared-operation');
+          return this.#require(this.#command(value,transitions));
+        };
+        const reply=this.#preparedStep?this.#require(this.#preparedStep(command as ObjectJSON,execute)):execute(command as ObjectJSON);
+        replies.push(reply);
         if(journal)journal.push(command as SessionJSON,reply,transitions!,beforeAccounts!,this.#accounts,account=>this.#accountSave(account as Account));
       }
       for(const[handle,account]of staged.accounts)if(account!==committed.accounts.get(handle))writes.push({kind:'account',handle});
