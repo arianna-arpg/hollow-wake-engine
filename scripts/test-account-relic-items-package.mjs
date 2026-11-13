@@ -1,3 +1,4 @@
+import {accountWorkshopRuntimeModules,accountWorkshopRawBudget} from './account-workshop-budget.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';
 import {gzipSync} from 'node:zlib';import {build} from 'esbuild';
 import {root,sha256} from './reference-utils.mjs';import {npmCli} from './npm-cli.mjs';
@@ -5,7 +6,7 @@ import {packs,baseline} from '../test/shared-account/fixtures.mjs';import {origi
 const owned=path.join(root,'.artifacts');fs.mkdirSync(owned,{recursive:true});
 const work=fs.mkdtempSync(path.join(owned,'account-relic-items-package-owned-')),consumer=path.join(work,'consumer');fs.mkdirSync(consumer);
 const logs={},report={passed:false,contracts:12,originalAccountCheckpoints:27,faults:[],sources:{}};
-const inputs=['src/account-relic-items.ts','src/account-workshop-session.ts','src/workshop-build-preparation.ts',
+const inputs=['src/account-relic-items.ts','src/account-workshop-session.ts','src/account-workshop-core.ts','src/complete-character-contracts.ts','scripts/account-workshop-budget.mjs','src/workshop-build-preparation.ts',
  'src/relic-custody.ts','src/crafting-session-data.ts','src/progression-session.ts',
  'test/account-relic-items.test.mjs','test/account-relic-items-fixture.mjs','test/shared-account/fixtures.mjs','test/shared-account/contracts.mjs',
  'scripts/test-account-relic-items-package.mjs','baseline/account-relic-build/acceptance.json','baseline/source-lock.json','package.json','package-lock.json'];
@@ -55,14 +56,15 @@ try{
  fs.writeFileSync(path.join(consumer,'types.ts'),"import {AccountWorkshopSession,type AccountWorkshopDefinitions} from '@hollow-wake/engine/account/workshops';import {AccountRelicItems} from '@hollow-wake/engine/account/relic-items';import type {RelicState} from '@hollow-wake/engine/inventory/relics';import type {ItemInstance} from '@hollow-wake/engine/items';declare const definitions:AccountWorkshopDefinitions;declare const input:RelicState<ItemInstance>;const data=new AccountRelicItems(definitions.workshop);const restored:RelicState<ItemInstance>=data.decode(data.encode(input));new AccountWorkshopSession({...definitions,relicItems:data});data.matchesDefinitions(definitions.workshop);data.matchesContent(data.content);");
  success('types',[path.join(root,'node_modules/typescript/bin/tsc'),'--noEmit','--strict','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','types.ts']);report.types=true;
  const dist=path.join(consumer,'node_modules/@hollow-wake/engine/dist');
- const modules=Object.fromEntries(['account-workshop-session','account-relic-items'].map(name=>[name,fs.readFileSync(path.join(dist,name+'.js'),'utf8')]));
+ const modules=Object.fromEntries([...accountWorkshopRuntimeModules,'account-relic-items'].map(name=>[name,fs.readFileSync(path.join(dist,name+'.js'),'utf8')]));
  report.moduleBytes=Object.fromEntries(Object.entries(modules).map(([name,text])=>[name,Buffer.byteLength(text)]));
- assert(report.moduleBytes['account-workshop-session']<=40*1024);assert(report.moduleBytes['account-relic-items']<5*1024);
+ report.accountWorkshopBytes=accountWorkshopRuntimeModules.reduce((sum,name)=>sum+report.moduleBytes[name],0);
+ assert(report.accountWorkshopBytes<=accountWorkshopRawBudget);assert(report.moduleBytes['account-relic-items']<5*1024);
  const faults=[
-  ['drop-typed-save','account-workshop-session','...(account.relicItems === undefined ? {} : { relicItems: account.relicItems })',''],
-  ['forget-tombstones','account-workshop-session','this.#relicState(account).released.every(key => released.has(key))','true'],
-  ['duplicate-character-body','account-workshop-session',"object(item).relicKey === undefined, 'account-item-in-character'","true, 'account-item-in-character'"],
-  ['revalidate-unchanged-bodies','account-workshop-session','if (accountChanged)\n                this.#checkAccount(nextAccount);\n            this.#checkWorkshop(nextWorkshop, nextAccount);','this.#checkAccount(nextAccount);\n            this.#checkWorkshop(nextWorkshop, nextAccount);'],
+  ['drop-typed-save','account-workshop-core','...(account.relicItems === undefined ? {} : { relicItems: account.relicItems })',''],
+  ['forget-tombstones','account-workshop-core','this.#relicState(account).released.every(key => released.has(key))','true'],
+  ['duplicate-character-body','account-workshop-core',"object(item).relicKey === undefined, 'account-item-in-character'","true, 'account-item-in-character'"],
+  ['revalidate-unchanged-bodies','account-workshop-core','if (accountChanged)\n                this.#checkAccount(nextAccount);\n            this.#checkWorkshop(nextWorkshop, nextAccount);','this.#checkAccount(nextAccount);\n            this.#checkWorkshop(nextWorkshop, nextAccount);'],
   ['skip-payload-admission','account-relic-items','this.#data.item(value)','value'],
   ['wrong-content','account-relic-items','JSON.stringify(copySessionJSON(value)) === this.#identity','true'],
   ['wrong-category','account-relic-items',"this.#definitions.crafting.items.pack.bases[item.baseId].category === 'relic'",'true'],

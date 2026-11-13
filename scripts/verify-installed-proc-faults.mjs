@@ -1,3 +1,4 @@
+import {packageRuntimeSnapshot} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -14,7 +15,7 @@ export function verifyInstalledProcFaults({label,decisionKey,decision,binding,fa
   assert.equal(location[decisionKey],decision);
   const game=fs.realpathSync(location.game),installed=fs.realpathSync(path.join(game,'node_modules/@hollow-wake/engine'));
   for(const dir of [game,installed])assert(dir.startsWith(path.join(root,'.artifacts')+path.sep),'Requires a disposable installation');
-  assert.deepEqual(snapshot(path.join(installed,'dist')),snapshot(path.join(root,'dist')));
+  assert.deepEqual(snapshot(path.join(installed,'dist')),packageRuntimeSnapshot());
   const sourceBefore=snapshot(path.join(game,'src')),packageBefore=snapshot(installed);
   const files={runtime:path.join(installed,'dist',label+'.js'),binding:path.join(game,'src/engine',binding+'.ts'),world:path.join(game,'src/engine/world.ts')};
   const originals=new Map();

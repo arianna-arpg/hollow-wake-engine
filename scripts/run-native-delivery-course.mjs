@@ -1,3 +1,4 @@
+import {packageRuntimeSnapshot} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
@@ -20,7 +21,7 @@ export async function runNativeDeliveryCourse({id, entry, check, detectFault, fa
   verifyReference(original, JSON.parse(fs.readFileSync(path.join(root, 'baseline/source-lock.json'))));
   const snapshot = dir => Object.fromEntries(listFiles(dir).map(file => [file, sha256(fs.readFileSync(path.join(dir, file)))]));
   const sources = [original, game].map(dir => snapshot(path.join(dir, 'src'))), pkg = snapshot(installed), runtime = snapshot(path.join(root, 'dist'));
-  assert.deepEqual(snapshot(path.join(installed, 'dist')), runtime);
+  assert.deepEqual(snapshot(path.join(installed, 'dist')), packageRuntimeSnapshot());
   const acceptanceFile = 'baseline/' + id + '/acceptance.json';
   const accepted = JSON.parse(fs.readFileSync(path.join(root, acceptanceFile)));
   const responseCount = accepted.courses + 1, requestCount = responseCount + 1;

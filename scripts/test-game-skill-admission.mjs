@@ -1,11 +1,15 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {gunzipSync} from 'node:zlib';import {execFileSync} from 'node:child_process';import {randomUUID} from 'node:crypto';
 import {root,listFiles,sha256,writeJSON,verifyReference} from './reference-utils.mjs';
 import {actorCaptureSource,worldCaptureSource,withoutParents,projectAdmission} from './admission-comparison.mjs';
 import {expectedAdmissionAfterIntent} from './skill-intent-comparison.mjs';
-const artifacts=path.join(root,'.artifacts'),location=JSON.parse(fs.readFileSync(path.join(artifacts,'adapter-location.json'))),game=location.game;
+const locationIndex=process.argv.indexOf('--location');
+const adapterLocation=locationIndex<0?path.join(root,'.artifacts/adapter-location.json'):process.argv[locationIndex+1];
+assert(adapterLocation&&!adapterLocation.startsWith('--'),'Expected --location path');
+const artifacts=path.join(root,'.artifacts'),location=JSON.parse(fs.readFileSync(adapterLocation)),game=location.game;
 const reference=path.join(root,'.reference'),lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json')));
 verifyReference(reference,lock);
-const installed=path.join(location.tooling,'node_modules/@hollow-wake/engine/dist'),built=path.join(root,'dist'),files=listFiles(built);
+const installed=path.join(location.tooling,'node_modules/@hollow-wake/engine/dist'),built=path.join(root,'dist'),files=packageRuntimeFiles();
 assert.deepEqual(listFiles(installed),files);for(const file of files)assert(fs.readFileSync(path.join(installed,file)).equals(fs.readFileSync(path.join(built,file))),'Stale installed admission '+file);
 const acceptance=JSON.parse(fs.readFileSync(path.join(root,'baseline/milestone-thirty/acceptance.json'))),output=fs.mkdtempSync(path.join(artifacts,'game-skill-admission-'));
 const helpers=acceptance.fixtures.map(row=>{

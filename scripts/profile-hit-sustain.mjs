@@ -1,3 +1,4 @@
+import {packageRuntimeSnapshot} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
@@ -16,7 +17,7 @@ const snapshots=()=>Object.fromEntries(Object.entries(games).map(([lane,game])=>
 const helperPath=path.join(root,'reference/benchmark-hit-sustain-worker.ts'),checksPath=path.join(root,'scripts/hit-sustain-benchmark-checks.mjs');
 const helper=fs.readFileSync(helperPath,'utf8'),checks=fs.readFileSync(checksPath),script=fs.readFileSync(import.meta.filename),before=snapshots();
 verifyReference(path.join(root,'.reference'),read(path.join(root,'baseline/source-lock.json')));
-assert.deepEqual(snapshot(path.join(games.current,'node_modules/@hollow-wake/engine/dist')),snapshot(path.join(root,'dist')));
+assert.deepEqual(snapshot(path.join(games.current,'node_modules/@hollow-wake/engine/dist')),packageRuntimeSnapshot());
 const directory=fs.mkdtempSync(path.join(root,'.artifacts/hit-sustain-profile-'));
 const plan={seed:0x51a8,population:256,workloads:['trees','combined'],warmup:5000,hits:50000,auditHits:3,samplingIntervalUs:1000,orders:[['previous','current'],['current','previous']],
   scope:'Diagnostic CPU sampling in eight fresh processes, one selected workload per process. Equal native hits and resets with outcome checks. Sampling covers the hit loop, excluding audit, warmup, explicit collection, snapshots and file writes. This is a different JIT history from the 21-case throughput run, and is not an adoption gate, allocation measurement or device result.'};

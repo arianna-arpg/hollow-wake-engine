@@ -1,3 +1,4 @@
+import {accountWorkshopRuntimeModules,accountWorkshopRawBudget,accountCharacterBrowserBudget} from './account-workshop-budget.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';
 import {gzipSync} from 'node:zlib';import {build} from 'esbuild';
 import {root,sha256} from './reference-utils.mjs';import {npmCli} from './npm-cli.mjs';
@@ -5,7 +6,7 @@ import {packs,baseline} from '../test/shared-account/fixtures.mjs';import {origi
 const owned=path.join(root,'.artifacts');fs.mkdirSync(owned,{recursive:true});
 const work=fs.mkdtempSync(path.join(owned,'account-character-binding-package-owned-')),consumer=path.join(work,'consumer');fs.mkdirSync(consumer);
 const logs={},report={passed:false,contracts:17,faults:[],sources:{}};
-const inputs=['src/account-relic-items.ts','src/account-workshop-session.ts','src/workshop-build-preparation.ts',
+const inputs=['src/account-relic-items.ts','src/account-workshop-session.ts','src/account-workshop-core.ts','src/complete-character-contracts.ts','scripts/account-workshop-budget.mjs','src/workshop-build-preparation.ts',
  'src/relic-custody.ts','src/crafting-session-data.ts','src/progression-session.ts',
  'test/account-character-binding.test.mjs','test/account-relic-items-fixture.mjs','src/workshop-character.ts','src/passive-policy.ts','test/shared-account/fixtures.mjs','test/shared-account/contracts.mjs',
  'scripts/test-account-character-binding-package.mjs','baseline/account-relic-build/acceptance.json','baseline/source-lock.json','package.json','package-lock.json'];
@@ -46,10 +47,9 @@ try{
  fs.writeFileSync(path.join(consumer,'browser.mjs'),Object.values(entries).map(entry=>"export * from '@hollow-wake/engine/"+entry+"';").join('\n'));
  const bundle=await build({entryPoints:[path.join(consumer,'browser.mjs')],bundle:true,platform:'browser',format:'esm',target:'es2022',minify:true,metafile:true,write:false});
  assert(Object.values(bundle.metafile.outputs).every(row=>!row.imports.length));report.browserBytes=bundle.outputFiles[0].contents.length;
- // Shared retained-investment validation adds 244 bytes in a controlled source
- // comparison. The reviewed 181 KiB allowance is recorded in character-world-integration.md.
- report.browserBudgetBytes=181*1024;
- assert(report.browserBytes<report.browserBudgetBytes,'Typed relic/workshop consumer exceeds 181 KiB');
+ // Count the shared implementation; see character-command-consolidation.md.
+ report.browserBudgetBytes=accountCharacterBrowserBudget;
+ assert(report.browserBytes<report.browserBudgetBytes,'Typed relic/workshop consumer exceeds reviewed browser allowance');
  fs.writeFileSync(path.join(consumer,'browser-built.mjs'),bundle.outputFiles[0].contents);
  const browser=text=>Object.values(entries).reduce((text,entry)=>text.replaceAll("'@hollow-wake/engine/"+entry+"'","'./browser-built.mjs'"),text);
  fs.writeFileSync(path.join(consumer,'browser-fixtures.mjs'),browser(fixtures));
@@ -58,22 +58,23 @@ try{
  fs.writeFileSync(path.join(consumer,'types.ts'),"import {AccountWorkshopSession,type AccountWorkshopDefinitions} from '@hollow-wake/engine/account/workshops';import {WorkshopBuildPreparation,type WorkshopBuildWrites} from '@hollow-wake/engine/account/workshop-build';declare const definitions:AccountWorkshopDefinitions;const preparation=new WorkshopBuildPreparation({initialize:()=>({}),fork:()=>({}),derive:(_candidate,input):WorkshopBuildWrites=>({items:[],relics:input.relics?.role==='active'?input.relics.state.items.map(item=>({uid:item.uid,relicKey:item.relicKey!,grantState:null})):[]})});new AccountWorkshopSession({...definitions,preparation,relicBuilds:true});");
  success('types',[path.join(root,'node_modules/typescript/bin/tsc'),'--noEmit','--strict','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','types.ts']);report.types=true;
  const dist=path.join(consumer,'node_modules/@hollow-wake/engine/dist');
- const modules=Object.fromEntries(['account-workshop-session','workshop-build-preparation'].map(name=>[name,fs.readFileSync(path.join(dist,name+'.js'),'utf8')]));
+ const modules=Object.fromEntries([...accountWorkshopRuntimeModules,'workshop-build-preparation'].map(name=>[name,fs.readFileSync(path.join(dist,name+'.js'),'utf8')]));
  report.moduleBytes=Object.fromEntries(Object.entries(modules).map(([name,text])=>[name,Buffer.byteLength(text)]));
- assert(report.moduleBytes['account-workshop-session']<=40*1024);assert(report.moduleBytes['workshop-build-preparation']<4*1024);
+ report.accountWorkshopBytes=accountWorkshopRuntimeModules.reduce((sum,name)=>sum+report.moduleBytes[name],0);
+ assert(report.accountWorkshopBytes<=accountWorkshopRawBudget);assert(report.moduleBytes['workshop-build-preparation']<4*1024);
  const faults=[
-  ['share-command-input','account-workshop-session','command: command === undefined ? undefined : copySessionJSON(command),','command,'],
-  ['allow-collision','account-workshop-session',"!used.has(item.uid), 'relic-address-collision'","true, 'relic-address-collision'"],
-  ['forget-address-floor','account-workshop-session','floor = Math.max(floor, item.uid + 1);','floor = floor;'],
-  ['allow-active-close','account-workshop-session',"this.#account(workshop.account).active !== request.profile, 'active-workshop-in-use'","true, 'active-workshop-in-use'"],
-  ['lose-selected-role','account-workshop-session','owner.active === profile ?','false ?'],
-  ['ignore-stale-address','account-workshop-session',"item && item.uid === row.uid, 'stale-relic-grant-write'","item, 'stale-relic-grant-write'"],
-  ['allow-duplicate-writes','account-workshop-session',"!seen.has(row.relicKey), 'duplicate-relic-grant-write'","true, 'duplicate-relic-grant-write'"],
-  ['drop-canonical-write','account-workshop-session','item.grantState = row.grantState;','void row.grantState;'],
-  ['drop-canonical-clear','account-workshop-session','delete item.grantState;','void item.grantState;'],
-  ['bypass-owner-authority','account-workshop-session',"relicWrites.length === 0 || (this.#relicBuilds && owner.active === profile), 'inactive-relic-write'","true, 'inactive-relic-write'"],
-  ['stale-build-account','account-workshop-session','previous && owner === previous.buildAccount && same','previous && same'],
-  ['drop-prepared-publication','account-workshop-session',"if (request.op === 'commit-prepared')\n            this.#state = pending.state;","if (request.op === 'commit-prepared')\n            void pending.state;"],
+  ['share-command-input','account-workshop-core','command: command === undefined ? undefined : copySessionJSON(command),','command,'],
+  ['allow-collision','account-workshop-core',"!used.has(item.uid), 'relic-address-collision'","true, 'relic-address-collision'"],
+  ['forget-address-floor','account-workshop-core','floor = Math.max(floor, item.uid + 1);','floor = floor;'],
+  ['allow-active-close','account-workshop-core',"this.#account(workshop.account).active !== request.profile, 'active-workshop-in-use'","true, 'active-workshop-in-use'"],
+  ['lose-selected-role','account-workshop-core','...(this.#relicBuilds ? { relics: owner.active === profile ?','...(this.#relicBuilds ? { relics: false ?'],
+  ['ignore-stale-address','account-workshop-core',"item && item.uid === row.uid, 'stale-relic-grant-write'","item, 'stale-relic-grant-write'"],
+  ['allow-duplicate-writes','account-workshop-core',"!seen.has(row.relicKey), 'duplicate-relic-grant-write'","true, 'duplicate-relic-grant-write'"],
+  ['drop-canonical-write','account-workshop-core','item.grantState = row.grantState;','void row.grantState;'],
+  ['drop-canonical-clear','account-workshop-core','delete item.grantState;','void item.grantState;'],
+  ['bypass-owner-authority','account-workshop-core',"relicWrites.length === 0 || (this.#relicBuilds && owner.active === profile), 'inactive-relic-write'","true, 'inactive-relic-write'"],
+  ['stale-build-account','account-workshop-core','previous && owner === previous.buildAccount && same','previous && same'],
+  ['drop-prepared-publication','account-workshop-core',"if (request.op === 'commit-prepared')\n            this.#state = pending.state;","if (request.op === 'commit-prepared')\n            void pending.state;"],
  ];
  for(const[name,module,needle,replacement,count=1]of faults){
   const source=modules[module],file=path.join(dist,module+'.js');assert.equal(source.split(needle).length,count+1,name+' target changed');fs.writeFileSync(file,source.replace(needle,replacement));

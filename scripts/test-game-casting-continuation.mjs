@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -6,8 +7,11 @@ import {randomUUID} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {root,listFiles,sha256,writeJSON} from './reference-utils.mjs';
 
+const locationIndex=process.argv.indexOf('--location');
+const adapterLocation=locationIndex<0?path.join(root,'.artifacts/adapter-location.json'):process.argv[locationIndex+1];
+assert(adapterLocation&&!adapterLocation.startsWith('--'),'Expected --location path');
 const artifacts=path.join(root,'.artifacts');
-const location=JSON.parse(fs.readFileSync(path.join(artifacts,'adapter-location.json')));
+const location=JSON.parse(fs.readFileSync(adapterLocation));
 const installed=path.join(location.tooling,'node_modules/@hollow-wake/engine');
 assert.equal(fs.realpathSync(path.join(location.game,'node_modules/@hollow-wake/engine')),fs.realpathSync(installed));
 for(const name of ['m30-adapter-location.json','m31-adapter-location.json','m32-adapter-location.json','m33-adapter-location.json','m34-adapter-location.json','m35-initial-candidate/m35-adapter-location.json']) {
@@ -15,7 +19,7 @@ for(const name of ['m30-adapter-location.json','m31-adapter-location.json','m32-
   const retained=JSON.parse(fs.readFileSync(file));
   assert.notEqual(fs.realpathSync(path.join(retained.tooling,'node_modules/@hollow-wake/engine')),fs.realpathSync(installed),'Refusing to mutate a retained control');
 }
-const built=path.join(root,'dist'),files=listFiles(built);
+const built=path.join(root,'dist'),files=packageRuntimeFiles();
 const world=path.join(location.game,'src/engine/world.ts'),worldBytes=fs.readFileSync(world);
 assert(worldBytes.includes('this.sdkCastingContinuation.advance(a, dt);'),'Continuation disconnected');
 function verifyInstalled() {

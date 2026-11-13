@@ -1,5 +1,6 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';import {pathToFileURL} from 'node:url';
-import {root,sha256,writeJSON} from './reference-utils.mjs';
+import {gzipSync} from 'node:zlib';
+import {root,sha256,writeJSON,listFiles} from './reference-utils.mjs';
 const args=process.argv.slice(2);assert(args.length===2&&args[0]==='--location');
 const location=path.resolve(root,args[1]),helperPath=path.join(root,'reference/benchmark-hit-sustain-worker.ts'),runnerPath=path.join(root,'scripts/benchmark-hit-sustain.mjs');
 const helper=fs.readFileSync(helperPath,'utf8'),runner=fs.readFileSync(runnerPath,'utf8'),directory=fs.mkdtempSync(path.join(root,'.artifacts/hit-sustain-benchmark-observer-'));
@@ -16,10 +17,13 @@ try {
     if(needle)assert.equal(helper.split(needle).length-1,1,name+' selector');
     fs.writeFileSync(worker,needle?helper.replace(needle,replacement):helper,{flag:'wx'});
     let source=runner;
-    for(const file of ['reference-utils.mjs','hit-sustain-benchmark-checks.mjs','stop-benchmark-worker.mjs'])source=source.replace("from './"+file+"'",'from '+JSON.stringify(pathToFileURL(path.join(root,'scripts',file)).href));
+    for(const file of ['reference-utils.mjs','package-runtime-files.mjs','hit-sustain-benchmark-checks.mjs','stop-benchmark-worker.mjs'])source=source.replace("from './"+file+"'",'from '+JSON.stringify(pathToFileURL(path.join(root,'scripts',file)).href));
     const lookup="path.join(root,'reference/benchmark-hit-sustain-worker.ts')";assert.equal(source.split(lookup).length-1,1);source=source.replace(lookup,JSON.stringify(worker));
     source=source.replace("'.artifacts/hit-sustain-benchmark-verification.json'",JSON.stringify(proofPath));
     source=source.replace("'.artifacts/hit-sustain-benchmark-latest.json'",JSON.stringify(path.join(directory,name+'-latest.json')));
+    const temporary="path.join(root,'.artifacts/hit-sustain-benchmark-')";
+    assert.equal(source.split(temporary).length,2);
+    source=source.replace(temporary,JSON.stringify(path.join(directory,'run-')));
     fs.writeFileSync(script,source,{flag:'wx'});
     const log=path.join(directory,name+'.txt'),fd=fs.openSync(log,'wx');
     let result;
@@ -27,11 +31,13 @@ try {
     try {
       // File-backed output keeps descendant descriptors outside the parent's
       // pipe-completion wait after the runner exits.
-      result=spawnSync(process.execPath,[script,'--previous',location,'--location',location,'--control','--verify-only'],{cwd:root,stdio:['ignore',fd,fd],timeout:480000,windowsHide:true});
+      result=spawnSync(process.execPath,[script,'--previous',location,'--location',location,'--control','--verify-only'],{cwd:root,stdio:['ignore',fd,fd],timeout:480000,windowsHide:true,
+        env:{...process.env,TEMP:directory,TMP:directory,TMPDIR:directory,NODE_COMPILE_CACHE:path.join(directory,'compile-cache')}});
     } finally { fs.closeSync(fd); }
     const output=fs.readFileSync(log,'utf8');
     writeJSON(path.join(directory,name+'-process.json'),{status:result.status,signal:result.signal,error:result.error?.code,elapsedMs:Date.now()-started});
     assert(!result.error,result.error?.message);assert.equal(result.signal,null);
+    assert(fs.existsSync(proofPath),'Runner failed before verification: '+output);
     const proof=JSON.parse(fs.readFileSync(proofPath));assert(proof.inputsUnchanged&&proof.control&&proof.verifyOnly);
     const drained=JSON.parse(fs.readFileSync(path.join(proof.directory,'process-drained.json')));
     assert.equal(drained.code,result.status);
@@ -44,7 +50,17 @@ try {
   }
   passed=true;
 }finally {
-  assert.equal(fs.readFileSync(helperPath,'utf8'),helper);assert.equal(fs.readFileSync(runnerPath,'utf8'),runner);
   const report={passed,directory,helperSha256:sha256(helper),runnerSha256:sha256(runner),results,faults:results.filter(r=>r.detected).length};
-  writeJSON(path.join(directory,'verification.json'),report);writeJSON('.artifacts/hit-sustain-benchmark-observer-verification.json',report);console.log({passed,directory});
+  try{
+    report.inputsUnchanged=fs.readFileSync(helperPath,'utf8')===helper&&fs.readFileSync(runnerPath,'utf8')===runner;
+    report.passed&&=report.inputsUnchanged;assert(report.inputsUnchanged);
+    // Keep replay evidence in one compressed file, not a tree of worker caches.
+    const files=Object.fromEntries(listFiles(directory).filter(file=>!file.startsWith('compile-cache/')).map(file=>[file,fs.readFileSync(path.join(directory,file)).toString('base64')]));
+    const bytes=gzipSync(JSON.stringify({files}),{level:9});report.evidenceArchive='.artifacts/hit-sustain-benchmark-observer-evidence.json.gz';report.evidenceSha256=sha256(bytes);
+    fs.writeFileSync(path.join(root,report.evidenceArchive),bytes);
+  }finally{
+    assert.equal(path.dirname(fs.realpathSync(directory)),fs.realpathSync(path.join(root,'.artifacts')));
+    fs.rmSync(directory,{recursive:true,maxRetries:3});report.cleaned=true;
+    writeJSON('.artifacts/hit-sustain-benchmark-observer-verification.json',report);console.log({passed:report.passed,cleaned:true});
+  }
 }

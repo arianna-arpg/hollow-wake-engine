@@ -4,7 +4,7 @@ import {build} from 'esbuild';
 
 // Private to this closed embedded VM. These typed method and callback names
 // never cross the host wire, appear as data keys, or use computed lookup.
-const internalMethods=/^(?:skillOfGemItem|supportOfGemItem|skillGemPayloadOf|supportGemPayloadOf|makeSkillGemItem|makeSupportGemItem|hasOwnSupport|validTreeNodes|itemGridSize|bagWidth|bagHeight|craftableAffixesFor|salvageItem|salvageBulk|salvageLockSet|craftSocket|craftAffix|rerollAffix|craftSlots|bagSkillSupport|restoreGrantState|packSkillGemPayload|packSupportGemPayload|writeBackSupportGem|rebuildAnyItem|footprintOpen|canPlace|autoPlace|inspectLoadout|craftedCount|baseBonusFor|eachItemLine|tieredBaseName|compileItemMods|epitaphFor|foldOwnStats|resolveUniqueChoices|firstFit|swapBlocker)$/;
+const internalMethods=/^(?:skillOfGemItem|supportOfGemItem|skillGemPayloadOf|supportGemPayloadOf|makeSkillGemItem|makeSupportGemItem|hasOwnSupport|validTreeNodes|itemGridSize|bagWidth|bagHeight|craftableAffixesFor|salvageItem|salvageBulk|salvageLockSet|craftSocket|craftAffix|rerollAffix|craftSlots|bagSkillSupport|restoreGrantState|packSkillGemPayload|packSupportGemPayload|writeBackSupportGem|rebuildAnyItem|footprintOpen|canPlace|autoPlace|inspectLoadout|craftedCount|baseBonusFor|eachItemLine|tieredBaseName|compileItemMods|epitaphFor|foldOwnStats|resolveUniqueChoices|firstFit|swapBlocker|supportState|retainedSkillPayload|retainedItem|configureEquipment)$/;
 
 export async function craftingBundle(directory,withRack,plugins=[]){
   const entry=withRack==='vestiges'?'vestige-entry.mjs':withRack==='supports'?'support-entry.mjs':withRack?'rack-entry.mjs':'entry.mjs';

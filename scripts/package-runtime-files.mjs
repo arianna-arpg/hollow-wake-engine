@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import {root, listFiles} from './reference-utils.mjs';
+import {root, listFiles, sha256} from './reference-utils.mjs';
 
 // Expected installed output comes from the source manifest, never the consumer.
 // Keep this intentionally narrow: a new packaging rule needs explicit review.
@@ -25,4 +25,12 @@ export function packageRuntimeFiles(sourceRoot = root) {
     }
   }
   return published;
+}
+
+// Compare the complete installed directory with this source-derived map. Never
+// filter the consumer: an extra internal file must fail integrity just as a
+// missing or modified public file does.
+export function packageRuntimeSnapshot(sourceRoot = root) {
+  return Object.fromEntries(packageRuntimeFiles(sourceRoot).map(file =>
+    [file, sha256(fs.readFileSync(path.join(sourceRoot, 'dist', file)))]));
 }

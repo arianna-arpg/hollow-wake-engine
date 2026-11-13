@@ -58,7 +58,7 @@ assert.ok([...reachable].every(file=>path.basename(file)!=='skill-bar.ts'), 'Opt
 assert.ok([...reachable].every(file=>path.basename(file)!=='workshop-skill-book.ts'), 'Optional learned book became an eager core import');
 assert.ok([...reachable].every(file=>path.basename(file)!=='equipment-skills.ts'), 'Optional equipment skill derivation became an eager core import');
 assert.ok([...reachable].every(file=>path.basename(file)!=='equipment-skill-draft.ts'), 'Optional equipment preparation became an eager core import');
-assert.ok([...reachable].every(file=>path.basename(file)!=='account-workshop-session.ts'), 'Shared account owner became an eager core import');
+assert.ok([...reachable].every(file=>!['account-workshop-session.ts','account-workshop-core.ts','complete-account-commands.ts','character-workshop-commands.ts','passive-actions.ts'].includes(path.basename(file))), 'Optional character/account implementation became an eager core import');
 assert.ok([...reachable].every(file=>path.basename(file)!=='workshop-build-preparation.ts'), 'Workshop build preparation became an eager core import');
 assert.ok([...reachable].every(file=>path.basename(file)!=='build-contributions.ts'), 'Build contributions became an eager core import');
 assert.ok([...reachable].every(file=>path.basename(file)!=='workshop-character.ts'), 'Workshop character admission became an eager core import');

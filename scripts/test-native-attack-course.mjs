@@ -1,3 +1,4 @@
+import {packageRuntimeSnapshot} from './package-runtime-files.mjs';
 import {compareAttackCourse as compare} from './native-attack-comparison.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -20,7 +21,7 @@ assert.notEqual(game, original);
 verifyReference(original, JSON.parse(fs.readFileSync(path.join(root, 'baseline/source-lock.json'))));
 const snapshot = dir => Object.fromEntries(listFiles(dir).map(file => [file, sha256(fs.readFileSync(path.join(dir, file)))]));
 const sources = [original, game].map(dir => snapshot(path.join(dir, 'src'))), pkg = snapshot(installed), runtime = snapshot(path.join(root, 'dist'));
-assert.deepEqual(snapshot(path.join(installed, 'dist')), runtime);
+assert.deepEqual(snapshot(path.join(installed, 'dist')), packageRuntimeSnapshot());
 assert.equal(fs.readFileSync(path.join(game, 'src/engine/procAdapter.ts'), 'utf8').replaceAll('\r\n', '\n'), fs.readFileSync(path.join(root, 'adapters/hollow-wake/procAdapter.ts'), 'utf8').replaceAll('\r\n', '\n'));
 const accepted = JSON.parse(fs.readFileSync(path.join(root, 'baseline/attack-sequences/acceptance.json')));
 const expectedBytes = gunzipSync(fs.readFileSync(path.join(root, accepted.observations)));

@@ -16,7 +16,7 @@ const owned=path.join(root,'.artifacts');fs.mkdirSync(owned,{recursive:true});
 const work=fs.mkdtempSync(path.join(owned,'account-workshops-package-'));
 const consumer=path.join(work,'consumer');fs.mkdirSync(consumer);
 const logs={},report={passed:false,contracts:33,sourceScenarios:10,sourceSteps:30,faults:[],sources:{}};
-const sources=['src/account-workshop-session.ts','test/shared-account.test.mjs','test/shared-account/contracts.mjs',
+const sources=['src/account-workshop-session.ts','src/account-workshop-core.ts','src/complete-character-contracts.ts','test/shared-account.test.mjs','test/shared-account/contracts.mjs',
   'test/shared-account-prepare.test.mjs','test/shared-account/prepared-contracts.mjs',
   'test/shared-account/fixtures.mjs','scripts/test-account-workshops-package.mjs','package.json',
   'baseline/shared-account/admitted-socket/acceptance.json'];
@@ -81,7 +81,7 @@ try{
     "const limits:AccountWorkshopLimits={accounts:2,workshops:4};const sdk=new AccountWorkshopSession(definitions,limits);"+
     "const reply:unknown=sdk.command({op:'open-account',account:1,key:'account',seed:17});void reply;");
   report.types=success('types',[path.join(root,'node_modules/typescript/bin/tsc'),'--noEmit','--strict','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','types.ts']);
-  const module=path.join(consumer,'node_modules/@hollow-wake/engine/dist/account-workshop-session.js'),original=fs.readFileSync(module,'utf8');
+  const module=path.join(consumer,'node_modules/@hollow-wake/engine/dist/account-workshop-core.js'),original=fs.readFileSync(module,'utf8');
   const faults=[
     ['detached-lore','craftLore: shared.craftLore','craftLore: account.craftLore'],
     ['detached-ledger','ledger: shared.ledger','ledger: oldShared.ledger'],
@@ -97,15 +97,15 @@ try{
     ['default-null-context','request.progression === undefined ? true : request.progression','request.progression ?? true'],
     ['erase-null-host-data','request.extra === undefined ? {} : request.extra','request.extra ?? {}'],
     ['default-null-item-id','integer(request.nextUid, 1);','void request.nextUid;'],
-    ['premature-publication','finally {\n            this.#state = committed;\n        }\n    }\n    #preparedCommand',
-      'finally {\n            void committed;\n        }\n    }\n    #preparedCommand'],
+    ['premature-publication','finally {\n            this.#state = committed;\n        }\n    }\n    #setWorkshop',
+      'finally {\n            void committed;\n        }\n    }\n    #setWorkshop'],
     ['lost-publication',"if (request.op === 'commit-prepared')\n            this.#state = pending.state;",'void pending.state;'],
     ['abort-publishes',"if (request.op === 'commit-prepared')\n            this.#state = pending.state;",'this.#state = pending.state;'],
     ['stale-token',"need(request.token === pending.token, 'stale-prepared-change');",'void request.token;'],
     ['pending-edit',"if (this.#prepared && !['account-save', 'workshop-save', 'account-relic-items', 'active-workshop'].includes(request.op))",'if (false)'],
     ['excess-records',"need(writes.length <= 8, 'prepared-record-limit');","need(writes.length <= 9, 'prepared-record-limit');"],
-    ['failed-batch-publishes','finally {\n            this.#state = committed;\n        }\n    }\n    #preparedCommand',
-      'finally {\n            if(this.#prepared)this.#state = committed;\n        }\n    }\n    #preparedCommand'],
+    ['failed-batch-publishes','finally {\n            this.#state = committed;\n        }\n    }\n    #setWorkshop',
+      'finally {\n            if(this.#prepared)this.#state = committed;\n        }\n    }\n    #setWorkshop'],
     ['committed-candidate','this.#state = pending.state;\n                return this.#command','void pending.state;\n                return this.#command'],
     ['borrowed-prepared-response','const reply = copySessionJSON({ ok: true, token, writes, replies });','const reply = { ok: true, token, writes, replies };'],
     ['equipment-early-view','let state = this.#state;','let state = this.#prepared?.state ?? this.#state;'],

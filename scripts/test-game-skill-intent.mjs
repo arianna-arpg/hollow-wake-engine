@@ -1,3 +1,4 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -7,10 +8,13 @@ import { execFileSync } from 'node:child_process';
 import { root, listFiles, sha256, writeJSON } from './reference-utils.mjs';
 import { compareIntentQueries, expectedIntentQueries } from './skill-intent-comparison.mjs';
 
+const locationIndex=process.argv.indexOf('--location');
+const adapterLocation=locationIndex<0?path.join(root,'.artifacts/adapter-location.json'):process.argv[locationIndex+1];
+assert(adapterLocation&&!adapterLocation.startsWith('--'),'Expected --location path');
 const artifacts = path.join(root, '.artifacts');
-const location = JSON.parse(fs.readFileSync(path.join(artifacts, 'adapter-location.json')));
+const location = JSON.parse(fs.readFileSync(adapterLocation));
 const installed = path.join(location.tooling, 'node_modules/@hollow-wake/engine');
-const built = path.join(root, 'dist'), files = listFiles(built);
+const built = path.join(root, 'dist'), files = packageRuntimeFiles();
 function verifyInstalled() {
   assert.deepEqual(listFiles(path.join(installed, 'dist')), files);
   for (const file of files) assert(fs.readFileSync(path.join(installed, 'dist', file)).equals(

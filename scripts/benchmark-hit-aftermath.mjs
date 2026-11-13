@@ -1,3 +1,4 @@
+import {packageRuntimeSnapshot} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
@@ -18,7 +19,7 @@ const games=Object.fromEntries(Object.entries({original:control?current.game:pat
 verifyReference(path.join(root,'.reference'),read(path.join(root,'baseline/source-lock.json')));
 const snapshot=d=>Object.fromEntries(listFiles(d).map(f=>[f,sha256(fs.readFileSync(path.join(d,f)))]));
 const snapshots=()=>Object.fromEntries(Object.entries(games).map(([name,game])=>[name,{source:snapshot(path.join(game,'src')),package:name==='original'&&!control?null:snapshot(fs.realpathSync(path.join(game,'node_modules/@hollow-wake/engine')))}]));
-assert.deepEqual(snapshot(path.join(games.current,'node_modules/@hollow-wake/engine/dist')),snapshot(path.join(root,'dist')));
+assert.deepEqual(snapshot(path.join(games.current,'node_modules/@hollow-wake/engine/dist')),packageRuntimeSnapshot());
 const before=snapshots(),helperPath=path.join(root,'reference/benchmark-hit-aftermath-worker.ts'),helper=fs.readFileSync(helperPath,'utf8');
 const runnerBefore=fs.readFileSync(import.meta.filename),checksPath=path.join(root,'scripts/hit-aftermath-benchmark-checks.mjs'),checksBefore=fs.readFileSync(checksPath);
 const directory=fs.mkdtempSync(path.join(root,'.artifacts/hit-aftermath-benchmark-'));

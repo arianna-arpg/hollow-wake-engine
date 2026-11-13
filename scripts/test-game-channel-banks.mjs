@@ -1,6 +1,10 @@
+import {packageRuntimeFiles} from './package-runtime-files.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {gunzipSync} from 'node:zlib';import {randomUUID} from 'node:crypto';import {execFileSync} from 'node:child_process';
 import {root,listFiles,sha256,writeJSON} from './reference-utils.mjs';
-const artifacts=path.join(root,'.artifacts'),location=JSON.parse(fs.readFileSync(path.join(artifacts,'adapter-location.json'))),installed=path.join(location.tooling,'node_modules/@hollow-wake/engine');
+const locationIndex=process.argv.indexOf('--location');
+const adapterLocation=locationIndex<0?path.join(root,'.artifacts/adapter-location.json'):process.argv[locationIndex+1];
+assert(adapterLocation&&!adapterLocation.startsWith('--'),'Expected --location path');
+const artifacts=path.join(root,'.artifacts'),location=JSON.parse(fs.readFileSync(adapterLocation)),installed=path.join(location.tooling,'node_modules/@hollow-wake/engine');
 assert.equal(fs.realpathSync(path.join(location.game,'node_modules/@hollow-wake/engine')),fs.realpathSync(installed));
 for(const name of ['m36-initial-candidate','m36-compact-candidate']){
  const control=path.join(artifacts,name,'retained.json');if(!fs.existsSync(control))continue;
@@ -13,7 +17,7 @@ if(!process.argv.includes('--skip-faults'))for(const name of fs.readdirSync(arti
  const prior=JSON.parse(fs.readFileSync(path.join(artifacts,name)));if(path.resolve(prior.game)===path.resolve(location.game))continue;
  assert.notEqual(fs.realpathSync(path.join(prior.tooling,'node_modules/@hollow-wake/engine')),fs.realpathSync(installed),'Refusing to mutate retained installation: '+name);
 }
-const built=path.join(root,'dist'),files=listFiles(built),hostFiles=['src/engine/world.ts','src/engine/actor.ts','src/engine/channelCastingAdapter.ts','src/engine/channelBankAdapter.ts'];
+const built=path.join(root,'dist'),files=packageRuntimeFiles(),hostFiles=['src/engine/world.ts','src/engine/actor.ts','src/engine/channelCastingAdapter.ts','src/engine/channelBankAdapter.ts'];
 const hostBytes=new Map(hostFiles.map(file=>[file,fs.readFileSync(path.join(location.game,file))]));
 assert(hostBytes.get(hostFiles[0]).includes('channelBanks.decay(a, dt);'));
 assert(hostBytes.get(hostFiles[1]).includes('this.sdkActorGauges.refresh(this, this.sheet);'));

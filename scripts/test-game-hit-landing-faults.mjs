@@ -1,3 +1,4 @@
+import {packageRuntimeSnapshot} from './package-runtime-files.mjs';
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {pathToFileURL} from 'node:url';import {gzipSync,gunzipSync} from 'node:zlib';
 import {root,sha256,listFiles,writeJSON} from './reference-utils.mjs';import {hitLandingDecision} from '../adapters/hollow-wake/integrate-hit-landing.mjs';
 const args=process.argv.slice(2);assert(args.length===2&&args[0]==='--location');
@@ -5,7 +6,7 @@ const location=JSON.parse(fs.readFileSync(path.resolve(root,args[1]))),game=fs.r
 assert(game.startsWith(path.join(root,'.artifacts')+path.sep),'Fault tests require a disposable adapter inside this repository');assert.equal(location.hitLandingDecision,hitLandingDecision);
 const installed=fs.realpathSync(path.join(game,'node_modules/@hollow-wake/engine'));assert(installed.startsWith(path.join(root,'.artifacts')+path.sep));
 const snapshot=d=>Object.fromEntries(listFiles(d).map(f=>[f,sha256(fs.readFileSync(path.join(d,f)))]));
-assert.deepEqual(snapshot(path.join(installed,'dist')),snapshot(path.join(root,'dist')));
+assert.deepEqual(snapshot(path.join(installed,'dist')),packageRuntimeSnapshot());
 const before=snapshot(path.join(game,'src')),pkg=snapshot(installed),file=path.join(installed,'dist/hit-landing.js'),bytes=fs.readFileSync(file),source=bytes.toString('utf8');
 const accepted=JSON.parse(fs.readFileSync(path.join(root,'baseline/hit-landing/acceptance.json'))),expected=gunzipSync(fs.readFileSync(path.join(root,accepted.observations)));
 assert.equal(sha256(expected),accepted.observationsSha256);const helper=fs.readFileSync(path.join(root,accepted.helper),'utf8');assert.equal(sha256(helper),accepted.helperSha256);

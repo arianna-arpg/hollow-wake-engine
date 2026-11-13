@@ -1,3 +1,4 @@
+import {packageRuntimeSnapshot} from './package-runtime-files.mjs';
 // Materialize the retained render shell in a fresh copy of a prepared adapter.
 // The original game, supplied adapter and installed SDK are read-only inputs.
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {gunzipSync} from 'node:zlib';
@@ -17,7 +18,7 @@ const shell=JSON.parse(gunzipSync(compressed)),names=['index.html','launcher.con
 const decoded={};for(const name of names){const bytes=Buffer.from(shell[name],'base64');assert.equal(bytes.toString('base64'),shell[name]);assert.equal(sha256(bytes),manifest.files[name].sha256);assert.equal(bytes.length,manifest.files[name].bytes);assert(!fs.existsSync(path.join(sourceGame,name)),'Input already contains a renderer shell: '+name);decoded[name]=bytes;}
 const snapshot=dir=>Object.fromEntries(listFiles(dir).map(f=>[f,sha256(fs.readFileSync(path.join(dir,f)))]));
 const dependencies=fs.realpathSync(path.join(sourceGame,'node_modules')),packageDir=fs.realpathSync(path.join(dependencies,'@hollow-wake/engine')),source=snapshot(path.join(sourceGame,'src')),pkg=snapshot(packageDir),runtime=snapshot(path.join(packageDir,'dist'));
-assert.equal(fs.realpathSync(path.join(location.tooling,'node_modules')),dependencies);assert.deepEqual(runtime,snapshot(path.join(root,'dist')),'Installed SDK runtime is stale');
+assert.equal(fs.realpathSync(path.join(location.tooling,'node_modules')),dependencies);assert.deepEqual(runtime,packageRuntimeSnapshot(),'Installed SDK runtime is stale');
 const excluded=['node_modules','balance/reports','.git','saves','dist','release','.artifacts'];
 const files={};
 function inventory(directory,prefix=''){

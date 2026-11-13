@@ -1,3 +1,4 @@
+import {packageRuntimeSnapshot} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -20,7 +21,7 @@ export function verifyInstalledProcReplay(label, decisionKey, decision) {
   const consumer = path.dirname(path.dirname(path.dirname(installed)));
   const lock = JSON.parse(fs.readFileSync(path.join(consumer, 'package-lock.json')));
   assert.equal(lock.packages['node_modules/@hollow-wake/engine'].integrity, location.integrity);
-  assert.deepEqual(snapshot(path.join(installed, 'dist')), snapshot(path.join(root, 'dist')));
+  assert.deepEqual(snapshot(path.join(installed, 'dist')), packageRuntimeSnapshot());
   const source = path.join(location.game, 'src'), before = snapshot(source), pkg = snapshot(installed);
   const directory = fs.mkdtempSync(path.join(root, '.artifacts/game-' + label + '-'));
   const fd = fs.openSync(path.join(directory, 'reference.txt'), 'wx');

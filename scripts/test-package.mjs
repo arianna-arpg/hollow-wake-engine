@@ -1,5 +1,5 @@
+import {accountWorkshopRuntimeModules,accountWorkshopRawBudget} from './account-workshop-budget.mjs';
 import fs from 'node:fs';
-import os from 'node:os';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
@@ -10,21 +10,25 @@ import {packageRuntimeFiles} from './package-runtime-files.mjs';
 const npmCli = process.env.npm_execpath ?? path.join(path.dirname(process.execPath), 'node_modules/npm/bin/npm-cli.js');
 const artifacts = path.join(root, '.artifacts');
 fs.mkdirSync(artifacts, { recursive: true });
-const [packed] = JSON.parse(execFileSync(process.execPath, [npmCli, 'pack', '--json', '--pack-destination', artifacts, '--cache', path.join(artifacts, 'npm-cache')],
+const work = fs.mkdtempSync(path.join(artifacts, 'package-consumer-owned-'));
+try {
+const [packed] = JSON.parse(execFileSync(process.execPath, [npmCli, 'pack', '--json', '--pack-destination', work, '--cache', path.join(work, 'npm-cache')],
   { cwd: root, encoding: 'utf8' }));
 assert.ok(packed.files.every(file => !/^(baseline|reference|scripts|test|src|\.reference|node_modules)\//.test(file.path)), 'Development or original-game files leaked into package');
 assert.deepEqual(packed.files.filter(file=>file.path.startsWith('dist/')).map(file=>file.path.slice(5)).sort(),
   packageRuntimeFiles(), 'Archive runtime files differ from the source packaging contract');
 const internalCharacterModules=['character-delivery-codec','character-inventory-commands','character-residence-data','character-spill-placement',
   'character-world-adapter','character-world-located-deliveries','crafting-session-complete','durable-character-located-owner',
-  'workshop-character-complete','workshop-character-progression','workshop-complete-cargo'];
+  'workshop-character-complete','workshop-character-progression','workshop-complete-cargo',
+  "character-bar-commands","character-command-types","character-support-commands","character-delivery-types","character-pickup-commands","character-merge-commands","character-rack-commands","character-progression-commands","character-workshop-commands","complete-account-commands","account-workshop-complete","passive-actions"];
 for(const name of internalCharacterModules)assert(!packed.files.some(file=>file.path.startsWith('dist/'+name+'.')),
   'Unqualified internal character module leaked into package: '+name);
-const consumer = fs.mkdtempSync(path.join(os.tmpdir(), 'hollow-wake-consumer-'));
+const consumer = path.join(work, 'consumer');
+fs.mkdirSync(consumer);
 let result;
 try {
 fs.writeFileSync(path.join(consumer, 'package.json'), JSON.stringify({ private: true, type: 'module' }));
-execFileSync(process.execPath, [npmCli, 'install', path.join(artifacts, packed.filename),
+execFileSync(process.execPath, [npmCli, 'install', path.join(work, packed.filename),
   '--ignore-scripts', '--offline', '--no-audit', '--no-fund', '--cache', path.join(consumer, 'cache')],
 { cwd: consumer, stdio: 'pipe' });
 fs.writeFileSync(path.join(consumer, 'run.mjs'), `
@@ -103,7 +107,7 @@ result = execFileSync(process.execPath, ['run.mjs'], {
   cwd: consumer, encoding: 'utf8', env: { ...process.env, NODE_PATH: '' },
 });
 } finally {
-  assert.equal(path.dirname(fs.realpathSync(consumer)),fs.realpathSync(os.tmpdir()));
+  assert.equal(path.dirname(fs.realpathSync(consumer)),fs.realpathSync(work));
   fs.rmSync(consumer,{recursive:true});
 }
 const jsBytes = packed.files.filter(file => file.path.endsWith('.js')).reduce((sum, file) => sum + file.size, 0);
@@ -242,12 +246,12 @@ const vestigeJsBytes=Object.entries({'vestige-content':4,'vestige-inlays':4,'ves
 },0);
 const vestigeData=packed.files.find(f=>f.path==='content/vestiges.json');
 assert(vestigeData?.size>0&&vestigeData.size<=8*1024,'Vestige catalogue exceeds 8 KiB or is missing');
-const accountWorkshopFile=packed.files.find(file=>file.path==='dist/account-workshop-session.js');
-// Explicit active-character coordination extends the previously 30 KiB owner.
-// Its allowance changes to 40 KiB; the predecessor/core and
-// independent 180 KiB account-only bundled-consumer budgets remain unchanged.
-assert.ok(accountWorkshopFile?.size>0&&accountWorkshopFile.size<=40*1024,'Optional account/workshop owner exceeds 40 KiB or is missing');
-const accountWorkshopJsBytes=accountWorkshopFile.size;
+// Facade, shared implementation and declaration-only marker share one cap.
+const accountWorkshopJsBytes=accountWorkshopRuntimeModules.reduce((sum,name)=>{
+  const member=packed.files.find(file=>file.path==='dist/'+name+'.js');
+  assert.ok(member?.size>0,'Missing account runtime module: '+name);return sum+member.size;
+},0);
+assert.ok(accountWorkshopJsBytes<=accountWorkshopRawBudget,'Optional account/workshop implementation exceeds reviewed allowance');
 const equipmentSkillsFile=packed.files.find(file=>file.path==='dist/equipment-skills.js');
 // A separate optional capability; retain every predecessor's existing bound.
 // Cold bar restoration adds 1,435 bytes to the previously qualified rebuild module.
@@ -424,3 +428,7 @@ fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringi
 }, null, 2) + '\n');
 console.log(result.trim());
 console.log(`Packaged runtime ${jsBytes} bytes JS; selected content ${contentBytes} bytes; archive ${packed.size} bytes.`);
+} finally {
+  assert.equal(path.dirname(fs.realpathSync(work)),fs.realpathSync(artifacts));
+  fs.rmSync(work,{recursive:true,maxRetries:3});
+}

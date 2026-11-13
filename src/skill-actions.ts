@@ -1,3 +1,4 @@
+import {executeSkillMerge} from './skill-merge-execution.js';
 import {AbilityRules, empowermentRank, type AbilityCost, type EmpoweredSkill, type SkillInvestment, type SkillTreeRules} from './skill-progression.js';
 import {skillTreeSpentCount, type SkillTreeNode} from './skill-tree.js';
 import {finite, integer} from './validation.js';
@@ -152,14 +153,5 @@ export class SkillActions<S, I extends ActionSkill, G extends ActionSupport, T> 
     this.#put(wallet, from.id, have - debit); this.#put(wallet, to.id, gain);
     p.text(p.position(seat), `${debit}× ${from.glyph} → ${credit}× ${to.glyph} ${to.label}`, to.color, 12); p.markCharacterDirty(); return true;
   });}
-  merge(seat: S, skillId: string, rarity: string): boolean {return this.#run(() => {
-    const p = this.#p; if (!p.nearFont(seat)) return false;
-    const plan = p.mergePlan(seat, skillId, rarity);
-    if (plan.refusal || !plan.result) {p.fail(seat, 'fontmerge:' + skillId, plan.refusal ?? 'Merging is unavailable.'); return false;}
-    const returned: G[] = [];
-    for (const item of plan.returnSockets) {const sockets = p.sockets(item); if (!sockets) return false; for (const support of sockets) if (support) returned.push(support);}
-    for (const item of plan.taken) p.remove(seat, item);
-    p.grantSkill(seat, plan.result); for (const support of returned) p.grantSupport(seat, support);
-    p.markCharacterDirty(); p.announceMerge(seat, plan.result); return true;
-  });}
+  merge(seat: S, skillId: string, rarity: string): boolean {return this.#run(() => executeSkillMerge(this.#p, seat, skillId, rarity));}
 }

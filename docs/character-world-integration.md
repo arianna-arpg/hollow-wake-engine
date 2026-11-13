@@ -3,19 +3,20 @@
 This internal integration foundation connects a durable account/character group
 to one live scene instance. Its four runtime modules have moved from the
 qualification workspace into `src`. They are not public package entry points
-yet: consolidation of the complete character factory and its original-game
-qualification course remains required before publication.
-The eleven internal integration modules are also excluded from the installable
+yet: complete installed composition, stable formats and the remaining live-state
+boundaries still need qualification. The character commands and their original
+comparison course are now maintained; see [composition qualification](character-composition-qualification.md).
+The twenty-three internal integration modules are excluded from the installable
 archive, including declarations and source maps. Repository tests compile them
 directly. The package gate checks this exclusion. The core and individual
-optional-module size limits remain unchanged.
+optional-module size limits follow the explicit [shared-account allowances](character-command-consolidation.md).
 Installed adapter and benchmark integrity checks derive their expected runtime
 file list from the source package manifest, and still compare shipped bytes
 against the build. The package gate independently compares that list with the
 actual archive. Complete local-build snapshots continue to include internal
 modules; an archive cannot define its own expected contents.
 
-The combined relic/workshop browser-consumer allowance is revised from 180 to
+The preceding foundation revised the combined relic/workshop browser allowance from 180 to
 181 KiB for the shared retained-investment admission methods and graft-validation
 hook. A controlled comparison against commit `309bc590` substitutes only the
 four changed shared modules into the same browser build: 184,302 bytes before
@@ -94,11 +95,12 @@ settles.
 
 ## Current verification
 
-The local consolidation course preserves all 343 assertion groups from the
-accepted private account/character/World course. Two fresh controls produce the
-same observation sequence; seven deliberately broken adapter behaviors are
-rejected and the restored control passes. That complete course still depends on
-private qualification material and must be consolidated before package release.
+The maintained consolidation course preserves all 343 assertion groups from the
+accepted account/character/World course, with additional ownership and malformed
+entry checks. Two fresh controls produce the same observation sequence; four
+deliberate account/entry faults are rejected and the restored control passes.
+Its fixtures, original-only generators and test hosts now live in the repository.
+The complete installed-package path remains a separate release requirement.
 
 These standalone checks now use maintained source directly:
 

@@ -1,3 +1,4 @@
+import {packageRuntimeSnapshot} from './package-runtime-files.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -17,7 +18,7 @@ assert.equal(location.statusDeliveryDecision, statusDeliveryDecision);
 const installed = fs.realpathSync(path.join(game, 'node_modules/@hollow-wake/engine'));
 assert(installed.startsWith(path.join(root, '.artifacts') + path.sep));
 const snapshot = dir => Object.fromEntries(listFiles(dir).map(file => [file, sha256(fs.readFileSync(path.join(dir, file)))]));
-assert.deepEqual(snapshot(path.join(installed, 'dist')), snapshot(path.join(root, 'dist')));
+assert.deepEqual(snapshot(path.join(installed, 'dist')), packageRuntimeSnapshot());
 const sourceBefore = snapshot(path.join(game, 'src')), packageBefore = snapshot(installed);
 const files = {
   runtime: path.join(installed, 'dist/status-delivery.js'),
