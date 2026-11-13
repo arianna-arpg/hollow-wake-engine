@@ -1,3 +1,4 @@
+import {completeWorkshopBoundary} from './character-workshop-boundary.js';
 import {AccountWorkshopSessionCore,type AccountWorkshopDefinitions,type AccountWorkshopLimits} from './account-workshop-core.js';
 import type {CompleteWorkshopKernel} from './complete-character-contracts.js';
 import {requireSession as need} from './session-json.js';
@@ -10,7 +11,7 @@ export class CompleteAccountWorkshopSession extends AccountWorkshopSessionCore {
   need(kernel!==null&&typeof kernel==='object'&&typeof kernel.execute==='function'&&
    kernel.character!==null&&typeof kernel.character==='object'&&typeof kernel.character.admit==='function'&&
    typeof kernel.character.checkInventory==='function'&&typeof kernel.character.uidFloor==='function','complete-kernel-required');
-  super(definitions,limits,{completeKernel:kernel});
+  super(definitions,limits,{completeKernel:kernel,completeBoundary:completeWorkshopBoundary});
  }
  preparedJournal(token:number){return this.readPreparedJournal(token);}
 }

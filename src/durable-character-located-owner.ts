@@ -1,3 +1,4 @@
+import type {PrivateBuildTransition,PreparedCharacterCommand} from './complete-character-contracts.js';
 import {copySessionJSON, requireSession as need, sessionFields as fields,
   sessionRecord as record, sessionInteger as integer, sessionText as text,
   sessionArray as array, type SessionJSON} from './session-json.js';
@@ -36,13 +37,8 @@ export interface CharacterGroupStorage {
   read(key: string): unknown | Promise<unknown>;
   commit(key: string, expectedRevision: number, body: LocatedCharacterGroup): CharacterStorageResult | Promise<CharacterStorageResult>;
 }
-export interface CharacterTransition {readonly profile: number; readonly accountKey: string; readonly before?: object; readonly after?: object}
-export interface CharacterJournalEntry {
-  readonly index: number;
-  readonly command: SessionJSON;
-  readonly reply: SessionJSON;
-  readonly transitions: readonly CharacterTransition[];
-}
+export type CharacterTransition=PrivateBuildTransition;
+export type CharacterJournalEntry=PreparedCharacterCommand;
 export interface PrivateCharacterOwner {
   command(input: unknown): unknown;
   preparedJournal(token: number): readonly CharacterJournalEntry[];

@@ -1,3 +1,4 @@
+import {changeCharacterPassive} from './character-passive-commands.js';
 import type {CharacterBuild,CharacterBuildService,CharacterBuildAdoption,CharacterBuildEdits} from './character-builds.js';
 import type {CraftingSessionData as BaseInventoryData,CraftingSessionState} from './crafting-session-data.js';
 import type {CharacterInventoryDefinitions} from './character-inventory-commands.js';
@@ -123,6 +124,11 @@ export class CharacterWorkshopAdmission {
     const held=this.#scoped(previous,scope),result=changeCharacterPickup({saved:held.saved,definitions:this.#defs,inventory:this.#inventory,admitDrop:raw=>this.#dropCodec(raw) as unknown as CharacterGemDelivery},request,conditions);
     const {request:next,...reply}=result;
     return {token:this.rebuild(previous,next,scope),...reply};
+  }
+  passive(previous:CharacterWorkshopHandle,scope:CharacterWorkshopScope,request:unknown,conditions:unknown){
+    this.#scoped(previous,scope);
+    return changeCharacterPassive({policy:this.#defs.character.passives,previous,
+      read:token=>this.read(token),rebuild:(token,next)=>this.rebuild(token,next,scope)},request,conditions);
   }
   inventory(previous:CharacterWorkshopHandle,scope:CharacterWorkshopScope,request:unknown,random:RandomState){
     const held=this.#scoped(previous,scope),result=this.#cargoCommands.execute(held.saved,scope,request,random);

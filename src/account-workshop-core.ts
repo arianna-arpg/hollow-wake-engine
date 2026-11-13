@@ -1,5 +1,5 @@
-import type {CompleteCharacterContext,CompleteCharacterCodec,CompleteWorkshopKernel,WorkshopRuleScope} from './complete-character-contracts.js';
-export type {CompleteCharacterContext,CompleteCharacterCodec,CompleteWorkshopKernel,WorkshopRuleScope} from './complete-character-contracts.js';
+import type {CompleteCharacterContext,CompleteCharacterCodec,CompleteWorkshopKernel,WorkshopRuleScope,CompleteBuildTransition,PrivateBuildTransition,CompleteWorkshopBoundary,PreparedCharacterCommand} from './complete-character-contracts.js';
+export type {CompleteCharacterContext,CompleteCharacterCodec,CompleteWorkshopKernel,WorkshopRuleScope,CompleteBuildTransition,PrivateBuildTransition,CompleteWorkshopBoundary,PreparedCharacterCommand} from './complete-character-contracts.js';
 import {ProgressionSession,type ProgressionSessionContent} from './progression-session.js';
 import {CraftingSession} from './crafting-session.js';
 import {CraftingSessionData,type CraftingSessionDefinitions} from './crafting-session-data.js';
@@ -11,18 +11,16 @@ import type {ProgressionRelic} from './progression-session.js';
 import type {ItemInstance} from './item-types.js';
 import type {WorkshopBuildPort,WorkshopBuildInput,WorkshopRelicGrantWrite} from './workshop-build-preparation.js';
 import {WorkshopCharacterData,type WorkshopCharacterDefinitions,type WorkshopCharacterState} from './workshop-character.js';
-import {copySessionJSON,retainSessionPart,SessionInputError,requireSession as need,sessionFields as fields,
+import {copySessionJSON,SessionInputError,requireSession as need,sessionFields as fields,
   sessionRecord as record,sessionInteger as integer,sessionText as text,sessionBoolean as bool,sessionArray as array,type SessionJSON} from './session-json.js';
 
 type ObjectJSON=Record<string,SessionJSON>;
-type KernelResult={reply:SessionJSON;save:ObjectJSON;continuation?:object;character?:CompleteCharacterContext;relicWrites?:readonly WorkshopRelicGrantWrite[];owner?:Account};
+type KernelResult={reply:SessionJSON;save:ObjectJSON;continuation?:object;character?:CompleteCharacterContext;relicWrites?:readonly WorkshopRelicGrantWrite[];owner?:Account;rebuilds?:readonly CompleteBuildTransition[]};
 type Account={key:string;progression:ObjectJSON;craftLore:SessionJSON;extra:SessionJSON;version:number;relicItems?:SessionJSON;
   active?:number;relicState?:RelicState<ItemInstance>};
 type Workshop={account:number;body:ObjectJSON;progression:boolean;version:number;build?:object;buildAccount?:Account;character?:CompleteCharacterContext};
 type OwnerState={accounts:Map<number,Account>;keys:Set<string>;workshops:Map<number,Workshop>};
 type PreparedWrite={kind:'account'|'workshop';handle:number};
-export interface PrivateBuildTransition {readonly profile:number;readonly accountKey:string;readonly before?:object;readonly after?:object}
-export interface PreparedCharacterCommand {readonly index:number;readonly command:SessionJSON;readonly reply:SessionJSON;readonly transitions:readonly PrivateBuildTransition[]}
 type PreparedChange={token:number;state:OwnerState;writes:PreparedWrite[];journal:readonly PreparedCharacterCommand[]};
 export interface WorkshopRuleKernel {
   execute(open:Readonly<Record<string,SessionJSON>>,command:Readonly<Record<string,SessionJSON>>|undefined,
@@ -31,6 +29,7 @@ export interface WorkshopRuleKernel {
 export interface AccountWorkshopKernelOptions {
   ruleKernel?:WorkshopRuleKernel;
   completeKernel?:CompleteWorkshopKernel;
+  completeBoundary?:CompleteWorkshopBoundary;
 }
 export interface AccountWorkshopDefinitions {
   progression:ProgressionSessionContent;
@@ -64,6 +63,7 @@ export class AccountWorkshopSessionCore {
   readonly #crafting?:CraftingSession;
   readonly #ruleKernel?:WorkshopRuleKernel;
   readonly #completeKernel?:CompleteWorkshopKernel;
+  readonly #completeBoundary?:CompleteWorkshopBoundary;
   readonly #data:CraftingSessionData;
   readonly #preparation?:WorkshopBuildPort;
   readonly #character?:CompleteCharacterCodec;
@@ -82,7 +82,8 @@ export class AccountWorkshopSessionCore {
     integer(accounts,1,64);integer(workshops,1,256);
     this.#limits={accounts,workshops};
     need(!kernels.completeKernel||(!kernels.ruleKernel&&!definitions.preparation),'conflicting-workshop-kernels');
-    this.#ruleKernel=kernels.ruleKernel;this.#completeKernel=kernels.completeKernel;
+    need(!kernels.completeKernel||kernels.completeBoundary,'complete-boundary-required');
+    this.#ruleKernel=kernels.ruleKernel;this.#completeKernel=kernels.completeKernel;this.#completeBoundary=kernels.completeBoundary;
     // Content is compiled once and reused. Only private temporary handle zero
     // enters each existing rule kernel; public handles belong to this owner.
     this.#progression=new ProgressionSession(definitions.progression,1);
@@ -187,14 +188,7 @@ export class AccountWorkshopSessionCore {
       if(this.#completeKernel){
         const result=this.#completeKernel.execute(previous,copySessionJSON(open) as ObjectJSON,
           command===undefined?undefined:copySessionJSON(command) as ObjectJSON,scope);
-        fields(result,['reply','save','continuation','character','relicWrites']);record(result.save);
-        need(result.continuation!==null&&typeof result.continuation==='object','invalid-build-continuation');
-        const save=copySessionJSON(result.save) as ObjectJSON;
-        const character=this.#character!.admit(result.character,save.state as unknown as WorkshopBuildInput['state']);
-        const writes=result.relicWrites===undefined?undefined:copySessionJSON(result.relicWrites);
-        if(writes!==undefined){array(writes,512);need(writes.length===0||scope.relics.role==='active','inactive-relic-write');}
-        return{reply:copySessionJSON(result.reply),save,character,continuation:result.continuation,
-          relicWrites:writes as unknown as WorkshopRelicGrantWrite[]|undefined,owner};
+        return{...this.#completeBoundary!.admit(result,this.#character!,previous,stage==='command'&&command!==undefined,scope),owner};
       }
       const result=this.#ruleKernel!.execute(copySessionJSON(open) as ObjectJSON,
         command===undefined?undefined:copySessionJSON(command) as ObjectJSON,scope);
@@ -218,7 +212,10 @@ export class AccountWorkshopSessionCore {
       // the committed graph or a cold save.
       const result=executed?.owner===owner?executed:this.#withWorkshop(profile,owner,executed?.character??character,'normalized',
         {op:'restore',save},undefined,executed?.continuation??previous?.build);
-      return{save:result.save,build:result.continuation,buildAccount:owner,character:result.character,relicWrites:result.relicWrites};
+      const rebuilds=executed?.rebuilds;
+      // Canonical-account normalization follows every command rebuild; never discard the intermediate path.
+      const path=rebuilds&&result!==executed?this.#completeBoundary!.extend(rebuilds,executed!.continuation!,result.continuation!):rebuilds;
+      return{save:result.save,build:result.continuation,buildAccount:owner,character:result.character,relicWrites:result.relicWrites,rebuilds:path};
     }
     const preparation=this.#preparation;
     if(!preparation)return {save,build:undefined,buildAccount:undefined,character};
@@ -275,7 +272,7 @@ export class AccountWorkshopSessionCore {
    * final account. No candidate becomes visible until all admissions succeed. */
   #coordinateRelicBuilds(id:number,account:Account,base:Account,command:ObjectJSON,
     edited?:{profile:number;save:ObjectJSON;phase:WorkshopBuildInput['phase'];executed?:KernelResult}) {
-    const replacements=new Map<number,Workshop>();
+    const replacements=new Map<number,Workshop>(),paths=new Map<number,readonly CompleteBuildTransition[]>();
     const order:number[]=[];
     if(account.active!==undefined)order.push(account.active);
     if(edited&&edited.profile!==account.active)order.push(edited.profile);
@@ -293,9 +290,9 @@ export class AccountWorkshopSessionCore {
       const body=this.#body(prepared.save),changed=!same(body,current.body)||!same(prepared.character,current.character);
       if(prepared.build===current.build&&!changed)continue;
       const next={...current,body,character:prepared.character,build:prepared.build,buildAccount:account,version:changed?this.#next(current.version):current.version};
-      this.#checkWorkshop(next,account);replacements.set(profile,next);
+      this.#checkWorkshop(next,account);replacements.set(profile,next);if(prepared.rebuilds)paths.set(profile,prepared.rebuilds);
     }
-    this.#checkBindings(id,account,replacements);return {account,replacements};
+    this.#checkBindings(id,account,replacements);return {account,replacements,paths};
   }
   #refreshBuilds(id:number,account:Account,command:ObjectJSON,except?:number) {
     const replacements=new Map<number,Workshop>();
@@ -324,7 +321,7 @@ export class AccountWorkshopSessionCore {
     integer(this.#nextToken,1,Number.MAX_SAFE_INTEGER);
     const committed=this.#state;
     const staged:OwnerState={accounts:new Map(committed.accounts),keys:new Set(committed.keys),workshops:new Map(committed.workshops)};
-    const replies:ObjectJSON[]=[],writes:PreparedWrite[]=[],journal:PreparedCharacterCommand[]|undefined=this.#completeKernel?[]:undefined;
+    const replies:ObjectJSON[]=[],writes:PreparedWrite[]=[],journal=this.#completeKernel?this.#completeBoundary!.journal():undefined;
     // Existing commands publish by replacing complete admitted records. A
     // shallow map fork therefore shares unchanged records and compiled rules.
     // Always restore the committed view, including validation/callback errors.
@@ -332,9 +329,9 @@ export class AccountWorkshopSessionCore {
       this.#state=staged;
       for(const command of request.commands){
         record(command);need(command.op==='account'||command.op==='workshop'||command.op==='activate-workshop','invalid-prepared-operation');
+        const beforeAccounts=journal?new Map(this.#accounts):undefined;
         const transitions:PrivateBuildTransition[]|undefined=journal?[]:undefined,reply=this.#require(this.#command(command,transitions));replies.push(reply);
-        if(journal)journal.push(Object.freeze({index:journal.length,command:retainSessionPart(command).value,reply:retainSessionPart(reply).value,
-          transitions:Object.freeze(transitions!.map(row=>Object.freeze(row)))}));
+        if(journal)journal.push(command as SessionJSON,reply,transitions!,beforeAccounts!,this.#accounts,account=>this.#accountSave(account as Account));
       }
       for(const[handle,account]of staged.accounts)if(account!==committed.accounts.get(handle))writes.push({kind:'account',handle});
       for(const[handle,workshop]of staged.workshops)if(workshop!==committed.workshops.get(handle))writes.push({kind:'workshop',handle});
@@ -346,15 +343,12 @@ export class AccountWorkshopSessionCore {
       const effects=this.#completeKernel&&replies.some(row=>{const reply=row.reply;return reply!==null&&typeof reply==='object'&&!Array.isArray(reply)&&Array.isArray(reply.events)&&reply.events.length>0;});
       const token=writes.length||effects?this.#nextToken:0;
       const reply=copySessionJSON({ok:true,token,writes,replies});
-      if(token){this.#prepared={token,state:staged,writes,journal:Object.freeze(journal??[])};this.#nextToken++;}
+      if(token){this.#prepared={token,state:staged,writes,journal:journal?.finish()??[]};this.#nextToken++;}
       return reply;
     }finally{this.#state=committed;}
   }
-  #setWorkshop(profile:number,workshop:Workshop,transitions?:PrivateBuildTransition[]) {
-    if(transitions){
-      need(transitions.length<256,'character-transition-limit');
-      transitions.push({profile,accountKey:this.#account(workshop.account).key,before:this.#workshops.get(profile)?.build,after:workshop.build});
-    }
+  #setWorkshop(profile:number,workshop:Workshop,transitions?:PrivateBuildTransition[],path?:readonly CompleteBuildTransition[]) {
+    if(transitions)this.#completeBoundary!.append(transitions,profile,this.#account(workshop.account).key,this.#workshops.get(profile)?.build,workshop.build,path);
     this.#workshops.set(profile,workshop);
   }
   /** Trusted read-only acknowledgement plan. Opaque continuations never enter
@@ -428,7 +422,7 @@ export class AccountWorkshopSessionCore {
       const result=this.#coordinateRelicBuilds(request.account as number,{...account,active},account,request as ObjectJSON);
       const reply=copySessionJSON({ok:true,changed:true,profile:active??null,version:result.account.version});
       this.#accounts.set(request.account as number,result.account);
-      for(const[profile,workshop]of result.replacements)this.#setWorkshop(profile,workshop,transitions);
+      for(const[profile,workshop]of result.replacements)this.#setWorkshop(profile,workshop,transitions,result.paths.get(profile));
       return reply;
     }
     if(request.op==='open-account' || request.op==='restore-account') {
@@ -538,7 +532,7 @@ export class AccountWorkshopSessionCore {
         const result=this.#coordinateRelicBuilds(request.account as number,next,account,command);
         const answer=copySessionJSON({ok:true,reply,changed:!same(result.account.progression,account.progression),version:result.account.version});
         this.#accounts.set(request.account as number,result.account);
-        for(const[profile,workshop]of result.replacements)this.#setWorkshop(profile,workshop,transitions);
+        for(const[profile,workshop]of result.replacements)this.#setWorkshop(profile,workshop,transitions,result.paths.get(profile));
         return answer;
       }
       const replacements=changed?this.#refreshBuilds(request.account as number,next,command):new Map<number,Workshop>();
@@ -569,7 +563,7 @@ export class AccountWorkshopSessionCore {
         const changed=!same(next.body,workshop.body)||!same(next.character,workshop.character),sharedChanged=coordinated.account!==account;
         const answer=copySessionJSON({ok:true,reply,changed,accountChanged:sharedChanged,version:next.version,accountVersion:coordinated.account.version});
         if(sharedChanged)this.#accounts.set(workshop.account,coordinated.account);
-        for(const[profile,replacement]of coordinated.replacements)this.#setWorkshop(profile,replacement,transitions);
+        for(const[profile,replacement]of coordinated.replacements)this.#setWorkshop(profile,replacement,transitions,coordinated.paths.get(profile));
         return answer;
       }
       const prepared=this.#prepareBuild(request.profile as number,result.save,nextAccount,'command',workshop,command,result.character??workshop.character,result);
@@ -584,7 +578,7 @@ export class AccountWorkshopSessionCore {
       // All allocations, reply admission and rule callbacks finish before either
       // reference is promoted. The account and inventory become visible together.
       if(accountChanged)this.#accounts.set(workshop.account,nextAccount);
-      for(const[profile,replacement]of replacements)this.#setWorkshop(profile,replacement,transitions);
+      for(const[profile,replacement]of replacements)this.#setWorkshop(profile,replacement,transitions,profile===request.profile?prepared.rebuilds:undefined);
       return answer;
     }
     return refuse('unknown-operation');

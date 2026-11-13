@@ -17,9 +17,31 @@ export interface WorkshopRuleScope {
  delivery?:'prepare';account:Readonly<CharacterObjectJSON>;characterInput?:SessionJSON;
  relics:{role:'inactive'}|{role:'active';state:RelicState<ItemInstance>};
 }
+/** A command's private intermediate rebuilds, never serialized or caller-assigned identities. */
+export interface CompleteBuildTransition {readonly before:object;readonly after:object}
+export interface PrivateBuildTransition {readonly profile:number;readonly accountKey:string;readonly before?:object;readonly after?:object}
+export interface AdmittedCompleteWorkshopResult {
+ reply:SessionJSON;save:CharacterObjectJSON;continuation:object;character:CompleteCharacterContext;
+ relicWrites?:readonly WorkshopRelicGrantWrite[];rebuilds?:readonly CompleteBuildTransition[];
+}
+export interface AccountJournalReference {readonly key:string;readonly version:number;readonly active?:number}
+export type CharacterReadonlyJSON=null|boolean|number|string|readonly CharacterReadonlyJSON[]|{readonly [key:string]:CharacterReadonlyJSON};
+export interface PreparedAccountView {readonly version:number;readonly activeProfile:number|null;readonly save:Readonly<Record<string,CharacterReadonlyJSON>>}
+export interface PreparedAccountTransition {readonly account:number;readonly accountKey:string;readonly before:PreparedAccountView;readonly after:PreparedAccountView}
+export interface PreparedCharacterCommand {readonly index:number;readonly command:SessionJSON;readonly reply:SessionJSON;readonly transitions:readonly PrivateBuildTransition[];readonly accounts:readonly PreparedAccountTransition[]}
+export interface CompleteJournalBuilder {
+ push(command:SessionJSON,reply:SessionJSON,transitions:PrivateBuildTransition[],before:ReadonlyMap<number,AccountJournalReference>,after:ReadonlyMap<number,AccountJournalReference>,save:(account:AccountJournalReference)=>CharacterObjectJSON):void;
+ finish():readonly PreparedCharacterCommand[];
+}
+export interface CompleteWorkshopBoundary {
+ journal():CompleteJournalBuilder;
+ admit(raw:unknown,codec:CompleteCharacterCodec,previous:object|undefined,command:boolean,scope:WorkshopRuleScope):AdmittedCompleteWorkshopResult;
+ extend(path:readonly CompleteBuildTransition[]|undefined,before:object,after:object):readonly CompleteBuildTransition[]|undefined;
+ append(transitions:PrivateBuildTransition[],profile:number,accountKey:string,before:object|undefined,after:object|undefined,path?:readonly CompleteBuildTransition[]):void;
+}
 export interface CompleteWorkshopKernel {
  character:CompleteCharacterCodec;
  execute(previous:object|undefined,open:Readonly<CharacterObjectJSON>,command:Readonly<CharacterObjectJSON>|undefined,scope:WorkshopRuleScope):{
-  reply:SessionJSON;save:CharacterObjectJSON;continuation:object;character:SessionJSON;relicWrites?:readonly WorkshopRelicGrantWrite[];
+  reply:SessionJSON;save:CharacterObjectJSON;continuation:object;character:SessionJSON;relicWrites?:readonly WorkshopRelicGrantWrite[];rebuilds?:readonly CompleteBuildTransition[];
  };
 }

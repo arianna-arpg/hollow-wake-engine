@@ -1,5 +1,5 @@
 import {CharacterWorkshopAdmission,type CharacterWorkshopDefinitions,type CharacterWorkshopHandle,type CharacterWorkshopScope} from './character-workshop-commands.js';
-import type {CompleteCharacterCodec,CompleteWorkshopKernel,CharacterObjectJSON,WorkshopRuleScope} from './complete-character-contracts.js';
+import type {CompleteCharacterCodec,CompleteWorkshopKernel,CharacterObjectJSON,WorkshopRuleScope,CompleteBuildTransition} from './complete-character-contracts.js';
 import {ProgressionCharacterData,type ProgressionCharacterState} from './workshop-character-progression.js';
 import {CompleteWorkshopCharacterData as WorkshopCharacterData} from './workshop-character-complete.js';
 import type {WorkshopCharacterState} from './workshop-character.js';
@@ -77,12 +77,17 @@ export class CompleteAccountKernel implements CompleteWorkshopKernel {
   need(equal(projected,trusted),'conflicting-account-projection');
   const localScope:CharacterWorkshopScope={profile:scope.profile,accountKey:scope.accountKey,account:trusted,relics:scope.relics};
   const request={capability:'character-workshop/residence-diagnostic',state:inventory,character:scope.characterInput,nextUid};
-  let token:CharacterWorkshopHandle,reply:SessionJSON=null;
+  let token:CharacterWorkshopHandle,reply:SessionJSON=null,rebuilds:readonly CompleteBuildTransition[]|undefined;
   if(command!==undefined){
    need(previous,'missing-character-continuation');const handle=previous as CharacterWorkshopHandle,held=this.#service.read(handle);
    need(equal(inventory,held.state)&&equal(scope.characterInput,held.character)&&nextUid===held.nextUid,'stale-character-continuation');
    const method=typeof command.op==='string'&&Object.hasOwn(wrapped,command.op)?wrapped[command.op]:undefined;
-   if(method){
+   if(command.op==='character-passive'){
+    fields(command,['op','command']);
+    const conditions=copySessionJSON(this.#conditions({profile:scope.profile,accountKey:scope.accountKey,command:copySessionJSON(command)}));
+    const {token:next,rebuilds:path,...details}=this.#service.passive(handle,localScope,command.command,conditions);
+    token=next;if(path.length)rebuilds=path;reply={ok:true,...details};
+   }else if(method){
     fields(command,['op','command']);need(method!=='pickup'||scope.delivery==='prepare','durable-pickup-required');
     const conditions=copySessionJSON(this.#conditions({profile:scope.profile,accountKey:scope.accountKey,command:copySessionJSON(command)}));
     const result=this.#service[method](handle,localScope,command.command,conditions);
@@ -99,7 +104,7 @@ export class CompleteAccountKernel implements CompleteWorkshopKernel {
   this.#trace({profile:scope.profile,accountKey:scope.accountKey,stage:scope.stage,previous,continuation:token,role:scope.relics.role,reply});
   // These values are constructed from admitted JSON; the account owner performs
   // its complete reply/save admission before it promotes the continuation.
-  return{reply,save:save as unknown as CharacterObjectJSON,character:held.character as unknown as SessionJSON,continuation:token,relicWrites:held.relicWrites};
+  return{reply,save:save as unknown as CharacterObjectJSON,character:held.character as unknown as SessionJSON,continuation:token,relicWrites:held.relicWrites,...(rebuilds?{rebuilds}:{})};
  }
  read(token:CharacterWorkshopHandle){return this.#service.read(token);}
  inventoryItems(token:CharacterWorkshopHandle){return this.#service.inventoryItems(token);}

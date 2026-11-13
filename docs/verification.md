@@ -12,6 +12,17 @@ action ordering and Godot bundle checks are also maintained. See
 [composition qualification](character-composition-qualification.md) and
 [the integration boundary](character-world-integration.md) for their limits.
 
+The maintained [passive command boundary](character-passive-commands.md) adds
+`test:character-passive-effects`, `test:character-passive-composition` and
+`test:character-passive-world`. These retain intermediate rebuilds and compare
+delayed acknowledgements against actual original actors. The shared composition
+runner preserves the accepted base course unchanged and reads no session-private
+test inputs. `test:character-account-journal` verifies intermediate account views
+and rejects three deliberately broken variants. Mixed account/passive and
+passive-only scene recovery courses run in the maintained passive composition.
+Complete live actor recovery and target-device qualification remain
+separate requirements.
+
 Historical Unity evidence uses source and compiled output from the same immutable
 release. `scripts/evidence-source.mjs` rebuilds historical TypeScript in memory
 with its recorded compiler version and checks the original accepted hashes.

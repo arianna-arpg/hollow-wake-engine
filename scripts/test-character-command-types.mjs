@@ -1,15 +1,15 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import ts from 'typescript';
 import {root} from './reference-utils.mjs';
 const directory=path.join(root,'test/character-commands');
-const fixtures=["character-bar-commands","character-support-commands","character-pickup-commands","character-merge-commands","character-rack-commands","character-progression-commands","character-workshop-commands","complete-account-commands","account-workshop-core","passive-actions"].map(name=>path.join(directory,name+'-types.ts'));
+const fixtures=["character-bar-commands","character-support-commands","character-pickup-commands","character-merge-commands","character-rack-commands","character-progression-commands","character-workshop-commands","complete-account-commands","account-workshop-core","passive-actions","character-passive","account-journal"].map(name=>path.join(directory,name+'-types.ts'));
 const options={noEmit:true,strict:true,target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.NodeNext,moduleResolution:ts.ModuleResolutionKind.NodeNext};
 const format=rows=>rows.map(d=>({file:d.file?.fileName,code:d.code,message:ts.flattenDiagnosticMessageText(d.messageText,'\n')}));
 assert.deepEqual(format(ts.getPreEmitDiagnostics(ts.createProgram(fixtures,options))),[]);
 const expected=new Map(fixtures.map(f=>[path.resolve(f),(fs.readFileSync(f,'utf8').match(/@ts-expect-error/g)??[]).length]));
-assert.equal([...expected.values()].reduce((sum,n)=>sum+n,0),57);
+assert.equal([...expected.values()].reduce((sum,n)=>sum+n,0),75);
 const host=ts.createCompilerHost(options),get=host.getSourceFile.bind(host);
 host.getSourceFile=(f,...args)=>expected.has(path.resolve(f))?ts.createSourceFile(f,fs.readFileSync(f,'utf8').replaceAll('@ts-expect-error','expected-invalid-call'),args[0],true):get(f,...args);
 const errors=ts.getPreEmitDiagnostics(ts.createProgram(fixtures,options,host));
-assert.equal(errors.length,57,JSON.stringify(format(errors)));
+assert.equal(errors.length,75,JSON.stringify(format(errors)));
 for(const[f,count]of expected)assert.equal(errors.filter(d=>path.resolve(d.file?.fileName??'')===f).length,count,f);
 console.log({passed:true,fixtures:fixtures.length,negativeCases:errors.length});

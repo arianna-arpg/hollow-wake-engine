@@ -6,7 +6,7 @@ qualification workspace into `src`. They are not public package entry points
 yet: complete installed composition, stable formats and the remaining live-state
 boundaries still need qualification. The character commands and their original
 comparison course are now maintained; see [composition qualification](character-composition-qualification.md).
-The twenty-three internal integration modules are excluded from the installable
+The twenty-six internal integration modules are excluded from the installable
 archive, including declarations and source maps. Repository tests compile them
 directly. The package gate checks this exclusion. The core and individual
 optional-module size limits follow the explicit [shared-account allowances](character-command-consolidation.md).
@@ -80,6 +80,12 @@ changes, effects and pickup retirement in their original order. Final world
 reconciliation uses the prepared candidate, before the owner's readable snapshot
 advances. Replacing this sequence with a final snapshot assignment loses
 intermediate game behavior.
+
+Passive allocation, refund and graft commands now retain their intermediate
+rebuilds through this journal. Their separate effect player resolves current
+skills and surviving summons at acknowledgement; it does not restore old combat
+state. See [the passive command boundary](character-passive-commands.md) for the
+maintained comparisons and remaining complete-actor responsibilities.
 
 A known storage refusal discards the prepared live lease. Conflicts, uncertain
 commit acknowledgements and failed live publication require recovery through a

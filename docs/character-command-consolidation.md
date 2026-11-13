@@ -1,6 +1,6 @@
 # Character command consolidation
 
-This working integration consolidates bar, rack, support, merge, progression,
+The published `ddf5364` integration consolidates bar, rack, support, merge, progression,
 pickup and account commands into maintained TypeScript modules. Complete
 character operations remain internal. They do not establish a stable save
 format, a complete game adapter or native-engine compatibility.
@@ -14,7 +14,7 @@ the existing action service and complete character commands.
 ## Size allowance
 
 The installed legacy relic/workshop consumer at foundation commit `47d1777`
-measured 184,555 minified bytes. With the shared account core it measures
+measured 184,555 minified bytes. At `ddf5364`, the shared account core measures
 187,231 bytes, or 58,815 gzip bytes: 2,676 additional minified bytes. An isolated
 combined-composition comparison avoids 16,334 minified bytes, or 2,886 gzip
 bytes, by sharing the owner instead of retaining both implementations. That
@@ -22,7 +22,7 @@ combined comparison is a development bundle, not a public package entry.
 
 The raw account implementation grows from 38,009 bytes to 44,516 across its
 facade and shared core. Its declaration-only runtime marker adds 67 bytes,
-giving a complete shipped account group of 44,583 bytes. All three modules
+giving a complete shipped account group of 44,583 bytes at `ddf5364`. All three modules
 must count toward the same allowance; measuring the facade alone would hide
 the implementation.
 
@@ -37,5 +37,12 @@ previous behavior fault. Runtime-byte integrity remains source-derived.
 
 These measurements establish a code-size tradeoff. They do not measure command
 latency, allocation rate, peak memory or performance on Steam Deck or phones.
-The complete installed composition and full release checks still need to pass
-before this working integration is published.
+That consolidation passed the full local verification and reference courses
+before publication. Hosted validation is recorded separately against its commit.
+
+The subsequent [passive command boundary](character-passive-commands.md) moves
+complete-character admission into an excluded internal module. With the
+[per-command account journal](character-account-journal.md), its installed
+legacy account group measures 44,518 raw bytes, and the relic/workshop browser
+consumer measures 187,049 minified bytes. Both retain the same limits above.
+These are package-size measurements, not device-performance results.
