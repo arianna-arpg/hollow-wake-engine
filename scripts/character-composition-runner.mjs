@@ -8,6 +8,8 @@ import {progressionGatePack} from './compile-progression-gates.mjs';
 import {buildCharacterTriggerQuery} from './build-character-trigger-query.mjs';
 import {patchWorldDelivery} from './character-world-delivery-overlay.mjs';
 const defaultFaults=[
+ {name:'forget-reused-build-account',file:'src/account-workshop-core.ts',edits:[['return current.buildAccount===buildAccount?current:{...current,buildAccount};','return current;']]},
+ {name:'reuse-build-during-activation',file:'src/complete-account-commands.ts',edits:[['this.#reuseAccountBuilds&&scope.retainUnchangedBuild?this.#service.retain','true?this.#service.retain']]},
  {name:'skip-entry-item-shape',file:'src/complete-account-commands.ts',edits:[['array(value.items);record(value.equipped);array(value.overflow);','record(value.equipped);array(value.overflow);']]},
  {name:'forget-owned-identity-floor',file:'src/complete-account-commands.ts',edits:[['return floor;','return 1;']]},
  {name:'drop-journal',file:'src/account-workshop-core.ts',edits:[['if(journal)journal.push','if(false&&journal)journal.push']]},

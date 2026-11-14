@@ -182,9 +182,10 @@ export class AccountWorkshopSessionCore {
       return {reply,save};
     }finally{this.#require(this.#progression.command({op:'close',profile:0}));}
   }
-  #withWorkshop(profile:number,owner:Account,characterInput:unknown,stage:WorkshopRuleScope['stage'],open:ObjectJSON,command?:ObjectJSON,previous?:object,delivery=false):KernelResult {
+  #withWorkshop(profile:number,owner:Account,characterInput:unknown,stage:WorkshopRuleScope['stage'],open:ObjectJSON,command?:ObjectJSON,previous?:object,delivery=false,retainUnchangedBuild=false):KernelResult {
     if(this.#ruleKernel||this.#completeKernel){
       const scope:WorkshopRuleScope={profile,accountKey:owner.key,stage,...(delivery?{delivery:'prepare' as const}:{}),
+        ...(retainUnchangedBuild?{retainUnchangedBuild:true as const}:{}),
         account:copySessionJSON(this.#accountSave(owner)) as ObjectJSON,
         ...(characterInput===undefined?{}:{characterInput:copySessionJSON(characterInput)}),
         relics:this.#relicBuilds&&owner.active===profile?
@@ -215,7 +216,7 @@ export class AccountWorkshopSessionCore {
       // A changed canonical account rebuilds from that command candidate, never from
       // the committed graph or a cold save.
       const result=executed?.owner===owner?executed:this.#withWorkshop(profile,owner,executed?.character??character,'normalized',
-        {op:'restore',save},undefined,executed?.continuation??previous?.build);
+        {op:'restore',save},undefined,executed?.continuation??previous?.build,false,phase!=='activation');
       const rebuilds=executed?.rebuilds;
       // Canonical-account normalization follows every command rebuild; never discard the intermediate path.
       const path=rebuilds&&result!==executed?this.#completeBoundary!.extend(rebuilds,executed!.continuation!,result.continuation!):rebuilds;
@@ -272,6 +273,12 @@ export class AccountWorkshopSessionCore {
     const next={...account,progression,version:account.version===base.version?this.#next(base.version):account.version};
     this.#checkAccount(next);return next;
   }
+  #nextWorkshop(current:Workshop,prepared:{save:ObjectJSON;character?:CompleteCharacterContext;build?:object;buildAccount?:Account},account:Account,buildAccount=prepared.buildAccount):Workshop {
+    const body=this.#body(prepared.save),changed=!same(body,current.body)||!same(prepared.character,current.character);
+    if(prepared.build===current.build&&!changed)return current.buildAccount===buildAccount?current:{...current,buildAccount};
+    const next={...current,body,character:prepared.character,build:prepared.build,buildAccount,version:changed?this.#next(current.version):current.version};
+    this.#checkWorkshop(next,account);return next;
+  }
   /** Active build normalizes account bodies first; every sibling then sees that
    * final account. No candidate becomes visible until all admissions succeed. */
   #coordinateRelicBuilds(id:number,account:Account,base:Account,command:ObjectJSON,
@@ -291,10 +298,8 @@ export class AccountWorkshopSessionCore {
       const prepared=this.#prepareBuild(profile,save,account,phase,current,command,edited?.profile===profile?edited.executed?.character??current.character:current.character,edited?.profile===profile?edited.executed:undefined);
       account=this.#writeRelicGrants(account,base,prepared.relicWrites);
       if(active)need(this.#alignRelics(prepared.save,current.character,account)===prepared.save,'relic-uid-floor');
-      const body=this.#body(prepared.save),changed=!same(body,current.body)||!same(prepared.character,current.character);
-      if(prepared.build===current.build&&!changed)continue;
-      const next={...current,body,character:prepared.character,build:prepared.build,buildAccount:account,version:changed?this.#next(current.version):current.version};
-      this.#checkWorkshop(next,account);replacements.set(profile,next);if(prepared.rebuilds)paths.set(profile,prepared.rebuilds);
+      const next=this.#nextWorkshop(current,prepared,account,account);
+      if(next!==current){replacements.set(profile,next);if(prepared.rebuilds)paths.set(profile,prepared.rebuilds);}
     }
     this.#checkBindings(id,account,replacements);return {account,replacements,paths};
   }
@@ -302,11 +307,7 @@ export class AccountWorkshopSessionCore {
     const replacements=new Map<number,Workshop>();
     if(this.#preparation||this.#completeKernel)for(const[profile,current]of this.#workshops)if(current.account===id&&profile!==except){
       const prepared=this.#prepareBuild(profile,this.#join(current,account),account,'account',current,command);
-      const body=this.#body(prepared.save),changed=!same(body,current.body)||!same(prepared.character,current.character);
-      if(prepared.build===current.build&&!changed)continue;
-      const next={...current,body,character:prepared.character,build:prepared.build,buildAccount:prepared.buildAccount,
-        version:changed?this.#next(current.version):current.version};
-      this.#checkWorkshop(next,account);replacements.set(profile,next);
+      const next=this.#nextWorkshop(current,prepared,account);if(next!==current)replacements.set(profile,next);
     }
     return replacements;
   }
@@ -344,7 +345,13 @@ export class AccountWorkshopSessionCore {
         if(journal)journal.push(command as SessionJSON,reply,transitions!,beforeAccounts!,this.#accounts,account=>this.#accountSave(account as Account));
       }
       for(const[handle,account]of staged.accounts)if(account!==committed.accounts.get(handle))writes.push({kind:'account',handle});
-      for(const[handle,workshop]of staged.workshops)if(workshop!==committed.workshops.get(handle))writes.push({kind:'workshop',handle});
+      for(const[handle,workshop]of staged.workshops){
+        const previous=committed.workshops.get(handle);
+        // Prepared commands cannot rebind workshops. Account association alone
+        // changes no saved fields; its private record still commits atomically.
+        if(workshop!==previous&&(workshop.body!==previous?.body||workshop.character!==previous?.character||
+          workshop.build!==previous?.build))writes.push({kind:'workshop',handle});
+      }
       need(writes.length<=8,'prepared-record-limit');
       // Every exported candidate uses the same already admitted save envelope.
       // Saving never executes further rules or consumes either random stream.
@@ -577,12 +584,10 @@ export class AccountWorkshopSessionCore {
         return answer;
       }
       const prepared=this.#prepareBuild(request.profile as number,result.save,nextAccount,'command',workshop,command,result.character??workshop.character,result);
-      result.save=prepared.save;
-      const body=this.#body(result.save),changed=!same(body,workshop.body)||!same(prepared.character,workshop.character);
-      const nextWorkshop={...workshop,body,character:prepared.character,build:prepared.build,buildAccount:prepared.buildAccount,version:changed?this.#next(workshop.version):workshop.version};
-      if(accountChanged)this.#checkAccount(nextAccount);this.#checkWorkshop(nextWorkshop,nextAccount);
+      if(accountChanged)this.#checkAccount(nextAccount);
+      const nextWorkshop=this.#nextWorkshop(workshop,prepared,nextAccount),changed=nextWorkshop.version!==workshop.version;
       const replacements=accountChanged?this.#refreshBuilds(workshop.account,nextAccount,command,request.profile as number):new Map<number,Workshop>();
-      if(changed||prepared.build!==workshop.build)replacements.set(request.profile as number,nextWorkshop);
+      if(nextWorkshop!==workshop)replacements.set(request.profile as number,nextWorkshop);
       if(accountChanged)this.#checkBindings(workshop.account,nextAccount,replacements);
       const answer=copySessionJSON({ok:true,reply,changed,accountChanged,version:nextWorkshop.version,accountVersion:nextAccount.version});
       // All allocations, reply admission and rule callbacks finish before either

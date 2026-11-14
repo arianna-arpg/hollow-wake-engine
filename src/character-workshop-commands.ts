@@ -25,8 +25,9 @@ export interface CharacterWorkshopDefinitions extends CharacterInventoryDefiniti
  catalogue:CharacterProgressionPorts['definitions']['catalogue'];
  trigger:CharacterProgressionPorts['trigger'];relicPowerPerRank:number;
 }
+export interface CharacterPointGrant {readonly currency:'passive'|'vocation';readonly amount:number}
 export interface CharacterWorkshopSnapshot extends CharacterCommandDraft {relicWrites:WorkshopRelicGrantWrite[]}
-type Entry={saved:CharacterWorkshopSnapshot;build:CharacterBuild;accountKey:string;profile:number};
+type Entry={saved:CharacterWorkshopSnapshot;build:CharacterBuild;accountKey:string;profile:number;features:string;relics:string};
 type GrantEdits=NonNullable<CharacterBuildEdits['grants']>;
 type InventorySave={state:CraftingSessionState;nextUid:number;random:RandomState};
 // Use only for typed, already admitted values. Raw request admission is below.
@@ -84,6 +85,16 @@ export class CharacterWorkshopAdmission {
     const held=this.#scoped(previous,scope);
     return this.#derive(held,request,scope,bar===undefined?undefined:copyTrusted(bar),grants===undefined?undefined:copyTrusted(grants),undefined,replaceLearned===undefined?undefined:copyTrusted(replaceLearned));
   }
+  /** Account-only normalization can retain an admitted graph when every build
+   * dependency and owned investment input is identical. Currency/ledger changes
+   * are deliberately absent from CharacterBuildInput; command rebuilds still run. */
+  retain(previous:CharacterWorkshopHandle,request:unknown,scope:CharacterWorkshopScope):CharacterWorkshopHandle|undefined{
+    const held=this.#scoped(previous,scope);fields(request,['capability','state','character','nextUid']);
+    need(request.capability==='character-workshop/residence-diagnostic','unsupported-character-workshop');
+    return JSON.stringify(scope.account.features)===held.features&&JSON.stringify(scope.relics)===held.relics&&
+      request.nextUid===held.saved.nextUid&&JSON.stringify(request.state)===JSON.stringify(held.saved.state)&&
+      JSON.stringify(request.character)===JSON.stringify(held.saved.character)?previous:undefined;
+  }
   #scoped(previous:CharacterWorkshopHandle,scope:CharacterWorkshopScope):Entry{
     const held=this.#entries.get(previous);need(held,'foreign-character-workshop');
     need(held.accountKey===scope.accountKey&&held.profile===scope.profile,'foreign-workshop-scope');return held;
@@ -126,6 +137,15 @@ export class CharacterWorkshopAdmission {
     const held=this.#scoped(previous,scope),result=changeCharacterPickup({saved:held.saved,definitions:this.#defs,inventory:this.#inventory,admitDrop:raw=>this.#dropCodec(raw) as unknown as CharacterGemDelivery},request,conditions);
     const {request:next,...reply}=result;
     return {token:this.rebuild(previous,next,scope),...reply};
+  }
+  /** Earned currency changes investment without recalculating the live build.
+   * The grant comes from the run owner's one-use capability, never a player command. */
+  grantPoints(previous:CharacterWorkshopHandle,scope:CharacterWorkshopScope,grant:CharacterPointGrant){
+    const held=this.#scoped(previous,scope);fields(grant,['currency','amount']);need(grant.currency==='passive'||grant.currency==='vocation','invalid-point-currency');integer(grant.amount);
+    const field=grant.currency==='passive'?'passivePoints':'vocationPoints',before=held.saved.character.passives[field],after=before+grant.amount;integer(after);
+    if(after===before)return{token:previous,before,after};
+    const saved={...held.saved,character:{...held.saved.character,passives:{...held.saved.character.passives,[field]:after}}};
+    const token=Object.freeze({}) as CharacterWorkshopHandle;this.#entries.set(token,{...held,saved});return{token,before,after};
   }
   experienceLevels(previous:CharacterWorkshopHandle,scope:CharacterWorkshopScope,plan:ExperiencePlan){
     let held=this.#scoped(previous,scope),token=previous;const rebuilds:CompleteBuildTransition[]=[];
@@ -216,7 +236,7 @@ export class CharacterWorkshopAdmission {
     this.#data.state(state,undefined,undefined,validateBook);this.#character.checkInventory(character,state);
     const {account:ignoredAccount,...body}=state;void ignoredAccount;
     const saved=copySessionJSON({state:body,character,nextUid:raw.nextUid,relicWrites}) as unknown as CharacterWorkshopSnapshot;
-    const token=Object.freeze({}) as CharacterWorkshopHandle;this.#entries.set(token,{saved,build,accountKey:scope.accountKey,profile:scope.profile});return token;
+    const token=Object.freeze({}) as CharacterWorkshopHandle;this.#entries.set(token,{saved,build,accountKey:scope.accountKey,profile:scope.profile,features:JSON.stringify(scope.account.features),relics:JSON.stringify(scope.relics)});return token;
   }
   read(token:CharacterWorkshopHandle){const entry=this.#entries.get(token);need(entry,'foreign-character-workshop');return {...cloneTrusted(entry.saved),projection:this.#builds.read(entry.build)};}
   inventoryItems(token:CharacterWorkshopHandle){const entry=this.#entries.get(token);need(entry,'foreign-character-workshop');return cloneTrusted(entry.saved.state.items);}

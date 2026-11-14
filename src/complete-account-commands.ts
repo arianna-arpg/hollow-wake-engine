@@ -1,5 +1,5 @@
 import type {ExperiencePlan} from './character-experience-plan.js';
-import {CharacterWorkshopAdmission,type CharacterWorkshopDefinitions,type CharacterWorkshopHandle,type CharacterWorkshopScope} from './character-workshop-commands.js';
+import {CharacterWorkshopAdmission,type CharacterWorkshopDefinitions,type CharacterWorkshopHandle,type CharacterWorkshopScope,type CharacterPointGrant} from './character-workshop-commands.js';
 import type {CompleteCharacterCodec,CompleteWorkshopKernel,CharacterObjectJSON,WorkshopRuleScope,CompleteBuildTransition} from './complete-character-contracts.js';
 import {ProgressionCharacterData,type ProgressionCharacterState} from './workshop-character-progression.js';
 import {CompleteWorkshopCharacterData as WorkshopCharacterData} from './workshop-character-complete.js';
@@ -15,6 +15,10 @@ export interface CompleteAccountTrace {
  role:WorkshopRuleScope['relics']['role'];reply:SessionJSON;
 }
 export interface CompleteAccountPorts {
+ /** Opt in only when the host publishes account-only updates without requiring
+  * character rebuild callbacks. Existing World-style hosts keep those callbacks. */
+ reuseAccountBuilds?:true;
+ points?(request:{profile:number;accountKey:string;grant:number}):CharacterPointGrant;
  experience?(request:{profile:number;accountKey:string;grant:number}):ExperiencePlan;
  conditions(request:{profile:number;accountKey:string;command:SessionJSON}):unknown;
  trace?(packet:CompleteAccountTrace):unknown;
@@ -39,11 +43,11 @@ const wrapped:Readonly<Record<string,'bar'|'rack'|'support'|'progression'|'merge
 /** One private command router. Its input scope is supplied by the account
  * owner; the owner still admits replies and atomically commits the group. */
 export class CompleteAccountKernel implements CompleteWorkshopKernel {
- readonly #service;readonly #content;readonly #conditions;readonly #trace;readonly #experience;
+ readonly #service;readonly #content;readonly #conditions;readonly #trace;readonly #experience;readonly #points;readonly #reuseAccountBuilds;
  readonly character:CompleteCharacterCodec;
- constructor(definitions:CharacterWorkshopDefinitions,{conditions,trace=()=>{},experience}:CompleteAccountPorts){
+ constructor(definitions:CharacterWorkshopDefinitions,{conditions,trace=()=>{},experience,points,reuseAccountBuilds}:CompleteAccountPorts){
   need(typeof conditions==='function','trusted-character-conditions-required');
-  this.#service=new CharacterWorkshopAdmission(definitions);this.#conditions=conditions;this.#trace=trace;this.#experience=experience;
+  this.#service=new CharacterWorkshopAdmission(definitions);this.#conditions=conditions;this.#trace=trace;this.#experience=experience;this.#points=points;this.#reuseAccountBuilds=reuseAccountBuilds===true;
   const base=new WorkshopCharacterData(definitions.character,definitions.workshop),codec=new ProgressionCharacterData(base,definitions.workshop.skills);
   this.character={admit:(value,state)=>codec.admit(value,state),
    // The account owner pairs these operations with this codec's admitted context.
@@ -84,7 +88,11 @@ export class CompleteAccountKernel implements CompleteWorkshopKernel {
    need(previous,'missing-character-continuation');const handle=previous as CharacterWorkshopHandle,held=this.#service.read(handle);
    need(equal(inventory,held.state)&&equal(scope.characterInput,held.character)&&nextUid===held.nextUid,'stale-character-continuation');
    const method=typeof command.op==='string'&&Object.hasOwn(wrapped,command.op)?wrapped[command.op]:undefined;
-   if(command.op==='character-experience-levels'){
+   if(command.op==='character-point-grant'){
+    fields(command,['op','grant']);integer(command.grant,1);need(scope.delivery==='prepare'&&this.#points,'owned-point-grant-required');
+    const grant=this.#points({profile:scope.profile,accountKey:scope.accountKey,grant:command.grant}),result=this.#service.grantPoints(handle,localScope,grant);token=result.token;
+    reply={ok:true,events:[{kind:'point-grant',currency:grant.currency,before:result.before,after:result.after}]};
+   }else if(command.op==='character-experience-levels'){
     fields(command,['op','grant']);integer(command.grant,1);need(scope.delivery==='prepare'&&this.#experience,'owned-experience-required');
     const plan=this.#experience({profile:scope.profile,accountKey:scope.accountKey,grant:command.grant});
     const result=this.#service.experienceLevels(handle,localScope,plan);token=result.token;rebuilds=result.rebuilds;
@@ -105,7 +113,7 @@ export class CompleteAccountKernel implements CompleteWorkshopKernel {
     if(result.random)random=result.random;if(result.account)localScope.account=result.account;
    }
    record(reply);if(reply.events!==undefined)array(reply.events,1024);
-  }else token=previous?this.#service.rebuild(previous as CharacterWorkshopHandle,request,localScope):this.#service.admit(request,localScope);
+  }else token=previous?((this.#reuseAccountBuilds&&scope.retainUnchangedBuild?this.#service.retain(previous as CharacterWorkshopHandle,request,localScope):undefined)??this.#service.rebuild(previous as CharacterWorkshopHandle,request,localScope)):this.#service.admit(request,localScope);
   const held=this.#service.read(token),save={schemaVersion:1,capability:'complete-workshop/diagnostic',content:this.#content,
    state:{...held.state,account:localScope.account},random,nextUid:held.nextUid};
   this.#trace({profile:scope.profile,accountKey:scope.accountKey,stage:scope.stage,previous,continuation:token,role:scope.relics.role,reply});

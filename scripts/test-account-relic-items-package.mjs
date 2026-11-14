@@ -64,7 +64,7 @@ try{
   ['drop-typed-save','account-workshop-core','...(account.relicItems === undefined ? {} : { relicItems: account.relicItems })',''],
   ['forget-tombstones','account-workshop-core','this.#relicState(account).released.every(key => released.has(key))','true'],
   ['duplicate-character-body','account-workshop-core',"object(item).relicKey === undefined, 'account-item-in-character'","true, 'account-item-in-character'"],
-  ['revalidate-unchanged-bodies','account-workshop-core','if (accountChanged)\n                this.#checkAccount(nextAccount);\n            this.#checkWorkshop(nextWorkshop, nextAccount);','this.#checkAccount(nextAccount);\n            this.#checkWorkshop(nextWorkshop, nextAccount);'],
+  ['revalidate-unchanged-bodies','account-workshop-core','if (accountChanged)\n                this.#checkAccount(nextAccount);\n            const nextWorkshop = this.#nextWorkshop','this.#checkAccount(nextAccount);\n            const nextWorkshop = this.#nextWorkshop'],
   ['skip-payload-admission','account-relic-items','this.#data.item(value)','value'],
   ['wrong-content','account-relic-items','JSON.stringify(copySessionJSON(value)) === this.#identity','true'],
   ['wrong-category','account-relic-items',"this.#definitions.crafting.items.pack.bases[item.baseId].category === 'relic'",'true'],

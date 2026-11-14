@@ -3,7 +3,7 @@ import {root,sha256} from './reference-utils.mjs';
 import {characterBuildPack} from './compile-character-builds.mjs';import {passivePack} from './compile-passive-content.mjs';import {craftingPack} from './compile-crafting-content.mjs';import {equipmentPack} from './compile-item-content.mjs';import {progressionPack} from './compile-progression-content.mjs';
 import {unlockContentPack} from './compile-unlock-content.mjs';import {memoryRewardPack} from './compile-memory-rewards.mjs';import {progressionGatePack} from './compile-progression-gates.mjs';
 import {experienceFaults,ownerFaults,worldFaults} from '../test/run-character/faults.mjs';
-const runtime=['account-prepared-step','complete-character-contracts','account-workshop-core','account-workshop-complete','complete-account-commands','character-workshop-commands','character-experience-plan','run-character-session','relic-custody','relic-experience','durable-run-owner'];
+const runtime=['account-prepared-step','complete-character-contracts','account-workshop-core','account-workshop-complete','character-workshop-boundary','complete-account-commands','character-workshop-commands','character-experience-plan','run-character-session','relic-custody','relic-experience','durable-run-owner'];
 
 /** Shared qualification over maintained sources. Faults change only an in-memory
  * compilation; every child and SQLite file lives in one guarded owned folder. */
@@ -15,7 +15,7 @@ export async function runCharacterCourse(mode){
  const capture=f=>{const bytes=fs.readFileSync(path.join(root,f));report.sources[f]=sha256(bytes);return bytes.toString();};
  try{
   const sources=new Map(runtime.map(name=>[name+'.ts',capture('src/'+name+'.ts')]));report.runtimeSources=Object.fromEntries([...sources].map(([f,s])=>[f,sha256(s)]));
-  const files=experience?['experience-cases.mjs']:['owner-cases.mjs',...(world?['world-awards.mjs']:[]),...(disk?['checkpoint-sqlite.mjs']:['relic-policy-cases.mjs','checkpoint-cases.mjs']),...(world?['world-checkpoints.mjs','world-canonical.mjs']:[])];
+  const files=experience?['experience-cases.mjs']:['owner-cases.mjs',...(world?['world-awards.mjs']:[]),...(disk?['checkpoint-sqlite.mjs']:['relic-policy-cases.mjs','checkpoint-cases.mjs']),...(world?['world-checkpoints.mjs','world-canonical.mjs']:[]),'earned-points-cases.mjs',...(disk?['earned-checkpoint-sqlite.mjs']:['earned-checkpoint-cases.mjs'])];
   const course=files.map(f=>capture('test/run-character/'+f)).join('\n');report.courses=files;
   for(const f of ['scripts/test-run-character.mjs','scripts/run-character-course-runner.mjs','test/run-character/faults.mjs','baseline/source-lock.json','package.json'])capture(f);
   for(const name of ['character-builds','passive-content','crafting-content','item-content','progression-content','unlock-content','memory-rewards','progression-gates'])capture('scripts/compile-'+name+'.mjs');
@@ -61,7 +61,7 @@ export async function runCharacterCourse(mode){
    for(const[name,edits,message]of faults){const child=await run(name,edits);assert.equal(child.status,1,name+' escaped');assert(child.stderr.includes(message),name+': '+child.stderr);report.faults.push({name,detected:true});}
    const restored=await run('restored');assert.equal(restored.status,0,restored.stderr);assert.equal(restored.stdout,expected);report.restored=true;
   }
-  report.passed=true;report.originalWorldPublication=world;report.physicalStorageQualified=disk||mode==='sqlite-world'?'Node SQLite':false;report.devicePerformanceQualified=false;
+  report.passed=true;report.originalWorldPublication=world;report.physicalStorageQualified=experience?false:'Node SQLite';report.devicePerformanceQualified=false;
  }catch(error){report.failure=String(error);process.exitCode=1;}
  finally{
   try{report.inputsUnchanged=Object.entries(report.sources).every(([f,h])=>fs.existsSync(path.join(root,f))&&sha256(fs.readFileSync(path.join(root,f)))===h);report.passed&&=report.inputsUnchanged;}

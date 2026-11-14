@@ -6,6 +6,21 @@ type, XP, ownership and fresh-process SQLite checks; `reference:verify` adds liv
 World comparisons and twenty combined World/SQLite scenarios. They do not expose
 a stable complete-character API or qualify target-device performance.
 
+The same courses cover trusted passive/vocation point grants and bounded run
+counters, including account-only build reuse. Sixty invalid type calls, seventeen
+owner faults, seven World faults and fresh-process reward-checkpoint recovery
+guard this internal progression path. This does not qualify whole quest payouts
+or a durable incoming-reward protocol.
+Capacity checks include XP milestones: a full run ledger must reject a new
+milestone without changing XP, earlier batch counters or point grants. Existing
+stamps and XP awards that add no milestone still work at capacity.
+
+Composition checks also reject stale account associations on reused builds and
+reuse during active-character selection. Unchanged account-only builds create
+neither character storage writes nor invented acknowledgement transitions when
+the host explicitly opts in. The existing mixed account/passive World course
+still requires the default host's original rebuild callbacks and visible order.
+
 The internal complete-character integration has maintained checks for save
 admission, inventory preparation, bare-gem delivery, scene lifetimes and typed
 host ports. Run `npm run test:character-world` after building. Its focused checks

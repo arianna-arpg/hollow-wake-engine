@@ -23,6 +23,9 @@ export interface WorkshopRuleScope {
  profile:number;accountKey:string;stage:'open'|'restore'|'command'|'normalized';
  /** Only the account owner can authorize preparation of world deliveries. */
  delivery?:'prepare';account:Readonly<CharacterObjectJSON>;characterInput?:SessionJSON;
+ /** Account normalization may reuse identical investment. Activation keeps its
+  * explicit active-first publication path, including unchanged siblings. */
+ retainUnchangedBuild?:true;
  relics:{role:'inactive'}|{role:'active';state:RelicState<ItemInstance>};
 }
 /** A command's private intermediate rebuilds, never serialized or caller-assigned identities. */

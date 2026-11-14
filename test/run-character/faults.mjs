@@ -6,7 +6,12 @@ export const experienceFaults=[
  ['snapshot-downed-before-rebuild',[['character-experience-plan.ts','for(const event of plan.events){','const capturedDowned=p.downed();\n   for(const event of plan.events){'],['character-experience-plan.ts','const downed=p.downed();','const downed=capturedDowned;']],'level-up fill must read current downed state after rebuild']
 ];
 export const ownerFaults=[
- ['publish-run-during-prepare',[['run-character-session.ts','this.#staged=after;this.#rows.push','this.#run=after;this.#staged=after;this.#rows.push']],'preparation published run XP'],
+ ['journal-retained-build',[['character-workshop-boundary.ts','if(!path&&before===after)return;','']],'Account-only bookkeeping invented character transitions'],
+ ['store-retained-build',[['account-workshop-core.ts','if(workshop!==previous&&(workshop.body','if(workshop!==previous&&(true||workshop.body']],'Account-only bookkeeping invented character storage writes'],
+ ['drop-earned-points',[['character-workshop-commands.ts','after=before+grant.amount','after=before']],'Earned passive points were lost'],
+ ['unbounded-run-counters',[['run-character-session.ts',"if(!present)need(Object.keys(before.ledger).length<4096,'run-ledger-limit');",'']],'Reward exceeded bounded run ledger'],
+ ['unbounded-xp-milestones',[['run-character-session.ts',"  if(plan.ledgerAfter!==before.ledger)need(Object.keys(plan.ledgerAfter).length<=4096,'run-ledger-limit');\n",'']],'XP milestone exceeded bounded run ledger'],
+ ['publish-run-during-prepare',[['run-character-session.ts','this.#staged=after;this.#rows.push({before,after,experience:plan})','this.#run=after;this.#staged=after;this.#rows.push({before,after,experience:plan})']],'preparation published run XP'],
  ['drop-passive-spend',[['run-character-session.ts','{...current,xp:row.xp','{...current,passivePoints:(current.level-1)*this.#rules.pack.tuning.passivePointsPerLevel,xp:row.xp']],'stale-experience-build'],
  ['recompute-stored-threshold',[['run-character-session.ts','xpNeeded:row.xpNeeded,ledger','xpNeeded:this.#rules.experienceForLevel(current.level),ledger']],'stored threshold was silently recomputed'],
  ['retain-step-capability',[['account-prepared-step.ts','}finally{active=false;}','}finally{}']],'prepared step read outlived transaction'],
@@ -20,6 +25,7 @@ export const ownerFaults=[
  ['expose-run-before-live-publish',[['durable-run-owner.ts','publish:(lease,packet)=>{try{','publish:(lease,packet)=>{this.#published=lease.run.candidate;try{']],'read exposed partially published run state']
 ];
 export const worldFaults=[
+ ['ignore-relic-build-dependency',[['character-workshop-commands.ts','JSON.stringify(scope.relics)===held.relics','true']],'Expected values to be strictly equal'],
  ['retain-build-reader',[['durable-run-owner.ts','close:reader.close','close:()=>{}']],'finished checkpoint retained its build capability'],
  ['retain-failed-prepare-reader',[['durable-run-owner.ts','catch(error){reader.close();throw error;}','catch(error){throw error;}']],'failed preparation retained its build capability'],
  ['ignore-reader-membership',[['durable-run-owner.ts',"need(handles.has(handle),'foreign-run-build');",'']],'previous lease build escaped its scope'],

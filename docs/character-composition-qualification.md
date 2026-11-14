@@ -8,10 +8,19 @@ left in `.artifacts`.
 `test:character-composition` builds the authored character content and exercises
 the current compiled SDK modules together. The course covers 343 named groups,
 six account ownership checks, 22 malformed entry cases and automatic item-counter
-admission. Two fresh controls and a restored control must agree. Four deliberate
+admission. Two fresh controls and a restored control must agree. Six deliberate
 faults cover entry shape, identity allocation, journal retention and stale
-continuations. SQLite version is environment metadata; gameplay observations
+continuations, plus stale account associations and build reuse during activation.
+SQLite version is environment metadata; gameplay observations
 must still agree exactly within the run.
+
+Three appended account-build reuse checks cover commit, abort and late failure.
+They require account-only storage writes, no invented build transitions and no
+redundant sibling normalization on the next inventory command. Reuse is an
+explicit kernel-host opt-in. Existing hosts retain account-triggered rebuild
+callbacks and their original callback-visible ordering. The run owner opts in
+and publishes account changes through its account journal. An activation check
+requires all three attached characters to rebuild even with reuse enabled.
 
 The helper constructors under `test/character-composition` are test hosts. They
 select legacy, complete or rule-kernel construction explicitly, inject the pinned

@@ -57,7 +57,7 @@ try{
  assert(report.accountWorkshopBytes<=accountWorkshopRawBudget);assert(report.moduleBytes['workshop-build-preparation']<=4*1024);
  const faults=[
   ['cold-reopen','account-workshop-core','preparation.prepare(previous?.build,','preparation.prepare(undefined,'],
-  ['lose-chain','account-workshop-core','const nextWorkshop = { ...workshop, body, character: prepared.character, build: prepared.build','const nextWorkshop = { ...workshop, body, character: prepared.character, build: workshop.build'],
+  ['lose-chain','account-workshop-core','const next = { ...current, body, character: prepared.character, build: prepared.build','const next = { ...current, body, character: prepared.character, build: current.build'],
   ['skip-siblings','account-workshop-core','if (this.#preparation || this.#completeKernel)','if (false)'],
   ['stale-account-context','account-workshop-core','previous && owner === previous.buildAccount && same','previous && same'],
   ['omit-writeback','workshop-build-preparation','item.grantState = row.grantState;','void row.grantState;'],

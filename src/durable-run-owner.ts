@@ -7,7 +7,8 @@ export interface RunCheckpoint {schemaVersion:1;capability:'run-character-checkp
 export interface RunCheckpointSnapshot {revision:number;body:RunCheckpoint}
 export type RunBuildView=ReturnType<RunCharacterSession['build']>;
 export interface RunPublication {readonly readBuild:(handle:object)=>RunBuildView;readonly current:RunState;readonly candidate:RunState;readonly journal:readonly RunPreparedCommand[]}
-export type RunCheckpointAction=CharacterAction|{kind:'experience';characterKey:string;amount:number};
+export type RunCheckpointAction=CharacterAction|{kind:'experience';characterKey:string;amount:number}|{kind:'points';characterKey:string;currency:'passive'|'vocation';amount:number}|{kind:'run-ledger';characterKey:string;key:string;amount:number};
+type EarnedRunAction=Exclude<RunAction,{kind:'command'}>;
 export interface DurableRunOptions<Lease extends object> extends Omit<LocatedCharacterOptions<Lease>,'createOwner'|'storage'|'live'> {
  createOwner(ports:Parameters<LocatedCharacterOptions<Lease>['createOwner']>[0]):RunCharacterSession;
  storage:{read(key:string):unknown|Promise<unknown>;commit(key:string,revision:number,body:RunCheckpoint):ReturnType<CharacterGroupStorage['commit']>};
@@ -37,7 +38,7 @@ function scopedBuildReader(read:((handle:object)=>RunBuildView)|undefined,journa
  * of a full combat actor. Its factory transfers sole access to the run owner. */
 export class DurableRunOwner<L extends object> {
  #base?:DurableCharacterOwner<RunLease<L>>;#run?:RunCharacterSession;#published?:RunState;#pending=0;
- #trusted=false;#nextGrant=1;readonly #grants=new Map<number,{profile:number;amount:number}>();
+ #trusted=false;#nextGrant=1;readonly #grants=new Map<number,{profile:number;action:EarnedRunAction}>();
  readonly #bindings:{key:string;handle:number}[];readonly #active:string|null;#openingRun:unknown;readonly #options:DurableRunOptions<L>;
  private constructor(options:DurableRunOptions<L>){
   for(const method of ['prepare','publish','discard','recoverRequired'] as const)need(typeof options.live?.[method]==='function','run-live-'+method+'-required');
@@ -83,7 +84,7 @@ export class DurableRunOwner<L extends object> {
        if(command.op==='workshop'&&obj(command.command).op===marker){
         const inner=obj(command.command);fields(inner,['op','grant']);integer(inner.grant,1);const grant=this.#grants.get(inner.grant);
         need(this.#trusted&&grant&&grant.profile===command.profile,'unowned-checkpoint-experience');this.#grants.delete(inner.grant);
-        return{kind:'award',profile:grant.profile,amount:grant.amount};
+        return grant.action;
        }
        return{kind:'command',command};
       });
@@ -118,10 +119,15 @@ export class DurableRunOwner<L extends object> {
   try{
    const translated:CharacterAction[]=values.map(row=>{
     record(row);
-    if(row.kind==='experience'){
-     fields(row,['kind','characterKey','amount']);text(row.characterKey);need(typeof row.amount==='number'&&Number.isFinite(row.amount),'invalid-experience-award');
+    if(row.kind==='experience'||row.kind==='points'||row.kind==='run-ledger'){
+     fields(row,row.kind==='points'?['kind','characterKey','currency','amount']:row.kind==='run-ledger'?['kind','characterKey','key','amount']:['kind','characterKey','amount']);text(row.characterKey);
+     if(row.kind==='experience')need(typeof row.amount==='number'&&Number.isFinite(row.amount),'invalid-experience-award');else integer(row.amount);
      const binding=this.#bindings.find(b=>b.key===row.characterKey);need(binding,'foreign-run-character');integer(this.#nextGrant,1,Number.MAX_SAFE_INTEGER-1);
-     const grant=this.#nextGrant++;this.#grants.set(grant,{profile:binding.handle,amount:row.amount});return{kind:'character',characterKey:row.characterKey,command:{op:marker,grant}};
+     let action:EarnedRunAction;
+     if(row.kind==='experience')action={kind:'award',profile:binding.handle,amount:row.amount as number};
+     else if(row.kind==='points'){need(row.currency==='passive'||row.currency==='vocation','invalid-point-currency');action={kind:'points',profile:binding.handle,currency:row.currency,amount:row.amount as number};}
+     else{text(row.key);action={kind:'run-ledger',key:row.key,amount:row.amount as number};}
+     const grant=this.#nextGrant++;this.#grants.set(grant,{profile:binding.handle,action});return{kind:'character',characterKey:row.characterKey,command:{op:marker,grant}};
     }
     if(row.kind==='character')need(obj(row.command).op!==marker,'unowned-checkpoint-experience');return row as unknown as CharacterAction;
    });

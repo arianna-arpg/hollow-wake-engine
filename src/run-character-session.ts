@@ -3,7 +3,7 @@ import {CompleteAccountWorkshopSession} from './account-workshop-complete.js';
 import {CompleteAccountKernel,type CompleteAccountPorts} from './complete-account-commands.js';
 import type {AccountWorkshopDefinitions,AccountWorkshopLimits} from './account-workshop-core.js';
 import type {PreparedStepScope} from './account-prepared-step.js';
-import type {CharacterWorkshopDefinitions,CharacterWorkshopHandle} from './character-workshop-commands.js';
+import type {CharacterWorkshopDefinitions,CharacterWorkshopHandle,CharacterPointGrant} from './character-workshop-commands.js';
 import type {PreparedCharacterCommand} from './complete-character-contracts.js';
 import type {CharacterProgression} from './character-progression.js';
 import {planExperience,type ExperiencePlan,type ExperienceObservation} from './character-experience-plan.js';
@@ -12,15 +12,15 @@ import {copySessionJSON,SessionInputError,requireSession as need,sessionFields a
 type JSONRecord=Record<string,SessionJSON>;
 export interface RunCharacter {readonly key:string;readonly accountKey:string;readonly xp:number;readonly xpNeeded:number}
 export interface RunState {readonly schemaVersion:1;readonly capability:'run-progression/diagnostic';readonly key:string;readonly ledger:Readonly<Record<string,number>>;readonly characters:readonly RunCharacter[]}
-export type RunAction={readonly kind:'award';readonly profile:number;readonly amount:number}|{readonly kind:'command';readonly command:JSONRecord};
+export type RunAction={readonly kind:'award';readonly profile:number;readonly amount:number}|{readonly kind:'points';readonly profile:number;readonly currency:'passive'|'vocation';readonly amount:number}|{readonly kind:'run-ledger';readonly key:string;readonly amount:number}|{readonly kind:'command';readonly command:JSONRecord};
 export interface RunPreparedCommand {readonly character:PreparedCharacterCommand;readonly before:RunState;readonly after:RunState;readonly experience?:ExperiencePlan}
 export interface RunCharacterDefinitions {account:AccountWorkshopDefinitions;character:CharacterWorkshopDefinitions;experience:CharacterProgression}
 export interface RunExperienceObservation extends Omit<ExperienceObservation,'multiplier'> {readonly relicSuppressed:boolean}
-export interface RunCharacterPorts extends Omit<CompleteAccountPorts,'experience'> {experience(request:Readonly<{profile:number;accountKey:string;amount:number}>):RunExperienceObservation}
+export interface RunCharacterPorts extends Omit<CompleteAccountPorts,'experience'|'points'|'reuseAccountBuilds'> {experience(request:Readonly<{profile:number;accountKey:string;amount:number}>):RunExperienceObservation}
 const raw=(value:unknown):JSONRecord=>{record(value);return value as JSONRecord;};
 const passed=(value:unknown):JSONRecord=>{const r=raw(value);need(r.ok===true,typeof r.reason==='string'?r.reason:'run-command-refused');return r;};
-const internal=(value:JSONRecord)=>value.op==='run-experience'||value.op==='character-experience-levels'||
- value.op==='workshop'&&value.command!==null&&typeof value.command==='object'&&!Array.isArray(value.command)&&value.command.op==='character-experience-levels';
+const internal=(value:JSONRecord)=>['run-experience','run-points','run-ledger','character-experience-levels','character-point-grant'].includes(String(value.op))||
+ value.op==='workshop'&&value.command!==null&&typeof value.command==='object'&&!Array.isArray(value.command)&&['character-experience-levels','character-point-grant'].includes(String(value.command.op));
 
 /** Internal synchronous preparation/commit owner. Persistence,
  * player admission and live actor publication are NOT provided by this class.
@@ -29,6 +29,8 @@ export class RunCharacterSession {
  readonly #owner;readonly #kernel;readonly #rules;readonly #observe;readonly #relicPenalty;
  #run?:RunState;#staged?:RunState;#pending?:{token:number;state:RunState;journal:readonly RunPreparedCommand[]};
  #bindings=new Map<number,string>();#busy=false;#grants=new Map<number,{profile:number;amount:number}>();
+ #pointGrants=new Map<number,{profile:number;value:CharacterPointGrant}>();#ledgerGrants=new Map<number,{key:string;amount:number}>();
+ #point?:{grant:number;profile:number;accountKey:string;value:CharacterPointGrant};
  #plan?:{grant:number;profile:number;accountKey:string;plan:ExperiencePlan};
  #rows:{before:RunState;after:RunState;experience?:ExperiencePlan}[]=[];
  constructor(definitions:RunCharacterDefinitions,ports:RunCharacterPorts,limits:AccountWorkshopLimits={}){
@@ -36,12 +38,13 @@ export class RunCharacterSession {
   this.#relicPenalty=definitions.account.progression.unlocks.reliquaryConfig.xpPenaltyPerCell;
   relicExperienceFactor(0,this.#relicPenalty,true);
   const conditions=ports.conditions.bind(ports);
-  this.#kernel=new CompleteAccountKernel(definitions.character,{trace:ports.trace?.bind(ports),
+  this.#kernel=new CompleteAccountKernel(definitions.character,{reuseAccountBuilds:true,trace:ports.trace?.bind(ports),
    conditions:request=>{
     const observed=raw(copySessionJSON(conditions(request)));
     if(raw(request.command).op==='character-passive'){need(this.#staged||this.#run,'run-not-attached');return{...observed,runLedger:(this.#staged??this.#run)!.ledger};}
     return observed;
    },
+   points:request=>{const held=this.#point;need(held&&held.grant===request.grant&&held.profile===request.profile&&held.accountKey===request.accountKey,'unowned-point-grant');this.#point=undefined;return held.value;},
    experience:request=>{
     const held=this.#plan;need(held&&held.grant===request.grant&&held.profile===request.profile&&held.accountKey===request.accountKey,'unowned-experience-grant');
     this.#plan=undefined;return held.plan;
@@ -51,6 +54,18 @@ export class RunCharacterSession {
  }
  #step(command:JSONRecord,scope:PreparedStepScope):JSONRecord|undefined{
   const before=this.#staged;need(before,'run-preparation-required');
+  if(command.op==='run-ledger'){
+   fields(command,['op','grant']);integer(command.grant,1);const grant=this.#ledgerGrants.get(command.grant);need(grant,'unowned-run-ledger');this.#ledgerGrants.delete(command.grant);
+   const present=Object.hasOwn(before.ledger,grant.key),old=present?before.ledger[grant.key]:0,next=old+grant.amount;integer(next);if(!present)need(Object.keys(before.ledger).length<4096,'run-ledger-limit');const changed=!present||next!==old;
+   const after=changed?Object.freeze({...before,ledger:Object.freeze({...before.ledger,[grant.key]:next})}):before;this.#staged=after;this.#rows.push({before,after});
+   return{ok:true,reply:{ok:true,events:[{kind:'run-ledger',key:grant.key,before:old,after:next}]}};
+  }
+  if(command.op==='run-points'){
+   fields(command,['op','profile','grant']);integer(command.profile,0,0xffffffff);integer(command.grant,1);const grant=this.#pointGrants.get(command.grant);need(grant&&grant.profile===command.profile,'unowned-point-grant');this.#pointGrants.delete(command.grant);
+   const key=this.#bindings.get(grant.profile),row=before.characters.find(r=>r.key===key);need(row,'character-not-in-run');const current=scope.read(grant.profile);need(current.accountKey===row.accountKey,'run-account-mismatch');
+   this.#point={grant:command.grant,profile:grant.profile,accountKey:row.accountKey,value:grant.value};const reply=passed(scope.execute({op:'workshop',profile:grant.profile,command:{op:'character-point-grant',grant:command.grant}}));need(!this.#point,'point-grant-not-consumed');
+   this.#rows.push({before,after:before});return reply;
+  }
   if(command.op!=='run-experience'){
    need(!internal(command),'unowned-experience-grant');
    if(command.op==='workshop'){integer(command.profile,0,0xffffffff);need(this.#bindings.has(command.profile),'character-not-in-run');}
@@ -64,6 +79,7 @@ export class RunCharacterSession {
   fields(observed,['eligible','blessing','relicSuppressed','local','accountOwned']);need(typeof observed.relicSuppressed==='boolean','invalid-relic-suppression');
   const multiplier=relicExperienceFactor(current.relicCells,this.#relicPenalty,current.relicEnabled&&!observed.relicSuppressed);
   const plan=planExperience(this.#rules,{...current,xp:row.xp,xpNeeded:row.xpNeeded,ledger:before.ledger},grant.amount,{...observed,multiplier} as unknown as ExperienceObservation);
+  if(plan.ledgerAfter!==before.ledger)need(Object.keys(plan.ledgerAfter).length<=4096,'run-ledger-limit');
   let result:JSONRecord={ok:true,reply:{ok:true,accepted:plan.accepted,events:plan.events as unknown as SessionJSON}};
   if(plan.after.level!==plan.before.level){
    this.#plan={grant:command.grant,profile:grant.profile,accountKey:row.accountKey,plan};
@@ -99,6 +115,12 @@ export class RunCharacterSession {
   this.#staged=this.#run;this.#rows=[];let pendingToken=0;
   try{
    const commands=actions.map((a,i)=>{record(a);
+    if(a.kind==='points'){
+     fields(a,['kind','profile','currency','amount']);integer(a.profile,0,0xffffffff);need(a.currency==='passive'||a.currency==='vocation','invalid-point-currency');integer(a.amount);const grant=i+1;this.#pointGrants.set(grant,{profile:a.profile,value:{currency:a.currency,amount:a.amount}});return{op:'run-points',profile:a.profile,grant};
+    }
+    if(a.kind==='run-ledger'){
+     fields(a,['kind','key','amount']);text(a.key);integer(a.amount);const grant=i+1;this.#ledgerGrants.set(grant,{key:a.key,amount:a.amount});return{op:'run-ledger',grant};
+    }
     if(a.kind==='award'){fields(a,['kind','profile','amount']);integer(a.profile,0,0xffffffff);need(typeof a.amount==='number'&&Number.isFinite(a.amount),'invalid-experience-award');
      const grant=i+1;this.#grants.set(grant,{profile:a.profile,amount:a.amount});return{op:'run-experience',profile:a.profile,grant};}
     fields(a,['kind','command']);need(a.kind==='command','invalid-run-action');const c=raw(a.command);need(!internal(c),'unowned-experience-grant');return c;
@@ -111,7 +133,7 @@ export class RunCharacterSession {
    }else need(this.#staged===this.#run,'run-change-without-preparation');
    return result;
   }catch(error){if(pendingToken)this.#owner.command({op:'abort-prepared',token:pendingToken});throw error;}
-  finally{this.#staged=undefined;this.#grants.clear();this.#plan=undefined;this.#rows=[];}
+  finally{this.#staged=undefined;this.#grants.clear();this.#plan=undefined;this.#pointGrants.clear();this.#ledgerGrants.clear();this.#point=undefined;this.#rows=[];}
  }
  command(input:unknown):unknown{
   try{return this.#guard(()=>{

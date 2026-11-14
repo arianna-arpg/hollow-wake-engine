@@ -49,9 +49,10 @@ export const completeWorkshopBoundary=Object.freeze<CompleteWorkshopBoundary>({
    relicWrites:writes as unknown as WorkshopRelicGrantWrite[]|undefined,rebuilds};
  },
  extend(path:readonly CompleteBuildTransition[]|undefined,before:object,after:object){
-  return path?[...path,{before,after}]:undefined;
+  return path&&before!==after?[...path,{before,after}]:path;
  },
  append(transitions,profile,accountKey,before,after,path){
+  if(!path&&before===after)return;
   const rows=path??[{before,after}];need(transitions.length+rows.length<=256,'character-transition-limit');
   if(path)need(path[0].before===before&&path.at(-1)!.after===after,'stale-character-rebuilds');
   for(const row of rows)transitions.push({profile,accountKey,before:row.before,after:row.after});
