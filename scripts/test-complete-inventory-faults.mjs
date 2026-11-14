@@ -12,7 +12,7 @@ const owned=fs.realpathSync(path.join(root,'.artifacts'));
 const work=fs.mkdtempSync(path.join(owned,'complete-inventory-faults-owned-'));
 const report={passed:false,sources:{},faults:[]},logs={};
 const files=['scripts/test-complete-inventory-faults.mjs','test/complete-inventory.test.mjs',
- 'src/crafting-session-data.ts','src/character-inventory-commands.ts','src/workshop-character-complete.ts',
+ 'src/inventory-data.ts','src/inventory-data-core.ts','src/crafting-session-data.ts','src/character-inventory-commands.ts','src/workshop-character-complete.ts',
  'src/character-delivery-codec.ts','src/workshop-character-progression.ts'];
 try{
  for(const file of files)report.sources[file]=sha256(fs.readFileSync(path.join(root,file)));
@@ -32,8 +32,8 @@ export function load(url,context,next){return url===target?{format:'module',sour
  };
  const clean=run('control');assert.equal(clean.status,0,clean.stdout+clean.stderr);assert.match(clean.stdout,/pass 7/);
  const faults=[
-  ['cold-skill-budget-bypassed','src/crafting-session-data.ts','this.#skillPayload(gem,false);','this.#skillPayload(gem,true);','retained investment uses the shared structural checks'],
-  ['retained-investment-pruned','src/crafting-session-data.ts','this.#skillPayload(gem,true);','this.#skillPayload(gem,false);','retained investment uses the shared structural checks'],
+  ['cold-skill-budget-bypassed','src/inventory-data-core.ts','this.#skillPayload(gem,false);','this.#skillPayload(gem,true);','retained investment uses the shared structural checks'],
+  ['retained-investment-pruned','src/inventory-data-core.ts','this.#skillPayload(gem,true);','this.#skillPayload(gem,false);','retained investment uses the shared structural checks'],
   ['unknown-graft-accepted','src/workshop-character-complete.ts','this.workshop.skills.skill(target);','void target;','retained grafts require authored identities'],
   ['carrier-not-closed','src/character-inventory-commands.ts',"const closed=replyObject(this.#kernel.command({op:'close',profile:0}));need(closed.ok,'inventory-carrier-close-refused');",';','inventory preparation is detached'],
   ['account-rng-reset','src/character-inventory-commands.ts','content:this.#identity,random,nextUid:',"content:this.#identity,random:{algorithm:'mulberry32/v1',state:1,draws:0},nextUid:",'inventory preparation is detached'],

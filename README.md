@@ -3,6 +3,13 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The [bounded completion plan](docs/combat-inventory-plan.md) focuses on combat
+and Inventory-facing builds. Quests, accounts, persistence and world generation
+remain optional or host-owned. Milestone two is in progress: the
+[live rebuild](docs/character-rebuild.md) applies admitted build changes to current
+actors, and [Inventory admission](docs/inventory-data.md) validates detached cargo
+without an account. The complete memory-only character interface remains open.
+
 The optional [durable character builder](docs/character-builds.md) composes class,
 passive, equipment, container and skill investment into private builds. A separate
 default-content package supplies the wiring. Trusted adoption preserves existing

@@ -1,5 +1,27 @@
 # Verification and reproduction
 
+The milestone-two [live rebuild](character-rebuild.md) package course runs 17
+installed/browser contracts, 16 deliberately broken rule controls, six adapter
+guards, and the frozen 91 contribution plus 47 equipment/live observations. Three
+additional original-game faults confirm the installed contribution implementation
+is reached. Restored implementations must pass again. This is low-level live
+application evidence, not completion of the memory-only character owner.
+
+The [account-free Inventory](inventory-data.md) contracts run inside the existing
+crafting package consumer after its 22 legacy contracts, browser and type checks.
+Six Inventory contracts and declaration checks pass with optional extensions and
+the three legacy crafting-session modules physically removed. Existing save
+formats, retained investment and fault courses still use the shared validator.
+The package-size gate counts the shared validator, public Inventory facade and legacy wrapper together.
+The existing Godot workshop bundle keeps its 102 KiB base ceiling. Its closed-VM
+property compaction includes the new internal validation helpers and statically
+called ability-rule methods; quoted/dynamic names are still rejected from that
+allowlist. Four bundle variants must each replay the same 56 original commands.
+
+The scope audit parses each source once per audit and traverses runtime and type
+dependencies separately. It has no cache shared across checks or override sets.
+Existing prohibited-import and unclassified-entry controls remain required.
+
 The quest reward reference type course explicitly loads Node declarations from
 the locked reference tools. Its compiler cannot borrow packages from neighboring
 projects; existing worktrees may share only their declared dependency directories.

@@ -8,7 +8,7 @@ const artifacts=path.join(root,'.artifacts');fs.mkdirSync(artifacts,{recursive:t
 const work=fs.mkdtempSync(path.join(artifacts,'workshop-book-package-')),consumer=path.join(work,'consumer');fs.mkdirSync(consumer);
 const logs={},report={passed:false,contracts:11,faults:[],sources:{}};
 const sources=['scripts/test-workshop-skill-book-package.mjs','test/workshop-skill-book.test.mjs','test/shared-account/fixtures.mjs',
- 'src/workshop-skill-book.ts','src/workshop-rack.ts','src/workshop-supports.ts','src/crafting-session.ts','src/crafting-session-core.ts','src/crafting-session-data.ts',
+ 'src/workshop-skill-book.ts','src/workshop-rack.ts','src/workshop-supports.ts','src/crafting-session.ts','src/crafting-session-core.ts','src/inventory-data.ts','src/inventory-data-core.ts','src/crafting-session-data.ts',
  'src/account-workshop-session.ts','src/account-workshop-core.ts','src/complete-character-contracts.ts','src/skill-bar.ts','examples/godot-inventory/cargo-sample.json','package.json','package-lock.json'];
 for(const file of sources)report.sources[file]=sha256(fs.readFileSync(path.join(root,file)));
 const run=(label,args,cwd=consumer)=>{
@@ -70,7 +70,7 @@ try{
   ['lost-binding','workshop-skill-book','bar: body.skills.map(skill => skill?.def.id ?? null)','bar: Array(8).fill(null)'],
   ['unresolved-binding','workshop-skill-book',"need(known.has(id), 'unresolved-bar-skill');",'void id;'],
   ['duplicate-binding','workshop-skill-book',"need(!bound.has(id), 'duplicate-bar-skill');",'void id;'],
-  ['dual-authority','crafting-session-data',"need(input.rack === undefined, 'duplicate-skill-authority');",'void input.rack;'],
+  ['dual-authority','inventory-data-core',"need(input.rack === undefined, 'duplicate-skill-authority');",'void input.rack;'],
   ['lost-off-bar-supports','workshop-supports','(state.skillBook?.known ?? state.rack)','state.rack'],
   ['lost-promotion','workshop-skill-book','delete state.rack;','void state.rack;'],
   ['missing-handoff','workshop-skill-book',"signal?.({ kind: 'bar-rebound', skillIds:","void ({ kind: 'bar-rebound', skillIds:"],

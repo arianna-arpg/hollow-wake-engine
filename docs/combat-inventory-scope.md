@@ -12,7 +12,8 @@ account and persistence entries are not prerequisites for this release.
 [combat-inventory-capabilities.json](combat-inventory-capabilities.json) records
 27 required capability groups, their existing public entry points and evidence,
 and one specific remaining task and acceptance condition per group. Its export
-inventory classifies all 141 current paths. A new public path requires a scope
+inventory classified the 141 baseline paths and now also covers the new live
+rebuild and account-free Inventory entries. A new public path requires a scope
 decision instead of silently enlarging the deliverable.
 
 The baseline is the committed source and working overlay in

@@ -10,6 +10,7 @@ import {npmCli} from './npm-cli.mjs';
 import {itemPack} from './compile-item-content.mjs';
 import {craftingPack} from './compile-crafting-content.mjs';
 import {skillProgressionPack} from './compile-skill-progression.mjs';
+import {readScope} from './combat-inventory-scope-tools.mjs';
 export const craftingImports={'crafting-session':'crafting/session','crafting-content':'crafting/content','item-rules':'items','skill-progression':'skills/progression','random':'random','workshop-skill-book':'skills/workshop-book'};
 export function craftingConsumerSource(){
  let source=fs.readFileSync(path.join(root,'test/crafting-session.test.mjs'),'utf8');
@@ -27,7 +28,7 @@ const owned=fs.realpathSync(path.join(root,'.artifacts'));
 try{
 fs.mkdirSync(consumer);
 const run=(cwd,args)=>{const output=execFileSync(process.execPath,args,{cwd,encoding:'utf8',windowsHide:true,timeout:240000,maxBuffer:8*1024*1024,env:{...process.env,TEMP:directory,TMP:directory,TMPDIR:directory,NODE_COMPILE_CACHE:path.join(directory,'compile-cache')}});logs['run-'+Object.keys(logs).length]={args,output};return output;};
-for(const f of ['scripts/crafting-session-package-check.mjs','scripts/test-crafting-session-package.mjs','scripts/test-crafting-session-faults.mjs','src/crafting-session.ts','src/crafting-session-core.ts','src/crafting-session-data.ts','test/crafting-session.test.mjs','baseline/crafting-session-formats/saves.json','package.json','package-lock.json'])report.sources[f]=sha256(fs.readFileSync(path.join(root,f)));
+for(const f of ['scripts/crafting-session-package-check.mjs','scripts/test-crafting-session-package.mjs','scripts/test-crafting-session-faults.mjs','scripts/combat-inventory-scope-tools.mjs','docs/combat-inventory-capabilities.json','src/crafting-session.ts','src/crafting-session-core.ts','src/inventory-data.ts','src/inventory-data-core.ts','src/crafting-session-data.ts','test/inventory-data.test.mjs','test/inventory-data/contracts.mjs','test/crafting-session.test.mjs','baseline/crafting-session-formats/saves.json','package.json','package-lock.json'])report.sources[f]=sha256(fs.readFileSync(path.join(root,f)));
 const npm=(cwd,args)=>run(cwd,[npmCli(),...args,'--cache',path.join(directory,'npm-cache')]);
 const packed=JSON.parse(npm(root,['pack','--json','--ignore-scripts','--pack-destination',directory]))[0];
 assert(packed.files.every(file=>!/^(baseline|reference|scripts|test|src|\.reference|node_modules)\//.test(file.path)));
@@ -93,7 +94,40 @@ if(withFaults){
  }
  assert.equal(invoke('restored').status,0);report.restored=true;
 }
-for(const[f,h]of Object.entries(report.runtimeMap))assert.equal(sha256(fs.readFileSync(path.join(consumer,'node_modules/@hollow-wake/engine/dist',f))),h);report.installedRestored=true;report.passed=true;
+for(const[f,h]of Object.entries(report.runtimeMap))assert.equal(sha256(fs.readFileSync(path.join(consumer,'node_modules/@hollow-wake/engine/dist',f))),h);report.installedRestored=true;
+// Reuse this installed consumer; removing optional modules must not disable
+// Inventory admission. This runs only after all legacy format controls finish.
+let inventory=fs.readFileSync(path.join(root,'test/inventory-data.test.mjs'),'utf8');
+for(const[file,entry]of Object.entries({...craftingImports,'inventory-data':'inventory/data'}))inventory=inventory.replaceAll("'../dist/"+file+".js'","'@hollow-wake/engine/"+entry+"'");
+inventory=inventory.replaceAll(/'\.\.\/scripts\/compile-(item-content|crafting-content|skill-progression)\.mjs'/g,"'./fixtures.mjs'");
+assert(!inventory.includes('../dist/')&&!inventory.includes('../scripts/'));
+fs.mkdirSync(path.join(consumer,'inventory-data'));
+fs.copyFileSync(path.join(root,'test/inventory-data/contracts.mjs'),path.join(consumer,'inventory-data/contracts.mjs'));
+fs.writeFileSync(path.join(consumer,'inventory.test.mjs'),inventory);
+const scope=readScope(),removed=new Set([...scope.extensionRoots,'crafting-session','crafting-session-core','crafting-session-data']);
+for(const row of Object.values(scope.exports))if(row.classification==='optional-extension'&&row.module.endsWith('.js'))removed.add(path.basename(row.module,'.js'));
+const installedDist=fs.realpathSync(path.join(consumer,'node_modules/@hollow-wake/engine/dist'));report.inventoryRemoved=[];
+assert(installedDist.startsWith(fs.realpathSync(directory)+path.sep));
+for(const name of removed){
+ assert(/^[a-z0-9-]+$/.test(name));
+ for(const suffix of ['.js','.d.ts','.js.map','.d.ts.map']){
+  const file=path.join(installedDist,name+suffix);assert.equal(path.dirname(file),installedDist);
+  if(fs.existsSync(file)){assert(!fs.lstatSync(file).isSymbolicLink());fs.unlinkSync(file);report.inventoryRemoved.push(name+suffix);}
+  assert(!fs.existsSync(file));
+ }
+}
+const inventoryResult=run(consumer,['--test','inventory.test.mjs']);assert(/(?:#|ℹ) pass 6\b/.test(inventoryResult));report.inventoryContracts=6;
+fs.writeFileSync(path.join(consumer,'inventory-types.ts'),`import {InventoryData,type InventoryDataState,type InventoryDataDefinitions} from '@hollow-wake/engine/inventory/data';
+declare const definitions:InventoryDataDefinitions,input:unknown;
+const data=new InventoryData(definitions);const state:InventoryDataState=data.admit(input);void state;
+// @ts-expect-error Inventory data does not contain account authority
+state.account;
+// @ts-expect-error Inventory admission does not supply a save envelope
+state.version;
+// @ts-expect-error a book validator receives InventoryData, not an account owner
+data.inventory(input,undefined,(book,validator:{account:unknown})=>{});`);
+run(consumer,[path.join(root,'node_modules/typescript/bin/tsc'),'--noEmit','--strict','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','inventory-types.ts']);report.inventoryTypes=true;
+report.passed=true;
 }catch(error){report.failure=String(error);throw error;}
 finally{
  report.inputsUnchanged=Object.entries(report.sources).every(([f,h])=>sha256(fs.readFileSync(path.join(root,f)))===h);report.passed=report.passed&&report.inputsUnchanged;

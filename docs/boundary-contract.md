@@ -1,5 +1,14 @@
 # Boundary contract
 
+The current delivery boundary is the [combat and Inventory plan](combat-inventory-plan.md).
+The [live rebuild](character-rebuild.md) composes contribution, equipment and
+level rules over current actors; it preserves ongoing combat rather than restoring
+a preview. [Inventory admission](inventory-data.md) separates cargo validation
+from legacy account formats. Raw imports are bounded and detached; borrowed
+validation and live effects have explicit trusted-caller contracts. Neither entry
+imports quests, accounts or persistence. Complete character command composition
+remains milestone-two work.
+
 The optional [durable character builder](character-builds.md) composes admitted
 character/account inputs into owned private investment graphs. Its separately
 loaded default-content factory needs no game checkout. Opaque continuations

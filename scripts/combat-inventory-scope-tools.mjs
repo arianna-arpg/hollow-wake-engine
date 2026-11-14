@@ -14,23 +14,27 @@ function typeOnly(node){
 }
 /** Static imports are the production contract; dynamic/foreign imports fail.
  * Overrides are in-memory negative controls, never edits to production files. */
-export function sourceGraph(entry,{includeTypes=false,overrides=new Map()}={}){
+export function sourceGraph(entry,{includeTypes=false,overrides=new Map(),facts=new Map()}={}){
  const visited=new Set(),sources={};
  const visit=file=>{
   file=path.resolve(file);if(visited.has(file))return;
   assert(file.startsWith(path.join(root,'src')+path.sep),'Source import escaped runtime: '+relative(file));visited.add(file);
-  const name=relative(file),code=overrides.get(name)??fs.readFileSync(file,'utf8');sources[name]=sha256(code);
-  const ast=ts.createSourceFile(file,code,ts.ScriptTarget.Latest,true);
-  const walk=node=>{
+  const name=relative(file);let fact=facts.get(file);
+  if(!fact){
+   const code=overrides.get(name)??fs.readFileSync(file,'utf8'),edges=[];
+   const ast=ts.createSourceFile(file,code,ts.ScriptTarget.Latest,true);
+   const walk=node=>{
    if(ts.isCallExpression(node)&&(node.expression.kind===ts.SyntaxKind.ImportKeyword||node.expression.getText(ast)==='require'))throw Error('Dynamic runtime dependency: '+name);
    if((ts.isImportDeclaration(node)||ts.isExportDeclaration(node))&&node.moduleSpecifier){
-    if(!includeTypes&&typeOnly(node))return;
     assert(ts.isStringLiteral(node.moduleSpecifier),'Nonliteral runtime dependency: '+name);
     const specifier=node.moduleSpecifier.text;assert(specifier.startsWith('.'),'External runtime dependency: '+specifier);
-    visit(path.resolve(path.dirname(file),specifier.replace(/\.js$/,'.ts')));
+    edges.push({file:path.resolve(path.dirname(file),specifier.replace(/\.js$/,'.ts')),typeOnly:typeOnly(node)});
    }
    ts.forEachChild(node,walk);
-  };walk(ast);
+   };walk(ast);fact={hash:sha256(code),edges};facts.set(file,fact);
+  }
+  sources[name]=fact.hash;
+  for(const edge of fact.edges)if(includeTypes||!edge.typeOnly)visit(edge.file);
  };visit(entry);return{files:[...visited].map(relative).sort(),sources};
 }
 export function checkScope({manifest=JSON.parse(fs.readFileSync(path.join(root,'package.json'))),scope=readScope(),overrides=new Map()}={}){
@@ -45,7 +49,10 @@ export function checkScope({manifest=JSON.parse(fs.readFileSync(path.join(root,'
   for(const evidence of row.evidence)assert(fs.existsSync(path.join(root,evidence)),evidence);
   for(const entry of row.entries){assert(scope.exports[entry],entry);covered.add(entry);}
  }
- const extensions=new Set(scope.extensionRoots.map(name=>'src/'+name+'.ts')),graphs={},sources={};
+ // Facts are local to this audit, including its override set. Parse each source
+ // once, while traversing runtime and declaration reachability independently.
+ // Never retain a cross-run cache that could conceal a changed source file.
+ const extensions=new Set(scope.extensionRoots.map(name=>'src/'+name+'.ts')),graphs={},sources={},facts=new Map();
  for(const[name,entry]of Object.entries(manifest.exports)){
   const module=typeof entry==='string'?entry:entry.import,classification=scope.exports[name];
   assert.equal(classification.module,module,'Changed entry requires scope review: '+name);
@@ -53,7 +60,7 @@ export function checkScope({manifest=JSON.parse(fs.readFileSync(path.join(root,'
   if(classification.classification==='required-rule')assert(covered.has(name),'Required entry has no capability task: '+name);
   if(!module.endsWith('.js'))continue;
   const file=path.join(root,module.replace('./dist/','src/').replace(/\.js$/,'.ts'));
-  const runtime=sourceGraph(file,{overrides}),types=sourceGraph(file,{overrides,includeTypes:true});Object.assign(sources,runtime.sources,types.sources);
+  const runtime=sourceGraph(file,{overrides,facts}),types=sourceGraph(file,{overrides,includeTypes:true,facts});Object.assign(sources,runtime.sources,types.sources);
   graphs[name]={runtime:runtime.files,types:types.files,extensionDependencies:runtime.files.filter(f=>extensions.has(f)),typeExtensionDependencies:types.files.filter(f=>extensions.has(f))};
  }
  for(const entry of scope.minimalEntries){const graph=graphs[entry];assert(graph,entry);assert.deepEqual(graph.extensionDependencies,[],'Minimal runtime depends on an extension: '+entry);assert.deepEqual(graph.typeExtensionDependencies,[],'Minimal declarations depend on an extension: '+entry);}

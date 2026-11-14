@@ -4,40 +4,58 @@ import {root,sha256,materialize,verifyReference} from './reference-utils.mjs';im
 import {integratePassiveGrants,renderPassiveGrants} from '../adapters/hollow-wake/integrate-passive-grants.mjs';
 import {integrateEquipmentSkills} from '../adapters/hollow-wake/integrate-equipment-skills.mjs';
 import {integrateBuildContributions,renderBuildContributions} from '../adapters/hollow-wake/integrate-build-contributions.mjs';
-const catalogue=process.argv.includes('--catalogue');assert(process.argv.length===(catalogue?3:2));
+import {integrateCharacterRebuild,renderCharacterRebuild} from '../adapters/hollow-wake/integrate-character-rebuild.mjs';
+const catalogue=process.argv.includes('--catalogue'),liveRebuild=process.argv.includes('--live-rebuild');
+assert(process.argv.length===2+Number(catalogue)+Number(liveRebuild));
+const stem=(liveRebuild?'character-rebuild':'build-contributions')+'-package'+(catalogue?'-catalogue':'');
 const owned=path.join(root,'.artifacts');fs.mkdirSync(owned,{recursive:true});
-const work=fs.mkdtempSync(path.join(owned,'build-contributions-package-owned-')),consumer=path.join(work,'consumer');fs.mkdirSync(consumer);
-const logs={},report={passed:false,contracts:10,faults:[],game:{courses:[],faults:[]},sources:{}};
+const work=fs.mkdtempSync(path.join(owned,stem+'-owned-')),consumer=path.join(work,'consumer');fs.mkdirSync(consumer);
+const logs={},report={passed:false,contracts:liveRebuild?17:10,liveRebuild,faults:[],game:{courses:[],faults:[]},sources:{}};
 const inputs=['src/build-contributions.ts','src/passive-grants.ts','src/equipment-skills.ts','test/build-contributions.test.mjs','test/build-contributions-game.ts',
  'scripts/test-build-contributions-package.mjs','adapters/hollow-wake/integrate-build-contributions.mjs',
  'adapters/hollow-wake/integrate-equipment-skills.mjs','adapters/hollow-wake/integrate-passive-grants.mjs','adapters/hollow-wake/passiveGrantAdapter.ts',
  'reference/export-build-contributions.ts','baseline/build-contributions/acceptance.json','baseline/source-lock.json','package.json','package-lock.json'];
+if(liveRebuild)inputs.push('src/character-rebuild.ts','test/character-rebuild.test.mjs','test/character-rebuild-types.ts','test/character-build-fixture.mjs','adapters/hollow-wake/integrate-character-rebuild.mjs');
 for(const file of inputs)report.sources[file]=sha256(fs.readFileSync(path.join(root,file)));
 const run=(label,args,cwd=consumer,timeout=240000)=>{
  const child=spawnSync(process.execPath,args,{cwd,encoding:'utf8',windowsHide:true,timeout,maxBuffer:8*1024*1024,
-  env:{...process.env,TEMP:work,TMP:work,TMPDIR:work,NODE_PATH:''}});
+  env:{...process.env,TEMP:work,TMP:work,TMPDIR:work,NODE_PATH:'',NPM_CONFIG_UPDATE_NOTIFIER:'false',NPM_CONFIG_OFFLINE:'true'}});
  logs[label]=(child.stdout??'')+'\n'+(child.stderr??'');assert(!child.error&&!child.signal,label+': '+child.error);return child;
 };
 const success=(label,args,cwd,timeout)=>{const child=run(label,args,cwd,timeout);assert.equal(child.status,0,logs[label].slice(-7000));return child;};
-const contracts=(label,file='contracts.test.mjs')=>{success(label,['--test',file]);assert(new RegExp('(?:#|ℹ) pass '+report.contracts+'\\b').test(logs[label]));};
+const contracts=(label,file='contracts.test.mjs')=>{success(label,['--test',file,...liveRebuild&&file==='contracts.test.mjs'?['character-rebuild.test.mjs']:[]]);assert(new RegExp('(?:#|ℹ) pass '+report.contracts+'\\b').test(logs[label]));};
 try{
- success('pack',[npmCli(),'pack','--json','--ignore-scripts','--pack-destination',work,'--cache',path.join(work,'npm-cache')],root);
- const archive=path.join(work,JSON.parse(logs.pack)[0].filename);report.archiveSha256=sha256(fs.readFileSync(archive));
+ const packed=success('pack',[npmCli(),'pack','--json','--ignore-scripts','--pack-destination',work,'--cache',path.join(work,'npm-cache')],root);
+ const archive=path.join(work,JSON.parse(packed.stdout)[0].filename);report.archiveSha256=sha256(fs.readFileSync(archive));
  fs.writeFileSync(path.join(consumer,'package.json'),JSON.stringify({private:true,type:'module'}));
- success('install',[npmCli(),'install',archive,'--offline','--ignore-scripts','--no-audit','--no-fund','--cache',path.join(work,'npm-cache')]);
+ success('install',[npmCli(),'install',archive,'--offline','--ignore-scripts','--no-audit','--no-fund','--cache',path.join(work,'npm-cache')],consumer,600000);
  const entries={'build-contributions':'character/build-contributions','passive-grants':'passives/grants','container-policy':'inventory/containers'};
+ if(liveRebuild)Object.assign(entries,{'character-rebuild':'character/rebuild','equipment-skills':'skills/equipment','stats':'.','stat-rules':'.','character-builds':'character/builds','gem-residence':'inventory/gems'});
  let test=fs.readFileSync(path.join(root,'test/build-contributions.test.mjs'),'utf8');
  for(const[file,entry]of Object.entries(entries))test=test.replaceAll("'../dist/"+file+".js'","'@hollow-wake/engine/"+entry+"'");
- fs.writeFileSync(path.join(consumer,'contracts.test.mjs'),test);contracts('installed');
- fs.writeFileSync(path.join(consumer,'browser.mjs'),Object.values(entries).map(entry=>"export * from '@hollow-wake/engine/"+entry+"';").join('\n'));
+ fs.writeFileSync(path.join(consumer,'contracts.test.mjs'),test);
+ const extraFiles=new Map();
+ if(liveRebuild)for(const name of ['character-rebuild.test.mjs','character-build-fixture.mjs']){
+  let text=fs.readFileSync(path.join(root,'test',name),'utf8');
+  for(const[file,entry]of Object.entries(entries))text=text.replaceAll("'../dist/"+file+".js'","'@hollow-wake/engine"+(entry==='.'?'':'/'+entry)+"'");
+  extraFiles.set(name,text);fs.writeFileSync(path.join(consumer,name),text);
+ }
+ contracts('installed');
+ fs.writeFileSync(path.join(consumer,'browser.mjs'),[...new Set(Object.values(entries))].map(entry=>"export * from '@hollow-wake/engine"+(entry==='.'?'':'/'+entry)+"';").join('\n'));
  const bundle=await build({entryPoints:[path.join(consumer,'browser.mjs')],bundle:true,platform:'browser',format:'esm',target:'es2022',minify:true,metafile:true,write:false});
- assert(Object.values(bundle.metafile.outputs).every(row=>!row.imports.length));report.browserBytes=bundle.outputFiles[0].contents.length;assert(report.browserBytes<40*1024);
+ assert(Object.values(bundle.metafile.outputs).every(row=>!row.imports.length));report.browserBytes=bundle.outputFiles[0].contents.length;assert(report.browserBytes<(liveRebuild?128:40)*1024);
  fs.writeFileSync(path.join(consumer,'browser-built.mjs'),bundle.outputFiles[0].contents);
  for(const entry of Object.values(entries))test=test.replaceAll("'@hollow-wake/engine/"+entry+"'","'./browser-built.mjs'");
  fs.writeFileSync(path.join(consumer,'browser-contracts.mjs'),test);
- fs.writeFileSync(path.join(consumer,'hostile.test.mjs'),"Math.random=()=>{throw Error('ambient RNG')};globalThis.fetch=()=>{throw Error('network')};for(const key of ['window','document','localStorage'])Object.defineProperty(globalThis,key,{get(){throw Error(key)}});await import('./browser-contracts.mjs');");contracts('browser','hostile.test.mjs');
+ for(const[name,code]of extraFiles){
+  let text=code.replace("'./character-build-fixture.mjs'","'./browser-character-build-fixture.mjs'");
+  for(const entry of new Set(Object.values(entries)))text=text.replaceAll("'@hollow-wake/engine"+(entry==='.'?'':'/'+entry)+"'","'./browser-built.mjs'");
+  fs.writeFileSync(path.join(consumer,'browser-'+name),text);
+ }
+ fs.writeFileSync(path.join(consumer,'hostile.test.mjs'),"Math.random=()=>{throw Error('ambient RNG')};globalThis.fetch=()=>{throw Error('network')};for(const key of ['window','document','localStorage'])Object.defineProperty(globalThis,key,{get(){throw Error(key)}});await import('./browser-contracts.mjs');"+(liveRebuild?"await import('./browser-character-rebuild.test.mjs');":''));contracts('browser','hostile.test.mjs');
  fs.writeFileSync(path.join(consumer,'types.ts'),"import {BuildContributions,type BuildContributionInput,type BuildContributionPorts,type BuildContributionSink} from '@hollow-wake/engine/character/build-contributions';import type {Modifier} from '@hollow-wake/engine';type I={uid:number};type D={id:string;active:boolean};declare const ports:BuildContributionPorts<I,Modifier,D>;declare const input:BuildContributionInput<I>;declare const sink:BuildContributionSink;const result=new BuildContributions(ports).rebuild(input,sink);const hosts:Map<I,Modifier[]>=result.containerPieceMods;void hosts;");
- success('types',[path.join(root,'node_modules/typescript/bin/tsc'),'--noEmit','--strict','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','types.ts']);report.types=true;
+ if(liveRebuild)fs.copyFileSync(path.join(root,'test/character-rebuild-types.ts'),path.join(consumer,'live-types.ts'));
+ success('types',[path.join(root,'node_modules/typescript/bin/tsc'),'--noEmit','--strict','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','types.ts',...liveRebuild?['live-types.ts']:[]]);report.types=true;
  const installed=path.join(consumer,'node_modules/@hollow-wake/engine'),module=path.join(installed,'dist/build-contributions.js'),original=fs.readFileSync(module,'utf8');
  report.moduleBytes=Buffer.byteLength(original);assert(report.moduleBytes<6*1024);
  const faults=[
@@ -68,6 +86,14 @@ try{
  assert.throws(()=>renderBuildContributions(world,world,editor),/Expected reviewed passive integration/);
  const rendered=renderBuildContributions(passive,world,editor);assert.throws(()=>renderBuildContributions(rendered,world,editor),/already present/);report.adapterGuards=3;
  integratePassiveGrants(game);integrateEquipmentSkills(game,true,{passiveGrafts:'compiled'});integrateBuildContributions(game);
+ if(liveRebuild){
+  const current=fs.readFileSync(path.join(game,'src/engine/world.ts'),'utf8');
+  assert.throws(()=>renderCharacterRebuild(world,world,editor),/Reviewed contribution adapter is required/);
+  assert.throws(()=>renderCharacterRebuild(current.replace('p.life = Math.min(p.life, p.maxLife());','p.life = p.maxLife();'),world,editor),/Unreviewed live character rebuild/);
+  const rendered=renderCharacterRebuild(current,world,editor);
+  assert.throws(()=>renderCharacterRebuild(rendered,world,editor),/already present/);
+  integrateCharacterRebuild(game);report.liveAdapterGuards=3;
+ }
  const courseFiles=new Map();
  for(const name of ['build-contributions','equipment-live',...(catalogue?['equipment-catalogue']:[])]){
   const manifest=JSON.parse(fs.readFileSync(path.join(root,'baseline',name,'acceptance.json'))),source=fs.readFileSync(path.join(root,manifest.source));
@@ -109,10 +135,32 @@ try{
   finally{fs.writeFileSync(module,original);}
  }
  const restored=course('build-contributions','game-restored');assert.equal(sha256(restored.actual),restored.manifest.sha256);report.game.restored=true;
+ if(liveRebuild){
+  const liveFile=path.join(installed,'dist/character-rebuild.js'),liveOriginal=fs.readFileSync(liveFile,'utf8');
+  report.liveModuleBytes=Buffer.byteLength(liveOriginal);
+  const liveFaults=[
+   ['skip-equipment','ports.equipment.derive({','void ({'],
+   ['refill-life','Math.min(actor.life, actor.maxLife())','actor.maxLife()'],
+   ['refill-mana','Math.min(actor.mana, actor.maxMana())','actor.maxMana()'],
+   ['lose-bonds','frame.refreshBonds();',''],
+   ['lose-guard','frame.syncGuard();',''],
+   ['lose-grafts','passiveGrafts: () => fold.passiveBuild.grafts','passiveGrafts: () => []'],
+  ];
+  for(const[name,needle,replacement]of liveFaults){
+   assert.equal(liveOriginal.split(needle).length,2,name+' target changed');fs.writeFileSync(liveFile,liveOriginal.replace(needle,replacement));
+   try{
+    const child=run('live-fault-'+name,['--test','character-rebuild.test.mjs']);
+    assert.equal(child.status,1,name+' escaped');assert(logs['live-fault-'+name].includes('ERR_ASSERTION'));
+    report.faults.push({name,detected:true});
+   }finally{fs.writeFileSync(liveFile,liveOriginal);}
+  }
+  contracts('live-restored');const restored=course('equipment-live','live-restored-game');assert.equal(sha256(restored.actual),restored.manifest.sha256);
+  report.liveRestored=true;
+ }
  report.passed=true;
 }catch(error){report.failure=String(error);throw error;}
 finally{
- try{report.inputsUnchanged=Object.entries(report.sources).every(([file,hash])=>sha256(fs.readFileSync(path.join(root,file)))===hash);const bytes=gzipSync(JSON.stringify(logs),{level:9});fs.writeFileSync(path.join(owned,'build-contributions-package'+(catalogue?'-catalogue':'')+'.logs.json.gz'),bytes);report.logsSha256=sha256(bytes);}
- finally{assert.equal(path.dirname(fs.realpathSync(work)),fs.realpathSync(owned));fs.rmSync(work,{recursive:true});report.cleaned=true;report.passed=report.passed&&report.inputsUnchanged;fs.writeFileSync(path.join(owned,'build-contributions-package'+(catalogue?'-catalogue':'')+'.json'),JSON.stringify(report,null,2)+'\n');}
+ try{report.inputsUnchanged=Object.entries(report.sources).every(([file,hash])=>sha256(fs.readFileSync(path.join(root,file)))===hash);const bytes=gzipSync(JSON.stringify(logs),{level:9});fs.writeFileSync(path.join(owned,stem+'.logs.json.gz'),bytes);report.logsSha256=sha256(bytes);}
+ finally{assert.equal(path.dirname(fs.realpathSync(work)),fs.realpathSync(owned));fs.rmSync(work,{recursive:true});report.cleaned=true;report.passed=report.passed&&report.inputsUnchanged;fs.writeFileSync(path.join(owned,stem+'.json'),JSON.stringify(report,null,2)+'\n');}
 }
 assert(report.passed);console.log({passed:true,contracts:report.contracts,faults:report.faults.length,game:report.game,browserBytes:report.browserBytes,cleaned:report.cleaned});

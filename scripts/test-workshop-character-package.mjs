@@ -7,7 +7,7 @@ const owned=path.join(root,'.artifacts');fs.mkdirSync(owned,{recursive:true});
 const work=fs.mkdtempSync(path.join(owned,'workshop-character-package-owned-')),consumer=path.join(work,'consumer');fs.mkdirSync(consumer);
 const logs={},report={passed:false,contracts:13,originalClassRecords:78,faults:[],sources:{}};
 const inputs=['src/workshop-character.ts','src/account-workshop-session.ts','src/account-workshop-core.ts','src/complete-character-contracts.ts','scripts/account-workshop-budget.mjs','src/workshop-build-preparation.ts',
- 'src/passive-policy.ts','src/passive-grants.ts','src/crafting-session-data.ts','src/workshop-skill-book.ts',
+ 'src/passive-policy.ts','src/passive-grants.ts','src/inventory-data.ts','src/inventory-data-core.ts','src/crafting-session-data.ts','src/workshop-skill-book.ts',
  'test/workshop-character.test.mjs','test/workshop-character-fixture.mjs','test/shared-account/fixtures.mjs','test/shared-account/contracts.mjs',
  'scripts/test-workshop-character-package.mjs','baseline/build-contributions/acceptance.json','baseline/source-lock.json','package.json','package-lock.json'];
 for(const file of inputs)report.sources[file]=sha256(fs.readFileSync(path.join(root,file)));

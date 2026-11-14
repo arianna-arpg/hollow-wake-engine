@@ -48,7 +48,9 @@
   ],
   "minimalEntries": [
     ".",
-    "./character/builds"
+    "./character/builds",
+    "./character/rebuild",
+    "./inventory/data"
   ],
   "exports": {
     "./account/workshops": {
@@ -614,6 +616,14 @@
     "./character/builds": {
       "classification": "required-rule",
       "module": "./dist/character-builds.js"
+    },
+    "./character/rebuild": {
+      "classification": "required-rule",
+      "module": "./dist/character-rebuild.js"
+    },
+    "./inventory/data": {
+      "classification": "required-rule",
+      "module": "./dist/inventory-data.js"
     }
   },
   "capabilities": [
@@ -669,10 +679,12 @@
         "./inventory/host",
         "./inventory/equipment",
         "./inventory/gems",
-        "./inventory/pouch-recall"
+        "./inventory/pouch-recall",
+        "./inventory/data"
       ],
       "evidence": [
-        "docs/equipment-actions.md"
+        "docs/equipment-actions.md",
+        "docs/inventory-data.md"
       ],
       "remaining": {
         "milestone": 2,
@@ -905,10 +917,12 @@
       "current": "extracted-rules-with-composition-or-host-gaps",
       "entries": [
         "./character/builds",
-        "./character/build-contributions"
+        "./character/build-contributions",
+        "./character/rebuild"
       ],
       "evidence": [
-        "docs/character-builds.md"
+        "docs/character-builds.md",
+        "docs/character-rebuild.md"
       ],
       "remaining": {
         "milestone": 2,

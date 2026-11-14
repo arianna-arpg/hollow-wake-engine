@@ -7,7 +7,7 @@ const owned=path.join(root,'.artifacts');fs.mkdirSync(owned,{recursive:true});
 const work=fs.mkdtempSync(path.join(owned,'account-character-binding-package-owned-')),consumer=path.join(work,'consumer');fs.mkdirSync(consumer);
 const logs={},report={passed:false,contracts:17,faults:[],sources:{}};
 const inputs=['src/account-relic-items.ts','src/account-workshop-session.ts','src/account-workshop-core.ts','src/complete-character-contracts.ts','scripts/account-workshop-budget.mjs','src/workshop-build-preparation.ts',
- 'src/relic-custody.ts','src/crafting-session-data.ts','src/progression-session.ts',
+ 'src/relic-custody.ts','src/inventory-data.ts','src/inventory-data-core.ts','src/crafting-session-data.ts','src/progression-session.ts',
  'test/account-character-binding.test.mjs','test/account-relic-items-fixture.mjs','src/workshop-character.ts','src/passive-policy.ts','test/shared-account/fixtures.mjs','test/shared-account/contracts.mjs',
  'scripts/test-account-character-binding-package.mjs','baseline/account-relic-build/acceptance.json','baseline/source-lock.json','package.json','package-lock.json'];
 for(const file of inputs)report.sources[file]=sha256(fs.readFileSync(path.join(root,file)));

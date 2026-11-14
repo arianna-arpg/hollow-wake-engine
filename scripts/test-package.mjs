@@ -201,10 +201,11 @@ const residenceModuleBytes = Object.fromEntries(Object.entries({'gem-residence':
 }));
 // Count both the fixed public facade and shared implementation. Moving code
 // into the internal module must not remove it from the package size budget.
-const craftingSessionModuleBytes = Object.fromEntries(Object.entries({'crafting-session':1,'crafting-session-core':23,'crafting-session-data':18,'session-json':6}).map(([name,kib])=>{
+const craftingSessionModuleBytes = Object.fromEntries(Object.entries({'crafting-session':1,'crafting-session-core':23,'crafting-session-data':3,'inventory-data-core':16,'inventory-data':2,'session-json':6}).map(([name,kib])=>{
   const matches=packed.files.filter(file=>file.path===`dist/${name}.js`);assert.equal(matches.length,1);
   assert.ok(matches[0].size>0&&matches[0].size<=kib*1024,`${name} exceeded its separate ${kib} KiB budget`);return [name,matches[0].size];
 }));
+assert(craftingSessionModuleBytes['crafting-session-data']+craftingSessionModuleBytes['inventory-data']+craftingSessionModuleBytes['inventory-data-core']<=18*1024,'Shared inventory admission and legacy account format exceeded 18 KiB');
 assert(craftingSessionModuleBytes['crafting-session']+craftingSessionModuleBytes['crafting-session-core']<=24*1024,'Shared crafting implementation and facade exceeded 24 KiB');
 const contentTableModuleBytes=Object.fromEntries(Object.entries({'content-table':8,'content-table-compiler':5,'immutable-content':3}).map(([name,kib])=>{
   const matches=packed.files.filter(file=>file.path===`dist/${name}.js`);assert.equal(matches.length,1);assert(matches[0].size>0&&matches[0].size<=kib*1024,`${name} exceeded its separate ${kib} KiB budget`);return [name,matches[0].size];
@@ -295,7 +296,9 @@ assert(buildContributionsFile&&buildContributionsFile.size<6*1024,'Build contrib
 assert(workshopBuildFile?.size>0&&workshopBuildFile.size<=4*1024,'Optional workshop build preparation exceeds 4 KiB or is missing');
 const characterBuildFile=packed.files.find(file=>file.path==='dist/character-builds.js');
 assert(characterBuildFile?.size>0&&characterBuildFile.size<=16*1024,'Optional durable character builder exceeds its separate 16 KiB budget or is missing');
-const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-characterBuildFile.size-challengeContinuationFile.size-challengeJsBytes-sequenceContinuationFile.size-sequenceBridgeJsBytes-bodyFactoryFile.size-summonsJsBytes-auraTickingFile.size-auraActivationFile.size-auraLedgersFile.size-auraRetirementFile.size-companionRecoveryFile.size-bodyLevelsFile.size-companionBondsJsBytes-guardArtsFile.size-companionGrantsFile.size-accountRelicItemsFile.size-workshopCharacterFile.size-buildContributionsFile.size-workshopBuildFile.size-equipmentDraftFile.size-bookFile.size-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
+const characterRebuildFile=packed.files.find(file=>file.path==='dist/character-rebuild.js');
+assert(characterRebuildFile?.size>0&&characterRebuildFile.size<=2*1024,'Live character rebuild exceeds its separate 2 KiB budget or is missing');
+const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=jsBytes-characterRebuildFile.size-characterBuildFile.size-challengeContinuationFile.size-challengeJsBytes-sequenceContinuationFile.size-sequenceBridgeJsBytes-bodyFactoryFile.size-summonsJsBytes-auraTickingFile.size-auraActivationFile.size-auraLedgersFile.size-auraRetirementFile.size-companionRecoveryFile.size-bodyLevelsFile.size-companionBondsJsBytes-guardArtsFile.size-companionGrantsFile.size-accountRelicItemsFile.size-workshopCharacterFile.size-buildContributionsFile.size-workshopBuildFile.size-equipmentDraftFile.size-bookFile.size-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
 const craftingSessionJsBytes=Object.values(craftingSessionModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingSessionJsBytes=preContentTableJsBytes-craftingSessionJsBytes;
 const residenceJsBytes=Object.values(residenceModuleBytes).reduce((sum,size)=>sum+size,0),preResidenceJsBytes=preCraftingSessionJsBytes-residenceJsBytes;
 const craftingJsBytes=Object.values(craftingModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingJsBytes=preResidenceJsBytes-craftingJsBytes;
@@ -405,7 +408,7 @@ fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringi
   equipmentSkillsJsBytes,
   challengeModuleBytes, challengeJsBytes,
   challengeContinuationJsBytes: challengeContinuationFile.size,
-  characterBuildJsBytes:characterBuildFile.size,
+  characterBuildJsBytes:characterBuildFile.size,characterRebuildJsBytes:characterRebuildFile.size,
   sequenceContinuationJsBytes:sequenceContinuationFile.size,sequenceBridgeJsBytes,historicalAttackSequenceJsBytes,
   bodyLevelsJsBytes:bodyLevelsFile.size,
   companionRecoveryJsBytes:companionRecoveryFile.size,
