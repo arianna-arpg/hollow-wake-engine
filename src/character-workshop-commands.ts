@@ -1,3 +1,5 @@
+import type {MemoryDeliveryDefinitions,CharacterDelivery} from './memory-delivery.js';
+import {prepareOwnedVocation,type OwnedVocationGrant} from './character-vocation-commands.js';
 import type {ExperiencePlan} from './character-experience-plan.js';
 import type {CompleteBuildTransition} from './complete-character-contracts.js';
 import {changeCharacterPassive} from './character-passive-commands.js';
@@ -11,7 +13,6 @@ import type {ItemInstance} from './item-types.js';
 import type {RandomState} from './types.js';
 import type {CharacterCommandDraft} from './character-command-types.js';
 import type {CharacterProgressionPorts} from './character-progression-commands.js';
-import type {CharacterGemDelivery} from './character-delivery-types.js';
 import type {SessionJSON} from './session-json.js';
 
 declare const workshopBrand:unique symbol;
@@ -21,6 +22,7 @@ export interface CharacterWorkshopScope {
  relics:{role:'inactive'}|{role:'active';state:RelicState<ItemInstance>};
 }
 export interface CharacterWorkshopDefinitions extends CharacterInventoryDefinitions {
+ memoryDelivery?:MemoryDeliveryDefinitions;
  character:WorkshopCharacterDefinitions;builds:CharacterBuildService;
  catalogue:CharacterProgressionPorts['definitions']['catalogue'];
  trigger:CharacterProgressionPorts['trigger'];relicPowerPerRank:number;
@@ -65,7 +67,7 @@ export class CharacterWorkshopAdmission {
   readonly #dropCodec;readonly #cargoCommands;readonly #data;readonly #character;readonly #builds;readonly #defs;readonly #inventory;
   readonly #entries=new WeakMap<CharacterWorkshopHandle,Entry>();
   constructor(definitions:CharacterWorkshopDefinitions){
-    this.#dropCodec=createCharacterDeliveryCodec(definitions.workshop);
+    this.#dropCodec=createCharacterDeliveryCodec(definitions.workshop,definitions.memoryDelivery);
     this.#cargoCommands=new CharacterInventoryCommands(definitions);
     this.#inventory=new InventoryHost<ItemInstance>(item=>definitions.workshop.crafting.items.pack.bases[item.baseId]);
     this.#defs=definitions;this.#data=new CraftingSessionData(definitions.workshop);
@@ -134,9 +136,13 @@ export class CharacterWorkshopAdmission {
     return {token,...reply};
   }
   pickup(previous:CharacterWorkshopHandle,scope:CharacterWorkshopScope,request:unknown,conditions:unknown){
-    const held=this.#scoped(previous,scope),result=changeCharacterPickup({saved:held.saved,definitions:this.#defs,inventory:this.#inventory,admitDrop:raw=>this.#dropCodec(raw) as unknown as CharacterGemDelivery},request,conditions);
+    const held=this.#scoped(previous,scope),result=changeCharacterPickup({saved:held.saved,definitions:this.#defs,inventory:this.#inventory,admitDrop:raw=>this.#dropCodec(raw) as unknown as CharacterDelivery},request,conditions);
     const {request:next,...reply}=result;
-    return {token:this.rebuild(previous,next,scope),...reply};
+    return {token:result.needsSave?this.rebuild(previous,next,scope):previous,...reply};
+  }
+  grantDeliveries(previous:CharacterWorkshopHandle,scope:CharacterWorkshopScope,rawDrops:readonly CharacterDelivery[]){
+    this.#scoped(previous,scope);const drops=copySessionJSON(rawDrops);array(drops,64);need(drops.length>0,'empty-reward-delivery');
+    return{token:previous,worldDrops:drops.map(drop=>this.#dropCodec(drop))};
   }
   /** Earned currency changes investment without recalculating the live build.
    * The grant comes from the run owner's one-use capability, never a player command. */
@@ -146,6 +152,11 @@ export class CharacterWorkshopAdmission {
     if(after===before)return{token:previous,before,after};
     const saved={...held.saved,character:{...held.saved.character,passives:{...held.saved.character.passives,[field]:after}}};
     const token=Object.freeze({}) as CharacterWorkshopHandle;this.#entries.set(token,{...held,saved});return{token,before,after};
+  }
+  vocation(previous:CharacterWorkshopHandle,scope:CharacterWorkshopScope,grant:OwnedVocationGrant){
+    const held=this.#scoped(previous,scope),result=prepareOwnedVocation({policy:this.#defs.character.passives,previous,current:held.saved,accountLedger:scope.account.ledger,
+      rebuild:(token,next,ledger)=>this.rebuild(token,{...next,capability:'character-workshop/residence-diagnostic'},{...scope,account:{...scope.account,ledger}})},grant);
+    return{...result,account:{...scope.account,ledger:result.accountLedger}};
   }
   experienceLevels(previous:CharacterWorkshopHandle,scope:CharacterWorkshopScope,plan:ExperiencePlan){
     let held=this.#scoped(previous,scope),token=previous;const rebuilds:CompleteBuildTransition[]=[];

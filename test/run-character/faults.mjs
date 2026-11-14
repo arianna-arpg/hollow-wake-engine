@@ -9,7 +9,7 @@ export const ownerFaults=[
  ['journal-retained-build',[['character-workshop-boundary.ts','if(!path&&before===after)return;','']],'Account-only bookkeeping invented character transitions'],
  ['store-retained-build',[['account-workshop-core.ts','if(workshop!==previous&&(workshop.body','if(workshop!==previous&&(true||workshop.body']],'Account-only bookkeeping invented character storage writes'],
  ['drop-earned-points',[['character-workshop-commands.ts','after=before+grant.amount','after=before']],'Earned passive points were lost'],
- ['unbounded-run-counters',[['run-character-session.ts',"if(!present)need(Object.keys(before.ledger).length<4096,'run-ledger-limit');",'']],'Reward exceeded bounded run ledger'],
+ ['unbounded-run-counters',[['run-character-session.ts',"integer(next);if(!present)need(Object.keys(before.ledger).length<4096,'run-ledger-limit');const changed=",'integer(next);const changed=']],'Reward exceeded bounded run ledger'],
  ['unbounded-xp-milestones',[['run-character-session.ts',"  if(plan.ledgerAfter!==before.ledger)need(Object.keys(plan.ledgerAfter).length<=4096,'run-ledger-limit');\n",'']],'XP milestone exceeded bounded run ledger'],
  ['publish-run-during-prepare',[['run-character-session.ts','this.#staged=after;this.#rows.push({before,after,experience:plan})','this.#run=after;this.#staged=after;this.#rows.push({before,after,experience:plan})']],'preparation published run XP'],
  ['drop-passive-spend',[['run-character-session.ts','{...current,xp:row.xp','{...current,passivePoints:(current.level-1)*this.#rules.pack.tuning.passivePointsPerLevel,xp:row.xp']],'stale-experience-build'],

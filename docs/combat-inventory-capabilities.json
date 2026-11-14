@@ -1,0 +1,1680 @@
+{
+  "schemaVersion": 1,
+  "delivery": "combat-and-inventory-build-sdk",
+  "baseline": {
+    "commit": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+    "lock": "baseline/source-lock.json",
+    "lockSha256": "c3845e90630c1d808a2906f1e863be73498527732062ade936af8fa4e3bba16c",
+    "catalogue": "baseline/milestone-three/catalogue.json.gz",
+    "catalogueSha256": "01d8479331e4d8c024e5f7d0bb1bd9aade3f303edb1ef45c4efa87dcd64222a7",
+    "automaticUpstreamExpansion": false
+  },
+  "host": {
+    "game": "D:/Games/Hollow-Wake",
+    "bridge": "D:/Games/Vesperwild-Combat",
+    "client": "Godot 4.7.2",
+    "authority": "Node combat host",
+    "reference": "Isolated SDK consumer; production world integration deferred",
+    "bridgeCapture": "fabb2a4c",
+    "sourceCompatibility": "Requires differential comparison; different captures are not presumed equivalent"
+  },
+  "extensionRoots": [
+    "account-workshop-session",
+    "account-workshop-core",
+    "account-workshop-complete",
+    "complete-account-commands",
+    "durable-character-located-owner",
+    "durable-run-owner",
+    "run-character-session",
+    "progression-session",
+    "unlock-lifecycle",
+    "unlock-content",
+    "unlock-predicates",
+    "progression-gates",
+    "progression-gate-content",
+    "memory-rewards",
+    "memory-reward-content",
+    "vocation-sites",
+    "vocations",
+    "vocation-grants",
+    "minted-vocation-quest-owner",
+    "quest-rewards",
+    "quest-memory-mint",
+    "quest-memory-publication",
+    "class-account",
+    "class-claims",
+    "class-rewards",
+    "mercenary-identity"
+  ],
+  "minimalEntries": [
+    ".",
+    "./character/builds"
+  ],
+  "exports": {
+    "./account/workshops": {
+      "classification": "optional-extension",
+      "module": "./dist/account-workshop-session.js"
+    },
+    "./inventory/pouch-recall": {
+      "classification": "required-rule",
+      "module": "./dist/pouch-recall.js"
+    },
+    "./content/pouch-recall.json": {
+      "classification": "content",
+      "module": "./content/pouch-recall.json"
+    },
+    ".": {
+      "classification": "required-rule",
+      "module": "./dist/index.js"
+    },
+    "./content/milestone-one.json": {
+      "classification": "content",
+      "module": "./content/milestone-one.json"
+    },
+    "./hollow-wake": {
+      "classification": "required-rule",
+      "module": "./dist/hollow-wake.js"
+    },
+    "./content/burning.json": {
+      "classification": "content",
+      "module": "./content/burning.json"
+    },
+    "./content/firebolt.json": {
+      "classification": "content",
+      "module": "./content/firebolt.json"
+    },
+    "./items": {
+      "classification": "required-rule",
+      "module": "./dist/item-rules.js"
+    },
+    "./inventory/cargo-cards": {
+      "classification": "required-rule",
+      "module": "./dist/cargo-inspection.js"
+    },
+    "./items/inspection": {
+      "classification": "required-rule",
+      "module": "./dist/inspection.js"
+    },
+    "./items/host": {
+      "classification": "required-rule",
+      "module": "./dist/item-host.js"
+    },
+    "./items/restoration": {
+      "classification": "required-rule",
+      "module": "./dist/item-restoration.js"
+    },
+    "./inventory/gems": {
+      "classification": "required-rule",
+      "module": "./dist/gem-residence.js"
+    },
+    "./passives": {
+      "classification": "required-rule",
+      "module": "./dist/passive-policy.js"
+    },
+    "./passives/grants": {
+      "classification": "required-rule",
+      "module": "./dist/passive-grants.js"
+    },
+    "./inventory/host": {
+      "classification": "required-rule",
+      "module": "./dist/inventory-host.js"
+    },
+    "./inventory/stash": {
+      "classification": "required-rule",
+      "module": "./dist/stash-policy.js"
+    },
+    "./inventory/containers": {
+      "classification": "required-rule",
+      "module": "./dist/container-policy.js"
+    },
+    "./inventory/relics": {
+      "classification": "required-rule",
+      "module": "./dist/relic-custody.js"
+    },
+    "./inventory/actions": {
+      "classification": "required-rule",
+      "module": "./dist/relic-actions.js"
+    },
+    "./inventory/equipment": {
+      "classification": "required-rule",
+      "module": "./dist/equipment-actions.js"
+    },
+    "./character/progression": {
+      "classification": "required-rule",
+      "module": "./dist/character-progression.js"
+    },
+    "./skills/tree": {
+      "classification": "required-rule",
+      "module": "./dist/skill-tree.js"
+    },
+    "./skills/workshop-supports": {
+      "classification": "required-rule",
+      "module": "./dist/workshop-supports.js"
+    },
+    "./skills/workshop-rack": {
+      "classification": "required-rule",
+      "module": "./dist/workshop-rack.js"
+    },
+    "./skills/rack": {
+      "classification": "required-rule",
+      "module": "./dist/skill-rack.js"
+    },
+    "./skills/progression": {
+      "classification": "required-rule",
+      "module": "./dist/skill-progression.js"
+    },
+    "./skills/grants": {
+      "classification": "required-rule",
+      "module": "./dist/skill-tree-grants.js"
+    },
+    "./skills/actions": {
+      "classification": "legacy-mixed",
+      "module": "./dist/skill-actions.js"
+    },
+    "./skills/supports": {
+      "classification": "required-rule",
+      "module": "./dist/support-rules.js"
+    },
+    "./skills/support-actions": {
+      "classification": "required-rule",
+      "module": "./dist/support-actions.js"
+    },
+    "./skills/support-content": {
+      "classification": "required-rule",
+      "module": "./dist/support-content.js"
+    },
+    "./resources/charges": {
+      "classification": "required-rule",
+      "module": "./dist/charge-runtime.js"
+    },
+    "./resources/gauges": {
+      "classification": "required-rule",
+      "module": "./dist/resource-gauges.js"
+    },
+    "./resources/content": {
+      "classification": "required-rule",
+      "module": "./dist/resource-content.js"
+    },
+    "./resources/events": {
+      "classification": "required-rule",
+      "module": "./dist/resource-events.js"
+    },
+    "./casting/charged": {
+      "classification": "required-rule",
+      "module": "./dist/charged-casting.js"
+    },
+    "./casting/interactive": {
+      "classification": "required-rule",
+      "module": "./dist/interactive-casting.js"
+    },
+    "./resources/ammunition": {
+      "classification": "required-rule",
+      "module": "./dist/ammunition.js"
+    },
+    "./resources/conduits": {
+      "classification": "required-rule",
+      "module": "./dist/conduits.js"
+    },
+    "./resources/conduits/catalogue": {
+      "classification": "required-rule",
+      "module": "./dist/conduit-catalogue.js"
+    },
+    "./content/conduits.json": {
+      "classification": "content",
+      "module": "./content/conduits.json"
+    },
+    "./items/vestiges": {
+      "classification": "required-rule",
+      "module": "./dist/vestige-inlays.js"
+    },
+    "./items/vestiges/catalogue": {
+      "classification": "required-rule",
+      "module": "./dist/vestige-content.js"
+    },
+    "./items/vestiges/workshop": {
+      "classification": "required-rule",
+      "module": "./dist/workshop-vestiges.js"
+    },
+    "./content/vestiges.json": {
+      "classification": "content",
+      "module": "./content/vestiges.json"
+    },
+    "./casting/channel": {
+      "classification": "required-rule",
+      "module": "./dist/channel-casting.js"
+    },
+    "./casting/guard": {
+      "classification": "required-rule",
+      "module": "./dist/guard-casting.js"
+    },
+    "./guard/arts": {
+      "classification": "required-rule",
+      "module": "./dist/guard-arts.js"
+    },
+    "./resources/payment": {
+      "classification": "required-rule",
+      "module": "./dist/resource-payment.js"
+    },
+    "./casting/admission": {
+      "classification": "required-rule",
+      "module": "./dist/skill-admission.js"
+    },
+    "./casting/seals": {
+      "classification": "required-rule",
+      "module": "./dist/cast-seals.js"
+    },
+    "./casting/instances": {
+      "classification": "required-rule",
+      "module": "./dist/skill-instances.js"
+    },
+    "./casting/intent": {
+      "classification": "required-rule",
+      "module": "./dist/skill-intent.js"
+    },
+    "./casting/request": {
+      "classification": "required-rule",
+      "module": "./dist/skill-request.js"
+    },
+    "./casting/dispatch": {
+      "classification": "required-rule",
+      "module": "./dist/skill-dispatch.js"
+    },
+    "./casting/continuation": {
+      "classification": "required-rule",
+      "module": "./dist/casting-continuation.js"
+    },
+    "./casting/banks": {
+      "classification": "required-rule",
+      "module": "./dist/channel-banks.js"
+    },
+    "./stats/gauges": {
+      "classification": "required-rule",
+      "module": "./dist/actor-gauges.js"
+    },
+    "./stats/conditions": {
+      "classification": "required-rule",
+      "module": "./dist/actor-conditions.js"
+    },
+    "./combat/procs": {
+      "classification": "required-rule",
+      "module": "./dist/proc-runtime.js"
+    },
+    "./combat/effects": {
+      "classification": "required-rule",
+      "module": "./dist/proc-effects.js"
+    },
+    "./combat/delayed": {
+      "classification": "required-rule",
+      "module": "./dist/delayed-bursts.js"
+    },
+    "./combat/buffs": {
+      "classification": "required-rule",
+      "module": "./dist/buffs.js"
+    },
+    "./combat/buff-content": {
+      "classification": "required-rule",
+      "module": "./dist/buff-content.js"
+    },
+    "./combat/recovery": {
+      "classification": "required-rule",
+      "module": "./dist/life-recovery.js"
+    },
+    "./combat/recovery-content": {
+      "classification": "required-rule",
+      "module": "./dist/life-recovery-content.js"
+    },
+    "./combat/restoration": {
+      "classification": "required-rule",
+      "module": "./dist/resource-restoration.js"
+    },
+    "./combat/restoration-content": {
+      "classification": "required-rule",
+      "module": "./dist/resource-restoration-content.js"
+    },
+    "./combat/cooldowns": {
+      "classification": "required-rule",
+      "module": "./dist/cooldowns.js"
+    },
+    "./combat/cooldown-content": {
+      "classification": "required-rule",
+      "module": "./dist/cooldown-content.js"
+    },
+    "./combat/cooldown-lifecycle": {
+      "classification": "required-rule",
+      "module": "./dist/cooldown-lifecycle.js"
+    },
+    "./combat/ready-cooldown-bank": {
+      "classification": "required-rule",
+      "module": "./dist/ready-cooldown-bank.js"
+    },
+    "./combat/sequence-recovery": {
+      "classification": "required-rule",
+      "module": "./dist/sequence-recovery.js"
+    },
+    "./combat/attack-sequences": {
+      "classification": "required-rule",
+      "module": "./dist/attack-sequences.js"
+    },
+    "./combat/attack-sequence-content": {
+      "classification": "required-rule",
+      "module": "./dist/attack-sequence-content.js"
+    },
+    "./combat/damage": {
+      "classification": "required-rule",
+      "module": "./dist/damage-pipeline.js"
+    },
+    "./statuses": {
+      "classification": "required-rule",
+      "module": "./dist/status-lifecycle.js"
+    },
+    "./statuses/effects": {
+      "classification": "required-rule",
+      "module": "./dist/status-effects.js"
+    },
+    "./combat/hit-effects": {
+      "classification": "required-rule",
+      "module": "./dist/hit-effects.js"
+    },
+    "./statuses/hits": {
+      "classification": "required-rule",
+      "module": "./dist/hit-status.js"
+    },
+    "./combat/hit-preparation": {
+      "classification": "required-rule",
+      "module": "./dist/hit-preparation.js"
+    },
+    "./combat/hit-landing": {
+      "classification": "required-rule",
+      "module": "./dist/hit-landing.js"
+    },
+    "./combat/hit-sustain": {
+      "classification": "required-rule",
+      "module": "./dist/hit-sustain.js"
+    },
+    "./combat/hit-reactions": {
+      "classification": "required-rule",
+      "module": "./dist/hit-reactions.js"
+    },
+    "./statuses/delivery": {
+      "classification": "required-rule",
+      "module": "./dist/status-delivery.js"
+    },
+    "./combat/hit-aftermath": {
+      "classification": "required-rule",
+      "module": "./dist/hit-aftermath.js"
+    },
+    "./stats/context-cache": {
+      "classification": "required-rule",
+      "module": "./dist/tag-context-cache.js"
+    },
+    "./combat/proc-casting": {
+      "classification": "required-rule",
+      "module": "./dist/proc-casting.js"
+    },
+    "./combat/proc-delivery": {
+      "classification": "required-rule",
+      "module": "./dist/proc-delivery.js"
+    },
+    "./progression/vocations": {
+      "classification": "legacy-mixed",
+      "module": "./dist/vocations.js"
+    },
+    "./progression/vocation-sites": {
+      "classification": "optional-extension",
+      "module": "./dist/vocation-sites.js"
+    },
+    "./character/identity": {
+      "classification": "required-rule",
+      "module": "./dist/character-identity.js"
+    },
+    "./character/kits": {
+      "classification": "required-rule",
+      "module": "./dist/class-kits.js"
+    },
+    "./character/claims": {
+      "classification": "optional-extension",
+      "module": "./dist/class-claims.js"
+    },
+    "./character/account": {
+      "classification": "optional-extension",
+      "module": "./dist/class-account.js"
+    },
+    "./character/rewards": {
+      "classification": "optional-extension",
+      "module": "./dist/class-rewards.js"
+    },
+    "./character/mercenaries": {
+      "classification": "optional-extension",
+      "module": "./dist/mercenary-identity.js"
+    },
+    "./character/content": {
+      "classification": "optional-extension",
+      "module": "./dist/character-continuity-content.js"
+    },
+    "./progression/gates": {
+      "classification": "optional-extension",
+      "module": "./dist/progression-gates.js"
+    },
+    "./progression/gate-content": {
+      "classification": "optional-extension",
+      "module": "./dist/progression-gate-content.js"
+    },
+    "./progression/memories": {
+      "classification": "optional-extension",
+      "module": "./dist/memory-rewards.js"
+    },
+    "./progression/memory-content": {
+      "classification": "optional-extension",
+      "module": "./dist/memory-reward-content.js"
+    },
+    "./progression/unlocks": {
+      "classification": "optional-extension",
+      "module": "./dist/unlock-lifecycle.js"
+    },
+    "./progression/unlock-content": {
+      "classification": "optional-extension",
+      "module": "./dist/unlock-content.js"
+    },
+    "./progression/unlock-predicates": {
+      "classification": "optional-extension",
+      "module": "./dist/unlock-predicates.js"
+    },
+    "./presentation/runes": {
+      "classification": "optional-extension",
+      "module": "./dist/rune-script.js"
+    },
+    "./crafting/session": {
+      "classification": "legacy-mixed",
+      "module": "./dist/crafting-session.js"
+    },
+    "./progression/session": {
+      "classification": "optional-extension",
+      "module": "./dist/progression-session.js"
+    },
+    "./crafting": {
+      "classification": "required-rule",
+      "module": "./dist/crafting.js"
+    },
+    "./crafting/content": {
+      "classification": "required-rule",
+      "module": "./dist/crafting-content.js"
+    },
+    "./crafting/actions": {
+      "classification": "required-rule",
+      "module": "./dist/crafting-actions.js"
+    },
+    "./content/table": {
+      "classification": "required-rule",
+      "module": "./dist/content-table.js"
+    },
+    "./content/table/compiler": {
+      "classification": "required-rule",
+      "module": "./dist/content-table-compiler.js"
+    },
+    "./skills/bar": {
+      "classification": "required-rule",
+      "module": "./dist/skill-bar.js"
+    },
+    "./skills/equipment": {
+      "classification": "required-rule",
+      "module": "./dist/equipment-skills.js"
+    },
+    "./skills/equipment-draft": {
+      "classification": "required-rule",
+      "module": "./dist/equipment-skill-draft.js"
+    },
+    "./skills/workshop-book": {
+      "classification": "required-rule",
+      "module": "./dist/workshop-skill-book.js"
+    },
+    "./account/workshop-build": {
+      "classification": "optional-extension",
+      "module": "./dist/workshop-build-preparation.js"
+    },
+    "./character/build-contributions": {
+      "classification": "required-rule",
+      "module": "./dist/build-contributions.js"
+    },
+    "./account/workshop-character": {
+      "classification": "optional-extension",
+      "module": "./dist/workshop-character.js"
+    },
+    "./account/relic-items": {
+      "classification": "optional-extension",
+      "module": "./dist/account-relic-items.js"
+    },
+    "./companions/grants": {
+      "classification": "required-rule",
+      "module": "./dist/companion-grants.js"
+    },
+    "./companions/bonds": {
+      "classification": "required-rule",
+      "module": "./dist/companion-bonds.js"
+    },
+    "./minions/inheritance": {
+      "classification": "required-rule",
+      "module": "./dist/minion-inheritance.js"
+    },
+    "./minions/bequests": {
+      "classification": "required-rule",
+      "module": "./dist/attribute-bequests.js"
+    },
+    "./bodies/levels": {
+      "classification": "required-rule",
+      "module": "./dist/body-levels.js"
+    },
+    "./companions/recovery": {
+      "classification": "required-rule",
+      "module": "./dist/companion-recovery.js"
+    },
+    "./auras/retirement": {
+      "classification": "required-rule",
+      "module": "./dist/aura-retirement.js"
+    },
+    "./auras/ledgers": {
+      "classification": "required-rule",
+      "module": "./dist/aura-ledgers.js"
+    },
+    "./auras/activation": {
+      "classification": "required-rule",
+      "module": "./dist/aura-activation.js"
+    },
+    "./auras/ticking": {
+      "classification": "required-rule",
+      "module": "./dist/aura-ticking.js"
+    },
+    "./summons/birth": {
+      "classification": "required-rule",
+      "module": "./dist/summon-birth.js"
+    },
+    "./summons/offspring": {
+      "classification": "required-rule",
+      "module": "./dist/summon-offspring.js"
+    },
+    "./bodies/factory": {
+      "classification": "required-rule",
+      "module": "./dist/body-factory.js"
+    },
+    "./combat/attack-sequence-continuation": {
+      "classification": "required-rule",
+      "module": "./dist/attack-sequence-continuation.js"
+    },
+    "./combat/challenges": {
+      "classification": "required-rule",
+      "module": "./dist/challenges.js"
+    },
+    "./combat/challenge-content": {
+      "classification": "required-rule",
+      "module": "./dist/challenge-content.js"
+    },
+    "./combat/challenge-continuation": {
+      "classification": "required-rule",
+      "module": "./dist/challenge-continuation.js"
+    },
+    "./character/builds": {
+      "classification": "required-rule",
+      "module": "./dist/character-builds.js"
+    }
+  },
+  "capabilities": [
+    {
+      "id": "stats",
+      "label": "Stats and conditions",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        ".",
+        "./stats/gauges",
+        "./stats/conditions",
+        "./stats/context-cache"
+      ],
+      "evidence": [
+        "docs/build-context.md"
+      ],
+      "remaining": {
+        "milestone": 2,
+        "task": "Expose one derived view for build previews and live rules; keep host clock and condition inputs explicit.",
+        "acceptance": "Preview and live stat folds agree across the three composed builds, including conditional changes."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "attributes",
+      "label": "Class and attributes",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./character/identity",
+        "./character/kits",
+        "./character/progression"
+      ],
+      "evidence": [
+        "docs/character-progression.md"
+      ],
+      "remaining": {
+        "milestone": 2,
+        "task": "Create an admitted character from class and attributes without a class-claim or account service.",
+        "acceptance": "Cold creation and rebuild preserve chosen attributes and level-derived modifiers."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "inventory",
+      "label": "Inventory and equipment",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./inventory/host",
+        "./inventory/equipment",
+        "./inventory/gems",
+        "./inventory/pouch-recall"
+      ],
+      "evidence": [
+        "docs/equipment-actions.md"
+      ],
+      "remaining": {
+        "milestone": 2,
+        "task": "Join movement, equip/unequip and displaced-item handling to the public character composition.",
+        "acceptance": "Inventory actions update the owning build atomically and refuse invalid moves without item loss."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "items",
+      "label": "Items and inspection",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./items",
+        "./items/host",
+        "./items/restoration",
+        "./items/inspection",
+        "./inventory/cargo-cards"
+      ],
+      "evidence": [
+        "docs/item-contract.md"
+      ],
+      "remaining": {
+        "milestone": 2,
+        "task": "Use the same admitted item bodies for inspection, comparison and actual build contributions.",
+        "acceptance": "Displayed deltas match equipped results; unique/rolled/socketed bodies retain identity."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "passives",
+      "label": "Passive tree and grafts",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./passives",
+        "./passives/grants"
+      ],
+      "evidence": [
+        "docs/passive-policy.md"
+      ],
+      "remaining": {
+        "milestone": 2,
+        "task": "Expose allocate/refund/choice/graft actions with host-supplied point budgets and current live reconciliation.",
+        "acceptance": "Legal paths and point accounting match the prototype before and after a live build change."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "vocations",
+      "label": "Vocation investment and grants",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./progression/vocations"
+      ],
+      "evidence": [
+        "docs/vocation-progression.md"
+      ],
+      "remaining": {
+        "milestone": 2,
+        "task": "Provide a grant/investment entry independent of createVocationQuests, run/account ledgers and campaign gates; retain the old API as optional compatibility.",
+        "acceptance": "A host grants and invests in a Vocation without constructing a quest book or account."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "skills",
+      "label": "Skill trees and mutators",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./skills/tree",
+        "./skills/progression",
+        "./skills/grants",
+        "./skills/actions"
+      ],
+      "evidence": [
+        "docs/skill-progression.md"
+      ],
+      "remaining": {
+        "milestone": 2,
+        "task": "Compose investment and resolved tree payloads with owned learned/granted skills; separate Font/location policy from rule execution.",
+        "acceptance": "Tree edits, refunds and mutators change the same instance used by combat."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "awakenings",
+      "label": "Awakenings and empowerment",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./skills/actions",
+        "./skills/progression"
+      ],
+      "evidence": [
+        "docs/skill-progression.md"
+      ],
+      "remaining": {
+        "milestone": 2,
+        "task": "Expose the existing awakening, merge and rank-budget behavior through the composed host-neutral action surface.",
+        "acceptance": "Awakened and empowered skills retain budgets, donor/socket handling and resulting combat across rebuilds."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "supports",
+      "label": "Supports and sockets",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./skills/supports",
+        "./skills/support-content",
+        "./skills/support-actions",
+        "./skills/workshop-supports"
+      ],
+      "evidence": [
+        "docs/support-rules.md"
+      ],
+      "remaining": {
+        "milestone": 2,
+        "task": "Join support-fit, rolled choices, sockets and custody to learned and equipment-granted skills.",
+        "acceptance": "Both eligible and refused socket edits preserve items and yield the expected cast/effect changes."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "bar",
+      "label": "Learned and granted skill bar",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./skills/bar",
+        "./skills/rack",
+        "./skills/equipment",
+        "./skills/equipment-draft",
+        "./skills/workshop-book",
+        "./skills/workshop-rack"
+      ],
+      "evidence": [
+        "docs/equipment-skills.md"
+      ],
+      "remaining": {
+        "milestone": 2,
+        "task": "Close granted-bar admission and equipment-granted editing without losing surviving live skill identities.",
+        "acceptance": "Equip, rearrange, replace and remove grants while an unrelated paid cast continues correctly."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "reliquary",
+      "label": "Reliquary and relic effects",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./inventory/relics",
+        "./inventory/actions",
+        "./inventory/containers"
+      ],
+      "evidence": [
+        "docs/relic-custody.md"
+      ],
+      "remaining": {
+        "milestone": 2,
+        "task": "Accept authorized relic bodies, enabled state, rank and container features from the host; keep account ownership and persistence outside.",
+        "acceptance": "Equivalent supplied relic inputs produce equivalent power, seats, grants and resource effects without an account owner."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "containers",
+      "label": "Personal containers and storage rules",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./inventory/containers",
+        "./inventory/stash"
+      ],
+      "evidence": [
+        "docs/stash-policy.md"
+      ],
+      "remaining": {
+        "milestone": 2,
+        "task": "Expose layout, capacity and placement rules without adopting a saved-account envelope.",
+        "acceptance": "Transfers and capacity refusals preserve one owner per item in a memory-only host."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "crafting",
+      "label": "Crafting and inlays",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./crafting",
+        "./crafting/content",
+        "./crafting/actions",
+        "./crafting/session",
+        "./items/vestiges",
+        "./items/vestiges/catalogue",
+        "./items/vestiges/workshop"
+      ],
+      "evidence": [
+        "docs/crafting-boundary.md"
+      ],
+      "remaining": {
+        "milestone": 2,
+        "task": "Compose forge, socket, reroll, salvage and inlay results with the build; supply station access and currency through host policy.",
+        "acceptance": "Accepted crafting changes affect the current build; refused costs and placements leave it unchanged."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "builds",
+      "label": "Combined character derivation",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./character/builds",
+        "./character/build-contributions"
+      ],
+      "evidence": [
+        "docs/character-builds.md"
+      ],
+      "remaining": {
+        "milestone": 2,
+        "task": "Connect the existing authored builder to admitted Inventory actions and current live actors, with an explicit entitlement/relic projection.",
+        "acceptance": "Three contrasting complete builds exercise items, passives/Vocations, supports, Reliquary and awakenings through one public composition."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "progression",
+      "label": "Direct character rewards",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./character/progression"
+      ],
+      "evidence": [
+        "docs/run-character-progression.md"
+      ],
+      "remaining": {
+        "milestone": 2,
+        "task": "Reuse progression rules behind direct authorized XP/point/grant operations without the durable run/account coordinator.",
+        "acceptance": "The memory-only host earns and spends progress, including a level change during build editing."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "casting",
+      "label": "Casting and requests",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        ".",
+        "./casting/charged",
+        "./casting/interactive",
+        "./casting/channel",
+        "./casting/guard",
+        "./casting/admission",
+        "./casting/seals",
+        "./casting/instances",
+        "./casting/intent",
+        "./casting/request",
+        "./casting/dispatch",
+        "./casting/continuation",
+        "./casting/banks"
+      ],
+      "evidence": [
+        "docs/skill-dispatch.md"
+      ],
+      "remaining": {
+        "milestone": 3,
+        "task": "Connect all required cast modes to the composed skill identities and explicit input/time/contact host services.",
+        "acceptance": "Press, hold, release, interruption and payment follow the accepted behavior across required cast modes."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "resources",
+      "label": "Resources and conduits",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./resources/charges",
+        "./resources/gauges",
+        "./resources/content",
+        "./resources/events",
+        "./resources/ammunition",
+        "./resources/conduits",
+        "./resources/conduits/catalogue",
+        "./resources/payment"
+      ],
+      "evidence": [
+        "docs/conduits.md"
+      ],
+      "remaining": {
+        "milestone": 3,
+        "task": "Wire resource pools, ammunition and conduit contributions through the composed actor.",
+        "acceptance": "Costs, refunds, gauges and conduit triggers preserve order and stay scoped to their actor."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "damage",
+      "label": "Damage and defenses",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./combat/damage",
+        "./combat/hit-preparation",
+        "./combat/hit-landing",
+        "./combat/hit-sustain",
+        "./combat/hit-reactions",
+        "./combat/hit-aftermath",
+        "./combat/hit-effects"
+      ],
+      "evidence": [
+        "docs/damage-pipeline.md"
+      ],
+      "remaining": {
+        "milestone": 3,
+        "task": "Use the extracted full hit pipeline at the existing host contact seam; reconcile differing source captures explicitly.",
+        "acceptance": "Representative attack/spell/defense/aftermath paths agree with the accepted oracle and host floor/contact decisions."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "statuses",
+      "label": "Statuses and timed effects",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        ".",
+        "./statuses",
+        "./statuses/effects",
+        "./statuses/hits",
+        "./statuses/delivery",
+        "./combat/buffs",
+        "./combat/buff-content"
+      ],
+      "evidence": [
+        "docs/status-delivery-boundary.md"
+      ],
+      "remaining": {
+        "milestone": 3,
+        "task": "Connect status application, stacks, timers and cleanup to the same live actors and resolved skill payloads.",
+        "acceptance": "Apply, refresh, consume, expire and retire effects without cross-actor state leakage."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "procs",
+      "label": "Procs and delayed effects",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./combat/procs",
+        "./combat/effects",
+        "./combat/delayed",
+        "./combat/proc-casting",
+        "./combat/proc-delivery"
+      ],
+      "evidence": [
+        "docs/proc-delivery.md"
+      ],
+      "remaining": {
+        "milestone": 3,
+        "task": "Expose the extracted effect branches and delayed scheduling through the composed host while retaining recursion and ownership guards.",
+        "acceptance": "Triggered effects and queued work match the source and are released on the appropriate lifetime boundary."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "recovery",
+      "label": "Recovery and cooldowns",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./combat/recovery",
+        "./combat/recovery-content",
+        "./combat/restoration",
+        "./combat/restoration-content",
+        "./combat/cooldowns",
+        "./combat/cooldown-content",
+        "./combat/cooldown-lifecycle",
+        "./combat/ready-cooldown-bank"
+      ],
+      "evidence": [
+        "docs/cooldown-lifecycle.md"
+      ],
+      "remaining": {
+        "milestone": 3,
+        "task": "Connect recovery and cooldown transitions to current actor state and host-selected recipients.",
+        "acceptance": "Resource changes, cooldown writes and retirement occur in the accepted order during combat and build changes."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "guard",
+      "label": "Guard disciplines",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./guard/arts"
+      ],
+      "evidence": [
+        "docs/guard-arts.md"
+      ],
+      "remaining": {
+        "milestone": 3,
+        "task": "Bind host interception, parry, break and bash contacts to the extracted disciplines.",
+        "acceptance": "Guard behavior and cleanup work through the installed composition without a World object."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "auras",
+      "label": "Auras",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./auras/activation",
+        "./auras/ticking",
+        "./auras/ledgers",
+        "./auras/retirement"
+      ],
+      "evidence": [
+        "docs/aura-ticking.md"
+      ],
+      "remaining": {
+        "milestone": 3,
+        "task": "Compose activation/upkeep/membership/retirement through host spatial and body services.",
+        "acceptance": "Membership, resource accounting and final cleanup survive equipment and skill changes."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "companions",
+      "label": "Summons and companions",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./companions/grants",
+        "./companions/bonds",
+        "./companions/recovery",
+        "./minions/inheritance",
+        "./minions/bequests",
+        "./bodies/levels",
+        "./bodies/factory",
+        "./summons/birth",
+        "./summons/offspring"
+      ],
+      "evidence": [
+        "docs/summon-birth.md"
+      ],
+      "remaining": {
+        "milestone": 3,
+        "task": "Wire extracted body/kit/inheritance/reservation rules to host-owned bodies; leave navigation and general AI with the game.",
+        "acceptance": "Spawn, inherit, update and retire required skill-owned companions without embedding game geography or AI."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "sequences",
+      "label": "Sequences and challenge skills",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./combat/sequence-recovery",
+        "./combat/attack-sequences",
+        "./combat/attack-sequence-content",
+        "./combat/attack-sequence-continuation",
+        "./combat/challenges",
+        "./combat/challenge-content",
+        "./combat/challenge-continuation"
+      ],
+      "evidence": [
+        "docs/challenges.md"
+      ],
+      "remaining": {
+        "milestone": 3,
+        "task": "Bind the extracted sequence/device controllers to the composed actor and explicit target/delivery services.",
+        "acceptance": "Required multi-step skills preserve timing, captured identity and retirement across host updates."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "content",
+      "label": "Executable content and coverage",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./content/table",
+        "./content/table/compiler"
+      ],
+      "evidence": [
+        "docs/content-tables.md"
+      ],
+      "remaining": {
+        "milestone": 3,
+        "task": "Map the recorded delivery/effect/source-rule census to executable family tests and reject unsupported required content at admission.",
+        "acceptance": "Every required baseline family has executable evidence; source text or imported rows alone never mark it complete."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    },
+    {
+      "id": "host",
+      "label": "Reference host adapter",
+      "required": true,
+      "current": "extracted-rules-with-composition-or-host-gaps",
+      "entries": [
+        "./hollow-wake"
+      ],
+      "evidence": [
+        "docs/skill-dispatch-boundary.md"
+      ],
+      "remaining": {
+        "milestone": 4,
+        "task": "Build the isolated Node-host/Godot-client reference against the documented Vesperwild seams, without editing those projects.",
+        "acceptance": "Clean installed reference player covers the required matrix with deterministic ground/entity providers."
+      },
+      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+    }
+  ],
+  "knownCouplings": [
+    {
+      "id": "vocation-policy",
+      "entry": "./progression/vocations",
+      "task": "vocations",
+      "reason": "The public module exports quest generation and grant logic; grant logic requires a run ledger and optional account callbacks."
+    },
+    {
+      "id": "font-policy",
+      "entry": "./skills/actions",
+      "task": "skills",
+      "reason": "Awakening and investment ports also contain Font access, world-position, presentation and dirty notifications."
+    },
+    {
+      "id": "workshop-envelope",
+      "entry": "./crafting/session",
+      "task": "crafting",
+      "reason": "Owned in-memory rules retain SDK save-envelope and account-save notification conventions; no filesystem is imported."
+    },
+    {
+      "id": "durable-composition",
+      "entry": "./account/workshops",
+      "task": "builds",
+      "reason": "Current comprehensive orchestration is account-shaped. The new character facade must not require this owner."
+    }
+  ],
+  "optionalProjects": [
+    "quest campaigns and vocation journeys",
+    "account/shared-account ownership and historical migration",
+    "durable transactions and databases",
+    "world-event orchestration",
+    "general AI, geography, generation, networking",
+    "whole-World recovery",
+    "complete secondary engine adapters"
+  ],
+  "performance": {
+    "timingsQualified": false,
+    "workloads": [
+      {
+        "id": "build-edit",
+        "actors": 1,
+        "operations": [
+          "equip",
+          "support",
+          "passive",
+          "vocation",
+          "reliquary",
+          "awakening"
+        ],
+        "requiredMilestone": 2
+      },
+      {
+        "id": "mixed-combat",
+        "actors": [
+          1,
+          16,
+          64
+        ],
+        "steps": 600,
+        "requiredMilestone": 3
+      },
+      {
+        "id": "proc-summon",
+        "actors": 16,
+        "steps": 600,
+        "requiredMilestone": 3
+      },
+      {
+        "id": "inventory-view",
+        "items": [
+          64,
+          256
+        ],
+        "requiredMilestone": 2
+      },
+      {
+        "id": "lifetime",
+        "createDisposeCycles": 1000,
+        "requiredMilestone": 2
+      }
+    ],
+    "metrics": [
+      "CPU p50/p95/p99",
+      "action latency",
+      "allocations",
+      "retained/peak process and native memory",
+      "cold content/startup"
+    ],
+    "budgetPolicy": "Capture a baseline before optimization, then freeze numeric budgets. No unavailable workload or unmeasured device is marked qualified.",
+    "targets": {
+      "primary": "Steam Deck, requires physical measurement",
+      "secondary": "Named older mobile hardware, separate qualification"
+    }
+  },
+  "contentFamilies": {
+    "note": "Exact top-level skill families from the pinned catalogue. Routing assigns required work, not executable acceptance. Nested discriminators, authored fields and source-rule references remain in the generated census.",
+    "effects": {
+      "absorb": {
+        "capability": "guard",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "birth": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      },
+      "buff": {
+        "capability": "statuses",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "cleanse": {
+        "capability": "statuses",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "commandMinions": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      },
+      "companionStance": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      },
+      "conjure": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      },
+      "damage": {
+        "capability": "damage",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "detonateMinions": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      },
+      "dragCorpses": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host provides spatial movement/contact and entity facts."
+      },
+      "drainCharge": {
+        "capability": "resources",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "gainCharge": {
+        "capability": "resources",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "grabSeize": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host provides spatial movement/contact and entity facts."
+      },
+      "grabThrow": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host provides spatial movement/contact and entity facts."
+      },
+      "guardSurge": {
+        "capability": "guard",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "heal": {
+        "capability": "recovery",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "ironWard": {
+        "capability": "guard",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "kindle": {
+        "capability": "resources",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "knockback": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host provides spatial movement/contact and entity facts."
+      },
+      "litePour": {
+        "capability": "resources",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "lure": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      },
+      "mimicSelect": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      },
+      "minionCast": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      },
+      "payLedger": {
+        "capability": "resources",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "possess": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      },
+      "possessEnd": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      },
+      "pull": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host provides spatial movement/contact and entity facts."
+      },
+      "recallImpales": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host provides spatial movement/contact and entity facts."
+      },
+      "recallMinions": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      },
+      "reduceCooldowns": {
+        "capability": "recovery",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "relocateConstruct": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      },
+      "restore": {
+        "capability": "recovery",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "restoreOverTime": {
+        "capability": "recovery",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "restoreSkillCharges": {
+        "capability": "resources",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "rupture": {
+        "capability": "damage",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "shapeshift": {
+        "capability": "builds",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "shatterConstructs": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      },
+      "shed": {
+        "capability": "resources",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "siphonOrb": {
+        "capability": "resources",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "siphonStatus": {
+        "capability": "statuses",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "spawnCorpse": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      },
+      "spawnZone": {
+        "capability": "statuses",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "spreadStatus": {
+        "capability": "statuses",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "status": {
+        "capability": "statuses",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "tame": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      },
+      "terrain": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host applies requested terrain interaction; SDK does not generate or save terrain."
+      },
+      "throngDirect": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      },
+      "townPortal": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host handles travel request or explicit unavailability; SDK does not own towns or campaign destinations."
+      },
+      "transfuseStatus": {
+        "capability": "statuses",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "vent": {
+        "capability": "resources",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "ward": {
+        "capability": "guard",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+      },
+      "whistleCompanion": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+      }
+    },
+    "deliveries": {
+      "aura": {
+        "capability": "auras",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "blink": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "carom": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "cone": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "construct": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "dash": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "detonate": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "detonateProjectile": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "ground": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "leap": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "mark": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "melee": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "nova": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "projectile": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "self": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "storm": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "summon": {
+        "capability": "companions",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      },
+      "target": {
+        "capability": "casting",
+        "acceptance": "pending-composed-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+      }
+    }
+  }
+}

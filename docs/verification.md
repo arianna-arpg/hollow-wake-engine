@@ -9,8 +9,9 @@ a stable complete-character API or qualify target-device performance.
 The same courses cover trusted passive/vocation point grants and bounded run
 counters, including account-only build reuse. Sixty invalid type calls, seventeen
 owner faults, seven World faults and fresh-process reward-checkpoint recovery
-guard this internal progression path. This does not qualify whole quest payouts
-or a durable incoming-reward protocol.
+guard this internal progression path. The separate
+[durable final-vocation course](quest-reward-qualification.md) joins selected quest
+payouts to that owner; general quest rewards and whole-World saves remain open.
 Capacity checks include XP milestones: a full run ledger must reject a new
 milestone without changing XP, earlier batch counters or point grants. Existing
 stamps and XP awards that add no milestone still work at capacity.
@@ -1456,3 +1457,9 @@ modules, eighteen integration faults and nineteen factory installation guards.
 `adapter:body-factory-composed` compares the normal adapter assembly with the same
 assembly retaining only original body construction, including 25 paired combat
 episodes. Private graph, native-engine and device acceptance remain separate.
+
+The internal final-vocation courses add `test:quest-reward-types` and
+`test:quest-rewards` to `verify`, and `reference:quest-rewards` to
+`reference:verify`. They preserve original content and exercise 38 deliberate
+faults, including rollback after private minting and fresh-process recovery.
+See [reward qualification](quest-reward-qualification.md) for scope and limits.

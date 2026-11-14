@@ -1,3 +1,5 @@
+import type {CharacterDelivery} from './memory-delivery.js';
+import type {OwnedVocationGrant} from './character-vocation-commands.js';
 import type {ExperiencePlan} from './character-experience-plan.js';
 import {CharacterWorkshopAdmission,type CharacterWorkshopDefinitions,type CharacterWorkshopHandle,type CharacterWorkshopScope,type CharacterPointGrant} from './character-workshop-commands.js';
 import type {CompleteCharacterCodec,CompleteWorkshopKernel,CharacterObjectJSON,WorkshopRuleScope,CompleteBuildTransition} from './complete-character-contracts.js';
@@ -15,9 +17,10 @@ export interface CompleteAccountTrace {
  role:WorkshopRuleScope['relics']['role'];reply:SessionJSON;
 }
 export interface CompleteAccountPorts {
- /** Opt in only when the host publishes account-only updates without requiring
-  * character rebuild callbacks. Existing World-style hosts keep those callbacks. */
+ /** Explicit opt-in for hosts that consume the account journal directly. */
  reuseAccountBuilds?:true;
+ rewards?(request:{profile:number;accountKey:string;grant:number}):readonly CharacterDelivery[];
+ vocation?(request:{profile:number;accountKey:string;grant:number}):OwnedVocationGrant;
  points?(request:{profile:number;accountKey:string;grant:number}):CharacterPointGrant;
  experience?(request:{profile:number;accountKey:string;grant:number}):ExperiencePlan;
  conditions(request:{profile:number;accountKey:string;command:SessionJSON}):unknown;
@@ -43,11 +46,11 @@ const wrapped:Readonly<Record<string,'bar'|'rack'|'support'|'progression'|'merge
 /** One private command router. Its input scope is supplied by the account
  * owner; the owner still admits replies and atomically commits the group. */
 export class CompleteAccountKernel implements CompleteWorkshopKernel {
- readonly #service;readonly #content;readonly #conditions;readonly #trace;readonly #experience;readonly #points;readonly #reuseAccountBuilds;
+ readonly #service;readonly #content;readonly #conditions;readonly #trace;readonly #experience;readonly #points;readonly #vocation;readonly #rewards;readonly #reuseAccountBuilds;
  readonly character:CompleteCharacterCodec;
- constructor(definitions:CharacterWorkshopDefinitions,{conditions,trace=()=>{},experience,points,reuseAccountBuilds}:CompleteAccountPorts){
+ constructor(definitions:CharacterWorkshopDefinitions,{conditions,trace=()=>{},experience,points,vocation,rewards,reuseAccountBuilds}:CompleteAccountPorts){
   need(typeof conditions==='function','trusted-character-conditions-required');
-  this.#service=new CharacterWorkshopAdmission(definitions);this.#conditions=conditions;this.#trace=trace;this.#experience=experience;this.#points=points;this.#reuseAccountBuilds=reuseAccountBuilds===true;
+  this.#service=new CharacterWorkshopAdmission(definitions);this.#conditions=conditions;this.#trace=trace;this.#experience=experience;this.#points=points;this.#vocation=vocation;this.#rewards=rewards;this.#reuseAccountBuilds=reuseAccountBuilds===true;
   const base=new WorkshopCharacterData(definitions.character,definitions.workshop),codec=new ProgressionCharacterData(base,definitions.workshop.skills);
   this.character={admit:(value,state)=>codec.admit(value,state),
    // The account owner pairs these operations with this codec's admitted context.
@@ -88,7 +91,16 @@ export class CompleteAccountKernel implements CompleteWorkshopKernel {
    need(previous,'missing-character-continuation');const handle=previous as CharacterWorkshopHandle,held=this.#service.read(handle);
    need(equal(inventory,held.state)&&equal(scope.characterInput,held.character)&&nextUid===held.nextUid,'stale-character-continuation');
    const method=typeof command.op==='string'&&Object.hasOwn(wrapped,command.op)?wrapped[command.op]:undefined;
-   if(command.op==='character-point-grant'){
+   if(command.op==='character-reward-delivery'){
+    fields(command,['op','grant']);integer(command.grant,1);need(scope.delivery==='prepare'&&this.#rewards,'owned-reward-delivery-required');
+    const drops=this.#rewards({profile:scope.profile,accountKey:scope.accountKey,grant:command.grant}),result=this.#service.grantDeliveries(handle,localScope,drops);token=result.token;
+    reply={ok:true,worldDrops:result.worldDrops,events:[{kind:'reward-delivery',count:result.worldDrops.length}]};
+   }else if(command.op==='character-vocation-grant'){
+    fields(command,['op','grant']);integer(command.grant,1);need(scope.delivery==='prepare'&&this.#vocation,'owned-vocation-grant-required');
+    const grant=this.#vocation({profile:scope.profile,accountKey:scope.accountKey,grant:command.grant}),result=this.#service.vocation(handle,localScope,grant);
+    token=result.token;localScope.account=result.account;if(result.rebuilds.length)rebuilds=result.rebuilds;
+    reply={ok:true,accepted:result.accepted,changed:result.changed,needsSave:result.needsSave,events:result.events,runCounter:result.runCounter};
+   }else if(command.op==='character-point-grant'){
     fields(command,['op','grant']);integer(command.grant,1);need(scope.delivery==='prepare'&&this.#points,'owned-point-grant-required');
     const grant=this.#points({profile:scope.profile,accountKey:scope.accountKey,grant:command.grant}),result=this.#service.grantPoints(handle,localScope,grant);token=result.token;
     reply={ok:true,events:[{kind:'point-grant',currency:grant.currency,before:result.before,after:result.after}]};

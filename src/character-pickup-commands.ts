@@ -1,16 +1,17 @@
+import {pickupMemory} from './memory-pickup.js';
+import type {CharacterDelivery,MemoryDeliveryDefinitions} from './memory-delivery.js';
 import {createGemCargo,type GemDefinition,type GemSkill,type GemSupport} from './gem-residence.js';
 import type {CraftingSessionDefinitions} from './crafting-session-data.js';
 import type {ItemInstance,GemSocketRow} from './item-types.js';
 import type {InventoryHost,LiveInventoryBoard} from './inventory-host.js';
 import type {CharacterCommandDraft} from './character-command-types.js';
-import type {CharacterGemDelivery} from './character-delivery-types.js';
 import {copySessionJSON,requireSession as need,sessionFields as fields,sessionInteger as integer} from './session-json.js';
 
 interface PickupDefinition extends GemDefinition {color?:string}
 export interface CharacterPickupPorts {
-  saved:CharacterCommandDraft;admitDrop(raw:unknown):CharacterGemDelivery;
+  saved:CharacterCommandDraft;admitDrop(raw:unknown):CharacterDelivery;
   inventory:Pick<InventoryHost<ItemInstance>,'autoPlace'>;
-  definitions:{workshop:CraftingSessionDefinitions;catalogue:{
+  definitions:{memoryDelivery?:MemoryDeliveryDefinitions;workshop:CraftingSessionDefinitions;catalogue:{
     skills:Readonly<Record<string,PickupDefinition>>;supports:Readonly<Record<string,PickupDefinition>>;
   }};
 }
@@ -20,7 +21,7 @@ export type CharacterPickupEvent=
   | {kind:'pickup';label:string;color:string|undefined;count:1}
   | {kind:'meta-dirty'};
 export interface CharacterPickupResult {
-  accepted:boolean;changed:true;needsSave:true;deliveryId:number;events:CharacterPickupEvent[];
+  accepted:boolean;changed:boolean;needsSave:boolean;deliveryId:number;events:CharacterPickupEvent[];
   request:CharacterCommandDraft&{capability:'character-workshop/residence-diagnostic'};
 }
 const own=<T>(rows:Readonly<Record<string,T>>,id:string):T|undefined=>Object.hasOwn(rows,id)?rows[id]:undefined;
@@ -33,6 +34,7 @@ export function changeCharacterPickup(ports:CharacterPickupPorts,rawRequest:unkn
   fields(request,['op','deliveryId']);need(request.op==='pickup','unsupported-pickup-command');integer(request.deliveryId,1);
   fields(conditions,['drop']);const drop=ports.admitDrop(conditions.drop);
   const saved=copySessionJSON(ports.saved) as unknown as CharacterCommandDraft,state=saved.state,catalogue=ports.definitions.catalogue;
+  if(drop.kind==='memory')return pickupMemory(ports,saved,drop,request.deliveryId);
   const next=()=>{integer(saved.nextUid,1,Number.MAX_SAFE_INTEGER-1);return saved.nextUid++;};
   const unused=():never=>{throw Error('Pickup cannot cold-restore investment');};
   const cargo=createGemCargo<PickupDefinition,PickupDefinition,GemSkill<PickupDefinition,PickupDefinition>,ItemInstance>({

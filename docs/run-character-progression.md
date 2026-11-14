@@ -120,3 +120,9 @@ SQLite here means Node's test backend. Physical power-loss recovery, native
 storage, installed complete-character APIs, whole-actor restoration and Steam
 Deck/mobile performance remain unqualified. No public export or runtime dependency
 is added by this milestone.
+
+The [durable final-vocation integration](quest-reward-qualification.md) composes
+this owner with a quest book, privately minted Memory obligations and a saved
+reward stream. It extends internal qualification without adding a public
+complete-character export. General quest payouts and whole-World saves remain
+separate.

@@ -121,3 +121,24 @@ assert.ok([...reachable].every(file=>!['hit-aftermath.ts','hit-aftermath-types.t
 assert.ok([...reachable].every(file=>!['status-delivery.ts','status-delivery-types.ts'].includes(path.basename(file))), 'Optional status delivery became an eager core import');
 
 assert.ok([...reachable].every(file=>path.basename(file)!=='companion-grants.ts'), 'Optional companion lifecycle became an eager core import');
+
+// Check every public subpath, including declaration dependencies. Checking only
+// the root entry can miss a valid source import whose target is omitted by pack.
+const excludedPackageSources=new Set(manifest.files.flatMap(entry=>{
+  const match=/^!dist\/([a-z0-9-]+)\.\*$/.exec(entry);
+  return match?[path.join(root,'src',match[1]+'.ts')]:[];
+}));
+const packageReachable=new Set();
+function packageEntryGraph(file){
+  assert(!excludedPackageSources.has(file),'Public package depends on excluded module: '+path.relative(root,file));
+  if(packageReachable.has(file))return;packageReachable.add(file);
+  const source=ts.createSourceFile(file,fs.readFileSync(file,'utf8'),ts.ScriptTarget.Latest,true);
+  for(const node of source.statements)if((ts.isImportDeclaration(node)||ts.isExportDeclaration(node))&&node.moduleSpecifier){
+    const specifier=node.moduleSpecifier.text;assert(specifier.startsWith('./'),'Public dependency escapes source: '+specifier);
+    packageEntryGraph(path.resolve(path.dirname(file),specifier.replace(/\.js$/,'.ts')));
+  }
+}
+for(const entry of Object.values(manifest.exports))for(const file of typeof entry==='string'?[entry]:Object.values(entry)){
+  if(file.startsWith('./dist/')&&/\.(?:js|d\.ts)$/.test(file))packageEntryGraph(path.join(root,'src',file.slice(7).replace(/(?:\.d\.ts|\.js)$/,'.ts')));
+}
+console.log('Public package source boundary passed: '+packageReachable.size+' modules; '+excludedPackageSources.size+' internal modules excluded.');

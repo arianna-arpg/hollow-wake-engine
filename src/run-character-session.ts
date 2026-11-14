@@ -1,3 +1,6 @@
+import type {CharacterDelivery} from './memory-delivery.js';
+import type {OwnedVocationGrant} from './character-vocation-commands.js';
+import {vocationUnlockKey} from './vocation-keys.js';
 import {relicExperienceFactor} from './relic-experience.js';
 import {CompleteAccountWorkshopSession} from './account-workshop-complete.js';
 import {CompleteAccountKernel,type CompleteAccountPorts} from './complete-account-commands.js';
@@ -12,20 +15,25 @@ import {copySessionJSON,SessionInputError,requireSession as need,sessionFields a
 type JSONRecord=Record<string,SessionJSON>;
 export interface RunCharacter {readonly key:string;readonly accountKey:string;readonly xp:number;readonly xpNeeded:number}
 export interface RunState {readonly schemaVersion:1;readonly capability:'run-progression/diagnostic';readonly key:string;readonly ledger:Readonly<Record<string,number>>;readonly characters:readonly RunCharacter[]}
-export type RunAction={readonly kind:'award';readonly profile:number;readonly amount:number}|{readonly kind:'points';readonly profile:number;readonly currency:'passive'|'vocation';readonly amount:number}|{readonly kind:'run-ledger';readonly key:string;readonly amount:number}|{readonly kind:'command';readonly command:JSONRecord};
+export type RunAction={readonly kind:'deliveries';readonly profile:number;readonly drops:readonly CharacterDelivery[]}|{readonly kind:'account-counter';readonly profile:number;readonly key:string;readonly amount:number;readonly mode:'add'|'set'}|{readonly kind:'vocation';readonly profile:number;readonly id:string}|{readonly kind:'award';readonly profile:number;readonly amount:number}|{readonly kind:'points';readonly profile:number;readonly currency:'passive'|'vocation';readonly amount:number}|{readonly kind:'run-ledger';readonly key:string;readonly amount:number}|{readonly kind:'command';readonly command:JSONRecord};
 export interface RunPreparedCommand {readonly character:PreparedCharacterCommand;readonly before:RunState;readonly after:RunState;readonly experience?:ExperiencePlan}
 export interface RunCharacterDefinitions {account:AccountWorkshopDefinitions;character:CharacterWorkshopDefinitions;experience:CharacterProgression}
 export interface RunExperienceObservation extends Omit<ExperienceObservation,'multiplier'> {readonly relicSuppressed:boolean}
-export interface RunCharacterPorts extends Omit<CompleteAccountPorts,'experience'|'points'|'reuseAccountBuilds'> {experience(request:Readonly<{profile:number;accountKey:string;amount:number}>):RunExperienceObservation}
+export interface RunCharacterPorts extends Omit<CompleteAccountPorts,'experience'|'points'|'vocation'|'rewards'|'reuseAccountBuilds'> {vocation?(request:Readonly<{profile:number;accountKey:string;id:string}>):Readonly<{maxPerCharacter:number;accountWrites:boolean}>;experience(request:Readonly<{profile:number;accountKey:string;amount:number}>):RunExperienceObservation}
 const raw=(value:unknown):JSONRecord=>{record(value);return value as JSONRecord;};
 const passed=(value:unknown):JSONRecord=>{const r=raw(value);need(r.ok===true,typeof r.reason==='string'?r.reason:'run-command-refused');return r;};
-const internal=(value:JSONRecord)=>['run-experience','run-points','run-ledger','character-experience-levels','character-point-grant'].includes(String(value.op))||
- value.op==='workshop'&&value.command!==null&&typeof value.command==='object'&&!Array.isArray(value.command)&&['character-experience-levels','character-point-grant'].includes(String(value.command.op));
+const internal=(value:JSONRecord)=>['character-reward-delivery','run-account-counter','run-vocation','character-vocation-grant','run-experience','run-points','run-ledger','character-experience-levels','character-point-grant'].includes(String(value.op))||
+ value.op==='workshop'&&value.command!==null&&typeof value.command==='object'&&!Array.isArray(value.command)&&['character-reward-delivery','character-vocation-grant','character-experience-levels','character-point-grant'].includes(String(value.command.op));
 
 /** Internal synchronous preparation/commit owner. Persistence,
  * player admission and live actor publication are NOT provided by this class.
  * Level and passive currency remain exclusively in the character owner. */
 export class RunCharacterSession {
+ readonly #rewardGrants=new Map<number,{profile:number;drops:readonly CharacterDelivery[]}>();
+ #rewardPlan?:{grant:number;profile:number;accountKey:string;drops:readonly CharacterDelivery[]};
+ readonly #counterGrants=new Map<number,{profile:number;key:string;amount:number;mode:'add'|'set'}>();
+ readonly #vocationGrants=new Map<number,{profile:number;id:string}>();readonly #observeVocation;
+ #vocationPlan?:{grant:number;profile:number;accountKey:string;value:OwnedVocationGrant};
  readonly #owner;readonly #kernel;readonly #rules;readonly #observe;readonly #relicPenalty;
  #run?:RunState;#staged?:RunState;#pending?:{token:number;state:RunState;journal:readonly RunPreparedCommand[]};
  #bindings=new Map<number,string>();#busy=false;#grants=new Map<number,{profile:number;amount:number}>();
@@ -37,6 +45,7 @@ export class RunCharacterSession {
   need(typeof ports.experience==='function','experience-observation-required');this.#rules=definitions.experience;this.#observe=ports.experience.bind(ports);
   this.#relicPenalty=definitions.account.progression.unlocks.reliquaryConfig.xpPenaltyPerCell;
   relicExperienceFactor(0,this.#relicPenalty,true);
+  this.#observeVocation=ports.vocation?.bind(ports);
   const conditions=ports.conditions.bind(ports);
   this.#kernel=new CompleteAccountKernel(definitions.character,{reuseAccountBuilds:true,trace:ports.trace?.bind(ports),
    conditions:request=>{
@@ -44,6 +53,8 @@ export class RunCharacterSession {
     if(raw(request.command).op==='character-passive'){need(this.#staged||this.#run,'run-not-attached');return{...observed,runLedger:(this.#staged??this.#run)!.ledger};}
     return observed;
    },
+   rewards:request=>{const held=this.#rewardPlan;need(held&&held.grant===request.grant&&held.profile===request.profile&&held.accountKey===request.accountKey,'unowned-reward-delivery');this.#rewardPlan=undefined;return held.drops;},
+   vocation:request=>{const held=this.#vocationPlan;need(held&&held.grant===request.grant&&held.profile===request.profile&&held.accountKey===request.accountKey,'unowned-vocation-grant');this.#vocationPlan=undefined;return held.value;},
    points:request=>{const held=this.#point;need(held&&held.grant===request.grant&&held.profile===request.profile&&held.accountKey===request.accountKey,'unowned-point-grant');this.#point=undefined;return held.value;},
    experience:request=>{
     const held=this.#plan;need(held&&held.grant===request.grant&&held.profile===request.profile&&held.accountKey===request.accountKey,'unowned-experience-grant');
@@ -54,6 +65,28 @@ export class RunCharacterSession {
  }
  #step(command:JSONRecord,scope:PreparedStepScope):JSONRecord|undefined{
   const before=this.#staged;need(before,'run-preparation-required');
+  if(command.op==='workshop'&&raw(command.command).op==='character-reward-delivery'){
+   fields(command,['op','profile','command']);integer(command.profile,0,0xffffffff);const request=raw(command.command);fields(request,['op','grant']);integer(request.grant,1);
+   const grant=this.#rewardGrants.get(request.grant);need(grant&&grant.profile===command.profile,'unowned-reward-delivery');this.#rewardGrants.delete(request.grant);
+   const key=this.#bindings.get(grant.profile),row=before.characters.find(r=>r.key===key);need(row,'character-not-in-run');const current=scope.read(grant.profile);need(current.accountKey===row.accountKey,'run-account-mismatch');
+   this.#rewardPlan={grant:request.grant,profile:grant.profile,accountKey:row.accountKey,drops:grant.drops};const reply=passed(scope.execute(command));need(!this.#rewardPlan,'reward-delivery-not-consumed');this.#rows.push({before,after:before});return reply;
+  }
+  if(command.op==='run-account-counter'){
+   fields(command,['op','profile','grant']);integer(command.profile,0,0xffffffff);integer(command.grant,1);const grant=this.#counterGrants.get(command.grant);need(grant&&grant.profile===command.profile,'unowned-account-counter');this.#counterGrants.delete(command.grant);
+   const key=this.#bindings.get(grant.profile),row=before.characters.find(r=>r.key===key);need(row,'character-not-in-run');need(scope.read(grant.profile).accountKey===row.accountKey,'run-account-mismatch');
+   const result=scope.counter(grant.profile,grant.key,grant.amount,grant.mode);this.#rows.push({before,after:before});return result;
+  }
+  if(command.op==='run-vocation'){
+   fields(command,['op','profile','grant']);integer(command.profile,0,0xffffffff);integer(command.grant,1);const grant=this.#vocationGrants.get(command.grant);need(grant&&grant.profile===command.profile,'unowned-vocation-grant');this.#vocationGrants.delete(command.grant);
+   const key=this.#bindings.get(grant.profile),row=before.characters.find(r=>r.key===key);need(row,'character-not-in-run');const current=scope.read(grant.profile);need(current.accountKey===row.accountKey,'run-account-mismatch');need(this.#observeVocation,'vocation-observation-required');
+   const observed=copySessionJSON(this.#observeVocation(Object.freeze({profile:grant.profile,accountKey:row.accountKey,id:grant.id})));fields(observed,['maxPerCharacter','accountWrites']);integer(observed.maxPerCharacter,0,256);need(typeof observed.accountWrites==='boolean','invalid-vocation-account-policy');
+   const counterKey=vocationUnlockKey(grant.id),present=Object.hasOwn(before.ledger,counterKey),runCount=present?before.ledger[counterKey]:0;
+   this.#vocationPlan={grant:command.grant,profile:grant.profile,accountKey:row.accountKey,value:{id:grant.id,runCount,maxPerCharacter:observed.maxPerCharacter,accountWrites:observed.accountWrites}};
+   const reply=passed(scope.execute({op:'workshop',profile:grant.profile,command:{op:'character-vocation-grant',grant:command.grant}}));need(!this.#vocationPlan,'vocation-grant-not-consumed');const result=raw(reply.reply);let after=before;
+   if(result.runCounter!==null){const counter=raw(result.runCounter);need(counter.key===counterKey&&counter.before===runCount,'vocation-counter-mismatch');integer(counter.after);if(!present)need(Object.keys(before.ledger).length<4096,'run-ledger-limit');
+    after=Object.freeze({...before,ledger:Object.freeze({...before.ledger,[counterKey]:counter.after})});}
+   this.#staged=after;this.#rows.push({before,after});return reply;
+  }
   if(command.op==='run-ledger'){
    fields(command,['op','grant']);integer(command.grant,1);const grant=this.#ledgerGrants.get(command.grant);need(grant,'unowned-run-ledger');this.#ledgerGrants.delete(command.grant);
    const present=Object.hasOwn(before.ledger,grant.key),old=present?before.ledger[grant.key]:0,next=old+grant.amount;integer(next);if(!present)need(Object.keys(before.ledger).length<4096,'run-ledger-limit');const changed=!present||next!==old;
@@ -115,6 +148,16 @@ export class RunCharacterSession {
   this.#staged=this.#run;this.#rows=[];let pendingToken=0;
   try{
    const commands=actions.map((a,i)=>{record(a);
+    if(a.kind==='deliveries'){
+     fields(a,['kind','profile','drops']);integer(a.profile,0,0xffffffff);array(a.drops,64);need(a.drops.length>0,'empty-reward-delivery');const grant=i+1;this.#rewardGrants.set(grant,{profile:a.profile,drops:a.drops as unknown as CharacterDelivery[]});return{op:'workshop',profile:a.profile,command:{op:'character-reward-delivery',grant}};
+    }
+    if(a.kind==='account-counter'){
+     fields(a,['kind','profile','key','amount','mode']);integer(a.profile,0,0xffffffff);text(a.key);integer(a.amount);need(a.mode==='add'||a.mode==='set','invalid-account-counter-mode');
+     const grant=i+1;this.#counterGrants.set(grant,{profile:a.profile,key:a.key,amount:a.amount,mode:a.mode});return{op:'run-account-counter',profile:a.profile,grant};
+    }
+    if(a.kind==='vocation'){
+     fields(a,['kind','profile','id']);integer(a.profile,0,0xffffffff);text(a.id);const grant=i+1;this.#vocationGrants.set(grant,{profile:a.profile,id:a.id});return{op:'run-vocation',profile:a.profile,grant};
+    }
     if(a.kind==='points'){
      fields(a,['kind','profile','currency','amount']);integer(a.profile,0,0xffffffff);need(a.currency==='passive'||a.currency==='vocation','invalid-point-currency');integer(a.amount);const grant=i+1;this.#pointGrants.set(grant,{profile:a.profile,value:{currency:a.currency,amount:a.amount}});return{op:'run-points',profile:a.profile,grant};
     }
@@ -133,7 +176,7 @@ export class RunCharacterSession {
    }else need(this.#staged===this.#run,'run-change-without-preparation');
    return result;
   }catch(error){if(pendingToken)this.#owner.command({op:'abort-prepared',token:pendingToken});throw error;}
-  finally{this.#staged=undefined;this.#grants.clear();this.#plan=undefined;this.#pointGrants.clear();this.#ledgerGrants.clear();this.#point=undefined;this.#rows=[];}
+  finally{this.#staged=undefined;this.#grants.clear();this.#plan=undefined;this.#pointGrants.clear();this.#ledgerGrants.clear();this.#point=undefined;this.#vocationPlan=undefined;this.#vocationGrants.clear();this.#counterGrants.clear();this.#rewardPlan=undefined;this.#rewardGrants.clear();this.#rows=[];}
  }
  command(input:unknown):unknown{
   try{return this.#guard(()=>{

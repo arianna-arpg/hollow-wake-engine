@@ -1,3 +1,4 @@
+import type {CharacterDelivery} from './memory-delivery.js';
 import {DurableCharacterOwner,type LocatedCharacterOptions,type LocatedCharacterGroup,type CharacterGroupStorage,type CharacterAction,type CharacterSubmission,type CharacterPublicationPreparation,type CharacterPublicationCommit} from './durable-character-located-owner.js';
 import {RunCharacterSession,type RunState,type RunAction,type RunPreparedCommand} from './run-character-session.js';
 import {copySessionJSON,requireSession as need,sessionFields as fields,sessionRecord as record,sessionInteger as integer,sessionText as text,sessionArray as array,type SessionJSON} from './session-json.js';
@@ -7,7 +8,7 @@ export interface RunCheckpoint {schemaVersion:1;capability:'run-character-checkp
 export interface RunCheckpointSnapshot {revision:number;body:RunCheckpoint}
 export type RunBuildView=ReturnType<RunCharacterSession['build']>;
 export interface RunPublication {readonly readBuild:(handle:object)=>RunBuildView;readonly current:RunState;readonly candidate:RunState;readonly journal:readonly RunPreparedCommand[]}
-export type RunCheckpointAction=CharacterAction|{kind:'experience';characterKey:string;amount:number}|{kind:'points';characterKey:string;currency:'passive'|'vocation';amount:number}|{kind:'run-ledger';characterKey:string;key:string;amount:number};
+export type RunCheckpointAction=CharacterAction|{kind:'deliveries';characterKey:string;drops:readonly CharacterDelivery[] }|{kind:'account-counter';characterKey:string;key:string;amount:number;mode:'add'|'set'}|{kind:'vocation';characterKey:string;id:string}|{kind:'experience';characterKey:string;amount:number}|{kind:'points';characterKey:string;currency:'passive'|'vocation';amount:number}|{kind:'run-ledger';characterKey:string;key:string;amount:number};
 type EarnedRunAction=Exclude<RunAction,{kind:'command'}>;
 export interface DurableRunOptions<Lease extends object> extends Omit<LocatedCharacterOptions<Lease>,'createOwner'|'storage'|'live'> {
  createOwner(ports:Parameters<LocatedCharacterOptions<Lease>['createOwner']>[0]):RunCharacterSession;
@@ -119,12 +120,16 @@ export class DurableRunOwner<L extends object> {
   try{
    const translated:CharacterAction[]=values.map(row=>{
     record(row);
-    if(row.kind==='experience'||row.kind==='points'||row.kind==='run-ledger'){
-     fields(row,row.kind==='points'?['kind','characterKey','currency','amount']:row.kind==='run-ledger'?['kind','characterKey','key','amount']:['kind','characterKey','amount']);text(row.characterKey);
-     if(row.kind==='experience')need(typeof row.amount==='number'&&Number.isFinite(row.amount),'invalid-experience-award');else integer(row.amount);
+    if(row.kind==='deliveries'){
+     fields(row,['kind','characterKey','drops']);text(row.characterKey);array(row.drops,64);need(row.drops.length>0,'empty-reward-delivery');const binding=this.#bindings.find(b=>b.key===row.characterKey);need(binding,'foreign-run-character');integer(this.#nextGrant,1,Number.MAX_SAFE_INTEGER-1);
+     const grant=this.#nextGrant++;this.#grants.set(grant,{profile:binding.handle,action:{kind:'deliveries',profile:binding.handle,drops:row.drops as unknown as CharacterDelivery[]}});return{kind:'character',characterKey:row.characterKey,command:{op:marker,grant}};
+    }
+    if(row.kind==='account-counter'||row.kind==='vocation'||row.kind==='experience'||row.kind==='points'||row.kind==='run-ledger'){
+     fields(row,row.kind==='account-counter'?['kind','characterKey','key','amount','mode']:row.kind==='vocation'?['kind','characterKey','id']:row.kind==='points'?['kind','characterKey','currency','amount']:row.kind==='run-ledger'?['kind','characterKey','key','amount']:['kind','characterKey','amount']);text(row.characterKey);
+     if(row.kind==='vocation')text(row.id);else if(row.kind==='experience')need(typeof row.amount==='number'&&Number.isFinite(row.amount),'invalid-experience-award');else integer(row.amount);
      const binding=this.#bindings.find(b=>b.key===row.characterKey);need(binding,'foreign-run-character');integer(this.#nextGrant,1,Number.MAX_SAFE_INTEGER-1);
      let action:EarnedRunAction;
-     if(row.kind==='experience')action={kind:'award',profile:binding.handle,amount:row.amount as number};
+     if(row.kind==='account-counter'){text(row.key);need(row.mode==='add'||row.mode==='set','invalid-account-counter-mode');action={kind:'account-counter',profile:binding.handle,key:row.key,amount:row.amount as number,mode:row.mode};}else if(row.kind==='vocation')action={kind:'vocation',profile:binding.handle,id:row.id as string};else if(row.kind==='experience')action={kind:'award',profile:binding.handle,amount:row.amount as number};
      else if(row.kind==='points'){need(row.currency==='passive'||row.currency==='vocation','invalid-point-currency');action={kind:'points',profile:binding.handle,currency:row.currency,amount:row.amount as number};}
      else{text(row.key);action={kind:'run-ledger',key:row.key,amount:row.amount as number};}
      const grant=this.#nextGrant++;this.#grants.set(grant,{profile:binding.handle,action});return{kind:'character',characterKey:row.characterKey,command:{op:marker,grant}};

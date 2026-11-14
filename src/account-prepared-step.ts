@@ -1,11 +1,12 @@
 import type {PreparedStepAccount as Account,PreparedStepInstaller} from './complete-character-contracts.js';
 import type {ProgressionRelic} from './progression-session.js';
 import type {RelicState} from './relic-custody.js';
-import {requireSession as need,type SessionJSON} from './session-json.js';
+import {requireSession as need,sessionInteger as integer,sessionText as text,type SessionJSON} from './session-json.js';
 
 type JSONRecord=Record<string,SessionJSON>;
 export interface PreparedStepScope {
  read(profile:number):Readonly<{accountKey:string;level:number;classId:string;passivePoints:number;relicCells:number;relicEnabled:boolean}>;
+ counter(profile:number,key:string,amount:number,mode:'add'|'set'):JSONRecord;
  execute(command:JSONRecord):JSONRecord;
 }
 export type PreparedStep=(command:JSONRecord,scope:PreparedStepScope)=>JSONRecord|undefined;
@@ -33,6 +34,13 @@ export function installPreparedStep(step:PreparedStep):PreparedStepInstaller {
   return(command,execute)=>{
    let active=true;
    const scope:PreparedStepScope={read:profile=>{need(active,'expired-prepared-step');return read(profile);},
+    counter:(profile,key,amount,mode)=>{
+     need(active,'expired-prepared-step');integer(profile,0,0xffffffff);text(key);integer(amount);need(mode==='add'||mode==='set','invalid-account-counter-mode');
+     const workshop=access.workshop(profile),account=access.account(workshop.account),current=account.progression.account as JSONRecord,ledger=current.ledger as JSONRecord;
+     const before=Object.hasOwn(ledger,key)?ledger[key]:0;integer(before);const after=mode==='add'?before+amount:amount;integer(after);
+     const result=execute({op:'account',account:workshop.account,command:{op:'observe',level:current.level,credits:current.credits,roster:current.roster,ledger:{...ledger,[key]:after}}});
+     need(result.ok===true,typeof result.reason==='string'?result.reason:'account-counter-refused');return{...result,accountCounter:{key,before,after}};
+    },
     execute:value=>{need(active,'expired-prepared-step');return execute(value);}};
    try{return step(command,scope)??execute(command);}finally{active=false;}
   };
