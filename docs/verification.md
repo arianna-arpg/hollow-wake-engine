@@ -1,5 +1,13 @@
 # Verification and reproduction
 
+The quest reward reference type course explicitly loads Node declarations from
+the locked reference tools. Its compiler cannot borrow packages from neighboring
+projects; existing worktrees may share only their declared dependency directories.
+Three small controls check resolution, real Node type errors and refusal when the
+declarations are absent. This fixes the clean-runner failure on the milestone-one
+checkpoint without changing gameplay or accepted reference observations. See
+[TypeScript type roots](https://www.typescriptlang.org/tsconfig/typeRoots.html).
+
 The internal [run progression and checkpoint courses](run-character-progression.md)
 use maintained sources and pinned original observations. `verify` includes their
 type, XP, ownership and fresh-process SQLite checks; `reference:verify` adds live
