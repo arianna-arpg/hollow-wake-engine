@@ -2,7 +2,7 @@ import {planSkillMerge} from './skill-actions.js';
 import {executeSkillMerge,type SkillMergeExecutionPorts} from './skill-merge-execution.js';
 import {empowermentNumeral} from './skill-progression.js';
 import {createGemCargo,packSkillGemPayload,packSupportGemPayload,type GemDefinition,type GemSkill,type GemSupport} from './gem-residence.js';
-import type {CraftingSessionDefinitions} from './crafting-session-data.js';
+import type {InventoryDataDefinitions as CraftingSessionDefinitions} from './inventory-data.js';
 import type {ItemInstance,SkillGemPayload} from './item-types.js';
 import type {InventoryHost,LiveInventoryBoard} from './inventory-host.js';
 import type {CharacterCommandDraft} from './character-command-types.js';

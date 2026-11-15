@@ -8,7 +8,7 @@ import {readVocationFixture,prepareVocationObserver,captureVocationObserver} fro
 const [flag,file]=process.argv.slice(2);
 assert.equal(flag,'--location');const location=JSON.parse(fs.readFileSync(path.resolve(root,file)));
 const {directory,game,copy,verifyUnchanged}=prepareVocationFaultGame(location,'installed-vocation-faults-');
-const paths={quest:path.join(copy,'dist/vocations.js'),grant:path.join(copy,'dist/vocation-grants.js'),world:path.join(game,'src/engine/world.ts'),binding:path.join(game,'src/engine/vocationGrantAdapter.ts')};
+const paths={character:path.join(copy,'dist/character-vocation.js'),quest:path.join(copy,'dist/vocations.js'),grant:path.join(copy,'dist/vocation-grants.js'),world:path.join(game,'src/engine/world.ts'),binding:path.join(game,'src/engine/vocationGrantAdapter.ts')};
 const originals=Object.fromEntries(Object.entries(paths).map(([key,f])=>[key,fs.readFileSync(f,'utf8')]));
 const expectedBytes=readVocationFixture('survey'),expected=JSON.parse(expectedBytes);
 const gate=d=>d.gates.some((g,i)=>g.bits!==expected.gates[i].bits);
@@ -18,7 +18,7 @@ const faults=[
   ['progression-ledger','quest','progressionOpen(state.accountLedger)','progressionOpen(state.runLedger)',gate],
   ['previous-step-ledger','quest','state.runLedger[vocationStepKey(v.id, index)]','state.accountLedger[vocationStepKey(v.id, index)]',gate,2],
   ['detached-zone','quest','zone: step.zone','zone: {...step.zone}',d=>d.identities.some(row=>!row.borrowedZone)],
-  ['root-allocation','grant','character.allocated.add(vocationRootId(id))','character.allocated.add(id)',d=>!grant(d,'ordinary').after.root],
+  ['root-allocation','character','character.allocated.add(vocationRootId(id))','character.allocated.add(id)',d=>!grant(d,'ordinary').after.root],
   ['account-overwrite','grant','ports.accountLedger()[key] = 1','ports.accountLedger()[key] = (ports.accountLedger()[key] ?? 0) + 1',d=>changed(d,'preexisting-ledger')],
   ['account-authority','binding','() => world.metaProgressionActive()','() => true',d=>d.grants.some((r,i)=>r.after.account!==expected.grants[i].after.account)],
   ['recipient-seat','world','engineGrantVocation(vocId, seat, this.engineVocationGrants)','engineGrantVocation(vocId, this.localSeat, this.engineVocationGrants)',d=>d.grants.some(r=>r.trial.remote&&changed(d,r.trial.id))],

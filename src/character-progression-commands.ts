@@ -1,7 +1,7 @@
 import {SkillActions,type ActionSkill} from './skill-actions.js';
 import {createGemCargo,packSkillGemPayload,packGrantState,writeBackSupportGem,type GemDefinition,type GemSkill,type GemSupport} from './gem-residence.js';
 import type {CharacterBuild,CharacterBuildService,CharacterBuildSkillView} from './character-builds.js';
-import type {CraftingSessionDefinitions} from './crafting-session-data.js';
+import type {InventoryDataDefinitions as CraftingSessionDefinitions} from './inventory-data.js';
 import type {ItemInstance,GrantedSkillState} from './item-types.js';
 import type {CharacterCommandDraft} from './character-command-types.js';
 import {copySessionJSON,requireSession as need,sessionFields as fields,sessionText as text,sessionInteger as integer,

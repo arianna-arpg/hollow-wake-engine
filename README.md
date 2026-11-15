@@ -5,10 +5,12 @@ Authored content is separate from the runtime, and each simulation owns its stat
 
 The [bounded completion plan](docs/combat-inventory-plan.md) focuses on combat
 and Inventory-facing builds. Quests, accounts, persistence and world generation
-remain optional or host-owned. Milestone two is in progress: the
-[live rebuild](docs/character-rebuild.md) applies admitted build changes to current
-actors, and [Inventory admission](docs/inventory-data.md) validates detached cargo
-without an account. The complete memory-only character interface remains open.
+remain optional or host-owned. The milestone-two
+[memory-only character interface](docs/character-session.md) creates and admits
+characters, owns Inventory/build edits and authorized progress, and publishes
+accepted changes to current live actors. Three contrasting full builds match the
+pinned prototype. Full combat-family coverage and the Node/Godot reference
+adapter remain milestones three and four.
 
 The optional [durable character builder](docs/character-builds.md) composes class,
 passive, equipment, container and skill investment into private builds. A separate

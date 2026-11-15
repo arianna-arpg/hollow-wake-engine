@@ -13,7 +13,7 @@ const work=fs.mkdtempSync(path.join(owned,'complete-inventory-faults-owned-'));
 const report={passed:false,sources:{},faults:[]},logs={};
 const files=['scripts/test-complete-inventory-faults.mjs','test/complete-inventory.test.mjs',
  'src/inventory-data.ts','src/inventory-data-core.ts','src/crafting-session-data.ts','src/character-inventory-commands.ts','src/workshop-character-complete.ts',
- 'src/character-delivery-codec.ts','src/workshop-character-progression.ts'];
+ 'src/character-delivery-codec.ts','src/workshop-character-progression.ts','src/character-context-progression.ts'];
 try{
  for(const file of files)report.sources[file]=sha256(fs.readFileSync(path.join(root,file)));
  const loader=path.join(work,'loader.mjs'),preload=path.join(work,'preload.mjs');
@@ -38,7 +38,7 @@ export function load(url,context,next){return url===target?{format:'module',sour
   ['carrier-not-closed','src/character-inventory-commands.ts',"const closed=replyObject(this.#kernel.command({op:'close',profile:0}));need(closed.ok,'inventory-carrier-close-refused');",';','inventory preparation is detached'],
   ['account-rng-reset','src/character-inventory-commands.ts','content:this.#identity,random,nextUid:',"content:this.#identity,random:{algorithm:'mulberry32/v1',state:1,draws:0},nextUid:",'inventory preparation is detached'],
   ['support-identity-unchecked','src/character-delivery-codec.ts','data.supportState(support);','void support;','bare-gem delivery admission preserves detached investment'],
-  ['negative-ability-currency','src/workshop-character-progression.ts','Number.isFinite(n)&&n>=0','Number.isFinite(n)','ability currency is admitted separately']
+  ['negative-ability-currency','src/character-context-progression.ts','Number.isFinite(n)&&n>=0','Number.isFinite(n)','ability currency is admitted separately']
  ];
  for(const[name,file,from,to,label]of faults){
   const original=fs.readFileSync(path.join(root,file),'utf8');assert.equal(original.split(from).length,2,name);

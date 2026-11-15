@@ -2,7 +2,7 @@ import {PassiveActions} from './passive-actions.js';
 import type {PassivePolicy,PassiveBuildState} from './passive-policy.js';
 import type {CharacterCommandDraft} from './character-command-types.js';
 import type {CharacterBuildView} from './character-builds.js';
-import type {CompleteBuildTransition} from './complete-character-contracts.js';
+export interface CompleteBuildTransition {readonly before:object;readonly after:object}
 import {copySessionJSON,requireSession as need,sessionFields as fields,sessionRecord as record,sessionText as text,sessionBoolean as bool} from './session-json.js';
 
 type SkillReference={origin:'learned';skillId:string};

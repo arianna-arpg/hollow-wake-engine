@@ -1,11 +1,22 @@
 # Verification and reproduction
 
+The [memory-only character course](character-session.md) is part of `npm run verify`.
+It installs the engine and both authored packages, removes optional extension
+runtime/declaration files, checks public types and browser bundling, and runs
+three contrasting full builds (30 original observations, three cast/rebuild
+courses, three actual contacts), 21 ownership/action contracts and five deliberate
+faults. Fresh and restored consumers must agree. `npm run reference:character-session`
+is part of `reference:verify`; its accepted original-only observations are frozen
+under `baseline/character-session`. The new harnesses remove owned temporary
+files even on failures. This does not close later combat-family or adapter milestones.
+
+
 The milestone-two [live rebuild](character-rebuild.md) package course runs 17
 installed/browser contracts, 16 deliberately broken rule controls, six adapter
 guards, and the frozen 91 contribution plus 47 equipment/live observations. Three
 additional original-game faults confirm the installed contribution implementation
 is reached. Restored implementations must pass again. This is low-level live
-application evidence, not completion of the memory-only character owner.
+application evidence, complemented by the complete memory-only character course above.
 
 The [account-free Inventory](inventory-data.md) contracts run inside the existing
 crafting package consumer after its 22 legacy contracts, browser and type checks.

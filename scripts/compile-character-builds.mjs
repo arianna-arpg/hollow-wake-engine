@@ -32,7 +32,7 @@ export async function buildCharacterBuilds(destination){
   const lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json'))),sources={};
   const result=await build({absWorkingDir:root,entryPoints:['adapters/embedded/character-builds.mjs'],bundle:true,platform:'neutral',format:'esm',target:'es2022',
     minify:true,write:false,metafile:true,external:['@hollow-wake/engine','@hollow-wake/engine/*'],tsconfigRaw:{},
-    alias:{'hollow-wake-source/skills':path.join(root,'.reference/src/engine/skills.ts'),'hollow-wake-source/minion-families':path.join(root,'.reference/src/data/minionFamilies.ts')}});
+    alias:{'hollow-wake-source/replenishment':path.join(root,'.reference/src/engine/replenishment.ts'),'hollow-wake-source/skills':path.join(root,'.reference/src/engine/skills.ts'),'hollow-wake-source/minion-families':path.join(root,'.reference/src/data/minionFamilies.ts')}});
   for(const file of Object.keys(result.metafile.inputs)){
     const hash=sha256(fs.readFileSync(path.join(root,file)));sources[file]=hash;
     if(file.startsWith('.reference/'))assert.equal(hash,lock.files[file.slice('.reference/'.length)],file);
@@ -50,8 +50,8 @@ export async function buildCharacterBuilds(destination){
   const pack=characterBuildPack(),bytes=JSON.stringify(pack)+'\n';assert(Buffer.byteLength(bytes)<=8*1024*1024,'Build content exceeds 8 MiB');
   const version=JSON.parse(fs.readFileSync(path.join(root,'package.json'))).version;
   fs.mkdirSync(destination,{recursive:true});fs.writeFileSync(path.join(destination,'index.js'),code);fs.writeFileSync(path.join(destination,'builds.json'),bytes);
-  fs.writeFileSync(path.join(destination,'index.d.ts'),"import type {CharacterBuildService} from '@hollow-wake/engine/character/builds';\nexport declare function createCharacterBuilds(pack:unknown):CharacterBuildService;\n");
-  writeJSON(path.join(destination,'package.json'),{name:'@hollow-wake/character-builds',version:'0.1.0-candidate.0',type:'module',license:'PolyForm-Noncommercial-1.0.0',
+  fs.writeFileSync(path.join(destination,'index.d.ts'),"import type {CharacterBuildService} from '@hollow-wake/engine/character/builds';\nimport type {CharacterLiveRules} from '@hollow-wake/engine/character/live';\nexport declare function createCharacterBuilds(pack:unknown):CharacterBuildService;\nexport declare function createCharacterBuildRules(pack:unknown):CharacterLiveRules;\nexport declare const characterSkillQueries:import('@hollow-wake/engine/character/skill-queries').CharacterSkillQueries;\n");
+  writeJSON(path.join(destination,'package.json'),{name:'@hollow-wake/character-builds',version:'0.2.0-candidate.0',type:'module',license:'PolyForm-Noncommercial-1.0.0',
     peerDependencies:{'@hollow-wake/engine':version},files:['index.js','index.d.ts','builds.json','manifest.json','LICENSE.md','README.md'],
     exports:{'.':{types:'./index.d.ts',import:'./index.js'},'./builds.json':'./builds.json','./manifest.json':'./manifest.json'}});
   const manifest={schemaVersion:1,contentId:pack.contentId,sourceCommit:lock.commit,capability:pack.capability,

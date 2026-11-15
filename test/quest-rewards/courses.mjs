@@ -591,7 +591,8 @@ export const questRewardAliases = {
   "candidate/memory-pickup-world": "test/quest-rewards/pickup-world.ts",
   "host/quest-content": "test/quest-rewards/host-content.mjs",
   "hollow-wake-source/skills": ".reference/src/engine/skills.ts",
-  "hollow-wake-source/minion-families": ".reference/src/data/minionFamilies.ts"
+  "hollow-wake-source/minion-families": ".reference/src/data/minionFamilies.ts",
+  "hollow-wake-source/replenishment": ".reference/src/engine/replenishment.ts"
 };
 
 export const questRewardGameFixtures = [

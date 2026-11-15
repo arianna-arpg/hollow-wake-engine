@@ -30,8 +30,7 @@ export function levelModifiers(level:number,life:number,mana:number,accuracy:num
     {stat:'accuracy',kind:'flat',value:finite(growth*finite(accuracy,'Accuracy growth'),'Level accuracy')}];
 }
 
-/** Immutable executable tuning and ordered milestone keys. Authored account
- * gate compilation happens outside this module; no catalog or SQL is loaded. */
+/** Immutable progression tuning and ordered milestone keys. */
 export class CharacterProgression {
   readonly pack:ProgressionPack;
   readonly #classes=new Map<string,readonly ProgressionMilestone[]>();
@@ -62,6 +61,17 @@ export class CharacterProgression {
 
 export interface ProgressionState {xp:number;xpNeeded:number;passivePoints:number}
 export interface ProgressionHero {level:number;downed?:boolean}
+/** Admitted inputs only; owners must validate and bound maxLevels. */
+export function prepareExperience(rules:CharacterProgression,level:number,state:ProgressionState,amount:number,
+  blessing=0,multiplier=1,maxLevels=4096):{banked:number;levels:number}{
+  if(blessing<0||multiplier<0)throw new Error('Experience factors must be nonnegative');
+  const award=finite((blessing>0?Math.round(amount*(1+blessing)):amount)*multiplier,'Adjusted experience');
+  const banked=finite(state.xp+award,'Banked experience');
+  let remaining=banked,threshold=state.xpNeeded,count=0;
+  while(remaining>=threshold){if(++count>maxLevels)throw new Error('Experience award exceeds level-up work limit');remaining-=threshold;level=integer(level+1,1,'Character level');threshold=rules.experienceForLevel(level);}
+  integer(state.passivePoints+count*rules.pack.tuning.passivePointsPerLevel,0,'Passive points');
+  return{banked,levels:count};
+}
 export interface ProgressionPorts<S,H extends ProgressionHero> {
   state(seat:S):ProgressionState;hero(seat:S):H;classId(seat:S):string;eligible(seat:S):boolean;
   rules(seat:S):CharacterProgression;
@@ -96,14 +106,7 @@ export class ProgressionHost<S,H extends ProgressionHero> {
     const state=ports.state(seat),hero=ports.hero(seat),rules=ports.rules(seat),classId=ports.classId(seat);
     rules.classMilestones(classId);integer(hero.level,1,'Character level');finite(state.xp,'Banked experience');integer(state.xpNeeded,1,'Current experience threshold');integer(state.passivePoints,0,'Passive points');
     const blessing=finite(ports.blessing(seat),'Experience blessing'),multiplier=finite(ports.experienceMultiplier(seat,hero),'Experience multiplier');
-    if(blessing<0||multiplier<0)throw new Error('Experience factors must be nonnegative');
-    const award=finite((blessing>0?Math.round(amount*(1+blessing)):amount)*multiplier,'Adjusted experience');
-    const banked=finite(state.xp+award,'Banked experience');
-    // Bound work and reject invalid arithmetic before this seat's first write.
-    // This preserves per-level callbacks without accepting an unbounded loop.
-    let remaining=banked,threshold=state.xpNeeded,level=hero.level,count=0;
-    while(remaining>=threshold){if(++count>this.#maxLevels)throw new Error('Experience award exceeds level-up work limit');remaining-=threshold;level=integer(level+1,1,'Character level');threshold=rules.experienceForLevel(level);}
-    integer(state.passivePoints+count*rules.pack.tuning.passivePointsPerLevel,0,'Passive points');
+    const {banked,levels:count}=prepareExperience(rules,hero.level,state,amount,blessing,multiplier,this.#maxLevels);
     state.xp=banked;ports.markDirty(seat);
     for(let i=0;i<count;i++){
       state.xp-=state.xpNeeded;hero.level++;state.xpNeeded=rules.experienceForLevel(hero.level);

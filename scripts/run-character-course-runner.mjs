@@ -29,7 +29,8 @@ export async function runCharacterCourse(mode){
    'candidate/data':data,'candidate/durable-run-owner':path.join(root,'src/durable-run-owner.ts'),
    'candidate/live-run-publication':path.join(root,'test/run-character/world-publication.ts'),'candidate/relic-run-world':path.join(root,'test/run-character/world-canonical.ts'),
    'candidate/relic-original':path.join(root,'.reference/src/engine/accountReliquary.ts'),
-   'hollow-wake-source/skills':path.join(root,'.reference/src/engine/skills.ts'),'hollow-wake-source/minion-families':path.join(root,'.reference/src/data/minionFamilies.ts')
+   'hollow-wake-source/skills':path.join(root,'.reference/src/engine/skills.ts'),'hollow-wake-source/minion-families':path.join(root,'.reference/src/data/minionFamilies.ts'),
+   'hollow-wake-source/replenishment':path.join(root,'.reference/src/engine/replenishment.ts')
   };
   for(const[k,v]of Object.entries(JSON.parse(capture('package.json')).exports)){const f=typeof v==='string'?v:v.import;if(f?.endsWith('.js'))aliases['@hollow-wake/engine'+k.slice(1)]=path.join(root,f);}
   if(world)sources.set('world-publication.ts',capture('test/run-character/world-publication.ts'));

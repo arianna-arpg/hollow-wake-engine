@@ -1,6 +1,6 @@
 import {SupportActions,type SocketSkill} from './support-actions.js';
 import {createGemCargo} from './gem-residence.js';
-import type {CraftingSessionDefinitions} from './crafting-session-data.js';
+import type {InventoryDataDefinitions as CraftingSessionDefinitions} from './inventory-data.js';
 import type {CharacterBuild,CharacterBuildService} from './character-builds.js';
 import type {ItemInstance,GemSocketRow,GrantedSkillState,SkillGemPayload} from './item-types.js';
 import type {InventoryHost,LiveInventoryBoard} from './inventory-host.js';

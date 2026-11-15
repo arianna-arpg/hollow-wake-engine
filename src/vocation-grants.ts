@@ -20,7 +20,8 @@ export interface VocationGrantPorts<Seat, Definition> {
   announceTree(seat: Seat): void;
 }
 
-export function vocationRootId(id: string): string { return 'voc_' + id + '_root'; }
+import {takeVocation} from './character-vocation.js';
+export {vocationRootId,takeVocation} from './character-vocation.js';
 
 /** A repeated grant is refused after the first character write, even during
  * a synchronous callback. Earlier grants remain visible if a later port fails. */
@@ -30,9 +31,7 @@ export function grantVocation<Seat, Definition>(
   const definition = ports.definition(id);
   if (definition == null) return false;
   const character = ports.character(seat);
-  if (character.vocations.includes(id) || character.vocations.length >= ports.maxPerCharacter()) return false;
-  character.vocations.push(id);
-  character.allocated.add(vocationRootId(id));
+  if (!takeVocation(id,character,()=>ports.maxPerCharacter())) return false;
   const key = vocationUnlockKey(id), run = ports.runLedger();
   run[key] = (run[key] ?? 0) + 1;
   if (ports.accountWritesAllowed()) {

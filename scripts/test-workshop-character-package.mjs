@@ -6,7 +6,7 @@ import {packs,baseline} from '../test/shared-account/fixtures.mjs';import {chara
 const owned=path.join(root,'.artifacts');fs.mkdirSync(owned,{recursive:true});
 const work=fs.mkdtempSync(path.join(owned,'workshop-character-package-owned-')),consumer=path.join(work,'consumer');fs.mkdirSync(consumer);
 const logs={},report={passed:false,contracts:13,originalClassRecords:78,faults:[],sources:{}};
-const inputs=['src/workshop-character.ts','src/account-workshop-session.ts','src/account-workshop-core.ts','src/complete-character-contracts.ts','scripts/account-workshop-budget.mjs','src/workshop-build-preparation.ts',
+const inputs=['src/character-context.ts','src/workshop-character.ts','src/account-workshop-session.ts','src/account-workshop-core.ts','src/complete-character-contracts.ts','scripts/account-workshop-budget.mjs','src/workshop-build-preparation.ts',
  'src/passive-policy.ts','src/passive-grants.ts','src/inventory-data.ts','src/inventory-data-core.ts','src/crafting-session-data.ts','src/workshop-skill-book.ts',
  'test/workshop-character.test.mjs','test/workshop-character-fixture.mjs','test/shared-account/fixtures.mjs','test/shared-account/contracts.mjs',
  'scripts/test-workshop-character-package.mjs','baseline/build-contributions/acceptance.json','baseline/source-lock.json','package.json','package-lock.json'];
@@ -56,21 +56,21 @@ try{
  fs.writeFileSync(path.join(consumer,'types.ts'),"import {AccountWorkshopSession,type AccountWorkshopDefinitions} from '@hollow-wake/engine/account/workshops';import {WorkshopCharacterData,type WorkshopCharacterState,type WorkshopCharacterDefinitions} from '@hollow-wake/engine/account/workshop-character';import type {WorkshopBuildInput} from '@hollow-wake/engine/account/workshop-build';declare const definitions:AccountWorkshopDefinitions;declare const character:WorkshopCharacterDefinitions;declare const input:WorkshopBuildInput;const data=new WorkshopCharacterData(character,definitions.workshop);const source:WorkshopCharacterState=data.admit(input.character,input.state);data.checkInventory(source,input.state);new AccountWorkshopSession({...definitions,character});");
  success('types',[path.join(root,'node_modules/typescript/bin/tsc'),'--noEmit','--strict','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','types.ts']);report.types=true;
  const dist=path.join(consumer,'node_modules/@hollow-wake/engine/dist');
- const modules=Object.fromEntries([...accountWorkshopRuntimeModules,'workshop-character'].map(name=>[name,fs.readFileSync(path.join(dist,name+'.js'),'utf8')]));
+ const modules=Object.fromEntries([...accountWorkshopRuntimeModules,'workshop-character','character-context'].map(name=>[name,fs.readFileSync(path.join(dist,name+'.js'),'utf8')]));
  report.moduleBytes=Object.fromEntries(Object.entries(modules).map(([name,text])=>[name,Buffer.byteLength(text)]));
  report.accountWorkshopBytes=accountWorkshopRuntimeModules.reduce((sum,name)=>sum+report.moduleBytes[name],0);
- assert(report.accountWorkshopBytes<=accountWorkshopRawBudget);assert(report.moduleBytes['workshop-character']<8*1024);
+ assert(report.accountWorkshopBytes<=accountWorkshopRawBudget);assert(report.moduleBytes['workshop-character']+report.moduleBytes['character-context']<8*1024);
  const faults=[
   ['lose-save-context','account-workshop-core','...(workshop.character ? { character: workshop.character } : {})',''],
   ['skip-inventory-links','account-workshop-core','this.#character.checkInventory(workshop.character, state);',''],
   ['reuse-owned-address','account-workshop-core','Math.max(save.nextUid, floor)','save.nextUid'],
-  ['accept-zero-level','workshop-character','integer(value.level, 1);',''],
-  ['accept-wrong-content','workshop-character','value.contentId === this.#contentId','true'],
-  ['skip-passive-admission','workshop-character','this.#passives.create(p);',''],
-  ['duplicate-account-body','workshop-character','item.relicKey === undefined','true'],
-  ['duplicate-local-address','workshop-character','!seen.has(item.uid)','true'],
-  ['orphan-graft','workshop-character','target === null || known.has(target)','true'],
-  ['account-container-copy','workshop-character','!def.accountStorage || rows.length === 0','true'],
+  ['accept-zero-level','character-context','integer(value.level, 1);',''],
+  ['accept-wrong-content','character-context','value.contentId === this.#contentId','true'],
+  ['skip-passive-admission','character-context','this.#passives.create(p);',''],
+  ['duplicate-account-body','character-context','item.relicKey === undefined','true'],
+  ['duplicate-local-address','character-context','!seen.has(item.uid)','true'],
+  ['orphan-graft','character-context','target === null || known.has(target)','true'],
+  ['account-container-copy','character-context','!def.accountStorage || rows.length === 0','true'],
  ];
  for(const[name,module,needle,replacement]of faults){
   const source=modules[module],file=path.join(dist,module+'.js');assert.equal(source.split(needle).length,2,name+' target changed');fs.writeFileSync(file,source.replace(needle,replacement));

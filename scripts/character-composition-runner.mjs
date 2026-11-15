@@ -63,6 +63,7 @@ try{
  for(const name of [...Object.keys(fixtures),'content'])aliases['diagnostic/'+name]=path.join(work,name+'.json');
  aliases['authored/factory']=path.join(root,'adapters/embedded/character-builds.mjs');aliases['authored/pack']=path.join(factory,'builds.json');
  aliases['hollow-wake-source/skills']=path.join(root,'.reference/src/engine/skills.ts');aliases['hollow-wake-source/minion-families']=path.join(root,'.reference/src/data/minionFamilies.ts');
+ aliases['hollow-wake-source/replenishment']=path.join(root,'.reference/src/engine/replenishment.ts');
  for(const[key,row]of Object.entries(json('package.json').exports)){const file=typeof row==='string'?row:row.import;if(file?.endsWith('.js'))aliases['@hollow-wake/engine'+key.slice(1)]=path.join(root,file);}
  const lock=json('baseline/source-lock.json'),worldFile=path.join(root,'.reference/src/engine/world.ts');
  const world=read('.reference/src/engine/world.ts').toString();assert.equal(sha256(world),lock.files['src/engine/world.ts']);

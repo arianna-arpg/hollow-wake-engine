@@ -1,5 +1,5 @@
-import type {CraftingSessionState} from './crafting-session-data.js';
-import type {ProgressionCharacterState} from './workshop-character-progression.js';
+import type {InventoryDataState as CraftingSessionState} from './inventory-data.js';
+import type {ProgressionCharacterState} from './character-context-progression.js';
 
 /** Already admitted complete-character input. These types do not authorize
  * account writes, currency spending, delivery retirement or live effects. */

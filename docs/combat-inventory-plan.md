@@ -120,3 +120,22 @@ No new worktrees or dependency trees are required for this plan. Retain these ex
 - `D:/Games/Claude/ARPG Game - World/.claude/ownership.engine-native-stack`
 
 The already-running verification owns temporary output under the active SDK's `.artifacts` directory. Keep active outputs until completion; remove only proven owned temporary directories afterward. Preserve evidence and unfinished sources.
+
+## Milestone two delivery
+
+The [memory-only character composition](character-session.md) closes milestone two.
+The engine supplies CharacterSession, CharacterLive and authored skill queries/pricing;
+the separate characters package composes the existing authored rules. Installed
+consumers run without optional quest/account/persistence modules. Three full build
+courses match the pinned original, including live casts and resulting hits.
+Direct rewards, admission, Inventory actions, inlays, granted skill investment,
+refusals and detached reconstruction are covered by ownership contracts.
+
+Legacy account and persistence entry points remain preserved and regression-tested.
+Merges needing external world-drop custody are explicitly refused; ordinary
+Inventory overflow stays owned. Host callback failure quarantines the owner.
+These boundaries are documented rather than hidden behind a database transaction.
+
+Next is milestone three: complete the required combat-family execution coverage
+listed in the matrix. The evolving game, its campaign/save architecture and other
+sessions remain untouched. No Steam Deck/mobile qualification is claimed.

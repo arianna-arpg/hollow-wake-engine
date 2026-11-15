@@ -50,7 +50,11 @@
     ".",
     "./character/builds",
     "./character/rebuild",
-    "./inventory/data"
+    "./inventory/data",
+    "./character/session",
+    "./character/live",
+    "./character/skill-pricing",
+    "./character/skill-queries"
   ],
   "exports": {
     "./account/workshops": {
@@ -624,6 +628,22 @@
     "./inventory/data": {
       "classification": "required-rule",
       "module": "./dist/inventory-data.js"
+    },
+    "./character/session": {
+      "classification": "required-rule",
+      "module": "./dist/character-session.js"
+    },
+    "./character/live": {
+      "classification": "required-rule",
+      "module": "./dist/character-live.js"
+    },
+    "./character/skill-pricing": {
+      "classification": "required-rule",
+      "module": "./dist/skill-pricing.js"
+    },
+    "./character/skill-queries": {
+      "classification": "required-rule",
+      "module": "./dist/skill-queries.js"
     }
   },
   "capabilities": [
@@ -631,7 +651,7 @@
       "id": "stats",
       "label": "Stats and conditions",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "memory-only-character-composed",
       "entries": [
         ".",
         "./stats/gauges",
@@ -639,42 +659,62 @@
         "./stats/context-cache"
       ],
       "evidence": [
-        "docs/build-context.md"
+        "docs/build-context.md",
+        "docs/character-session.md"
       ],
       "remaining": {
-        "milestone": 2,
-        "task": "Expose one derived view for build previews and live rules; keep host clock and condition inputs explicit.",
-        "acceptance": "Preview and live stat folds agree across the three composed builds, including conditional changes."
+        "milestone": 3,
+        "task": "Execute stats and conditions across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneTwo": {
+        "task": "Expose one derived view for build previews and live rules; keep host clock and condition inputs explicit.",
+        "acceptance": "Preview and live stat folds agree across the three composed builds, including conditional changes.",
+        "evidence": [
+          "docs/character-session.md",
+          "baseline/character-session/acceptance.json",
+          "scripts/test-character-session.mjs"
+        ]
+      }
     },
     {
       "id": "attributes",
       "label": "Class and attributes",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "memory-only-character-composed",
       "entries": [
         "./character/identity",
         "./character/kits",
         "./character/progression"
       ],
       "evidence": [
-        "docs/character-progression.md"
+        "docs/character-progression.md",
+        "docs/character-session.md"
       ],
       "remaining": {
-        "milestone": 2,
-        "task": "Create an admitted character from class and attributes without a class-claim or account service.",
-        "acceptance": "Cold creation and rebuild preserve chosen attributes and level-derived modifiers."
+        "milestone": 4,
+        "task": "Bind class and attributes through the isolated Node/Godot reference host using CharacterSession and explicit host observations.",
+        "acceptance": "The clean reference player performs these character actions without an account, campaign or storage service."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneTwo": {
+        "task": "Create an admitted character from class and attributes without a class-claim or account service.",
+        "acceptance": "Cold creation and rebuild preserve chosen attributes and level-derived modifiers.",
+        "evidence": [
+          "docs/character-session.md",
+          "baseline/character-session/acceptance.json",
+          "scripts/test-character-session.mjs"
+        ]
+      }
     },
     {
       "id": "inventory",
       "label": "Inventory and equipment",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "memory-only-character-composed",
       "entries": [
         "./inventory/host",
         "./inventory/equipment",
@@ -684,21 +724,31 @@
       ],
       "evidence": [
         "docs/equipment-actions.md",
-        "docs/inventory-data.md"
+        "docs/inventory-data.md",
+        "docs/character-session.md"
       ],
       "remaining": {
-        "milestone": 2,
-        "task": "Join movement, equip/unequip and displaced-item handling to the public character composition.",
-        "acceptance": "Inventory actions update the owning build atomically and refuse invalid moves without item loss."
+        "milestone": 4,
+        "task": "Bind inventory and equipment through the isolated Node/Godot reference host using CharacterSession and explicit host observations.",
+        "acceptance": "The clean reference player performs these character actions without an account, campaign or storage service."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneTwo": {
+        "task": "Join movement, equip/unequip and displaced-item handling to the public character composition.",
+        "acceptance": "Inventory actions update the owning build atomically and refuse invalid moves without item loss.",
+        "evidence": [
+          "docs/character-session.md",
+          "baseline/character-session/acceptance.json",
+          "scripts/test-character-session.mjs"
+        ]
+      }
     },
     {
       "id": "items",
       "label": "Items and inspection",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "memory-only-character-composed",
       "entries": [
         "./items",
         "./items/host",
@@ -707,60 +757,90 @@
         "./inventory/cargo-cards"
       ],
       "evidence": [
-        "docs/item-contract.md"
+        "docs/item-contract.md",
+        "docs/character-session.md"
       ],
       "remaining": {
-        "milestone": 2,
-        "task": "Use the same admitted item bodies for inspection, comparison and actual build contributions.",
-        "acceptance": "Displayed deltas match equipped results; unique/rolled/socketed bodies retain identity."
+        "milestone": 3,
+        "task": "Execute items and inspection across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneTwo": {
+        "task": "Use the same admitted item bodies for inspection, comparison and actual build contributions.",
+        "acceptance": "Displayed deltas match equipped results; unique/rolled/socketed bodies retain identity.",
+        "evidence": [
+          "docs/character-session.md",
+          "baseline/character-session/acceptance.json",
+          "scripts/test-character-session.mjs"
+        ]
+      }
     },
     {
       "id": "passives",
       "label": "Passive tree and grafts",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "memory-only-character-composed",
       "entries": [
         "./passives",
         "./passives/grants"
       ],
       "evidence": [
-        "docs/passive-policy.md"
+        "docs/passive-policy.md",
+        "docs/character-session.md"
       ],
       "remaining": {
-        "milestone": 2,
-        "task": "Expose allocate/refund/choice/graft actions with host-supplied point budgets and current live reconciliation.",
-        "acceptance": "Legal paths and point accounting match the prototype before and after a live build change."
+        "milestone": 3,
+        "task": "Execute passive tree and grafts across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneTwo": {
+        "task": "Expose allocate/refund/choice/graft actions with host-supplied point budgets and current live reconciliation.",
+        "acceptance": "Legal paths and point accounting match the prototype before and after a live build change.",
+        "evidence": [
+          "docs/character-session.md",
+          "baseline/character-session/acceptance.json",
+          "scripts/test-character-session.mjs"
+        ]
+      }
     },
     {
       "id": "vocations",
       "label": "Vocation investment and grants",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "memory-only-character-composed",
       "entries": [
         "./progression/vocations"
       ],
       "evidence": [
-        "docs/vocation-progression.md"
+        "docs/vocation-progression.md",
+        "docs/character-session.md"
       ],
       "remaining": {
-        "milestone": 2,
-        "task": "Provide a grant/investment entry independent of createVocationQuests, run/account ledgers and campaign gates; retain the old API as optional compatibility.",
-        "acceptance": "A host grants and invests in a Vocation without constructing a quest book or account."
+        "milestone": 3,
+        "task": "Execute vocation investment and grants across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneTwo": {
+        "task": "Provide a grant/investment entry independent of createVocationQuests, run/account ledgers and campaign gates; retain the old API as optional compatibility.",
+        "acceptance": "A host grants and invests in a Vocation without constructing a quest book or account.",
+        "evidence": [
+          "docs/character-session.md",
+          "baseline/character-session/acceptance.json",
+          "scripts/test-character-session.mjs"
+        ]
+      }
     },
     {
       "id": "skills",
       "label": "Skill trees and mutators",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "memory-only-character-composed",
       "entries": [
         "./skills/tree",
         "./skills/progression",
@@ -768,41 +848,61 @@
         "./skills/actions"
       ],
       "evidence": [
-        "docs/skill-progression.md"
+        "docs/skill-progression.md",
+        "docs/character-session.md"
       ],
       "remaining": {
-        "milestone": 2,
-        "task": "Compose investment and resolved tree payloads with owned learned/granted skills; separate Font/location policy from rule execution.",
-        "acceptance": "Tree edits, refunds and mutators change the same instance used by combat."
+        "milestone": 3,
+        "task": "Execute skill trees and mutators across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneTwo": {
+        "task": "Compose investment and resolved tree payloads with owned learned/granted skills; separate Font/location policy from rule execution.",
+        "acceptance": "Tree edits, refunds and mutators change the same instance used by combat.",
+        "evidence": [
+          "docs/character-session.md",
+          "baseline/character-session/acceptance.json",
+          "scripts/test-character-session.mjs"
+        ]
+      }
     },
     {
       "id": "awakenings",
       "label": "Awakenings and empowerment",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "memory-only-character-composed",
       "entries": [
         "./skills/actions",
         "./skills/progression"
       ],
       "evidence": [
-        "docs/skill-progression.md"
+        "docs/skill-progression.md",
+        "docs/character-session.md"
       ],
       "remaining": {
-        "milestone": 2,
-        "task": "Expose the existing awakening, merge and rank-budget behavior through the composed host-neutral action surface.",
-        "acceptance": "Awakened and empowered skills retain budgets, donor/socket handling and resulting combat across rebuilds."
+        "milestone": 3,
+        "task": "Execute awakenings and empowerment across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneTwo": {
+        "task": "Expose the existing awakening, merge and rank-budget behavior through the composed host-neutral action surface.",
+        "acceptance": "Awakened and empowered skills retain budgets, donor/socket handling and resulting combat across rebuilds.",
+        "evidence": [
+          "docs/character-session.md",
+          "baseline/character-session/acceptance.json",
+          "scripts/test-character-session.mjs"
+        ]
+      }
     },
     {
       "id": "supports",
       "label": "Supports and sockets",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "memory-only-character-composed",
       "entries": [
         "./skills/supports",
         "./skills/support-content",
@@ -810,21 +910,31 @@
         "./skills/workshop-supports"
       ],
       "evidence": [
-        "docs/support-rules.md"
+        "docs/support-rules.md",
+        "docs/character-session.md"
       ],
       "remaining": {
-        "milestone": 2,
-        "task": "Join support-fit, rolled choices, sockets and custody to learned and equipment-granted skills.",
-        "acceptance": "Both eligible and refused socket edits preserve items and yield the expected cast/effect changes."
+        "milestone": 3,
+        "task": "Execute supports and sockets across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneTwo": {
+        "task": "Join support-fit, rolled choices, sockets and custody to learned and equipment-granted skills.",
+        "acceptance": "Both eligible and refused socket edits preserve items and yield the expected cast/effect changes.",
+        "evidence": [
+          "docs/character-session.md",
+          "baseline/character-session/acceptance.json",
+          "scripts/test-character-session.mjs"
+        ]
+      }
     },
     {
       "id": "bar",
       "label": "Learned and granted skill bar",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "memory-only-character-composed",
       "entries": [
         "./skills/bar",
         "./skills/rack",
@@ -834,62 +944,92 @@
         "./skills/workshop-rack"
       ],
       "evidence": [
-        "docs/equipment-skills.md"
+        "docs/equipment-skills.md",
+        "docs/character-session.md"
       ],
       "remaining": {
-        "milestone": 2,
-        "task": "Close granted-bar admission and equipment-granted editing without losing surviving live skill identities.",
-        "acceptance": "Equip, rearrange, replace and remove grants while an unrelated paid cast continues correctly."
+        "milestone": 3,
+        "task": "Execute learned and granted skill bar across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneTwo": {
+        "task": "Close granted-bar admission and equipment-granted editing without losing surviving live skill identities.",
+        "acceptance": "Equip, rearrange, replace and remove grants while an unrelated paid cast continues correctly.",
+        "evidence": [
+          "docs/character-session.md",
+          "baseline/character-session/acceptance.json",
+          "scripts/test-character-session.mjs"
+        ]
+      }
     },
     {
       "id": "reliquary",
       "label": "Reliquary and relic effects",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "memory-only-character-composed",
       "entries": [
         "./inventory/relics",
         "./inventory/actions",
         "./inventory/containers"
       ],
       "evidence": [
-        "docs/relic-custody.md"
+        "docs/relic-custody.md",
+        "docs/character-session.md"
       ],
       "remaining": {
-        "milestone": 2,
-        "task": "Accept authorized relic bodies, enabled state, rank and container features from the host; keep account ownership and persistence outside.",
-        "acceptance": "Equivalent supplied relic inputs produce equivalent power, seats, grants and resource effects without an account owner."
+        "milestone": 3,
+        "task": "Execute reliquary and relic effects across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneTwo": {
+        "task": "Accept authorized relic bodies, enabled state, rank and container features from the host; keep account ownership and persistence outside.",
+        "acceptance": "Equivalent supplied relic inputs produce equivalent power, seats, grants and resource effects without an account owner.",
+        "evidence": [
+          "docs/character-session.md",
+          "baseline/character-session/acceptance.json",
+          "scripts/test-character-session.mjs"
+        ]
+      }
     },
     {
       "id": "containers",
       "label": "Personal containers and storage rules",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "memory-only-character-composed",
       "entries": [
         "./inventory/containers",
         "./inventory/stash"
       ],
       "evidence": [
-        "docs/stash-policy.md"
+        "docs/stash-policy.md",
+        "docs/character-session.md"
       ],
       "remaining": {
-        "milestone": 2,
-        "task": "Expose layout, capacity and placement rules without adopting a saved-account envelope.",
-        "acceptance": "Transfers and capacity refusals preserve one owner per item in a memory-only host."
+        "milestone": 4,
+        "task": "Bind personal containers and storage rules through the isolated Node/Godot reference host using CharacterSession and explicit host observations.",
+        "acceptance": "The clean reference player performs these character actions without an account, campaign or storage service."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneTwo": {
+        "task": "Expose layout, capacity and placement rules without adopting a saved-account envelope.",
+        "acceptance": "Transfers and capacity refusals preserve one owner per item in a memory-only host.",
+        "evidence": [
+          "docs/character-session.md",
+          "baseline/character-session/acceptance.json",
+          "scripts/test-character-session.mjs"
+        ]
+      }
     },
     {
       "id": "crafting",
       "label": "Crafting and inlays",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "memory-only-character-composed",
       "entries": [
         "./crafting",
         "./crafting/content",
@@ -900,56 +1040,90 @@
         "./items/vestiges/workshop"
       ],
       "evidence": [
-        "docs/crafting-boundary.md"
+        "docs/crafting-boundary.md",
+        "docs/character-session.md"
       ],
       "remaining": {
-        "milestone": 2,
-        "task": "Compose forge, socket, reroll, salvage and inlay results with the build; supply station access and currency through host policy.",
-        "acceptance": "Accepted crafting changes affect the current build; refused costs and placements leave it unchanged."
+        "milestone": 4,
+        "task": "Bind crafting and inlays through the isolated Node/Godot reference host using CharacterSession and explicit host observations.",
+        "acceptance": "The clean reference player performs these character actions without an account, campaign or storage service."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneTwo": {
+        "task": "Compose forge, socket, reroll, salvage and inlay results with the build; supply station access and currency through host policy.",
+        "acceptance": "Accepted crafting changes affect the current build; refused costs and placements leave it unchanged.",
+        "evidence": [
+          "docs/character-session.md",
+          "baseline/character-session/acceptance.json",
+          "scripts/test-character-session.mjs"
+        ]
+      }
     },
     {
       "id": "builds",
       "label": "Combined character derivation",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "memory-only-character-composed",
       "entries": [
         "./character/builds",
         "./character/build-contributions",
-        "./character/rebuild"
+        "./character/rebuild",
+        "./character/session",
+        "./character/live",
+        "./character/skill-pricing",
+        "./character/skill-queries"
       ],
       "evidence": [
         "docs/character-builds.md",
-        "docs/character-rebuild.md"
+        "docs/character-rebuild.md",
+        "docs/character-session.md"
       ],
       "remaining": {
-        "milestone": 2,
-        "task": "Connect the existing authored builder to admitted Inventory actions and current live actors, with an explicit entitlement/relic projection.",
-        "acceptance": "Three contrasting complete builds exercise items, passives/Vocations, supports, Reliquary and awakenings through one public composition."
+        "milestone": 3,
+        "task": "Execute combined character derivation across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneTwo": {
+        "task": "Connect the existing authored builder to admitted Inventory actions and current live actors, with an explicit entitlement/relic projection.",
+        "acceptance": "Three contrasting complete builds exercise items, passives/Vocations, supports, Reliquary and awakenings through one public composition.",
+        "evidence": [
+          "docs/character-session.md",
+          "baseline/character-session/acceptance.json",
+          "scripts/test-character-session.mjs"
+        ]
+      }
     },
     {
       "id": "progression",
       "label": "Direct character rewards",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "memory-only-character-composed",
       "entries": [
         "./character/progression"
       ],
       "evidence": [
-        "docs/run-character-progression.md"
+        "docs/run-character-progression.md",
+        "docs/character-session.md"
       ],
       "remaining": {
-        "milestone": 2,
-        "task": "Reuse progression rules behind direct authorized XP/point/grant operations without the durable run/account coordinator.",
-        "acceptance": "The memory-only host earns and spends progress, including a level change during build editing."
+        "milestone": 4,
+        "task": "Bind direct character rewards through the isolated Node/Godot reference host using CharacterSession and explicit host observations.",
+        "acceptance": "The clean reference player performs these character actions without an account, campaign or storage service."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneTwo": {
+        "task": "Reuse progression rules behind direct authorized XP/point/grant operations without the durable run/account coordinator.",
+        "acceptance": "The memory-only host earns and spends progress, including a level change during build editing.",
+        "evidence": [
+          "docs/character-session.md",
+          "baseline/character-session/acceptance.json",
+          "scripts/test-character-session.mjs"
+        ]
+      }
     },
     {
       "id": "casting",
@@ -1245,25 +1419,29 @@
       "id": "vocation-policy",
       "entry": "./progression/vocations",
       "task": "vocations",
-      "reason": "The public module exports quest generation and grant logic; grant logic requires a run ledger and optional account callbacks."
+      "reason": "The public module exports quest generation and grant logic; grant logic requires a run ledger and optional account callbacks.",
+      "resolution": "Retained in the legacy optional entry; the memory-only CharacterSession uses shared character rules with separate host conditions and no account owner."
     },
     {
       "id": "font-policy",
       "entry": "./skills/actions",
       "task": "skills",
-      "reason": "Awakening and investment ports also contain Font access, world-position, presentation and dirty notifications."
+      "reason": "Awakening and investment ports also contain Font access, world-position, presentation and dirty notifications.",
+      "resolution": "Retained in the legacy optional entry; the memory-only CharacterSession uses shared character rules with separate host conditions and no account owner."
     },
     {
       "id": "workshop-envelope",
       "entry": "./crafting/session",
       "task": "crafting",
-      "reason": "Owned in-memory rules retain SDK save-envelope and account-save notification conventions; no filesystem is imported."
+      "reason": "Owned in-memory rules retain SDK save-envelope and account-save notification conventions; no filesystem is imported.",
+      "resolution": "Retained in the legacy optional entry; the memory-only CharacterSession uses shared character rules with separate host conditions and no account owner."
     },
     {
       "id": "durable-composition",
       "entry": "./account/workshops",
       "task": "builds",
-      "reason": "Current comprehensive orchestration is account-shaped. The new character facade must not require this owner."
+      "reason": "Current comprehensive orchestration is account-shaped. The new character facade must not require this owner.",
+      "resolution": "Retained in the legacy optional entry; the memory-only CharacterSession uses shared character rules with separate host conditions and no account owner."
     }
   ],
   "optionalProjects": [

@@ -22,7 +22,7 @@ function copySkill(skill){
 /** Default immutable authored rules, shared across private character builds.
  * The pack is compiler output, not arbitrary save input. Session admission,
  * account selection and live acknowledgement remain explicit boundaries. */
-export function createCharacterBuilds(pack){
+export function createCharacterBuildRules(pack){
   if(pack?.capability!=='hollow-wake-character-builds/v1'||pack.schemaVersion!==1||typeof pack.contentId!=='string')throw Error('Invalid character build pack');
   const {contentId}=pack,definitions=freeze(clone(pack.definitions));
   const {skills,supports,monsters,classes,slots,progression:levelTuning}=definitions;
@@ -55,12 +55,17 @@ export function createCharacterBuilds(pack){
     openingSkills:def=>{const ids=def.bar.filter(id=>id!==null);for(const row of def.kit??[])if(!ids.includes(row.skill))ids.push(row.skill);return ids;},
     classSkillStat:def=>'classSkill_'+def.id,treeGraft:(def,id)=>h.treeNodeOf(def,id)?.graft,
     supportFits:(def,inst)=>compatible(def,inst)};
-  return new CharacterBuilds({contentId,barSlots:h.BAR_SLOTS,stats:statRules,passives,class:id=>classes.find(def=>def.id===id),equipment,
+  return {contentId,barSlots:h.BAR_SLOTS,stats:statRules,passives,class:id=>classes.find(def=>def.id===id),equipment,
     socketFits:compatible,
     summon:def=>def.delivery.type==='summon'?def.delivery:undefined,copySkill,updateGrant,updateLearned,
     restoreLearned:payload=>{const inst=cargo.skillOfGemItem({gem:payload});if(!inst)throw Error('Unknown learned build skill');return inst;},
     contributions:{equipSlots:()=>slots,containers:()=>containers,compileItem:item=>items.compile(item),board:(def,features)=>layouts.get(def.id).board(features),
       misfits:(board,held)=>containerPolicy.misfits(board,held),amplification:(board,held,mods)=>geometry.amplification(board,held,mods),
       amplify:(mods,factor)=>seats.amplify(mods,factor),empower:(mods,power,factor)=>seats.empower(mods,power,factor)},
-    levelModifiers:level=>[{stat:'life',kind:'flat',value:(level-1)*levelTuning.lifePerLevel},{stat:'mana',kind:'flat',value:(level-1)*levelTuning.manaPerLevel},{stat:'accuracy',kind:'flat',value:(level-1)*4}]});
+    levelModifiers:level=>[{stat:'life',kind:'flat',value:(level-1)*levelTuning.lifePerLevel},{stat:'mana',kind:'flat',value:(level-1)*levelTuning.manaPerLevel},{stat:'accuracy',kind:'flat',value:(level-1)*4}]};
 }
+
+export function createCharacterBuilds(pack){return new CharacterBuilds(createCharacterBuildRules(pack));}
+
+/** Pure authored skill reads used by preview, pricing and the damage pipeline. */
+export const characterSkillQueries=Object.freeze({instanceMods:h.instanceMods,instanceInnateMods:h.instanceInnateMods,skillContextTags:h.skillContextTags,instanceTrigger:h.instanceTrigger,skillCooldownSeconds:h.skillCooldownSeconds,treeNodeRefusal:h.treeNodeRefusal,guarded:inst=>!!h.socketSpec(inst,'guardCast'),replenishing:inst=>!!h.replenishingDelivery(inst)});

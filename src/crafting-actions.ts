@@ -37,18 +37,27 @@ export interface CraftingActionPorts<C,I,S,U,A> {
   memoryKind(item:I):string|null|undefined;
 }
 
+/** Craft expertise can belong to a character or any host policy. */
+export interface CraftingOperationPorts<C,I,S,U> extends Omit<CraftingActionPorts<C,I,S,U,never>,'account'|'save'> {
+  lore():CraftLore;
+  learned(study:CraftStudy[]):void;
+  studyChanged():void;
+}
+
 /** Synchronous borrowed-state commands. Ports own custody, payment, persistence
  * and presentation. Exceptions retain earlier writes, just as the original
  * game does; these commands are not durable database transactions. A single
  * instance rejects recursive commands but can serve any number of characters. */
-export class CraftingActions<C,I extends CraftingItem,S extends CraftingSkill&{sockets:(U|null)[]},U extends CraftingSupport,A extends CraftingAccount=CraftingAccount> {
+const sharedCraftingPorts=['carry','hasFeature','progression','reach','nearBench','nearCounter','bagItem','findCarried','remove','spend','grant','random','recalc','dirty','refuse','cue','skill','support','skillPayload','grantSupport','memoryKind'] as const;
+
+export class CraftingOperations<C,I extends CraftingItem,S extends CraftingSkill&{sockets:(U|null)[]},U extends CraftingSupport> {
   readonly #rules:CraftingRules;
-  readonly #ports:CraftingActionPorts<C,I,S,U,A>;
+  readonly #ports:CraftingOperationPorts<C,I,S,U>;
   #busy=false;
-  constructor(rules:CraftingRules,ports:CraftingActionPorts<C,I,S,U,A>){
+  constructor(rules:CraftingRules,ports:CraftingOperationPorts<C,I,S,U>){
     this.#rules=rules;
     const bound={...ports};
-    for(const name of ['carry','account','hasFeature','progression','reach','nearBench','nearCounter','bagItem','findCarried','remove','spend','grant','random','recalc','dirty','save','refuse','cue','skill','support','skillPayload','grantSupport','memoryKind'] as const){
+    for(const name of [...sharedCraftingPorts,'lore','learned','studyChanged'] as const){
       if(typeof ports[name]!=='function')throw new Error('Missing crafting action port '+name);
       bound[name]=ports[name].bind(ports) as never;
     }
@@ -64,12 +73,8 @@ export class CraftingActions<C,I extends CraftingItem,S extends CraftingSkill&{s
     const p=this.#ports,r=this.#rules;
     p.remove(p.carry(ctx).items,item.uid);p.grant(ctx,mode==='break'?r.salvageItemYield(item):r.sellItemYield(item));
     if(mode!=='break'||!p.progression())return [];
-    const taught=r.studySalvage(p.account().craftLore,item);
-    for(const t of taught)if(t.rankedUp&&p.account().craftLore[t.family]?.rank===1){
-      const key=r.ports.ledgerCraftsUnlocked,ledger=p.account().ledger;
-      const current=p.account().ledger,next=(Object.hasOwn(current,key)?current[key]??0:0)+1;
-      Object.defineProperty(ledger,key,{value:next,enumerable:true,configurable:true,writable:true});
-    }
+    const taught=r.studySalvage(p.lore(),item);
+    p.learned(taught);
     return taught;
   }
   #breakGem(ctx:C,item:I,mode:SalvageLane):void{
@@ -99,7 +104,7 @@ export class CraftingActions<C,I extends CraftingItem,S extends CraftingSkill&{s
     if(item.gem){this.#breakGem(ctx,item,mode);p.dirty(ctx);return;}
     const taught=this.#breakItem(ctx,item,mode);
     for(const t of taught)if(t.rankedUp)p.cue(ctx,{kind:'expertise',family:t.family,bulk:false});
-    if(mode==='break'&&p.progression())p.save(p.account());p.dirty(ctx);
+    if(mode==='break'&&p.progression())p.studyChanged();p.dirty(ctx);
   });}
   salvageBulk(ctx:C,category:SalvageCategory,rarity?:string,lane?:SalvageLane):void{this.#run(()=>{
     const p=this.#ports,r=this.#rules,mode=this.#lane(ctx,lane);if(!mode)return;
@@ -107,7 +112,7 @@ export class CraftingActions<C,I extends CraftingItem,S extends CraftingSkill&{s
     if(category==='item'){
       const targets=m.items.filter(i=>!i.gem&&!i.mem&&!i.locked&&!i.questId&&!i.relicKey&&(!rarity||i.rarity===rarity));
       for(const item of targets){for(const t of this.#breakItem(ctx,item,mode))if(t.rankedUp)ranked.push(t.family);broke++;}
-      if(broke>0&&mode==='break'&&p.progression())p.save(p.account());
+      if(broke>0&&mode==='break'&&p.progression())p.studyChanged();
     }else if(category==='skill'){
       const targets=m.items.filter(i=>{const payload=p.skillPayload(i);return payload&&!i.locked&&!payload.granted&&(!rarity||payload.rarity===rarity);});
       for(const item of targets){this.#breakGem(ctx,item,mode);broke++;}
@@ -145,8 +150,8 @@ export class CraftingActions<C,I extends CraftingItem,S extends CraftingSkill&{s
     const p=this.#ports,r=this.#rules;if(!p.reach(ctx,'salvage'))return;
     const m=p.carry(ctx),worn=Object.keys(m.equipped).find(k=>m.equipped[k]?.uid===uid),item=p.bagItem(ctx,uid)??(worn?m.equipped[worn]:undefined);
     if(!item)return;if(r.craftedCount(item)>=this.craftSlots()){p.refuse(ctx,'capacity','craft:'+uid);return;}
-    const option=r.craftableAffixesFor(item,p.account().craftLore).find(o=>o.def.id===affixId);if(!option)return;
-    const rank=r.expertiseRank(p.account().craftLore,option.def.family);if(!p.spend(ctx,r.ports.cost(rank),'craft:'+affixId))return;
+    const option=r.craftableAffixesFor(item,p.lore()).find(o=>o.def.id===affixId);if(!option)return;
+    const rank=r.expertiseRank(p.lore(),option.def.family);if(!p.spend(ctx,r.ports.cost(rank),'craft:'+affixId))return;
     const rolled=r.rollCraftedAffix(option.def,rank,p.random,Math.max(0,Math.min(1,score)));if(!rolled)return;
     item.affixes.push(rolled);if(worn)p.recalc(ctx);
     p.cue(ctx,{kind:'crafted',name:option.def.names[option.def.names.length-1]??option.def.id});p.dirty(ctx);
@@ -162,4 +167,22 @@ export class CraftingActions<C,I extends CraftingItem,S extends CraftingSkill&{s
     if(!p.spend(ctx,r.ports.oracleCost(item.rarity),'oracle:'+uid))return;item.affixes[index]=rolled;
     if(worn)p.recalc(ctx);p.cue(ctx,{kind:'rerolled'});p.dirty(ctx);
   });}
+}
+
+/** Account integration remains a compatibility wrapper around shared operations. */
+export class CraftingActions<C,I extends CraftingItem,S extends CraftingSkill&{sockets:(U|null)[]},U extends CraftingSupport,A extends CraftingAccount=CraftingAccount> extends CraftingOperations<C,I,S,U> {
+  constructor(rules:CraftingRules,ports:CraftingActionPorts<C,I,S,U,A>){
+    const p={...ports};
+    for(const name of [...sharedCraftingPorts,'account','save'] as const){
+      if(typeof ports[name]!=='function')throw new Error('Missing crafting action port '+name);
+      p[name]=ports[name].bind(ports) as never;
+    }
+    super(rules,{...p,lore:()=>p.account().craftLore,studyChanged:()=>p.save(p.account()),learned:taught=>{
+      for(const t of taught)if(t.rankedUp&&p.account().craftLore[t.family]?.rank===1){
+        const key=rules.ports.ledgerCraftsUnlocked,ledger=p.account().ledger;
+        const current=p.account().ledger,next=(Object.hasOwn(current,key)?current[key]??0:0)+1;
+        Object.defineProperty(ledger,key,{value:next,enumerable:true,configurable:true,writable:true});
+      }
+    }});
+  }
 }

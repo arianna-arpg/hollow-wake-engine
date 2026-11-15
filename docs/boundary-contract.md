@@ -6,8 +6,9 @@ level rules over current actors; it preserves ongoing combat rather than restori
 a preview. [Inventory admission](inventory-data.md) separates cargo validation
 from legacy account formats. Raw imports are bounded and detached; borrowed
 validation and live effects have explicit trusted-caller contracts. Neither entry
-imports quests, accounts or persistence. Complete character command composition
-remains milestone-two work.
+imports quests, accounts or persistence. The [memory-only character composition](character-session.md)
+owns detached command preparation, direct authorized progression and explicit
+live publication, without a storage acknowledgement.
 
 The optional [durable character builder](character-builds.md) composes admitted
 character/account inputs into owned private investment graphs. Its separately

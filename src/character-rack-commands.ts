@@ -1,6 +1,6 @@
 import {SkillRackActions,type RackBody} from './skill-rack.js';
 import {createGemCargo,packSkillGemPayload,type GemDefinition,type GemSkill} from './gem-residence.js';
-import type {CraftingSessionDefinitions} from './crafting-session-data.js';
+import type {InventoryDataDefinitions as CraftingSessionDefinitions} from './inventory-data.js';
 import type {CharacterBuild,CharacterBuildService} from './character-builds.js';
 import type {ItemInstance} from './item-types.js';
 import type {InventoryHost,LiveInventoryBoard} from './inventory-host.js';

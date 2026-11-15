@@ -63,7 +63,7 @@ const runTypes=execFileSync(process.execPath,[path.join(root,'node_modules/types
 fs.writeFileSync(path.join(consumer,'browser.mjs'),"export {createVocationQuests,grantVocation} from '@hollow-wake/engine/progression/vocations';");
 const bundle=path.join(directory,'browser.mjs');
 const built=await build({absWorkingDir:consumer,entryPoints:['browser.mjs'],bundle:true,minify:true,platform:'browser',format:'esm',outfile:bundle,metafile:true});
-assert.deepEqual(Object.keys(built.metafile.inputs).sort(),['browser.mjs','node_modules/@hollow-wake/engine/dist/vocation-grants.js','node_modules/@hollow-wake/engine/dist/vocation-keys.js','node_modules/@hollow-wake/engine/dist/vocations.js'].sort());
+assert.deepEqual(Object.keys(built.metafile.inputs).sort(),['browser.mjs','node_modules/@hollow-wake/engine/dist/character-vocation.js','node_modules/@hollow-wake/engine/dist/vocation-grants.js','node_modules/@hollow-wake/engine/dist/vocation-keys.js','node_modules/@hollow-wake/engine/dist/vocations.js'].sort());
 const bytes=fs.statSync(bundle).size;assert(bytes>0&&bytes<=4096);
 const report={passed:true,directory,consumer,contracts:10,browserBytes:bytes,types:true,...result,archiveSha256:sha256(fs.readFileSync(path.join(directory,sdk.filename))),catalogueSha256:sha256(fs.readFileSync(path.join(directory,content.filename)))};
 const archives=[sdk,content].map(p=>({name:p.name,version:p.version,file:p.filename,bytes:fs.statSync(path.join(directory,p.filename)).size,sha256:sha256(fs.readFileSync(path.join(directory,p.filename)))}));
