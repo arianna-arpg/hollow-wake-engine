@@ -15,7 +15,9 @@ def safe_names(names):
 
 def pack(source, destination):
     assert source.is_dir() and not destination.exists()
-    files = sorted(p for p in source.rglob("*") if p.is_file())
+    # Path ordering is case-insensitive on Windows and case-sensitive on POSIX.
+    # Sort archive names as strings so both builders emit the same member order.
+    files = sorted((p for p in source.rglob("*") if p.is_file()), key=lambda p: p.relative_to(source).as_posix())
     assert not any(p.is_symlink() for p in source.rglob("*"))
     names = [p.relative_to(source).as_posix() for p in files]
     safe_names(names)

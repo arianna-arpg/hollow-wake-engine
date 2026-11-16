@@ -9,6 +9,14 @@ helpers = runpy.run_path(str(pathlib.Path(__file__).with_name("combat-inventory-
 pathlib.Path(sys.argv[1]).mkdir(parents=True, exist_ok=True)
 with tempfile.TemporaryDirectory(prefix="m6-archive-owned-", dir=sys.argv[1]) as temporary:
     root = pathlib.Path(temporary)
+    stage = root / "stage"
+    stage.mkdir()
+    for name in ["a.txt", "Z.txt", "README.md"]:
+        (stage / name).write_text(name, encoding="utf-8")
+    packed = root / "ordered.zip"
+    helpers["pack"](stage, packed)
+    with zipfile.ZipFile(packed) as archive:
+        assert archive.namelist() == ["README.md", "Z.txt", "a.txt"], "Platform-dependent archive order"
     for label, entries in {
         "path-escape": [("../escaped.txt", stat.S_IFREG)],
         "absolute-path": [("/escaped.txt", stat.S_IFREG)],
