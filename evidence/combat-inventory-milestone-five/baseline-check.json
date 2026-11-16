@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "mode": "check",
+  "passed": true,
+  "manifest": {
+    "schemaVersion": 1,
+    "capability": "combat-performance/v1",
+    "archives": {
+      "hollow-wake-engine-0.62.0-candidate.0.tgz": "5e8233905dd260aeb25168deb58ccdde6fbc47ed005cb3f045ab6776868595d3",
+      "hollow-wake-combat-0.2.0-candidate.0.tgz": "902911330c46c124f0541d12e33f98fce98343c06a2e639552b258040da771b8",
+      "hollow-wake-character-builds-0.2.0-candidate.0.tgz": "3330e0143111edd7347b92afe9eaf23479e0341c6670b21875d8b7bff51e6271",
+      "hollow-wake-characters-0.1.0-candidate.0.tgz": "d76bc456d575e1dc0fdad0e80a7ddc1dbd5ebc8bb0af23b644f7f8978b55b143",
+      "hollow-wake-node-godot-0.1.0-candidate.0.tgz": "6065d45613c7c174f75f20ed60c32ebfe403675a14ded2c5e9a7c8a9c291ace8"
+    },
+    "sources": {
+      "tools/combat-performance/workload.mjs": "ad9af735e41182f18af36ebdbd10ffbce1acf4f745263c198f68a378be478a9a",
+      "tools/combat-performance/run.mjs": "ee2097272cca665c788ad9808ff4808ae521c7b5c44dfc001c8a0ed194022b30",
+      "scripts/build-combat-benchmark.mjs": "1b901d839826c18caac4f225411629404eef65113d92cd2ad03eb97a44effcce"
+    },
+    "files": {
+      "workload.mjs": {
+        "sha256": "936acb837112c306b4988734a5c84e4424b73b3abbe9d4490c4fcb2725fb273a",
+        "bytes": 27160211
+      },
+      "run.mjs": {
+        "sha256": "ee2097272cca665c788ad9808ff4808ae521c7b5c44dfc001c8a0ed194022b30",
+        "bytes": 6357
+      }
+    },
+    "questsRequired": false,
+    "persistenceRequired": false,
+    "deviceQualified": false
+  },
+  "specification": {
+    "version": 1,
+    "seed": 711,
+    "seconds": 0.016666666666666666,
+    "warmup": 120,
+    "frames": 600,
+    "courses": [
+      "mixed-32",
+      "mixed-128",
+      "summons-procs-32",
+      "build-combat-32",
+      "character-create",
+      "inventory-24",
+      "build-edits",
+      "create-release"
+    ],
+    "note": "Synthetic encounter placement and sustained resources; authored skills, status, proc, summon, movement and build rules. No AI, renderer, persistence or quests."
+  },
+  "environment": {
+    "node": "v24.9.0",
+    "v8": "13.6.233.10-node.27",
+    "platform": "win32",
+    "arch": "x64",
+    "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+    "logicalCpus": 20,
+    "totalMemoryBytes": 68631449600,
+    "os": "10.0.19045",
+    "label": "desktop-i9-10900K",
+    "conditions": "unspecified",
+    "execArgv": []
+  },
+  "startedAt": "2026-11-16T18:45:35.184Z",
+  "contentImportMs": 862.6777,
+  "courses": [
+    {
+      "name": "mixed-32",
+      "runs": [
+        {
+          "samples": 600,
+          "warmup": 120,
+          "receiptSha256": "46e875e2e73799651b7ce104ccff9bc33e7ff11eb6b14c50d47d50705c9a59f6",
+          "traceSha256": "583adcee3af5a954ab619348ea7e85ccc4436ac5ad41e8584703c21164cd3999",
+          "counters": {
+            "frame": 720,
+            "presses": 192,
+            "accepted": 160,
+            "procEvents": 0,
+            "maxBodies": 32,
+            "maxShots": 7,
+            "maxStatuses": 38
+          }
+        }
+      ]
+    },
+    {
+      "name": "mixed-128",
+      "runs": [
+        {
+          "samples": 600,
+          "warmup": 120,
+          "receiptSha256": "6787084704ccb4eb05063e319851320ee9ad177db13a77485a804334977d2c71",
+          "traceSha256": "22cd717b72b4c3e5046474aab12be16e9d9d00827eb3ed93603b18142c229e90",
+          "counters": {
+            "frame": 720,
+            "presses": 768,
+            "accepted": 640,
+            "procEvents": 0,
+            "maxBodies": 128,
+            "maxShots": 23,
+            "maxStatuses": 163
+          }
+        }
+      ]
+    },
+    {
+      "name": "summons-procs-32",
+      "runs": [
+        {
+          "samples": 600,
+          "warmup": 120,
+          "receiptSha256": "4cc8fb6fb4888f6035f071e2a187071653cefbb95a0d17fecb0ce108fe5d15e4",
+          "traceSha256": "56643fa6ecb704df828414544eb80e14b915e645d1b9600dbb650f451a66bf2c",
+          "counters": {
+            "frame": 720,
+            "presses": 192,
+            "accepted": 96,
+            "procEvents": 59,
+            "maxBodies": 96,
+            "maxShots": 8,
+            "maxStatuses": 8
+          }
+        }
+      ]
+    },
+    {
+      "name": "build-combat-32",
+      "runs": [
+        {
+          "samples": 600,
+          "warmup": 120,
+          "receiptSha256": "836400a79cdba696b03685513c52a06ec0a4d43ba0fb686eb828553cd276dae8",
+          "traceSha256": "66aa2a72cf57fe2f7cf1f05d36730dca50e5a24b237636e5280f985f6f8a5456",
+          "counters": {
+            "frame": 720,
+            "presses": 180,
+            "accepted": 146,
+            "procEvents": 0,
+            "maxBodies": 32,
+            "maxShots": 6,
+            "maxStatuses": 34
+          }
+        }
+      ]
+    },
+    {
+      "name": "character-create",
+      "runs": [
+        {
+          "samples": 30,
+          "warmup": 5,
+          "receiptSha256": "a7502fec3ccea51628b87f25ab91b2bd00370696e53dab88762fb575df2b551c",
+          "traceSha256": "cd9f79230c798eb7dc060b81a1f873f3fc150550818c31145ab7bcdd87d21ef3",
+          "counters": {
+            "count": 35
+          }
+        }
+      ]
+    },
+    {
+      "name": "inventory-24",
+      "runs": [
+        {
+          "samples": 30,
+          "warmup": 5,
+          "receiptSha256": "4806b38e19909e47d74dcad16b2ce3ec3c315d5c183aadd3aa8cdc16cf1fab13",
+          "traceSha256": "85569228e4621d7507c134ae0cd34fd309a21419a3e234e88dfeb32029bdb355",
+          "counters": {
+            "count": 35
+          }
+        }
+      ]
+    },
+    {
+      "name": "build-edits",
+      "runs": [
+        {
+          "samples": 30,
+          "warmup": 5,
+          "receiptSha256": "b492b9356b59237601446581e868abf94bc58bafd30a91d9fc6e2ad277a5f6a5",
+          "traceSha256": "e5fec29f6c12faf742497338be871493df569d96d57dd0ea593c00410b8cbc44",
+          "counters": {
+            "count": 35
+          }
+        }
+      ]
+    },
+    {
+      "name": "create-release",
+      "runs": [
+        {
+          "samples": 30,
+          "warmup": 5,
+          "receiptSha256": "43d63c1ea5522a5cb2c8961e3e8f762cff83f50974ffbcd1683d54530043476e",
+          "traceSha256": "22426b158d8be613e38b60b871a4e6c33897aa4e7ad568b4801cf81a277fc1f2",
+          "counters": {
+            "count": 35
+          }
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Synchronous SDK and reference host only; no rendered frame rate, battery or thermal qualification.",
+    "Timing includes public operation and workload counters. Setup, digesting and observation are outside operation timing.",
+    "Heap allocation is a statistical V8 sampling estimate, not total native allocation. Memory and CPU profiling run separately from timing."
+  ]
+}

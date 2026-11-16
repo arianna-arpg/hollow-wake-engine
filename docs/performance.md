@@ -1,5 +1,12 @@
 # Performance targets and measurement
 
+For the composed combat and Inventory SDK, use the
+[milestone-five workload and evidence](combat-inventory-milestone-five.md).
+That record includes startup, frame operations, build actions, allocation and
+release probes, plus the portable Node/browser runner. The smaller kernel and
+controller measurements below retain their original, narrower scope and must
+not be presented as whole-game speedups.
+
 The [challenge targeting workload](challenge-targeting-performance.md) compares
 the current public controller against its retained published predecessor. Its
 seven scenes cover idle updates and increasing enemy/device counts, with and

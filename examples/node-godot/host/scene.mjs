@@ -8,6 +8,12 @@ import characters from '@hollow-wake/characters/characters.json' with {type:'jso
 import {combatContent} from '@hollow-wake/combat/content';
 import {createNodeCombatHost,createReferenceSpace} from '@hollow-wake/node-godot';
 
+// Immutable authored catalogues are loaded once for this host module. Every
+// character, item identity source, random stream and combat session stays owned
+// by its scene. Reopening Inventory or creating another scene needs no recopy
+// and revalidation of the entire catalogue.
+const kit=createCharacterKit(builds,characters),itemContent=new ItemContent(builds.items);
+
 /** Authored example setup, never a client reward or campaign dependency. */
 export function createReferenceScene({saved=null,wall=true,platform=true,skill=null}={}) {
  if(skill){
@@ -17,11 +23,11 @@ export function createReferenceScene({saved=null,wall=true,platform=true,skill=n
   host.session.addActor({name:'Target',team:'enemy',position:{x:440,y:400},stats:{life:10000,mana:10000}});
   return host;
  }
- const kit=createCharacterKit(builds,characters),authority={features:[],relics:{enabled:true,power:0,containers:{}}};
+ const authority={features:[],relics:{enabled:true,power:0,containers:{}}};
  const character=saved?kit.admit(saved,authority):kit.create('magician',{seed:71});
  if(!saved){
   const random=new Random(71);let uid=character.export().nextUid;
-  const items=createItemHost(new ItemContent(builds.items),()=>uid++);
+  const items=createItemHost(itemContent,()=>uid++);
   const ring=items.roll({baseId:'ring_lapis',ilvl:1,rarity:'common'},()=>random.next());
   const cargo=createGemCargo({nextUid:()=>uid++,support:id=>kit.rules.equipment.support(id)});
   const known=character.export().state.skillBook.known;

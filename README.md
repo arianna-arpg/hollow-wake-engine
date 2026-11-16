@@ -13,8 +13,11 @@ pinned prototype. The separate [combat composition](docs/combat-session.md)
 joins these builds to complete casting and effect lifecycles, with representative
 original coverage and installed-package checks. The
 [Node/Godot reference adapter](docs/node-godot-adapter.md) adds ordinary movement,
-a playable character/build scene and optional host storage. Device measurements
-remain milestone five; final release packaging remains milestone six.
+a playable character/build scene and optional host storage. The
+[performance milestone](docs/combat-inventory-milestone-five.md) adds repeatable
+desktop comparisons and a [portable Node/browser runner](docs/combat-inventory-milestone-five.md#portable-runner).
+Physical Steam Deck/mobile qualification remains separate; final release packaging
+remains milestone six.
 
 The optional [durable character builder](docs/character-builds.md) composes class,
 passive, equipment, container and skill investment into private builds. A separate

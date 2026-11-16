@@ -27,13 +27,17 @@ export class StatSheet {
     }
     private generation = 0;
     get revision(): number { return this.generation; }
-    get cacheEntries(): number { return this.cache.size; }
+    get cacheEntries(): number { return this.cache.size + this.plainCache.size; }
     get contextCacheEntries(): number { return this.contextKeys?.size ?? 0; }
     private contextKeys: TagContextCache<string> | undefined;
     private sources = new Map<string, Modifier[]>();
     private modsByStat: Map<string, Modifier[]> | null = null;
     private baseOverrides = new Map<string, number>();
     private cache = new Map<string, number>();
+    // Ordinary untagged reads dominate actor clocks. Keep their stable stat
+    // identifiers directly instead of allocating an encoded key on every hit.
+    // Separate maps prevent arbitrary caller stat names aliasing encoded keys.
+    private plainCache = new Map<string, number>();
     private conditions = new Set<ConditionId>();
     private conditionKey = '';
     private gauges = new Map<string, number>();
@@ -43,21 +47,31 @@ export class StatSheet {
     private vsMods: boolean | null = null;
     private gaugeRefs: Set<string> | null = null;
     private armedFams: Map<string, ArmedFamily> | null = null;
-    private invalidate(): void {
+    private invalidate(values = true, families = true): void {
         this.generation++;
-        this.cache.clear();
-        this.armedFams = null;
+        if (values) { this.cache.clear(); this.plainCache.clear(); }
+        if (families) this.armedFams = null;
     }
     setConditions(active: ConditionId[]): void {
-        const key = JSON.stringify([...new Set(active)].sort());
+        const next = new Set(active);
+        const key = JSON.stringify([...next].sort());
         if (key === this.conditionKey)
             return;
+        let affectsValues = false;
+        for (const id of this.whenIds)
+            if (next.has(id) !== this.conditions.has(id)) { affectsValues = true; break; }
         this.conditionKey = key;
-        this.conditions = new Set(active);
-        this.invalidate();
+        this.conditions = next;
+        // Extra modifiers are never cached. Only conditions referenced by owned
+        // sources can change a cached result, including linked/traded results.
+        // Preserve the public revision even when cached values remain valid.
+        this.invalidate(affectsValues, false);
     }
     hasCondition(id: ConditionId): boolean { return this.conditions.has(id); }
     usesCondition(id: ConditionId): boolean {
+        return this.whenIds.has(id);
+    }
+    private get whenIds(): Set<ConditionId> {
         if (!this.whenRefs) {
             const refs = new Set<ConditionId>();
             for (const mods of this.sources.values()) {
@@ -67,7 +81,7 @@ export class StatSheet {
             }
             this.whenRefs = refs;
         }
-        return this.whenRefs.has(id);
+        return this.whenRefs;
     }
     setGauges(entries: [
         string,
@@ -78,9 +92,13 @@ export class StatSheet {
         const key = JSON.stringify(entries.slice().sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0));
         if (key === this.gaugeKey)
             return;
+        const next = new Map(entries);
+        let affectsValues = false;
+        for (const id of this.gaugeIds)
+            if ((this.gauges.get(id) ?? 0) !== (next.get(id) ?? 0)) { affectsValues = true; break; }
         this.gaugeKey = key;
-        this.gauges = new Map(entries);
-        this.invalidate();
+        this.gauges = next;
+        this.invalidate(affectsValues, false);
     }
     gauge(id: string): number { return this.gauges.get(id) ?? 0; }
     setSource(name: string, mods: Modifier[]): void {
@@ -120,6 +138,9 @@ export class StatSheet {
         return this.vsMods;
     }
     usesGauge(id: string): boolean {
+        return this.gaugeIds.has(id);
+    }
+    private get gaugeIds(): Set<string> {
         if (!this.gaugeRefs) {
             const refs = new Set<string>();
             for (const mods of this.sources.values()) {
@@ -129,7 +150,7 @@ export class StatSheet {
             }
             this.gaugeRefs = refs;
         }
-        return this.gaugeRefs.has(id);
+        return this.gaugeRefs;
     }
     hasTaggedMods(stat: string): boolean {
         if (!this.taggedStats) {
@@ -206,14 +227,19 @@ export class StatSheet {
     private compute(stat: string, contextTags?: ReadonlySet<SkillTag>, extra?: readonly Modifier[], baseValue?: number, noLinks = false): number {
         const cacheable = this.maxCacheEntries > 0 && (!extra || !extra.length) && baseValue === undefined;
         let key = '';
+        const plain = !noLinks && (!contextTags || !contextTags.size);
+        const cache = plain ? this.plainCache : this.cache;
         if (cacheable) {
-            const context = contextTags && contextTags.size
-                ? (this.contextKeys ??= new TagContextCache(encodeContext, this.maxContextCacheEntries)).get(contextTags)
-                : '[]';
-            // Length-prefixed stat id and canonical JSON tags cannot alias even
-            // when ids contain separators, quotes or surrogate pairs.
-            key = (noLinks ? '1:' : '0:') + stat.length + ':' + stat + context;
-            const cached = this.cache.get(key);
+            if (plain) key = stat;
+            else {
+                const context = contextTags && contextTags.size
+                    ? (this.contextKeys ??= new TagContextCache(encodeContext, this.maxContextCacheEntries)).get(contextTags)
+                    : '[]';
+                // Length-prefixed stat id and canonical JSON tags cannot alias
+                // even when ids contain separators, quotes or surrogate pairs.
+                key = (noLinks ? '1:' : '0:') + stat.length + ':' + stat + context;
+            }
+            const cached = cache.get(key);
             if (cached !== undefined)
                 return cached;
         }
@@ -304,9 +330,9 @@ export class StatSheet {
                 value = Math.min(def.max, value);
         }
         finite(value, `resolved stat ${stat}`);
-        if (cacheable && this.cache.size >= this.maxCacheEntries) this.cache.clear();
+        if (cacheable && this.cacheEntries >= this.maxCacheEntries) { this.cache.clear(); this.plainCache.clear(); }
         if (cacheable)
-            this.cache.set(key, value);
+            cache.set(key, value);
         return value;
     }
 }

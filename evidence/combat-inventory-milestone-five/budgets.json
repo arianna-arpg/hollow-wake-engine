@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "setBeforeRuntimeOptimization": true,
+  "reference": "Windows 10.0.19045, Intel i9-10900K, Node 24.9.0; desktop engineering qualification only",
+  "aggregation": "Median of per-round percentiles from seven alternating fresh-process baseline/candidate pairs. No concurrent verification or profiling.",
+  "operationMs": {
+    "mixed-32": {"median": 1.2, "p95": 4, "p99": 6},
+    "mixed-128": {"median": 5, "p95": 14, "p99": 20},
+    "summons-procs-32": {"median": 3.5, "p95": 6, "p99": 10},
+    "build-combat-32": {"median": 1.3, "p95": 4, "p99": 6},
+    "character-create": {"median": 3, "p95": 5, "p99": 8},
+    "inventory-24": {"median": 9, "p95": 12, "p99": 16},
+    "build-edits": {"median": 75, "p95": 110, "p99": 150},
+    "create-release": {"median": 24, "p95": 35, "p99": 45}
+  },
+  "contentImportMs": 1500,
+  "processPeakRssMiB": 512,
+  "retainedHeapGrowthAfterFiveCoursesMiB": 4,
+  "activeResourceGrowth": 0,
+  "allocationGoal": {"course": "mixed-128", "maximumBaselineRatio": 0.8, "method": "Separate V8 allocation sampling, 16384-byte interval, include collected objects; same setup/warmup/observation included in both variants."},
+  "limits": [
+    "Budgets apply to this named desktop reference, not Steam Deck/mobile certification or full-game FPS.",
+    "128 actors is a stress tier: the simulation can consume most of a 60 Hz frame at the baseline p99, before rendering.",
+    "Build edits comprise three previews and three publications; this synchronous burst is not a per-frame operation.",
+    "Device runners report measurements without silently applying desktop budgets on different hardware."
+  ]
+}

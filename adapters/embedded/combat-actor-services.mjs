@@ -16,6 +16,11 @@ import {createCombatActorType} from './combat-actor.mjs';
  * simulation's shared SDK controllers. Notifications are presentation/taps;
  * neither campaign nor persistence participates in construction or payment. */
 export function createCombatActors({initialize, queries: q, definitions, rules, random, damage, summons, notify}) {
+  // Compiled catalogues are frozen. Retain their ordered enumeration once per
+  // owner, rather than allocate every charge row for every actor clock tick.
+  // Custom mutable catalogues keep their original live enumeration semantics.
+  const chargeDefinitions=Object.isFrozen(q)&&Object.isFrozen(q.chargeDefinitions)
+    ? Object.entries(q.chargeDefinitions) : null;
   for (const method of ['healed', 'lifeSpent', 'buffRelease', 'statusPop', 'restore', 'timers']) {
     if (typeof notify?.[method] !== 'function') throw Error('Missing actor notification: ' + method);
   }
@@ -59,7 +64,7 @@ export function createCombatActors({initialize, queries: q, definitions, rules, 
     attributeModifiers: q.attributeModifiers, sockets: q.hostSockets};
   const bind = a => {
     const charges = new ChargeRuntime({charges: a.charges, clocks: a.chargeState, modifierCounts: a.chargeModCount}, {
-      definition: id => q.chargeDefinitions[id], definitions: () => Object.entries(q.chargeDefinitions),
+      definition: id => q.chargeDefinitions[id], definitions: () => chargeDefinitions??Object.entries(q.chargeDefinitions),
       capacityBonus: i => a.sheet.get('chargeCap', i ? q.skillContextTags(i) : undefined, i ? q.instanceMods(i) : undefined),
       chargeCapacityBonus: id => a.sheet.get('chargeCap_' + id), regenerationBonus: id => a.sheet.get('chargeRegen_' + id),
       skills: () => a.skills, taps: q.instanceChargeGain, socketTaps: q.hostSockets, spentCharge: i => q.instanceChargeCost(i)?.charge,

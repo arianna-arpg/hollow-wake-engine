@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "node": "v24.9.0",
+  "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+  "manifest": {
+    "schemaVersion": 1,
+    "capability": "combat-performance/v1",
+    "archives": {
+      "hollow-wake-engine-0.63.0-candidate.0.tgz": "2a9b2f2092603cd708ff5db8bc89071736871139785386719506fdc26af89b6d",
+      "hollow-wake-combat-0.3.0-candidate.0.tgz": "c5cf28e1124177234862fd47629db38e8fea8657650559b7be34f9548126d3e6",
+      "hollow-wake-character-builds-0.2.0-candidate.0.tgz": "a13eaa12a420d2b102670d3c60578d357178264c3d510905edff9ac7f564fb1a",
+      "hollow-wake-characters-0.1.0-candidate.0.tgz": "414515ba9d817d13972040d7bdbe3c3832e52067f08c20b774e948b8acb64119",
+      "hollow-wake-node-godot-0.2.0-candidate.0.tgz": "ce0e01b6c6d6919f169f7c6dec0053e6ec80a521743578e5e4ef7c2173ceff9d"
+    },
+    "sources": {
+      "tools/combat-performance/workload.mjs": "ad9af735e41182f18af36ebdbd10ffbce1acf4f745263c198f68a378be478a9a",
+      "tools/combat-performance/run.mjs": "45ced2ed43cafa189fba117d1bb860378c548a93bc7951f8c50fbcc1bfaa2333",
+      "scripts/build-combat-benchmark.mjs": "c1e4f2e92d496ff40c39206d7c0955a4cfac82a51b5497c1ed1fd431017c7dc7"
+    },
+    "files": {
+      "workload.mjs": {
+        "sha256": "3f4135a23c7194a3f3153f5951424cdede7caa417f3ccf8ffcc60d7d343f7693",
+        "bytes": 27161550
+      },
+      "run.mjs": {
+        "sha256": "45ced2ed43cafa189fba117d1bb860378c548a93bc7951f8c50fbcc1bfaa2333",
+        "bytes": 6607
+      },
+      "compare.mjs": {
+        "sha256": "a68d1ae1e32f663003574e8d71a22de6c1581553d557b2c968e14efe6c9d8511",
+        "bytes": 4328
+      },
+      "lifetime.mjs": {
+        "sha256": "07e48810b7c90e38d869b39f0fdb69dcaca1a2d2ec4bd411cdd9297c434c4406",
+        "bytes": 2429
+      },
+      "index.html": {
+        "sha256": "f6663cd94f1f6ac9a6325e353377c04e03f5fa28125c89b93923eef20be820a3",
+        "bytes": 3023
+      },
+      "browser-worker.mjs": {
+        "sha256": "5bbbae000fae7b8118922077bfbd8906de0007bc1a5ab1dae705c1066ae7a338",
+        "bytes": 2880
+      },
+      "serve.mjs": {
+        "sha256": "c17cd54823c96c9b9f5fb7af789f8dbfef85bb45babca1bd93eb9ea52c32b059",
+        "bytes": 1237
+      },
+      "README.md": {
+        "sha256": "abc0c61270a08f0f9b6c43aed274fa7678b4885c014de6c37659631217179daa",
+        "bytes": 5037
+      }
+    },
+    "seedNotes": "The pinned workload uses seed 711 for scripted courses and additional item rolls; its imported reference scene retains seed 71. Custom distributions need their own scene provenance.",
+    "questsRequired": false,
+    "persistenceRequired": false,
+    "deviceQualified": false
+  },
+  "cycles": 1000,
+  "checkpoints": [
+    {
+      "rss": 500248576,
+      "heapTotal": 376942592,
+      "heapUsed": 201559312,
+      "external": 3009763,
+      "arrayBuffers": 122875
+    },
+    {
+      "rss": 500396032,
+      "heapTotal": 380088320,
+      "heapUsed": 201367800,
+      "external": 3009763,
+      "arrayBuffers": 122875
+    },
+    {
+      "rss": 500494336,
+      "heapTotal": 381136896,
+      "heapUsed": 201380488,
+      "external": 3009603,
+      "arrayBuffers": 122875
+    },
+    {
+      "rss": 501129216,
+      "heapTotal": 384282624,
+      "heapUsed": 201340632,
+      "external": 3009603,
+      "arrayBuffers": 122875
+    },
+    {
+      "rss": 500842496,
+      "heapTotal": 388214784,
+      "heapUsed": 201595856,
+      "external": 3009603,
+      "arrayBuffers": 122875
+    },
+    {
+      "rss": 501538816,
+      "heapTotal": 388214784,
+      "heapUsed": 201600592,
+      "external": 3009603,
+      "arrayBuffers": 122875
+    },
+    {
+      "rss": 501915648,
+      "heapTotal": 389263360,
+      "heapUsed": 201582832,
+      "external": 3009603,
+      "arrayBuffers": 122875
+    },
+    {
+      "rss": 501915648,
+      "heapTotal": 390049792,
+      "heapUsed": 201607752,
+      "external": 3009603,
+      "arrayBuffers": 122875
+    },
+    {
+      "rss": 502116352,
+      "heapTotal": 390311936,
+      "heapUsed": 201663272,
+      "external": 3009603,
+      "arrayBuffers": 122875
+    },
+    {
+      "rss": 502386688,
+      "heapTotal": 392146944,
+      "heapUsed": 201602232,
+      "external": 3009603,
+      "arrayBuffers": 122875
+    }
+  ],
+  "limits": [
+    "Retained-memory probe, not a timing result; explicit collection belongs to this probe only.",
+    "Each operation creates a character/session, advances it once, closes the host and releases its references."
+  ],
+  "before": {
+    "rss": 439652352,
+    "heapTotal": 363048960,
+    "heapUsed": 201156600,
+    "external": 2573803,
+    "arrayBuffers": 122875
+  },
+  "traceSha256": "9fb6c05168a962ebccefb1112494278f9ed64cfccfc7e75b9137ccf16920903b",
+  "retainedHeapGrowthBytes": 445632,
+  "processPeakRssKiB": 540036,
+  "resourcesBefore": [
+    "PipeWrap"
+  ],
+  "resourcesAfter": [
+    "PipeWrap"
+  ]
+}

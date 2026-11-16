@@ -11,6 +11,15 @@ import builds from '@hollow-wake/character-builds/builds.json' with {type:'json'
 import characters from '@hollow-wake/characters/characters.json' with {type:'json'};
 const native={name:'Hero',team:'player',position:{x:400,y:400},stats:{life:10000,mana:10000},attributes:Object.fromEntries(Object.keys(combatContent.hitQueries.ATTRIBUTES).map(id=>[id,100]))};
 let courses=0,observations=0,contracts=0;const refused=[];
+{
+ const a=createReferenceScene({wall:false,platform:false}),b=createReferenceScene({wall:false,platform:false});
+ try{
+  const before=b.character.export(),state=b.session.snapshot();assert.deepEqual(a.character.export(),before);
+  assert(a.grant({kind:'points',currency:'passive',amount:2}).accepted);
+  assert(a.build(a.inventory().actions.find(row=>row.command.kind==='passive').command).accepted);a.step();
+  assert.deepEqual(b.character.export(),before);assert.deepEqual(b.session.snapshot(),state);contracts++;
+ }finally{a.close();b.close();}
+}
 for(const name of ['combat-frames','combat-families'])for(const c of JSON.parse(gunzipSync(fs.readFileSync(name+'.json.gz'))).courses){
  const space=createReferenceSpace(combatContent,{width:1600,height:1200});space.viewRectFor=a=>a.frameLockRect??c.view;
  let host;try{host=createNodeCombatHost(combatContent,{space,seed:c.seed,nativeHero:{...native,skills:[c.id],resourceFraction:c.resourceFraction}});}

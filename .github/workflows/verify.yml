@@ -41,6 +41,7 @@ jobs:
             .artifacts/combat-coverage-runtime.json
             .artifacts/m3-package.json
             .artifacts/m4-node-godot-installed.json
+            .artifacts/m5-combat-performance-check.json
   node-godot-player:
     strategy:
       fail-fast: false
@@ -61,6 +62,7 @@ jobs:
       - run: node scripts/prepare-node-godot-tools.mjs --python python
       - run: node scripts/test-node-godot-player.mjs --tools .artifacts/m4-godot-tools.json
       - run: node scripts/build-node-godot.mjs --out .artifacts/m4-node-godot-reference
+      - run: node scripts/build-combat-benchmark.mjs --distribution .artifacts/m4-node-godot-reference --out .artifacts/m5-combat-performance
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
@@ -71,6 +73,7 @@ jobs:
             .artifacts/m4-godot-player.json
             .artifacts/m4-godot-player-logs.json
             .artifacts/m4-node-godot-reference/
+            .artifacts/m5-combat-performance/
   native:
     strategy:
       matrix:

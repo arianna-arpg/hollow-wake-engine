@@ -1,5 +1,14 @@
 # Verification and reproduction
 
+The [performance milestone](combat-inventory-milestone-five.md) adds
+`test:combat-performance` to `verify`: an isolated installed consumer replays eight
+fixed workloads against the compressed milestone-four SDK baseline, with exact
+trace/continuation comparison and six negative controls. It does not apply timing
+gates to shared CI runners. Original-game fixtures stay unchanged. Numerical
+budgets, paired desktop timings, allocation/memory probes and browser-runner
+acceptance are separate evidence under `evidence/combat-inventory-milestone-five`.
+The Node/Godot CI jobs also build the portable measurement package for download.
+
 The [milestone-four Node/Godot adapter](combat-inventory-milestone-four.md) adds
 an installed, extension-absent consumer to `verify`, two independently frozen
 locomotion observers to `reference:verify`, and an actual Godot editor/exported

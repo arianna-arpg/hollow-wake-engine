@@ -1,0 +1,538 @@
+{
+  "passed": true,
+  "exitCode": 0,
+  "error": "",
+  "output": "\r\n",
+  "runnerManifest": {
+    "schemaVersion": 1,
+    "capability": "combat-performance/v1",
+    "archives": {
+      "hollow-wake-engine-0.63.0-candidate.0.tgz": "dde9f0d07305d2519052a2957e8d03d88f1e6f8c692074885e6e3fe5850091c4",
+      "hollow-wake-combat-0.3.0-candidate.0.tgz": "c5cf28e1124177234862fd47629db38e8fea8657650559b7be34f9548126d3e6",
+      "hollow-wake-character-builds-0.2.0-candidate.0.tgz": "a13eaa12a420d2b102670d3c60578d357178264c3d510905edff9ac7f564fb1a",
+      "hollow-wake-characters-0.1.0-candidate.0.tgz": "414515ba9d817d13972040d7bdbe3c3832e52067f08c20b774e948b8acb64119",
+      "hollow-wake-node-godot-0.2.0-candidate.0.tgz": "ce0e01b6c6d6919f169f7c6dec0053e6ec80a521743578e5e4ef7c2173ceff9d"
+    },
+    "sources": {
+      "tools/combat-performance/workload.mjs": "ad9af735e41182f18af36ebdbd10ffbce1acf4f745263c198f68a378be478a9a",
+      "tools/combat-performance/run.mjs": "45ced2ed43cafa189fba117d1bb860378c548a93bc7951f8c50fbcc1bfaa2333",
+      "scripts/build-combat-benchmark.mjs": "c1e4f2e92d496ff40c39206d7c0955a4cfac82a51b5497c1ed1fd431017c7dc7"
+    },
+    "files": {
+      "workload.mjs": {
+        "sha256": "3f4135a23c7194a3f3153f5951424cdede7caa417f3ccf8ffcc60d7d343f7693",
+        "bytes": 27161550
+      },
+      "run.mjs": {
+        "sha256": "45ced2ed43cafa189fba117d1bb860378c548a93bc7951f8c50fbcc1bfaa2333",
+        "bytes": 6607
+      },
+      "compare.mjs": {
+        "sha256": "a68d1ae1e32f663003574e8d71a22de6c1581553d557b2c968e14efe6c9d8511",
+        "bytes": 4328
+      },
+      "lifetime.mjs": {
+        "sha256": "07e48810b7c90e38d869b39f0fdb69dcaca1a2d2ec4bd411cdd9297c434c4406",
+        "bytes": 2429
+      },
+      "index.html": {
+        "sha256": "f6663cd94f1f6ac9a6325e353377c04e03f5fa28125c89b93923eef20be820a3",
+        "bytes": 3023
+      },
+      "browser-worker.mjs": {
+        "sha256": "5bbbae000fae7b8118922077bfbd8906de0007bc1a5ab1dae705c1066ae7a338",
+        "bytes": 2880
+      },
+      "serve.mjs": {
+        "sha256": "c17cd54823c96c9b9f5fb7af789f8dbfef85bb45babca1bd93eb9ea52c32b059",
+        "bytes": 1237
+      },
+      "README.md": {
+        "sha256": "abc0c61270a08f0f9b6c43aed274fa7678b4885c014de6c37659631217179daa",
+        "bytes": 5037
+      }
+    },
+    "seedNotes": "The pinned workload uses seed 711 for scripted courses and additional item rolls; its imported reference scene retains seed 71. Custom distributions need their own scene provenance.",
+    "questsRequired": false,
+    "persistenceRequired": false,
+    "deviceQualified": false
+  },
+  "missingLabelRejected": true,
+  "hiddenResultRejected": true,
+  "downloadMatched": true,
+  "narrow": true,
+  "externalRequests": [],
+  "report": {
+    "schemaVersion": 1,
+    "mode": "browser-timing",
+    "environment": {
+      "label": "Desktop Chromium acceptance",
+      "conditions": "Functional verification only",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.7871.46 Electron/43.0.0 Safari/537.36",
+      "logicalCpus": 20,
+      "deviceMemoryGiB": 32
+    },
+    "passed": true,
+    "courses": [
+      {
+        "name": "mixed-32",
+        "runs": [
+          {
+            "samples": 600,
+            "warmup": 120,
+            "operationMs": {
+              "samples": 600,
+              "median": 0.599999999627471,
+              "p95": 2.099999999627471,
+              "p99": 3.400000000372529,
+              "max": 10.5,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 506.19999999925494,
+            "receiptFingerprint": "930e1d82:28034"
+          },
+          {
+            "samples": 600,
+            "warmup": 120,
+            "operationMs": {
+              "samples": 600,
+              "median": 0.5,
+              "p95": 2,
+              "p99": 2.699999999254942,
+              "max": 3.599999999627471,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 433.5,
+            "receiptFingerprint": "930e1d82:28034"
+          },
+          {
+            "samples": 600,
+            "warmup": 120,
+            "operationMs": {
+              "samples": 600,
+              "median": 0.5,
+              "p95": 1.799999998882413,
+              "p99": 2.599999999627471,
+              "max": 3.100000001490116,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 392.40000000037253,
+            "receiptFingerprint": "930e1d82:28034"
+          }
+        ]
+      },
+      {
+        "name": "mixed-128",
+        "runs": [
+          {
+            "samples": 600,
+            "warmup": 120,
+            "operationMs": {
+              "samples": 600,
+              "median": 2.199999999254942,
+              "p95": 7.300000000745058,
+              "p99": 10.900000000372529,
+              "max": 16.299999998882413,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 1732,
+            "receiptFingerprint": "67111d84:110996"
+          },
+          {
+            "samples": 600,
+            "warmup": 120,
+            "operationMs": {
+              "samples": 600,
+              "median": 2.5,
+              "p95": 8.400000000372529,
+              "p99": 11.200000001117587,
+              "max": 13.899999998509884,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 1914.9000000003725,
+            "receiptFingerprint": "67111d84:110996"
+          },
+          {
+            "samples": 600,
+            "warmup": 120,
+            "operationMs": {
+              "samples": 600,
+              "median": 2.900000000372529,
+              "p95": 8.299999998882413,
+              "p99": 13.199999999254942,
+              "max": 19.199999999254942,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 2137.60000000149,
+            "receiptFingerprint": "67111d84:110996"
+          }
+        ]
+      },
+      {
+        "name": "summons-procs-32",
+        "runs": [
+          {
+            "samples": 600,
+            "warmup": 120,
+            "operationMs": {
+              "samples": 600,
+              "median": 2,
+              "p95": 4.100000001490116,
+              "p99": 8.199999999254942,
+              "max": 15,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 1377.7999999988824,
+            "receiptFingerprint": "1445b919:73630"
+          },
+          {
+            "samples": 600,
+            "warmup": 120,
+            "operationMs": {
+              "samples": 600,
+              "median": 1.900000000372529,
+              "p95": 3.800000000745058,
+              "p99": 7.199999999254942,
+              "max": 10.699999999254942,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 1260,
+            "receiptFingerprint": "1445b919:73630"
+          },
+          {
+            "samples": 600,
+            "warmup": 120,
+            "operationMs": {
+              "samples": 600,
+              "median": 1.900000000372529,
+              "p95": 3.800000000745058,
+              "p99": 5.799999998882413,
+              "max": 12.5,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 1248,
+            "receiptFingerprint": "1445b919:73630"
+          }
+        ]
+      },
+      {
+        "name": "build-combat-32",
+        "runs": [
+          {
+            "samples": 600,
+            "warmup": 120,
+            "operationMs": {
+              "samples": 600,
+              "median": 0.6000000014901161,
+              "p95": 1.900000000372529,
+              "p99": 3.599999999627471,
+              "max": 4.400000000372529,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 507.7000000011176,
+            "receiptFingerprint": "f626ae76:27749"
+          },
+          {
+            "samples": 600,
+            "warmup": 120,
+            "operationMs": {
+              "samples": 600,
+              "median": 0.599999999627471,
+              "p95": 1.900000000372529,
+              "p99": 2.899999998509884,
+              "max": 5,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 480.69999999925494,
+            "receiptFingerprint": "f626ae76:27749"
+          },
+          {
+            "samples": 600,
+            "warmup": 120,
+            "operationMs": {
+              "samples": 600,
+              "median": 0.6999999992549419,
+              "p95": 2.299999998882413,
+              "p99": 3.299999998882413,
+              "max": 5.199999999254942,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 537.5,
+            "receiptFingerprint": "f626ae76:27749"
+          }
+        ]
+      },
+      {
+        "name": "character-create",
+        "runs": [
+          {
+            "samples": 30,
+            "warmup": 5,
+            "operationMs": {
+              "samples": 30,
+              "median": 1.8999999985098839,
+              "p95": 2.699999999254942,
+              "p99": 2.700000001117587,
+              "max": 2.700000001117587,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 59.79999999888241,
+            "receiptFingerprint": "5635facd:3437"
+          },
+          {
+            "samples": 30,
+            "warmup": 5,
+            "operationMs": {
+              "samples": 30,
+              "median": 2.100000001490116,
+              "p95": 3,
+              "p99": 3.200000001117587,
+              "max": 3.200000001117587,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 65,
+            "receiptFingerprint": "5635facd:3437"
+          },
+          {
+            "samples": 30,
+            "warmup": 5,
+            "operationMs": {
+              "samples": 30,
+              "median": 2,
+              "p95": 2.900000000372529,
+              "p99": 3.199999999254942,
+              "max": 3.199999999254942,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 62.79999999888241,
+            "receiptFingerprint": "5635facd:3437"
+          }
+        ]
+      },
+      {
+        "name": "inventory-24",
+        "runs": [
+          {
+            "samples": 30,
+            "warmup": 5,
+            "operationMs": {
+              "samples": 30,
+              "median": 6.700000001117587,
+              "p95": 8.599999999627471,
+              "p99": 9.900000000372529,
+              "max": 9.900000000372529,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 208,
+            "receiptFingerprint": "63898c23:19066"
+          },
+          {
+            "samples": 30,
+            "warmup": 5,
+            "operationMs": {
+              "samples": 30,
+              "median": 6.900000000372529,
+              "p95": 8,
+              "p99": 9.099999999627471,
+              "max": 9.099999999627471,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 204.69999999925494,
+            "receiptFingerprint": "63898c23:19066"
+          },
+          {
+            "samples": 30,
+            "warmup": 5,
+            "operationMs": {
+              "samples": 30,
+              "median": 7.199999999254942,
+              "p95": 9.099999999627471,
+              "p99": 9.099999999627471,
+              "max": 9.099999999627471,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 218.2000000011176,
+            "receiptFingerprint": "63898c23:19066"
+          }
+        ]
+      },
+      {
+        "name": "build-edits",
+        "runs": [
+          {
+            "samples": 30,
+            "warmup": 5,
+            "operationMs": {
+              "samples": 30,
+              "median": 48.899999998509884,
+              "p95": 76.29999999888241,
+              "p99": 91.40000000037253,
+              "max": 91.40000000037253,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 3119.800000000745,
+            "receiptFingerprint": "9c9dba8:25031"
+          },
+          {
+            "samples": 30,
+            "warmup": 5,
+            "operationMs": {
+              "samples": 30,
+              "median": 44.69999999925494,
+              "p95": 53.5,
+              "p99": 54.40000000037253,
+              "max": 54.40000000037253,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 2730.5999999996275,
+            "receiptFingerprint": "9c9dba8:25031"
+          },
+          {
+            "samples": 30,
+            "warmup": 5,
+            "operationMs": {
+              "samples": 30,
+              "median": 45,
+              "p95": 52.09999999962747,
+              "p99": 52.59999999962747,
+              "max": 52.59999999962747,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 2765.699999999255,
+            "receiptFingerprint": "9c9dba8:25031"
+          }
+        ]
+      },
+      {
+        "name": "create-release",
+        "runs": [
+          {
+            "samples": 30,
+            "warmup": 5,
+            "operationMs": {
+              "samples": 30,
+              "median": 15.900000000372529,
+              "p95": 19.800000000745058,
+              "p99": 20.09999999962747,
+              "max": 20.09999999962747,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 486.40000000037253,
+            "receiptFingerprint": "eef74396:533"
+          },
+          {
+            "samples": 30,
+            "warmup": 5,
+            "operationMs": {
+              "samples": 30,
+              "median": 15.199999999254942,
+              "p95": 17.199999999254942,
+              "p99": 17.5,
+              "max": 17.5,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 457.90000000037253,
+            "receiptFingerprint": "eef74396:533"
+          },
+          {
+            "samples": 30,
+            "warmup": 5,
+            "operationMs": {
+              "samples": 30,
+              "median": 15.599999999627471,
+              "p95": 17.40000000037253,
+              "p99": 17.600000001490116,
+              "max": 17.600000001490116,
+              "zeroSamples": 0
+            },
+            "batchIncludingSetupMs": 460.90000000037253,
+            "receiptFingerprint": "eef74396:533"
+          }
+        ]
+      }
+    ],
+    "startedAt": "2026-11-16T21:48:26.221Z",
+    "limits": [
+      "Operation timing excludes rendering and combat transport. Content import includes script download, parsing and initialization.",
+      "No memory or allocation figures; browser APIs do not provide comparable values.",
+      "Browser timing precision varies; zero-duration samples indicate insufficient per-operation timer resolution.",
+      "Device qualification also requires sustained thermal and full game testing."
+    ],
+    "contentImportMs": 1688.0999999996275,
+    "specification": {
+      "version": 1,
+      "seed": 711,
+      "seconds": 0.016666666666666666,
+      "warmup": 120,
+      "frames": 600,
+      "courses": [
+        "mixed-32",
+        "mixed-128",
+        "summons-procs-32",
+        "build-combat-32",
+        "character-create",
+        "inventory-24",
+        "build-edits",
+        "create-release"
+      ],
+      "note": "Synthetic encounter placement and sustained resources; authored skills, status, proc, summon, movement and build rules. No AI, renderer, persistence or quests."
+    },
+    "manifest": {
+      "schemaVersion": 1,
+      "capability": "combat-performance/v1",
+      "archives": {
+        "hollow-wake-engine-0.63.0-candidate.0.tgz": "dde9f0d07305d2519052a2957e8d03d88f1e6f8c692074885e6e3fe5850091c4",
+        "hollow-wake-combat-0.3.0-candidate.0.tgz": "c5cf28e1124177234862fd47629db38e8fea8657650559b7be34f9548126d3e6",
+        "hollow-wake-character-builds-0.2.0-candidate.0.tgz": "a13eaa12a420d2b102670d3c60578d357178264c3d510905edff9ac7f564fb1a",
+        "hollow-wake-characters-0.1.0-candidate.0.tgz": "414515ba9d817d13972040d7bdbe3c3832e52067f08c20b774e948b8acb64119",
+        "hollow-wake-node-godot-0.2.0-candidate.0.tgz": "ce0e01b6c6d6919f169f7c6dec0053e6ec80a521743578e5e4ef7c2173ceff9d"
+      },
+      "sources": {
+        "tools/combat-performance/workload.mjs": "ad9af735e41182f18af36ebdbd10ffbce1acf4f745263c198f68a378be478a9a",
+        "tools/combat-performance/run.mjs": "45ced2ed43cafa189fba117d1bb860378c548a93bc7951f8c50fbcc1bfaa2333",
+        "scripts/build-combat-benchmark.mjs": "c1e4f2e92d496ff40c39206d7c0955a4cfac82a51b5497c1ed1fd431017c7dc7"
+      },
+      "files": {
+        "workload.mjs": {
+          "sha256": "3f4135a23c7194a3f3153f5951424cdede7caa417f3ccf8ffcc60d7d343f7693",
+          "bytes": 27161550
+        },
+        "run.mjs": {
+          "sha256": "45ced2ed43cafa189fba117d1bb860378c548a93bc7951f8c50fbcc1bfaa2333",
+          "bytes": 6607
+        },
+        "compare.mjs": {
+          "sha256": "a68d1ae1e32f663003574e8d71a22de6c1581553d557b2c968e14efe6c9d8511",
+          "bytes": 4328
+        },
+        "lifetime.mjs": {
+          "sha256": "07e48810b7c90e38d869b39f0fdb69dcaca1a2d2ec4bd411cdd9297c434c4406",
+          "bytes": 2429
+        },
+        "index.html": {
+          "sha256": "f6663cd94f1f6ac9a6325e353377c04e03f5fa28125c89b93923eef20be820a3",
+          "bytes": 3023
+        },
+        "browser-worker.mjs": {
+          "sha256": "5bbbae000fae7b8118922077bfbd8906de0007bc1a5ab1dae705c1066ae7a338",
+          "bytes": 2880
+        },
+        "serve.mjs": {
+          "sha256": "c17cd54823c96c9b9f5fb7af789f8dbfef85bb45babca1bd93eb9ea52c32b059",
+          "bytes": 1237
+        },
+        "README.md": {
+          "sha256": "abc0c61270a08f0f9b6c43aed274fa7678b4885c014de6c37659631217179daa",
+          "bytes": 5037
+        }
+      },
+      "seedNotes": "The pinned workload uses seed 711 for scripted courses and additional item rolls; its imported reference scene retains seed 71. Custom distributions need their own scene provenance.",
+      "questsRequired": false,
+      "persistenceRequired": false,
+      "deviceQualified": false
+    },
+    "hiddenDuringRun": false
+  },
+  "screenshotSha256": "2732224c2736fcb415454a28393b0effec6f6a4d9123682a96e40a4fb858ae81",
+  "cleaned": true
+}

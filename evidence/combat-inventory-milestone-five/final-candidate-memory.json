@@ -1,0 +1,565 @@
+{
+  "schemaVersion": 1,
+  "mode": "memory",
+  "passed": true,
+  "manifest": {
+    "schemaVersion": 1,
+    "capability": "combat-performance/v1",
+    "archives": {
+      "hollow-wake-engine-0.63.0-candidate.0.tgz": "2a9b2f2092603cd708ff5db8bc89071736871139785386719506fdc26af89b6d",
+      "hollow-wake-combat-0.3.0-candidate.0.tgz": "c5cf28e1124177234862fd47629db38e8fea8657650559b7be34f9548126d3e6",
+      "hollow-wake-character-builds-0.2.0-candidate.0.tgz": "a13eaa12a420d2b102670d3c60578d357178264c3d510905edff9ac7f564fb1a",
+      "hollow-wake-characters-0.1.0-candidate.0.tgz": "414515ba9d817d13972040d7bdbe3c3832e52067f08c20b774e948b8acb64119",
+      "hollow-wake-node-godot-0.2.0-candidate.0.tgz": "ce0e01b6c6d6919f169f7c6dec0053e6ec80a521743578e5e4ef7c2173ceff9d"
+    },
+    "sources": {
+      "tools/combat-performance/workload.mjs": "ad9af735e41182f18af36ebdbd10ffbce1acf4f745263c198f68a378be478a9a",
+      "tools/combat-performance/run.mjs": "45ced2ed43cafa189fba117d1bb860378c548a93bc7951f8c50fbcc1bfaa2333",
+      "scripts/build-combat-benchmark.mjs": "c1e4f2e92d496ff40c39206d7c0955a4cfac82a51b5497c1ed1fd431017c7dc7"
+    },
+    "files": {
+      "workload.mjs": {
+        "sha256": "3f4135a23c7194a3f3153f5951424cdede7caa417f3ccf8ffcc60d7d343f7693",
+        "bytes": 27161550
+      },
+      "run.mjs": {
+        "sha256": "45ced2ed43cafa189fba117d1bb860378c548a93bc7951f8c50fbcc1bfaa2333",
+        "bytes": 6607
+      },
+      "compare.mjs": {
+        "sha256": "a68d1ae1e32f663003574e8d71a22de6c1581553d557b2c968e14efe6c9d8511",
+        "bytes": 4328
+      },
+      "lifetime.mjs": {
+        "sha256": "07e48810b7c90e38d869b39f0fdb69dcaca1a2d2ec4bd411cdd9297c434c4406",
+        "bytes": 2429
+      },
+      "index.html": {
+        "sha256": "f6663cd94f1f6ac9a6325e353377c04e03f5fa28125c89b93923eef20be820a3",
+        "bytes": 3023
+      },
+      "browser-worker.mjs": {
+        "sha256": "5bbbae000fae7b8118922077bfbd8906de0007bc1a5ab1dae705c1066ae7a338",
+        "bytes": 2880
+      },
+      "serve.mjs": {
+        "sha256": "c17cd54823c96c9b9f5fb7af789f8dbfef85bb45babca1bd93eb9ea52c32b059",
+        "bytes": 1237
+      },
+      "README.md": {
+        "sha256": "abc0c61270a08f0f9b6c43aed274fa7678b4885c014de6c37659631217179daa",
+        "bytes": 5037
+      }
+    },
+    "seedNotes": "The pinned workload uses seed 711 for scripted courses and additional item rolls; its imported reference scene retains seed 71. Custom distributions need their own scene provenance.",
+    "questsRequired": false,
+    "persistenceRequired": false,
+    "deviceQualified": false
+  },
+  "specification": {
+    "version": 1,
+    "seed": 711,
+    "seconds": 0.016666666666666666,
+    "warmup": 120,
+    "frames": 600,
+    "courses": [
+      "mixed-32",
+      "mixed-128",
+      "summons-procs-32",
+      "build-combat-32",
+      "character-create",
+      "inventory-24",
+      "build-edits",
+      "create-release"
+    ],
+    "note": "Synthetic encounter placement and sustained resources; authored skills, status, proc, summon, movement and build rules. No AI, renderer, persistence or quests."
+  },
+  "environment": {
+    "node": "v24.9.0",
+    "v8": "13.6.233.10-node.27",
+    "platform": "win32",
+    "arch": "x64",
+    "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+    "logicalCpus": 20,
+    "totalMemoryBytes": 68631449600,
+    "os": "10.0.19045",
+    "label": "Windows desktop reference",
+    "conditions": "Separate forced-GC release probe after paired timings",
+    "execArgv": [
+      "--expose-gc"
+    ],
+    "compileCacheDisabled": true,
+    "compileCacheDirectoryConfigured": true
+  },
+  "startedAt": "2026-11-16T21:44:20.623Z",
+  "contentImportMs": 1403.3162,
+  "courses": [
+    {
+      "name": "mixed-32",
+      "runs": [],
+      "initial": {
+        "rss": 389103616,
+        "heapTotal": 336654336,
+        "heapUsed": 176079104,
+        "external": 2379938,
+        "arrayBuffers": 77963
+      },
+      "afterRelease": [
+        {
+          "rss": 392048640,
+          "heapTotal": 318042112,
+          "heapUsed": 176023768,
+          "external": 2379978,
+          "arrayBuffers": 77963
+        },
+        {
+          "rss": 388014080,
+          "heapTotal": 318042112,
+          "heapUsed": 176098680,
+          "external": 2379978,
+          "arrayBuffers": 77963
+        },
+        {
+          "rss": 392175616,
+          "heapTotal": 318566400,
+          "heapUsed": 176007904,
+          "external": 2379978,
+          "arrayBuffers": 77963
+        },
+        {
+          "rss": 391315456,
+          "heapTotal": 318828544,
+          "heapUsed": 176160840,
+          "external": 2379978,
+          "arrayBuffers": 77963
+        },
+        {
+          "rss": 391348224,
+          "heapTotal": 318828544,
+          "heapUsed": 176044424,
+          "external": 2379978,
+          "arrayBuffers": 77963
+        }
+      ],
+      "retainedHeapGrowthBytes": -34680,
+      "processPeakRssKiB": 469020,
+      "resourcesBefore": [
+        "PipeWrap"
+      ],
+      "resourcesAfter": [
+        "PipeWrap"
+      ]
+    },
+    {
+      "name": "mixed-128",
+      "runs": [],
+      "initial": {
+        "rss": 403148800,
+        "heapTotal": 339673088,
+        "heapUsed": 182270824,
+        "external": 2417295,
+        "arrayBuffers": 100251
+      },
+      "afterRelease": [
+        {
+          "rss": 407777280,
+          "heapTotal": 343478272,
+          "heapUsed": 186790344,
+          "external": 2439583,
+          "arrayBuffers": 122539
+        },
+        {
+          "rss": 402571264,
+          "heapTotal": 348196864,
+          "heapUsed": 187725128,
+          "external": 2461871,
+          "arrayBuffers": 122539
+        },
+        {
+          "rss": 404029440,
+          "heapTotal": 348196864,
+          "heapUsed": 187644208,
+          "external": 2461871,
+          "arrayBuffers": 122539
+        },
+        {
+          "rss": 412426240,
+          "heapTotal": 346877952,
+          "heapUsed": 177536664,
+          "external": 2461871,
+          "arrayBuffers": 77963
+        },
+        {
+          "rss": 401575936,
+          "heapTotal": 342159360,
+          "heapUsed": 177132256,
+          "external": 2417295,
+          "arrayBuffers": 77963
+        }
+      ],
+      "retainedHeapGrowthBytes": -5138568,
+      "processPeakRssKiB": 469020,
+      "resourcesBefore": [
+        "PipeWrap",
+        "PipeWrap"
+      ],
+      "resourcesAfter": [
+        "PipeWrap",
+        "PipeWrap"
+      ]
+    },
+    {
+      "name": "summons-procs-32",
+      "runs": [],
+      "initial": {
+        "rss": 399806464,
+        "heapTotal": 325382144,
+        "heapUsed": 177531192,
+        "external": 2414991,
+        "arrayBuffers": 77963
+      },
+      "afterRelease": [
+        {
+          "rss": 403189760,
+          "heapTotal": 323547136,
+          "heapUsed": 177409064,
+          "external": 2414991,
+          "arrayBuffers": 77963
+        },
+        {
+          "rss": 402833408,
+          "heapTotal": 323547136,
+          "heapUsed": 177510480,
+          "external": 2414991,
+          "arrayBuffers": 77963
+        },
+        {
+          "rss": 405131264,
+          "heapTotal": 323284992,
+          "heapUsed": 177476200,
+          "external": 2414991,
+          "arrayBuffers": 77963
+        },
+        {
+          "rss": 405417984,
+          "heapTotal": 323547136,
+          "heapUsed": 177515648,
+          "external": 2414991,
+          "arrayBuffers": 77963
+        },
+        {
+          "rss": 405266432,
+          "heapTotal": 323547136,
+          "heapUsed": 177439536,
+          "external": 2414991,
+          "arrayBuffers": 77963
+        }
+      ],
+      "retainedHeapGrowthBytes": -91656,
+      "processPeakRssKiB": 469020,
+      "resourcesBefore": [
+        "PipeWrap",
+        "PipeWrap"
+      ],
+      "resourcesAfter": [
+        "PipeWrap",
+        "PipeWrap"
+      ]
+    },
+    {
+      "name": "build-combat-32",
+      "runs": [],
+      "initial": {
+        "rss": 401145856,
+        "heapTotal": 323944448,
+        "heapUsed": 181237384,
+        "external": 2404423,
+        "arrayBuffers": 86739
+      },
+      "afterRelease": [
+        {
+          "rss": 402432000,
+          "heapTotal": 323944448,
+          "heapUsed": 181508512,
+          "external": 2413199,
+          "arrayBuffers": 86739
+        },
+        {
+          "rss": 401420288,
+          "heapTotal": 323809280,
+          "heapUsed": 178803208,
+          "external": 2413199,
+          "arrayBuffers": 77963
+        },
+        {
+          "rss": 402784256,
+          "heapTotal": 324071424,
+          "heapUsed": 178892776,
+          "external": 2404423,
+          "arrayBuffers": 77963
+        },
+        {
+          "rss": 404324352,
+          "heapTotal": 321974272,
+          "heapUsed": 178841080,
+          "external": 2404423,
+          "arrayBuffers": 77963
+        },
+        {
+          "rss": 402759680,
+          "heapTotal": 322236416,
+          "heapUsed": 178917168,
+          "external": 2404423,
+          "arrayBuffers": 77963
+        }
+      ],
+      "retainedHeapGrowthBytes": -2320216,
+      "processPeakRssKiB": 469020,
+      "resourcesBefore": [
+        "PipeWrap",
+        "PipeWrap"
+      ],
+      "resourcesAfter": [
+        "PipeWrap",
+        "PipeWrap"
+      ]
+    },
+    {
+      "name": "character-create",
+      "runs": [],
+      "initial": {
+        "rss": 402059264,
+        "heapTotal": 343126016,
+        "heapUsed": 205272200,
+        "external": 2725441,
+        "arrayBuffers": 131087
+      },
+      "afterRelease": [
+        {
+          "rss": 401489920,
+          "heapTotal": 341815296,
+          "heapUsed": 205281040,
+          "external": 2889306,
+          "arrayBuffers": 131087
+        },
+        {
+          "rss": 402305024,
+          "heapTotal": 341815296,
+          "heapUsed": 205314040,
+          "external": 2889306,
+          "arrayBuffers": 131087
+        },
+        {
+          "rss": 402415616,
+          "heapTotal": 341815296,
+          "heapUsed": 205322840,
+          "external": 2889306,
+          "arrayBuffers": 131087
+        },
+        {
+          "rss": 402423808,
+          "heapTotal": 341815296,
+          "heapUsed": 205331272,
+          "external": 2889306,
+          "arrayBuffers": 131087
+        },
+        {
+          "rss": 402432000,
+          "heapTotal": 342077440,
+          "heapUsed": 205328920,
+          "external": 2889306,
+          "arrayBuffers": 131087
+        }
+      ],
+      "retainedHeapGrowthBytes": 56720,
+      "processPeakRssKiB": 469020,
+      "resourcesBefore": [
+        "PipeWrap",
+        "PipeWrap"
+      ],
+      "resourcesAfter": [
+        "PipeWrap",
+        "PipeWrap"
+      ]
+    },
+    {
+      "name": "inventory-24",
+      "runs": [],
+      "initial": {
+        "rss": 407592960,
+        "heapTotal": 344174592,
+        "heapUsed": 205553400,
+        "external": 2630329,
+        "arrayBuffers": 131087
+      },
+      "afterRelease": [
+        {
+          "rss": 408088576,
+          "heapTotal": 345223168,
+          "heapUsed": 205598672,
+          "external": 2630329,
+          "arrayBuffers": 131087
+        },
+        {
+          "rss": 408653824,
+          "heapTotal": 346533888,
+          "heapUsed": 205601224,
+          "external": 2630329,
+          "arrayBuffers": 131087
+        },
+        {
+          "rss": 408670208,
+          "heapTotal": 347844608,
+          "heapUsed": 205581672,
+          "external": 2630329,
+          "arrayBuffers": 131087
+        },
+        {
+          "rss": 408682496,
+          "heapTotal": 348893184,
+          "heapUsed": 205587568,
+          "external": 2630329,
+          "arrayBuffers": 131087
+        },
+        {
+          "rss": 406474752,
+          "heapTotal": 349679616,
+          "heapUsed": 205597816,
+          "external": 2630329,
+          "arrayBuffers": 138095
+        }
+      ],
+      "retainedHeapGrowthBytes": 44416,
+      "processPeakRssKiB": 469020,
+      "resourcesBefore": [
+        "PipeWrap",
+        "PipeWrap"
+      ],
+      "resourcesAfter": [
+        "PipeWrap",
+        "PipeWrap"
+      ]
+    },
+    {
+      "name": "build-edits",
+      "runs": [],
+      "initial": {
+        "rss": 468942848,
+        "heapTotal": 371961856,
+        "heapUsed": 206567200,
+        "external": 2837509,
+        "arrayBuffers": 131087
+      },
+      "afterRelease": [
+        {
+          "rss": 471130112,
+          "heapTotal": 375631872,
+          "heapUsed": 206136584,
+          "external": 2812299,
+          "arrayBuffers": 131087
+        },
+        {
+          "rss": 470642688,
+          "heapTotal": 376942592,
+          "heapUsed": 206206704,
+          "external": 2724224,
+          "arrayBuffers": 131087
+        },
+        {
+          "rss": 470294528,
+          "heapTotal": 379564032,
+          "heapUsed": 206252032,
+          "external": 2724224,
+          "arrayBuffers": 131087
+        },
+        {
+          "rss": 469655552,
+          "heapTotal": 383234048,
+          "heapUsed": 206378168,
+          "external": 2724224,
+          "arrayBuffers": 131087
+        },
+        {
+          "rss": 473575424,
+          "heapTotal": 385069056,
+          "heapUsed": 206445672,
+          "external": 2724224,
+          "arrayBuffers": 131087
+        }
+      ],
+      "retainedHeapGrowthBytes": -121528,
+      "processPeakRssKiB": 479224,
+      "resourcesBefore": [
+        "PipeWrap",
+        "PipeWrap"
+      ],
+      "resourcesAfter": [
+        "PipeWrap",
+        "PipeWrap"
+      ]
+    },
+    {
+      "name": "create-release",
+      "runs": [],
+      "initial": {
+        "rss": 473628672,
+        "heapTotal": 376156160,
+        "heapUsed": 206091936,
+        "external": 2707981,
+        "arrayBuffers": 131087
+      },
+      "afterRelease": [
+        {
+          "rss": 473649152,
+          "heapTotal": 376156160,
+          "heapUsed": 206065976,
+          "external": 2707981,
+          "arrayBuffers": 131087
+        },
+        {
+          "rss": 469323776,
+          "heapTotal": 376680448,
+          "heapUsed": 206018200,
+          "external": 2707981,
+          "arrayBuffers": 131087
+        },
+        {
+          "rss": 469368832,
+          "heapTotal": 376680448,
+          "heapUsed": 206097480,
+          "external": 2707981,
+          "arrayBuffers": 131087
+        },
+        {
+          "rss": 469438464,
+          "heapTotal": 376680448,
+          "heapUsed": 206067632,
+          "external": 2707981,
+          "arrayBuffers": 131087
+        },
+        {
+          "rss": 469454848,
+          "heapTotal": 376680448,
+          "heapUsed": 206043368,
+          "external": 2707981,
+          "arrayBuffers": 131087
+        }
+      ],
+      "retainedHeapGrowthBytes": -48568,
+      "processPeakRssKiB": 480588,
+      "resourcesBefore": [
+        "PipeWrap",
+        "PipeWrap"
+      ],
+      "resourcesAfter": [
+        "PipeWrap",
+        "PipeWrap"
+      ]
+    }
+  ],
+  "limits": [
+    "Synchronous SDK and host frame construction only; wire encoding, socket transport and renderer excluded. No battery or thermal qualification.",
+    "Timing includes public operation and workload counters. Setup, digesting and observation are outside operation timing.",
+    "Heap allocation is a statistical V8 sampling estimate, not total native allocation. Memory and CPU profiling run separately from timing."
+  ]
+}

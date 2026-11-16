@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hollow Wake performance course</title>
+<style>body{font:16px system-ui;max-width:760px;margin:40px auto;padding:0 20px;background:#151a22;color:#edf2fa}input,button{font:inherit;padding:10px;margin:8px 0;width:100%;box-sizing:border-box}button{background:#a8d9c6;color:#10221b;border:0;cursor:pointer}pre{white-space:pre-wrap;overflow-wrap:anywhere}label{display:block}small{color:#bac6d5}</style>
+<h1>Hollow Wake performance course</h1>
+<p>This runs combat and character workloads on this device. It does not measure rendering, battery life or a complete game's frame rate. Keep this tab visible and close other demanding apps.</p>
+<label>Device name<input id="device" placeholder="For example: Steam Deck LCD or phone model"></label>
+<label>Conditions<input id="conditions" placeholder="Power mode, charging, browser version, temperature"></label>
+<button id="run">Run measurements</button><button id="save" hidden>Save report</button>
+<small>Requires a browser supporting ES2022, module workers and structuredClone. Memory and allocation measurements are available in the separate Node runner. Reports stay on this device.</small>
+<pre id="result" role="status">Ready. A full run can take several minutes on slower devices.</pre>
+<script type="module">
+const run=document.querySelector('#run'),save=document.querySelector('#save'),result=document.querySelector('#result');let report;
+run.onclick=()=>{
+ if(!document.querySelector('#device').value.trim()){result.textContent='Please name the device first.';return;}
+ run.disabled=true;save.hidden=true;result.textContent='Loading the combat and character content…';
+ const worker=new Worker('./browser-worker.mjs',{type:'module'});
+ let hiddenDuringRun=false;
+ const hidden=()=>{if(document.hidden){hiddenDuringRun=true;worker.postMessage({hidden:true});}};document.addEventListener('visibilitychange',hidden);
+ const done=()=>{worker.terminate();run.disabled=false;document.removeEventListener('visibilitychange',hidden);};
+ worker.onerror=event=>{result.textContent='Run failed: '+event.message;done();};
+ worker.onmessage=({data})=>{if(data.progress){result.textContent+='\n'+data.progress;return;}
+  if(hiddenDuringRun){data.passed=false;data.hiddenDuringRun=true;data.failure='Tab was hidden; repeat with the tab visible.';}
+  report=data;result.textContent=JSON.stringify(data,null,2);save.hidden=false;done();};
+ worker.postMessage({label:document.querySelector('#device').value,conditions:document.querySelector('#conditions').value,userAgent:navigator.userAgent,logicalCpus:navigator.hardwareConcurrency,deviceMemoryGiB:navigator.deviceMemory??null});
+};
+save.onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='hollow-wake-performance.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+</script></html>

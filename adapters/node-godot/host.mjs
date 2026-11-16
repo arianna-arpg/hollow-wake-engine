@@ -66,14 +66,18 @@ export function createNodeCombatHost(content,{kit,character,nativeHero,space,see
   if(casting&&!latest.hold&&!latest.held.includes(casting.id))session.release(actor);
   for(const entry of pending)for(const skill of entry.press)session.press(currentHero(),skill,{x:entry.aim[0],y:entry.aim[1]});
   session.advance(dt);tick++;
-  const state=session.snapshot(),poses=new Map(session.poses().map(p=>[p.id,p]));
-  return {t:'state',tick,time:state.time,ack:seq,hero:currentHero().id,inventoryRevision:revision,
+  const state=session.snapshot(),poses=new Map(session.poses().map(p=>[p.id,p])),controlled=currentHero();
+  // Reuse the detached view already captured for this frame, including a
+  // possession transfer. A retired controlled body can be absent from the
+  // roster while its retained handle is still valid.
+  const hud=state.actors.find(a=>a.id===controlled.id)??session.inspect(controlled);
+  return {t:'state',tick,time:state.time,ack:seq,hero:controlled.id,inventoryRevision:revision,
    bodies:state.actors.map(a=>{const p=poses.get(a.id);return{id:a.id,plan:a.defId??'character',x:a.pos.x,y:a.pos.y,
     h:space.heightAt?.(a.pos,a.tier)??0,floor:a.tier,yaw:p.facing,r:p.radius,life:a.life,maxLife:session.stat(session.actor(a.id),'life'),
     mana:a.mana,team:a.team,dead:a.dead,anim:a.casting?'cast':Math.hypot(p.velocity.x,p.velocity.y)>1?'walk':'idle',cast:a.casting,statuses:a.statuses};}),
    shots:state.projectiles.map((p,id)=>({id,skill:p.skill,x:p.pos.x,y:p.pos.y,h:30,r:3})),zones:state.zones,
-   events:session.drainSignals(),hud:{life:session.inspect(currentHero()).life,mana:session.inspect(currentHero()).mana,
-    cooldowns:Object.fromEntries(session.inspect(currentHero()).cooldowns),skills:bar().map(s=>s?.id??null)}};
+   events:session.drainSignals(),hud:{life:hud.life,mana:hud.mana,
+    cooldowns:Object.fromEntries(hud.cooldowns),skills:bar().map(s=>s?.id??null)}};
  };
  return Object.freeze({session,hero,character,input,build,grant,inventory,step,
   hello:()=>({t:'hello',protocol:1,profile:'hollow-wake-sdk/1',hero:hero.id,ground:space.description?.(),rules:{unitsPerMetre:30,heightUnit:'cm'},inventory:inventory()}),

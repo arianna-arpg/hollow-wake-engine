@@ -1,0 +1,402 @@
+{
+  "schemaVersion": 1,
+  "milestone": "combat-inventory/5",
+  "recorded": "2026-11-16T21:49:24.838Z",
+  "status": "desktop-engineering-qualified",
+  "baseCommit": "e461400cc740764a04b9bdd067dae5c60bca9c2b",
+  "engine": "0.63.0-candidate.0",
+  "combat": "0.3.0-candidate.0",
+  "nodeGodot": "0.2.0-candidate.0",
+  "scope": {
+    "required": "combat and Inventory-facing character/build systems",
+    "questAccountPersistenceRequired": false,
+    "actualGameModified": false,
+    "physicalDeviceQualified": false,
+    "rendererPerformanceQualified": false,
+    "exhaustiveBuildTimingsQualified": false
+  },
+  "local": {
+    "platform": "win32",
+    "node": "v24.9.0",
+    "gates": [
+      {
+        "stage": "verify",
+        "startedAt": "2026-11-16T19:43:24.9606439Z",
+        "finishedAt": "2026-11-16T20:36:56.6756517Z",
+        "exitCode": 0,
+        "logSha256": "f1ec02a6d9b1254230d8b00806d4e68f26e1399a51a86eef66de51aecae3e91a"
+      },
+      {
+        "stage": "reference:verify",
+        "startedAt": "2026-11-16T20:36:56.6989869Z",
+        "finishedAt": "2026-11-16T21:29:26.7615105Z",
+        "exitCode": 0,
+        "logSha256": "a5f4e7ef93c1e960cf5b806a4008e07fc032382381e5545bb4fd4591c6c980f7"
+      }
+    ],
+    "unitTests": 2616,
+    "verifyStages": 150,
+    "referenceStages": 63,
+    "installed": {
+      "passed": true,
+      "types": true,
+      "removedOptionalFiles": 66,
+      "runs": [
+        {
+          "passed": true,
+          "courses": 107,
+          "observations": 4483,
+          "characterCourses": {
+            "courses": 3,
+            "observations": 30
+          },
+          "contracts": 32,
+          "explicitWorldServiceRefusals": [
+            "town_portal",
+            "shatterstep",
+            "kindle_wick",
+            "steam_vent",
+            "steam_veil"
+          ],
+          "transport": "localhost-ndjson",
+          "persistenceRequired": false
+        },
+        {
+          "passed": true,
+          "courses": 107,
+          "observations": 4483,
+          "characterCourses": {
+            "courses": 3,
+            "observations": 30
+          },
+          "contracts": 32,
+          "explicitWorldServiceRefusals": [
+            "town_portal",
+            "shatterstep",
+            "kindle_wick",
+            "steam_vent",
+            "steam_veil"
+          ],
+          "transport": "localhost-ndjson",
+          "persistenceRequired": false
+        }
+      ]
+    },
+    "performanceCorrectness": {
+      "comparison": {
+        "courses": 8,
+        "observations": 2520
+      },
+      "controls": [
+        "missing-course",
+        "shortened-clock",
+        "missing-casts",
+        "missing-procs",
+        "changed-frame",
+        "changed-continuation"
+      ],
+      "reportSha256": "d6f2d4278ab5d694216f719736a3a579b12f1137befa94df20b58bf9db81bcba"
+    },
+    "shortBudgetControl": {
+      "passed": true,
+      "shortBudgetRunRejected": true,
+      "noFilesCreated": true
+    },
+    "node22": {
+      "passed": true,
+      "node": "v22.23.4",
+      "courses": 8,
+      "observations": 2520,
+      "workloadSha256": "3f4135a23c7194a3f3153f5951424cdede7caa417f3ccf8ffcc60d7d343f7693"
+    },
+    "godot": {
+      "passed": true,
+      "platform": "win32",
+      "node": "24.9.0",
+      "godot": "4.7.2",
+      "runs": [
+        {
+          "label": "editor",
+          "buildKinds": [
+            "inventory",
+            "support",
+            "passive"
+          ],
+          "contact": true,
+          "moved": true,
+          "passed": true,
+          "preview": true,
+          "revision": 3,
+          "states": 121
+        },
+        {
+          "label": "exported",
+          "buildKinds": [
+            "inventory",
+            "support",
+            "passive"
+          ],
+          "contact": true,
+          "moved": true,
+          "passed": true,
+          "preview": true,
+          "revision": 3,
+          "states": 121
+        }
+      ],
+      "rendered": false,
+      "deviceQualified": false,
+      "distribution": {
+        "schemaVersion": 1,
+        "capability": "node-godot-reference/v1",
+        "archives": {
+          "hollow-wake-engine-0.63.0-candidate.0.tgz": "dde9f0d07305d2519052a2957e8d03d88f1e6f8c692074885e6e3fe5850091c4",
+          "hollow-wake-combat-0.3.0-candidate.0.tgz": "c5cf28e1124177234862fd47629db38e8fea8657650559b7be34f9548126d3e6",
+          "hollow-wake-character-builds-0.2.0-candidate.0.tgz": "a13eaa12a420d2b102670d3c60578d357178264c3d510905edff9ac7f564fb1a",
+          "hollow-wake-characters-0.1.0-candidate.0.tgz": "414515ba9d817d13972040d7bdbe3c3832e52067f08c20b774e948b8acb64119",
+          "hollow-wake-node-godot-0.2.0-candidate.0.tgz": "ce0e01b6c6d6919f169f7c6dec0053e6ec80a521743578e5e4ef7c2173ceff9d"
+        },
+        "optionalQuests": false,
+        "persistenceRequired": false,
+        "deviceQualified": false
+      },
+      "export": {
+        "sha256": "61153b4ee9b1bbab7922e2655017dd76ebbfd13b8a4255743177ef3d57e71737",
+        "bytes": 109283744
+      },
+      "cleaned": true
+    },
+    "browser": {
+      "passed": true,
+      "courses": 8,
+      "roundsPerCourse": 3,
+      "missingLabelRejected": true,
+      "hiddenResultRejected": true,
+      "downloadMatched": true,
+      "narrow": true,
+      "externalRequests": [],
+      "screenshotSha256": "2732224c2736fcb415454a28393b0effec6f6a4d9123682a96e40a4fb858ae81",
+      "cleaned": true
+    },
+    "scope": {
+      "capabilities": 27,
+      "exports": 153,
+      "controls": 6,
+      "reportSha256": "8957749762503b220bc305269d10df94c51eb09be848a8b38d9b653a322dd6cb"
+    },
+    "packageBytes": {
+      "statCacheGrowthJsBytes": 1559,
+      "runtimeJsBytes": 1845459,
+      "combatCompositionJsBytes": 497690,
+      "characterCompositionJsBytes": 89502,
+      "workshopCharacterJsBytes": 6236,
+      "preProcDeliveryJsBytes": 698029,
+      "statusDeliveryJsBytes": 4697,
+      "procCastingJsBytes": 3163,
+      "progressionJsBytes": 8462,
+      "craftingModuleBytes": {
+        "crafting": 8133,
+        "crafting-content": 8221,
+        "crafting-actions": 12159
+      },
+      "coreJsBytes": 86815,
+      "passiveJsBytes": 32134,
+      "skillJsBytes": 46561,
+      "preContentTableJsBytes": 915810
+    }
+  },
+  "performance": {
+    "pairs": 7,
+    "qualifiedWorkloadSha256": "3f4135a23c7194a3f3153f5951424cdede7caa417f3ccf8ffcc60d7d343f7693",
+    "frozenBudgetsSha256": "b6308a453b19239633d96819cbc9a490ed5d2b98e57babf226ea2122d85a6158",
+    "measurementFile": "measurements.json",
+    "lifetimeCycles": 1000
+  },
+  "portable": {
+    "folder": ".artifacts/m5-portable-final",
+    "manifest": {
+      "schemaVersion": 1,
+      "capability": "combat-performance/v1",
+      "archives": {
+        "hollow-wake-engine-0.63.0-candidate.0.tgz": "dde9f0d07305d2519052a2957e8d03d88f1e6f8c692074885e6e3fe5850091c4",
+        "hollow-wake-combat-0.3.0-candidate.0.tgz": "c5cf28e1124177234862fd47629db38e8fea8657650559b7be34f9548126d3e6",
+        "hollow-wake-character-builds-0.2.0-candidate.0.tgz": "a13eaa12a420d2b102670d3c60578d357178264c3d510905edff9ac7f564fb1a",
+        "hollow-wake-characters-0.1.0-candidate.0.tgz": "414515ba9d817d13972040d7bdbe3c3832e52067f08c20b774e948b8acb64119",
+        "hollow-wake-node-godot-0.2.0-candidate.0.tgz": "ce0e01b6c6d6919f169f7c6dec0053e6ec80a521743578e5e4ef7c2173ceff9d"
+      },
+      "sources": {
+        "tools/combat-performance/workload.mjs": "ad9af735e41182f18af36ebdbd10ffbce1acf4f745263c198f68a378be478a9a",
+        "tools/combat-performance/run.mjs": "45ced2ed43cafa189fba117d1bb860378c548a93bc7951f8c50fbcc1bfaa2333",
+        "scripts/build-combat-benchmark.mjs": "c1e4f2e92d496ff40c39206d7c0955a4cfac82a51b5497c1ed1fd431017c7dc7"
+      },
+      "files": {
+        "workload.mjs": {
+          "sha256": "3f4135a23c7194a3f3153f5951424cdede7caa417f3ccf8ffcc60d7d343f7693",
+          "bytes": 27161550
+        },
+        "run.mjs": {
+          "sha256": "45ced2ed43cafa189fba117d1bb860378c548a93bc7951f8c50fbcc1bfaa2333",
+          "bytes": 6607
+        },
+        "compare.mjs": {
+          "sha256": "a68d1ae1e32f663003574e8d71a22de6c1581553d557b2c968e14efe6c9d8511",
+          "bytes": 4328
+        },
+        "lifetime.mjs": {
+          "sha256": "07e48810b7c90e38d869b39f0fdb69dcaca1a2d2ec4bd411cdd9297c434c4406",
+          "bytes": 2429
+        },
+        "index.html": {
+          "sha256": "f6663cd94f1f6ac9a6325e353377c04e03f5fa28125c89b93923eef20be820a3",
+          "bytes": 3023
+        },
+        "browser-worker.mjs": {
+          "sha256": "5bbbae000fae7b8118922077bfbd8906de0007bc1a5ab1dae705c1066ae7a338",
+          "bytes": 2880
+        },
+        "serve.mjs": {
+          "sha256": "c17cd54823c96c9b9f5fb7af789f8dbfef85bb45babca1bd93eb9ea52c32b059",
+          "bytes": 1237
+        },
+        "README.md": {
+          "sha256": "abc0c61270a08f0f9b6c43aed274fa7678b4885c014de6c37659631217179daa",
+          "bytes": 5037
+        }
+      },
+      "seedNotes": "The pinned workload uses seed 711 for scripted courses and additional item rolls; its imported reference scene retains seed 71. Custom distributions need their own scene provenance.",
+      "questsRequired": false,
+      "persistenceRequired": false,
+      "deviceQualified": false
+    },
+    "executableMatchesMeasuredBundle": true,
+    "archiveHashesMayDifferFromTimingManifestBecauseDocumentationWasFinalized": true
+  },
+  "precedingGitHub": {
+    "conclusion": "",
+    "headSha": "e461400cc740764a04b9bdd067dae5c60bca9c2b",
+    "jobs": [
+      {
+        "completedAt": "2026-11-16T19:10:01Z",
+        "completedSteps": 13,
+        "conclusion": "success",
+        "currentStep": null,
+        "name": "native (windows-2025)",
+        "status": "completed"
+      },
+      {
+        "completedAt": "0001-01-01T00:00:00Z",
+        "completedSteps": 157,
+        "conclusion": "",
+        "currentStep": "Run npm run adapter:restoration-faults",
+        "name": "reference",
+        "status": "in_progress"
+      },
+      {
+        "completedAt": "2026-11-16T19:52:23Z",
+        "completedSteps": 12,
+        "conclusion": "success",
+        "currentStep": null,
+        "name": "package (windows-2025, 22)",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-11-16T19:10:16Z",
+        "completedSteps": 13,
+        "conclusion": "success",
+        "currentStep": null,
+        "name": "node-godot-player (windows-2025)",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-11-16T19:09:54Z",
+        "completedSteps": 13,
+        "conclusion": "success",
+        "currentStep": null,
+        "name": "node-godot-player (ubuntu-24.04)",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-11-16T19:09:04Z",
+        "completedSteps": 13,
+        "conclusion": "success",
+        "currentStep": null,
+        "name": "native (ubuntu-24.04)",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-11-16T19:35:08Z",
+        "completedSteps": 12,
+        "conclusion": "success",
+        "currentStep": null,
+        "name": "package (ubuntu-24.04, 24)",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-11-16T19:52:21Z",
+        "completedSteps": 12,
+        "conclusion": "success",
+        "currentStep": null,
+        "name": "package (windows-2025, 24)",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-11-16T19:37:03Z",
+        "completedSteps": 12,
+        "conclusion": "success",
+        "currentStep": null,
+        "name": "package (ubuntu-24.04, 22)",
+        "status": "completed"
+      }
+    ],
+    "status": "in_progress",
+    "url": "https://github.com/arianna-arpg/hollow-wake-engine/actions/runs/43936119180"
+  },
+  "sources": {
+    "src/stats.ts": "bba612aa83e1819a434762b898eea73fd0c3cd2812ec791a168779362a0dde34",
+    "adapters/embedded/combat-actor-services.mjs": "b9aa3a5e23d1fc4d24f53f997de8ae0c7d368d7dd696b13525e331ec31a1fcd5",
+    "adapters/node-godot/host.mjs": "9cef2b2a182b84d2ada0dd96b751cf7fe2081eb2085335df32b63f61e3c54893",
+    "examples/node-godot/host/scene.mjs": "77f4a167f91d54a21d5ae81d73d04889de7bbaa0e7da1399a627eef83c68cfc6",
+    "test/stat-dynamic-cache.test.mjs": "10299e785a440ca569bac2b6a3d41f30a2dcc4a686138c90f8803d4f0e1c3e3e",
+    "test/node-godot/consumer.mjs": "ecdec9d8a0adf955a8f0730d513e699132fb300c01169ca4830cddbb69c2d323",
+    "scripts/test-package.mjs": "2a1e24d7f63be0c42655c855258f7475bba50adaaf15088ace8ff61fe0e4b035",
+    "scripts/build-combat-benchmark.mjs": "c1e4f2e92d496ff40c39206d7c0955a4cfac82a51b5497c1ed1fd431017c7dc7",
+    "scripts/test-combat-performance.mjs": "c0a565f21ce6be3dbca5f26562572e77f1bc76d8039c7e08bb9737a3c1c7cc0b",
+    "scripts/combat-performance-checks.mjs": "09bbe4b28781d44c283a9d7aea7ffc83fb79568d3741ce65c1b8882d6e154346",
+    "scripts/test-combat-performance-browser.mjs": "623034eea36dde20b2cbaad24f8aee9b35ec9c2dfca5ff5ce88d0819d39c049e",
+    "tools/combat-performance/workload.mjs": "ad9af735e41182f18af36ebdbd10ffbce1acf4f745263c198f68a378be478a9a",
+    "tools/combat-performance/run.mjs": "45ced2ed43cafa189fba117d1bb860378c548a93bc7951f8c50fbcc1bfaa2333",
+    "tools/combat-performance/compare.mjs": "a68d1ae1e32f663003574e8d71a22de6c1581553d557b2c968e14efe6c9d8511",
+    "tools/combat-performance/lifetime.mjs": "07e48810b7c90e38d869b39f0fdb69dcaca1a2d2ec4bd411cdd9297c434c4406",
+    "tools/combat-performance/index.html": "f6663cd94f1f6ac9a6325e353377c04e03f5fa28125c89b93923eef20be820a3",
+    "tools/combat-performance/browser-worker.mjs": "5bbbae000fae7b8118922077bfbd8906de0007bc1a5ab1dae705c1066ae7a338",
+    "tools/combat-performance/check-browser.cjs": "9db54e2d8457bc2679de669bad409d4fd0e535f60f5912056ab93e3d75792df0",
+    "docs/combat-inventory-capabilities.json": "9c271d9e45f76930a20762e31bb3017cc7929fa98c0228bd89a4c9911c17528b",
+    ".github/workflows/verify.yml": "59b58c80d931ecc16500c3837632a18b562fd75064f25e9d08f4678f438a2464",
+    "package.json": "a881526260765469b64f62fea112f10acc75083186b76e92e98e0b82feee1a19",
+    "package-lock.json": "0c245486f68832e8b9b71c60115624c3b62d53527697862c808996446c94ae26"
+  },
+  "evidence": {
+    "baseline-check.json": "e953789481939a38d2db52349a909bd96decc27e3fca459a4eb1973d5c03ea69",
+    "baseline-lock.json": "1dff1c9b9d7583253c3775cff1840503c8cf0fe63751a3e3d00ae12fdd6980d2",
+    "baseline-memory.json": "f60f1f6022dcf66f8a5fab6149d89cad2b0e3ad671c0d71e8fe0f42fd48cdfd9",
+    "baseline-profile.json": "bbd65c5e738ed1e1c72e5a79742e479aa24bb6bf014748a1b34563537c37544f",
+    "baseline-timing.json": "b76041f86f66e1d953c9781736de1b022467ac1b9b1ab8511b40393a40ac3521",
+    "browser-verification.json": "0df6045f46c6820cb781a162ad9c10aa61ce80393b62890c71bb6021e47cf278",
+    "budgets.json": "b6308a453b19239633d96819cbc9a490ed5d2b98e57babf226ea2122d85a6158",
+    "component-benchmark.json": "c224f34a9f3eb3009b9154bef30a737d54383c4efb141b12823d3f52ef35548e",
+    "final-baseline-lifetime.json": "13707ce4d922ef674f08d94dcca580d26100b686b6c86fe0c542ceefb87373f9",
+    "final-baseline-memory.json": "fda0e3dcd667839d9619117c81f631de5bacf6d378e69168db348bbf84a91a71",
+    "final-baseline-profile.json": "fec1df941a6b3fe91a27f90f0f30cab57b48e5ba0df8f03a16ecdd4dc152e008",
+    "final-candidate-lifetime.json": "8ad467adc7b07453296caa7bb5c3492b5c2356822118c20a900e76ea91b29a4e",
+    "final-candidate-memory.json": "29e96ac8626c8405b75eb145f7bb2c355ac7e079b5907cc571ed698532e0c5a7",
+    "final-candidate-profile.json": "fc8a99eef5afcc64a200c48915edb299b43f4e511b855d4e71280180faf83a57",
+    "measurements.json": "7b1f7fa9149d3a76b0e51d92e05cfdabf8ac39ff7490a13aa9829f7506c76bc4",
+    "paired-measurements.json.gz": "246e98cb0487e9d6385aa96444e89159c0f02159063273af8600bf47c38e5c41"
+  },
+  "limitations": [
+    "Desktop timings only; Steam Deck and older mobile require measurements on those devices.",
+    "Rendering, wire encoding, transport, sustained thermals and battery use are not timing-qualified.",
+    "Larger Inventories and individual advanced-build edit families retain correctness coverage but remain outside this representative timing envelope.",
+    "Milestone six release packaging and adoption walkthrough remain separate."
+  ]
+}

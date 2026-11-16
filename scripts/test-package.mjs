@@ -128,6 +128,15 @@ assert.equal(packed.files.filter(file=>combatPaths.has(file.path)).length,combat
 assert(combatCompositionJsBytes<=512*1024,'Combat composition exceeded its initial 512 KiB raw code budget');
 const legacyFiles=packed.files.filter(file=>!combatPaths.has(file.path));
 const legacyJsBytes=jsBytes-combatCompositionJsBytes;
+// M5 explicitly trades at most 2 KiB of raw stat code for lower clock cost and
+// allocation. The M4 archive's stats.js was 11,941 bytes (SHA-256 recorded in
+// the milestone-five report). Only actual growth in this one module is charged
+// to the new allowance; unrelated code retains every historical budget below.
+const statsFile=legacyFiles.find(file=>file.path==='dist/stats.js');
+assert(statsFile?.size>0,'Missing stat runtime');
+const statCacheGrowthJsBytes=Math.max(0,statsFile.size-11941);
+assert(statCacheGrowthJsBytes<=2*1024,'Stat cache optimization exceeded its explicit 2 KiB growth allowance');
+const historicalLegacyJsBytes=legacyJsBytes-statCacheGrowthJsBytes;
 const itemJsBytes = legacyFiles.filter(file => /^dist\/item-.*\.js$/.test(file.path) && file.path !== 'dist/item-restoration.js').reduce((sum, file) => sum + file.size, 0);
 const passiveJsBytes = legacyFiles.filter(file => /^dist\/passive-.*\.js$/.test(file.path) && !compositionPaths.has(file.path)).reduce((sum, file) => sum + file.size, 0);
 const inventoryHostJsBytes = legacyFiles.filter(file => file.path === 'dist/inventory-host.js').reduce((sum, file) => sum + file.size, 0);
@@ -320,7 +329,7 @@ const characterBuildFile=legacyFiles.find(file=>file.path==='dist/character-buil
 assert(characterBuildFile?.size>0&&characterBuildFile.size<=16*1024,'Optional durable character builder exceeds its separate 16 KiB budget or is missing');
 const characterRebuildFile=legacyFiles.find(file=>file.path==='dist/character-rebuild.js');
 assert(characterRebuildFile?.size>0&&characterRebuildFile.size<=2*1024,'Live character rebuild exceeds its separate 2 KiB budget or is missing');
-const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=legacyJsBytes-characterCompositionJsBytes-characterRebuildFile.size-characterBuildFile.size-challengeContinuationFile.size-challengeJsBytes-sequenceContinuationFile.size-sequenceBridgeJsBytes-bodyFactoryFile.size-summonsJsBytes-auraTickingFile.size-auraActivationFile.size-auraLedgersFile.size-auraRetirementFile.size-companionRecoveryFile.size-bodyLevelsFile.size-companionBondsJsBytes-guardArtsFile.size-companionGrantsFile.size-accountRelicItemsFile.size-workshopCharacterJsBytes-buildContributionsFile.size-workshopBuildFile.size-equipmentDraftFile.size-bookFile.size-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
+const contentTableJsBytes=Object.values(contentTableModuleBytes).reduce((sum,size)=>sum+size,0),preContentTableJsBytes=historicalLegacyJsBytes-characterCompositionJsBytes-characterRebuildFile.size-characterBuildFile.size-challengeContinuationFile.size-challengeJsBytes-sequenceContinuationFile.size-sequenceBridgeJsBytes-bodyFactoryFile.size-summonsJsBytes-auraTickingFile.size-auraActivationFile.size-auraLedgersFile.size-auraRetirementFile.size-companionRecoveryFile.size-bodyLevelsFile.size-companionBondsJsBytes-guardArtsFile.size-companionGrantsFile.size-accountRelicItemsFile.size-workshopCharacterJsBytes-buildContributionsFile.size-workshopBuildFile.size-equipmentDraftFile.size-bookFile.size-barFile.size-equipmentSkillsJsBytes-accountWorkshopJsBytes-contentTableJsBytes-inspectionJsBytes-cargoJsBytes-rackFile.size-workshopFile.size-supportWorkshop.size-pouchModule.size-conduitJsBytes-vestigeJsBytes;
 const craftingSessionJsBytes=Object.values(craftingSessionModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingSessionJsBytes=preContentTableJsBytes-craftingSessionJsBytes;
 const residenceJsBytes=Object.values(residenceModuleBytes).reduce((sum,size)=>sum+size,0),preResidenceJsBytes=preCraftingSessionJsBytes-residenceJsBytes;
 const craftingJsBytes=Object.values(craftingModuleBytes).reduce((sum,size)=>sum+size,0),preCraftingJsBytes=preResidenceJsBytes-craftingJsBytes;
@@ -342,7 +351,7 @@ const tagContextJsBytes = legacyFiles.filter(file => file.path === 'dist/tag-con
 const previousJsBytes = predecessorJsBytes - tagContextJsBytes - hitLandingJsBytes - hitPreparationJsBytes - damageJsBytes - statusJsBytes - statusEffectsJsBytes - hitStatusJsBytes - hitEffectsJsBytes;
 const coreJsBytes = previousJsBytes + tagContextJsBytes - itemJsBytes - passiveJsBytes - inventoryHostJsBytes - stashJsBytes - containerJsBytes - relicJsBytes - actionJsBytes - equipmentJsBytes - progressionJsBytes - skillJsBytes - supportJsBytes - resourceJsBytes - chargedCastJsBytes - interactiveCastJsBytes - ammunitionJsBytes - channelCastJsBytes - guardCastJsBytes - paymentJsBytes - admissionJsBytes - intentJsBytes - requestJsBytes - dispatchJsBytes - continuationJsBytes - bankJsBytes - actorGaugeJsBytes - actorConditionJsBytes - procJsBytes - procEffectJsBytes - delayedJsBytes - buffJsBytes - cooldownJsBytes - cooldownLifecycleJsBytes - readyBankJsBytes - sequenceRecoveryJsBytes - historicalAttackSequenceJsBytes;
 const contentBytes = legacyFiles.filter(file => file.path.startsWith('content/') && file.path.endsWith('.json')).reduce((sum, file) => sum + file.size, 0);
-fs.writeFileSync(path.join(artifacts,'package-size-current.json'),JSON.stringify({runtimeJsBytes:jsBytes,combatCompositionJsBytes,characterCompositionJsBytes,workshopCharacterJsBytes,preProcDeliveryJsBytes,statusDeliveryJsBytes,procCastingJsBytes,progressionJsBytes,craftingModuleBytes,coreJsBytes,passiveJsBytes,skillJsBytes,preContentTableJsBytes},null,2)+'\n');
+fs.writeFileSync(path.join(artifacts,'package-size-current.json'),JSON.stringify({statCacheGrowthJsBytes,runtimeJsBytes:jsBytes,combatCompositionJsBytes,characterCompositionJsBytes,workshopCharacterJsBytes,preProcDeliveryJsBytes,statusDeliveryJsBytes,procCastingJsBytes,progressionJsBytes,craftingModuleBytes,coreJsBytes,passiveJsBytes,skillJsBytes,preContentTableJsBytes},null,2)+'\n');
 assert.ok(coreJsBytes <= 96 * 1024, 'Core runtime exceeded the retained 96 KiB unminified JS budget');
 assert.ok(hitSustainJsBytes > 0 && hitSustainJsBytes <= 4 * 1024, 'Optional hit sustain exceeded its separate 4 KiB budget or is missing');
 assert.ok(hitReactionsJsBytes > 0 && hitReactionsJsBytes <= 8 * 1024, 'Optional hit reactions exceeded its separate 8 KiB budget or is missing');
@@ -445,7 +454,7 @@ fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringi
   workshopBuildJsBytes:workshopBuildFile.size,
   buildContributionsJsBytes:buildContributionsFile.size,
   accountRelicItemsJsBytes:accountRelicItemsFile.size,
-  workshopCharacterJsBytes,characterCompositionJsBytes,characterCompositionBytes,combatCompositionJsBytes,
+  workshopCharacterJsBytes,characterCompositionJsBytes,characterCompositionBytes,combatCompositionJsBytes,statCacheGrowthJsBytes,
   skillBarJsBytes:barFile.size,
   workshopSkillBookJsBytes:bookFile.size,
   accountWorkshopJsBytes,contentTableModuleBytes,contentTableJsBytes,preContentTableJsBytes,craftingSessionModuleBytes,craftingSessionJsBytes,preCraftingSessionJsBytes,residenceModuleBytes,residenceJsBytes,preResidenceJsBytes,craftingModuleBytes,craftingJsBytes,preCraftingJsBytes,progressionSessionJsBytes, preSessionJsBytes, unlockModuleBytes, unlockJsBytes, preUnlockJsBytes, gateJsBytes, preGateJsBytes, continuityJsBytes, preContinuityJsBytes, characterJsBytes, preCharacterJsBytes, siteJsBytes, preSiteJsBytes, vocationJsBytes, preVocationJsBytes, procDeliveryJsBytes, preProcDeliveryJsBytes,

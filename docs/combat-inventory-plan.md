@@ -155,6 +155,13 @@ exported player follow the boundary above. The
 [milestone-four record](combat-inventory-milestone-four.md) tracks qualification
 and the Node 22 verification correction.
 
-Next is milestone five: measure and optimize composed workloads. The evolving
-game, its campaign/save architecture and other sessions remain untouched.
-Steam Deck/mobile qualification still requires physical-device measurements.
+## Milestone five delivery
+
+The [performance record](combat-inventory-milestone-five.md) qualifies the named
+desktop workload envelope with exact before/after output comparisons, frozen
+budgets and a portable Node/browser runner. It preserves wider measurement ideas
+as unqualified cases and does not certify physical Steam Deck/mobile hardware.
+
+Next is milestone six: bounded release packaging, adoption documentation and
+final release evidence. The evolving game, campaign/save architecture and other
+sessions remain untouched. Quests and persistence remain optional.

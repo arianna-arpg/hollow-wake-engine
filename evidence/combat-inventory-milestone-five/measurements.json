@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "pairs": 7,
+  "comparison": [
+    {
+      "name": "mixed-32",
+      "baseline": {
+        "median": 0.912599999999884,
+        "p95": 2.75200000000018,
+        "p99": 4.11220000000003
+      },
+      "candidate": {
+        "median": 0.64650000000006,
+        "p95": 2.418600000000197,
+        "p99": 3.7742000000000644
+      },
+      "medianRatio": 0.7084155161079797
+    },
+    {
+      "name": "mixed-128",
+      "baseline": {
+        "median": 3.281300000000101,
+        "p95": 10.105199999999968,
+        "p99": 14.501600000000053
+      },
+      "candidate": {
+        "median": 2.2869000000000597,
+        "p95": 8.79469999999992,
+        "p99": 13.213400000000092
+      },
+      "medianRatio": 0.6969493798189709
+    },
+    {
+      "name": "summons-procs-32",
+      "baseline": {
+        "median": 2.359400000000278,
+        "p95": 4.26090000000022,
+        "p99": 6.535899999999856
+      },
+      "candidate": {
+        "median": 1.8077999999995882,
+        "p95": 3.6568999999999505,
+        "p99": 6.231499999999869
+      },
+      "medianRatio": 0.7662117487494173
+    },
+    {
+      "name": "build-combat-32",
+      "baseline": {
+        "median": 0.9848999999994703,
+        "p95": 2.7161999999998443,
+        "p99": 4.137399999999616
+      },
+      "candidate": {
+        "median": 0.7310999999999694,
+        "p95": 2.3932999999997264,
+        "p99": 3.7993999999998778
+      },
+      "medianRatio": 0.7423088638444133
+    },
+    {
+      "name": "character-create",
+      "baseline": {
+        "median": 2.2203000000008615,
+        "p95": 2.60609999999906,
+        "p99": 5.764599999998609
+      },
+      "candidate": {
+        "median": 2.1986000000006243,
+        "p95": 2.6352999999999156,
+        "p99": 5.4111000000002605
+      },
+      "medianRatio": 0.9902265459621543
+    },
+    {
+      "name": "inventory-24",
+      "baseline": {
+        "median": 6.385000000000218,
+        "p95": 7.472400000000562,
+        "p99": 7.624099999999089
+      },
+      "candidate": {
+        "median": 6.266399999999521,
+        "p95": 7.020100000000639,
+        "p99": 7.599299999999857
+      },
+      "medianRatio": 0.9814252153483645
+    },
+    {
+      "name": "build-edits",
+      "baseline": {
+        "median": 54.59549999999945,
+        "p95": 57.821899999999005,
+        "p99": 58.17150000000038
+      },
+      "candidate": {
+        "median": 53.68709999999919,
+        "p95": 55.32719999999972,
+        "p99": 55.90309999999954
+      },
+      "medianRatio": 0.9833612660384049
+    },
+    {
+      "name": "create-release",
+      "baseline": {
+        "median": 17.130699999997887,
+        "p95": 21.18800000000192,
+        "p99": 21.657999999999447
+      },
+      "candidate": {
+        "median": 17.34519999999975,
+        "p95": 21.28060000000005,
+        "p99": 21.45219999999972
+      },
+      "medianRatio": 1.0125213797452461
+    }
+  ],
+  "contentImportMs": {
+    "baseline": 851.3504,
+    "candidate": 1273.0512
+  },
+  "memory": {
+    "baseline": {
+      "peakRssMiB": 909.95703125,
+      "maximumRetainedGrowthMiB": 0.387115478515625,
+      "lifetimeRetainedBytes": 485200
+    },
+    "candidate": {
+      "peakRssMiB": 469.32421875,
+      "maximumRetainedGrowthMiB": 0.0540924072265625,
+      "lifetimeRetainedBytes": 445632
+    }
+  },
+  "allocation": {
+    "course": "mixed-128",
+    "ratio": 0.7836491316724813,
+    "bytes": {
+      "baseline": {
+        "mixed-32": 567836024,
+        "mixed-128": 2165137416,
+        "summons-procs-32": 1337408096,
+        "build-combat-32": 935294888,
+        "character-create": 35051896,
+        "inventory-24": 602341696,
+        "build-edits": 13040058216,
+        "create-release": 505443144
+      },
+      "candidate": {
+        "mixed-32": 453067672,
+        "mixed-128": 1696708056,
+        "summons-procs-32": 1094999352,
+        "build-combat-32": 521632400,
+        "character-create": 35590912,
+        "inventory-24": 303439960,
+        "build-edits": 2389159512,
+        "create-release": 501664440
+      }
+    }
+  },
+  "pairedArchive": {
+    "file": "paired-measurements.json.gz",
+    "sha256": "246e98cb0487e9d6385aa96444e89159c0f02159063273af8600bf47c38e5c41"
+  },
+  "workloadSourceSha256": "ad9af735e41182f18af36ebdbd10ffbce1acf4f745263c198f68a378be478a9a",
+  "frozenBudgetsSha256": "b6308a453b19239633d96819cbc9a490ed5d2b98e57babf226ea2122d85a6158",
+  "qualifiedWorkloadSha256": "3f4135a23c7194a3f3153f5951424cdede7caa417f3ccf8ffcc60d7d343f7693",
+  "limits": [
+    "Desktop engineering qualification only. No Steam Deck/mobile or renderer qualification.",
+    "Representative courses only; advanced-build and larger-Inventory timing cases remain unqualified."
+  ]
+}
