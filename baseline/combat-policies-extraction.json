@@ -164,14 +164,28 @@
     "updateSquish": "0ad18f416e3ca4eb3fbb6fd18709a8bf97e77c0450f47ecb805f3ee7cd09b3f8",
     "resyncMinionSupports": "f1c5daa8921eb16171cee002e4d4844c33ede6910777073d70bfe8b9d78ee98a",
     "clearSummonTreeBodies": "127f28251e7ea1d48602593e040eb9f3859b207457d0a0ca817c97cb652c7673",
-    "useMetaSkill": "934750139071de76b95a094b795ef726075aec236753d4747f71a8cd4add7a2f"
+    "useMetaSkill": "934750139071de76b95a094b795ef726075aec236753d4747f71a8cd4add7a2f",
+    "movementLocked": "df3a9fdbc328452f8dd587eb9b3ea5beecee51ef500bd17699abe3117fcb8171",
+    "castMoveFactor": "c0959ad0ceab46b8b98fc16445e74bbc6ee89fe03055afe0ce4292fa1b8b69fb",
+    "channelMobility": "dcd7f06bd8165eaf6faed0302ad6ace6e6a1ae8213203db7c33e4500eee764b7",
+    "moveActor": "ec3e9628b335c2219100f9d2fb513e747d7cf1c5d2f66d13ab21ddf2cf94efa8",
+    "levitating": "a5fc42eefa2785630c2efc360ca7ebfd11eeb64ab48e217adaaa7c82f81a699d",
+    "mountUnlink": "bd409bf9ce67b9cdb267fdaeb2cd7766ee5b3dfd0584630fa5e6ad800ec48e55",
+    "mountWidowed": "008b6d542bfa821e37defa28b0aed717238037828e01f66ac9cac65c34751e59"
   },
   "localQueries": {
     "statusReqs": "426e1e6facf5a0c73a9dd67e9d32a9739153f8373b7203d67ab1c430ae99986e",
     "STEALTH_CHARGE": "621e5bac49b8d9c68e7a29b7f91f2eb87406e673fc9e1e0266646b39bb983115",
-    "isStealthed": "b3ab2eb2d6073b0e7a4dda987dbedc713b024ce54a5fd880c1908f0c8ee3a4e4"
+    "isStealthed": "b3ab2eb2d6073b0e7a4dda987dbedc713b024ce54a5fd880c1908f0c8ee3a4e4",
+    "NOCLIP_DISP": "2a4dbde5a9d8400194f29d0c0fa8c3fe5d0e613d67075107c7d566022424138e",
+    "LEVITATE_DISP": "69e616d6b9e9ee8e2c5692f018a27ebac511d9d09fc344878858b5ca4f0d000f"
   },
   "queries": [
+    {
+      "name": "markBodyWalk",
+      "imported": "markBodyWalk",
+      "source": "./bodyWalk"
+    },
     {
       "name": "movementProfile",
       "imported": "movementProfile",
@@ -286,6 +300,16 @@
       "name": "THRONG_EVOLUTION",
       "imported": "THRONG_EVOLUTION",
       "source": "./throngEvolution"
+    },
+    {
+      "name": "ensureMovementTether",
+      "imported": "ensureMovementTether",
+      "source": "./movementTether"
+    },
+    {
+      "name": "refreshMovementTether",
+      "imported": "refreshMovementTether",
+      "source": "./movementTether"
     },
     {
       "name": "instanceCastMode",
@@ -535,6 +559,16 @@
     {
       "name": "makeSkillInstance",
       "imported": "makeSkillInstance",
+      "source": "./skills"
+    },
+    {
+      "name": "rampValue",
+      "imported": "rampValue",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceChannel",
+      "imported": "instanceChannel",
       "source": "./skills"
     },
     {
@@ -888,6 +922,11 @@
       "source": "./grab"
     },
     {
+      "name": "grabHolderMove",
+      "imported": "grabHolderMove",
+      "source": "./grab"
+    },
+    {
       "name": "payloadTransition",
       "imported": "payloadTransition",
       "source": "./payloadCues"
@@ -979,7 +1018,7 @@
     }
   ],
   "outputs": {
-    "adapters/embedded/combat-policies.mjs": "17d2406c21f7e05cbab542a26cc92ee3978c50569b0220f83a9167793b7f6cc1"
+    "adapters/embedded/combat-policies.mjs": "21e84a365121794c42bb7ef4f308b791c781a7067abb3524452226e040a1a3f8"
   },
   "changes": [
     "Bind combat conductor to one internal SDK owner",
@@ -989,6 +1028,7 @@
     "Reuse the shared SDK tree-buff retirement ledger",
     "Route optional original simulation taps to per-owner observers",
     "Read current combat encounter level without a world owner",
-    "Report guard blocks through an optional observer without campaign deed evaluation"
+    "Report guard blocks through an optional observer without campaign deed evaluation",
+    "Preserve ordinary combat locomotion; accept region/boat/weather speed as a host fact without importing geography or development noclip"
   ]
 }

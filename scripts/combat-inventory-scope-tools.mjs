@@ -45,7 +45,7 @@ export function checkScope({manifest=JSON.parse(fs.readFileSync(path.join(root,'
  const ids=new Set(),covered=new Set();
  for(const row of scope.capabilities){
   assert(!ids.has(row.id)&&row.required===true);ids.add(row.id);
-  assert(row.remaining.task&&row.remaining.acceptance&&[2,3,4].includes(row.remaining.milestone));
+  assert(row.remaining.task&&row.remaining.acceptance&&[2,3,4,5,6].includes(row.remaining.milestone));
   for(const evidence of row.evidence)assert(fs.existsSync(path.join(root,evidence)),evidence);
   for(const entry of row.entries){assert(scope.exports[entry],entry);covered.add(entry);}
  }

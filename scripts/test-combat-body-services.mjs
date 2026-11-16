@@ -9,6 +9,8 @@ import {sha256} from './reference-utils.mjs';
 import {installSharedCombat} from '../adapters/embedded/combat-shared-services.mjs';
 import {installCombatBodies} from '../adapters/embedded/combat-body-services.mjs';
 import {installCombatAuras} from '../adapters/embedded/combat-aura-services.mjs';
+import {observeCombatCourse} from './reference-combat-course.mjs';
+import {compareBodyFactoryRecording} from './body-factory-runtime-comparison.mjs';
 
 // Reuse the accepted original census; never regenerate expected observations.
 // This qualifies construction through the real shared actor and body graph,
@@ -24,6 +26,28 @@ const fields = ['ambushArmed','adorn','aims','anchored','brain','brainVariant','
 const plain = value => JSON.parse(JSON.stringify(value));
 const parent = fs.realpathSync('.artifacts'), work = fs.mkdtempSync(path.join(parent, 'm3-body-services-owned-'));
 try {
+  const observed = await observeCombatCourse('export-body-factory-catalogue', work);
+  assert.equal(observed.observerSha256, accepted.sourceSha256);
+  assert.equal(observed.sourceLockSha256, accepted.sourceLockSha256);
+  const currentOriginal = JSON.parse(observed.bytes);
+  assert.equal(currentOriginal.rows.length, original.rows.length);
+  let roundedValues = 0;
+  for (let i = 0; i < original.rows.length; i++) {
+    const {body: recorded, ...metadata} = original.rows[i];
+    const {body: current, ...currentMetadata} = currentOriginal.rows[i];
+    assert.deepEqual(currentMetadata, metadata);
+    roundedValues += compareBodyFactoryRecording(current, recorded).length;
+  }
+  // Negative controls: even the qualified fields cannot conceal a rule change;
+  // ordinary statistics remain exact, down to a single representable step.
+  const sample = {fields: {turnSpeed: 8}, bases: [['weight', 1], ['life', 2]]};
+  assert.equal(compareBodyFactoryRecording({...sample, fields: {turnSpeed: 8 + Number.EPSILON * 8}}, sample).length, 1);
+  for (const invalid of [
+    {...sample, fields: {turnSpeed: 8.00000001}},
+    {...sample, fields: {turnSpeed: NaN}},
+    {...sample, bases: [['weight', 1.00000001], ['life', 2]]},
+    {...sample, bases: [['weight', 1], ['life', 2 + Number.EPSILON * 2]]},
+  ]) assert.throws(() => compareBodyFactoryRecording(invalid, sample));
   await buildCombatContent(path.join(work, 'content'));
   const {combatContent: content} = await import(pathToFileURL(path.join(work, 'content/content.mjs')));
   const w = {host: {}, observers: {}, time: 17, nextActorId: 1, nextItemId: 4, actors: [], seats: [], flashes: [],
@@ -38,7 +62,7 @@ try {
   w.nextActorId = original.rows[0].body.id;
   assert.deepEqual(Object.keys(content.hitQueries.MONSTERS).sort(), original.catalogue);
   let carried = 0;
-  for (const row of original.rows) {
+  for (const row of currentOriginal.rows) {
     const random = new Random(row.seed); w.random = () => random.next();
     const before = w.bombardMintRev;
     const a = w.createMonster(row.body.fields.defId, row.body.fields.level, row.body.team, row.body.ownerId === undefined ? undefined : owner);
@@ -56,6 +80,7 @@ try {
     if (a.carriedGear) carried++;
   }
   console.log({passed: true, originalBodyConstructions: original.rows.length, carriedItemRolls: carried,
+    exactSameRuntimeOriginal: true, originalFreshProcesses: 2, frozenRecordingRoundedValues: roundedValues,
     sharedActorBodyGraph: true, fullSummonLifetimeQualified: false, allCombatFamiliesQualified: false});
 } finally {
   assert.equal(path.dirname(fs.realpathSync(work)), parent);

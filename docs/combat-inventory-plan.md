@@ -146,6 +146,15 @@ matrix now points to public original-comparison courses and explicit world-servi
 refusals. [Milestone-three evidence](combat-inventory-milestone-three.md) records
 the installed consumer, active interactions, source limitations and release gates.
 
-Next is milestone four: the isolated Node/Godot reference adapter. The evolving
-game, its campaign/save architecture and other sessions remain untouched. No
-Steam Deck/mobile qualification is claimed.
+## Milestone four delivery
+
+The [Node/Godot adapter](node-godot-adapter.md) supplies the isolated reference
+integration, ordinary movement and detached physical pose submission. Its
+memory-only default, optional host-owned file store, installed consumer and
+exported player follow the boundary above. The
+[milestone-four record](combat-inventory-milestone-four.md) tracks qualification
+and the Node 22 verification correction.
+
+Next is milestone five: measure and optimize composed workloads. The evolving
+game, its campaign/save architecture and other sessions remain untouched.
+Steam Deck/mobile qualification still requires physical-device measurements.

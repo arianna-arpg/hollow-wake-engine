@@ -7,9 +7,9 @@ need the original game, source compiler, quests, an account, a database, or save
 The default content is compiled immutable data and pure read rules; each session
 owns its actors, clocks, random stream, queues, controllers and mutable caches.
 
-This is the milestone-three JavaScript/TypeScript composition. The complete
-Node/Godot reference adapter is milestone four. Unity and Unreal integration and
-Steam Deck/mobile performance are not established by the Node package tests.
+The milestone-three JavaScript/TypeScript composition is now used by the
+[milestone-four Node/Godot reference adapter](node-godot-adapter.md). Unity and
+Unreal integration and Steam Deck/mobile performance are not established by it.
 
 ## Build and installation
 
@@ -75,10 +75,13 @@ Inspection never lends mutable actor records. `meta` invokes authored alternate
 actions; `release` and `timingPress` complete held/timed casting inputs. `aim`
 updates live steering separately from the initial cast target.
 
-Current public movement inputs are authored combat skills. Normal walking,
-navigation and host-to-SDK pose submission remain part of milestone four's
-adapter contract, including their ordering with roots, pushes, tethers and
-movement-triggered rules. Borrowed spatial callbacks are not a pose-edit API.
+`move(actor, direction, seconds)` adds ordinary locomotion before casts and the
+frame clock. The SDK owns the original movement restrictions and accumulators;
+the host submits collision/floor results through `space.stepPhysical`. `pose`
+and `poses` return detached presentation facts. See the
+[movement contract](node-godot-adapter.md#ordinary-movement-and-pose-submission)
+for time bounds, flying/levitating native bodies, ordering and host ownership.
+Spatial callbacks must not mutate actors; clients cannot submit authoritative poses.
 
 The host controls session lifetime and should regularly drain signals. Discarding
 the session and its handles releases its graph for garbage collection; there are

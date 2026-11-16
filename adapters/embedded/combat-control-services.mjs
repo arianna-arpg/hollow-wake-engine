@@ -28,8 +28,10 @@ export function installCombatControls(w, content) {
     tags: q.skillContextTags, grantedTags: q.grantedTags, modifiers: q.instanceMods,
     createBody: (...args) => w.createMonster(...args), clamp: (...args) => w.clampPos(...args),
     text: (...args) => w.text(...args), flash, fail: (...args) => w.failNote(...args),
-    changed: seat => w.characterChanged(seat), embodied: event => w.signal('possess/embody', event),
-    ejected: event => w.signal('possess/eject', event), returnSwarmForm: (...args) => w.hivecallReturn(...args),
+    changed: seat => w.characterChanged(seat),
+    embodied: ({seat,body,hero,kind}) => w.signal('possess/embody', {seat,body:body.id,hero:hero.id,kind}),
+    ejected: ({seat,body,hero,reason}) => w.signal('possess/eject', {seat,body:body.id,hero:hero.id,reason}),
+    returnSwarmForm: (...args) => w.hivecallReturn(...args),
   });
   w.grabSeize = (...args) => grabs.seize(...args);
   w.grabRelease = actor => grabs.release(actor);

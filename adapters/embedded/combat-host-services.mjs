@@ -22,6 +22,9 @@ export function installCombatHostServices(w, content) {
     }
     return out;
   };
+  // A contact index is combat state. The spatial adapter reports geometry;
+  // it must not write the actor to make a hit reach the selected segment.
+  w.noteBodyHit = (actor, segment) => {q.noteBodyHit(actor,segment);space.noteBodyHit(actor,segment);};
   w.signal = (kind, detail) => w.signals.push({kind, detail});
   w.text = (at, text, color, size = 12, kind) => {
     // Original presentation jitter participates in the accepted random stream.
@@ -48,14 +51,35 @@ export function installCombatHostServices(w, content) {
   w.seatHero = seat => seat.home ?? seat.actor;
   w.storyPair = (from, to) => ({from: from.tier ?? 0, to: to.tier ?? 0});
   w.markSeatActed = actor => {const seat = w.seatOf(actor); if (seat) seat.lastActedAt = w.time;};
+  w.markSeatMoved = actor => {const seat = w.seatOf(actor); if (seat) seat.lastMovedAt = w.time;};
+  w.walkScale = (actor, x, y) => {
+    const scale = space.walkScale?.({id:actor.id, pos:{...actor.pos}, tier:actor.tier, direction:{x,y}}) ?? 1;
+    if (!Number.isFinite(scale) || scale < 0) throw new TypeError('Invalid host walking scale');
+    return scale;
+  };
   w.recordIndirectDamage = (...args) => w.observers.indirectDamage?.(...args);
   w.shotElev = (...args) => w.host.space.shotElev(...args);
   w.viewRectFor = (...args) => space.viewRectFor(...args);
   w.resolveBoundary = (...args) => space.resolveBoundary(...args);
   w.steppedClamp = (actor, dest, from, displacement) => {
     const out = w.cScratch; out.hit = 'none';
-    const step = space.stepPhysical?.(actor, dest, from, displacement);
-    if (step) {actor.pos = step.pos; actor.tier = step.tier; Object.assign(out, step.collision);}
+    const tether = space.stepPhysical ? q.refreshMovementTether(actor, w) : undefined;
+    const to = tether ? q.movementTetherLimit(tether, dest) : dest;
+    const step = space.stepPhysical?.({id:actor.id,pos:{...actor.pos},radius:actor.radius,tier:actor.tier,
+      flying:actor.flying,touchdown:!!actor.touchdown}, {...to}, {...from}, displacement && {...displacement});
+    if (space.stepPhysical && !step) throw new TypeError('Invalid physical pose');
+    if (step) {
+      if (!Number.isFinite(step.pos?.x) || !Number.isFinite(step.pos?.y) || !Number.isSafeInteger(step.tier) || step.tier < 0
+        || step.collision && !['none','wall','void'].includes(step.collision.hit)) throw new TypeError('Invalid physical pose');
+      // A wall slide is still subject to the SDK's physical tether. A lost or
+      // out-of-range safe anchor follows the original release policy.
+      let pos = step.pos;
+      if (tether && q.movementTetherDistance(tether,pos) > tether.spec.length + .001) {
+        if (q.movementTetherDistance(tether,tether.safe) > tether.spec.length) {tether.released=true;tether.returning=false;}
+        else pos=tether.safe;
+      }
+      actor.pos = {...pos}; actor.tier = step.tier; actor.touchdown = false; Object.assign(out, step.collision);
+    }
     else actor.pos = w.clampPos(dest, actor.radius, from, {out, disp: displacement, mover: actor});
     if (out.hit === 'void') w.resolveBoundary(actor, out, from);
   };

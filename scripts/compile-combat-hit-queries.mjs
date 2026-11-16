@@ -37,6 +37,8 @@ export async function buildCombatHitQueries(destination) {
   const queries = new Map();
   for (const name of ['ensureMovementTether','updateMovementTethers','refreshMovementTether','movementTetherLimit','movementTetherDistance'])
     queries.set(name, {name, imported:name, source:'./movementTether'});
+  for (const name of ['nearestBody','bodyWhere','reachTo','segsHittable','segR','noteBodyHit'])
+    queries.set(name,{name,imported:name,source:'./segments'});
   for (const row of [...bindings.queries, ...policies.queries, ...casting.queries, ...commands.queries, ...contracts.queries, ...phases.queries]) {
     if (queries.has(row.name)) assert.deepEqual(queries.get(row.name), row, 'Ambiguous combat rule: ' + row.name);
     else queries.set(row.name, row);

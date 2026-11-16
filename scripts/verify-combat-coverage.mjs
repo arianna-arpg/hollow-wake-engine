@@ -17,7 +17,7 @@ const courses = [
   'field-simulation', 'grab', 'guard-surge', 'mimic', 'minion-orders',
   'movement-deliveries', 'pending-resolutions', 'possession', 'projectile-combat',
   'projectile-delivery', 'projectiles', 'skill-recovery', 'summon-contracts',
-  'tethers', 'throng-orders', 'party-recovery', 'combat-frames', 'combat-families', 'combat-lifecycles', 'combat-proc-families', 'combat-interactions',
+  'tethers', 'throng-orders', 'party-recovery', 'combat-frames', 'combat-families', 'combat-lifecycles', 'combat-proc-families', 'combat-interactions', 'combat-locomotion', 'combat-locomotion-airborne',
 ];
 const mechanical = [
   'area-deliveries', 'carried-effects', 'cast-aftermath', 'cast-preparation', 'combat-geometry', 'combat-hit-bindings', 'combat-timeflow',
@@ -34,6 +34,7 @@ const checks = reference
       : name === 'combat-families' ? [name, 'scripts/test-combat-frames-original.mjs', '--families']
       : name === 'combat-proc-families' ? [name, 'scripts/test-combat-lifecycles-original.mjs', '--procs']
       : name === 'combat-interactions' ? [name, 'scripts/test-combat-lifecycles-original.mjs', '--interactions']
+      : name === 'combat-locomotion-airborne' ? [name, 'scripts/test-combat-locomotion-original.mjs', '--airborne']
       : [name, `scripts/test-${name}-original.mjs`]),
     ['bindings', 'scripts/check-combat-bindings.mjs'],
     ['shared-services', 'scripts/test-combat-shared-services.mjs'],

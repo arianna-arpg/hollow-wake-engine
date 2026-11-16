@@ -11,8 +11,10 @@ characters, owns Inventory/build edits and authorized progress, and publishes
 accepted changes to current live actors. Three contrasting full builds match the
 pinned prototype. The separate [combat composition](docs/combat-session.md)
 joins these builds to complete casting and effect lifecycles, with representative
-original coverage and installed-package checks. The Node/Godot reference adapter
-remains milestone four; device measurements remain milestone five.
+original coverage and installed-package checks. The
+[Node/Godot reference adapter](docs/node-godot-adapter.md) adds ordinary movement,
+a playable character/build scene and optional host storage. Device measurements
+remain milestone five; final release packaging remains milestone six.
 
 The optional [durable character builder](docs/character-builds.md) composes class,
 passive, equipment, container and skill investment into private builds. A separate

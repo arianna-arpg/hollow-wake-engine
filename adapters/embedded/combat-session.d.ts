@@ -12,8 +12,18 @@ export interface Rect extends Point {w:number;h:number}
  * mutate bodies, call the session recursively, or implement combat outcomes. */
 export interface SpatialBody {readonly id:number;readonly pos:Point;readonly radius:number;readonly tier:number;readonly team:string;readonly [key:string]:unknown}
 export interface BodyContact {pos:Point;r:number;seg:number}
+export interface CombatPose {
+  id:number;pos:Point;tier:number;radius:number;facing:number;velocity:Point;
+  moveAccumulator:number;strideDistance:number;idleFor:number;plantFor:number;
+}
+export interface PhysicalPose {pos:Point;tier:number;collision?:{hit:'none'|'wall'|'void';[key:string]:unknown}}
 export interface ClampOptions {mover?:SpatialBody;tier?:number;out?:{hit:string;[key:string]:unknown};disp?:unknown;[key:string]:unknown}
 export interface CombatSpace {
+  /** Synchronous collision/floor result. Facts and returned pose are detached;
+   * this is a host geometry service, never a client teleport command. */
+  stepPhysical?(actor:Readonly<{id:number;pos:Point;radius:number;tier:number;flying:boolean;touchdown:boolean}>,to:Point,from:Point,displacement?:unknown):PhysicalPose;
+  /** Derived geography/weather multiplier; defaults to one. Detached input. */
+  walkScale?(facts:{id:number;pos:Point;tier:number;direction:Point}):number;
   arena():{w:number;h:number};
   clamp(at:Point,radius:number,from?:Point,options?:ClampOptions):Point;
   layerAt(at:Point):number;
@@ -95,6 +105,8 @@ export interface CombatActor {readonly [actorBrand]:true;readonly id:number}
 export interface SkillInvestment {id:string;level?:number;treeNodes?:string[];sockets?:({id:string;level?:number;rolled?:Record<string,string>}|null)[]}
 export interface BodyInput {
   name:string;team:'player'|'enemy'|'ally';position:Point;level?:number;layer?:number;controlled?:boolean;
+  /** Trusted encounter morphology, never player input or character investment. */
+  flying?:boolean;levitates?:boolean;
   stats?:Record<string,number>;attributes?:Record<string,number>;skills?:(string|SkillInvestment)[];resourceFraction?:number;
 }
 export interface CombatActorView {
@@ -117,10 +129,16 @@ export interface CombatSession {
   addCharacter(kit:CombatCharacterKit,character:CharacterSession,config:{name:string;position:Point;layer?:number}):CombatActor;
   commitCharacter(actor:CombatActor,change:CharacterChange):{accepted:true}|{accepted:false;refusal:Record<string,unknown>};
   press(actor:CombatActor,skillId:string,aim:Point):boolean;
+  /** Host-authorized ordinary intent, once per simulation step before casts
+   * and advance (zero to one second). Direction is normalized by the original movement rule. The
+   * host submits physical pose results through space.stepPhysical/clamp. */
+  move(actor:CombatActor,direction:Point,seconds:number):void;
   meta(actor:CombatActor,skillId:string,aim:Point):boolean;
   aim(actor:CombatActor,aim:Point):void;release(actor:CombatActor):void;timingPress(actor:CombatActor):void;
   advance(seconds:number):void;
   actor(id:number):CombatActor|null;inspect(actor:CombatActor):CombatActorView;
+  pose(actor:CombatActor):CombatPose;
+  poses():CombatPose[];
   controlled(actor:CombatActor):CombatActor|null;
   stat(actor:CombatActor,id:string):number;build(actor:CombatActor):CharacterBuildView;
   effects():Record<string,unknown>[];
@@ -132,3 +150,4 @@ export interface CombatSession {
 /** Invalid commands fail before mutation. A thrown host callback quarantines
  * the session; it cannot be resumed or retried as though the call rolled back. */
 export declare function createCombatSession(content:CombatContent,host:CombatHost,options?:{seed?:number;encounterLevel?:number;capacity?:number}):CombatSession;
+export declare function createCombatGeometry(content:CombatContent):Readonly<Pick<CombatSpace,'nearestBody'|'bodyWhere'|'inAoeBody'|'reachTo'|'segsHittable'|'segR'>>;

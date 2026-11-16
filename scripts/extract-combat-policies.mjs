@@ -46,6 +46,7 @@ const methods = [
   'updateDownedCompanions', 'seatIdle', 'updateCompanionGrants', 'updateWorms', 'updateParts', 'graftPart',
   'separateActors', 'updateSquish',
   'resyncMinionSupports', 'clearSummonTreeBodies', 'useMetaSkill',
+  'movementLocked', 'castMoveFactor', 'channelMobility', 'moveActor', 'levitating', 'mountUnlink', 'mountWidowed',
 ];
 const file = 'src/engine/world.ts';
 const bytes = fs.readFileSync(path.join(root, '.reference', file));
@@ -61,6 +62,19 @@ const printer = ts.createPrinter({removeComments: true});
 let treeBuffRetirements = 0;
 const transformed = ts.transform(selected, [context => rootNode => {
   function visit(node) {
+    // Geography remains a host fact. Preserve the original combat mover and
+    // replace only its region/boat/weather multipliers and development noclip.
+    if (ts.isVariableDeclaration(node) && node.name.getText(ast) === 'regionScale')
+      return ts.factory.updateVariableDeclaration(node, node.name, node.exclamationToken, node.type,
+        ts.factory.createCallExpression(ts.factory.createPropertyAccessExpression(ts.factory.createIdentifier('w'), 'walkScale'), undefined,
+          [ts.factory.createIdentifier('a'), ts.factory.createBinaryExpression(ts.factory.createIdentifier('dx'), ts.SyntaxKind.SlashToken, ts.factory.createIdentifier('len')), ts.factory.createBinaryExpression(ts.factory.createIdentifier('dy'), ts.SyntaxKind.SlashToken, ts.factory.createIdentifier('len'))]));
+    if (ts.isVariableDeclaration(node) && ['boatScale', 'windScale', 'snowScale'].includes(node.name.getText(ast)))
+      return ts.factory.updateVariableDeclaration(node, node.name, node.exclamationToken, node.type, ts.factory.createNumericLiteral(1));
+    if (ts.isVariableStatement(node) && node.declarationList.declarations.some(d => d.name.getText(ast) === 'gale')) return ts.factory.createEmptyStatement();
+    if (ts.isIfStatement(node) && node.expression.getText(ast) === 'gale') return ts.factory.createEmptyStatement();
+    if (node.getText(ast) === '(this.devNoclip && a === this.player) || a.flying')
+      return ts.factory.createPropertyAccessExpression(ts.factory.createIdentifier('a'), 'flying');
+    if (node.getText(ast) === '!this.sailing') return ts.factory.createTrue();
     if (ts.isIfStatement(node) && node.expression.getText(ast) === 'this.devIgnoreSkillAttributes && !this.clientActionHook && seat === this.localSeat') return ts.factory.createEmptyStatement();
     if (node.getText(ast) === 'Math.random') return ts.factory.createPropertyAccessExpression(ts.factory.createIdentifier('w'), 'random');
     if (ts.isIfStatement(node) && node.expression.getText(ast) === 'v.dead && credit === this.player && this.deedEnemy(v)') {
@@ -102,7 +116,12 @@ const stealth = ast.statements.filter(ts.isVariableStatement).flatMap(n => [...n
 assert(stealth && ts.isStringLiteral(stealth.initializer));
 const isStealthed = ast.statements.find(n => ts.isFunctionDeclaration(n) && n.name?.text === 'isStealthed');
 assert(isStealthed);
-const localQueries = (await transform(statusReqs.getText(ast) + '\nconst ' + stealth.getText(ast) + ';\n' + isStealthed.getText(ast), {loader: 'ts', target: 'es2022', legalComments: 'none'})).code;
+const displacement = ['NOCLIP_DISP','LEVITATE_DISP'].map(name => {
+  const row=ast.statements.filter(ts.isVariableStatement).flatMap(n=>[...n.declarationList.declarations]).find(n=>n.name.getText(ast)===name);
+  assert(row,name);return row;
+});
+const localQueries = (await transform(statusReqs.getText(ast) + '\nconst ' + stealth.getText(ast) + ';\n' + isStealthed.getText(ast)
+  + '\n' + displacement.map(row=>'const '+row.getText(ast)+';').join('\n'), {loader: 'ts', target: 'es2022', legalComments: 'none'})).code;
 const identifiers = new Set();
 const inspect = ts.createSourceFile('policies.js', js, ts.ScriptTarget.Latest, true, ts.ScriptKind.JS);
 const visit = n => {if (ts.isIdentifier(n)) identifiers.add(n.text); ts.forEachChild(n, visit);};
@@ -166,13 +185,15 @@ export const combatPolicyMethods = Object.freeze(${JSON.stringify(methods)});
 const output = 'adapters/embedded/combat-policies.mjs';
 const manifest = {schemaVersion: 1, sourceCommit: lock.commit, source: file, sourceSha256: sha256(bytes),
   methods: Object.fromEntries(selected.map(m => [m.name.getText(ast), sha256(m.getText(ast))])),
-  localQueries: {statusReqs: sha256(statusReqs.getText(ast)), STEALTH_CHARGE: sha256(stealth.getText(ast)), isStealthed: sha256(isStealthed.getText(ast))},
+  localQueries: {statusReqs: sha256(statusReqs.getText(ast)), STEALTH_CHARGE: sha256(stealth.getText(ast)), isStealthed: sha256(isStealthed.getText(ast)),
+    ...Object.fromEntries(displacement.map(row=>[row.name.getText(ast),sha256(row.getText(ast))]))},
   queries: reads, outputs: {[output]: sha256(code)},
   changes: ['Bind combat conductor to one internal SDK owner', 'Use per-owner random stream and shared damage service',
     'Read reliquary power from the admitted character projection, without account access',
     'Reuse SDK inheritance and attribute bequests', 'Reuse the shared SDK tree-buff retirement ledger',
     'Route optional original simulation taps to per-owner observers', 'Read current combat encounter level without a world owner',
-    'Report guard blocks through an optional observer without campaign deed evaluation']};
+    'Report guard blocks through an optional observer without campaign deed evaluation',
+    'Preserve ordinary combat locomotion; accept region/boat/weather speed as a host fact without importing geography or development noclip']};
 if (process.argv.includes('--check')) {
   assert.equal(fs.readFileSync(path.join(root, output), 'utf8'), code);
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(root, 'baseline/combat-policies-extraction.json'))), manifest);

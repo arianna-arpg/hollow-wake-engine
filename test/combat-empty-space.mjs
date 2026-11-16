@@ -8,7 +8,7 @@ export function emptyCombatSpace(width = 2000, height = 2000) {
     arena: () => ({w: width, h: height}),
     clamp: (at, radius) => ({x: Math.max(radius, Math.min(width - radius, at.x)), y: Math.max(radius, Math.min(height - radius, at.y))}),
     layerAt: () => 0, lineOfFire: () => true, lineOfSight: () => true, clipShot: (_from, to) => ({...to}),
-    nearestBody: actor => body(actor), noteBodyHit: (actor, segment) => {actor.hitSeg = segment;},
+    nearestBody: actor => body(actor), noteBodyHit() {},
     inAoeBody: (at, radius, shape, facing, actor, arc, predicate) => inAoe(at, radius, shape, facing, actor.pos, actor.radius, arc)
       && (!predicate || predicate(actor.pos, actor.radius)) ? body(actor) : null,
     reachTo: (actor, at) => dist(actor.pos, at) - actor.radius,

@@ -1,8 +1,10 @@
-import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
 import {root,sha256,writeJSON} from './reference-utils.mjs';
 const directory=fs.mkdtempSync(path.join(root,'.artifacts/ready-bank-package-')),npm=process.env.npm_execpath??path.join(path.dirname(process.execPath),'node_modules/npm/bin/npm-cli.js');
 const [packed]=JSON.parse(execFileSync(process.execPath,[npm,'pack','--json','--pack-destination',directory,'--cache',path.join(root,'.artifacts/npm-cache')],{cwd:root,encoding:'utf8'}));
-const consumer=fs.mkdtempSync(path.join(os.tmpdir(),'hollow-ready-bank-'));writeJSON(path.join(consumer,'package.json'),{private:true,type:'module'});
+const consumer=fs.mkdtempSync(path.join(root,'.artifacts/ready-bank-consumer-owned-'));
+try {
+writeJSON(path.join(consumer,'package.json'),{private:true,type:'module'});
 execFileSync(process.execPath,[npm,'install',path.join(directory,packed.filename),'--offline','--ignore-scripts','--no-audit','--no-fund','--cache',path.join(consumer,'cache')],{cwd:consumer,stdio:'pipe'});
 fs.copyFileSync(path.join(consumer,'node_modules/@hollow-wake/engine/examples/ready-cooldown-bank.mjs'),path.join(consumer,'example.mjs'));
 fs.writeFileSync(path.join(consumer,'run.mjs'),`import assert from 'node:assert/strict';
@@ -27,3 +29,7 @@ try{execFileSync(process.execPath,[path.join(root,'node_modules/typescript/bin/t
 const result=JSON.parse(execFileSync(process.execPath,['run.mjs'],{cwd:consumer,encoding:'utf8',env:{...process.env,NODE_PATH:''}}));
 const bytes=fs.readFileSync(path.join(consumer,'node_modules/@hollow-wake/engine/dist/ready-cooldown-bank.js'));assert(bytes.equals(fs.readFileSync('dist/ready-cooldown-bank.js')));assert(bytes.length<=3072);
 const report={passed:true,directory,consumer,result,installedConsumer:true,typeConsumer:true,isolatedSimulations:true,jsBytes:bytes.length,moduleSha256:sha256(bytes),integrity:packed.integrity};writeJSON(path.join(directory,'verification.json'),report);writeJSON('.artifacts/ready-bank-package.json',report);console.log(report);
+} finally {
+  assert.equal(path.dirname(fs.realpathSync(consumer)),fs.realpathSync(path.join(root,'.artifacts')));
+  fs.rmSync(consumer,{recursive:true,maxRetries:3});
+}

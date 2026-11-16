@@ -3,6 +3,7 @@ import {createCombatOwner} from './combat-owner.mjs';
 import {createCombatAdmission} from './combat-admission.mjs';
 import {installCombatClock} from './combat-clock-services.mjs';
 import {combatCharacter} from './combat-character.mjs';
+export {createCombatGeometry} from './combat-space-geometry.mjs';
 
 const point = at => {
   if (!at || !Number.isFinite(at.x) || !Number.isFinite(at.y)) throw new TypeError('Invalid combat point');
@@ -86,6 +87,8 @@ export function createCombatSession(content, host, options = {}) {
       casting: actor.casting ? {id: actor.casting.inst.def.id, mode: actor.casting.mode, elapsed: actor.casting.elapsed, total: actor.casting.total} : null,
       cooldowns: [...actor.cooldowns], charges: [...actor.charges], statuses: actor.statuses.map(s => ({id: s.id, remaining: s.remaining, dps: s.dps, stacks: s.stacks}))};
   }
+  const pose = a => ({id:a.id, pos:{...a.pos}, tier:a.tier, radius:a.radius, facing:a.facing, velocity:{...a.vel},
+    moveAccumulator:a.moveAcc, strideDistance:a.strideDist, idleFor:a.idleFor, plantFor:a.plantFor});
   const api = {
     addMonster(id, config) {
       available();
@@ -122,6 +125,11 @@ export function createCombatSession(content, host, options = {}) {
       // identity, randomness, live resources or spatial query.
       const actor = new owner.shared.actors.Actor(nextIdentity(), config.name, config.team, at, new StatSheet(owner.shared.stats));
       actor.level = level; actor.tier = config.layer ?? 0;
+      for (const flag of ['flying','levitates']) {
+        if (config[flag] !== undefined && typeof config[flag] !== 'boolean') throw Error('Invalid native movement flag');
+        if (config[flag] !== undefined) actor[flag] = config[flag];
+      }
+      actor.flyingBase = actor.flying;
       if (config.controlled) actor.kind = 'player';
       for (const [id, value] of Object.entries(config.stats ?? {})) {
         if (!Object.hasOwn(content.stats, id) || !Number.isFinite(value)) throw Error('Invalid combat statistic: ' + id);
@@ -175,7 +183,19 @@ export function createCombatSession(content, host, options = {}) {
       if (!inst || actor.dead || actor.downed) return false;
       return operate(() => w.useSkill(actor, inst, at, true));
     },
-    aim(ref, aim) {const actor = body(ref), at = point(aim); return operate(() => {actor.aimPos = at;});},
+    move(ref, direction, seconds) {
+      const actor = body(ref), at = point(direction);
+      if (!Number.isFinite(seconds) || seconds < 0 || seconds > 1) throw new RangeError('Movement duration must be between zero and one second');
+      if (actor.dead || actor.downed || seconds === 0) return;
+      return operate(() => {
+        const scale = w.timeflow.scaleFor(actor);
+        if (scale > 0) {w.moveActor(actor, at.x, at.y, seconds * scale); w.actorGridRev++;}
+      });
+    },
+    aim(ref, aim) {const actor = body(ref), at = point(aim); return operate(() => {
+      actor.aimPos = at;
+      if (actor.casting && ['channel','charge','guard','overcharge','concentration'].includes(actor.casting.mode)) actor.casting.aim = {...at};
+    });},
     meta(ref, skillId, aim) {
       const actor=body(ref),at=point(aim),seat=w.seatOf(actor);
       const inst=actor.skills.find(s=>s?.def.id===skillId)??seat?.meta.knownSkills.get(skillId)??seat?.grantedInsts?.get(skillId);
@@ -198,6 +218,8 @@ export function createCombatSession(content, host, options = {}) {
     actor(id) {available(); const actor = w.actorById(id); return actor ? handle(actor) : null;},
     controlled(ref) {const actor=body(ref),seat=w.seats.find(s=>s.actor===actor||s.home===actor);return seat?handle(seat.actor):null;},
     inspect(ref) {return inspectActor(body(ref));},
+    pose(ref) {return pose(body(ref));},
+    poses() {available();return w.actors.map(pose);},
     stat(ref, id) {const actor = body(ref); if (typeof id !== 'string' || !id.length || id.length > 256) throw Error('Invalid combat statistic'); return actor.sheet.get(id);},
     build(ref) {body(ref); const binding = characters.get(ref); if (!binding) throw Error('Actor has no character owner'); return binding.view();},
     effects() {

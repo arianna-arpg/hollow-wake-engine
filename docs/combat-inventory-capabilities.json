@@ -14,7 +14,7 @@
     "bridge": "D:/Games/Vesperwild-Combat",
     "client": "Godot 4.7.2",
     "authority": "Node combat host",
-    "reference": "Isolated SDK consumer; production world integration deferred",
+    "reference": "Installed Node/Godot reference with exported-player verification; production world adoption deferred",
     "bridgeCapture": "fabb2a4c",
     "sourceCompatibility": "Requires differential comparison; different captures are not presumed equivalent"
   },
@@ -681,7 +681,7 @@
       "id": "stats",
       "label": "Stats and conditions",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         ".",
         "./stats/gauges",
@@ -691,14 +691,15 @@
       "evidence": [
         "docs/build-context.md",
         "docs/character-session.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind stats and conditions through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure stats and conditions in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Expose one derived view for build previews and live rules; keep host clock and condition inputs explicit.",
@@ -718,13 +719,25 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind stats and conditions through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "attributes",
       "label": "Class and attributes",
       "required": true,
-      "current": "memory-only-character-composed",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./character/identity",
         "./character/kits",
@@ -732,14 +745,15 @@
       ],
       "evidence": [
         "docs/character-progression.md",
-        "docs/character-session.md"
+        "docs/character-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind class and attributes through the isolated Node/Godot reference host using CharacterSession and explicit host observations.",
-        "acceptance": "The clean reference player performs these character actions without an account, campaign or storage service."
+        "milestone": 5,
+        "task": "Measure class and attributes in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Create an admitted character from class and attributes without a class-claim or account service.",
@@ -749,13 +763,25 @@
           "baseline/character-session/acceptance.json",
           "scripts/test-character-session.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind class and attributes through the isolated Node/Godot reference host using CharacterSession and explicit host observations.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "inventory",
       "label": "Inventory and equipment",
       "required": true,
-      "current": "memory-only-character-composed",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./inventory/host",
         "./inventory/equipment",
@@ -766,14 +792,15 @@
       "evidence": [
         "docs/equipment-actions.md",
         "docs/inventory-data.md",
-        "docs/character-session.md"
+        "docs/character-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind inventory and equipment through the isolated Node/Godot reference host using CharacterSession and explicit host observations.",
-        "acceptance": "The clean reference player performs these character actions without an account, campaign or storage service."
+        "milestone": 5,
+        "task": "Measure inventory and equipment in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Join movement, equip/unequip and displaced-item handling to the public character composition.",
@@ -783,13 +810,25 @@
           "baseline/character-session/acceptance.json",
           "scripts/test-character-session.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind inventory and equipment through the isolated Node/Godot reference host using CharacterSession and explicit host observations.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "items",
       "label": "Items and inspection",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./items",
         "./items/host",
@@ -800,14 +839,15 @@
       "evidence": [
         "docs/item-contract.md",
         "docs/character-session.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind items and inspection through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure items and inspection in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Use the same admitted item bodies for inspection, comparison and actual build contributions.",
@@ -827,13 +867,25 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind items and inspection through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "passives",
       "label": "Passive tree and grafts",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./passives",
         "./passives/grants"
@@ -841,14 +893,15 @@
       "evidence": [
         "docs/passive-policy.md",
         "docs/character-session.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind passive tree and grafts through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure passive tree and grafts in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Expose allocate/refund/choice/graft actions with host-supplied point budgets and current live reconciliation.",
@@ -868,27 +921,40 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind passive tree and grafts through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "vocations",
       "label": "Vocation investment and grants",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./progression/vocations"
       ],
       "evidence": [
         "docs/vocation-progression.md",
         "docs/character-session.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind vocation investment and grants through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure vocation investment and grants in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Provide a grant/investment entry independent of createVocationQuests, run/account ledgers and campaign gates; retain the old API as optional compatibility.",
@@ -908,13 +974,25 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind vocation investment and grants through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "skills",
       "label": "Skill trees and mutators",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./skills/tree",
         "./skills/progression",
@@ -924,14 +1002,15 @@
       "evidence": [
         "docs/skill-progression.md",
         "docs/character-session.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind skill trees and mutators through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure skill trees and mutators in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Compose investment and resolved tree payloads with owned learned/granted skills; separate Font/location policy from rule execution.",
@@ -951,13 +1030,25 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind skill trees and mutators through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "awakenings",
       "label": "Awakenings and empowerment",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./skills/actions",
         "./skills/progression"
@@ -965,14 +1056,15 @@
       "evidence": [
         "docs/skill-progression.md",
         "docs/character-session.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind awakenings and empowerment through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure awakenings and empowerment in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Expose the existing awakening, merge and rank-budget behavior through the composed host-neutral action surface.",
@@ -992,13 +1084,25 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind awakenings and empowerment through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "supports",
       "label": "Supports and sockets",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./skills/supports",
         "./skills/support-content",
@@ -1008,14 +1112,15 @@
       "evidence": [
         "docs/support-rules.md",
         "docs/character-session.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind supports and sockets through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure supports and sockets in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Join support-fit, rolled choices, sockets and custody to learned and equipment-granted skills.",
@@ -1035,13 +1140,25 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind supports and sockets through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "bar",
       "label": "Learned and granted skill bar",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./skills/bar",
         "./skills/rack",
@@ -1053,14 +1170,15 @@
       "evidence": [
         "docs/equipment-skills.md",
         "docs/character-session.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind learned and granted skill bar through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure learned and granted skill bar in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Close granted-bar admission and equipment-granted editing without losing surviving live skill identities.",
@@ -1080,13 +1198,25 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind learned and granted skill bar through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "reliquary",
       "label": "Reliquary and relic effects",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./inventory/relics",
         "./inventory/actions",
@@ -1095,14 +1225,15 @@
       "evidence": [
         "docs/relic-custody.md",
         "docs/character-session.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind reliquary and relic effects through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure reliquary and relic effects in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Accept authorized relic bodies, enabled state, rank and container features from the host; keep account ownership and persistence outside.",
@@ -1122,27 +1253,40 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind reliquary and relic effects through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "containers",
       "label": "Personal containers and storage rules",
       "required": true,
-      "current": "memory-only-character-composed",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./inventory/containers",
         "./inventory/stash"
       ],
       "evidence": [
         "docs/stash-policy.md",
-        "docs/character-session.md"
+        "docs/character-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind personal containers and storage rules through the isolated Node/Godot reference host using CharacterSession and explicit host observations.",
-        "acceptance": "The clean reference player performs these character actions without an account, campaign or storage service."
+        "milestone": 5,
+        "task": "Measure personal containers and storage rules in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Expose layout, capacity and placement rules without adopting a saved-account envelope.",
@@ -1152,13 +1296,25 @@
           "baseline/character-session/acceptance.json",
           "scripts/test-character-session.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind personal containers and storage rules through the isolated Node/Godot reference host using CharacterSession and explicit host observations.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "crafting",
       "label": "Crafting and inlays",
       "required": true,
-      "current": "memory-only-character-composed",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./crafting",
         "./crafting/content",
@@ -1170,14 +1326,15 @@
       ],
       "evidence": [
         "docs/crafting-boundary.md",
-        "docs/character-session.md"
+        "docs/character-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind crafting and inlays through the isolated Node/Godot reference host using CharacterSession and explicit host observations.",
-        "acceptance": "The clean reference player performs these character actions without an account, campaign or storage service."
+        "milestone": 5,
+        "task": "Measure crafting and inlays in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Compose forge, socket, reroll, salvage and inlay results with the build; supply station access and currency through host policy.",
@@ -1187,13 +1344,25 @@
           "baseline/character-session/acceptance.json",
           "scripts/test-character-session.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind crafting and inlays through the isolated Node/Godot reference host using CharacterSession and explicit host observations.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "builds",
       "label": "Combined character derivation",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./character/builds",
         "./character/build-contributions",
@@ -1207,14 +1376,15 @@
         "docs/character-builds.md",
         "docs/character-rebuild.md",
         "docs/character-session.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind combined character derivation through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure combined character derivation in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Connect the existing authored builder to admitted Inventory actions and current live actors, with an explicit entitlement/relic projection.",
@@ -1234,26 +1404,39 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind combined character derivation through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "progression",
       "label": "Direct character rewards",
       "required": true,
-      "current": "memory-only-character-composed",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./character/progression"
       ],
       "evidence": [
         "docs/run-character-progression.md",
-        "docs/character-session.md"
+        "docs/character-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind direct character rewards through the isolated Node/Godot reference host using CharacterSession and explicit host observations.",
-        "acceptance": "The clean reference player performs these character actions without an account, campaign or storage service."
+        "milestone": 5,
+        "task": "Measure direct character rewards in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Reuse progression rules behind direct authorized XP/point/grant operations without the durable run/account coordinator.",
@@ -1263,13 +1446,25 @@
           "baseline/character-session/acceptance.json",
           "scripts/test-character-session.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind direct character rewards through the isolated Node/Godot reference host using CharacterSession and explicit host observations.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "casting",
       "label": "Casting and requests",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         ".",
         "./casting/charged",
@@ -1289,14 +1484,15 @@
       ],
       "evidence": [
         "docs/skill-dispatch.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind casting and requests through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure casting and requests in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneThree": {
         "task": "Connect all required cast modes to the composed skill identities and explicit input/time/contact host services.",
@@ -1307,13 +1503,25 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind casting and requests through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "resources",
       "label": "Resources and conduits",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./resources/charges",
         "./resources/gauges",
@@ -1327,14 +1535,15 @@
       ],
       "evidence": [
         "docs/conduits.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind resources and conduits through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure resources and conduits in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneThree": {
         "task": "Wire resource pools, ammunition and conduit contributions through the composed actor.",
@@ -1345,13 +1554,25 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind resources and conduits through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "damage",
       "label": "Damage and defenses",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./combat/damage",
         "./combat/hit-preparation",
@@ -1364,14 +1585,15 @@
       ],
       "evidence": [
         "docs/damage-pipeline.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind damage and defenses through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure damage and defenses in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneThree": {
         "task": "Use the extracted full hit pipeline at the existing host contact seam; reconcile differing source captures explicitly.",
@@ -1382,13 +1604,25 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind damage and defenses through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "statuses",
       "label": "Statuses and timed effects",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         ".",
         "./statuses",
@@ -1401,14 +1635,15 @@
       ],
       "evidence": [
         "docs/status-delivery-boundary.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind statuses and timed effects through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure statuses and timed effects in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneThree": {
         "task": "Connect status application, stacks, timers and cleanup to the same live actors and resolved skill payloads.",
@@ -1419,13 +1654,25 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind statuses and timed effects through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "procs",
       "label": "Procs and delayed effects",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./combat/procs",
         "./combat/effects",
@@ -1435,14 +1682,15 @@
       ],
       "evidence": [
         "docs/proc-delivery.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind procs and delayed effects through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure procs and delayed effects in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneThree": {
         "task": "Expose the extracted effect branches and delayed scheduling through the composed host while retaining recursion and ownership guards.",
@@ -1453,13 +1701,25 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind procs and delayed effects through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "recovery",
       "label": "Recovery and cooldowns",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./combat/recovery",
         "./combat/recovery-content",
@@ -1472,14 +1732,15 @@
       ],
       "evidence": [
         "docs/cooldown-lifecycle.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind recovery and cooldowns through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure recovery and cooldowns in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneThree": {
         "task": "Connect recovery and cooldown transitions to current actor state and host-selected recipients.",
@@ -1490,26 +1751,39 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind recovery and cooldowns through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "guard",
       "label": "Guard disciplines",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./guard/arts"
       ],
       "evidence": [
         "docs/guard-arts.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind guard disciplines through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure guard disciplines in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneThree": {
         "task": "Bind host interception, parry, break and bash contacts to the extracted disciplines.",
@@ -1520,13 +1794,25 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind guard disciplines through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "auras",
       "label": "Auras",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./auras/activation",
         "./auras/ticking",
@@ -1535,14 +1821,15 @@
       ],
       "evidence": [
         "docs/aura-ticking.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind auras through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure auras in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneThree": {
         "task": "Compose activation/upkeep/membership/retirement through host spatial and body services.",
@@ -1553,13 +1840,25 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind auras through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "companions",
       "label": "Summons and companions",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./companions/grants",
         "./companions/bonds",
@@ -1574,14 +1873,15 @@
       ],
       "evidence": [
         "docs/summon-birth.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind summons and companions through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure summons and companions in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneThree": {
         "task": "Wire extracted body/kit/inheritance/reservation rules to host-owned bodies; leave navigation and general AI with the game.",
@@ -1592,13 +1892,25 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind summons and companions through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "sequences",
       "label": "Sequences and challenge skills",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./combat/sequence-recovery",
         "./combat/attack-sequences",
@@ -1610,14 +1922,15 @@
       ],
       "evidence": [
         "docs/challenges.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind sequences and challenge skills through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure sequences and challenge skills in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneThree": {
         "task": "Bind the extracted sequence/device controllers to the composed actor and explicit target/delivery services.",
@@ -1628,27 +1941,40 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind sequences and challenge skills through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "content",
       "label": "Executable content and coverage",
       "required": true,
-      "current": "combat-and-character-composed-candidate",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./content/table",
         "./content/table/compiler"
       ],
       "evidence": [
         "docs/content-tables.md",
-        "docs/combat-session.md"
+        "docs/combat-session.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Bind executable content and coverage through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
-        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
+        "milestone": 5,
+        "task": "Measure executable content and coverage in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneThree": {
         "task": "Map the recorded delivery/effect/source-rule census to executable family tests and reject unsupported required content at admission.",
@@ -1659,26 +1985,51 @@
           "scripts/verify-combat-coverage.mjs",
           "scripts/test-combat-session-package.mjs"
         ]
+      },
+      "milestoneFour": {
+        "task": "Bind executable content and coverage through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
       }
     },
     {
       "id": "host",
       "label": "Reference host adapter",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "node-godot-reference-candidate",
       "entries": [
         "./hollow-wake"
       ],
       "evidence": [
-        "docs/skill-dispatch-boundary.md"
+        "docs/skill-dispatch-boundary.md",
+        "docs/node-godot-adapter.md"
       ],
       "remaining": {
-        "milestone": 4,
-        "task": "Build the isolated Node-host/Godot-client reference against the documented Vesperwild seams, without editing those projects.",
-        "acceptance": "Clean installed reference player covers the required matrix with deterministic ground/entity providers."
+        "milestone": 5,
+        "task": "Measure reference host adapter in the agreed composed workloads, then optimize measured bottlenecks.",
+        "acceptance": "Reproducible workloads meet recorded CPU/memory/allocation budgets on the named reference platform; device qualification and release packaging stay explicit."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Node owns the composed combat/character packages; Godot consumes detached frames and sends bounded commands. Game-specific ground, rewards, projections and optional storage remain host-owned.",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneFour": {
+        "task": "Build the isolated Node-host/Godot-client reference against the documented Vesperwild seams, without editing those projects.",
+        "acceptance": "Available through the installed Node/Godot reference and composed public SDK; grants/projections remain trusted host operations. The rendered scene demonstrates equipment, supports, passives and combat; it is not a complete replacement Inventory UI.",
+        "evidence": [
+          "docs/node-godot-adapter.md",
+          "docs/combat-inventory-milestone-four.md",
+          "scripts/test-node-godot.mjs",
+          "scripts/test-node-godot-player.mjs",
+          "test/node-godot/consumer.mjs",
+          "test/combat-session/characters.mjs"
+        ]
+      }
     }
   ],
   "knownCouplings": [

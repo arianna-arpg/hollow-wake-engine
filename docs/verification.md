@@ -1,5 +1,20 @@
 # Verification and reproduction
 
+The [milestone-four Node/Godot adapter](combat-inventory-milestone-four.md) adds
+an installed, extension-absent consumer to `verify`, two independently frozen
+locomotion observers to `reference:verify`, and an actual Godot editor/exported
+player course on Windows and Linux. `test:node-godot` covers the input/build/
+storage boundary and physical providers. `test-node-godot-player.mjs --tools
+<tools.json>` exercises the client and export; `--render` also captures the
+rendered scene. Temporary installations and exported binaries are removed by
+the harnesses even on failures.
+
+The body-construction census compares SDK and original exactly on the running
+Node version. A narrowly bounded original-to-frozen morphology comparison
+handles the observed Node 22/24 `Math.pow` rounding difference; see the
+milestone-four record. It does not weaken ordinary statistics or gameplay
+comparisons and does not regenerate accepted recordings.
+
 The [memory-only character course](character-session.md) is part of `npm run verify`.
 It installs the engine and both authored packages, removes optional extension
 runtime/declaration files, checks public types and browser bundling, and runs

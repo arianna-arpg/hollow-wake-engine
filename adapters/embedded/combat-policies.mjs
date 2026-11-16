@@ -2,7 +2,7 @@
 import {bodySkillLevel as monsterSkillLevelOf} from '../../dist/body-levels.js';
 import {inAoe} from '../../dist/combat-geometry.js';
 export function createCombatPolicies(w, q) {
-  const {movementProfile, skillMovementVoice, MOVEMENT_VISUAL_STYLE, extendMovementTrail, lightningProfile, LIGHTNING_STYLE, extendLightningTrace, skillSelfVoice, skillPresenceVoice, PRESENCE_STYLE, isConcealed, PERCEPTION_CFG, anatomyCueState, anatomyFlash, notePartScar, clearPartScar, feedingCueFlash, noteRestoreGain, RECOVERY_CUES, minionAreaAvoidanceOf, throngEvolution, throngClusterPlies, THRONG_EVOLUTION, instanceCastMode, instanceEffects, costWard, angleDiff, angleTo, clamp, dist, vec, replenishingDelivery, replenishShape, replenishmentActive, weaveVel, mod, STATUS_DEFS, parryCounter, HIVECALL, hivecallNode, hivecallState, hivecallRescueFactor, hivecallFormDamage, reachTo, segR, tickSegFlash, woundCount, DEFENSE_CFG, MASS_CFG, impactFrac, impactScale, shoveAuthority, BEHAVIOR_STATS, normalizeBrain, crewBoardingOpen, effectiveSkillLevel, grantedTags, guardBashSpec, hostSockets, instanceChargeCost, instanceChargeGain, instanceDelivery, instanceMetas, instanceMods, instanceSummon, instanceTameMod, instanceTargeting, instanceThrongSources, instanceTrigger, instanceTriggerArmed, instanceTriggerLimit, instanceTriggerPermit, makeSkillInstance, BASH_CFG, META_CHAIN_INTERVAL, TRIGGER_CFG, skillContextTags, supportFitsInst, supportRidesMinions, RELIQUARY_CFG, SKILLS, MONSTERS, coopScale, VICTIM_CONDITIONS, runeForCast, COMBO_CFG, comboRepeatedNow, comboStat, comboVariedNow, matchComboRule, COMBO_LIST, ATTRIBUTES, ELEMENTAL_TYPES, DAMAGE_COLOR, EMERGE_CFG, emergeFor, emergeSeedOf, canSquish, SQUISH_CFG, sameStory, tierFloorAt, gatherSympathyRecipients, SYMPATHY_CFG, SYMPATHY_LINKS, sympathyRelationOf, sympathyStat, CHARGE_DEFS, transitDwell, transitRadius, transitReach, MINION_COMBAT, batchScaleOf, buildWornThrongDef, isThrongBody, THRONG_CFG, throngMarkerOf, throngPocketKey, throngSpecsOn, WORN_THRONGS, wornThrongDefOfSkillId, wornThrongStat, CLING_CFG, clingEligible, clingMotionShaken, clingSeatPos, clingSeatsOf, gnawTags, STATUS_RELAYS, STATUS_RELAY_IDS, relayStatusStat, TRAIL_GRANTS, POCKET_GRANTS, pocketGrantStat, trailGrantStat, placeGrantedPockets, POCKET_GRANT_IDS, TRAIL_GRANT_IDS, substituteThrongKind, LITE_CFG, liteNoise, liteRingOffset, resolveLiteKind, GRAB_CFG, payloadTransition, noteProcCue, poolVentRead, defenseCueFlash, combatCueFlash, guardArcRadians, guardBashGeometry, DEFENSE_CUE_CFG, plyFloorOf, LOS_CFG, SATELLITE_CFG, REMNANT_KINDS, remnantDropStat, ORB_DEFS, ORB_CAP, orbAmount, orbOnKillStat, orbRefundStat} = q;
+  const {markBodyWalk, movementProfile, skillMovementVoice, MOVEMENT_VISUAL_STYLE, extendMovementTrail, lightningProfile, LIGHTNING_STYLE, extendLightningTrace, skillSelfVoice, skillPresenceVoice, PRESENCE_STYLE, isConcealed, PERCEPTION_CFG, anatomyCueState, anatomyFlash, notePartScar, clearPartScar, feedingCueFlash, noteRestoreGain, RECOVERY_CUES, minionAreaAvoidanceOf, throngEvolution, throngClusterPlies, THRONG_EVOLUTION, ensureMovementTether, refreshMovementTether, instanceCastMode, instanceEffects, costWard, angleDiff, angleTo, clamp, dist, vec, replenishingDelivery, replenishShape, replenishmentActive, weaveVel, mod, STATUS_DEFS, parryCounter, HIVECALL, hivecallNode, hivecallState, hivecallRescueFactor, hivecallFormDamage, reachTo, segR, tickSegFlash, woundCount, DEFENSE_CFG, MASS_CFG, impactFrac, impactScale, shoveAuthority, BEHAVIOR_STATS, normalizeBrain, crewBoardingOpen, effectiveSkillLevel, grantedTags, guardBashSpec, hostSockets, instanceChargeCost, instanceChargeGain, instanceDelivery, instanceMetas, instanceMods, instanceSummon, instanceTameMod, instanceTargeting, instanceThrongSources, instanceTrigger, instanceTriggerArmed, instanceTriggerLimit, instanceTriggerPermit, makeSkillInstance, rampValue, instanceChannel, BASH_CFG, META_CHAIN_INTERVAL, TRIGGER_CFG, skillContextTags, supportFitsInst, supportRidesMinions, RELIQUARY_CFG, SKILLS, MONSTERS, coopScale, VICTIM_CONDITIONS, runeForCast, COMBO_CFG, comboRepeatedNow, comboStat, comboVariedNow, matchComboRule, COMBO_LIST, ATTRIBUTES, ELEMENTAL_TYPES, DAMAGE_COLOR, EMERGE_CFG, emergeFor, emergeSeedOf, canSquish, SQUISH_CFG, sameStory, tierFloorAt, gatherSympathyRecipients, SYMPATHY_CFG, SYMPATHY_LINKS, sympathyRelationOf, sympathyStat, CHARGE_DEFS, transitDwell, transitRadius, transitReach, MINION_COMBAT, batchScaleOf, buildWornThrongDef, isThrongBody, THRONG_CFG, throngMarkerOf, throngPocketKey, throngSpecsOn, WORN_THRONGS, wornThrongDefOfSkillId, wornThrongStat, CLING_CFG, clingEligible, clingMotionShaken, clingSeatPos, clingSeatsOf, gnawTags, STATUS_RELAYS, STATUS_RELAY_IDS, relayStatusStat, TRAIL_GRANTS, POCKET_GRANTS, pocketGrantStat, trailGrantStat, placeGrantedPockets, POCKET_GRANT_IDS, TRAIL_GRANT_IDS, substituteThrongKind, LITE_CFG, liteNoise, liteRingOffset, resolveLiteKind, GRAB_CFG, grabHolderMove, payloadTransition, noteProcCue, poolVentRead, defenseCueFlash, combatCueFlash, guardArcRadians, guardBashGeometry, DEFENSE_CUE_CFG, plyFloorOf, LOS_CFG, SATELLITE_CFG, REMNANT_KINDS, remnantDropStat, ORB_DEFS, ORB_CAP, orbAmount, orbOnKillStat, orbRefundStat} = q;
   const rand = (a, b) => a + w.random() * (b - a);
   const randInt = (a, b) => Math.floor(a + w.random() * (b + 1 - a));
   const chance = p => w.random() < p;
@@ -4209,6 +4209,150 @@ export function createCombatPolicies(w, q) {
     }
     return ok;
   }
+  movementLocked(a) {
+    if (a.magicPack && a.sheet.getSourceMods("magicPack:beamChannel"))
+      return true;
+    if (a.magicPack && a.sheet.getSourceMods("magicPack:eventChannel"))
+      return true;
+    if (a.dash || a.leap || a.caromRun || a.isStunned() || a.dead || a.anchored || a.passive && !a.driven && !(a.defId && MONSTERS[a.defId]?.brain?.behavior?.haunt))
+      return true;
+    for (const au of a.activeAuras.values()) {
+      const ad = au.inst.def.delivery;
+      if (ad.type === "aura" && ad.moveFactor === 0)
+        return true;
+    }
+    if (a.casting) {
+      if (a.casting.mode === "channel") {
+        return (a.casting.gather ?? instanceChannel(a.casting.inst))?.move === "immobile" && w.channelMobility(a, a.casting.inst) <= 0;
+      }
+      if (a.casting.mode === "guard")
+        return false;
+      return w.castMoveFactor(a, a.casting.inst) <= 0;
+    }
+    return false;
+  }
+  castMoveFactor(a, inst) {
+    return Math.min(1, (inst.def.castMove ?? 0) + a.sheet.get("castMobility", skillContextTags(inst), instanceMods(inst)));
+  }
+  channelMobility(a, inst) {
+    return a.sheet.get("channelMobility", skillContextTags(inst), instanceMods(inst));
+  }
+  moveActor(a, dx, dy, dt) {
+    ensureMovementTether(a);
+    if (refreshMovementTether(a, w)?.returning)
+      return;
+    if (w.movementLocked(a))
+      return;
+    if (a.clingTo)
+      return;
+    if (a.mountId !== void 0)
+      w.mountUnlink(a);
+    if (a.heldBy !== void 0) {
+      const holder = w.actorById(a.heldBy);
+      const hold = holder?.gripping;
+      if (hold && hold.id === a.id) {
+        const want = Math.hypot(dx, dy);
+        if (want > 1e-3)
+          hold.struggle += GRAB_CFG.break.moveFeed * Math.min(1, want) * dt;
+      }
+      return;
+    }
+    for (const s of a.statuses) {
+      if (STATUS_DEFS[s.id]?.invertMove) {
+        dx = -dx;
+        dy = -dy;
+        break;
+      }
+    }
+    let channelFactor = 1;
+    if (a.casting?.mode === "channel") {
+      const ch = a.casting.gather ?? instanceChannel(a.casting.inst);
+      const base = ch?.move === "immobile" ? 0 : ch?.move === "slowed" ? ch.moveFactor ?? 0.5 : 1;
+      const rm = ch?.rampMove ? rampValue(ch.rampMove, a.casting.channelTime ?? 0) : 0;
+      channelFactor = Math.max(0, Math.min(ch?.rampMove ? 1.6 : 1, base + w.channelMobility(a, a.casting.inst) + rm));
+      if (channelFactor <= 0)
+        return;
+    } else if (a.casting?.mode === "guard") {
+      channelFactor = a.casting.inst.def.guard?.moveFactor ?? 0.4;
+    } else if (a.casting) {
+      channelFactor = w.castMoveFactor(a, a.casting.inst);
+      if (channelFactor <= 0)
+        return;
+    }
+    for (const au of a.activeAuras.values()) {
+      const ad = au.inst.def.delivery;
+      if (ad.type === "aura" && ad.moveFactor !== void 0 && ad.moveFactor > 0) {
+        channelFactor *= ad.moveFactor;
+      }
+    }
+    if (a.gripping) {
+      const gf = grabHolderMove(a.gripping);
+      if (gf <= 0)
+        return;
+      channelFactor *= gf;
+    }
+    const len = Math.hypot(dx, dy);
+    if (len < 1e-3)
+      return;
+    if (dt > 0 && channelFactor > 0)
+      w.guardArts.ram(a, dx, dy);
+    const regionScale = w.walkScale(a, dx / len, dy / len);
+    const boatScale = 1;
+    let windScale = 1;
+    ;
+    ;
+    const snowScale = 1;
+    const sc = a.stanceRead();
+    const speed = a.sheet.get("moveSpeed", sc?.tags, sc?.extra) * channelFactor * regionScale * boatScale * windScale * snowScale;
+    const traction = clamp(a.sheet.get("traction"), 0.05, 1);
+    a.lastMoveAt = w.time;
+    a.idleFor = 0;
+    a.plantFor = 0;
+    a.moveAcc += speed * dt;
+    w.markSeatActed(a);
+    w.markSeatMoved(a);
+    const disp = a.flying ? NOCLIP_DISP : w.levitating(a) ? LEVITATE_DISP : void 0;
+    const striding = a.sheet.get("strideReach") > 0;
+    const sx = a.pos.x, sy = a.pos.y;
+    if (traction >= 0.999) {
+      a.vel.x = dx / len * speed;
+      a.vel.y = dy / len * speed;
+      w.steppedClamp(a, vec(a.pos.x + dx / len * speed * dt, a.pos.y + dy / len * speed * dt), a.pos, disp);
+    } else {
+      const blend = Math.min(1, dt * (1.5 + traction * 14));
+      a.vel.x += (dx / len * speed - a.vel.x) * blend;
+      a.vel.y += (dy / len * speed - a.vel.y) * blend;
+      w.steppedClamp(a, vec(a.pos.x + a.vel.x * dt, a.pos.y + a.vel.y * dt), a.pos, disp);
+    }
+    if (striding)
+      a.strideDist += Math.hypot(a.pos.x - sx, a.pos.y - sy);
+    if (true)
+      markBodyWalk(a, a.pos.x - sx, a.pos.y - sy, w.time);
+  }
+  levitating(a) {
+    return a.levitates || a.sheet.get("levitation") > 0;
+  }
+  mountUnlink(r, riderDied = false) {
+    const m = r.mountId !== void 0 ? w.actorById(r.mountId) : void 0;
+    r.mountId = void 0;
+    r.mountSeat = void 0;
+    if (!m)
+      return;
+    const left = (m.riderIds ?? []).filter((id) => id !== r.id);
+    m.riderIds = left.length ? left : void 0;
+    if (!left.length && !m.dead) {
+      if (m.team === "enemy" && !m.owner)
+        m.fromZoneGen = true;
+      if (riderDied)
+        w.mountWidowed(m);
+    }
+  }
+  mountWidowed(m) {
+    const slot = m.defId ? MONSTERS[m.defId]?.mountSlot : void 0;
+    if (slot?.onRiderDeath === "rout") {
+      m.applyStatus("horrified", 0, 5, "Widowed");
+    }
+  }
 }
 
   function statusReqs(req) {
@@ -4218,9 +4362,11 @@ const STEALTH_CHARGE = "stealth";
 function isStealthed(a) {
   return isConcealed(a) || a.sheet.get("invisible") > 0;
 }
+const NOCLIP_DISP = { ignoreConfine: true };
+const LEVITATE_DISP = { ignoreFall: true };
 
   w.statusReqs = statusReqs;
   w.isStealthed = isStealthed;
   return new Policies();
 }
-export const combatPolicyMethods = Object.freeze(["applyThorns","releasePrimedPours","bankPools","triggerEligible","rollTriggers","bankStatusTriggers","bankDamageTakenTriggers","sweepDefenseEvents","recordCast","paySkillCost","consumeChargeCost","consumeStealth","bankRune","consumeAmmunition","consumeRemnants","rollKillRemnants","victimGate","isEliteVictim","minionsOfSkill","minionsOfGroup","minionServes","companionsOfSkill","tickChannelSupports","actorTurnRate","castTurnRate","assaultBladeHit","healAlliesInArea","enemiesOf","skillOcclusion","spawnAftershocks","castChrono","isPrey","failNote","forwardSummonSockets","bakeMinionOwnerStats","conjurationLifeline","armAmbush","applyPartyScale","relayStatus","presenceMoment","releaseStruckSummons","updateSummonReforms","clearSummonReleaseFields","clearTreeFields","clearTreeConstructs","accumulateDotText","emergeBody","updateEmergences","showRecoveryCue","showCompanionCue","attackSequenceBurst","challengeBurst","challengeHit","companionCapOf","companionPulseHit","guardArtCooldown","guardArtHit","guardBash","inheritedFlight","retireOwnedZone","plantSpiritTotem","shedOrb","pushActor","springAmbush","reflectParriedProjectile","resolveParryDamage","tryGuardBlock","guardianFor","tryShellBlock","tryShellPool","noteLightningTravel","carriedEffectContext","movementMoment","affordedDest","hivecallRoster","hivecallCap","hivecallPayload","hivecallDeath","hivecallTransform","hivecallReturn","hivecallMeta","syncHivecallFormDamage","throngBodiesOf","throngRosterCount","throngCapOf","throngRecruitCap","throngGain","throngKeepMinimum","throngEvolutionHit","throngEvolutionBurst","mintThrongBody","onPartBroken","ringBell","rollKillOrbs","clingRelease","setLure","throngOnHit","throngOnKill","throngSources","throngYieldCount","mintThrongFind","mintThrongHusk","liteKindOf","litePromoteNearest","promoteLite","liteNoteDeath","litePocketDisturb","liteProjectileSweep","liteCarve","litePooledHit","liteBiteVictim","liteSteerAndBite","liteDemoteSweep","minionNeedsFullDurability","reqShortfall","companionBondsOfSkill","updateThrongEvolution","updateThrong","updateClings","claimThrongHusk","wornThrongAnchorsOf","wornThrongAnchored","driveUntamedThrong","throngMoteSpot","noteMovementTravel","resolveImpactHit","sweepBodySlam","updateHivecall","updateMinionMeta","updateReplenishment","updateLeaps","updateStrobes","updateVents","updateDischarges","checkMinionDetonations","updateSummonShells","echoSympathy","sympathyPotency","applySympathyEcho","updateOrbs","pourOrb","updateRemnants","pickupSeat","refundOnOrb","updatePendingContagions","grantedPocketsFor","insideGrantedPocket","inGrantedRefuge","syncPocketGrants","updateGrantedTrails","updateDownedCompanions","seatIdle","updateCompanionGrants","updateWorms","updateParts","graftPart","separateActors","updateSquish","resyncMinionSupports","clearSummonTreeBodies","useMetaSkill"]);
+export const combatPolicyMethods = Object.freeze(["applyThorns","releasePrimedPours","bankPools","triggerEligible","rollTriggers","bankStatusTriggers","bankDamageTakenTriggers","sweepDefenseEvents","recordCast","paySkillCost","consumeChargeCost","consumeStealth","bankRune","consumeAmmunition","consumeRemnants","rollKillRemnants","victimGate","isEliteVictim","minionsOfSkill","minionsOfGroup","minionServes","companionsOfSkill","tickChannelSupports","actorTurnRate","castTurnRate","assaultBladeHit","healAlliesInArea","enemiesOf","skillOcclusion","spawnAftershocks","castChrono","isPrey","failNote","forwardSummonSockets","bakeMinionOwnerStats","conjurationLifeline","armAmbush","applyPartyScale","relayStatus","presenceMoment","releaseStruckSummons","updateSummonReforms","clearSummonReleaseFields","clearTreeFields","clearTreeConstructs","accumulateDotText","emergeBody","updateEmergences","showRecoveryCue","showCompanionCue","attackSequenceBurst","challengeBurst","challengeHit","companionCapOf","companionPulseHit","guardArtCooldown","guardArtHit","guardBash","inheritedFlight","retireOwnedZone","plantSpiritTotem","shedOrb","pushActor","springAmbush","reflectParriedProjectile","resolveParryDamage","tryGuardBlock","guardianFor","tryShellBlock","tryShellPool","noteLightningTravel","carriedEffectContext","movementMoment","affordedDest","hivecallRoster","hivecallCap","hivecallPayload","hivecallDeath","hivecallTransform","hivecallReturn","hivecallMeta","syncHivecallFormDamage","throngBodiesOf","throngRosterCount","throngCapOf","throngRecruitCap","throngGain","throngKeepMinimum","throngEvolutionHit","throngEvolutionBurst","mintThrongBody","onPartBroken","ringBell","rollKillOrbs","clingRelease","setLure","throngOnHit","throngOnKill","throngSources","throngYieldCount","mintThrongFind","mintThrongHusk","liteKindOf","litePromoteNearest","promoteLite","liteNoteDeath","litePocketDisturb","liteProjectileSweep","liteCarve","litePooledHit","liteBiteVictim","liteSteerAndBite","liteDemoteSweep","minionNeedsFullDurability","reqShortfall","companionBondsOfSkill","updateThrongEvolution","updateThrong","updateClings","claimThrongHusk","wornThrongAnchorsOf","wornThrongAnchored","driveUntamedThrong","throngMoteSpot","noteMovementTravel","resolveImpactHit","sweepBodySlam","updateHivecall","updateMinionMeta","updateReplenishment","updateLeaps","updateStrobes","updateVents","updateDischarges","checkMinionDetonations","updateSummonShells","echoSympathy","sympathyPotency","applySympathyEcho","updateOrbs","pourOrb","updateRemnants","pickupSeat","refundOnOrb","updatePendingContagions","grantedPocketsFor","insideGrantedPocket","inGrantedRefuge","syncPocketGrants","updateGrantedTrails","updateDownedCompanions","seatIdle","updateCompanionGrants","updateWorms","updateParts","graftPart","separateActors","updateSquish","resyncMinionSupports","clearSummonTreeBodies","useMetaSkill","movementLocked","castMoveFactor","channelMobility","moveActor","levitating","mountUnlink","mountWidowed"]);

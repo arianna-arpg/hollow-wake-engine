@@ -1,7 +1,9 @@
-import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {root,sha256,writeJSON} from './reference-utils.mjs';
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {root,sha256,writeJSON} from './reference-utils.mjs';
 const directory=fs.mkdtempSync(path.join(root,'.artifacts/clock-package-')),npm=process.env.npm_execpath??path.join(path.dirname(process.execPath),'node_modules/npm/bin/npm-cli.js');
 const [packed]=JSON.parse(execFileSync(process.execPath,[npm,'pack','--json','--pack-destination',directory,'--cache',path.join(root,'.artifacts/npm-cache')],{cwd:root,encoding:'utf8'}));
-const consumer=fs.mkdtempSync(path.join(os.tmpdir(),'hollow-clock-'));writeJSON(path.join(consumer,'package.json'),{private:true,type:'module'});execFileSync(process.execPath,[npm,'install',path.join(directory,packed.filename),'--offline','--ignore-scripts','--no-audit','--no-fund','--cache',path.join(consumer,'cache')],{cwd:consumer,stdio:'pipe'});
+const consumer=fs.mkdtempSync(path.join(root,'.artifacts/clock-consumer-owned-'));
+try {
+writeJSON(path.join(consumer,'package.json'),{private:true,type:'module'});execFileSync(process.execPath,[npm,'install',path.join(directory,packed.filename),'--offline','--ignore-scripts','--no-audit','--no-fund','--cache',path.join(consumer,'cache')],{cwd:consumer,stdio:'pipe'});
 fs.copyFileSync(path.join(consumer,'node_modules/@hollow-wake/engine/examples/cooldown-lifecycle.mjs'),path.join(consumer,'example.mjs'));
 fs.writeFileSync(path.join(consumer,'run.mjs'),`import assert from 'node:assert/strict';
 Math.random=()=>{throw Error('Ambient randomness');};Date.now=()=>{throw Error('Ambient time');};globalThis.window=undefined;
@@ -28,3 +30,7 @@ writeJSON(path.join(consumer,'tsconfig.json'),{compilerOptions:{strict:true,noEm
 try{execFileSync(process.execPath,[path.join(root,'node_modules/typescript/bin/tsc'),'-p',path.join(consumer,'tsconfig.json')],{cwd:consumer,stdio:'pipe'});}catch(error){console.error(String(error.stdout??''));throw error;}
 const result=JSON.parse(execFileSync(process.execPath,['run.mjs'],{cwd:consumer,encoding:'utf8',env:{...process.env,NODE_PATH:''}})),bytes=fs.readFileSync(path.join(consumer,'node_modules/@hollow-wake/engine/dist/cooldown-lifecycle.js'));assert(bytes.equals(fs.readFileSync(path.join(root,'dist/cooldown-lifecycle.js'))));assert(bytes.length<=6144);
 const report={passed:true,directory,consumer,result,installedConsumer:true,typeConsumer:true,isolatedSimulations:true,jsBytes:bytes.length,moduleSha256:sha256(bytes),integrity:packed.integrity};writeJSON('.artifacts/cooldown-lifecycle-package.json',report);console.log(report);
+} finally {
+  assert.equal(path.dirname(fs.realpathSync(consumer)),fs.realpathSync(path.join(root,'.artifacts')));
+  fs.rmSync(consumer,{recursive:true,maxRetries:3});
+}

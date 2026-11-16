@@ -37,7 +37,7 @@ export async function buildCombatSession(destination) {
   for(const [from,to] of [['adapters/embedded/combat-session.d.ts','index.d.ts'],['LICENSE.md','LICENSE.md']])fs.copyFileSync(path.join(root,from),path.join(destination,to));
   fs.writeFileSync(path.join(destination,'content.d.ts'),"export declare const combatContent: import('./index.js').CombatContent;\n");
   const version=JSON.parse(fs.readFileSync(path.join(root,'package.json'))).version;
-  writeJSON(path.join(destination,'package.json'),{name:'@hollow-wake/combat',version:'0.1.0-candidate.0',type:'module',license:'PolyForm-Noncommercial-1.0.0',
+  writeJSON(path.join(destination,'package.json'),{name:'@hollow-wake/combat',version:'0.2.0-candidate.0',type:'module',license:'PolyForm-Noncommercial-1.0.0',
     peerDependencies:{'@hollow-wake/engine':version},files:['index.js','index.d.ts','content.mjs','content.d.ts','manifest.json','LICENSE.md'],
     exports:{'.':{types:'./index.d.ts',import:'./index.js'},'./content':{types:'./content.d.ts',import:'./content.mjs'},'./manifest.json':'./manifest.json'}});
   const files=Object.fromEntries(['index.js','index.d.ts','content.mjs','content.d.ts'].map(name=>{const bytes=fs.readFileSync(path.join(destination,name));return[name,{sha256:sha256(bytes),bytes:bytes.length}];}));
