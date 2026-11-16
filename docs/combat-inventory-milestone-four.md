@@ -112,3 +112,11 @@ Milestone five measures composed workload costs and optimizes demonstrated
 bottlenecks. Steam Deck and older mobile devices require named-device runs;
 successful desktop export is not a performance claim. Milestone six finishes
 the bounded release packaging and adoption walkthrough.
+
+The first published GitHub run reached both player jobs but their tool setup
+failed before launching Godot: `.artifacts` did not yet exist in either clean
+checkout. The setup now creates that directory before resolving it. A clean
+workspace regression probe reaches the download boundary and verifies cleanup
+after a simulated download failure. This corrects the harness bootstrap; the
+recorded local player results remain unchanged. The corrected GitHub player
+jobs must still run to qualify their platforms.

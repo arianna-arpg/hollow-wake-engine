@@ -2,6 +2,7 @@ import fs from 'node:fs';import path from 'node:path';import assert from 'node:a
 import {downloadPinned} from './tool-download.mjs';import {root,sha256,writeJSON} from './reference-utils.mjs';
 const [flag,python]=process.argv.slice(2);assert(flag==='--python'&&python&&process.argv.length===4);
 const lock=JSON.parse(fs.readFileSync(path.join(root,'experiments/godot-native/toolchain-lock.json'))),target=lock.platforms[process.platform];assert(target&&process.arch==='x64');
+fs.mkdirSync(path.join(root,'.artifacts'),{recursive:true});
 const owned=fs.realpathSync(path.join(root,'.artifacts')),work=fs.mkdtempSync(path.join(owned,'m4-godot-tools-owned-'));let complete=false;
 try{
  for(const item of [target.editor.archive,lock.exportTemplates])await downloadPinned(item,path.join(work,item.name??path.posix.basename(new URL(item.url).pathname)));
