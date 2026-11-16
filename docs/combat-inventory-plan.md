@@ -1,6 +1,6 @@
 # Combat and Inventory SDK completion plan
 
-Status: resumed by the user on 13 November 2026, starting with milestone 1. The combat and Inventory boundary below supersedes the earlier open-ended completion interpretation. Optional quest, account, persistence and world-event expansion remains outside this delivery.
+Status: the bounded implementation is packaged as `combat-inventory-v0.1.0-preview.1`; release verification records final acceptance. The combat and Inventory boundary below supersedes the earlier open-ended completion interpretation. Optional quest, account, persistence and world-event expansion remains outside this delivery.
 
 ## Deliverable
 
@@ -162,6 +162,16 @@ desktop workload envelope with exact before/after output comparisons, frozen
 budgets and a portable Node/browser runner. It preserves wider measurement ideas
 as unqualified cases and does not certify physical Steam Deck/mobile hardware.
 
-Next is milestone six: bounded release packaging, adoption documentation and
-final release evidence. The evolving game, campaign/save architecture and other
-sessions remain untouched. Quests and persistence remain optional.
+## Milestone six delivery
+
+The [bounded release](combat-inventory-milestone-six.md) supplies the five matched
+archives, the Node/Godot scene, executable adoption example, host-service contract,
+compatibility table, accepted comparison courses and portable measurements.
+Release verification installs the actual ZIP in clean consumers with optional
+modules removed and checks Godot editor/exported players from those archives.
+
+No further feature extraction is required by this plan. Final acceptance and
+publication are recorded with the versioned GitHub release. Physical-device
+measurements, adoption into the evolving game, campaign/save changes and other
+complete engine integrations remain named follow-on work. Existing work is
+preserved; quests and persistence remain optional.

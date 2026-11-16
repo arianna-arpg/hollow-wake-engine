@@ -1,0 +1,77 @@
+name: Verify combat and Inventory release
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'release/**'
+      - 'src/**'
+      - 'adapters/**'
+      - 'scripts/**'
+      - 'examples/node-godot/**'
+      - 'examples/combat-inventory/**'
+      - 'docs/sdk-*.md'
+      - 'docs/combat-inventory-capabilities.json'
+      - 'package*.json'
+      - '.github/workflows/combat-inventory-release.yml'
+permissions:
+  contents: read
+jobs:
+  assemble:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run reference:prepare
+      - run: npm run build
+      - run: python scripts/test-combat-inventory-archive.py .artifacts
+      - run: node scripts/build-combat-inventory-release.mjs --out .artifacts/m6-release
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: combat-inventory-release
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
+          path: .artifacts/m6-release/
+  consumer:
+    needs: assemble
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+        node: [22, 24]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: combat-inventory-release
+          path: .artifacts/m6-release
+      - run: node scripts/test-combat-inventory-release.mjs --release .artifacts/m6-release
+      - if: matrix.node == 24
+        run: node scripts/prepare-node-godot-tools.mjs --python python
+      - if: matrix.node == 24
+        run: node scripts/test-combat-inventory-release.mjs --release .artifacts/m6-release --godot-tools .artifacts/m4-godot-tools.json --report .artifacts/m6-godot-release-verification.json
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: combat-inventory-proof-${{ matrix.os }}-node${{ matrix.node }}
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 7
+          path: |
+            .artifacts/m6-release-verification.json
+            .artifacts/m6-godot-release-verification.json
+            .artifacts/m4-godot-player.json
+            .artifacts/m4-godot-player-logs.json

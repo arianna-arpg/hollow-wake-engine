@@ -1,7 +1,9 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {spawn} from 'node:child_process';import {setTimeout as delay} from 'node:timers/promises';
-import {buildNodeGodotExample} from './build-node-godot.mjs';import {root,sha256,writeJSON} from './reference-utils.mjs';import {npmCli} from './npm-cli.mjs';
-const args=process.argv.slice(2);assert(args[0]==='--tools'&&args[1]&&args.slice(2).every(a=>a==='--render'));
-const tools=JSON.parse(fs.readFileSync(args[1])),render=args.includes('--render'),windows=process.platform==='win32';
+import {root,sha256,writeJSON} from './reference-utils.mjs';import {npmCli} from './npm-cli.mjs';
+const args=process.argv.slice(2),options={};
+for(let i=0;i<args.length;i++){const flag=args[i];assert(['--tools','--distribution','--render'].includes(flag)&&!options[flag]);options[flag]=flag==='--render'?true:args[++i];assert(options[flag]);}
+assert(options['--tools']);
+const tools=JSON.parse(fs.readFileSync(options['--tools'])),render=!!options['--render'],windows=process.platform==='win32';
 const pin=JSON.parse(fs.readFileSync(path.join(root,'experiments/godot-native/toolchain-lock.json'))).platforms[process.platform];
 assert.equal(sha256(fs.readFileSync(tools.editor)),pin.editor.executableSha256);
 assert.equal(sha256(fs.readFileSync(tools.exportRelease)),pin.templates.files[pin.templates.release]);
@@ -38,7 +40,16 @@ async function play(label,file,argv){
  }finally{server.kill();if(server.exitCode===null)await new Promise(resolve=>server.once('exit',resolve));children.delete(server);}
 }
 try{
- report.distribution=await buildNodeGodotExample(consumer);
+ if(options['--distribution']){
+  const source=fs.realpathSync(options['--distribution']),manifest=JSON.parse(fs.readFileSync(path.join(source,'manifest.json')));
+  assert.equal(manifest.capability,'node-godot-reference/v1');assert.equal(Object.keys(manifest.archives).length,5);
+  for(const [file,hash]of Object.entries(manifest.archives)){assert.equal(path.basename(file),file);assert.equal(sha256(fs.readFileSync(path.join(source,'packages',file))),hash);}
+  fs.mkdirSync(consumer);
+  // Copy only the distributable host/client and archives, never an installed
+  // dependency tree, editor cache, user saves or verification output.
+  for(const name of ['package.json','manifest.json','host','client','packages'])fs.cpSync(path.join(source,name),path.join(consumer,name),{recursive:true,filter:file=>!file.split(path.sep).includes('.godot')});
+  report.distribution=manifest;report.suppliedDistribution=true;
+ }else report.distribution=await (await import('./build-node-godot.mjs')).buildNodeGodotExample(consumer);
  await run('install',process.execPath,[npmCli(),'install','--offline','--ignore-scripts','--no-audit','--no-fund']);
  const project=path.join(consumer,'client'),exported=path.join(work,'player');fs.mkdirSync(exported);
  const executable=path.join(exported,'hollow-wake-reference'+(windows?'.exe':'.x86_64'));

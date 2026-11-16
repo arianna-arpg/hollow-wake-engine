@@ -42,10 +42,18 @@ export function checkScope({manifest=JSON.parse(fs.readFileSync(path.join(root,'
  for(const[file,hash]of [[scope.baseline.lock,scope.baseline.lockSha256],[scope.baseline.catalogue,scope.baseline.catalogueSha256]])assert.equal(sha256(fs.readFileSync(path.join(root,file))),hash,'Changed agreed baseline: '+file);
  assert.equal(Object.keys(manifest.dependencies??{}).length,0,'New runtime dependency requires an explicit scope decision');
  assert.deepEqual(Object.keys(manifest.exports).sort(),Object.keys(scope.exports).sort(),'Unclassified public entry');
+ if(scope.release){
+  const release=JSON.parse(fs.readFileSync(path.join(root,'release/combat-inventory.json')));
+  assert(scope.release.version===release.version&&scope.release.tag===release.tag&&release.questAccountPersistenceRequired===false,'Release identity or optional boundary changed');
+ }
  const ids=new Set(),covered=new Set();
  for(const row of scope.capabilities){
   assert(!ids.has(row.id)&&row.required===true);ids.add(row.id);
-  assert(row.remaining.task&&row.remaining.acceptance&&[2,3,4,5,6].includes(row.remaining.milestone));
+  if(row.remaining===null){
+   assert(scope.release?.status==='packaged-engineering-candidate'&&row.current===scope.release.status&&row.milestoneSix?.status==='packaged'
+    &&['release/combat-inventory.json','docs/combat-inventory-milestone-six.md','scripts/test-combat-inventory-release.mjs'].every(file=>row.milestoneSix.evidence?.includes(file)),'Closed capability lacks release evidence');
+   for(const file of row.milestoneSix.evidence)assert(fs.existsSync(path.join(root,file)),'Missing release evidence: '+file);
+  }else assert(row.remaining.task&&row.remaining.acceptance&&[2,3,4,5,6].includes(row.remaining.milestone));
   for(const evidence of row.evidence)assert(fs.existsSync(path.join(root,evidence)),evidence);
   for(const entry of row.entries){assert(scope.exports[entry],entry);covered.add(entry);}
  }

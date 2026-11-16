@@ -16,8 +16,10 @@ original coverage and installed-package checks. The
 a playable character/build scene and optional host storage. The
 [performance milestone](docs/combat-inventory-milestone-five.md) adds repeatable
 desktop comparisons and a [portable Node/browser runner](docs/combat-inventory-milestone-five.md#portable-runner).
-Physical Steam Deck/mobile qualification remains separate; final release packaging
-remains milestone six.
+The [versioned release bundle](docs/sdk-adoption.md) packages these five matching
+archives, the reference scene, executable examples and offline verification.
+Start with its README and [compatibility table](docs/sdk-compatibility.md).
+Physical Steam Deck/mobile qualification remains separate.
 
 The optional [durable character builder](docs/character-builds.md) composes class,
 passive, equipment, container and skill investment into private builds. A separate

@@ -1,5 +1,9 @@
 # Memory-only character composition
 
+For the matched downloadable package set and executable first run, start with
+the [release adoption guide](sdk-adoption.md). The version numbers below describe
+the original milestone-two candidate; use the release manifest for installation.
+
 Milestone two provides `CharacterSession` (`@hollow-wake/engine/character/session`),
 `CharacterLive` (`./character/live`) and the separately compiled
 `@hollow-wake/characters` authored factory. It composes existing rules; it does

@@ -1,5 +1,14 @@
 # Verification and reproduction
 
+The [bounded release](combat-inventory-milestone-six.md) adds an archive-first
+consumer: five offline-installed packages, optional modules physically absent,
+the executable adoption example, 128 combat courses and the Node/Godot courses.
+The published ZIP is assembled once in CI and tested unchanged on Windows/Linux
+with Node 22/24. The Node 24 jobs also export and run Godot from that distribution.
+Checksum, mixed-version, path-escape, case-collision and symlink controls protect
+the packaging boundary. Temporary consumers, npm caches and exports are removed
+on failures as well as success. Original accepted fixtures remain unchanged.
+
 The [performance milestone](combat-inventory-milestone-five.md) adds
 `test:combat-performance` to `verify`: an isolated installed consumer replays eight
 fixed workloads against the compressed milestone-four SDK baseline, with exact

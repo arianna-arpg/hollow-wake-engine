@@ -153,5 +153,6 @@ are the engine boundaries used here.
 This qualifies a desktop Node/Godot reference path. The simple compatibility
 renderer, bounded protocol and absent storage work in the hot path are design
 choices, not measured Steam Deck/mobile performance. Native mobile Node hosting,
-Unity and Unreal remain unqualified. Measurement budgets and optimizations are
-milestone five; final release packaging is milestone six.
+Unity and Unreal remain unqualified. The [performance record](combat-inventory-milestone-five.md)
+contains measured desktop budgets. The [release adoption guide](sdk-adoption.md)
+provides the matched archives and clean-project walkthrough.

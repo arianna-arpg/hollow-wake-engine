@@ -51,6 +51,9 @@ const missingFamily=structuredClone(scope);delete missingFamily.contentFamilies.
 reject('unassigned-content-family',()=>checkRoutes(missingFamily),/Unassigned content family/);
 const counterfeit=structuredClone(scope);counterfeit.contentFamilies.effects.damage.cases=['not-a-frozen-course'];
 reject('counterfeit-composed-evidence',()=>checkRoutes(counterfeit),/Invalid composed content evidence/);
+const closedWithoutEvidence=structuredClone(scope);closedWithoutEvidence.capabilities[0].remaining=null;delete closedWithoutEvidence.capabilities[0].milestoneSix;
+reject('counterfeit-release-completion',()=>checkScope({scope:closedWithoutEvidence}),/Closed capability lacks release evidence/);
+if(scope.release){const wrongRelease=structuredClone(scope);wrongRelease.release.version='unreviewed';reject('mixed-release-identity',()=>checkScope({scope:wrongRelease}),/Release identity or optional boundary changed/);}
 const same=checkScope();assert.deepEqual(same.graphs,report.graphs);report.restored=true;
 for(const file of [scopePath,'package.json','scripts/combat-inventory-scope-tools.mjs','scripts/check-combat-inventory-scope.mjs','scripts/catalogue-tools.mjs'])report.sources[file]=sha256(fs.readFileSync(path.join(root,file)));
 report.inputsUnchanged=Object.entries(report.sources).every(([file,hash])=>sha256(fs.readFileSync(path.join(root,file)))===hash);assert(report.inputsUnchanged);
