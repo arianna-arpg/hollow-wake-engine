@@ -1,0 +1,14 @@
+import {writeFileSync} from 'node:fs';import {World} from '../src/engine/world';import {Actor} from '../src/engine/actor';import {makeSkillInstance,type SkillDef,type TetherSpec} from '../src/engine/skills';import {DAMAGE_COLOR} from '../src/engine/stats';import {LOS_CFG} from '../src/engine/los';
+const recipes=[{name:'damage'},{name:'all',spec:{affects:'all',healPerSec:10}},{name:'heal',spec:{affects:'allies',healPerSec:12}},{name:'conversion',stats:{convert_physical_fire:1,damage:2,tetherWidth:1.5}},{name:'blocked',blocked:true},{name:'free',blocked:true,occlusion:'free'},{name:'phased',blocked:true,stats:{phasing:1}},{name:'expiry',spec:{duration:.4}},{name:'reverse-refresh',refresh:true},{name:'dead-endpoint',dies:true},{name:'other-tier',tier:1}];
+const plain=(value:unknown)=>JSON.parse(JSON.stringify(value,(k,v)=>['a','b','owner'].includes(k)&&v?.id!==undefined?v.id:k==='inst'&&v?.def?v.def.id:v instanceof Map?[...v]:typeof v==='number'&&!Number.isFinite(v)?String(v):v));
+const courses=[];for(const r of recipes){const w=Object.create(World.prototype) as World;w.actors=[];w.tethers=[];w.time=0;const rays:unknown[]=[];
+  for(const[id,x,team]of[[1,0,'player'],[2,100,'player'],[3,50,'enemy'],[4,50,'player']] as const){const a=new Actor('Body',team,{x,y:0});a.id=id;a.sheet.setBase('life',100);a.life=40;w.actors.push(a);}
+  const [a,b,victim]=w.actors;victim.tier=(r as any).tier??0;for(const[k,v]of Object.entries((r as any).stats??{}))a.sheet.setBase(k as any,v as number);
+  const def={id:'wire',name:'Wire',description:'',color:'#fff',tags:['spell'],manaCost:0,useTime:0,cooldown:0,delivery:{type:'self',occlusion:(r as any).occlusion},effects:[]} as SkillDef,i=makeSkillInstance(def,1),spec={link:'target',dps:10,width:5,duration:2,...(r as any).spec} as TetherSpec;
+  (w as any).lineOfFire=(from:unknown,to:unknown)=>{rays.push([plain(from),plain(to)]);return !(r as any).blocked;};(w as any).accumulateDotText=()=>{};
+  const state=()=>({bands:plain(w.tethers),bodies:w.actors.map(a=>({id:a.id,life:a.life,hitFlash:a.hitFlash,hitFlashType:a.hitFlashType,dead:a.dead})),rays:plain(rays)});
+  (w as any).addTether(a,b,spec,i,a);if((r as any).refresh)(w as any).addTether(b,a,{...spec,dps:12},i,a);const steps=[{dt:0,state:state()}];
+  for(const[index,dt]of[.1,.35,.1,.9].entries()){if((r as any).dies&&index===1)b.dead=true;w.time+=dt;(w as any).updateTethers(dt);steps.push({dt,state:state()});}
+  courses.push({name:r.name,definition:def,spec,stats:(r as any).stats??{},blocked:!!(r as any).blocked,refresh:!!(r as any).refresh,dies:!!(r as any).dies,tier:(r as any).tier??0,steps});
+}
+writeFileSync(process.argv[2],JSON.stringify({originalOnly:true,rules:{tick:.4,memoTtl:LOS_CFG.memoTtl,memoJitter:LOS_CFG.memoJitter,links:LOS_CFG.tetherLinks,colors:DAMAGE_COLOR},courses}));

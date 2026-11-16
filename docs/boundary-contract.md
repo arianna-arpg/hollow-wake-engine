@@ -10,6 +10,12 @@ imports quests, accounts or persistence. The [memory-only character composition]
 owns detached command preparation, direct authorized progression and explicit
 live publication, without a storage acknowledgement.
 
+The separate [combat session](combat-session.md) owns the composed combat graph
+and connects that live character publication to real casts and effect lifetimes.
+The host supplies physical facts and optional environmental status inputs. General
+AI, geography, travel, quests, campaign rewards and persistence stay outside the
+required graph; missing optional world-effect providers are explicit refusals.
+
 The optional [durable character builder](character-builds.md) composes admitted
 character/account inputs into owned private investment graphs. Its separately
 loaded default-content factory needs no game checkout. Opaque continuations

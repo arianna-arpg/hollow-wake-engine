@@ -14,6 +14,7 @@ const accepted=path.join(root,'baseline/item-inspection');
 if(capture)assert(!fs.existsSync(accepted),'Frozen observations already exist');
 verifyReference(reference,lock);
 const dir=fs.mkdtempSync(path.join(root,'.artifacts/inspection-original-'));
+try {
 const cases=inspectionCases();
 fs.writeFileSync(path.join(dir,'inputs.json'),JSON.stringify(cases));
 const script=path.join(reference,'balance/export-sdk-item-inspection.ts');
@@ -47,4 +48,8 @@ if(capture){
   assert(gunzipSync(fs.readFileSync(path.join(accepted,'terms.json.gz'))).equals(terms));
 }
 verifyReference(reference,lock);
-console.log({count:index,blocks:blocks.length,samples:samples.length,termsBytes:terms.length,dir});
+console.log({count:index,blocks:blocks.length,samples:samples.length,termsBytes:terms.length});
+} finally {
+  assert.equal(path.dirname(fs.realpathSync(dir)),fs.realpathSync(path.join(root,'.artifacts')));
+  fs.rmSync(dir,{recursive:true,maxRetries:3});
+}

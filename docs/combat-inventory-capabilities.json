@@ -54,7 +54,13 @@
     "./character/session",
     "./character/live",
     "./character/skill-pricing",
-    "./character/skill-queries"
+    "./character/skill-queries",
+    "./combat/actor-vitals",
+    "./combat/actor-timers",
+    "./combat/hits",
+    "./combat/mimic",
+    "./combat/timeflow",
+    "./companions/stances"
   ],
   "exports": {
     "./account/workshops": {
@@ -644,6 +650,30 @@
     "./character/skill-queries": {
       "classification": "required-rule",
       "module": "./dist/skill-queries.js"
+    },
+    "./combat/actor-vitals": {
+      "classification": "required-rule",
+      "module": "./dist/actor-vitals.js"
+    },
+    "./combat/actor-timers": {
+      "classification": "required-rule",
+      "module": "./dist/actor-timers.js"
+    },
+    "./combat/hits": {
+      "classification": "required-rule",
+      "module": "./dist/combat-hits.js"
+    },
+    "./combat/mimic": {
+      "classification": "required-rule",
+      "module": "./dist/mimic.js"
+    },
+    "./combat/timeflow": {
+      "classification": "required-rule",
+      "module": "./dist/combat-timeflow.js"
+    },
+    "./companions/stances": {
+      "classification": "required-rule",
+      "module": "./dist/companion-stances.js"
     }
   },
   "capabilities": [
@@ -651,7 +681,7 @@
       "id": "stats",
       "label": "Stats and conditions",
       "required": true,
-      "current": "memory-only-character-composed",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         ".",
         "./stats/gauges",
@@ -660,14 +690,15 @@
       ],
       "evidence": [
         "docs/build-context.md",
-        "docs/character-session.md"
+        "docs/character-session.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Execute stats and conditions across the required content families recorded in this matrix through the composed public character and combat paths.",
-        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
+        "milestone": 4,
+        "task": "Bind stats and conditions through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Expose one derived view for build previews and live rules; keep host clock and condition inputs explicit.",
@@ -676,6 +707,16 @@
           "docs/character-session.md",
           "baseline/character-session/acceptance.json",
           "scripts/test-character-session.mjs"
+        ]
+      },
+      "milestoneThree": {
+        "task": "Execute stats and conditions across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
         ]
       }
     },
@@ -748,7 +789,7 @@
       "id": "items",
       "label": "Items and inspection",
       "required": true,
-      "current": "memory-only-character-composed",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./items",
         "./items/host",
@@ -758,14 +799,15 @@
       ],
       "evidence": [
         "docs/item-contract.md",
-        "docs/character-session.md"
+        "docs/character-session.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Execute items and inspection across the required content families recorded in this matrix through the composed public character and combat paths.",
-        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
+        "milestone": 4,
+        "task": "Bind items and inspection through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Use the same admitted item bodies for inspection, comparison and actual build contributions.",
@@ -775,27 +817,38 @@
           "baseline/character-session/acceptance.json",
           "scripts/test-character-session.mjs"
         ]
+      },
+      "milestoneThree": {
+        "task": "Execute items and inspection across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
       }
     },
     {
       "id": "passives",
       "label": "Passive tree and grafts",
       "required": true,
-      "current": "memory-only-character-composed",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./passives",
         "./passives/grants"
       ],
       "evidence": [
         "docs/passive-policy.md",
-        "docs/character-session.md"
+        "docs/character-session.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Execute passive tree and grafts across the required content families recorded in this matrix through the composed public character and combat paths.",
-        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
+        "milestone": 4,
+        "task": "Bind passive tree and grafts through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Expose allocate/refund/choice/graft actions with host-supplied point budgets and current live reconciliation.",
@@ -805,26 +858,37 @@
           "baseline/character-session/acceptance.json",
           "scripts/test-character-session.mjs"
         ]
+      },
+      "milestoneThree": {
+        "task": "Execute passive tree and grafts across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
       }
     },
     {
       "id": "vocations",
       "label": "Vocation investment and grants",
       "required": true,
-      "current": "memory-only-character-composed",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./progression/vocations"
       ],
       "evidence": [
         "docs/vocation-progression.md",
-        "docs/character-session.md"
+        "docs/character-session.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Execute vocation investment and grants across the required content families recorded in this matrix through the composed public character and combat paths.",
-        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
+        "milestone": 4,
+        "task": "Bind vocation investment and grants through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Provide a grant/investment entry independent of createVocationQuests, run/account ledgers and campaign gates; retain the old API as optional compatibility.",
@@ -834,13 +898,23 @@
           "baseline/character-session/acceptance.json",
           "scripts/test-character-session.mjs"
         ]
+      },
+      "milestoneThree": {
+        "task": "Execute vocation investment and grants across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
       }
     },
     {
       "id": "skills",
       "label": "Skill trees and mutators",
       "required": true,
-      "current": "memory-only-character-composed",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./skills/tree",
         "./skills/progression",
@@ -849,14 +923,15 @@
       ],
       "evidence": [
         "docs/skill-progression.md",
-        "docs/character-session.md"
+        "docs/character-session.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Execute skill trees and mutators across the required content families recorded in this matrix through the composed public character and combat paths.",
-        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
+        "milestone": 4,
+        "task": "Bind skill trees and mutators through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Compose investment and resolved tree payloads with owned learned/granted skills; separate Font/location policy from rule execution.",
@@ -866,27 +941,38 @@
           "baseline/character-session/acceptance.json",
           "scripts/test-character-session.mjs"
         ]
+      },
+      "milestoneThree": {
+        "task": "Execute skill trees and mutators across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
       }
     },
     {
       "id": "awakenings",
       "label": "Awakenings and empowerment",
       "required": true,
-      "current": "memory-only-character-composed",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./skills/actions",
         "./skills/progression"
       ],
       "evidence": [
         "docs/skill-progression.md",
-        "docs/character-session.md"
+        "docs/character-session.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Execute awakenings and empowerment across the required content families recorded in this matrix through the composed public character and combat paths.",
-        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
+        "milestone": 4,
+        "task": "Bind awakenings and empowerment through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Expose the existing awakening, merge and rank-budget behavior through the composed host-neutral action surface.",
@@ -896,13 +982,23 @@
           "baseline/character-session/acceptance.json",
           "scripts/test-character-session.mjs"
         ]
+      },
+      "milestoneThree": {
+        "task": "Execute awakenings and empowerment across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
       }
     },
     {
       "id": "supports",
       "label": "Supports and sockets",
       "required": true,
-      "current": "memory-only-character-composed",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./skills/supports",
         "./skills/support-content",
@@ -911,14 +1007,15 @@
       ],
       "evidence": [
         "docs/support-rules.md",
-        "docs/character-session.md"
+        "docs/character-session.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Execute supports and sockets across the required content families recorded in this matrix through the composed public character and combat paths.",
-        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
+        "milestone": 4,
+        "task": "Bind supports and sockets through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Join support-fit, rolled choices, sockets and custody to learned and equipment-granted skills.",
@@ -928,13 +1025,23 @@
           "baseline/character-session/acceptance.json",
           "scripts/test-character-session.mjs"
         ]
+      },
+      "milestoneThree": {
+        "task": "Execute supports and sockets across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
       }
     },
     {
       "id": "bar",
       "label": "Learned and granted skill bar",
       "required": true,
-      "current": "memory-only-character-composed",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./skills/bar",
         "./skills/rack",
@@ -945,14 +1052,15 @@
       ],
       "evidence": [
         "docs/equipment-skills.md",
-        "docs/character-session.md"
+        "docs/character-session.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Execute learned and granted skill bar across the required content families recorded in this matrix through the composed public character and combat paths.",
-        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
+        "milestone": 4,
+        "task": "Bind learned and granted skill bar through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Close granted-bar admission and equipment-granted editing without losing surviving live skill identities.",
@@ -962,13 +1070,23 @@
           "baseline/character-session/acceptance.json",
           "scripts/test-character-session.mjs"
         ]
+      },
+      "milestoneThree": {
+        "task": "Execute learned and granted skill bar across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
       }
     },
     {
       "id": "reliquary",
       "label": "Reliquary and relic effects",
       "required": true,
-      "current": "memory-only-character-composed",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./inventory/relics",
         "./inventory/actions",
@@ -976,14 +1094,15 @@
       ],
       "evidence": [
         "docs/relic-custody.md",
-        "docs/character-session.md"
+        "docs/character-session.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Execute reliquary and relic effects across the required content families recorded in this matrix through the composed public character and combat paths.",
-        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
+        "milestone": 4,
+        "task": "Bind reliquary and relic effects through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Accept authorized relic bodies, enabled state, rank and container features from the host; keep account ownership and persistence outside.",
@@ -992,6 +1111,16 @@
           "docs/character-session.md",
           "baseline/character-session/acceptance.json",
           "scripts/test-character-session.mjs"
+        ]
+      },
+      "milestoneThree": {
+        "task": "Execute reliquary and relic effects across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
         ]
       }
     },
@@ -1064,7 +1193,7 @@
       "id": "builds",
       "label": "Combined character derivation",
       "required": true,
-      "current": "memory-only-character-composed",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./character/builds",
         "./character/build-contributions",
@@ -1077,14 +1206,15 @@
       "evidence": [
         "docs/character-builds.md",
         "docs/character-rebuild.md",
-        "docs/character-session.md"
+        "docs/character-session.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Execute combined character derivation across the required content families recorded in this matrix through the composed public character and combat paths.",
-        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly."
+        "milestone": 4,
+        "task": "Bind combined character derivation through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Memory-only Node composition qualified; complete Node/Godot reference adapter remains milestone four",
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
       "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
       "milestoneTwo": {
         "task": "Connect the existing authored builder to admitted Inventory actions and current live actors, with an explicit entitlement/relic projection.",
@@ -1093,6 +1223,16 @@
           "docs/character-session.md",
           "baseline/character-session/acceptance.json",
           "scripts/test-character-session.mjs"
+        ]
+      },
+      "milestoneThree": {
+        "task": "Execute combined character derivation across the required content families recorded in this matrix through the composed public character and combat paths.",
+        "acceptance": "Every assigned family has an executable composed case and live cleanup/ownership checks; unsupported families fail explicitly.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
         ]
       }
     },
@@ -1129,7 +1269,7 @@
       "id": "casting",
       "label": "Casting and requests",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         ".",
         "./casting/charged",
@@ -1143,24 +1283,37 @@
         "./casting/request",
         "./casting/dispatch",
         "./casting/continuation",
-        "./casting/banks"
+        "./casting/banks",
+        "./combat/mimic",
+        "./combat/timeflow"
       ],
       "evidence": [
-        "docs/skill-dispatch.md"
+        "docs/skill-dispatch.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Connect all required cast modes to the composed skill identities and explicit input/time/contact host services.",
-        "acceptance": "Press, hold, release, interruption and payment follow the accepted behavior across required cast modes."
+        "milestone": 4,
+        "task": "Bind casting and requests through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneThree": {
+        "task": "Connect all required cast modes to the composed skill identities and explicit input/time/contact host services.",
+        "acceptance": "Press, hold, release, interruption and payment follow the accepted behavior across required cast modes.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
+      }
     },
     {
       "id": "resources",
       "label": "Resources and conduits",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./resources/charges",
         "./resources/gauges",
@@ -1169,24 +1322,36 @@
         "./resources/ammunition",
         "./resources/conduits",
         "./resources/conduits/catalogue",
-        "./resources/payment"
+        "./resources/payment",
+        "./combat/actor-vitals"
       ],
       "evidence": [
-        "docs/conduits.md"
+        "docs/conduits.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Wire resource pools, ammunition and conduit contributions through the composed actor.",
-        "acceptance": "Costs, refunds, gauges and conduit triggers preserve order and stay scoped to their actor."
+        "milestone": 4,
+        "task": "Bind resources and conduits through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneThree": {
+        "task": "Wire resource pools, ammunition and conduit contributions through the composed actor.",
+        "acceptance": "Costs, refunds, gauges and conduit triggers preserve order and stay scoped to their actor.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
+      }
     },
     {
       "id": "damage",
       "label": "Damage and defenses",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./combat/damage",
         "./combat/hit-preparation",
@@ -1194,24 +1359,36 @@
         "./combat/hit-sustain",
         "./combat/hit-reactions",
         "./combat/hit-aftermath",
-        "./combat/hit-effects"
+        "./combat/hit-effects",
+        "./combat/hits"
       ],
       "evidence": [
-        "docs/damage-pipeline.md"
+        "docs/damage-pipeline.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Use the extracted full hit pipeline at the existing host contact seam; reconcile differing source captures explicitly.",
-        "acceptance": "Representative attack/spell/defense/aftermath paths agree with the accepted oracle and host floor/contact decisions."
+        "milestone": 4,
+        "task": "Bind damage and defenses through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneThree": {
+        "task": "Use the extracted full hit pipeline at the existing host contact seam; reconcile differing source captures explicitly.",
+        "acceptance": "Representative attack/spell/defense/aftermath paths agree with the accepted oracle and host floor/contact decisions.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
+      }
     },
     {
       "id": "statuses",
       "label": "Statuses and timed effects",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         ".",
         "./statuses",
@@ -1219,24 +1396,36 @@
         "./statuses/hits",
         "./statuses/delivery",
         "./combat/buffs",
-        "./combat/buff-content"
+        "./combat/buff-content",
+        "./combat/actor-timers"
       ],
       "evidence": [
-        "docs/status-delivery-boundary.md"
+        "docs/status-delivery-boundary.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Connect status application, stacks, timers and cleanup to the same live actors and resolved skill payloads.",
-        "acceptance": "Apply, refresh, consume, expire and retire effects without cross-actor state leakage."
+        "milestone": 4,
+        "task": "Bind statuses and timed effects through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneThree": {
+        "task": "Connect status application, stacks, timers and cleanup to the same live actors and resolved skill payloads.",
+        "acceptance": "Apply, refresh, consume, expire and retire effects without cross-actor state leakage.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
+      }
     },
     {
       "id": "procs",
       "label": "Procs and delayed effects",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./combat/procs",
         "./combat/effects",
@@ -1245,21 +1434,32 @@
         "./combat/proc-delivery"
       ],
       "evidence": [
-        "docs/proc-delivery.md"
+        "docs/proc-delivery.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Expose the extracted effect branches and delayed scheduling through the composed host while retaining recursion and ownership guards.",
-        "acceptance": "Triggered effects and queued work match the source and are released on the appropriate lifetime boundary."
+        "milestone": 4,
+        "task": "Bind procs and delayed effects through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneThree": {
+        "task": "Expose the extracted effect branches and delayed scheduling through the composed host while retaining recursion and ownership guards.",
+        "acceptance": "Triggered effects and queued work match the source and are released on the appropriate lifetime boundary.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
+      }
     },
     {
       "id": "recovery",
       "label": "Recovery and cooldowns",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./combat/recovery",
         "./combat/recovery-content",
@@ -1271,40 +1471,62 @@
         "./combat/ready-cooldown-bank"
       ],
       "evidence": [
-        "docs/cooldown-lifecycle.md"
+        "docs/cooldown-lifecycle.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Connect recovery and cooldown transitions to current actor state and host-selected recipients.",
-        "acceptance": "Resource changes, cooldown writes and retirement occur in the accepted order during combat and build changes."
+        "milestone": 4,
+        "task": "Bind recovery and cooldowns through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneThree": {
+        "task": "Connect recovery and cooldown transitions to current actor state and host-selected recipients.",
+        "acceptance": "Resource changes, cooldown writes and retirement occur in the accepted order during combat and build changes.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
+      }
     },
     {
       "id": "guard",
       "label": "Guard disciplines",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./guard/arts"
       ],
       "evidence": [
-        "docs/guard-arts.md"
+        "docs/guard-arts.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Bind host interception, parry, break and bash contacts to the extracted disciplines.",
-        "acceptance": "Guard behavior and cleanup work through the installed composition without a World object."
+        "milestone": 4,
+        "task": "Bind guard disciplines through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneThree": {
+        "task": "Bind host interception, parry, break and bash contacts to the extracted disciplines.",
+        "acceptance": "Guard behavior and cleanup work through the installed composition without a World object.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
+      }
     },
     {
       "id": "auras",
       "label": "Auras",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./auras/activation",
         "./auras/ticking",
@@ -1312,21 +1534,32 @@
         "./auras/retirement"
       ],
       "evidence": [
-        "docs/aura-ticking.md"
+        "docs/aura-ticking.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Compose activation/upkeep/membership/retirement through host spatial and body services.",
-        "acceptance": "Membership, resource accounting and final cleanup survive equipment and skill changes."
+        "milestone": 4,
+        "task": "Bind auras through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneThree": {
+        "task": "Compose activation/upkeep/membership/retirement through host spatial and body services.",
+        "acceptance": "Membership, resource accounting and final cleanup survive equipment and skill changes.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
+      }
     },
     {
       "id": "companions",
       "label": "Summons and companions",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./companions/grants",
         "./companions/bonds",
@@ -1336,24 +1569,36 @@
         "./bodies/levels",
         "./bodies/factory",
         "./summons/birth",
-        "./summons/offspring"
+        "./summons/offspring",
+        "./companions/stances"
       ],
       "evidence": [
-        "docs/summon-birth.md"
+        "docs/summon-birth.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Wire extracted body/kit/inheritance/reservation rules to host-owned bodies; leave navigation and general AI with the game.",
-        "acceptance": "Spawn, inherit, update and retire required skill-owned companions without embedding game geography or AI."
+        "milestone": 4,
+        "task": "Bind summons and companions through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneThree": {
+        "task": "Wire extracted body/kit/inheritance/reservation rules to host-owned bodies; leave navigation and general AI with the game.",
+        "acceptance": "Spawn, inherit, update and retire required skill-owned companions without embedding game geography or AI.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
+      }
     },
     {
       "id": "sequences",
       "label": "Sequences and challenge skills",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./combat/sequence-recovery",
         "./combat/attack-sequences",
@@ -1364,35 +1609,57 @@
         "./combat/challenge-continuation"
       ],
       "evidence": [
-        "docs/challenges.md"
+        "docs/challenges.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Bind the extracted sequence/device controllers to the composed actor and explicit target/delivery services.",
-        "acceptance": "Required multi-step skills preserve timing, captured identity and retirement across host updates."
+        "milestone": 4,
+        "task": "Bind sequences and challenge skills through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneThree": {
+        "task": "Bind the extracted sequence/device controllers to the composed actor and explicit target/delivery services.",
+        "acceptance": "Required multi-step skills preserve timing, captured identity and retirement across host updates.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
+      }
     },
     {
       "id": "content",
       "label": "Executable content and coverage",
       "required": true,
-      "current": "extracted-rules-with-composition-or-host-gaps",
+      "current": "combat-and-character-composed-candidate",
       "entries": [
         "./content/table",
         "./content/table/compiler"
       ],
       "evidence": [
-        "docs/content-tables.md"
+        "docs/content-tables.md",
+        "docs/combat-session.md"
       ],
       "remaining": {
-        "milestone": 3,
-        "task": "Map the recorded delivery/effect/source-rule census to executable family tests and reject unsupported required content at admission.",
-        "acceptance": "Every required baseline family has executable evidence; source text or imported rows alone never mark it complete."
+        "milestone": 4,
+        "task": "Bind executable content and coverage through the isolated Node/Godot reference adapter using the composed public character and combat packages.",
+        "acceptance": "The reference player exercises the qualified capability with quests, accounts and persistence absent."
       },
-      "primaryBinding": "Node host: reuse SDK implementation; complete composed binding remains required",
-      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work"
+      "primaryBinding": "Public Node composition qualified by original and installed courses; complete Node/Godot reference adapter remains milestone four",
+      "otherEngines": "Existing selected previews preserved; full parity is optional follow-on work",
+      "milestoneThree": {
+        "task": "Map the recorded delivery/effect/source-rule census to executable family tests and reject unsupported required content at admission.",
+        "acceptance": "Every required baseline family has executable evidence; source text or imported rows alone never mark it complete.",
+        "evidence": [
+          "docs/combat-session.md",
+          "docs/combat-inventory-milestone-three.md",
+          "scripts/verify-combat-coverage.mjs",
+          "scripts/test-combat-session-package.mjs"
+        ]
+      }
     },
     {
       "id": "host",
@@ -1513,359 +1780,949 @@
     }
   },
   "contentFamilies": {
-    "note": "Exact top-level skill families from the pinned catalogue. Routing assigns required work, not executable acceptance. Nested discriminators, authored fields and source-rule references remain in the generated census.",
+    "note": "Required families have representative public composition evidence and focused original courses. Conditional no-op source behavior is preserved; active lifecycle/interaction courses supplement initial casts. This is not exhaustive build-combination or host-physics qualification.",
     "effects": {
       "absorb": {
         "capability": "guard",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "aegis_ward"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "birth": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "cinderwisp"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "buff": {
         "capability": "statuses",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "war_cry",
+          "frenzy",
+          "mirage_step",
+          "power_surge",
+          "convocation",
+          "life_flask"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "cleanse": {
         "capability": "statuses",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "flask_clean_company"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "commandMinions": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "command_assault"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "companionStance": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "companion_stance"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "conjure": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "explicit-host-request-and-unavailable-refusal",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "steam_veil"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "damage": {
         "capability": "damage",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "hive_poison_spit",
+          "hive_venom_mandibles",
+          "hive_death_pool",
+          "beast_pursuit",
+          "beast_dread_pulse",
+          "beast_horn_art",
+          "beast_bird_art",
+          "court_bone_lunge",
+          "skeletal_arrowfall",
+          "frenzy",
+          "whirlwind",
+          "cinderwisp",
+          "vine_lash",
+          "iai_strike",
+          "snipe",
+          "lightning_blast",
+          "infinite_slashes",
+          "caged_comet",
+          "expunge",
+          "locust_dive",
+          "cold_snap",
+          "siphon_strike",
+          "epidemic",
+          "transfusion",
+          "seize",
+          "pressure_throw"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "detonateMinions": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "command_detonate"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "dragCorpses": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host provides spatial movement/contact and entity facts."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host provides spatial movement/contact and entity facts.",
+        "cases": [
+          "gather_the_dead"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "drainCharge": {
         "capability": "resources",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "bloodlust"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "gainCharge": {
         "capability": "resources",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "frenzy"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "grabSeize": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host provides spatial movement/contact and entity facts."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host provides spatial movement/contact and entity facts.",
+        "cases": [
+          "seize"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "grabThrow": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host provides spatial movement/contact and entity facts."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host provides spatial movement/contact and entity facts.",
+        "cases": [
+          "heave"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "guardSurge": {
         "capability": "guard",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "transgression"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "heal": {
         "capability": "recovery",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "pact_mend"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "ironWard": {
         "capability": "guard",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "iron_ward"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "kindle": {
         "capability": "resources",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "explicit-host-request-and-unavailable-refusal",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "kindle_wick"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "knockback": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host provides spatial movement/contact and entity facts."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host provides spatial movement/contact and entity facts.",
+        "cases": [
+          "beast_horn_art",
+          "beast_bird_art",
+          "caged_comet"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "litePour": {
         "capability": "resources",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "vent_vermin"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "lure": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "mimic_flash"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "mimicSelect": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "mimic_attune"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "minionCast": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "harvester_command"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "payLedger": {
         "capability": "resources",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "absolution"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "possess": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "possession"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "possessEnd": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "relinquish"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "pull": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host provides spatial movement/contact and entity facts."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host provides spatial movement/contact and entity facts.",
+        "cases": [
+          "vine_lash"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "recallImpales": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host provides spatial movement/contact and entity facts."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host provides spatial movement/contact and entity facts.",
+        "cases": [
+          "spear_recall"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "recallMinions": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "convocation"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "reduceCooldowns": {
         "capability": "recovery",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "time_dilation"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "relocateConstruct": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "relocate_workshop"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "restore": {
         "capability": "recovery",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "power_surge"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "restoreOverTime": {
         "capability": "recovery",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "life_flask"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "restoreSkillCharges": {
         "capability": "resources",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "reload_shells"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "rupture": {
         "capability": "damage",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "pressure_throw"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "shapeshift": {
         "capability": "builds",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "form_of_the_dire_wolf"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "shatterConstructs": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "shatter_totem"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "shed": {
         "capability": "resources",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "locust_dive"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "siphonOrb": {
         "capability": "resources",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "siphon_strike"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "siphonStatus": {
         "capability": "statuses",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "draw_corruption"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "spawnCorpse": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "exhume"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "spawnZone": {
         "capability": "statuses",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "expunge",
+          "shatterstep"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "spreadStatus": {
         "capability": "statuses",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "epidemic"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "status": {
         "capability": "statuses",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "hive_poison_spit",
+          "hive_venom_mandibles",
+          "hive_death_pool",
+          "beast_defiant_roar",
+          "beast_bird_art",
+          "cinderwisp",
+          "vine_lash",
+          "iai_strike",
+          "lightning_blast",
+          "expunge",
+          "aegis_ward",
+          "cold_snap",
+          "mimic_flash"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "tame": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "tame_beast"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "terrain": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host applies requested terrain interaction; SDK does not generate or save terrain."
+        "acceptance": "explicit-host-request-and-unavailable-refusal",
+        "hostBoundary": "Host applies requested terrain interaction; SDK does not generate or save terrain.",
+        "cases": [
+          "shatterstep"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "throngDirect": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "gather_cinderkin"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "townPortal": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host handles travel request or explicit unavailability; SDK does not own towns or campaign destinations."
+        "acceptance": "explicit-host-request-and-unavailable-refusal",
+        "hostBoundary": "Host handles travel request or explicit unavailability; SDK does not own towns or campaign destinations.",
+        "cases": [
+          "town_portal"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "transfuseStatus": {
         "capability": "statuses",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "transfusion"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "vent": {
         "capability": "resources",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "explicit-host-request-and-unavailable-refusal",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "steam_vent"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "ward": {
         "capability": "guard",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Provide the explicit actor/state/effect services of the capability."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Provide the explicit actor/state/effect services of the capability.",
+        "cases": [
+          "tideward_swell"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "whistleCompanion": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host owns bodies, presence, targeting and general AI; SDK owns skill-specific rules.",
+        "cases": [
+          "beast_rallying_whistle"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       }
     },
     "deliveries": {
       "aura": {
         "capability": "auras",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "sentinel_banner"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "blink": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "mirage_step",
+          "shatterstep"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "carom": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "caged_comet"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "cone": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "beast_bird_art"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "construct": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "temporal_pad"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "dash": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "court_bone_lunge",
+          "iai_strike"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "detonate": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "detonate_mines"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "detonateProjectile": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "cold_snap"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "ground": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "hive_death_pool",
+          "lightning_blast",
+          "kindle_wick",
+          "epidemic"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "leap": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "beast_pursuit",
+          "locust_dive"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "mark": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "mark"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "melee": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "hive_venom_mandibles",
+          "beast_horn_art",
+          "frenzy",
+          "infinite_slashes",
+          "siphon_strike",
+          "possession",
+          "seize"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "nova": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "beast_defiant_roar",
+          "flask_clean_company",
+          "whirlwind",
+          "aegis_ward",
+          "mimic_flash"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "projectile": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "hive_poison_spit",
+          "cinderwisp",
+          "vine_lash",
+          "snipe",
+          "pressure_throw"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "self": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "companion_stance",
+          "beast_rallying_whistle",
+          "town_portal",
+          "relocate_workshop",
+          "mimic_attune",
+          "war_cry",
+          "tideward_swell",
+          "aegis_of_dawn",
+          "gather_the_dead",
+          "power_surge",
+          "spear_recall",
+          "time_dilation",
+          "iron_ward",
+          "transgression",
+          "gather_cinderkin",
+          "command_assault",
+          "convocation",
+          "bloodlust",
+          "vent_vermin",
+          "reload_shells",
+          "life_flask",
+          "exhume",
+          "command_detonate",
+          "shatter_totem",
+          "draw_corruption",
+          "relinquish",
+          "form_of_the_dire_wolf",
+          "heave",
+          "harvester_command",
+          "absolution",
+          "steam_vent",
+          "steam_veil"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "storm": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "skeletal_arrowfall"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "summon": {
         "capability": "companions",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "summon_skeleton_mage"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       },
       "target": {
         "capability": "casting",
-        "acceptance": "pending-composed-course",
-        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency."
+        "acceptance": "composed-public-course",
+        "hostBoundary": "Host supplies confirmed spatial contacts, movement and body services. No terrain generation dependency.",
+        "cases": [
+          "beast_dread_pulse",
+          "pact_mend",
+          "expunge",
+          "tame_beast",
+          "transfusion"
+        ],
+        "evidence": [
+          "baseline/combat-families/acceptance.json",
+          "scripts/test-combat-session-package.mjs"
+        ]
       }
     }
   }

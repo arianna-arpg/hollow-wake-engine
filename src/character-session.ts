@@ -117,6 +117,12 @@ export class CharacterSession {
     this.#available();const held=this.#pending.get(change);need(held&&held.before===this.#current,'stale-character-change');
     return this.#publication({entry:held.after,edits:held.steps.at(-1)?.edits??{},events:held.steps.flatMap(step=>step.events)});
   }
+  /** Detached ordered publications for a host's pre-commit capability check.
+   * Checking only the final build can miss an intermediate progression step. */
+  previewSteps(change:CharacterChange):CharacterPublication[] {
+    this.#available();const held=this.#pending.get(change);need(held&&held.before===this.#current,'stale-character-change');
+    return held.steps.map(step=>this.#publication(step));
+  }
   #publication(step:Step):CharacterPublication {
     return{data:copy(step.entry.data),projection:copy(step.entry.projection),input:copy(step.entry.input),build:this.#d.builds.read(step.entry.build),edits:copy(step.edits),events:copy(step.events)};
   }

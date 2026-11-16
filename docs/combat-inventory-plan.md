@@ -73,6 +73,8 @@ Exit: every required matrix row executes through the composed public SDK and mat
 
 Build the first complete reference adapter in the SDK's own examples/adapter area, against the identified Node combat-host/Godot-client split. Reuse and map the documented Vesperwild Combat seams; do not create a competing ground, delivery, server or campaign framework. Keep combat authority in the host and map input, spatial queries, spawned entities, combat signals and Inventory views through explicit services.
 
+Define normal locomotion and pose submission alongside the existing aim/cast commands. Verify their ordering with roots, pushes, tethers, charging and movement-triggered rules against the original; spatial callbacks must continue to borrow facts without mutating actor records.
+
 The reference scene supplies small deterministic ground/entity providers. It must work without a generated world, the Foundation repository, world streaming, campaigns or account services. Layered terrain reaches combat through the host's derived facts; the SDK does not import terrain generation or decide the game's geography. The real game can later replace these providers without changing build/combat rules.
 
 Deliver a small reference scene that creates a character, changes equipment/supports/passives, previews resulting values, casts into host-confirmed contacts, advances timed effects and demonstrates the required effect families. Its default mode uses memory only. A second host-owned data-storage example shows replacement of storage policy without modifying SDK rules.
@@ -136,6 +138,14 @@ Merges needing external world-drop custody are explicitly refused; ordinary
 Inventory overflow stays owned. Host callback failure quarantines the owner.
 These boundaries are documented rather than hidden behind a database transaction.
 
-Next is milestone three: complete the required combat-family execution coverage
-listed in the matrix. The evolving game, its campaign/save architecture and other
-sessions remain untouched. No Steam Deck/mobile qualification is claimed.
+## Milestone three delivery
+
+The [composed combat package](combat-session.md) connects the required execution
+families to one session and the memory-only character owner. The required family
+matrix now points to public original-comparison courses and explicit world-service
+refusals. [Milestone-three evidence](combat-inventory-milestone-three.md) records
+the installed consumer, active interactions, source limitations and release gates.
+
+Next is milestone four: the isolated Node/Godot reference adapter. The evolving
+game, its campaign/save architecture and other sessions remain untouched. No
+Steam Deck/mobile qualification is claimed.

@@ -1,0 +1,40 @@
+{
+  "sourceCommit": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sources": {
+    "src/engine/world.ts": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+    "src/engine/skills.ts": "6beb81a4c53666d076732b64078f2337b6e2125972f985f0bdf17e2531a2285e",
+    "src/engine/flight.ts": "2684cddf354c878d6b3aa24bd4984b69797444efb5a6f95565ea601fcca78a90",
+    "src/engine/projForms.ts": "d8cd59552e6fc0883f7055f1dbf9575912bf331dcf87e10525197b1ce36842d1",
+    "src/engine/fourthwall.ts": "a38171c8a907c630e2de41ee68223aa6c4071463d3395b6b67090a5a9b736e55"
+  },
+  "methods": [
+    "spawnProjectile",
+    "inheritedFlight",
+    "returnTarget",
+    "enterReturn",
+    "forkProjectile",
+    "guidePointOf",
+    "nearestProjTarget",
+    "kinkProjectile",
+    "advanceProjectile",
+    "explodeProjectile",
+    "projTouches",
+    "projTouchesBody",
+    "projNose",
+    "shedFlightShrapnel",
+    "interceptProjectileDomes",
+    "updateProjectiles"
+  ],
+  "sha256": {
+    "src/projectile-specs.ts": "00fdab08496596ce3d37901c3c82fd47fb072b15d3318c2d4818c90be2bf56f1",
+    "src/projectile-math.ts": "40cacf1520d7cc4894cdcb1eee650735f2511f5a192bdb8b415a0941008067eb",
+    "src/projectiles.ts": "d4f0eddf4e899be1770d440cf16cad550a0d092bc4b849b33b8075e510a9b3c1",
+    "src/projectile-record.ts": "0c04ecefe62652f00acf30786340fce0507434188001bb7707a3ee64d283994c"
+  },
+  "corrections": [
+    {
+      "initialSha256": "142cb8c5c60c616871ed0c913f8fbaa20c32dbd95abb27cb1c9686ef2039693d",
+      "reason": "Non-null assertions preserve the original admitted/guarded skill lookups across callback reads; birth generic declares its queried onHit field. Type-only, no runtime change."
+    }
+  ]
+}

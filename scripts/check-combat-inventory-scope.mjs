@@ -2,6 +2,7 @@ import fs from 'node:fs';import path from 'node:path';import assert from 'node:a
 import {root,sha256,writeJSON} from './reference-utils.mjs';
 import {checkScope,readScope,scopePath} from './combat-inventory-scope-tools.mjs';
 import {readCatalogue} from './catalogue-tools.mjs';
+import {acceptedCombatData} from './combat-registry-data.mjs';
 
 const report=checkScope(),scope=readScope(),catalogue=readCatalogue();
 const tables={};for(const[name,rows]of Object.entries(catalogue.tables))tables[name]=rows.length;
@@ -23,11 +24,19 @@ for(const name of selected)for(const row of catalogue.tables[name]){
 }
 report.content={tables,rows:Object.values(tables).reduce((a,b)=>a+b,0),structuralFields:fields,discriminatorFamilies:families,
  sourceRules:catalogue.sourceRules,executionProvenByCensus:false,excludedVocationSubtrees:['quest','secret'],coverageTask:'content'};
+const composedCourses=new Map(acceptedCombatData('combat-families').courses.map(course=>[course.id,course]));
 const checkRoutes=value=>{
  for(const[name,prefix]of [['effects','skills.effects[].type='],['deliveries','skills.delivery.type=']]){
   const expected=Object.keys(families).filter(key=>key.startsWith(prefix)).map(key=>key.slice(prefix.length)).sort();
   assert.deepEqual(Object.keys(value.contentFamilies[name]).sort(),expected,'Unassigned content family: '+name);
-  for(const row of Object.values(value.contentFamilies[name]))assert(value.capabilities.some(c=>c.id===row.capability)&&row.hostBoundary&&row.acceptance==='pending-composed-course','Invalid content assignment');
+  for(const [family,row]of Object.entries(value.contentFamilies[name])){
+   assert(value.capabilities.some(c=>c.id===row.capability)&&row.hostBoundary
+    &&['pending-composed-course','composed-public-course','explicit-host-request-and-unavailable-refusal'].includes(row.acceptance),'Invalid content assignment');
+   if(row.acceptance!=='pending-composed-course'){
+    assert(row.evidence?.includes('scripts/test-combat-session-package.mjs')&&row.cases?.length,'Missing public content evidence');
+    for(const id of row.cases){const course=composedCourses.get(id);assert(course&&(name==='effects'?course.effects.includes(family):course.delivery===family),'Invalid composed content evidence');}
+   }
+  }
  }
 };checkRoutes(scope);
 report.controls=[];
@@ -40,6 +49,8 @@ const manifest=JSON.parse(fs.readFileSync(path.join(root,'package.json')));manif
 reject('unclassified-export',()=>checkScope({manifest}),/Unclassified public entry/);
 const missingFamily=structuredClone(scope);delete missingFamily.contentFamilies.effects.damage;
 reject('unassigned-content-family',()=>checkRoutes(missingFamily),/Unassigned content family/);
+const counterfeit=structuredClone(scope);counterfeit.contentFamilies.effects.damage.cases=['not-a-frozen-course'];
+reject('counterfeit-composed-evidence',()=>checkRoutes(counterfeit),/Invalid composed content evidence/);
 const same=checkScope();assert.deepEqual(same.graphs,report.graphs);report.restored=true;
 for(const file of [scopePath,'package.json','scripts/combat-inventory-scope-tools.mjs','scripts/check-combat-inventory-scope.mjs','scripts/catalogue-tools.mjs'])report.sources[file]=sha256(fs.readFileSync(path.join(root,file)));
 report.inputsUnchanged=Object.entries(report.sources).every(([file,hash])=>sha256(fs.readFileSync(path.join(root,file)))===hash);assert(report.inputsUnchanged);

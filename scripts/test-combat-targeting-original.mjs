@@ -1,0 +1,14 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import {gunzipSync} from 'node:zlib';import path from 'node:path';import {pathToFileURL} from 'node:url';
+import {CombatTargeting} from '../dist/combat-targeting.js';import {StatSheet} from '../dist/stats.js';import {StatRules} from '../dist/stat-rules.js';import {sha256} from './reference-utils.mjs';import {buildCombatQueries} from './compile-combat-queries.mjs';import {readCatalogue} from './catalogue-tools.mjs';
+const probe=process.argv.includes('--probe'),archive=fs.readFileSync(probe?'.artifacts/m3-combat-targeting-probe.json.gz':'baseline/combat-targeting/observations.json.gz'),bytes=gunzipSync(archive),fixture=JSON.parse(bytes);assert(fixture.originalOnly);
+if(!probe){const a=JSON.parse(fs.readFileSync('baseline/combat-targeting/acceptance.json'));assert.equal(sha256(archive),a.compressedSha256);assert.equal(sha256(bytes),a.sha256);}
+const plain=value=>JSON.parse(JSON.stringify(value)),owned=fs.realpathSync('.artifacts'),work=fs.mkdtempSync(path.join(owned,'m3-targeting-owned-'));
+try{await buildCombatQueries(work);const {combatSkillQueries:q}=await import(pathToFileURL(path.join(work,'queries.mjs')).href),catalogue=readCatalogue(),table=name=>Object.fromEntries(catalogue.tables[name].map(r=>[r.id,r.value])),rules=new StatRules(table('stats'),table('rules').statTrades);
+  for(const c of fixture.courses){const corpses=structuredClone(c.corpses),actors=c.actors.map(b=>({...b,dead:false,maxLife:()=>b.maxLife,sheet:new StatSheet(rules)}));for(const a of actors)a.owner=actors.find(b=>b.id===a.owner);const a=actors[0],i=q.makeSkillInstance(c.definition,1);i.attunedForm=c.attunedForm;for(const[k,v]of Object.entries(c.stats))a.sheet.setBase(k,v);
+    const runtime=new CombatTargeting(corpses,fixture.corpseDuration,{spec:q.instanceTargeting,grimoire:q.grimoireForm,tags:q.skillContextTags,modifiers:q.instanceMods,actors:()=>actors,enemies:a=>actors.filter(b=>b.team!==a.team&&!b.dead&&b.tier===a.tier),spoilStoryAt:()=>0,
+      leavesRemains:()=>true,monsterTags:id=>c.actors.find(b=>b.defId===id)?.monsterTags,hasHeal:i=>i.def.effects.some(e=>e.type==='heal'),occlusion:()=> 'blocked',lineOfFire:()=>true,reachTo:(a,p)=>Math.hypot(a.pos.x-p.x,a.pos.y-p.y)-a.radius,
+      kill:()=>assert.fail('No sacrifice in this course'),corpse:c=>c});
+    const found=runtime.resolve(a,i,c.aim),actual=found?{pos:found.pos,actor:found.actor?.id,corpse:found.corpse?corpses.indexOf(found.corpse):undefined,corpses:found.corpses?.map(c=>corpses.indexOf(c)),self:found.self}:null;
+    assert.deepEqual(plain(actual),c.expected,c.name);
+  }console.log({passed:true,originalTargetingCourses:fixture.courses.length,composedStatAndSkillQueries:true,sacrificeDeathQualified:false,allCombatFamiliesQualified:false});
+}finally{assert.equal(path.dirname(fs.realpathSync(work)),owned);fs.rmSync(work,{recursive:true,maxRetries:3});}

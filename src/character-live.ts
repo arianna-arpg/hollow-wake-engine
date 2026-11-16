@@ -9,6 +9,7 @@ import type {Modifier} from './types.js';
 import type {CharacterSkill,CharacterSkillDefinition} from './skill-queries.js';
 
 type Skill<D extends EquipmentSkillDefinition,U extends GemDefinition>=Omit<EquipmentSkill<D,U>,'sockets'>&GemSkill<D,U>&{companionGrant?:boolean};
+const beforeInvestment = new Set(['capture-summons', 'dismiss', 'clear-summons', 'clear-fields']);
 export type CharacterLiveRules=CharacterBuildPorts<CharacterSkillDefinition,GemDefinition,CharacterSkill,ItemInstance,{id:string;innate?:Modifier[]},{id:string;active:boolean}>;
 export interface CharacterLiveEffects<S> {
   /** Retire a removed/replaced learned instance, including its invalid casts
@@ -36,8 +37,10 @@ export class CharacterLive<D extends EquipmentSkillDefinition,U extends GemDefin
     if(this.#busy)throw Error('Reentrant live character publication');this.#busy=true;
     try{
       const {rules:p,frame:f}=this,input=change.input,known=f.meta.knownSkills;
-      // Refund capture reads the old live build before investment changes.
-      for(const event of change.events)if(event.kind==='capture-summons')this.effects.event(event);
+      // Retirement and refund capture read the old live investment. In
+      // particular, a removed summon branch must still describe its released
+      // descendants while those descendants are being retired.
+      for(const event of change.events)if(beforeInvestment.has(event.kind))this.effects.event(event);
       const wanted=new Set(input.learned.map(row=>row.gem.skillId)),replace=new Set(change.edits.replaceLearned??[]);
       for(const[id,inst]of known)if(!wanted.has(id)||replace.has(id)){this.effects.retire(inst);known.delete(id);}
       for(const row of input.learned){let inst=known.get(row.gem.skillId);if(inst)p.updateLearned(inst,row.gem);else{inst=p.restoreLearned(row.gem);known.set(row.gem.skillId,inst);}
@@ -59,7 +62,7 @@ export class CharacterLive<D extends EquipmentSkillDefinition,U extends GemDefin
       rebind();
       let rebuilt=false;
       for(const event of change.events){
-        if(event.kind==='capture-summons')continue;
+        if(beforeInvestment.has(event.kind))continue;
         if(event.kind==='recalculate'){
           const features=new Set(input.features),contributions=new BuildContributions<I,Modifier,T>({...p.contributions,
             board:def=>p.contributions.board(def,features),beginPassives:meta=>p.passives.begin(meta.baseAttrs,meta.allocated,meta.choices,'skip')});

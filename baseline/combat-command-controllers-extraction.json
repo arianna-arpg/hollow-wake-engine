@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sources": {
+    "src/engine/ai.ts": "4926cae14a3ff43f320dedb6d2927f6ba95aeda9928a8fcda93a140cd62ec212",
+    "src/engine/assault.ts": "8cecb56af66e619fc189861967949d65a5b3ae74050a10c660cba09d1641dedf",
+    "src/engine/replenishment.ts": "71bb8e392d307c33232d7b2239668f3393fa6b910a126c904141833976141c99",
+    "src/engine/companionCues.ts": "3d686e8f0befbd5485ad487c364b338d0d755ba539fde6f645d1d1dc4cf12340",
+    "src/engine/actor.ts": "7053040af0176e5a388d67216e38db7da103fd68d650e3ceabd94390a63d2e30",
+    "src/engine/world.ts": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c"
+  },
+  "queries": [
+    {
+      "name": "dist",
+      "imported": "dist",
+      "source": "../core/math"
+    },
+    {
+      "name": "sameStory",
+      "imported": "sameStory",
+      "source": "./tiers"
+    },
+    {
+      "name": "mod",
+      "imported": "mod",
+      "source": "./stats"
+    },
+    {
+      "name": "instanceDelivery",
+      "imported": "instanceDelivery",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceMods",
+      "imported": "instanceMods",
+      "source": "./skills"
+    },
+    {
+      "name": "makeSkillInstance",
+      "imported": "makeSkillInstance",
+      "source": "./skills"
+    },
+    {
+      "name": "skillContextTags",
+      "imported": "skillContextTags",
+      "source": "./skills"
+    },
+    {
+      "name": "skillCooldownSeconds",
+      "imported": "skillCooldownSeconds",
+      "source": "./skills"
+    },
+    {
+      "name": "STATUS_DEFS",
+      "imported": "STATUS_DEFS",
+      "source": "./status"
+    },
+    {
+      "name": "MONSTERS",
+      "imported": "MONSTERS",
+      "source": "../data/monsters"
+    },
+    {
+      "name": "C",
+      "imported": "COMPANION_CUE_CFG",
+      "source": "../data/companionCues"
+    },
+    {
+      "name": "COMPANION_CUE_STYLES",
+      "imported": "COMPANION_CUE_STYLES",
+      "source": "../data/companionCues"
+    },
+    {
+      "name": "combatCueFlash",
+      "imported": "combatCueFlash",
+      "source": "./combatCues"
+    },
+    {
+      "name": "normalizeBrain",
+      "imported": "normalizeBrain",
+      "source": "./brain"
+    },
+    {
+      "name": "evalCurve",
+      "imported": "evalCurve",
+      "source": "./curves"
+    },
+    {
+      "name": "instanceUseCharges",
+      "imported": "instanceUseCharges",
+      "source": "./skills"
+    }
+  ],
+  "outputs": {
+    "adapters/embedded/combat-command-controllers.mjs": "f11115bc4d6d6eabc7bb346f9b5949c1030f32202a094d6d0cda61b41d7170de"
+  },
+  "issueCommandSha256": "f89845c9268d714374c60eaa7d439642d1f89a9da72fc8e344455c54632bbb68",
+  "changes": [
+    "Shared SDK damage",
+    "Per-owner random source",
+    "Extract command assignment only, without importing AI planning",
+    "Extract companion cue construction without stance AI registration"
+  ]
+}

@@ -1,0 +1,739 @@
+{
+  "schemaVersion": 1,
+  "sources": {
+    "adapters/hollow-wake/damage-pipeline.ts": "ba20dfa99479214e471a23af71bf1eff1a01993a31559a992790d246255920fa",
+    "adapters/hollow-wake/hitPreparation.ts": "51578e272835b247ad9679755219c688e4b391a04a1a4db5fd3b3d2f7dcab7c8",
+    "adapters/hollow-wake/hitLanding.ts": "de66c0cd7dd57ea030f367074e98f4bb63c1b2d90b816607d9556ed593405f6f",
+    "adapters/hollow-wake/hitSustain.ts": "aed2023341b397e697ba81d97ca8fc6bd82773eaebbbf31d2949059b315a9815",
+    "adapters/hollow-wake/hitReactions.ts": "50a1c915ebe338789cc5445b88039445871e15899988c95a7f9b4a52e9267f6c",
+    "adapters/hollow-wake/hitStatuses.ts": "6d1aab6649b01217a98774a0745ddc0a48ee6b66472ecff1eebdf9f1507f9605",
+    "adapters/hollow-wake/hitEffects.ts": "a72067f0d8a4869b04f19aee03f2a69424ab41e416becd2cce5b9b6206ae8bb7",
+    "adapters/hollow-wake/hitAftermath.ts": "abd16e99adaef85d88922b887175ca2c33ae2e34e9a2d4db86846cba6bfaa748",
+    "adapters/hollow-wake/statusEffects.ts": "8864e05cff6d3a153479f6ad79354c903857b4c52fc6fb87fe655183f2800155",
+    "adapters/hollow-wake/challenges.ts": "5f8bf3ababccc320b4c46e0b985545ac4906f77fce16d45e0aed555dbd2b4f81",
+    "adapters/hollow-wake/attack-sequences.ts": "0665211e9feb67e0687a1c960931ccf474406195cce009f511b1f66b7c176a23",
+    "adapters/hollow-wake/guardArts.ts": "45643a032da93f1ee4e0bfae584495efa63381b3224a989313d4e0a3ca4c2041",
+    "adapters/hollow-wake/companionBonds.ts": "6d60d902c749eff8593837da809855289a32fc7ff6e1a13122db4d3d943220c6",
+    "adapters/hollow-wake/procDelivery.ts": "ebe7b508c4358746502fbe2cd4752271dce9a4473ed2c86856b2898a070e81c5",
+    "adapters/hollow-wake/procCasting.ts": "439bbe39b3e24db43097420eca562f1a510dc47c37401f67ca8a4a537b8f6faf",
+    "adapters/hollow-wake/resourceEventAdapter.ts": "3ff2018783958a2338343e53f9de3cf26685221e6825496d6969c6fd9a832e5f",
+    "adapters/hollow-wake/statusDelivery.ts": "e220b7d587692341cf97c2884e0c125729b36860c5438546081add304457800e",
+    ".reference/src/engine/world.ts": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+    "adapters/hollow-wake/integrate-body-factory.mjs": "4d75d3146b121981cf223eff9205d2b83e351abef8420d01e8aeaef307303bf1",
+    "adapters/hollow-wake/integrate-body-levels.mjs": "8a345b2946e373e1b9183defe9b2547bb3e9c1fe8774bcdf8f41d29bb581a8bf",
+    "adapters/hollow-wake/integrate-summon-birth.mjs": "6f339cf63e9ae3808125aebd241453bb0bdf4a5fbdf24b72581470802d27dc0f",
+    "adapters/hollow-wake/minionInheritance.ts": "ebef4c79a8c636a4dbbeae60ff5e38788b8136545a98bafabcfd44c896682e99",
+    "adapters/hollow-wake/bequests.ts": "cc34cb76000d061f1e9ba3a710c6193251c6f8eab9d05a6fbc5452fe7f229966",
+    "adapters/hollow-wake/integrate-aura-activation.mjs": "a102607fe902a15e5fcbd7ecf934f5aa28ba2a40ad1b686238c68f07238d47c6",
+    "adapters/hollow-wake/integrate-aura-retirement.mjs": "91ce2bf3a1e081f2c9ff98f8ffe963a658cb2de105ab2ca7bc8a6643458d4848",
+    "adapters/hollow-wake/integrate-aura-ledgers.mjs": "f75e70524084a79f3987a778277fc8f25f4eada20fef2682382cdc5483d069f3",
+    "adapters/hollow-wake/integrate-aura-ticking.mjs": "162c7e0b1a1b0121ae4449980fee0f9927009b8ba4d669fecc1308da211b1be0"
+  },
+  "queries": [
+    {
+      "name": "instanceMods",
+      "imported": "instanceMods",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceInnateMods",
+      "imported": "instanceInnateMods",
+      "source": "./skills"
+    },
+    {
+      "name": "skillContextTags",
+      "imported": "skillContextTags",
+      "source": "./skills"
+    },
+    {
+      "name": "throngTravelProtected",
+      "imported": "throngTravelProtected",
+      "source": "./throngEvolution"
+    },
+    {
+      "name": "weakPointBonus",
+      "imported": "weakPointBonus",
+      "source": "./weakpoints"
+    },
+    {
+      "name": "plyFloorOf",
+      "imported": "plyFloorOf",
+      "source": "./plies"
+    },
+    {
+      "name": "dominantTypeOf",
+      "imported": "dominantTypeOf",
+      "source": "./bodyVoices"
+    },
+    {
+      "name": "stampSegFlash",
+      "imported": "stampSegFlash",
+      "source": "./segments"
+    },
+    {
+      "name": "feedWound",
+      "imported": "feedWound",
+      "source": "./segments"
+    },
+    {
+      "name": "noteResourceFlow",
+      "imported": "noteResourceFlow",
+      "source": "./feedingCues"
+    },
+    {
+      "name": "STATUS_DEFS",
+      "imported": "STATUS_DEFS",
+      "source": "./status"
+    },
+    {
+      "name": "instanceFuse",
+      "imported": "instanceFuse",
+      "source": "./skills"
+    },
+    {
+      "name": "grantedTags",
+      "imported": "grantedTags",
+      "source": "./skills"
+    },
+    {
+      "name": "concealmentActive",
+      "imported": "concealmentActive",
+      "source": "./perception"
+    },
+    {
+      "name": "victimScopeArmed",
+      "imported": "victimScopeArmed",
+      "source": "./victim"
+    },
+    {
+      "name": "victimTags",
+      "imported": "victimTags",
+      "source": "./victim"
+    },
+    {
+      "name": "toneOfAmounts",
+      "imported": "toneOfAmounts",
+      "source": "./tuning"
+    },
+    {
+      "name": "DEFENSE_CFG",
+      "imported": "DEFENSE_CFG",
+      "source": "./defense"
+    },
+    {
+      "name": "angleDiff",
+      "imported": "angleDiff",
+      "source": "../core/math"
+    },
+    {
+      "name": "angleTo",
+      "imported": "angleTo",
+      "source": "../core/math"
+    },
+    {
+      "name": "dist",
+      "imported": "dist",
+      "source": "../core/math"
+    },
+    {
+      "name": "vec",
+      "imported": "vec",
+      "source": "../core/math"
+    },
+    {
+      "name": "combatCueFlash",
+      "imported": "combatCueFlash",
+      "source": "./combatCues"
+    },
+    {
+      "name": "defenseCueFlash",
+      "imported": "defenseCueFlash",
+      "source": "./defenseCues"
+    },
+    {
+      "name": "sameStory",
+      "imported": "sameStory",
+      "source": "./tiers"
+    },
+    {
+      "name": "alertScale",
+      "imported": "alertScale",
+      "source": "./brain"
+    },
+    {
+      "name": "normalizeBrain",
+      "imported": "normalizeBrain",
+      "source": "./brain"
+    },
+    {
+      "name": "feedWatch",
+      "imported": "feedWatch",
+      "source": "./watch"
+    },
+    {
+      "name": "watchValueOf",
+      "imported": "watchValueOf",
+      "source": "./watch"
+    },
+    {
+      "name": "watchRungOf",
+      "imported": "watchRungOf",
+      "source": "./watch"
+    },
+    {
+      "name": "WATCH_CFG",
+      "imported": "WATCH_CFG",
+      "source": "./watch"
+    },
+    {
+      "name": "PERCEPTION_CFG",
+      "imported": "PERCEPTION_CFG",
+      "source": "./perception"
+    },
+    {
+      "name": "MONSTERS",
+      "imported": "MONSTERS",
+      "source": "../data/monsters"
+    },
+    {
+      "name": "ORB_CAP",
+      "imported": "ORB_CAP",
+      "source": "../data/orbs"
+    },
+    {
+      "name": "ORB_DEFS",
+      "imported": "ORB_DEFS",
+      "source": "../data/orbs"
+    },
+    {
+      "name": "orbOnHurtStat",
+      "imported": "orbOnHurtStat",
+      "source": "../data/orbs"
+    },
+    {
+      "name": "AILMENT_TUNING",
+      "imported": "AILMENT_TUNING",
+      "source": "./status"
+    },
+    {
+      "name": "instanceBrood",
+      "imported": "instanceBrood",
+      "source": "./skills"
+    },
+    {
+      "name": "PROCS",
+      "imported": "PROCS",
+      "source": "../data/procs"
+    },
+    {
+      "name": "buffProcCue",
+      "imported": "buffProcCue",
+      "source": "./procCues"
+    },
+    {
+      "name": "noteProcCue",
+      "imported": "noteProcCue",
+      "source": "./procCues"
+    },
+    {
+      "name": "instanceEffects",
+      "imported": "instanceEffects",
+      "source": "./skills"
+    },
+    {
+      "name": "mod",
+      "imported": "mod",
+      "source": "./stats"
+    },
+    {
+      "name": "makeSkillInstance",
+      "imported": "makeSkillInstance",
+      "source": "./skills"
+    },
+    {
+      "name": "effectiveSkillLevel",
+      "imported": "effectiveSkillLevel",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceContagion",
+      "imported": "instanceContagion",
+      "source": "./skills"
+    },
+    {
+      "name": "socketSpec",
+      "imported": "socketSpec",
+      "source": "./skills"
+    },
+    {
+      "name": "hostSockets",
+      "imported": "hostSockets",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceChargeGain",
+      "imported": "instanceChargeGain",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceTrigger",
+      "imported": "instanceTrigger",
+      "source": "./skills"
+    },
+    {
+      "name": "CONTAGION_CFG",
+      "imported": "CONTAGION_CFG",
+      "source": "./skills"
+    },
+    {
+      "name": "MASS_CFG",
+      "imported": "MASS_CFG",
+      "source": "./mass"
+    },
+    {
+      "name": "spawnVeinOf",
+      "imported": "spawnVeinOf",
+      "source": "./supportbase"
+    },
+    {
+      "name": "SUPPORTBASE_CFG",
+      "imported": "SUPPORTBASE_CFG",
+      "source": "./supportbase"
+    },
+    {
+      "name": "throngEvolution",
+      "imported": "throngEvolution",
+      "source": "./throngEvolution"
+    },
+    {
+      "name": "orbHitChance",
+      "imported": "orbHitChance",
+      "source": "./orbGeneration"
+    },
+    {
+      "name": "SKILLS",
+      "imported": "SKILLS",
+      "source": "../data/skills"
+    },
+    {
+      "name": "orbOnHitStat",
+      "imported": "orbOnHitStat",
+      "source": "../data/orbs"
+    },
+    {
+      "name": "armedCueProfile",
+      "imported": "armedCueProfile",
+      "source": "./armedCues"
+    },
+    {
+      "name": "armedCueStyle",
+      "imported": "armedCueStyle",
+      "source": "./armedCues"
+    },
+    {
+      "name": "challengeOf",
+      "imported": "challengeOf",
+      "source": "./challengeSpec"
+    },
+    {
+      "name": "instanceDelivery",
+      "imported": "instanceDelivery",
+      "source": "./skills"
+    },
+    {
+      "name": "attackSequenceOf",
+      "imported": "attackSequenceOf",
+      "source": "./attackSequenceSpec"
+    },
+    {
+      "name": "attackSequencePayload",
+      "imported": "attackSequencePayload",
+      "source": "./attackSequenceSpec"
+    },
+    {
+      "name": "attackSequenceSweepInstance",
+      "imported": "attackSequenceSweepInstance",
+      "source": "./attackSequenceSpec"
+    },
+    {
+      "name": "baselineStatusDps",
+      "imported": "baselineStatusDps",
+      "source": "./status"
+    },
+    {
+      "name": "guardBashSpec",
+      "imported": "guardBashSpec",
+      "source": "./skills"
+    },
+    {
+      "name": "guardArtsOf",
+      "imported": "guardArtsOf",
+      "source": "./guardArtsSpec"
+    },
+    {
+      "name": "guardCapacity",
+      "imported": "guardCapacity",
+      "source": "./guardArtsSpec"
+    },
+    {
+      "name": "guardArtAbsorb",
+      "imported": "guardArtAbsorb",
+      "source": "./guardArtsSpec"
+    },
+    {
+      "name": "SATELLITES",
+      "imported": "SATELLITES",
+      "source": "./satelliteSpec"
+    },
+    {
+      "name": "companionBondOf",
+      "imported": "companionBondOf",
+      "source": "./companionSpec"
+    },
+    {
+      "name": "companionLevelOf",
+      "imported": "companionLevelOf",
+      "source": "./companionSpec"
+    },
+    {
+      "name": "COMPANION_CFG",
+      "imported": "COMPANION_CFG",
+      "source": "./companionSpec"
+    },
+    {
+      "name": "beastFamilyOf",
+      "imported": "beastFamilyOf",
+      "source": "../data/beastFamilies"
+    },
+    {
+      "name": "instanceTreeOver",
+      "imported": "instanceTreeOver",
+      "source": "./skills"
+    },
+    {
+      "name": "monsterTurnSpeed",
+      "imported": "monsterTurnSpeed",
+      "source": "./handling"
+    },
+    {
+      "name": "validTreeNodes",
+      "imported": "validTreeNodes",
+      "source": "./skills"
+    },
+    {
+      "name": "defBreathes",
+      "imported": "defBreathes",
+      "source": "../data/monsters"
+    },
+    {
+      "name": "defDensity",
+      "imported": "defDensity",
+      "source": "../data/monsters"
+    },
+    {
+      "name": "SUPPORTS",
+      "imported": "SUPPORTS",
+      "source": "../data/supports"
+    },
+    {
+      "name": "CHOICE_GROUPS",
+      "imported": "CHOICE_GROUPS",
+      "source": "../data/passiveChoices"
+    },
+    {
+      "name": "squishSpecOf",
+      "imported": "squishSpecOf",
+      "source": "./squish"
+    },
+    {
+      "name": "sympathyStat",
+      "imported": "sympathyStat",
+      "source": "./sympathy"
+    },
+    {
+      "name": "attunedStatus",
+      "imported": "attunedStatus",
+      "source": "./tuning"
+    },
+    {
+      "name": "rollStartTone",
+      "imported": "rollStartTone",
+      "source": "./tuning"
+    },
+    {
+      "name": "TUNE_CFG",
+      "imported": "TUNE_CFG",
+      "source": "./tuning"
+    },
+    {
+      "name": "tellSpecsOf",
+      "imported": "tellSpecsOf",
+      "source": "./tells"
+    },
+    {
+      "name": "makeReserve",
+      "imported": "makeReserve",
+      "source": "./reserves"
+    },
+    {
+      "name": "clamp",
+      "imported": "clamp",
+      "source": "../core/math"
+    },
+    {
+      "name": "RELIQUARY_CFG",
+      "imported": "RELIQUARY_CFG",
+      "source": "../data/reliquary"
+    },
+    {
+      "name": "STAT_DEFS",
+      "imported": "STAT_DEFS",
+      "source": "./stats"
+    },
+    {
+      "name": "minionBodyContext",
+      "imported": "minionBodyContext",
+      "source": "./skillScopes"
+    },
+    {
+      "name": "minionCombatOf",
+      "imported": "minionCombatOf",
+      "source": "./minionCombat"
+    },
+    {
+      "name": "MINION_COMBAT",
+      "imported": "MINION_COMBAT",
+      "source": "./minionCombat"
+    },
+    {
+      "name": "THRONG_EVOLUTION",
+      "imported": "THRONG_EVOLUTION",
+      "source": "./throngEvolution"
+    },
+    {
+      "name": "ATTRIBUTES",
+      "imported": "ATTRIBUTES",
+      "source": "./stats"
+    },
+    {
+      "name": "DAMAGE_COLOR",
+      "imported": "DAMAGE_COLOR",
+      "source": "./stats"
+    },
+    {
+      "name": "noteProcPop",
+      "imported": "noteProcPop",
+      "source": "./procCues"
+    },
+    {
+      "name": "tickProcCues",
+      "imported": "tickProcCues",
+      "source": "./procCues"
+    },
+    {
+      "name": "noteRestoreGain",
+      "imported": "noteRestoreGain",
+      "source": "./feedingCues"
+    },
+    {
+      "name": "tickRestoreGains",
+      "imported": "tickRestoreGains",
+      "source": "./feedingCues"
+    },
+    {
+      "name": "PROC_LIST",
+      "imported": "PROC_LIST",
+      "source": "../data/procs"
+    },
+    {
+      "name": "PROC_RIDER_LIST",
+      "imported": "PROC_RIDER_LIST",
+      "source": "../data/procs"
+    },
+    {
+      "name": "treeNodeOf",
+      "imported": "treeNodeOf",
+      "source": "./skills"
+    },
+    {
+      "name": "skillTargetVoice",
+      "imported": "skillTargetVoice",
+      "source": "../data/skillTargetVisuals"
+    },
+    {
+      "name": "skillRiteVoice",
+      "imported": "skillRiteVoice",
+      "source": "../data/skillTargetVisuals"
+    },
+    {
+      "name": "markBodyAction",
+      "imported": "markBodyAction",
+      "source": "./bodyAction"
+    },
+    {
+      "name": "clingBurrowed",
+      "imported": "clingBurrowed",
+      "source": "./cling"
+    },
+    {
+      "name": "factionStance",
+      "imported": "factionStance",
+      "source": "../data/monsters"
+    },
+    {
+      "name": "defLeavesRemains",
+      "imported": "defLeavesRemains",
+      "source": "../data/monsters"
+    },
+    {
+      "name": "ATTRIBUTE_BEQUESTS",
+      "imported": "ATTRIBUTE_BEQUESTS",
+      "source": "./bequests"
+    },
+    {
+      "name": "ATTRIBUTE_BEQUEST_IDS",
+      "imported": "ATTRIBUTE_BEQUEST_IDS",
+      "source": "./bequests"
+    },
+    {
+      "name": "CONSTRUCT_KIND_AIMS",
+      "imported": "CONSTRUCT_KIND_AIMS",
+      "source": "./skills"
+    },
+    {
+      "name": "ECHO_STRIKE_LIFE_MAX",
+      "imported": "ECHO_STRIKE_LIFE_MAX",
+      "source": "./skills"
+    },
+    {
+      "name": "CONSTRUCT_LOOKS",
+      "imported": "CONSTRUCT_LOOKS",
+      "source": "../data/looks"
+    },
+    {
+      "name": "presenceProfile",
+      "imported": "presenceProfile",
+      "source": "../data/skillPresenceVisuals"
+    },
+    {
+      "name": "CONJURE_RIDERS",
+      "imported": "CONJURE_RIDERS",
+      "source": "../data/conjury"
+    },
+    {
+      "name": "CLUTCH_CFG",
+      "imported": "CLUTCH_CFG",
+      "source": "./clutch"
+    },
+    {
+      "name": "ORPHAN_FRENZY",
+      "imported": "ORPHAN_FRENZY",
+      "source": "./clutch"
+    },
+    {
+      "name": "PRESENCE_BANDS",
+      "imported": "PRESENCE_BANDS",
+      "source": "./presence"
+    },
+    {
+      "name": "TAME_CFG",
+      "imported": "TAME_CFG",
+      "source": "./skills"
+    },
+    {
+      "name": "clearEncounterGroup",
+      "imported": "clearEncounterGroup",
+      "source": "./encounterGroups"
+    },
+    {
+      "name": "skillMovementVoice",
+      "imported": "skillMovementVoice",
+      "source": "../data/skillMovementVisuals"
+    },
+    {
+      "name": "skillSelfVoice",
+      "imported": "skillSelfVoice",
+      "source": "../data/skillSelfVisuals"
+    },
+    {
+      "name": "isThrongBody",
+      "imported": "isThrongBody",
+      "source": "./throng"
+    },
+    {
+      "name": "caromCapacity",
+      "imported": "caromCapacity",
+      "source": "./payloadCues"
+    },
+    {
+      "name": "hitVoiceOf",
+      "imported": "hitVoiceOf",
+      "source": "./bodyVoices"
+    },
+    {
+      "name": "skillBaseTypeOf",
+      "imported": "skillBaseTypeOf",
+      "source": "./bodyVoices"
+    },
+    {
+      "name": "deathVoiceOf",
+      "imported": "deathVoiceOf",
+      "source": "./bodyVoices"
+    },
+    {
+      "name": "anatomyFlash",
+      "imported": "anatomyFlash",
+      "source": "./anatomyCues"
+    },
+    {
+      "name": "takeWeakPointBreaks",
+      "imported": "takeWeakPointBreaks",
+      "source": "./weakpoints"
+    },
+    {
+      "name": "transitRadius",
+      "imported": "transitRadius",
+      "source": "../data/transit"
+    },
+    {
+      "name": "transitDwell",
+      "imported": "transitDwell",
+      "source": "../data/transit"
+    },
+    {
+      "name": "transitReach",
+      "imported": "transitReach",
+      "source": "../data/transit"
+    },
+    {
+      "name": "LitePool",
+      "imported": "LitePool",
+      "source": "./lite"
+    },
+    {
+      "name": "DERIVED_GAUGES",
+      "imported": "DERIVED_GAUGES",
+      "source": "./gauges"
+    },
+    {
+      "name": "GAUGE_CFG",
+      "imported": "GAUGE_CFG",
+      "source": "./gauges"
+    },
+    {
+      "name": "ActorGrid",
+      "imported": "ActorGrid",
+      "source": "./actorGrid"
+    }
+  ],
+  "outputs": {
+    "adapters/embedded/combat-hit-bindings.mjs": "2ec92790fc20f8433e1f86dacefe5bf3b897c7835041e3b90c669910269e6b2f"
+  },
+  "changes": [
+    "Connect inter-phase links inside createCombatHits",
+    "Optional campaign observer omitted",
+    "Use per-owner random stream",
+    "Use shared SDK mimic and damage services",
+    "Read host dormancy fact without importing the general AI module"
+  ]
+}

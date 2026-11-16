@@ -9,8 +9,10 @@ remain optional or host-owned. The milestone-two
 [memory-only character interface](docs/character-session.md) creates and admits
 characters, owns Inventory/build edits and authorized progress, and publishes
 accepted changes to current live actors. Three contrasting full builds match the
-pinned prototype. Full combat-family coverage and the Node/Godot reference
-adapter remain milestones three and four.
+pinned prototype. The separate [combat composition](docs/combat-session.md)
+joins these builds to complete casting and effect lifecycles, with representative
+original coverage and installed-package checks. The Node/Godot reference adapter
+remains milestone four; device measurements remain milestone five.
 
 The optional [durable character builder](docs/character-builds.md) composes class,
 passive, equipment, container and skill investment into private builds. A separate

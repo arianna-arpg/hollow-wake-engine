@@ -11,6 +11,16 @@ export function contracts(kit,content,courses){
   };
   const access={salvage:true,oracle:true,bench:true,counter:true,study:true};
   const noEffects={publish(){assert.fail('Invalid change reached live publication');}};
+  test('live retirement observes old investment before retained skills are updated',()=>{
+    const session=open(),host=liveHost(kit,session),change=session.current();
+    const learned=change.input.learned[0],inst=host.meta.knownSkills.get(learned.gem.skillId),level=inst.level,events=[];
+    learned.gem.level=level+1;
+    change.events=[{kind:'clear-summons',skillId:inst.def.id},{kind:'clear-fields',skillId:inst.def.id},{kind:'resync-supports',skillId:inst.def.id}];
+    host.publisher.effects.event=event=>events.push([event.kind,inst.level]);
+    host.publisher.publish(change);
+    assert.equal(host.meta.knownSkills.get(inst.def.id),inst);
+    assert.deepEqual(events,[['clear-summons',level],['clear-fields',level],['resync-supports',level+1]]);
+  });
   test('stale, foreign and consumed proposals cannot publish',()=>{
     const a=open(),b=open(),first=a.authorize({kind:'points',currency:'passive',amount:1}),stale=a.authorize({kind:'points',currency:'vocation',amount:2});
     assert.throws(()=>b.commit(first,noEffects),/stale/);assert.throws(()=>a.commit({accepted:true,changed:true},noEffects),/stale/);

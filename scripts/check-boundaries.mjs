@@ -3,23 +3,30 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import ts from 'typescript';
 import { root, listFiles } from './reference-utils.mjs';
+import {combatPackageModules} from './combat-package-modules.mjs';
 
-const forbidden = new Set(['window', 'document', 'localStorage', 'fetch', 'requestAnimationFrame', 'performance', 'process', 'Date']);
+const forbidden = new Set(['window', 'document', 'localStorage', 'fetch', 'requestAnimationFrame', 'performance', 'process', 'Date', 'globalThis']);
 let files = 0;
 for (const relative of listFiles(path.join(root, 'src')).filter(file => file.endsWith('.ts'))) {
   const file = path.join(root, 'src', relative);
   const source = ts.createSourceFile(file, fs.readFileSync(file, 'utf8'), ts.ScriptTarget.Latest, true);
   const visit = node => {
+    if ((ts.isPropertyAccessExpression(node) || ts.isElementAccessExpression(node)) && node.expression.getText(source) === 'global')
+      throw new Error(`${relative}: host API global`);
     if ((ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) && node.moduleSpecifier) {
       const specifier = node.moduleSpecifier.text;
       assert.ok(specifier.startsWith('./') || specifier.startsWith('../'), `${relative}: external import ${specifier}`);
       const resolved = path.resolve(path.dirname(file), specifier);
       assert.ok(resolved.startsWith(path.join(root, 'src') + path.sep), `${relative}: import escapes production source`);
     }
-    // An interface field (for example authored timing data named "window")
-    // declares a data key; it cannot access a host API. Runtime uses still fail.
-    const typeField = node.parent && ts.isPropertySignature(node.parent) && node.parent.name === node;
-    if (ts.isIdentifier(node) && forbidden.has(node.text) && !typeField) throw new Error(`${relative}: host API ${node.text}`);
+    // Authored timing data may declare/read a property named "window". Its
+    // receiver still passes this scan; ambient receivers and shorthand reads
+    // are never exempt, including computed access through globalThis.
+    const parent = node.parent;
+    const dataKey = parent && parent.name === node && (ts.isPropertySignature(parent)
+      || ts.isPropertyAssignment(parent) || ts.isPropertyAccessExpression(parent)
+      || ts.isMethodSignature(parent) || ts.isMethodDeclaration(parent));
+    if (ts.isIdentifier(node) && forbidden.has(node.text) && !dataKey) throw new Error(`${relative}: host API ${node.text}`);
     if (ts.isPropertyAccessExpression(node) && node.expression.getText(source) === 'Math' && node.name.text === 'random') {
       throw new Error(`${relative}: process-wide random source`);
     }
@@ -41,6 +48,8 @@ function entryGraph(file) {
   }
 }
 entryGraph(path.join(root,'src/index.ts'));
+const composedCombatSources=new Set(combatPackageModules.map(id=>path.join(root,'src',id+'.ts')));
+assert([...reachable].every(file=>!composedCombatSources.has(file)),'Combat composition became an eager core dependency');
 assert.ok([...reachable].every(file=>path.basename(file)!=='character-builds.ts'), 'Optional durable character builder became an eager core import');
 assert.ok([...reachable].every(file => !['challenges.ts', 'challenge-content.ts', 'challenge-types.ts', 'challenge-owned.ts', 'challenge-continuation.ts'].includes(path.basename(file))), 'Optional challenges became an eager core import');
 assert.ok([...reachable].every(file=>path.basename(file)!=='attack-sequence-continuation.ts'), 'Optional continuation became an eager core import');

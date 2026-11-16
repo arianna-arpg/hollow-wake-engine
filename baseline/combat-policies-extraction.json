@@ -1,0 +1,994 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "source": "src/engine/world.ts",
+  "sourceSha256": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+  "methods": {
+    "applyThorns": "d4e7059be22269245fc21f30da5de400d76947dbe6dbae25cd2c74ea6b08d103",
+    "releasePrimedPours": "fdb636bd0e897d1f69779bb9f6a984c8617b6b24230a15589c6798d15f447a0d",
+    "bankPools": "7fa346256044fc39e9ca3f84396f79169536fe276baf59b557421e436ceceaee",
+    "triggerEligible": "2515fea06da43c58a42f9543e8f529fc0b6b038d0affbd6cebfe3d987e2e86f9",
+    "rollTriggers": "47ab3f859b33f72dee2e5b3bdc1e3860b735919ff03c9672a7e7e13c87ef384f",
+    "bankStatusTriggers": "0c60e4dcdd2f4a7af5a56510783fe84631389d7a496d5efc31bbdf6113098d9a",
+    "bankDamageTakenTriggers": "24b7fd43b175d6790b259d3302a72ed100da46a83b1abf1ae45bf2a930922855",
+    "sweepDefenseEvents": "746fdd68058cf6644cc0315441444655fbf65fe8cc099ad90af4d9d104a628e4",
+    "recordCast": "2f295e13da11aa7743be301167bff1a67c99913b67818186eded61130d0f3c2c",
+    "paySkillCost": "b44c5ddaf891c148d0afcbb4b134746e8b9e24604d371ba03706ea97ae6ecc3f",
+    "consumeChargeCost": "503e03014b3210aaa15d0b8fd776d2b7259652b28e5e3b491337c67a81830655",
+    "consumeStealth": "f96a347d5173d85465fa0b2e2cd42ab1b837fae1f8e284179d36582fb341d5b3",
+    "bankRune": "1af6949dabc8b7b84002763f659df64d7dd481c51479ff885f87289e7e5f481a",
+    "consumeAmmunition": "aa07b5b817b10344d106cb23fd3e5f9901ce762f0cc43662365a2b338d2f0307",
+    "consumeRemnants": "a57e3fcb16dac384264f8f2f7a22fdd532786bbf2408d38e189ffbf6f725306c",
+    "rollKillRemnants": "699d221870ab0e987516121c3f2147be5a979c654eed04be77505f826027a3f8",
+    "victimGate": "7f693fb981131597f3ea345f65af00dd8c8050fe1f5b8797f1ee56f65d7bab33",
+    "isEliteVictim": "243cc295cfb560782bcf97ebae034efa573f7eab73cd6d3ac4a931addd905a28",
+    "minionsOfSkill": "29f835cbfcb5716959f2843e2b099b2cf5058fa17ad5b9caf70b16e1a9cc305d",
+    "minionsOfGroup": "63697d0bdcab59b295bf37c7d3b944be276da7e0694613c90132c623eca3cfef",
+    "minionServes": "9b8afc24031fce204ed24679f76187dcaec05ae0e6eddcf14c816714b3c5243e",
+    "companionsOfSkill": "144a8046d2d1733739e7eb5877fbf00e952aa8d2c470dbb388099e200dfe4d64",
+    "tickChannelSupports": "1fe145211741f8a49bfcfa6cfe57e4adb91474b78ed49e5846d5a8fccd27b965",
+    "actorTurnRate": "56559c85fe5c5c96e9645bee988c41ee6b2a0622fa665b9745ae91a91836e24d",
+    "castTurnRate": "d1f38c24c7835370c71e9eece02ff28f71754a6123247c79f68c3ca96f6b76be",
+    "assaultBladeHit": "6e922954a43ed0fbafc3c79e42eed290ff516a7d255dc8370406327d17fc5c24",
+    "healAlliesInArea": "b678c11db13cd3df85ba8aa3381154559e79b3f4ada526176178a80e9e21979e",
+    "enemiesOf": "f83160af41a6ef158fd726e048cd066a89de0aba0936f023acdea7b029c90584",
+    "skillOcclusion": "1e6a588b4316ad29abc640ce48226a3cedb35a2005aa5dcbe5e63b18353003c4",
+    "spawnAftershocks": "175f3374bd7c84f8a787b5d6bf7355b7c03b442cae8d4895f01f63f4141bf2fe",
+    "castChrono": "640d21d14c37c865f46ee73ab3b1bc93e7224705c23c13491975edb28a4b38ef",
+    "isPrey": "a9b2c6f613fad1bd6cfeb28b835775b5318f4c6c1ace37a0b71d83c3ad7b2146",
+    "failNote": "b60cf14fccc50f2de406a67c44ede8f08a0fe98ad6531280c5abb261b854108d",
+    "forwardSummonSockets": "1fda1d32fe4c5f8d9ebb5889e61c288fcb0ba2ecfa0e0dd890c754e4e2915c90",
+    "bakeMinionOwnerStats": "2b5e63ddb61d4974ba93cbea29d4d364d930f913362678fce5550acfb2acac86",
+    "conjurationLifeline": "2da27afce8b752640d3680cd31d22cd9dabe46aaaeda3673a34ed85354bf5b49",
+    "armAmbush": "167e0bdc7e81908aa0c05d3907ffd23659f0cbbdee2f26baee48bb0aae795dbd",
+    "applyPartyScale": "5c6f95586be2dcbfb97d8346eb2a8e3ae720265fed43a1fc238c10b17317531d",
+    "relayStatus": "3a160328152fa25436147dfad527adfcd259b5921a164c90d26d04216bdf6338",
+    "presenceMoment": "c48fdc8449a3ff8218bc9aaf5dcc3ac2f1852a8fa0f0cf8406f62b2399c570cb",
+    "releaseStruckSummons": "cb03b86d7bb771d628c8026cf50a9556cb1daa12b75521b25ad50326ff9343ce",
+    "updateSummonReforms": "e5bee224605bbd3f42f976e43fb9e5eb53744006fa15f52c434fa75ae5ba5a2f",
+    "clearSummonReleaseFields": "1c9de65961a74d2684106952195d858fac76d54879041b32b3be11407f05ef81",
+    "clearTreeFields": "f3a041a0007e8e591189ed6eb7b8fea6622915c9b54afe5e9b345120d98f829b",
+    "clearTreeConstructs": "959692c7211a1e65b4d28f769f84d8f9c49b328bafc8eca6ada579cb0532567d",
+    "accumulateDotText": "53db536798e9bfd21aa66092db12250fc8d34bd57d89dcb0775c6f6f5557f756",
+    "emergeBody": "d661b6d25027b4959f6fd8e9d36eea16cbd4709d5f8dd815c8365da604bbb793",
+    "updateEmergences": "598d1d2166e65ed49857da01b4ed1df83b27bb0d1f11392c666c291fffeadd87",
+    "showRecoveryCue": "1f01a532e69d0aad9e00c4b904519a82fd6d48c0e47a41e4c0fd958253ab9776",
+    "showCompanionCue": "83a07e2c9dc26c7a7a08a9e621e82bbdf70090c44f6711340f061d7c5bb2579a",
+    "attackSequenceBurst": "2fd896d05b10562d95abdecaa54dbe3c214dc93d85c2ffabba659a5ba7f4dc79",
+    "challengeBurst": "8a68ab700281e7692b8c1f37b52c52688d592f4b057c8a55e9d38c018b49906f",
+    "challengeHit": "1494284efd779501ce0714c0cd3b879453a35eca17175bf88184ac447fb3af54",
+    "companionCapOf": "061ad3350255dbabc111b7e8ff5095ae3f0afbb103ec40978df81c4605410629",
+    "companionPulseHit": "3d175f4f8c676b906a54b5a5d340746777168fa118e1d3d73b6712b2d98f5913",
+    "guardArtCooldown": "5fc7ca88455d116a5183a9b112d0d8dc1e353184c9b4dcd31f87b050cba259e4",
+    "guardArtHit": "5096678c181f51cc78c11b63fbf04a1d5b02fbc5498482d63154b2a46e67b3d0",
+    "guardBash": "cb7bbdfe639b31624877643518f3e25c9760f404fe69619351ecaf34c7f3f4f6",
+    "inheritedFlight": "3f9936c224ca7e33500a14340e0b0411fae7b15e659ee3cfe1c407c636f09987",
+    "retireOwnedZone": "c81f8d45208c41fbf833f1c9548107b4417c1d93a841b89bf7f01046289ca8c9",
+    "plantSpiritTotem": "0f347ef568f4d02faf6aac7dd7aea5dbe0320a1137d4f777fccf410a33791d22",
+    "shedOrb": "258506836823c4eea9d744b0f5ec82bd6b2e06908da9cf1fb41ca37df5973cbd",
+    "pushActor": "6c7e60a95821cd7d937c5ed64ce5fe587e014a1347cb107a42c13fe2bdbc8e60",
+    "springAmbush": "181a387bbdd06301e2b4965fa07cf028c5bd64ddee7cbd471707e233d6b046f3",
+    "reflectParriedProjectile": "cc15cad3757f0b2c5d9a7782fc43aadec027b593ea3c855fa1f3b324bcd4118e",
+    "resolveParryDamage": "8b5e5fae693b77d2792c34bc26667c491238b844fc9593ae0bf43db8bd468df5",
+    "tryGuardBlock": "aae7685e5d709e2a299ac28902cc66503cdf1e4b333c5cf6adf1c708f6585edf",
+    "guardianFor": "b6fa3bdb60dac5a92f7d94e157c8ad23c132d0b5b213dbb7115b88db6c766195",
+    "tryShellBlock": "fa365b7db86ff80bf6eed622728ae6a40e0721c36c842869157100210b91e14f",
+    "tryShellPool": "ff89e86824cf4f87ff8a5f9ef2a9200da117cdabe92bb3e850206686d105e54a",
+    "noteLightningTravel": "bcc97edbba2fd9107b540bcd0d21a2abe66fd4417f31ba34a2c44ba958ae52df",
+    "carriedEffectContext": "02be45b584974c6c2eaf4b5e3de2ef5af3e98c0bf5bff96b1242f15f1a700aef",
+    "movementMoment": "215542ffc078f217428ee17eb9e4c9a1dc45d20bc776277e986c35e2072cdf6e",
+    "affordedDest": "9ce92db23dc566dd73f71a71abb8fc92e87a9e709691f002dd0d89a3a8608630",
+    "hivecallRoster": "d5b1bee2ece97c4a5200b6fcb335df58477bb93d0eda0496767f8cc52f43a453",
+    "hivecallCap": "5457780d78ee0dd1cc3c6166f816572a3e9a0d0a56d8f3b93afb2e36f77f2446",
+    "hivecallPayload": "67c93012b52cbb4b9fb54b2283a1c5e4e4ce6fa06a17f8abdaafb703ff71cdd2",
+    "hivecallDeath": "8fa3a4ed1e55a87e2104d2a0b80f25eda5d1e30a859621fa55bac97af544bb45",
+    "hivecallTransform": "c4dfe2929cca99240b548f142bef7948d8afdf63b93731cd6bee5cd34984e5ff",
+    "hivecallReturn": "a4f2913b5250ca2ed5a65dfab5dcf999735d24ea8c3359212ba9458e9eb5e8ee",
+    "hivecallMeta": "eb3692ff170684b89ade9f0105770f302a3552f2f1754626b466b2e19e67b713",
+    "syncHivecallFormDamage": "2afb936e821e15afdecc6b90f50bc7e5e40c0ac8d99f0640f0fb94672ecf3f7f",
+    "throngBodiesOf": "2c7342208ea84b7f0563f3c5fde5b0f1294dda5847148c1193624216fbf42963",
+    "throngRosterCount": "caf9cfc76c014ef3b3e7e5cce4504c517b69d8b92c35e15fbd2d2a3fdbbb271f",
+    "throngCapOf": "26e76a198643a575156675f6c85a02f0b8a5d9ad082049ecfa08b72051e57326",
+    "throngRecruitCap": "7f2cdf090670d20ee448c55a3d781d1781fc75db61dfaf97956e142a5dcc31dc",
+    "throngGain": "4a7f240e58837b3735fd57360e254873b2199d69d1a1795fa2bb827de2907b36",
+    "throngKeepMinimum": "a3261b514006130c185c7c4fba7296c1ea59def857af93f538ba5f20141f100e",
+    "throngEvolutionHit": "aabca5e3a696b482fcfebd5afae13b0de40bd56b8b474bb73b5e404ab134f8c5",
+    "throngEvolutionBurst": "ed2e44209b8f923380e16e733a1b221d30bca942e7ef98db67133cf3bd90b38e",
+    "mintThrongBody": "9e438a0d0d91fe1db25d552a8feddf216061b90cb78652ac0d4d56305ce165f7",
+    "onPartBroken": "e15a064c20f880aefa2e6eddd28c30d1da735c760a21a7eef27032e6da68176e",
+    "ringBell": "044c7c3c8a33926c17f47eadd076ef32bb66ab304a5d924528bffa920452612a",
+    "rollKillOrbs": "61bfdc91c7293442ddd79c3c802a1e714e6ba1665646083292c1ca251820a280",
+    "clingRelease": "8e910082161b3a77383363796fd11d986989f8836e39719b8cf8f196010af52f",
+    "setLure": "8a14bc29e74b5d73b0d9ae5622f68685e67d3c6951f927837008e2a018a6a5e8",
+    "throngOnHit": "340bf8fd2c16d2388ccfad89c71bb1281ab80465f8c8ee0f1909630bf6d06d1f",
+    "throngOnKill": "8ab1785777a58137edabe2a2f5f7047e8d10505bb80880f85e3113e011070f12",
+    "throngSources": "f6bceb7303c3bbe2bee834959a09133acef3299e607049983edb2b65543cf32f",
+    "throngYieldCount": "81dd95a1fdfa0aa2d27cf68093b16cafc8a50ccc0bec3f08372ab0da0bfb7000",
+    "mintThrongFind": "d4d9bcda53050644396be49db69b3987056d28d0e1546ae76b24c3e46765bc42",
+    "mintThrongHusk": "fc8ffdf5cc1399de480dc2d7d2c95a3967740b79d472cbc8f0216d6bb11a73f0",
+    "liteKindOf": "64c02092c6db4c0a10cc1f95296e13da1ce5c5ceb3a5cc06b78df199212d4d39",
+    "litePromoteNearest": "dce98fe1609c988c49ec922368a38a2154f5aafc289408e692171b1c5730c86f",
+    "promoteLite": "4be98b4381cd68dde67d10759f8e2427c94b879e3a0021ceb91b2d2bda39d53e",
+    "liteNoteDeath": "d3f00848936f001af2720c0967e0008d69ce5fc039bb6259126354402922a549",
+    "litePocketDisturb": "44df7c3011760c9cdd4409493b26b328715706cd64848e34a18d8f4ede513fa3",
+    "liteProjectileSweep": "2672ad3076eefdd42e3cda9479d5ada4fdfde498b1cc683aa6891e478dc62f0c",
+    "liteCarve": "543841829b0d6d8fa090ed9dd7d308851db10796eb2e3de4a7a4164789061d5d",
+    "litePooledHit": "44979699a2395fd04e39c69146d499e8360ab7c2c16d25c347e3b6575d211070",
+    "liteBiteVictim": "f014f80c96241b02c70d3e4f062d41d6011511d4027567aca3b85353d2ce18e3",
+    "liteSteerAndBite": "50c37b8984e80e733ef1dfe7dd18bceed99186fa266ae891c30cd3b2522d20bc",
+    "liteDemoteSweep": "e2dae6c70ad622e35db4ad65853c6f11e7be40c48b9b1008f9334d111e304342",
+    "minionNeedsFullDurability": "82447e9989dd4d6c886f962747a9e7843543569a3fa50911420b7de44607cc41",
+    "reqShortfall": "6a5e2ac646d2f258c1db62be05e8f2e5e9ec10aaf9693c65ba8263f8621fc130",
+    "companionBondsOfSkill": "e7a26200175a87c427d25329d9010e31fcc484e9c544db73821207f7f1400a56",
+    "updateThrongEvolution": "5f6a7a47e8f5773fbd295c1fec78d6aa3c09b499fbfd8e0ac8b2c281c74b7d03",
+    "updateThrong": "2125e5c7a5abc0cd40e3d1b87b088c724887af5cae426d3337e31749ee858813",
+    "updateClings": "292137fa153009101020746ca6607bf5a19b60197d0874208f6bb478be208d45",
+    "claimThrongHusk": "6ba3a012e0d69f1b0ac68af7fd0c759f57891d3f70591c4f1ce46e33f574ba2e",
+    "wornThrongAnchorsOf": "d759091a568c598a0ca6bc90531c2e674dc4e96726c003501c9182114019e00e",
+    "wornThrongAnchored": "2a36801d4a7ef5e340a82266bf36103d162757e68232f8b0ff36e35f0a2a4970",
+    "driveUntamedThrong": "a0c896086c2418da4a7caf69b1b43a1f7076252a27e178c55128e4153ec4453c",
+    "throngMoteSpot": "81a071bbedf6ad9513b7e8a5011ac136cf20f35f513a362fa31ff921c13e9b16",
+    "noteMovementTravel": "be23658a174594a3de24b5ac3efb7be371af8179f809918cff0927df005130ee",
+    "resolveImpactHit": "8d5aa8b090a20324ed0a76f783b48e6054c5b08ba10af1d075cf78ba7a9bc314",
+    "sweepBodySlam": "3b9190b88dd028aa5dd3b99f8256163022eebb7eef89747b10ee43f6ab67ca97",
+    "updateHivecall": "11f36b181bbd3754678b546fdc9a4922851e991a47a816a69736d16988dc6c19",
+    "updateMinionMeta": "dd8c45b103d009254248646d2b78a43d0c03b9df0ee4b13f579df84595ba9c60",
+    "updateReplenishment": "6aca80aa3c53cdf6053410ecd12038cd33acb235dc341813ba4751cedf391843",
+    "updateLeaps": "47e01e7920dbbb0c8c5ed668ed6e53adc20f2208dfc3b749ea86fb8cc22ef1b0",
+    "updateStrobes": "12e6d4f1d36fedb189adecc8bb1ac324f8a8f96d88ff01e3cedc494bfe444423",
+    "updateVents": "f3fecf8fa7c803e142bea146627310335e8eed98378002471a34fc4f88c90016",
+    "updateDischarges": "236c9eeb19a8d61f457abfabb66bd441cd4ffa9b9a0e2979130f42d799e94259",
+    "checkMinionDetonations": "8f00d68ef649591008d8d689341099cc2f2d7a52bb9624b0149106b694a468b5",
+    "updateSummonShells": "25242378aa2f0d66a7fa77509a0de8209717116ded52077c3dbc40d996f89c50",
+    "echoSympathy": "6711d1d8daa0b82650bec1d28eaca78687c4e39f49ae3927697c53da96823df0",
+    "sympathyPotency": "75c424b71f7a62d94ca609a23c67abb41d3e8a995a709fc095a8d9c40fdf6387",
+    "applySympathyEcho": "bbc851e895d65ef3c9ae2ef7a4acb2bb84e36a25d1023430358682fe986c66ab",
+    "updateOrbs": "933f1b1eaa1cb02689f1a00a44c8d240c4f3f864e855b5f75a6957cd468aca50",
+    "pourOrb": "4010878988ec7795616a0b67d4aad4acc513b27f8db9b1f218f4247771b73bee",
+    "updateRemnants": "0196e1e99f5839bd3b75c6a9a82b4b795cb5f0fbdd2ec10752ee70f1604a4bf7",
+    "pickupSeat": "dbe5d209984399ed7c8aa800ef92e02011d2abda3bbf5adf5c015c552a837cf6",
+    "refundOnOrb": "bdceb54ad02d27f9b7b546d4caf69dd6efea12b7bfc9f85b05d25c52b95668d1",
+    "updatePendingContagions": "4d6c91ade6076956b3dc4e9792d2e42bec52cd61c05e05e53220efd9c90ff2aa",
+    "grantedPocketsFor": "3cc8a26093360a0031cbf78ec39e3bc57e71a86c95b1fb61e31470b80ef7655f",
+    "insideGrantedPocket": "55b445e7df98b8b8cef46342263b1d4ca39d883049a8cc354d77f2a9e79de3bd",
+    "inGrantedRefuge": "1f3a8575f07e5459870bfc1ea37e7e153a3fac20fbfea05b46e4587ec732193f",
+    "syncPocketGrants": "ffb06f9b04c3f09632220e1fb703607065900e7c861352a633f5fd47a6888744",
+    "updateGrantedTrails": "a70381551b48396d3daca4951db5aafadb1de21f8952567c883673c89eb1e499",
+    "updateDownedCompanions": "8bf0aa86bdd1a03a81730223c039ee74fbd503f48ea97ae3668c30ace40b6150",
+    "seatIdle": "21034941a4786dfbfc0499ad5e0ba4acceaf376bac706890a11b41de59b09212",
+    "updateCompanionGrants": "480de7be21f54ba8ecb4c2e24697d809769f892a9a8199b13c9397ec4d6be527",
+    "updateWorms": "286d8581c29194662cafddb2ff9d9b6c2bd61ef39ee1b097fe3dc7a0c20e87e6",
+    "updateParts": "e7e7ff8a73ccf0e46ad21eab60f6c74b841ce33e0c32208a4070a8bc623a03dd",
+    "graftPart": "cdf87e24e31abbada576067f6f100c6bb2d9ca4140ace3af6ff2c839df3edd4f",
+    "separateActors": "8ed7eaf5199ffb5fbafcbeceafa24e963c4afa6b22c0415de6b76649f5a6b38f",
+    "updateSquish": "0ad18f416e3ca4eb3fbb6fd18709a8bf97e77c0450f47ecb805f3ee7cd09b3f8",
+    "resyncMinionSupports": "f1c5daa8921eb16171cee002e4d4844c33ede6910777073d70bfe8b9d78ee98a",
+    "clearSummonTreeBodies": "127f28251e7ea1d48602593e040eb9f3859b207457d0a0ca817c97cb652c7673",
+    "useMetaSkill": "934750139071de76b95a094b795ef726075aec236753d4747f71a8cd4add7a2f"
+  },
+  "localQueries": {
+    "statusReqs": "426e1e6facf5a0c73a9dd67e9d32a9739153f8373b7203d67ab1c430ae99986e",
+    "STEALTH_CHARGE": "621e5bac49b8d9c68e7a29b7f91f2eb87406e673fc9e1e0266646b39bb983115",
+    "isStealthed": "b3ab2eb2d6073b0e7a4dda987dbedc713b024ce54a5fd880c1908f0c8ee3a4e4"
+  },
+  "queries": [
+    {
+      "name": "movementProfile",
+      "imported": "movementProfile",
+      "source": "../data/skillMovementVisuals"
+    },
+    {
+      "name": "skillMovementVoice",
+      "imported": "skillMovementVoice",
+      "source": "../data/skillMovementVisuals"
+    },
+    {
+      "name": "MOVEMENT_VISUAL_STYLE",
+      "imported": "MOVEMENT_VISUAL_STYLE",
+      "source": "../data/skillMovementVisuals"
+    },
+    {
+      "name": "extendMovementTrail",
+      "imported": "extendMovementTrail",
+      "source": "./skillMovementVisual"
+    },
+    {
+      "name": "lightningProfile",
+      "imported": "lightningProfile",
+      "source": "../data/lightningVisuals"
+    },
+    {
+      "name": "LIGHTNING_STYLE",
+      "imported": "LIGHTNING_STYLE",
+      "source": "../data/lightningVisuals"
+    },
+    {
+      "name": "extendLightningTrace",
+      "imported": "extendLightningTrace",
+      "source": "./lightningVisual"
+    },
+    {
+      "name": "skillSelfVoice",
+      "imported": "skillSelfVoice",
+      "source": "../data/skillSelfVisuals"
+    },
+    {
+      "name": "skillPresenceVoice",
+      "imported": "skillPresenceVoice",
+      "source": "../data/skillPresenceVisuals"
+    },
+    {
+      "name": "PRESENCE_STYLE",
+      "imported": "PRESENCE_STYLE",
+      "source": "../data/skillPresenceVisuals"
+    },
+    {
+      "name": "isConcealed",
+      "imported": "isConcealed",
+      "source": "./perception"
+    },
+    {
+      "name": "PERCEPTION_CFG",
+      "imported": "PERCEPTION_CFG",
+      "source": "./perception"
+    },
+    {
+      "name": "anatomyCueState",
+      "imported": "anatomyCueState",
+      "source": "./anatomyCues"
+    },
+    {
+      "name": "anatomyFlash",
+      "imported": "anatomyFlash",
+      "source": "./anatomyCues"
+    },
+    {
+      "name": "notePartScar",
+      "imported": "notePartScar",
+      "source": "./anatomyCues"
+    },
+    {
+      "name": "clearPartScar",
+      "imported": "clearPartScar",
+      "source": "./anatomyCues"
+    },
+    {
+      "name": "feedingCueFlash",
+      "imported": "feedingCueFlash",
+      "source": "./feedingCues"
+    },
+    {
+      "name": "noteRestoreGain",
+      "imported": "noteRestoreGain",
+      "source": "./feedingCues"
+    },
+    {
+      "name": "RECOVERY_CUES",
+      "imported": "RECOVERY_CUES",
+      "source": "../data/companionCues"
+    },
+    {
+      "name": "minionAreaAvoidanceOf",
+      "imported": "minionAreaAvoidanceOf",
+      "source": "./minionInheritance"
+    },
+    {
+      "name": "throngEvolution",
+      "imported": "throngEvolution",
+      "source": "./throngEvolution"
+    },
+    {
+      "name": "throngClusterPlies",
+      "imported": "throngClusterPlies",
+      "source": "./throngEvolution"
+    },
+    {
+      "name": "THRONG_EVOLUTION",
+      "imported": "THRONG_EVOLUTION",
+      "source": "./throngEvolution"
+    },
+    {
+      "name": "instanceCastMode",
+      "imported": "instanceCastMode",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceEffects",
+      "imported": "instanceEffects",
+      "source": "./skills"
+    },
+    {
+      "name": "costWard",
+      "imported": "costWard",
+      "source": "./costward"
+    },
+    {
+      "name": "angleDiff",
+      "imported": "angleDiff",
+      "source": "../core/math"
+    },
+    {
+      "name": "angleTo",
+      "imported": "angleTo",
+      "source": "../core/math"
+    },
+    {
+      "name": "clamp",
+      "imported": "clamp",
+      "source": "../core/math"
+    },
+    {
+      "name": "dist",
+      "imported": "dist",
+      "source": "../core/math"
+    },
+    {
+      "name": "vec",
+      "imported": "vec",
+      "source": "../core/math"
+    },
+    {
+      "name": "replenishingDelivery",
+      "imported": "replenishingDelivery",
+      "source": "./replenishment"
+    },
+    {
+      "name": "replenishShape",
+      "imported": "replenishShape",
+      "source": "./replenishment"
+    },
+    {
+      "name": "replenishmentActive",
+      "imported": "replenishmentActive",
+      "source": "./replenishment"
+    },
+    {
+      "name": "weaveVel",
+      "imported": "weaveVel",
+      "source": "./flight"
+    },
+    {
+      "name": "mod",
+      "imported": "mod",
+      "source": "./stats"
+    },
+    {
+      "name": "STATUS_DEFS",
+      "imported": "STATUS_DEFS",
+      "source": "./status"
+    },
+    {
+      "name": "parryCounter",
+      "imported": "parryCounter",
+      "source": "./parry"
+    },
+    {
+      "name": "HIVECALL",
+      "imported": "HIVECALL",
+      "source": "./hivecall"
+    },
+    {
+      "name": "hivecallNode",
+      "imported": "hivecallNode",
+      "source": "./hivecall"
+    },
+    {
+      "name": "hivecallState",
+      "imported": "hivecallState",
+      "source": "./hivecall"
+    },
+    {
+      "name": "hivecallRescueFactor",
+      "imported": "hivecallRescueFactor",
+      "source": "./hivecall"
+    },
+    {
+      "name": "hivecallFormDamage",
+      "imported": "hivecallFormDamage",
+      "source": "./hivecall"
+    },
+    {
+      "name": "reachTo",
+      "imported": "reachTo",
+      "source": "./segments"
+    },
+    {
+      "name": "segR",
+      "imported": "segR",
+      "source": "./segments"
+    },
+    {
+      "name": "tickSegFlash",
+      "imported": "tickSegFlash",
+      "source": "./segments"
+    },
+    {
+      "name": "woundCount",
+      "imported": "woundCount",
+      "source": "./segments"
+    },
+    {
+      "name": "DEFENSE_CFG",
+      "imported": "DEFENSE_CFG",
+      "source": "./defense"
+    },
+    {
+      "name": "MASS_CFG",
+      "imported": "MASS_CFG",
+      "source": "./mass"
+    },
+    {
+      "name": "impactFrac",
+      "imported": "impactFrac",
+      "source": "./mass"
+    },
+    {
+      "name": "impactScale",
+      "imported": "impactScale",
+      "source": "./mass"
+    },
+    {
+      "name": "shoveAuthority",
+      "imported": "shoveAuthority",
+      "source": "./mass"
+    },
+    {
+      "name": "BEHAVIOR_STATS",
+      "imported": "BEHAVIOR_STATS",
+      "source": "./brain"
+    },
+    {
+      "name": "normalizeBrain",
+      "imported": "normalizeBrain",
+      "source": "./brain"
+    },
+    {
+      "name": "crewBoardingOpen",
+      "imported": "crewBoardingOpen",
+      "source": "./skills"
+    },
+    {
+      "name": "effectiveSkillLevel",
+      "imported": "effectiveSkillLevel",
+      "source": "./skills"
+    },
+    {
+      "name": "grantedTags",
+      "imported": "grantedTags",
+      "source": "./skills"
+    },
+    {
+      "name": "guardBashSpec",
+      "imported": "guardBashSpec",
+      "source": "./skills"
+    },
+    {
+      "name": "hostSockets",
+      "imported": "hostSockets",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceChargeCost",
+      "imported": "instanceChargeCost",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceChargeGain",
+      "imported": "instanceChargeGain",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceDelivery",
+      "imported": "instanceDelivery",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceMetas",
+      "imported": "instanceMetas",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceMods",
+      "imported": "instanceMods",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceSummon",
+      "imported": "instanceSummon",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceTameMod",
+      "imported": "instanceTameMod",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceTargeting",
+      "imported": "instanceTargeting",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceThrongSources",
+      "imported": "instanceThrongSources",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceTrigger",
+      "imported": "instanceTrigger",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceTriggerArmed",
+      "imported": "instanceTriggerArmed",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceTriggerLimit",
+      "imported": "instanceTriggerLimit",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceTriggerPermit",
+      "imported": "instanceTriggerPermit",
+      "source": "./skills"
+    },
+    {
+      "name": "makeSkillInstance",
+      "imported": "makeSkillInstance",
+      "source": "./skills"
+    },
+    {
+      "name": "BASH_CFG",
+      "imported": "BASH_CFG",
+      "source": "./skills"
+    },
+    {
+      "name": "META_CHAIN_INTERVAL",
+      "imported": "META_CHAIN_INTERVAL",
+      "source": "./skills"
+    },
+    {
+      "name": "TRIGGER_CFG",
+      "imported": "TRIGGER_CFG",
+      "source": "./skills"
+    },
+    {
+      "name": "skillContextTags",
+      "imported": "skillContextTags",
+      "source": "./skills"
+    },
+    {
+      "name": "supportFitsInst",
+      "imported": "supportFitsInst",
+      "source": "./skills"
+    },
+    {
+      "name": "supportRidesMinions",
+      "imported": "supportRidesMinions",
+      "source": "./skills"
+    },
+    {
+      "name": "RELIQUARY_CFG",
+      "imported": "RELIQUARY_CFG",
+      "source": "../data/reliquary"
+    },
+    {
+      "name": "SKILLS",
+      "imported": "SKILLS",
+      "source": "../data/skills"
+    },
+    {
+      "name": "MONSTERS",
+      "imported": "MONSTERS",
+      "source": "../data/monsters"
+    },
+    {
+      "name": "coopScale",
+      "imported": "coopScale",
+      "source": "../data/coop"
+    },
+    {
+      "name": "VICTIM_CONDITIONS",
+      "imported": "VICTIM_CONDITIONS",
+      "source": "./victim"
+    },
+    {
+      "name": "runeForCast",
+      "imported": "runeForCast",
+      "source": "./invocation"
+    },
+    {
+      "name": "COMBO_CFG",
+      "imported": "COMBO_CFG",
+      "source": "./sequence"
+    },
+    {
+      "name": "comboRepeatedNow",
+      "imported": "comboRepeatedNow",
+      "source": "./sequence"
+    },
+    {
+      "name": "comboStat",
+      "imported": "comboStat",
+      "source": "./sequence"
+    },
+    {
+      "name": "comboVariedNow",
+      "imported": "comboVariedNow",
+      "source": "./sequence"
+    },
+    {
+      "name": "matchComboRule",
+      "imported": "matchComboRule",
+      "source": "./sequence"
+    },
+    {
+      "name": "COMBO_LIST",
+      "imported": "COMBO_LIST",
+      "source": "../data/combos"
+    },
+    {
+      "name": "ATTRIBUTES",
+      "imported": "ATTRIBUTES",
+      "source": "./stats"
+    },
+    {
+      "name": "ELEMENTAL_TYPES",
+      "imported": "ELEMENTAL_TYPES",
+      "source": "./stats"
+    },
+    {
+      "name": "DAMAGE_COLOR",
+      "imported": "DAMAGE_COLOR",
+      "source": "./stats"
+    },
+    {
+      "name": "EMERGE_CFG",
+      "imported": "EMERGE_CFG",
+      "source": "./emerge"
+    },
+    {
+      "name": "emergeFor",
+      "imported": "emergeFor",
+      "source": "./emerge"
+    },
+    {
+      "name": "emergeSeedOf",
+      "imported": "emergeSeedOf",
+      "source": "./emerge"
+    },
+    {
+      "name": "canSquish",
+      "imported": "canSquish",
+      "source": "./squish"
+    },
+    {
+      "name": "SQUISH_CFG",
+      "imported": "SQUISH_CFG",
+      "source": "./squish"
+    },
+    {
+      "name": "sameStory",
+      "imported": "sameStory",
+      "source": "./tiers"
+    },
+    {
+      "name": "tierFloorAt",
+      "imported": "tierFloorAt",
+      "source": "./tiers"
+    },
+    {
+      "name": "gatherSympathyRecipients",
+      "imported": "gatherSympathyRecipients",
+      "source": "./sympathy"
+    },
+    {
+      "name": "SYMPATHY_CFG",
+      "imported": "SYMPATHY_CFG",
+      "source": "./sympathy"
+    },
+    {
+      "name": "SYMPATHY_LINKS",
+      "imported": "SYMPATHY_LINKS",
+      "source": "./sympathy"
+    },
+    {
+      "name": "sympathyRelationOf",
+      "imported": "sympathyRelationOf",
+      "source": "./sympathy"
+    },
+    {
+      "name": "sympathyStat",
+      "imported": "sympathyStat",
+      "source": "./sympathy"
+    },
+    {
+      "name": "CHARGE_DEFS",
+      "imported": "CHARGE_DEFS",
+      "source": "./charges"
+    },
+    {
+      "name": "transitDwell",
+      "imported": "transitDwell",
+      "source": "../data/transit"
+    },
+    {
+      "name": "transitRadius",
+      "imported": "transitRadius",
+      "source": "../data/transit"
+    },
+    {
+      "name": "transitReach",
+      "imported": "transitReach",
+      "source": "../data/transit"
+    },
+    {
+      "name": "MINION_COMBAT",
+      "imported": "MINION_COMBAT",
+      "source": "./minionCombat"
+    },
+    {
+      "name": "batchScaleOf",
+      "imported": "batchScaleOf",
+      "source": "./throng"
+    },
+    {
+      "name": "buildWornThrongDef",
+      "imported": "buildWornThrongDef",
+      "source": "./throng"
+    },
+    {
+      "name": "isThrongBody",
+      "imported": "isThrongBody",
+      "source": "./throng"
+    },
+    {
+      "name": "THRONG_CFG",
+      "imported": "THRONG_CFG",
+      "source": "./throng"
+    },
+    {
+      "name": "throngMarkerOf",
+      "imported": "throngMarkerOf",
+      "source": "./throng"
+    },
+    {
+      "name": "throngPocketKey",
+      "imported": "throngPocketKey",
+      "source": "./throng"
+    },
+    {
+      "name": "throngSpecsOn",
+      "imported": "throngSpecsOn",
+      "source": "./throng"
+    },
+    {
+      "name": "WORN_THRONGS",
+      "imported": "WORN_THRONGS",
+      "source": "./throng"
+    },
+    {
+      "name": "wornThrongDefOfSkillId",
+      "imported": "wornThrongDefOfSkillId",
+      "source": "./throng"
+    },
+    {
+      "name": "wornThrongStat",
+      "imported": "wornThrongStat",
+      "source": "./throng"
+    },
+    {
+      "name": "CLING_CFG",
+      "imported": "CLING_CFG",
+      "source": "./cling"
+    },
+    {
+      "name": "clingEligible",
+      "imported": "clingEligible",
+      "source": "./cling"
+    },
+    {
+      "name": "clingMotionShaken",
+      "imported": "clingMotionShaken",
+      "source": "./cling"
+    },
+    {
+      "name": "clingSeatPos",
+      "imported": "clingSeatPos",
+      "source": "./cling"
+    },
+    {
+      "name": "clingSeatsOf",
+      "imported": "clingSeatsOf",
+      "source": "./cling"
+    },
+    {
+      "name": "gnawTags",
+      "imported": "gnawTags",
+      "source": "./cling"
+    },
+    {
+      "name": "STATUS_RELAYS",
+      "imported": "STATUS_RELAYS",
+      "source": "./reception"
+    },
+    {
+      "name": "STATUS_RELAY_IDS",
+      "imported": "STATUS_RELAY_IDS",
+      "source": "./reception"
+    },
+    {
+      "name": "relayStatusStat",
+      "imported": "relayStatusStat",
+      "source": "./reception"
+    },
+    {
+      "name": "TRAIL_GRANTS",
+      "imported": "TRAIL_GRANTS",
+      "source": "./fieldgrants"
+    },
+    {
+      "name": "POCKET_GRANTS",
+      "imported": "POCKET_GRANTS",
+      "source": "./fieldgrants"
+    },
+    {
+      "name": "pocketGrantStat",
+      "imported": "pocketGrantStat",
+      "source": "./fieldgrants"
+    },
+    {
+      "name": "trailGrantStat",
+      "imported": "trailGrantStat",
+      "source": "./fieldgrants"
+    },
+    {
+      "name": "placeGrantedPockets",
+      "imported": "placeGrantedPockets",
+      "source": "./fieldgrants"
+    },
+    {
+      "name": "POCKET_GRANT_IDS",
+      "imported": "POCKET_GRANT_IDS",
+      "source": "./fieldgrants"
+    },
+    {
+      "name": "TRAIL_GRANT_IDS",
+      "imported": "TRAIL_GRANT_IDS",
+      "source": "./fieldgrants"
+    },
+    {
+      "name": "substituteThrongKind",
+      "imported": "substituteThrongKind",
+      "source": "./fieldgrants"
+    },
+    {
+      "name": "LITE_CFG",
+      "imported": "LITE_CFG",
+      "source": "./lite"
+    },
+    {
+      "name": "liteNoise",
+      "imported": "liteNoise",
+      "source": "./lite"
+    },
+    {
+      "name": "liteRingOffset",
+      "imported": "liteRingOffset",
+      "source": "./lite"
+    },
+    {
+      "name": "resolveLiteKind",
+      "imported": "resolveLiteKind",
+      "source": "./lite"
+    },
+    {
+      "name": "GRAB_CFG",
+      "imported": "GRAB_CFG",
+      "source": "./grab"
+    },
+    {
+      "name": "payloadTransition",
+      "imported": "payloadTransition",
+      "source": "./payloadCues"
+    },
+    {
+      "name": "noteProcCue",
+      "imported": "noteProcCue",
+      "source": "./procCues"
+    },
+    {
+      "name": "poolVentRead",
+      "imported": "poolVentRead",
+      "source": "./skills"
+    },
+    {
+      "name": "defenseCueFlash",
+      "imported": "defenseCueFlash",
+      "source": "./defenseCues"
+    },
+    {
+      "name": "combatCueFlash",
+      "imported": "combatCueFlash",
+      "source": "./combatCues"
+    },
+    {
+      "name": "guardArcRadians",
+      "imported": "guardArcRadians",
+      "source": "./combatCues"
+    },
+    {
+      "name": "guardBashGeometry",
+      "imported": "guardBashGeometry",
+      "source": "./warningCues"
+    },
+    {
+      "name": "DEFENSE_CUE_CFG",
+      "imported": "DEFENSE_CUE_CFG",
+      "source": "../data/defenseCues"
+    },
+    {
+      "name": "plyFloorOf",
+      "imported": "plyFloorOf",
+      "source": "./plies"
+    },
+    {
+      "name": "LOS_CFG",
+      "imported": "LOS_CFG",
+      "source": "./los"
+    },
+    {
+      "name": "SATELLITE_CFG",
+      "imported": "SATELLITE_CFG",
+      "source": "./satelliteSpec"
+    },
+    {
+      "name": "REMNANT_KINDS",
+      "imported": "REMNANT_KINDS",
+      "source": "../data/remnants"
+    },
+    {
+      "name": "remnantDropStat",
+      "imported": "remnantDropStat",
+      "source": "../data/remnants"
+    },
+    {
+      "name": "ORB_DEFS",
+      "imported": "ORB_DEFS",
+      "source": "../data/orbs"
+    },
+    {
+      "name": "ORB_CAP",
+      "imported": "ORB_CAP",
+      "source": "../data/orbs"
+    },
+    {
+      "name": "orbAmount",
+      "imported": "orbAmount",
+      "source": "../data/orbs"
+    },
+    {
+      "name": "orbOnKillStat",
+      "imported": "orbOnKillStat",
+      "source": "../data/orbs"
+    },
+    {
+      "name": "orbRefundStat",
+      "imported": "orbRefundStat",
+      "source": "../data/orbs"
+    }
+  ],
+  "outputs": {
+    "adapters/embedded/combat-policies.mjs": "17d2406c21f7e05cbab542a26cc92ee3978c50569b0220f83a9167793b7f6cc1"
+  },
+  "changes": [
+    "Bind combat conductor to one internal SDK owner",
+    "Use per-owner random stream and shared damage service",
+    "Read reliquary power from the admitted character projection, without account access",
+    "Reuse SDK inheritance and attribute bequests",
+    "Reuse the shared SDK tree-buff retirement ledger",
+    "Route optional original simulation taps to per-owner observers",
+    "Read current combat encounter level without a world owner",
+    "Report guard blocks through an optional observer without campaign deed evaluation"
+  ]
+}

@@ -16,8 +16,13 @@ const script=path.join(reference,'balance/export-sdk-cargo-cards.ts');
 fs.copyFileSync(path.join(root,'reference/export-cargo-cards.ts'),script);
 function run(){
   const dir=fs.mkdtempSync(path.join(root,'.artifacts/original-cargo-cards-'));
+  try {
   execFileSync(process.execPath,['--import','tsx',script,dir],{cwd:reference,windowsHide:true,stdio:'inherit',timeout:180000});
   return Object.fromEntries(['cards.jsonl','faces.json','roster.json'].map(name=>[name,fs.readFileSync(path.join(dir,name))]));
+  } finally {
+    assert.equal(path.dirname(fs.realpathSync(dir)),fs.realpathSync(path.join(root,'.artifacts')));
+    fs.rmSync(dir,{recursive:true,maxRetries:3});
+  }
 }
 const files=run();
 if(capture){
@@ -45,8 +50,15 @@ verifyReference(reference,lock);
 if(capture){
   // Publish a complete baseline together. A failed verifier leaves no accepted directory.
   const stage=fs.mkdtempSync(path.join(root,'.artifacts/cargo-capture-'));
+  try {
   for(const [name,bytes] of Object.entries(files))fs.writeFileSync(path.join(stage,name+'.gz'),gzipSync(bytes,{level:9}));
   writeJSON(path.join(stage,'acceptance.json'),manifest);fs.renameSync(stage,accepted);
+  } finally {
+    if(fs.existsSync(stage)){
+      assert.equal(path.dirname(fs.realpathSync(stage)),fs.realpathSync(path.join(root,'.artifacts')));
+      fs.rmSync(stage,{recursive:true,maxRetries:3});
+    }
+  }
 }else{
   assert.deepEqual(manifest,JSON.parse(fs.readFileSync(path.join(accepted,'acceptance.json'))));
   for(const [name,bytes] of Object.entries(files))assert(gunzipSync(fs.readFileSync(path.join(accepted,name+'.gz'))).equals(bytes),name);

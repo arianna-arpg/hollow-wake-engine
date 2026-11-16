@@ -1,0 +1,15 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import {gunzipSync} from 'node:zlib';import {CombatBirth} from '../dist/combat-birth.js';import {BirthPool} from '../dist/birth-pool.js';import {sha256} from './reference-utils.mjs';
+const probe=process.argv.includes('--probe'),archive=fs.readFileSync(probe?'.artifacts/m3-combat-birth-probe.json.gz':'baseline/combat-birth/observations.json.gz'),bytes=gunzipSync(archive),fixture=JSON.parse(bytes);assert(fixture.originalOnly);
+if(!probe){const a=JSON.parse(fs.readFileSync('baseline/combat-birth/acceptance.json'));assert.equal(sha256(archive),a.compressedSha256);assert.equal(sha256(bytes),a.sha256);}
+const plain=value=>JSON.parse(JSON.stringify(value));
+for(const c of fixture.courses){const actors=[],events=[],flashes=[];let draws=0,now=0,next=0;
+  const make=(defId,level,team,owner)=>{const a={id:++next,defId,level,team,owner,pos:{x:0,y:0},radius:5,tier:2,color:'red',noBounty:false,lifespan:0,dead:false,sheet:{get:()=>2}};a.addBuff=(...args)=>events.push(['buff',a.id,plain(args)]);a.applyStatus=(...args)=>events.push(['status',a.id,plain(args)]);return a;};
+  const caster=make(fixture.monster,3,c.team);caster.faction='hive';caster.pos={x:20,y:30};actors.push(caster);if(c.keeper){const keeper=make(fixture.monster,8,'player');caster.owner=keeper;actors.push(keeper);}
+  const random=()=>{draws++;return .37;},runtime=new CombatBirth(fixture.rules,{actors:()=>actors,time:()=>now,random,monsterExists:id=>id===fixture.monster||id==='clutch_egg',pool:new BirthPool(fixture.bands,()=>undefined,random),
+    createMonster:(id,level,team,owner)=>{events.push(['create',id,level,team,owner?.id??null]);return make(id,level,team,owner);},lifeline:owner=>owner.id,freeSpot:at=>({...at}),emerge:(a,opts)=>events.push(['emerge',a.id,plain(opts)]),
+    flash:(pos,radius,color,life)=>flashes.push({pos,radius,color,life,maxLife:life}),kill:(a,silent)=>{events.push(['kill',a.id,silent]);a.dead=true;runtime.onDeath(a);}});
+  const state=()=>plain({actors:actors.map(a=>({id:a.id,defId:a.defId,level:a.level,team:a.team,owner:a.owner?.id,pos:a.pos,bornOf:a.bornOf,faction:a.faction,tag:a.tag,noBounty:a.noBounty,lifelineId:a.lifelineId,sourceSkillId:a.sourceSkillId,lifespan:a.lifespan,dead:a.dead,orphanFate:a.orphanFate,clutchLive:a.clutchLive,eggHatch:a.eggHatch})),events,draws,flashes});
+  for(const step of c.steps){if(step.op==='birth')assert.deepEqual(runtime.birth(caster,null,c.fx,{x:42.7,y:10.2},{host:true,capKey:'proc'}).map(a=>a.id),step.born,c.name);else if(step.op==='death')runtime.ports.kill(caster,true);else{now=step.time;runtime.advance(step.dt);}assert.deepEqual(state(),step.state,c.name+': '+step.op);}
+}
+const pool=new BirthPool(fixture.bands,id=>id==='a'?{mul:.5}:undefined,()=>.5);for(const row of fixture.weights)assert.equal(pool.multiplier(row.spec,row.level),row.mult);for(const row of fixture.tables)assert.deepEqual(pool.shaped(fixture.table,row.level),row.table);
+console.log({passed:true,originalBirthCourses:fixture.courses.length,weightObservations:fixture.weights.length+fixture.tables.length,bodyFactoryQualified:false,fullDeathQualified:false});

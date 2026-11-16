@@ -1,0 +1,18 @@
+import {writeFileSync} from 'node:fs';import {makeSimWorld} from '../src/sim/arena';import {seedGlobalRandom} from '../src/sim/rng';import {Actor} from '../src/engine/actor';import {makeSkillInstance,CONSTRUCT_KIND_AIMS,type SkillDef,type EchoRiderSpec} from '../src/engine/skills';import {CONSTRUCT_LOOKS} from '../src/data/looks';import {DEFENSE_CFG} from '../src/engine/defense';
+const restore=seedGlobalRandom(0x4d3333),courses=[];
+const recipes=[{name:'hover',spec:{mode:'hover',count:2,duration:4}},{name:'mimic',spec:{mode:'mimic',count:2,duration:4,substitute:20}},{name:'strike',spec:{mode:'strike',count:2,duration:12,range:300,casts:2}},{name:'strike-empty',spec:{mode:'strike',count:2,duration:4,range:1}},
+  {name:'refused-payload',spec:{mode:'hover',count:2,duration:4},forbidden:true},{name:'ghost-cannot-mint',spec:{mode:'hover',count:2,duration:4},ghost:true}];
+const plain=(value:unknown)=>JSON.parse(JSON.stringify(value,(k,v)=>k==='caster'&&v?.id!==undefined?v.id:['inst','castInst','summonInst'].includes(k)&&v?.def?v.def.id:v instanceof Map?[...v]:v instanceof Set?[...v]:typeof v==='number'&&!Number.isFinite(v)?String(v):v));
+try{for(const r of recipes){const w=makeSimWorld('warrior',0x4d3333),owner=new Actor('Owner','ally',{x:800,y:600});w.walk=null;w.meta.modeId='immortal';w.actors=[owner];w.pendingRepeats=[];owner.level=7;owner.tier=2;owner.color='#abc';owner.facing=.2;if(r.ghost)owner.construct={kind:'echo',range:1,timer:0};
+  for(const x of[850,920]){const e=new Actor('Enemy','enemy',{x,y:600});e.tier=2;w.actors.push(e);}
+  const def={id:'echo-source',name:'Echo',description:'',color:'#fff',tags:['spell','construct'],manaCost:0,useTime:0,cooldown:0,delivery:{type:'construct',kind:'echo',range:300,duration:4,maxActive:1},effects:[]} as SkillDef;
+  const payloadDef={...def,id:'payload',tags:['spell'],delivery:{type:r.forbidden?'self':'projectile',speed:100,range:300,radius:5},effects:[{type:'damage'}]} as SkillDef;
+  const source=makeSkillInstance(def,1),payload=makeSkillInstance(payloadDef,2);owner.skills=[source,payload];const spec=r.spec as EchoRiderSpec;
+  const snapshot=()=>plain({owner:{pos:owner.pos},bodies:w.actors.filter(a=>a.owner===owner).map(a=>({id:a.id,pos:a.pos,facing:a.facing,radius:a.radius,tier:a.tier,level:a.level,shape:a.shape,color:a.color,look:a.look,adorn:a.adorn,material:a.material,life:a.life,lifespan:a.lifespan,dead:a.dead,explodeOnDeath:a.explodeOnDeath,invulnerable:a.invulnerable,untargetable:a.untargetable,construct:a.construct,cooldowns:a.cooldowns,sources:a.sheet.sourceNames().map(id=>[id,a.sheet.getSourceMods(id)])})),repeats:w.pendingRepeats});
+  const initial=w.actors.map(a=>({id:a.id,team:a.team,pos:{...a.pos},tier:a.tier,radius:a.radius})),steps=[];(w as any).spawnEchoRiders(owner,source,spec,'echo-source:self',{x:900,y:600},payload);steps.push({op:'spawn',state:snapshot()});
+  const family=w.actors.filter(a=>a.owner===owner);if(family.length){family[0].cooldowns.set('payload',2);family[0].lifespan=.2;}
+  (w as any).spawnEchoRiders(owner,source,{...spec,duration:6,count:1},'echo-source:self',{x:900,y:600},payload);steps.push({op:'refresh',state:snapshot()});
+  if(spec.mode==='mimic'){(w as any).echoToClones(owner,payload,{x:1000,y:620},1.5,{actor:w.actors[1],pos:w.actors[1].pos});steps.push({op:'replay',state:snapshot()});}
+  courses.push({name:r.name,definition:def,payloadDefinition:payloadDef,initial,spec,ghost:!!r.ghost,steps});
+}
+writeFileSync(process.argv[2],JSON.stringify({originalOnly:true,rules:{looks:CONSTRUCT_LOOKS,aims:CONSTRUCT_KIND_AIMS,weight:DEFENSE_CFG.weight},courses}));}finally{restore();}

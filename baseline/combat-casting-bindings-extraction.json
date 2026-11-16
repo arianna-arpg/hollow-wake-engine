@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sources": {
+    ".reference/src/engine/world.ts": "8bcaa14ca54a4cf2bfe917d0433ccf83d4d7e08a4fc40e61dbc4b9deac18166c",
+    "adapters/hollow-wake/skill-request-ports.txt": "f3af115df797e1dc2276b748f4b15672bb08b520131688629796d76385dbc974",
+    "adapters/hollow-wake/skill-dispatch-ports.txt": "e3f476257662e8d2887ab1624f143e11d372488697fce2525983c48bee19a149",
+    "adapters/hollow-wake/casting-continuation-ports.txt": "07a33add17482b0ab1c05d41bb2ee9adf9876c8ad087d8728acd758f36650db3",
+    "adapters/hollow-wake/chargedCastingAdapter.ts": "f33f2a70578829e684954ed39062ebe7a8038965cb2e485d20edfc9a3c207b5e",
+    "adapters/hollow-wake/channelCastingAdapter.ts": "3b718f739c85c0220c2cae5569ecebf7c50716add182dbc560523a07adcd1ad2",
+    "adapters/hollow-wake/guardCastingAdapter.ts": "40a2eee353d2a5eb510e3c845075ca8323fc2828c0f7136bbaae61125ef9e1b2",
+    "adapters/hollow-wake/skillIntentAdapter.ts": "96486093707ffe9f751df30b6e91bb5856e2f410e37a512bf4721900848427a0",
+    "adapters/hollow-wake/integrate-charged-casting.mjs": "5e36c755f8fec80cc7024f4308efd188590ac82136641c66048764630d5cc73b",
+    "adapters/hollow-wake/integrate-channel-casting.mjs": "163d45cfad0e9106c4f4046ef1f5653649f190be314ab76a12cea03a3ad3d150",
+    "adapters/hollow-wake/integrate-guard-casting.mjs": "03dbd0373103f44e6e29835bdfacb5505749d65e76ac1da647f3c872ef5503fc"
+  },
+  "queries": [
+    {
+      "name": "throngTravelProtected",
+      "imported": "throngTravelProtected",
+      "source": "./throngEvolution"
+    },
+    {
+      "name": "instanceEffects",
+      "imported": "instanceEffects",
+      "source": "./skills"
+    },
+    {
+      "name": "replenishingDelivery",
+      "imported": "replenishingDelivery",
+      "source": "./replenishment"
+    },
+    {
+      "name": "instanceConvert",
+      "imported": "instanceConvert",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceTrigger",
+      "imported": "instanceTrigger",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceTriggerArmed",
+      "imported": "instanceTriggerArmed",
+      "source": "./skills"
+    },
+    {
+      "name": "SKILLS",
+      "imported": "SKILLS",
+      "source": "../data/skills"
+    },
+    {
+      "name": "mimicPowerMods",
+      "imported": "mimicPowerMods",
+      "source": "./mimic"
+    },
+    {
+      "name": "mimicSelected",
+      "imported": "mimicSelected",
+      "source": "./mimic"
+    },
+    {
+      "name": "GRAB_CFG",
+      "imported": "GRAB_CFG",
+      "source": "./grab"
+    },
+    {
+      "name": "guardCapacity",
+      "imported": "guardCapacity",
+      "source": "./guardArtsSpec"
+    },
+    {
+      "name": "instanceCastMode",
+      "imported": "instanceCastMode",
+      "source": "./skills"
+    },
+    {
+      "name": "angleTo",
+      "imported": "angleTo",
+      "source": "../core/math"
+    },
+    {
+      "name": "STATUS_DEFS",
+      "imported": "STATUS_DEFS",
+      "source": "./status"
+    },
+    {
+      "name": "instanceMods",
+      "imported": "instanceMods",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceOvercharge",
+      "imported": "instanceOvercharge",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceStrikeTiming",
+      "imported": "instanceStrikeTiming",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceTargeting",
+      "imported": "instanceTargeting",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceUseCharges",
+      "imported": "instanceUseCharges",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceCurseField",
+      "imported": "instanceCurseField",
+      "source": "./skills"
+    },
+    {
+      "name": "socketSpec",
+      "imported": "socketSpec",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceChannel",
+      "imported": "instanceChannel",
+      "source": "./skills"
+    },
+    {
+      "name": "REFLEX_CFG",
+      "imported": "REFLEX_CFG",
+      "source": "./skills"
+    },
+    {
+      "name": "skillContextTags",
+      "imported": "skillContextTags",
+      "source": "./skills"
+    },
+    {
+      "name": "gaugeSpend",
+      "imported": "gaugeSpend",
+      "source": "./gauge"
+    },
+    {
+      "name": "updateCastAim",
+      "imported": "updateCastAim",
+      "source": "./castAim"
+    },
+    {
+      "name": "dist",
+      "imported": "dist",
+      "source": "../core/math"
+    },
+    {
+      "name": "timingCueFlash",
+      "imported": "timingCueFlash",
+      "source": "./combatCues"
+    },
+    {
+      "name": "castingEventFlash",
+      "imported": "castingEventFlash",
+      "source": "./castingCues"
+    },
+    {
+      "name": "angleDiff",
+      "imported": "angleDiff",
+      "source": "../core/math"
+    },
+    {
+      "name": "mod",
+      "imported": "mod",
+      "source": "./stats"
+    },
+    {
+      "name": "TRIGGER_CFG",
+      "imported": "TRIGGER_CFG",
+      "source": "./skills"
+    },
+    {
+      "name": "BASH_CFG",
+      "imported": "BASH_CFG",
+      "source": "./skills"
+    },
+    {
+      "name": "guardBashSpec",
+      "imported": "guardBashSpec",
+      "source": "./skills"
+    },
+    {
+      "name": "grantedTags",
+      "imported": "grantedTags",
+      "source": "./skills"
+    },
+    {
+      "name": "makeSkillInstance",
+      "imported": "makeSkillInstance",
+      "source": "./skills"
+    },
+    {
+      "name": "effectiveSkillLevel",
+      "imported": "effectiveSkillLevel",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceTreeMods",
+      "imported": "instanceTreeMods",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceChargeCost",
+      "imported": "instanceChargeCost",
+      "source": "./skills"
+    },
+    {
+      "name": "CONCENTRATION_CFG",
+      "imported": "CONCENTRATION_CFG",
+      "source": "./skills"
+    },
+    {
+      "name": "LOS_CFG",
+      "imported": "LOS_CFG",
+      "source": "./los"
+    }
+  ],
+  "outputs": {
+    "adapters/embedded/combat-casting-bindings.mjs": "044d697ac09ec4f18cb5aa5f7f1f280d507b317653684d799767d98e78b48d4d"
+  },
+  "changes": [
+    "Compose existing SDK casting controllers",
+    "Per-owner random source",
+    "Host intent and cast seal projections instead of general AI or geography"
+  ]
+}

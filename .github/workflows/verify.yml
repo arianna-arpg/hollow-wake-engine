@@ -29,7 +29,7 @@ jobs:
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
-          name: character-m2-${{ matrix.os }}-node${{ matrix.node }}
+          name: combat-m3-${{ matrix.os }}-node${{ matrix.node }}
           include-hidden-files: true
           if-no-files-found: warn
           retention-days: 7
@@ -38,6 +38,8 @@ jobs:
             .artifacts/m2-session.logs.json.gz
             .artifacts/combat-inventory-scope.json
             .artifacts/package-size-current.json
+            .artifacts/combat-coverage-runtime.json
+            .artifacts/m3-package.json
   native:
     strategy:
       matrix:
@@ -360,6 +362,7 @@ jobs:
           include-hidden-files: true
           if-no-files-found: error
           path: |
+            .artifacts/combat-coverage-reference.json
             .artifacts/inventory-ui-overlay-verification.json
             .artifacts/skill-overlay-verification.json
             .artifacts/game-skill-verification.json

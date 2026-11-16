@@ -1,0 +1,231 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "88e135e6c85d301ee7c0c3641f9fc2f92be0e140",
+  "sources": {
+    "src/combat-geometry.ts": "38d216d453ba149f7df67ea77852da270e2c9f22eee94085155ec586192e5e42",
+    "src/types.ts": "8c04067755b9aeee7aa735916c8b207c015bd93a7e39f45577eec176fdfb6ee2",
+    "src/combat-fields.ts": "7194e9a3b1b5141eb2149f9d14c400291dbaa45382a29f9439fb64242310a4a8",
+    "src/cast-fields.ts": "1f5e516af206723660b55e9ba246ce95e5a7ee467eef4a08e02564dd3c5117a0",
+    "src/field-delivery-types.ts": "78b344137119b3700c2a34781f9ca6684646fee2bac40953c56ebd1a80bf576d",
+    "src/cast-preparation-types.ts": "2c10241592088ea95ac51f205c2660d37760ab491981a4cdccc477304bae9784",
+    "src/cast-aftermath-types.ts": "e916d68dc96b7cd0bdd39f0806fdc2711fbf37678c360fbfc1ec8d74b8f27af6",
+    "src/area-delivery-types.ts": "2f94a61e18ab77ecee3c82a43bd4fd7cf04d32b096c83db9fa9add84cfc9c0dc",
+    "src/damage-pipeline-types.ts": "93f8b51ef92f95c03386a9abb99ad3f9048d90b8e9906a81d4cbd15785aaed70",
+    "src/aura-activation.ts": "46d66563418e7e2224a28c71eb5a6209d8f6f1ce17cd68340c3f04ae322fbb43",
+    "src/construct-birth.ts": "5bb83955315dfb45f369d9e73b59f64caae8c29bd3c194013bcbd17a0525c5ee",
+    "src/parry-damage.ts": "d940ee81116b530e1c48c2e51727b89cfa8ea92b2650790e9f06054df8e84544",
+    "src/projectile-specs.ts": "00fdab08496596ce3d37901c3c82fd47fb072b15d3318c2d4818c90be2bf56f1",
+    "src/projectile-record.ts": "0c04ecefe62652f00acf30786340fce0507434188001bb7707a3ee64d283994c",
+    "src/projectile-math.ts": "40cacf1520d7cc4894cdcb1eee650735f2511f5a192bdb8b415a0941008067eb",
+    "src/projectile-types.ts": "ea578b5e59c9caabaed0a4784d801f91841356a2a248909d5319b86ba82f1b64",
+    "src/field-aftermath-types.ts": "daa71e22b2d7ce78cd4d214a2a072eec434d81b010505a718be7cd16402bde99",
+    "src/validation.ts": "fd6cdf7c727fb144cbb76cbed4461cc069a5fb55347e099ffb689a882f458334",
+    "src/ammunition.ts": "36e1623d79dc48648550d56de8edc9f6bce134b83189daf2a54f8d871efd48a5",
+    "src/cooldowns.ts": "a70b2aad2fa90921a5de8b8fb3ce2b57e4b8bf817989fab2cb9edb6f6f66cf43",
+    "src/cast-resource-effects.ts": "c89ecdf2845b30ef430ae5ca64d700d1c60e0faf2d3439b0c1a019e93c6690e0",
+    "src/resource-restoration.ts": "1f937480b931cc8bf97594b1e7fb6d3eef8c54fcf1ac7d55d4b55387fbd79334",
+    "src/restoration-streams.ts": "4871609c735aa507b5cb325d0c68d8e811ec5e4857cf122cb0574e448239e2d3",
+    "src/skill-recovery.ts": "78f0b733319f81d9972e97e2523de6060111b1910fb4c0a3bf1f7aa2e18503d0",
+    "src/cast-self-effects.ts": "58f982e774f4cb023496de7c729db779744f7c8e2fcfd501ef8bc59e3264faf1",
+    "src/buffs.ts": "cf41f28456e1ae39162551d15cea6d9c9f27f53598cd4ab7845b526f59c89147",
+    "src/cast-buffs.ts": "178a0dd0d291d3b99dcc5dba80129cd6af823f2b15c2e84d15db19c49391a253",
+    "src/minion-orders.ts": "47243dd253fedcfa92d448f751b58f71749db75023debe6a8e05cc1b409e180a",
+    "src/minion-pour.ts": "3cbc3da04dd303a32288e40222c18d37f183ff96b9ce756a453d076d5896fe47",
+    "src/grab-types.ts": "1bea8fe0fe8663ec3f5954542e526b133d97a01bc9e864624383053e16c7b732",
+    "src/possession-types.ts": "c941fa7032e30314f9159f2f19d17f4a9c7d41c916efdedf5c8fba1afee81ff2",
+    "src/iron-ward.ts": "ac50e89f5a21607f800ba0f06685be4eb81ef101ce12c7990ffc0a7f4638fca8",
+    "src/guard-surge.ts": "a5a16cdaa5ed530ff3d7d22a45f0e7abe8df12cdf949333aef4f9361ef2ad4a6",
+    "src/status-lifecycle-types.ts": "b48d91d513c42c38c848eb235f32cfd09f36d35999ae70ff0ce4297a64e43a3f",
+    "src/status-effects-types.ts": "769272feec56750ec0a5894fec244cf10e7e6cfd1af1397e61ad98de0981d8ea",
+    "src/status-delivery-types.ts": "5a9d53481c74ef08335dd9630916ac133f4332a13533244a871149bc8c063aa9",
+    "src/live-list.ts": "7e7b524383bcce6ffc08fa7fa147f9a716ab109915b5d44758eb8c493298e605",
+    "src/pending-resolutions.ts": "d3190221aeb07128304825533f0cbaf26546943dc86cd75941f1e25f435f71f2",
+    "src/caster-effects.ts": "d71b6dd14927d80dac8bbb5646cab7711388c7cb968f8a1800a9786d5aa986cd",
+    "src/companion-claims.ts": "ba9addc9884f1e9b5a3cd8677438c1e56ea4d8a694bf8eb23bb822415875dc93",
+    "src/direct-deliveries.ts": "58495e291fcc1008b06e405f2667a2224a7cf67975cf78328a5feaa673474809",
+    "src/segment-geometry.ts": "f997fa884b1b18535ac08792997a20a0c0144067416533e09f4421b61b053f93",
+    "src/tethers.ts": "7c57a4a1ae4097743a402a1c20a371f4d0fa4204659d3366570eea917bd5d070",
+    "src/construct-lifecycle-types.ts": "4a9a27e235de3bc33630c3a7f334a2aff9b7e27920f4a22a85c4a8e092bc5cb9",
+    "src/field-simulation-types.ts": "0b117c3a62bee3d7e5a8335928b219c06a12dcf602f0ada90910cd64d90bf3e9"
+  },
+  "queries": [
+    {
+      "name": "skillBurstVoice",
+      "imported": "skillBurstVoice",
+      "source": "../data/skillVisuals"
+    },
+    {
+      "name": "skillBeamVoice",
+      "imported": "skillBeamVoice",
+      "source": "../data/skillFlightVisuals"
+    },
+    {
+      "name": "skillStrikeVoice",
+      "imported": "skillStrikeVoice",
+      "source": "../data/skillStrikeVisuals"
+    },
+    {
+      "name": "skillMovementVoice",
+      "imported": "skillMovementVoice",
+      "source": "../data/skillMovementVisuals"
+    },
+    {
+      "name": "skillSelfVoice",
+      "imported": "skillSelfVoice",
+      "source": "../data/skillSelfVisuals"
+    },
+    {
+      "name": "skillPresenceVoice",
+      "imported": "skillPresenceVoice",
+      "source": "../data/skillPresenceVisuals"
+    },
+    {
+      "name": "feedingCueFlash",
+      "imported": "feedingCueFlash",
+      "source": "./feedingCues"
+    },
+    {
+      "name": "instanceCastCycle",
+      "imported": "instanceCastCycle",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceEffects",
+      "imported": "instanceEffects",
+      "source": "./skills"
+    },
+    {
+      "name": "effectiveSkillLevel",
+      "imported": "effectiveSkillLevel",
+      "source": "./skills"
+    },
+    {
+      "name": "grantedTags",
+      "imported": "grantedTags",
+      "source": "./skills"
+    },
+    {
+      "name": "hostSockets",
+      "imported": "hostSockets",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceAim",
+      "imported": "instanceAim",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceCascadePlan",
+      "imported": "instanceCascadePlan",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceChargeCost",
+      "imported": "instanceChargeCost",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceChargeGain",
+      "imported": "instanceChargeGain",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceDelivery",
+      "imported": "instanceDelivery",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceEchoes",
+      "imported": "instanceEchoes",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceMods",
+      "imported": "instanceMods",
+      "source": "./skills"
+    },
+    {
+      "name": "instancePulsePlan",
+      "imported": "instancePulsePlan",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceSelfStack",
+      "imported": "instanceSelfStack",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceSizeOver",
+      "imported": "instanceSizeOver",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceBirth",
+      "imported": "instanceBirth",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceTargeting",
+      "imported": "instanceTargeting",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceTethers",
+      "imported": "instanceTethers",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceTrail",
+      "imported": "instanceTrail",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceTurret",
+      "imported": "instanceTurret",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceUseCharges",
+      "imported": "instanceUseCharges",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceVariance",
+      "imported": "instanceVariance",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceSequel",
+      "imported": "instanceSequel",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceFissureTrail",
+      "imported": "instanceFissureTrail",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceCurseField",
+      "imported": "instanceCurseField",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceInvocation",
+      "imported": "instanceInvocation",
+      "source": "./invocation"
+    },
+    {
+      "name": "payloadTransition",
+      "imported": "payloadTransition",
+      "source": "./payloadCues"
+    },
+    {
+      "name": "combatCueFlash",
+      "imported": "combatCueFlash",
+      "source": "./combatCues"
+    }
+  ],
+  "outputs": {
+    "adapters/embedded/combat-port-contracts.mjs": "02b6589c89cf4c692b9439eb97ff0276fdeca4c4dc0096807407f5cfd18b0e45"
+  }
+}

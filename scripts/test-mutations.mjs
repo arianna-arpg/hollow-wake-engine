@@ -7,6 +7,7 @@ import { root } from './reference-utils.mjs';
 const artifacts = path.join(root, '.artifacts');
 fs.mkdirSync(artifacts, { recursive: true });
 const temp = fs.mkdtempSync(path.join(artifacts, 'mutation-'));
+try {
 for (const folder of ['dist', 'test', 'baseline', 'content']) {
   if (folder === 'baseline') {
     fs.mkdirSync(path.join(temp, folder));
@@ -209,4 +210,8 @@ for (const [module, name, before, after, tests] of [
   fs.writeFileSync(target, source);
   fs.writeFileSync(path.join(artifacts, `${name}.txt`), output);
   console.log(`Rejected deliberate fault: ${name}`);
+}
+} finally {
+  assert.equal(path.dirname(fs.realpathSync(temp)), fs.realpathSync(artifacts));
+  fs.rmSync(temp, { recursive: true, maxRetries: 3 });
 }
