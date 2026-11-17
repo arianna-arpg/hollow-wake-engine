@@ -12,7 +12,9 @@ import {dispatchWorld,dispatchMethod,integrateSkillDispatch,renderDispatchWorld}
 
 const reference=path.join(root,'.reference'),lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json')));
 verifyReference(reference,lock);
-const reconstruction=fs.mkdtempSync(path.join(root,'.artifacts/dispatch-prior-'));
+const parent=fs.realpathSync(path.join(root,'.artifacts')),work=fs.mkdtempSync(path.join(parent,'dispatch-test-owned-'));
+try {
+const reconstruction=path.join(work,'prior');
 fs.mkdirSync(path.join(reconstruction,'src/engine'),{recursive:true});
 for(const file of ['src/engine/actor.ts',dispatchWorld]) fs.copyFileSync(path.join(reference,file),path.join(reconstruction,file));
 // Reproduce only the accepted transformations that affect useSkill; no retained
@@ -20,9 +22,14 @@ for(const file of ['src/engine/actor.ts',dispatchWorld]) fs.copyFileSync(path.jo
 for(const step of [integrate,integrateChargedCasting,integrateInteractiveCasting,
   integrateAmmunition,integrateChannelCasting,integrateSkillRequest]) step(reconstruction);
 const prior=fs.readFileSync(path.join(reconstruction,dispatchWorld),'utf8').replaceAll('\r\n','\n');
+const replacement="if (typeof sdkRequestResult === 'object') inst = sdkRequestResult.instance;\n    else if (sdkRequestResult !== 'continue') return sdkRequestResult;";
+const legacy="if (sdkRequestResult !== 'continue') return sdkRequestResult;";
+assert(prior.includes(replacement));
+assert.equal(renderDispatchWorld(prior),renderDispatchWorld(prior.replace(replacement,legacy)),'Reviewed handoff must produce the identical complete dispatch');
+assert.throws(()=>renderDispatchWorld(prior.replace('inst = sdkRequestResult.instance','inst = caster.skills[0]')),/Unreviewed/);
 const reports=[];
 for(const newline of ['\n','\r\n']) {
-  const game=fs.mkdtempSync(path.join(root,'.artifacts/dispatch-overlay-'));
+  const game=fs.mkdtempSync(path.join(work,'overlay-'));
   fs.mkdirSync(path.join(game,'src/engine'),{recursive:true});
   const file=path.join(game,dispatchWorld),input=(prior+'\n// preserved unrelated marker\n').replaceAll('\n',newline);
   fs.writeFileSync(file,input); integrateSkillDispatch(game,false); assert.equal(fs.readFileSync(file,'utf8'),input);
@@ -50,3 +57,6 @@ assert.throws(()=>renderDispatchWorld(fs.readFileSync(path.join(reference,dispat
 verifyReference(reference,lock);
 writeJSON(path.join(root,'.artifacts/skill-dispatch-overlay-verification.json'),{reports,reconstructedFromFrozenOriginal:true});
 console.log('Dispatch overlay reproduced the accepted method, refused changed inputs and preserved every unrelated World member.');
+} finally {
+  assert.equal(path.dirname(fs.realpathSync(work)),parent);fs.rmSync(work,{recursive:true,maxRetries:3});
+}

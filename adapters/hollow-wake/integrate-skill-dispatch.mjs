@@ -23,7 +23,14 @@ export function renderDispatchWorld(source) {
   const {ast,method}=dispatchMethod(current);
   const acceptance=JSON.parse(fs.readFileSync(path.join(root,'baseline/milestone-thirty-four/acceptance.json')));
   assert.equal(method.body.statements.length,acceptance.sourceBoundary.retained.statements,'Unreviewed dispatch statements');
-  assert.equal(sha256(method.getText(ast)),acceptance.sourceBoundary.retained.sha256,'Unreviewed dispatch method');
+  // November's request type can carry a replacement instance. Normalize only
+  // that reviewed handoff to the frozen predecessor before checking its entire
+  // method hash. Every other retained statement still requires exact bytes.
+  const replacement="if (typeof sdkRequestResult === 'object') inst = sdkRequestResult.instance;\n    else if (sdkRequestResult !== 'continue') return sdkRequestResult;";
+  const original="if (sdkRequestResult !== 'continue') return sdkRequestResult;";
+  const retained=method.getText(ast);
+  assert(retained.split(replacement).length<=2,'Unreviewed duplicate request handoff');
+  assert.equal(sha256(retained.replace(replacement,original)),acceptance.sourceBoundary.retained.sha256,'Unreviewed dispatch method');
   const ports=lf(fs.readFileSync(path.join(root,'adapters/hollow-wake/skill-dispatch-ports.txt'),'utf8')).trimEnd();
   const lastImport=ast.statements.filter(ts.isImportDeclaration).at(-1); assert(lastImport);
   const edits=[
