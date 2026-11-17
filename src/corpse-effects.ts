@@ -22,10 +22,10 @@ export interface CorpseEffectPorts<A> {
   monster(id: string): boolean;
   level(): number;
   random(): number;
-  clamp(point: CorpsePoint, radius: number, mover?: A): CorpsePoint;
+  clamp(point: CorpsePoint, radius: number, mover?: A, tier?:number): CorpsePoint;
   layerAt(point: CorpsePoint): number;
-  created(at: CorpsePoint, color: string): void;
-  gathered(at: CorpsePoint, color: string): void;
+  created(at: CorpsePoint, color: string, tier?:number): void;
+  gathered(at: CorpsePoint, color: string, tier?:number): void;
   empty(actor: A, skillId: string): void;
 }
 
@@ -35,7 +35,7 @@ export interface CorpseEffectPorts<A> {
 export class CorpseEffects<A extends CorpseCaster<Tags, Modifier>, Tags, Modifier> {
   constructor(readonly rules: CorpseEffectRules, private readonly corpseOwner: LiveList<CorpseBody>, readonly ports: CorpseEffectPorts<A>) {}
   get corpses():CorpseBody[]{return readList(this.corpseOwner);}
-  spawn(caster: A, aim: CorpsePoint, monsterId: string, count: number, tags: Tags, extra: readonly Modifier[], color: string): void {
+  spawn(caster: A, aim: CorpsePoint, monsterId: string, count: number, tags: Tags, extra: readonly Modifier[], color: string, tier?:number): void {
     if (!this.ports.monster(monsterId)) return;
     const spread = this.rules.mint.spread;
     const total = count + Math.max(0, Math.round(caster.sheet.get('corpseBatch', tags, extra)));
@@ -45,23 +45,24 @@ export class CorpseEffects<A extends CorpseCaster<Tags, Modifier>, Tags, Modifie
         pos: this.ports.clamp({x: aim.x + (-spread + this.ports.random() * (spread * 2)), y: aim.y + (-spread + this.ports.random() * (spread * 2))}, 10, caster),
         defId: monsterId,
         level: this.ports.level(),
-        tier: caster.tier,
+        tier: tier??caster.tier,
         maxLife: this.rules.mint.life + this.ports.level() * this.rules.mint.lifePerLevel,
         remaining: this.rules.duration,
       });
     }
-    this.ports.created({x: aim.x, y: aim.y}, color);
+    this.ports.created({x: aim.x, y: aim.y}, color, ...(tier===undefined?[]:[tier]));
   }
-  gather(caster: A, aim: CorpsePoint, skillId: string, radius: number, areaScale: number, tags: Tags, extra: readonly Modifier[], color: string): void {
+  gather(caster: A, aim: CorpsePoint, skillId: string, radius: number, areaScale: number, tags: Tags, extra: readonly Modifier[], color: string, tier?:number): void {
     const reach = radius * areaScale * (1 + this.rules.batch.aoePerExtra * Math.max(0, Math.round(caster.sheet.get('corpseBatch', tags, extra))));
     let count = 0;
     for (const corpse of this.corpses) {
       if (Math.hypot(aim.x - corpse.pos.x, aim.y - corpse.pos.y) > reach) continue;
-      if ((corpse.tier ?? this.ports.layerAt(corpse.pos)) !== caster.tier) continue;
+      if ((corpse.tier ?? this.ports.layerAt(corpse.pos)) !== (tier??caster.tier)) continue;
       const index = count++, ring = index === 0 ? 0 : 22 + 8 * Math.floor(index / 3);
-      corpse.pos = this.ports.clamp({x: aim.x + Math.cos(index * 2.1) * ring, y: aim.y + Math.sin(index * 2.1) * ring}, 8);
+      const at={x: aim.x + Math.cos(index * 2.1) * ring, y: aim.y + Math.sin(index * 2.1) * ring};
+      corpse.pos = tier===undefined?this.ports.clamp(at,8):this.ports.clamp(at,8,undefined,tier);
     }
-    if (count) this.ports.gathered({x: aim.x, y: aim.y}, color);
+    if (count) this.ports.gathered({x: aim.x, y: aim.y}, color, ...(tier===undefined?[]:[tier]));
     else this.ports.empty(caster, skillId);
   }
 }

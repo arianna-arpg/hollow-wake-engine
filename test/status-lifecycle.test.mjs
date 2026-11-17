@@ -8,6 +8,27 @@ function context(defs={},stats={}) {
   const r=createStatusLifecycle(ports);a.isWet=()=>r.isWet(a);a.applyStatus=(...args)=>r.applyStatus(a,...args);
   return {a,r,defs,ports,events,sources,values,apply:(id,dps=10,scale=1,opts)=>a.applyStatus(id,dps,scale,'source',opts)};
 }
+
+test('independent stacks reject cap refresh, expire separately and refold their modifiers',()=>{
+ const c=context({splinters:{duration:5,stacking:true,maxStacks:2,independentStacks:true,modsPerStack:true,mods:[{value:3}]}});
+ c.apply('splinters',0);c.r.tickStatuses(c.a,2);c.apply('splinters',0);
+ const s=c.a.statuses[0];assert.deepEqual(s.stackTimes,[3,5]);assert.equal(s.stacks,2);
+ c.r.tickStatuses(c.a,1);c.apply('splinters',0,10);
+ assert.deepEqual(s.stackTimes,[2,4]);assert.equal(s.remaining,4);
+ c.r.tickStatuses(c.a,2);assert.deepEqual(s.stackTimes,[2]);assert.equal(s.stacks,1);
+ assert.equal(c.sources.get('status:splinters')[0].value,3);
+ c.r.tickStatuses(c.a,2);assert.equal(c.a.statuses.length,0);assert.equal(c.a.expiredStatuses[0],s);
+ assert(!c.sources.has('status:splinters'));
+});
+
+test('root struggle counts alternate deliberate directions and uses the ordinary expiry path',()=>{
+ const c=context({rooted:{duration:5,immobilize:{alternatingPresses:4}}});c.apply('rooted',0);
+ const s=c.a.statuses[0];
+ for(const axis of [0,NaN,.2,1,1,0,-1,-1,1])c.r.struggleAgainstPin(c.a,axis);
+ assert.equal(s.breakaway,3);assert.equal(s.remaining,5);
+ c.r.struggleAgainstPin(c.a,-1);assert.equal(s.remaining,0);assert.equal(c.a.statuses.length,1);
+ c.r.tickStatuses(c.a,0);assert.equal(c.a.statuses.length,0);assert.equal(c.a.expiredStatuses[0],s);
+});
 test('status services own ports and relay ids but read live, isolated definitions',()=>{
   const c=context({a:{duration:2}}, {relay:1}),d=context({a:{duration:9}});assert(Object.isFrozen(c.r));
   c.ports.definition=()=>{throw Error('replaced');};c.ports.random=()=>{throw Error('replaced');};c.ports.relayIds.push('late');

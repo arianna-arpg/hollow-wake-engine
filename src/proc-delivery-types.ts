@@ -79,6 +79,7 @@ export interface ProcDeliveryPorts<A, I, P, Direction, B extends DeliveryBuff, B
   stat(actor: A, name: string, instance?: I | null): number;
   buffCue(buff: B): DeliveryCue | false | undefined;
   withStoredCue(buff: B, cue: DeliveryCue | false): B;
+  sourceBuff?(buff: B, instance: I | null): B;
   cue(actor: A, cue: DeliveryCue | false, phase: 'gain' | 'release', id: string): void;
   status(effect: DeliveryStatusEffect, name: string, actor: A, instance: I | null, target: A | null): void;
   heal(actor: A, effect: ProcHealingEffect): boolean;
@@ -99,6 +100,7 @@ export interface ProcDeliveryPorts<A, I, P, Direction, B extends DeliveryBuff, B
   hit(actor: A, instance: I, target: A, scale: number, depth: number): void;
   mitigate(target: A, type: Damage, amount: number): number;
   text(at: P, value: string, color: string, size: number): void;
+  damageText?(actor: A, amount: number, color: string, size: number): void;
   shieldBreak(target: A, depth: number): void;
   sweepDefenses(target: A, depth: number): void;
   kill(target: A): void;

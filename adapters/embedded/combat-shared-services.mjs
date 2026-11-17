@@ -12,9 +12,12 @@ import {CombatTimeflow} from '@hollow-wake/engine/combat/timeflow';
 import {createCombatActors} from './combat-actor-services.mjs';
 import {combatHitBindings} from './combat-hit-bindings.mjs';
 import {createCombatPolicies, combatPolicyMethods} from './combat-policies.mjs';
+import {createCombatPolicies as createPrototypePolicies, combatPolicyMethods as prototypePolicyMethods} from './combat-prototype-policies.mjs';
 import {installCombatProcs} from './combat-proc-services.mjs';
 import {createCombatCommands} from './combat-command-controllers.mjs';
+import {createCombatCommands as createPrototypeCommands} from './combat-prototype-commands.mjs';
 import {ParryDamageWindow} from '../../dist/parry-damage.js';
+import {installPrototypeHitPorts} from './combat-prototype-hit-ports.mjs';
 
 /** Internal graph assembly, never a host callback API. The owning combat
  * session installs its remaining SDK services on w before admitting commands.
@@ -42,6 +45,7 @@ export function installSharedCombat(w, content) {
     changed: seat => w.characterChanged(seat),
   });
   const ports = combatHitBindings(w, h);
+  if (content.prototypeMechanics) installPrototypeHitPorts(w, ports, h);
   const hits = createCombatHits(ports);
   w.damage = hits.damage;
   w.resolveHit = hits.resolve;
@@ -53,7 +57,7 @@ export function installSharedCombat(w, content) {
   w.attackSequences = new AttackSequences(ports.sequences);
   w.guardArts = new GuardArts(ports.guards);
   w.companionBonds = new CompanionBonds(ports.companions);
-  const commands = createCombatCommands(w, h);
+  const commands = (content.prototypeMechanics?createPrototypeCommands:createCombatCommands)(w, h);
   w.assaults = commands.assaults;
   w.replenishment = commands.replenishment;
   w.issueCommand = commands.issueCommand;
@@ -68,6 +72,10 @@ export function installSharedCombat(w, content) {
     if (Object.hasOwn(w, name)) throw Error('Combat policy binding collision: ' + name);
     w[name] = policies[name];
   }
+  if(content.prototypeMechanics){
+    const current=createPrototypePolicies(w,h);
+    for(const name of prototypePolicyMethods)w[name]=current[name];
+  }
   const procs = installCombatProcs(w, h, ports);
   const actors = createCombatActors({initialize: content.initializeActor, queries: q,
     definitions: {statuses: h.STATUS_DEFS}, rules: {...content.actorRules, ...content.actorTiming},
@@ -75,7 +83,7 @@ export function installSharedCombat(w, content) {
     summons: {slots: (...args) => w.summonContracts.slots(...args), reservation: (...args) => w.summonContracts.reservation(...args)},
     notify: {
       healed: (actor, amount) => w.observers.healed?.(actor, amount),
-      lifeSpent: (actor, amount) => actor.onLifeSpent?.(amount),
+      lifeSpent: (actor, amount) => {actor.onLifeSpent?.(amount);if(content.prototypeMechanics)w.observers.onLifeSpent?.(actor,amount);},
       buffRelease: (actor, definition, id, count) => h.noteProcCue(actor, h.buffProcCue(definition), 'release', id, count),
       statusPop: (actor, id, def) => h.noteProcPop(actor, def?.pop?.procCue === false ? false : {
         profile: def?.dotType === 'physical' ? 'blood' : def?.dotType, color: def?.color, ...def?.pop?.procCue}, id),

@@ -7,26 +7,29 @@ import {passivePack} from './compile-passive-content.mjs';
 import {equipmentPack} from './compile-item-content.mjs';
 import {progressionPack} from './compile-progression-content.mjs';
 import {readVocationFixture} from './vocation-reference.mjs';
-export function characterSessionPack(){
+import {prototypeBuildPack} from './prototype-content.mjs';
+export function characterSessionPack(profile){
   const vocations=JSON.parse(readVocationFixture('survey')).config;
   assert(Number.isSafeInteger(vocations.maxPerCharacter),'Missing authored vocation limit');
-  const data={schemaVersion:1,capability:'character-kit/v1',buildContentId:characterBuildPack().contentId,
-    crafting:craftingPack(),passives:passivePack(),equipment:equipmentPack(),experience:progressionPack(),
-    maxVocations:vocations.maxPerCharacter,memoryKinds:{rough_memory:'rough',preformed_memory:'preformed'}};
+  const builds=profile?prototypeBuildPack(characterBuildPack(),profile):characterBuildPack();
+  const passives=profile?{...profile.runtime.passivePolicy,contentId:'hollow-wake-passives:sha256:'+sha256(JSON.stringify(profile.runtime.passivePolicy))}:passivePack();
+  const data={schemaVersion:1,capability:'character-kit/v1',buildContentId:builds.contentId,
+    crafting:craftingPack(),passives,equipment:equipmentPack(),experience:progressionPack(),
+    maxVocations:profile?.runtime.vocationLimit??vocations.maxPerCharacter,memoryKinds:{rough_memory:'rough',preformed_memory:'preformed'}};
   return{...data,contentId:'hollow-wake-character-kit:sha256:'+sha256(JSON.stringify(data))};
 }
-export function buildCharacterSession(destination){
+export function buildCharacterSession(destination,profile){
   assert(!fs.existsSync(destination),'Character kit destination already exists');fs.mkdirSync(destination,{recursive:true});
-  const pack=characterSessionPack(),version=JSON.parse(fs.readFileSync(path.join(root,'package.json'))).version;
+  const pack=characterSessionPack(profile),version=JSON.parse(fs.readFileSync(path.join(root,'package.json'))).version;
   writeJSON(path.join(destination,'characters.json'),pack);
   fs.copyFileSync(path.join(root,'adapters/embedded/character-session.mjs'),path.join(destination,'index.js'));
   fs.copyFileSync(path.join(root,'adapters/embedded/character-session.d.ts'),path.join(destination,'index.d.ts'));
   fs.copyFileSync(path.join(root,'LICENSE.md'),path.join(destination,'LICENSE.md'));
-  writeJSON(path.join(destination,'package.json'),{name:'@hollow-wake/characters',version:'0.1.0-candidate.0',type:'module',license:'PolyForm-Noncommercial-1.0.0',
-    peerDependencies:{'@hollow-wake/engine':version,'@hollow-wake/character-builds':'0.2.0-candidate.0'},files:['index.js','index.d.ts','characters.json','manifest.json','LICENSE.md'],
+  writeJSON(path.join(destination,'package.json'),{name:'@hollow-wake/characters',version:'0.2.0-candidate.0',type:'module',license:'PolyForm-Noncommercial-1.0.0',
+    peerDependencies:{'@hollow-wake/engine':version,'@hollow-wake/character-builds':'0.3.0-candidate.0'},files:['index.js','index.d.ts','characters.json','manifest.json','LICENSE.md'],
     exports:{'.':{types:'./index.d.ts',import:'./index.js'},'./characters.json':'./characters.json','./manifest.json':'./manifest.json'}});
   const files=Object.fromEntries(['index.js','index.d.ts','characters.json'].map(name=>{const bytes=fs.readFileSync(path.join(destination,name));return[name,{sha256:sha256(bytes),bytes:bytes.length}];}));
-  const manifest={schemaVersion:1,contentId:pack.contentId,sourceCommit:JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json'))).commit,files};
+  const manifest={schemaVersion:1,contentId:pack.contentId,sourceCommit:profile?.lock.commit??JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json'))).commit,files};
   writeJSON(path.join(destination,'manifest.json'),manifest);return{pack,manifest};
 }
 

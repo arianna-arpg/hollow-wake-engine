@@ -12,21 +12,24 @@ import {combatStaticRules} from './compile-combat-static-rules.mjs';
 import {itemPack} from './compile-item-content.mjs';
 import {acceptedCombatData} from './combat-registry-data.mjs';
 import {characterBuildPack} from './compile-character-builds.mjs';
+import {prototypeBuildPack} from './prototype-content.mjs';
 
 /** One standalone authored module. Original source and compiler scratch remain
  * build-time inputs, never requirements of an installed combat consumer. */
-export async function buildCombatContent(destination) {
+export async function buildCombatContent(destination,profile) {
   assert(!fs.existsSync(destination), 'Refusing to overwrite combat content');
   const parent = fs.realpathSync(path.join(root, '.artifacts'));
   const work = fs.mkdtempSync(path.join(parent, 'm3-combat-content-owned-'));
   try {
-    const skills = await buildCombatQueries(path.join(work, 'skills'));
-    const hits = await buildCombatHitQueries(path.join(work, 'hits'));
-    const actors = buildCombatActorState(path.join(work, 'actors'));
-    const literal = combatStaticRules();
-    const catalogue = readCatalogue();
+    const skills = await buildCombatQueries(path.join(work, 'skills'),profile);
+    const hits = await buildCombatHitQueries(path.join(work, 'hits'),profile);
+    const actors = buildCombatActorState(path.join(work, 'actors'),profile);
+    const literal = combatStaticRules(profile);
+    const catalogue = profile?.catalogue??readCatalogue();
     const table = name => Object.fromEntries(catalogue.tables[name].map(row => [row.id, row.value]));
-    const statistics = {characterBuildId: characterBuildPack().contentId, stats: table('stats'), statTrades: table('rules').statTrades, items: itemPack(), carried: acceptedCombatData('carried-effects').rules};
+    const builds=profile?prototypeBuildPack(characterBuildPack(),profile):characterBuildPack();
+    const statistics = {characterBuildId: builds.contentId, stats: table('stats'), statTrades: table('rules').statTrades, items: itemPack(), carried: profile?.runtime.carried??acceptedCombatData('carried-effects').rules,
+      ...(profile?{prototypeMechanics:true}:{})};
     const source = `
       import {combatSkillQueries, combatActorRules} from './skills/queries.mjs';
       import {combatHitQueries} from './hits/hit-queries.mjs';

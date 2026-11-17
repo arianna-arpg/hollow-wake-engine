@@ -10,6 +10,7 @@ export function installCombatControls(w, content) {
   const q = {...content.queries, ...content.hitQueries}, r = content.staticRules;
   const flash = value => {w.flashes.push(value);};
   const grabs = new Grabs(r.grab, {
+    ...(w.prototypeProfile?{damageText:(...args)=>w.damageText(...args)}:{}),
     actors: () => w.actors, actorById: id => w.actorById(id), enemies: actor => w.enemiesOf(actor),
     time: () => w.time, random: () => w.random(), localActor: () => w.localSeat?.actor,
     tags: q.skillContextTags, modifiers: q.instanceMods, dormant: actor => w.isDormant(actor),
@@ -55,13 +56,13 @@ export function installCombatControls(w, content) {
   const relocation = new ConstructRelocation({actors: () => w.actors, metas: q.instanceMetas, delivery: q.instanceDelivery,
     sameLayer: q.sameStory, clamp: (at, radius, mover) => w.clampPos(at, radius, undefined, {mover}),
     moved: (body, color) => flash({pos: {...body.pos}, radius: 28, color, life: .25, maxLife: .25}),
-  }, inst => w.skillInstances.relocationHost(inst));
+  }, inst => w.prototypeProfile ? w.relocationHosts.get(inst) : w.skillInstances.relocationHost(inst));
   w.relocationTarget = (...args) => relocation.target(...args);
   const corpses = new CorpseEffects(r.corpses, () => w.corpses, {
     monster: id => !!q.MONSTERS[id], level: () => w.encounter.level, random: () => w.random(),
-    clamp: (at, radius, mover) => w.clampPos(at, radius, undefined, mover ? {mover} : undefined), layerAt: at => w.spoilStoryAt(at),
-    created: (at, color) => flash({pos: at, radius: 44, color, life: .3, maxLife: .3}),
-    gathered: (at, color) => flash({pos: at, radius: 40, color, life: .3, maxLife: .3}),
+    clamp: (at, radius, mover, tier) => w.clampPos(at, radius, undefined, mover ? {mover} : tier!==undefined?{tier}:undefined), layerAt: at => w.spoilStoryAt(at),
+    created: (at, color, tier) => flash({...(tier!==undefined?{recoveryCueTier:tier}:{}),pos: at, radius: 44, color, life: .3, maxLife: .3}),
+    gathered: (at, color, tier) => flash({...(tier!==undefined?{recoveryCueTier:tier}:{}),pos: at, radius: 40, color, life: .3, maxLife: .3}),
     empty: (actor, id) => w.failNote(actor, id + ':nobodies', 'no dead to gather'),
   });
   return Object.freeze({grabs, possession, companions, relocation, corpses});

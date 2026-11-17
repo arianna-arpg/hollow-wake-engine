@@ -41,6 +41,10 @@ export interface SkillRecoveryActor<Position, Tags, Modifier, Cue, Tag> {
   cleanseDebuffs(count: number): number;
 }
 export interface SkillRecoveryPorts<A, I, Position, Tags, Modifier> {
+  healBase?(caster:A,skill:I,target:A,amount:number):number;
+  healScale?(caster:A,skill:I,target:A,amount:number):number;
+  landedHeal?(caster:A,skill:I,target:A,amount:number):void;
+  streamHeal?(caster:A,skill:I,target:A):((amount:number)=>void)|undefined;
   /** Granted tags participate in critical/healing queries, but the original
    * stream amount/duration fold deliberately uses the unextended context. */
   tags(skill: I, includeGranted: boolean): Tags;
@@ -108,17 +112,22 @@ export class SkillRecovery<
   heal(caster: A, skill: I, target: A, effect: SkillHealingEffect, mult = 1, quiet = false): number {
     if (target.dead || target.downed || (effect.excludeCaster && target === caster)) return 0;
     const tags = this.ports.tags(skill, true), extra = this.ports.modifiers(skill);
-    const raw = ((effect.amount ?? 0) + (effect.pctMax ?? 0) * target.maxLife())
+    const base=(effect.amount ?? 0) + (effect.pctMax ?? 0) * target.maxLife();
+    let raw = (this.ports.healBase?.(caster,skill,target,base)??base)
       * caster.sheet.get('healPower', tags, extra) * mult
       * this.critical(caster, skill, quiet ? undefined : target.pos);
+    raw=this.ports.healScale?.(caster,skill,target,raw)??raw;
     if (raw <= 0) return 0;
     const overTime = this.ports.healOverTime(skill);
     if (overTime) {
       const total = raw * overTime.factor;
-      target.restoreStreams.push({resource: 'life', perSec: total / overTime.seconds, remaining: total, feedingCue: skill.def.feedingCue});
+      const onHeal=this.ports.streamHeal?.(caster,skill,target);
+      target.restoreStreams.push({resource: 'life', perSec: total / overTime.seconds, remaining: total, feedingCue: skill.def.feedingCue,
+        ...(onHeal?{onHeal}:{})});
       return 0;
     }
     const landed = target.healBy(raw);
+    this.ports.landedHeal?.(caster,skill,target,landed);
     if (landed > 0 && target.gainEvents.length < 64) target.gainEvents.push({kind: 'heal', id: 'life', depth: 0, n: landed, tags: skill.def.tags});
     const spill = raw * target.sheet.get('healTaken') - landed;
     if (spill > 0.5) {

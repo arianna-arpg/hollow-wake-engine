@@ -7,12 +7,16 @@ import {createCombatOwner} from '../adapters/embedded/combat-owner.mjs';
 import {createCombatAdmission} from '../adapters/embedded/combat-admission.mjs';
 import {installCombatClock} from '../adapters/embedded/combat-clock-services.mjs';
 import {emptyCombatSpace} from '../test/combat-empty-space.mjs';
+import {prepareParityReference} from './prototype-parity-tools.mjs';
+import {readPrototypeContent} from './prototype-content.mjs';
 
 // Broad composition smoke coverage, not an original-equivalence receipt.
 const parent = fs.realpathSync('.artifacts'), work = fs.mkdtempSync(path.join(parent, 'm3-census-owned-'));
 const results = [];
+const prototype=process.argv.includes('--prototype');
 try {
-  await buildCombatContent(path.join(work, 'content'));
+  if(prototype)prepareParityReference();
+  await buildCombatContent(path.join(work, 'content'),prototype?readPrototypeContent():undefined);
   const {combatContent: content} = await import(pathToFileURL(path.join(work, 'content/content.mjs')));
   const q = {...content.queries, ...content.hitQueries};
   for (const def of Object.values(q.SKILLS)) {
@@ -48,7 +52,7 @@ try {
     if (results.length % 200 === 0) console.log({checked: results.length});
   }
   const failures = results.filter(r => r.error);
-  fs.writeFileSync('.artifacts/m3-owner-census.json', JSON.stringify({originalEquivalence: false, results}, null, 2));
+  fs.writeFileSync(prototype?'.artifacts/parity-owner-census.json':'.artifacts/m3-owner-census.json', JSON.stringify({originalEquivalence: false, source:content.sourceCommit, results}, null, 2));
   console.log({total: results.length, refused: results.filter(r => r.admission).length, failed: failures.length,
     failures: failures.slice(0, 15).map(r => ({id: r.id, error: r.error.split('\n').slice(0, 4)}))});
   assert.equal(failures.length, 0, 'Composed authored skills must not throw after admission');

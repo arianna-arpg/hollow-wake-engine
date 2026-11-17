@@ -57,7 +57,8 @@ Six Inventory contracts and declaration checks pass with optional extensions and
 the three legacy crafting-session modules physically removed. Existing save
 formats, retained investment and fault courses still use the shared validator.
 The package-size gate counts the shared validator, public Inventory facade and legacy wrapper together.
-The existing Godot workshop bundle keeps its 102 KiB base ceiling. Its closed-VM
+The Godot workshop bundle has a 104 KiB base ceiling: its former 102 KiB plus a
+separate 2 KiB allowance for November school choices and Relic retirement. Its closed-VM
 property compaction includes the new internal validation helpers and statically
 called ability-rule methods; quoted/dynamic names are still rejected from that
 allowlist. Four bundle variants must each replay the same 56 original commands.

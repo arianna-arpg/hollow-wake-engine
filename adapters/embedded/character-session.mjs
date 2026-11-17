@@ -20,17 +20,18 @@ export function createCharacterKit(buildPack,pack){
     supports:Object.freeze(Object.fromEntries(Object.keys(buildPack.definitions.supports).map(id=>[id,rules.equipment.support(id)]))),
     monsters:Object.freeze(Object.fromEntries(Object.keys(buildPack.definitions.monsters).map(id=>[id,true])))});
   const containerDefinitions=rules.contributions.containers();
-  const definitions={contentId,builds,catalogue,trigger:queries.instanceTrigger,
+  const definitions={contentId,builds,catalogue,trigger:queries.instanceTrigger,summonSchools:queries.summonSchools,
     containers:Object.freeze({definitions:containerDefinitions,board:(id,features)=>{const def=containerDefinitions.find(row=>row.id===id);return def?rules.contributions.board(def,new Set(features)):null;}}),
-    workshop:{crafting:new CraftingContent(pack.crafting,items),skills:new SkillProgression(buildPack.progression),memoryKinds:Object.freeze({...pack.memoryKinds})},
+    workshop:{crafting:new CraftingContent(pack.crafting,items),skills:new SkillProgression(buildPack.progression),memoryKinds:Object.freeze({...pack.memoryKinds}),
+      summonSchools:(id,investment)=>queries.summonSchools(rules.restoreLearned({kind:'skill',skillId:id,level:investment.level??rules.equipment.skillMaxLevel(catalogue.skills[id]),rarity:investment.rarity??'common',sockets:[],...investment}))},
     equipment:new EquipmentSlots(pack.equipment),progression:new CharacterProgression(pack.experience),maxVocations:pack.maxVocations,
     character:{contentId,passives:new PassivePolicy(pack.passives),attributes:buildPack.passives.attributes.map(row=>row.id),
       containers:Object.freeze(containerDefinitions.map(({id,accepts,accountStorage})=>Object.freeze({id,accepts,...(accountStorage===undefined?{}:{accountStorage})})))}};
   Object.freeze(definitions.workshop);Object.freeze(definitions.character.attributes);Object.freeze(definitions.character);Object.freeze(definitions);
-  const pricing=new SkillPricing({tags:queries.skillContextTags,mods:queries.instanceMods,guarded:queries.guarded,replenishing:queries.replenishing,cooldown:queries.skillCooldownSeconds});
+  const pricing=new SkillPricing({tags:queries.skillContextTags,mods:queries.instanceMods,guarded:queries.guarded,replenishing:queries.replenishing,cooldown:queries.skillCooldownSeconds,baseTime:queries.baseTime});
   const projection=()=>({features:[],relics:{enabled:true,power:0,containers:{}}});
   return Object.freeze({definitions,rules,queries,pricing,
-    admit:(data,authority)=>new CharacterSession(definitions,data,authority),
+    admit:(data,authority,custody)=>new CharacterSession(definitions,data,authority,custody),
     live:(frame,effects)=>new CharacterLive(rules,frame,effects),
     create:(classId,{seed=1,board={w:10,h:6},authority=projection()}={})=>{
       const def=rules.class(classId);if(!def)throw Error('Unknown character class');

@@ -1,7 +1,7 @@
-import type {CombatContent,CombatSession,CombatActor,CombatActorView,CombatSpace,BodyInput,Point} from '@hollow-wake/combat';
+import type {CombatContent,CombatSession,CombatActor,CombatActorView,CombatSpace,CombatHost,BodyInput,Point} from '@hollow-wake/combat';
 import type {CharacterKit} from '@hollow-wake/characters';
 import type {CharacterSession,CharacterCommand,CharacterGrant,CharacterData} from '@hollow-wake/engine/character/session';
-export interface CombatInput {t:'input';seq:number;move:[number,number];aim:[number,number];press:string[];held?:string[];hold?:boolean}
+export interface CombatInput {t:'input';seq:number;move:[number,number];aim:[number,number];press:string[];held?:string[];hold?:boolean;meta?:string[];dismiss?:string[];timing?:boolean}
 export interface ReferenceSpace extends CombatSpace {
  heightAt(position:Point,tier:number):number;
  description():{width:number;height:number;wall:{x:number;y:number;w:number;h:number}|null;platform:boolean;unitsPerMetre:number;heightUnit:string};
@@ -22,9 +22,13 @@ export interface NodeCombatHost {
  /** Trusted host operation; never a client command or reward-entitlement decision. */
  grant(request:CharacterGrant):Record<string,unknown>;
  inventory():Record<string,unknown>;hello():Record<string,unknown>;step(seconds?:number):NodeCombatState;
+ /** Detached build/effect detail, requested on demand rather than every tick. */
+ inspect():{hero:ReturnType<CombatSession['details']>;visuals:ReturnType<CombatSession['visuals']>};
  disconnect():void;close():void;
 }
-export declare function createNodeCombatHost(content:CombatContent,options:({kit:CharacterKit;character:CharacterSession;nativeHero?:never}|{nativeHero:BodyInput;kit?:never;character?:never})&{space:CombatSpace&{heightAt?(at:Point,tier:number):number;description?():unknown};seed?:number;position?:Point;conditionsFor?:(kind:string)=>unknown}):NodeCombatHost;
+/** Optional encounter/environment/effect services are trusted host capabilities,
+ * never accepted from input messages. The explicit space provider owns geometry. */
+export declare function createNodeCombatHost(content:CombatContent,options:({kit:CharacterKit;character:CharacterSession;nativeHero?:never}|{nativeHero:BodyInput;kit?:never;character?:never})&{space:CombatSpace&{heightAt?(at:Point,tier:number):number;description?():unknown};services?:Omit<CombatHost,'space'>;seed?:number;position?:Point;conditionsFor?:(kind:string)=>unknown}):NodeCombatHost;
 export declare function createReferenceSpace(content:CombatContent,options?:{width?:number;height?:number;wall?:boolean;platform?:boolean}):ReferenceSpace;
 export declare function lineDecoder(receive:(message:unknown)=>void,options?:{maximumBytes?:number}):(chunk:Uint8Array)=>void;
 export declare function listenCombatHost(host:NodeCombatHost,options?:{port?:number;save?:(data:CharacterData)=>unknown;stepSeconds?:number}):Promise<{readonly port:number;close():Promise<void>}>;

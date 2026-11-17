@@ -81,13 +81,15 @@ export class WorkshopCharacterData {
     this.checkGraftCarriers(state,inventory);
     const seen=new Set<number>();
     const claim=(item:ItemInstance)=>{
-      need(item.relicKey===undefined,'account-item-in-character');need(!seen.has(item.uid),'duplicate-character-uid');seen.add(item.uid);
+      this.checkItemCustody(item);need(!seen.has(item.uid),'duplicate-character-uid');seen.add(item.uid);
     };
     for(const item of inventory.items)claim(item);
     for(const item of Object.values(inventory.equipped))claim(item);
     for(const item of inventory.overflow)claim(item);
     for(const rows of Object.values(state.containers))for(const item of rows)claim(item);
   }
+  /** Canonical custody is excluded from the legacy portable context. */
+  protected checkItemCustody(item:ItemInstance):void {need(item.relicKey===undefined,'account-item-in-character');}
   /** Trusted format policy. The public v1 loader requires a learned carrier. */
   protected checkGraftCarriers(state:WorkshopCharacterState,inventory:CraftingSessionState):void {
     const known=new Set((inventory.skillBook?.known.map(row=>row.gem)??inventory.rack?.flatMap(row=>row?[row.gem]:[])??[]).map(gem=>gem.skillId));

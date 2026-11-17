@@ -187,7 +187,7 @@ for (const [module, name, before, after, tests] of [
   ['skill-request', 'request-prerequisite-empty-note', "unmet.note ?? 'not ready'", "unmet.note || 'not ready'", 'test/skill-request.test.mjs'],
   ['skill-request', 'request-relocation-bypassed', '!p.relocationTarget(actor, inst, effect.radius)', 'false', 'test/skill-request.test.mjs'],
   ['skill-request', 'request-admission-bypassed', '!p.canUse(actor, inst)', 'false', 'test/skill-request.test.mjs'],
-  ['skill-request', 'request-continuation-treated-as-handled', "return 'continue';", 'return true;', 'test/skill-request.test.mjs'],
+  ['skill-request', 'request-continuation-treated-as-handled', "return inst === requested ? 'continue' : { instance: inst };", 'return true;', 'test/skill-request.test.mjs'],
   ['skill-dispatch','dispatch-reserve-check-ignored','if (short) {','if (false) {','test/skill-dispatch.test.mjs'],
   ['skill-dispatch','dispatch-reserve-not-spent','st.cur = Math.max(0, st.cur - cost);','st.cur = st.cur;','test/skill-dispatch.test.mjs'],
   ['skill-dispatch','dispatch-vent-end-closed','st.ventUntil > p.time()','st.ventUntil >= p.time()','test/skill-dispatch.test.mjs'],
@@ -202,7 +202,7 @@ for (const [module, name, before, after, tests] of [
   ['skill-dispatch','dispatch-timed-draw-lost','(0.3 + p.random() * (0.85 - 0.3))','0.3','test/skill-dispatch.test.mjs'],
 ]) {
   const target = path.join(temp, `dist/${module}.js`), source = fs.readFileSync(target, 'utf8');
-  assert.ok(source.includes(before));
+  assert.ok(source.includes(before),`Missing mutation target ${module}:${name}`);
   fs.writeFileSync(target, source.replace(before, after));
   const result = spawnSync(process.execPath, ['--test', tests], { cwd: temp, encoding: 'utf8' });
   const output = result.stdout + result.stderr;

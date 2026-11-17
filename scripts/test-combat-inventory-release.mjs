@@ -23,7 +23,7 @@ try {
   }
   assert(report.removed.length>=66);report.observations=JSON.parse(good(run(runtime,['verify.mjs'])));assert(report.observations.passed);
   // Deliberate corruption must fail before running any course, then restore exact bytes.
-  for(const name of ['quickstart.mjs','verification/combat-frames.json.gz']){
+  for(const name of ['quickstart.mjs',manifest.prototypeSource?'verification/combat.json.gz':'verification/combat-frames.json.gz']){
     const file=path.join(consumer,name),bytes=fs.readFileSync(file);
     try{fs.appendFileSync(file,'changed');const bad=run(runtime,['verify.mjs']);assert.equal(bad.status,1);assert.match(bad.stderr,/Release file changed/);report.controls.push(name);}
     finally{fs.writeFileSync(file,bytes);}

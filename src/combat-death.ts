@@ -10,7 +10,7 @@ export interface DeathAura<I> {
 }
 export interface DeathCorpse {pos: CombatPoint; defId: string; level: number; maxLife: number; remaining: number; tier?: number}
 export interface DeathActor<A, I extends DeathSkill, U, Action> extends BurstActor {
-  id: number; level: number; facing: number; color: string; defId?: string; noBounty: boolean;
+  id: number; level: number; facing: number; color: string; defId?: string; noBounty: boolean; dying?:boolean;
   owner?: A; sourceSkillId?: string; summonInst?: I;
   possession?: {seatId: string}; vacated?: {seatId: string}; doorId?: string;
   companion: boolean; companionReviveDwell: number; casting: unknown; aiCommand?: unknown;
@@ -36,6 +36,9 @@ export interface CombatDeathObservers<A> {
   enemyKilled?(actor: A, killer: A | undefined, credit: boolean): void;
 }
 export interface CombatDeathPorts<A, I, U, S, Action, Bash> {
+  deferDeath?(actor:A,silent:boolean,killer:A|undefined):boolean;
+  undying?(actor:A,departure:'expire'|'sacrifice'|undefined):void;
+  retired?(actor:A,silent:boolean,killer:A|undefined,departure:'expire'|'sacrifice'|undefined):void;
   actors(): A[]; seats(): readonly {id: string; actor: A}[]; random(): number;
   immortal(id: string): boolean; leavesRemains(id: string): boolean;
   breakDoor(id: string): void; eject(seat: {id: string; actor: A}, reason: 'bodyDied' | 'huskDying'): void;
@@ -82,9 +85,14 @@ export class CombatDeath<
     readonly bursts: Pick<DeathBursts<A>, 'damage' | 'explode' | 'resolve' | 'spawn'>,
     readonly ports: CombatDeathPorts<A, I, U, S, Action, Bash>) {}
 
-  kill(actor: A, silent = false, killer?: A, departure?: 'expire'): void {
-    if (actor.dead || actor.downed) return;
+  kill(actor: A, silent = false, killer?: A, departure?: 'expire'|'sacrifice'): void {
+    if (actor.dead || actor.downed || actor.dying) return;
+    actor.dying=true;
+    try {this.runDeath(actor,silent,killer,departure);} finally {actor.dying=false;}
+  }
+  private runDeath(actor:A,silent:boolean,killer:A|undefined,departure:'expire'|'sacrifice'|undefined):void {
     const p = this.ports;
+    if(p.deferDeath?.(actor,silent,killer))return;
     if (!silent) p.cue(actor, 'weak-points');
     p.observers?.begin?.(actor, silent);
     if (actor.construct && actor.summonInst) {
@@ -133,6 +141,7 @@ export class CombatDeath<
       p.flash({...actor.pos}, 70, '#8ae0a8', .3);
     }
     if (!silent && actor.isMinion() && actor.undyingTime > 0 && !actor.undyingSpent) {
+      p.undying?.(actor,departure);
       actor.undyingSpent = true;
       if (actor.explodeOnDeath > 0) {
         this.bursts.explode(actor, actor.explodeOnDeath); actor.explodeOnDeath = 0;
@@ -141,7 +150,8 @@ export class CombatDeath<
       p.cue(actor, 'undying'); return;
     }
     actor.dead = true;
-    p.presence(actor, departure ?? (silent ? 'expire' : 'break'));
+    p.retired?.(actor,silent,killer,departure);
+    p.presence(actor, departure==='sacrifice'?'break':departure ?? (silent ? 'expire' : 'break'));
     p.guard.clear(actor);
     if (actor.owner) this.state.strikeReleaseBodies.get(actor.owner)?.delete(actor);
     for (const controller of p.carried) controller.retire(actor);

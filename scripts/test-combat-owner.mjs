@@ -8,6 +8,8 @@ import {inspectCombatOwner} from './combat-owner-closure.mjs';
 import {emptyCombatSpace} from '../test/combat-empty-space.mjs';
 import {createCombatAdmission} from '../adapters/embedded/combat-admission.mjs';
 import {installCombatClock} from '../adapters/embedded/combat-clock-services.mjs';
+import {readPrototypeContent} from './prototype-content.mjs';
+import {prepareParityReference} from './prototype-parity-tools.mjs';
 
 const parent = fs.realpathSync('.artifacts'), work = fs.mkdtempSync(path.join(parent, 'm3-owner-owned-'));
 try {
@@ -24,8 +26,20 @@ try {
   w.actors.push(actor);
   const seat = {id: 'hero', actor, meta: {knownSkills: new Map(), stances: new Map(), attrs: Object.fromEntries(Object.keys(q.ATTRIBUTES).map(id => [id, 100]))}, reviveDwellBy: new Map(), lastActedAt: -999};
   w.seats.push(seat); w.localSeat = seat;
-  const missing = inspectCombatOwner(process.cwd(), w);
+  // Inventory every source call against the current superset of services;
+  // October deliberately has no November controllers. Its execution contract
+  // remains exercised below and by the unchanged original combat courses.
+  prepareParityReference();
+  await buildCombatContent(path.join(work,'current'),readPrototypeContent());
+  const {combatContent:current}=await import(pathToFileURL(path.join(work,'current/content.mjs')));
+  const currentAdmission=createCombatAdmission(current,host),currentOwner=createCombatOwner(current,host,{admit:currentAdmission.admit});
+  installCombatClock(currentOwner,current);
+  currentOwner.w.localSeat={actor:currentOwner.w.allocateActor('Hero','player',{x:400,y:400})};
+  const missing = inspectCombatOwner(process.cwd(), currentOwner.w);
   assert.deepEqual(missing, [], 'Internal SDK owner calls must all resolve');
+  const relocation=currentOwner.w.relocationHosts;delete currentOwner.w.relocationHosts;
+  try{assert(inspectCombatOwner(process.cwd(),currentOwner.w).some(row=>row.call==='relocationHosts.get'),'Missing controller state escaped the assembly inventory');}
+  finally{currentOwner.w.relocationHosts=relocation;}
   const ordinary = Object.values(q.SKILLS).find(d => d.id === 'firebolt'); assert(ordinary);
   const skill = q.makeSkillInstance(ordinary, 1); actor.skills = [skill]; seat.meta.knownSkills.set(ordinary.id, skill);
   const beforeAdmission = () => ({mana: actor.mana, life: actor.life, casting: actor.casting, random: owner.rng.draws,

@@ -32,6 +32,7 @@ export function createGuardArtsState<A,S,D extends GuardArtProjectile>():GuardAr
  * must supply detached graphs and private effects, not callbacks into a live World.
  * Exceptions retain preceding borrowed writes, as in the original lifecycle. */
 export interface GuardArtsPorts<A,S,D extends GuardArtProjectile,B,Tag extends string,M> {
+  sourceBuff?<F>(effect:F,skill:S):F;
   actors():readonly A[];contains(actor:A):boolean;client():boolean;time():number;scale(actor:A):number;
   spec(inst:S):GuardArtsSpec<D>|undefined;bashSpec(inst:S):B|undefined;
   capacity(actor:A,inst:S):number;absorb(actor:A,inst:S,power:number):{amount:number;duration:number}|undefined;
@@ -97,6 +98,7 @@ export interface GuardArtsForkMapping<A,S,D extends GuardArtProjectile> {
 
 export class GuardArts<A extends GuardArtActor<S>,S extends GuardArtSkill,D extends GuardArtProjectile,B extends {mult?:number},Tag extends string,M> {
   constructor(private readonly p:GuardArtsPorts<A,S,D,B,Tag,M>,readonly state:GuardArtsState<A,S,D>=createGuardArtsState(),private readonly limits:Readonly<GuardArtsLimits>=GUARD_ARTS_LIMITS) {}
+  private sourced<F>(effect:F,skill:S):F{return this.p.sourceBuff?.(effect,skill)??effect;}
 
   private layerBindings=new WeakMap<GuardArtAbsorbLayer<S>,{state:GuardArtState<A,S,D>;power:number;ended:GuardArtAbsorbLayer<S>['ended']}>();
   private interceptorStates=new WeakMap<(amount:number)=>number,GuardArtState<A,S,D>>();
@@ -109,8 +111,8 @@ export class GuardArts<A extends GuardArtActor<S>,S extends GuardArtSkill,D exte
           || a.invulnerable) return amount;
         // Stamp first: the resulting break burst may itself resolve retaliation.
         a.guardIntervention[inst.def.id] = s.spec.intervention!.cooldown;
-        this.p.addBuff(a,{ type: 'buff', id: `guardIntervention:${inst.def.id}`, label: s.spec.intervention!.label,
-          duration: s.spec.intervention!.cooldown, mods: [] });
+        this.p.addBuff(a,this.sourced({ type: 'buff', id: `guardIntervention:${inst.def.id}`, label: s.spec.intervention!.label,
+          duration: s.spec.intervention!.cooldown, mods: [] },inst));
         this.cast(a, inst);
         this.p.cooldown(a, inst);
         return this.p.spendAbsorb(a, amount);
@@ -242,8 +244,8 @@ export class GuardArts<A extends GuardArtActor<S>,S extends GuardArtSkill,D exte
   private plateBuff(s: GuardArtState<A,S,D>): void {
     const id = `${s.key}:plates`, p = s.spec.plates;
     this.p.removeBuff(s.owner,id);
-    if (p && s.plates > 0) this.p.addBuff(s.owner,{ type: 'buff', id, label: `${p.label} (${s.plates})`, duration: 999999,
-      mods: [this.p.modifier('damageTaken', 'more', -Math.min(this.limits.maximumReduction, p.reduction * s.plates))] });
+    if (p && s.plates > 0) this.p.addBuff(s.owner,this.sourced({ type: 'buff', id, label: `${p.label} (${s.plates})`, duration: 999999,
+      mods: [this.p.modifier('damageTaken', 'more', -Math.min(this.limits.maximumReduction, p.reduction * s.plates))] },s.host));
   }
   /** Called only for a damaging guard interception, after the parry gate. */
   guardHit(a: A, inst: S, amount: number): { damage: number; restore: number } {

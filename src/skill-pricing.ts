@@ -6,6 +6,7 @@ export interface PricingActor<M,Tag extends string> {
   maxLife():number;maxMana():number;lifeCeiling():number;availableMaxMana():number;
 }
 export interface SkillPricingPorts<I,M,Tag extends string> {
+  baseTime?(skill:I):number;
   tags(skill:I):Set<Tag>;mods(skill:I):M[];guarded(skill:I):boolean;replenishing(skill:I):boolean;
   cooldown(actor:PricingActor<M,Tag>,skill:I):number;
 }
@@ -18,7 +19,7 @@ export class SkillPricing<I extends PricedSkill,M,Tag extends string> {
     const base=actor.sheet.get(tags.has('attack' as Tag)?'attackSpeed':'castSpeed',tags,extra);
     return tags.has('reload' as Tag)?base*actor.sheet.get('reloadSpeed',tags,extra):base;
   }
-  useTime(actor:PricingActor<M,Tag>,skill:I):number {return this.ports.guarded(skill)?0:skill.def.useTime/this.speed(actor,skill);}
+  useTime(actor:PricingActor<M,Tag>,skill:I):number {return this.ports.guarded(skill)?0:(this.ports.baseTime?.(skill)??skill.def.useTime)/this.speed(actor,skill);}
   cost(actor:PricingActor<M,Tag>,skill:I):{mana:number;life:number}{
     if(this.ports.replenishing(skill))return{mana:0,life:0};
     const tags=this.ports.tags(skill),extra=this.ports.mods(skill),cs=skill.def.costScaling,available=cs?.pricedFrom==='available';

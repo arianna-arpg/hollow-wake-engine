@@ -12,22 +12,22 @@ export interface IronWardActor<Tags, M> {
   readonly sheet: {get(stat: string, tags: Tags, extra: readonly M[]): number};
   ironWard?: IronWardState;
 }
-export interface IronWardPorts<A> {
+export interface IronWardPorts<A,I=unknown> {
   time(): number;
-  buff(actor: A, effect: {type: 'buff'; id: 'iron_ward'; duration: number; mods: {stat: 'damageTaken'; kind: 'more'; value: number}[]}, durationScale: number): void;
+  buff(actor: A, effect: {type: 'buff'; id: 'iron_ward'; duration: number; mods: {stat: 'damageTaken'; kind: 'more'; value: number}[]}, durationScale: number, skill?:I): void;
   burst(at: {x: number; y: number}, radius: number, amount: number, type: 'physical', color: string, team: string, layer: 0): void;
 }
 
 /** Accumulation is shared with HitAftermath. The expiry phase deliberately uses
  * the original ground-layer burst; changing that rule needs a separate baseline
  * decision. A build/scene retirement can clear the actor's bank without a burst. */
-export class IronWard<A extends IronWardActor<Tags, M>, Tags, M> {
-  constructor(readonly ports: IronWardPorts<A>) {}
-  arm(actor: A, effect: IronWardEffect, durationScale: number, areaScale: number, tags: Tags, extra: readonly M[], color: string): void {
+export class IronWard<A extends IronWardActor<Tags, M>, Tags, M,I=unknown> {
+  constructor(readonly ports: IronWardPorts<A,I>) {}
+  arm(actor: A, effect: IronWardEffect, durationScale: number, areaScale: number, tags: Tags, extra: readonly M[], color: string, skill?:I): void {
     const duration = effect.duration * durationScale;
     actor.ironWard = {stored: 0, cap: effect.cap * actor.sheet.get('poolCap', tags, extra), until: this.ports.time() + duration,
       ratio: effect.ratio, radius: effect.radius * areaScale, visualColor: color};
-    this.ports.buff(actor, {type:'buff', id:'iron_ward', duration:effect.duration, mods:[{stat:'damageTaken',kind:'more',value:-effect.reduce}]}, durationScale);
+    this.ports.buff(actor, {type:'buff', id:'iron_ward', duration:effect.duration, mods:[{stat:'damageTaken',kind:'more',value:-effect.reduce}]}, durationScale, ...(skill!==undefined?[skill]:[]));
   }
   advance(actor: A): void {
     if (actor.ironWard && this.ports.time() >= actor.ironWard.until) {

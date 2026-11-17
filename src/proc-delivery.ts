@@ -38,7 +38,8 @@ export function createProcDelivery<I extends NonNullable<unknown>, P, Direction,
       case 'buff': {
         const stored = fx.buff.storedCue ?? (cue === false ? false
           : {...ports.buffCue(fx.buff), color: proc.color, ...proc.procCue});
-        caster.addBuff(ports.withStoredCue(fx.buff, stored), ports.stat(caster, 'effectDuration', instance), depth + 1);
+        const buff = ports.withStoredCue(fx.buff, stored);
+        caster.addBuff(ports.sourceBuff ? ports.sourceBuff(buff, instance) : buff, ports.stat(caster, 'effectDuration', instance), depth + 1);
         if (caster.buffs.has(fx.buff.id)) ports.cue(caster, stored, 'gain', proc.id);
         break;
       }
@@ -60,7 +61,8 @@ export function createProcDelivery<I extends NonNullable<unknown>, P, Direction,
           enemy.life -= landed;
           enemy.hitFlash = 0.15;
           enemy.hitFlashType = fx.damage;
-          ports.text(enemy.pos, Math.round(landed).toString(), proc.color, 12);
+          if (ports.damageText) ports.damageText(enemy, landed, proc.color, 12);
+          else ports.text(enemy.pos, Math.round(landed).toString(), proc.color, 12);
           if (enemy.esBroke) {
             enemy.esBroke = false;
             ports.shieldBreak(enemy, depth + 1);

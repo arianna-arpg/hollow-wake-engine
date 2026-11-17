@@ -1,9 +1,11 @@
-import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
 import {root,sha256,writeJSON} from './reference-utils.mjs';
+import {prototypeModuleBudget} from './prototype-package-budget.mjs';
 const artifacts=path.join(root,'.artifacts'),output=fs.mkdtempSync(path.join(artifacts,'delayed-package-'));
+try {
 const npm=process.env.npm_execpath??path.join(path.dirname(process.execPath),'node_modules/npm/bin/npm-cli.js');
 const packed=JSON.parse(execFileSync(process.execPath,[npm,'pack','--json','--pack-destination',output,'--cache',path.join(artifacts,'npm-cache')],{cwd:root,encoding:'utf8'}))[0];
-const consumer=fs.mkdtempSync(path.join(os.tmpdir(),'hollow-delayed-'));writeJSON(path.join(consumer,'package.json'),{private:true,type:'module'});
+const consumer=fs.mkdtempSync(path.join(output,'consumer-'));writeJSON(path.join(consumer,'package.json'),{private:true,type:'module'});
 execFileSync(process.execPath,[npm,'install',path.join(output,packed.filename),'--offline','--ignore-scripts','--no-audit','--no-fund','--cache',path.join(consumer,'cache')],{cwd:consumer,stdio:'pipe'});
 fs.copyFileSync(path.join(consumer,'node_modules/@hollow-wake/engine/examples/delayed-bursts.mjs'),path.join(consumer,'example.mjs'));
 fs.writeFileSync(path.join(consumer,'run.mjs'),`
@@ -54,5 +56,7 @@ fs.writeFileSync(path.join(consumer,'consumer.ts'),types);
 writeJSON(path.join(consumer,'tsconfig.json'),{compilerOptions:{strict:true,noEmit:true,target:'ES2022',module:'NodeNext',moduleResolution:'NodeNext',lib:['ES2022'],types:[]},include:['consumer.ts']});
 try{execFileSync(process.execPath,[path.join(root,'node_modules/typescript/bin/tsc'),'-p',path.join(consumer,'tsconfig.json')],{cwd:consumer,stdio:'pipe'});}catch(error){console.error(String(error.stdout??''),String(error.stderr??''));throw error;}
 const result=JSON.parse(execFileSync(process.execPath,['run.mjs'],{cwd:consumer,encoding:'utf8',env:{...process.env,NODE_PATH:''}}));
-const installed=fs.readFileSync(path.join(consumer,'node_modules/@hollow-wake/engine/dist/delayed-bursts.js'));assert(installed.equals(fs.readFileSync(path.join(root,'dist/delayed-bursts.js'))));assert(installed.length<=8192);
-writeJSON(path.join(artifacts,'delayed-package-verification.json'),{...result,typeConsumer:true,asyncPortsRejected:12,moduleBytes:installed.length,moduleSha256:sha256(installed),archive:packed.integrity,output,consumer,node:process.version});console.log(result);
+const installed=fs.readFileSync(path.join(consumer,'node_modules/@hollow-wake/engine/dist/delayed-bursts.js'));assert(installed.equals(fs.readFileSync(path.join(root,'dist/delayed-bursts.js'))));
+const size=prototypeModuleBudget('dist/delayed-bursts.js',installed.length);assert(size.historicalBytes<=8192);
+writeJSON(path.join(artifacts,'delayed-package-verification.json'),{...result,typeConsumer:true,asyncPortsRejected:12,moduleBytes:installed.length,prototypeGrowth:size,moduleSha256:sha256(installed),archive:packed.integrity,node:process.version});console.log(result);
+} finally {assert.equal(path.dirname(fs.realpathSync(output)),fs.realpathSync(artifacts));fs.rmSync(output,{recursive:true,maxRetries:3});}

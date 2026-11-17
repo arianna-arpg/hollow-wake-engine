@@ -11,6 +11,7 @@ import {itemPack,equipmentPack} from './compile-item-content.mjs';
 import {grantPack} from './compile-passive-grants.mjs';
 import {containerPack} from './compile-container-content.mjs';
 import {skillProgressionPack} from './compile-skill-progression.mjs';
+import {prototypeBuildPack} from './prototype-content.mjs';
 
 export function characterBuildPack(){
   const catalogue=readCatalogue(),table=name=>Object.fromEntries(catalogue.tables[name].map(row=>[row.id,row.value]));
@@ -28,14 +29,16 @@ export function characterBuildPack(){
 }
 /** Produces a separately loadable authored package. No game checkout is needed
  * by the installed consumer. The core package remains free of content loading. */
-export async function buildCharacterBuilds(destination){
-  const lock=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json'))),sources={};
+export async function buildCharacterBuilds(destination,profile){
+  const lock=profile?.lock??JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json'))),sources={};
+  const sourceDirectory=profile?.directory??path.join(root,'.reference');
+  const sourcePrefix=path.relative(root,sourceDirectory).replaceAll('\\','/')+'/';
   const result=await build({absWorkingDir:root,entryPoints:['adapters/embedded/character-builds.mjs'],bundle:true,platform:'neutral',format:'esm',target:'es2022',
     minify:true,write:false,metafile:true,external:['@hollow-wake/engine','@hollow-wake/engine/*'],tsconfigRaw:{},
-    alias:{'hollow-wake-source/replenishment':path.join(root,'.reference/src/engine/replenishment.ts'),'hollow-wake-source/skills':path.join(root,'.reference/src/engine/skills.ts'),'hollow-wake-source/minion-families':path.join(root,'.reference/src/data/minionFamilies.ts')}});
+    alias:{'hollow-wake-source/replenishment':path.join(sourceDirectory,'src/engine/replenishment.ts'),'hollow-wake-source/skills':path.join(sourceDirectory,'src/engine/skills.ts'),'hollow-wake-source/minion-families':path.join(sourceDirectory,'src/data/minionFamilies.ts')}});
   for(const file of Object.keys(result.metafile.inputs)){
     const hash=sha256(fs.readFileSync(path.join(root,file)));sources[file]=hash;
-    if(file.startsWith('.reference/'))assert.equal(hash,lock.files[file.slice('.reference/'.length)],file);
+    if(file.startsWith(sourcePrefix))assert.equal(hash,lock.files[file.slice(sourcePrefix.length)],file);
     else assert(['adapters/embedded/character-builds.mjs','adapters/embedded/character-build-helpers.mjs'].includes(file),file);
   }
   for(const row of Object.values(result.metafile.outputs))for(const imp of row.imports)assert(imp.external&&imp.path.startsWith('@hollow-wake/engine'),imp.path);
@@ -47,11 +50,15 @@ export async function buildCharacterBuilds(destination){
     ts.forEachChild(node,check);
   }
   check(ast);assert(Buffer.byteLength(code)<=128*1024,'Build factory exceeds 128 KiB');
-  const pack=characterBuildPack(),bytes=JSON.stringify(pack)+'\n';assert(Buffer.byteLength(bytes)<=8*1024*1024,'Build content exceeds 8 MiB');
+  const pack=profile?prototypeBuildPack(characterBuildPack(),profile):characterBuildPack(),bytes=JSON.stringify(pack)+'\n';
+  // The pinned November catalogue adds 108,449 bytes (1.30%). Retain the old
+  // release's 8 MiB gate; bound the separately reviewed profile at 8.25 MiB.
+  const contentBudget=(profile?8.25:8)*1024*1024;
+  assert(Buffer.byteLength(bytes)<=contentBudget,'Build content exceeds its profile budget');
   const version=JSON.parse(fs.readFileSync(path.join(root,'package.json'))).version;
   fs.mkdirSync(destination,{recursive:true});fs.writeFileSync(path.join(destination,'index.js'),code);fs.writeFileSync(path.join(destination,'builds.json'),bytes);
   fs.writeFileSync(path.join(destination,'index.d.ts'),"import type {CharacterBuildService} from '@hollow-wake/engine/character/builds';\nimport type {CharacterLiveRules} from '@hollow-wake/engine/character/live';\nexport declare function createCharacterBuilds(pack:unknown):CharacterBuildService;\nexport declare function createCharacterBuildRules(pack:unknown):CharacterLiveRules;\nexport declare const characterSkillQueries:import('@hollow-wake/engine/character/skill-queries').CharacterSkillQueries;\n");
-  writeJSON(path.join(destination,'package.json'),{name:'@hollow-wake/character-builds',version:'0.2.0-candidate.0',type:'module',license:'PolyForm-Noncommercial-1.0.0',
+  writeJSON(path.join(destination,'package.json'),{name:'@hollow-wake/character-builds',version:'0.3.0-candidate.0',type:'module',license:'PolyForm-Noncommercial-1.0.0',
     peerDependencies:{'@hollow-wake/engine':version},files:['index.js','index.d.ts','builds.json','manifest.json','LICENSE.md','README.md'],
     exports:{'.':{types:'./index.d.ts',import:'./index.js'},'./builds.json':'./builds.json','./manifest.json':'./manifest.json'}});
   const manifest={schemaVersion:1,contentId:pack.contentId,sourceCommit:lock.commit,capability:pack.capability,

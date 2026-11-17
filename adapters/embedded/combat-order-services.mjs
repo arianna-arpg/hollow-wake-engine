@@ -17,7 +17,7 @@ export function installCombatOrders(w, content) {
     issue: (...args) => w.issueCommand(...args), empty: (actor, id) => w.failNote(actor, id + ':nothrong', 'no throng gathered'),
   });
   const minions = new MinionOrders({...r.commands, delegates: r.throng.metaDelegate}, {
-    actors: () => w.actors, enemies: actor => w.enemiesOf(actor), time: () => w.time, random: () => w.random(),
+    actors: () => w.actors, enemies: (...args) => w.enemiesOf(...args), time: () => w.time, random: () => w.random(),
     commandExists: kind => commands.has(kind), skillExists: id => !!q.SKILLS[id], serves: (...args) => w.minionServes(...args),
     throng: q.isThrongBody, obedience: actor => w.obedienceOf(actor), issue: (...args) => w.issueCommand(...args),
     promoteCommand: (...args) => throng.promoteCommand(...args), liteKind: id => w.liteKindOf(id), promote: (...args) => w.litePromoteNearest(...args),
@@ -25,7 +25,7 @@ export function installCombatOrders(w, content) {
     forwardSockets: (...args) => w.forwardSummonSockets(...args), execute: (...args) => w.executeSkill(...args),
     assault: (...args) => w.assaults.command(...args),
     defied: actor => w.text({x: actor.pos.x, y: actor.pos.y - 14}, 'defies!', '#c08a68', 10),
-    sent: (at, color) => {w.flashes.push({pos: at, radius: 40, color, life: .3, maxLife: .3});},
+    sent: (at, color, tier) => {w.flashes.push({...(tier!==undefined?{recoveryCueTier:tier}:{}),pos: at, radius: 40, color, life: .3, maxLife: .3});},
     unheeded: actor => w.text({x: actor.pos.x, y: actor.pos.y - 18}, 'unheeded!', '#c08a68', 11),
     empty: (actor, id) => w.failNote(actor, id + ':nominions', 'no minions to command'),
     unknown: (kind, id) => {throw Error(`Unadmitted command kind ${kind} on ${id}`);},

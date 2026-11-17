@@ -71,6 +71,7 @@ export interface SequenceMarkerSpec {
  * sinks may re-enter. Exceptions preserve prior writes rather than rolling back.
  * Geometry owns dimensions/units, while this controller owns ranges and timing. */
 export interface AttackSequencePorts<A, I, P, Aim, M, Tag extends string, D extends {type: string}> {
+  sourceBuff?<B>(effect:B,skill:I):B;
   time(): number;
   random(): number;
   actors(): readonly A[];

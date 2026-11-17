@@ -8,6 +8,23 @@ const read=file=>JSON.parse(fs.readFileSync(new URL('../'+file,import.meta.url))
 const pack=read('content/milestone-one.json'),rules=new StatRules(pack.stats,pack.trades);
 const original=JSON.parse(gunzipSync(fs.readFileSync(new URL('../baseline/build-context/observations.json.gz',import.meta.url))));
 const flat=(stat,value)=>({stat,kind:'flat',value});
+test('resistance-neutral reads retain conditional reductions without polluting ordinary caches',()=>{
+ const sheet=new StatSheet(new StatRules({fireRes:{base:.2,min:-1},source:{base:4}},[]));
+ sheet.setBase('fireRes',.4);
+ sheet.setSource('investment',[flat('fireRes',.3),flat('fireRes',-.1),
+   {stat:'fireRes',kind:'flat',value:-.2,when:'moving'},
+   {stat:'fireRes',kind:'flat',value:-.15,tags:['spell']},
+   {stat:'fireRes',kind:'link',value:1,fromStat:'source'}]);
+ const ordinary=sheet.get('fireRes');
+ assert.equal(sheet.reductionsFromZero('fireRes'),-.1);
+ assert.equal(sheet.reductionsFromZero('fireRes',new Set(['spell'])),-.25);
+ sheet.setConditions(['moving']);
+ assert(Math.abs(sheet.reductionsFromZero('fireRes')+.3)<1e-12);
+ assert(Math.abs(sheet.get('fireRes')-(ordinary-.2))<1e-12);
+ const fork=sheet.fork();fork.removeSource('investment');
+ assert.equal(fork.reductionsFromZero('fireRes'),0);
+ assert(Math.abs(sheet.reductionsFromZero('fireRes')+.3)<1e-12);
+});
 function equivalent(actual,expected){
  for(const[id,value]of Object.entries(expected))assert(Math.abs(actual[id]-value)<=1e-12*Math.max(1,Math.abs(value)),`${id}: ${actual[id]} != ${value}`);
 }

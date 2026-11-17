@@ -88,7 +88,9 @@ export function createHitPreparation<
       dmgMult *= breakable.ownerMult * affinity;
     }
     const vs = ports.victimScopeArmed(caster, extra) ? ports.victimTags(target, caster, ports.time()) : undefined;
+    dmgMult *= ports.power?.(caster, inst, target) ?? 1;
     const packet = ports.roll(caster, inst, flatBonus, vs);
+    ports.vulnerability?.(target, inst, packet);
     if (dmgMult !== 1) for (const type of Object.keys(packet.amounts)) packet.amounts[type]! *= dmgMult;
     const struckTone = target.tune ? ports.tone(packet.amounts) : null;
     let afflictionCarry = 0;

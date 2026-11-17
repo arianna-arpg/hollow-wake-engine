@@ -49,7 +49,10 @@ for (const [name, indexes] of Object.entries(groups)) {
 }
 const speedLinger = ast.statements.find(n => ts.isFunctionDeclaration(n) && n.name?.text === 'speedLingerMul');
 assert(speedLinger); pieces.push(speedLinger.getText(ast));
-const js = (await transform(pieces.join('\n'), {loader: 'ts', target: 'es2022', legalComments: 'none'})).code;
+let js = (await transform(pieces.join('\n'), {loader: 'ts', target: 'es2022', legalComments: 'none'})).code;
+const pushPlacement='a.pos = w.clampPos(vec(a.pos.x + p.vx * dt, a.pos.y + p.vy * dt), a.radius, from, { out: sc, mover: a });';
+assert.equal(js.split(pushPlacement).length,2,'Knockback placement changed');
+js=js.replace(pushPlacement,pushPlacement+'\n    w.deviceContacts?.record(a, from, a.pos, a.tier, a.flying || !!a.leap || w.levitating(a));');
 const names = new Set();
 function collect(n) {if (ts.isIdentifier(n)) names.add(n.text); ts.forEachChild(n, collect);}
 collect(ts.createSourceFile('phases.js', js, ts.ScriptTarget.Latest, true));
@@ -79,7 +82,8 @@ export function createCombatActorPhases(w, q) {
 `;
 const manifest = {schemaVersion: 1, sourceCommit: lock.commit, source: file, sourceSha256: sha256(bytes), blocks: observations, localQueries: {speedLingerMul: sha256(speedLinger.getText(ast))},
   queries, outputs: {[output]: sha256(code)}, changes: ['Per-owner random source', 'Retain actor phase order',
-    'Reuse SDK actor timers, status, proc, damage and bank services between these phases', 'Return from actor phase where the original continued the outer actor loop']};
+    'Reuse SDK actor timers, status, proc, damage and bank services between these phases', 'Return from actor phase where the original continued the outer actor loop',
+    'Optional prototype ground-device observer records the resolved knockback segment']};
 const manifestPath = path.join(root, 'baseline/combat-actor-phases-extraction.json');
 if (process.argv.includes('--check')) {
   assert.equal(fs.readFileSync(path.join(root, output), 'utf8'), code);

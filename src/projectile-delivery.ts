@@ -14,7 +14,7 @@ export interface ProjectileDeliveryActor<I,Tags,M> {
   speedFactor(skill:I):number;
 }
 export interface ProjectileSpawnOptions<F> {mult:number;flat?:F;patrol?:CombatPoint[];dest?:CombatPoint}
-export interface ProjectileSalvo<A,I,F> {caster:A;inst:I;aim:CombatPoint;origin:CombatPoint|null;shots:number;timer:number;interval:number;mult:number;flat?:F}
+export interface ProjectileSalvo<A,I,F> {caster:A;inst:I;aim:CombatPoint;origin:CombatPoint|null;tier?:number;shots:number;timer:number;interval:number;mult:number;flat?:F}
 export interface ProjectileAmbush<A,I> {caster:A;inst:I;points:CombatPoint[];arrowIds:number[];triggerRadius:number;deadline:number}
 export interface ProjectileDeliveryFrame<A,I,Tags,M,F> {
   readonly caster:A;readonly skill:I;readonly aim:CombatPoint;readonly delivery:ProjectileDeliverySpec;readonly multiplier:number;readonly flat?:F;
@@ -22,6 +22,7 @@ export interface ProjectileDeliveryFrame<A,I,Tags,M,F> {
   readonly bonusProjectiles:number;readonly ventRounds:number;readonly color:string;
 }
 export interface ProjectileDeliveryPorts<A,I,F>{
+  artCount?(actor:A,skill:I):number;artOrbitLimit?(skill:I):number|undefined;
   time():number;random():number;projectilesPerCharge(skill:I):number;caromCapacity(actor:A,skill:I):number;
   clamp(at:CombatPoint,radius:number):CombatPoint;
   spawn(actor:A,skill:I,at:CombatPoint,direction:number,options:ProjectileSpawnOptions<F>):void;
@@ -45,11 +46,14 @@ export class ProjectileDelivery<A extends ProjectileDeliveryActor<I,Tags,M>,I ex
   get ambushes():ProjectileAmbush<A,I>[]{return readList(this.ambushOwner);}
   execute(frame:ProjectileDeliveryFrame<A,I,Tags,M,F>):CombatPoint|null{
     const p=this.ports,{caster:a,skill:i,aim,delivery:d,multiplier:mult,flat,tags,modifiers:mods,gaugePower:power}=frame;
-    let count=rollDeliveryCount(d.count,Math.round(a.sheet.get('projectileCount',tags,mods)),()=>p.random())+frame.bonusProjectiles+frame.ventRounds
+    let count=rollDeliveryCount(d.count,Math.round(a.sheet.get('projectileCount',tags,mods)),()=>p.random())+(p.artCount?.(a,i)??0)+frame.bonusProjectiles+frame.ventRounds
       +Math.round(p.projectilesPerCharge(i)*frame.chargesSpent)+frame.corpseFeast*this.corpseProjectiles;
     if(power!==1)count=Math.max(1,Math.round(count*power));
     const chance=a.sheet.get('projectileCountChance',tags,mods);if(chance>0&&p.random()<chance)count++;
     count=Math.max(1,count);const capacity=p.caromCapacity(a,i);
+    const orbitLimit=p.artOrbitLimit?.(i);
+    if(orbitLimit!==undefined){const total=Math.min(orbitLimit,count+Math.max(0,Math.round(a.sheet.get('projNova',tags,mods))));
+      for(let n=0;n<total;n++)p.spawn(a,i,a.pos,a.facing+n/total*Math.PI*2,{mult,flat});return null;}
     if(d.caroms?.hang){
       const armed=this.ambushes.findIndex(row=>row.caster===a&&row.inst.def.id===i.def.id);
       if(armed!==-1){p.triggerAmbush(armed,mult,flat);return null;}

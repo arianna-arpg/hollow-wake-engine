@@ -12,6 +12,9 @@ export type CraftingCue=
 export interface CraftingAccount {craftLore:CraftLore;ledger:Partial<Record<string,number>>}
 export interface CraftingCarry<I> {items:I[];equipped:Partial<Record<string,I>>;essences:Partial<Record<string,number>>}
 export interface CraftingActionPorts<C,I,S,U,A> {
+  /** Optional canonical custody. Both ports must be supplied together. */
+  canRetireRelics?(context:C):boolean;
+  retireRelic?(context:C,item:I):void;
   carry(context:C):CraftingCarry<I>;
   account():A;
   hasFeature(id:string):boolean;
@@ -61,6 +64,10 @@ export class CraftingOperations<C,I extends CraftingItem,S extends CraftingSkill
       if(typeof ports[name]!=='function')throw new Error('Missing crafting action port '+name);
       bound[name]=ports[name].bind(ports) as never;
     }
+    if(ports.canRetireRelics!==undefined||ports.retireRelic!==undefined){
+      if(typeof ports.canRetireRelics!=='function'||typeof ports.retireRelic!=='function')throw new Error('Incomplete relic retirement ports');
+      bound.canRetireRelics=ports.canRetireRelics.bind(ports);bound.retireRelic=ports.retireRelic.bind(ports);
+    }
     this.#ports=Object.freeze(bound);
   }
   #run(work:()=>void):void{if(this.#busy)throw new Error('Reentrant crafting action');this.#busy=true;try{work();}finally{this.#busy=false;}}
@@ -71,7 +78,9 @@ export class CraftingOperations<C,I extends CraftingItem,S extends CraftingSkill
   }
   #breakItem(ctx:C,item:I,mode:SalvageLane):CraftStudy[]{
     const p=this.#ports,r=this.#rules;
-    p.remove(p.carry(ctx).items,item.uid);p.grant(ctx,mode==='break'?r.salvageItemYield(item):r.sellItemYield(item));
+    p.remove(p.carry(ctx).items,item.uid);
+    if(p.canRetireRelics?.(ctx)&&r.ports.base(item.baseId)?.category==='relic')p.retireRelic!(ctx,item);
+    p.grant(ctx,mode==='break'?r.salvageItemYield(item):r.sellItemYield(item));
     if(mode!=='break'||!p.progression())return [];
     const taught=r.studySalvage(p.lore(),item);
     p.learned(taught);
@@ -92,7 +101,7 @@ export class CraftingOperations<C,I extends CraftingItem,S extends CraftingSkill
   salvageItem(ctx:C,uid:number,lane?:SalvageLane):void{this.#run(()=>{
     const p=this.#ports,r=this.#rules,mode=this.#lane(ctx,lane);if(!mode)return;
     const item=p.bagItem(ctx,uid);if(!item)return;
-    if(item.relicKey){p.refuse(ctx,'relic','relicSale');return;}
+    if(item.relicKey&&!p.canRetireRelics?.(ctx)){p.refuse(ctx,'relic','relicSale');return;}
     if(item.questId){p.refuse(ctx,'quest','questCargo');return;}
     if(item.locked){p.cue(ctx,{kind:'locked'});return;}
     if(item.mem){
@@ -104,15 +113,16 @@ export class CraftingOperations<C,I extends CraftingItem,S extends CraftingSkill
     if(item.gem){this.#breakGem(ctx,item,mode);p.dirty(ctx);return;}
     const taught=this.#breakItem(ctx,item,mode);
     for(const t of taught)if(t.rankedUp)p.cue(ctx,{kind:'expertise',family:t.family,bulk:false});
-    if(mode==='break'&&p.progression())p.studyChanged();p.dirty(ctx);
+    if((p.canRetireRelics?.(ctx)&&r.ports.base(item.baseId)?.category==='relic')||(mode==='break'&&p.progression()))p.studyChanged();p.dirty(ctx);
   });}
   salvageBulk(ctx:C,category:SalvageCategory,rarity?:string,lane?:SalvageLane):void{this.#run(()=>{
     const p=this.#ports,r=this.#rules,mode=this.#lane(ctx,lane);if(!mode)return;
     const m=p.carry(ctx),before={...m.essences};let broke=0;const ranked:string[]=[];
     if(category==='item'){
-      const targets=m.items.filter(i=>!i.gem&&!i.mem&&!i.locked&&!i.questId&&!i.relicKey&&(!rarity||i.rarity===rarity));
+      const targets=m.items.filter(i=>!i.gem&&!i.mem&&!i.locked&&!i.questId&&(!i.relicKey||p.canRetireRelics?.(ctx))&&(!rarity||i.rarity===rarity));
+      const retired=!!p.canRetireRelics?.(ctx)&&targets.some(i=>r.ports.base(i.baseId)?.category==='relic');
       for(const item of targets){for(const t of this.#breakItem(ctx,item,mode))if(t.rankedUp)ranked.push(t.family);broke++;}
-      if(broke>0&&mode==='break'&&p.progression())p.studyChanged();
+      if(retired||(broke>0&&mode==='break'&&p.progression()))p.studyChanged();
     }else if(category==='skill'){
       const targets=m.items.filter(i=>{const payload=p.skillPayload(i);return payload&&!i.locked&&!payload.granted&&(!rarity||payload.rarity===rarity);});
       for(const item of targets){this.#breakGem(ctx,item,mode);broke++;}
@@ -175,6 +185,10 @@ export class CraftingActions<C,I extends CraftingItem,S extends CraftingSkill&{s
     const p={...ports};
     for(const name of [...sharedCraftingPorts,'account','save'] as const){
       if(typeof ports[name]!=='function')throw new Error('Missing crafting action port '+name);
+      p[name]=ports[name].bind(ports) as never;
+    }
+    for(const name of ['canRetireRelics','retireRelic'] as const)if(ports[name]!==undefined){
+      if(typeof ports[name]!=='function')throw new Error('Invalid relic retirement port '+name);
       p[name]=ports[name].bind(ports) as never;
     }
     super(rules,{...p,lore:()=>p.account().craftLore,studyChanged:()=>p.save(p.account()),learned:taught=>{

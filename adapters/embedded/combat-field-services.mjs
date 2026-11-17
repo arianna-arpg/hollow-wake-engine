@@ -34,7 +34,7 @@ export function installCombatFields(w, content, link) {
     hasSkill: id => !!q.SKILLS[id], makeSkill: (id, level) => q.makeSkillInstance(q.SKILLS[id], level),
     plantImpactDress: field => w.signal('field-impact', {at: {...field.pos}, skill: field.inst.def.id}),
     flash: cue => {w.flashes.push(cue);},
-  }));
+  }), !!content.prototypeMechanics);
   for (const method of ['updateZones', 'expireZone', 'updateZoneDomain', 'zoneVictims', 'zoneSees', 'zoneHas', 'strikeZoneSurfaces', 'detonateFissureSegment']) w[method] = (...args) => fields[method](...args);
   const schedules = new CastSchedules(w, {
     random: () => w.random(), timeScale: actor => w.timeflow.actorScale(actor), hasSkill: id => !!q.SKILLS[id], modifiers: q.instanceMods,

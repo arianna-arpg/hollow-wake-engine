@@ -7,6 +7,7 @@ import { execFileSync } from 'node:child_process';
 import { root } from './reference-utils.mjs';
 import {sequenceContinuationBudget} from './sequence-continuation-budget.mjs';
 import {packageRuntimeFiles} from './package-runtime-files.mjs';
+import {prototypePackageBudget} from './prototype-package-budget.mjs';
 
 const npmCli = process.env.npm_execpath ?? path.join(path.dirname(process.execPath), 'node_modules/npm/bin/npm-cli.js');
 const artifacts = path.join(root, '.artifacts');
@@ -126,17 +127,25 @@ const combatPaths=new Set(combatPackageModules.map(name=>'dist/'+name+'.js'));
 const combatCompositionJsBytes=packed.files.filter(file=>combatPaths.has(file.path)).reduce((n,file)=>n+file.size,0);
 assert.equal(packed.files.filter(file=>combatPaths.has(file.path)).length,combatPaths.size,'Missing combat composition module');
 assert(combatCompositionJsBytes<=512*1024,'Combat composition exceeded its initial 512 KiB raw code budget');
-const legacyFiles=packed.files.filter(file=>!combatPaths.has(file.path));
-const legacyJsBytes=jsBytes-combatCompositionJsBytes;
+// Actual package totals above remain unchanged. The following historical
+// component accounting excludes only individually reviewed, bounded additions.
+const prototypeGrowth=prototypePackageBudget(packed.files.filter(file=>!combatPaths.has(file.path)));
+const legacyFiles=prototypeGrowth.historicalFiles;
+const legacyJsBytes=jsBytes-combatCompositionJsBytes-prototypeGrowth.growthBytes;
 // M5 explicitly trades at most 2 KiB of raw stat code for lower clock cost and
 // allocation. The M4 archive's stats.js was 11,941 bytes (SHA-256 recorded in
 // the milestone-five report). Only actual growth in this one module is charged
 // to the new allowance; unrelated code retains every historical budget below.
 const statsFile=legacyFiles.find(file=>file.path==='dist/stats.js');
 assert(statsFile?.size>0,'Missing stat runtime');
-const statCacheGrowthJsBytes=Math.max(0,statsFile.size-11941);
+// November parity adds resistance-neutral ailment queries and explicitly
+// unbounded projectile rebound bases. Charge only this reviewed addition to a
+// separate 512-byte allowance; keep the M5 cache allowance intact.
+const parityStatGrowthJsBytes=Math.max(0,statsFile.size-13841);
+assert(parityStatGrowthJsBytes<=512,'November stat semantics exceeded their separate 512-byte allowance');
+const statCacheGrowthJsBytes=Math.max(0,statsFile.size-parityStatGrowthJsBytes-11941);
 assert(statCacheGrowthJsBytes<=2*1024,'Stat cache optimization exceeded its explicit 2 KiB growth allowance');
-const historicalLegacyJsBytes=legacyJsBytes-statCacheGrowthJsBytes;
+const historicalLegacyJsBytes=legacyJsBytes-statCacheGrowthJsBytes-parityStatGrowthJsBytes;
 const itemJsBytes = legacyFiles.filter(file => /^dist\/item-.*\.js$/.test(file.path) && file.path !== 'dist/item-restoration.js').reduce((sum, file) => sum + file.size, 0);
 const passiveJsBytes = legacyFiles.filter(file => /^dist\/passive-.*\.js$/.test(file.path) && !compositionPaths.has(file.path)).reduce((sum, file) => sum + file.size, 0);
 const inventoryHostJsBytes = legacyFiles.filter(file => file.path === 'dist/inventory-host.js').reduce((sum, file) => sum + file.size, 0);
@@ -437,6 +446,8 @@ assert.ok(preCraftingSessionJsBytes <= (732 + 70 + 20 + 38) * 1024, 'Previous ru
 assert.ok(preContentTableJsBytes <= (732 + 70 + 20 + 38 + 44) * 1024, 'Combined runtime exceeded the explicit 904 KiB budget');
 assert.ok(contentBytes-pouchData.size-conduitData.size-vestigeData.size <= 64 * 1024, 'First-slice content exceeded the 64 KiB JSON budget');
 fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringify({
+  prototypeGrowth:{growthBytes:prototypeGrowth.growthBytes,budgetBytes:prototypeGrowth.budgetBytes,modules:prototypeGrowth.modules},
+  componentAccounting:'Historical component bytes exclude the separately bounded prototypeGrowth and parityStatGrowthJsBytes; runtimeJsBytes and archive sizes are actual totals.',
   equipmentSkillsJsBytes,
   challengeModuleBytes, challengeJsBytes,
   challengeContinuationJsBytes: challengeContinuationFile.size,
@@ -454,7 +465,7 @@ fs.writeFileSync(path.join(artifacts, 'package-verification.json'), JSON.stringi
   workshopBuildJsBytes:workshopBuildFile.size,
   buildContributionsJsBytes:buildContributionsFile.size,
   accountRelicItemsJsBytes:accountRelicItemsFile.size,
-  workshopCharacterJsBytes,characterCompositionJsBytes,characterCompositionBytes,combatCompositionJsBytes,statCacheGrowthJsBytes,
+  workshopCharacterJsBytes,characterCompositionJsBytes,characterCompositionBytes,combatCompositionJsBytes,statCacheGrowthJsBytes,parityStatGrowthJsBytes,
   skillBarJsBytes:barFile.size,
   workshopSkillBookJsBytes:bookFile.size,
   accountWorkshopJsBytes,contentTableModuleBytes,contentTableJsBytes,preContentTableJsBytes,craftingSessionModuleBytes,craftingSessionJsBytes,preCraftingSessionJsBytes,residenceModuleBytes,residenceJsBytes,preResidenceJsBytes,craftingModuleBytes,craftingJsBytes,preCraftingJsBytes,progressionSessionJsBytes, preSessionJsBytes, unlockModuleBytes, unlockJsBytes, preUnlockJsBytes, gateJsBytes, preGateJsBytes, continuityJsBytes, preContinuityJsBytes, characterJsBytes, preCharacterJsBytes, siteJsBytes, preSiteJsBytes, vocationJsBytes, preVocationJsBytes, procDeliveryJsBytes, preProcDeliveryJsBytes,

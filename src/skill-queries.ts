@@ -19,4 +19,6 @@ export interface CharacterSkillQueries {
   treeNodeRefusal(skill:GemSkill,nodeId:string):string|null;
   guarded(skill:GemSkill):boolean;
   replenishing(skill:GemSkill):boolean;
+  baseTime?(skill:GemSkill):number;
+  summonSchools?(skill:GemSkill):readonly string[]|undefined;
 }

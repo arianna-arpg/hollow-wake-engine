@@ -33,7 +33,7 @@ export function renderRequestWorld(source, reference) {
   assert(statements[count].getText(ast).startsWith(acceptance.sourceBoundary.endsBefore), 'Unreviewed request continuation boundary');
   const ports = lf(fs.readFileSync(path.join(root, 'adapters/hollow-wake/skill-request-ports.txt'), 'utf8')).trimEnd();
   const edits = [
-    { start, end, text: "\n    const sdkRequestResult = this.sdkSkillRequest.preflight(caster, inst, aim, seatPress);\n    if (sdkRequestResult !== 'continue') return sdkRequestResult;" },
+    { start, end, text: "\n    const sdkRequestResult = this.sdkSkillRequest.preflight(caster, inst, aim, seatPress);\n    if (typeof sdkRequestResult === 'object') inst = sdkRequestResult.instance;\n    else if (sdkRequestResult !== 'continue') return sdkRequestResult;" },
     { start: method.getStart(ast), end: method.getStart(ast), text: ports + '\n\n  ' },
     { start: ast.statements.filter(ts.isImportDeclaration).at(-1).end, end: ast.statements.filter(ts.isImportDeclaration).at(-1).end,
       text: "\nimport {SkillRequest} from '@hollow-wake/engine/casting/request';" },

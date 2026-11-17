@@ -7,6 +7,21 @@ export function installCombatDeath(w, content, births) {
   const flash = (pos, radius, color, life, extra) => {w.flashes.push({pos, radius, color, life, maxLife: life, ...extra});};
   const death = new CombatDeath(w, {corpseDuration: content.staticRules.corpses.duration, corpseMax: content.staticRules.corpses.max}, births.bursts, {
     actors: () => w.actors, seats: () => w.seats, random: () => w.random(),
+    deferDeath: (actor,silent,killer) => w.frameArts?.deferDeath(actor,silent,killer) ?? false,
+    undying: (actor,departure) => {
+      if(!w.prototypeMechanics)return;
+      actor.summonPactTemporary ??= actor.lifespan>0||!!actor.decay;
+      actor.summonPactDeathCause=departure==='expire'?'expire':'slain';
+    },
+    retired: (actor,silent,killer,departure) => {
+      if(!w.prototypeMechanics)return;
+      if(!silent)w.battleDoctrines.death(actor,killer);
+      w.frameArts.death(actor,silent,departure==='expire');
+      w.cohortArts.death(actor,silent,departure==='expire');
+      w.summonArts.death(actor,silent&&departure!=='sacrifice',departure==='expire');
+      w.summonPacts.death(actor,departure==='sacrifice'?'slain':departure==='expire'?'expire':silent?'dismiss':'slain');
+      w.summonPacts.reconcile(actor);
+    },
     immortal: id => !!q.MONSTERS[id]?.immortal, leavesRemains: id => q.defLeavesRemains(q.MONSTERS[id]),
     breakDoor: id => w.host.space.breakDoor(id), eject: (...args) => w.seatEject(...args),
     breakPart: (...args) => w.onPartBroken(...args), releaseGarrison: actor => w.releaseGarrison(actor),

@@ -41,6 +41,8 @@ export interface CharacterBuildEdits {
   bar?:readonly (string|null)[];
 }
 export interface CharacterBuildSkillView {
+  summonSchools?:string[];
+  nativeCrewFactions?:string[];
   id:string;level:number;bonus?:number;
   sockets:({id:string;level:number;locked?:boolean;rolled?:Record<string,string>}|null)[];
   tree?:string[];grafts?:{id:string;level:number}[];host?:number;source?:string;
@@ -66,11 +68,12 @@ export interface CharacterBuildInvestment {
   learned:CharacterLearnedSkill[];
   grants:{uid:number;relicKey?:string;grantState:NonNullable<ItemInstance['grantState']>}[];
 }
-type Skill<D extends EquipmentSkillDefinition,U extends GemDefinition> = Omit<EquipmentSkill<D,U>,'sockets'>&GemSkill<D,U>&{companionGrant?:boolean};
+type Skill<D extends EquipmentSkillDefinition,U extends GemDefinition> = Omit<EquipmentSkill<D,U>,'sockets'>&GemSkill<D,U>&{companionGrant?:boolean;nativeCrewFactions?:string[]};
 type Class = {id:string;innate?:Modifier[]};
 type Container = {id:string;active:boolean};
 export interface CharacterBuildPorts<D extends EquipmentSkillDefinition,U extends GemDefinition,S extends Skill<D,U>,I extends ItemInstance,C extends Class,T extends Container> {
   contentId:string;barSlots:number;stats:StatRules;passives:PassiveGrants;
+  sourcePrelude?:readonly string[];
   class(id:string):C|undefined;
   contributions:Omit<BuildContributionPorts<I,Modifier,T>,'beginPassives'|'board'>&{
     board(def:T,features:ReadonlySet<string>):ReturnType<BuildContributionPorts<I,Modifier,T>['board']>;
@@ -86,6 +89,7 @@ export interface CharacterBuildPorts<D extends EquipmentSkillDefinition,U extend
   updateLearned(skill:S,payload:SkillGemPayload):void;
   updateGrant(skill:S,state:GrantedSkillState):void;
   levelModifiers(level:number):Modifier[];
+  deriveSkill?(sheet:StatSheet,inst:S):void;
   socketFits?(def:U,inst:S,rolled?:Readonly<Record<string,string>>):boolean;
 }
 
@@ -141,10 +145,10 @@ export class CharacterBuilds<D extends EquipmentSkillDefinition,U extends GemDef
     // Preserve the original World initialization order, including an empty
     // level-one source. Subsequent builds retain their source insertion history.
     if(adoption){
-      const allowed=new Set(['attributes','class','passives','level',...[...p.equipment.equipSlots()].map(row=>'gear:'+row.id),...[...p.contributions.containers()].map(row=>'container:'+row.id)]);
+      const allowed=new Set([...(p.sourcePrelude??[]),'attributes','class','passives','level',...[...p.equipment.equipSlots()].map(row=>'gear:'+row.id),...[...p.contributions.containers()].map(row=>'container:'+row.id)]);
       if(new Set(adoption.sourceOrder).size!==adoption.sourceOrder.length||adoption.sourceOrder.some(id=>!allowed.has(id))||['attributes','class','passives','level'].some(id=>!adoption.sourceOrder.includes(id)))throw Error('Invalid durable source order');
       for(const id of adoption.sourceOrder)sheet.setSource(id,[]);
-    }else if(!prior)for(const id of ['attributes','class','passives','level'])sheet.setSource(id,[]);
+    }else if(!prior)for(const id of [...(p.sourcePrelude??[]),'attributes','class','passives','level'])sheet.setSource(id,[]);
     let attrs:Record<string,number>={},conduits:PassiveConduit[]|undefined;
     const features=new Set(input.features),contributions=new BuildContributions({...p.contributions,
       board:(def:T)=>p.contributions.board(def,features),
@@ -219,6 +223,7 @@ export class CharacterBuilds<D extends EquipmentSkillDefinition,U extends GemDef
       for(let n=0;n<edits.bar.length;n++)if((frame.actor.skills[n]?.def.id??null)!==edits.bar[n])throw Error('Character binding was not retained');
     }
     sheet.setSource('level',p.levelModifiers(input.level));
+    for(const inst of [...known.values(),...(frame.seat.grantedInsts?.values()??[])])p.deriveSkill?.(sheet,inst);
     if(adoption){
       if((frame.seat.grantedInsts?.size??0)!==adoptedGrants.size)throw Error('Stale adopted grant set');
       for(const row of adoption.grants)if(frame.seat.grantedInsts?.get(row.skillId)!==adoptedGrants.get(row.skillId)||frame.seat.grantedInsts?.get(row.skillId)?.level!==row.level)throw Error('Stale adopted grant');
@@ -240,7 +245,7 @@ export class CharacterBuilds<D extends EquipmentSkillDefinition,U extends GemDef
     const held=this.#get(token),f=held.frame;
     const skill=(s:S):CharacterBuildSkillView=>({id:s.def.id,level:s.level,bonus:s.bonusLevels,
       sockets:s.sockets.map(row=>row?{id:row.def.id,level:row.level,...(row.locked?{locked:true}:{}),...(row.rolled?{rolled:row.rolled}:{})}:null),
-      tree:s.treeNodes,grafts:s.grafts?.map(row=>({id:row.def.id,level:row.level})),host:s.grantedHostUid,source:s.grantedBy});
+      tree:s.treeNodes,...(s.summonSchools?.length?{summonSchools:[...s.summonSchools]}:{}),...(s.nativeCrewFactions?.length?{nativeCrewFactions:[...s.nativeCrewFactions]}:{}),grafts:s.grafts?.map(row=>({id:row.def.id,level:row.level})),host:s.grantedHostUid,source:s.grantedBy});
     return copy({bar:f.actor.skills.map(s=>s&&skill(s)),known:[...f.meta.knownSkills].map(([id,s])=>[id,skill(s)]),
       grants:[...(f.seat.grantedInsts??[])].map(([id,s])=>[id,skill(s)]),companions:[...(held.companions.grants??[])].map(([id,row])=>[id,skill(row.inst)]),
       equipped:f.meta.equipped,attrs:held.attrs,sources:held.sheet.sourceNames().map(id=>[id,held.sheet.getSourceMods(id)!]),conduits:held.conduits});

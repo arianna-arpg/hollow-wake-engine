@@ -19,6 +19,10 @@ export function installCombatMovement(w, content) {
   });
   w.endCarom = (...args) => movement.endCarom(...args);
   const utility = new UtilityDeliveries(() => w.pendingDetonations, {
+    ...(content.prototypeMechanics?{
+      mineReady:mine=>!(mine.construct.timer>0)&&mine.construct.detonationLeft===undefined,
+      mineClock:(mine,time)=>{if(mine.construct)mine.construct.detonationLeft=time;},
+    }:{}),
     actors: () => w.actors, clamp: (...args) => w.clampPos(...args),
     teleport: (actor, at, color, id) => w.teleportActor(actor, at, color, undefined, undefined, id),
     marked: (actor, inst, at, color) => flash({pos: at, radius: 28, color, life: .4, maxLife: .4, fx: q.skillSelfVoice(inst.def.id), recoveryCueTier: actor.tier}),

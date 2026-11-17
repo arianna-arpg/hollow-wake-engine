@@ -105,6 +105,7 @@ export function createCombatActorType(initialize, core, bind, rules) {
     applyStatus(id, dps, duration, source, options) {return core.statuses.applyStatus(this, id, dps, duration, source, options);}
     tickChronoStatuses(dt) {return core.statuses.tickChronoStatuses(this, dt);}
     endStatus(id) {return core.statuses.endStatus(this, id);}
+    struggleAgainstPin(axis) {return core.statuses.struggleAgainstPin(this, axis);}
     cleanseDebuffs(count = Infinity) {return core.statuses.cleanseDebuffs(this, count);}
     isWet() {return core.statuses.isWet(this);}
     skillChargeBank(skill) {return local.get(this).ammunition.bank(skill);}

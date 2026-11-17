@@ -7,11 +7,12 @@ import {root, sha256, writeJSON} from './reference-utils.mjs';
 
 /** Read selected literal rules without loading a World, AI, account or campaign
  * module. A new executable expression is an explicit compiler refusal. */
-export function combatStaticRules() {
-  const lock = JSON.parse(fs.readFileSync(path.join(root, 'baseline/source-lock.json')));
+export function combatStaticRules(profile) {
+  const lock = profile?.lock ?? JSON.parse(fs.readFileSync(path.join(root, 'baseline/source-lock.json')));
+  const directory = profile?.directory ?? path.join(root, '.reference');
   const sources = {};
   function constant(file, name, property) {
-    const source = fs.readFileSync(path.join(root, '.reference', file), 'utf8');
+    const source = fs.readFileSync(path.join(directory, file), 'utf8');
     sources[file] = sha256(source); assert.equal(sources[file], lock.files[file], file);
     const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true);
     const variables = new Map();
@@ -92,7 +93,7 @@ export function combatStaticRules() {
       elementColors: constant('src/engine/stats.ts', 'DAMAGE_COLOR'),
     },
   };
-  const ai = ts.createSourceFile('ai.ts', fs.readFileSync(path.join(root, '.reference/src/engine/ai.ts'), 'utf8'), ts.ScriptTarget.Latest, true);
+  const ai = ts.createSourceFile('ai.ts', fs.readFileSync(path.join(directory, 'src/engine/ai.ts'), 'utf8'), ts.ScriptTarget.Latest, true);
   rules.commandKinds = ai.statements.filter(ts.isExpressionStatement).map(n => n.expression)
     .filter(n => ts.isCallExpression(n) && n.expression.getText(ai) === 'registerCommandKind')
     .map(n => {

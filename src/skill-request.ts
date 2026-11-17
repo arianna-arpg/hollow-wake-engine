@@ -1,7 +1,7 @@
 import type { AdmissionDelivery } from './skill-admission.js';
 
 /** A handled request need not have started a cast or delivered an effect. */
-export type SkillRequestResult = boolean | 'continue';
+export type SkillRequestResult<I = never> = boolean | 'continue' | {instance:I};
 
 export interface RequestInstance {
   readonly def: {
@@ -42,6 +42,8 @@ export interface RequestEffect { readonly type: string; readonly radius?: number
 /** Synchronous live ports. Skipped lanes are not read. Exceptions propagate;
  * earlier mutations are not rolled back. canUse may create ammunition state. */
 export interface SkillRequestPorts<A, I extends RequestInstance, S, Aim, Id = number> {
+  /** Resolve an authored command view after requirements and before conversion. */
+  resolve?(actor:A,inst:I,aim:Aim,seatPress:boolean):I|boolean;
   castSealed(actor: A, inst: I): { readonly line?: string } | null | undefined;
   hivecallMeta(actor: A, inst: I): boolean | undefined;
   throngTravelProtected(actor: A): boolean;
@@ -78,13 +80,15 @@ export interface SkillRequestPorts<A, I extends RequestInstance, S, Aim, Id = nu
 
 /** One host's ordered request prefix. Retains no actors, instances or query
  * results. The host continues with reserve pricing and delivery only when the
- * return value is exactly 'continue'. Redirects re-enter the host dispatcher. */
+ * result continues, carrying a replacement instance when an authored command
+ * changes the cast. Redirects re-enter the host dispatcher. */
 export class SkillRequest<A extends RequestActor<I, Id>, I extends RequestInstance, S, Aim, Id = number> {
   readonly #ports: Readonly<SkillRequestPorts<A, I, S, Aim, Id>>;
   constructor(ports: SkillRequestPorts<A, I, S, Aim, Id>) { this.#ports = Object.freeze({ ...ports }); }
 
-  preflight(actor: A, inst: I, aim: Aim, seatPress = false): SkillRequestResult {
+  preflight(actor: A, inst: I, aim: Aim, seatPress = false): SkillRequestResult<I> {
     const p = this.#ports;
+    const requested = inst;
     const seal = p.castSealed(actor, inst);
     if (seal) {
       if (seal.line && seatPress) p.failNote(actor, 'castseal', seal.line);
@@ -144,6 +148,7 @@ export class SkillRequest<A extends RequestActor<I, Id>, I extends RequestInstan
     if (inst.state?.trigDepth) inst.state.trigDepth = 0;
     const why = p.requirementRefusal(actor, inst);
     if (why) { p.failNote(actor, inst.def.id + ':req', why); return false; }
+    if(p.resolve){const resolved=p.resolve(actor,inst,aim,seatPress);if(typeof resolved==='boolean')return resolved;inst=resolved;}
     const conversion = p.conversion(inst);
     if (conversion && p.definition(conversion.skillId) && p.conversionHolds(conversion.when, actor, inst)) {
       const minted = p.mint(actor, inst, conversion.skillId);
@@ -173,6 +178,6 @@ export class SkillRequest<A extends RequestActor<I, Id>, I extends RequestInstan
       }
     }
     if (!p.canUse(actor, inst)) return false;
-    return 'continue';
+    return inst===requested?'continue':{instance:inst};
   }
 }

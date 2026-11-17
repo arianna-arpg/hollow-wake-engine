@@ -40,6 +40,10 @@ export async function listenCombatHost(host,{port=47120,save,stepSeconds=1/60}={
     if(--budget<0)throw Error('Build command rate exceeded');
     try{send({t:'build',...host.build(message.command,{preview:message.preview===true})});}
     catch{send({t:'build',accepted:false,reason:'invalid-build-command'});}
+   }else if(message.t==='inspect'){
+    if(--budget<0)throw Error('Inspection rate exceeded');
+    if(Object.keys(message).length!==1)throw Error('Invalid inspection request');
+    send({t:'inspect',...host.inspect()});
    }else if(message.t==='save'){
     if(--budget<0)throw Error('Save command rate exceeded');
     if(!save||!host.character)send({t:'saved',accepted:false,reason:'storage-unavailable'});

@@ -42,6 +42,8 @@ export type LandedHitContinuation<A, I, S, P, M, Packet, Tone, Effect, Result, R
   hasDamage: boolean, dealt: number, critical: boolean, result: Result | undefined,
 ) => R;
 export interface HitLandingPorts<A, I, S, P, M, Tag extends string, Packet, Tone, Effect, Result, R> {
+  blocked?(target:A,caster:A):void;
+  landed?(caster:A,inst:I,target:A,result:Result,lifeBefore:number):void;
   player(): A;
   time(): number;
   bindDeeds(): void;

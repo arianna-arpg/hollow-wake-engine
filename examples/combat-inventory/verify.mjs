@@ -19,7 +19,8 @@ const run=(file,cwd)=>{const child=spawnSync(process.execPath,[file],{cwd,encodi
 try {
   for(const file of fs.readdirSync(path.join(root,'verification')))fs.copyFileSync(path.join(root,'verification',file),path.join(work,file));
   fs.cpSync(path.join(root,'host'),path.join(work,'host'),{recursive:true});
-  const quickstart=run(path.join(root,'quickstart.mjs'),root),combat=run('combat.mjs',work),adapter=run('adapter.mjs',work);
+  const quickstart=run(path.join(root,'quickstart.mjs'),root),prototype=manifest.prototypeSource?run('prototype.mjs',work):undefined;
+  const combat=prototype?.combat??run('combat.mjs',work),adapter=prototype??run('adapter.mjs',work);
   assert(quickstart.passed&&combat.passed&&adapter.passed);
   console.log(JSON.stringify({passed:true,release:manifest.version,node:process.version,quickstart,combat,adapter,questsRequired:false,persistenceRequired:false}));
 } finally {

@@ -53,6 +53,8 @@ export interface FactoryDefinition<A extends FactoryActorFields,M> {
 type SupportOf<S extends FactorySkill>=NonNullable<S['sockets'][number]>['def'];
 type CarryOf<D extends {carry?:{rarity?:unknown;category?:unknown}}>=NonNullable<D['carry']>;
 export interface BodyFactoryPorts<A extends FactoryBody<S,M,R>,D extends FactoryDefinition<A,M>,S extends FactorySkill,M,R,T> {
+ tuneEnemy?(actor:A,id:string,definition:D):void;
+ prepareKit?(actor:A,definition:D,skillLevel:number):void;
  definition(id:string):D;allocate(name:string,team:T,position:{x:number;y:number}):A;
  statusRelay():A['statusRelay'];bombardMinted():void;enemyTeam:T;
  modifier(stat:string,kind:'flat'|'more',value:number):M;sympathyStat(link:string):string;
@@ -105,6 +107,7 @@ create(defId: string, level: number, team: T, owner?: A, spawn?: {
     }
     if (innate.length)
         a.sheet.setSource('innate', innate);
+    if(team===this.p.enemyTeam)this.p.tuneEnemy?.(a,defId,def);
     if (def.cling)
         a.cling = def.cling;
     if (def.grabbable !== undefined)
@@ -256,6 +259,7 @@ create(defId: string, level: number, team: T, owner?: A, spawn?: {
     a.spawnedAt = this.p.time();
     const skillLevel = this.p.skillLevel(level);
     a.skills = def.skills.map(id => this.p.makeSkill(this.p.skills[id], skillLevel));
+    this.p.prepareKit?.(a,def,skillLevel);
     if (def.grants) {
         const supLevel = 1 + Math.floor(lv / 5);
         for (const g of def.grants) {

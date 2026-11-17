@@ -3,6 +3,12 @@
 An independent combat and character SDK extracted from Hollow Wake.
 Authored content is separate from the runtime, and each simulation owns its state.
 
+The [November parity revision](docs/prototype-parity.md) carries the prototype's
+revised summon trees, projectile arts, pacts, doctrines and Inventory school
+choices. It is an explicit content revision, not an automatic live sync. The
+October source and accepted recordings remain preserved; current-profile release
+qualification is tracked separately.
+
 The [bounded completion plan](docs/combat-inventory-plan.md) focuses on combat
 and Inventory-facing builds. Quests, accounts, persistence and world generation
 remain optional or host-owned. The milestone-two

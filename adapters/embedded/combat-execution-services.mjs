@@ -27,6 +27,15 @@ export function installCombatExecution(w, content, link, recovery, deliveries, c
   const preparation = new CastPreparation(w, {empower: q.DEFENSE_CFG.empower.weights,
     corpseAreaPerExtra: r.corpses.batch.aoePerExtra, cosmetic: r.cosmetics.cast}, ports('preparation', {
     prepareChallenge: (actor, inst, primary) => w.challenges.prepare(actor, inst, primary),
+    prepareSequence: (actor, inst, primary) => w.prototypeMechanics?.castSequenceInstance(actor, inst, primary) ?? inst,
+    prepareArts: (actor, inst, options) => {
+      if (!w.prototypeMechanics) return inst;
+      const primary = !options.noRepeat && !options.noCooldown && !options.fromFuse;
+      inst = w.projectileArts.prepare(actor, inst, primary);
+      inst = w.cohortArts.prepare(actor, inst, primary);
+      inst = w.summonArts.prepare(actor, inst, primary);
+      return w.frameArts.prepare(actor, inst, !options.noRepeat && !options.fromFuse);
+    },
     prepareAttack: (actor, inst, aim, power) => w.attackSequences.prepare(actor, inst, aim, power),
     guardCast: (actor, inst) => w.guardArts.cast(actor, inst), denseCount: () => w.lite.liveCount,
     bossMonster: id => !!q.MONSTERS[id]?.boss,
@@ -36,7 +45,13 @@ export function installCombatExecution(w, content, link, recovery, deliveries, c
   const aftermath = new CastAftermath(w, {unleashInterval: r.unleash.interval, elements: r.elements}, ports('aftermath', {
     associateTreeBuff: (fx, source) => recovery.buffs.associate(fx, source.caster, source.inst),
     challengeCompleted: (actor, inst) => w.challenges.completed(actor, inst),
-    companionCast: (actor, inst, aim) => w.companionBonds.onCast(actor, inst, aim),
+    companionCast: (actor, inst, aim) => {
+      w.cohortArts?.completed(actor, inst, aim);
+      w.summonArts?.completed(actor, inst, aim);
+      w.frameArts?.completed(actor, inst, aim);
+      w.companionBonds.onCast(actor, inst, aim);
+      w.battleDoctrines?.cast(actor, inst, aim);
+    },
     mimicRefreshWatch: (actor, time) => w.mimic.refresh(actor, time),
     mimicCapture: (actor, source, def) => w.mimic.capture(actor, source, def, w.time),
   }));
@@ -56,7 +71,10 @@ export function installCombatExecution(w, content, link, recovery, deliveries, c
     requiredStatuses: inst => w.statusReqs(q.instanceTargeting(inst)?.requiresStatus),
   }));
   const delivery = new DeliveryExecution({...deliveries, fields, area, direct}, q.instanceTargeting);
-  const execution = new CombatExecution(r.corpses.batch.durationPerExtra, {preparation, deliveries: delivery,
-    caster, aftermath, effects: q.instanceEffects, linger: (...args) => fieldAftermath.dropLingerField(...args)});
+  const activeDeliveries=content.prototypeMechanics?{execute:frame=>w.prototypeMechanics.deliverPrototype(frame)}:delivery;
+  const activePreparation=content.prototypeMechanics?{prepare:(...args)=>w.prototypeMechanics.preparePrototype(...args)}:preparation;
+  const activeAftermath=content.prototypeMechanics?{complete:frame=>w.prototypeMechanics.completePrototype(frame)}:aftermath;
+  const execution = new CombatExecution(r.corpses.batch.durationPerExtra, {preparation:activePreparation, deliveries: activeDeliveries,
+    caster, aftermath:activeAftermath, effects: q.instanceEffects, linger: (...args) => w.dropLingerField(...args)});
   return Object.freeze({preparation, aftermath, fieldAftermath, fields, area, direct, delivery, execution});
 }

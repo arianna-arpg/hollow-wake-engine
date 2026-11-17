@@ -6,6 +6,11 @@ import {SummonDelivery} from '../../dist/summon-delivery.js';
 export function installCombatConstructs(w, content, link) {
   const q = {...content.queries, ...content.hitQueries};
   const birth = new ConstructBirth({looks: q.CONSTRUCT_LOOKS, aims: q.CONSTRUCT_KIND_AIMS, weight: q.DEFENSE_CFG.weight}, {
+    ...(content.prototypeMechanics?{prepareDevice:(actor,spec,payload)=>{
+      if(spec.kind!=='trap'&&spec.kind!=='mine')return;
+      actor.construct=w.prototypeMechanics.groundDeviceState({kind:spec.kind,...spec.deviceTrigger},payload,spec.range);
+      if(spec.kind==='trap')w.deviceContacts.watch(actor);
+    }}:{}),
     tags: q.skillContextTags, modifiers: q.instanceMods, innateModifiers: q.instanceInnateMods, sockets: q.hostSockets, socket: q.socketSpec,
     minions: (actor, id) => w.minionsOfSkill(actor, id), kill: (...args) => w.kill(...args),
     create: (...args) => w.allocateActor(...args), actors: () => w.actors, random: () => w.random(),
@@ -16,6 +21,10 @@ export function installCombatConstructs(w, content, link) {
   });
   w.spawnConstruct = (...args) => birth.spawn(...args);
   const clock = new ConstructLifecycle(w, {echoStrikeLifeMax: q.ECHO_STRIKE_LIFE_MAX}, link.ports('constructLifecycle', {
+    // October content retains the original construct switch below these hooks.
+    // Every linker port is explicit; only November devices replace that path.
+    ...(content.prototypeMechanics?{advanceDevice:(actor,dt)=>w.updateGroundDevice(actor,dt),finishDevices:()=>w.deviceContacts.finish(w.actors.some(c=>!c.dead&&c.construct?.kind==='trap'))}
+      :{advanceDevice:()=>false,finishDevices:()=>{}}),
     actors: () => w.actors, time: () => w.time, random: () => w.random(), skill: id => q.SKILLS[id],
     flash: cue => {w.flashes.push(cue);},
   }));
@@ -38,5 +47,9 @@ export function installCombatConstructs(w, content, link) {
     cannotSustain: actor => w.text(actor.pos, 'cannot sustain', '#d05050', 12),
     clamp: (...args) => w.clampPos(...args), random: () => w.random(),
   });
-  return Object.freeze({birth, clock, constructs, summons});
+  const summonDelivery = content.prototypeMechanics ? {execute(frame, delivery) {
+    if (delivery.channelFormation) w.channelFormations.pulse(frame.caster, frame.skill);
+    else summons.execute(frame, delivery);
+  }} : summons;
+  return Object.freeze({birth, clock, constructs, summons: summonDelivery});
 }

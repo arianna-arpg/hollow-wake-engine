@@ -15,6 +15,12 @@ export function installCombatRecovery(w, content, shared) {
   const tags = (inst, granted = false) => q.skillContextTags(inst, granted ? q.grantedTags(inst) : undefined);
   const flash = (actor, radius, color, life) => w.flashes.push({pos: {...actor.pos}, radius, color, life, maxLife: life});
   const recovery = new SkillRecovery({
+    ...(content.prototypeMechanics?{
+      healBase:(caster,inst,target,amount)=>w.frameArts.heal(caster,inst,target,amount),
+      healScale:(caster,inst,target,amount)=>w.cohortArts.heal(caster,inst,target,amount),
+      landedHeal:(caster,inst,target,amount)=>w.frameArts.healed(caster,inst,target,amount),
+      streamHeal:(caster,inst,target)=>inst.frameHeal?amount=>w.frameArts.healed(caster,inst,target,amount):undefined,
+    }:{}),
     tags, modifiers: q.instanceMods, level: q.effectiveSkillLevel,
     healOverTime: inst => q.socketSpec(inst, 'healOverTime'), random: () => w.random(),
     actors: () => w.actors, sameLayer: q.sameStory, distance: q.dist,
@@ -48,6 +54,7 @@ export function installCombatRecovery(w, content, shared) {
     cooldownsReduced: actor => w.text(actor.pos, 'time slips', '#8ae0e8', 12, 'combat'),
   });
   const buffs = new CastBuffs({actors: () => w.actors, tags, tagList: tags => [...tags], modifiers: q.instanceMods,
+    ...(content.prototypeMechanics ? {source: (effect, inst) => w.prototypeMechanics.buffWithSource(effect, inst)} : {}),
     hasTreeBuffs: inst => !!inst.treeNodes?.some(id => q.treeNodeOf(inst.def, id)?.buffs?.length),
     grant: (actor, effect, duration, depth, tags) => actor.addBuff(effect, duration, depth, tags), remove: (actor, id) => actor.removeBuff(id),
     arrival: (caster, inst, actor) => w.showSkillArrival(caster, inst, actor.pos, actor.radius + 16, actor.tier, true),
@@ -55,9 +62,12 @@ export function installCombatRecovery(w, content, shared) {
   w.grantTreeBuff = (...args) => buffs.grant(...args);
   w.applyBuffEffect = (...args) => buffs.apply(...args);
   w.retireTreeBuffs = (...args) => buffs.retire(...args);
+  w.associateTreeBuff = (effect, source) => buffs.associate(effect, source.caster, source.inst);
   const guardSurge = new GuardSurge({absorbAmount: w.damage.skillAbsorbAmount,
     durationScale: (actor, inst) => actor.sheet.get('effectDuration', tags(inst), q.instanceMods(inst))});
-  const ironWard = new IronWard({time: () => w.time, buff: (actor, fx, duration) => actor.addBuff(fx, duration), burst: (...args) => w.burstDamage(...args)});
+  const ironWard = new IronWard({time: () => w.time,
+    buff: (actor, fx, duration, inst) => actor.addBuff(content.prototypeMechanics&&inst?w.prototypeMechanics.buffWithSource(fx,inst):fx, duration),
+    burst: (...args) => w.burstDamage(...args)});
   const companions = new CompanionRecovery({rules: () => q.COMPANION_CFG.recovery, actors: () => w.actors,
     status: id => q.STATUS_DEFS[id], cleanse: actor => actor.cleanseDebuffs(), endStatus: (actor, id) => actor.endStatus(id),
     applyStatus: (actor, ...args) => actor.applyStatus(...args), maxLife: actor => actor.maxLife(),

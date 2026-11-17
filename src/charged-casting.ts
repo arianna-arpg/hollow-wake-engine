@@ -1,4 +1,6 @@
 import {finite} from './validation.js';
+import {resolveStrikeTimings,rollStrikeMarker,type StrikeTiming} from './strike-timing.js';
+export type {StrikeTiming} from './strike-timing.js';
 export interface ChargeCastSpec {
   maxTime: number;
   minScale?: number;
@@ -16,7 +18,6 @@ export interface OverchargeCastSpec {
   windowBonus?: number;
   costPerStage?: number;
 }
-export interface StrikeTiming { kind: 'perfect' | 'timed'; bonus?: number }
 export interface ChargedCastState {
   mode: 'charge' | 'overcharge';
   elapsed: number;
@@ -28,6 +29,7 @@ export interface ChargedCastState {
   sinceStage?: number;
   sparkWindow?: number;
   indicatorAt?: number;
+  strikeTimings?:readonly StrikeTiming[];
 }
 export interface ChargedCastCost { mana: number; life: number }
 export interface ChargedCastRelease {
@@ -150,19 +152,21 @@ export class ChargedCasting<A, S extends ChargedCastState> {
             state.stage = (state.stage ?? 0) + 1;
             state.sinceStage = 0;
             state.elapsed = 0;
-            if (state.indicatorAt !== undefined) state.indicatorAt = overchargeMarker(p.random());
+            if (state.indicatorAt !== undefined) state.indicatorAt = state.strikeTimings ? rollStrikeMarker(state.strikeTimings,()=>p.random()) : overchargeMarker(p.random());
             p.stageBanked(actor, state);
           }
         }
       }
       return;
     }
-    const stages = state.stage ?? 0, timing = p.timing(state);
+    const stages = state.stage ?? 0, timing = state.strikeTimings ? undefined : p.timing(state);
     const fraction = state.total > 0 ? state.elapsed / state.total : 0;
     let strikeMult = 1;
     if (timing?.kind === 'perfect' && fraction >= .72) strikeMult = 1 + finite(timing.bonus ?? .7, 'Perfect bonus');
     else if (timing?.kind === 'timed' && state.indicatorAt !== undefined
       && Math.abs(fraction - state.indicatorAt) <= .08) strikeMult = 1 + finite(timing.bonus ?? 1.2, 'Timed bonus');
+    const combined = state.strikeTimings ? resolveStrikeTimings(stages < maxStages ? state.strikeTimings : [],fraction,state.indicatorAt) : undefined;
+    if(combined)strikeMult=combined.multiplier;
     const sparkWindow = state.sparkWindow ?? 0;
     const spark = sparkWindow > 0 && stages > 0 && (state.sinceStage ?? 999) <= sparkWindow;
     const sparkMult = spark ? 1 + finite(p.sparkBonus(actor, state, spec), 'Spark bonus') : 1;
@@ -172,7 +176,8 @@ export class ChargedCasting<A, S extends ChargedCastState> {
         dmgMult: (1 + finite(spec.perStage, 'Stage power') * stages) * strikeMult * sparkMult * state.baseMult,
         aoeMult: 1 + finite(spec.aoePerStage ?? 0, 'Stage area') * stages,
       });
-      if (strikeMult > 1) p.cue(actor, state, timing?.kind === 'timed' ? 'flawless' : 'perfect');
+      if(combined)for(const success of combined.successes)p.cue(actor,state,success.kind==='timed'?'flawless':'perfect');
+      else if (strikeMult > 1) p.cue(actor, state, timing?.kind === 'timed' ? 'flawless' : 'perfect');
       if (spark) p.cue(actor, state, 'spark');
     }
   }

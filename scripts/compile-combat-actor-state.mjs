@@ -7,11 +7,12 @@ import {root, sha256, writeJSON} from './reference-utils.mjs';
 
 /** Plain entity defaults only. No original Actor methods, AI, World, renderer,
  * global identity counter or runtime import is included in this artifact. */
-export function buildCombatActorState(destination) {
-  const lock = JSON.parse(fs.readFileSync(path.join(root, 'baseline/source-lock.json')));
+export function buildCombatActorState(destination,profile) {
+  const lock = profile?.lock ?? JSON.parse(fs.readFileSync(path.join(root, 'baseline/source-lock.json')));
+  const directory = profile?.directory ?? path.join(root,'.reference');
   const sources = {};
   const read = file => {
-    const text = fs.readFileSync(path.join(root, '.reference', file), 'utf8');
+    const text = fs.readFileSync(path.join(directory, file), 'utf8');
     sources[file] = sha256(text); assert.equal(sources[file], lock.files[file], file);
     return ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
   };

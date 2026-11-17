@@ -11,7 +11,7 @@ export interface ChallengeSpec {
   bleedingField?: { power: number };
   aftershock?: { chance: number; delay: number; radius: number; power: number };
   greaterShock?: { chance: number; radius: number; power: number; echoes: number };
-  creeper?: { speed: number; trailRadius: number; trailDuration: number; trailPower: number; strikePower: number; strikeInterval: number };
+  creeper?: { look?:string; speed: number; trailRadius: number; trailDuration: number; trailPower: number; strikePower: number; strikeInterval: number };
 }
 export interface ChallengePoint {x:number;y:number}
 export interface ChallengeConstructDelivery {
@@ -29,7 +29,7 @@ export interface ChallengeStatus {
 }
 export interface ChallengeActor<I,M> {
  id:number;dead:boolean;team:unknown;tier:number;pos:ChallengePoint;radius:number;
- owner?:unknown;sourceSkillId?:string;color:string;shape:unknown;
+ owner?:unknown;sourceSkillId?:string;color:string;shape:unknown;look?:string;facing?:number;
  passive:boolean;untargetable:boolean;invulnerable:boolean;noBounty:boolean;
  skills:(I|null)[];statuses:ChallengeStatus[];
  cooldowns:Map<string,number>;cooldownTotals:Map<string,number>;
@@ -48,6 +48,8 @@ export interface ChallengeFlash {
 }
 export interface ChallengePorts<A extends ChallengeActor<I,M>,I extends ChallengeSkill<M>,M,
  P extends ChallengeProjectile<A,I>,R extends ChallengeCarrier<A,I>,F extends ChallengeCarrier<A,I>,Z extends ChallengeCarrier<A,I>,C extends ChallengeConstructDelivery> {
+ sourceBuff?<B>(effect:B,skill:I):B;
+ initializeCreeper?(actor:A,spec:NonNullable<ChallengeSpec['creeper']>):void;
  time:number;actors:A[];projectiles:P[];pendingRepeats:R[];pendingFuses:F[];zones:Z[];flashes:ChallengeFlash[];
  spec(inst:I):ChallengeSpec|undefined;
  random():number;tags(inst:I):ReadonlySet<string>;modifiers(inst:I):M[];

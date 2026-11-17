@@ -10,6 +10,19 @@ import {combatCastingBindings} from './combat-casting-bindings.mjs';
 export function installCombatCasting(w, content) {
   const q = content.hitQueries;
   const bindings = combatCastingBindings(w, q);
+  if(content.prototypeMechanics)bindings.dispatch.strikeTimings=q.instanceStrikeTimings;
+  if(content.prototypeMechanics)bindings.request.resolve=(actor,inst,aim,seatPress)=>{
+    const frame=w.frameArts.view(actor,inst);
+    if(frame){if(!w.frameArts.ready(actor,inst)||w.castSealed(actor,inst))return false;inst=frame;}
+    inst=w.cohortArts.view(actor,inst);
+    const command=w.summonArts.commandView(actor,inst);
+    if(command)return w.summonArts.commandReady(actor,inst)&&w.useSkill(actor,command,aim,seatPress);
+    if(inst.def.delivery.type==='summon'){
+      const delivery=q.instanceDelivery(inst);
+      if(delivery.type==='summon'&&!w.summonArts.canSpawn(actor,inst,delivery))return false;
+    }
+    return inst;
+  };
   w.skillInstances = bindings.instances;
   w.sdkSkillRequest = new SkillRequest(bindings.request);
   const dispatch = new SkillDispatch(bindings.dispatch);
@@ -24,7 +37,7 @@ export function installCombatCasting(w, content) {
   w.aiNeedsFireLine = (actor, inst) => w.host.intent?.needsFireLine?.(actor.id, inst.def.id) ?? false;
   w.castPress = actor => continuation.press(actor);
   w.castSealed = (actor, inst) => bindings.intent.castSealed(actor, inst);
-  w.castReqRefusal = (actor, inst) => bindings.intent.requirementRefusal(actor, inst);
+  w.castReqRefusal = (actor, inst) => w.battleDoctrines?.refusal(actor, inst) ?? bindings.intent.requirementRefusal(actor, inst);
   w.comboCursorOf = (actor, inst) => bindings.instances.cursor(actor, inst);
   w.comboStepOf = (actor, inst, index) => bindings.instances.step(actor, inst, index);
   w.mintMetaInstance = (actor, inst, id) => bindings.instances.meta(actor, inst, id);

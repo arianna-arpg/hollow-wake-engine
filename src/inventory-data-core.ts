@@ -19,6 +19,7 @@ export interface InventoryDataState {
   essences: Record<string, number>;
 }
 export interface InventoryDataDefinitions {
+  summonSchools?(skillId:string,investment:unknown):readonly string[]|undefined;
   crafting: CraftingContent;
   skills: SkillProgression;
   /** Item base ID -> crafting memory price kind. Saved as part of content identity. */
@@ -60,10 +61,16 @@ export class InventoryDataCore {
     ids(picks); const kept = this.#defs.skills.tree(id).restore(picks,level,investment) ?? [];
     need(kept.length === picks.length && kept.every((v,i) => v === picks[i]), 'invalid-skill-tree');
   }
+  #schools(id:string,investment:Record<string,unknown>):void {
+    if(investment.summonSchools===undefined)return;
+    ids(investment.summonSchools);need(investment.summonSchools.length>0,'empty-summon-schools');
+    const allowed=this.#defs.summonSchools?.(id,investment);
+    need(!!allowed&&investment.summonSchools.every(id=>allowed.includes(id)),'invalid-summon-school');
+  }
   /** Same-content grant residence validation. Budget/host/custody authority
    * belongs to the complete command; an existing lower-level grant is not cold-restored here. */
   grantState(id: unknown,row: unknown): void {
-    this.#skill(id); fields(row,['sockets','treeNodes']); this.#sockets(row.sockets); this.#tree(id as string,row.treeNodes);
+    this.#skill(id); fields(row,['sockets','treeNodes','summonSchools']); this.#sockets(row.sockets); this.#tree(id as string,row.treeNodes);this.#schools(id as string,row);
   }
   /** The same support-row validation used by sockets, without a dummy item. */
   supportState(row:unknown):void {this.#support(row);}
@@ -72,7 +79,7 @@ export class InventoryDataCore {
    * the complete owner must separately admit ownership and spending. */
   retainedSkillPayload(gem: unknown): void {this.#skillPayload(gem,true);}
   #skillPayload(gem: unknown,retained: boolean): void {
-    fields(gem,['kind','skillId','level','rarity','sockets','empowermentRank','replenishmentPaused','granted','attunedForm','treeNodes']);
+    fields(gem,['kind','skillId','level','rarity','sockets','empowermentRank','replenishmentPaused','granted','attunedForm','treeNodes','summonSchools']);
     need(gem.kind === 'skill','unknown-gem-kind');
     this.#skill(gem.skillId); integer(gem.level,1,this.#defs.skills.skill(gem.skillId as string).maxLevel);
     need(this.#rarities.has(gem.rarity as string),'unknown-skill-rarity'); this.#sockets(gem.sockets);
@@ -80,6 +87,7 @@ export class InventoryDataCore {
     if (gem.replenishmentPaused !== undefined) need(gem.replenishmentPaused === true,'invalid-pause');
     if (gem.empowermentRank !== undefined) {integer(gem.empowermentRank,1); need(gem.rarity === 'legendary','invalid-empowerment');}
     this.#tree(gem.skillId as string,gem.treeNodes,retained?undefined:gem.level,gem);
+    this.#schools(gem.skillId as string,gem);
   }
   item(input: unknown): ItemInstance {return this.#item(input,false);}
   /** New complete-format physical cargo retains structurally valid investment.

@@ -1,9 +1,10 @@
 # Release compatibility and limits
 
-The bounded engineering release is `combat-inventory-v0.1.0-preview.1`.
-Exact artifact identities and verification results accompany the GitHub release.
-It keeps the measured milestone-five runtime; packaging does not certify a new
-device, deployment model or every possible content combination.
+The parity candidate is `combat-inventory-v0.2.0-preview.1`, pinned to the
+November 16 prototype revision. The published October preview remains preserved. Exact artifact identities and
+platform results accompany each verified release. The November desktop baseline
+measures the new executable; previous performance measurements are historical.
+The portable runner does not certify a device or every content combination. See [prototype parity](prototype-parity.md).
 
 | Surface | Qualification boundary |
 | --- | --- |
@@ -19,11 +20,11 @@ The supported package set is:
 
 | Archive/package | Version |
 | --- | --- |
-| `@hollow-wake/engine` | `0.63.0-candidate.0` |
-| `@hollow-wake/character-builds` | `0.2.0-candidate.0` |
-| `@hollow-wake/characters` | `0.1.0-candidate.0` |
-| `@hollow-wake/combat` | `0.3.0-candidate.0` |
-| `@hollow-wake/node-godot` | `0.2.0-candidate.0` |
+| `@hollow-wake/engine` | `0.64.0-candidate.0` |
+| `@hollow-wake/character-builds` | `0.3.0-candidate.0` |
+| `@hollow-wake/characters` | `0.2.0-candidate.0` |
+| `@hollow-wake/combat` | `0.4.0-candidate.0` |
+| `@hollow-wake/node-godot` | `0.3.0-candidate.0` |
 
 Use release checksums as well as versions. Historical local candidate archives
 can share a version while carrying different documentation or provenance.
@@ -33,7 +34,7 @@ Quests, account orchestration, persistence, campaigns, world generation and
 general AI remain optional or host-owned. SDK combat signals are required rule
 outputs; a general persistent event framework is not required.
 
-The accepted desktop envelope contains eight named workloads, not every build.
+The previous release's accepted desktop envelope contains eight named workloads, not every build.
 The 128-actor course is a stress tier. Individual Vocation/Reliquary/awakening edit
 timings and 64/256-item Inventory cases remain outside that timing qualification,
 although their required correctness contracts retain their original comparisons.

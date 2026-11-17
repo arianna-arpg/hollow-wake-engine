@@ -70,6 +70,7 @@ export interface ProjectileDelivery {
         damageScale?: number;
     };
     plantOnLand?: {
+        look?:string;
         duration: number;
         life?: number;
         embed?: EmbedSpec;

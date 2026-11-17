@@ -2,6 +2,7 @@ import type {CombatPoint} from './combat-geometry.js';import type {Modifier} fro
 export interface PreparationCorpse {pos:CombatPoint;maxLife:number;tier?:number}
 export interface PreparationTarget<A,C>{pos:CombatPoint;actor?:A;corpse?:C;corpses?:C[];self?:boolean}
 export interface PreparationOptions<A,C>{
+  tier?:number;
   targetInfo?:PreparationTarget<A,C>;dmgMult?:number;aoeMult?:number;repeat?:number;noCooldown?:boolean;keepFacing?:boolean;noRepeat?:boolean;componentUse?:boolean;
   noFollowUp?:boolean;fromFuse?:boolean;strikeAngle?:number;bonusProjectiles?:number;arcMult?:number;paidCost?:{mana:number;life:number};chargesSpent?:number;speedMult?:number;primed?:boolean;ventRounds?:number;
 }
@@ -27,6 +28,8 @@ export interface PreparationStep<A,I>{caster:A;inst:I;aim:CombatPoint;angle:numb
 export interface PreparationState<A,I,C,Z>{corpses:C[];pendingSteps:PreparationStep<A,I>[];pendingRepeats:PreparationRepeat<A,I>[];zones:CombatField<A,I,Partial<Record<string,number>>,Z>[]}
 export interface PreparationRules {readonly empower:{readonly boss:number;readonly crowned:number;readonly champion:number;readonly rare:number;readonly magic:number;readonly normal:number};readonly corpseAreaPerExtra:number;readonly cosmetic:{readonly radiusScale:number;readonly lifetime:number}}
 export interface PreparationPorts<A,I extends PreparationSkill<B>,C,B,D,Z>{
+  prepareSequence?(actor:A,skill:I,primary:boolean):I;
+  prepareArts?(actor:A,skill:I,options:PreparationOptions<A,C>):I;
   random():number;replenishingDelivery(skill:I):unknown;prepareChallenge(actor:A,skill:I,primary:boolean):I;prepareAttack(actor:A,skill:I,aim:CombatPoint,power:number):I;
   cosmetic(actor:A,id:string):{color?:string;motif?:unknown};instanceMods(skill:I):Modifier[];castObserved(actor:A,skill:I,repeat:boolean):void;
   ringAfflictions(actor:A,fraction:number):void;skillContextTags(skill:I,extra:string[]):Set<string>;grantedTags(skill:I):string[];
@@ -52,5 +55,5 @@ export interface PreparationPorts<A,I extends PreparationSkill<B>,C,B,D,Z>{
   maddenBankOf(skill:I):MaddenBank|undefined;expireZone(zone:CombatField<A,I,Partial<Record<string,number>>,Z>):void;clampPos(at:CombatPoint,radius:number):CombatPoint;
   combatCueFlash(at:CombatPoint,cue:string,radius:number,facing:number,color:string):object;text(at:CombatPoint,text:string,color:string,size:number):void;
 }
-export interface PreparedCast<A,I,C,D>{completed?:never;caster:A;inst:I;aim:CombatPoint;opts:PreparationOptions<A,C>;targetInfo:PreparationTarget<A,C>|null;origin:CombatPoint;d:D;
+export interface PreparedCast<A,I,C,D>{completed?:never;effectTier?:number;caster:A;inst:I;aim:CombatPoint;opts:PreparationOptions<A,C>;targetInfo:PreparationTarget<A,C>|null;origin:CombatPoint;d:D;
   tags:Set<string>;extra:Modifier[];useMult:number;gPow:number;ventRounds:number;corpseFeast:number;flatBonus:Partial<Record<string,number>>|undefined;aoeScale:number;arcScale:number;cosmeticColor:string;fieldAt:CombatPoint|null}

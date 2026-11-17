@@ -45,6 +45,8 @@ export function checkScope({manifest=JSON.parse(fs.readFileSync(path.join(root,'
  if(scope.release){
   const release=JSON.parse(fs.readFileSync(path.join(root,'release/combat-inventory.json')));
   assert(scope.release.version===release.version&&scope.release.tag===release.tag&&release.questAccountPersistenceRequired===false,'Release identity or optional boundary changed');
+  if(release.sourceProfile){const revision=scope.baseline.authorizedRevision;assert(revision,'Release needs an explicit source revision');
+   const bytes=fs.readFileSync(path.join(root,revision.lock));assert.equal(sha256(bytes),revision.lockSha256);assert.equal(JSON.parse(bytes).commit,revision.commit);}
  }
  const ids=new Set(),covered=new Set();
  for(const row of scope.capabilities){

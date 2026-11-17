@@ -6,6 +6,17 @@ import {ChannelCasting, channelInterval, channelWindup, channelRamp, channelCurv
 const wire = value => JSON.parse(JSON.stringify(value));
 const fixture = JSON.parse(gunzipSync(fs.readFileSync(new URL('../baseline/milestone-twenty-seven/channel-casting.json.gz', import.meta.url))));
 const state = () => ({total: .5, held: true, baseMult: 1, channelTime: 0, pulseTimer: .5});
+test('summon release observes the exact live cast before it is cleared', () => {
+  const cast={...state(),held:false},actor={cast,mana:10,life:10},events=[];
+  const ports=host({beforeRelease(a,s){assert.equal(a.cast,s);events.push('formation');},
+    end(a,s,recovery){assert.equal(a.cast,s);events.push('end');a.cast=null;a.recovery=recovery;},
+    releaseEffects(a){assert.equal(a.cast,null);events.push('effects');}});
+  const runtime=new ChannelCasting(ports,.5);
+  // Port binding belongs to this controller and cannot be replaced afterward.
+  ports.beforeRelease=()=>assert.fail('Changed external binding');
+  runtime.advance(actor,cast,.1);
+  assert.deepEqual(events,['formation','end','effects']);
+});
 function host(overrides = {}) {
   return {
     spec: () => ({interval: .5}), dead: actor => !!actor.dead,

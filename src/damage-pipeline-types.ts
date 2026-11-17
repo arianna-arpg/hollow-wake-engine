@@ -3,6 +3,7 @@
 export type DamageType = 'physical' | 'fire' | 'cold' | 'lightning' | 'chaos';
 export type DamageAmounts = Partial<Record<DamageType, number>>;
 export interface DamagePacket<M, Tag extends string> {
+  resourceHit?: boolean; redirected?: boolean;
   assaultGuaranteed?: boolean; amounts: DamageAmounts; crit: boolean; rollT?: number;
   tags: Set<Tag>; sourceName: string; extra?: M[];
 }
@@ -17,6 +18,7 @@ export interface SkillDamagePreview {
   critChance: number; critMulti: number;
 }
 export interface MitigateOptions<A, M, Tag extends string> {
+  resistanceZero?: DamageType;
   armorDamageFloor?: number; attacker?: A; tags?: Set<Tag>; extra?: M[];
   out?: {poiseBroke?: boolean; clamped?: boolean; receivedAmounts?: DamageAmounts};
 }
@@ -24,6 +26,7 @@ export interface DamageSkill {
   def: {name: string; addedEffectiveness?: number; baseDamage?: Partial<Record<DamageType, [number, number]>>};
 }
 export interface DamageLedger {source: string; rate: number}
+export interface LifeWoundEvent<A, M, Tag extends string> {attacker: A; packet: DamagePacket<M, Tag>; intercepted: number}
 export interface AbsorbLayer<I> {
   amount: number; remaining: number; source: I;
   ended(reason: 'broken' | 'expired'): void;
@@ -35,6 +38,7 @@ export interface DamageActor<A, I, M, Tag extends string> {
   absorbLayers: Map<string, AbsorbLayer<I>>;
   insight: number; poise: number; poiseBroken: boolean; endurance: number; enduranceDelay: number;
   dead: boolean; downed?: boolean; invulnerable: boolean;
+  frameCharging?: boolean;
   evadeEntropy: number; evadeWindow: number; plies: number; plySpec?: {spentStatus?: string};
   lastGaspCd: number; lastGaspSpan: number; gasped: boolean;
   hitFlash: number; hitFlashType?: DamageType; segHitPending?: number; segTears?: number[];
@@ -43,11 +47,13 @@ export interface DamageActor<A, I, M, Tag extends string> {
   casting?: {mode: string; inst: I} | null;
   statuses: {id: string; stacks: number; casterId?: number}[];
   activeAuras: Map<string, {inst: {def: {delivery: {type: string; ledger?: DamageLedger}}}; ledger?: {balance: number}}>;
-  lifeDamageInterceptors?: Map<string, (total: number) => number>;
+  lifeDamageInterceptors?: Map<string, (total: number, event?: LifeWoundEvent<A, M, Tag>) => number>;
+  hitObservers?: Map<string, (attacker: A, packet: DamagePacket<M, Tag>, result: HitResult) => void>;
   restoreStreams: {resource: string; perSec: number; remaining: number}[];
   gainEvents: {kind: string; id: string; depth: number; n?: number; tags?: Tag[]}[];
   sheet: {
     get(id: string, tags?: ReadonlySet<Tag>, extra?: readonly M[]): number;
+    reductionsFromZero?(id: string, tags?: ReadonlySet<Tag>): number;
     armedFamily(prefix: string, ids: readonly string[], extra?: readonly M[]): readonly string[];
     removeSource(name: string): void;
   };

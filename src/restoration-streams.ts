@@ -1,5 +1,6 @@
 export type StreamResource = 'life' | 'mana' | 'es';
 export interface RestorationStream<Cue> {
+  onHeal?:(amount:number)=>void;
   resource: StreamResource;
   perSec: number;
   remaining: number;
@@ -31,6 +32,7 @@ export function advanceRestorationStreams<A extends StreamActor<Cue>, Cue>(actor
     stream.remaining -= step;
     if (stream.resource === 'life') {
       const landed = actor.healBy(step);
+      if(landed>0)stream.onHeal?.(landed);
       ports.gain(actor, 'life', landed, stream.feedingCue);
       const spill = step * actor.sheet.get('healTaken') - landed;
       if (spill > 0.0001) {

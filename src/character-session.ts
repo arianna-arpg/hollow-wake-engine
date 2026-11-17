@@ -32,6 +32,7 @@ export interface CharacterProjection {
   relics:{enabled:boolean;power:number;containers:Record<string,ItemInstance[]>};
 }
 export interface CharacterSessionDefinitions {
+  summonSchools?:CharacterProgressionPorts['summonSchools'];
   contentId:string;workshop:InventoryDataDefinitions;equipment:EquipmentSlots;
   character:WorkshopCharacterDefinitions;builds:CharacterBuildService;
   catalogue:CharacterProgressionPorts['definitions']['catalogue'];trigger:CharacterProgressionPorts['trigger'];
@@ -61,12 +62,28 @@ export interface CharacterPublisher {
    * or reentering this owner. On failure the owner is quarantined, never retried. */
   publish(change:CharacterPublication):void;
 }
+/** Optional synchronous custody service, supplied by a trusted host. It must
+ * retire the complete batch or throw before changing custody. It runs once at
+ * commit, before live publication; it never runs during preview. It is not
+ * serialized and does not require an account or a persistence implementation. */
+export interface CharacterCustody {
+  /** Pure ownership check over a detached admitted item. Reject tombstoned,
+   * foreign or forged canonical references, including when reopening data. */
+  hasRelic(item:ItemInstance):boolean;
+  /** Omit on a viewing client that cannot retire canonical custody. */
+  retireRelics?(items:readonly ItemInstance[]):undefined;
+}
 type Entry={data:CharacterData;projection:CharacterProjection;input:CharacterBuildInput;build:CharacterBuild};
 type Step={entry:Entry;edits:CharacterBuildEdits;events:CharacterEditEvent[]};
 type Pending={before:Entry;after:Entry;steps:Step[]};
 const copy=<T>(value:T):T=>copySessionJSON(value) as unknown as T;
 class RetainedInventory extends InventoryData {override item(value:unknown){return this.retainedItem(value);}newItem(value:unknown){return super.item(value);}}
 class CharacterContext extends WorkshopCharacterData {
+  constructor(definitions:WorkshopCharacterDefinitions,workshop:InventoryDataDefinitions,readonly custody?:CharacterCustody){super(definitions,workshop);}
+  protected override checkItemCustody(item:ItemInstance):void {
+    if(item.relicKey===undefined)return;
+    need(this.workshop.crafting.items.pack.bases[item.baseId]?.category==='relic'&&this.custody?.hasRelic(copy(item))===true,'external-relic-authority-required');
+  }
   protected override checkGraftCarriers(state:WorkshopCharacterState):void {
     for(const id of Object.values(state.passives.grafts))if(id!==null){try{this.workshop.skills.skill(id);}catch{throw new SessionInputError('unknown-graft-carrier');}}
   }
@@ -87,10 +104,13 @@ export class CharacterSession {
   readonly #d:CharacterSessionDefinitions;readonly #data:RetainedInventory;readonly #context:ProgressionCharacterData;
   readonly #inventory:InventoryHost<ItemInstance>;readonly #items:ItemRules;readonly #pending=new WeakMap<CharacterChange,Pending>();
   #current:Entry;#busy=false;#failed=false;
-  constructor(definitions:CharacterSessionDefinitions,data:unknown,projection:CharacterProjection){
+  readonly #custody:CharacterCustody|undefined;
+  constructor(definitions:CharacterSessionDefinitions,data:unknown,projection:CharacterProjection,custody?:CharacterCustody){
+    if(custody!==undefined){need(typeof custody.hasRelic==='function'&&(custody.retireRelics===undefined||typeof custody.retireRelics==='function'),'invalid-relic-custody');
+      this.#custody=Object.freeze({hasRelic:custody.hasRelic.bind(custody),...(custody.retireRelics?{retireRelics:custody.retireRelics.bind(custody)}:{})});}
     text(definitions.contentId);integer(definitions.maxVocations,1,64);this.#d=definitions;
     this.#data=new RetainedInventory(definitions.workshop);
-    this.#context=new ProgressionCharacterData(new CharacterContext(definitions.character,definitions.workshop),definitions.workshop.skills);
+    this.#context=new ProgressionCharacterData(new CharacterContext(definitions.character,definitions.workshop,this.#custody),definitions.workshop.skills);
     this.#inventory=new InventoryHost(item=>definitions.workshop.crafting.items.pack.bases[item.baseId]);
     this.#items=new ItemRules(definitions.workshop.crafting.items);
     this.#current=this.#derive(data,projection);
@@ -152,13 +172,13 @@ export class CharacterSession {
         return this.#offer(result.token,ordered);
       }
       if(command.kind==='inventory'){
-        const result=editCharacterInventory(this.#d.workshop,this.#d.equipment,held.data,command.request,conditions,held.projection.features,this.#d.containers);
+        const result=editCharacterInventory(this.#d.workshop,this.#d.equipment,held.data,command.request,conditions,held.projection.features,this.#d.containers,!!this.#custody?.retireRelics);
         if(!result.accepted||!result.draft)return this.#refuse(result.refusal??'inventory-refused');
         const next=this.#derive({...held.data,...result.draft},held.projection,held);
         return this.#offer(next,[{entry:next,edits:{},events:result.events}]);
       }
       const result=command.kind==='bar'?changeCharacterBar(common,command.request):command.kind==='support'?changeCharacterSupport(common,command.request,conditions):
-        command.kind==='rack'?changeCharacterRack(common,command.request,conditions):command.kind==='skill'?changeCharacterProgression({...common,trigger:this.#d.trigger},command.request,conditions):
+        command.kind==='rack'?changeCharacterRack(common,command.request,conditions):command.kind==='skill'?changeCharacterProgression({...common,trigger:this.#d.trigger,summonSchools:this.#d.summonSchools},command.request,conditions):
         command.kind==='merge'?changeCharacterMerge(common,command.request,conditions):undefined;
       need(result,'unknown-character-command');
       if(('accepted'in result&&!result.accepted)||('refusal'in result&&result.refusal)||!result.changed)return this.#refuse('refusal'in result&&result.refusal?result.refusal:'character-edit-refused');
@@ -234,7 +254,16 @@ export class CharacterSession {
   commit(change:CharacterChange,publisher?:CharacterPublisher):void {
     this.#available();const pending=this.#pending.get(change);need(pending&&pending.before===this.#current,'stale-character-change');
     this.#pending.delete(change);this.#busy=true;
-    try{if(publisher)for(const step of pending.steps)publisher.publish(this.#publication(step));this.#current=pending.after;}
+    try{
+      const retired=pending.steps.flatMap(step=>step.events.filter(event=>event.kind==='retire-relic').map(event=>copy(event.item) as ItemInstance));
+      if(retired.length){
+        need(this.#custody?.retireRelics,'missing-relic-custody');
+        need(retired.every(item=>this.#custody!.hasRelic(copy(item))===true),'stale-relic-custody');
+        const retiredResult:unknown=this.#custody.retireRelics(retired);
+        need(retiredResult===undefined,'asynchronous-relic-custody');
+      }
+      if(publisher)for(const step of pending.steps)publisher.publish(this.#publication(step));this.#current=pending.after;
+    }
     catch(error){this.#failed=true;throw error;}finally{this.#busy=false;}
   }
   #derive(raw:unknown,rawProjection:CharacterProjection,previous?:Entry,edits:CharacterBuildEdits={}):Entry {
@@ -260,6 +289,7 @@ export class CharacterSession {
     const projection=copy(rawProjection);fields(projection,['features','relics']);array(projection.features);projection.features.forEach(text);need(new Set(projection.features).size===projection.features.length,'duplicate-feature');
     fields(projection.relics,['enabled','power','containers']);bool(projection.relics.enabled);need(Number.isFinite(projection.relics.power)&&projection.relics.power>=0,'invalid-relic-power');record(projection.relics.containers);
     const containers={...character.containers},relicKeys=new Set<string>();
+    for(const item of local)if(item.relicKey!==undefined){need(!relicKeys.has(item.relicKey),'relic-address-collision');relicKeys.add(item.relicKey);}
     for(const[id,rows]of Object.entries(projection.relics.containers)){
       const def=this.#d.character.containers.find(row=>row.id===id);need(def?.accountStorage,'foreign-external-container');array(rows);
       for(const value of rows){const item=this.#data.retainedItem(value);integer(item.x);integer(item.y);text(item.relicKey);need(!ids.has(item.uid)&&!relicKeys.has(item.relicKey),'relic-address-collision');ids.add(item.uid);relicKeys.add(item.relicKey);need(item.uid<data.nextUid,'relic-uid-floor');
@@ -286,7 +316,7 @@ export class CharacterSession {
       // Restore only ordering of admitted durable sources, never caller-supplied
       // modifiers or live effects. Cold investment repair has already run above.
       build=this.#d.builds.adopt(input,owned.state.skillBook.bar,{sourceOrder:data.sourceOrder as string[],
-        grants:view.grants.map(([skillId,row])=>({skillId,hostUid:row.host,level:row.level,state:{sockets:row.sockets.map(socket=>socket?{supportId:socket.id,level:socket.level,...(socket.locked?{locked:true}:{}),...(socket.rolled?{rolled:socket.rolled}:{})}:null),...(row.tree?{treeNodes:row.tree}:{})}})),
+        grants:view.grants.map(([skillId,row])=>({skillId,hostUid:row.host,level:row.level,state:{sockets:row.sockets.map(socket=>socket?{supportId:socket.id,level:socket.level,...(socket.locked?{locked:true}:{}),...(socket.rolled?{rolled:socket.rolled}:{})}:null),...(row.tree?{treeNodes:row.tree}:{}),...(row.summonSchools?{summonSchools:[...row.summonSchools]}:{})}})),
         companions:view.companions.map(([skillId,row])=>({skillId,level:row.level}))});
     }
     owned.sourceOrder=this.#d.builds.read(build).sources.map(([id])=>id);

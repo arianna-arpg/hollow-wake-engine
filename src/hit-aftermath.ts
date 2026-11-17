@@ -112,10 +112,11 @@ export function createHitAftermath<A extends HitAftermathActor<A, I, P, M, Tag, 
             if (dealt > 0 && depth === 0) {
                 const echo = caster.sheet.get('echoMight', packet.tags, extra);
                 if (echo > 0) {
-                    caster.addBuff({
-                        type: 'buff', id: 'echoing_might', duration: 4,
-                        mods: [ports.flatPhysicalModifier(dealt * echo)],
-                    });
+                    const effect={
+                        type: 'buff' as const, id: 'echoing_might', duration: 4,
+                        mods: [ports.flatPhysicalModifier(Math.min(dealt * echo,ports.echoCeiling?.(caster,inst)??Infinity))],
+                    };
+                    caster.addBuff(ports.echoSource?.(effect,inst)??effect);
                 }
             }
             if (target.life <= 0 && !target.dead && depth === 0) {
@@ -214,6 +215,7 @@ export function createHitAftermath<A extends HitAftermathActor<A, I, P, M, Tag, 
         const { tags } = hitStatusFrame;
         ports.applyRiders(hitStatusFrame);
         ports.beforeEffects(caster, inst, target, dealt, depth);
+        ports.projectileLanded?.(caster, inst, target, dealt, depth, dmgMult);
         ports.dispatchEffects(hitStatusFrame, dmgMult, hitEffects);
         ports.applyGrantedStatuses(hitStatusFrame);
         if (dealt > 0 && depth === 0) {

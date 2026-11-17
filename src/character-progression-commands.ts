@@ -5,13 +5,15 @@ import type {InventoryDataDefinitions as CraftingSessionDefinitions} from './inv
 import type {ItemInstance,GrantedSkillState} from './item-types.js';
 import type {CharacterCommandDraft} from './character-command-types.js';
 import {copySessionJSON,requireSession as need,sessionFields as fields,sessionText as text,sessionInteger as integer,
- sessionRecord as record,sessionBoolean as bool,type SessionJSON} from './session-json.js';
+ sessionRecord as record,sessionBoolean as bool,sessionArray as array,type SessionJSON} from './session-json.js';
 
 type Definition=GemDefinition&ActionSkill['def'];
 export type ProgressionSkill=GemSkill<Definition,GemDefinition>&ActionSkill&{grafts?:(GemSupport|null)[];bonusLevels?:number};
 type ProgressionRequest={op:'levelSkill'|'reset';skillId:string}|{op:'pick';skillId:string;nodeId:string}
+ |{op:'schools';skillId:string;choices:string[]}
  |{op:'levelSupportInv';uid:number}|{op:'levelSupportSocket';skillId:string;index:number}|{op:'convert';tier:number;direction:'up'|'down'};
 export interface CharacterProgressionPorts {
+ summonSchools?(skill:ProgressionSkill):readonly string[]|undefined;
  builds:Pick<CharacterBuildService,'read'>;build:CharacterBuild;saved:CharacterCommandDraft;
  definitions:{workshop:CraftingSessionDefinitions;catalogue:{skills:Readonly<Record<string,Definition>>;
   supports:Readonly<Record<string,GemDefinition>>;monsters:Readonly<Record<string,unknown>>}};
@@ -33,6 +35,7 @@ function parseRequest(request:SessionJSON):ProgressionRequest {
  record(request);switch(request.op){
   case 'levelSkill':case 'reset':fields(request,['op','skillId']);text(request.skillId);break;
   case 'pick':fields(request,['op','skillId','nodeId']);text(request.skillId);text(request.nodeId);break;
+  case 'schools':fields(request,['op','skillId','choices']);text(request.skillId);array(request.choices,16);for(const id of request.choices)text(id);break;
   case 'levelSupportInv':fields(request,['op','uid']);integer(request.uid,1);break;
   case 'levelSupportSocket':fields(request,['op','skillId','index']);text(request.skillId);integer(request.index,0,1023);break;
   case 'convert':fields(request,['op','tier','direction']);integer(request.tier,1);need(request.direction==='up'||request.direction==='down','invalid-conversion-direction');break;
@@ -58,7 +61,7 @@ export function changeCharacterProgression(ports:CharacterProgressionPorts,rawRe
   nextUid:unavailable,bagWidth:()=>state.board.w,bagHeight:()=>state.board.h,itemGridSize:unavailable});
  const socket=(row:CharacterBuildSkillView['sockets'][number]):GemSupport|null=>row?{def:catalogue.supports[row.id],level:row.level,...(row.locked?{locked:true}:{}),...(row.rolled?{rolled:row.rolled}:{})}:null;
  const known=new Map<string,ProgressionSkill>(state.skillBook.known.map(row=>{const inst=cargo.skillOfGemItem(row);need(inst,'unresolved-owned-skill');return[inst.def.id,inst];}));
- const grants=new Map<string,ProgressionSkill>(view.grants.map(([id,row])=>[id,{def:catalogue.skills[id],level:row.level,sockets:row.sockets.map(socket),...(row.tree?{treeNodes:row.tree}:{})}]));
+ const grants=new Map<string,ProgressionSkill>(view.grants.map(([id,row])=>[id,{def:catalogue.skills[id],level:row.level,sockets:row.sockets.map(socket),...(row.tree?{treeNodes:row.tree}:{}),...(row.summonSchools?{summonSchools:[...row.summonSchools]}:{})}]));
  for(const[instances,rows]of [[known,view.known],[grants,view.grants]] as const)for(const[id,row]of rows){const inst=instances.get(id);need(inst,'unresolved-owned-skill');inst.grafts=(row.grafts??[]).map(socket);inst.bonusLevels=row.bonus;}
  let refusal:string|undefined,accepted=false,triggerBefore:unknown,triggerCalls=0;
  type SkillEvent='awaken'|'dismiss'|'clear-summons'|'clear-fields'|'resync-supports';
@@ -80,6 +83,15 @@ export function changeCharacterProgression(ports:CharacterProgressionPorts,rawRe
  else if(request.op==='pick'){
   const inst=known.get(request.skillId)??grants.get(request.skillId),before=inst?.treeNodes?.length??0;
   actions.pick(null,request.skillId,request.nodeId);accepted=(inst?.treeNodes?.length??0)!==before;
+ }else if(request.op==='schools'){
+  const inst=known.get(request.skillId)??grants.get(request.skillId),allowed=inst&&ports.summonSchools?.(inst);
+  if(inst&&allowed&&!hold&&!memory[request.skillId]){
+    const choices=allowed.filter(id=>request.choices.includes(id)),current=inst.summonSchools?.length?inst.summonSchools:allowed;
+    if(choices.length&&(choices.length!==current.length||choices.some(id=>!current.includes(id)))){
+      skillEvent('clear-summons',inst);skillEvent('clear-fields',inst);inst.summonSchools=choices;
+      events.push({kind:'recalculate'},{kind:'character-dirty'});accepted=true;
+    }
+  }
  }else if(request.op==='levelSupportInv'){
   const item=state.items.find(item=>item.uid===request.uid),gem=item?cargo.supportOfGemItem(item):null;
   if(gem&&item){accepted=actions.levelSupport(null,gem);writeBackSupportGem(item,gem);}
@@ -88,9 +100,13 @@ export function changeCharacterProgression(ports:CharacterProgressionPorts,rawRe
   const gem=known.get(request.skillId)?.sockets[request.index];
   if(gem){accepted=actions.levelSupport(null,gem);skillEvent('resync-supports',request.skillId);}
  }
+ for(const inst of [...known.values(),...grants.values()])if(inst.summonSchools){
+  const allowed=ports.summonSchools?.(inst);const retained=allowed?.filter(id=>inst.summonSchools!.includes(id));
+  if(retained?.length)inst.summonSchools=retained;else delete inst.summonSchools;
+ }
  state.skillBook.known=[...known.values()].map(inst=>({gem:packSkillGemPayload(inst),...(inst.locked?{locked:true}:{})}));
  const grantEdits:NonNullable<CharacterProgressionResult['grants']>=[],grantViews=new Map(view.grants);
- for(const[id,inst]of grants){const before=grantViews.get(id);need(before,'unresolved-grant');const after=packGrantState(inst),old={sockets:before.sockets.map(row=>row?{supportId:row.id,level:row.level,...(row.locked?{locked:true}:{}),...(row.rolled?{rolled:row.rolled}:{})}:null),...(before.tree?.length?{treeNodes:before.tree}:{})};
+ for(const[id,inst]of grants){const before=grantViews.get(id);need(before,'unresolved-grant');const after=packGrantState(inst),old={sockets:before.sockets.map(row=>row?{supportId:row.id,level:row.level,...(row.locked?{locked:true}:{}),...(row.rolled?{rolled:row.rolled}:{})}:null),...(before.tree?.length?{treeNodes:before.tree}:{}),...(before.summonSchools?.length?{summonSchools:before.summonSchools}:{})};
   if(JSON.stringify(after)!==JSON.stringify(old))grantEdits.push({skillId:id,hostUid:before.host,state:after});
  }
  const changed=JSON.stringify(state)!==JSON.stringify(ports.saved.state)||JSON.stringify(saved.character)!==JSON.stringify(ports.saved.character)||grantEdits.length>0;

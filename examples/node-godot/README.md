@@ -8,6 +8,18 @@ From the SDK checkout, build with `npm run build` and then
 `node scripts/build-node-godot.mjs --out <new-directory>`. The output contains
 five local package archives, this example host and a Godot project.
 
+For the November prototype parity profile, use
+`node scripts/build-node-godot.mjs --prototype --out <new-directory>`.
+The release manifest selects this profile explicitly; omitting the switch in
+the development builder retains the October regression profile.
+
+Ordinary input also accepts optional `meta` and `dismiss` skill-ID arrays and a
+boolean `timing` press edge. The host checks authored eligibility. An
+`{"t":"inspect"}` request returns detached skill/buff sources, frame/pact/doctrine
+state and semantic field/projectile cues. Request these when needed; they are
+not copied into every movement frame. Inspection shares the eight-per-second
+build/save request budget. Rendering these facts remains the client's job.
+
 In that new directory:
 
 1. Run `npm install --offline --ignore-scripts --no-audit --no-fund`.

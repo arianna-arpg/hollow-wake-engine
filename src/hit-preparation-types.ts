@@ -37,6 +37,8 @@ export type PreparedHitContinuation<A, I, S, P, M, Packet, Tone, Effect, R> = (
   rearHit: boolean, struckTone: Tone | null, afflictionCarry: number,
 ) => R;
 export interface HitPreparationPorts<A, I, S, P, M, Tag extends string, Packet, Tone, Effect, R> {
+  power?(caster:A,inst:I,target:A):number;
+  vulnerability?(target:A,inst:I,packet:Packet):void;
   time(): number;
   fuse(inst: I): HitPreparationFuse | undefined;
   instanceTags(inst: I): Set<Tag>;

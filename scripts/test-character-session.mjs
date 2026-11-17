@@ -33,7 +33,12 @@ try{
   fs.writeFileSync(path.join(consumer,'tsconfig.json'),JSON.stringify({compilerOptions:{strict:true,noEmit:true,types:[],target:'ES2022',module:'NodeNext',moduleResolution:'NodeNext'},files:['types.ts']}));
   run('types',[path.join(root,'node_modules/typescript/bin/tsc'),'-p','tsconfig.json']);report.types=true;
   const browser=await build({stdin:{contents:"import {createCharacterKit} from '@hollow-wake/characters';globalThis.makeCharacterKit=createCharacterKit;",resolveDir:consumer},bundle:true,platform:'browser',format:'iife',target:'es2022',minify:true,write:false,metafile:true});
-  report.browserBytes=browser.outputFiles[0].contents.length;assert(report.browserBytes<=256*1024,'Character browser composition exceeded 256 KiB');assert(browser.metafile.inputs);
+  // November parity adds school admission, live contribution and relic custody
+  // rules to the shared character runtime. Measured October/November browser
+  // compositions are 267021/274816 bytes; retain a bounded 272 KiB allowance.
+  // See docs/prototype-parity.md. This is transfer size, not a device budget.
+  report.browserBudgetBytes=272*1024;
+  report.browserBytes=browser.outputFiles[0].contents.length;assert(report.browserBytes<=report.browserBudgetBytes,'Character browser composition exceeded 272 KiB');assert(browser.metafile.inputs);
   for(const name of ['installed','fresh-installed']){const result=JSON.parse(run(name,['consumer.mjs','original.json.gz']));report.runs.push(result);}
   assert.deepEqual(report.runs[0],report.runs[1]);
   if(!development){

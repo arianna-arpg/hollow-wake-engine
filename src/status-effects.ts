@@ -28,9 +28,10 @@ export function createStatusEffects<
       const s=target.statuses[i],def=ports.definition(s.id);if(def?.beneficial)continue;
       if(s.stacks>1){
         s.stacks-=Math.max(1,Math.round(s.stacks*portion));
+        if(s.stackTimes)s.stackTimes=s.stacks>0?s.stackTimes.slice(-s.stacks):[];
         if(s.stacks<=0){target.statuses.splice(i,1);if(!target.statuses.some(o=>o.id===s.id))target.sheet.removeSource('status:'+s.id);}
         else if(def?.mods&&def.modsPerStack)target.sheet.setSource('status:'+s.id,def.mods.map(m=>({...m,value:m.value*s.stacks})));
-      }else s.remaining*=1-portion;
+      }else {s.remaining*=1-portion;if(s.stackTimes)s.stackTimes=s.stackTimes.map(t=>t*(1-portion));}
       rung++;
     }
     if(rung>0)ports.text(target.pos,'rung clean','#d8c8a0',12,'combat');return rung;
@@ -53,7 +54,8 @@ export function createStatusEffects<
     ports.flash(victim.pos,victim.radius+18,def.color,.3);
     if(taken<=0)return 0;
     victim.life-=taken;victim.hitFlash=.15;victim.hitFlashType=el;
-    ports.text(victim.pos,Math.round(taken).toString(),def.color,13,undefined,14);
+    if(ports.damageText)ports.damageText(victim,taken,def.color,13,14);
+    else ports.text(victim.pos,Math.round(taken).toString(),def.color,13,undefined,14);
     if(victim.life<=0&&!victim.dead)ports.kill(victim,false,caster);return taken;
   }
   function ruptureStatus(victim:A,s:EffectStatus):void {
@@ -66,7 +68,9 @@ export function createStatusEffects<
       if(e.invulnerable||amount<=0)continue;
       const before=e.life;e.life-=amount;
       ports.recordIndirectDamage(e,s.casterId===undefined?undefined:ports.actorById(s.casterId),before);
-      e.hitFlash=.15;e.hitFlashType=type;ports.text(e.pos,Math.round(amount).toString(),'#b06bd4',12);
+      e.hitFlash=.15;e.hitFlashType=type;
+      if(ports.damageText)ports.damageText(e,amount,'#b06bd4',12);
+      else ports.text(e.pos,Math.round(amount).toString(),'#b06bd4',12);
       if(e.life<=0&&!e.dead)ports.kill(e,false,s.casterId===undefined?undefined:ports.actorById(s.casterId));
     }
   }
@@ -74,7 +78,7 @@ export function createStatusEffects<
     if(!target.dead&&target.life>0){
       let armed=0;for(const s of target.statuses)if(s.rupture&&ports.definition(s.id)?.cullsAtLethal)armed+=s.rupture;
       if(armed>0&&armed>=target.life)for(let i=target.statuses.length-1;i>=0;i--){
-        const s=target.statuses[i];if(!s.rupture||!ports.definition(s.id)?.cullsAtLethal)continue;
+        const s=target.statuses[i];if(!s?.rupture||!ports.definition(s.id)?.cullsAtLethal)continue;
         target.statuses.splice(i,1);if(!target.statuses.some(o=>o.id===s.id))target.sheet.removeSource('status:'+s.id);
         ruptureStatus(target,s);
       }
@@ -131,7 +135,7 @@ export function createStatusEffects<
   function capturePropagation(actor:A,silent:boolean):EffectStatus[]{return silent?[]:actor.statuses.filter(s=>s.propagates&&s.dps>0);}
   function detonateDeathStatuses(actor:A,silent:boolean):void {
     if(!silent)for(let i=actor.statuses.length-1;i>=0;i--){
-      const s=actor.statuses[i];if(!s.rupture||s.rupture<=0)continue;
+      const s=actor.statuses[i];if(!s?.rupture||s.rupture<=0)continue;
       actor.statuses.splice(i,1);if(!actor.statuses.some(o=>o.id===s.id))actor.sheet.removeSource('status:'+s.id);
       if(!ports.definition(s.id)?.dischargeMatchingType)ruptureStatus(actor,s);
     }

@@ -8,15 +8,18 @@ The core import does not load this module.
 ```ts
 const policy = new SkillRequest(ports); // one owner per world
 const result = policy.preflight(actor, skill, aim, seatPress);
-if (result !== 'continue') return result;
+if (typeof result === 'object') skill = result.instance;
+else if (result !== 'continue') return result;
 // Continue the host's reserve pricing, cast preparation and delivery.
 ```
 
 `false` is a terminal refusal. `true` is a terminal handled request, including
-trigger/replenishment toggles and redirects. Only `'continue'` authorizes entry
-to the rest of the host pipeline. Do not coerce the result to a boolean: the
-continuation string is truthy. The shipped `examples/skill-request.mjs` shows a
-small host with these three outcomes.
+trigger/replenishment toggles and redirects. `'continue'` continues with the
+requested instance. November command resolution can instead return
+`{instance}`: continue with that resolved instance for all subsequent pricing,
+preparation and delivery. Use `SkillRequestResult<YourSkill>` for an explicit
+annotation. Do not coerce this union to boolean. The shipped example retains
+the three original outcomes when the optional `resolve` port is absent.
 
 The policy handles seals, hive-form dispatch, throng restrictions, replenishment
 preference, seat activity, held-body struggle, gnaw/mount rules, aura debt/life

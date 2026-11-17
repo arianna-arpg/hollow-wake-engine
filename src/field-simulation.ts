@@ -5,7 +5,7 @@ import type {FieldSimulationActor,FieldSimulationSkill,FieldSimulationPorts,Fiel
 export type * from './field-simulation-types.js';
 const vec=(x:number,y:number):CombatPoint=>({x,y});const clamp=(n:number,min:number,max:number)=>Math.max(min,Math.min(max,n));
 export class FieldSimulation<A extends FieldSimulationActor<A,I>,I extends FieldSimulationSkill,F,B>{
-constructor(readonly state:{zones:CombatField<A,I,F,B>[]},readonly rules:FieldSimulationRules,readonly ports:FieldSimulationPorts<A,I,F,B>){}
+constructor(readonly state:{zones:CombatField<A,I,F,B>[]},readonly rules:FieldSimulationRules,readonly ports:FieldSimulationPorts<A,I,F,B>,readonly preserveLayers=false){}
 updateZones(dt: number): void {
 const {ports:sdk,state,rules}=this;
 const rand=(min:number,max:number)=>min+sdk.random()*(max-min);
@@ -15,7 +15,9 @@ const pick=<T>(pool:T[]):T=>pool[Math.floor(sdk.random()*pool.length)]!;
     {
         let releasing: Map<string, CombatField<A, I, F, B>[]> | null = null;
         for (const z of state.zones) {
-            z.tier ??= z.caster.tier;
+            if(this.preserveLayers&&z.anchor)z.tier=z.anchor.tier;
+            else if(this.preserveLayers&&z.follow)z.tier=z.caster.tier;
+            else z.tier ??= z.caster.tier;
             if (!z.armed)
                 continue;
             const holding = !z.caster.dead && z.caster.casting?.mode === 'channel'
@@ -110,10 +112,10 @@ const pick=<T>(pool:T[]):T=>pool[Math.floor(sdk.random()*pool.length)]!;
                         other.delay = Math.min(other.delay, 0.06 * k++);
                     }
                 }
-                this.spawnAftershocks(z.caster, z.inst, z.pos, z.radius, z.shape, z.depth);
+                this.spawnAftershocks(z.caster, z.inst, z.pos, z.radius, z.shape, z.depth, z.tier);
                 if (z.leaveTerrain) {
                     sdk.addTempGround(z.pos, z.leaveTerrain.kind, z.leaveTerrain.radius, z.leaveTerrain.duration
-                        * z.caster.sheet.get('effectDuration', sdk.skillContextTags(z.inst.def), sdk.instanceMods(z.inst)));
+                        * z.caster.sheet.get('effectDuration', sdk.skillContextTags(z.inst.def), sdk.instanceMods(z.inst)), this.preserveLayers?{tier:z.tier}:undefined);
                 }
                 if (z.linger <= 0) {
                     this.expireZone(z);
@@ -124,12 +126,13 @@ const pick=<T>(pool:T[]):T=>pool[Math.floor(sdk.random()*pool.length)]!;
         }
         else {
             if (z.drift && !z.seek) {
-                z.pos = sdk.clampPos(vec(z.pos.x + Math.cos(z.facing) * z.drift * dt, z.pos.y + Math.sin(z.facing) * z.drift * dt), 10);
+                z.pos = sdk.clampPos(vec(z.pos.x + Math.cos(z.facing) * z.drift * dt, z.pos.y + Math.sin(z.facing) * z.drift * dt), 10, this.preserveLayers?z.pos:undefined, this.preserveLayers?{tier:z.tier}:undefined);
             }
             if (z.seek) {
                 let prey: A | null = null;
                 let bd = z.seek.range;
-                for (const e of sdk.enemiesOf(z.caster)) {
+                for (const e of sdk.enemiesOf(z.caster, this.preserveLayers ? z.tier ?? z.caster.tier : undefined)) {
+                    if(this.preserveLayers && e.tier !== (z.tier ?? z.caster.tier))continue;
                     if (e.construct?.breakable)
                         continue;
                     const dd = dist(z.pos, e.pos);
@@ -140,7 +143,7 @@ const pick=<T>(pool:T[]):T=>pool[Math.floor(sdk.random()*pool.length)]!;
                 }
                 if (prey && bd > 6) {
                     const ang = angleTo(z.pos, prey.pos);
-                    z.pos = sdk.clampPos(vec(z.pos.x + Math.cos(ang) * z.seek.speed * dt, z.pos.y + Math.sin(ang) * z.seek.speed * dt), 10);
+                    z.pos = sdk.clampPos(vec(z.pos.x + Math.cos(ang) * z.seek.speed * dt, z.pos.y + Math.sin(ang) * z.seek.speed * dt), 10, this.preserveLayers?z.pos:undefined, this.preserveLayers?{tier:z.tier}:undefined);
                 }
             }
             if (z.follow) {
@@ -252,7 +255,7 @@ const pick=<T>(pool:T[]):T=>pool[Math.floor(sdk.random()*pool.length)]!;
                     fx: ['nova', 'melee', 'cone', 'leap', 'storm'].includes(sdk.instanceDelivery(z.inst).type) ? z.fx : undefined,
                     onGround: z.onGround?.slice(), recoveryCueTier: z.tier ?? z.caster.tier,
                 });
-                this.spawnAftershocks(z.caster, z.inst, z.pos, pr, z.shape, z.depth);
+                this.spawnAftershocks(z.caster, z.inst, z.pos, pr, z.shape, z.depth, z.tier);
                 z.pulse.dmgMult *= z.pulse.dmgStep;
                 z.pulse.radiusMult *= z.pulse.radiusStep;
                 if (z.pulse.left === 0 && z.pulse.queue?.length) {
@@ -276,7 +279,8 @@ const pick=<T>(pool:T[]):T=>pool[Math.floor(sdk.random()*pool.length)]!;
             }
             if (z.pull) {
                 const reach = z.pullRadius ?? z.radius * 1.35;
-                for (const v of sdk.enemiesOf(z.caster)) {
+                for (const v of sdk.enemiesOf(z.caster, this.preserveLayers ? z.tier ?? z.caster.tier : undefined)) {
+                    if(this.preserveLayers && v.tier !== (z.tier ?? z.caster.tier))continue;
                     if (v.construct || v.leap || v.anchored)
                         continue;
                     const dd = dist(z.pos, v.pos);
@@ -284,7 +288,7 @@ const pick=<T>(pool:T[]):T=>pool[Math.floor(sdk.random()*pool.length)]!;
                         continue;
                     const stepIn = Math.min(z.pull * dt, dd - 4);
                     const ang = angleTo(v.pos, z.pos);
-                    v.pos = sdk.clampPos(vec(v.pos.x + Math.cos(ang) * stepIn, v.pos.y + Math.sin(ang) * stepIn), v.radius, v.pos);
+                    v.pos = sdk.clampPos(vec(v.pos.x + Math.cos(ang) * stepIn, v.pos.y + Math.sin(ang) * stepIn), v.radius, v.pos, this.preserveLayers?{mover:v}:undefined);
                 }
             }
             if (z.edge !== undefined && z.fillRate) {
@@ -326,6 +330,7 @@ const pick=<T>(pool:T[]):T=>pool[Math.floor(sdk.random()*pool.length)]!;
                                 ? rand(0, Math.PI * 2) : angleTo(z.pos, at);
                         }
                         sdk.executeSkill(z.caster, z.emitInst, at, {
+                            ...(this.preserveLayers?{tier:z.tier??z.caster.tier}:{}),
                             dmgMult: z.dmgMult, noCooldown: true, noRepeat: true, keepFacing: true,
                         });
                         z.caster.facing = keepDir;
@@ -336,7 +341,7 @@ const pick=<T>(pool:T[]):T=>pool[Math.floor(sdk.random()*pool.length)]!;
                 this.updateZoneDomain(z);
             if (z.exposure && z.linger > 0) {
                 const pool = z.exposureDomain && z.domain
-                    ? sdk.actors().filter(a => !a.dead && !a.untargetable && !a.construct)
+                    ? sdk.actors().filter(a => !a.dead && !a.untargetable && !a.construct && (!this.preserveLayers || a.tier === (z.tier ?? z.caster.tier)))
                     : this.zoneVictims(z);
                 for (const v of pool) {
                     if (this.zoneHas(z, v.pos, v.radius)) {
@@ -350,7 +355,7 @@ const pick=<T>(pool:T[]):T=>pool[Math.floor(sdk.random()*pool.length)]!;
             if (z.madden && z.linger > 0) {
                 const bank = z.madden;
                 const story = z.tier ?? z.caster.tier;
-                for (const v of sdk.enemiesOf(z.caster)) {
+                for (const v of sdk.enemiesOf(z.caster, this.preserveLayers ? z.tier ?? z.caster.tier : undefined)) {
                     if (v.tier !== story || bank.credited.get(v.id) === sdk.time())
                         continue;
                     if (!this.zoneHas(z, v.pos, v.radius))
@@ -408,7 +413,7 @@ const pick=<T>(pool:T[]):T=>pool[Math.floor(sdk.random()*pool.length)]!;
                     }
                     this.strikeZoneSurfaces(z);
                 }
-                sdk.healAlliesInArea(z.caster, z.inst, a => this.zoneHas(z, a.pos, a.radius), z.dmgMult, true, z.struck);
+                sdk.healAlliesInArea(z.caster, z.inst, a => this.zoneHas(z, a.pos, a.radius), z.dmgMult, true, z.struck, this.preserveLayers?z.tier:undefined);
             }
             if (z.linger <= 0) {
                 if (z.endBurst) {
@@ -420,8 +425,8 @@ const pick=<T>(pool:T[]):T=>pool[Math.floor(sdk.random()*pool.length)]!;
                         sdk.noteBodyHit(victim, nb.seg);
                         sdk.resolveHit(z.caster, z.inst, victim, z.dmgMult * z.endBurst.damageScale, z.depth, z.flatBonus, true, false, undefined, z.pos, z.tier);
                     }
-                    sdk.frontSplash(z.caster, z.inst, z.pos, radius);
-                    sdk.strikeSurfaces(z.caster, z.pos, radius);
+                    sdk.frontSplash(z.caster, z.inst, z.pos, radius, this.preserveLayers?z.tier:undefined);
+                    sdk.strikeSurfaces(z.caster, z.pos, radius, undefined, undefined, this.preserveLayers?z.tier:undefined);
                     sdk.flash({
                         pos: vec(z.pos.x, z.pos.y), radius, color: z.color,
                         life: 0.35, maxLife: 0.35,
@@ -487,6 +492,13 @@ const {ports:sdk}=this;
         if (z.exposure && z.exposureDomain
             && (z.exposure.dwell.get(a.id) ?? 0) < z.exposure.after)
             continue;
+        if (z.domain!.stackGroup) {
+            const leader = this.state.zones.find(q => q.domain?.stackGroup === z.domain!.stackGroup && q.caster.team === z.caster.team
+                && q.exploded && q.linger > 0 && q.delay <= 0 && (q.tier ?? q.caster.tier) === a.tier
+                && this.zoneHas(q, a.pos, a.radius) && this.zoneSees(q, a)
+                && (!q.exposureDomain || !q.exposure || (q.exposure.dwell.get(a.id) ?? 0) >= q.exposure.after));
+            if (leader !== z) continue;
+        }
         inside.add(a);
         if (!set.has(a)) {
             set.add(a);
@@ -518,7 +530,7 @@ const chance=(value:number)=>sdk.random()<value;
         return all;
     }
     const story = z.tier ?? z.caster.tier;
-    const out = sdk.enemiesOf(z.caster).filter(v => v.tier === story);
+    const out = sdk.enemiesOf(z.caster, this.preserveLayers ? z.tier ?? z.caster.tier : undefined).filter(v => v.tier === story);
     if (z.curseAllies) {
         for (const a of sdk.actors()) {
             if (a.dead || a.team !== z.caster.team || a.untargetable || a.tier !== story)
@@ -546,7 +558,7 @@ const {ports:sdk,rules}=this;
         ox = z.seg.ax + sx * t;
         oy = z.seg.ay + sy * t;
     }
-    return sdk.lineOfFire(vec(ox, oy), p);
+    return sdk.lineOfFire(vec(ox, oy), p, this.preserveLayers?z.tier??z.caster.tier:undefined);
 }
 zoneHas(z: {
     seg?: {
@@ -578,17 +590,17 @@ const {ports:sdk}=this;
         return;
     const cAt = at ?? z.pos;
     const r = radius ?? z.radius;
-    sdk.frontSplash(z.caster, z.inst, cAt, r);
+    sdk.frontSplash(z.caster, z.inst, cAt, r, this.preserveLayers?z.tier:undefined);
     sdk.strikeSurfaces(z.caster, cAt, r, (p, pr) => (at !== undefined || radius !== undefined
         ? inAoe(cAt, r, z.shape, z.facing, p, pr, z.arcRad)
         : this.zoneHas(z, p, pr))
         && !zoneHoleSpares(z, p, pr)
-        && this.zoneSees(z, p), useStruck ? z.struck : undefined);
+        && this.zoneSees(z, p), useStruck ? z.struck : undefined, this.preserveLayers?z.tier:undefined);
 }
 detonateFissureSegment(z: CombatField<A, I, F, B>, damageScale: number, radiusScale: number): boolean {
 const {ports:sdk}=this;
 
-    if (z.caster.dead || !this.zoneHas(z, z.caster.pos, z.caster.radius))
+    if (z.caster.dead || this.preserveLayers && z.caster.tier !== (z.tier ?? z.caster.tier) || !this.zoneHas(z, z.caster.pos, z.caster.radius))
         return false;
     const radius = z.radius * radiusScale;
     const at = z.seg
@@ -605,10 +617,10 @@ const {ports:sdk}=this;
         sdk.resolveHit(z.caster, z.inst, v, z.dmgMult * damageScale, z.depth, z.flatBonus, true, false, undefined, z.pos, z.tier);
     }
     this.strikeZoneSurfaces(z, false, at, radius);
-    this.spawnAftershocks(z.caster, z.inst, at, radius, z.shape, 0);
+    this.spawnAftershocks(z.caster, z.inst, at, radius, z.shape, 0, z.tier);
     return true;
 }
-spawnAftershocks(caster: A, inst: I, at: CombatPoint, radius: number, shape: number, depth = 0): void {
+spawnAftershocks(caster: A, inst: I, at: CombatPoint, radius: number, shape: number, depth = 0, tier=caster.tier): void {
 const {ports:sdk,state}=this;
 const rand=(min:number,max:number)=>min+sdk.random()*(max-min);
 
@@ -621,7 +633,8 @@ const rand=(min:number,max:number)=>min+sdk.random()*(max-min);
         const ang = rand(0, Math.PI * 2);
         const r = rand(radius * 0.4, radius * 1.1);
         state.zones.push({
-            pos: sdk.clampPos(vec(at.x + Math.cos(ang) * r, at.y + Math.sin(ang) * r), 10),
+            ...(this.preserveLayers?{tier}:{}),
+            pos: sdk.clampPos(vec(at.x + Math.cos(ang) * r, at.y + Math.sin(ang) * r), 10, undefined, this.preserveLayers?{tier}:undefined),
             radius: radius * 0.5,
             caster, inst, color: inst.def.color,
             delay: 0.3 + i * 0.12, exploded: false,

@@ -34,6 +34,35 @@ function context(overrides={},rules) {
 const packet=(amounts={fire:100},tags=['spell'])=>({amounts,tags:new Set(tags),crit:false,sourceName:'independent'});
 const near=(a,b)=>assert(Math.abs(a-b)<1e-10,`${a} != ${b}`);
 
+test('attributed frame life payments bypass defenses and notify observers before the host',()=>{
+ const c=context(),a=actor(),b=actor({damageImmunity:1,hitImmune:1,blockChance:1});
+ b.frameCharging=true;b.invulnerable=true;b.es=70;b.ward=40;b.life=8;
+ b.hitObservers=new Map([['frame',(_attacker,p,r)=>{assert(p.resourceHit);c.events.push(['frame',r.total]);}]]);
+ const hit=c.runtime.applyHit(a,b,{...packet({physical:30}),resourceHit:true});
+ assert.equal(hit.total,8);assert.equal(b.life,0);assert.equal(b.es,70);assert.equal(b.ward,40);
+ assert.equal(c.draws,0);assert.deepEqual(c.events,[['frame',8],['hit',8]]);
+});
+
+test('intercepted wounds retain attribution and reduce landed-hit receipts',()=>{
+ const c=context(),a=actor(),b=actor();let event;
+ b.lifeDamageInterceptors=new Map([['cohort',(total,e)=>{event=e;return e&&!e.packet.redirected?total*.7:total;}]]);
+ const p=packet({fire:100}),hit=c.runtime.applyHit(a,b,p);
+ assert.equal(event.attacker,a);assert.equal(event.packet,p);assert.equal(event.intercepted,30);
+ assert.equal(hit.total,70);assert.equal(b.life,80);
+ const redirected=c.runtime.applyHit(a,b,{...packet({fire:10}),redirected:true});assert.equal(redirected.total,10);
+ c.runtime.applyDot(b,5,'fire');assert.equal(event,undefined);assert.equal(b.life,65);
+});
+
+test('resistance-neutral ailment preview retains reductions without spending defense pools',()=>{
+ const c=context(),a=actor(),b=actor({fireRes:.7});b.es=50;b.ward=20;
+ b.sheet.reductionsFromZero=id=>{assert.equal(id,'fireRes');return -.2;};
+ assert.equal(c.runtime.ailmentWoundBasis(b,{fire:100},a,new Set(['spell']),[],'fire'),120);
+ assert.equal(b.es,50);assert.equal(b.ward,20);assert.equal(b.life,150);assert.equal(c.draws,0);
+ near(c.runtime.resistValue(b,'fire'),.7);
+ b.frameCharging=true;assert.equal(c.runtime.applyDot(b,10,'fire'),0);
+ assert.equal(c.runtime.applyHit(a,b,packet()).immune,true);
+});
+
 test('damage: independent armor, capped resistance and penetration arithmetic',()=>{
   const {runtime:r}=context(),a=actor({firePen:.2}),b=actor({armor:600,fireRes:1,fireResMax:.8});
   // 100 physical => 50, 100 fire => 40 after capped .8 minus .2.

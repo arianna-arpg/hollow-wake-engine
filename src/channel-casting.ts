@@ -83,6 +83,8 @@ export interface ChannelCastingPorts<A, S extends ChannelCastState, T, C> {
   aim(actor: A, state: S, spec: ChannelCastSpec, dt: number): boolean;
   /** Clear active casting and set recovery before any release sink. */
   end(actor: A, state: S, recovery: number): void;
+  /** Summon formations finish while the exact held cast is still active. */
+  beforeRelease?(actor: A, state: S): void;
   cooldown(state: S): number;
   stampCooldown(actor: A, state: S, duration: number): void;
   /** Host-specific detonation/body creation, including their live death gates. */
@@ -174,6 +176,10 @@ export class ChannelCasting<A, S extends ChannelCastState, T = never, C = undefi
       if (typeof fn !== 'function') throw new Error(`Channel casting ${key} port is required`);
       Object.defineProperty(bound, key, {value: fn.bind(ports), enumerable: true});
     }
+    if (ports.beforeRelease !== undefined) {
+      if (typeof ports.beforeRelease !== 'function') throw new Error('Channel casting beforeRelease port must be callable');
+      Object.defineProperty(bound, 'beforeRelease', {value: ports.beforeRelease.bind(ports), enumerable: true});
+    }
     this.#ports = bound;
   }
 
@@ -262,6 +268,7 @@ export class ChannelCasting<A, S extends ChannelCastState, T = never, C = undefi
 
   #release(actor: A, state: S, ch: ChannelCastSpec, track: boolean, initialTarget: T | undefined): void {
     const p = this.#ports, rel = ch.release, time = state.channelTime!;
+    p.beforeRelease?.(actor, state);
     p.end(actor, state, .15);
     const cooldown = nonnegative(p.cooldown(state), 'Channel cooldown');
     if (cooldown > 0 && ch.cooldownOnEnd) p.stampCooldown(actor, state, cooldown);

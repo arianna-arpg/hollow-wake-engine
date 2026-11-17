@@ -24,7 +24,7 @@ export interface StatusDeliveryPorts<A, I, S, P, Direction, Status> {
   /** Iterate the supplied live collection; the capability never copies it. */
   actors(): Iterable<A>;
   /** Host owns eligibility/story membership and whether the query is a snapshot. */
-  enemies(caster: A): Iterable<A>;
+  enemies(caster: A, tier?:number): Iterable<A>;
   distance(from: P, to: P): number;
   copyPosition(at: P): P;
   direction(from: P, to: P): Direction;
@@ -37,9 +37,10 @@ export interface StatusDeliveryPorts<A, I, S, P, Direction, Status> {
   effectiveLevel(inst: I): number;
   makeInstance(def: S, level: number): I;
   spawnProjectile(caster: A, inst: I, origin: P, direction: Direction,
-    options: {flat: {physical: number}}): void;
+    options: {flat: {physical: number};tier?:number}): void;
   /** An omitted height borrows the position; explicit height requests an offset copy. */
   text(at: P, text: string, color: string, size: number, height?: number): void;
-  flash(at: P, radius: number, color: string, life: number): void;
+  flash(at: P, radius: number, color: string, life: number, tier?:number): void;
+  damageText?(actor:A, amount:number, color:string, size:number):void;
   failNote(caster: A, key: string, text: string): void;
 }

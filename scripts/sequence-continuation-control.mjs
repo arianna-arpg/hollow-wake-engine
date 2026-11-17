@@ -9,13 +9,20 @@ export function sequenceContinuationControl(read) {
   const manifest = JSON.parse(read('baseline/sequence-continuation-control/acceptance.json'));
   const source = read(manifest.source).toString();
   assert.equal(sha256(source), manifest.sourceSha256);
-  for (const [f, h] of Object.entries(manifest.dependencies)) assert.equal(sha256(read(f)), h, f);
+  const dependencies=new Map();
+  for (const [f, h] of Object.entries(manifest.dependencies)) {
+    // The original port declaration is preserved separately after November
+    // added optional source-buff attribution. Compile the old controller against
+    // its exact old dependency; never regenerate its accepted output hashes.
+    const bytes=read(f==='src/attack-sequence-types.ts'?'baseline/prototype-parity/sequence-control-types.ts':f);
+    assert.equal(sha256(bytes),h,f);dependencies.set(path.join(root,f),bytes.toString());
+  }
   const config = ts.getParsedCommandLineOfConfigFile(path.join(root, 'tsconfig.json'), {},
     {...ts.sys, onUnRecoverableConfigFileDiagnostic: d => {throw Error(ts.flattenDiagnosticMessageText(d.messageText, '\n'));}});
   assert(config);
   const entry = path.join(root, 'src/attack-sequences.ts');
   const host = ts.createCompilerHost(config.options), originalRead = host.readFile.bind(host), emitted = new Map();
-  host.readFile = f => path.resolve(f) === entry ? source : originalRead(f);
+  host.readFile = f => path.resolve(f) === entry ? source : dependencies.get(path.resolve(f))??originalRead(f);
   host.writeFile = (file, contents) => {
     assert.equal(path.dirname(path.resolve(file)), path.join(root, 'dist'));
     const name = path.basename(file); assert(!emitted.has(name)); emitted.set(name, Buffer.from(contents));

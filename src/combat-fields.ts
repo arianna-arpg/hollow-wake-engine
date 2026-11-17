@@ -23,7 +23,7 @@ export interface CombatField<A,I,F,B> {
   endBurst?:{damageScale:number;radiusScale?:number};pendulum?:{arc:number;period:number;base:number};sweep?:{arc:number;base:number};linger0?:number;
   emit?:{skillId:string;interval:number;count?:number;at?:'point'|'enemy';bearing?:'random'|'out';reach?:number};
   emitTimer?:number;emitInterval?:number;emitStep?:number;emitInst?:I;
-  domain?:{allyMods?:Modifier[];enemyMods?:Modifier[];minionMods?:Modifier[]};domainKey?:string;domainAffected?:Set<A>;
+  domain?:{allyMods?:Modifier[];enemyMods?:Modifier[];minionMods?:Modifier[];stackGroup?:string};domainKey?:string;domainAffected?:Set<A>;
 }
 export interface PulseBeat {delay:number;dmgMult:number;radiusMult:number}
 /** Appended rhythms retain their own damage/radius steps. Cadence replaces

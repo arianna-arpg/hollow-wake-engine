@@ -17,10 +17,10 @@ export interface HostilityFacts<A> {
  * Guise, burrowing and predation are deliberately one-directional. */
 export class CombatHostility<A extends HostilityActor<A>> {
   constructor(readonly facts: HostilityFacts<A>) {}
-  hostile(a: A, b: A): boolean {
+  hostile(a: A, b: A, sourceTier = a.tier ?? 0): boolean {
     const p = this.facts;
     if (p.travelProtected(b)) return false;
-    if ((a.tier ?? 0) !== (b.tier ?? 0) && !p.crossLayerDuels()) return false;
+    if (sourceTier !== (b.tier ?? 0) && !p.crossLayerDuels()) return false;
     if (b.possession?.guiseFaction && !b.possession.guiseBroken && a.team === 'enemy' && a.faction === b.possession.guiseFaction) return false;
     if (b.clingTo?.id === a.id && p.burrowed(b)) return false;
     if (a.team !== b.team) return true;

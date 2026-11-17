@@ -9,6 +9,8 @@ export function combatCharacter(owner, content, admission, kit, character, actor
     const def = q.SKILLS[row.id]; if (!def) throw Error('Unknown character combat skill: ' + row.id);
     const inst = q.makeSkillInstance(def, row.level);
     inst.bonusLevels = row.bonus; inst.treeNodes = row.tree?.slice();
+    if(row.summonSchools)inst.summonSchools=[...row.summonSchools];
+    if(row.nativeCrewFactions)inst.nativeCrewFactions=[...row.nativeCrewFactions];
     const gem = s => s && {def: q.SUPPORTS[s.id], level: s.level, ...(s.rolled ? {rolled: {...s.rolled}} : {})};
     inst.sockets = row.sockets.map(gem); inst.grafts = row.grafts?.map(gem);
     return inst;
@@ -37,6 +39,15 @@ export function combatCharacter(owner, content, admission, kit, character, actor
       }, relicKey),
     deactivateAura: id => w.deactivateAura(actor, id), dismissSummon: id => w.dismissSummonToggle(actor, id),
     syncGuard: () => w.guardArts.sync(actor), refreshBonds: () => w.companionBonds.refresh(actor),
+    syncSummonPacts: () => {
+      if(!w.prototypeMechanics)return;
+      const sources=new Set([...seat.meta.knownSkills.values(),...(seat.grantedInsts?.values()??[])]);
+      for(const body of w.actors)if(!body.dead&&body.owner===actor&&body.summonInst)sources.add(body.summonInst);
+      for(const inst of sources){const previous=inst.nativeCrewFactions?.join();w.prototypeMechanics.deriveSummonPactSupports(actor,inst);
+        if(previous!==inst.nativeCrewFactions?.join())w.resyncMinionSupports(inst);}
+      w.summonPacts.reconcile(actor);
+    },
+    syncBattleDoctrines: () => w.battleDoctrines?.reconcile(actor),
   };
   const publisher = kit.live(frame, {
     retire(inst) {
@@ -88,7 +99,7 @@ export function combatCharacter(owner, content, admission, kit, character, actor
     view() {
       const skill = s => s ? {id: s.def.id, level: s.level, bonus: s.bonusLevels,
         sockets: s.sockets.map(g => g ? {id: g.def.id, level: g.level, ...(g.locked ? {locked: true} : {}), ...(g.rolled ? {rolled: g.rolled} : {})} : null),
-        tree: s.treeNodes, grafts: s.grafts?.map(g => ({id: g.def.id, level: g.level})), host: s.grantedHostUid, source: s.grantedBy} : null;
+        tree: s.treeNodes, ...(s.summonSchools?.length?{summonSchools:[...s.summonSchools]}:{}),...(s.nativeCrewFactions?.length?{nativeCrewFactions:[...s.nativeCrewFactions]}:{}),grafts: s.grafts?.map(g => ({id: g.def.id, level: g.level})), host: s.grantedHostUid, source: s.grantedBy} : null;
       return structuredClone({bar: actor.skills.map(skill), known: [...seat.meta.knownSkills].map(([id,s]) => [id,skill(s)]),
         grants: [...(seat.grantedInsts ?? [])].map(([id,s]) => [id,skill(s)]),
         companions: [...(owner.lifetimes.grantState(actor).grants ?? [])].map(([id,row]) => [id,skill(row.inst)]),

@@ -7,6 +7,7 @@ import {focusCastDuration, type FocusCastSpec} from './interactive-casting.js';
 import type {ResourceCost} from './resource-payment.js';
 import type {AdmissionReserve} from './skill-admission.js';
 import type {RequestInstance, SkillRequestResult} from './skill-request.js';
+import {rollStrikeMarker} from './strike-timing.js';
 
 export type DispatchMode = 'cast' | 'channel' | 'charge' | 'perfect' | 'timed'
   | 'multitude' | 'guard' | 'overcharge' | 'concentration';
@@ -63,6 +64,7 @@ export interface DispatchCast<I, Aim, Id = number> {
   shield?: number;
   maxShield?: number;
   indicatorAt?: number;
+  strikeTimings?:readonly StrikeTiming[];
   presses?: number;
   sparkWindow?: number;
   ventRounds?: number;
@@ -142,7 +144,7 @@ export type DispatchStat = 'castAsTotem' | 'totemPlaceTime' | 'channelPersist'
  * when a redirected host request throws; gameplay payments are not rolled back. */
 export interface SkillDispatchPorts<A, I extends DispatchInstance, Aim, Facing, Target, Tags, Mods,
   Zone extends DispatchZone<A, I>, Id = number> {
-  preflight(actor: A, inst: I, aim: Aim, seatPress: boolean): SkillRequestResult;
+  preflight(actor: A, inst: I, aim: Aim, seatPress: boolean): SkillRequestResult<I>;
   time(): number;
   failNote(actor: A, key: string, text: string): void;
   canAct(actor: A): boolean;
@@ -198,6 +200,7 @@ export interface SkillDispatchPorts<A, I extends DispatchInstance, Aim, Facing, 
   shellGraft(inst: I): DispatchShellGraft | undefined;
   overcharge(inst: I): OverchargeCastSpec | undefined;
   strikeTiming(inst: I): StrikeTiming | undefined;
+  strikeTimings?(inst:I):readonly StrikeTiming[];
   assaultLock(actor: A, inst: I, aim: Aim): void;
   primedPourOpen(actor: A, inst: I): boolean;
   execute(actor: A, inst: I, aim: Aim, payload: DispatchDelivery<Target>): void;
@@ -222,8 +225,9 @@ export class SkillDispatch<A extends DispatchActor<I, Aim, Facing, Id>, I extend
   request(caster: A, inst: I, aim: Aim, seatPress = false): boolean {
       const p = this.#ports;
       const sdkRequestResult = p.preflight(caster, inst, aim, seatPress);
-      if (sdkRequestResult !== 'continue')
+      if (typeof sdkRequestResult === 'boolean')
           return sdkRequestResult;
+      if (sdkRequestResult !== 'continue') inst = sdkRequestResult.instance;
       if (caster.reserves && caster.reserveSpecs) {
           let short = false;
           for (const spec of caster.reserveSpecs) {
@@ -567,7 +571,7 @@ export class SkillDispatch<A extends DispatchActor<I, Aim, Facing, Id>, I extend
               || mode === 'overcharge')) {
               const tags = p.tags(def);
               const extra = p.modifiers(inst);
-              const timing = p.strikeTiming(inst);
+              const timings = p.strikeTimings?.(inst),timing=timings?timings[0]:p.strikeTiming(inst);
               caster.casting = {
                   inst, mode: 'overcharge', aim: p.copyAim(aim),
                   elapsed: 0,
@@ -577,13 +581,14 @@ export class SkillDispatch<A extends DispatchActor<I, Aim, Facing, Id>, I extend
                   targetInfo: targetInfo ?? undefined,
                   paidCost: paid,
                   stage: 0, sinceStage: 999, channelTime: 0,
-                  indicatorAt: timing?.kind === 'timed' ? overchargeMarker(p.random()) : undefined,
+                  ...(timings?{strikeTimings:timings}:{}),
+                  indicatorAt: timings?rollStrikeMarker(timings,()=>p.random()):timing?.kind === 'timed' ? overchargeMarker(p.random()) : undefined,
                   sparkWindow: p.stat(caster, 'sparkWindow', tags, extra, ocSpec['window'] ?? 0),
               };
               return true;
           }
       }
-      const timing = p.strikeTiming(inst);
+      const timings = p.strikeTimings?.(inst),timing=timings?timings[0]:p.strikeTiming(inst);
       const effMode = mode === 'cast' && timing && !pierced ? timing.kind : mode;
       const castTime = p.useTime(caster, inst);
       const ordinaryDuration = effMode === 'cast' ? castDuration(castTime) : undefined;
@@ -612,7 +617,8 @@ export class SkillDispatch<A extends DispatchActor<I, Aim, Facing, Id>, I extend
           held: true, baseMult,
           chargesSpent: cc.consumed,
           targetInfo: targetInfo ?? undefined,
-          indicatorAt: effMode === 'timed' ? (0.3 + p.random() * (0.85 - 0.3)) : undefined,
+          ...(timings&&(effMode==='timed'||effMode==='perfect')?{strikeTimings:timings}:{}),
+          indicatorAt: timings?(effMode==='timed'||effMode==='perfect'?rollStrikeMarker(timings,()=>p.random()):undefined):effMode === 'timed' ? (0.3 + p.random() * (0.85 - 0.3)) : undefined,
           presses: effMode === 'multitude' ? 1 : undefined,
           paidCost: paid,
           ventRounds,

@@ -10,6 +10,7 @@ export function installCombatAuras(w, content, shared) {
   const retirement = new AuraRetirement(p.auraRetirement);
   const ledgers = new AuraLedgers(p.auraLedgers, 'lightning');
   const clock = new AuraTick({...p.auraTick,
+    healPower:(actor,inst)=>actor.sheet.get('healPower',q.skillContextTags(inst),q.instanceMods(inst)),
     convert: (actor, amount, definition, modifiers, type) => w.damage.applyConversion(actor, amount, q.skillContextTags(definition, [type]), modifiers),
     resistance: (actor, type) => w.damage.resistValue(actor, type),
   });

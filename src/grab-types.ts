@@ -38,6 +38,7 @@ export interface GrabPorts<A,I>{
   kill(actor:A,violent:boolean,killer?:A):void;hit(caster:A,skill:I,target:A,multiplier:number,depth:0):void;
   push(actor:A,direction:number,impulse:number,caster:A,skill?:I):void;
   text(at:GrabPoint,text:string,color:string,size:number):void;
+  damageText?(actor:A,amount:number,color:string,size:number):void;
   flash(flash:{pos:GrabPoint;radius:number;color:string;life:number;maxLife:number}):void;
   fail(actor:A,key:string,message:string):void;
   damaged(target:A,source:A,lifeBefore:number):void;dot(target:A,amount:number,type:string):void;

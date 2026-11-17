@@ -5,6 +5,7 @@ import type {ChannelCastSpec} from './channel-casting.js';
 import type {DispatchCast} from './skill-dispatch.js';
 import type {ResourceCost} from './resource-payment.js';
 import {finite} from './validation.js';
+import {resolveStrikeTimings} from './strike-timing.js';
 
 export interface ContinuationInstance {
   readonly def: {readonly id: string; readonly cooldown: number; readonly concentration?: FocusCastSpec};
@@ -220,6 +221,15 @@ export class CastingContinuation<
     p.acted(actor);
     const cs = actor.casting;
     if (!cs) return;
+    if(cs.strikeTimings&&(cs.mode==='perfect'||cs.mode==='timed')){
+      if(cs.pressUsed)return;cs.pressUsed=true;
+      const result=resolveStrikeTimings(cs.strikeTimings,cs.total>0?cs.elapsed/cs.total:0,cs.indicatorAt);
+      if(result.successes.length){cs.empowered=result.multiplier;
+        for(const timing of result.successes)p.timingCue(actor,timing.kind==='timed'?'flawless':'perfect',cs.aim);
+        p.flawless(actor,p.copyAim(cs.aim),cs.inst);
+      }
+      return;
+    }
     const cue = pressCastTiming(cs, p.timingBonus(cs.inst));
     if (cue) {
       p.timingCue(actor, cue, cs.aim);

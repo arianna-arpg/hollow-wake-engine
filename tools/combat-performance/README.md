@@ -35,8 +35,9 @@ content import time, initial course setup time, declared measurement limits and
 the compile-cache environment. The paired `compare.mjs` disables Node's
 optional on-disk compile cache in every child process so cached compilation cannot
 conceal cold content-loading costs. Passing `--budgets` requires all seven pairs;
-shorter comparisons are exploratory. CPU totals include
-untimed setup inside each course; operation timings exclude that setup. The
+shorter comparisons are exploratory. CPU totals cover the sampled operation
+loop, excluding setup and warmup (the legacy `cpuIncludingSetupUs` field name
+is misleading). Operation timings also exclude setup and warmup. The
 allocation estimate includes setup, warmup, observation and the measured course,
 so compare it only against the same course and sampling settings. Sampled V8
 allocation is not exact native allocation. Peak process RSS is cumulative for

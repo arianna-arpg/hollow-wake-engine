@@ -1,3 +1,4 @@
+import {checkMaintainedExtraction} from './check-maintained-extraction.mjs';
 import fs from 'node:fs';import assert from 'node:assert/strict';import ts from 'typescript';import {sha256} from './reference-utils.mjs';
 const lock=JSON.parse(fs.readFileSync('baseline/source-lock.json')),sources={};
 function read(file){const text=fs.readFileSync('.reference/'+file,'utf8');assert.equal(sha256(Buffer.from(text)),lock.files[file],file);sources[file]=lock.files[file];return ts.createSourceFile(file,text,99,true);}
@@ -76,5 +77,5 @@ const inherited=world.statements.find(n=>ts.isInterfaceDeclaration(n)&&n.name.te
 let record=print(projectile,world).replace('interface Projectile {','interface CombatProjectile<A,I> {').replace(/\bVec2\b/g,'CombatPoint').replace(/\bActor\b/g,'A').replace(/\bSkillInstance\b/g,'I').replace(/import\(['"]\.\/cosmetics['"]\)\.CosmeticMotif/g,'string');
 record+= '\n'+print(inherited,world).replace(/^interface /,'export interface ')+'\n';
 const outputs={'src/projectile-specs.ts':spec,'src/projectile-math.ts':math,'src/projectiles.ts':code,'src/projectile-record.ts':"import type {CombatPoint} from './combat-geometry.js';import type {DamageType} from './damage-pipeline-types.js';import type {ParryDamage} from './parry-damage.js';import type {ProjectileDelivery,ProjectileShape,ProjTrailSpec,FissureTrailSpec} from './projectile-specs.js';\n"+record};
-if(process.argv.includes('--check')){for(const [file,body]of Object.entries(outputs))assert.equal(sha256(fs.readFileSync(file)),sha256(Buffer.from(body)),file);console.log({passed:true,methods:names});}
+if(process.argv.includes('--check')){for(const [file,body]of Object.entries(outputs))checkMaintainedExtraction(file,body);console.log({passed:true,methods:names});}
 else{for(const file of Object.keys(outputs))assert(!fs.existsSync(file),'Refusing to overwrite '+file);for(const [file,body]of Object.entries(outputs))fs.writeFileSync(file,body);fs.writeFileSync('baseline/projectile-extraction.json',JSON.stringify({sourceCommit:lock.commit,sources,methods:names,sha256:Object.fromEntries(Object.entries(outputs).map(([k,v])=>[k,sha256(Buffer.from(v))]))},null,2)+'\n');}

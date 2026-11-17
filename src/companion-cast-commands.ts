@@ -81,14 +81,14 @@ export class CompanionCastCommands<
     else this.ports.stance(controller, skill.hostSkillId, stance);
   }
 
-  recall(caster: A, skill: I, radius?: number): void {
+  recall(caster: A, skill: I, radius?: number, tier=caster.tier): void {
     const mobile = this.ports.actors().filter(actor => actor.owner === caster && !actor.dead && actor.isMinion()
       && !actor.construct && !actor.anchored && !actor.leap && !this.ports.noRecall(actor.defId ?? ''));
     const reach = radius ?? caster.radius + 34;
     mobile.forEach((actor, i) => {
       const angle = i / Math.max(1, mobile.length) * Math.PI * 2;
       actor.push = null;
-      this.ports.teleport(actor, {x: caster.pos.x + Math.cos(angle) * reach, y: caster.pos.y + Math.sin(angle) * reach}, skill.def.color, caster.tier);
+      this.ports.teleport(actor, {x: caster.pos.x + Math.cos(angle) * reach, y: caster.pos.y + Math.sin(angle) * reach}, skill.def.color, tier);
     });
   }
 
@@ -107,7 +107,7 @@ export class CompanionCastCommands<
     if (!spent) this.ports.refused(caster, skill.def.id + ':nobodies', 'no minions to spend');
   }
 
-  shatter(caster: A, skill: I, fraction: number, radius: number, color = skill.def.color): void {
+  shatter(caster: A, skill: I, fraction: number, radius: number, color = skill.def.color, tier=caster.tier): void {
     let blown = 0;
     for (const actor of [...this.ports.actors()]) {
       if (actor.owner !== caster || actor.dead || !actor.construct) continue;
@@ -118,7 +118,7 @@ export class CompanionCastCommands<
         continue;
       }
       if (!['totem', 'sentry', 'pylon'].includes(actor.construct.kind)) continue;
-      this.ports.burst({x: actor.pos.x, y: actor.pos.y}, radius, actor.maxLife() * fraction, color, caster.team, caster.tier, caster, skill);
+      this.ports.burst({x: actor.pos.x, y: actor.pos.y}, radius, actor.maxLife() * fraction, color, caster.team, tier, caster, skill);
       this.ports.kill(actor, true);
       blown++;
     }

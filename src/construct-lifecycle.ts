@@ -223,6 +223,7 @@ const pick=<T>(values:readonly T[]):T=>values[Math.floor(sdk.random()*values.len
                 }
             }
         }
+        if(sdk.advanceDevice?.(c,dt))continue;
         switch (st.kind) {
             case 'totem': {
                 if (!st.castInst || !c.canUse(st.castInst))
@@ -544,5 +545,6 @@ const pick=<T>(values:readonly T[]):T=>values[Math.floor(sdk.random()*values.len
             }
         }
     }
+    sdk.finishDevices?.();
 }
 }

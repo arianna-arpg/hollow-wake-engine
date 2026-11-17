@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "f1fc73a52abbe7055e60971ed15b8a0b38a97a23",
+  "sourceLockSha256": "76e459c1f870fbee1ccd86143ee7880430f46b09722b6b96a0c51f6ace5d38be",
+  "explanation": "Original extraction output must still match its frozen checksum. Only these separately reviewed maintained ports may differ. Public parity courses verify their composed behavior.",
+  "files": {
+    "src/cast-preparation.ts": {
+      "beforeSha256": "1e3a1c4b23ba853887d2eb546b06854f602bbe0271656c48756762f0dce75a8d",
+      "afterSha256": "d59048e3459653195c9fd0a662dd1e0ba720b9edcb19f4c3bb89b4ad049cbe8f",
+      "originalManifest": "baseline/cast-preparation-extraction.json",
+      "note": "Cast-sequence and summon/projectile-art preparation preserve the original phase order."
+    },
+    "src/construct-lifecycle.ts": {
+      "beforeSha256": "0d25a1ae1cf9322bc91c3111e1905011fbbd1748cf6e87e63b99a66567d97f3a",
+      "afterSha256": "2732f1c9fee20c5a36c3ab0f393195a78c4863c6fe8d5d12176d6490409a6fc0",
+      "originalManifest": "baseline/construct-lifecycle-extraction.json",
+      "note": "Current traps/mines delegate to the source-derived device clock and finalize contacts after the actor loop."
+    },
+    "src/field-simulation.ts": {
+      "beforeSha256": "8dd7d6e3aacc0abba7fd46fe6d4fcb67ff37d23973eb270e69d319dc7eaadeb6",
+      "afterSha256": "7be1e88b775483066ff8c9ed71f7787c67cb685a33554fb0eb1ed9c58653c2f4",
+      "originalManifest": "baseline/field-simulation-extraction.json",
+      "note": "Current effect floors, stacking groups, field attribution and contact rules."
+    },
+    "src/grab.ts": {
+      "beforeSha256": "de6a968e379fa6a33415df126c4933a747ccf5b98dc87b8f5f0b1a1e385c16c5",
+      "afterSha256": "4fbefc86eae442dc7e2d333759db0ced8c4c24df42a121239b9a7d623f68dc5a",
+      "originalManifest": "baseline/grab-extraction.json",
+      "note": "Owner-scoped numeric damage feedback; original text callback remains the fallback."
+    },
+    "src/projectile-specs.ts": {
+      "beforeSha256": "00fdab08496596ce3d37901c3c82fd47fb072b15d3318c2d4818c90be2bf56f1",
+      "afterSha256": "e4975fc0be12d47c8df4a1082472fc670e01b91901bfbdb86a6d47d30c859563",
+      "originalManifest": "baseline/projectile-extraction.json",
+      "note": "Current planted-projectile appearance field."
+    },
+    "src/projectile-record.ts": {
+      "beforeSha256": "0c04ecefe62652f00acf30786340fce0507434188001bb7707a3ee64d283994c",
+      "afterSha256": "014b5c9015282299b9e2ce8a97b464c7c8c167b609e4480c1b2a7e0ed1ecdaac",
+      "originalManifest": "baseline/projectile-extraction.json",
+      "note": "Per-projectile orbit state."
+    },
+    "src/projectiles.ts": {
+      "beforeSha256": "d4f0eddf4e899be1770d440cf16cad550a0d092bc4b849b33b8075e510a9b3c1",
+      "afterSha256": "d95524258f91547eb31087403398f3f5c0d8d338c19ae2f17ad4ab863bd299e2",
+      "originalManifest": "baseline/projectile-extraction.json",
+      "note": "Orbit/emission/return/rehit art hooks, floors, line of fire and secondary effects."
+    }
+  },
+  "evidence": {
+    "baseline/prototype-parity/combat-acceptance.json": "a2f062b55f05fc7d90c3866d23dce45a0a161d307646d69be9ddb8b3c16cd12a",
+    "baseline/prototype-parity/interactions-acceptance.json": "a304184a4e2182f61afcaff682b8838f5e4a0eb0d693c0100ae0763223c85626",
+    "baseline/prototype-parity/layers-v2-acceptance.json": "00c0e3bcab4efa5601c65b15a19801b0068e21bd96db08fd7764c326d72a8f3f",
+    "baseline/prototype-parity/summons-v5-acceptance.json": "afbafc6f478a399cc8333381e50900102801a67cc785a95a3aeab786f9aa972b",
+    "baseline/prototype-parity/rules-v2-acceptance.json": "47d8c2d4d156a48cf9d72ee2d465c53b120e02b2887415e0d244939a27aca05b",
+    "baseline/prototype-parity/terminal-acceptance.json": "e40511d3455bd3a5fa266ad10842945b60484c8481adbbe8b4a0109de487c986",
+    "baseline/cast-preparation-extraction.json": "1ef075e515fa27d04486427ff70e38c907e14ec199990bbb4e621572d44721d8",
+    "baseline/construct-lifecycle-extraction.json": "61ae5af88ad06ee12f640e60e02ea3f05a4a2e8e063242c7ac1237f9c3d14fa0",
+    "baseline/field-simulation-extraction.json": "aaee8890142f8310268b48dda72e69379db481bc65774b8ca28d4c8f251bdf67",
+    "baseline/grab-extraction.json": "7a1e4e85a42a80224db1a384d83ef73a040749fd2001d00f9e630cc0fbc3b626",
+    "baseline/projectile-extraction.json": "4394a4f3a19aa4b7a75025e114f188b81cac99ded68a495b9072342385acb7b3"
+  }
+}

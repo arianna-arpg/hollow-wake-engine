@@ -1,4 +1,4 @@
-import type {CharacterSession,CharacterSessionDefinitions,CharacterProjection} from '@hollow-wake/engine/character/session';
+import type {CharacterSession,CharacterSessionDefinitions,CharacterProjection,CharacterCustody} from '@hollow-wake/engine/character/session';
 import type {CharacterLive,CharacterLiveRules,CharacterLiveEffects} from '@hollow-wake/engine/character/live';
 import type {CharacterRebuildFrame} from '@hollow-wake/engine/character/rebuild';
 import type {CharacterSkill,CharacterSkillDefinition,CharacterSkillQueries} from '@hollow-wake/engine/character/skill-queries';
@@ -12,7 +12,7 @@ export interface CharacterKit {
   readonly queries:CharacterSkillQueries;
   readonly pricing:SkillPricing<CharacterSkill,Modifier,string>;
   create(classId:string,options?:{seed?:number;board?:{w:number;h:number;rows?:string[]};authority?:CharacterProjection}):CharacterSession;
-  admit(data:unknown,authority:CharacterProjection):CharacterSession;
+  admit(data:unknown,authority:CharacterProjection,custody?:CharacterCustody):CharacterSession;
   live(frame:CharacterRebuildFrame<CharacterSkillDefinition,GemDefinition,CharacterSkill,ItemInstance>,effects:CharacterLiveEffects<CharacterSkill>):CharacterLive<CharacterSkillDefinition,GemDefinition,CharacterSkill,ItemInstance,{id:string;innate?:Modifier[]},{id:string;active:boolean}>;
 }
 export declare function createCharacterKit(buildPack:unknown,pack:unknown):CharacterKit;

@@ -29,7 +29,9 @@ export interface CharacterRebuildFrame<D,U,S,I,M extends Modifier=Modifier> {
   deactivateAura:EquipmentSkillFrame<D,U,S,I>['deactivateAura'];
   dismissSummon:EquipmentSkillFrame<D,U,S,I>['dismissSummon'];
   syncGuard():void;
+  syncSummonPacts?():void;
   refreshBonds():void;
+  syncBattleDoctrines?():void;
 }
 
 /** Ordered live build application. This composes the existing contribution and
@@ -63,6 +65,8 @@ export class CharacterRebuild<D,U,S,I,M extends Modifier=Modifier> {
     actor.life=Math.min(actor.life,actor.maxLife());
     actor.mana=Math.min(actor.mana,actor.maxMana());
     frame.syncGuard();
+    frame.syncSummonPacts?.();
     frame.refreshBonds();
+    frame.syncBattleDoctrines?.();
   }
 }

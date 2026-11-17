@@ -1,5 +1,5 @@
 import {CharacterBuilds} from '@hollow-wake/engine/character/builds';
-import {StatRules} from '@hollow-wake/engine';
+import {StatRules,StatSheet} from '@hollow-wake/engine';
 import {ItemContent,ItemRules} from '@hollow-wake/engine/items';
 import {PassiveGrants} from '@hollow-wake/engine/passives/grants';
 import {ContainerLayout,ContainerPolicy,SeatGeometry,SeatRules} from '@hollow-wake/engine/inventory/containers';
@@ -38,10 +38,11 @@ export function createCharacterBuildRules(pack){
   const unpack=row=>{if(!row)return null;const def=own(supports,row.supportId);if(!def)throw Error('Unknown build support');
     return {def,level:row.level,...(row.locked?{locked:true}:{}),...(row.rolled?{rolled:clone(row.rolled)}:{})};};
   const updateGrant=(inst,state)=>{inst.sockets=inst.sockets.map((_,n)=>unpack(state.sockets[n]));
+    if(state.summonSchools?.length)inst.summonSchools=[...state.summonSchools];else delete inst.summonSchools;
     if(state.treeNodes?.length)inst.treeNodes=[...state.treeNodes];else delete inst.treeNodes;};
   const updateLearned=(inst,payload)=>{
     inst.level=payload.level;inst.sockets=payload.sockets.map(unpack);
-    for(const field of ['rarity','empowermentRank','replenishmentPaused','granted','attunedForm','treeNodes']){
+    for(const field of ['rarity','empowermentRank','replenishmentPaused','granted','attunedForm','treeNodes','summonSchools']){
       if(payload[field]!==undefined)inst[field]=clone(payload[field]);else delete inst[field];
     }
   };
@@ -56,10 +57,25 @@ export function createCharacterBuildRules(pack){
     classSkillStat:def=>'classSkill_'+def.id,treeGraft:(def,id)=>h.treeNodeOf(def,id)?.graft,
     supportFits:(def,inst)=>compatible(def,inst)};
   return {contentId,barSlots:h.BAR_SLOTS,stats:statRules,passives,class:id=>classes.find(def=>def.id===id),equipment,
+    ...(definitions.satelliteItems?{sourcePrelude:['satelliteEquipment']}:{}),
     socketFits:compatible,
+    ...(definitions.summonPactSupportGrants?{deriveSkill:(sheet,inst)=>{
+      const d=h.instanceDelivery(inst);
+      if(d.type!=='summon'){delete inst.nativeCrewFactions;return;}
+      const tags=h.skillContextTags(inst),extra=h.instanceMods(inst);
+      const grants=definitions.summonPactSupportGrants.filter(g=>sheet.get(g.stat,tags,extra)>0);
+      const factions=[...new Set(grants.flatMap(g=>g.factions))];
+      const forms=d.monsterId?[d.monsterId]:d.pool?.map(p=>p.id)??[];
+      inst.nativeCrewFactions=factions.length&&(d.fromCorpse||forms.some(id=>factions.includes(monsters[id]?.faction??'')))?factions:undefined;
+    }}:{}),
     summon:def=>def.delivery.type==='summon'?def.delivery:undefined,copySkill,updateGrant,updateLearned,
     restoreLearned:payload=>{const inst=cargo.skillOfGemItem({gem:payload});if(!inst)throw Error('Unknown learned build skill');return inst;},
     contributions:{equipSlots:()=>slots,containers:()=>containers,compileItem:item=>items.compile(item),board:(def,features)=>layouts.get(def.id).board(features),
+      ...(definitions.satelliteItems?{itemSummary:rows=>{
+        const sheet=new StatSheet(statRules);let count=0;
+        for(const mods of rows)if(mods.some(m=>m.stat.startsWith('satelliteCount_'))&&definitions.satelliteItems.some(row=>sheet.get(row.stat,new Set(row.tags),mods,0)>0))count++;
+        return[{id:'satelliteEquipment',mods:[{stat:'satelliteEquipmentCount',kind:'flat',value:count}]}];
+      }}:{}),
       misfits:(board,held)=>containerPolicy.misfits(board,held),amplification:(board,held,mods)=>geometry.amplification(board,held,mods),
       amplify:(mods,factor)=>seats.amplify(mods,factor),empower:(mods,power,factor)=>seats.empower(mods,power,factor)},
     levelModifiers:level=>[{stat:'life',kind:'flat',value:(level-1)*levelTuning.lifePerLevel},{stat:'mana',kind:'flat',value:(level-1)*levelTuning.manaPerLevel},{stat:'accuracy',kind:'flat',value:(level-1)*4}]};
@@ -68,4 +84,6 @@ export function createCharacterBuildRules(pack){
 export function createCharacterBuilds(pack){return new CharacterBuilds(createCharacterBuildRules(pack));}
 
 /** Pure authored skill reads used by preview, pricing and the damage pipeline. */
-export const characterSkillQueries=Object.freeze({instanceMods:h.instanceMods,instanceInnateMods:h.instanceInnateMods,skillContextTags:h.skillContextTags,instanceTrigger:h.instanceTrigger,skillCooldownSeconds:h.skillCooldownSeconds,treeNodeRefusal:h.treeNodeRefusal,guarded:inst=>!!h.socketSpec(inst,'guardCast'),replenishing:inst=>!!h.replenishingDelivery(inst)});
+export const characterSkillQueries=Object.freeze({instanceMods:h.instanceMods,instanceInnateMods:h.instanceInnateMods,skillContextTags:h.skillContextTags,instanceTrigger:h.instanceTrigger,skillCooldownSeconds:h.skillCooldownSeconds,treeNodeRefusal:h.treeNodeRefusal,guarded:inst=>!!h.socketSpec(inst,'guardCast'),replenishing:inst=>!!h.replenishingDelivery(inst),
+  baseTime:inst=>{const d=h.instanceDelivery(inst);return d.type==='summon'?(d.arts?.summonTime??inst.def.useTime):inst.def.useTime;},
+  summonSchools:inst=>{const d=h.instanceDelivery(inst);return d.type==='summon'&&d.arts?.balanceSchools?d.arts.schools?.map(s=>s.id):undefined;}});

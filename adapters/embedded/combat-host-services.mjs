@@ -26,12 +26,17 @@ export function installCombatHostServices(w, content) {
   // it must not write the actor to make a hit reach the selected segment.
   w.noteBodyHit = (actor, segment) => {q.noteBodyHit(actor,segment);space.noteBodyHit(actor,segment);};
   w.signal = (kind, detail) => w.signals.push({kind, detail});
-  w.text = (at, text, color, size = 12, kind) => {
+  w.text = (at, text, color, size = 12, kind, life=1, damage) => {
     // Original presentation jitter participates in the accepted random stream.
     // A renderer may ignore it; disabling rendering must not change combat rolls.
     const jitter = w.random();
-    w.signal('text', {at: {...at}, text, color, size, kind, jitter});
+    w.signal('text', {at: {...at}, text, color, size, kind, jitter,...(content.prototypeMechanics?{life,damage}:{} )});
   };
+  if(content.prototypeMechanics){
+    w.damageTextBursts=new q.DamageTextBursts();
+    w.damageText=(target,amount,color,size=13,kind,at=target.pos)=>w.text(at,Math.round(amount).toString(),color,size,kind,1,
+      w.damageTextBursts.record(target.id,amount,w.time,target.pos));
+  }
   w.notice = (text, color, size, kind) => w.signal('notice', {text, color, size, kind});
   w.showSkillArrival = (actor, inst, at, radius, tier, self, area) => w.signal('skill-arrival', {actor: actor.id, skill: inst.def.id, at: {...at}, radius, tier, self, area});
   w.showSelfRelease = (actor, inst) => w.signal('self-release', {actor: actor.id, skill: inst.def.id});
@@ -97,7 +102,7 @@ export function installCombatHostServices(w, content) {
   const hostility = new CombatHostility({travelProtected: q.throngTravelProtected,
     crossLayerDuels: () => !!w.host.space.crossLayerDuels?.(), burrowed: q.clingBurrowed,
     prey: (a, b) => w.isPrey(a, b), factionStance: (a, b) => w.host.relationships?.factionStance?.(a, b) ?? q.factionStance(a, b)});
-  w.hostileTo = (a, b) => hostility.hostile(a, b);
+  w.hostileTo = (a, b, tier) => hostility.hostile(a, b, tier);
   w.isDormant = actor => !!w.host.intent?.dormant?.(actor.id);
   // Crowd storage, promotion and combat belong to the SDK's packed population
   // service. The spatial host supplies floor facts, not replacement combat.

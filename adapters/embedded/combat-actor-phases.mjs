@@ -497,6 +497,7 @@ function afterStatuses(a, dt, steeredCast) {
     const sc = w.cScratch;
     sc.hit = "none";
     a.pos = w.clampPos(vec(a.pos.x + p.vx * dt, a.pos.y + p.vy * dt), a.radius, from, { out: sc, mover: a });
+    w.deviceContacts?.record(a, from, a.pos, a.tier, a.flying || !!a.leap || w.levitating(a));
     const hit = sc.hit;
     if (speed >= MASS_CFG.slam.minSpeed)
       w.sweepBodySlam(a, p, speed);

@@ -1,8 +1,13 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';import {pathToFileURL} from 'node:url';import ts from 'typescript';
 import {root,sha256,writeJSON} from './reference-utils.mjs';
+import {gzipSync} from 'node:zlib';
 const file=path.join(root,'dist/hit-aftermath.js'),source=fs.readFileSync(file,'utf8'),directory=fs.mkdtempSync(path.join(root,'.artifacts/hit-aftermath-mutations-'));
+try {
 const ast=ts.createSourceFile('hit-aftermath.js',source,ts.ScriptTarget.Latest,true),factory=ast.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text==='createHitAftermath'),apply=factory.body.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text==='apply');
-const top=[...apply.body.statements],inner=[...top[0].thenStatement.statements];assert.equal(top.length,28);assert.equal(inner.length,16);
+const top=[...apply.body.statements],inner=[...top[0].thenStatement.statements];assert.equal(top.length,29);assert.equal(inner.length,16);
+// The reviewed November hook sits between beforeEffects and dispatchEffects.
+// Preserve every historical mutation at its corresponding source statement.
+assert.equal(top[7].getText(ast),'ports.projectileLanded?.(caster, inst, target, dealt, depth, dmgMult);');
 const faults=[
  ['volatile-life','inner',0,'target.life > 0','true'],['volatile-dead','inner',0,'&& !target.dead',''],['volatile-hidden','inner',0,'&& !target.untargetable',''],
  ['volatile-ready','inner',0,'ports.time() >= target.volatileReadyAt','ports.time() > target.volatileReadyAt'],['volatile-chance','inner',0,'ports.chance(target.volatile.chance)','true'],
@@ -44,7 +49,7 @@ const faults=[
  ['melee-trigger-depth','top',27,'depth === 0','depth >= 0'],['melee-trigger-stamp','top',27,'&& !inst.state?.trigDepth',''],['melee-trigger-spec','top',27,'&& !ports.instanceTrigger(inst)',''],
 ];
 const prepared=faults.map(([name,section,index,needle,replacement])=>{
- const node=(section==='top'?top:inner)[index],text=node.getText(ast);assert.equal(text.split(needle).length-1,1,'Fault selector '+name);
+ const node=(section==='top'?top:inner)[index+(section==='top'&&index>=7?1:0)],text=node.getText(ast);assert.equal(text.split(needle).length-1,1,'Fault selector '+name);
  const changed=source.slice(0,node.getStart(ast))+text.replace(needle,replacement)+source.slice(node.end);
  assert.equal(ts.createSourceFile(name,changed,ts.ScriptTarget.Latest,true).parseDiagnostics.length,0,name);
  return{name,changed};
@@ -73,4 +78,10 @@ try {
  assert.equal(sha256(fs.readFileSync(file)),sha256(source));assert.equal(sha256(fs.readFileSync(testFile)),testHash);
  const report={passed,directory,tests:35,sourceSha256:sha256(source),testSha256:testHash,faults:results.filter(r=>r.detected).length,results,runtimeUnchanged:true};
  writeJSON(path.join(directory,'verification.json'),report);writeJSON('.artifacts/hit-aftermath-mutation-verification.json',report);console.log({passed,directory,faults:report.faults});
+}
+} finally {
+ assert.equal(path.dirname(fs.realpathSync(directory)),fs.realpathSync(path.join(root,'.artifacts')));
+ const logs=Object.fromEntries(fs.readdirSync(directory).filter(name=>name.endsWith('.txt')).map(name=>[name,fs.readFileSync(path.join(directory,name),'utf8')]));
+ fs.writeFileSync(path.join(root,'.artifacts/hit-aftermath-mutation.logs.json.gz'),gzipSync(JSON.stringify(logs)));
+ fs.rmSync(directory,{recursive:true,maxRetries:3});
 }

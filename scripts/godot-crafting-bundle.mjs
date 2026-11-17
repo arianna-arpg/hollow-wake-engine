@@ -26,9 +26,10 @@ export async function craftingBundle(directory,withRack,plugins=[]){
 
 export async function workshopBundles(directory,plugins=[]){
   const base=await craftingBundle(directory,false,plugins),rack=await craftingBundle(directory,true,plugins);
-  // Versioned reads and bounded station quotes stay within the measured 102 KiB
-  // base ceiling; optional gameplay families keep their independent deltas.
-  assert(base.bytes.length<=102*1024,'Base workshop exceeds 102 KiB: '+base.bytes.length);
+  // November portable school choices and optional Relic retirement add a
+  // separately reviewed 2 KiB allowance to the prior 102 KiB ceiling. This is
+  // a recorded feature cost; optional families retain their independent deltas.
+  assert(base.bytes.length<=(102+2)*1024,'Base workshop exceeds 104 KiB: '+base.bytes.length);
   assert(rack.bytes.length-base.bytes.length<=5*1024,'Optional learned rack exceeds 5 KiB');
   const support=await craftingBundle(directory,'supports',plugins);
   assert(support.bytes.length-rack.bytes.length<=5*1024,'Optional socket custody exceeds 5 KiB');

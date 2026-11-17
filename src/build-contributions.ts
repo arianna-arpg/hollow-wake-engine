@@ -23,6 +23,7 @@ export interface BuildContributionInput<I,M extends Modifier=Modifier> {
   relicEmpowerment?:number;
 }
 export interface BuildContributionPorts<I,M extends Modifier,D extends {id:string;active:boolean}> {
+  itemSummary?(items:readonly (readonly M[])[]):readonly {id:string;mods:M[]}[];
   beginPassives(input:BuildContributionInput<I,M>):BuildPassiveFold<M>;
   equipSlots():Iterable<{id:string}>;
   containers():Iterable<D>;
@@ -85,6 +86,7 @@ export class BuildContributions<I,M extends Modifier=Modifier,D extends {id:stri
       }
       containerSheetMods.set(def.id,sheetMods);
     }
+    for(const row of r.itemSummary?.([...gearSheetMods.values(),...containerPieceMods.values()])??[])sink.sheet.setSource(row.id,row.mods);
     sink.attributes(passiveBuild.attributes(),passiveBuild.attributeModifiers());
     sink.sheet.setSource('class',input.classDef.innate??[]);
     sink.sheet.setSource('passives',passiveMods);

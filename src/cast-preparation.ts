@@ -9,7 +9,9 @@ const {ports:sdk,state,rules}=this;const rand=(min:number,max:number)=>min+sdk.r
 if (sdk.replenishingDelivery(inst))
     return { completed: false };
 inst = sdk.prepareChallenge(caster, inst, !opts.noRepeat && !opts.noCooldown && !opts.fromFuse);
+inst = sdk.prepareSequence?.(caster, inst, !opts.noRepeat && !opts.noCooldown && !opts.fromFuse) ?? inst;
 inst = sdk.prepareAttack(caster, inst, aim, opts.dmgMult ?? 1);
+inst = sdk.prepareArts?.(caster, inst, opts) ?? inst;
 const def = inst.def;
 const cosmeticPaint = sdk.cosmetic(caster, def.id);
 const cosmeticColor = cosmeticPaint.color ?? def.color;

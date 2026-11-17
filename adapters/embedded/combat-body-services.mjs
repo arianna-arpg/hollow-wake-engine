@@ -6,6 +6,7 @@ import {MinionInheritanceResolver, applyMinionPlyBonus} from '@hollow-wake/engin
 import {AttributeBequests} from '@hollow-wake/engine/minions/bequests';
 import {itemOperations} from '../../dist/item-core.js';
 import {SummonContracts} from '../../dist/summon-contracts.js';
+import {StatSheet} from '@hollow-wake/engine';
 
 /** Body and summon ownership stays inside the combat session. Registry data is
  * shared read-only; IDs, item caches, reservations and pending births are local.
@@ -21,7 +22,10 @@ export function installCombatBodies(w, content, shared) {
     return Math.max(1, w.seats.reduce((count, seat) => count + (seat.actor.dead ? 0 : seat.merc ? weight : 1), 0));
   };
   w.relicPower = actor => w.seatOf(actor)?.meta.relicEmpowerment ?? 0;
-  w.minionInheritance = new MinionInheritanceResolver(p.inheritance);
+  w.minionInheritance = new MinionInheritanceResolver({...p.inheritance,...(content.prototypeMechanics?{
+    inheritanceStat:(actor,bodyId)=>{if(!w.prototypeMechanics.transmutationOf(actor,bodyId))return;
+      const sheet=new StatSheet(shared.stats);return (id,tags,mods)=>sheet.get(id,tags,mods);},
+  }:{})});
   w.minionAreaAvoidanceOf = (...args) => w.minionInheritance.areaAvoidanceOf(...args);
   w.applyMinionPlyBonus = applyMinionPlyBonus;
   // Registration was compiled into the immutable content. Runtime cannot add
@@ -33,6 +37,15 @@ export function installCombatBodies(w, content, shared) {
     return w.nextItemId++;
   });
   const bodies = new BodyFactory({...p.bodies,
+    ...(content.prototypeMechanics?{
+      tuneEnemy:(actor,id,def)=>{const dial=q.damageDialMods(id);if(dial.length)actor.sheet.setSource('threat',dial);
+        const pool=q.manaPoolMods(id,def.base.mana??0);if(pool.length)actor.sheet.setSource('manaPool',pool);},
+      tellSpecs:q.bodyTellSpecs,
+      prepareKit:(actor,def,level)=>{if(!def.groundDevice)return;
+        const spec=def.groundDevice,payload=actor.skills.find(s=>s?.def.id===spec.skillId)??(q.SKILLS[spec.skillId]&&q.makeSkillInstance(q.SKILLS[spec.skillId],level));
+        if(payload){actor.construct=w.prototypeMechanics.groundDeviceState(spec,payload);actor.aims=false;if(spec.kind==='trap')w.deviceContacts.watch(actor);}
+      },
+    }:{}),
     allocate: (name, team, pos) => w.allocateActor(name, team, pos),
     appearance: id => w.host.presentation?.appearance?.(id),
     rollItem: options => items.rollItem({...options, rng: () => w.random()}),
@@ -40,6 +53,7 @@ export function installCombatBodies(w, content, shared) {
   });
   w.createMonster = (...args) => bodies.create(...args);
   const contracts = new SummonContracts(w.summonQueues, {
+    ...(content.prototypeMechanics?{recoveryScale:body=>w.frameArts.recovery(body)}:{}),
     delivery: inst => {const d = q.instanceDelivery(inst); return d.type === 'summon' ? d : undefined;},
     native: inst => inst.def.delivery.type === 'summon' ? inst.def.delivery : undefined,
     tags: (inst, native) => q.skillContextTags(native ? inst.def : inst), modifiers: q.instanceMods,
@@ -58,6 +72,22 @@ export function installCombatBodies(w, content, shared) {
   w.dismissSummonToggle = w.dismissSummon;
   w.dismissExclusiveSummons = (...args) => contracts.dismissExclusive(...args);
   const births = new SummonBirth({...p.summons,
+    ...(content.prototypeMechanics ? {
+      prepareOwner:(actor,inst)=>w.prototypeMechanics.deriveSummonPactSupports(actor,inst),
+      kitIds:q.summonKitIds,
+      sourceBuff:(effect,inst)=>w.prototypeMechanics.buffWithSource(effect,inst),
+      canSpawn: (actor, inst, delivery) => w.summonArts.canSpawn(actor, inst, delivery),
+      capacity: (actor, inst, delivery) => delivery.frame?.consolidation ? 1 : contracts.capacity(actor, inst, delivery),
+      choose: (actor, inst, delivery) => w.summonArts.choose(actor, inst, delivery),
+      prepareKit: (body, actor, inst, delivery) => {
+        body.skills = body.skills.map(skill => skill ? {...skill, def: q.summonSchoolSkill(delivery, body.defId, skill.def)} : skill);
+        w.prototypeMechanics.refreshTransmutation(body, actor);
+        w.forwardSummonSockets(inst,body.skills,{faction:body.faction});return true;
+      },
+      created: (body, inst) => {
+        w.frameArts.init(body, inst); w.summonArts.init(body, inst); w.cohortArts.init(body, inst); w.summonPacts.summoned(body);
+      },
+    } : {}),
     reservation: (...args) => contracts.reservation(...args),
     accrueSummon: actor => w.observers.summoned?.(actor),
   });

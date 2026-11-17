@@ -1,7 +1,9 @@
 # Adopting the combat and Inventory SDK
 
-Start with the [combat-inventory-v0.1.0-preview.1 release](https://github.com/arianna-arpg/hollow-wake-engine/releases/tag/combat-inventory-v0.1.0-preview.1). Extract its
-`hollow-wake-combat-inventory-0.1.0-preview.1.zip` into a new project folder and
+The current prototype targets [combat-inventory-v0.2.0-preview.1](https://github.com/arianna-arpg/hollow-wake-engine/releases/tag/combat-inventory-v0.2.0-preview.1).
+Its qualification is tracked in [prototype parity](prototype-parity.md); use it
+after its verified release is published. Extract
+`hollow-wake-combat-inventory-0.2.0-preview.1.zip` into a new project folder and
 follow the included README. No source-game folder or npm registry publication
 is involved. The release's five archives are a matched set; copy their
 `package.json` dependencies and `packages/` directory when starting another
@@ -33,6 +35,9 @@ second live owner. The Node adapter's `build` and `grant` do this for you.
 | Edit or preview | `character.prepare` / `preview`, or `host.build(command, {preview:true})` | Authorize station/refund conditions and publish at a simulation boundary |
 | Award XP, points, items, Vocation or external projections | `character.authorize`, or `host.grant` | Decide entitlement in trusted code; never accept a client reward claim |
 | Cast/move/time | `press`, `release`, `move`, `advance`, or host `input` / `step` | Validate input, own the clock and provide physical facts |
+| Summon commands and timing | `meta`, `dismissFrame`, `timingPress`, or host input `meta` / `dismiss` / `timing` | Bind authored action IDs; present action/refusal state |
+| Authored summon tactics | `summonTactic` followed by host navigation and `move` | Supply perception/target decisions and resolve movement intents |
+| Inspect live summon/effect state | `details`, `visuals`, or `host.inspect` | Request on demand; render detached data without mutating the simulation |
 | Render consequences | `snapshot`, `poses`, `drainSignals`, or detached host frames | Map authoritative IDs to graphics, audio and UI |
 | Close | `host.close` / `combat.close` | Release the session and its host listener/resources |
 

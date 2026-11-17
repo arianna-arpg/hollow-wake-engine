@@ -8,6 +8,11 @@ export function installCombatClock(owner, content) {
   const {w, shared, recovery, bodies, fields, births, carried, projectiles, movement, population} = owner;
   const q = {...content.queries, ...content.hitQueries};
   const phases = createCombatActorPhases(w, q);
+  const summonDotShares=[];
+  const collectDot=content.prototypeMechanics?(status,amount,type)=>{
+    const source=status.casterId===undefined?undefined:w.actorById(status.casterId);
+    if(source&&status.skillId&&w.summonArts.signature(source,status.skillId))summonDotShares.push({source,amount,type});
+  }:undefined;
   const banks = new StatusAftermath({bodies: {create: (...args) => w.createMonster(...args)}, births: {lifeline: a => w.conjurationLifeline(a)}}, {
     actors: () => w.actors, random: () => w.random(), clamp: (...args) => w.clampPos(...args), emerge: (...args) => w.emergeBody(...args),
     resourceFlow: (to, from, amount) => q.noteResourceFlow(to, from, 'life', amount),
@@ -29,7 +34,11 @@ export function installCombatClock(owner, content) {
     death: {kill: a => w.kill(a)}, statuses: w.statusEffects, ironWard: recovery.ironWard,
   }, {
     afterTimers: a => phases.afterTimers(a), afterBanks: (a, dt) => phases.afterBanks(a, dt),
-    dotText: (...args) => w.accumulateDotText(...args), dotApplied: (...args) => w.observers.dotApplied?.(...args),
+    dotText: (...args) => w.accumulateDotText(...args), dotApplied: (target,amount,type,before) => {
+      const landed=Math.max(0,before-Math.max(0,target.life));
+      for(const row of summonDotShares)if(row.type===type)w.summonArts.siphon(row.source,landed*row.amount/amount);
+      w.observers.dotApplied?.(target,amount,type,before);
+    },
   });
   let busy = false;
   const advance = rawDt => {
@@ -40,12 +49,17 @@ export function installCombatClock(owner, content) {
       const dt = rawDt * w.timeflow.beginFrame(rawDt);
       if (dt <= 0) return;
       w.time += dt;
+      w.damageTextBursts?.prune(w.time);
       for (const actor of w.actors) if (!actor.dead) q.ensureMovementTether(actor);
       w.actorGridRev++;
       w.updateDownedSeats(dt); w.companionBonds.update(dt);
-      w.challenges.update(dt); w.attackSequences.update(dt); w.guardArts.update(dt);
+      w.summonPacts?.update(dt); w.battleDoctrines?.update();
+      w.challenges.update(dt);
+      w.summonArts?.update(dt); w.cohortArts?.update(dt); w.frameArts?.update(dt); w.channelFormations?.update();
+      w.attackSequences.update(dt); w.guardArts.update(dt);
       w.updateDownedCompanions(dt); births.births.advance(dt);
       projectiles.schedules.advanceSalvos(dt);
+      if(w.prototypeProfile){w.updateDoodadEffects(dt);w.updateTerraforms(dt);}
       fields.schedules.advanceRepeats(dt);
       projectiles.schedules.advanceAmbushes();
       fields.schedules.advanceMetas(dt);
@@ -64,7 +78,8 @@ export function installCombatClock(owner, content) {
         if (actor.dead || actor.downed) continue;
         const elapsed = phases.beforeTimers(actor, dt, rawDt);
         if (elapsed === false) continue;
-        const steered = frame.advance(actor, elapsed, rawDt);
+        summonDotShares.length=0;
+        const steered = frame.advance(actor, elapsed, rawDt, collectDot);
         phases.afterStatuses(actor, elapsed, steered);
       }
       w.updateSummonShells();

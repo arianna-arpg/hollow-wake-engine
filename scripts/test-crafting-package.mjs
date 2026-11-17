@@ -28,7 +28,7 @@ for(const file of ['crafting.test.mjs','crafting-actions.test.mjs']){
  source=source.replaceAll("'../scripts/compile-item-content.mjs'","'./fixture.mjs'").replaceAll("'../scripts/compile-crafting-content.mjs'","'./fixture.mjs'");
  assert(!source.includes('../dist/')&&!source.includes('../scripts/'));fs.writeFileSync(path.join(consumer,file),source);
 }
-const contracts=run(consumer,['--test','crafting.test.mjs','crafting-actions.test.mjs']);assert(/(?:#|ℹ) pass 12\b/.test(contracts));fs.writeFileSync(path.join(directory,'contracts.txt'),contracts);
+const contracts=run(consumer,['--test','crafting.test.mjs','crafting-actions.test.mjs']);assert(/(?:#|ℹ) pass 13\b/.test(contracts));fs.writeFileSync(path.join(directory,'contracts.txt'),contracts);
 const browserEntry=path.join(consumer,'browser.mjs');fs.writeFileSync(browserEntry,`export {createCraftingRules} from '@hollow-wake/engine/crafting';export {CraftingActions} from '@hollow-wake/engine/crafting/actions';`);
 const bundle=await build({entryPoints:[browserEntry],bundle:true,platform:'browser',format:'esm',write:false,metafile:true,minify:true});
 assert(!Object.keys(bundle.metafile.inputs).some(file=>/item-(?:rules|core)|crafting-content|\.reference|\/content\//.test(file)),'Borrowed actions pulled in a content catalogue or compiler');
@@ -48,5 +48,5 @@ declare const pack:CraftingPack,items:ItemContent,ports:CraftingActionPorts<numb
 const content=new CraftingContent(pack,items);const actions=new CraftingActions(content.rules,ports);actions.craftAffix(0,1,'affix',1);
 `);
 fs.writeFileSync(path.join(directory,'types.txt'),run(consumer,[path.join(root,'node_modules/typescript/bin/tsc'),'--noEmit','--strict','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','types.ts']));
-const report={passed:true,directory,consumer,archives,contracts:12,browserBytes:bundle.outputFiles[0].contents.length,browserInputs:Object.keys(bundle.metafile.inputs),types:true,hostileGlobals:true};
-writeJSON(path.join(directory,'verification.json'),report);writeJSON(path.join(root,'.artifacts/crafting-package-latest.json'),report);console.log({passed:true,directory,contracts:12,browserBytes:report.browserBytes});
+const report={passed:true,directory,consumer,archives,contracts:13,browserBytes:bundle.outputFiles[0].contents.length,browserInputs:Object.keys(bundle.metafile.inputs),types:true,hostileGlobals:true};
+writeJSON(path.join(directory,'verification.json'),report);writeJSON(path.join(root,'.artifacts/crafting-package-latest.json'),report);console.log({passed:true,directory,contracts:13,browserBytes:report.browserBytes});

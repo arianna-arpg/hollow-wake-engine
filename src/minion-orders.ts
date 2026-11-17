@@ -37,7 +37,7 @@ export interface IssuedMinionOrder {
 export interface MinionOrderRules {readonly duration: number; readonly pinRadius: number; readonly earshot: number; readonly delegates: number}
 export interface MinionOrderPorts<A, I> {
   actors(): readonly A[];
-  enemies(actor: A): Iterable<A>;
+  enemies(actor: A, tier?:number): Iterable<A>;
   time(): number;
   random(): number;
   commandExists(kind: string): boolean;
@@ -52,11 +52,11 @@ export interface MinionOrderPorts<A, I> {
   promote(at: OrderPoint, query: {within: number; max: number; story: number; owner: number; kindIdx: number}): void;
   level(skill: I): number;
   makeSkill(id: string, level: number): I;
-  forwardSockets(source: I | undefined, destinations: I[]): void;
+  forwardSockets(source: I | undefined, destinations: I[], options?:{faction?:string}): void;
   execute(actor: A, skill: I, aim: OrderPoint, options: {noRepeat: true}): boolean;
   assault(caster: A, skill: I, recipients: A[], recall: boolean): void;
   defied(actor: A): void;
-  sent(at: OrderPoint, color: string): void;
+  sent(at: OrderPoint, color: string, tier?:number): void;
   unheeded(caster: A): void;
   empty(caster: A, skillId: string): void;
   unknown(kind: string, skillId: string): void;
@@ -69,14 +69,14 @@ const distance = (a: OrderPoint, b: OrderPoint): number => Math.hypot(a.x - b.x,
 export class MinionOrders<A extends OrderActor<A, I>, I extends OrderSkill> {
   constructor(readonly rules: MinionOrderRules, readonly ports: MinionOrderPorts<A, I>) {}
 
-  command(caster: A, skill: I, aim: OrderPoint, effect: MinionCommandEffect, color: string): void {
+  command(caster: A, skill: I, aim: OrderPoint, effect: MinionCommandEffect, color: string, tier?:number): void {
     const kind = effect.command ?? 'assault';
     if (!this.ports.commandExists(kind)) {this.ports.unknown(kind, skill.def.id); return;}
     const affects = effect.affects ?? 'minions';
     this.ports.promoteCommand(caster, skill, affects, effect.radius);
     const until = this.ports.time() + (effect.duration ?? this.rules.duration), mark = {...aim};
     let quarry: A | undefined, nearest = this.rules.pinRadius;
-    for (const enemy of this.ports.enemies(caster)) {
+    for (const enemy of this.ports.enemies(caster, ...(tier===undefined?[]:[tier]))) {
       if (enemy.passive || enemy.sheet.get('invisible') > 0) continue;
       const gap = distance(enemy.pos, mark);
       if (gap < nearest) {nearest = gap; quarry = enemy;}
@@ -102,19 +102,19 @@ export class MinionOrders<A extends OrderActor<A, I>, I extends OrderSkill> {
       recipients.push(actor); sent++;
     }
     this.ports.assault(caster, skill, recipients, kind === 'recall');
-    if (sent > 0) this.ports.sent({...mark}, color);
+    if (sent > 0) this.ports.sent({...mark}, color, ...(tier===undefined?[]:[tier]));
     else if (balked > 0) this.ports.unheeded(caster);
     else this.ports.empty(caster, skill.def.id);
   }
 
-  cast(caster: A, skill: I, aim: OrderPoint, effect: MinionCastEffect): void {
+  cast(caster: A, skill: I, aim: OrderPoint, effect: MinionCastEffect, tier?:number): void {
     if (!this.ports.skillExists(effect.skillId)) return;
     const lord = caster.owner ?? caster, hostId = skill.hostSkillId;
     if (hostId) {
       const spec = lord.skills.find(candidate => candidate?.def.id === hostId)?.def.throng;
       if (spec?.tier === 'lite') {
         const kindIdx = this.ports.liteKind(spec.monsterId);
-        if (kindIdx >= 0) this.ports.promote(aim, {within: 1e9, max: this.rules.delegates, story: caster.tier, owner: lord.id, kindIdx});
+        if (kindIdx >= 0) this.ports.promote(aim, {within: 1e9, max: this.rules.delegates, story: tier??caster.tier, owner: lord.id, kindIdx});
       }
     }
     let troops = this.ports.actors().filter(actor => actor.owner === lord && !actor.dead && !actor.construct
@@ -138,7 +138,7 @@ export class MinionOrders<A extends OrderActor<A, I>, I extends OrderSkill> {
       } else at = {...aim};
       if (!at) continue;
       const order = this.ports.makeSkill(effect.skillId, this.ports.level(skill));
-      this.ports.forwardSockets(actor.summonInst, [order]);
+      this.ports.forwardSockets(actor.summonInst, [order], ...(tier!==undefined?[{faction:actor.faction}]:[]));
       actor.useLock = 0;
       actor.mana = Math.max(actor.mana, actor.maxMana());
       this.ports.execute(actor, order, at, {noRepeat: true});

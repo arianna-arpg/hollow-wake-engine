@@ -23,6 +23,20 @@ function setup(){
  };
  return {ctx,account,def,events,ports,actions:()=>new CraftingActions(rules,ports)};
 }
+
+test('canonical relic retirement is optional and commits before rewards with one batch save',()=>{
+ const h=setup(),base=Object.values(items.pack.bases).find(b=>b.category==='relic');assert(base);
+ h.ctx.items=[{...mint(1),baseId:base.id,relicKey:'one'},{...mint(2),baseId:base.id,relicKey:'two'},
+  {...mint(3),baseId:base.id,relicKey:'locked',locked:true}];
+ h.actions().salvageItem(h.ctx,1,'sell');assert.deepEqual(h.events,['relic']);assert.equal(h.ctx.items.length,3);
+ h.events.length=0;h.ports.progression=()=>false;h.ports.canRetireRelics=()=>true;
+ h.ports.retireRelic=(ctx,item)=>{assert(!ctx.items.includes(item));h.events.push('retire:'+item.relicKey);};
+ h.actions().salvageBulk(h.ctx,'item',undefined,'sell');
+ assert.deepEqual(h.ctx.items.map(i=>i.relicKey),['locked']);
+ assert(h.events.indexOf('retire:one')<h.events.indexOf('grant'));
+ assert.equal(h.events.filter(e=>e==='save').length,1);
+ assert.throws(()=>new CraftingActions(rules,{...h.ports,retireRelic:undefined}),/Incomplete/);
+});
 test('craft pays before rolling, reroll rolls before payment, and neither replaces item identity',()=>{
  const h=setup(),item=h.ctx.items[0],actions=h.actions();actions.craftAffix(h.ctx,1,h.def.id,1);
  assert.equal(h.ctx.items[0],item);assert.equal(item.affixes.length,1);assert(h.events.indexOf('spend')<h.events.indexOf('draw'));assert(item.affixes[0].crafted);

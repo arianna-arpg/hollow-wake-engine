@@ -11,7 +11,7 @@ export function createStatusDelivery<
   const recallSources = new WeakMap<I, I>();
 
   function siphon(caster: A, effect: SiphonStatusEffect, areaScale: number, def: S,
-    tags: Set<Tag>, extra: M[], cosmeticColor: string): void {
+    tags: Set<Tag>, extra: M[], cosmeticColor: string, tier?:number): void {
     const radius = effect.radius * areaScale;
     let drawn = 0;
     for (const actor of ports.actors()) {
@@ -32,19 +32,19 @@ export function createStatusDelivery<
     }
     if (drawn > 0) {
       ports.text(caster.pos, drawn + ' drawn', def.color, 13, 22);
-      ports.flash(caster.pos, radius, cosmeticColor, 0.3);
+      ports.flash(caster.pos, radius, cosmeticColor, 0.3, ...(tier===undefined?[]:[tier]));
     } else ports.failNote(caster, def.id + ':nothing', 'nothing to draw');
   }
 
-  function recall(caster: A, inst: I, effect: RecallImpalesEffect, areaScale: number, def: S): void {
+  function recall(caster: A, inst: I, effect: RecallImpalesEffect, areaScale: number, def: S, tier?:number): void {
     const radius = effect.radius * areaScale;
     let wrenched = 0;
-    for (const target of ports.enemies(caster)) {
+    for (const target of ports.enemies(caster, ...(tier===undefined?[]:[tier]))) {
       if (target.construct?.breakable) continue;
       if (ports.distance(caster.pos, target.pos) - target.radius > radius) continue;
       for (let i = target.statuses.length - 1; i >= 0; i--) {
         const status = target.statuses[i];
-        if (!ports.definition(status.id)?.dischargeOnHit || !status.rupture || status.rupture <= 0) continue;
+        if (!status || !ports.definition(status.id)?.dischargeOnHit || !status.rupture || status.rupture <= 0) continue;
         target.statuses.splice(i, 1);
         target.sheet.removeSource('status:' + status.id);
         const bank = status.rupture;
@@ -56,7 +56,8 @@ export function createStatusDelivery<
           target.life -= taken;
           target.hitFlash = 0.12;
           target.hitFlashType = status.ruptureType ?? 'physical';
-          ports.text(target.pos, Math.round(taken).toString(), ports.definition(status.id)?.color ?? '#c8ccd8', 12);
+          if(ports.damageText)ports.damageText(target,taken,ports.definition(status.id)?.color??'#c8ccd8',12);
+          else ports.text(target.pos, Math.round(taken).toString(), ports.definition(status.id)?.color ?? '#c8ccd8', 12);
           if (target.life <= 0 && !target.dead) ports.kill(target, false, caster);
         }
         if (ports.spearDefinition()) {
@@ -68,7 +69,7 @@ export function createStatusDelivery<
             else caster.metaInsts.set('__impale_spear', spear);
           }
           ports.spawnProjectile(caster, spear, ports.copyPosition(target.pos),
-            ports.direction(target.pos, caster.pos), {flat: {physical: bank * (effect.spearShare ?? 0.5)}});
+            ports.direction(target.pos, caster.pos), {...(tier!==undefined?{tier}:{}),flat: {physical: bank * (effect.spearShare ?? 0.5)}});
         }
         wrenched++;
       }

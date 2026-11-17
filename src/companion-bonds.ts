@@ -30,6 +30,7 @@ export interface CompanionRepeat<A,S> {caster:A;inst:S;aim:CompanionPoint;n:numb
  * change later reads. Exceptions retain preceding writes; no transactional graph
  * clone or live-publication authority is supplied by this controller. */
 export interface CompanionBondPorts<A,S,M,I extends CompanionInherited<M>,C> {
+  sourceBuff?<F>(effect:F,skill:S):F;
   actors():readonly A[];contains(actor:A):boolean;time():number;random():number;
   spec(inst:S):CompanionBondSpec<M>;level(keeper:number,claimed:number):number;capacity(inst:S):number;
   relevel(actor:A,level:number):void;recoveryStatus():string;endStatus(actor:A,id:string):void;
@@ -74,6 +75,7 @@ export interface CompanionBondForkMapping<A,S,M> {
  * durable; skills, stats, preparations and pending copies rebuild from data. */
 export class CompanionBonds<A extends CompanionBondActor<A,S,R>,S extends CompanionBondSkill,M,I extends CompanionInherited<M>,R extends string,C> {
   constructor(private readonly p:CompanionBondPorts<A,S,M,I,C>,readonly state:CompanionBondsState<A,S,M>=createCompanionBondsState()) {}
+  private sourced<F>(effect:F,skill:S):F{return this.p.sourceBuff?.(effect,skill)??effect;}
   /** Maps cover every actor/skill reachable from the private graph,
    * including queues and external handles. The operation cannot enumerate a
    * WeakSet to discover skills the graph owner omitted. */
@@ -324,9 +326,9 @@ export class CompanionBonds<A extends CompanionBondActor<A,S,R>,S extends Compan
     const stacks = caster.buffs.get(id)?.stacks ?? 0;
     this.p.removeBuff(caster,id);
     for (const recipient of recipients) if (!recipient.dead && !recipient.downed) {
-      this.p.addBuff(recipient,{ type: 'buff', id, label: 'Hunting Partners', duration: rally.duration, maxStacks: cap, mods: [this.p.modifier('damage', 'increased', rally.damagePerStack, ['attack'])] });
+      this.p.addBuff(recipient,this.sourced({ type: 'buff', id, label: 'Hunting Partners', duration: rally.duration, maxStacks: cap, mods: [this.p.modifier('damage', 'increased', rally.damagePerStack, ['attack'])] },state.inst));
       if (stacks >= cap && spec.frenzy) {
-        this.p.addBuff(recipient,{ type: 'buff', id: this.frenzyId(beast), label: 'Pack Crescendo', duration: spec.frenzy.duration, mods: [this.p.modifier('attackSpeed', 'increased', spec.frenzy.attackSpeed)] });
+        this.p.addBuff(recipient,this.sourced({ type: 'buff', id: this.frenzyId(beast), label: 'Pack Crescendo', duration: spec.frenzy.duration, mods: [this.p.modifier('attackSpeed', 'increased', spec.frenzy.attackSpeed)] },state.inst));
         if (recipient.companion) {
           this.refreshBeast(recipient, state.inst, false);
           // THE LUNGE obeys the stance (CompanionStanceDef.lunges): a passive

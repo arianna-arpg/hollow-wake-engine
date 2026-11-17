@@ -5,6 +5,7 @@ export interface FieldActor<Tags, M> {
 }
 export interface FieldSkill {readonly def: {readonly id: string}}
 export interface FieldZone<A, I> {
+  tier?:number;
   pos: FieldPoint; radius: number; caster: A; inst: I; color: string; delay: number; exploded: boolean;
   linger: number; tickInterval: number; tickTimer: number; shape: number; facing: number; dmgMult: number; depth: number;
 }
@@ -17,13 +18,14 @@ export type CastFieldEffect<Grant> =
   | {readonly type:'spawnZone';readonly radius:number;readonly duration:number;readonly tickInterval?:number;readonly damageScale?:number}
   | {readonly type:'townPortal'};
 export interface CastFieldFrame<A, I, Tags, M> {
+  readonly effectTier?:number;
   readonly caster:A;readonly skill:I;readonly origin:FieldPoint;readonly delivery:string;
   readonly areaScale:number;readonly durationScale:number;readonly multiplier:number;
   readonly color:string;readonly tags:Tags;readonly modifiers:readonly M[];
 }
 export interface CastFieldPorts<A, Grant> {
   random():number;
-  terrain(at:FieldPoint,kind:string,radius:number,duration:number):void;
+  terrain(at:FieldPoint,kind:string,radius:number,duration:number,options?:{tier:number}):void;
   conjure(x:number,y:number,radius:number,duration:number,options:{caster:A;grants:readonly Grant[];look?:string;follow?:true}):void;
   /** Ground providers own availability and are required by content admission.
    * A provider can refuse placement, but cannot silently omit an implementation. */
@@ -59,17 +61,17 @@ export class CastFields<A extends FieldActor<Tags, M>, I extends FieldSkill, Tag
   apply(frame:CastFieldFrame<A,I,Tags,M>,effect:CastFieldEffect<Grant>):void{
     const {caster,skill,origin,delivery,areaScale,durationScale,multiplier,color,tags,modifiers}=frame;
     switch(effect.type){
-      case 'terrain':this.ports.terrain(origin,effect.kind,effect.radius*areaScale,effect.duration*durationScale);return;
+      case 'terrain':this.ports.terrain(origin,effect.kind,effect.radius*areaScale,effect.duration*durationScale,...(frame.effectTier!==undefined?[{tier:frame.effectTier}]:[]));return;
       case 'conjure':
         if(delivery!=='ground')this.ports.conjure(origin.x,origin.y,effect.radius*areaScale,effect.duration*durationScale,
           {caster,grants:this.grants(caster,tags,modifiers,effect.grants),...(effect.look!==undefined?{look:effect.look}:{}),...(effect.follow?{follow:true}: {})});
         return;
       case 'kindle':if(delivery!=='ground')this.kindle(caster,effect.kind,origin,areaScale,durationScale);return;
-      case 'vent':if(delivery!=='ground')this.vent(effect.bank,origin,effect.radius,effect.duration,areaScale,durationScale,caster.tier);return;
-      case 'lure':if(delivery!=='projectile')this.ports.lure(`skill#${caster.id}#${skill.def.id}`,origin,effect.radius,effect.pace??.5,effect.standoff??90,effect.sec,caster.tier);return;
+      case 'vent':if(delivery!=='ground')this.vent(effect.bank,origin,effect.radius,effect.duration,areaScale,durationScale,frame.effectTier??caster.tier);return;
+      case 'lure':if(delivery!=='projectile')this.ports.lure(`skill#${caster.id}#${skill.def.id}`,origin,effect.radius,effect.pace??.5,effect.standoff??90,effect.sec,frame.effectTier??caster.tier);return;
       case 'townPortal':this.ports.portal(caster);return;
       case 'spawnZone':
-        if(delivery!=='projectile')this.zones.push({pos:{...origin},radius:effect.radius*areaScale,caster,inst:skill,color,delay:0,exploded:true,
+        if(delivery!=='projectile')this.zones.push({...(frame.effectTier!==undefined?{tier:frame.effectTier}:{}),pos:{...origin},radius:effect.radius*areaScale,caster,inst:skill,color,delay:0,exploded:true,
           linger:effect.duration*durationScale,tickInterval:effect.tickInterval??.5,tickTimer:0,shape:caster.sheet.get('aoeShape',tags,modifiers),
           facing:caster.facing,dmgMult:(effect.damageScale??.5)*multiplier,depth:1});
     }

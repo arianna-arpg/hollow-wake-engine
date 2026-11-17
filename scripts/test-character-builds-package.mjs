@@ -1,5 +1,6 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';import {gzipSync,gunzipSync} from 'node:zlib';
 import {build} from 'esbuild';import {root,sha256,verifyReference} from './reference-utils.mjs';import {npmCli} from './npm-cli.mjs';import {buildCharacterBuilds} from './compile-character-builds.mjs';
+import {prototypeModuleBudget} from './prototype-package-budget.mjs';
 const owned=fs.realpathSync(path.join(root,'.artifacts')),work=fs.mkdtempSync(path.join(owned,'character-build-package-owned-')),consumer=path.join(work,'consumer');
 const logs={},report={passed:false,contracts:28,faults:[],sources:{},game:{runs:[]}};
 const inputs=['src/character-builds.ts','adapters/embedded/character-builds.mjs','adapters/embedded/character-build-helpers.mjs','scripts/compile-character-builds.mjs',
@@ -91,7 +92,7 @@ try{
  builds.adopt(input,[]);
  `);
  success('types',[path.join(root,'node_modules/typescript/bin/tsc'),'--noEmit','--strict','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','types.ts']);report.types=16;
- const installed=path.join(consumer,'node_modules/@hollow-wake/engine'),module=path.join(installed,'dist/character-builds.js'),original=fs.readFileSync(module,'utf8');report.moduleBytes=Buffer.byteLength(original);assert(report.moduleBytes<=16*1024);
+ const installed=path.join(consumer,'node_modules/@hollow-wake/engine'),module=path.join(installed,'dist/character-builds.js'),original=fs.readFileSync(module,'utf8');report.moduleBytes=Buffer.byteLength(original);report.prototypeGrowth=prototypeModuleBudget('dist/character-builds.js',report.moduleBytes);assert(report.prototypeGrowth.historicalBytes<=16*1024);
  const faults=[
   ['shared-sheet','prior.sheet.fork()','prior.sheet'],
   ['cold-existing-grant','const old = prior?.frame ?? empty;','const old = empty;'],

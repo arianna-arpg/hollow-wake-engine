@@ -12,6 +12,8 @@ export interface ConstructClockActor<A,I>{
 export interface ConstructTarget<A>{actor?:A}
 export interface ConstructLifecycleState<A,I>{tethers:CombatTether<A,I>[];pendingRepeats:PreparationRepeat<A,I>[]}
 export interface ConstructLifecyclePorts<A,I extends ConstructClockSkill>{
+  advanceDevice?(actor:A,dt:number):boolean;
+  finishDevices?():void;
   actors():A[];time():number;random():number;enemiesOf(actor:A):A[];actorById(id:number):A|undefined;
   skill(id:string):I['def']|undefined;makeSkillInstance(def:I['def'],level:number):I;effectiveSkillLevel(skill:I):number;instanceMods(skill:I):Modifier[];skillContextTags(skill:I|I['def']):Set<string>;
   instanceChargeCost(skill:I):{optional?:boolean}|undefined;instanceTargeting(skill:I):unknown;instanceAim(skill:I):{sequence?:{steps:readonly unknown[];pause:number}}|undefined;instanceDelivery(skill:I):{type:string;interval?:number};

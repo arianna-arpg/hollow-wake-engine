@@ -113,6 +113,8 @@ export interface HitAftermathPorts<A extends {team: string}, I, S, P, Direction,
   plantAssault(caster: A, target: A, packet: Packet, depth: number, dealt: number): void;
   plantImpale(caster: A, target: A, def: S, packet: Packet, extra: M[], dealt: number, depth: number): void;
   flatPhysicalModifier(amount: number): M;
+  echoCeiling?(caster:A,inst:I):number;
+  echoSource?(effect:{type:'buff';id:string;duration:number;mods:M[]},inst:I):{type:'buff';id:string;duration:number;mods:M[]};
   dominate(inst: I): {chance: number; max: number; duration: number} | undefined;
   createMonster(id: string, level: number, team: A['team'], owner: A): A;
   companionBindCue(actor: A, owner: A, definition: S): void;
@@ -128,6 +130,7 @@ export interface HitAftermathPorts<A extends {team: string}, I, S, P, Direction,
   prepareStatuses(caster: A, inst: I, target: A, def: S, extra: M[], packet: Packet, dealt: number, depth: number, afflictionCarry: number): Frame;
   applyRiders(frame: Frame): void;
   beforeEffects(caster: A, inst: I, target: A, dealt: number, depth: number): void;
+  projectileLanded?(caster:A,inst:I,target:A,dealt:number,depth:number,multiplier:number):void;
   dispatchEffects(frame: Frame, damageMultiplier: number, deliveryEffects?: Effect[]): void;
   applyGrantedStatuses(frame: Frame): void;
   strikeSurfaces(caster: A, at: P, radius: number, tier: number | undefined): void;

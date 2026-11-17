@@ -122,7 +122,7 @@ try{
   [
     "birth",
     "story",
-    "minion.tier=caster.tier",
+    "minion.tier=overrides?.tier??caster.tier",
     "minion.tier=0"
   ],
   [
@@ -176,8 +176,8 @@ try{
   [
     "birth",
     "override-late-kind-check",
-    "const typeId=overrides?.monsterId??this.rollType(d)",
-    "if(d.type!=='summon')return null;const typeId=overrides?.monsterId??this.rollType(d)"
+    "const typeId=overrides?.monsterId??this.p.choose?.(caster,inst,d)??this.rollType(d)",
+    "if(d.type!=='summon')return null;const typeId=overrides?.monsterId??this.p.choose?.(caster,inst,d)??this.rollType(d)"
   ],
   [
     "offspring",

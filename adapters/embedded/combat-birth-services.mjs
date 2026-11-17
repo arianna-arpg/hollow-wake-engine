@@ -19,6 +19,7 @@ export function installCombatBirths(w, content) {
     corpseSpawn: inst => q.socketSpec(inst, 'corpseSpawn'), clamp: (...args) => w.clampPos(...args),
     skillExists: id => !!q.SKILLS[id], makeSkill: (id, level) => q.makeSkillInstance(q.SKILLS[id], level),
     effectiveLevel: q.effectiveSkillLevel, execute: (...args) => w.executeSkill(...args),
+    ...(content.prototypeMechanics?{hatchLayer:pod=>pod.tier}:{}),
     hatched: pod => w.text(pod.pos, 'hatched!', pod.color, 12),
   });
   w.birthAt = (...args) => births.birth(...args);
@@ -31,7 +32,8 @@ export function installCombatBirths(w, content) {
     hit: (...args) => w.damage.applyHit(...args), mitigate: (...args) => w.damage.mitigateTyped(...args), kill: (...args) => w.kill(...args),
     text: (...args) => w.text(...args), flash, outcome: (...args) => w.showCombatOutcome(...args),
     indirectDamage: (...args) => w.observers.indirectDamage?.(...args),
-    surfaces: (at, radius, amounts) => w.host.space.burstSurfaces?.(at, radius, amounts),
+    surfaces: (at, radius, amounts, ...tier) => w.host.space.burstSurfaces?.(at, radius, amounts, ...tier),
+    ...(w.prototypeProfile?{preserveLayers:true,damageText:(...args)=>w.damageText(...args)}:{}),
   });
   w.burstDamage = (...args) => bursts.damage(...args);
   w.explodeMinion = (...args) => bursts.explode(...args);
@@ -45,6 +47,9 @@ export function installCombatBirths(w, content) {
     random: () => w.random(), sameLayer: q.sameStory, cue: (...args) => w.showCompanionCue(...args),
     defeated: (target, caster) => w.observers.claimed?.(target, caster), clearEncounter: q.clearEncounterGroup,
     adopt: actor => w.companionBonds.adopt(actor),
+    ...(w.prototypeProfile?{clearEnemyRules:actor=>{
+      actor.sheet.removeSource('threat');actor.sheet.removeSource('manaPool');actor.aiIntent=undefined;actor.aiStance=undefined;
+    }}:{}),
   });
   w.tame = (...args) => claims.attempt(...args);
   w.tryTame = w.tame;

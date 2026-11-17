@@ -42,6 +42,10 @@ export interface HitStatusFrame<A,I,S,M,Tag extends string> {
   readonly hexDmg:number;readonly hexDur:number;
 }
 export interface HitStatusPorts<A,I,S,M,Tag extends string,D,B extends HitStatusBuff<Tag>,Q> {
+  chanceBonus?(inst:I,status:string):number;
+  basis?(caster:A,inst:I,target:A,packet:HitStatusPacket<Tag>,dealt:number,status:string):number;
+  source?(caster:A,inst:I):Pick<StatusOptions,'skillId'|'sourceKey'>;
+  applied?(inst:I,target:A,status:string,prior:{status?:ActiveStatus;dps?:number;remaining?:number}):void;
   definition(id:string):D|undefined;
   /** Return the current ordered vocabulary at each original read point. */
   statusIds():readonly string[];

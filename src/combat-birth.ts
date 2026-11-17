@@ -15,7 +15,8 @@ export interface CombatBirthPorts<A,I,B,E>{
   createMonster(id:string,level:number,team:string,owner?:A):A;lifeline(owner:A):number|undefined;freeSpot(at:CombatPoint,radius:number,tier:number):CombatPoint;
   emerge(body:A,options:{spec?:E;host?:true}):void;flash(at:CombatPoint,radius:number,color:string,life:number):void;kill(body:A,silent:true):void;
   corpseSpawn(skill:I):{perCorpse?:boolean;count?:number;max:number;monsterId:string;duration:number}|undefined;clamp(at:CombatPoint,radius:number):CombatPoint;
-  skillExists(id:string):boolean;makeSkill(id:string,level:number):I;effectiveLevel(skill:I):number;execute(owner:A,skill:I,at:CombatPoint,options:{keepFacing:true;noCooldown:true;noRepeat:true}):boolean;hatched(body:A):void;
+  hatchLayer?(body:A):number;
+  skillExists(id:string):boolean;makeSkill(id:string,level:number):I;effectiveLevel(skill:I):number;execute(owner:A,skill:I,at:CombatPoint,options:{tier?:number;keepFacing:true;noCooldown:true;noRepeat:true}):boolean;hatched(body:A):void;
 }
 /** Birth, incubation, corpse-born servants and pod hatching on one borrowed
  * actor graph. Body assembly, summon policy and death bind to SDK services;
@@ -69,6 +70,6 @@ export class CombatBirth<A extends CombatBirthActor<A,I,B,E>,I extends CombatBir
   hatch(pod:A):void{
     const p=this.ports,h=pod.construct?.hatch;if(!h||!p.skillExists(h.skillId))return;pod.construct!.hatch=undefined;
     const owner=pod.owner;if(!owner||owner.dead)return;const payload=p.makeSkill(h.skillId,pod.summonInst?p.effectiveLevel(pod.summonInst):pod.level);payload.hostSkillId=pod.sourceSkillId;
-    p.execute(owner,payload,{...pod.pos},{keepFacing:true,noCooldown:true,noRepeat:true});p.hatched(pod);
+    p.execute(owner,payload,{...pod.pos},{...(p.hatchLayer?{tier:p.hatchLayer(pod)}:{}),keepFacing:true,noCooldown:true,noRepeat:true});p.hatched(pod);
   }
 }

@@ -224,7 +224,12 @@ export class StatSheet {
     get(stat: string, contextTags?: ReadonlySet<SkillTag>, extra?: readonly Modifier[], baseValue?: number): number {
         return this.compute(stat, contextTags, extra, baseValue, false);
     }
-    private compute(stat: string, contextTags?: ReadonlySet<SkillTag>, extra?: readonly Modifier[], baseValue?: number, noLinks = false): number {
+    /** Resistance-neutral ailments retain reductions without borrowing positive
+     * grants, links or the ordinary cached resistance value. */
+    reductionsFromZero(stat: string, contextTags?: ReadonlySet<SkillTag>): number {
+        return this.compute(stat, contextTags, undefined, 0, true, true);
+    }
+    private compute(stat: string, contextTags?: ReadonlySet<SkillTag>, extra?: readonly Modifier[], baseValue?: number, noLinks = false, reductionsOnly = false): number {
         const cacheable = this.maxCacheEntries > 0 && (!extra || !extra.length) && baseValue === undefined;
         let key = '';
         const plain = !noLinks && (!contextTags || !contextTags.size);
@@ -278,6 +283,7 @@ export class StatSheet {
                         v *= g;
                     }
                 }
+                if (reductionsOnly && v >= 0) continue;
                 switch (m.kind) {
                     case 'flat':
                         flat += v;
@@ -329,7 +335,10 @@ export class StatSheet {
             if (def.max !== undefined)
                 value = Math.min(def.max, value);
         }
-        finite(value, `resolved stat ${stat}`);
+        // An explicitly unbounded query base is used by authored, lifetime-
+        // bounded projectile rebounds. Registered bases/modifiers stay finite;
+        // overflow from any finite query and NaN remain errors.
+        if (!(baseValue === Infinity && value === Infinity)) finite(value, `resolved stat ${stat}`);
         if (cacheable && this.cacheEntries >= this.maxCacheEntries) { this.cache.clear(); this.plainCache.clear(); }
         if (cacheable)
             cache.set(key, value);

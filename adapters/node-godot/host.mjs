@@ -11,9 +11,9 @@ const statIds=['life','mana','damage','moveSpeed','armor','castSpeed','attackSpe
 
 /** Node host ownership. Input is untrusted; character grants, setup, spatial
  * facts and storage remain trusted services, never network commands. */
-export function createNodeCombatHost(content,{kit,character,nativeHero,space,seed=1234,position={x:400,y:400},conditionsFor}={}) {
+export function createNodeCombatHost(content,{kit,character,nativeHero,space,services={},seed=1234,position={x:400,y:400},conditionsFor}={}) {
  if(!space||(!nativeHero&&(!kit||!character)))throw Error('Character kit and character, or native encounter body, and space are required');
- const session=createCombatSession(content,{space},{seed,capacity:64});
+ const session=createCombatSession(content,{...services,space},{seed,capacity:64});
  const hero=nativeHero?session.addActor({...nativeHero,controlled:true}):session.addCharacter(kit,character,{name:'Theorycrafter',position});
  const bar=()=>nativeHero?(nativeHero.skills??[]).map(s=>({id:typeof s==='string'?s:s.id})):character.inspect().bar;
  let seq=-1,tick=0,queue=[],latest={move:[0,0],aim:[position.x+100,position.y],held:[]},revision=0,closed=false;
@@ -23,11 +23,13 @@ export function createNodeCombatHost(content,{kit,character,nativeHero,space,see
   available();
   if(!message||message.t!=='input'||!Number.isSafeInteger(message.seq)||message.seq<0||message.seq<=seq
    ||!point(message.move)||Math.hypot(...message.move)>1.000001||!point(message.aim)||!ids(message.press)
-   ||!ids(message.held??[])||Object.keys(message).some(k=>!['t','seq','move','aim','press','held','hold'].includes(k))
+   ||!ids(message.held??[])||!ids(message.meta??[])||!ids(message.dismiss??[])||message.timing!==undefined&&typeof message.timing!=='boolean'
+   ||Object.keys(message).some(k=>!['t','seq','move','aim','press','held','hold','meta','timing','dismiss'].includes(k))
    ||message.hold!==undefined&&typeof message.hold!=='boolean')return {accepted:false,reason:'invalid-input'};
   if(queue.length>=32)return {accepted:false,reason:'input-queue-full'};
   const held=message.held??[];
-  seq=message.seq;queue.push({seq,move:[...message.move],aim:[...message.aim],press:[...message.press],held:[...held],hold:message.held===undefined&&message.hold===true});
+  seq=message.seq;queue.push({seq,move:[...message.move],aim:[...message.aim],press:[...message.press],held:[...held],hold:message.held===undefined&&message.hold===true,
+   meta:[...(message.meta??[])],dismiss:[...(message.dismiss??[])],timing:message.timing===true});
   return {accepted:true};
  };
  const stats=c=>Object.fromEntries(statIds.map(id=>[id,c.stat(id)]));
@@ -64,7 +66,12 @@ export function createNodeCombatHost(content,{kit,character,nativeHero,space,see
   session.aim(actor,{x:latest.aim[0],y:latest.aim[1]});
   const casting=session.inspect(actor).casting;
   if(casting&&!latest.hold&&!latest.held.includes(casting.id))session.release(actor);
-  for(const entry of pending)for(const skill of entry.press)session.press(currentHero(),skill,{x:entry.aim[0],y:entry.aim[1]});
+  for(const entry of pending){
+   if(entry.timing)session.timingPress(currentHero());
+   for(const skill of entry.dismiss)session.dismissFrame(currentHero(),skill);
+   for(const skill of entry.meta)session.meta(currentHero(),skill,{x:entry.aim[0],y:entry.aim[1]});
+   for(const skill of entry.press)session.press(currentHero(),skill,{x:entry.aim[0],y:entry.aim[1]});
+  }
   session.advance(dt);tick++;
   const state=session.snapshot(),poses=new Map(session.poses().map(p=>[p.id,p])),controlled=currentHero();
   // Reuse the detached view already captured for this frame, including a
@@ -79,7 +86,10 @@ export function createNodeCombatHost(content,{kit,character,nativeHero,space,see
    events:session.drainSignals(),hud:{life:hud.life,mana:hud.mana,
     cooldowns:Object.fromEntries(hud.cooldowns),skills:bar().map(s=>s?.id??null)}};
  };
- return Object.freeze({session,hero,character,input,build,grant,inventory,step,
+ // Rich Inventory/presentation views are requested separately, avoiding a full
+ // build/skill graph copy on every movement frame.
+ const inspect=()=>{available();return{hero:session.details(currentHero()),visuals:session.visuals()};};
+ return Object.freeze({session,hero,character,input,build,grant,inventory,step,inspect,
   hello:()=>({t:'hello',protocol:1,profile:'hollow-wake-sdk/1',hero:hero.id,ground:space.description?.(),rules:{unitsPerMetre:30,heightUnit:'cm'},inventory:inventory()}),
   disconnect(){if(closed)return;queue=[];seq=-1;latest={...latest,move:[0,0],held:[],hold:false};session.release(currentHero());},
   close(){queue=[];closed=true;},

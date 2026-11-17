@@ -1,6 +1,6 @@
 // Shared damage policy extracted from the pinned game; see docs/damage-pipeline.md.
 import type {DamageActor, DamageSkill, DamageRules, DamagePorts, DamageType, DamageBand,
-  SkillDamagePreview, HitResult, DamagePacket as Packet, MitigateOptions} from './damage-pipeline-types.js';
+  SkillDamagePreview, HitResult, DamagePacket as Packet, MitigateOptions, LifeWoundEvent} from './damage-pipeline-types.js';
 export type * from './damage-pipeline-types.js';
 
 const DAMAGE_TYPES: readonly DamageType[] = Object.freeze(['physical','fire','cold','lightning','chaos']);
@@ -225,12 +225,17 @@ function resistValue(target: Actor, type: DamageType, pen?: {
     attacker: Actor;
     tags?: Set<SkillTag>;
     extra?: Modifier[];
+    resistanceZero?: DamageType;
 }): number {
     const stat = RES_STAT[type];
     if (!stat)
         return 0;
     const cap = Math.min(target.sheet.get(stat + 'Max'), DEFENSE_CFG.resistance.hardCap);
-    let res = Math.min(target.sheet.get(stat), cap);
+    let res: number;
+    if (pen?.resistanceZero === type) {
+        if (!target.sheet.reductionsFromZero) throw Error('Resistance-neutral ailments require reductionsFromZero');
+        res = Math.max(DEFENSE_CFG.resistance.floor, target.sheet.reductionsFromZero(stat));
+    } else res = Math.min(target.sheet.get(stat), cap);
     if (pen) {
         const p = pen.attacker.sheet.get(type + 'Pen', pen.tags, pen.extra);
         if (p > 0)
@@ -239,7 +244,7 @@ function resistValue(target: Actor, type: DamageType, pen?: {
     return res;
 }
 function mitigateTyped(target: Actor, amounts: Partial<Record<DamageType, number>>, opts?: MitigateOpts): number {
-    if (target.sheet.get('damageImmunity') > 0)
+    if (target.frameCharging || target.sheet.get('damageImmunity') > 0)
         return 0;
     return mitigatePools(target, mitigateWound(target, amounts, opts), opts);
 }
@@ -248,7 +253,7 @@ function mitigateWound(target: Actor, amounts: Partial<Record<DamageType, number
     if (opts?.out)
         opts.out.receivedAmounts = amounts;
     const pen = opts?.attacker
-        ? { attacker: opts.attacker, tags: opts.tags, extra: opts.extra } : undefined;
+        ? { attacker: opts.attacker, tags: opts.tags, extra: opts.extra, resistanceZero: opts.resistanceZero } : undefined;
     let total = 0;
     for (const type of Object.keys(amounts) as DamageType[]) {
         let dmg = amounts[type]!;
@@ -388,11 +393,14 @@ function plyEats(attacker: Actor, target: Actor, total: number, packet: DamagePa
     }
     return true;
 }
-function landLifeDamage(target: Actor, total: number): number {
-    if (target.sheet.get('damageImmunity') > 0)
+function landLifeDamage(target: Actor, total: number, event?: LifeWoundEvent<A, M, Tag>): number {
+    if (target.frameCharging || target.sheet.get('damageImmunity') > 0)
         return 0;
-    for (const intercept of target.lifeDamageInterceptors?.values() ?? [])
-        total = Math.max(0, intercept(total));
+    for (const intercept of target.lifeDamageInterceptors?.values() ?? []) {
+        const before = total;
+        total = Math.max(0, intercept(total, event));
+        if (event) event.intercepted += Math.max(0, before - total);
+    }
     if (total <= 0)
         return 0;
     if (total >= target.life && target.life > 0 && !target.dead && !target.invulnerable
@@ -413,13 +421,19 @@ function landLifeDamage(target: Actor, total: number): number {
 }
 function applyHit(attacker: Actor, target: Actor, packet: DamagePacket): HitResult {
     const result = applyHitCore(attacker, target, packet);
+    for (const observer of target.hitObservers?.values() ?? []) observer(attacker, packet, result);
     ports.onHit?.(attacker, target, result, packet);
     return result;
 }
 function applyHitCore(attacker: Actor, target: Actor, packet: DamagePacket): HitResult {
+    if (packet.resourceHit) {
+        const amount = Math.min(Math.max(0, target.life), Object.values(packet.amounts).reduce((n, value) => n + (value ?? 0), 0));
+        target.life -= amount;
+        return {evaded:false, immune:false, blocked:false, total:amount, crit:false};
+    }
     const segHit = target.segHitPending;
     target.segHitPending = undefined;
-    if (target.invulnerable || throngTravelProtected(target))
+    if (target.frameCharging || target.invulnerable || throngTravelProtected(target))
         return { evaded: false, immune: true, blocked: false, total: 0, crit: false };
     if (!packet.assaultGuaranteed && target.sheet.get('hitImmune') > 0) {
         return { evaded: true, immune: false, blocked: false, total: 0, crit: false };
@@ -463,7 +477,9 @@ function applyHitCore(attacker: Actor, target: Actor, packet: DamagePacket): Hit
                 return { evaded: false, immune: false, blocked: true, blockedAmount: stopped, total: 0,
                     crit: false, poiseBroke: out.poiseBroke, plyEaten: true };
             }
-            landLifeDamage(target, leaked);
+            const wound: LifeWoundEvent<A, M, Tag> = {attacker, packet, intercepted: 0};
+            landLifeDamage(target, leaked, wound);
+            leaked = Math.max(0, leaked - wound.intercepted);
             target.hitFlash = 0.1;
             target.hitFlashType = dominantTypeOf(packet.amounts);
             if (leaked > 0 && segHit !== undefined && segHit >= 0) {
@@ -501,7 +517,7 @@ function applyHitCore(attacker: Actor, target: Actor, packet: DamagePacket): Hit
         }
     }
     const out: NonNullable<MitigateOpts['out']> = {};
-    const total = mitigateTyped(target, packet.amounts, { attacker, tags: packet.tags, extra: packet.extra, out });
+    let total = mitigateTyped(target, packet.amounts, { attacker, tags: packet.tags, extra: packet.extra, out });
     if (plyEats(attacker, target, total, packet)) {
         target.hitFlash = 0.12;
         target.hitFlashType = dominantTypeOf(packet.amounts);
@@ -511,7 +527,9 @@ function applyHitCore(attacker: Actor, target: Actor, packet: DamagePacket): Hit
             receivedAmounts: out.receivedAmounts,
         };
     }
-    landLifeDamage(target, total);
+    const wound: LifeWoundEvent<A, M, Tag> = {attacker, packet, intercepted: 0};
+    landLifeDamage(target, total, wound);
+    total = Math.max(0, total - wound.intercepted);
     target.hitFlash = 0.15;
     target.hitFlashType = dominantTypeOf(packet.amounts);
     if (total > 0 && segHit !== undefined && segHit >= 0) {
@@ -650,7 +668,7 @@ function applyDot(target: Actor, amount: number, type?: DamageType): number {
     return landed;
 }
 function applyDotCore(target: Actor, amount: number, type?: DamageType): number {
-    if (target.invulnerable || throngTravelProtected(target))
+    if (target.frameCharging || target.invulnerable || throngTravelProtected(target))
         return 0;
     const tags = type ? new Set<SkillTag>([type as Tag]) : undefined;
     let total = amount * target.sheet.get('damageTaken', tags) * (1 + weakPointBonus(target));
@@ -711,6 +729,10 @@ function receiveDamageAs(target: Actor, amounts: Partial<Record<DamageType, numb
     }
     return out;
 }
-return Object.freeze({applyConversion,rollSkillDamage,skillDamageBands,resistValue,mitigateTyped,landLifeDamage,applyHit,applyDot,
+function ailmentWoundBasis(target: Actor, amounts: Partial<Record<DamageType, number>>, attacker: Actor,
+    tags: Set<Tag>, extra: Modifier[], resistanceZero?: DamageType): number {
+    return mitigateWound(target, amounts, {attacker, tags, extra, resistanceZero});
+}
+return Object.freeze({applyConversion,rollSkillDamage,skillDamageBands,resistValue,mitigateTyped,landLifeDamage,applyHit,applyDot,ailmentWoundBasis,
   spendAbsorbLayers,tickAbsorbLayers,skillAbsorbAmount,receiveDamageAs});
 }

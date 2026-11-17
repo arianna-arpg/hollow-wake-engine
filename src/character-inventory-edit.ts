@@ -27,7 +27,7 @@ export function characterInlays(defs:InventoryDataDefinitions){
 /** Preparation only: all custody, wallet and random writes belong to this detached
  * candidate. The owner discards the entire candidate on refusal. */
 export function editCharacterInventory(defs:InventoryDataDefinitions,equipment:EquipmentSlots,input:CharacterInventoryEdit,
-  raw:unknown,rawAccess:unknown,features:readonly string[],containers?:CharacterContainerRules){
+  raw:unknown,rawAccess:unknown,features:readonly string[],containers?:CharacterContainerRules,canRetireRelics=false){
   const request=copySessionJSON(raw);record(request);text(request.op);
   const access=copySessionJSON(rawAccess);fields(access,['salvage','oracle','bench','counter','study']);for(const value of Object.values(access))bool(value);
   const draft=copySessionJSON(input) as unknown as CharacterInventoryEdit,state=draft.state,events:CharacterEditEvent[]=[];
@@ -89,6 +89,7 @@ export function editCharacterInventory(defs:InventoryDataDefinitions,equipment:E
       validTreeNodes:(def,ids,level,inst)=>skills.tree(def.id).restore(ids,level,inst),nextUid:()=>{integer(draft.nextUid,1,Number.MAX_SAFE_INTEGER-1);return draft.nextUid++;},
       bagWidth:()=>b.w,bagHeight:()=>b.h,itemGridSize:(item:ItemInstance)=>defs.crafting.items.pack.bases[item.baseId]});
     const actions=new CraftingOperations(defs.crafting.rules,{
+      ...(canRetireRelics?{canRetireRelics:()=>true,retireRelic:(_ctx:null,item:ItemInstance)=>events.push({kind:'retire-relic',item:copySessionJSON(item)})}:{}),
       carry:()=>state,lore:()=>draft.craftLore,learned:study=>{events.push({kind:'craft-study',study});},studyChanged:()=>{},
       hasFeature:id=>features.includes(id),progression:()=>access.study as boolean,reach:(_ctx:null,station)=>access[station] as boolean,
       nearBench:()=>access.bench as boolean,nearCounter:()=>access.counter as boolean,

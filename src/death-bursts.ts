@@ -26,18 +26,20 @@ export interface BurstActor {
 /** These services bind the shared SDK damage/death controllers. Spatial facts
  * and optional scenery reactions belong to the host; neither decides damage. */
 export interface DeathBurstPorts<A> {
-  actors(): readonly A[]; seats(): readonly A[]; hostile(a: A, b: A): boolean;
+  actors(): readonly A[]; seats(): readonly A[]; hostile(a: A, b: A, tier?: number): boolean;
+  readonly preserveLayers?: boolean;
   clamp(at: CombatPoint, radius: number, from?: CombatPoint): CombatPoint;
   convert(actor: A, amounts: DamageAmounts, tags: Set<string>): void;
   hit(source: A, target: A, packet: DamagePacket<Modifier, string>): HitResult;
   mitigate(actor: A, amounts: DamageAmounts, options: {out: {clamped?: boolean}}): number;
   kill(actor: A, silent: false, source?: A): void;
   text(at: CombatPoint, text: string, color: string, size: number): void;
+  damageText?(actor: A, amount: number, color: string, size: number): void;
   flash(at: CombatPoint, radius: number, color: string, life: number,
     extra?: {tier: number; recoveryCue?: string; visual?: string}): void;
   outcome(actor: A, kind: 'hit_cap' | 'culled', at: CombatPoint): void;
   indirectDamage?(actor: A, source: A | undefined, before: number): void;
-  surfaces?(at: CombatPoint, radius: number, amounts: DamageAmounts): void;
+  surfaces?(at: CombatPoint, radius: number, amounts: DamageAmounts, tier?: number): void;
 }
 
 /** Baked death payloads outlive their actor. A single clock preserves the
@@ -58,7 +60,7 @@ export class DeathBursts<A extends BurstActor> {
     color: string, team: string, tier = 0, source?: A, recoveryCue?: string, visual?: string): void {
     const p = this.ports;
     for (const target of p.actors()) {
-      if (!isBurstTarget(target, team, tier) || (source && !p.hostile(source, target))) continue;
+      if (!isBurstTarget(target, team, tier) || (source && !(p.preserveLayers ? p.hostile(source, target, tier) : p.hostile(source, target)))) continue;
       if (dist(at, target.pos) - target.radius > radius) continue;
       const out: {clamped?: boolean} = {};
       const packet: DamagePacket<Modifier, string> = {
@@ -71,13 +73,15 @@ export class DeathBursts<A extends BurstActor> {
       p.indirectDamage?.(target, source, before);
       const taken = result ? result.total : p.mitigate(target, packet.amounts, {out});
       if (!source) { target.life -= taken; target.hitFlash = .15; target.hitFlashType = type; }
-      p.text(target.pos, Math.round(taken).toString(), color, 14);
+      if (p.damageText) p.damageText(target, taken, color, 14);
+      else p.text(target.pos, Math.round(taken).toString(), color, 14);
       if (out.clamped || result?.clamped) p.outcome(target, 'hit_cap', at);
       if (result?.culled) p.outcome(target, 'culled', at);
       if (target.life <= 0 && !target.dead) p.kill(target, false, source);
     }
-    p.flash({...at}, radius, color, .35, recoveryCue || visual ? {tier, recoveryCue, visual} : undefined);
-    p.surfaces?.(at, radius, {[type]: damage});
+    p.flash({...at}, radius, color, .35, p.preserveLayers || recoveryCue || visual ? {tier, recoveryCue, visual} : undefined);
+    if (p.preserveLayers) p.surfaces?.(at, radius, {[type]: damage}, tier);
+    else p.surfaces?.(at, radius, {[type]: damage});
   }
 
   resolve(actor: A): DeathBurstDefinition | null {

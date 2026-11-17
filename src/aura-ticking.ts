@@ -15,7 +15,7 @@ export interface AuraTickSpec<D extends string, M> {
   allyMods?: M[]; enemyMods?: M[];
   enemyDps?: {amount?: number; type: D; drainLifeFraction?: number};
   siphonFraction?: number;
-  pulse?: {interval: number; healAllies?: {base: 'maxLife' | 'maxMana' | 'lifeRegen'; amount: number}};
+  pulse?: {interval: number; healAllies?: {base: 'casterMaxLife' | 'maxLife' | 'maxMana' | 'lifeRegen'; amount: number}};
 }
 export interface AuraTickState<S, F, M = unknown> {
   inst: S; spec: F; radius: number; shape: number; remaining: number;
@@ -52,6 +52,7 @@ export interface AuraTickPorts<A, S extends AuraTickSkill, F, D extends string, 
   resistance(actor: A, type: D): number;
   damageText(actor: A, amount: number, dt: number): void;
   heal(actor: A, amount: number): number;
+  healPower?(bearer:A,inst:S):number;
   /** Receives the live instance after healing; the host reads its feeding cue. */
   resourceFlow(actor: A, source: A, landed: number, inst: S): void;
   kill(actor: A, bearer: A): void;
@@ -188,9 +189,11 @@ export class AuraTick<
               for (const actor of this.p.actors()) {
                 if (actor.dead || actor.team !== bearer.team || !this.p.sameStory(actor, bearer)) continue;
                 if (!this.p.inside(bearer, aura, actor)) continue;
-                const base = heal.base === 'maxLife' ? this.p.maxLife(actor)
+                const base = heal.base === 'casterMaxLife' ? this.p.maxLife(bearer) : heal.base === 'maxLife' ? this.p.maxLife(actor)
                   : heal.base === 'maxMana' ? this.p.maxMana(actor) : this.p.stat(actor, 'lifeRegen');
-                const landed = this.p.heal(actor, base * heal.amount);
+                if(heal.base==='casterMaxLife'&&!this.p.healPower)throw Error('Caster-life aura needs its skill healing query');
+                const healing=heal.base==='casterMaxLife'?this.p.healPower!(bearer,aura.inst):1;
+                const landed = this.p.heal(actor, base * heal.amount * healing);
                 if (landed > 0) this.p.healText(actor, landed);
               }
             }

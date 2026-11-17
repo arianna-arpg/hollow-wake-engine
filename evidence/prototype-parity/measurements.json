@@ -1,0 +1,240 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "kind": "desktop-parity-baseline",
+  "prototypeSourceCommit": "f1fc73a52abbe7055e60971ed15b8a0b38a97a23",
+  "measuredWorkloadSha256": "99887d52a91f34b786a22a09442a57b94aeba2a607fcd1fbb8df373b250eb8c5",
+  "physicalDeviceQualified": false,
+  "optimizationComparison": false,
+  "freshTimingProcesses": 7,
+  "environment": {
+    "node": "v24.9.0",
+    "v8": "13.6.233.10-node.27",
+    "platform": "win32",
+    "arch": "x64",
+    "cpu": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+    "logicalCpus": 20,
+    "totalMemoryBytes": 68631449600,
+    "os": "10.0.19045",
+    "label": "Windows desktop November parity baseline",
+    "conditions": "SDK verification stopped; other desktop applications not controlled. Seven fresh timing processes; CPU/allocation and memory probes run separately.",
+    "execArgv": [],
+    "compileCacheDisabled": true,
+    "compileCacheDirectoryConfigured": false
+  },
+  "conditions": "SDK verification stopped; other desktop applications not controlled. Seven fresh timing processes; CPU/allocation and memory probes run separately.",
+  "aggregation": "Median of seven fresh-process medians/p95s/p99s; not pooled percentiles. Each process executes the same eight courses in order.",
+  "contentImportMs": {
+    "median": 1490.1231,
+    "range": [
+      1445.1005,
+      1558.0323
+    ]
+  },
+  "courses": [
+    {
+      "name": "mixed-32",
+      "samplesPerProcess": 600,
+      "operationMs": {
+        "median": 0.8387000000002445,
+        "p95": 2.9960000000000946,
+        "p99": 4.714399999999841
+      },
+      "processMedianRangeMs": [
+        0.7672999999999774,
+        0.8955000000000837
+      ],
+      "receiptSha256": "46e875e2e73799651b7ce104ccff9bc33e7ff11eb6b14c50d47d50705c9a59f6",
+      "counters": {
+        "frame": 720,
+        "presses": 192,
+        "accepted": 160,
+        "procEvents": 0,
+        "maxBodies": 32,
+        "maxShots": 7,
+        "maxStatuses": 38
+      },
+      "retainedHeapGrowthBytes": 62176,
+      "processPeakRssKiB": 479144,
+      "estimatedAllocatedBytes": 497166680
+    },
+    {
+      "name": "mixed-128",
+      "samplesPerProcess": 600,
+      "operationMs": {
+        "median": 3.259200000000419,
+        "p95": 11.093600000000151,
+        "p99": 15.989199999999983
+      },
+      "processMedianRangeMs": [
+        2.9468000000006214,
+        3.572099999999864
+      ],
+      "receiptSha256": "ad9c76f87b13fe24994e18886194213782b874c705f36317252805a4a29cf52c",
+      "counters": {
+        "frame": 720,
+        "presses": 768,
+        "accepted": 640,
+        "procEvents": 0,
+        "maxBodies": 128,
+        "maxShots": 23,
+        "maxStatuses": 163
+      },
+      "retainedHeapGrowthBytes": -5543584,
+      "processPeakRssKiB": 479144,
+      "estimatedAllocatedBytes": 1828210360
+    },
+    {
+      "name": "summons-procs-32",
+      "samplesPerProcess": 600,
+      "operationMs": {
+        "median": 1.5466999999998734,
+        "p95": 2.938299999999799,
+        "p99": 7.01260000000002
+      },
+      "processMedianRangeMs": [
+        1.434400000000096,
+        1.6329999999998108
+      ],
+      "receiptSha256": "412c20eead4958c46aabfd094787b8dec1d1d9783a2a9b65113c6a6a0bc016c9",
+      "counters": {
+        "frame": 720,
+        "presses": 192,
+        "accepted": 96,
+        "procEvents": 57,
+        "maxBodies": 64,
+        "maxShots": 8,
+        "maxStatuses": 6
+      },
+      "retainedHeapGrowthBytes": -34152,
+      "processPeakRssKiB": 479144,
+      "estimatedAllocatedBytes": 815308112
+    },
+    {
+      "name": "build-combat-32",
+      "samplesPerProcess": 600,
+      "operationMs": {
+        "median": 0.9429000000000087,
+        "p95": 2.9957000000003973,
+        "p99": 4.756499999999505
+      },
+      "processMedianRangeMs": [
+        0.8878000000004249,
+        0.9575000000004366
+      ],
+      "receiptSha256": "836400a79cdba696b03685513c52a06ec0a4d43ba0fb686eb828553cd276dae8",
+      "counters": {
+        "frame": 720,
+        "presses": 180,
+        "accepted": 146,
+        "procEvents": 0,
+        "maxBodies": 32,
+        "maxShots": 6,
+        "maxStatuses": 34
+      },
+      "retainedHeapGrowthBytes": -2568712,
+      "processPeakRssKiB": 479144,
+      "estimatedAllocatedBytes": 563992712
+    },
+    {
+      "name": "character-create",
+      "samplesPerProcess": 30,
+      "operationMs": {
+        "median": 2.3443000000006577,
+        "p95": 2.9896000000007916,
+        "p99": 3.181800000000294
+      },
+      "processMedianRangeMs": [
+        2.3315999999995256,
+        2.418499999999767
+      ],
+      "receiptSha256": "20da5913999a75db18ba2992b344798b139465e9136380c3846346778cf112bf",
+      "counters": {
+        "count": 35
+      },
+      "retainedHeapGrowthBytes": 56040,
+      "processPeakRssKiB": 479144,
+      "estimatedAllocatedBytes": 36111072
+    },
+    {
+      "name": "inventory-24",
+      "samplesPerProcess": 30,
+      "operationMs": {
+        "median": 6.793600000000879,
+        "p95": 8.097999999999956,
+        "p99": 10.501299999999901
+      },
+      "processMedianRangeMs": [
+        6.000099999999293,
+        7.05409999999938
+      ],
+      "receiptSha256": "f1afdd855619532fe2fa9a6d21049191e81f93fdcba5f5f8c36cf752e898e12d",
+      "counters": {
+        "count": 35
+      },
+      "retainedHeapGrowthBytes": 31016,
+      "processPeakRssKiB": 479144,
+      "estimatedAllocatedBytes": 301308712
+    },
+    {
+      "name": "build-edits",
+      "samplesPerProcess": 30,
+      "operationMs": {
+        "median": 59.836599999998725,
+        "p95": 64.34770000000026,
+        "p99": 64.35989999999947
+      },
+      "processMedianRangeMs": [
+        57.55869999999959,
+        61.09150000000045
+      ],
+      "receiptSha256": "8e5ef40dc16860e0e0ab63a8e9fcdf8d531193e0a7bfee4011de2286f68f3bd9",
+      "counters": {
+        "count": 35
+      },
+      "retainedHeapGrowthBytes": -126480,
+      "processPeakRssKiB": 589324,
+      "estimatedAllocatedBytes": 2468377304
+    },
+    {
+      "name": "create-release",
+      "samplesPerProcess": 30,
+      "operationMs": {
+        "median": 19.803399999998874,
+        "p95": 24.164199999999255,
+        "p99": 25.046900000001187
+      },
+      "processMedianRangeMs": [
+        19.42150000000038,
+        20.26430000000073
+      ],
+      "receiptSha256": "43d63c1ea5522a5cb2c8961e3e8f762cff83f50974ffbcd1683d54530043476e",
+      "counters": {
+        "count": 35
+      },
+      "retainedHeapGrowthBytes": -1051272,
+      "processPeakRssKiB": 591576,
+      "estimatedAllocatedBytes": 547986424
+    }
+  ],
+  "lifetime": {
+    "cycles": 1000,
+    "retainedHeapGrowthBytes": 538264,
+    "processPeakRssKiB": 619672
+  },
+  "limits": [
+    "Synchronous SDK and host frame construction only; wire encoding, socket transport and renderer excluded. No battery or thermal qualification.",
+    "Timing includes public operation and workload counters. Setup, digesting and observation are outside operation timing.",
+    "Heap allocation is a statistical V8 sampling estimate, not total native allocation. Memory and CPU profiling run separately from timing.",
+    "Desktop baseline only; no Steam Deck, mobile, thermal, battery or whole-game frame-budget qualification.",
+    "November behavior differs from October; these measurements do not establish an optimization or regression ratio.",
+    "The raw extraction-benchmark record is the preserved arithmetic-kernel comparison, not a whole-SDK speedup measurement.",
+    "Process peak RSS is cumulative and includes shared content. Retained heap growth and sampled allocations are different measurements.",
+    "The legacy raw field cpuIncludingSetupUs measures the sampled operation loop; setup and warmup are excluded despite its name."
+  ],
+  "raw": {
+    "file": "measurements.json.gz",
+    "sha256": "be7fcb14c8665127b525a58f09606a73b481946102e51d0ba77ca02e904e84e8",
+    "bytes": 125861
+  }
+}

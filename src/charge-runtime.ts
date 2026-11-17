@@ -42,6 +42,7 @@ export interface ChargePorts<I extends ChargeSkill,M extends ChargeModifier> {
   skills():readonly (I|null)[];taps(inst:I):readonly ChargeTap[];
   socketTaps(inst:I):readonly {def:{chargeGain?:readonly ChargeTap[]}}[];
   spentCharge(inst:I):string|undefined;toggled(inst:I):boolean;channelSkillId():string|undefined;
+  sideSpentCharge?(inst:I):string|undefined;
   gaugeTerms(inst:I):GaugeTerms;walked():number;clearWalked():void;
   gainEventCount():number;emitGainEvent(id:string,amount:number,inst:I|undefined,depth:number):void;
   setSource(id:string,mods:M[]):void;removeSource(id:string):void;
@@ -86,7 +87,7 @@ export class ChargeRuntime<I extends ChargeSkill,M extends ChargeModifier=Charge
   }
   isDraining(charge:string):boolean{return this.state.clocks.get(charge)?.drain!==undefined;}
   spendsCharge(charge:string):boolean{
-    for(const inst of this.#ports.skills())if(inst&&this.#ports.spentCharge(inst)===charge)return true;return false;
+    for(const inst of this.#ports.skills())if(inst&&(this.#ports.spentCharge(inst)===charge||this.#ports.sideSpentCharge?.(inst)===charge))return true;return false;
   }
   gain(charge:string,amount:number,max:number,inst?:I,depth=0):void{
     id(charge);finite(amount,'Charge gain');finite(max,'Charge maximum');nonnegative(depth,'Charge chain depth');

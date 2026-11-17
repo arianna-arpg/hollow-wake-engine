@@ -62,10 +62,15 @@ function applyStatus(actor: A, id: string, dps: number, durationScale: number, s
         existing.bankFrac = bankFracOf(existing, def);
     }
     else if (existing && def.stacking) {
-        if (existing.stacks < cap)
-            existing.stacks++;
-        if (!fixedFuse)
-            existing.remaining = duration;
+        if (def.independentStacks) {
+            existing.stackTimes ??= Array(existing.stacks).fill(existing.remaining);
+            if (existing.stackTimes.length < cap) existing.stackTimes.push(duration);
+            existing.stacks = existing.stackTimes.length;
+            existing.remaining = Math.max(0, ...existing.stackTimes);
+        } else {
+            if (existing.stacks < cap) existing.stacks++;
+            if (!fixedFuse) existing.remaining = duration;
+        }
         existing.dps = Math.max(existing.dps, dps);
         if (def.buildup && existing.stacks >= cap) {
             const i = actor.statuses.indexOf(existing);
@@ -79,6 +84,7 @@ function applyStatus(actor: A, id: string, dps: number, durationScale: number, s
         if (dps > existing.dps) {
             existing.dps = dps;
             existing.remaining = duration;
+            existing.visual = undefined;
         }
     }
     else if (existing && def.pop && !fixedFuse) {
@@ -98,6 +104,7 @@ function applyStatus(actor: A, id: string, dps: number, durationScale: number, s
     else {
         actor.statuses.push({
             id, remaining: duration, stacks: 1, dps, sourceName, challengeField: opts?.challengeField,
+            stackTimes: def.independentStacks ? [duration] : undefined,
             sourceKey: opts?.sourceKey, holdDischarge: opts?.holdDischarge,
             power: power !== 1 ? power : undefined,
             propagates: opts?.propagates || def.propagateOnDeath,
@@ -105,6 +112,7 @@ function applyStatus(actor: A, id: string, dps: number, durationScale: number, s
             ruptureType: opts?.ruptureType,
             ruptureRadius: opts?.ruptureRadius,
             casterId: opts?.casterId,
+            skillId: opts?.skillId,
             brood: opts?.brood,
             leech: opts?.leech,
             total: duration, statusDuration: duration,
@@ -136,6 +144,7 @@ function applyStatus(actor: A, id: string, dps: number, durationScale: number, s
             ? opts.casterId
             : existing.casterId ?? opts.casterId;
         existing.brood = existing.brood ?? opts.brood;
+        existing.skillId = existing.skillId ?? opts.skillId;
         if (opts.leech)
             existing.leech = Math.max(existing.leech ?? 0, opts.leech);
     }
@@ -235,7 +244,19 @@ function tickStatuses(actor:A, dt:number, chronoDt=dt, onDotTick?:StatusTick) {
 let dot: Partial<Record<StatusDamageType | 'untyped', number>> | null = null;
 for (let i = actor.statuses.length - 1; i >= 0; i--) {
     const s = actor.statuses[i];
-    s.remaining -= definition(s.id)?.timeScale !== undefined ? chronoDt : dt;
+    const statusDt = definition(s.id)?.timeScale !== undefined ? chronoDt : dt;
+    if (s.stackTimes) {
+        const previousStacks = s.stacks;
+        let kept = 0, remaining = 0;
+        for (const timer of s.stackTimes) {
+            const left = timer - statusDt;
+            if (left > 0) {s.stackTimes[kept++] = left; remaining = Math.max(remaining, left);}
+        }
+        s.stackTimes.length = kept; s.stacks = kept; s.remaining = remaining;
+        const def = definition(s.id);
+        if (def?.mods && previousStacks !== kept) actor.sheet.setSource('status:' + s.id,
+            def.mods.map(m => ({...m, value: m.value * (def.modsPerStack ? s.stacks : 1) * (s.power ?? 1)})));
+    } else s.remaining -= statusDt;
     if (s.dps > 0) {
         const sdef = definition(s.id);
         const key = sdef?.dotType ?? 'untyped';
@@ -286,5 +307,18 @@ actor.flying = fly;
 return dot;
 }
 function baselineStatusDps(id:string,level:number):number {return statusBaselineDps(definition(id),level);}
-return Object.freeze({applyStatus,tickChronoStatuses,endStatus,cleanseDebuffs,isStunned,isPanicked,neverRetreats,fickleSpan,isWet,tagsForbidden,tickStatuses,baselineStatusDps});
+function struggleAgainstPin(actor:A,axis:number):void {
+    if (!Number.isFinite(axis) || Math.abs(axis) < 0.5) return;
+    const side = Math.sign(axis);
+    for (const status of actor.statuses) {
+        const goal = definition(status.id)?.immobilize?.alternatingPresses, progress = status.breakaway ?? 0;
+        if (!(goal && goal > 0) || status.remaining <= 0 || Math.sign(progress) === side) continue;
+        status.breakaway = side * (Math.abs(progress) + 1);
+        if (Math.abs(status.breakaway) >= goal) {
+            status.remaining = 0;
+            if (status.stackTimes) status.stackTimes.length = 0;
+        }
+    }
+}
+return Object.freeze({applyStatus,tickChronoStatuses,endStatus,cleanseDebuffs,isStunned,isPanicked,neverRetreats,fickleSpan,isWet,tagsForbidden,tickStatuses,baselineStatusDps,struggleAgainstPin});
 }

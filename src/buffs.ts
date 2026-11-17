@@ -11,6 +11,7 @@ export interface BuffDefinition<M extends BuffModifier = BuffModifier, T extends
   readonly consumeOnUse?: { readonly tags?: readonly T[] };
   readonly consumeOn?: { readonly on: BuffConsumeEvent; readonly tags?: readonly T[]; readonly skills?: readonly string[] };
   readonly label?: string;
+  readonly sourceSkill?: {readonly id: string; readonly name: string; readonly color: string; readonly icon?: unknown; readonly tags: readonly string[]};
 }
 export interface ActiveBuff<D extends BuffDefinition = BuffDefinition> {
   def: D;

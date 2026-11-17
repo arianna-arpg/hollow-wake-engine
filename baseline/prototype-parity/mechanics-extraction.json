@@ -1,0 +1,839 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "f1fc73a52abbe7055e60971ed15b8a0b38a97a23",
+  "sources": {
+    "src/engine/castSequence.ts": "70c2d89f773c863250eaf8fc779cc1713c51ddee21bb5af1ec613ba73bfcbb42",
+    "src/engine/strikeTiming.ts": "dfdf250bf793beebe24b48925c4f4e2fb3fa8b4abc8f7b5c26dfef7a646cc1dd",
+    "src/engine/groundDevices.ts": "a13b7e19a39fc96969b6e9412698793a930e241b137998695fdd1e2ed097beea",
+    "src/engine/buffSource.ts": "1e6988cf70d3e1c723e6acc4dc7aa04878ce57d02ace1bfc60950089b7950e9e",
+    "src/engine/projectileArts.ts": "555eccba017077d7dd431859f9d3f399385b3d5dcf3afa1d51dfb8d2e9bb0e51",
+    "src/engine/summonArts.ts": "011ace5350796bc87e96466257838e2aca8520e9d03b57da6b4e3536a4683ed3",
+    "src/engine/cohortArts.ts": "cdd05a53e6f871414a84eab4963e8f4c7b1d7c01bd13efd546a85de2a798951c",
+    "src/engine/frameArts.ts": "7755fc88435f6166b802be0a7170e1c6b71a5b81ea5269c12af19bf2056f6784",
+    "src/engine/channelFormation.ts": "c452f31e92631913bf00f803990ae9c074717d9a2223190e8299e33384fa0c92",
+    "src/engine/summonPacts.ts": "d65a651c30d849c02ab6696ffe857080d7126f540bacfe1d3f6fa49bf76300eb",
+    "src/engine/battleDoctrines.ts": "831e7fb5d5951cd6a2e8768ee6284c04f095a5f6b64d5e1d14a2aac933279734",
+    "src/engine/ai.ts": "72502d1d054c2554b770d5e88aaab1e0c4bb7f8554d95e9bb12952b303fa0b16",
+    "src/engine/minionTransmutation.ts": "9bf5a453aeaf37a70db430354a0a6e9dfa82ef8b8f43feec2d15f7067022d40e",
+    "src/engine/world.ts": "82ab9a587b3d08b1c12f8363d1e02987eeb73f3b71814239d8981d6e8d8b1ec7"
+  },
+  "modules": [
+    {
+      "name": "castSequence",
+      "exports": [
+        "empoweredSkill",
+        "castSequenceInstance"
+      ],
+      "deps": []
+    },
+    {
+      "name": "strikeTiming",
+      "exports": [
+        "STRIKE_TIMING_CFG",
+        "strikeTimingsOf",
+        "rollStrikeMarker",
+        "resolveStrikeTiming"
+      ],
+      "deps": []
+    },
+    {
+      "name": "groundDevices",
+      "exports": [
+        "deviceTriggerErrors",
+        "DEVICE_CFG",
+        "groundDeviceState",
+        "deviceContactEligible",
+        "DeviceContacts"
+      ],
+      "deps": []
+    },
+    {
+      "name": "buffSource",
+      "exports": [
+        "buffWithSource"
+      ],
+      "deps": []
+    },
+    {
+      "name": "projectileArts",
+      "exports": [
+        "ProjectileArts"
+      ],
+      "deps": []
+    },
+    {
+      "name": "summonArts",
+      "exports": [
+        "summonArtsOf",
+        "echoableSpell",
+        "SummonArts"
+      ],
+      "deps": [
+        "castSequence"
+      ]
+    },
+    {
+      "name": "cohortArts",
+      "exports": [
+        "cohortOf",
+        "CohortArts"
+      ],
+      "deps": []
+    },
+    {
+      "name": "frameArts",
+      "exports": [
+        "frameOf",
+        "FrameArts"
+      ],
+      "deps": []
+    },
+    {
+      "name": "channelFormation",
+      "exports": [
+        "ChannelFormations"
+      ],
+      "deps": [
+        "castSequence"
+      ]
+    },
+    {
+      "name": "summonPacts",
+      "exports": [
+        "deriveSummonPactSupports",
+        "SummonPacts"
+      ],
+      "deps": []
+    },
+    {
+      "name": "minionTransmutation",
+      "exports": [
+        "transmutationOf",
+        "refreshTransmutation"
+      ],
+      "deps": []
+    },
+    {
+      "name": "battleDoctrines",
+      "exports": [
+        "BattleDoctrines"
+      ],
+      "deps": [
+        "minionTransmutation",
+        "buffSource"
+      ]
+    },
+    {
+      "name": "controllers",
+      "exports": [],
+      "deps": [
+        "castSequence",
+        "strikeTiming",
+        "groundDevices",
+        "buffSource",
+        "projectileArts",
+        "summonArts",
+        "cohortArts",
+        "frameArts",
+        "channelFormation",
+        "summonPacts",
+        "battleDoctrines",
+        "minionTransmutation"
+      ]
+    },
+    {
+      "name": "deliveries",
+      "exports": [
+        "preparePrototype",
+        "deliverPrototype",
+        "completePrototype"
+      ],
+      "deps": [
+        "castSequence",
+        "strikeTiming",
+        "groundDevices",
+        "buffSource",
+        "projectileArts",
+        "summonArts",
+        "cohortArts",
+        "frameArts",
+        "channelFormation",
+        "summonPacts",
+        "battleDoctrines",
+        "minionTransmutation"
+      ]
+    }
+  ],
+  "contracts": {
+    "deliveries": [
+      "activateAura",
+      "addTether",
+      "affordedDest",
+      "applyHealChained",
+      "applyRestore",
+      "associateTreeBuff",
+      "bankRune",
+      "birthAt",
+      "burstDamage",
+      "castChrono",
+      "clampGroundTarget",
+      "clampPos",
+      "cleanseActor",
+      "clipShot",
+      "conjureCloud",
+      "conjureGrantsFor",
+      "consumeAmmunition",
+      "consumeRemnants",
+      "consumeStealth",
+      "corpseSpawn",
+      "critMendMult",
+      "dismissExclusiveSummons",
+      "dropLingerField",
+      "echoToClones",
+      "endCarom",
+      "enemiesOf",
+      "executeSkill",
+      "expireZone",
+      "failNote",
+      "forwardSummonSockets",
+      "frontSplash",
+      "grantAbsorb",
+      "healAlliesInArea",
+      "kill",
+      "layFissure",
+      "lineOfFire",
+      "lineOfSight",
+      "litePromoteNearest",
+      "maddenBankOf",
+      "minionsOfGroup",
+      "minionsOfSkill",
+      "mintAftermath",
+      "mintTrailPatch",
+      "moveBlast",
+      "movementMoment",
+      "notice",
+      "plantKindle",
+      "plantVent",
+      "presenceMoment",
+      "queueFollowUps",
+      "recordCast",
+      "releaseStruckSummons",
+      "removeCorpse",
+      "resolveHit",
+      "resolveTargeting",
+      "ringAfflictions",
+      "rollOwnProcs",
+      "showSelfRelease",
+      "showSkillArrival",
+      "skillOcclusion",
+      "spawnAftershocks",
+      "spawnConstruct",
+      "spawnEchoRiders",
+      "spawnMinion",
+      "spawnProjectile",
+      "spoilStoryAt",
+      "stampSkillCooldown",
+      "startRestoreStream",
+      "statTrailSpec",
+      "strikeSurfaces",
+      "teleportActor",
+      "text",
+      "triggerAmbush",
+      "tryTame",
+      "ultimateFlash"
+    ]
+  },
+  "queries": [
+    {
+      "name": "angleDiff",
+      "imported": "angleDiff",
+      "source": "src/core/math.ts"
+    },
+    {
+      "name": "angleTo",
+      "imported": "angleTo",
+      "source": "src/core/math.ts"
+    },
+    {
+      "name": "AOE_SHAPE",
+      "imported": "AOE_SHAPE",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "applyMinionPlyBonus",
+      "imported": "applyMinionPlyBonus",
+      "source": "src/engine/minionInheritance.ts"
+    },
+    {
+      "name": "bandSwingGeo",
+      "imported": "bandSwingGeo",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "BATTLE_DOCTRINES",
+      "imported": "BATTLE_DOCTRINES",
+      "source": "src/data/battleDoctrines.ts"
+    },
+    {
+      "name": "bodyTellSpecs",
+      "imported": "bodyTellSpecs",
+      "source": "src/engine/intent.ts"
+    },
+    {
+      "name": "caromCapacity",
+      "imported": "caromCapacity",
+      "source": "src/engine/payloadCues.ts"
+    },
+    {
+      "name": "castingDamageTags",
+      "imported": "castingDamageTags",
+      "source": "src/engine/castingCues.ts"
+    },
+    {
+      "name": "challengeOf",
+      "imported": "challengeOf",
+      "source": "src/engine/challengeSpec.ts"
+    },
+    {
+      "name": "clamp",
+      "imported": "clamp",
+      "source": "src/core/math.ts"
+    },
+    {
+      "name": "cohortSkillIds",
+      "imported": "cohortSkillIds",
+      "source": "src/engine/cohortSpec.ts"
+    },
+    {
+      "name": "combatCueFlash",
+      "imported": "combatCueFlash",
+      "source": "src/engine/combatCues.ts"
+    },
+    {
+      "name": "CONJURE_CFG",
+      "imported": "CONJURE_CFG",
+      "source": "src/engine/flux.ts"
+    },
+    {
+      "name": "CONSTRUCT_FORWARD_CFG",
+      "imported": "CONSTRUCT_FORWARD_CFG",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "COSMETIC_CFG",
+      "imported": "COSMETIC_CFG",
+      "source": "src/data/cosmetics.ts"
+    },
+    {
+      "name": "crewBoardingOpen",
+      "imported": "crewBoardingOpen",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "damageDialMods",
+      "imported": "damageDialMods",
+      "source": "src/data/monsterDamage.ts"
+    },
+    {
+      "name": "DamageTextBursts",
+      "imported": "DamageTextBursts",
+      "source": "src/world/damageText.ts"
+    },
+    {
+      "name": "DEFENSE_CFG",
+      "imported": "DEFENSE_CFG",
+      "source": "src/engine/defense.ts"
+    },
+    {
+      "name": "dist",
+      "imported": "dist",
+      "source": "src/core/math.ts"
+    },
+    {
+      "name": "effectiveSkillLevel",
+      "imported": "effectiveSkillLevel",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "ELEMENTAL_TYPES",
+      "imported": "ELEMENTAL_TYPES",
+      "source": "src/engine/stats.ts"
+    },
+    {
+      "name": "faceAlongTravel",
+      "imported": "faceAlongTravel",
+      "source": "src/engine/handling.ts"
+    },
+    {
+      "name": "feedingCueFlash",
+      "imported": "feedingCueFlash",
+      "source": "src/engine/feedingCues.ts"
+    },
+    {
+      "name": "frameSkillIds",
+      "imported": "frameSkillIds",
+      "source": "src/engine/frameSpec.ts"
+    },
+    {
+      "name": "grantedTags",
+      "imported": "grantedTags",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "grimoireForm",
+      "imported": "grimoireForm",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "hostSockets",
+      "imported": "hostSockets",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceAim",
+      "imported": "instanceAim",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceBirth",
+      "imported": "instanceBirth",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceCascadePlan",
+      "imported": "instanceCascadePlan",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceCastCycle",
+      "imported": "instanceCastCycle",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceChannel",
+      "imported": "instanceChannel",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceChargeCost",
+      "imported": "instanceChargeCost",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceChargeGain",
+      "imported": "instanceChargeGain",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceCurseField",
+      "imported": "instanceCurseField",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceDelivery",
+      "imported": "instanceDelivery",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceEchoes",
+      "imported": "instanceEchoes",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceEffects",
+      "imported": "instanceEffects",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceInvocation",
+      "imported": "instanceInvocation",
+      "source": "src/engine/invocation.ts"
+    },
+    {
+      "name": "instanceMetas",
+      "imported": "instanceMetas",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceMods",
+      "imported": "instanceMods",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instancePulsePlan",
+      "imported": "instancePulsePlan",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceSelfStack",
+      "imported": "instanceSelfStack",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceSideFeast",
+      "imported": "instanceSideFeast",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceSizeOver",
+      "imported": "instanceSizeOver",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceStrikeTimings",
+      "imported": "instanceStrikeTimings",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceSummon",
+      "imported": "instanceSummon",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceTargeting",
+      "imported": "instanceTargeting",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceTethers",
+      "imported": "instanceTethers",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceTurret",
+      "imported": "instanceTurret",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceUseCharges",
+      "imported": "instanceUseCharges",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "instanceVariance",
+      "imported": "instanceVariance",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "LOS_CFG",
+      "imported": "LOS_CFG",
+      "source": "src/engine/los.ts"
+    },
+    {
+      "name": "makeInvocationPayload",
+      "imported": "makeInvocationPayload",
+      "source": "src/engine/invocation.ts"
+    },
+    {
+      "name": "makeSkillInstance",
+      "imported": "makeSkillInstance",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "manaPoolMods",
+      "imported": "manaPoolMods",
+      "source": "src/data/monsterMana.ts"
+    },
+    {
+      "name": "markBodyAction",
+      "imported": "markBodyAction",
+      "source": "src/engine/bodyAction.ts"
+    },
+    {
+      "name": "mimicRefreshWatch",
+      "imported": "mimicRefreshWatch",
+      "source": "src/engine/mimic.ts"
+    },
+    {
+      "name": "MINION_TRANSMUTATIONS",
+      "imported": "MINION_TRANSMUTATIONS",
+      "source": "src/data/battleDoctrines.ts"
+    },
+    {
+      "name": "minionBodyTags",
+      "imported": "minionBodyTags",
+      "source": "src/engine/skillScopes.ts"
+    },
+    {
+      "name": "mod",
+      "imported": "mod",
+      "source": "src/engine/stats.ts"
+    },
+    {
+      "name": "MONSTERS",
+      "imported": "MONSTERS",
+      "source": "src/data/monsters.ts"
+    },
+    {
+      "name": "nearestBody",
+      "imported": "nearestBody",
+      "source": "src/engine/segments.ts"
+    },
+    {
+      "name": "normalizeBrain",
+      "imported": "normalizeBrain",
+      "source": "src/engine/brain.ts"
+    },
+    {
+      "name": "noteBodyHit",
+      "imported": "noteBodyHit",
+      "source": "src/engine/segments.ts"
+    },
+    {
+      "name": "noteProcCue",
+      "imported": "noteProcCue",
+      "source": "src/engine/procCues.ts"
+    },
+    {
+      "name": "payloadTransition",
+      "imported": "payloadTransition",
+      "source": "src/engine/payloadCues.ts"
+    },
+    {
+      "name": "perceiveTarget",
+      "imported": "perceiveTarget",
+      "source": "src/engine/perception.ts"
+    },
+    {
+      "name": "placeAt",
+      "imported": "placeAt",
+      "source": "src/engine/inventory.ts"
+    },
+    {
+      "name": "pointSegDist",
+      "imported": "pointSegDist",
+      "source": "src/core/math.ts"
+    },
+    {
+      "name": "PROJECTILE_ART_LIMITS",
+      "imported": "PROJECTILE_ART_LIMITS",
+      "source": "src/engine/projectileArtsSpec.ts"
+    },
+    {
+      "name": "projectileArtsCount",
+      "imported": "projectileArtsCount",
+      "source": "src/engine/projectileArtsSpec.ts"
+    },
+    {
+      "name": "projectileArtsLiveLimit",
+      "imported": "projectileArtsLiveLimit",
+      "source": "src/engine/projectileArtsSpec.ts"
+    },
+    {
+      "name": "projectileArtsOf",
+      "imported": "projectileArtsOf",
+      "source": "src/engine/projectileArtsSpec.ts"
+    },
+    {
+      "name": "replenishingDelivery",
+      "imported": "replenishingDelivery",
+      "source": "src/engine/replenishment.ts"
+    },
+    {
+      "name": "resolveInvocation",
+      "imported": "resolveInvocation",
+      "source": "src/data/invocations.ts"
+    },
+    {
+      "name": "resolveMinionInheritance",
+      "imported": "resolveMinionInheritance",
+      "source": "src/engine/minionInheritance.ts"
+    },
+    {
+      "name": "resolveSizeOver",
+      "imported": "resolveSizeOver",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "RUNE_INFO",
+      "imported": "RUNE_INFO",
+      "source": "src/data/invocations.ts"
+    },
+    {
+      "name": "sameStory",
+      "imported": "sameStory",
+      "source": "src/engine/tiers.ts"
+    },
+    {
+      "name": "SATELLITE_CFG",
+      "imported": "SATELLITE_CFG",
+      "source": "src/engine/satelliteSpec.ts"
+    },
+    {
+      "name": "SECONDARY_LOOKS",
+      "imported": "SECONDARY_LOOKS",
+      "source": "src/data/secondaryVisuals.ts"
+    },
+    {
+      "name": "skillAbsorbAmount",
+      "imported": "skillAbsorbAmount",
+      "source": "src/engine/absorb.ts"
+    },
+    {
+      "name": "skillBeamVoice",
+      "imported": "skillBeamVoice",
+      "source": "src/data/skillFlightVisuals.ts"
+    },
+    {
+      "name": "skillBurstVoice",
+      "imported": "skillBurstVoice",
+      "source": "src/data/skillVisuals.ts"
+    },
+    {
+      "name": "skillContextTags",
+      "imported": "skillContextTags",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "skillCooldownSeconds",
+      "imported": "skillCooldownSeconds",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "skillFieldVisual",
+      "imported": "skillFieldVisual",
+      "source": "src/engine/skillFieldVisual.ts"
+    },
+    {
+      "name": "skillMovementVoice",
+      "imported": "skillMovementVoice",
+      "source": "src/data/skillMovementVisuals.ts"
+    },
+    {
+      "name": "skillPresenceVoice",
+      "imported": "skillPresenceVoice",
+      "source": "src/data/skillPresenceVisuals.ts"
+    },
+    {
+      "name": "skillRiteVoice",
+      "imported": "skillRiteVoice",
+      "source": "src/data/skillTargetVisuals.ts"
+    },
+    {
+      "name": "SKILLS",
+      "imported": "SKILLS",
+      "source": "src/data/skills.ts"
+    },
+    {
+      "name": "skillSelfVoice",
+      "imported": "skillSelfVoice",
+      "source": "src/data/skillSelfVisuals.ts"
+    },
+    {
+      "name": "skillStrikeVoice",
+      "imported": "skillStrikeVoice",
+      "source": "src/data/skillStrikeVisuals.ts"
+    },
+    {
+      "name": "socketSpec",
+      "imported": "socketSpec",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "STATUS_DEFS",
+      "imported": "STATUS_DEFS",
+      "source": "src/engine/status.ts"
+    },
+    {
+      "name": "SUMMON_PACT_SUPPORT_GRANTS",
+      "imported": "SUMMON_PACT_SUPPORT_GRANTS",
+      "source": "src/data/summonPacts.ts"
+    },
+    {
+      "name": "SUMMON_PACTS",
+      "imported": "SUMMON_PACTS",
+      "source": "src/data/summonPacts.ts"
+    },
+    {
+      "name": "summonArtIds",
+      "imported": "summonArtIds",
+      "source": "src/engine/summonArtsSpec.ts"
+    },
+    {
+      "name": "summonCapacity",
+      "imported": "summonCapacity",
+      "source": "src/engine/summonContracts.ts"
+    },
+    {
+      "name": "summonContractSlots",
+      "imported": "summonContractSlots",
+      "source": "src/engine/summonContracts.ts"
+    },
+    {
+      "name": "summonCrewOf",
+      "imported": "summonCrewOf",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "summonKitIds",
+      "imported": "summonKitIds",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "summonReservationUnit",
+      "imported": "summonReservationUnit",
+      "source": "src/engine/companionGrants.ts"
+    },
+    {
+      "name": "summonSchoolSkill",
+      "imported": "summonSchoolSkill",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "SUPPORT_POWER_TARGET",
+      "imported": "SUPPORT_POWER_TARGET",
+      "source": "src/data/supportPower.ts"
+    },
+    {
+      "name": "supportFitsInst",
+      "imported": "supportFitsInst",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "supportRidesMinions",
+      "imported": "supportRidesMinions",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "TERRAFORM_LIST",
+      "imported": "TERRAFORM_LIST",
+      "source": "src/data/attunements.ts"
+    },
+    {
+      "name": "terraformFxStat",
+      "imported": "terraformFxStat",
+      "source": "src/data/attunements.ts"
+    },
+    {
+      "name": "terraformStat",
+      "imported": "terraformStat",
+      "source": "src/data/attunements.ts"
+    },
+    {
+      "name": "UNLEASH_CFG",
+      "imported": "UNLEASH_CFG",
+      "source": "src/engine/skills.ts"
+    },
+    {
+      "name": "vec",
+      "imported": "vec",
+      "source": "src/core/math.ts"
+    }
+  ],
+  "alterations": [
+    "Instance-owned random source",
+    "Shared SDK damage pipeline",
+    "Host geometry through the existing combat owner",
+    "No original World runtime import",
+    "Selected World controller initializers and combat methods bind to the SDK owner",
+    "Tree buff retirement uses the existing owner-scoped SDK ledger",
+    "Delivery families extracted separately with case-level break converted to return; frame locals supplied by preparation",
+    "Preparation and aftermath retain source order; campaign deed recording is omitted and cast observation uses the owner observer",
+    "Original actor allocation, presentation lookup and observation tap bind to instance-owned SDK services",
+    "Original field aftermath methods and pure pulse-queue helper retain explicit effect layers",
+    "Terraform and growth-effect clocks own only transient combat growths; static host scenery is never mutated or harvested"
+  ],
+  "outputs": {
+    "adapters/embedded/combat-prototype-mechanics.mjs": "1c6001cfc44c3ef41c872bfb5eb0fcf8d7105a918f8ab0f7711b76848a3e5fea"
+  }
+}

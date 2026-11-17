@@ -1,6 +1,7 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';import {pathToFileURL} from 'node:url';
 import {root,sha256,writeJSON} from './reference-utils.mjs';
 const source=fs.readFileSync(path.join(root,'dist/hit-status.js'),'utf8'),directory=fs.mkdtempSync(path.join(root,'.artifacts/hit-status-mutations-'));
+try {
 const mutations=[
  ['random-zero','ports.random() < value','value > 0 && ports.random() < value'],
  ['linked-first',"other.def.effects.find(f => f.type === 'status')","other.def.effects.findLast(f => f.type === 'status')"],
@@ -12,7 +13,7 @@ const mutations=[
  ['rider-spend','caster.consumeBuffStacks(bid, 1);','caster.consumeBuffStacks(bid, 2);'],
  ['resistance','shrug > 0 && chance(shrug)','false && chance(shrug)'],
  ['incidental-tuning','fx.chance * rule.incidentalScale','fx.chance'],
- ['carry','(dealt + afflictionCarry)','dealt'],
+ ['carry','(basis + afflictionCarry)','basis'],
  ['duration-floor','hexDmg / Math.max(.5, durScale)','hexDmg / Math.max(.05, durScale)'],
  ['fixed-duration','fx.durationOverride !== undefined','false'],
  ['critical-dps','dpsOut *= cm;','dpsOut *= 1;'],
@@ -35,3 +36,4 @@ for(const[name,needle,replacement]of mutations){assert.equal(source.split(needle
  assert(!result.error,name);assert.equal(result.signal,null,name);assert.notEqual(result.status,0,name+' survived');assert.match(output,/ERR_ASSERTION/,name+' must fail behavior');assert(!/SyntaxError|ERR_MODULE_NOT_FOUND/.test(output),name);results.push({name,detected:true,sha256:sha256(fs.readFileSync(file))});
 }
 const report={passed:true,directory,sourceSha256:sha256(source),faults:results.length,results};writeJSON(path.join(directory,'verification.json'),report);writeJSON(path.join(root,'.artifacts/hit-status-mutation-verification.json'),report);console.log({passed:true,directory,faults:results.length});
+} finally {assert.equal(path.dirname(fs.realpathSync(directory)),fs.realpathSync(path.join(root,'.artifacts')));fs.rmSync(directory,{recursive:true,maxRetries:3});}

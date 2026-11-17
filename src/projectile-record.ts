@@ -1,5 +1,6 @@
 import type {CombatPoint} from './combat-geometry.js';import type {DamageType} from './damage-pipeline-types.js';import type {ParryDamage} from './parry-damage.js';import type {ProjectileDelivery,ProjectileShape,ProjTrailSpec,FissureTrailSpec} from './projectile-specs.js';
 export interface CombatProjectile<A,I> {
+    projectileOrbit?:unknown;
     skillVisualId?: string;
     orbPaint?: ProjectileDelivery['orbPaint'];
     parryDamage?: ParryDamage;

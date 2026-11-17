@@ -2,6 +2,7 @@ import fs from 'node:fs';import path from 'node:path';import assert from 'node:a
 import {spawnSync} from 'node:child_process';import {build} from 'esbuild';
 import {root,sha256,writeJSON,listFiles,git} from './reference-utils.mjs';
 import {buildNodeGodotExample} from './build-node-godot.mjs';import {readScope} from './combat-inventory-scope-tools.mjs';
+import {prepareParityReference} from './prototype-parity-tools.mjs';import {readPrototypeContent} from './prototype-content.mjs';
 const args=process.argv.slice(2),options={};
 for(let i=0;i<args.length;i+=2){assert(['--out','--python'].includes(args[i])&&args[i+1]&&!options[args[i]]);options[args[i]]=args[i+1];}
 assert(options['--out'],'Use --out NEW_DIRECTORY [--python PYTHON]');
@@ -12,25 +13,36 @@ const run=(file,argv)=>{const r=spawnSync(file,argv,{cwd:root,windowsHide:true,e
  env:{...process.env,TEMP:work,TMP:work,TMPDIR:work,NPM_CONFIG_CACHE:path.join(work,'npm-cache'),PYTHONDONTWRITEBYTECODE:'1'}});assert(!r.error&&r.status===0,(r.stdout??'')+(r.stderr??String(r.error)));return r.stdout;};
 let created=false,complete=false;
 try {
-  const distribution=await buildNodeGodotExample(kit),pkg=JSON.parse(fs.readFileSync(path.join(kit,'package.json')));
+  assert(!config.sourceProfile||config.sourceProfile==='prototype-2026-11-16','Unknown release source profile');
+  if(config.sourceProfile)prepareParityReference();
+  const profile=config.sourceProfile?readPrototypeContent():undefined;
+  const distribution=await buildNodeGodotExample(kit,profile),pkg=JSON.parse(fs.readFileSync(path.join(kit,'package.json')));
   assert.equal(Object.keys(pkg.dependencies).length,5);
   for(const [name,version]of Object.entries(config.packages))assert.equal(pkg.dependencies[name],'file:packages/'+name.replace('@','').replace('/','-')+'-'+version+'.tgz');
   const copy=(source,target)=>{fs.mkdirSync(path.dirname(path.join(kit,target)),{recursive:true});fs.copyFileSync(path.join(root,source),path.join(kit,target));};
   copy('examples/combat-inventory/README.md','README.md');copy('examples/combat-inventory/quickstart.mjs','quickstart.mjs');copy('examples/combat-inventory/verify.mjs','verify.mjs');
   copy('NOTICE.md','NOTICE.md');
   for(const file of ['sdk-adoption.md','sdk-host-services.md','sdk-compatibility.md','combat-inventory-capabilities.json'])copy('docs/'+file,'docs/'+file);
-  for(const file of ['measurements.json','budgets.json'])copy('evidence/combat-inventory-milestone-five/'+file,'evidence/'+file);
+  for(const file of ['measurements.json','budgets.json'])copy('evidence/combat-inventory-milestone-five/'+file,'evidence/'+(profile?'previous-release-':'')+file);
+  if(profile)for(const file of ['measurements.json','measurements.json.gz'])copy('evidence/prototype-parity/'+file,'evidence/'+file);
+  if(profile){copy('docs/prototype-parity.md','docs/prototype-parity.md');copy('test/prototype-parity/installed.mjs','verification/prototype.mjs');copy('test/prototype-parity/replay.mjs','verification/replay.mjs');}
   copy('test/combat-session/consumer.mjs','verification/combat.mjs');copy('test/node-godot/consumer.mjs','verification/adapter.mjs');
   for(const file of ['characters.mjs','lifecycles.mjs','locomotion.mjs'])copy('test/combat-session/'+file,'verification/'+file);
   await build({absWorkingDir:root,entryPoints:['test/combat-empty-space.mjs'],bundle:true,platform:'neutral',format:'esm',target:'es2022',outfile:path.join(kit,'verification/space.mjs')});
-  const fixtures={};for(const name of ['combat-frames','combat-families','combat-lifecycles','combat-proc-families','combat-interactions','combat-locomotion','combat-locomotion-airborne','character-session']){
-    const file='baseline/'+name+'/observations.json.gz',acceptance=JSON.parse(fs.readFileSync(path.join(root,'baseline',name,'acceptance.json')));
+  const fixtures={};for(const name of profile?['combat','interactions','layers-v2','summons-v5','rules-v2','terminal','corpse-rites','relocation','host','character-v2']:['combat-frames','combat-families','combat-lifecycles','combat-proc-families','combat-interactions','combat-locomotion','combat-locomotion-airborne','character-session']){
+    const file=profile?'baseline/prototype-parity/'+name+'.json.gz':'baseline/'+name+'/observations.json.gz',acceptance=JSON.parse(fs.readFileSync(profile?path.join(root,'baseline/prototype-parity',name+'-acceptance.json'):path.join(root,'baseline',name,'acceptance.json')));
     assert.equal(sha256(fs.readFileSync(path.join(root,file))),acceptance.compressedSha256);
     copy(file,'verification/'+name+'.json.gz');fixtures[name]=acceptance.compressedSha256;
   }
   run(process.execPath,['scripts/build-combat-benchmark.mjs','--distribution',kit,'--out',path.join(kit,'performance')]);
   const performance=JSON.parse(fs.readFileSync(path.join(kit,'performance/manifest.json'))),measurements=JSON.parse(fs.readFileSync(path.join(kit,'evidence/measurements.json')));
-  assert.equal(performance.files['workload.mjs'].sha256,measurements.qualifiedWorkloadSha256,'Changed executable requires new performance qualification');
+  const measuredHash=profile?measurements.measuredWorkloadSha256:measurements.qualifiedWorkloadSha256;
+  assert(measurements.passed);assert.equal(performance.files['workload.mjs'].sha256,measuredHash,'Changed executable requires new measurements');
+  if(profile){
+    assert.equal(measurements.prototypeSourceCommit,profile.lock.commit);
+    assert.equal(measurements.kind,'desktop-parity-baseline');
+    assert.equal(sha256(fs.readFileSync(path.join(kit,'evidence/measurements.json.gz'))),measurements.raw.sha256);
+  }
   pkg.name='hollow-wake-combat-inventory-release';pkg.version=config.version;pkg.engines={node:'>=22'};
   pkg.scripts={start:'node host/serve.mjs',example:'node quickstart.mjs',verify:'node verify.mjs'};writeJSON(path.join(kit,'package.json'),pkg);
   const scope=readScope(),optional=new Set(scope.extensionRoots);
@@ -38,7 +50,8 @@ try {
   const manifest={schemaVersion:1,capability:'combat-inventory-release/v1',version:config.version,tag:config.tag,sourceCommit:git(root,['rev-parse','HEAD']).trim(),sourceDirty:git(root,['status','--porcelain']).trim().length>0,
     packages:config.packages,archives:distribution.archives,baseline:scope.baseline,requiredCapabilities:scope.capabilities.map(c=>c.id),
     optionalModuleRoots:[...optional].sort(),questAccountPersistenceRequired:false,physicalDeviceQualified:false,
-    measuredWorkloadSha256:measurements.qualifiedWorkloadSha256,originalFixtures:fixtures,
+    ...(profile?{prototypeSource:{commit:profile.lock.commit,sourceLockSha256:sha256(profile.lockBytes)},performanceQualification:'desktop baseline; no device or optimization qualification'}:{}),
+    measuredWorkloadSha256:measuredHash,portableWorkloadSha256:performance.files['workload.mjs'].sha256,originalFixtures:fixtures,
     files:Object.fromEntries(listFiles(kit).map(file=>[file,sha256(fs.readFileSync(path.join(kit,file)))]))};
   assert.equal(manifest.requiredCapabilities.length,27);writeJSON(path.join(kit,'sdk-release.json'),manifest);
   fs.mkdirSync(out,{recursive:true});created=true;const name='hollow-wake-combat-inventory-'+config.version+'.zip',archive=path.join(out,name);

@@ -30,6 +30,7 @@ export interface CastBuffPorts<A, I, Tags, M, D, Tag> {
   tagList(tags: Tags): Tag[];
   modifiers(skill: I): readonly M[];
   hasTreeBuffs(skill: I): boolean;
+  source?(effect: D, skill: I): D;
   grant(actor: A, effect: D, duration: number, depth: 0, tags: readonly Tag[]): void;
   remove(actor: A, id: string): void;
   arrival(caster: A, skill: I, target: A): void;
@@ -51,6 +52,7 @@ export class CastBuffs<
   grant(caster: A, target: A, skill: I, effect: D, duration: number): void {
     const followUpHost = skill.followUpHost;
     skill = followUpHost ?? skill;
+    effect = this.ports.source?.(effect, skill) ?? effect;
     if (!followUpHost && !this.ports.hasTreeBuffs(skill)) {
       this.ports.grant(target, effect, duration, 0, skill.def.tags);
     } else {

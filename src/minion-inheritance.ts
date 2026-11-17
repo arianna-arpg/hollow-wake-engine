@@ -3,6 +3,7 @@
 export interface InheritanceModifier {stat:string;kind:string;value:number}
 export interface MinionInheritanceSkill {def:{throng?:unknown;hivecall?:unknown};relicSource?:unknown}
 export interface MinionInheritancePorts<A,I,M,T> {
+ inheritanceStat?(actor:A,bodyId?:string):((id:string,tags:T,mods:M[])=>number)|undefined;
  tags(inst:I):T;modifiers(inst:I):M[];bodyContext(tags:T,bodyId?:string):T;
  combat(inst:I):{areaAvoidance?:number;threat?:number};
  stat(actor:A,id:string,tags:T,mods:M[]):number;base(id:string):number|undefined;
@@ -41,8 +42,9 @@ export class MinionInheritanceResolver<A,I extends MinionInheritanceSkill,M exte
 resolve(caster: A, inst: I,
   bodyId?: string, scale = 1): MinionInheritance<M,T> {
   const tags = this.p.bodyContext(this.p.tags(inst), bodyId), extra = this.p.modifiers(inst);
+  const inheritanceStat=this.p.inheritanceStat?.(caster,bodyId);
   const get = (stat: string): number => {
-    const raw = this.p.stat(caster,stat, tags, extra);
+    const raw = inheritanceStat?inheritanceStat(stat,tags,extra):this.p.stat(caster,stat, tags, extra);
     if (!inst.relicSource) return raw;
     const base = this.p.base(stat) ?? 0;
     return base + (raw - base) * this.p.ordinaryStats();

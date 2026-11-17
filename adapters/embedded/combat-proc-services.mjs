@@ -28,6 +28,7 @@ export function installCombatProcs(w, q, ports) {
     heal: (_owner, actor, n) => actor.healBy(n),
     mitigate: (owner, actor, type, n) => owner.damage.mitigateTyped(actor, {[type]: n}),
     text: (owner, ...args) => {owner.text(...args);},
+    ...(w.prototypeProfile?{damageText:(owner,...args)=>{owner.damageText(...args);}}:{}),
     shieldBreak: (owner, actor, depth) => {owner.rollOwnProcs(actor, 'esBreak', {depth});},
     sweepDefenses: (owner, actor, depth) => {owner.sweepDefenseEvents(actor, depth);},
     kill: (owner, actor) => {owner.kill(actor);},

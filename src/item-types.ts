@@ -162,6 +162,7 @@ export interface GemSocketRow {
 }
 
 export interface SkillGemPayload {
+  summonSchools?:string[];
   /** Legendary empowerment investment, independent of normal skill level. */
   empowermentRank?: number;
   replenishmentPaused?: true;
@@ -275,6 +276,7 @@ export interface ItemInstance {
 }
 
 export interface GrantedSkillState {
+  summonSchools?:string[];
   sockets: ({ supportId: string; level: number; locked?: boolean; rolled?: Record<string, string> } | null)[];
   treeNodes?: string[];
 }

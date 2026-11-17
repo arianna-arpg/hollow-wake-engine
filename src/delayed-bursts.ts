@@ -33,6 +33,7 @@ export interface DelayedBurstPorts<H,O,A,D extends string=string> {
   readonly heal:(host:H,actor:A,amount:number)=>number;
   readonly mitigate:(host:H,actor:A,type:D,amount:number)=>number;
   readonly text:(host:H,at:BurstPoint,text:string,color:string,size:number)=>undefined;
+  readonly damageText?:(host:H,actor:A,amount:number,color:string,size:number)=>undefined;
   readonly shieldBreak:(host:H,actor:A,depth:number)=>undefined;
   readonly sweepDefenses:(host:H,actor:A,depth:number)=>undefined;
   readonly kill:(host:H,actor:A)=>undefined;
@@ -105,7 +106,8 @@ export class DelayedBursts<H,O extends DelayedBurstOwner,A extends DelayedBurstA
             actor.life-=landed;
             actor.hitFlash=0.15;
             actor.hitFlashType=burst.fx.damage.type;
-            ports.text(host,actor.pos,Math.round(landed).toString(),burst.color,12);
+            if(ports.damageText)ports.damageText(host,actor,landed,burst.color,12);
+            else ports.text(host,actor.pos,Math.round(landed).toString(),burst.color,12);
             if(this.cancelled(host,queue,generation))return;
             if(actor.esBroke){
               actor.esBroke=false;

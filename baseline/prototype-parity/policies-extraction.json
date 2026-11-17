@@ -1,0 +1,335 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "f1fc73a52abbe7055e60971ed15b8a0b38a97a23",
+  "source": "src/engine/world.ts",
+  "sourceSha256": "82ab9a587b3d08b1c12f8363d1e02987eeb73f3b71814239d8981d6e8d8b1ec7",
+  "methods": {
+    "applyThorns": "1417196b726bae10b082ab6502c56f93d76a9cd994fb6b1474e116fcdbb97eee",
+    "consumeChargeCost": "66655e4bd46994c1056b466d8f561fe764d638740a7c5890888a7f332c8b9d3f",
+    "tickChannelSupports": "f25dfcbbfa3db689f47f2dabc3f45e9ae1cfe448403f62a1664e9eb0c8ec8e76",
+    "healAlliesInArea": "65e1fb54e80fc7a34a1b8bfc8425695018e84f80bc7a055ae4afa02c6edebf47",
+    "enemiesOf": "1e1c82d96d1710534aea157bda31e9e8d2e2f3b11d0799692d7e27a2cbeb69f4",
+    "spawnAftershocks": "c88850a3bfcd0155b343852a0a057e3255999534d7e339869aebd51a23a1877c",
+    "forwardSummonSockets": "fabd5a4dd2386bc8147ab8400b8ba50a4463e3415aaa65522b5742dfb523fdeb",
+    "clearSummonReleaseFields": "8ec087e62c04bf1f1224e7428811801006ffaa7fcc493707c752b0a2a967570a",
+    "clearTreeFields": "28a51b2b38859f705f9ff9df6a4764ee34df0b0328608b29c309333ee595ba5b",
+    "accumulateDotText": "229a2fa9dfda25c3f9d3aecd94249536af22be7d0b74dcdea1093a35d88e2bc4",
+    "attackSequenceBurst": "f8de78b133bedc7589b56596b83892eabe78ae90dc976d06dcac72272a3737c7",
+    "plantSpiritTotem": "b7e1a14ae9e5a9cb8dc745014820b984d1f2ec13f50907c248d11244986ee246",
+    "reflectParriedProjectile": "2a7aa05ae6f209006df65324da4dfdb7582d27179334607d2bab380a6625ba31",
+    "resolveParryDamage": "8a6442008b8c509b16d44e66d1b80a8d76c2469f491478bc9842c69f6b9fb080",
+    "tryGuardBlock": "1d1760730ac9700aca9ea6431723a1b9b8589882bfded802bb7fd716c37b2db2",
+    "guardianFor": "44c19960b95abdd616b46f9f43d8390b0403dc067d7e84aa6c5c4cc299f27164",
+    "tryShellBlock": "794a91dc5d704e46657fc28b8b77384a1043987dd0042d82fa58ecdb0a244373",
+    "hivecallCap": "154b3f232789bfea7d87324f2aa42acfa7b245aefcdffb725119eaa754cf81e3",
+    "litePooledHit": "8b02ff0ace2fe2cff1a415c2909cb1a08447fb4eb83f71685acb2232739b5c73",
+    "updateClings": "37a7fafed430f019d53560063546949761c7a1dc0a5cc188bd7111ac655e5713",
+    "resolveImpactHit": "a34176ea336bc288264aa62ecad42f71a9d559a8dc2926fbdb7e7f86ad6e6867",
+    "sweepBodySlam": "b149261ad82ed8cfe895c3f526af8b4cf14b0c2e9d73023acae83d5fc30dbe63",
+    "updateHivecall": "bc6da74f6382978b4713db2d0d48306dedfc18db1b90e64e696ed60b1656bd10",
+    "updateMinionMeta": "31444e02ceb5847433cdac650009af39dac5159da1c63613e6126ac3f5bdc628",
+    "checkMinionDetonations": "2a8d7755bc192bd3d86cce8f2a9e791fb9a84a4e7290c36824731b90ab172758",
+    "updateWorms": "ad5042c139f7f585129de997143d5548ebd4388dbca17312a64af9f62818d69b",
+    "separateActors": "2212d742292732e8493458f004c4d0ef22ce6f2be98cdbd8d61e4542799cc206",
+    "resyncMinionSupports": "0169f5c158cc4b0e65e71845b17e22f7a4ead3d95ef960b7750ebf7021d4c8f8",
+    "movementLocked": "d0b3e77520803f16e5a92117ea0017bb24d97a6b34d4673581c1685d05c1bd08"
+  },
+  "localQueries": {
+    "statusReqs": "426e1e6facf5a0c73a9dd67e9d32a9739153f8373b7203d67ab1c430ae99986e",
+    "STEALTH_CHARGE": "621e5bac49b8d9c68e7a29b7f91f2eb87406e673fc9e1e0266646b39bb983115",
+    "isStealthed": "b3ab2eb2d6073b0e7a4dda987dbedc713b024ce54a5fd880c1908f0c8ee3a4e4",
+    "NOCLIP_DISP": "2a4dbde5a9d8400194f29d0c0fa8c3fe5d0e613d67075107c7d566022424138e",
+    "LEVITATE_DISP": "69e616d6b9e9ee8e2c5692f018a27ebac511d9d09fc344878858b5ca4f0d000f"
+  },
+  "queries": [
+    {
+      "name": "SECONDARY_LOOKS",
+      "imported": "SECONDARY_LOOKS",
+      "source": "../data/secondaryVisuals"
+    },
+    {
+      "name": "instanceConstructLook",
+      "imported": "instanceConstructLook",
+      "source": "./skills"
+    },
+    {
+      "name": "isConcealed",
+      "imported": "isConcealed",
+      "source": "./perception"
+    },
+    {
+      "name": "anatomyCueState",
+      "imported": "anatomyCueState",
+      "source": "./anatomyCues"
+    },
+    {
+      "name": "anatomyFlash",
+      "imported": "anatomyFlash",
+      "source": "./anatomyCues"
+    },
+    {
+      "name": "feedingCueFlash",
+      "imported": "feedingCueFlash",
+      "source": "./feedingCues"
+    },
+    {
+      "name": "noteRestoreGain",
+      "imported": "noteRestoreGain",
+      "source": "./feedingCues"
+    },
+    {
+      "name": "summonCapacity",
+      "imported": "summonCapacity",
+      "source": "./summonContracts"
+    },
+    {
+      "name": "THRONG_EVOLUTION",
+      "imported": "THRONG_EVOLUTION",
+      "source": "./throngEvolution"
+    },
+    {
+      "name": "angleDiff",
+      "imported": "angleDiff",
+      "source": "../core/math"
+    },
+    {
+      "name": "angleTo",
+      "imported": "angleTo",
+      "source": "../core/math"
+    },
+    {
+      "name": "dist",
+      "imported": "dist",
+      "source": "../core/math"
+    },
+    {
+      "name": "vec",
+      "imported": "vec",
+      "source": "../core/math"
+    },
+    {
+      "name": "mod",
+      "imported": "mod",
+      "source": "./stats"
+    },
+    {
+      "name": "STATUS_DEFS",
+      "imported": "STATUS_DEFS",
+      "source": "./status"
+    },
+    {
+      "name": "parryCounter",
+      "imported": "parryCounter",
+      "source": "./parry"
+    },
+    {
+      "name": "HIVECALL",
+      "imported": "HIVECALL",
+      "source": "./hivecall"
+    },
+    {
+      "name": "hivecallNode",
+      "imported": "hivecallNode",
+      "source": "./hivecall"
+    },
+    {
+      "name": "hivecallState",
+      "imported": "hivecallState",
+      "source": "./hivecall"
+    },
+    {
+      "name": "reachTo",
+      "imported": "reachTo",
+      "source": "./segments"
+    },
+    {
+      "name": "segR",
+      "imported": "segR",
+      "source": "./segments"
+    },
+    {
+      "name": "tickSegFlash",
+      "imported": "tickSegFlash",
+      "source": "./segments"
+    },
+    {
+      "name": "woundCount",
+      "imported": "woundCount",
+      "source": "./segments"
+    },
+    {
+      "name": "DEFENSE_CFG",
+      "imported": "DEFENSE_CFG",
+      "source": "./defense"
+    },
+    {
+      "name": "MASS_CFG",
+      "imported": "MASS_CFG",
+      "source": "./mass"
+    },
+    {
+      "name": "impactFrac",
+      "imported": "impactFrac",
+      "source": "./mass"
+    },
+    {
+      "name": "impactScale",
+      "imported": "impactScale",
+      "source": "./mass"
+    },
+    {
+      "name": "crewBoardingOpen",
+      "imported": "crewBoardingOpen",
+      "source": "./skills"
+    },
+    {
+      "name": "guardBashSpec",
+      "imported": "guardBashSpec",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceChargeCost",
+      "imported": "instanceChargeCost",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceSideFeast",
+      "imported": "instanceSideFeast",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceDelivery",
+      "imported": "instanceDelivery",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceMods",
+      "imported": "instanceMods",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceSummon",
+      "imported": "instanceSummon",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceChannel",
+      "imported": "instanceChannel",
+      "source": "./skills"
+    },
+    {
+      "name": "skillContextTags",
+      "imported": "skillContextTags",
+      "source": "./skills"
+    },
+    {
+      "name": "supportFitsInst",
+      "imported": "supportFitsInst",
+      "source": "./skills"
+    },
+    {
+      "name": "supportRidesMinions",
+      "imported": "supportRidesMinions",
+      "source": "./skills"
+    },
+    {
+      "name": "MONSTERS",
+      "imported": "MONSTERS",
+      "source": "../data/monsters"
+    },
+    {
+      "name": "DAMAGE_COLOR",
+      "imported": "DAMAGE_COLOR",
+      "source": "./stats"
+    },
+    {
+      "name": "canSquish",
+      "imported": "canSquish",
+      "source": "./squish"
+    },
+    {
+      "name": "sameStory",
+      "imported": "sameStory",
+      "source": "./tiers"
+    },
+    {
+      "name": "movementDiagnosticsEnabled",
+      "imported": "movementDiagnosticsEnabled",
+      "source": "./movementDiagnostics"
+    },
+    {
+      "name": "recordMovement",
+      "imported": "recordMovement",
+      "source": "./movementDiagnostics"
+    },
+    {
+      "name": "CLING_CFG",
+      "imported": "CLING_CFG",
+      "source": "./cling"
+    },
+    {
+      "name": "clingEligible",
+      "imported": "clingEligible",
+      "source": "./cling"
+    },
+    {
+      "name": "clingMotionShaken",
+      "imported": "clingMotionShaken",
+      "source": "./cling"
+    },
+    {
+      "name": "clingSeatPos",
+      "imported": "clingSeatPos",
+      "source": "./cling"
+    },
+    {
+      "name": "clingSeatsOf",
+      "imported": "clingSeatsOf",
+      "source": "./cling"
+    },
+    {
+      "name": "gnawTags",
+      "imported": "gnawTags",
+      "source": "./cling"
+    },
+    {
+      "name": "buffWithSource",
+      "imported": "buffWithSource",
+      "source": "./buffSource"
+    },
+    {
+      "name": "defenseCueFlash",
+      "imported": "defenseCueFlash",
+      "source": "./defenseCues"
+    },
+    {
+      "name": "combatCueFlash",
+      "imported": "combatCueFlash",
+      "source": "./combatCues"
+    },
+    {
+      "name": "guardArcRadians",
+      "imported": "guardArcRadians",
+      "source": "./combatCues"
+    },
+    {
+      "name": "plyFloorOf",
+      "imported": "plyFloorOf",
+      "source": "./plies"
+    }
+  ],
+  "outputs": {
+    "adapters/embedded/combat-prototype-policies.mjs": "a52f763fbb25589e96ca2abdda9e071d4dfdcb6c1ad0aeb4a9fd2b76a7f435ef"
+  },
+  "changes": [
+    "Bind combat conductor to one internal SDK owner",
+    "Use per-owner random stream and shared damage service",
+    "Read reliquary power from the admitted character projection, without account access",
+    "Reuse SDK inheritance and attribute bequests",
+    "Reuse the shared SDK tree-buff retirement ledger",
+    "Route optional original simulation taps to per-owner observers",
+    "Read current combat encounter level without a world owner",
+    "Report guard blocks through an optional observer without campaign deed evaluation",
+    "Preserve ordinary combat locomotion; accept region/boat/weather speed as a host fact without importing geography or development noclip"
+  ]
+}

@@ -9,8 +9,11 @@ export type * from './projectile-types.js';
 const vec=(x:number,y:number):CombatPoint=>({x,y});
 export class Projectiles<A extends ProjectileActor<A,I>,I extends ProjectileSkill,B extends {onHit?:boolean}>{
 private readonly flightScratch=vec(0,0);
-constructor(readonly state:ProjectileState<A,I,B>,readonly rules:ProjectileRules,readonly ports:ProjectilePorts<A,I,B>){}
+constructor(readonly state:ProjectileState<A,I,B>,readonly rules:ProjectileRules,readonly ports:ProjectilePorts<A,I,B>,readonly preserveLayers=false){}
+private layer(p:CombatProjectile<A,I>):{tier?:number}{return this.preserveLayers?{tier:p.tier??0}:{};}
+private flashLayer(p:CombatProjectile<A,I>):{recoveryCueTier?:number}{return this.preserveLayers?{recoveryCueTier:p.tier}:{};}
 spawnProjectile(caster: A, inst: I, origin: CombatPoint, dir: number, opts?: {
+    tier?: number;
     inherit?: InheritedFlight;
     depth?: number;
     mult?: number;
@@ -23,9 +26,10 @@ const chance=(value:number)=>sdk.random()<value;
 
     const def = inst.def;
     const cosmeticPaint = sdk.cosmetic(caster, def.id);
-    if (def.delivery.type !== 'projectile')
+    const resolved=this.preserveLayers?sdk.instanceDelivery!(inst):def.delivery;
+    if (resolved.type !== 'projectile')
         return;
-    const d: ProjectileDelivery = def.delivery;
+    const d: ProjectileDelivery = resolved;
     const tags = sdk.skillContextTags(def);
     const extra = sdk.instanceMods(inst);
     const depth = opts?.depth ?? 0;
@@ -54,10 +58,10 @@ const chance=(value:number)=>sdk.random()<value;
     const pulse = caster.sheet.get('projPulse', tags, extra);
     const nativeReturn = d.returns === 'origin' ? 1 : d.returns === 'caster' ? 2 : 0;
     const grantedReturn = Math.round(caster.sheet.get('projReturn', tags, extra));
-    state.projectiles.push({
+    const projectile: CombatProjectile<A,I> = {
         pos: vec(origin.x, origin.y),
         orbPaint: d.orbPaint,
-        tier: caster.tier,
+        tier: opts?.tier ?? caster.tier,
         dir, guideDir: dir,
         guided: spiral > 0 || orbit > 0 || spin > 0 || weave > 0,
         speed,
@@ -120,7 +124,7 @@ const chance=(value:number)=>sdk.random()<value;
         preyId: t?.selectivePierce
             ? (() => {
                 let best: A | null = null, bd = 700;
-                for (const e of sdk.enemiesOf(caster)) {
+                for (const e of sdk.enemiesOf(caster,...(this.preserveLayers?[opts?.tier??caster.tier]:[]))) {
                     const dd = dist(origin, e.pos);
                     if (dd < bd) {
                         bd = dd;
@@ -135,7 +139,9 @@ const chance=(value:number)=>sdk.random()<value;
             : undefined,
         arcRate: t?.arcTo,
         patrol: opts?.patrol?.length ? { points: opts.patrol.map(p2 => vec(p2.x, p2.y)), idx: 0 } : undefined,
-    });
+    };
+    state.projectiles.push(projectile);
+    sdk.artConfigure?.(projectile);
 }
 inheritedFlight(p: CombatProjectile<A, I>, specInherit?: number): InheritedFlight | undefined {
     const frac = Math.min(1, p.inheritFrac + (specInherit ?? 0));
@@ -149,7 +155,7 @@ inheritedFlight(p: CombatProjectile<A, I>, specInherit?: number): InheritedFligh
     };
 }
 returnTarget(p: CombatProjectile<A, I>): CombatPoint {
-    return p.returnMode === 2 && !p.caster.dead ? p.caster.pos : p.origin;
+    return p.returnMode === 2 && !p.caster.dead && (!this.preserveLayers||(p.tier??0)===p.caster.tier) ? p.caster.pos : p.origin;
 }
 enterReturn(p: CombatProjectile<A, I>): boolean {
     if (p.returnMode <= 0 || p.returnPhase)
@@ -192,10 +198,10 @@ const {ports:sdk}=this;
 
     if (p.preyId !== undefined) {
         const prey = sdk.actorById(p.preyId);
-        return prey && !prey.dead ? prey : null;
+        return prey && !prey.dead && (!this.preserveLayers||sdk.hostileTo!(p.caster,prey,p.tier??0)) ? prey : null;
     }
     let target: A | null = null, bestD = 500;
-    for (const e of sdk.enemiesOf(p.caster)) {
+    for (const e of sdk.enemiesOf(p.caster, this.preserveLayers ? p.tier ?? 0 : undefined)) {
         if (e.passive || (e.construct?.breakable !== undefined && e.owner === p.caster))
             continue;
         const until = p.hits.get(e.id);
@@ -225,7 +231,7 @@ const rand=(min:number,max:number)=>min+sdk.random()*(max-min);
     const shed = zz.shed ?? 0;
     if (shed > 0 && p.depth < rules.childDepthMax && sdk.skill(rules.shrapnelSkill)) {
         for (let i = 0; i < shed; i++) {
-            this.spawnProjectile(p.caster, sdk.makeSkill(sdk.skill(rules.shrapnelSkill)!, sdk.effectiveSkillLevel(p.inst)), vec(p.pos.x, p.pos.y), abandoned + rand(-0.12, 0.12), { depth: p.depth + 1, mult: p.mult * 0.6 });
+            this.spawnProjectile(p.caster, sdk.makeSkill(sdk.skill(rules.shrapnelSkill)!, sdk.effectiveSkillLevel(p.inst)), vec(p.pos.x, p.pos.y), abandoned + rand(-0.12, 0.12), { ...this.layer(p), depth: p.depth + 1, mult: p.mult * 0.6 });
         }
     }
 }
@@ -239,6 +245,8 @@ const rand=(min:number,max:number)=>min+sdk.random()*(max-min);
     p.stall = undefined;
     p.age += dt;
     p.traveled += step;
+    const orbitalPosition = sdk.artMove?.(p, dt);
+    if (orbitalPosition) return orbitalPosition;
     if (p.pulse && p.radius0) {
         p.radius = p.radius0 * (1 + p.pulse * Math.sin(p.age * Math.PI * 2 / 0.7));
     }
@@ -256,6 +264,7 @@ const rand=(min:number,max:number)=>min+sdk.random()*(max-min);
         if (p.orbit > 0) {
             const orbitAnchor = p.orbitAnchorId !== undefined ? sdk.actorById(p.orbitAnchorId) : p.caster;
             if (orbitAnchor && !orbitAnchor.dead) {
+                if(this.preserveLayers)p.tier=orbitAnchor.tier;
                 p.anchor.x = orbitAnchor.pos.x;
                 p.anchor.y = orbitAnchor.pos.y;
             }
@@ -361,7 +370,7 @@ const {ports:sdk}=this;
     const scale = d.explode.damageScale ?? 0.6;
     const bSigil = Math.round(p.caster.sheet.get('aoeShape', tags, extra));
     const bShape = bSigil === 1 || bSigil === 2 ? bSigil : 0;
-    for (const e of sdk.enemiesOf(p.caster)) {
+    for (const e of sdk.enemiesOf(p.caster, this.preserveLayers ? p.tier ?? 0 : undefined)) {
         if (e.id === exceptId)
             continue;
         if (e.tier !== (p.tier ?? 0))
@@ -375,13 +384,15 @@ const {ports:sdk}=this;
         else
             sdk.resolveHit(p.caster, p.inst, e, scale * p.mult, 1, undefined, false, false, undefined, p.origin, p.tier);
     }
-    sdk.flash({
+    sdk.flash({...this.flashLayer(p),
         pos: vec(p.pos.x, p.pos.y), radius, color: p.inst.def.color,
         life: 0.3, maxLife: 0.3,
         shape: bShape, facing: p.dir,
     });
 }
 projTouches(p: CombatProjectile<A, I>, cx: number, cy: number, cr: number): boolean {
+    const art = this.ports.artTouches?.(p, cx, cy, cr);
+    if (art !== undefined) return art;
     if ((p.inst.def.delivery as ProjectileDelivery).hitForm === 'circle') {
         const dx = cx - p.pos.x, dy = cy - p.pos.y;
         return dx * dx + dy * dy <= (p.radius + cr) * (p.radius + cr);
@@ -418,7 +429,7 @@ const {ports:sdk,rules}=this;
     if (shed <= 0)
         return false;
     for (let s = 0; s < shed; s++) {
-        this.spawnProjectile(p.caster, sdk.makeSkill(sdk.skill(rules.shrapnelSkill)!, sdk.effectiveSkillLevel(p.inst)), vec(p.pos.x, p.pos.y), (s / shed) * Math.PI * 2, { depth: p.depth + 1, mult: p.mult * 0.7 });
+        this.spawnProjectile(p.caster, sdk.makeSkill(sdk.skill(rules.shrapnelSkill)!, sdk.effectiveSkillLevel(p.inst)), vec(p.pos.x, p.pos.y), (s / shed) * Math.PI * 2, { ...this.layer(p), depth: p.depth + 1, mult: p.mult * 0.7 });
     }
     return true;
 }
@@ -439,7 +450,7 @@ const {ports:sdk}=this;
             p.stall = Math.min(p.stall ?? 1, c.domeSlow ?? 0.35);
             continue;
         }
-        sdk.flash({ pos: vec(p.pos.x, p.pos.y), radius: 14, color: d.color, life: 0.2, maxLife: 0.2 });
+        sdk.flash({...this.flashLayer(p), pos: vec(p.pos.x, p.pos.y), radius: 14, color: d.color, life: 0.2, maxLife: 0.2 });
         if (c.domeMode === 'deflect') {
             p.dir += Math.PI;
             p.guideDir = p.dir;
@@ -460,14 +471,17 @@ const {ports:sdk,state,rules}=this;
 const rand=(min:number,max:number)=>min+sdk.random()*(max-min);
 const chance=(value:number)=>sdk.random()<value;
 
+    sdk.artUpdate?.(dt);
     const guardianContext = sdk.guardiansActive() ? sdk.carriedEffectContext() : undefined;
     const flowDt = dt;
     for (let i = state.projectiles.length - 1; i >= 0; i--) {
         const p = state.projectiles[i];
+        if (sdk.artValid && !sdk.artValid(p)) {state.projectiles.splice(i, 1); continue;}
         const ptf = sdk.actorScale(p.caster);
         if (ptf <= 0)
             continue;
-        const dt = ptf === 1 ? flowDt : flowDt * ptf;
+        const elapsed = ptf === 1 ? flowDt : flowDt * ptf;
+        const dt = sdk.artElapsed?.(p, elapsed) ?? elapsed;
         sdk.sequenceFlight(p);
         const prev = vec(p.pos.x, p.pos.y);
         p.pos = this.advanceProjectile(p, dt);
@@ -479,6 +493,7 @@ const chance=(value:number)=>sdk.random()<value;
             const fw = frameReflect(p.pos.x, p.pos.y, p.guideDir, p.radius, sdk.viewRectFor(p.caster), rules.frameEdgePad);
             if (fw) {
                 p.frameBounces--;
+                sdk.artBounce?.(p);
                 p.pos.x = fw.x;
                 p.pos.y = fw.y;
                 p.guideDir = p.dir = fw.dir;
@@ -486,7 +501,7 @@ const chance=(value:number)=>sdk.random()<value;
                 p.anchor.y = fw.y;
                 p.traveled = 0;
                 p.hits.clear();
-                sdk.flash({
+                sdk.flash({...this.flashLayer(p),
                     pos: vec(fw.x, fw.y), radius: p.radius + rules.frameFlashPad,
                     color: p.color, life: 0.18, maxLife: 0.18,
                 });
@@ -504,7 +519,7 @@ const chance=(value:number)=>sdk.random()<value;
                         runOver: 'collect',
                         collect: { charge: cspec.charge, amount: cspec.amount, max: cspec.max },
                     },
-                }, p.pos, undefined, vec(p.landAt.x, p.landAt.y));
+                }, p.pos, undefined, vec(p.landAt.x, p.landAt.y), ...(this.preserveLayers?[1,p.tier??0]:[]));
             }
             p.dissolved = true;
             state.projectiles.splice(i, 1);
@@ -517,7 +532,7 @@ const chance=(value:number)=>sdk.random()<value;
                 && (p.pos.x < 0 || p.pos.x > sdk.arena().w || p.pos.y < 0 || p.pos.y > sdk.arena().h));
         let diedOnBody = false;
         let shrapnelBloomed = false;
-        if (dead && this.enterReturn(p))
+        if (dead && !p.projectileOrbit && !p.inst.projectileSpec?.flight && this.enterReturn(p))
             dead = false;
         if (!dead && p.returnPhase && dist(p.pos, this.returnTarget(p)) < 26) {
             if ((p.returnPasses ?? 1) > 1) {
@@ -527,13 +542,13 @@ const chance=(value:number)=>sdk.random()<value;
                 p.range = p.range0 ?? p.range;
                 p.origin = vec(p.pos.x, p.pos.y);
                 p.hits.clear();
-                sdk.flash({ pos: vec(p.pos.x, p.pos.y), radius: p.radius + 6, color: p.color, life: 0.18, maxLife: 0.18 });
+                sdk.flash({...this.flashLayer(p), pos: vec(p.pos.x, p.pos.y), radius: p.radius + 6, color: p.color, life: 0.18, maxLife: 0.18 });
             }
             else {
                 const ct = (p.inst.def.delivery as ProjectileDelivery).catch;
-                if (ct && !p.caster.dead) {
+                if (ct && !p.caster.dead && (!this.preserveLayers||(p.tier??0)===p.caster.tier)) {
                     p.caster.gainCharge(ct.charge, ct.amount, ct.max, p.inst);
-                    sdk.flash({
+                    sdk.flash({...this.flashLayer(p),
                         pos: vec(p.caster.pos.x, p.caster.pos.y), radius: p.caster.radius + 8,
                         color: p.color, life: 0.2, maxLife: 0.2,
                     });
@@ -545,7 +560,7 @@ const chance=(value:number)=>sdk.random()<value;
         }
         if (!dead && p.destAt && p.arcRate && dist(p.pos, p.destAt) < 16)
             dead = true;
-        if (!dead && !p.phase) {
+        if (!dead && !p.phase && !p.projectileOrbit) {
             for (const o of sdk.doodadsAt(p.pos.x, p.pos.y)) {
                 if ((o.tier ?? 0) !== (p.tier ?? 0))
                     continue;
@@ -559,7 +574,7 @@ const chance=(value:number)=>sdk.random()<value;
                 if (o.gone)
                     continue;
                 if (sdk.shapeContains(sdk.hitSurfaceOf(o, 'shot'), o.pos.x, o.pos.y, p.pos.x, p.pos.y, this.projNose(p) + 1e-9)) {
-                    sdk.flash({ pos: vec(p.pos.x, p.pos.y), radius: p.radius + 6, color: p.color, life: 0.18, maxLife: 0.18, fx: sdk.hitVoiceOf(p.conductElem ?? sdk.skillBaseTypeOf(p.inst.def.baseDamage), 'wall') });
+                    sdk.flash({...this.flashLayer(p), pos: vec(p.pos.x, p.pos.y), radius: p.radius + 6, color: p.color, life: 0.18, maxLife: 0.18, fx: sdk.hitVoiceOf(p.conductElem ?? sdk.skillBaseTypeOf(p.inst.def.baseDamage), 'wall') });
                     if (p.bounces && p.bounces > 0) {
                         p.bounces--;
                         const surf = sdk.hitSurfaceOf(o, 'shot');
@@ -592,13 +607,13 @@ const chance=(value:number)=>sdk.random()<value;
                 }
             }
         }
-        if (!dead && !p.phase && sdk.shotGrid() !== undefined) {
+        if (!dead && !p.phase && !p.projectileOrbit && sdk.shotGrid() !== undefined) {
             const sdx = p.pos.x - prev.x, sdy = p.pos.y - prev.y;
             const elev = sdk.shotElev(prev, p.tier ?? 0);
             const hitT = sdk.castGridRay(prev, p.pos, 'shot', elev);
             if (hitT !== null) {
                 const sx = prev.x + sdx * hitT, sy = prev.y + sdy * hitT;
-                sdk.flash({ pos: vec(sx, sy), radius: p.radius + 6, color: p.color, life: 0.18, maxLife: 0.18, fx: sdk.hitVoiceOf(p.conductElem ?? sdk.skillBaseTypeOf(p.inst.def.baseDamage), 'wall') });
+                sdk.flash({...this.flashLayer(p), pos: vec(sx, sy), radius: p.radius + 6, color: p.color, life: 0.18, maxLife: 0.18, fx: sdk.hitVoiceOf(p.conductElem ?? sdk.skillBaseTypeOf(p.inst.def.baseDamage), 'wall') });
                 if (p.bounces && p.bounces > 0) {
                     p.bounces--;
                     const step = sdk.shotGrid()!.cellSize / 2;
@@ -621,11 +636,12 @@ const chance=(value:number)=>sdk.random()<value;
                 }
             }
         }
+        if(!dead && p.projectileOrbit && !sdk.lineOfFire(p.caster.pos,p.pos,p.tier))continue;
         if (!dead && p.preyId !== undefined) {
             const prey = sdk.actorById(p.preyId);
             if (!prey || prey.dead) {
                 let best: A | null = null, bd = 700;
-                for (const e of sdk.enemiesOf(p.caster)) {
+                for (const e of sdk.enemiesOf(p.caster, this.preserveLayers ? p.tier ?? 0 : undefined)) {
                     const dd = dist(p.pos, e.pos);
                     if (dd < bd) {
                         bd = dd;
@@ -640,7 +656,7 @@ const chance=(value:number)=>sdk.random()<value;
             if (reflected) {
                 p.pos = reflected.at;
                 sdk.reflectParriedProjectile(p, reflected.owner, reflected.power);
-                sdk.flash({ pos: { ...p.pos }, radius: reflected.radius, color: reflected.color, life: 0.18, maxLife: 0.18 });
+                sdk.flash({...this.flashLayer(p), pos: { ...p.pos }, radius: reflected.radius, color: reflected.color, life: 0.18, maxLife: 0.18 });
                 if (p.dissolved)
                     state.projectiles.splice(i, 1);
                 continue;
@@ -659,7 +675,7 @@ const chance=(value:number)=>sdk.random()<value;
             if (!dead)
                 dead = this.interceptProjectileDomes(p);
             if (!dead) {
-                for (const enemy of sdk.enemiesOf(p.caster)) {
+                for (const enemy of sdk.enemiesOf(p.caster, this.preserveLayers ? p.tier ?? 0 : undefined)) {
                     if (p.age < (p.hits.get(enemy.id) ?? -Infinity))
                         continue;
                     const touch = this.projTouchesBody(p, enemy);
@@ -701,15 +717,15 @@ const chance=(value:number)=>sdk.random()<value;
             const aoeMul = p.caster.sheet.get('aoeRadius', tTags, tExtra);
             if (ts.blast) {
                 const radius = ts.blast.radius * aoeMul;
-                for (const e of sdk.enemiesOf(p.caster)) {
+                for (const e of sdk.enemiesOf(p.caster, this.preserveLayers ? p.tier ?? 0 : undefined)) {
                     if (e.id === p.lastHitId)
                         continue;
                     if (dist(p.pos, e.pos) - e.radius > radius)
                         continue;
                     sdk.resolveHit(p.caster, p.inst, e, (ts.blast.damageScale ?? 0.35) * p.mult, 1, p.flat, false, false, undefined, p.origin, p.tier);
                 }
-                sdk.flash({ pos: vec(p.pos.x, p.pos.y), radius, color: p.color, life: 0.22, maxLife: 0.22 });
-                sdk.frontSplash(p.caster, p.inst, p.pos, radius);
+                sdk.flash({...this.flashLayer(p), pos: vec(p.pos.x, p.pos.y), radius, color: p.color, life: 0.22, maxLife: 0.22 });
+                sdk.frontSplash(p.caster, p.inst, p.pos, radius, ...(this.preserveLayers?[p.tier??0]:[]));
                 sdk.strikeSurfaces(p.caster, p.pos, radius, undefined, undefined, p.tier ?? 0);
             }
             if (ts.zone) {
@@ -717,7 +733,7 @@ const chance=(value:number)=>sdk.random()<value;
                 const tLinger = ts.zone.duration
                     * speedLingerMul(ts.zone.durationBySpeed, p.speed)
                     * p.caster.sheet.get('effectDuration', tTags, tExtra);
-                state.zones.push({
+                state.zones.push({ ...this.layer(p),
                     pos: vec(p.pos.x, p.pos.y),
                     radius: ts.zone.radius * aoeMul * (tso?.from ?? 1),
                     caster: p.caster, inst: p.inst, color: p.color,
@@ -745,7 +761,7 @@ const chance=(value:number)=>sdk.random()<value;
             const baseLinger = (volatile || aftershock || roulette)
                 ? Math.max(fs.linger, 5) : fs.linger;
             const linger = baseLinger * p.caster.sheet.get('effectDuration', fTags, fExtra);
-            state.zones.push({
+            state.zones.push({ ...this.layer(p),
                 pos: vec(p.pos.x, p.pos.y),
                 radius: fs.radius * p.caster.sheet.get('aoeRadius', fTags, fExtra),
                 caster: p.caster, inst: p.inst, color: p.color,
@@ -767,7 +783,7 @@ const chance=(value:number)=>sdk.random()<value;
             p.auraTick = (p.auraTick ?? rules.auraTick) - dt;
             if (p.auraTick <= 0) {
                 p.auraTick += rules.auraTick;
-                for (const e of sdk.enemiesOf(p.caster)) {
+                for (const e of sdk.enemiesOf(p.caster, this.preserveLayers ? p.tier ?? 0 : undefined)) {
                     if (dist(p.pos, e.pos) - e.radius > p.auraRadius)
                         continue;
                     const tick: Partial<Record<DamageType, number>> = {};
@@ -794,11 +810,12 @@ const chance=(value:number)=>sdk.random()<value;
                     : p.emit.pattern === 'forward' ? p.dir
                         : (p.emit.angle += 2.39996);
                 const espec = (p.inst.def.delivery as ProjectileDelivery).emit;
-                this.spawnProjectile(p.caster, p.emit.inst, p.pos, ang, { inherit: this.inheritedFlight(p, espec?.inherit), depth: p.depth + 1, mult: p.mult });
+                this.spawnProjectile(p.caster, p.emit.inst, p.pos, ang, { ...this.layer(p), inherit: this.inheritedFlight(p, espec?.inherit), depth: p.depth + 1, mult: p.mult });
             }
         }
         if (!dead)
             dead = this.interceptProjectileDomes(p);
+        if (!dead) sdk.artTick?.(p);
         if (!dead && !p.caster.construct) {
             for (const c of sdk.actors()) {
                 if (c.dead || !c.construct?.castOnStruck || c.team !== p.caster.team)
@@ -812,12 +829,12 @@ const chance=(value:number)=>sdk.random()<value;
                     continue;
                 p.hits.set(c.id, p.rehit ? p.age + p.rehit : Infinity);
                 if (sdk.ringBell(c)) {
-                    sdk.flash({ pos: vec(p.pos.x, p.pos.y), radius: 14, color: p.color, life: 0.15, maxLife: 0.15 });
+                    sdk.flash({...this.flashLayer(p), pos: vec(p.pos.x, p.pos.y), radius: 14, color: p.color, life: 0.15, maxLife: 0.15 });
                 }
             }
         }
         if (!dead) {
-            for (const enemy of sdk.enemiesOf(p.caster)) {
+            for (const enemy of sdk.enemiesOf(p.caster, this.preserveLayers ? p.tier ?? 0 : undefined)) {
                 const until = p.hits.get(enemy.id);
                 if (until !== undefined && p.age < until)
                     continue;
@@ -828,7 +845,7 @@ const chance=(value:number)=>sdk.random()<value;
                     const parryPacket = sdk.rollSkillDamage(p.caster, p.inst, p.flat);
                     const guardRaw = Object.values(parryPacket.amounts)
                         .reduce((s, v) => s + (v ?? 0), 0) * p.mult;
-                    if (guardRaw > 0 && sdk.tryGuardBlock(enemy, p.caster, p.pos, guardRaw, p, parryPacket)) {
+                    if (guardRaw > 0 && sdk.tryGuardBlock(enemy, p.caster, sdk.artImpact?.(p) ?? p.pos, guardRaw, p, parryPacket)) {
                         dead = !p.parryDamage || !!p.dissolved;
                         diedOnBody = true;
                         break;
@@ -855,8 +872,8 @@ const chance=(value:number)=>sdk.random()<value;
                     }
                     sdk.noteBodyHit(enemy, bodyTouch.seg);
                     sdk.sequenceBeforeContact(p);
-                    sdk.resolveHit(p.caster, p.inst, enemy, p.mult, 0, hitFlat, false, false, undefined, p.origin, p.tier);
-                    sdk.flash({ pos: vec(p.pos.x, p.pos.y), radius: 14, color: p.color, life: 0.18, maxLife: 0.18, fx: sdk.hitVoiceOf(enemy.hitFlashType ?? p.conductElem ?? sdk.skillBaseTypeOf(p.inst.def.baseDamage), 'body') });
+                    sdk.resolveHit(p.caster, sdk.artContact?.(p) ?? p.inst, enemy, p.mult, 0, hitFlat, false, false, undefined, sdk.artOrigin?.(p) ?? p.origin, p.tier);
+                    sdk.flash({...this.flashLayer(p), pos: vec(p.pos.x, p.pos.y), radius: 14, color: p.color, life: 0.18, maxLife: 0.18, fx: sdk.hitVoiceOf(enemy.hitFlashType ?? p.conductElem ?? sdk.skillBaseTypeOf(p.inst.def.baseDamage), 'body') });
                     const shat = (p.inst.def.delivery as ProjectileDelivery).shatter;
                     const innate = shat && sdk.skill(shat.skillId) ? shat : undefined;
                     const shardCount = (innate?.count ?? 0) + p.shrapnel;
@@ -867,7 +884,8 @@ const chance=(value:number)=>sdk.random()<value;
                         const inherit = this.inheritedFlight(p, innate?.inherit);
                         for (let s = 0; s < shardCount; s++) {
                             const off = shardCount === 1 ? 0 : (s / (shardCount - 1) - 0.5) * spread;
-                            this.spawnProjectile(p.caster, sdk.makeSkill(shardSkill!, sdk.effectiveSkillLevel(p.inst)), vec(p.pos.x, p.pos.y), p.dir + off, { inherit, depth: p.depth + 1, mult: p.mult });
+                            const shard=sdk.makeSkill(shardSkill!,sdk.effectiveSkillLevel(p.inst));
+                            this.spawnProjectile(p.caster, this.preserveLayers?{...shard,summonArtCast:p.inst.summonArtCast}:shard, vec(p.pos.x, p.pos.y), p.dir + off, { ...this.layer(p), inherit, depth: p.depth + 1, mult: p.mult });
                             state.projectiles[state.projectiles.length - 1].hits.set(enemy.id, Infinity);
                         }
                     }
@@ -908,7 +926,7 @@ const chance=(value:number)=>sdk.random()<value;
                             p.traveled = 0;
                             p.range = 1e9;
                             p.maxAge = undefined;
-                            sdk.flash({
+                            sdk.flash({...this.flashLayer(p),
                                 pos: vec(p.landAt.x, p.landAt.y), radius: 26, color: p.color,
                                 life: 0.9, maxLife: 0.9, edgeFrac: 0.8,
                             });
@@ -918,12 +936,13 @@ const chance=(value:number)=>sdk.random()<value;
                         }
                     }
                     if (p.rehit) {
+                        if(p.projectileOrbit){if(p.hitDetonate)this.explodeProjectile(p,enemy.id);continue;}
                         if (p.hitDetonate)
                             this.explodeProjectile(p, enemy.id);
                         if (p.chains > 0) {
                             let next: A | null = null;
                             let bestD = 280;
-                            for (const cand of sdk.enemiesOf(p.caster)) {
+                            for (const cand of sdk.enemiesOf(p.caster, this.preserveLayers ? p.tier ?? 0 : undefined)) {
                                 if (cand === enemy || cand.dead)
                                     continue;
                                 const until = p.hits.get(cand.id);
@@ -968,7 +987,7 @@ const chance=(value:number)=>sdk.random()<value;
                     else if (p.chains > 0) {
                         let next: A | null = null;
                         let bestD = 280;
-                        for (const cand of sdk.enemiesOf(p.caster)) {
+                        for (const cand of sdk.enemiesOf(p.caster, this.preserveLayers ? p.tier ?? 0 : undefined)) {
                             if (p.hits.has(cand.id))
                                 continue;
                             const dd = dist(p.pos, cand.pos);
@@ -1029,14 +1048,14 @@ const chance=(value:number)=>sdk.random()<value;
             if (p.zapTimer <= 0) {
                 p.zapTimer = zap.interval;
                 let zapped = false;
-                for (const e of sdk.enemiesOf(p.caster)) {
+                for (const e of sdk.enemiesOf(p.caster, this.preserveLayers ? p.tier ?? 0 : undefined)) {
                     if (dist(p.pos, e.pos) - e.radius > zap.radius)
                         continue;
                     sdk.resolveHit(p.caster, p.inst, e, (zap.damageScale ?? 0.5) * p.mult, 1, undefined, false, false, undefined, p.origin, p.tier);
                     zapped = true;
                 }
                 if (zapped) {
-                    sdk.flash({ pos: vec(p.pos.x, p.pos.y), radius: zap.radius, color: p.color, life: 0.15, maxLife: 0.15 });
+                    sdk.flash({...this.flashLayer(p), pos: vec(p.pos.x, p.pos.y), radius: zap.radius, color: p.color, life: 0.15, maxLife: 0.15 });
                 }
             }
         }
@@ -1055,7 +1074,7 @@ const chance=(value:number)=>sdk.random()<value;
                         linger: Math.min(2.5, Math.max(0.8, z.linger)),
                         dmgMult: z.dmgMult * 0.6,
                     };
-                    sdk.flash({ pos: vec(p.pos.x, p.pos.y), radius: p.radius + 8, color: z.color, life: 0.2, maxLife: 0.2 });
+                    sdk.flash({...this.flashLayer(p), pos: vec(p.pos.x, p.pos.y), radius: p.radius + 8, color: z.color, life: 0.2, maxLife: 0.2 });
                     break;
                 }
             }
@@ -1074,23 +1093,24 @@ const chance=(value:number)=>sdk.random()<value;
                 }
             }
             if (!p.conductElem) {
-                const ground = sdk.groundAt(p.pos);
+                const ground = sdk.groundAt(p.pos,...(this.preserveLayers?[p.tier]:[]));
                 if (ground?.kind === 'bog' || ground?.kind === 'swamp')
                     p.conductElem = 'chaos';
                 else if (ground?.kind === 'ice')
                     p.conductElem = 'cold';
             }
             if (p.conductElem) {
-                sdk.flash({ pos: vec(p.pos.x, p.pos.y), radius: p.radius + 6, color: rules.elementColors[p.conductElem as DamageType] ?? '#9ec83a', life: 0.2, maxLife: 0.2 });
+                sdk.flash({...this.flashLayer(p), pos: vec(p.pos.x, p.pos.y), radius: p.radius + 6, color: rules.elementColors[p.conductElem as DamageType] ?? '#9ec83a', life: 0.2, maxLife: 0.2 });
             }
         }
         if (dead) {
+            sdk.artExpire?.(p);
             this.explodeProjectile(p, p.lastHitId);
             if (!diedOnBody && !shrapnelBloomed && !p.dissolved) {
                 this.shedFlightShrapnel(p);
             }
             if (p.suffuse && !p.dissolved) {
-                state.zones.push({
+                state.zones.push({ ...this.layer(p),
                     pos: vec(p.pos.x, p.pos.y), radius: p.suffuse.radius,
                     caster: p.caster, inst: p.suffuse.inst, color: p.suffuse.inst.def.color,
                     delay: 0, exploded: true,
@@ -1110,7 +1130,7 @@ const chance=(value:number)=>sdk.random()<value;
                     const ezLinger = ez.duration
                         * speedLingerMul(ez.durationBySpeed, p.speed)
                         * p.caster.sheet.get('effectDuration', zTags, zExtra);
-                    state.zones.push({
+                    state.zones.push({ ...this.layer(p),
                         pos: vec(p.pos.x, p.pos.y),
                         radius: ezRadius * (ezo?.from ?? 1),
                         caster: p.caster, inst: p.inst, color: p.color,
@@ -1137,6 +1157,7 @@ const chance=(value:number)=>sdk.random()<value;
                     const minted = sdk.makeSkill(sdef!, sdk.effectiveSkillLevel(p.inst));
                     (minted.state ??= {}).seqDepth = seqDepth + 1;
                     sdk.executeSkill(p.caster, minted, vec(p.pos.x + Math.cos(p.dir) * 60, p.pos.y + Math.sin(p.dir) * 60), {
+                        ...this.layer(p),
                         targetInfo: { pos: vec(p.pos.x, p.pos.y) },
                         dmgMult: (sq.damageScale ?? 1) * p.mult,
                         noCooldown: true, noRepeat: true, noFollowUp: true, keepFacing: true,
@@ -1163,7 +1184,7 @@ const chance=(value:number)=>sdk.random()<value;
                     const scale = pass === 0 ? fclose.damageScale : freclose!.damageScale;
                     for (let k = 0; k < n; k++) {
                         const pt = p.fisChain[n - 1 - k];
-                        state.zones.push({
+                        state.zones.push({ ...this.layer(p),
                             pos: vec(pt.x, pt.y), radius: closeRadius,
                             caster: p.caster, inst: p.inst, color: p.color,
                             delay: start + beat * k, exploded: false,
@@ -1185,7 +1206,7 @@ const chance=(value:number)=>sdk.random()<value;
                     if (fx.type === 'spawnZone') {
                         const zTags = sdk.skillContextTags(p.inst.def, sdk.grantedTags(p.inst));
                         const zExtra = sdk.instanceMods(p.inst);
-                        state.zones.push({
+                        state.zones.push({ ...this.layer(p),
                             pos: vec(p.pos.x, p.pos.y),
                             radius: fx.radius * p.caster.sheet.get('aoeRadius', zTags, zExtra),
                             caster: p.caster, inst: p.inst, color: p.color,
@@ -1209,14 +1230,16 @@ const chance=(value:number)=>sdk.random()<value;
             }
             const pd = p.inst.def.delivery;
             if (pd.type === 'projectile' && pd.plantOnLand && !p.caster.dead) {
-                sdk.spawnConstruct(p.caster, p.inst, {
+                const planted=sdk.spawnConstruct(p.caster, p.inst, {
                     type: 'construct', kind: pd.plantOnLand.embed ? 'embed' : 'barrier',
+                    ...(this.preserveLayers?{look:pd.plantOnLand.look??sdk.plantedLook!()}:{}),
                     range: 0, duration: pd.plantOnLand.duration,
                     maxActive: pd.plantOnLand.embed ? 8 : 6,
                     life: pd.plantOnLand.life ?? 25,
                     placeRange: 9999,
                     embed: pd.plantOnLand.embed,
-                }, vec(p.pos.x, p.pos.y), undefined, vec(p.pos.x, p.pos.y));
+                }, vec(p.pos.x, p.pos.y), undefined, vec(p.pos.x, p.pos.y),...(this.preserveLayers?[1,p.tier??0]:[]));
+                if(this.preserveLayers&&planted)planted.facing=planted.facingPrev=p.dir;
             }
             state.projectiles.splice(i, 1);
         }

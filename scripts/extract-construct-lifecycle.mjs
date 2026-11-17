@@ -1,3 +1,4 @@
+import {checkMaintainedExtraction} from './check-maintained-extraction.mjs';
 import fs from 'node:fs';import assert from 'node:assert/strict';import ts from 'typescript';import {sha256} from './reference-utils.mjs';
 const file='src/engine/world.ts',lock=JSON.parse(fs.readFileSync('baseline/source-lock.json')),input=fs.readFileSync('.reference/'+file,'utf8');assert.equal(sha256(Buffer.from(input)),lock.files[file]);
 const source=ts.createSourceFile(file,input,99,true),printer=ts.createPrinter({removeComments:true}),names=['spawnEchoRiders','mirageSource','hoverSlotPos','buildEchoRider','echoToClones','updateConstructs'],methods=new Map();
@@ -36,5 +37,5 @@ for(const name of names){const result=ts.transform(methods.get(name),[transform]
   let pre=locals.length?'\nconst {'+locals.join(',')+'}=this;\n':'';if(/\brand\(/.test(body))pre+='const rand=(min:number,max:number)=>min+sdk.random()*(max-min);\n';if(/\bpick\(/.test(body))pre+='const pick=<T>(values:readonly T[]):T=>values[Math.floor(sdk.random()*values.length)];\n';
   code+=converted.slice(0,open+1)+pre+converted.slice(open+1)+'\n';
 }code+='}\n';const destination='src/construct-lifecycle.ts',hash=sha256(Buffer.from(code)),manifest='baseline/construct-lifecycle-extraction.json';
-if(process.argv.includes('--check')){assert.equal(sha256(fs.readFileSync(destination)),hash);console.log({passed:true,methods:names});}
+if(process.argv.includes('--check')){checkMaintainedExtraction(destination,code);console.log({passed:true,methods:names});}
 else{assert(!fs.existsSync(destination),'Refusing to overwrite construct lifecycle');fs.writeFileSync(destination,code);fs.writeFileSync(manifest,JSON.stringify({sourceCommit:lock.commit,sourceSha256:lock.files[file],methods:names,sha256:hash,typeOnlyChanges:['assert guarded skill rereads non-null']},null,2)+'\n');}

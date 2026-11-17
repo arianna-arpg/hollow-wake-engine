@@ -63,8 +63,9 @@ export function createHitStatuses<
     const shrug=target.sheet.get('ailmentResist',el?new Set<Tag>([el as Tag]):undefined);
     if(shrug>0&&chance(shrug)){ports.statusCue('resist',target,caster,ports.definition(fx.status)?.color);return;}
     const rule=ports.tuning(fx.status),tuned=!rule||fx.chance>=rule.identityThreshold?fx.chance:fx.chance*rule.incidentalScale;
-    if(chance(Math.min(1,tuned+bonusChance))){
-      const derived=(fx.magnitude??0)*(dealt+afflictionCarry),floor=fx.magnitude?baseline(fx.status):0;
+    if(chance(Math.min(1,tuned+bonusChance+(ports.chanceBonus?.(inst,fx.status)??0)))){
+      const basis=ports.basis?.(caster,inst,target,packet,dealt,fx.status)??dealt;
+      const derived=(fx.magnitude??0)*(basis+afflictionCarry),floor=fx.magnitude?baseline(fx.status):0;
       const dps=Math.max(derived,floor)*potencyFor(f,fx.status)*hexDmg/Math.max(.5,durScale);
       const sdef=ports.definition(fx.status);
       const fxScale=(fx.durationOverride!==undefined?fx.durationOverride/(ports.definition(fx.status)?.duration||1):durScale)*hexDur;
@@ -86,13 +87,16 @@ export function createHitStatuses<
           ports.statusCue('affliction',target,caster,sdef?.color);
         }
       }
+      const priorStatus=ports.applied?target.statuses.find(s=>s.id===fx.status&&!s.sourceKey&&!s.challengeField):undefined;
+      const prior=ports.applied?{status:priorStatus,dps:priorStatus?.dps,remaining:priorStatus?.remaining}:undefined;
       target.applyStatus(fx.status,dpsOut,fxScale,caster.name,{
         propagates:chance(caster.sheet.get('dotPropagates',tags,extra))||undefined,rupture,ruptureType,
         ruptureRadius:rupture!==undefined?90*caster.sheet.get('aoeRadius',tags,extra):undefined,
-        stacksBonus:stacksBonusFor(f,fx.status),casterId:fx.status==='taunted'&&caster.summonShell&&caster.owner?caster.owner.id:caster.id,
+        stacksBonus:stacksBonusFor(f,fx.status),...ports.source?.(caster,inst),casterId:fx.status==='taunted'&&caster.summonShell&&caster.owner?caster.owner.id:caster.id,
         brood:ports.instanceBrood(inst),leech:caster.sheet.get('dotLeech_'+fx.status,tags,extra)||undefined,
         popBonus:caster.sheet.get('popPower_'+fx.status,tags,extra)||undefined,power:ports.definition(fx.status)?.dotType?undefined:potencyFor(f,fx.status),
       });
+      if(prior)ports.applied!(inst,target,fx.status,prior);
       ports.rollStatusProcs(caster,inst,target,fx.status,tags,extra,depth);
       if(dpsOut>0)ports.bankPools(caster,{status:fx.status},dpsOut*(ports.definition(fx.status)?.duration??0)*fxScale);
       if(def.tags.includes('curse' as Tag)&&caster.sheet.get('hedonism',tags,extra)>0)target.applyStatus('hedonism',0,durScale,caster.name);
@@ -109,7 +113,7 @@ export function createHitStatuses<
         const ch=caster.sheet.get('apply_'+sid,tags,extra)+(wetHere?caster.sheet.get('applyWet_'+sid,tags,extra):0);
         if(ch<=0||!chance(Math.min(1,ch+bonusChance)))continue;
         const sdef=ports.definition(sid)!;
-        const dps=sdef.dotType?Math.max((sdef.hitMagnitude??0)*dealt,baseline(sid))*potencyFor(f,sid)/Math.max(.5,durScale):0;
+        const dps=sdef.dotType?Math.max((sdef.hitMagnitude??0)*(ports.basis?.(caster,inst,target,packet,dealt,sid)??dealt),baseline(sid))*potencyFor(f,sid)/Math.max(.5,durScale):0;
         let armed:number|undefined,armedType:StatusDamageType|undefined,dpsOut2=dps;
         if(sdef.cullsAtLethal){armed=Math.max((sdef.hitMagnitude??.4)*dealt,baseline(sid))*potencyFor(f,sid);armedType='chaos';dpsOut2=armed*caster.sheet.get('doomDot',tags,extra);}
         else if(sdef.dotType&&dps>0){
@@ -120,11 +124,14 @@ export function createHitStatuses<
           const r=caster.sheet.get('curseRupture',tags,extra);
           if(r>0){const rolled=Object.values(packet.amounts).reduce((sum,v)=>sum+(v??0),0);if(rolled>0){armed=rolled*r;armedType=(['fire','cold','lightning'] as const).find(e=>def.tags.includes(e as Tag))??'chaos';}}
         }
+        const priorStatus=ports.applied?target.statuses.find(s=>s.id===sid&&!s.sourceKey&&!s.challengeField):undefined;
+        const prior=ports.applied?{status:priorStatus,dps:priorStatus?.dps,remaining:priorStatus?.remaining}:undefined;
         target.applyStatus(sid,dpsOut2,durScale,caster.name,{
-          propagates:chance(caster.sheet.get('dotPropagates',tags,extra))||undefined,stacksBonus:stacksBonusFor(f,sid),casterId:caster.id,
+          propagates:chance(caster.sheet.get('dotPropagates',tags,extra))||undefined,stacksBonus:stacksBonusFor(f,sid),...ports.source?.(caster,inst),casterId:caster.id,
           brood:ports.instanceBrood(inst),leech:caster.sheet.get('dotLeech_'+sid,tags,extra)||undefined,rupture:armed,ruptureType:armedType,
           ruptureRadius:armed!==undefined?90*caster.sheet.get('aoeRadius',tags,extra):undefined,popBonus:caster.sheet.get('popPower_'+sid,tags,extra)||undefined,
         });
+        if(prior)ports.applied!(inst,target,sid,prior);
         ports.rollStatusProcs(caster,inst,target,sid,tags,extra,depth);
         if(dps>0)ports.bankPools(caster,{status:sid},dps*(ports.definition(sid)?.duration??0)*durScale);
       }
@@ -133,7 +140,7 @@ export function createHitStatuses<
   function dischargeOnHit(caster:A,target:A,packet:HitStatusPacket<Tag>,dealt:number,depth:number):void{
     if(dealt>0&&depth===0&&!target.dead)for(let si=target.statuses.length-1;si>=0;si--){
       const s=target.statuses[si];
-      if(s.holdDischarge||!ports.definition(s.id)?.dischargeOnHit||!s.rupture||s.rupture<=0)continue;
+      if(!s||s.holdDischarge||!ports.definition(s.id)?.dischargeOnHit||!s.rupture||s.rupture<=0)continue;
       if(ports.definition(s.id)?.dischargeMatchingType&&(packet.amounts[s.ruptureType??'physical']??0)<=0)continue;
       target.statuses.splice(si,1);target.sheet.removeSource('status:'+s.id);
       const taken=ports.mitigateTyped(target,{[s.ruptureType??'physical']:s.rupture});

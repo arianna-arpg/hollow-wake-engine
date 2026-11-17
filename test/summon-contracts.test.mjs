@@ -15,6 +15,13 @@ function setup(){
   const release=new SummonDelivery(queues,releasePorts),frame={caster:owner,skill,aim:{x:100,y:0},tags:new Set(),modifiers:[],multiplier:2,gaugePower:1};
   return{events,actors,bodies,corpses,queues,stats,make,owner,delivery,skill,ports,runtime,releasePorts,release,frame};
 }
+test('paired and single summons retain their authored capacity after investment',()=>{
+  const h=setup();h.delivery.capacityMultiple=2;h.stats.minionMaxCount=3.2;
+  assert.equal(h.runtime.capacity(h.owner,h.skill,h.delivery),4);
+  h.stats.minionMaxCount=-10;assert.equal(h.runtime.capacity(h.owner,h.skill,h.delivery),2);
+  h.delivery.arts={single:true};h.stats.minionMaxCount=99;assert.equal(h.runtime.capacity(h.owner,h.skill,h.delivery),1);
+  delete h.delivery.arts;h.delivery.capacityMultiple=0;h.stats.minionMaxCount=3.2;assert.equal(h.runtime.capacity(h.owner,h.skill,h.delivery),3);
+});
 test('shared pool slots count existing claims while exclusive replacements may reuse their capacity',()=>{
   const h=setup();h.delivery.poolGroup='pets';const other={def:{id:'birds',delivery:{...h.delivery}}};h.owner.summonToggles.set('birds',{inst:other,reserved:20,slots:2});
   assert.equal(h.runtime.slots(h.owner,h.skill,h.delivery),1);h.delivery.exclusiveGroup='stance';other.def.delivery.exclusiveGroup='stance';assert.equal(h.runtime.slots(h.owner,h.skill,h.delivery),3);

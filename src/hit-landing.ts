@@ -60,6 +60,7 @@ export function createHitLanding<
         return;
       }
       if (result.blocked) {
+        ports.blocked?.(target, caster);
         ports.blockCue(target, caster);
         ports.thorns(target, caster);
         if (depth === 0) ports.blockCharges(target);
@@ -83,6 +84,7 @@ export function createHitLanding<
         if (target.mimicWatch && ports.captureMimic(target, caster, def)) ports.capturedArtCue(def);
       }
       dealt = result.total;
+      ports.landed?.(caster, inst, target, result, deedLifeBefore);
       if (rearHit && dealt > 0 && def.backstabCue !== false) ports.rearCue(target, caster, def);
       if (result.receivedAmounts) ports.ownProcs(target, 'struck', {
         depth, target: caster, crit: wasCrit, receivedAmounts: result.receivedAmounts,

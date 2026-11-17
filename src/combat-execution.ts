@@ -21,6 +21,7 @@ export class CombatExecution<A extends ExecutionActor,I,C,D extends {type:string
     const fieldAt=s.deliveries.execute(frame);if(fieldAt)s.linger(frame.caster,frame.inst,fieldAt,frame.useMult);
     const duration=frame.caster.sheet.get('effectDuration',frame.tags,frame.extra)*(frame.corpseFeast>0?1+this.corpseDurationPerExtra*frame.corpseFeast:1);
     s.caster.apply({caster:frame.caster,skill:frame.inst,origin:frame.origin,aim:frame.aim,delivery:frame.d.type,durationScale:duration,areaScale:frame.aoeScale,
+      ...(frame.effectTier!==undefined?{effectTier:frame.effectTier}:{}),
       multiplier:frame.useMult,color:frame.cosmeticColor,tags:frame.tags,modifiers:frame.extra,chargesSpent:frame.opts.chargesSpent??0,fromFuse:frame.opts.fromFuse},s.effects(frame.inst));
     s.aftermath.complete(frame);return true;
   }

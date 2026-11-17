@@ -1,3 +1,4 @@
+import {checkMaintainedExtraction} from './check-maintained-extraction.mjs';
 import fs from 'node:fs';import assert from 'node:assert/strict';import ts from 'typescript';import {sha256} from './reference-utils.mjs';
 const file='src/engine/world.ts',lock=JSON.parse(fs.readFileSync('baseline/source-lock.json')),input=fs.readFileSync('.reference/'+file,'utf8');assert.equal(sha256(Buffer.from(input)),lock.files[file]);
 const source=ts.createSourceFile(file,input,99,true),printer=ts.createPrinter({removeComments:true});let method;
@@ -35,5 +36,5 @@ const {ports:sdk,state,rules}=this;const rand=(min:number,max:number)=>min+sdk.r
 for(let k=0;k<51;k++){if(k===10)continue;if(k===7){code+='sdk.castObserved(caster,inst,!!opts.noRepeat);\n';continue;}const result=ts.transform(method.body.statements[k],[transform]);code+=printer.printNode(ts.EmitHint.Unspecified,result.transformed[0],source)+'\n';result.dispose();}
 code+='return {caster,inst,aim,opts,targetInfo,origin,d,tags,extra,useMult,gPow,ventRounds,corpseFeast,flatBonus,aoeScale,arcScale,cosmeticColor,fieldAt};\n}\n}\n';
 const destination='src/cast-preparation.ts',hash=sha256(Buffer.from(code));
-if(process.argv.includes('--check')){assert.equal(sha256(fs.readFileSync(destination)),hash);console.log({passed:true,phase:'cast preparation'});}
+if(process.argv.includes('--check')){checkMaintainedExtraction(destination,code);console.log({passed:true,phase:'cast preparation'});}
 else{assert(!fs.existsSync(destination),'Refusing to overwrite cast preparation');fs.writeFileSync(destination,code);fs.writeFileSync('baseline/cast-preparation-extraction.json',JSON.stringify({sourceCommit:lock.commit,sourceSha256:lock.files[file],statementIndexes:'0..50',omitted:{10:'Optional campaign deed consequence; castObserved remains at the original observation point.'},sha256:hash},null,2)+'\n');}

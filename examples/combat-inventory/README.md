@@ -1,8 +1,8 @@
 # Hollow Wake combat and Inventory SDK
 
-Engineering release `0.1.0-preview.1`. This download contains the five matching
+Engineering release `0.2.0-preview.1`. This download contains the five matching
 runtime/content packages, a Node/Godot reference scene, executable adoption
-examples, original-behavior comparisons and portable performance measurements.
+examples, original-behavior comparisons and a portable performance runner.
 No original game checkout, build tools, quest book, account or database is needed.
 
 ## First run
@@ -46,7 +46,8 @@ The API declarations ship inside each package. Do not copy private actor records
 or internal diagnostic implementations into your game's authority boundary.
 
 The [performance runner](performance/README.md) needs no npm installation and
-can be copied separately to a target device. Desktop evidence is in `evidence/`.
+can be copied separately to a target device. Files named `previous-release-*`
+in `evidence/` describe the previous executable, not a measurement of this one.
 Steam Deck and older mobile measurements, native Unity/Unreal packages and the
 evolving 3D game's adoption remain separate qualifications.
 

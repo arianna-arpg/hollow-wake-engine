@@ -8,6 +8,7 @@ import ts from 'typescript';
 import {build} from 'esbuild';
 import {root, sha256} from './reference-utils.mjs';
 import {npmCli} from './npm-cli.mjs';
+import {prototypeModuleBudget} from './prototype-package-budget.mjs';
 import {challengeContracts} from '../test/challenge-contracts.mjs';
 import {challengePackageFaults} from '../test/challenge-faults.mjs';
 import {challengeTargetingContracts, challengeTargetingFaults} from '../test/challenge-targeting-contracts.mjs';
@@ -21,7 +22,8 @@ for (const file of ['package.json', 'package-lock.json', 'tsconfig.json',
   'src/challenges.ts', 'src/challenge-types.ts', 'src/challenge-content.ts', 'src/challenge-owned.ts',
   'test/challenges.test.mjs', 'test/challenge-contracts.mjs', 'test/challenge-consumer.ts',
   'test/challenge-faults.mjs', 'test/challenge-targeting-contracts.mjs',
-  'test/challenge-targeting.test.mjs', 'scripts/test-challenge-package.mjs']) tracked(file);
+  'test/challenge-targeting.test.mjs', 'scripts/test-challenge-package.mjs',
+  'scripts/prototype-package-budget.mjs','baseline/prototype-parity/package-growth.json']) tracked(file);
 const report = {passed: false, sources, faults: [], targetingFaults: []}, logs = {};
 const work = fs.mkdtempSync(path.join(owned, 'challenges-package-owned-'));
 const consumer = path.join(work, 'consumer');
@@ -50,7 +52,9 @@ try {
     report.modules[name] = {bytes: bytes.length, sha256: sha256(bytes), typesSha256: sha256(types)};
   }
   report.moduleBytes = Object.values(report.modules).reduce((n, r) => n + r.bytes, 0);
-  assert(report.moduleBytes <= 20 * 1024, 'Challenge runtime/content exceeds its separate 20 KiB bound');
+  report.prototypeGrowth=prototypeModuleBudget('dist/challenges.js',report.modules.challenges.bytes);
+  report.historicalModuleBytes=report.moduleBytes-report.prototypeGrowth.growthBytes;
+  assert(report.historicalModuleBytes <= 20 * 1024, 'Challenge historical runtime/content exceeds its separate 20 KiB bound');
   fs.writeFileSync(path.join(consumer, 'contracts.mjs'), tracked('test/challenge-contracts.mjs'));
   fs.writeFileSync(path.join(consumer, 'targeting.mjs'), tracked('test/challenge-targeting-contracts.mjs'));
   fs.writeFileSync(path.join(consumer, 'consumer.mjs'), `import {Challenges} from '${entry}';

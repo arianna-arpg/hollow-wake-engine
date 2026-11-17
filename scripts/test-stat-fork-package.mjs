@@ -3,7 +3,7 @@ import {gzipSync} from 'node:zlib';import {build} from 'esbuild';
 import {root,sha256} from './reference-utils.mjs';import {npmCli} from './npm-cli.mjs';
 const owned=path.join(root,'.artifacts');fs.mkdirSync(owned,{recursive:true});
 const work=fs.mkdtempSync(path.join(owned,'stat-fork-package-owned-')),consumer=path.join(work,'consumer');fs.mkdirSync(consumer);
-const report={passed:false,contracts:21,faults:[],sources:{}},logs={};
+const report={passed:false,contracts:22,faults:[],sources:{}},logs={};
 for(const file of ['src/stats.ts','src/stat-rules.ts','src/tag-context-cache.ts','src/validation.ts','test/stat-fork.test.mjs','scripts/test-stat-fork-package.mjs',
  'baseline/build-context/acceptance.json','baseline/build-context/observations.json.gz','content/milestone-one.json','package.json','package-lock.json'])report.sources[file]=sha256(fs.readFileSync(path.join(root,file)));
 const run=(label,args,cwd=consumer)=>{const c=spawnSync(process.execPath,args,{cwd,encoding:'utf8',windowsHide:true,timeout:180000,maxBuffer:4*1024*1024,

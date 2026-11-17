@@ -1,3 +1,4 @@
+import {checkMaintainedExtraction} from './check-maintained-extraction.mjs';
 // One-time mechanical extraction. Maintained source is never overwritten.
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
@@ -64,7 +65,7 @@ export class Grabs<A extends GrabActor<I>,I extends GrabSkill>{
 ${body}
 }
 `;
-if(check){assert.equal(sha256(fs.readFileSync(output,'utf8').replaceAll('\r\n','\n')),sha256(emitted),'Maintained source differs from recorded mechanical extraction');console.log({passed:true,mechanicalMethods:12});}
+if(check){checkMaintainedExtraction(output,emitted);console.log({passed:true,mechanicalMethods:12});}
 else{
 fs.writeFileSync(output,emitted);
 fs.writeFileSync('baseline/grab-extraction.json',JSON.stringify({sourceCommit:lock.commit,sources,maintainedSource:output,sha256:sha256(fs.readFileSync(output)),

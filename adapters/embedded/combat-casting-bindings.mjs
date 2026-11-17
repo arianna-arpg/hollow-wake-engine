@@ -430,6 +430,10 @@ const intentPorts = {
 };
 
   continuation.finesse = actor => w.host.intent?.finesse?.(actor.id);
+  channelEffects.beforeRelease = (actor, state) => {
+    w.channelFormations?.release(actor, state);
+    if (!actor.dead) w.frameArts?.release(actor, state.inst);
+  };
   intentPorts.castSeal = () => w.host.castSeal?.current();
   intentPorts.sealShuts = (spec, actor, inst) => w.host.castSeal.shuts(spec, actor.id, inst.def.id);
   return {request, dispatch, continuation, instances, intent: new SkillIntent(instances, intentPorts),

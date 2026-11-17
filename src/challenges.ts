@@ -57,7 +57,8 @@ export class Challenges<A extends ChallengeActor<I,M>,I extends ChallengeSkill<M
       if (guaranteed) state.guaranteedAt = this.ports.time + s.guaranteedResetEvery!;
       owner.cooldowns.delete(state.host.def.id); owner.cooldownTotals.delete(state.host.def.id);
       state.primed = true;
-      owner.addBuff({ type: 'buff', id: this.readyId(state), label: 'Reopening Ready', duration: 999999, mods: [] });
+      const ready={type:'buff' as const,id:this.readyId(state),label:'Reopening Ready',duration:999999,mods:[]};
+      owner.addBuff(this.ports.sourceBuff?.(ready,state.host)??ready);
       this.ports.text(owner.pos, 'Goad reset — reopen the wound', '#e0a078', 12);
     }
   }
@@ -164,6 +165,7 @@ export class Challenges<A extends ChallengeActor<I,M>,I extends ChallengeSkill<M
       const creeper = this.ports.allocate('Burrowing Pursuer', body.team, { ...at });
       creeper.owner = state.owner; creeper.sourceSkillId = `__goad_creeper:${body.id}`;
       creeper.tier = body.tier; creeper.radius = 8; creeper.color = '#b39364'; creeper.shape = 'circle';
+      this.ports.initializeCreeper?.(creeper,state.spec.creeper!);
       creeper.passive = true; creeper.untargetable = true; creeper.invulnerable = true; creeper.noBounty = true;
       this.ports.actors.push(creeper); effigy.creeper = creeper;
     }
@@ -222,7 +224,9 @@ export class Challenges<A extends ChallengeActor<I,M>,I extends ChallengeSkill<M
     const phase = this.ports.time * 3 + e.body.id, radius = target ? 34 : Math.min(65, e.radius * 0.4);
     let at = { x: e.center.x + Math.sin(phase) * radius, y: e.center.y + Math.sin(phase * 2) * radius * 0.5 };
     const reach = dist(at, e.body.pos); if (reach > e.radius) at = { x: e.body.pos.x + (at.x - e.body.pos.x) * e.radius / reach, y: e.body.pos.y + (at.y - e.body.pos.y) * e.radius / reach };
-    c.pos = this.ports.clampPos(at, c.radius);
+    const next=this.ports.clampPos(at,c.radius);
+    if(this.ports.initializeCreeper&&dist(c.pos,next)>.001)c.facing=Math.atan2(next.y-c.pos.y,next.x-c.pos.x);
+    c.pos=next;
     if (this.ports.time >= e.trailAt) {
       e.trailAt = this.ports.time + 0.2;
       const trail = this.payload(e.cast, { type: 'ground', radius: s.trailRadius, delay: 0, castRange: 9999, lingerDuration: s.trailDuration, tickInterval: 0.3 }, 'Burrow Wake');

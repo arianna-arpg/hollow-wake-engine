@@ -20,6 +20,8 @@ import {installCombatMovement} from './combat-movement-services.mjs';
 import {installCombatDeath} from './combat-death-services.mjs';
 import {installCombatLifetimes} from './combat-lifetime-services.mjs';
 import {installCombatPopulation} from './combat-population-services.mjs';
+import {createPrototypeMechanics} from './combat-prototype-mechanics.mjs';
+import {inAoe} from '../../dist/combat-geometry.js';
 
 /** INTERNAL assembly. It is deliberately not exported by the package until
  * public admission, lifetime clocks and complete capability courses pass.
@@ -27,7 +29,7 @@ import {installCombatPopulation} from './combat-population-services.mjs';
 export function createCombatOwner(content, host, {seed = 1, admit, encounterLevel = 1, capacity} = {}) {
   if (typeof admit !== 'function') throw Error('Combat owner requires SDK command admission');
   const rng = new Random(seed);
-  const w = {host, observers: host.observers ?? {}, time: 0, nextActorId: 1, nextItemId: 1,
+  const w = {host, prototypeProfile:!!content.prototypeMechanics, observers: host.observers ?? {}, time: 0, nextActorId: 1, nextItemId: 1,
     encounter: {level: encounterLevel}, random: () => rng.next(), bombardMintRev: 0, charDirty: false, shake: 0,
     actors: [], seats: [], flashes: [], signals: [], corpses: [], remnants: [], zones: [], projectiles: [], tethers: [],
     pendingSteps: [], pendingRepeats: [], pendingFollowUps: [], pendingMetas: [], pendingBlinks: [], pendingContagions: [],
@@ -41,9 +43,10 @@ export function createCombatOwner(content, host, {seed = 1, admit, encounterLeve
     separateScratch: [], slamScratch: [], squishScratch: [],
   };
   Object.defineProperty(w, 'player', {get: () => w.localSeat?.actor});
+  w.inAoe = inAoe;
   Object.defineProperty(w, 'arena', {get: () => host.space.arena()});
   w.walk = {isWalkable: (x, y) => host.space.isWalkable(x, y, 0), regionAt: (...args) => host.space.regionAt?.(...args)};
-  w.zone = {id: 'combat-arena', tiers: host.space.tiers?.()};
+  w.zone = {id: 'combat-arena', tiers: host.space.tiers?.(),objective:{kind:host.safeZone?'safe':'combat'}};
   w.dwellReachable = (...args) => host.space.dwellReachable(...args);
   w.creep = {coverOf: (...args) => host.space.creepCover?.(...args) ?? 0};
   Object.defineProperty(w, 'doodads', {get: () => host.space.doodads?.() ?? []});
@@ -95,6 +98,16 @@ export function createCombatOwner(content, host, {seed = 1, admit, encounterLeve
     // world object's creation, lighting and retirement with the host.
     return host.fields.lightwell(kind, at, {...options,radius:options.radius ?? 14 + 6 * w.random()});
   };
+  if (content.prototypeMechanics) {
+    w.combatGrowthDoodads=[];w.transientDoodads=[];
+    w.findFreeSpot=(...args)=>host.space.freeSpot(...args);
+    w.markDoodadsChanged=()=>w.signal('growth-changed',{});
+    w.prototypeMechanics = createPrototypeMechanics(w, {...content.queries, ...content.hitQueries});
+    w.doodadEffects={growth_lash:(...args)=>w.effectGrowthLash(...args)};
+    const move=w.moveActor;
+    w.moveActor=(actor,...args)=>{const from={...actor.pos},tier=actor.tier;move(actor,...args);
+      w.deviceContacts.record(actor,from,actor.pos,tier,actor.flying||!!actor.leap||w.levitating(actor));};
+  }
   link.finish();
   return {w, rng, shared, casting, recovery, bodies, auras, constructs, tethers, fields, births,
     controls, orders, caster, carried, death, projectiles, movement, lifetimes, population, execution};

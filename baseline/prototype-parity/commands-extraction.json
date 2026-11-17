@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "f1fc73a52abbe7055e60971ed15b8a0b38a97a23",
+  "sources": {
+    "src/engine/ai.ts": "72502d1d054c2554b770d5e88aaab1e0c4bb7f8554d95e9bb12952b303fa0b16",
+    "src/engine/assault.ts": "f55079823ed8a66b9a52f3395fbfad4aa6ee5f02ca73b673ec1cc7a3ffc8786b",
+    "src/engine/replenishment.ts": "01d0e3762aa1b214393f7d616c4b35737e256e4d15faa1681785b94d2342eb4e",
+    "src/engine/companionCues.ts": "3d686e8f0befbd5485ad487c364b338d0d755ba539fde6f645d1d1dc4cf12340",
+    "src/engine/actor.ts": "002efe4bd1a3e71b5464fc810167e7f87cc265815c39398a9dd6b30db3b1a3e8",
+    "src/engine/world.ts": "82ab9a587b3d08b1c12f8363d1e02987eeb73f3b71814239d8981d6e8d8b1ec7"
+  },
+  "queries": [
+    {
+      "name": "buffWithSource",
+      "imported": "buffWithSource",
+      "source": "./buffSource"
+    },
+    {
+      "name": "dist",
+      "imported": "dist",
+      "source": "../core/math"
+    },
+    {
+      "name": "sameStory",
+      "imported": "sameStory",
+      "source": "./tiers"
+    },
+    {
+      "name": "mod",
+      "imported": "mod",
+      "source": "./stats"
+    },
+    {
+      "name": "instanceDelivery",
+      "imported": "instanceDelivery",
+      "source": "./skills"
+    },
+    {
+      "name": "instanceMods",
+      "imported": "instanceMods",
+      "source": "./skills"
+    },
+    {
+      "name": "makeSkillInstance",
+      "imported": "makeSkillInstance",
+      "source": "./skills"
+    },
+    {
+      "name": "skillContextTags",
+      "imported": "skillContextTags",
+      "source": "./skills"
+    },
+    {
+      "name": "skillCooldownSeconds",
+      "imported": "skillCooldownSeconds",
+      "source": "./skills"
+    },
+    {
+      "name": "summonCapacity",
+      "imported": "summonCapacity",
+      "source": "./summonContracts"
+    },
+    {
+      "name": "STATUS_DEFS",
+      "imported": "STATUS_DEFS",
+      "source": "./status"
+    },
+    {
+      "name": "MONSTERS",
+      "imported": "MONSTERS",
+      "source": "../data/monsters"
+    },
+    {
+      "name": "C",
+      "imported": "COMPANION_CUE_CFG",
+      "source": "../data/companionCues"
+    },
+    {
+      "name": "COMPANION_CUE_STYLES",
+      "imported": "COMPANION_CUE_STYLES",
+      "source": "../data/companionCues"
+    },
+    {
+      "name": "combatCueFlash",
+      "imported": "combatCueFlash",
+      "source": "./combatCues"
+    },
+    {
+      "name": "normalizeBrain",
+      "imported": "normalizeBrain",
+      "source": "./brain"
+    },
+    {
+      "name": "evalCurve",
+      "imported": "evalCurve",
+      "source": "./curves"
+    },
+    {
+      "name": "instanceUseCharges",
+      "imported": "instanceUseCharges",
+      "source": "./skills"
+    }
+  ],
+  "outputs": {
+    "adapters/embedded/combat-prototype-commands.mjs": "998ccc87b5db5b1b60365149808f330c5c5320a01ff4dea65ff20814daf2955b"
+  },
+  "issueCommandSha256": "f89845c9268d714374c60eaa7d439642d1f89a9da72fc8e344455c54632bbb68",
+  "changes": [
+    "Shared SDK damage",
+    "Per-owner random source",
+    "Extract command assignment only, without importing AI planning",
+    "Extract companion cue construction without stance AI registration"
+  ]
+}

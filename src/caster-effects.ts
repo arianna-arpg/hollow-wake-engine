@@ -45,20 +45,20 @@ export interface CasterEffectServices<A,I extends CasterEffectSkill,Cue,Grant,B 
   fields:{apply(frame:CastFieldFrame<A,I,Set<string>,Modifier>,effect:CastFieldEffect<Grant>):void};
   buffs:{apply(actor:A,skill:I,effect:B,durationScale:number,multiplier:number):void};
   throng:{direct(actor:A,skill:I,aim:CasterPoint,effect:{readonly pin?:number;readonly linger?:number}):void};
-  minions:{cast(actor:A,skill:I,aim:CasterPoint,effect:MinionCastEffect):void;command(actor:A,skill:I,aim:CasterPoint,effect:MinionCommandEffect,color:string):void};
-  companions:{whistle(actor:A,skill:I,aim:CasterPoint):void;stance(actor:A,skill:I,stance?:string):void;recall(actor:A,skill:I,radius?:number):void;
-    detonate(actor:A,skill:I,fraction:number,color:string):void;shatter(actor:A,skill:I,fraction:number,radius:number,color:string):void};
+  minions:{cast(actor:A,skill:I,aim:CasterPoint,effect:MinionCastEffect,tier?:number):void;command(actor:A,skill:I,aim:CasterPoint,effect:MinionCommandEffect,color:string,tier?:number):void};
+  companions:{whistle(actor:A,skill:I,aim:CasterPoint):void;stance(actor:A,skill:I,stance?:string):void;recall(actor:A,skill:I,radius?:number,tier?:number):void;
+    detonate(actor:A,skill:I,fraction:number,color:string):void;shatter(actor:A,skill:I,fraction:number,radius:number,color:string,tier?:number):void};
   relocation:{move(actor:A,skill:I,aim:CasterPoint,radius:number,color:string):void};
   grabs:{handoff(from:A,victim:A,spec:GrabHandoffSpec):boolean;throw(actor:A,impulse:number,direction:number,skill:I,multiplier?:number):void};
   possession:{shift(actor:A,skill:I,spec:ShiftSpec):void;eject(controller:C,reason:'press'):void};
   mimic:{select(actor:A,time:number,pick:string|number):{readonly sid:string}|null};
   pour:{pour(actor:A,effect:MinionPourEffect,at:CasterPoint):number};
-  statuses:{siphon(actor:A,effect:SiphonStatusEffect,area:number,def:I['def'],tags:Set<string>,extra:Modifier[],color:string):void;
-    recall(actor:A,skill:I,effect:RecallImpalesEffect,area:number,def:I['def']):void};
-  ironWard:{arm(actor:A,effect:IronWardEffect,duration:number,area:number,tags:Set<string>,extra:readonly Modifier[],color:string):void};
+  statuses:{siphon(actor:A,effect:SiphonStatusEffect,area:number,def:I['def'],tags:Set<string>,extra:Modifier[],color:string,tier?:number):void;
+    recall(actor:A,skill:I,effect:RecallImpalesEffect,area:number,def:I['def'],tier?:number):void};
+  ironWard:{arm(actor:A,effect:IronWardEffect,duration:number,area:number,tags:Set<string>,extra:readonly Modifier[],color:string,skill?:I):void};
   guardSurge:{apply(actor:A,skill:I,effect:GuardSurgeEffect):boolean};
-  corpses:{spawn(actor:A,aim:CasterPoint,monsterId:string,count:number,tags:Set<string>,extra:readonly Modifier[],color:string):void;
-    gather(actor:A,aim:CasterPoint,skillId:string,radius:number,area:number,tags:Set<string>,extra:readonly Modifier[],color:string):void};
+  corpses:{spawn(actor:A,aim:CasterPoint,monsterId:string,count:number,tags:Set<string>,extra:readonly Modifier[],color:string,tier?:number):void;
+    gather(actor:A,aim:CasterPoint,skillId:string,radius:number,area:number,tags:Set<string>,extra:readonly Modifier[],color:string,tier?:number):void};
 }
 export interface CasterEffectPorts<A,I,B,C>{
   time():number;actorById(id:number):A|undefined;
@@ -68,7 +68,7 @@ export interface CasterEffectPorts<A,I,B,C>{
   fuseTell(actor:A,skill:I,text:string):void;
   definition(id:string):{readonly name:string;readonly color:string}|undefined;
   mimicSelected(actor:A,definition:{readonly name:string;readonly color:string}):void;
-  mimicEmpty(actor:A):void;guardSurged(actor:A):void;
+  mimicEmpty(actor:A):void;guardSurged(actor:A,tier?:number):void;
 }
 
 /** The complete caster-side loop, after delivery and before cast aftermath.
@@ -80,6 +80,7 @@ export class CasterEffects<A extends CasterEffectActor,I extends CasterEffectSki
   apply(frame:CasterEffectFrame<A,I>,effects:readonly CasterEffect<Cue,Grant,B>[]):void{
     const s=this.services,p=this.ports,{caster:a,skill:i,aim,origin,delivery,durationScale:duration,areaScale:area,multiplier:mult,color,tags,modifiers}=frame;
     const self:CastSelfFrame<A,I>={actor:a,skill:i,delivery,durationScale:duration,useMultiplier:mult,chargesSpent:frame.chargesSpent};
+    const layer:[]|[number]=frame.effectTier===undefined?[]:[frame.effectTier];
     for(const fx of effects)switch(fx.type){
       case 'buff':{
         const fuse=p.fuse(i);
@@ -91,8 +92,8 @@ export class CasterEffects<A extends CasterEffectActor,I extends CasterEffectSki
       case 'status':case 'absorb':case 'restore':case 'ward':case 'restoreOverTime':case 'heal':case 'cleanse':case 'shed':s.self.apply(self,fx);break;
       case 'terrain':case 'conjure':case 'kindle':case 'vent':case 'lure':case 'spawnZone':case 'townPortal':s.fields.apply(frame,fx);break;
       case 'throngDirect':s.throng.direct(a,i,aim,fx);break;
-      case 'minionCast':s.minions.cast(a,i,aim,fx);break;
-      case 'commandMinions':s.minions.command(a,i,aim,fx,color);break;
+      case 'minionCast':s.minions.cast(a,i,aim,fx,...layer);break;
+      case 'commandMinions':s.minions.command(a,i,aim,fx,color,...layer);break;
       case 'grabThrow':if(a.gripping){
         const victim=fx.handoff?p.actorById(a.gripping.id):undefined;
         if(!(fx.handoff&&victim&&s.grabs.handoff(a,victim,fx.handoff))){
@@ -105,20 +106,20 @@ export class CasterEffects<A extends CasterEffectActor,I extends CasterEffectSki
       case 'whistleCompanion':s.companions.whistle(a,i,aim);break;
       case 'companionStance':s.companions.stance(a,i,fx.stance);break;
       case 'relocateConstruct':s.relocation.move(a,i,aim,fx.radius,color);break;
-      case 'recallMinions':s.companions.recall(a,i,fx.radius);break;
+      case 'recallMinions':s.companions.recall(a,i,fx.radius,...layer);break;
       case 'litePour':if(delivery!=='projectile')s.pour.pour(a,fx,origin);break;
       case 'mimicSelect':{
         const selected=s.mimic.select(a,p.time(),fx.sid??fx.step??1),definition=selected?p.definition(selected.sid):undefined;
         if(selected&&definition)p.mimicSelected(a,definition);else if(!selected)p.mimicEmpty(a);break;
       }
-      case 'siphonStatus':s.statuses.siphon(a,fx,area,i.def,tags,modifiers,color);break;
-      case 'recallImpales':s.statuses.recall(a,i,fx,area,i.def);break;
-      case 'ironWard':s.ironWard.arm(a,fx,duration,area,tags,modifiers,color);break;
-      case 'guardSurge':if(s.guardSurge.apply(a,i,fx))p.guardSurged(a);break;
+      case 'siphonStatus':s.statuses.siphon(a,fx,area,i.def,tags,modifiers,color,...layer);break;
+      case 'recallImpales':s.statuses.recall(a,i,fx,area,i.def,...layer);break;
+      case 'ironWard':s.ironWard.arm(a,fx,duration,area,tags,modifiers,color,...(frame.effectTier===undefined?[]:[i]));break;
+      case 'guardSurge':if(s.guardSurge.apply(a,i,fx))p.guardSurged(a,...layer);break;
       case 'detonateMinions':s.companions.detonate(a,i,fx.fraction,color);break;
-      case 'shatterConstructs':s.companions.shatter(a,i,fx.fraction,fx.radius,color);break;
-      case 'spawnCorpse':s.corpses.spawn(a,aim,fx.monsterId,fx.count,tags,modifiers,color);break;
-      case 'dragCorpses':s.corpses.gather(a,aim,i.def.id,fx.radius,area,tags,modifiers,color);break;
+      case 'shatterConstructs':s.companions.shatter(a,i,fx.fraction,fx.radius,color,...layer);break;
+      case 'spawnCorpse':s.corpses.spawn(a,aim,fx.monsterId,fx.count,tags,modifiers,color,...layer);break;
+      case 'dragCorpses':s.corpses.gather(a,aim,i.def.id,fx.radius,area,tags,modifiers,color,...layer);break;
       case 'birth':case 'damage':case 'grabSeize':case 'knockback':case 'possess':case 'pull':case 'rupture':case 'siphonOrb':case 'spreadStatus':case 'tame':case 'transfuseStatus':break;
       default:{const never:never=fx;throw Error('Unadmitted caster effect: '+String((never as {type?:unknown}).type));}
     }

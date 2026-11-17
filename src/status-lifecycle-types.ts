@@ -10,8 +10,10 @@ export interface ActiveStatus {
   brood?: {monsterId: string; perDamage: number; duration: number; max: number};
   broodAcc?: number; leech?: number; leechAcc?: number; popAcc?: number;
   bankPeak?: number; bankFrac?: number;
+  stackTimes?: number[]; breakaway?: number; skillId?: string; visual?: string; gathered?: true;
 }
 export interface StatusOptions {
+  skillId?: string;
   propagates?: boolean; rupture?: number; ruptureType?: StatusDamageType;
   ruptureRadius?: number; relayed?: boolean; stacksBonus?: number;
   casterId?: number; challengeField?: number; sourceKey?: string;
@@ -21,6 +23,9 @@ export interface StatusOptions {
 export interface StatusDefinition<M, Tag extends string> {
   duration: number; beneficial?: boolean; hardCC?: boolean; forbidsTags?: Tag[];
   stacking?: boolean; maxStacks?: number; stackPolicy?: 'refresh' | 'strongest';
+  independentStacks?: true;
+  hitVulnerability?: {skills: string[]; type: StatusDamageType; perStack: number};
+  immobilize?: {alternatingPresses?: number};
   dotType?: StatusDamageType; mods?: M[]; modsPerStack?: boolean;
   buildup?: {into: string}; propagateOnDeath?: boolean; refreshCaster?: boolean;
   bank?: {capMul: number; duration?: number; wetMul?: number};

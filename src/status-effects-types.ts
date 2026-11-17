@@ -42,6 +42,7 @@ export interface StatusEffectPorts<A, I, P, M, Tag extends string, D> {
   accumulateDotText(target: A, amount: number, interval: number): void;
   /** Presentation owns copying coordinates; height is the original screen-space offset. */
   text(at: P, text: string, color: string, size: number, channel?: 'combat', height?: number): void;
+  damageText?(actor: A, amount: number, color: string, size: number, height?: number): void;
   flash(at: P, radius: number, color: string, life: number): void;
   ruptureCue(target: A, status: EffectStatus, radius: number): void;
 }

@@ -20,6 +20,7 @@ export interface ClaimPorts<A,I,Cue>{
    * No death burst, corpse or loot is implied by a successful claim. */
   defeated?(target:A,caster:A):void;
   clearEncounter(actor:A):void;
+  clearEnemyRules?(actor:A):void;
   /** Bind CompanionBonds.adopt so investments use the shared inheritance fold. */
   adopt(actor:A):void;
 }
@@ -62,7 +63,7 @@ export class CompanionClaims<A extends ClaimActor<A,Part>,I extends ClaimSkill<C
   claim(keeper:A,beast:A,skillId:string):void{
     beast.team=keeper.team;beast.owner=keeper;beast.kind='companion';beast.companion=true;
     beast.sourceSkillId='__companion:'+skillId;beast.bondGroup=String(beast.id);beast.noBounty=true;beast.lifelineId=undefined;
-    beast.sheet.removeSource('owner');beast.standingOrder=undefined;beast.squadId=undefined;beast.squadLeader=undefined;
+    beast.sheet.removeSource('owner');this.ports.clearEnemyRules?.(beast);beast.standingOrder=undefined;beast.squadId=undefined;beast.squadLeader=undefined;
     this.ports.clearEncounter(beast);beast.tag=undefined;beast.aiCommand=undefined;beast.aiTargetId=undefined;beast.threat.clear();
     beast.aggroed=false;beast.aiFleeing=false;beast.life=beast.maxLife();this.ports.adopt(beast);
     if(this.parts.length){const worn=beast.extraParts??[];beast.extraParts=[...worn,...this.parts.filter(part=>!worn.some(w=>w.kind===part.kind))];}

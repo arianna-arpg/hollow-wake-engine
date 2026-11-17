@@ -2,6 +2,8 @@ import {angleTo,dist,type CombatPoint} from './combat-geometry.js';
 import type {Modifier} from './types.js';
 export interface SummonContractSpec {
   readonly type:'summon';readonly maxActive:number;readonly poolGroup?:string;readonly exclusiveGroup?:string;
+  readonly capacityMultiple?:number;readonly arts?:{readonly single?:boolean};
+  readonly frame?:{readonly consolidation?:unknown};
   readonly persistent?:{readonly toggle?:boolean;readonly slots?:number;readonly reserve?:number;readonly respawnTime:number};
 }
 export interface SummonContractSkill {readonly def:{readonly id:string;readonly hivecall?:unknown};readonly companionGrant?:boolean}
@@ -17,6 +19,7 @@ export interface SummonRespawn<A,I>{caster:A;inst:I;timer:number}
 export interface PendingSummon<A,I>{caster:A;inst:I;remaining:number;timer:number;interval:number;mult?:number;batch?:number;at?:CombatPoint;trackAim?:boolean;scatter?:number;range?:number;costPer?:SummonCost}
 export interface SummonQueues<A,I>{respawns:SummonRespawn<A,I>[];summons:PendingSummon<A,I>[]}
 export interface SummonContractPorts<A,I,D>{
+  recoveryScale?(body:A):number;
   /** Undefined means a non-summon delivery. Native and resolved queries differ. */
   delivery(skill:I):D|undefined;native(skill:I):D|undefined;
   tags(skill:I,fromDefinition?:boolean):Set<string>;modifiers(skill:I):Modifier[];
@@ -32,7 +35,12 @@ export interface SummonContractPorts<A,I,D>{
  * Queue replacement and live read order follow the source lifecycle. */
 export class SummonContracts<A extends SummonContractActor<A,I>,I extends SummonContractSkill,D extends SummonContractSpec>{
   constructor(readonly queues:SummonQueues<A,I>,readonly ports:SummonContractPorts<A,I,D>){}
-  capacity(owner:A,skill:I,d:D):number{return Math.max(1,Math.round(owner.sheet.get('minionMaxCount',this.ports.tags(skill),this.ports.modifiers(skill),d.maxActive)));}
+  capacity(owner:A,skill:I,d:D):number{
+    if(d.arts?.single)return 1;
+    const raw=owner.sheet.get('minionMaxCount',this.ports.tags(skill),this.ports.modifiers(skill),d.maxActive),multiple=d.capacityMultiple;
+    if(multiple!==undefined&&Number.isSafeInteger(multiple)&&multiple>0)return Math.max(multiple,Math.ceil(raw/multiple)*multiple);
+    return Math.max(1,Math.round(raw));
+  }
   slots(owner:A,skill:I,d:D):number{
     const cap=this.capacity(owner,skill,d),requested=d.persistent?.slots===undefined?cap:Math.max(1,Math.round(d.persistent.slots+owner.sheet.get('summonCount',this.ports.tags(skill),this.ports.modifiers(skill))));
     let held=0;if(d.poolGroup)for(const[id,row]of owner.summonToggles){
@@ -50,7 +58,7 @@ export class SummonContracts<A extends SummonContractActor<A,I>,I extends Summon
     const skill=body.summonInst;
     if(scheduleRespawn&&!skill?.companionGrant&&!skill?.def.hivecall&&!body.summonOffspring&&owner&&!owner.dead&&skill){
       const delivery=this.ports.native(skill);if(delivery?.persistent){const tags=this.ports.tags(skill),extra=this.ports.modifiers(skill);
-        this.queues.respawns.push({caster:owner,inst:skill,timer:delivery.persistent.respawnTime*owner.sheet.get('minionRespawnTime',tags,extra)});}
+        this.queues.respawns.push({caster:owner,inst:skill,timer:delivery.persistent.respawnTime*owner.sheet.get('minionRespawnTime',tags,extra)*(this.ports.recoveryScale?.(body)??1)});}
     }
   }
   dismiss(owner:A,skillId:string):void{
@@ -107,6 +115,7 @@ export class SummonContracts<A extends SummonContractActor<A,I>,I extends Summon
         if(unit*slots>headroom)slots=Math.max(0,Math.floor(headroom/Math.max(1,unit)));
         row.slots=slots;const want=unit*slots;
         if(Math.abs(want-row.reserved)>.01){owner.reservedMana=Math.max(0,owner.reservedMana-row.reserved+want);owner.mana=Math.min(owner.mana,owner.availableMaxMana());row.reserved=want;}
+        if(d.frame?.consolidation)slots=Math.min(1,slots);
         if(row.inst.def.hivecall)continue;
         const bodies=p.minionsOfSkill(owner,id).filter(body=>!body.summonOffspring);while(bodies.length>slots)p.kill(bodies.pop()!,true);
         const alive=bodies.length;let room=Math.max(0,slots-alive);

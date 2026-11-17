@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import ts from 'typescript';
 import {transform} from 'esbuild';
 import {root, sha256, writeJSON} from './reference-utils.mjs';
+import {readParitySource, parityDirectory} from './prototype-parity-tools.mjs';
 
 // Rules still owned by World's combat conductor after the reusable SDK
 // controllers were extracted. No general World update, AI, quests or saving.
@@ -49,12 +50,15 @@ const methods = [
   'movementLocked', 'castMoveFactor', 'channelMobility', 'moveActor', 'levitating', 'mountUnlink', 'mountWidowed',
 ];
 const file = 'src/engine/world.ts';
-const bytes = fs.readFileSync(path.join(root, '.reference', file));
-const lock = JSON.parse(fs.readFileSync(path.join(root, 'baseline/source-lock.json')));
+const prototype=process.argv.includes('--prototype'), pinned=prototype?readParitySource():undefined;
+const bytes = pinned?.files.get(file)??fs.readFileSync(path.join(root, '.reference', file));
+const lock = pinned?.lock??JSON.parse(fs.readFileSync(path.join(root, 'baseline/source-lock.json')));
 assert.equal(sha256(bytes), lock.files[file]);
 const ast = ts.createSourceFile(file, bytes.toString(), ts.ScriptTarget.Latest, true);
 const world = ast.statements.find(n => ts.isClassDeclaration(n) && n.name?.text === 'World');
-const selected = methods.map(name => {
+const changed=prototype?new Set(JSON.parse(fs.readFileSync(path.join(parityDirectory,'declarations.json'))).find(r=>r.file===file).declarations.map(r=>r.name.replace(/^World\./,''))):undefined;
+const activeMethods=methods.filter(name=>!changed||changed.has(name));
+const selected = activeMethods.map(name => {
   const m = world.members.find(m => (ts.isMethodDeclaration(m) || ts.isPropertyDeclaration(m)) && m.name.getText(ast) === name);
   assert(m, name); return m;
 });
@@ -180,9 +184,10 @@ export function createCombatPolicies(w, q) {
   w.isStealthed = isStealthed;
   return new Policies();
 }
-export const combatPolicyMethods = Object.freeze(${JSON.stringify(methods)});
+export const combatPolicyMethods = Object.freeze(${JSON.stringify(activeMethods)});
 `;
-const output = 'adapters/embedded/combat-policies.mjs';
+const output = prototype?'adapters/embedded/combat-prototype-policies.mjs':'adapters/embedded/combat-policies.mjs';
+const manifestPath=prototype?path.join(parityDirectory,'policies-extraction.json'):path.join(root,'baseline/combat-policies-extraction.json');
 const manifest = {schemaVersion: 1, sourceCommit: lock.commit, source: file, sourceSha256: sha256(bytes),
   methods: Object.fromEntries(selected.map(m => [m.name.getText(ast), sha256(m.getText(ast))])),
   localQueries: {statusReqs: sha256(statusReqs.getText(ast)), STEALTH_CHARGE: sha256(stealth.getText(ast)), isStealthed: sha256(isStealthed.getText(ast)),
@@ -196,13 +201,13 @@ const manifest = {schemaVersion: 1, sourceCommit: lock.commit, source: file, sou
     'Preserve ordinary combat locomotion; accept region/boat/weather speed as a host fact without importing geography or development noclip']};
 if (process.argv.includes('--check')) {
   assert.equal(fs.readFileSync(path.join(root, output), 'utf8'), code);
-  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(root, 'baseline/combat-policies-extraction.json'))), manifest);
+  assert.deepEqual(JSON.parse(fs.readFileSync(manifestPath)), manifest);
 } else {
   if (process.argv.includes('--update-draft')) {
-    const previous = JSON.parse(fs.readFileSync(path.join(root, 'baseline/combat-policies-extraction.json')));
+    const previous = JSON.parse(fs.readFileSync(manifestPath));
     assert.equal(sha256(fs.readFileSync(path.join(root, output))), previous.outputs[output], 'Generated policies have other edits');
   } else assert(!fs.existsSync(path.join(root, output)), 'Refusing to overwrite combat policies');
   fs.writeFileSync(path.join(root, output), code);
-  writeJSON(path.join(root, 'baseline/combat-policies-extraction.json'), manifest);
+  writeJSON(manifestPath, manifest);
 }
-console.log({passed: true, methods: methods.length, queries: reads.length});
+console.log({passed: true, methods: activeMethods.length, queries: reads.length});

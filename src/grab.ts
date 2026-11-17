@@ -129,7 +129,8 @@ advance(dt: number): void {
                 a.life -= taken;
                 a.hitFlash = 0.15;
                 a.hitFlashType = 'physical';
-                this.ports.text(a.pos, Math.round(taken).toString(), this.rules.physicalColor, 13);
+                if(this.ports.damageText)this.ports.damageText(a,taken,this.rules.physicalColor,13);
+                else this.ports.text(a.pos, Math.round(taken).toString(), this.rules.physicalColor, 13);
                 if (a.life <= 0 && !a.dead)
                     this.ports.kill(a, false, v);
             }

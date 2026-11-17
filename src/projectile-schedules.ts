@@ -10,7 +10,7 @@ export interface ProjectileSchedulePorts<A,I,F,Tags,M>{
   time():number;random():number;actorById(id:number):A|undefined;enemies(actor:A):readonly A[];timeScale(actor:A):number;
   /** Context is the native definition plus granted tags, as in ambush release. */
   tags(skill:I):Tags;modifiers(skill:I):readonly M[];
-  kill(actor:A,violent:true):void;spawn(actor:A,skill:I,at:CombatPoint,direction:number,options:{mult?:number;flat?:F;patrol?:CombatPoint[]}):void;
+  kill(actor:A,violent:true):void;spawn(actor:A,skill:I,at:CombatPoint,direction:number,options:{tier?:number;mult?:number;flat?:F;patrol?:CombatPoint[]}):void;
   released(at:CombatPoint,color:string):void;
 }
 /** Combat-owned salvo and hanging-arrow lifecycles. One scheduled shot fires
@@ -26,7 +26,7 @@ export class ProjectileSchedules<A extends ScheduledProjectileActor<Tags,M>,I ex
       const row=this.salvos[n];if(row.caster.dead){this.salvos.splice(n,1);continue;}
       row.timer-=dt*p.timeScale(row.caster);if(row.timer>0)continue;row.timer+=row.interval;
       const aim=row.caster.aimPos??row.aim,from=row.origin??row.caster.pos;
-      p.spawn(row.caster,row.inst,{...from},angleTo(from,aim),{mult:row.mult,flat:row.flat});
+      p.spawn(row.caster,row.inst,{...from},angleTo(from,aim),{...(row.tier===undefined?{}:{tier:row.tier}),mult:row.mult,flat:row.flat});
       if(--row.shots<=0)this.salvos.splice(n,1);
     }
   }

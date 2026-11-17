@@ -12,9 +12,9 @@ export function installCombatCaster(w, content, recovery, fields, controls, orde
     definition: id => q.SKILLS[id],
     mimicSelected: (actor, definition) => w.text({x: actor.pos.x, y: actor.pos.y - 24}, definition.name, definition.color, 12),
     mimicEmpty: actor => w.failNote(actor, 'mimic:none', 'no art captured'),
-    guardSurged: actor => {
+    guardSurged: (actor,tier) => {
       w.text(actor.pos, 'TRANSGRESSION!', '#8ab8d8', 14, 'combat');
-      w.flashes.push({pos: {...actor.pos}, radius: actor.radius + 16, color: '#8ab8d8', life: .3, maxLife: .3});
+      w.flashes.push({...(tier!==undefined?{recoveryCueTier:tier}:{}),pos: {...actor.pos}, radius: actor.radius + 16, color: '#8ab8d8', life: .3, maxLife: .3});
     },
   });
 }

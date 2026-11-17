@@ -3,5 +3,9 @@
 // See docs/character-command-consolidation.md for the measured tradeoff.
 export const accountWorkshopRuntimeModules=Object.freeze(['account-workshop-session','account-workshop-core','complete-character-contracts']);
 export const accountWorkshopRawBudget=44*1024;
-export const accountCharacterBrowserBudget=184*1024;
+// Shared school-choice/Relic rules also enter this optional consumer. Current
+// measured closure: 188975 bytes. Keep its November allowance explicit.
+export const accountCharacterPreviousBrowserBudget=184*1024;
+export const accountCharacterParityAllowance=1024;
+export const accountCharacterBrowserBudget=accountCharacterPreviousBrowserBudget+accountCharacterParityAllowance;
 export const accountBuildBrowserBudget=179*1024;

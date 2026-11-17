@@ -63,7 +63,7 @@ export interface CombatSpace {
 }
 export type CombatObservers = Readonly<Partial<Record<
   'cast'|'onDot'|'seized'|'defeated'|'indirectDamage'|'hit'|'dot'|'claimed'|
-  'summoned'|'healed'|'dotApplied'|'refreshCompany'|'guardBlocked'|'pooledKill',
+  'summoned'|'healed'|'onLifeSpent'|'dotApplied'|'refreshCompany'|'guardBlocked'|'pooledKill',
   (...facts:never[])=>unknown
 >> & {
   death?:Readonly<{
@@ -75,13 +75,15 @@ export type CombatObservers = Readonly<Partial<Record<
   }>;
 }>;
 export interface CombatHost {
+  /** Safe hubs suspend assembly-pact pickup generation; combat remains active. */
+  safeZone?:boolean;
   space:CombatSpace;
   /** Optional world simulation. Called after actor timers and before projectile
    * contact. Receives detached facts; returns statuses for this phase only.
    * The SDK owns status application, resistance, duration, damage and expiry. */
   environment?(frame:{seconds:number;time:number;actors:readonly SpatialBody[]}):readonly {actor:number;status:string;dps:number;magnitude:number;source:string}[];
   fields?:{
-    terrain?(at:Point,kind:string,radius:number,duration:number):void;
+    terrain?(at:Point,kind:string,radius:number,duration:number,options?:{tier?:number;shallow?:boolean;evaporate?:{rate?:number}}):void;
     conjure?(x:number,y:number,radius:number,duration:number,options:unknown):void;
     kindle?(kind:string,at:Point,options:{radius:number;poolMul:number}):boolean;
     vent?(bank:string,at:Point,radius:number,duration:number,layer:number):{reach:number;color?:string}|null;
@@ -102,7 +104,7 @@ declare const contentBrand:unique symbol;
 export interface CombatContent {readonly [contentBrand]:true;readonly capability:'combat-content/v1'}
 declare const actorBrand:unique symbol;
 export interface CombatActor {readonly [actorBrand]:true;readonly id:number}
-export interface SkillInvestment {id:string;level?:number;treeNodes?:string[];sockets?:({id:string;level?:number;rolled?:Record<string,string>}|null)[]}
+export interface SkillInvestment {id:string;level?:number;treeNodes?:string[];summonSchools?:string[];sockets?:({id:string;level?:number;rolled?:Record<string,string>}|null)[]}
 export interface BodyInput {
   name:string;team:'player'|'enemy'|'ally';position:Point;level?:number;layer?:number;controlled?:boolean;
   /** Trusted encounter morphology, never player input or character investment. */
@@ -129,6 +131,16 @@ export interface CombatSession {
   addCharacter(kit:CombatCharacterKit,character:CharacterSession,config:{name:string;position:Point;layer?:number}):CombatActor;
   commitCharacter(actor:CombatActor,change:CharacterChange):{accepted:true}|{accepted:false;refusal:Record<string,unknown>};
   press(actor:CombatActor,skillId:string,aim:Point):boolean;
+  /** Only an authored, invested Dismiss Frame node authorizes this action. */
+  dismissFrame(actor:CombatActor,skillId:string):boolean;
+  /** Detached ability, buff-source, summon-command and transient-growth facts. */
+  details(actor:CombatActor):Record<string,unknown>;
+  /** Detached semantic presentation; reading it never consumes combat randomness. */
+  visuals():{fields:Record<string,unknown>[];projectiles:Record<string,unknown>[];cues:Record<string,unknown>[]};
+  /** Resolve skill-authored cohort/protective tactics after the host's perception,
+   * taunt and order selection. A movement destination is an intent for the
+   * host navigator, resolved through move(); false leaves ordinary AI to it. */
+  summonTactic(actor:CombatActor,target:CombatActor|null,seconds:number):{handled:boolean;movement?:Point};
   /** Host-authorized ordinary intent, once per simulation step before casts
    * and advance (zero to one second). Direction is normalized by the original movement rule. The
    * host submits physical pose results through space.stepPhysical/clamp. */

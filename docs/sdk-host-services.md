@@ -14,6 +14,8 @@ ports, not replacements for a game's navigation, terrain or multiplayer stack.
 | Projectile facts | Supply the declared ride/grid-ray and layer facts. The SDK owns projectile lifetime, collision consequences and hit ordering. |
 | World-effect services | Terrain/cloud/vent/lightwell/portal families need their explicit `fields` providers. Admission refuses missing services before starting the effect. Keep providers available for the admitted lifetime. Travel destinations and campaign consequences remain host decisions. |
 | Environment | Optional `environment(frame)` returns detached status facts after actor timers and before projectile contacts. The SDK validates the whole batch and applies resistance, duration, damage and expiry. |
+| Encounter context | `safeZone: true` suppresses assembly-pact pickup generation in a safe hub. This is a host fact; it requires no quest or campaign service. |
+| Summon tactics | After perception, taunt and order selection, call `summonTactic(actor, target, seconds)`. Resolve any returned destination with the host navigator and `move`. Ordinary AI planning remains with the game. |
 | Build publication | A character belongs to one combat session. Preview is detached. Publish accepted proposals through that owner's `commitCharacter`, or the Node host's `build` / `grant`. |
 | Entitlements and Reliquary | Supply the current authorized feature/relic projection. It is separate from exported character investment; loading a record cannot grant account authority. |
 | Presentation | Consume detached poses, bodies, projectiles, zones and ordered signals. The sample wire uses `hollow-wake-sdk/1`, 30 game units per metre and height in centimetres. |
@@ -23,6 +25,13 @@ Spatial and effect callbacks are synchronous trusted services. Do not reenter a
 session, retain borrowed facts or use them to mutate SDK state. A callback can
 throw after partial combat work; the session then quarantines itself. Discard
 that owner rather than retrying the failed frame as though it rolled back.
+
+For the Node wrapper, pass these optional capabilities through
+`createNodeCombatHost(content, {space, services: {safeZone, environment, fields}, ...})`.
+The explicit `space` provider keeps geometry authority. Terrain callbacks receive
+the effect's story layer and optional shallow/evaporation facts; preserve them
+when creating the game's physical effect. These services never enter through
+client input. The sample training room does not implement a general AI scheduler.
 
 The reference TCP listener is single-client localhost communication. Production
 network authentication, remote authorization, replication and anti-cheat are not

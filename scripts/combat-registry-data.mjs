@@ -19,7 +19,14 @@ export function acceptedCombatData(name) {
   return data;
 }
 
-export function combatRegistryData() {
+export function combatRegistryData(profile) {
+  if (profile) {
+    const registries = {...profile.runtime.registries,
+      summonPacts: profile.runtime.summonPacts, summonPactSupportGrants: profile.runtime.summonPactSupportGrants,
+      battleDoctrines: profile.runtime.battleDoctrines, minionTransmutations: profile.runtime.minionTransmutations};
+    assert(!JSON.stringify(registries).includes('"$sourceRule"'));
+    return {registries, sha256: sha256(JSON.stringify(registries))};
+  }
   const {registries} = acceptedCombatData('combat-authored-registry');
   registries.wornThrongs = acceptedCombatData('combat-throng-registry').wornThrongs;
   Object.assign(registries,acceptedCombatData('combat-proc-registry').registries);
@@ -42,7 +49,9 @@ export function combatRegistryData() {
 export function registryInitialization(names, variable = 'registryData') {
   const rows = {MONSTERS: 'monsters', SKILLS: 'skills', SUPPORTS: 'supports', STAT_DEFS: 'stats', STATUS_DEFS:'statuses', CHOICE_GROUPS:'passiveChoices', PROCS:'procs', PROC_LIST:'procIds', PROC_RIDER_LIST:'procRiders', ATTRIBUTE_BEQUESTS: 'bequests', ATTRIBUTE_BEQUEST_IDS: 'bequestIds', STATUS_RELAYS: 'relays', STATUS_RELAY_IDS: 'relayIds',
     SATELLITES: 'satellites', SATELLITE_IDS: 'satellitesIds', AURORAS: 'auroras', AURORA_IDS: 'aurorasIds',
-    GUARDIANS: 'guardians', GUARDIAN_IDS: 'guardiansIds', CREEPERS: 'creepers', CREEPER_IDS: 'creepersIds', WORN_THRONGS: 'wornThrongs'};
+    GUARDIANS: 'guardians', GUARDIAN_IDS: 'guardiansIds', CREEPERS: 'creepers', CREEPER_IDS: 'creepersIds', WORN_THRONGS: 'wornThrongs',
+    SUMMON_PACTS: 'summonPacts', SUMMON_PACT_SUPPORT_GRANTS: 'summonPactSupportGrants',
+    BATTLE_DOCTRINES: 'battleDoctrines', MINION_TRANSMUTATIONS: 'minionTransmutations'};
   return Object.entries(rows).filter(([name]) => names.includes(name)).map(([name, field]) =>
     name==='PROC_LIST' ? `${name}.splice(0, ${name}.length, ...${variable}.procIds.map(id=>PROCS[id]));`
       : name==='PROC_RIDER_LIST'||field.endsWith('Ids') ? `${name}.splice(0, ${name}.length, ...${variable}.${field});`

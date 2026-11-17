@@ -4,11 +4,13 @@ import assert from 'node:assert/strict';
 import ts from 'typescript';
 import {transform} from 'esbuild';
 import {root, sha256, writeJSON} from './reference-utils.mjs';
+import {readParitySource,parityDirectory} from './prototype-parity-tools.mjs';
 
-const lock = JSON.parse(fs.readFileSync(path.join(root, 'baseline/source-lock.json')));
+const prototype=process.argv.includes('--prototype'),pinned=prototype?readParitySource():undefined;
+const lock = pinned?.lock??JSON.parse(fs.readFileSync(path.join(root, 'baseline/source-lock.json')));
 const sources = {}, imports = new Map(), pieces = [];
 function source(file) {
-  const bytes = fs.readFileSync(path.join(root, '.reference', file));
+  const bytes = pinned?.files.get(file)??fs.readFileSync(path.join(root, '.reference', file));
   assert.equal(sha256(bytes), lock.files[file]); sources[file] = sha256(bytes);
   return ts.createSourceFile(file, bytes.toString(), ts.ScriptTarget.Latest, true);
 }
@@ -40,7 +42,7 @@ for (const file of ['src/engine/assault.ts', 'src/engine/replenishment.ts', 'src
   }
 }
 const compiled = (await transform(pieces.join('\n'), {loader: 'ts', target: 'es2022', legalComments: 'none'})).code;
-const output = 'adapters/embedded/combat-command-controllers.mjs';
+const output = prototype?'adapters/embedded/combat-prototype-commands.mjs':'adapters/embedded/combat-command-controllers.mjs';
 const code = `// Generated isolated combat commands. General AI planning stays in the host.
 export function createCombatCommands(w, q) {
   const {${[...imports.keys()].sort().join(', ')}} = q;
@@ -53,7 +55,7 @@ export function createCombatCommands(w, q) {
     conversionIds: Object.freeze(Object.keys(conversions)), convertRuleHolds: (id, actor, inst) => conversions[id]?.(actor, inst, w) ?? false};
 }
 `;
-const manifestPath = path.join(root, 'baseline/combat-command-controllers-extraction.json');
+const manifestPath = prototype?path.join(parityDirectory,'commands-extraction.json'):path.join(root, 'baseline/combat-command-controllers-extraction.json');
 const manifest = {schemaVersion: 1, sourceCommit: lock.commit, sources, queries: [...imports.values()], outputs: {[output]: sha256(code)},
   issueCommandSha256: sha256(issue.getText(ai)), changes: ['Shared SDK damage', 'Per-owner random source', 'Extract command assignment only, without importing AI planning',
     'Extract companion cue construction without stance AI registration']};

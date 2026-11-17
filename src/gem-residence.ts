@@ -9,6 +9,7 @@ export interface GemSupport<D extends GemDefinition = GemDefinition> {
   def: D; level: number; locked?: boolean; rolled?: Record<string, string>;
 }
 export interface GemSkill<D extends GemDefinition = GemDefinition, U extends GemDefinition = GemDefinition> {
+  summonSchools?:string[];
   def: D; level: number; rarity?: string; empowermentRank?: number;
   replenishmentPaused?: true; sockets: (GemSupport<U> | null)[];
   locked?: boolean; granted?: boolean; attunedForm?: string; treeNodes?: string[];
@@ -35,13 +36,14 @@ export function packSkillGemPayload(inst: GemSkill): SkillGemPayload {
   return {kind: 'skill', skillId: inst.def.id, level: inst.level, rarity: inst.rarity ?? 'common',
     ...(rank ? {empowermentRank: rank} : {}), ...(inst.replenishmentPaused ? {replenishmentPaused: true as const} : {}),
     sockets: inst.sockets.map(packSocketRow), ...(inst.granted ? {granted: true} : {}),
-    ...(inst.attunedForm ? {attunedForm: inst.attunedForm} : {}), ...(inst.treeNodes?.length ? {treeNodes: [...inst.treeNodes]} : {})};
+    ...(inst.attunedForm ? {attunedForm: inst.attunedForm} : {}), ...(inst.treeNodes?.length ? {treeNodes: [...inst.treeNodes]} : {}),
+    ...(inst.summonSchools?.length?{summonSchools:[...inst.summonSchools]}:{})};
 }
 export function packSupportGemPayload(support: GemSupport): SupportGemPayload {
   return {kind: 'support', supportId: support.def.id, level: support.level, ...(support.rolled ? {rolled: {...support.rolled}} : {})};
 }
 export function packGrantState(inst: GemSkill): GrantedSkillState {
-  return {sockets: inst.sockets.map(packSocketRow), ...(inst.treeNodes?.length ? {treeNodes: [...inst.treeNodes]} : {})};
+  return {sockets: inst.sockets.map(packSocketRow), ...(inst.treeNodes?.length ? {treeNodes: [...inst.treeNodes]} : {}),...(inst.summonSchools?.length?{summonSchools:[...inst.summonSchools]}:{})};
 }
 export function writeBackSupportGem(item: ItemInstance, support: GemSupport): void {
   item.gem = packSupportGemPayload(support); item.name = support.def.name;
@@ -88,6 +90,7 @@ export function createGemCargo<D extends GemDefinition, U extends GemDefinition,
     return ports.bagWidth() * ports.bagHeight() - used;
   }
   function restoreGrantState(inst: S, state: GrantedSkillState): void {
+    if(state.summonSchools?.length)inst.summonSchools=[...state.summonSchools];else delete inst.summonSchools;
     const rows = state.sockets ?? [];
     inst.sockets = inst.sockets.map((_, index) => unpackRow(rows[index]));
     if (state.treeNodes?.length) inst.treeNodes = ports.validTreeNodes(inst.def, state.treeNodes, inst.level);
@@ -113,6 +116,7 @@ export function createGemCargo<D extends GemDefinition, U extends GemDefinition,
     if (payload.replenishmentPaused === true) inst.replenishmentPaused = true;
     if (payload.granted) inst.granted = true;
     if (payload.attunedForm && ports.hasForm(payload.attunedForm)) inst.attunedForm = payload.attunedForm;
+    if(payload.summonSchools?.length)inst.summonSchools=[...payload.summonSchools];
     if (payload.treeNodes?.length) inst.treeNodes = ports.validTreeNodes(def, payload.treeNodes, payload.level, inst);
     if (item.locked) inst.locked = true;
     inst.sockets = payload.sockets.map(unpackRow);

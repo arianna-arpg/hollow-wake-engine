@@ -1,6 +1,6 @@
 {
   "name": "@hollow-wake/engine",
-  "version": "0.63.0-candidate.0",
+  "version": "0.64.0-candidate.0",
   "description": "Instance-owned combat and character rules, extracted from Hollow Wake.",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
@@ -1163,7 +1163,10 @@
     "example:node-godot": "node scripts/build-node-godot.mjs",
     "test:combat-performance": "node scripts/test-combat-performance.mjs",
     "release:combat-inventory": "node scripts/build-combat-inventory-release.mjs",
-    "test:combat-inventory-release": "node scripts/test-combat-inventory-release.mjs"
+    "test:combat-inventory-release": "node scripts/test-combat-inventory-release.mjs",
+    "parity:prepare": "node scripts/prepare-prototype-parity.mjs",
+    "reference:parity": "npm run parity:prepare && node scripts/capture-parity-content.mjs && node scripts/capture-parity-combat.mjs --suite combat && node scripts/capture-parity-combat.mjs --suite interactions && node scripts/capture-parity-combat.mjs --suite rules-v2 && node scripts/capture-parity-combat.mjs --suite layers-v2 && node scripts/capture-parity-combat.mjs --suite summons-v5 && node scripts/capture-parity-combat.mjs --suite terminal && node scripts/capture-parity-combat.mjs --suite character-v2 && node scripts/capture-parity-combat.mjs --suite relics && node scripts/capture-parity-combat.mjs --suite host && node scripts/capture-parity-combat.mjs --suite corpse-rites && node scripts/capture-parity-combat.mjs --suite relocation",
+    "verify:parity": "npm run build && npm run parity:prepare && node scripts/audit-prototype-parity.mjs --check && node scripts/audit-parity-content.mjs --check && node scripts/extract-prototype-mechanics.mjs --check && node scripts/extract-combat-policies.mjs --prototype --check && node scripts/extract-combat-command-controllers.mjs --prototype --check && node scripts/check-combat-bindings.mjs && node scripts/test-combat-owner.mjs && node scripts/test-combat-owner-census.mjs --prototype && node scripts/review-parity-boundaries.mjs --check && node scripts/test-prototype-character.mjs && node scripts/test-installed-prototype.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12",

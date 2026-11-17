@@ -25,7 +25,9 @@ export function createCombatSession(content, host, options = {}) {
   const owner = createCombatOwner(content, host, {...options, admit: admission.admit});
   const {w} = owner, clock = installCombatClock(owner, content);
   const handles = new WeakMap(), byId = new Map();
-  const characters = new WeakMap(), boundCharacters = new WeakSet();
+  const characters = new WeakMap(), boundCharacters = new WeakSet(), visualIds=new WeakMap();
+  let nextVisualId=1;
+  const visualId=value=>{let id=visualIds.get(value);if(id===undefined){id=nextVisualId++;visualIds.set(value,id);}return id;};
   let busy = false, faulted = false;
   if (host.environment !== undefined && typeof host.environment !== 'function') throw new TypeError('Invalid combat environment provider');
   if (host.environment) owner.environment = dt => {
@@ -78,6 +80,15 @@ export function createCombatSession(content, host, options = {}) {
         const def = q.SUPPORTS[row?.id]; if (!def) throw Error('Unknown combat support');
         return {def, level: positiveInteger(row.level ?? 1, 'support level'), ...(row.rolled ? {rolled: structuredClone(row.rolled)} : {})};
       });
+    }
+    if (spec.summonSchools !== undefined) {
+      const delivery = q.instanceDelivery(inst);
+      const allowed = delivery.type === 'summon' && delivery.arts?.balanceSchools ? delivery.arts.schools?.map(row => row.id) : undefined;
+      const choices = spec.summonSchools;
+      if (!Array.isArray(choices) || !choices.length || choices.length > 16 || new Set(choices).size !== choices.length
+        || !Array.isArray(allowed) || choices.some(id => typeof id !== 'string' || !allowed.includes(id)))
+        throw Error('Invalid summon school choices');
+      inst.summonSchools = allowed.filter(id => choices.includes(id));
     }
     return inst;
   }
@@ -181,13 +192,49 @@ export function createCombatSession(content, host, options = {}) {
       const seat=w.seatOf(actor);
       const inst = actor.skills.find(s => s?.def.id === skillId) ?? seat?.meta.knownSkills.get(skillId) ?? seat?.grantedInsts?.get(skillId);
       if (!inst || actor.dead || actor.downed) return false;
-      return operate(() => w.useSkill(actor, inst, at, true));
+      return operate(() => w.useSkill(actor, inst, at, !!seat));
+    },
+    dismissFrame(ref,skillId) {
+      const actor=body(ref),inst=actor.skills.find(s=>s?.def.id===skillId);
+      if(!w.prototypeProfile||!inst||!q.instanceDelivery(inst).frame
+        ||!inst.treeNodes?.some(id=>q.treeNodeOf(inst.def,id)?.choiceActions?.some(c=>c.action==='dismissFrame')))return false;
+      return operate(()=>{w.frameArts.dismissFrame(actor,inst);return true;});
+    },
+    details(ref) {
+      const actor=body(ref);
+      return structuredClone({skills:actor.skills.filter(Boolean).map(s=>({id:s.def.id,supports:s.sockets.map(g=>g?.def.id??null)})),
+        buffs:[...actor.buffs].map(([id,b])=>({id,remaining:b.remaining,stacks:b.stacks,sourceSkill:b.def.sourceSkill})),
+        ...(w.prototypeProfile?{frames:w.frameArts.presentation(actor),frame:w.frameArts.bodyPresentation(actor),
+          summonArts:w.summonArts.presentation(actor),pacts:w.summonPacts.view(actor),doctrines:w.battleDoctrines.view(actor),
+          growths:w.transientDoodads.filter(g=>g.owner===actor).map(g=>({kind:g.kind,ttl:g.ttl,maxTtl:g.maxTtl,body:g.d}))}:{})});
+    },
+    visuals() {
+      available();
+      if(!w.prototypeProfile)return {fields:[],projectiles:[],cues:[]};
+      const select=(object,keys)=>Object.fromEntries(keys.filter(key=>object[key]!==undefined).map(key=>[key,object[key]]));
+      return structuredClone({fields:w.zones.map(z=>({id:visualId(z),...q.skillFieldVisual(z,w.time)})),
+        projectiles:w.projectiles.map(p=>({id:visualId(p),skillId:p.inst.def.id,tier:p.tier??p.caster.tier,
+          ...select(p,['pos','dir','radius','color','shape','life','trail','scale','look','material'])})),
+        cues:w.flashes.map(f=>({id:visualId(f),...select(f,['pos','radius','color','life','maxLife','shape','facing','arcRad','edgeFrac','fx','recoveryCueTier','summonPactCue','doctrineCue','onGround'])}))});
+    },
+    summonTactic(ref,targetRef,seconds) {
+      const actor=body(ref),target=targetRef===null?null:body(targetRef);
+      if(!Number.isFinite(seconds)||seconds<0||seconds>1)throw new RangeError('Tactic duration must be between zero and one second');
+      if(!w.prototypeMechanics)return {handled:false};
+      return operate(()=>{
+        if(actor.dead||actor.downed||!actor.owner||w.seatOf(actor)||actor.summonReform||actor.channelFormation||actor.frameCharging||actor.frameState?.order||actor.frameState?.terminal)return {handled:true};
+        if(target&&(target.dead||target.downed||target.untargetable||target.team===actor.team||target.tier!==actor.tier||!w.lineOfSight(actor.pos,target.pos,actor.tier,target.tier)))return {handled:false};
+        let movement;const move=at=>{movement={...at};};
+        const handled=!!(actor.frameState&&w.frameArts.act(actor,target,move)||actor.cohortState&&w.cohortArts.act(actor,target,seconds,move));
+        return {handled,...(movement?{movement}:{})};
+      });
     },
     move(ref, direction, seconds) {
       const actor = body(ref), at = point(direction);
       if (!Number.isFinite(seconds) || seconds < 0 || seconds > 1) throw new RangeError('Movement duration must be between zero and one second');
       if (actor.dead || actor.downed || seconds === 0) return;
       return operate(() => {
+        actor.struggleAgainstPin(at.x);
         const scale = w.timeflow.scaleFor(actor);
         if (scale > 0) {w.moveActor(actor, at.x, at.y, seconds * scale); w.actorGridRev++;}
       });

@@ -23,6 +23,15 @@ test('domain exposure accrues after membership and takes effect on the next fram
   const h=setup(),z=h.field({domain:{enemyMods:[{stat:'damage',kind:'flat',value:3}]},domainKey:'field:1',exposure:{after:.2,dwell:new Map()},exposureDomain:true});h.state.zones.push(z);
   h.step(.2);assert(!h.enemy.sources.has('field:1'));h.step(.01);assert(h.enemy.sources.has('field:1'));h.enemy.pos.x=100;h.step(.01);assert(!h.enemy.sources.has('field:1'));assert(!z.exposure.dwell.has(h.enemy.id));
 });
+
+test('a shared domain group grants one source and hands off after its first field expires',()=>{
+  const h=setup(),domain={stackGroup:'banner',enemyMods:[{stat:'damage',kind:'flat',value:3}]};
+  const first=h.field({domain,domainKey:'first',linger:.15}),second=h.field({domain,domainKey:'second'});
+  h.state.zones.push(first,second);h.step(.1);
+  assert.deepEqual([...h.enemy.sources.keys()],['first']);
+  h.step(.1);h.step(.01);assert.deepEqual([...h.enemy.sources.keys()],['second']);
+  h.enemy.tier=1;h.step(.01);assert.equal(h.enemy.sources.size,0);
+});
 test('overlapping madden placements credit a body only once per shared frame and never across layers',()=>{
   const h=setup(),bank={after:.3,dwell:new Map(),credited:new Map()};h.state.zones.push(h.field({madden:bank}),h.field({madden:bank}));h.step(.2);assert.equal(bank.dwell.get(2),.2);
   h.enemy.tier=1;h.step(.2);assert.equal(bank.dwell.get(2),.2);h.enemy.tier=0;h.step(.1);assert.deepEqual(h.events.filter(e=>e[0]==='status'),[['status',2,'maddened']]);assert.equal(bank.dwell.get(2),0);
