@@ -53,7 +53,9 @@ const faults=[
   ['continuation-focus-recovery-retained','cs.aiRecovery = undefined;','void 0;'],
   ['continuation-vessel-repeats','vessel.construct.holdOnce = true;','vessel.construct.holdOnce = false;'],
   ['continuation-click-activity-lost','p.acted(actor);','void 0;'],
-  ['continuation-flawless-trigger-lost','p.flawless(actor, p.copyAim(cs.aim), cs.inst);','void 0;'],
+  // The composed-timing branch has its own flawless call. This October course
+  // must remove the legacy trigger specifically, while preserving its cue.
+  ['continuation-flawless-trigger-lost','p.timingCue(actor, cue, cs.aim);\n            p.flawless(actor, p.copyAim(cs.aim), cs.inst);','p.timingCue(actor, cue, cs.aim);'],
   ['continuation-native-update-disconnected','this.sdkCastingContinuation.advance(a, dt);','void 0;',true],
   ['continuation-native-click-disconnected','this.sdkCastingContinuation.press(caster);','void 0;',true],
 

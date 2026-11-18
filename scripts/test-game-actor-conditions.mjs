@@ -1,6 +1,9 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {gunzipSync} from 'node:zlib';import {execFileSync} from 'node:child_process';import {pathToFileURL} from 'node:url';
 import {root,listFiles,sha256,writeJSON} from './reference-utils.mjs';
-const artifacts=path.join(root,'.artifacts'),location=JSON.parse(fs.readFileSync(path.join(artifacts,'adapter-location.json')));
+const artifacts=path.join(root,'.artifacts'),locationIndex=process.argv.indexOf('--location');
+const locationFile=locationIndex<0?path.join(artifacts,'adapter-location.json'):process.argv[locationIndex+1];
+assert(locationFile&&!locationFile.startsWith('--'),'Expected --location path');
+const location=JSON.parse(fs.readFileSync(locationFile));
 assert.equal(location.intentionalConditionRepair,'condition-publication-recovery/v1');
 const game=location.game,installed=path.join(location.tooling,'node_modules/@hollow-wake/engine/dist');
 const readOnly=process.argv.includes('--read-only');
