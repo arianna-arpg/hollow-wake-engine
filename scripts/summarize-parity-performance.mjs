@@ -2,7 +2,7 @@ import fs from 'node:fs';import path from 'node:path';import assert from 'node:a
 import {gzipSync} from 'node:zlib';import {sha256,writeJSON} from './reference-utils.mjs';
 
 const args=process.argv.slice(2);
-assert(args.length===4&&args[0]==='--measurements'&&args[2]==='--out','Use --measurements DIRECTORY --out NEW_DIRECTORY');
+assert([4,6].includes(args.length)&&args[0]==='--measurements'&&args[2]==='--out'&&(args.length===4||args[4]==='--source-lock'),'Use --measurements DIRECTORY --out NEW_DIRECTORY [--source-lock FILE]');
 const source=path.resolve(args[1]),out=path.resolve(args[3]);assert(!fs.existsSync(out));
 const read=name=>JSON.parse(fs.readFileSync(path.join(source,name+'.json')));
 const names=['execution','extraction-benchmark','check-a','check-b',...Array.from({length:7},(_,i)=>'timing-'+(i+1)),'memory','profile','lifetime'];
@@ -32,7 +32,7 @@ const courses=control.courses.map((course,i)=>{
   estimatedAllocatedBytes:profile.estimatedAllocatedBytes};
 });
 const bytes=gzipSync(JSON.stringify(raw)+'\n',{level:9});
-const report={schemaVersion:1,passed:true,kind:'desktop-parity-baseline',prototypeSourceCommit:JSON.parse(fs.readFileSync('baseline/prototype-parity/source-lock.json')).commit,
+const report={schemaVersion:1,passed:true,kind:'desktop-parity-baseline',prototypeSourceCommit:JSON.parse(fs.readFileSync(args[5]??'baseline/prototype-parity/source-lock.json')).commit,
  measuredWorkloadSha256:workload,physicalDeviceQualified:false,optimizationComparison:false,freshTimingProcesses:timing.length,
  environment:timing[0].environment,conditions:raw.execution.conditions,
  aggregation:'Median of seven fresh-process medians/p95s/p99s; not pooled percentiles. Each process executes the same eight courses in order.',

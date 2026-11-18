@@ -1,7 +1,8 @@
 # Adopting the combat and Inventory SDK
 
 The current prototype targets [combat-inventory-v0.2.0-preview.1](https://github.com/arianna-arpg/hollow-wake-engine/releases/tag/combat-inventory-v0.2.0-preview.1).
-Its qualification is tracked in [prototype parity](prototype-parity.md); use it
+Its qualification is tracked in [prototype parity](prototype-parity.md) and the
+[November 17 Inventory revision](prototype-revision.md); use it
 after its verified release is published. Extract
 `hollow-wake-combat-inventory-0.2.0-preview.1.zip` into a new project folder and
 follow the included README. No source-game folder or npm registry publication
@@ -13,6 +14,12 @@ The downloadable bundle is a verified integration starting point. Its Node
 process owns simulation; its Godot client draws detached state. Existing Unity
 and Unreal previews are preserved, but this release does not qualify the full
 SDK inside those engines. See [compatibility](sdk-compatibility.md).
+
+For Inventory cards, skill-tree text, full stat explanations and item proc/combo
+references, load the separate `@hollow-wake/characters/inspection` entry and its
+`inspection.json` payload. The normal character and combat entries do not load
+that UI data. The revision guide includes the small factory call and ownership
+contract; it requires neither quests nor a save system.
 
 ## Character-to-combat ownership
 

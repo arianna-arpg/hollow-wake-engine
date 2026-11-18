@@ -21,8 +21,9 @@ try {
   fs.cpSync(path.join(root,'host'),path.join(work,'host'),{recursive:true});
   const quickstart=run(path.join(root,'quickstart.mjs'),root),prototype=manifest.prototypeSource?run('prototype.mjs',work):undefined;
   const combat=prototype?.combat??run('combat.mjs',work),adapter=prototype??run('adapter.mjs',work);
+  const revision=manifest.inventoryRevision?run('revision.mjs',work):undefined;
   assert(quickstart.passed&&combat.passed&&adapter.passed);
-  console.log(JSON.stringify({passed:true,release:manifest.version,node:process.version,quickstart,combat,adapter,questsRequired:false,persistenceRequired:false}));
+  console.log(JSON.stringify({passed:true,release:manifest.version,node:process.version,quickstart,combat,adapter,...(revision?{revision}:{}),questsRequired:false,persistenceRequired:false}));
 } finally {
   assert.equal(path.dirname(fs.realpathSync(work)),root);assert(!fs.existsSync(path.join(work,'.git')));
   fs.rmSync(work,{recursive:true,force:true,maxRetries:5,retryDelay:200});

@@ -18,8 +18,9 @@ export async function buildCombatQueries(destination,profile){
   const result=await build({absWorkingDir:root,stdin:{contents:source,loader:'js',resolveDir:root},bundle:true,platform:'neutral',format:'esm',target:'es2022',minify:true,write:false,metafile:true,tsconfigRaw:{},alias});
   for(const file of Object.keys(result.metafile.inputs)){
     if(file==='<stdin>')continue;
-    const hash=sha256(fs.readFileSync(path.join(root,file)));sources[file]=hash;
+    const hash=sha256(fs.readFileSync(path.join(root,file)));
     if(file.startsWith(prefix))assert.equal(hash,lock.files[file.slice(prefix.length)],file);else assert.equal(file,'adapters/embedded/combat-queries.mjs');
+    sources[profile?.previous&&file.startsWith(prefix)?'prototype/'+lock.commit+'/'+file.slice(prefix.length):file]=hash;
   }
   for(const output of Object.values(result.metafile.outputs))assert.equal(output.imports.length,0,'Combat queries must be standalone');
   const code=result.outputFiles[0].text,ast=ts.createSourceFile('queries.mjs',code,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS);

@@ -3,6 +3,7 @@ import {root,sha256,writeJSON} from './reference-utils.mjs';import {npmCli} from
 import {buildCombatSession} from './compile-combat-session.mjs';import {buildCharacterBuilds} from './compile-character-builds.mjs';
 import {buildCharacterSession} from './compile-character-session.mjs';import {buildNodeGodot} from './compile-node-godot.mjs';
 import {prepareParityReference} from './prototype-parity-tools.mjs';import {readPrototypeContent} from './prototype-content.mjs';
+import {withPrototypeRevision} from './prototype-revision-tools.mjs';
 
 export async function buildNodeGodotExample(destination,profile){
  assert(!fs.existsSync(destination),'Refusing to overwrite reference integration');
@@ -32,7 +33,7 @@ export async function buildNodeGodotExample(destination,profile){
  }
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
- const args=process.argv.slice(2),prototype=args.includes('--prototype'),rest=args.filter(a=>a!=='--prototype');
- assert.equal(args.length,prototype?3:2);assert(rest[0]==='--out'&&rest[1]);if(prototype)prepareParityReference();
- console.log(await buildNodeGodotExample(path.resolve(rest[1]),prototype?readPrototypeContent():undefined));
+ const args=process.argv.slice(2),prototype=args.includes('--prototype'),revision=args.includes('--revision'),rest=args.filter(a=>!['--prototype','--revision'].includes(a));
+ assert(!(prototype&&revision));assert.equal(args.length,prototype||revision?3:2);assert(rest[0]==='--out'&&rest[1]);if(prototype)prepareParityReference();
+ console.log(revision?await withPrototypeRevision(profile=>buildNodeGodotExample(path.resolve(rest[1]),profile)):await buildNodeGodotExample(path.resolve(rest[1]),prototype?readPrototypeContent():undefined));
 }

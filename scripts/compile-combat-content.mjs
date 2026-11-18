@@ -9,7 +9,6 @@ import {buildCombatQueries} from './compile-combat-queries.mjs';
 import {buildCombatHitQueries} from './compile-combat-hit-queries.mjs';
 import {buildCombatActorState} from './compile-combat-actor-state.mjs';
 import {combatStaticRules} from './compile-combat-static-rules.mjs';
-import {itemPack} from './compile-item-content.mjs';
 import {acceptedCombatData} from './combat-registry-data.mjs';
 import {characterBuildPack} from './compile-character-builds.mjs';
 import {prototypeBuildPack} from './prototype-content.mjs';
@@ -28,7 +27,7 @@ export async function buildCombatContent(destination,profile) {
     const catalogue = profile?.catalogue??readCatalogue();
     const table = name => Object.fromEntries(catalogue.tables[name].map(row => [row.id, row.value]));
     const builds=profile?prototypeBuildPack(characterBuildPack(),profile):characterBuildPack();
-    const statistics = {characterBuildId: builds.contentId, stats: table('stats'), statTrades: table('rules').statTrades, items: itemPack(), carried: profile?.runtime.carried??acceptedCombatData('carried-effects').rules,
+    const statistics = {characterBuildId: builds.contentId, stats: table('stats'), statTrades: table('rules').statTrades, items: builds.items, carried: profile?.runtime.carried??acceptedCombatData('carried-effects').rules,
       ...(profile?{prototypeMechanics:true}:{})};
     const source = `
       import {combatSkillQueries, combatActorRules} from './skills/queries.mjs';

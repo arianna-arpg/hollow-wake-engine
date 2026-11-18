@@ -1,5 +1,10 @@
 # Prototype parity revision
 
+This document records the November 16 mechanics baseline. The same release also
+includes the separately captured [November 17 Inventory revision](prototype-revision.md),
+which records the final source cutoff, updated inspection content and Decoy tag
+change. Measurements below describe the November 16 payload unless stated otherwise.
+
 This revision advances the combat and Inventory source capture from October 20
 to November 16. The matched engineering release is
 `combat-inventory-v0.2.0-preview.1`; published artifacts carry exact source,
@@ -195,6 +200,10 @@ failed publication. A host callback that performs an external partial write
 before failing needs its own transaction; the SDK cannot undo that write.
 
 ## November desktop baseline
+
+These measurements qualify the preserved November 16 payload. The
+[November 17 revision](prototype-revision.md) has a separate capture and must
+carry its own matching measurement receipts in the final release.
 
 Seven fresh Node 24.9.0 processes on an Intel Core i9-10900K, Windows, with
 the compile cache disabled. SDK test jobs were stopped; other desktop

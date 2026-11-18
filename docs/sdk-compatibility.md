@@ -1,10 +1,12 @@
 # Release compatibility and limits
 
 The parity candidate is `combat-inventory-v0.2.0-preview.1`, pinned to the
-November 16 prototype revision. The published October preview remains preserved. Exact artifact identities and
+November 17 prototype revision, including the separately preserved November 16
+mechanics baseline. The published October preview remains preserved. Exact artifact identities and
 platform results accompany each verified release. The November desktop baseline
 measures the new executable; previous performance measurements are historical.
-The portable runner does not certify a device or every content combination. See [prototype parity](prototype-parity.md).
+The portable runner does not certify a device or every content combination. See
+[prototype parity](prototype-parity.md) and the [Inventory revision](prototype-revision.md).
 
 | Surface | Qualification boundary |
 | --- | --- |

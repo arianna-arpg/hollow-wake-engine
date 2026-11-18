@@ -37,9 +37,10 @@ export async function buildCharacterBuilds(destination,profile){
     minify:true,write:false,metafile:true,external:['@hollow-wake/engine','@hollow-wake/engine/*'],tsconfigRaw:{},
     alias:{'hollow-wake-source/replenishment':path.join(sourceDirectory,'src/engine/replenishment.ts'),'hollow-wake-source/skills':path.join(sourceDirectory,'src/engine/skills.ts'),'hollow-wake-source/minion-families':path.join(sourceDirectory,'src/data/minionFamilies.ts')}});
   for(const file of Object.keys(result.metafile.inputs)){
-    const hash=sha256(fs.readFileSync(path.join(root,file)));sources[file]=hash;
+    const hash=sha256(fs.readFileSync(path.join(root,file)));
     if(file.startsWith(sourcePrefix))assert.equal(hash,lock.files[file.slice(sourcePrefix.length)],file);
     else assert(['adapters/embedded/character-builds.mjs','adapters/embedded/character-build-helpers.mjs'].includes(file),file);
+    sources[profile?.previous&&file.startsWith(sourcePrefix)?'prototype/'+lock.commit+'/'+file.slice(sourcePrefix.length):file]=hash;
   }
   for(const row of Object.values(result.metafile.outputs))for(const imp of row.imports)assert(imp.external&&imp.path.startsWith('@hollow-wake/engine'),imp.path);
   const code=result.outputFiles[0].text,ast=ts.createSourceFile('character-builds.js',code,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS);

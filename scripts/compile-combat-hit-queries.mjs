@@ -49,7 +49,7 @@ export async function buildCombatHitQueries(destination,profile) {
   }
   if(profile){
     const currentCommands=JSON.parse(fs.readFileSync(path.join(root,'baseline/prototype-parity/commands-extraction.json')));
-    assert.equal(currentCommands.sourceCommit,lock.commit);
+    assert.equal(currentCommands.sourceCommit,profile.previous?.lock.commit??lock.commit);
     for(const [file,hash]of Object.entries(currentCommands.sources))assert.equal(hash,lock.files[file]);
     for(const [file,hash]of Object.entries(currentCommands.outputs))assert.equal(sha256(fs.readFileSync(path.join(root,file))),hash,file);
     for(const row of currentCommands.queries){
@@ -57,7 +57,7 @@ export async function buildCombatHitQueries(destination,profile) {
       else queries.set(row.name,row);
     }
     const currentPolicies=JSON.parse(fs.readFileSync(path.join(root,'baseline/prototype-parity/policies-extraction.json')));
-    assert.equal(currentPolicies.sourceCommit,lock.commit);
+    assert.equal(currentPolicies.sourceCommit,profile.previous?.lock.commit??lock.commit);
     assert.equal(currentPolicies.sourceSha256,lock.files[currentPolicies.source]);
     for(const [file,hash]of Object.entries(currentPolicies.outputs))assert.equal(sha256(fs.readFileSync(path.join(root,file))),hash,file);
     for(const row of currentPolicies.queries){
@@ -65,7 +65,7 @@ export async function buildCombatHitQueries(destination,profile) {
       else queries.set(row.name,row);
     }
     const mechanics=JSON.parse(fs.readFileSync(path.join(root,'baseline/prototype-parity/mechanics-extraction.json')));
-    assert.equal(mechanics.sourceCommit,lock.commit);
+    assert.equal(mechanics.sourceCommit,profile.previous?.lock.commit??lock.commit);
     for(const [file,hash]of Object.entries(mechanics.sources))assert.equal(hash,lock.files[file]);
     for(const [file,hash]of Object.entries(mechanics.outputs))assert.equal(sha256(fs.readFileSync(path.join(root,file))),hash,file);
     for(const entry of mechanics.queries){
@@ -94,8 +94,9 @@ export async function buildCombatHitQueries(destination,profile) {
   for (const file of Object.keys(result.metafile.inputs)) {
     if (file === '<stdin>') continue;
     assert(file.startsWith(prefix+'src/'), 'Nonoriginal hit query dependency: ' + file);
-    sources[file] = sha256(fs.readFileSync(path.join(root, file)));
-    assert.equal(sources[file], lock.files[file.slice(prefix.length)], file);
+    const hash = sha256(fs.readFileSync(path.join(root, file)));
+    assert.equal(hash, lock.files[file.slice(prefix.length)], file);
+    sources[profile?.previous?'prototype/'+lock.commit+'/'+file.slice(prefix.length):file]=hash;
   }
   for (const output of Object.values(result.metafile.outputs)) assert.equal(output.imports.length, 0);
   const code = result.outputFiles[0].text;

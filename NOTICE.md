@@ -16,6 +16,12 @@ The separate November parity revision is pinned to prototype commit
 declaration review and independent original-game recordings live under
 `baseline/prototype-parity/`. It preserves the October capture and overlay.
 
+The November 17 content and inspection update is pinned separately to
+`d7a381b1287367faa64e0897e2435a5adf91767e`. Its hashed source delta, file audit,
+catalogue, tooltip and item recordings live under `baseline/prototype-revision/`.
+Both earlier baselines remain immutable. This update includes the reviewed
+Decoy tag change; it does not import the campaign or persistence architecture.
+
 `src/stats.ts` is a mechanical extraction of `StatSheet`, subsequently refactored
 for rule ownership, defensive copying, bounded caches and indexed trade lookup.
 `src/combat.ts` re-expresses the selected damage arithmetic in compiled numeric

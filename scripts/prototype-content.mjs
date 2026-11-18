@@ -6,6 +6,7 @@ import ts from 'typescript';
 import {root,sha256} from './reference-utils.mjs';
 import {parityDirectory,parityReference} from './prototype-parity-tools.mjs';
 import {readCatalogue} from './catalogue-tools.mjs';
+import {auditRevisionContent} from './prototype-revision-audit.mjs';
 
 const inheritedTables=['attributes','classes','passiveRealms','itemBases','affixes','uniques','vestiges','epitaphs','containers','equipSlots','itemRarities','defenseKinds','rules'];
 const inheritedFiles=['src/data/reliquary.ts','src/data/stashes.ts','src/data/containers.ts','src/data/essences.ts','src/data/classes.ts',
@@ -15,6 +16,11 @@ const validatedProfiles=new WeakSet();
  * executable catalogue rules. A content-ID match alone cannot prove that. */
 export function assertInheritedContent(profile){
   if(validatedProfiles.has(profile))return;
+  if(profile.previous){
+    assertInheritedContent(profile.previous);
+    auditRevisionContent(profile.previous,profile.catalogue,profile.runtime);
+    validatedProfiles.add(profile);return;
+  }
   const previous=readCatalogue(),old=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json')));
   for(const table of inheritedTables){
     assert.deepEqual(profile.catalogue.tables[table],previous.tables[table],'Changed inherited table: '+table);
@@ -50,7 +56,29 @@ export function prototypeBuildPack(previous,profile=readPrototypeContent()){
     satelliteItems:runtime.carried.satellites.ids.map(id=>({stat:'satelliteCount_'+id,tags:runtime.carried.satellites.definitions[id].tags})),
     monsters:Object.fromEntries(Object.entries(runtime.registries.monsters).map(([id,m])=>[id,{skills:m.skills,faction:m.faction,...(m.grants?{grants:m.grants.filter(g=>g.skill).map(g=>({skill:g.skill}))}:{})}]))},
     passives:identified(runtime.passiveGrants,'hollow-wake-grants'),progression:identified(progression,'hollow-wake-skill-progression')};
+  if(profile.previous){
+    result.definitions.classes=result.definitions.classes.map(c=>presentationOf(c,table('classes')[c.id]));
+    const {id,...items}=result.items;
+    items.uniques=presentationOf(items.uniques,table('uniques'));
+    result.items={...items,id:'hollow-wake-items:sha256:'+sha256(JSON.stringify(items))};
+    const {contentId,...containers}=result.containers;
+    containers.containers=containers.containers.map(c=>presentationOf(c,table('containers')[c.id]));
+    result.containers=identified(containers,'hollow-wake-containers');
+  }
   return identified(result,'hollow-wake-character-builds');
+}
+// Only presentation leaves move into independently compiled inherited packs.
+// Rules/IDs/array order were checked above; executable source rules remain compiled.
+function presentationOf(value,source){
+  if(!value||typeof value!=='object'||!source||typeof source!=='object')return value;
+  if(Array.isArray(value))return value.map((v,i)=>presentationOf(v,source[i]));
+  const out={...value},fields=new Set(['name','description','desc','blurb','label','flavor','text']);
+  for(const key of new Set([...Object.keys(value),...Object.keys(source)])){
+    if(fields.has(key)&&(typeof source[key]==='string'||typeof value[key]==='string')){
+      if(source[key]===undefined)delete out[key];else out[key]=source[key];
+    }else if(Object.hasOwn(value,key))out[key]=presentationOf(value[key],source[key]);
+  }
+  return out;
 }
 export function assertUnchangedDeclaration(profile,file,name){
   const old=JSON.parse(fs.readFileSync(path.join(root,'baseline/source-lock.json')));

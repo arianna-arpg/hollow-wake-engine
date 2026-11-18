@@ -28,6 +28,9 @@ jobs:
       - if: matrix.node == 24
         run: npm run reference:parity
       - run: npm run verify:parity
+      - if: matrix.node == 24
+        run: npm run reference:revision
+      - run: npm run verify:revision
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
         with:
@@ -38,3 +41,4 @@ jobs:
           path: |
             .artifacts/parity-installed.json
             .artifacts/parity-owner-census.json
+            .artifacts/revision-installed.json
