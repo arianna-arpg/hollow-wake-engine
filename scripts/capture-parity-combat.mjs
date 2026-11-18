@@ -14,10 +14,13 @@ try {
   for(const name of ['one','two']){const output=path.join(work,name+'.json');
     execFileSync(process.execPath,['--import','tsx',helper,output],{cwd:directory,env:{...process.env,TSX_DISABLE_CACHE:'1'},stdio:'pipe',maxBuffer:4*1024*1024});runs.push(fs.readFileSync(output));}
   assert(runs[0].equals(runs[1]),'Prototype combat observations must reproduce in fresh processes');
-  const data=JSON.parse(runs[0]),file=path.join(parityDirectory,name+'.json.gz'),archive=gzipSync(runs[0],{level:9});
+  const data=JSON.parse(runs[0]),file=path.join(parityDirectory,name+'.json.gz');
+  // Keep archive integrity separate from original-observation equivalence:
+  // compression bytes can differ across platforms despite identical input.
+  const archive=capture?gzipSync(runs[0],{level:9}):fs.readFileSync(file);
   const acceptance={schemaVersion:1,sourceCommit:lock.commit,sourceLockSha256:sha256(fs.readFileSync(path.join(parityDirectory,'source-lock.json'))),
     observer,observerSha256:sha256(bytes),sha256:sha256(runs[0]),compressedSha256:sha256(archive),freshProcesses:2,courses:data.courses.length};
   if(capture){assert(!fs.existsSync(file));assert(!fs.existsSync(path.join(parityDirectory,name+'-acceptance.json')));fs.writeFileSync(file,archive,{flag:'wx'});writeJSON(path.join(parityDirectory,name+'-acceptance.json'),acceptance);}
-  else {assert(runs[0].equals(gunzipSync(fs.readFileSync(file))));assert.deepEqual(JSON.parse(fs.readFileSync(path.join(parityDirectory,name+'-acceptance.json'))),acceptance);}
+  else {assert(runs[0].equals(gunzipSync(archive)));assert.deepEqual(JSON.parse(fs.readFileSync(path.join(parityDirectory,name+'-acceptance.json'))),acceptance);}
   console.log(JSON.stringify({passed:true,source:lock.commit,courses:data.courses.length,observations:data.courses.reduce((n,c)=>n+c.steps.length,0)}));
 } finally {if(written)fs.unlinkSync(helper);assert.equal(path.dirname(fs.realpathSync(work)),parent);fs.rmSync(work,{recursive:true,maxRetries:3});}

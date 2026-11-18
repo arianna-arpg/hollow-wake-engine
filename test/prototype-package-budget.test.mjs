@@ -3,9 +3,14 @@ import {prototypePackageBudget,prototypeModuleBudget} from '../scripts/prototype
 const manifest=JSON.parse(fs.readFileSync(new URL('../baseline/prototype-parity/package-growth.json',import.meta.url)));
 const files=()=>Object.entries(manifest.modules).map(([path,b])=>({path,size:b.previousBytes+b.maxGrowthBytes}));
 test('prototype size allowances are bounded, detached and cannot discount unrelated modules',()=>{
- const original=files();original.push({path:'dist/unreviewed.js',size:9000});const before=structuredClone(original);
+ const original=files();
+ let excess=original.reduce((sum,file)=>sum+file.size-manifest.modules[file.path].previousBytes,0)-manifest.maxTotalGrowthBytes;
+ assert(excess>=0);
+ for(const file of original){const reduction=Math.min(excess,file.size-manifest.modules[file.path].previousBytes);file.size-=reduction;excess-=reduction;}
+ assert.equal(excess,0);original.push({path:'dist/unreviewed.js',size:9000});const before=structuredClone(original);
  const result=prototypePackageBudget(original);assert.deepEqual(original,before);assert.equal(result.growthBytes,manifest.maxTotalGrowthBytes);
  assert.equal(result.historicalFiles.at(-1).size,9000);
+ const combined=files();if(combined.reduce((sum,file)=>sum+file.size-manifest.modules[file.path].previousBytes,0)>manifest.maxTotalGrowthBytes)assert.throws(()=>prototypePackageBudget(combined),/Combined prototype growth exceeded/);
  const larger=files();larger[0].size++;assert.throws(()=>prototypePackageBudget(larger),/growth exceeded/);
  assert.throws(()=>prototypePackageBudget(files().slice(1)),/Missing parity/);
  assert.throws(()=>prototypePackageBudget([...files(),files()[0]]));

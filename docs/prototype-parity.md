@@ -131,14 +131,23 @@ The maintained rule changes already put the
 October closure above the old 256 KiB limit. The explicit new bound is 272 KiB;
 this records the increase rather than describing it as an optimization.
 
-The engine archive contains 1,874,443 raw JavaScript bytes. The separately
-reviewed shared-rule additions account for 15,039 bytes across 32 modules,
+The engine archive contains 1,874,702 raw JavaScript bytes. The separately
+reviewed shared-rule additions account for 15,298 bytes across 32 modules,
 bounded individually and at 16,768 bytes combined in `package-growth.json`.
 Statistics add 316 bytes under a separate 512-byte allowance. Historical
 component ceilings still apply to the remaining bytes; package reports label
 this accounting and retain actual whole-archive totals. Combat and character
 composition retain their existing separate whole-module ceilings. These raw
 code figures exclude the authored content and do not measure resident memory.
+
+Clean cross-platform verification caught two compatibility details. Reproduction
+now checks the accepted compressed archive hash and exact decompressed content
+separately, because gzip output can differ across platforms and zlib versions.
+Accepted recordings remain unchanged. Status creation and refresh add optional
+metadata only when used, preserving October's absent properties even inside
+synchronous host callbacks. Stronger effects clear existing visual state without
+creating empty fields. Its individual code-growth
+allowance is 2.5 KiB; the combined rule allowance remains 16,768 bytes.
 
 The legacy Godot workshop bundle measures 105,657 bytes. Portable school choices
 and optional Relic retirement require a separate 2 KiB addition to its prior
@@ -167,8 +176,8 @@ Run `npm run reference:parity` to independently reproduce the current content
 and selected original-game recordings twice without changing accepted fixtures.
 The standalone distribution builder accepts `--prototype`; release
 `0.2.0-preview.1` selects the current source through its checked configuration.
-Local verification covers all 150 SDK gate commands, resumed after corrections,
-and a final 2,634-test unit pass. The full original-reference gate passes,
+Local verification covers all 150 SDK gate commands on the final runtime,
+and a final 2,635-test unit pass. The full original-reference gate passes,
 including 43 combat reference checks. The retained SDK composition passes 68
 combat checks across 70 required families. Clean GitHub verification and tests
 of the assembled archive control publication. Local evidence is recorded in
@@ -194,15 +203,15 @@ per-process medians/p95s, in milliseconds, not pooled percentiles.
 
 | Workload | Median ms | p95 ms |
 | --- | ---: | ---: |
-| mixed-32 | 0.839 | 2.996 |
-| mixed-128 | 3.259 | 11.094 |
-| summons-procs-32 | 1.547 | 2.938 |
-| build-combat-32 | 0.943 | 2.996 |
-| build-edits | 59.837 | 64.348 |
+| mixed-32 | 0.743 | 2.767 |
+| mixed-128 | 2.781 | 10.020 |
+| summons-procs-32 | 1.345 | 2.568 |
+| build-combat-32 | 0.855 | 2.659 |
+| build-edits | 55.966 | 64.408 |
 
-Cold content import has a 1490.1 ms median. The 1,000-cycle
-create/advance/close probe retains 538,264 additional heap bytes after collection;
-its cumulative process peak is 605.1 MiB RSS. The latter includes shared
+Cold content import has a 1373.9 ms median. The 1,000-cycle
+create/advance/close probe retains 537,160 additional heap bytes after collection;
+its cumulative process peak is 542.9 MiB RSS. The latter includes shared
 content and transient peaks, not only live character state. These figures identify
 content initialization, build-edit batches and memory as further engineering
 work. They are not Steam Deck/mobile or whole-game frame-budget qualification.

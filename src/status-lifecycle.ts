@@ -84,7 +84,7 @@ function applyStatus(actor: A, id: string, dps: number, durationScale: number, s
         if (dps > existing.dps) {
             existing.dps = dps;
             existing.remaining = duration;
-            existing.visual = undefined;
+            if (existing.visual !== undefined) existing.visual = undefined;
         }
     }
     else if (existing && def.pop && !fixedFuse) {
@@ -102,9 +102,8 @@ function applyStatus(actor: A, id: string, dps: number, durationScale: number, s
         existing.dps = Math.max(existing.dps, dps);
     }
     else {
-        actor.statuses.push({
+        const status: ActiveStatus = {
             id, remaining: duration, stacks: 1, dps, sourceName, challengeField: opts?.challengeField,
-            stackTimes: def.independentStacks ? [duration] : undefined,
             sourceKey: opts?.sourceKey, holdDischarge: opts?.holdDischarge,
             power: power !== 1 ? power : undefined,
             propagates: opts?.propagates || def.propagateOnDeath,
@@ -112,7 +111,6 @@ function applyStatus(actor: A, id: string, dps: number, durationScale: number, s
             ruptureType: opts?.ruptureType,
             ruptureRadius: opts?.ruptureRadius,
             casterId: opts?.casterId,
-            skillId: opts?.skillId,
             brood: opts?.brood,
             leech: opts?.leech,
             total: duration, statusDuration: duration,
@@ -123,7 +121,11 @@ function applyStatus(actor: A, id: string, dps: number, durationScale: number, s
                 const hi = Math.max(0.02, frac - def.weakSpot.gap);
                 return { hi, lo: Math.max(0, hi - def.weakSpot.size) };
             })() : undefined,
-        });
+        };
+        // Preserve absent metadata before callbacks.
+        if (def.independentStacks) status.stackTimes = [duration];
+        if (opts?.skillId !== undefined) status.skillId = opts.skillId;
+        actor.statuses.push(status);
         if (def.mods) {
             actor.sheet.setSource('status:' + id, power !== 1
                 ? def.mods.map(m => ({ ...m, value: m.value * power }))
@@ -144,7 +146,7 @@ function applyStatus(actor: A, id: string, dps: number, durationScale: number, s
             ? opts.casterId
             : existing.casterId ?? opts.casterId;
         existing.brood = existing.brood ?? opts.brood;
-        existing.skillId = existing.skillId ?? opts.skillId;
+        if (opts.skillId !== undefined) existing.skillId = existing.skillId ?? opts.skillId;
         if (opts.leech)
             existing.leech = Math.max(existing.leech ?? 0, opts.leech);
     }

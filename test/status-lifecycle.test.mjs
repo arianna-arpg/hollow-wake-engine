@@ -21,6 +21,17 @@ test('independent stacks reject cap refresh, expire separately and refold their 
  assert(!c.sources.has('status:splinters'));
 });
 
+test('unused metadata preserves legacy status shape before publication callbacks',()=>{
+ const c=context({ordinary:{duration:3,mods:[{value:2}]},independent:{duration:4,independentStacks:true},strongest:{duration:4,stackPolicy:'strongest'}});
+ c.a.sheet.setSource=()=>{const s=c.a.statuses[0];assert(!Object.hasOwn(s,'stackTimes'));assert(!Object.hasOwn(s,'skillId'));};
+ c.apply('ordinary');assert(!Object.hasOwn(c.a.statuses[0],'stackTimes'));assert(!Object.hasOwn(c.a.statuses[0],'skillId'));
+ c.apply('ordinary',0,1,{power:2});assert(!Object.hasOwn(c.a.statuses[0],'skillId'));
+ c.apply('independent',0,1,{skillId:'source-skill'});assert.deepEqual(c.a.statuses[1].stackTimes,[4]);assert.equal(c.a.statuses[1].skillId,'source-skill');
+ c.apply('independent',0,1,{skillId:'later-skill'});assert.equal(c.a.statuses[1].skillId,'source-skill');
+ c.apply('strongest',1);c.apply('strongest',2);assert(!Object.hasOwn(c.a.statuses[2],'visual'));
+ c.a.statuses[2].visual='old-effect';c.apply('strongest',3);assert.equal(c.a.statuses[2].visual,undefined);
+});
+
 test('root struggle counts alternate deliberate directions and uses the ordinary expiry path',()=>{
  const c=context({rooted:{duration:5,immobilize:{alternatingPresses:4}}});c.apply('rooted',0);
  const s=c.a.statuses[0];

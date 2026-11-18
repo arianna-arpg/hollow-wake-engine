@@ -25,9 +25,12 @@ try {
   const fixtures={};
   for(const name of ['catalogue','runtime']){
     const bytes=outputs[0][name];assert(bytes.equals(outputs[1][name]),'Nondeterministic prototype content: '+name);
-    const file=path.join(parityDirectory,name+'.json.gz'),compressed=gzipSync(bytes,{level:9});
+    const file=path.join(parityDirectory,name+'.json.gz');
+    // Reproduction verifies the accepted archive's identity and its exact raw
+    // content; gzip output itself varies across platforms/zlib versions.
+    const compressed=capture?gzipSync(bytes,{level:9}):fs.readFileSync(file);
     if(capture){assert(!fs.existsSync(file),'Accepted content already exists');fs.writeFileSync(file,compressed,{flag:'wx'});}
-    else assert(bytes.equals(gunzipSync(fs.readFileSync(file))),'Prototype content changed: '+name);
+    else assert(bytes.equals(gunzipSync(compressed)),'Prototype content changed: '+name);
     fixtures[name]={file:'baseline/prototype-parity/'+name+'.json.gz',sha256:sha256(bytes),compressedSha256:sha256(compressed),bytes:bytes.length};
   }
   const manifest={schemaVersion:1,sourceCommit:lock.commit,sourceLockSha256:sha256(fs.readFileSync(path.join(parityDirectory,'source-lock.json'))),freshProcesses:2,sources,fixtures};
